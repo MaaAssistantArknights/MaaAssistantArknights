@@ -2833,13 +2833,13 @@
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "next": ["InfrastSortByTrustButtonClickAgain"]
     },
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "postDelay": 1000
     },
     "InfrastFilterMenuNotStationed": {
@@ -3385,33 +3385,33 @@
     },
     "InfrastOperListTabSkillUnClicked": {
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabWorkStatusUnClicked": {
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "templThreshold": 0.7,
         "postDelay": 1500
     },
     "InfrastOperListTabMoodDoubleClick": {
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "templThreshold": 0.7,
         "maxTimes": 2,
         "next": ["InfrastOperListTabMoodDoubleClick"]
     },
     "InfrastOperListTabMoodDoubleClickWhenUnclicked": {
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "templThreshold": 0.7,
         "next": ["InfrastOperListTabMoodClick"]
     },
     "InfrastOperListTabMoodClick": {
         "template": "InfrastOperListTabMoodDoubleClick.png",
         "action": "ClickSelf",
-        "roi": [645, 0, 635, 77],
+        "roi": [538, 6, 650, 64],
         "templThreshold": 0.7
     },
     "BattleStageName": {
@@ -3864,7 +3864,9 @@
         "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
-        "roi": [50, 0, 100, 40]
+        "roi": [50, 0, 100, 40],
+        "specialParams_doc": "Kill区域变化阈值, 模板匹配, 100=1.0; 正常在 0.997-1 之间波动, 少有0.995; _5->_6 的分数最高, 可达0.94",
+        "specialParams": [98]
     },
     "BattleCostData": {
         "baseTask": "NumberOcrReplace",
@@ -5017,7 +5019,9 @@
     "GreenTicket@Store@ClickItem_Furniture_Part": {
         "doc": "家具部件",
         "baseTask": "GreenTicket@Store@ClickItem",
-        "template": "items/3401.png"
+        "template": "items/3401.png",
+        "detector": "SIFT",
+        "count": 15
     },
     "GreenTicket@Store@ClickItem_Recruitment_Permit": {
         "doc": "招募许可",
@@ -5032,7 +5036,9 @@
     "GreenTicket@Store@ClickItem_Pure_Gold": {
         "doc": "赤金",
         "baseTask": "GreenTicket@Store@ClickItem",
-        "template": "items/3003.png"
+        "template": "items/3003.png",
+        "detector": "SIFT",
+        "count": 12
     },
     "GreenTicket@Store@ChooseMaxAmount": {
         "roi": [1027, 405, 79, 53],

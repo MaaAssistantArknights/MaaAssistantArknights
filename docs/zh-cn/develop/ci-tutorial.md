@@ -100,6 +100,11 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 通过正则匹配给各个 Issue 打 Tag，以此来分类标记 Issue 内容，方便查看与管理
 
+`issue-checkbox-checker.yml`
+
+通过正则匹配自动关闭勾选“我未仔细阅读”的 Issue
+若“我未仔细阅读”未被勾选，则将所有勾选框折叠
+
 `stale.yml`
 
 检查超过 90 天没有活动的 Bug Issue，将其标记并发起通知，7 天后若还没有活动则关闭

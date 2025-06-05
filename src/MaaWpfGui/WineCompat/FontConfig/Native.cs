@@ -2,6 +2,8 @@
 // MaaWpfGui - A part of the MAA project
 // Copyright (C) 2021 MistEO and Contributors
 // </copyright>
+#pragma warning disable SA1310 // Field names should not contain underscore
+
 using System.Runtime.InteropServices;
 
 namespace MaaWpfGui.WineCompat.FontConfig;

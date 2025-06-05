@@ -193,9 +193,9 @@
     <system:String x:Key="IS4NewSquad2">Erudite Squad</system:String>
     <system:String x:Key="IS4NewSquad3">Blueprint Squad</system:String>
     <system:String x:Key="IS4NewSquad4">Improvisation Squad</system:String>
-    <system:String x:Key="IS4NewSquad5">Ingots Squad</system:String>
-    <system:String x:Key="IS4NewSquad6">Collection Squad</system:String>
-    <system:String x:Key="IS4NewSquad7">Mimic Squad</system:String>
+    <system:String x:Key="IS4NewSquad5">Mimic Squad</system:String>
+    <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
+    <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">专业人士分队 (Wait global)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
@@ -311,6 +311,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. Since the current version is too old, no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
@@ -524,6 +525,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="ReclamationIncrementModeClick">Click</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
+    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
     <system:String x:Key="OperNameLanguage">Operator display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
@@ -600,7 +602,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\nPlease download the full package and extract it to a new folder. You may copy the original config folder into the new folder to retain your existing settings.</system:String>
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates. Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder. You may copy the original config and data folders into the new folder to retain your existing settings.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
@@ -700,6 +702,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">Please ensure you have at least 258 yellow tickets.</system:String>
     <system:String x:Key="MiniGameNameSsStore">Event Shop</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">Please start from the event shop page.&#10;Won't buy items with unlimited purchase quantities.</system:String>
+    <system:String x:Key="MiniGameNameRAStore">Reclamation Algorithm Shop</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">Please start from the event shop page.</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
@@ -761,6 +765,8 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
     <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">A single job is being executed using the Copilot List. It is not recommended. Please run the single job directly.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -824,8 +830,8 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
-    <system:String x:Key="UnitTime"> times</system:String>
-    <system:String x:Key="Sanity"> Sanity</system:String>
+    <system:String x:Key="MissionStart.FightTask">Mission started {0} times (-{1} Sanity)</system:String>
+    <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
@@ -861,6 +867,8 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">Coins reach limit({0}), Stop exploring</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">Coins reach full, Stop exploring</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">Collapsal Paradigm {0} Deepened to {1}</system:String>

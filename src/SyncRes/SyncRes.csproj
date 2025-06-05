@@ -20,6 +20,10 @@
       <DependencySetupFile Include="$(MSBuildProjectDirectory)\..\..\DependencySetup_依赖库安装.bat" />
     </ItemGroup>
     <Message Text="Copying resource files" Importance="High" />
+    <!-- 先清理目标资源目录 -->
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\template\" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\tasks\" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\global\" />
     <Copy SourceFiles="@(MaaResourceFiles)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <Copy SourceFiles="@(MaaPythonBinding)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\Python\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <!-- 复制 DependencySetup_依赖库安装.bat 文件 -->

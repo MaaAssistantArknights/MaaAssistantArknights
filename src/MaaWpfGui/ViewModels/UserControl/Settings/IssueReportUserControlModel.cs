@@ -113,6 +113,19 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 }
             }
 
+            // 遍历 cache/resource 文件夹下的文件，复制到 tempPath/cache/resource
+            const string CacheResourceDir = "cache/resource";
+            if (Directory.Exists(CacheResourceDir))
+            {
+                foreach (var file in Directory.EnumerateFiles(CacheResourceDir, "*", SearchOption.AllDirectories))
+                {
+                    string relativePath = Path.GetRelativePath(CacheResourceDir, file);
+                    string dest = Path.Combine(tempPath, "cache", "resource", relativePath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                    File.Copy(file, dest, overwrite: true);
+                }
+            }
+
             using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
             {
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create);

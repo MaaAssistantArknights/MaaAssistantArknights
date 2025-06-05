@@ -77,8 +77,8 @@ public static class FadeBehavior
             animation.Completed += (s, _) =>
             {
                 // 动画完成后才真正隐藏元素
-                if (element.Opacity == 0) // 确保没有其他动画改变透明度
-                {
+                if (element.Opacity == 0)
+                {// 确保没有其他动画改变透明度
                     element.Visibility = Visibility.Collapsed;
                 }
             };

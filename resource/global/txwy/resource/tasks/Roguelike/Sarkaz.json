@@ -1,4 +1,16 @@
 {
+    "Sarkaz@Roguelike@InitialDrop2": {
+        "action": "ClickRect",
+        "algorithm": "OcrDetect",
+        "next": ["Sarkaz@Roguelike@Squad-EnterPoint", "Sarkaz@Roguelike@InitialDrop2"],
+        "roi": [600, 16, 145, 36],
+        "specificRect": [545, 432, 187, 127],
+        "ocrReplace": [
+            ["小隊(乾|翰)員", "小隊幹員"],
+            ["刀始收藏品", "初始收藏品"]
+        ],
+        "text": ["小隊幹員", "初始收藏品"]
+    },
     "Sarkaz@Roguelike@CheckLevel": {
         "text": ["假說輯錄", "假說", "輯錄"]
     },
@@ -10,6 +22,16 @@
     },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假說輯錄", "假說", "輯錄"]
+    },
+    "Sarkaz@Roguelike@StartExplore": {
+        "next": [
+            "Sarkaz@Roguelike@Squad-EnterPoint",
+            "Sarkaz@Roguelike@InitialDrop",
+            "Sarkaz@Roguelike@ChooseDifficulty",
+            "Sarkaz@Roguelike@StartExplore-EnterCheck",
+            "Sarkaz@Roguelike@InitialDrop2"
+        ],
+        "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "ocrReplace": [

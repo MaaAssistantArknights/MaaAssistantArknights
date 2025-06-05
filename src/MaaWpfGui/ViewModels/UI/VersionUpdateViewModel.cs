@@ -32,11 +32,13 @@ using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
+using SearchOption = System.IO.SearchOption;
 
 namespace MaaWpfGui.ViewModels.UI;
 
@@ -202,7 +204,7 @@ public class VersionUpdateViewModel : Screen
         }
 
         string curDir = Directory.GetCurrentDirectory();
-        string extractDir = Path.Combine(curDir, "NewVersionExtract");
+        string extractDir = Path.Combine(curDir, "NewVersionExtract"); // 新版本解压的路径
         string oldFileDir = Path.Combine(curDir, ".old");
 
         // 解压
@@ -284,6 +286,26 @@ public class VersionUpdateViewModel : Screen
                     throw;
                 }
             }
+        }
+        else
+        {
+            List<Task> deleteTasks = [];
+            foreach (var dir in Directory.GetDirectories(extractDir))
+            {
+                deleteTasks.Add(Task.Run(() =>
+                {
+                    try
+                    {
+                        FileSystem.DeleteDirectory(dir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                    }
+                    catch
+                    { // ignore
+                        _logger.Error($"delete directory error, dir: {dir}");
+                    }
+                }));
+            }
+
+            Task.WaitAll([.. deleteTasks]);
         }
 
         Directory.CreateDirectory(oldFileDir);
@@ -535,6 +557,7 @@ public class VersionUpdateViewModel : Screen
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 
             var (checkRet, source) = await CheckUpdate();
+
             if (checkRet != CheckUpdateRetT.OK)
             {
                 return checkRet;
@@ -668,10 +691,10 @@ public class VersionUpdateViewModel : Screen
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
             {
-                var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                     .AddButton(LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
-                     .Show();
+                    .AddButton(LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
+                    .Show();
             }
 
             return CheckUpdateRetT.NoNeedToUpdate;
@@ -778,7 +801,7 @@ public class VersionUpdateViewModel : Screen
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
             {
-                var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
                      .Show();
             }
@@ -961,6 +984,10 @@ public class VersionUpdateViewModel : Screen
         if (_assetsObject == null && fullPackage != null)
         {
             _assetsObject = fullPackage;
+            _logger.Warning("No OTA package found, but full package found.");
+            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+            toast.Show(30);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
         }
 
         return CheckUpdateRetT.OK;
@@ -983,7 +1010,7 @@ public class VersionUpdateViewModel : Screen
         HttpResponseMessage? response = null;
         try
         {
-            response = await Instances.HttpService.GetAsync(new(url), logQuery: false);
+            response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
         }
         catch (Exception e)
         {
@@ -1042,6 +1069,14 @@ public class VersionUpdateViewModel : Screen
             }
 
             return CheckUpdateRetT.UnknownError;
+        }
+
+        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
+        {
+            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+            toast.Show(30);
+            _logger.Warning("No OTA package found, but full package found.");
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
         }
 
         var version = data["data"]?["version_name"]?.ToString();
@@ -1188,6 +1223,7 @@ public class VersionUpdateViewModel : Screen
 
     public bool IsDebugVersion(string? version = null)
     {
+        // return false;
         version ??= _curVersion;
 
         // match case 1: DEBUG VERSION

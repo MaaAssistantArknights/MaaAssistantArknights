@@ -311,6 +311,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. 현재 버전이 너무 오래되어 OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 리소스 폴더는 휴지통과 .old 폴더로 이동합니다. 필요한 경우 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
@@ -525,6 +526,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeClick">연타</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
+    <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
     <system:String x:Key="OperNameLanguage">오퍼레이터 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 언어 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
@@ -603,7 +605,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
-    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n전체 패키지를 다운로드하여 새 폴더에 압축을 푼 후, 기존 config 폴더를 새 폴더로 복사하면 기존 설정을 유지할 수 있습니다.</system:String>
+    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오. 전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요. 기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -703,6 +705,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소한 258장의 노란색 티켓을 가지고 있는지 확인하세요.</system:String>
     <system:String x:Key="MiniGameNameSsStore">이벤트 상점</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.&#10;구매 수량이 무제한인 아이템은 구매하지 마세요.</system:String>
+    <system:String x:Key="MiniGameNameRAStore">생존연산 상점</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.</system:String>
     <!--  !小游戏  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
@@ -764,6 +768,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">Copilot 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">전투 목록을 사용하여 단일 작업을 실행하고 있습니다. 권장하지 않습니다. 단일 작업을 직접 실행하세요.</system:String>
     <!--  !로그  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -827,8 +833,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
+    <system:String x:Key="MissionStart.FightTask">행동 개시 {0} 회 (-{1} 이성)</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="Sanity">이성</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
@@ -864,6 +870,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄 잉곳에 대한 투자 수가 설정된 수({0})에 도달하여 탐사가 중단되었습니다.</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">투자원석괴가 가득차면 탐사를 중단하세요</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">붕괴 패러다임 심화: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었습니다</system:String>

@@ -264,15 +264,15 @@ namespace MaaWpfGui.Main
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                MoveTasks(mainCache);
+                MoveTasksJson(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
             {
                 // Read resources first, then read cache
-                MoveTasks(mainCache);
-                MoveTasks(globalCache);
+                MoveTasksJson(mainCache);
+                MoveTasksJson(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -292,7 +292,8 @@ namespace MaaWpfGui.Main
                 return AsstLoadResource(path);
             }
 
-            static void MoveTasks(string oldPath)
+            // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
+            static void MoveTasksJson(string oldPath)
             {
                 try
                 {
@@ -300,7 +301,7 @@ namespace MaaWpfGui.Main
                     string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
                     string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
 
-                    if (File.Exists(newTasksJsonPath) || !File.Exists(tasksJsonPath))
+                    if (!File.Exists(tasksJsonPath))
                     {
                         return;
                     }
@@ -942,8 +943,7 @@ namespace MaaWpfGui.Main
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
                         Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
-
-                    if (isCopilotTaskChain)
+                    else if (isCopilotTaskChain)
                     {
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     }
@@ -1133,17 +1133,12 @@ namespace MaaWpfGui.Main
                                 StringBuilder missionStartLogBuilder = new();
                                 if (FightTimes is null)
                                 {
-                                    missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" ??? {LocalizationHelper.GetString("UnitTime")}");
+                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), "???", "???"));
                                 }
                                 else
                                 {
-                                    missionStartLogBuilder.AppendLine(
-                                        $"{LocalizationHelper.GetString("MissionStart")} " +
-                                        (FightTimes.Series == 1
-                                            ? $"{FightTimes.TimesFinished + 1}"
-                                            : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}") +
-                                        $"{LocalizationHelper.GetString("UnitTime")} " +
-                                        $"(-{FightTimes.SanityCost}{LocalizationHelper.GetString("Sanity")})");
+                                    var times = FightTimes.Series == 1 ? $"{FightTimes.TimesFinished + 1}" : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}";
+                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTimes.SanityCost));
                                 }
 
                                 if (SanityReport is not null)
@@ -1522,33 +1517,6 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                case "RoguelikeInvestment":
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
-                    break;
-
-                case "RoguelikeSettlement":
-                    {// 肉鸽结算
-                        var report = subTaskDetails;
-                        var pass = (bool)report!["game_pass"]!;
-                        var roguelikeInfo = string.Format(
-                            LocalizationHelper.GetString("RoguelikeSettlement"),
-                            pass ? "✓" : "✗",
-                            report["floor"],
-                            report["step"],
-                            report["combat"],
-                            report["emergency"],
-                            report["boss"],
-                            report["recruit"],
-                            report["collection"],
-                            report["difficulty"],
-                            report["score"],
-                            report["exp"],
-                            report["skill"]);
-
-                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
-                        break;
-                    }
-
                 /* Roguelike */
                 case "StageInfo":
                     {
@@ -1563,31 +1531,6 @@ namespace MaaWpfGui.Main
 
                 case "StageInfoError":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
-                    break;
-
-                case "RoguelikeCombatEnd":
-                    // 肉鸽战斗结束，无论成功与否
-                    Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
-                    break;
-
-                case "RoguelikeEvent":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
-                    break;
-
-                case "EncounterOcrError":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
-                    break;
-
-                case "FoldartalGainOcrNextLevel":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
-                    break;
-
-                case "MonthlySquadCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
-                    break;
-
-                case "DeepExplorationCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationCompleted"), UiLogColor.RareOperator);
                     break;
 
                 case "PenguinId":
@@ -1744,7 +1687,7 @@ namespace MaaWpfGui.Main
                 case "FightTimes":
                     {
                         FightTimes = null;
-                        if ((subTaskDetails?.Children())?.Any() ?? false)
+                        if ((subTaskDetails?.Children())?.Any() is true)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
                         }
@@ -1789,34 +1732,6 @@ namespace MaaWpfGui.Main
 
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
-                    break;
-
-                case "RoguelikeCollapsalParadigms":
-                    string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
-                    if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
-                    {
-                        break;
-                    }
-
-                    string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
-                    string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
-                    if (deepen_or_weaken == 1 && prev == string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == 1 && prev != string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur == string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), string.Empty, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur != string.Empty)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
-                    }
-
                     break;
             }
         }
@@ -2111,7 +2026,7 @@ namespace MaaWpfGui.Main
 
         private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
-        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => _taskStatus;
+        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => new Dictionary<AsstTaskId, TaskType>(_taskStatus);
 
         public bool AsstAppendCloseDown(string clientType)
         {

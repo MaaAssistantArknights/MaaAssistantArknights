@@ -311,6 +311,7 @@
     <system:String x:Key="CheckNetworking">請檢查網絡連接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">獲取更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本, 由於目前版本過舊, 無可用的 OTA 增量更新包。將下載完整包並移動 resource 資料夾到回收站及 .old, 如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下_(:з」∠)_</system:String>
@@ -439,7 +440,7 @@
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
-    <system:String x:Key="HideSeries">隱藏連戰次數</system:String>
+    <system:String x:Key="HideSeries">隱藏代理倍率</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡名</system:String>
@@ -524,6 +525,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationIncrementModeClick">連點</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長按</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">單次最大組裝輪數</system:String>
+    <system:String x:Key="ReclamationClearStore">任务完成后购买商店</system:String>
     <system:String x:Key="OperNameLanguage">幹員名稱顯示語言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟隨 MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟隨遊戲客戶端</system:String>
@@ -558,7 +560,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>
-    <system:String x:Key="Series">連戰次數</system:String>
+    <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
@@ -602,7 +604,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
     <!--  日誌  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件或者在更新時佔用文件。\n\n請下載完整包並解壓到新資料夾，可將原有的 config 資料夾複製到新資料夾中，以保留原有設定。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件或者在更新時佔用文件。請下載完整包並解壓至新的資料夾中，切勿覆蓋原有資料夾。可將原有的 config 與 data 資料夾複製到新資料夾中，以保留原有設定。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
@@ -702,6 +704,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">請確保自己至少有258張黃票。</system:String>
     <system:String x:Key="MiniGameNameSsStore">活動商店</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">請在活動商店頁面開始。&#10;不購買無限量物品。</system:String>
+    <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">請在活動商店頁面開始。</system:String>
     <!--  !小游戏  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
@@ -763,6 +767,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
     <system:String x:Key="NotCopilotJson">非作業檔案</system:String>
     <system:String x:Key="CheckTheFile">請檢查檔案內容！</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業文件到: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">正在使用戰鬥清單執行單一作業, 不建議此行為. 單一作業請直接運行</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -826,8 +832,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="StageQueue">關卡隊列:</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
+    <system:String x:Key="MissionStart.FightTask">開始行動 {0} 次, -{1}理智</system:String>
     <system:String x:Key="UnitTime">次</system:String>
-    <system:String x:Key="Sanity">理智</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0},{1}(臨期)  </system:String>
@@ -863,6 +869,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="EncounterOcrError">事件名識別錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">投資源石錠達到設定次數({0}), 停止探索</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">投資源石錠存滿, 停止探索</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">坍縮範式加深: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">坍縮範式 {0} 加深為 {1}</system:String>

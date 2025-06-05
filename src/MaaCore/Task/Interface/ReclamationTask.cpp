@@ -43,6 +43,9 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     switch (mode) {
     case ReclamationMode::ProsperityNoSave:
         m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
+        if (!params.get("clear_store", false)) {
+            m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
+        }
         break;
     case ReclamationMode::ProsperityInSave:
         m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityInSave" });

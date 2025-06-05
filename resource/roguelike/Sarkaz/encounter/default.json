@@ -285,7 +285,7 @@
         {
             "name": "驮兽旅行家",
             "option_num": 3,
-            "choose": 1,
+            "choose": 3,
             "choices": [
                 {
                     "name": "与驮兽同行",

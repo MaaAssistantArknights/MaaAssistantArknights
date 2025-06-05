@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using Serilog;
 
 #pragma warning disable SA1310 // Field names should not contain underscore
+#pragma warning disable SA1313 // Parameter should begin with lower-case letter
 namespace MaaWpfGui.Utilities
 {
     public class PowerManagement

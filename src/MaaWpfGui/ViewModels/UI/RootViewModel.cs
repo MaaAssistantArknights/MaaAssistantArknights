@@ -43,7 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 更新直接重启
             if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
             {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
+                Bootstrapper.RestartAfterUpdate();
                 return;
             }
 

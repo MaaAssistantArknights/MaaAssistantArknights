@@ -905,11 +905,11 @@
     },
     "EXTERMINATION_AGENT": {
         "classifyType": "NORMAL",
-        "description": "Based on a massive volume of live combat records, PRTS can perfectly replicate your tactics to conduct annihilation missions by proxy, using actuarial data processing, logic training, and scenario simulation. You're spared even the need to pay it your full attention.",
+        "description": "Based on a massive volume of live combat records, PRTS can perfectly replicate your tactics to conduct Annihilation and Stationary Security Service missions by proxy, using actuarial data processing, logic training, and scenario simulation. You're spared even the need to pay it your full attention.",
         "icon": "EXTERMINATION_AGENT.png",
-        "name": "PRTS Proxy Annihilation Card",
+        "name": "Regular Tasks Proxy Card",
         "sortId": 30200,
-        "usage": "A card granting load distribution privileges for PRTS. Once activated, allows PRTS to conduct Annihilation battles as your proxy."
+        "usage": "A card granting load distribution privileges for PRTS. Once activated, allows PRTS to conduct Annihilation and Stationary Security Service battles as your proxy."
     },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
@@ -1495,6 +1495,14 @@
         "sortId": -10000,
         "usage": "The latest innovation of Rhine Lab's Energy Section. Collect enough and exchange with the Laboratory Recycling Depot for goods."
     },
+    "act1arcade_milestone_point": {
+        "classifyType": "NONE",
+        "description": "The cards might be small, but get enough of them and you can trade them in for big prizes!",
+        "icon": "act1arcade_milestone_point.png",
+        "name": "Point Card",
+        "sortId": -10000,
+        "usage": "A reward for first clearing stages which can be used to buy prizes at the Exchange Counter; subsequent reclears will not reward more."
+    },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -1751,6 +1759,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act2collection_point_token": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island issues special reward points as an incentive to field operators contributing to Integrated Strategies operations. These points can be used to redeem important supplies.",
+        "icon": "act2collection_point_token.png",
+        "name": "'Strategist' Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged for the corresponding event stage reward."
+    },
     "act2vmulti_token_cap": {
         "classifyType": "NONE",
         "description": "As you collect Mementos, so does Hype. Reach certain Hype levels to receive rewards.",
@@ -1839,6 +1855,14 @@
         "sortId": -10000,
         "usage": "Invitations handed out by an anonymous figure at Carnevale. You can exchange them for generous gifts at any Fiera delle Meraviglie Notturne. Relax, once people see the invitation, you will receive a warm welcome."
     },
+    "act39side_token_garum": {
+        "classifyType": "NONE",
+        "description": "Beverage made from chopped saltfin viscera and fermented with microorganisms from the underground rivers beneath the Salt Flat. The stench is both invigorating and tear-inducing. And as for its other properties... 'Has anyone told that idiota in the kitchen that you don't need to add any goddamn salt to a saltfin?!'",
+        "icon": "act39side_token_garum.png",
+        "name": "Saltfin Garum",
+        "sortId": -10000,
+        "usage": "Both the daily drink of the pirates of the Salt Flat, and a currency they accept. So long as the fleet lacks priceless treasures such as rum, it will never be replaced."
+    },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -1854,6 +1878,14 @@
         "name": "Data Blackbox",
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
+    },
+    "act3collection_point_token": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island issues special reward points as an incentive to field operators contributing to Integrated Strategies operations. These points can be used to redeem important supplies.",
+        "icon": "act3collection_point_token.png",
+        "name": "'Strategist' Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged for the corresponding event stage reward."
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",

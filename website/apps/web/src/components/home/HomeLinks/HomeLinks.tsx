@@ -70,7 +70,7 @@ const LINKS = [
   />,
   <HomeLink
     key="mirrorc"
-    href="https://mirrorchyan.com/zh/projects"
+    href="https://mirrorchyan.com/zh/projects?source=maaplus-links"
     title="Mirror酱"
     icon={
       <img

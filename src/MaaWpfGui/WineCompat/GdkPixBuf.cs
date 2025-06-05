@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1310 // Field names should not contain underscore
 
 using System;
 using System.Buffers;

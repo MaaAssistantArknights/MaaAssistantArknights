@@ -330,19 +330,21 @@ cv::Mat asst::BattleHelper::get_top_view(const cv::Mat& cam_img, bool side)
     return result;
 }
 
-bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
+bool asst::BattleHelper::update_kills(const cv::Mat& image, const cv::Mat& image_prev)
 {
-    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldMatcher analyzer(image);
     analyzer.set_object_of_interest({ .kills = true });
+    analyzer.set_image_prev(image_prev);
     if (m_total_kills) {
         analyzer.set_total_kills_prompt(m_total_kills);
     }
     auto result_opt = analyzer.analyze();
-    if (!result_opt || !result_opt->kills) {
+    if (!result_opt || result_opt->kills.status == BattlefieldMatcher::MatchStatus::Invalid) {
         return false;
     }
-    std::tie(m_kills, m_total_kills) = result_opt->kills.value();
+    if (result_opt->kills.status == BattlefieldMatcher::MatchStatus::Success) {
+        std::tie(m_kills, m_total_kills) = result_opt->kills.value;
+    }
     return true;
 }
 
@@ -716,6 +718,21 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     using namespace asst::utils::path_literals;
     const auto& MapRelativeDir = "debug"_p / "map"_p;
 
+    // 清理旧的 PNG 文件
+    static bool clean_png = true;
+    if (clean_png) {
+        for (const auto& entry : std::filesystem::directory_iterator(MapRelativeDir)) {
+            if (entry.path().extension() == ".png") {
+                std::error_code ec;
+                std::filesystem::remove(entry.path(), ec);
+                if (ec) {
+                    LogWarn << "Failed to remove png: " << entry.path() << ", " << ec.message();
+                }
+            }
+        }
+        clean_png = false;
+    }
+
     auto draw = image.clone();
 
     for (const auto& [loc, info] : m_normal_tile_info) {
@@ -924,7 +941,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     LogTraceFunction;
     Log.info("move", delta.first, delta.second);
 
-    update_kills();
+    update_kills(m_inst_helper.ctrler()->get_image());
 
     // 还没转场的时候
     if (m_kills != 0) {

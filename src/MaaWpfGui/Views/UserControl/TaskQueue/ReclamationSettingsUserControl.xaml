@@ -63,6 +63,15 @@
                 IsEnabled="{c:Binding 'ReclamationMode == &quot;1&quot;'}"
                 Minimum="0"
                 Value="{Binding ReclamationMaxCraftCountPerRound}" />
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding ReclamationClearStore}"
+                Visibility="{c:Binding 'ReclamationMode == 0'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource ReclamationClearStore}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <!--<controls:TextBlock
                 Margin="5,50,5,10"
                 FontSize="40"

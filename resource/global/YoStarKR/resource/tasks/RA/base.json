@@ -4,5 +4,8 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["생존", "연산"]
+    },
+    "RA@Store@Purchase": {
+        "text": ["합계"]
     }
 }

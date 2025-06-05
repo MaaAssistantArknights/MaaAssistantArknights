@@ -4,5 +4,8 @@
     },
     "RA@Navigation-EnterCurrentTheme": {
         "text": ["Reclamation", "Algorithm"]
+    },
+    "RA@Store@Purchase": {
+        "text": ["Pay", "Total", "Cost"]
     }
 }

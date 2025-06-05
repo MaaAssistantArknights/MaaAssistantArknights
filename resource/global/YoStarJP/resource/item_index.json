@@ -905,11 +905,11 @@
     },
     "EXTERMINATION_AGENT": {
         "classifyType": "NORMAL",
-        "description": "大量の実戦記録に基づき、データ計算、ロジック演習、シナリオシミュレーションを経て、殲滅作戦の自動指揮をする際、PRTSがあなたの戦術を完璧に再現できるようになった。作戦過程に注意を払う必要もない。",
+        "description": "大量の実戦記録に基づき、データ計算、ロジック演習、シナリオシミュレーションを経て、殲滅作戦と保全駐在の自動指揮をする際、PRTSがあなたの戦術を完璧に再現できるようになった。作戦過程に注意を払う必要もない。",
         "icon": "EXTERMINATION_AGENT.png",
-        "name": "PRTS殲滅代理カード",
+        "name": "定例事務代理カード",
         "sortId": 30200,
-        "usage": "PRTSの機能実行権限を有したカード。使用後、殲滅作戦において自動指揮を実行できる。"
+        "usage": "PRTSの機能実行権限を有したカード。使用後、殲滅作戦と保全駐在において自動指揮を実行できる。"
     },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
@@ -1495,6 +1495,14 @@
         "sortId": -10000,
         "usage": "ライン生命エネルギー課が出した最新の研究成果。一定数集めれば、危険物回収所から必要な物資を受け取れる。"
     },
+    "act1arcade_milestone_point": {
+        "classifyType": "NONE",
+        "description": "小さく薄っぺらいチケットだが、コツコツと貯めれば豪華賞品と交換できるぞ！",
+        "icon": "act1arcade_milestone_point.png",
+        "name": "景品チケット",
+        "sortId": -10000,
+        "usage": "ステージ初回クリア報酬、博物館交換所でアイテムと交換できる。初回クリア後に再度ステージをクリアしても獲得できない。"
+    },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "試練の成否はそれほど重要ではない、これは貴殿が実戦において正確な選択を行うためのサポートである。",
@@ -1751,6 +1759,14 @@
         "sortId": -10000,
         "usage": "抑制ユニットのデータアップデートを行うために使用する。"
     },
+    "act2collection_point_token": {
+        "classifyType": "NONE",
+        "description": "様々な統合戦略の作戦において貢献してくれた外勤オペレーターへのボーナスとして、ロドスは必要な物資と交換できるポイントを配布することにした。",
+        "icon": "act2collection_point_token.png",
+        "name": "「戦略家」ポイント",
+        "sortId": -10000,
+        "usage": "対応する報酬と交換できる。"
+    },
     "act2vmulti_token_cap": {
         "classifyType": "NONE",
         "description": "記念品の数は、試合への注目度と比例している。一定の注目を集めることができれば、対応する報酬を獲得できる。",
@@ -1839,6 +1855,14 @@
         "sortId": -10000,
         "usage": "カルネヴァーレで配られていた匿名の招待状。これがあれば、街中にある狂宴の夜市で様々なギフトと交換できる。大丈夫、この招待状を見せれば、きっと手厚くもてなしてくれるだろう。"
     },
+    "act39side_token_garum": {
+        "classifyType": "NONE",
+        "description": "塩鱗の内臓を細かくミンチにし、塩海の地下河川の微生物で発酵させて作った飲み物。生臭さが心にしみわたり、その臭さに体も心も喜びに打ち震える。「誰か料理人に、『塩鱗は元々しょっぱいんだから、それ以上塩を加えないでくれ、*イベリアスラング*！』と伝えろ！」",
+        "icon": "act39side_token_garum.png",
+        "name": "塩鱗ガルム",
+        "sortId": -10000,
+        "usage": "塩海の海賊にとってはポピュラーな飲み物であり、彼らの間では普遍的な通貨代わりにもなる。船団がラム酒のような貴重なものを入手しない限り、これに取って代わるものはないだろう。"
+    },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "試練の成否はそれほど重要ではない、これは貴殿が実戦において正確な選択を行うためのサポートである。",
@@ -1854,6 +1878,14 @@
         "name": "ブラックボックス",
         "sortId": -10000,
         "usage": "抑制ユニットのデータアップデートを行うために使用する。"
+    },
+    "act3collection_point_token": {
+        "classifyType": "NONE",
+        "description": "様々な統合戦略の作戦において貢献してくれた外勤オペレーターへのボーナスとして、ロドスは必要な物資と交換できるポイントを配布することにした。",
+        "icon": "act3collection_point_token.png",
+        "name": "「戦略家」ポイント",
+        "sortId": -10000,
+        "usage": "対応する報酬と交換できる。"
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
