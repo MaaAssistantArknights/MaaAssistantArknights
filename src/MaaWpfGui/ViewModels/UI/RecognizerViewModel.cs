@@ -1082,12 +1082,12 @@ namespace MaaWpfGui.ViewModels.UI
         public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("NotSelected"), Value = "Stop" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenGrass"), Value = "GreenGrass@DuelChannel@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
-    ];
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenGrass"), Value = "GreenGrass@DuelChannel@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
+        ];
 
         private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "Stop");
 
