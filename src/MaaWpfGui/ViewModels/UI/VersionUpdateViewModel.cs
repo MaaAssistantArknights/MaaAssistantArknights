@@ -436,11 +436,6 @@ public class VersionUpdateViewModel : Screen
         /// NoMirrorChyanCdk
         /// </summary>
         NoMirrorChyanCdk,
-
-        /// <summary>
-        /// 找到新版本，但没有可用的 OTA 更新包（仅有完整包）
-        /// </summary>
-        NewVersionNoOtaPackage,
     }
 
     public enum AppUpdateSource
@@ -556,11 +551,6 @@ public class VersionUpdateViewModel : Screen
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 
             var (checkRet, source) = await CheckUpdate();
-
-            if (checkRet == CheckUpdateRetT.NewVersionNoOtaPackage)
-            {
-                MessageBoxHelper.Show(LocalizationHelper.GetString("NewVersionNoOtaPackage"), icon: MessageBoxImage.Error);
-            }
 
             if (checkRet != CheckUpdateRetT.OK)
             {
@@ -987,10 +977,11 @@ public class VersionUpdateViewModel : Screen
 
         if (_assetsObject == null && fullPackage != null)
         {
-            // 不允许直接使用完整包，有些版本要删除文件，不走自动更新不会清理
-            // _assetsObject = fullPackage;
+            _assetsObject = fullPackage;
             _logger.Warning("No OTA package found, but full package found.");
-            return CheckUpdateRetT.NewVersionNoOtaPackage;
+            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+            toast.Show(30);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
         }
 
         return CheckUpdateRetT.OK;

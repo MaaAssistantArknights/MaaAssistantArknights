@@ -174,27 +174,6 @@ namespace MaaWpfGui.Main
 
             _logger.Information("===================================");
 
-            try
-            {
-                Directory.Delete(".old", true);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-
-            foreach (var file in new DirectoryInfo(".").GetFiles("*.old"))
-            {
-                try
-                {
-                    file.Delete();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
-
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
             ETagCache.Load();
@@ -335,6 +314,29 @@ namespace MaaWpfGui.Main
             Log.CloseAndFlush();
             base.OnExit(e);
 
+            if (!_isRestartingAfterUpdate)
+            { // 如果是更新后重启，则不删除 .old
+                try
+                { // 退出时移除.old
+                    Directory.Delete(".old", true);
+                }
+                catch (Exception)
+                { // ignored
+                }
+
+                foreach (var file in new DirectoryInfo(".").GetFiles("*.old"))
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+            }
+
             if (!_isRestartingWithoutArgs)
             {
                 return;
@@ -381,6 +383,15 @@ namespace MaaWpfGui.Main
         public static void ShutdownAndRestartWithoutArgs([CallerMemberName] string caller = "")
         {
             _isRestartingWithoutArgs = true;
+            _logger.Information($"Shutdown and restart without Args, call by `{caller}`");
+            Execute.OnUIThread(Application.Current.Shutdown);
+        }
+
+        private static bool _isRestartingAfterUpdate;
+
+        public static void RestartAfterUpdate([CallerMemberName] string caller = "")
+        {
+            _isRestartingAfterUpdate = true;
             _logger.Information($"Shutdown and restart without Args, call by `{caller}`");
             Execute.OnUIThread(Application.Current.Shutdown);
         }
