@@ -312,7 +312,7 @@
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但由于当前版本过旧，未提供可用的 OTA 增量更新包。请下载完整包并解压到新文件夹，请勿直接覆盖原文件夹。\n可将原有的 config 与 data 文件夹复制到新文件夹中，以保留原有配置。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本, 由于当前版本过旧, 无可用的 OTA 增量更新包。将下载完整包并移除更新包中的文件夹, 如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>

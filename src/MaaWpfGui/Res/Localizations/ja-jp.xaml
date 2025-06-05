@@ -312,7 +312,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されましたが、現在のバージョンが古いため、OTA（増分）アップデートパッケージは提供されていません。完全パッケージをダウンロードして**必ず新しいフォルダー**に解凍してください。既存のフォルダーに上書きしないでください。\n設定を引き継ぐには、元の config および data フォルダーを新しいフォルダーに手動でコピーしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。現在のバージョンが古すぎるため、OTA増分アップデートパッケージは利用できません。パッケージ全体がダウンロードされ、アップデートパッケージ内のフォルダは削除されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>

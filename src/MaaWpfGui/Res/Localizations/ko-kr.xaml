@@ -311,7 +311,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 현재 사용 중인 버전이 오래되어 OTA(증분) 업데이트 패키지가 제공되지 않습니다. 전체 설치 패키지를 다운로드하여 **반드시 새로운 폴더**에 압축을 푸세요. 기존 폴더에 덮어쓰지 마세요.\n설정을 유지하려면 기존 설치 폴더의 config 및 data 폴더를 새 폴더로 수동으로 복사해야 합니다.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. 현재 버전이 너무 오래되어 OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 업데이트 패키지의 폴더가 제거됩니다. 필요한 경우 수동으로 백업하세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
