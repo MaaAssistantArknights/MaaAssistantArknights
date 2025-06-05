@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -143,11 +142,12 @@ namespace MaaWpfGui.Services
             var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi);
 
             await Task.WhenAll(activityTask, tasksTask);
-            if (File.Exists(TasksApi))
+            if (File.Exists("cache/" + TasksApi))
             {
                 try
                 {
-                    File.Move(TasksApi, "resource/tasks/tasks.json", true);
+                    Directory.CreateDirectory("cache/resource/tasks");
+                    File.Move("cache/" + TasksApi, "cache/resource/tasks/tasks.json", true);
                 }
                 catch
                 {// ignore
@@ -156,7 +156,6 @@ namespace MaaWpfGui.Services
 
             JObject activity = await activityTask;
             JObject tasksJson = await tasksTask;
-
             if (clientType != "Official" && tasksJson != null)
             {
                 var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
@@ -165,11 +164,12 @@ namespace MaaWpfGui.Services
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
-                if (File.Exists(tasksPath))
+                if (File.Exists("cache/" + tasksPath))
                 {
                     try
                     {
-                        File.Move(TasksApi, $"resource/global/{clientType}/resource/tasks/tasks.json", true);
+                        Directory.CreateDirectory($"cache/resource/global/{clientType}/resource/tasks/");
+                        File.Move("cache/" + tasksPath, $"cache/resource/global/{clientType}/resource/tasks/tasks.json", true);
                     }
                     catch
                     {// ignore
