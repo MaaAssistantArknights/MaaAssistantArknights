@@ -3,12 +3,10 @@
 ### 新增 | New
 
 * 自动战斗费用击杀数缓存, 减少性能消耗 (#12879) @status102
-* Wpf不允许通过吐司通知启动应用 @ABA2396 @status102
 * 繁中服「泰拉飯」活動導航 +「滋味」主題 (#12870) @momomochi987
-* YostarEN EP navigation @Constrat
-* YostarKR EP navigation (#12852) @HX3N
-* YostarJP EP navigation and i18n changes (#12849) @Manicsteiner
+* YostarEN/YostarKR/YostarJP EP navigation @Constrat @HX3N @Manicsteiner
 * RA store (#12833) @Daydreamer114
+* 清理 map 中的 png 类型截图 @ABA2396
 
 ### 改进 | Improved
 
@@ -43,8 +41,6 @@
 * wpf任务状态并发修改 @status102
 * 7e9806e697198e3e50e38a5dd790b294702e233f @status102
 * findHomography should have at least 4 points, 优化性能 @MistEO @status102
-* 移除因勾选"我未仔细阅读"的自动回复 增加文档描述 (#12875) @Lemon-miaow
-* issue-checkbox-checker 文档 @Daydreamer114
 * template重复检查 @status102
 * FeatureMatcher muplti results @status102 @MistEO
 * 新增 JsonDataHelper，抽离 gui.json 中巨大的 data 类型数据到 data 文件夹中 (#12795) @ABA2396
@@ -56,10 +52,8 @@
 * add mirrorchyan url source (#12869) @MistEO @ABA2396
 * warning @status102
 * 持有费用缓存判定拆分 @status102
-* 增加“我未仔细阅读”陷阱选项 (#12864) @Lemon-miaow @Daydreamer114
 * LogDebug, LogTrace, LogInfo, LogWarn, LogError补上scope输出 (#12855) @status102
 * using ToastNotification @ABA2396
-* Revert "feat: 不允许通过吐司通知启动应用" @status102
 * HttpService日志中uri统一使用UriPartial限制 @status102
 * wpf CN 修改描述`连战次数` -> `代理倍率` (#12827) @status102
 * 生成时清理template, tasks, global缓存 @status102
