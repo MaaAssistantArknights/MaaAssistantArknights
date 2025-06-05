@@ -1435,7 +1435,8 @@
             ["Royal Academy of Sciences[ Telescope]*", "皇家科学院望远镜"],
             ["Security Talent Agreement", "保全人才合作协议"],
             ["Cloudstepper", "攀云机"],
-            ["Pinnacle Insights? Port", "尖端研究成果共享终端"]
+            ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
+            ["Lightweight Rangefinder", "轻型瞄准测距仪"]
         ]
     },
     "SSSBuffChooseConfirm": {
