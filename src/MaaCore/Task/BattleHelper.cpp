@@ -711,7 +711,6 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     return true;
 }
 
-
 void asst::BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
