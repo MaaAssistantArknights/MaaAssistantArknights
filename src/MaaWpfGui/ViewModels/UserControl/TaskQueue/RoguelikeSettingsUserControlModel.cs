@@ -96,7 +96,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     {
         return theme switch
         {
-            Theme.Phantom => 0,
+            Theme.Phantom => SettingsViewModel.GameSettings.ClientType is "" or "Official" or "Bilibili" ? 15 : 0,
             Theme.Mizuki => 18,
             Theme.Sami => 15,
             Theme.Sarkaz => 18,
