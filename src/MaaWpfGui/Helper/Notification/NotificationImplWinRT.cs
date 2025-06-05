@@ -42,7 +42,7 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
     {
         try
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
 
