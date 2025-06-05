@@ -264,15 +264,15 @@ namespace MaaWpfGui.Main
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                MoveTasks(mainCache);
+                MoveTasksJson(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
             {
                 // Read resources first, then read cache
-                MoveTasks(mainCache);
-                MoveTasks(globalCache);
+                MoveTasksJson(mainCache);
+                MoveTasksJson(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -292,7 +292,8 @@ namespace MaaWpfGui.Main
                 return AsstLoadResource(path);
             }
 
-            static void MoveTasks(string oldPath)
+            // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
+            static void MoveTasksJson(string oldPath)
             {
                 try
                 {
@@ -300,7 +301,7 @@ namespace MaaWpfGui.Main
                     string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
                     string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
 
-                    if (/*File.Exists(newTasksJsonPath) for 旧版本铲屎 || */!File.Exists(tasksJsonPath))
+                    if (!File.Exists(tasksJsonPath))
                     {
                         return;
                     }
