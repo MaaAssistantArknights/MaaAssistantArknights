@@ -13508,6 +13508,87 @@
         "stageId": "act42side_tr01",
         "width": 10
     },
+    "act43side_01-activities/act43side/level_act43side_01": {
+        "code": "AD-1",
+        "filename": "act43side_01-activities-act43side-level_act43side_01.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_01",
+        "name": "彩排日",
+        "stageId": "act43side_01",
+        "width": 9
+    },
+    "act43side_02-activities/act43side/level_act43side_02": {
+        "code": "AD-2",
+        "filename": "act43side_02-activities-act43side-level_act43side_02.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_02",
+        "name": "排演一出悲剧",
+        "stageId": "act43side_02",
+        "width": 9
+    },
+    "act43side_03-activities/act43side/level_act43side_03": {
+        "code": "AD-3",
+        "filename": "act43side_03-activities-act43side-level_act43side_03.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_03",
+        "name": "戏剧性",
+        "stageId": "act43side_03",
+        "width": 9
+    },
+    "act43side_04-activities/act43side/level_act43side_04": {
+        "code": "AD-4",
+        "filename": "act43side_04-activities-act43side-level_act43side_04.json",
+        "height": 9,
+        "levelId": "activities/act43side/level_act43side_04",
+        "name": "一个荒唐的早晨",
+        "stageId": "act43side_04",
+        "width": 11
+    },
+    "act43side_05-activities/act43side/level_act43side_05": {
+        "code": "AD-5",
+        "filename": "act43side_05-activities-act43side-level_act43side_05.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_05",
+        "name": "终将重逢",
+        "stageId": "act43side_05",
+        "width": 11
+    },
+    "act43side_06-activities/act43side/level_act43side_06": {
+        "code": "AD-6",
+        "filename": "act43side_06-activities-act43side-level_act43side_06.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_06",
+        "name": "倒带独白",
+        "stageId": "act43side_06",
+        "width": 10
+    },
+    "act43side_07-activities/act43side/level_act43side_07": {
+        "code": "AD-7",
+        "filename": "act43side_07-activities-act43side-level_act43side_07.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_07",
+        "name": "“血钻”的歌声",
+        "stageId": "act43side_07",
+        "width": 12
+    },
+    "act43side_08-activities/act43side/level_act43side_08": {
+        "code": "AD-8",
+        "filename": "act43side_08-activities-act43side-level_act43side_08.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_08",
+        "name": "登台致礼",
+        "stageId": "act43side_08",
+        "width": 11
+    },
+    "act43side_tr01-activities/act43side/level_act43side_tr01": {
+        "code": "AD-TR-1",
+        "filename": "act43side_tr01-activities-act43side-level_act43side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_tr01",
+        "name": "幕间曲",
+        "stageId": "act43side_tr01",
+        "width": 9
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
