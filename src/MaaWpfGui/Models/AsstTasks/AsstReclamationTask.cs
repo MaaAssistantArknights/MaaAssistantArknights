@@ -60,6 +60,11 @@ public class AsstReclamationTask : AsstBaseTask
     /// </summary>
     public List<string> ToolToCraft { get; set; } = [];
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 刷完点数后购买商店
+    /// </summary>
+    public bool ClearStore { get; set; } = false;
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var data = new JObject
@@ -69,6 +74,7 @@ public class AsstReclamationTask : AsstBaseTask
             ["increment_mode"] = IncrementMode,
             ["num_craft_batches"] = MaxCraftCountPerRound,
             ["tools_to_craft"] = new JArray(ToolToCraft),
+            ["clear_store"] = ClearStore,
         };
 
         return (TaskType, data);

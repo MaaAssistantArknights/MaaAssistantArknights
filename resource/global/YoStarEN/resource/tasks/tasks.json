@@ -848,7 +848,23 @@
             ["Barge Captain", "驳船操作员"],
             ["Supply Retainer", "补给留存器"],
             ["Enemy Entrance", "敌人入口"],
-            ["Supply Barge", "补给驳船"]
+            ["Supply Barge", "补给驳船"],
+            ["Thorns the Lodestar", "引星棘刺"],
+            ["Saltheap Cannon", "盐坨子炮"],
+            ["Puppet Dancer", "木偶舞者"],
+            ["Hook", "勾爪"],
+            ["Amphibious Dock", "两栖码头"],
+            ["Power Gauntlet", "大力拳套"],
+            ["Tecno", "特克诺"],
+            ["Rose Salt", "瑰盐"],
+            ["Quenchy Cola", "口渴乐乐"],
+            ["Street Telephone Booth", "街边电话亭"],
+            ["Gacha Machine", "扭蛋机"],
+            ["Timey-Wimey Telephone Booth", "超时空电话亭"],
+            ["Camp Telephone Booth", "军营电话亭"],
+            ["Menu Telephone", "菜单电话机"],
+            ["Scoring Station", "大战记分站"],
+            ["Gramophone Pedestal", "“留声机”底座"]
         ]
     },
     "GameStartUpdateOCR": {

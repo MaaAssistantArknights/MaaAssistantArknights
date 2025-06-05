@@ -312,6 +312,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。現在のバージョンが古すぎるため、OTA増分アップデートパッケージは利用できません。完全なパッケージがダウンロードされ、リソースフォルダはゴミ箱に移動され、.old ファイルが削除されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
@@ -526,6 +527,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeClick">連打</system:String>
     <system:String x:Key="ReclamationIncrementModeHold">長押し</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">1回の最大クラフト回数</system:String>
+    <system:String x:Key="ReclamationClearStore">完成後、商店を空にする</system:String>
     <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA をフォローする</system:String>
     <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
@@ -604,7 +606,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n完全パッケージをダウンロードして新しいフォルダーに解凍し、元の config フォルダーを新しいフォルダーにコピーすることで、既存の設定を引き継ぐことができます。</system:String>
+    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。設定を保持するには、元の config および data フォルダーを新しいフォルダーにコピーしてください。</system:String>
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
@@ -704,6 +706,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">少なくとも258枚の黄チケットを持っていることを確認してください。</system:String>
     <system:String x:Key="MiniGameNameSsStore">イベントショップ</system:String>
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。&#10;購入数量無制限のアイテムは購入することはありません。</system:String>
+    <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">イベントのショップページからのみ始めてください。</system:String>
     <!--  !小游戏  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
@@ -765,6 +769,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
     <system:String x:Key="NotCopilotJson">攻略ファイルではありません</system:String>
     <system:String x:Key="CheckTheFile">ファイルの内容を確認してください！</system:String>
+    <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">バトルリストを使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -828,8 +834,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
+    <system:String x:Key="MissionStart.FightTask">行動開始しました {0} 回 (-{1}理性)</system:String>
     <system:String x:Key="UnitTime">回</system:String>
-    <system:String x:Key="Sanity">理性</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">薬: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0},{1}(期限切れ)  </system:String>
@@ -865,6 +871,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">源石錐の投資数が設定数（{0}）に達していた、探索を中止する</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">源石錐の投資数が上限に達していた、探索を中止する</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライクスコア: {0}\n探索: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n難度: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">パラダイムロストの深化: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">パラダイムロスト {0} が {1} に深化した</system:String>

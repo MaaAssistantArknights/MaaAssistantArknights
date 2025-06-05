@@ -46,7 +46,9 @@ namespace MaaWpfGui.Helper
         };
 
         // 储存角色信息的字典
-        public static Dictionary<string, CharacterInfo> Characters { get; } = new();
+        public static Dictionary<string, CharacterInfo> Characters { get; } = [];
+
+        public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtuallyOpers.Contains(oper.Key)).ToDictionary();
 
         public static HashSet<string> CharacterNames { get; } = [];
 
@@ -75,7 +77,7 @@ namespace MaaWpfGui.Helper
             }
 
             string jsonText = File.ReadAllText(FilePath);
-            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new Dictionary<string, CharacterInfo>();
+            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
             var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
             var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
@@ -235,14 +237,17 @@ namespace MaaWpfGui.Helper
                 return null;
             }
 
-            var characterInfo = GetCharacterByNameOrAlias(characterName);
+            return GetLocalizedCharacterName(GetCharacterByNameOrAlias(characterName), language);
+        }
+
+        public static string? GetLocalizedCharacterName(CharacterInfo? characterInfo, string? language = null)
+        {
             if (characterInfo?.Name == null)
             {
                 return null;
             }
 
             language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
-
             return language switch
             {
                 "zh-cn" => characterInfo.Name,
@@ -310,13 +315,76 @@ namespace MaaWpfGui.Helper
             public string? Position { get; set; }
 
             [JsonProperty("profession")]
-            public string? Profession { get; set; }
+            public OperProfession Profession { get; set; } = OperProfession.Unknown;
 
             [JsonProperty("rangeId")]
             public List<string>? RangeId { get; set; }
 
             [JsonProperty("rarity")]
             public int Rarity { get; set; }
+
+            public bool IsOperator => Profession == OperProfession.Caster || Profession == OperProfession.Medic
+                || Profession == OperProfession.Pioneer || Profession == OperProfession.Sniper
+                || Profession == OperProfession.Special || Profession == OperProfession.Support
+                || Profession == OperProfession.Tank || Profession == OperProfession.Warrior;
+
+            public enum OperProfession
+            {
+                /// <summary>
+                /// 未知, 默认值
+                /// </summary>
+                Unknown,
+
+                /// <summary>
+                /// 术士
+                /// </summary>
+                Caster,
+
+                /// <summary>
+                /// 医疗
+                /// </summary>
+                Medic,
+
+                /// <summary>
+                /// 先锋
+                /// </summary>
+                Pioneer,
+
+                /// <summary>
+                /// 狙击
+                /// </summary>
+                Sniper,
+
+                /// <summary>
+                /// 特种
+                /// </summary>
+                Special,
+
+                /// <summary>
+                /// 辅助
+                /// </summary>
+                Support,
+
+                /// <summary>
+                /// 重装
+                /// </summary>
+                Tank,
+
+                /// <summary>
+                /// 近卫
+                /// </summary>
+                Warrior,
+
+                /// <summary>
+                /// 召唤物 (from asst::BattleDataConfig, MAA内部分类使用Drone
+                /// </summary>
+                Token,
+
+                /// <summary>
+                /// 未知?
+                /// </summary>
+                Trap,
+            }
         }
 
         public class MapInfo
@@ -347,5 +415,44 @@ namespace MaaWpfGui.Helper
             [JsonProperty("width")]
             public int Width { get; set; }
         }
+
+        /// <summary>
+        /// 未实装干员，但在battle_data中，
+        /// </summary>
+        private static readonly HashSet<string?> _virtuallyOpers =
+        [
+            "char_504_rguard", // 预备干员-近战
+            "char_505_rcast",  // 预备干员-术师
+            "char_506_rmedic", // 预备干员-后勤
+            "char_507_rsnipe", // 预备干员-狙击
+            "char_508_aguard", // Sharp
+            "char_509_acast",  // Pith
+            "char_612_accast", // Pith
+            "char_510_amedic", // Touch
+            "char_613_acmedc", // Touch
+            "char_511_asnipe", // Stormeye
+            "char_611_acnipe", // Stormeye
+            "char_512_aprot",  // 暮落
+            "char_513_apionr", // 郁金香
+            "char_514_rdfend", // 预备干员-重装
+
+            // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
+            "char_600_cpione", // 预备干员-先锋 4★
+            "char_601_cguard", // 预备干员-近卫 4★
+            "char_602_cdfend", // 预备干员-重装 4★
+            "char_603_csnipe", // 预备干员-狙击 4★
+            "char_604_ccast", // 预备干员-术师 4★
+            "char_605_cmedic", // 预备干员-医疗 4★
+            "char_606_csuppo", // 预备干员-辅助 4★
+            "char_607_cspec", // 预备干员-特种 4★
+            "char_608_acpion", // 郁金香 6★
+            "char_609_acguad", // Sharp 6★
+            "char_610_acfend", // Mechanist
+            "char_614_acsupo", // Raidian
+            "char_615_acspec", // Misery
+
+            "char_1001_amiya2", // 阿米娅-WARRIOR
+            "char_1037_amiya3", // 阿米娅-MEDIC
+        ];
     }
 }

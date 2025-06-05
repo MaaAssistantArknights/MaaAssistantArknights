@@ -48,18 +48,34 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
     auto [keypoints_1, descriptors_1] = detect(templ, create_mask(templ, m_params.green_mask));
 
     auto results = feature_match(templ, keypoints_1, descriptors_1);
+#ifdef ASST_DEBUG
+    const auto& color = cv::Scalar(0, 0, 255);
+#endif
+    for (const auto& r : results) {
+        if (r.count < m_params.count) {
+            Log.debug("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+        }
+        else {
+            Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
+        }
+#ifdef ASST_DEBUG
+        cv::putText(
+            m_image_draw,
+            "count: " + std::to_string(r.count),
+            cv::Point(r.rect.x, r.rect.y - 5),
+            cv::FONT_HERSHEY_PLAIN,
+            1.2,
+            color,
+            1);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
+#endif
+    }
     std::erase_if(results, [&](const auto& res) { return res.count < m_params.count; });
     auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
     if (results.empty()) {
         return std::nullopt;
     }
 
-    for (const auto& r : results) {
-        Log.trace("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
-#ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(r.rect), cv::Scalar(0, 0, 255), 2);
-#endif
-    }
     Log.trace("count:", results.size(), ", cost:", cost.count(), "ms");
     m_result = std::move(results);
     return m_result;
@@ -93,12 +109,10 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_match(
     std::vector<cv::DMatch> good_matches;
     ResultsVec results = feature_postproc(match_points, keypoints_1, keypoints_2, templ.cols, templ.rows, good_matches);
 
-    /*
-    if (debug_draw_) {
-        auto draw = draw_result(templ, keypoints_1, keypoints_2, good_matches, results);
-        handle_draw(draw);
-    }
-    */
+#ifdef ASST_DEBUG
+    cv::Mat matches_draw;
+    cv::drawMatches(m_image_draw, keypoints_2, templ, keypoints_1, good_matches, matches_draw);
+#endif // ASST_DEBUG
     return results;
 }
 
@@ -149,37 +163,58 @@ asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_postproc(
         obj.emplace_back(keypoints_1[point[0].trainIdx].pt);
         scene.emplace_back(keypoints_2[point[0].queryIdx].pt);
     }
-
     LogDebug << "Match:" << VAR(good_matches.size()) << VAR(match_points.size()) << VAR(m_params.distance_ratio);
 
-    if (good_matches.size() < 4) {
-        return {};
+    const std::array<cv::Point2d, 4> obj_corners = {
+        cv::Point2d(0, 0),
+        cv::Point2d(templ_cols, 0),
+        cv::Point2d(templ_cols, templ_rows),
+        cv::Point2d(0, templ_rows),
+    };
+
+    ResultsVec results;
+    while (scene.size() >= 4) {
+        cv::Mat homography = cv::findHomography(obj, scene, cv::RANSAC);
+        if (homography.empty()) {
+            break;
+        }
+
+        std::array<cv::Point2d, 4> scene_corners;
+        cv::perspectiveTransform(obj_corners, scene_corners, homography);
+
+        double x = std::min({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x });
+        double y = std::min({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y });
+        double w = std::max({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x }) - x;
+        double h = std::max({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y }) - y;
+        cv::Rect scene_box { static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h) };
+
+        cv::Rect box = scene_box & make_rect<cv::Rect>(m_roi);
+        size_t count = std::ranges::count_if(scene, [&box](const auto& point) { return box.contains(point); });
+        if (count == 0) {
+            LogTrace << "No points in box" << VAR(box) << VAR(scene_box) << VAR(m_roi);
+            break;
+        }
+
+        results.emplace_back(Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) });
+
+        // remove inside points
+        size_t compact_idx = 0;
+        for (size_t i = 0; i < scene.size(); ++i) {
+            if (scene_box.contains(scene.at(i))) {
+                continue;
+            }
+
+            if (i != compact_idx) {
+                std::swap(scene[compact_idx], scene[i]);
+                std::swap(obj[compact_idx], obj[i]);
+            }
+            ++compact_idx;
+        }
+        scene.resize(compact_idx);
+        obj.resize(compact_idx);
     }
 
-    cv::Mat homography = cv::findHomography(obj, scene, cv::RHO);
-
-    if (homography.empty()) {
-        LogDebug << "Homography is empty";
-        return {};
-    }
-
-    std::array<cv::Point2d, 4> obj_corners = { cv::Point2d(0, 0),
-                                               cv::Point2d(templ_cols, 0),
-                                               cv::Point2d(templ_cols, templ_rows),
-                                               cv::Point2d(0, templ_rows) };
-    std::array<cv::Point2d, 4> scene_corners;
-    cv::perspectiveTransform(obj_corners, scene_corners, homography);
-
-    double x = std::min({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x });
-    double y = std::min({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y });
-    double w = std::max({ scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x }) - x;
-    double h = std::max({ scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y }) - y;
-    cv::Rect box { static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h) };
-    box &= make_rect<cv::Rect>(m_roi);
-
-    size_t count = std::ranges::count_if(scene, [&box](const auto& point) { return box.contains(point); });
-
-    return { Result { .rect = make_rect<asst::Rect>(box), .count = static_cast<int>(count) } };
+    return results;
 }
 
 cv::Ptr<cv::Feature2D> asst::FeatureMatcher::create_detector() const

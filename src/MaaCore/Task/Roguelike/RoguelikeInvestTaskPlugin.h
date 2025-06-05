@@ -30,7 +30,7 @@ private:
     void stop_roguelike() const;
 
     int m_invest_count = 0;
-    int m_maximum = 0;
+    int m_maximum = 0;             // 最大投资次数
     bool m_stop_when_full = false; // 存款满了就停止
     bool m_invset_error = false;
 };

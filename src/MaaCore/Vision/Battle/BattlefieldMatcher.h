@@ -37,7 +37,7 @@ public:
     {
         ObjectOfInterest object_of_interest;
         std::vector<battle::DeploymentOper> deployment;
-        std::optional<std::pair<int, int>> kills; // kills / total_kills
+        MatchResult<std::pair<int, int>> kills; // kills / total_kills
         MatchResult<int> costs;
 
         // bool in_detail = false;
@@ -67,14 +67,18 @@ protected:
     int oper_cost_analyze(const Rect& roi) const;
     bool oper_available_analyze(const Rect& roi) const;
 
-    std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
-    bool cost_symbol_analyze() const;                         // 识别费用左侧图标
-    MatchResult<int> costs_analyze() const;                   // 识别费用
-    bool in_detail_analyze() const;                           // 识别是否在详情页
-    bool speed_button_analyze() const;                        // 识别是否有加速按钮（在详情页就没有）
+    MatchResult<std::pair<int, int>> kills_analyze() const; // 识别击杀数
+    // 识别是否持有费用是否命中缓存
+    bool hit_kills_cache() const;
+    bool cost_symbol_analyze() const;       // 识别费用左侧图标
+    MatchResult<int> costs_analyze() const; // 识别费用
+    // 识别是否持有费用是否命中缓存
+    bool hit_costs_cache() const;
+    bool in_detail_analyze() const;        // 识别是否在详情页
+    bool speed_button_analyze() const;     // 识别是否有加速按钮（在详情页就没有）
 
-    ObjectOfInterest m_object_of_interest;                    // 待识别的目标
-    int m_total_kills_prompt = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
-    cv::Mat m_image_prev;         // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
+    ObjectOfInterest m_object_of_interest; // 待识别的目标
+    int m_total_kills_prompt = 0;          // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
+    cv::Mat m_image_prev;                  // 缓存图像, 用于判断费用, 击杀数是否变化. 无变化则不重新识别
 };
 } // namespace asst

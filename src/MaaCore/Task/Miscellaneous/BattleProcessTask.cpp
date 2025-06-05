@@ -193,8 +193,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
-        // 等待之后画面可能会变化，更新下干员信息
-        update_deployment();
+        if (action.type == ActionType::Deploy) {
+            update_deployment(); // 等待之后画面可能会变化, 更新下干员信息, 但若为非部署动作, 则无需更新
+        }
     }
 
     bool ret = false;
@@ -339,7 +340,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     if (m_kills < action.kills) {
         update_image_if_empty();
         while (!need_exit() && m_kills < action.kills) {
-            update_kills(image);
+            update_kills(image, image_prev);
             if (m_kills >= action.kills) {
                 break;
             }

@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
@@ -355,13 +356,17 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void SaveDepotDetails(JObject details)
         {
-            var json = details.ToString(Formatting.None);
-            ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+            // var json = details.ToString(Formatting.None);
+            // ConfigurationHelper.SetValue(ConfigurationKeys.DepotResult, json);
+            JsonDataHelper.Set(JsonDataKey.DepotData, details);
         }
 
         private void LoadDepotDetails()
         {
-            var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
+            // var json = ConfigurationHelper.GetValue(ConfigurationKeys.DepotResult, string.Empty);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.DepotResult);
+            var json = JsonDataHelper.Get(JsonDataKey.DepotData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
                 return;
@@ -513,41 +518,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region OperBox
 
-        /// <summary>
-        /// 未实装干员，但在battle_data中，
-        /// </summary>
-        private static readonly HashSet<string?> _virtuallyOpers =
-        [
-            "char_504_rguard", // 预备干员-近战
-            "char_505_rcast", // 预备干员-术师
-            "char_506_rmedic", // 预备干员-后勤
-            "char_507_rsnipe", // 预备干员-狙击
-            "char_508_aguard", // Sharp
-            "char_509_acast", // Pith
-            "char_510_amedic", // Touch
-            "char_511_asnipe", // Stormeye
-            "char_513_apionr", // 郁金香
-            "char_514_rdfend", // 预备干员-重装
-
-            // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
-            "char_600_cpione", // 预备干员-先锋 4★
-            "char_601_cguard", // 预备干员-近卫 4★
-            "char_602_cdfend", // 预备干员-重装 4★
-            "char_603_csnipe", // 预备干员-狙击 4★
-            "char_604_ccast", // 预备干员-术师 4★
-            "char_605_cmedic", // 预备干员-医疗 4★
-            "char_606_csuppo", // 预备干员-辅助 4★
-            "char_607_cspec", // 预备干员-特种 4★
-            "char_608_acpion", // 郁金香 6★
-            "char_609_acguad", // Sharp 6★
-            "char_610_acfend", // Mechanist
-            "char_614_acsupo", // Raidian
-            "char_615_acspec", // Misery
-
-            "char_1001_amiya2", // 阿米娅-WARRIOR
-            "char_1037_amiya3", // 阿米娅-MEDIC
-        ];
-
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
 
         public string OperBoxInfo
@@ -556,11 +526,9 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxInfo, value);
         }
 
-        public string OperBoxExportData { get; set; } = string.Empty;
+        private List<OperBoxData.OperData> _operBoxDataArray = [];
 
-        private JArray _operBoxDataArray = [];
-
-        public JArray OperBoxDataArray
+        public List<OperBoxData.OperData> OperBoxDataArray
         {
             get => _operBoxDataArray;
             set
@@ -581,17 +549,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return _operBoxPotential;
                 }
 
-                _operBoxPotential = new();
-                foreach (JObject operBoxData in OperBoxDataArray.OfType<JObject>())
-                {
-                    var id = (string?)operBoxData["id"];
-                    var potential = (int)(operBoxData["potential"] ?? -1);
-                    if (id != null)
-                    {
-                        _operBoxPotential[id] = potential;
-                    }
-                }
-
+                _operBoxPotential = OperBoxDataArray.ToDictionary(oper => oper.Id, oper => oper.Potential);
                 return _operBoxPotential;
             }
         }
@@ -629,15 +587,19 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxNotHaveList, value);
         }
 
-        private void SaveOperBoxDetails(JObject details)
+        private static void SaveOperBoxDetails(List<OperBoxData.OperData> details)
         {
-            var json = details.ToString(Formatting.None);
-            ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
+            // var json = details.ToString(Formatting.None);
+            // ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, json);
+            JsonDataHelper.Set(JsonDataKey.OperBoxData, JArray.FromObject(details));
         }
 
         private void LoadOperBoxDetails()
         {
-            var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
+            // TODO: 删除老数据节省 gui.json 的大小，后续版本可以删除
+            // var json = ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty);
+            ConfigurationHelper.DeleteValue(ConfigurationKeys.OperBoxData);
+            var json = JsonDataHelper.Get(JsonDataKey.OperBoxData, string.Empty);
             if (string.IsNullOrWhiteSpace(json))
             {
                 return;
@@ -645,8 +607,29 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                var details = JObject.Parse(json);
-                OperBoxParse(details);
+                var ownOpers = JsonConvert.DeserializeObject<List<OperBoxData.OperData>>(json)?.Where(i => !string.IsNullOrEmpty(i.Id)).ToList();
+                if (ownOpers is null)
+                {
+                    return;
+                }
+
+                OperBoxDataArray = ownOpers;
+                var ids = ownOpers.Select(o => o.Id).ToHashSet();
+                foreach (var (id, oper) in DataHelper.Operators)
+                {
+                    if (DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+                    {
+                        var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
+                        if (ids.Contains(id))
+                        {
+                            OperBoxHaveList.Add(new Operator(id, name, oper.Rarity));
+                        }
+                        else
+                        {
+                            OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
+                        }
+                    }
+                }
             }
             catch
             {
@@ -654,8 +637,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // 每次传进来的都是完整数据，所以需要一个 HashSet 来去重
-        private HashSet<Operator> _tempHaveSet = [];
+        /// <summary>
+        /// 每次传进来的都是完整数据, 临时缓存去重
+        /// </summary>
+        private HashSet<string> _tempOperHaveSet = [];
 
         public bool OperBoxParse(JObject? details)
         {
@@ -664,66 +649,40 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var allOpers = (details["all_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
-            var ownOpers = (details["own_opers"] as JArray)?.Cast<JObject>().Where(o => o["id"] != null).ToList();
-
-            if (allOpers == null || ownOpers == null)
+            var ownOpers = (details["own_opers"] as JArray)?.ToObject<List<OperBoxData.OperData>>()?.Where(o => !string.IsNullOrEmpty(o.Id)).ToList();
+            if (ownOpers is null)
             {
                 return false;
             }
 
-            bool done = (bool)(details["done"] ?? false);
-            var ownOperDict = ownOpers.ToDictionary(o => (string)o["id"]!);
-            var allOperDict = allOpers.ToDictionary(o => (string)o["id"]!);
-            foreach (var operBox in allOpers)
+            foreach (var oper in ownOpers)
             {
-                var id = operBox["id"]?.ToString();
-                if (string.IsNullOrEmpty(id) || _virtuallyOpers.Contains(id))
+                if (_tempOperHaveSet.Add(oper.Id))
                 {
-                    continue;
-                }
-
-                var name = DataHelper.GetLocalizedCharacterName((string?)operBox["name"]) ?? "???";
-                var rarity = (int)(operBox["rarity"] ?? -1);
-                var oper = new Operator(id, name, rarity);
-
-                if ((bool)(operBox["own"] ?? false))
-                {
-                    if (_tempHaveSet.Add(oper))
-                    {
-                        OperBoxHaveList.Add(oper);
-                    }
-                }
-                else if (done && DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
-                {
-                    OperBoxNotHaveList.Add(oper);
+                    var name = DataHelper.GetLocalizedCharacterName(DataHelper.Operators.FirstOrDefault(i => i.Key == oper.Id).Value) ?? "???";
+                    OperBoxHaveList.Add(new Operator(oper.Id, name, oper.Rarity));
                 }
             }
 
+            bool done = (bool)(details["done"] ?? false);
             if (!done)
             {
                 return true;
             }
 
-            OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
-            OperBoxDataArray = new(ownOpers);
-
-            var exportList = new JArray();
-            foreach (var oper in OperBoxHaveList.Concat(OperBoxNotHaveList))
+            foreach (var (id, oper) in DataHelper.Operators)
             {
-                if (ownOperDict.TryGetValue(oper.Id, out var ownJ))
+                if (!_tempOperHaveSet.Contains(id) && DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
                 {
-                    exportList.Add(ownJ);
-                }
-                else if (allOperDict.TryGetValue(oper.Id, out var allJ))
-                {
-                    exportList.Add(allJ);
+                    var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
+                    OperBoxNotHaveList.Add(new Operator(id, name, oper.Rarity));
                 }
             }
 
-            OperBoxExportData = exportList.ToString(Formatting.Indented);
-            SaveOperBoxDetails(details);
-
+            OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
+            OperBoxDataArray = ownOpers;
+            SaveOperBoxDetails(ownOpers);
+            _tempOperHaveSet = [];
             return true;
         }
 
@@ -734,8 +693,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// ReSharper disable once UnusedMember.Global
         public async void StartOperBox()
         {
-            OperBoxExportData = string.Empty;
-            _tempHaveSet = [];
+            _tempOperHaveSet = [];
             OperBoxHaveList = [];
             OperBoxNotHaveList = [];
             _runningState.SetIdle(false);
@@ -760,12 +718,12 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void ExportOperBox()
         {
-            if (string.IsNullOrEmpty(OperBoxExportData))
+            if (OperBoxDataArray.Count == 0)
             {
                 return;
             }
 
-            Clipboard.SetDataObject(OperBoxExportData);
+            Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxHaveList.Concat(OperBoxNotHaveList), Formatting.Indented));
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
@@ -1128,6 +1086,7 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
         ];
 
         private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "Stop");
@@ -1163,6 +1122,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
                 "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
                 "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
+                "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
                 _ => string.Empty,
             };
         }

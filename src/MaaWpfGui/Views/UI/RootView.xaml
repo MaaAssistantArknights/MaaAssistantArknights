@@ -28,8 +28,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <controls:TextBlock
+                    Grid.Column="0"
                     Margin="10,0,-5,0"
                     HorizontalAlignment="Left"
                     IsHitTestVisible="False"
@@ -75,6 +80,7 @@
                     </controls:TextBlock.Triggers>
                 </controls:TextBlock>
                 <hc:RunningBlock
+                    Grid.Column="1"
                     Margin="10,0"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
@@ -84,12 +90,13 @@
                     Speed="10"
                     Visibility="{c:Binding WindowTitleScrollable}" />
                 <controls:TextBlock
+                    Grid.Column="1"
                     Margin="10,0"
                     HorizontalAlignment="Left"
                     IsHitTestVisible="False"
                     Text="{Binding WindowTitle}"
                     Visibility="{c:Binding !WindowTitleScrollable}" />
-            </StackPanel>
+            </Grid>
             <Button
                 Grid.Column="1"
                 BorderThickness="0"

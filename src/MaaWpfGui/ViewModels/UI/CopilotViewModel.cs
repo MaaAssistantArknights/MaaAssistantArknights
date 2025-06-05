@@ -420,7 +420,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var fileInfo = new FileInfo(file);
                 if (!fileInfo.Exists)
                 {
-                    AddLog($"{file} not exists", showTime: false);
+                    AddLog(LocalizationHelper.GetString("CopilotNoFound") + file, showTime: false);
                     return;
                 }
 
@@ -1028,7 +1028,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch
             {
-                AddLog("Could not save copilot task to file: " + cachePath, UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + cachePath, UiLogColor.Error, showTime: false);
                 _semaphore.Release();
                 return false;
             }
@@ -1212,7 +1212,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                     catch
                     {
-                        AddLog("Could not save copilot task to file: " + TempCopilotFile, UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + TempCopilotFile, UiLogColor.Error);
                         Stop();
                         return;
                     }
@@ -1327,11 +1327,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
+            if (CopilotItemViewModels.Count == 1)
+            {
+                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
+            }
+
             var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>
             {
                 if (!File.Exists(path))
                 {
-                    AddLog("could not find copilot file:" + path, UiLogColor.Error, showTime: false);
+                    AddLog(LocalizationHelper.GetString("CopilotNoFound") + path, UiLogColor.Error, showTime: false);
                     return null;
                 }
 

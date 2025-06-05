@@ -107,7 +107,7 @@ namespace MaaWpfGui.Helper
             {
                 _logger.Information("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
                 SetGlobalValue(key, value);
-                DeleteValue(key, out _);
+                DeleteValue(key);
                 return value;
             }
 
@@ -169,6 +169,14 @@ namespace MaaWpfGui.Helper
         }
 
         public static bool ContainsKey(string key, bool isGlobal = false) => isGlobal ? _globalKvs.ContainsKey(key) : _kvs.ContainsKey(key);
+
+        /// <summary>
+        /// Deletes a configuration
+        /// </summary>
+        /// <param name="key">The configuration key.</param>
+        /// <returns>The return value of <see cref="Save"/>.</returns>
+        // ReSharper disable once UnusedMember.Global
+        public static bool DeleteValue(string key) => DeleteValue(key, out _);
 
         /// <summary>
         /// Deletes a configuration

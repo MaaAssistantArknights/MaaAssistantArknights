@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
@@ -858,6 +859,106 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _roguelikeStartWithSeed, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
+        }
+    }
+
+    public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    {
+        if (msg != AsstMsg.SubTaskExtraInfo)
+        {
+            return;
+        }
+
+        var subTaskDetails = details["details"];
+        switch (details["what"]?.ToString() ?? string.Empty)
+        {
+            case "RoguelikeInvestmentReachFull":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
+                break;
+
+            case "RoguelikeInvestmentReachLimit":
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestmentReachLimit"), subTaskDetails!["limit"]), UiLogColor.Info);
+                break;
+
+            case "RoguelikeInvestment":
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                break;
+
+            case "RoguelikeSettlement":
+                {// 肉鸽结算
+                    var report = subTaskDetails;
+                    var pass = (bool)report!["game_pass"]!;
+                    var roguelikeInfo = string.Format(
+                        LocalizationHelper.GetString("RoguelikeSettlement"),
+                        pass ? "✓" : "✗",
+                        report["floor"],
+                        report["step"],
+                        report["combat"],
+                        report["emergency"],
+                        report["boss"],
+                        report["recruit"],
+                        report["collection"],
+                        report["difficulty"],
+                        report["score"],
+                        report["exp"],
+                        report["skill"]);
+
+                    Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
+                    break;
+                }
+
+            case "RoguelikeCombatEnd":
+                // 肉鸽战斗结束，无论成功与否
+                Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
+                break;
+
+            case "RoguelikeEvent":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
+                break;
+
+            case "EncounterOcrError":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
+                break;
+
+            case "FoldartalGainOcrNextLevel":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
+                break;
+
+            case "MonthlySquadCompleted":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
+                break;
+
+            case "DeepExplorationCompleted":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationCompleted"), UiLogColor.RareOperator);
+                break;
+
+            case "RoguelikeCollapsalParadigms":
+                string deepen_or_weaken_str = subTaskDetails!["deepen_or_weaken"]?.ToString() ?? "Unknown";
+                if (!int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
+                {
+                    break;
+                }
+
+                string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
+                string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
+                if (deepen_or_weaken == 1 && prev == string.Empty)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur), UiLogColor.Info);
+                }
+                else if (deepen_or_weaken == 1 && prev != string.Empty)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
+                }
+                else if (deepen_or_weaken == -1 && cur == string.Empty)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), string.Empty, prev), UiLogColor.Info);
+                }
+                else if (deepen_or_weaken == -1 && cur != string.Empty)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
+                }
+
+                break;
         }
     }
 

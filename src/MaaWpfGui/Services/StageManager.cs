@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -146,7 +145,6 @@ namespace MaaWpfGui.Services
 
             JObject activity = await activityTask;
             JObject tasksJson = await tasksTask;
-
             if (clientType != "Official" && tasksJson != null)
             {
                 var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
