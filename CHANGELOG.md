@@ -30,52 +30,36 @@
 * 清理 map 中的 png 类型截图 @ABA2396
 * 不允许通过吐司通知启动应用 @ABA2396 @status102
 * 截图测试可以在自动检测的情况下使用 @ABA2396
-* 自动战斗费用击杀数缓存, 减少性能消耗 (#12879) @status102
+* 自动战斗击杀数缓存, 减少性能消耗 (#12879) @status102
 * 自动战斗费用识别缓存, 减少性能消耗 (#12765) @status102
 * RA store (#12833) @Daydreamer114
 * 繁中服 薩卡茲肉鴿 (#12800) @momomochi987 @pre-commit-ci[bot]
+* 繁中服「泰拉飯」活動導航 +「滋味」主題 (#12870) @momomochi987 @pre-commit-ci[bot]
 
 ### 改进 | Improved
 
-* 使用系统回收站替代强制删除 @status102
-* 无 OTA 更新包更新逻辑 @status102 @ABA2396
 * MirrorChyan 更新支持判断完整包 @ABA2396 @status102
-* 旧 config 移除简化 @status102
-* 特征匹配 ASST_DEBUG 增加匹配点位绘制 @status102
-* Log.debug 是否写入判断优化 @status102
-* 刷理智任务每次开始行动时的文本优化 @status102
 * 自动战斗使用战斗列表执行单作业时, 增加一条警告; 追加部分提示的i18n (#12832) @status102
 * 肉鸽投资达限时, 增加输出提示 (#12818) @status102
-* Sync OperBoxNameOCR roi to EN @status102
 
 ### 修复 | Fix
 
-* WebStages加载临时补救 @status102
 * 基建又双叒叕改了 @ABA2396
-* 自动更新无ota包时, 残留旧版本文件 @status102
-* Toast死锁 @status102
-* RA2 Swipe Save @Daydreamer114
-* 外服使用 AUTO模式 代理倍率等待战斗结束时间过长 @status102
-* RA2 swipe save @Daydreamer114
 * 放弃与驮兽同行，等谁想加识别了再改回来） @ABA2396
 * 绿票商店跳过赤金及家具灵茧 @status102
-* 修复 feature match sence 内无特征点时的死循环问题 @status102
 * 界面窗口标题滚动失效 @ABA2396
 * 繁中服 薩卡茲肉鴿 月度小隊無法開始探索 (#12871) @momomochi987 @pre-commit-ci[bot]
 * EN IS4 Squad Name @Daydreamer114
-* 7e9806e697198e3e50e38a5dd790b294702e233f @status102
-* findHomography should have at least 4 points, 优化性能 @MistEO @status102
 * WMI 无效类报错 @ABA2396
 * Telegram外部通知请求日志uri调整 @status102
-* 繁中服薩卡茲肉鴿 ocr (#12829) @momomochi987
-* wpf任务状态并发修改 @status102
 * 非部署动作时, 动作前等待结束后不必要的部署区更新可能触发暂停识别, 导致动作滞后 @status102
-* 我面前站不下这许多人 @AnnAngela
-* KR 驮兽旅行家 OCR @Daydreamer114
-* global templates are not loaded (#12787) @HX3N
-* BattleQuickFormationOCR in EN @status102
-* OperBox Roi @status102
 * 自动编队添加自定义干员时, 点击位置错误 @status102
+* KR 驮兽旅行家 OCR @Daydreamer114
+* BattleQuickFormationOCR in EN @status102
+* global templates are not loaded (#12787) @HX3N
+* RA2 Swipe Save @Daydreamer114
+* 外服使用 AUTO模式 代理倍率等待战斗结束时间过长 @status102
+* 繁中服薩卡茲肉鴿 ocr (#12829) @momomochi987
 
 ### 文档 | Docs
 
@@ -83,11 +67,24 @@
 * issue-checkbox-checker 文档 @Daydreamer114
 * 移除因勾选"我未仔细阅读"的自动回复 增加文档描述 (#12875) @Lemon-miaow
 * `连战次数` -> `代理倍率`; `指定次数` 描述优化 (#12835) @status102 @pre-commit-ci[bot]
-* Update CHANGELOG.md @ABA2396
-* Auto Update Changelogs of v5.17.0-beta.1 (#12809) @github-actions[bot] @status102
 
 ### 其他 | Other
 
+* 修复 feature match sence 内无特征点时的死循环问题 @status102
+* OperBox Roi @status102
+* 我面前站不下这许多人 @AnnAngela
+* wpf任务状态并发修改 @status102
+* 7e9806e697198e3e50e38a5dd790b294702e233f @status102
+* findHomography should have at least 4 points, 优化性能 @MistEO @status102
+* WebStages加载临时补救 @status102
+* 自动更新无ota包时, 残留旧版本文件 @status102
+* Toast死锁 @status102
+* 使用系统回收站替代强制删除 @status102
+* 无 OTA 更新包更新逻辑 @status102 @ABA2396
+* 旧 config 移除简化 @status102
+* 特征匹配 ASST_DEBUG 增加匹配点位绘制 @status102
+* Log.debug 是否写入判断优化 @status102
+* 刷理智任务每次开始行动时的文本优化 @status102
 * 新增 JsonDataHelper，抽离 gui.json 中巨大的 data 类型数据到 data 文件夹中 (#12795) @ABA2396
 * template 重复检查 @status102
 * 更新识别工具逻辑与显示效果 (#12791) @ABA2396
@@ -103,7 +100,6 @@
 * MuMuExtras 5.0+ (#12876) @Daydreamer114
 * 特征匹配调试绘制 @status102
 * add mirrorchyan url source (#12869) @MistEO @ABA2396
-* 繁中服「泰拉飯」活動導航 +「滋味」主題 (#12870) @momomochi987 @pre-commit-ci[bot]
 * warning @status102
 * 持有费用缓存判定拆分 @status102
 * 增加“我未仔细阅读”陷阱选项 (#12864) @Lemon-miaow @Daydreamer114
