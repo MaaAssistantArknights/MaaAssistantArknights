@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+
 using Theme = RoguelikeTheme;
 public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
@@ -50,45 +51,47 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     {
         int maxThemeDifficulty = GetMaxDifficultyForTheme(RoguelikeTheme);
 
-        if (RoguelikeDifficultyList.Count == 0)
+        var baseList = new List<GenericCombinedData<int>>
         {
-            RoguelikeDifficultyList =
-            [
-                new() { Display = "MAX", Value = int.MaxValue }
-            ];
-            for (int i = 20; i >= -1; --i)
-            {
-                RoguelikeDifficultyList.Add(new() { Display = i.ToString(), Value = i });
-            }
+            new() { Display = "MAX", Value = int.MaxValue }
+        };
+        
+        for (int i = 20; i >= -1; --i)
+        {
+            baseList.Add(new() { Display = i.ToString(), Value = i });
         }
 
-        var sortedItems = RoguelikeDifficultyList
-            .Select(item => item)
+        // 基于当前主题的最大难度过滤并排序
+        var sortedItems = baseList
+            .Where(item => item.Value == -1 || item.Value == int.MaxValue || item.Value <= maxThemeDifficulty)
             .OrderBy(item => item.Value switch
             {
                 -1 => 0,
                 int.MaxValue => 1,
-                _ when item.Value <= maxThemeDifficulty => 2 + (maxThemeDifficulty - item.Value),
-                _ => 2 + maxThemeDifficulty + 1 + (20 - item.Value),
+                _ => 2 + (maxThemeDifficulty - item.Value),
             })
             .ToList();
 
-        for (int newIndex = 0; newIndex < sortedItems.Count; newIndex++)
+        RoguelikeDifficultyList.Clear();
+        foreach (var item in sortedItems)
         {
-            int currentIndex = RoguelikeDifficultyList.IndexOf(sortedItems[newIndex]);
-            if (currentIndex != newIndex)
-            {
-                RoguelikeDifficultyList.Move(currentIndex, newIndex);
-            }
-
-            int value = RoguelikeDifficultyList[newIndex].Value;
-            RoguelikeDifficultyList[newIndex].Display = value switch
+            int value = item.Value;
+            item.Display = value switch
             {
                 -1 => LocalizationHelper.GetString("Current"),
                 int.MaxValue => "MAX",
                 0 => "MIN",
-                _ => value > maxThemeDifficulty ? $"{value} (NONSUPPORT)" : value.ToString(),
+                _ => value.ToString(),
             };
+            RoguelikeDifficultyList.Add(item);
+        }
+
+        // 验证当前选中的难度是否在新列表中
+        bool currentDifficultyValid = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty);
+        if (!currentDifficultyValid)
+        {
+            // 如果当前难度不在有效列表中，设置为默认值
+            RoguelikeDifficulty = -1;
         }
     }
 
@@ -338,15 +341,42 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         set
         {
             SetAndNotify(ref _roguelikeTheme, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value.ToString());
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, Convert.ToString((int)value));
+
+            // Check and adjust difficulty if current value is not supported by new theme
+            int maxDifficulty = GetMaxDifficultyForTheme(value);
+            if (RoguelikeDifficulty != -1 && RoguelikeDifficulty != int.MaxValue && RoguelikeDifficulty > maxDifficulty)
+            {
+                RoguelikeDifficulty = -1; // Set to "Current" if not supported
+            }
+
+            // 确保在更新列表之前先更新相关属性
             UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
+
+            // 强制刷新难度显示
+            OnPropertyChanged(nameof(RoguelikeDifficulty));
         }
     }
 
-    private int _roguelikeDifficulty = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString()));
+    private int _roguelikeDifficulty = GetValidDifficulty();
+
+    /// <summary>
+    /// 获取有效的难度值，处理配置中的无效值
+    /// </summary>
+    private static int GetValidDifficulty()
+    {
+        string difficultyStr = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
+        if (string.IsNullOrEmpty(difficultyStr) || !int.TryParse(difficultyStr, out int difficulty))
+        {
+            // 如果配置值无效，返回默认值并保存
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
+            return int.MaxValue;
+        }
+        return difficulty;
+    }
 
     public int RoguelikeDifficulty
     {
