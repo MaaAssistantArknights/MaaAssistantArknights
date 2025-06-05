@@ -802,6 +802,16 @@
                 "name": ["合理利用"],
                 "template": "Bskill_man_exp&limit3.png"
             },
+            "bskill_man_exp&spd&limit&cost1": {
+                "desc": ["进驻制造站时，作战记录类配方的生产力+20%，心情每小时消耗-0.25"],
+                "name": ["镜中影"],
+                "template": "Bskill_man_exp&spd&limit&cost1.png"
+            },
+            "bskill_man_exp&spd&limit&cost2": {
+                "desc": ["进驻制造站时，作战记录类配方的生产力+35%，心情每小时消耗-0.25"],
+                "name": ["戏中人"],
+                "template": "Bskill_man_exp&spd&limit&cost2.png"
+            },
             "bskill_man_exp0": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%", "进驻制造站时，作战记录类配方的生产力+20%"],
                 "name": ["公证所教习α", "公证所教习·α"],
@@ -887,9 +897,10 @@
             "bskill_man_limit&cost2": {
                 "desc": [
                     "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
+                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
                     "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
                 ],
-                "name": ["囤积者", "无畏豪情"],
+                "name": ["囤积者", "无畏豪情", "午休好去处"],
                 "template": "Bskill_man_limit&cost2.png"
             },
             "bskill_man_limit&cost3": {
@@ -1186,6 +1197,11 @@
                 "desc": ["进驻制造站时，当与温米在同一个制造站时，贵金属类配方的生产力+15%"],
                 "name": ["“搭把手！”"],
                 "template": "Bskill_man_spd_double.png"
+            },
+            "bskill_man_spd_double2": {
+                "desc": ["进驻制造站时，当与酒神在在同一个制造站时，作战记录类配方的生产力+30%"],
+                "name": ["盛餐的回报"],
+                "template": "Bskill_man_spd_double2.png"
             },
             "bskill_man_spd_reduce": {
                 "desc": ["进驻制造站时，生产力+30%，自身每有4点心情落差，生产力-5%"],

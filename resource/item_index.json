@@ -1959,6 +1959,14 @@
         "sortId": -10000,
         "usage": "育婴圣堂的启圣工作进行得如火如荼，生灵与死物一齐长出了光环。初获光环的奶嘴在育婴圣堂内迷茫地游荡，导致无数婴儿夜不能寐。若你能劝它们回归职守，焦头烂额的保育员们一定很愿意以礼相谢。"
     },
+    "act43side_token_phantom": {
+        "classifyType": "NONE",
+        "description": "那到底是什么？幽灵？道具？幻觉？还是谁*蓝卡坞片场术语*养的宠物？没人知道答案。Miss.Christine只是摇摇双尾，悠然地晒着太阳。",
+        "icon": "act43side_token_phantom.png",
+        "name": "神秘片场黑影",
+        "sortId": -10000,
+        "usage": "工期爆炸，片场高压，但“神秘黑影”总是时不时出现，让焦头烂额的工作人员甚至开始疑神疑鬼。如果能找出黑影在哪，他们会相当感谢。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
