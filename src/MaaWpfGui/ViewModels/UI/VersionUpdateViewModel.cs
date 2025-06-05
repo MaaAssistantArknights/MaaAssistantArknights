@@ -202,7 +202,7 @@ public class VersionUpdateViewModel : Screen
         }
 
         string curDir = Directory.GetCurrentDirectory();
-        string extractDir = Path.Combine(curDir, "NewVersionExtract");
+        string extractDir = Path.Combine(curDir, "NewVersionExtract"); // 新版本解压的路径
         string oldFileDir = Path.Combine(curDir, ".old");
 
         // 解压
@@ -282,6 +282,22 @@ public class VersionUpdateViewModel : Screen
                 {
                     _logger.Error($"move file error, path: {path}, moveTo: {moveTo}, error: {e.Message}");
                     throw;
+                }
+            }
+        }
+        else
+        {
+            foreach (var dir in Directory.GetDirectories(extractDir))
+            {
+                try
+                {
+                    if (Directory.Exists(dir.Replace(extractDir, curDir)))
+                    {
+                        Directory.Delete(dir.Replace(extractDir, curDir), true);
+                    }
+                }
+                catch
+                { // ignore
                 }
             }
         }
