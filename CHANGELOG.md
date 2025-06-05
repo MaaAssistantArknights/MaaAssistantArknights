@@ -1,12 +1,18 @@
 ## v5.17.0
 
-### ⚠️ 重要提醒
+### ⚠️ 重要提醒 | BREAKING CHANGES!
 
 本次更新调整了模板图的目录结构，若您正在从 v5.16.x 及以下版本**手动**更新至该版本，那么**请勿直接覆盖旧版本文件夹**，否则可能导致部分旧文件未被正确删除，从而引发识别问题。
 
 推荐的更新方式有两种：
 1. 使用自动更新功能（推荐）：自动更新将会正确清理旧文件。
 2. 手动更新时：请将新版本解压到一个全新的文件夹，再将原有的 config 与 data 文件夹复制过去，以保留您的配置。
+
+This update has adjusted the directory structure of the template images. If you are **manually** updating from version v5.16.x or earlier to this version, **please do not directly overwrite the old version folder**, as this may cause some old files to not be properly deleted, leading to recognition issues.
+
+There are two recommended update methods:
+1. Use the automatic update feature (recommended): The automatic update will correctly clean up old files.
+2. For manual updates: Please unzip the new version into a completely new folder, then copy the original config and data folders over to retain your settings.
 
 ### 性能大优化～(∠・ω< )⌒★ | Highlight
 
@@ -19,6 +25,20 @@
 不过呢，这次牛牛为了赶紧修复一些紧急的小bug，还没来得及适配傀影肉鸽新难度选择呢(┬┬﹏┬┬)但是博士们可以先手动选取难度后再交给牛牛来代理哦～
 
 总之这次更新后，牛牛变得更聪明更节省资源了呢！快来试试看吧～ヾ(≧▽≦*)o
+
+~~牛牛要悄悄告诉你，下个版本大的要来了~~
+
+In this version, we rapidly adapted to the infrastructure changes (currently CN ONLY), and we've also prepared brand-new maps and navigation resources for the "Act Or Die" event for you the Doctors!
+
+Additionally, we've optimized the auto-battle process by adding a caching mechanism for cost and kill count recognition. Now, it should be much smoother when using Copilot.
+
+Most importantly, in this version, MAA will automatically clear those cached map screenshots, making MAA leaner and preventing it from taking up too much hard drive space for the Doctors.
+
+However, to quickly fix some urgent minor bugs, we haven't yet adapted to the new difficulty selection for the Phantom & Crimson Solitaire. But Doctors can manually select the difficulty level first and then let MAA handle the automation.
+
+In short, after this update, MAA has become smarter and more resource-efficient! Come and give it a try.
+
+~~NiuNiu wants to quietly tell you, a big update is coming in the next version~~
 
 ---
 
