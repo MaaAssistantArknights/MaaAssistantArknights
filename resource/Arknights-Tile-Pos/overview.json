@@ -21419,6 +21419,15 @@
         "stageId": "mem_haak_1",
         "width": 12
     },
+    "mem_haini_1-obt/memory/level_memory_haini_1": {
+        "code": "mem_haini_1",
+        "filename": "mem_haini_1-obt-memory-level_memory_haini_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_haini_1",
+        "name": "穹顶上的瞭望者",
+        "stageId": "mem_haini_1",
+        "width": 11
+    },
     "mem_halo_1-obt/memory/level_memory_halo_1": {
         "code": "mem_halo_1",
         "filename": "mem_halo_1-obt-memory-level_memory_halo_1.json",
@@ -21966,6 +21975,15 @@
         "levelId": "obt/memory/level_memory_myrtle_1",
         "name": "“将军风范”",
         "stageId": "mem_myrtle_1",
+        "width": 11
+    },
+    "mem_narant_1-obt/memory/level_memory_narant_1": {
+        "code": "mem_narant_1",
+        "filename": "mem_narant_1-obt-memory-level_memory_narant_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_narant_1",
+        "name": "此路是我开",
+        "stageId": "mem_narant_1",
         "width": 11
     },
     "mem_nblade_1-obt/memory/level_memory_nblade_1": {
@@ -22678,6 +22696,15 @@
         "name": "请勿踩踏",
         "stageId": "mem_vrdant_1",
         "width": 10
+    },
+    "mem_vvana_1-obt/memory/level_memory_vvana_1": {
+        "code": "mem_vvana_1",
+        "filename": "mem_vvana_1-obt-memory-level_memory_vvana_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_vvana_1",
+        "name": "孤烛",
+        "stageId": "mem_vvana_1",
+        "width": 11
     },
     "mem_waaifu_1-obt/memory/level_memory_waaifu_1": {
         "code": "mem_waaifu_1",
