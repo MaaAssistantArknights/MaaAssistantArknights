@@ -311,6 +311,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었지만 현재 사용 중인 버전이 오래되어 OTA(증분) 업데이트 패키지가 제공되지 않습니다. 전체 설치 패키지를 다운로드하여 **반드시 새로운 폴더**에 압축을 푸세요. 기존 폴더에 덮어쓰지 마세요.\n설정을 유지하려면 기존 설치 폴더의 config 및 data 폴더를 새 폴더로 수동으로 복사해야 합니다.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
@@ -604,7 +605,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
-    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n전체 패키지를 다운로드하여 새 폴더에 압축을 푼 후, 기존 config 폴더를 새 폴더로 복사하면 기존 설정을 유지할 수 있습니다.</system:String>
+    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오. 전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요. 기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>

@@ -311,6 +311,7 @@
     <system:String x:Key="CheckNetworking">請檢查網絡連接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">獲取更新資訊失敗。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但由於當前版本過舊，未提供可用的 OTA 增量更新包。請下載完整包並解壓至新的資料夾中，切勿覆蓋原有程式資料夾。\n若需保留設定，請將原有的 config 與 data 資料夾手動複製到新資料夾。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下載失敗</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下_(:з」∠)_</system:String>
@@ -603,7 +604,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <!--  !戰鬥設定  -->
     <!--  日誌  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件或者在更新時佔用文件。\n\n請下載完整包並解壓到新資料夾，可將原有的 config 資料夾複製到新資料夾中，以保留原有設定。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為，請勿手動替換文件或者在更新時佔用文件。請下載完整包並解壓至新的資料夾中，切勿覆蓋原有資料夾。可將原有的 config 與 data 資料夾複製到新資料夾中，以保留原有設定。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
