@@ -711,12 +711,28 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     return true;
 }
 
+
 void asst::BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
 
     using namespace asst::utils::path_literals;
     const auto& MapRelativeDir = "debug"_p / "map"_p;
+
+    // 清理旧的 PNG 文件
+    static bool clean_png = true;
+    if (clean_png) {
+        for (const auto& entry : std::filesystem::directory_iterator(MapRelativeDir)) {
+            if (entry.path().extension() == ".png") {
+                std::error_code ec;
+                std::filesystem::remove(entry.path(), ec);
+                if (ec) {
+                    LogWarn << "Failed to remove png: " << entry.path() << ", " << ec.message();
+                }
+            }
+        }
+        clean_png = false;
+    }
 
     auto draw = image.clone();
 
