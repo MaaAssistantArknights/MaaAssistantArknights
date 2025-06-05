@@ -28,7 +28,7 @@ There are two recommended update methods:
 
 ~~牛牛要悄悄告诉你，下个版本大的要来了~~
 
-In this version, we rapidly adapted to the infrastructure changes (currently CN ONLY), and we've also prepared brand-new maps and navigation resources for the "Act Or Die" event for you the Doctors!
+In this version, we rapidly adapted to the infrastructure changes (currently CN ONLY), and we've also prepared brand-new maps and navigation resources for the current SideStory "Act Or Die" in CN Server for you the Doctors!
 
 Additionally, we've optimized the auto-battle process by adding a caching mechanism for cost and kill count recognition. Now, it should be much smoother when using Copilot.
 
