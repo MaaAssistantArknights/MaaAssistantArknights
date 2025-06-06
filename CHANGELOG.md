@@ -1,5 +1,10 @@
 ## v5.17.1
 
+### 主要更新 | Highlight
+
+* 修复 wpfgui 更新后不重启
+* Global infrastructure adaptation
+
 ### 新增 | New
 
 * 远程控制协议增加“轮询间隔”参数 @ABA2396
