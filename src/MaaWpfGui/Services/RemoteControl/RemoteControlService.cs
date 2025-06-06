@@ -80,7 +80,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 while (true)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
                     try
                     {
                         if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
@@ -105,7 +105,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 while (true)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
                     try
                     {
                         if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))
@@ -129,7 +129,7 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 while (true)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(RemoteSettings.RemoteControlPollIntervalMs);
                     try
                     {
                         if (!IsEndpointValid(RemoteSettings.RemoteControlGetTaskEndpointUri))

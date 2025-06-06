@@ -1009,6 +1009,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RemoteControlUserIdentityLabel">用户标识符</system:String>
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">获取任务端点</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">汇报任务端点</system:String>
+    <system:String x:Key="RemoteControlPollIntervalMsLabel">轮询间隔 (ms)</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">连接测试失败，连接端点为空。</system:String>

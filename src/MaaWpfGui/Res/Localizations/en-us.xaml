@@ -1005,6 +1005,7 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="RemoteControlUserIdentityLabel">User Identifier</system:String>
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">Get Task Endpoint</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">Report Task Endpoint</system:String>
+    <system:String x:Key="RemoteControlPollIntervalMsLabel">Polling Interval (ms)</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>

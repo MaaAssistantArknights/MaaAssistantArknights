@@ -1009,6 +1009,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RemoteControlUserIdentityLabel">ユーザー識別子</system:String>
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">タスクエンドポイントの取得</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">タスクステータスの報告エンドポイント</system:String>
+    <system:String x:Key="RemoteControlPollIntervalMsLabel">ポーリング間隔 (ms)</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">接続テスト成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">接続テスト失敗、理由: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
