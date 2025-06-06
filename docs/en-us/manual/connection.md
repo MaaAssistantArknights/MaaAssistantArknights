@@ -163,11 +163,11 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-Only Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions are supported. Global Edition is not supported at this time. <!-- Chinese V3.8.13 -->
+Official or Arknights Edition MuMu 12 V4.1.26 and later versions are supported. <!-- Chinese V3.8.13 -->
 
 1. Settings → Connection Settings, enable `Enable MuMu's screenshot enhancement mode`. MAA will attempt to automatically fill in the exec path through the registry when the switch is checked.
 
-2. `MuMu12 Emulator exec path` Fill in the path to the `MuMuPlayer-12.0` or `YXArkNights-12.0` folder. e.g. `C:\Program Files\Netease\MuMuPlayer-12.0`.
+2. `MuMu12 Emulator exec path` Fill in the path to the `MuMu Player 12` or `MuMuPlayerGlobal-12.0` or `YXArkNights-12.0` folder. e.g. `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`.
 
 3. If using MuMu network bridging, check `MuMu network bridging mode` and manually enter the serial number of the corresponding emulator in MuMu Multi-Instance Manager, such as `0` for the main instance.
 

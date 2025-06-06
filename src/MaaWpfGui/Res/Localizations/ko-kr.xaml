@@ -1008,6 +1008,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RemoteControlUserIdentityLabel">사용자 식별자</system:String>
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">작업 엔드포인트 가져오기</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">작업 상태 보고 엔드포인트</system:String>
+    <system:String x:Key="RemoteControlPollIntervalMsLabel">폴링 간격 (ms)</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패, 원인: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>

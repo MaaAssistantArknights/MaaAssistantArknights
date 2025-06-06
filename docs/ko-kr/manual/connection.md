@@ -155,11 +155,11 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 ### MuMu 스크린샷 강화 모드
 
-중국 공식판 또는 Ark Edition MuMu 12 V4.0.0 및 이후 버전만 지원합니다. 글로벌 에디션은 현재 지원되지 않습니다. <!-- V3.8.13 -->
+공식 또는 Arknights Edition MuMu 12 V4.1.26 이상 버전이 지원됩니다. <!-- V3.8.13 -->
 
 1. 설정 → 연결 설정에서 `MuMu 스크린샷 향상 모드 활성화`를 체크합니다. 체크할 경우 MAA는 레지스트리를 통해 설치 경로를 자동으로 입력하려고 시도합니다.
 
-2. MuMu 에뮬레이터 경로에 `MuMuPlayer-12.0` 또는 `YXArkNights-12.0` 폴더의 경로를 입력합니다. 예: `C:\Program Files\Netease\MuMuPlayer-12.0`.
+2. MuMu 에뮬레이터 경로에 `MuMu Player 12` 또는 `MuMuPlayerGlobal-12.0` 또는 `YXArkNights-12.0` 폴더의 경로를 입력합니다. 예: `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`.
 
 3. MuMu 네트워크 브리징을 사용 중인 경우 `MuMu 네트워크 브리징 모드`를 선택한 후 MuMu 멀티 인스턴스 관리자에서 해당 에뮬레이터의 일련 번호를 수동으로 입력해야 합니다. 예를 들어, 주 인스턴스는 `0`입니다.
 
