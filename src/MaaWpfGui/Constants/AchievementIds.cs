@@ -31,7 +31,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeGamePass1 = "RoguelikeGamePass1";
         public const string RoguelikeGamePass2 = "RoguelikeGamePass2";
         public const string RoguelikeGamePass3 = "RoguelikeGamePass3";
-        public const string RoguelikeRetreat = "RoguelikeCowRetreat";
+        public const string RoguelikeRetreat = "RoguelikeRetreat";
         public const string RoguelikeGoldMax = "RoguelikeGoldMax";
 
         public const string FirstLaunch = "FirstLaunch";
