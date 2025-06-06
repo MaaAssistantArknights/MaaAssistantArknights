@@ -155,11 +155,11 @@ MAA 現在會嘗試從登錄檔中讀取 `bluestacks.conf` 的儲存位置，當
 
 ### MuMu 截圖增強模式
 
-需使用中國版或方舟專版的 MuMu 12 V4.0.0 及更新版本，或國際版的 MuMu 12 V4.1.26 及更新版本。
+需使用官版或方舟專版的 MuMu 12 V4.1.26 及更新版本。
 
 1. `設定` - `連接設定`，勾選 `啟用 MuMu 截圖增強模式`，MAA 會在勾選開關時嘗試通過註冊表自動填寫安裝路徑。
 
-2. `MuMu 安裝路徑` 填寫 `MuMuPlayer-12.0` 或 `YXArkNights-12.0` 或 `MuMuPlayerGlobal-12.0` 資料夾的路徑，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
+2. `MuMu 安裝路徑` 填寫 `MuMu Player 12` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 資料夾的路徑，如 `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`。
 
 3. 若正在使用 MuMu 網絡橋接，則需勾選 `MuMu 網絡橋接模式` 後手動填寫 MuMu 多開器內對應模擬器的序號，如主多開為 `0`。
 
