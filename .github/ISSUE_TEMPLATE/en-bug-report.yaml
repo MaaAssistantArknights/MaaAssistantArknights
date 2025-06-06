@@ -7,8 +7,7 @@ body:
   - type: checkboxes
     id: checks
     attributes:
-      label: Before raising the issue...
-      description: |
+      label: |
         Please ensure that you have completed the required items before checking the boxes.
         Issues with incomplete required items or with the 'I did not read carefully' option checked will be considered voluntary acceptance of direct closure.
       options:
