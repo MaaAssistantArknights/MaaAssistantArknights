@@ -334,6 +334,9 @@ namespace MaaWpfGui.Helper
             AutoBattle(id: AchievementIds.UseCopilot1, target: 1), // 自动战斗
             AutoBattle(id: AchievementIds.UseCopilot2, target: 10),
             AutoBattle(id: AchievementIds.UseCopilot3, target: 100),
+            AutoBattle(id: AchievementIds.CopilotLikeGiven1, target: 1), // 点赞 1 次
+            AutoBattle(id: AchievementIds.CopilotLikeGiven2, target: 10), // 点赞 10 次
+            AutoBattle(id: AchievementIds.CopilotLikeGiven3, target: 50), // 点赞 50 次
 
             AutoBattle(id: AchievementIds.MapOutdated, isHidden: true), // 提示需要更新地图资源
             AutoBattle(id: AchievementIds.Irreplaceable, isHidden: true), // 自动编队缺少至少两名干员

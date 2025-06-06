@@ -513,13 +513,19 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void LikeWebJson()
         {
-            RateCopilot(CopilotId);
+            Task.Run(async () =>
+            {
+                if (await RateCopilot(CopilotId) == PrtsStatus.Success)
+                {
+                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.CopilotLikeGroup);
+                }
+            });
         }
 
         // ReSharper disable once UnusedMember.Global
         public void DislikeWebJson()
         {
-            RateCopilot(CopilotId, false);
+            _ = RateCopilot(CopilotId, false);
         }
 
         private void EasterEgg(string text)
@@ -1299,11 +1305,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async void RateCopilot(int copilotId, bool isLike = true)
+        private async Task<PrtsStatus> RateCopilot(int copilotId, bool isLike = true)
         {
             if (copilotId <= 0 || _recentlyRatedCopilotId.Contains(copilotId))
             {
-                return;
+                return PrtsStatus.NotFound;
             }
 
             var result = await RateWebJsonAsync(copilotId, isLike ? "Like" : "Dislike");
@@ -1318,6 +1324,8 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error, showTime: false);
                     break;
             }
+
+            return result;
         }
 
         private async Task<bool> VerifyCopilotListTask()

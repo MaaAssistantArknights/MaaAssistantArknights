@@ -1284,6 +1284,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeGoldMax.Description">坎诺特，把你店里最贵的端出来！</system:String>
     <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">肉鸽源石锭到达 999</system:String>
 
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">鼓励一下</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">点赞是对作者最大的鼓励！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">给作业点赞 1 次</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">积极互动</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">点赞 10 次，积极参与社区互动。</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">给作业累计点赞 10 次</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">点赞达人</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">点赞 50 次，你已经成为点赞大师！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">给作业累计点赞 50 次</system:String>
 
     <!--  !Achievement  -->
 </ResourceDictionary>
