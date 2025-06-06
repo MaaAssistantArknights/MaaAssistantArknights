@@ -80,6 +80,20 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
 
     battle::copilot::OperUsageGroups groups;
 
+    if (auto opt = json.find<json::array>("opers")) {
+        for (const auto& oper_info : opt.value()) {
+            OperUsage oper;
+            oper.name = oper_info.at("name").as_string();
+            oper.skill = oper_info.get("skill", 1);
+            oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
+            oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
+
+            // 单个干员的，干员名直接作为组名
+            std::string group_name = oper.name;
+            groups.emplace_back(OperUsageGroup { std::move(group_name), std::vector { std::move(oper) } });
+        }
+    }
+
     if (auto opt = json.find<json::array>("groups")) {
         for (const auto& group_info : opt.value()) {
             std::string group_name = group_info.at("name").as_string();
@@ -92,21 +106,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
                 oper_vec.emplace_back(std::move(oper));
             }
-            groups.emplace(std::move(group_name), std::move(oper_vec));
-        }
-    }
-
-    if (auto opt = json.find<json::array>("opers")) {
-        for (const auto& oper_info : opt.value()) {
-            OperUsage oper;
-            oper.name = oper_info.at("name").as_string();
-            oper.skill = oper_info.get("skill", 1);
-            oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
-            oper.skill_times = oper_info.get("skill_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
-
-            // 单个干员的，干员名直接作为组名
-            std::string group_name = oper.name;
-            groups.emplace(std::move(group_name), std::vector { std::move(oper) });
+            groups.emplace_back(OperUsageGroup { std::move(group_name), std::move(oper_vec) });
         }
     }
 
