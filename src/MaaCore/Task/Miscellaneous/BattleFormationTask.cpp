@@ -2,6 +2,7 @@
 
 #include "Utils/Ranges.hpp"
 
+#include "Common/AsstBattleDef.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
@@ -536,7 +537,7 @@ bool asst::BattleFormationTask::parse_formation()
         groups = &SSSCopilot.get_data().groups;
     }
 
-    for (const auto& [name, opers_vec] : *groups) {
+    for (const auto& [name, opers_vec] : (*groups)) {
         if (opers_vec.empty()) {
             continue;
         }
