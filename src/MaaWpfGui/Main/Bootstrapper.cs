@@ -336,8 +336,7 @@ namespace MaaWpfGui.Main
                     }
                 }
             }
-
-            if (!_isRestartingWithoutArgs)
+            else if (!_isRestartingWithoutArgs)
             {
                 return;
             }
