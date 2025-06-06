@@ -1250,6 +1250,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private DateTime? _taskStartTime = null;
+
         /// <summary>
         /// Starts.
         /// </summary>
@@ -1260,6 +1262,8 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Not idle, return.");
                 return;
             }
+
+            _taskStartTime = DateTime.Now;
 
             ClearLog();
 
@@ -1439,6 +1443,17 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _ = Stop();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
+
+            if (_taskStartTime is null)
+            {
+                return;
+            }
+
+            var duration = DateTime.Now - _taskStartTime.Value;
+            if (duration.TotalSeconds < 5)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.TaskStartCancel);
+            }
         }
 
         /// <summary>

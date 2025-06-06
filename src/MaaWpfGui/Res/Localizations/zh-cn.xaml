@@ -1296,5 +1296,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.CopilotLikeGiven3.Description">点赞 50 次，你已经成为点赞大师！</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">给作业累计点赞 50 次</system:String>
 
+    <system:String x:Key="Achievement.TaskStartCancel.Title">真是纠纠又结结啊</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">啊对的对的，啊不对不对，啊对的对的，啊不对不对…</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Conditions">在开始任务后马上又停止</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

@@ -358,6 +358,7 @@ namespace MaaWpfGui.Helper
             Humor(id: AchievementIds.RecruitNoSixStar, target: 100), // 公招中累计 100 次没出现六星tag
             Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 100, isHidden: true), // 公招中连续 100 次没出现六星tag
             Humor(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
+            Humor(id: AchievementIds.TaskStartCancel), // 在开始任务后马上又停止
 
             #endregion
 

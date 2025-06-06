@@ -85,6 +85,7 @@ namespace MaaWpfGui.Constants
         public const string CustomizationMaster = "CustomizationMaster";
         public const string Martian = "Martian";
         public const string AfkWatcher = "AfkWatcher";
+        public const string TaskStartCancel = "TaskStartCancel";
 
         public const string RecruitNoSixStar = "RecruitNoSixStar";
         public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
