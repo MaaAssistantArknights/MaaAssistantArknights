@@ -75,8 +75,9 @@ namespace MaaWpfGui.Helper
             {
                 if (!_achievements.TryGetValue(id, out var achievement))
                 {
+                    // EDIT：存个屁，不存了
                     // 有可能是高版本移到低版本来的，虽然有点抽象，但存一下
-                    RegisterAchievement(saved);
+                    // RegisterAchievement(saved);
                     continue;
                 }
 
