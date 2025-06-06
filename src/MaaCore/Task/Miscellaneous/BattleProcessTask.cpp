@@ -154,14 +154,7 @@ bool asst::BattleProcessTask::to_group()
     }
 
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
-        const auto& group_it = ranges::find_if(get_combat_data().groups, [&](const OperUsageGroup& pair) {
-            return pair.first == group_name;
-        });
-        if (group_it == get_combat_data().groups.end()) {
-            Log.warn(__FUNCTION__, "Group not found in combat data: ", group_name);
-            continue;
-        }
-        const auto& this_group = group_it->second;
+        auto& this_group = get_combat_data().groups[group_name];
         // there is a build error on macOS
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         const std::string& oper_name_for_lambda = oper_name;
