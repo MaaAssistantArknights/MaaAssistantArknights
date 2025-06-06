@@ -182,8 +182,7 @@ using RoleCounts = std::unordered_map<Role, int>;
 
 namespace copilot
 {
-using OperUsageGroup = std::pair<std::string, std::vector<OperUsage>>;
-using OperUsageGroups = std::vector<OperUsageGroup>;
+using OperUsageGroups = std::unordered_map<std::string, std::vector<OperUsage>>;
 
 enum class ActionType
 {
