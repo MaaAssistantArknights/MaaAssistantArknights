@@ -47,18 +47,28 @@ jobs:
       with:
         script: |
           const originalBody = context.payload.issue.body;
-          const checkboxSectionRegex_cn = /([\s\S]*?)(### 问题描述\n\n)/;
-          const checkboxSectionRegex_en = /([\s\S]*?)(### Description\n\n)/;
-          
-          const foldedBody_cn = originalBody.replace(
-            checkboxSectionRegex_cn,
+          const checkboxSectionRegex_cn_bug = /([\s\S]*?)(### 问题描述\n\n)/;
+          const checkboxSectionRegex_cn_feat = /([\s\S]*?)(### 说说你遇到的问题？\n\n)/;
+          const checkboxSectionRegex_en_bug = /([\s\S]*?)(### Description\n\n)/;
+          const checkboxSectionRegex_en_feat = /([\s\S]*?)(### The problems you have encountered?\n\n)/;
+
+          const foldedBody_cn_bug = originalBody.replace(
+            checkboxSectionRegex_cn_bug,
             `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
           );
-          const foldedBody = foldedBody_cn.replace(
-            checkboxSectionRegex_en,
+          const foldedBody_cn_feat = foldedBody_cn_bug.replace(
+            checkboxSectionRegex_cn_feat,
             `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
           );
-          
+          const foldedBody_en_bug = foldedBody_cn_feat.replace(
+            checkboxSectionRegex_en_bug,
+            `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
+          );
+          const foldedBody = foldedBody_en_bug.replace(
+            checkboxSectionRegex_en_feat,
+            `<details><summary>Checkboxes</summary>\n\n$1\n\n</details>\n\n$2`
+          );
+
           await github.rest.issues.update({
             owner: context.repo.owner,
             repo: context.repo.repo,

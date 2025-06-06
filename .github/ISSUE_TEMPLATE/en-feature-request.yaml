@@ -5,7 +5,9 @@ body:
   - type: checkboxes
     id: checks
     attributes:
-      label: Before raising the issue...
+      label: |
+        Please ensure that you have completed the required items before checking the boxes.
+        Issues with incomplete required items or with the 'I did not read carefully' option checked will be considered voluntary acceptance of direct closure.
       options:
         - label: |
             I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list.  
@@ -15,11 +17,26 @@ body:
             I'm probably sure this is a new feature/suggestion and not a bug encountered (please attach logs if you're not sure).
           required: true
         - label: |
-            I am using the latest version of the current update version and have reviewed both the [Unreleased changes](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) and the [Pull requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls),  
+            I am using the latest version of the current update version.
+          required: true
+        - label: |
+            I have reviewed the [Unreleased changes](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) ,
             but there is no mention of this feature/suggestion being added.
           required: true
         - label: |
-            I have reviewed the [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
+            I have reviewed the [Pull requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) ,
+            but there is no mention of this feature/suggestion being added.
+          required: true
+        - label: I have checked all the options without carefully reading the content and believe this will not affect issue resolution.
+          required: false
+        - label: |
+            I have reviewed the [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732) to ensure that my feature/suggestion has not been mentioned.
+          required: true
+        - label: |
+            I have reviewed the [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) to ensure that my feature/suggestion has not been mentioned.
+          required: true
+        - label: |
+            I have reviewed the [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
           required: true
   - type: textarea
     id: describe
