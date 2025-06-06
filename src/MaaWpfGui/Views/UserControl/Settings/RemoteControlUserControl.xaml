@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -69,21 +70,35 @@
             Margin="0,5,0,5"
             Text="{Binding RemoteControlReportStatusUri}" />
 
-        <!--  User Identity Input  -->
         <controls:TextBlock
             Grid.Row="3"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource RemoteControlPollIntervalMsLabel}"
+            TextWrapping="Wrap" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="0,5,0,5"
+            Text="{Binding RemoteControlPollIntervalMs, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--  User Identity Input  -->
+        <controls:TextBlock
+            Grid.Row="4"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
             Text="{DynamicResource RemoteControlUserIdentityLabel}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Margin="0,5,0,5"
             Text="{Binding RemoteControlUserIdentity}" />
         <Button
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="2"
             Margin="5"
             Command="{s:Action ConnectionTest,
@@ -92,21 +107,21 @@
 
         <!--  Remote ID (Read-only & Copyable)  -->
         <controls:TextBlock
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
             Text="{DynamicResource RemoteControlDeviceIdentityLabel}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Margin="0,5,0,5"
             ContextMenuService.IsEnabled="False"
             IsReadOnly="True"
             Text="{Binding RemoteControlDeviceIdentity}" />
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             Margin="5"
             Command="{s:Action RegenerateDeviceIdentity,
@@ -114,7 +129,7 @@
             Content="{DynamicResource RemoteControlRegenerateDeviceIdentity}" />
 
         <StackPanel
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Center">
