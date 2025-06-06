@@ -391,8 +391,7 @@ namespace MaaWpfGui.Main
         public static void RestartAfterUpdate([CallerMemberName] string caller = "")
         {
             _isRestartingAfterUpdate = true;
-            _logger.Information($"Shutdown and restart without Args, call by `{caller}`");
-            Execute.OnUIThread(Application.Current.Shutdown);
+            ShutdownAndRestartWithoutArgs();
         }
 
         public static void Shutdown([CallerMemberName] string caller = "")
