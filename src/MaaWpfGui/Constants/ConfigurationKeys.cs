@@ -258,6 +258,7 @@ namespace MaaWpfGui.Constants
         public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri";
         public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity";
         public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
+        public const string RemoteControlPollIntervalMs = "RemoteControl.RemoteControlPollIntervalMs";
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
         public const string ExternalNotificationSendWhenComplete = "ExternalNotification.SendWhenComplete";

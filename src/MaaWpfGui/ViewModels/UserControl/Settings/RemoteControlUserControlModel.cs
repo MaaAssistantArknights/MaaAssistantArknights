@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
@@ -84,6 +85,22 @@ public class RemoteControlUserControlModel : PropertyChangedBase
             SetAndNotify(ref _remoteControlDeviceIdentity, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+        }
+    }
+
+    private int _remoteControlPollIntervalMs = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlPollIntervalMs, "1000"));
+
+    public int RemoteControlPollIntervalMs
+    {
+        get => _remoteControlPollIntervalMs;
+        set
+        {
+            if (!SetAndNotify(ref _remoteControlPollIntervalMs, value))
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlPollIntervalMs, value.ToString());
         }
     }
 }
