@@ -775,6 +775,7 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
                         break;

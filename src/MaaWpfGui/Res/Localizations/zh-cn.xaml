@@ -1300,5 +1300,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.TaskStartCancel.Description">啊对的对的，啊不对不对，啊对的对的，啊不对不对…</system:String>
     <system:String x:Key="Achievement.TaskStartCancel.Conditions">在开始任务后马上又停止</system:String>
 
+    <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

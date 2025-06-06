@@ -71,6 +71,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotLikeGiven1 = "CopilotLikeGiven1";
         public const string CopilotLikeGiven2 = "CopilotLikeGiven2";
         public const string CopilotLikeGiven3 = "CopilotLikeGiven3";
+        public const string CopilotError = "CopilotError";
 
         public const string Irreplaceable = "Irreplaceable";
 
