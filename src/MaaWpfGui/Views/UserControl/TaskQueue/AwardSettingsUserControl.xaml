@@ -27,9 +27,9 @@
                 IsChecked="{Binding ReceiveMail}" />
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding ReceiveFreeRecruit}"
-                ToolTip="{DynamicResource ReceiveFreeRecruitTip}">
-                <controls:TextBlock Text="{DynamicResource ReceiveFreeRecruit}" TextWrapping="Wrap" />
+                IsChecked="{Binding ReceiveFreeGacha}"
+                ToolTip="{DynamicResource ReceiveFreeGachaTip}">
+                <controls:TextBlock Text="{DynamicResource ReceiveFreeGacha}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding ReceiveOrundum}">
                 <controls:TextBlock Text="{DynamicResource ReceiveOrundum}" TextWrapping="Wrap" />

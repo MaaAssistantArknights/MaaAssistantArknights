@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -804,6 +805,14 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
 
         return value;
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is FightTask)
+        {
+            Refresh();
+        }
     }
 
     public override (AsstTaskType Type, JObject Params) Serialize()
