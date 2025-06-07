@@ -56,6 +56,10 @@ namespace MaaWpfGui.Constants
         public const string PioneerSuperTest = "PioneerSuperTest";
         public const string PioneerDebug = "PioneerDebug";
 
+        public const string RealGacha = "RealGacha";
+        public const string PeekScreen = "PeekScreen";
+        public const string CustomizationMaster = "CustomizationMaster";
+
         #endregion
 
         #region 代理关卡类
@@ -80,12 +84,7 @@ namespace MaaWpfGui.Constants
 
         public const string QuickCloser = "QuickCloser";
         public const string TacticalRetreat = "TacticalRetreat";
-        public const string RealGacha = "RealGacha";
-        public const string PeekScreen = "PeekScreen";
-        public const string CustomizationMaster = "CustomizationMaster";
         public const string Martian = "Martian";
-        public const string AfkWatcher = "AfkWatcher";
-        public const string TaskStartCancel = "TaskStartCancel";
 
         public const string RecruitNoSixStar = "RecruitNoSixStar";
         public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
@@ -113,9 +112,8 @@ namespace MaaWpfGui.Constants
         public const string MissionStartCountCustomDataKey = "LastStartDate";
         public const string LongTaskTimeout = "LongTaskTimeout";
         public const string ProxyOnline3Hours = "ProxyOnline3Hours";
-        public const string AprilFools = "AprilFools";
-        public const string MidnightLaunch = "MidnightLaunch";
-        public const string LunarNewYear = "LunarNewYear";
+        public const string TaskStartCancel = "TaskStartCancel";
+        public const string AfkWatcher = "AfkWatcher";
 
         public const string UseDailyGroup = "UseDaily";
         public const string UseDailyCustomDataKey = "LastLaunchDate";
@@ -130,6 +128,10 @@ namespace MaaWpfGui.Constants
         public const string Rules = "Rules";
         public const string VersionClick = "VersionClick";
         public const string Lucky = "Lucky";
+
+        public const string AprilFools = "AprilFools";
+        public const string MidnightLaunch = "MidnightLaunch";
+        public const string LunarNewYear = "LunarNewYear";
 
         #endregion
     }

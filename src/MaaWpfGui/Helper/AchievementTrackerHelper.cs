@@ -370,6 +370,9 @@ namespace MaaWpfGui.Helper
 
             FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
 
+            FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
+            FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
+            FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
             #endregion
 
             #region 自动战斗
@@ -394,15 +397,9 @@ namespace MaaWpfGui.Helper
 
             Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
             Humor(id: AchievementIds.TacticalRetreat, isHidden: true), // 停止任务
-            Humor(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
-            Humor(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
-            Humor(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
             Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
             Humor(id: AchievementIds.RecruitNoSixStar, target: 500), // 公招中累计 500 次没出现六星tag
             Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
-            Humor(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
-            Humor(id: AchievementIds.TaskStartCancel), // 在开始任务后马上又停止
-
             #endregion
 
             #region BUG 相关
@@ -416,20 +413,21 @@ namespace MaaWpfGui.Helper
             Behavior(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
             Behavior(id: AchievementIds.LongTaskTimeout), // 触发超时提醒
             Behavior(id: AchievementIds.ProxyOnline3Hours, isHidden: true), // 使用代理功能连续在线超过 3 小时
+            Behavior(id: AchievementIds.TaskStartCancel), // 在开始任务后马上又停止
+            Behavior(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
 
             Behavior(id: AchievementIds.UseDaily1, target: 7), // 连续使用时间
             Behavior(id: AchievementIds.UseDaily2, target: 30),
             Behavior(id: AchievementIds.UseDaily3, target: 365, isRare: true),
-
-            Behavior(id: AchievementIds.AprilFools, isHidden: true), // 愚人节
-            Behavior(id: AchievementIds.MidnightLaunch, isHidden: true), // 0~4 点
-            Behavior(id: AchievementIds.LunarNewYear, isHidden: true), // 春节
-
             #endregion
 
             #region 彩蛋类
             EasterEgg(id: AchievementIds.Rules, isHidden: true), // 我会一直注视着你
             EasterEgg(id: AchievementIds.VersionClick, isHidden: true), // 这也能点？
+
+            EasterEgg(id: AchievementIds.AprilFools, isHidden: true), // 愚人节
+            EasterEgg(id: AchievementIds.MidnightLaunch, isHidden: true), // 0~4 点
+            EasterEgg(id: AchievementIds.LunarNewYear, isHidden: true), // 春节
 
             EasterEgg(id: AchievementIds.Lucky, isHidden: true, isRare: true), // 启动 MAA 时有极小概率触发
             #endregion
