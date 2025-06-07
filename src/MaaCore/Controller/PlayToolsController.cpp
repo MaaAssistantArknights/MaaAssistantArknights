@@ -95,13 +95,19 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
     return true;
 }
 
-bool asst::PlayToolsController::start_game(const std::string& client_type [[maybe_unused]])
+bool asst::PlayToolsController::start_game([[maybe_unused]] const std::string& client_type)
 {
-    Log.info("InputText is not supported on iOS");
+    Log.info("start_game is not supported on iOS");
     return true;
 }
 
-bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe_unused]])
+bool asst::PlayToolsController::start_activity([[maybe_unused]] const std::string& activity_name)
+{
+    Log.info("start_activity is not supported on iOS");
+    return true;
+}
+
+bool asst::PlayToolsController::stop_game([[maybe_unused]] const std::string& client_type)
 {
     try {
         constexpr char request[6] = { 0, 4, 'T', 'E', 'R', 'M' };
@@ -113,6 +119,12 @@ bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe
     }
 
     return true;
+}
+
+bool asst::PlayToolsController::stop_activity([[maybe_unused]] const std::string& activity_name)
+{
+    Log.info("stop_activity is not supported on iOS");
+    return false;
 }
 
 bool asst::PlayToolsController::click(const Point& p)
@@ -202,6 +214,12 @@ void asst::PlayToolsController::back_to_home() noexcept
 {
     Log.info("HOME is not supported on iOS");
     return;
+}
+
+std::optional<std::string> asst::PlayToolsController::get_activities()
+{
+    Log.info("get_activities is not supported on iOS");
+    return std::nullopt;
 }
 
 bool asst::PlayToolsController::toucher_down(const Point& p, const int delay)
