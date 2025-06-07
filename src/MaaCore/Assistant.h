@@ -110,6 +110,8 @@ public:
 
 private:
     void append_callback(AsstMsg msg, const json::value& detail);
+
+public:
     static void append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst);
 
 private:

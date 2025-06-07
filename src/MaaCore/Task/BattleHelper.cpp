@@ -3,6 +3,7 @@
 #include <future>
 #include <thread>
 
+#include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -96,16 +97,13 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment_(
+bool asst::BattleHelper::analyze_deployment(
     std::vector<battle::DeploymentOper>& cur_opers,
     const std::vector<battle::DeploymentOper>& old_deployment_opers,
     const bool analyze_unknown)
 {
     LogTraceFunction;
 
-    // ————————————————————————————————————————
-    // 准备 lambda 函数
-    // ————————————————————————————————————————
     // 设置干员名与部署位类型（近战/远程）
     auto set_oper_name = [&](DeploymentOper& oper, const std::string& name) {
         oper.name = name;
@@ -113,16 +111,12 @@ bool asst::BattleHelper::update_deployment_(
         oper.is_usual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    // ————————————————————————————————————————
     // 初始化变量
-    // ————————————————————————————————————————
     m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
     m_cur_deployment_opers.reserve(cur_opers.size());
     std::vector<DeploymentOper> unknown_opers;
 
-    // ————————————————————————————————————————
     // 匹配已知干员
-    // ————————————————————————————————————————
     for (auto& oper : cur_opers) {
         bool is_analyzed = false;
         if (!old_deployment_opers.empty()) {
@@ -132,7 +126,7 @@ bool asst::BattleHelper::update_deployment_(
                 views::transform([&](const battle::DeploymentOper& temp_oper) {
                     return std::make_pair(temp_oper.name, temp_oper.avatar);
                 });
-            const auto& result = analyze_oper_with_cache(oper, avatar);
+            const auto& result = match_oper_with_avatar(oper, avatar);
             if (result) {
                 set_oper_name(oper, result->templ_info.name);
                 remove_cooling_from_battlefield(oper);
@@ -141,7 +135,7 @@ bool asst::BattleHelper::update_deployment_(
         }
         if (!is_analyzed) {
             // 之前的干员都没匹配上，那就把所有的干员都加进去
-            const auto& result2 = analyze_oper_with_cache(oper, AvatarCache.get_avatars(oper.role));
+            const auto& result2 = match_oper_with_avatar(oper, AvatarCache.get_avatars(oper.role));
             if (result2) {
                 set_oper_name(oper, result2->templ_info.name);
                 remove_cooling_from_battlefield(oper);
@@ -163,9 +157,7 @@ bool asst::BattleHelper::update_deployment_(
         }
     }
 
-    // ————————————————————————————————————————
     // 匹配未知非冷却干员
-    // ————————————————————————————————————————
     if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
@@ -231,6 +223,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
         }
     }
 
+    static cv::Mat image_prev; // 缓存的上次图像
     cv::Mat image = init || reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (init) {
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
@@ -245,14 +238,38 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
     else {
         oper_analyzer.set_object_of_interest({ .deployment = true });
     }
+    if (init) {
+        image_prev = cv::Mat(); // 重新开始时清空上次图像
+    }
+    else {
+        oper_analyzer.set_image_prev(image_prev);
+    }
     auto oper_result_opt = oper_analyzer.analyze();
-    if (!oper_result_opt) {
+    image_prev = image.clone(); // 记录上次图像
+    if (!oper_result_opt || oper_result_opt->deployment.status == BattlefieldMatcher::MatchStatus::Invalid) {
         check_in_battle(image);
         return false;
     }
     const auto old_deployment_opers = std::move(m_cur_deployment_opers);
-
-    if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, false)) {
+    if (oper_result_opt->deployment.status == BattlefieldMatcher::MatchStatus::HitCache) {
+        m_cur_deployment_opers = old_deployment_opers;
+        for (const auto& oper : m_cur_deployment_opers) {
+            Log.info(__FUNCTION__, "hit cache, oper count:", m_cur_deployment_opers.size(), "name:", oper.name);
+        }
+        if (m_cur_deployment_opers.empty()) {
+            Log.info(__FUNCTION__, "hit cache, no oper");
+        }
+        Assistant::append_callback_for_inst(
+            AsstMsg::SubTaskExtraInfo,
+            json::value { { "what", "BattleCacheTest" },
+                          { "details",
+                            {
+                                { "hit", true },
+                                { "score", oper_analyzer.get_score() },
+                            } } },
+            m_inst_helper.inst());
+    }
+    else if (!analyze_deployment(oper_result_opt->deployment.value, old_deployment_opers, false)) {
         // 发现未知干员，暂停游戏后再重新识别干员
         do {
             pause();
@@ -285,10 +302,32 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             check_in_battle(image);
             return false;
         }
-        update_deployment_(oper_result_opt->deployment, old_deployment_opers, true);
+        analyze_deployment(oper_result_opt->deployment.value, old_deployment_opers, true);
         pause();
         cancel_oper_selection();
         image = m_inst_helper.ctrler()->get_image();
+
+        std::vector<std::string> names;
+        for (const auto& oper : oper_result_opt->deployment.value) {
+            names.emplace_back(oper.name);
+        }
+        Log.info("miss cache with unknown, oper count:", m_cur_deployment_opers.size(), "name:", names);
+    }
+    else {
+        std::vector<std::string> names;
+        for (const auto& oper : oper_result_opt->deployment.value) {
+            names.emplace_back(oper.name);
+        }
+        Log.info("miss cache, oper count:", m_cur_deployment_opers.size(), "name:", names);
+        Assistant::append_callback_for_inst(
+            AsstMsg::SubTaskExtraInfo,
+            json::value { { "what", "BattleCacheTest" },
+                          { "details",
+                            {
+                                { "hit", false },
+                                { "score", oper_analyzer.get_score() },
+                            } } },
+            m_inst_helper.inst());
     }
 
     if (init) {
@@ -1002,7 +1041,7 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 template <typename T>
 requires asst::ranges::range<T> && asst::OperAvatarPair<asst::ranges::range_value_t<T>>
 std::optional<asst::BestMatcher::Result>
-    asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
+    asst::BattleHelper::match_oper_with_avatar(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
 {
     BestMatcher avatar_analyzer(oper.avatar);
     avatar_analyzer.set_method(MatchMethod::Ccoeff);
