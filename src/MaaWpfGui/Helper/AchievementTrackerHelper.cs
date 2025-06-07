@@ -310,29 +310,26 @@ namespace MaaWpfGui.Helper
 
         #region 工厂函数
 
-        private static Achievement BasicUsage(string id, int? target = null, bool isHidden = false)
-           => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BasicUsage };
+        private static Achievement BasicUsage(string id, int? target = null, bool isHidden = false, bool isRare = false)
+           => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
 
-        private static Achievement FeatureExploration(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration };
+        private static Achievement FeatureExploration(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
 
-        private static Achievement AutoBattle(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.AutoBattle };
+        private static Achievement AutoBattle(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
 
-        private static Achievement Humor(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Humor };
+        private static Achievement Humor(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
 
-        private static Achievement BugRelated(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BugRelated };
+        private static Achievement BugRelated(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
 
-        private static Achievement Behavior(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Behavior };
+        private static Achievement Behavior(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
 
-        private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.EasterEgg };
-
-        private static Achievement Rare(string id, int? target = null, bool isHidden = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Rare };
+        private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
 
         #endregion
 
@@ -393,7 +390,7 @@ namespace MaaWpfGui.Helper
             Humor(id: AchievementIds.SnapshotChallenge800, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
             Humor(id: AchievementIds.SnapshotChallenge400), // 平均截图用时小于 400ms（截图挑战 · Normal）
             Humor(id: AchievementIds.SnapshotChallenge100), // 平均截图用时小于 100ms（截图挑战 · Fast）
-            Humor(id: AchievementIds.SnapshotChallenge10), // 平均截图用时小于 10ms（截图挑战 · Ultra）
+            Humor(id: AchievementIds.SnapshotChallenge10, isRare: true), // 平均截图用时小于 10ms（截图挑战 · Ultra）
 
             Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
             Humor(id: AchievementIds.TacticalRetreat, isHidden: true), // 停止任务
@@ -401,8 +398,8 @@ namespace MaaWpfGui.Helper
             Humor(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
             Humor(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
             Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
-            Humor(id: AchievementIds.RecruitNoSixStar, target: 100), // 公招中累计 100 次没出现六星tag
-            Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 100, isHidden: true), // 公招中连续 100 次没出现六星tag
+            Humor(id: AchievementIds.RecruitNoSixStar, target: 500), // 公招中累计 500 次没出现六星tag
+            Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
             Humor(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
             Humor(id: AchievementIds.TaskStartCancel), // 在开始任务后马上又停止
 
@@ -422,7 +419,7 @@ namespace MaaWpfGui.Helper
 
             Behavior(id: AchievementIds.UseDaily1, target: 7), // 连续使用时间
             Behavior(id: AchievementIds.UseDaily2, target: 30),
-            Behavior(id: AchievementIds.UseDaily3, target: 365),
+            Behavior(id: AchievementIds.UseDaily3, target: 365, isRare: true),
 
             Behavior(id: AchievementIds.AprilFools, isHidden: true), // 愚人节
             Behavior(id: AchievementIds.MidnightLaunch, isHidden: true), // 0~4 点
@@ -434,7 +431,7 @@ namespace MaaWpfGui.Helper
             EasterEgg(id: AchievementIds.Rules, isHidden: true), // 我会一直注视着你
             EasterEgg(id: AchievementIds.VersionClick, isHidden: true), // 这也能点？
 
-            Rare(id: AchievementIds.Lucky, isHidden: true), // 启动 MAA 时有极小概率触发
+            EasterEgg(id: AchievementIds.Lucky, isHidden: true, isRare: true), // 启动 MAA 时有极小概率触发
             #endregion
         ];
 

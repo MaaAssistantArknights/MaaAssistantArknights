@@ -78,21 +78,21 @@ namespace MaaWpfGui.Models
         public AchievementCategory Category { get; set; } // 分组
 
         [JsonIgnore]
-        public bool IsRare => Category == AchievementCategory.Rare;
+        public bool IsRare { get; set; } = false;
 
         [JsonIgnore]
         public string MedalBrushKey
         {
             get
             {
-                if (IsRare)
-                {
-                    return "AchievementBrush.Rare.LinearGradientBrush";
-                }
-
                 if (!IsUnlocked)
                 {
                     return "LockedMedalBrush";
+                }
+
+                if (IsRare)
+                {
+                    return "AchievementBrush.Rare.LinearGradientBrush";
                 }
 
                 if (IsHidden)

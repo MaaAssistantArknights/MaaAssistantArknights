@@ -1202,11 +1202,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学无效</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡觉吧。</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 100 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 500 次没出现六星 tag</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">一定是 MAA 干的！</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 100 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 500 次没出现六星 tag</system:String>
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
