@@ -85,6 +85,7 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
     LogTraceFunction;
     RegionOCRer check_analyzer(m_image);
     check_analyzer.set_task_info("StageDrops-TimesCheck");
+    check_analyzer.set_use_raw(true);
     if (!check_analyzer.analyze()) {
         m_times = -1; // not found
         Log.info(__FUNCTION__, "Times not found");
@@ -105,6 +106,7 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
 
     RegionOCRer rec_analyzer(m_image);
     rec_analyzer.set_task_info("StageDrops-TimesRec");
+    rec_analyzer.set_use_raw(true);
     if (!rec_analyzer.analyze()) {
         m_times = -2; // recognition failed
         Log.error(__FUNCTION__, "recognition failed");
