@@ -559,16 +559,16 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="Series">Series</system:String>
-    <system:String x:Key="SeriesTip" xml:space="preserve">·AUTO:
+    <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
 Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
 
-·Value (1~6):
+• Value (1~6):
 Execute proxy according to the set multiplier
 If the current sanity is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you cannot enter the battle
 Or
 If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
 
-·Not selected:
+• Not selected:
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
