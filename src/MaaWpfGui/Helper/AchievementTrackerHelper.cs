@@ -30,7 +30,7 @@ namespace MaaWpfGui.Helper
 {
     public class AchievementTrackerHelper : PropertyChangedBase
     {
-        private Dictionary<string, Achievement> _achievements = new();
+        private Dictionary<string, Achievement> _achievements = [];
 
         public Dictionary<string, Achievement> Achievements
         {
@@ -70,7 +70,7 @@ namespace MaaWpfGui.Helper
 
         private void Load()
         {
-            var loadAchievements = JsonDataHelper.Get("Achievement", new Dictionary<string, Achievement>()) ?? new Dictionary<string, Achievement>();
+            var loadAchievements = JsonDataHelper.Get("Achievement", new Dictionary<string, Achievement>()) ?? [];
 
             // 从中读取 IsUnlocked UnlockedTime Progress CustomData 等有关成就状态的信息，覆盖 _achievements 里现有的默认值
             foreach (var (id, saved) in loadAchievements)
@@ -222,8 +222,8 @@ namespace MaaWpfGui.Helper
         private void CheckProgressUnlock(Achievement achievement)
         {
             if (achievement.IsUnlocked ||
-                !achievement.Target.HasValue ||
-                achievement.Progress < achievement.Target.Value)
+                achievement.Target == default ||
+                achievement.Progress < achievement.Target)
             {
                 return;
             }
@@ -275,7 +275,7 @@ namespace MaaWpfGui.Helper
         {
             if (!_achievements.TryGetValue(id, out var achievement) || achievement.CustomData == null)
             {
-                return new();
+                return [];
             }
 
             return achievement.CustomData;
@@ -299,7 +299,7 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
-            achievement.CustomData ??= new();
+            achievement.CustomData ??= [];
             achievement.CustomData[key] = value;
             Save();
         }
@@ -311,25 +311,25 @@ namespace MaaWpfGui.Helper
         #region 工厂函数
 
         private static Achievement BasicUsage(string id, int? target = null, bool isHidden = false, bool isRare = false)
-           => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
+           => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
 
         private static Achievement FeatureExploration(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
 
         private static Achievement AutoBattle(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
 
         private static Achievement Humor(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
 
         private static Achievement BugRelated(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
 
         private static Achievement Behavior(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
 
         private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
+            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
 
         #endregion
 

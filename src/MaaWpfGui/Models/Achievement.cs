@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using MaaWpfGui.Helper;
@@ -69,10 +68,10 @@ namespace MaaWpfGui.Models
         public bool CanShow => !IsHidden || IsUnlocked;
 
         [JsonIgnore]
-        public bool IsProgressive => Target != null;
+        public bool IsProgressive => Target != default;
 
         [JsonIgnore]
-        public int? Target { get; set; } = null; // 可选目标值
+        public int Target { get; set; } = default; // 可选目标值
 
         [JsonIgnore]
         public AchievementCategory Category { get; set; } // 分组
