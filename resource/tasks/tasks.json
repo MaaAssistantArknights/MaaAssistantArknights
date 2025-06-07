@@ -1649,17 +1649,20 @@
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "roi": [0, 300, 1280, 420],
+        "reduceOtherTimes": ["RecruitSkipWithoutButton*10"],
         "next": ["RecruitFinish@LoadingText", "RecruitFinish", "Recruit", "RecruitSkip", "RecruitSkipWithoutButton"]
     },
     "RecruitSkip": {
         "action": "ClickSelf",
         "roi": [1100, 0, 180, 150],
+        "reduceOtherTimes": ["RecruitSkipWithoutButton*10"],
         "next": ["RecruitSkip", "RecruitSkipWithoutButton"]
     },
     "RecruitSkipWithoutButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1180, 15, 85, 60],
+        "maxTimes": 10,
         "next": ["RecruitFinish", "RecruitFlag", "RecruitSkip", "Recruit", "RecruitSkipWithoutButton"]
     },
     "StartRecruit": {
@@ -1868,6 +1871,7 @@
         "action": "ClickSelf",
         "template": "RecruitNowConfirm.png",
         "roi": [586, 399, 694, 192],
+        "reduceOtherTimes": ["RecruitingActivitiesRecruitSkipWithoutButton*10"],
         "next": [
             "RecruitingActivitiesRecruitSkip",
             "RecruitingActivitiesRecruitNowConfirm",
@@ -1878,12 +1882,14 @@
         "action": "ClickSelf",
         "template": "RecruitSkip.png",
         "roi": [1100, 0, 180, 150],
+        "reduceOtherTimes": ["RecruitingActivitiesRecruitSkipWithoutButton*10"],
         "next": ["RecruitingActivitiesRecruitSkip", "RecruitingActivitiesRecruitSkipWithoutButton"]
     },
     "RecruitingActivitiesRecruitSkipWithoutButton": {
         "action": "ClickRect",
         "algorithm": "JustReturn",
         "specificRect": [1180, 15, 85, 60],
+        "maxTimes": 10,
         "next": [
             "RecruitingActivitiesRecruitEnd",
             "RecruitingActivitiesRecruitSkip",
