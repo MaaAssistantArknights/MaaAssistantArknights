@@ -24,6 +24,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [3, 1],
+            "direction": "down"
+        },
+        {
             "groups": ["号角", "百嘉", "基石", "地面C", "挡人先锋", "投锋", "重装", "其他地面", "异德", "刺客"],
             "location": [4, 1],
             "direction": "down"
