@@ -33,11 +33,12 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeGamePass3 = "RoguelikeGamePass3";
         public const string RoguelikeRetreat = "RoguelikeRetreat";
         public const string RoguelikeGoldMax = "RoguelikeGoldMax";
+        public const string RoguelikeN08 = "RoguelikeN08";
+        public const string RoguelikeN12 = "RoguelikeN12";
+        public const string RoguelikeN15 = "RoguelikeN15";
 
         public const string FirstLaunch = "FirstLaunch";
-
         public const string SanityExpire = "SanityExpire";
-
         public const string OverLimitAgent = "OverLimitAgent";
 
         #endregion
