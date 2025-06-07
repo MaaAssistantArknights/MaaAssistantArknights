@@ -154,12 +154,18 @@
                 <StackPanel Orientation="Vertical">
                     <Grid Height="42">
                         <controls:TextBlock
-                            Margin="6"
+                            x:Name="SeriesTextBlock"
+                            Margin="0,6,0,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Series}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource SeriesTip}">
+                            <controls:TooltipBlock.RenderTransform>
+                                <TranslateTransform X="{c:Binding ActualWidth/2 + 10, ElementName=SeriesTextBlock}" />
+                            </controls:TooltipBlock.RenderTransform>
+                        </controls:TooltipBlock>
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -167,11 +173,11 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        DisplayMemberPath="Key"
                         IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                      Source={x:Static helper:Instances.TaskQueueViewModel}}"
                         ItemsSource="{Binding SeriesList}"
                         SelectedValue="{Binding Series}"
-                        DisplayMemberPath="Key"
                         SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>

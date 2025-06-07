@@ -1690,6 +1690,10 @@ namespace MaaWpfGui.Main
                         if ((subTaskDetails?.Children())?.Any() is true)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            if (FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
+                            {
+                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
+                            }
                         }
 
                         break;
