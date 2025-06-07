@@ -1309,7 +1309,9 @@
         ]
     },
     "BattleQuickFormationExpandRole": {
-        "roi": [1166, 0, 114, 120]
+        "algorithm": "OcrDetect",
+        "text": ["Job", "Class"],
+        "roi": [1207, 25, 42, 32]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["Deployment Cost"],
@@ -1365,11 +1367,9 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
-    "OperBoxRoleTabSelect": {
-        "roi": [1158, 0, 122, 126]
-    },
     "OperBoxRoleTab": {
-        "roi": [1166, 0, 114, 124]
+        "baseTask": "BattleQuickFormationExpandRole",
+        "action": "Stop"
     },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
