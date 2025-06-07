@@ -559,10 +559,21 @@ C:\\leidian\\LDPlayer9。\n
     <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">吃理智药</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石</system:String>
-    <system:String x:Key="PerformBattles">作战次数</system:String>
+    <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">·AUTO:
+自動辨識關卡最大代理倍率, 保持最大代理倍率且使用理智藥後理智不溢出
+
+·數值 (1~6):
+按設定倍率執行代理
+若當前理智不足完成設定倍率 (如僅夠5次但設為6倍), 則無法進入戰鬥
+ 或者
+戰鬥次數不足完成設定倍率 (如僅夠5次但設為6倍), 也將無法進入戰鬥
+
+·不選擇:
+不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
