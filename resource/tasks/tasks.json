@@ -3911,10 +3911,9 @@
         "specialParams_doc": [
             "前后帧干员role+cost区域RGB像素变化阈值",
             "变化像素数量阈值",
-            "干员头像区域RGB变化阈值",
-            "变化像素数量"
+            "干员头像区域模板匹配分数阈值"
         ],
-        "specialParams": [10, 10, 10, 100]
+        "specialParams": [10, 10, 98]
     },
     "BattleOpersFlag": {
         "templThreshold": 0.65,
