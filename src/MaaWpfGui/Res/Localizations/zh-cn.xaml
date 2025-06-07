@@ -564,16 +564,16 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
     <system:String x:Key="SeriesTip" xml:space="preserve">·AUTO:
-自動辨識關卡最大代理倍率, 保持最大代理倍率且使用理智藥後理智不溢出
+自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
 
-·數值 (1~6):
-按設定倍率執行代理
-若當前理智不足完成設定倍率 (如僅夠5次但設為6倍), 則無法進入戰鬥
+·数值 (1~6):
+按设定倍率执行代理
+若当前理智不足完成设定倍率 (如仅够 5 次但设为 6 倍), 则无法进入战斗
  或者
-戰鬥次數不足完成設定倍率 (如僅夠5次但設為6倍), 也將無法進入戰鬥
+战斗次数不足完成设定倍率 (如仅够 5 次但设为 6 倍), 也将无法进入战斗
 
-·不選擇:
-不調整遊戲內代理倍率設定</system:String>
+·不选择:
+不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
