@@ -23,6 +23,19 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    auto image = imread(utils::path("C:/users/status102/desktop/fight-.png"));    
+    auto start_time = std::chrono::steady_clock::now();
+    for (int i = 0; i < 100; i++) {
+        BattlefieldMatcher match(image);
+        match.set_object_of_interest({ .deployment = true });
+        auto result = match.analyze();
+        if (!result) {
+            Log.error("BattlefieldMatcher analyze failed");
+            return false;
+        }
+    }
+    auto cost = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
+    Log.info(__FUNCTION__, "cost:", cost.count(), "ms");
     auto cd1 = imread(utils::path("C:\\Users\\status102\\desktop/deploy_cost0.png"));
     auto cd2 = imread(utils::path("C:\\Users\\status102\\desktop/deploy_cost1.png"));
     BattlefieldMatcher match(cd2);
