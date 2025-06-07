@@ -849,6 +849,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
     <system:String x:Key="FightCompleted">戰鬥完成</system:String>
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>
+    <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥, 下次將執行 {1} 倍率代理, 進入後將完成 {2} 次戰鬥, 超過 {3} 次限制, 不進入戰鬥</system:String>
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>
