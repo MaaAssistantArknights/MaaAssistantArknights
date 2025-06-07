@@ -90,8 +90,15 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        private bool _allowSave = true;
+
         public void Save()
         {
+            if (!_allowSave)
+            {
+                return;
+            }
+
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
@@ -156,11 +163,15 @@ namespace MaaWpfGui.Helper
 
         public async Task UnlockAll()
         {
+            _allowSave = false; // 禁止保存，避免重复触发 Save
             foreach (var achievement in _achievements.Values.Where(a => !a.IsUnlocked))
             {
                 await Task.Delay(100);
                 Unlock(achievement.Id, false);
             }
+
+            _allowSave = true;
+            Save();
         }
 
         public void Lock(string id)
@@ -186,10 +197,14 @@ namespace MaaWpfGui.Helper
 
         public void LockAll()
         {
+            _allowSave = false; // 禁止保存，避免重复触发 Save
             foreach (var achievement in _achievements.Values)
             {
                 Lock(achievement.Id);
             }
+
+            _allowSave = true;
+            Save();
         }
 
         private static readonly List<GrowlInfo> _pending = [];
