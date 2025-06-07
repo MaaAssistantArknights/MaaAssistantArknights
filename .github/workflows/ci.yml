@@ -213,7 +213,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         arch: [aarch64, x86_64]
@@ -234,7 +234,7 @@ jobs:
         if: ${{ matrix.arch != 'x86_64' }}
         run: |
           sudo apt-get update
-          sudo apt-get install g++-12-aarch64-linux-gnu g++-12-aarch64-linux-gnu
+          sudo apt-get install gcc-14-aarch64-linux-gnu g++-14-aarch64-linux-gnu
 
       # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
@@ -258,8 +258,8 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install
         env:
-          CC: ${{ matrix.arch == 'x86_64' && 'gcc-12' || 'aarch64-linux-gnu-gcc-12' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'g++-12' || 'aarch64-linux-gnu-g++-12' }}
+          CC: ${{ matrix.arch == 'x86_64' && 'gcc-14' || 'aarch64-linux-gnu-gcc-14' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'g++-14' || 'aarch64-linux-gnu-g++-14' }}
           CMAKE_COLOR_DIAGNOSTICS: ON
           CLICOLOR_FORCE: 1
           CXXFLAGS: | # workaround for gcc bugs
