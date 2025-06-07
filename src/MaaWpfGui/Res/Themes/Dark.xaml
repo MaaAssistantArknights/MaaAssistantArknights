@@ -66,7 +66,7 @@
         <GradientStop Offset="0.29" Color="#FFCC80" />
         <GradientStop Offset="0.43" Color="#CE93D8" />
         <GradientStop Offset="0.57" Color="#EF9A9A" />
-        <GradientStop Offset="0.71" Color="#37474F" />
+        <GradientStop Offset="0.71" Color="#90A4AE" />
         <GradientStop Offset="0.86" Color="#FFF176" />
         <GradientStop Offset="1" Color="#F48FB1" />
     </LinearGradientBrush>
