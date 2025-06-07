@@ -1087,7 +1087,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AchievementRestoreSuccess">已恢复成就进度</system:String>
     <system:String x:Key="AchievementRestoreFailed">恢复失败，文件格式无效</system:String>
 
-
     <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了。</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Conditions">完成 10 次代理通关</system:String>
@@ -1335,6 +1334,5 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.LunarNewYear.Title">新春快乐</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Description">好运和六星一起到来！</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Conditions">在农历新年期间打开程序</system:String>
-
     <!--  !Achievement  -->
 </ResourceDictionary>
