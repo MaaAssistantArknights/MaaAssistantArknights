@@ -562,6 +562,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="Series">연속 전투 횟수</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">·자동:
+레벨의 최대 대리 배수를 자동으로 감지하고, 최대 대리 배수를 유지하며, 이성 물약 사용 후 이성 수치가 초과되지 않도록 합니다.
+
+·값 (1~6):
+설정된 배수에 따라 대리 실행
+현재 이성 수치가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투에 참여할 수 없습니다.
+또는
+전투 횟수가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투에 참여할 수 없습니다.
+
+·선택 안 함:
+게임에서 대리 배수 설정을 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
