@@ -413,7 +413,7 @@ namespace MaaWpfGui.Helper
             Humor(id: AchievementIds.SnapshotChallenge10, isRare: true), // 平均截图用时小于 10ms（截图挑战 · Ultra）
 
             Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
-            Humor(id: AchievementIds.TacticalRetreat, isHidden: true), // 停止任务
+            Humor(id: AchievementIds.TacticalRetreat), // 停止任务
             Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
             Humor(id: AchievementIds.RecruitNoSixStar, target: 500), // 公招中累计 500 次没出现六星tag
             Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
@@ -430,7 +430,7 @@ namespace MaaWpfGui.Helper
             Behavior(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
             Behavior(id: AchievementIds.LongTaskTimeout), // 触发超时提醒
             Behavior(id: AchievementIds.ProxyOnline3Hours, isHidden: true), // 使用代理功能连续在线超过 3 小时
-            Behavior(id: AchievementIds.TaskStartCancel), // 在开始任务后马上又停止
+            Behavior(id: AchievementIds.TaskStartCancel, isHidden: true), // 在开始任务后马上又停止
             Behavior(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
 
             Behavior(id: AchievementIds.UseDaily1, target: 7), // 连续使用时间

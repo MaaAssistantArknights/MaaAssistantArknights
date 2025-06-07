@@ -57,7 +57,7 @@
     <SolidColorBrush x:Key="AchievementBrush.AutoBattle" Color="#FFCC80" />
     <SolidColorBrush x:Key="AchievementBrush.Humor" Color="#CE93D8" />
     <SolidColorBrush x:Key="AchievementBrush.BugRelated" Color="#EF9A9A" />
-    <SolidColorBrush x:Key="AchievementBrush.Behavior" Color="#37474F" />
+    <SolidColorBrush x:Key="AchievementBrush.Behavior" Color="#90A4AE" />
     <SolidColorBrush x:Key="AchievementBrush.EasterEgg" Color="#FFF176" />
     <SolidColorBrush x:Key="AchievementBrush.Rare" Color="#F48FB1" />
     <LinearGradientBrush x:Key="AchievementBrush.Rare.LinearGradientBrush" StartPoint="0,0" EndPoint="1,1">
