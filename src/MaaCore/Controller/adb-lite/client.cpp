@@ -332,7 +332,7 @@ void client_impl::wait_for_device()
 
     const auto pattern = m_serial + "\tdevice";
     while (devices().find(pattern) == std::string::npos) {
-        std::this_thread::sleep_for(std::chrono::microseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 
