@@ -55,7 +55,6 @@ namespace MaaWpfGui.Constants
         public const string PioneerTest = "PioneerTest";
         public const string PioneerSuperTest = "PioneerSuperTest";
         public const string PioneerDebug = "PioneerDebug";
-        public const string MissionStartCount = "MissionStartCount";
 
         #endregion
 
@@ -109,6 +108,21 @@ namespace MaaWpfGui.Constants
         #endregion
 
         #region 用户行为习惯类
+
+        public const string MissionStartCount = "MissionStartCount";
+        public const string MissionStartCountCustomDataKey = "LastStartDate";
+        public const string LongTaskTimeout = "LongTaskTimeout";
+        public const string ProxyOnline3Hours = "ProxyOnline3Hours";
+        public const string AprilFools = "AprilFools";
+        public const string MidnightLaunch = "MidnightLaunch";
+        public const string LunarNewYear = "LunarNewYear";
+
+        public const string UseDailyGroup = "UseDaily";
+        public const string UseDailyCustomDataKey = "LastLaunchDate";
+        public const string UseDaily1 = "UseDaily1"; // 7 天
+        public const string UseDaily2 = "UseDaily2"; // 30 天
+        public const string UseDaily3 = "UseDaily3"; // 365 天
+
         #endregion
 
         #region 彩蛋类

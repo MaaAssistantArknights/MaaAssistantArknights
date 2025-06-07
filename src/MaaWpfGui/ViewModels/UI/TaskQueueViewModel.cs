@@ -1417,26 +1417,8 @@ namespace MaaWpfGui.ViewModels.UI
                 SetStopped();
             }
 
-            const string Id = AchievementIds.MissionStartCount;
-            const string Key = "LastStartDate";
-
-            var achievement = AchievementTrackerHelper.Instance.Get(Id);
-            var today = DateTime.UtcNow.ToYjDate().Date;
-            DateTime? lastDate = null;
-            if ((achievement.CustomData ??= new()).TryGetValue(Key, out var token))
-            {
-                lastDate = token.ToObject<DateTime>();
-            }
-
-            if (lastDate.HasValue && lastDate.Value == today)
-            {
-                AchievementTrackerHelper.Instance.AddProgress(Id);
-            }
-            else
-            {
-                achievement.CustomData[Key] = JToken.FromObject(today);
-                AchievementTrackerHelper.Instance.SetProgress(Id, 1);
-            }
+            AchievementTrackerHelper.Instance.MissionStartCountAdd();
+            AchievementTrackerHelper.Instance.UseDailyAdd();
         }
 
         public void ManualStop()

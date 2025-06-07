@@ -1088,7 +1088,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1)
                     {
-                        RateCopilot(model.CopilotId);
+                        _ = RateCopilot(model.CopilotId);
                     }
 
                     break;

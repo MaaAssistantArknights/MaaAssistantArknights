@@ -1304,5 +1304,37 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
     <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
 
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">漫长的任务</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">要不，咱再等等？</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">触发超时提醒</system:String>
+
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">全勤先锋</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">你，已经成为博士的替身了。</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">开始任务能连续在线超过 3 小时</system:String>
+
+    <system:String x:Key="Achievement.UseDaily1.Title">天天打卡</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">连续签到七天，可惜没有奖励。</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Conditions">连续 7 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.UseDaily2.Title">全勤奖</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">这个月的全勤奖发一下。</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Conditions">连续 30 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.UseDaily3.Title">全年无休</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">就是你天天在压榨牛牛？</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Conditions">连续 365 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.AprilFools.Title">愚你同行</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">不会真有人今天上线吧？</system:String>
+    <system:String x:Key="Achievement.AprilFools.Conditions">在 4 月 1 日 打开程序</system:String>
+
+    <system:String x:Key="Achievement.MidnightLaunch.Title">午夜作战</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">你是深夜行动专家吗？</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Conditions">在午夜 0 点后 启动</system:String>
+
+    <system:String x:Key="Achievement.LunarNewYear.Title">新春快乐</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">好运和六星一起到来！</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Conditions">在农历新年期间打开程序</system:String>
+
     <!--  !Achievement  -->
 </ResourceDictionary>

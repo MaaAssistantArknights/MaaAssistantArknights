@@ -20,7 +20,9 @@ using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
+using Newtonsoft.Json.Linq;
 using Stylet;
 using static MaaWpfGui.Constants.Enums;
 
@@ -163,21 +165,28 @@ namespace MaaWpfGui.Helper
 
         public void Lock(string id)
         {
-            if (!_achievements.TryGetValue(id, out var achievement) || !achievement.IsUnlocked)
+            if (!_achievements.TryGetValue(id, out var achievement))
             {
                 return;
             }
 
-            achievement.IsUnlocked = false;
             achievement.UnlockedTime = null;
             achievement.Progress = 0;
+            achievement.CustomData = null;
+            achievement.IsNewUnlock = false;
+
+            if (achievement.IsUnlocked)
+            {
+                achievement.IsUnlocked = false;
+                NotifyOfPropertyChange(nameof(UnlockedCount));
+            }
+
             Save();
-            NotifyOfPropertyChange(nameof(UnlockedCount));
         }
 
         public void LockAll()
         {
-            foreach (var achievement in _achievements.Values.Where(a => a.IsUnlocked))
+            foreach (var achievement in _achievements.Values)
             {
                 Lock(achievement.Id);
             }
@@ -262,6 +271,39 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        public Dictionary<string, JToken> GetAchievementCustomData(string id)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement) || achievement.CustomData == null)
+            {
+                return new();
+            }
+
+            return achievement.CustomData;
+        }
+
+        public JToken? GetAchievementCustomData(string id, string key)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement) || achievement.CustomData == null)
+            {
+                return null;
+            }
+
+            achievement.CustomData.TryGetValue(key, out var value);
+            return value;
+        }
+
+        public void SetAchievementCustomData(string id, string key, JToken value)
+        {
+            if (!_achievements.TryGetValue(id, out var achievement))
+            {
+                return;
+            }
+
+            achievement.CustomData ??= new();
+            achievement.CustomData[key] = value;
+            Save();
+        }
+
         public bool IsUnlocked(string id) => _achievements.TryGetValue(id, out var a) && a.IsUnlocked;
 
         public Achievement? Get(string id) => _achievements.GetValueOrDefault(id);
@@ -282,6 +324,9 @@ namespace MaaWpfGui.Helper
 
         private static Achievement BugRelated(string id, int? target = null, bool isHidden = false)
             => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.BugRelated };
+
+        private static Achievement Behavior(string id, int? target = null, bool isHidden = false)
+            => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.Behavior };
 
         private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false)
             => new() { Id = id, Target = target, IsHidden = isHidden, Category = AchievementCategory.EasterEgg };
@@ -306,7 +351,6 @@ namespace MaaWpfGui.Helper
             BasicUsage(id: AchievementIds.FirstLaunch), // 首次启动
             BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
             BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
-            BasicUsage(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
 
             BasicUsage(id: AchievementIds.RoguelikeGamePass1, target: 1), // 使用牛牛通关肉鸽
             BasicUsage(id: AchievementIds.RoguelikeGamePass2, target: 5),
@@ -371,6 +415,21 @@ namespace MaaWpfGui.Helper
             BugRelated(id: AchievementIds.CdnTorture, target: 3), // 下载资源失败超过3次
             #endregion
 
+            #region 习惯 行为 时长类
+            Behavior(id: AchievementIds.MissionStartCount, target: 3), // 一天内开始任务超过 3 次
+            Behavior(id: AchievementIds.LongTaskTimeout), // 触发超时提醒
+            Behavior(id: AchievementIds.ProxyOnline3Hours, isHidden: true), // 使用代理功能连续在线超过 3 小时
+
+            Behavior(id: AchievementIds.UseDaily1, target: 7), // 连续使用时间
+            Behavior(id: AchievementIds.UseDaily2, target: 30),
+            Behavior(id: AchievementIds.UseDaily3, target: 365),
+
+            Behavior(id: AchievementIds.AprilFools, isHidden: true), // 愚人节
+            Behavior(id: AchievementIds.MidnightLaunch, isHidden: true), // 0~4 点
+            Behavior(id: AchievementIds.LunarNewYear, isHidden: true), // 春节
+
+            #endregion
+
             #region 彩蛋类
             EasterEgg(id: AchievementIds.Rules, isHidden: true), // 我会一直注视着你
             EasterEgg(id: AchievementIds.VersionClick, isHidden: true), // 这也能点？
@@ -386,5 +445,59 @@ namespace MaaWpfGui.Helper
                 RegisterAchievement(achievement);
             }
         }
+
+        #region 带有 CustomData 的辅助函数
+
+        public void MissionStartCountAdd()
+        {
+            const string Id = AchievementIds.MissionStartCount;
+            const string Key = AchievementIds.MissionStartCountCustomDataKey;
+
+            var today = DateTime.UtcNow.ToYjDate().Date;
+            DateTime? lastDate = GetAchievementCustomData(AchievementIds.MissionStartCount, Key)?.ToObject<DateTime>();
+
+            if (lastDate.HasValue && lastDate.Value == today)
+            {
+                AddProgress(Id);
+            }
+            else
+            {
+                SetAchievementCustomData(Id, Key, JToken.FromObject(today));
+                SetProgress(Id, 1);
+            }
+        }
+
+        public void UseDailyAdd()
+        {
+            // group 是不注册的，从第一个成就取 CustomData
+            const string Id = AchievementIds.UseDaily1;
+            const string GroupId = AchievementIds.UseDailyGroup;
+            const string Key = AchievementIds.UseDailyCustomDataKey;
+
+            var today = DateTime.UtcNow.ToYjDate().Date;
+            DateTime? lastDate = GetAchievementCustomData(Id, Key)?.ToObject<DateTime>();
+            if (lastDate.HasValue)
+            {
+                var delta = (today - lastDate.Value).TotalDays;
+
+                switch (delta)
+                {
+                    case 1:
+                        AddProgressToGroup(GroupId);
+                        break;
+                    case > 1:
+                        SetProgressToGroup(GroupId, 1);
+                        break;
+                }
+            }
+            else
+            {
+                SetProgressToGroup(GroupId, 1);
+            }
+
+            SetAchievementCustomData(Id, Key, JToken.FromObject(today));
+        }
+
+        #endregion
     }
 }

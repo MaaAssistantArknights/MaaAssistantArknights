@@ -101,6 +101,11 @@ namespace MaaWpfGui.Constants
             BugRelated,
 
             /// <summary>
+            /// 用户行为 习惯 时长类
+            /// </summary>
+            Behavior,
+
+            /// <summary>
             /// 彩蛋类
             /// </summary>
             EasterEgg,

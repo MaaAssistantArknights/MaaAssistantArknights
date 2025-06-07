@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -307,6 +308,8 @@ namespace MaaWpfGui.Main
 
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
+
+            // 以下是成就解锁逻辑
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
             if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
                 (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
@@ -331,6 +334,27 @@ namespace MaaWpfGui.Main
             if (new Random().NextDouble() < 0.00066)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Lucky);
+            }
+
+            var now = DateTime.Now;
+
+            // 0~4 点启动
+            if (now.Hour is > 0 and < 4)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MidnightLaunch);
+            }
+
+            // 愚人节启动
+            if (now is { Month: 4, Day: 1 })
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.AprilFools);
+            }
+
+            // 春节
+            ChineseLunisolarCalendar chineseCalendar = new();
+            if (chineseCalendar.GetMonth(now) == 1 && chineseCalendar.GetDayOfMonth(now) == 1)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.LunarNewYear);
             }
         }
 
