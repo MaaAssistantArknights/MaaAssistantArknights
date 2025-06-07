@@ -1264,16 +1264,16 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Conditions">一天内开始任务超过 3 次</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">只要能到达那个地方</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">初抵终点</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...那个地方...</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用牛牛通关肉鸽 1 次</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">只要能到达那个地方</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">再临终点</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">这条道路我已走过多次。</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用牛牛通关肉鸽 5 次</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">只要能到达那个地方</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">只要能到达...只要能到达...那个地方...嗯...嗯！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">终点常客</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">闭着眼睛都能走到这。</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用牛牛通关肉鸽 10 次</system:String>
 
     <system:String x:Key="Achievement.RoguelikeRetreat.Title">失败是成功之母</system:String>
