@@ -369,7 +369,8 @@ namespace MaaWpfGui.Helper
             BasicUsage(id: AchievementIds.RoguelikeGamePass3, target: 10),
             BasicUsage(id: AchievementIds.RoguelikeRetreat, target: 100), // 牛牛放弃探索 100 次
             BasicUsage(id: AchievementIds.RoguelikeGoldMax, target: 999), // 肉鸽源石锭到达 999
-            BasicUsage(id: AchievementIds.RoguelikeN08), // 肉鸽 N8 通关
+            BasicUsage(id: AchievementIds.RoguelikeN04), // 肉鸽 难度 通关
+            BasicUsage(id: AchievementIds.RoguelikeN08),
             BasicUsage(id: AchievementIds.RoguelikeN12),
             BasicUsage(id: AchievementIds.RoguelikeN15, isRare: true),
             #endregion

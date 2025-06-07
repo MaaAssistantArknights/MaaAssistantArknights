@@ -908,6 +908,11 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
                     if (pass)
                     {
+                        if (difficulty > 4)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN04);
+                        }
+
                         if (difficulty > 8)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN08);

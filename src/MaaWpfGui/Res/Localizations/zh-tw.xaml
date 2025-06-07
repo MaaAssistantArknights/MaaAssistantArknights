@@ -1334,16 +1334,20 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.LunarNewYear.Description">好运和六星一起到来！</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Conditions">在农历新年期间打开程序</system:String>
 
+    <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N8 难度以上</system:String>
+
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 难度以上</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 难度以上</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 难度以上</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>
