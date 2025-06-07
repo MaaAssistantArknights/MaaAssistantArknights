@@ -31,6 +31,11 @@ echo %BOLD%%CYAN%Installing Microsoft Visual C++ Redistributable%RESET%
 echo %BLUE%========================================%RESET%
 echo.
 
+echo %YELLOW%如果是第一次使用 winget，可能会提示接受协议，请输入 Y 并按回车继续%RESET%
+echo %YELLOW%If this is your first time using winget, you may be prompted to accept the terms. %RESET%
+echo %YELLOW%Please enter Y and press Enter to continue.%RESET%
+echo.
+
 winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
 if %errorlevel% neq 0 (
     echo.
