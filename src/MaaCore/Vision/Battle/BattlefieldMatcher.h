@@ -2,6 +2,7 @@
 #include "Vision/VisionHelper.h"
 
 #include "Common/AsstBattleDef.h"
+#include "Vision/MultiMatcher.h"
 
 namespace asst
 {
@@ -64,8 +65,10 @@ protected:
     bool hp_flag_analyze() const;
     bool kills_flag_analyze() const;
     bool pause_button_analyze() const;
-
-    MatchResult<std::vector<battle::DeploymentOper>> deployment_analyze() const; // 识别干员
+    // 识别干员
+    MatchResult<std::vector<battle::DeploymentOper>> deployment_analyze() const;
+    // 识别干员是否命中缓存
+    bool hit_deployment_cache(const asst::MultiMatcher::ResultsVec& flags) const;
     battle::Role oper_role_analyze(const Rect& roi) const;
     bool oper_cooling_analyze(const Rect& roi) const;
     int oper_cost_analyze(const Rect& roi) const;
