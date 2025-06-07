@@ -52,7 +52,7 @@ public class TelegramNotificationProvider(IHttpService httpService) : IExternalN
 
         try
         {
-            var response = await Instances.HttpService.PostAsync(new(uri), new StringContent(JsonSerializer.Serialize(postContent), Encoding.UTF8, "application/json"), uriPartial: UriPartial.Authority);
+            var response = await httpService.PostAsync(new(uri), new StringContent(JsonSerializer.Serialize(postContent), Encoding.UTF8, "application/json"), uriPartial: UriPartial.Authority);
             response.EnsureSuccessStatusCode();
             var str = await response.Content.ReadAsStringAsync();
             if (response is not null)

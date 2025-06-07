@@ -49,6 +49,12 @@ namespace MaaWpfGui.Services.Managers
 
             bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UseTray, bool.TrueString));
             SetUseTrayIcon(useTrayIcon);
+
+            _previousState = GetWindowState();
+            if (_previousState == WindowState.Minimized)
+            {
+                _minimizedSince = DateTime.Now;
+            }
         }
 
         /// <inheritdoc/>
@@ -100,6 +106,9 @@ namespace MaaWpfGui.Services.Managers
             ((RootView)MainWindow).NotifyIcon.notifyIcon.Visibility = useTrayIcon ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private WindowState? _previousState = null;
+        private DateTime? _minimizedSince = null;
+
         /// <summary>
         /// Handle the main window's state changed event
         /// </summary>
@@ -107,10 +116,35 @@ namespace MaaWpfGui.Services.Managers
         /// <param name="e">The event arguments.</param>
         private void MainWindowStateChanged(object sender, EventArgs e)
         {
+            var currentState = MainWindow.WindowState;
+
             if (ShouldMinimizeToTray && ShouldUseTrayIcon)
             {
-                ChangeVisibility(MainWindow.WindowState != WindowState.Minimized);
+                ChangeVisibility(currentState != WindowState.Minimized);
             }
+
+            // 检测进入 Minimized
+            if (_previousState != WindowState.Minimized && currentState == WindowState.Minimized)
+            {
+                _minimizedSince = DateTime.Now;
+            }
+
+            // 触发事件：从 Minimized 恢复
+            if (_previousState == WindowState.Minimized && currentState != WindowState.Minimized)
+            {
+                if (_minimizedSince != null)
+                {
+                    var duration = DateTime.Now - _minimizedSince.Value;
+                    if (duration.TotalHours >= 1)
+                    {
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.AfkWatcher);
+                    }
+                }
+
+                WindowRestored?.Invoke(this, EventArgs.Empty);
+            }
+
+            _previousState = currentState;
         }
 
         /// <summary>
@@ -144,5 +178,10 @@ namespace MaaWpfGui.Services.Managers
 
             return MainWindow;
         }
+
+        /// <summary>
+        /// 在窗口从最小化恢复时触发
+        /// </summary>
+        public event EventHandler WindowRestored;
     }
 }

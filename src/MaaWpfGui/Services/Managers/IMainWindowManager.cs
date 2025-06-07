@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Windows;
 
 namespace MaaWpfGui.Services.Managers
@@ -63,5 +64,7 @@ namespace MaaWpfGui.Services.Managers
         /// </summary>
         /// <returns>The <see cref="Window"/> if it is visible, or null. </returns>
         Window GetWindowIfVisible();
+
+        event EventHandler WindowRestored;
     }
 }

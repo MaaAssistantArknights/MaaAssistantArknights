@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -113,6 +114,8 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 _timer.IsEnabled = true;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.VersionClick);
+
             if (_easterEggsCount < 5)
             {
                 ++_easterEggsCount;
@@ -128,6 +131,8 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
             };
             MessageBoxHelper.Show(info);
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.Rules);
 
             /*
             var growlInfo = new GrowlInfo
