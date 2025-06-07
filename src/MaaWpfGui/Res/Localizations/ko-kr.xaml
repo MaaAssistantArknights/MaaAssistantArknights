@@ -266,7 +266,7 @@
 3. 사용자 그룹이나 댓글 섹션 등 다른 곳에서 개발 버전 문제를 논의하지 마세요. 이는 공공 리소스를 차지하고 신속한 피드백과 해결을 방해합니다.
 4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마세요. 불필요한 혼란과 위험을 피하기 위해서입니다.
 
-설정 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
+설정 - 문제 신고 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
     <system:String x:Key="UpdateCheck">업데이트 채널</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
@@ -939,7 +939,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CheckHelpBeforeReportingIssue">문제를 신고하기 전에 자주 묻는 질문에 해당하지 않는지 확인해 주세요</system:String>
     <system:String x:Key="CheckUpdateBeforeReportingIssue">먼저 업그레이드 후 새 버전에서도 동일한 문제가 발생하는지 테스트해 보시고, 일반적인 문제가 아님을 확인한 후 피드백해 주세요.</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
-    <system:String x:Key="Issue">이슈 제보</system:String>
+    <system:String x:Key="Issue">문제 신고</system:String>
     <system:String x:Key="GenerateSupportPayload">지원용 ZIP 파일 생성</system:String>
     <system:String x:Key="OpenDebugFolder">Debug 폴더 열기</system:String>
     <system:String x:Key="GenerateSupportPayloadSuccessful">지원용 ZIP 파일이 성공적으로 생성되었습니다</system:String>
@@ -1073,15 +1073,15 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>
     <system:String x:Key="AchievementConditions" xml:space="preserve">달성 조건: </system:String>
-    <system:String x:Key="AchievementLevel" xml:space="preserve">成就等级：</system:String>
-    <system:String x:Key="AchievementView">查看成就</system:String>
-    <system:String x:Key="AchievementBackup">备份成就</system:String>
-    <system:String x:Key="AchievementRestore">加载备份</system:String>
-    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">解锁于：</system:String>
-    <system:String x:Key="AchievementList">成就列表</system:String>
-    <system:String x:Key="AchievementBackupSuccess">已备份到</system:String>
-    <system:String x:Key="AchievementRestoreSuccess">已恢复成就进度</system:String>
-    <system:String x:Key="AchievementRestoreFailed">恢复失败，文件格式无效</system:String>
+    <system:String x:Key="AchievementLevel" xml:space="preserve">도전과제 레벨: </system:String>
+    <system:String x:Key="AchievementView">도전과제 보기</system:String>
+    <system:String x:Key="AchievementBackup">도전과제 백업</system:String>
+    <system:String x:Key="AchievementRestore">백업 로드</system:String>
+    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">해제된 시점: </system:String>
+    <system:String x:Key="AchievementList">도전과제 목록</system:String>
+    <system:String x:Key="AchievementBackupSuccess">백업 완료</system:String>
+    <system:String x:Key="AchievementRestoreSuccess">도전과제 진행도 복원 완료</system:String>
+    <system:String x:Key="AchievementRestoreFailed">복원 실패, 파일 형식이 유효하지 않음</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">뉴비</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">이제 감이 잡혔네요</system:String>
@@ -1096,7 +1096,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.SanitySpender3.Conditions">대리 지휘 1000회 완료</system:String>
 
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Description">"내가 뭘 하는지 알고 있어요" ㅡ클릭하기 전 어떤 유저의 말</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">"내가 어떻게 해야할지 알고 있어" ㅡ클릭하기 전 어떤 유저의 말</system:String>
     <system:String x:Key="Achievement.QuickCloser.Conditions">1초 내에 팝업 닫기 (못 보셨죠?)</system:String>
 
     <system:String x:Key="Achievement.TacticalRetreat.Title">전술적 후퇴</system:String>
@@ -1107,7 +1107,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.PeekScreen.Description">계속 쳐다보는 걸 좋아하는군요.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Conditions">MAA 모니터링 기능 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.CongratulationError.Title">축하합니다 ㅎㅎ</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Title">축하합니다!</system:String>
     <system:String x:Key="Achievement.CongratulationError.Description">어? 제 MAA가 왜 안 되죠?</system:String>
     <system:String x:Key="Achievement.CongratulationError.Conditions">MAA 오류 1회 발생</system:String>
 
@@ -1116,7 +1116,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.UnexpectedCrash.Conditions">처리되지 않은 예외가 발생으로 크래시 로그 기록</system:String>
 
     <system:String x:Key="Achievement.CustomizationMaster.Title">커스터마이징의 달인</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Description">내 아내임 ㅎ</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">내 아내임</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Conditions">배경 이미지 1회 변경</system:String>
 
     <system:String x:Key="Achievement.RealGacha.Title">진짜 가챠</system:String>
@@ -1177,7 +1177,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.ProblemFeedback.Title">공익제보</system:String>
     <system:String x:Key="Achievement.ProblemFeedback.Description">가장 위험한 것은 내부의 적이에요</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Conditions">이슈 제보 1회 진행</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">문제 신고 1회 진행</system:String>
 
     <system:String x:Key="Achievement.MapOutdated.Title">혹시 한국인?</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">급한건 알겠지만 잠시만요</system:String>
@@ -1195,156 +1195,156 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.UseCopilot3.Description">보스 기믹이 뭔가요?</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Conditions">「자동 전투」 기능으로 100회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学无效</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡觉吧。</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 500 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">인디언식 기우제는 실패했어요</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">일이 이렇게 되었으니, 잠이나 자야겠어요</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">공개모집에서 누적 500회 동안 6성 태그가 나오지 않음</system:String>
 
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">一定是 MAA 干的！</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 500 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">분명 MAA가 문제일거야!</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">으아아아아아아아아아!</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">공개모집에서 연속 500회 동안 6성 태그가 나오지 않음</system:String>
 
-    <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢借助战打 OF-1｣ 功能超过 5 次</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Title">티끌 모아 태산</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">티끌을 모으면 태산이 된다는걸 아시는군요</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">「지원 유닛을 사용해 크레딧 수급」 기능을 5회 이상 사용</system:String>
 
-    <system:String x:Key="Achievement.PioneerTest.Title">测试先锋</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Description">您率先体验了处于测试中的版本。</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Conditions">将 MAA 更新至公测版</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Title">베타 테스터</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Description">테스트 중인 베타 버전을 체험하셨어요</system:String>
+    <system:String x:Key="Achievement.PioneerTest.Conditions">MAA를 베타 버전으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.PioneerSuperTest.Title">超级测试先锋</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">将 MAA 更新至内测版</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Title">슈퍼 베타 테스터</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Description">최신 개발 버전을 사용하셨어요 (문제가 발생하면 문제 신고로 가주세요!)</system:String>
+    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">MAA를 개발 버전으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG 急先锋</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Description">能下到这个版本的都不是一般人。</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Conditions">使用未发布版本的 MAA</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG 테스터</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Description">이 버전을 사용할 수 있는 분들은 일반인이 아닐거에요</system:String>
+    <system:String x:Key="Achievement.PioneerDebug.Conditions">DEBUG 버전의 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.Irreplaceable.Title">无可替代</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Description">或许我应该换一份作业？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢自动战斗 - 自动编队｣ 时，缺少至少两名干员</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가능</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">「자동지휘 - 자동 편성」 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge999.Title">高 ping 战士</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Description">“kale”</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">平均截图用时超过 800ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge999.Title">Hight Ping 전사</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge999.Description">"Disconnect"</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">평균 스크린샷 시간이 800ms 초과</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge800.Title">是不是有点太慢了</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Description">截图显得有点吃力。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">平均截图用时在 400ms 到 800ms 之间</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge800.Title">좀 많이 느린 거 아닌가요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge800.Description">스크린샷을 찍는데 좀 힘들어 보이네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge400.Title">截图挑战 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Description">要不试试截图增强？</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">平均截图用时小于 400ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge400.Title">스크린샷 도전 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge400.Description">스크린샷 향상을 시도해보는 건 어떨까요?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge100.Title">截图挑战 · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Description">截图快得我都没反应过来。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">平均截图用时小于 100ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge100.Title">스크린샷 도전 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge100.Description">스크린샷이 너무 빨라서 저도 반응을 못했네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">평균 스크린샷 시간이 100ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge10.Title">截图挑战 · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Description">截图速度击败了 99% 的 MAA 用户。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">平均截图用时小于 10ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge10.Title">스크린샷 도전 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge10.Description">스크린샷 속도가 99%의 유저보다 빨라요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">평균 스크린샷 시간이 10ms 미만</system:String>
 
-    <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
-    <system:String x:Key="Achievement.Lucky.Description">据说能看到这条成就的人都三连金了。</system:String>
-    <system:String x:Key="Achievement.Lucky.Conditions">启动 MAA 时有极！小！概率触发</system:String>
+    <system:String x:Key="Achievement.Lucky.Title">뜻밖의 행운</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">이 도전과제를 클리어한 사람은 단챠로 6성을 뽑았다고 하네요</system:String>
+    <system:String x:Key="Achievement.Lucky.Conditions">MAA 시작 시 매우! 작은! 확률로 발동</system:String>
 
-    <system:String x:Key="Achievement.CdnTorture.Title">网络折磨人</system:String>
-    <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 Github 的服务器。</system:String>
-    <system:String x:Key="Achievement.CdnTorture.Conditions">下载资源失败超过 3 次</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Title">Github에게 미움받는 존재</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">Github의 서버는 우주보다 멀리있다네요</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Conditions">리소스 다운로드 실패 3회 초과</system:String>
 
-    <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>
-    <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
-    <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Title">도움 요청 방치족</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">저를 방치하고 있는 건가요, 아니면 끄는 걸 까먹은 건가요?</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">창 최소화 후 장시간 조작하지 않음</system:String>
 
-    <system:String x:Key="Achievement.MissionStartCount.Title">不离不弃</system:String>
-    <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
-    <system:String x:Key="Achievement.MissionStartCount.Conditions">一天内开始任务超过 3 次</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Title">오늘부터 MAA의 지지를 철회한다</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">MAA와 나는 한몸으로 일체가 된다</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Conditions">하루 내에 작업 시작 3회 초과</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">初抵终点</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...那个地方...</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用牛牛通关肉鸽 1 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">종점에 첫 도착</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">그저... 그 곳에 닿을 수만 있다면...</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">MAA를 사용해 로그라이크 1회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">再临终点</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">这条道路我已走过多次。</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用牛牛通关肉鸽 5 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">종점에 다시 도착</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">여기는 이미 여러 번 와봤어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">MAA를 사용해 로그라이크 5회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">终点常客</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">闭着眼睛都能走到这。</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用牛牛通关肉鸽 10 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">종점에 살고 있나요?</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">눈 감고도 여기까지 올 수 있어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">MAA를 사용해 로그라이크 10회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeRetreat.Title">失败是成功之母</system:String>
-    <system:String x:Key="Achievement.RoguelikeRetreat.Description">终有一天，我们会到达成功的彼岸，失败是成功的阶梯。</system:String>
-    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">牛牛放弃探索 100 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">실패는 성공의 어머니</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">언젠가 성공할거에요... 실패는 성공의 어머니니까...</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">MAA의 로그라이크 탐험 포기 100회</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">满了满了</system:String>
-    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">坎诺特，把你店里最贵的端出来！</system:String>
-    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">肉鸽源石锭到达 999</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">꽉 찼어요 꽉 찼어</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">캔낫, 네 가게에서 가장 비싼 걸 내놔봐!</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">로그라이크의 오리지늄 각뿔이 999에 도달</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">鼓励一下</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">点赞是对作者最大的鼓励！</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">给作业点赞 1 次</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">개추 한번</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">좋아요는 작성자에게 가장 큰 격려에요!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">작업에 좋아요 1회</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">积极互动</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">点赞 10 次，积极参与社区互动。</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">给作业累计点赞 10 次</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">적극적 상호작용</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">좋아요 10회, 커뮤니티 상호작용에 적극 참여</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">작업에 누적 좋아요 10회</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">点赞达人</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">点赞 50 次，你已经成为点赞大师！</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">给作业累计点赞 50 次</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">개추 요정</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">좋아요 50회, 이미 개추 마스터가 되셨네요!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">작업에 누적 좋아요 50회</system:String>
 
-    <system:String x:Key="Achievement.TaskStartCancel.Title">真是纠纠又结结啊</system:String>
-    <system:String x:Key="Achievement.TaskStartCancel.Description">啊对的对的，啊不对不对，啊对的对的，啊不对不对…</system:String>
-    <system:String x:Key="Achievement.TaskStartCancel.Conditions">在开始任务后马上又停止</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Title">정말 우유부단하네요</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">아 맞아, 아 아닌가? 아 맞는거같은데...아 잠깐...!</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Conditions">작업 시작 후 바로 중지</system:String>
 
-    <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
-    <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
+    <system:String x:Key="Achievement.CopilotError.Title">아이고</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">사고가 났네요...</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">대리 작전에서 실수 발생</system:String>
 
-    <system:String x:Key="Achievement.LongTaskTimeout.Title">漫长的任务</system:String>
-    <system:String x:Key="Achievement.LongTaskTimeout.Description">要不，咱再等等？</system:String>
-    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">触发超时提醒</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">긴 작업</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">좀 더 기다려볼까요?</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">타임아웃 알림 발생</system:String>
 
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">全勤先锋</system:String>
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">你，已经成为博士的替身了。</system:String>
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">开始任务能连续在线超过 3 小时</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">개근 선봉대</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">당신은 이미 박사님을 대체했어요</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">작업 시작 후 3시간 이상 연속 온라인</system:String>
 
-    <system:String x:Key="Achievement.UseDaily1.Title">天天打卡</system:String>
-    <system:String x:Key="Achievement.UseDaily1.Description">连续签到七天，可惜没有奖励。</system:String>
-    <system:String x:Key="Achievement.UseDaily1.Conditions">连续 7 天使用 MAA</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Title">매일 출석</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">열심히 7일 연속 출석했지만 아쉽게도 보상은 없어요</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Conditions">7일 연속 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.UseDaily2.Title">全勤奖</system:String>
-    <system:String x:Key="Achievement.UseDaily2.Description">这个月的全勤奖发一下。</system:String>
-    <system:String x:Key="Achievement.UseDaily2.Conditions">连续 30 天使用 MAA</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Title">개근상</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">이번 달 개근상을 수여할게요</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Conditions">30일 연속 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.UseDaily3.Title">全年无休</system:String>
-    <system:String x:Key="Achievement.UseDaily3.Description">就是你天天在压榨牛牛？</system:String>
-    <system:String x:Key="Achievement.UseDaily3.Conditions">连续 365 天使用 MAA</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Title">연중무휴</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">MAA의 인권을 보장해주세요!</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Conditions">365일 연속 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.AprilFools.Title">愚你同行</system:String>
-    <system:String x:Key="Achievement.AprilFools.Description">不会真有人今天上线吧？</system:String>
-    <system:String x:Key="Achievement.AprilFools.Conditions">在 4 月 1 日 打开程序</system:String>
+    <system:String x:Key="Achievement.AprilFools.Title">우리와 함께</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">설마 오늘 접속한 사람이 정말 있을까요?</system:String>
+    <system:String x:Key="Achievement.AprilFools.Conditions">4월 1일에 MAA 실행하기</system:String>
 
-    <system:String x:Key="Achievement.MidnightLaunch.Title">午夜作战</system:String>
-    <system:String x:Key="Achievement.MidnightLaunch.Description">你是深夜行动专家吗？</system:String>
-    <system:String x:Key="Achievement.MidnightLaunch.Conditions">在午夜 0 点后 启动</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Title">심야 작전</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">당신은 심야 작전 전문가인가요?</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Conditions">심야 0시 이후 실행</system:String>
 
-    <system:String x:Key="Achievement.LunarNewYear.Title">新春快乐</system:String>
-    <system:String x:Key="Achievement.LunarNewYear.Description">好运和六星一起到来！</system:String>
-    <system:String x:Key="Achievement.LunarNewYear.Conditions">在农历新年期间打开程序</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Title">새해 복 많이 받으세요</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">행운과 6성이 함께 찾아옵니다!</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Conditions">새해 기간에 MAA 열기</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N8 难度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Title">간단간단</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">이 정도 난이도로는 저를 막을 수 없어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">MAA를 사용해 임의 로그라이크 4승천 이상 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 难度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Title">어려움에 도전</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">용감한 MAA는 어려움을 두려워하지 않아요</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">MAA를 사용해 임의 로그라이크 8승천 이상 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 难度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Title">인간 초월</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">저보다 더 잘하는거 같은데요?</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">MAA를 사용해 임의 로그라이크 12승천 이상 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 难度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Title">프로 선수</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">MAA, 완전 프로같았어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">MAA를 사용해 임의 로그라이크 15승천 이상 클리어</system:String>
     <!--  !Achievement  -->
 </ResourceDictionary>
