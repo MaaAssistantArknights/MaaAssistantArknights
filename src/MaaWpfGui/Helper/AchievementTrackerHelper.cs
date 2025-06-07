@@ -341,7 +341,7 @@ namespace MaaWpfGui.Helper
             BasicUsage(id: AchievementIds.SanitySpender2, target: 100),
             BasicUsage(id: AchievementIds.SanitySpender3, target: 1000),
 
-            BasicUsage(id: AchievementIds.SanitySaver1, target: 1), // 刷理智次数
+            BasicUsage(id: AchievementIds.SanitySaver1, target: 1), // 使用理智药数
             BasicUsage(id: AchievementIds.SanitySaver2, target: 10),
             BasicUsage(id: AchievementIds.SanitySaver3, target: 50),
 
