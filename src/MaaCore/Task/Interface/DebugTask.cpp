@@ -23,7 +23,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    auto image = imread(utils::path("C:/users/status102/desktop/fight-.png"));    
+    auto image = imread(utils::path("C:/users/status102/desktop/fight-.png"));
     auto start_time = std::chrono::steady_clock::now();
     for (int i = 0; i < 100; i++) {
         BattlefieldMatcher match(image);
