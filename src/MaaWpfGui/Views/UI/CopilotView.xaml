@@ -100,10 +100,15 @@
                         ToolTip="{DynamicResource AutoSquadTip}" />
                     <CheckBox
                         HorizontalAlignment="Center"
-                        Content="{DynamicResource UseCopilotList}"
                         IsChecked="{Binding UseCopilotList}"
-                        IsEnabled="{Binding Idle}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
+                        IsEnabled="{Binding Idle}"
+                        ToolTipService.InitialShowDelay="0"
+                        ToolTip="{DynamicResource UseCopilotListTip}">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:TextBlock Text="{DynamicResource UseCopilotList}" />
+                            <controls:TooltipBlock />
+                        </StackPanel>
+                    </CheckBox>
                 </StackPanel>
                 <StackPanel
                     Height="30"
