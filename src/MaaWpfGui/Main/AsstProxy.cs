@@ -1652,7 +1652,7 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(
                             $"[{operatorName}] {skillName}\n" +
                             $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
-                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]:D2}:{subTaskDetails["mm"]:D2}:{subTaskDetails["ss"]:D2}",
+                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["time"]}",
                             UiLogColor.Info);
                         break;
                     }

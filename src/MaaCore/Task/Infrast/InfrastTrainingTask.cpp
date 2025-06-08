@@ -8,8 +8,6 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
-#include <regex>
-
 bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
@@ -102,18 +100,19 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     m_continue_training = false;
 
-    if (!time_left_analyze(image)) {
+    const auto& time_opt = time_left_analyze(image);
+    if (!time_opt) {
         return false;
     }
 
-    {
-        json::value cb_info = basic_info_with_what("InfrastTrainingTimeLeft");
-        cb_info["details"] = json::object {
-            { "operator", m_operator_name }, { "skill", m_skill_name }, { "level", m_level },
-            { "hh", time_left[0] },          { "mm", time_left[1] },    { "ss", time_left[2] },
+    json::value info = basic_info_with_what("InfrastTrainingTimeLeft");
+    info["details"] = json::object {
+        { "operator", m_operator_name },
+        { "skill", m_skill_name },
+        { "level", m_level },
+        { "time", *time_opt },
         };
-        callback(AsstMsg::SubTaskExtraInfo, cb_info);
-    }
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
     return true;
 }
@@ -143,35 +142,21 @@ bool asst::InfrastTrainingTask::training_completed()
     return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
 }
 
-bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
+std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv::Mat& image)
 {
     LogTraceFunction;
-
-    RegionOCRer progress_analyzer(image);
-    std::regex re(R"(\d+)");
-    std::smatch match;
-
-    for (int i = 0; i < 3; ++i) {
-        progress_analyzer.set_task_info("InfrastTrainingTimeRec" + std::to_string(i));
-        if (!progress_analyzer.analyze()) {
-            return false;
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info("InfrastTrainingTime");
+    analyzer.set_use_raw(true);
+    if (!analyzer.analyze()) {
+        return std::nullopt;
         }
-
-        std::string raw_str = progress_analyzer.get_result().text;
-        Log.info(__FUNCTION__, raw_str);
-        if (!std::regex_search(raw_str, match, re)) {
-            Log.error(__FUNCTION__, "regex_search failed");
-            return false;
-        }
-        std::string str_time = match.str();
-
-        if (!utils::chars_to_number(str_time, time_left[i])) {
-            Log.error(__FUNCTION__, "chars_to_number failed");
-            return false;
-        }
+    const auto& text = analyzer.get_result().text;
+    if (text.empty() || text.find(":") == std::string::npos) {
+        Log.error(__FUNCTION__, "time left analyze failed");
+        return std::nullopt;
     }
-
-    return true;
+    return text;
 }
 
 asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
