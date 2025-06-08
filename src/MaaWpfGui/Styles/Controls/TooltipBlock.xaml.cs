@@ -37,6 +37,8 @@ public partial class TooltipBlock : UserControl
         set => SetValue(TooltipTextProperty, value);
     }
 
+    public bool TooltipTextEmpty => string.IsNullOrEmpty(TooltipText);
+
     public double TooltipMaxWidth
     {
         get => (double)GetValue(TooltipMaxWidthProperty);
