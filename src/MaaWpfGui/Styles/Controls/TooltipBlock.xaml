@@ -13,9 +13,8 @@
         Height="15"
         Margin="5,0,0,0"
         Background="{DynamicResource MouseOverRegionBrush}"
-        Opacity="0.5"
         Style="{StaticResource BorderCircular}"
-        ToolTipService.InitialShowDelay="0"
+        ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
         ToolTipService.IsEnabled="{c:Binding (TooltipTextEmpty ? \'False\' : \'True\')}">
         <Border.ToolTip>
             <TextBlock

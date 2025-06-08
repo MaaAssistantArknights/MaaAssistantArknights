@@ -84,14 +84,14 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         MouseLeftButtonDown="{s:Action SelectFile}"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource SelectTheFileTip}" />
                     <controls:TooltipBlock
                         Grid.Column="2"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         MouseLeftButtonDown="{s:Action PasteClipboard}"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource PasteClipboardTip}" />
                 </Grid>
             </StackPanel>
@@ -282,7 +282,7 @@
                     <controls:TooltipBlock
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource CopilotTaskNameTip}" />
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="0">
@@ -298,7 +298,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         MouseLeftButtonDown="{s:Action ImportFiles}"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource ImportFilesTip}" />
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="2">
@@ -316,7 +316,7 @@
                         VerticalAlignment="Top"
                         MouseLeftButtonDown="{s:Action AddCopilotTask}"
                         MouseRightButtonUp="{s:Action AddCopilotTask_Adverse}"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource CopilotAddTask}" />
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="3">
@@ -335,7 +335,7 @@
                         VerticalAlignment="Top"
                         MouseLeftButtonDown="{s:Action ClearCopilotTask}"
                         MouseRightButtonUp="{s:Action CleanUnableCopilotTask}"
-                        Opacity="0.5"
+                        NormalOpacity="0.25"
                         TooltipText="{DynamicResource CopilotClearTask}" />
                 </Grid>
             </Grid>
