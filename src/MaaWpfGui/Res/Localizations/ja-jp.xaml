@@ -563,16 +563,16 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
-    <system:String x:Key="SeriesTip" xml:space="preserve">·自動:
+    <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
 レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
 
-·値 (1～6):
+• 値 (1～6):
 設定された乗数に従って代理を実行します。
 現在の正気度が設定された乗数を満たしていない場合（例えば、5回分しか残っていないのに6回に設定している場合）、バトルに参加できません。
 または
 バトル回数が設定された乗数を満たしていない場合（例えば、5回分しか残っていないのに6回に設定している場合）、バトルに参加できません。
 
-·選択しない場合:
+• 選択しない場合:
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
