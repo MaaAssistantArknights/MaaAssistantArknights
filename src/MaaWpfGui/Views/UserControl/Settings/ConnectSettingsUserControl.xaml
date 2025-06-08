@@ -34,13 +34,15 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource AutoDetectConnection}"
-                IsChecked="{Binding AutoDetectConnection}"
-                ToolTip="{DynamicResource AutoDetectConnectionTip}" />
+            <StackPanel Orientation="Horizontal">
+                <CheckBox
+                    Margin="10,10,0,10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource AutoDetectConnection}"
+                    IsChecked="{Binding AutoDetectConnection}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="10"
                 VerticalAlignment="Center"
@@ -80,8 +82,7 @@
             IsEditable="True"
             IsEnabled="{c:Binding !AutoDetectConnection}"
             ItemsSource="{Binding ConnectAddressHistory}"
-            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-            ToolTip="{DynamicResource ConnectionAddressTip}">
+            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -105,6 +106,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </hc:ComboBox>
+        <controls:TooltipBlock Grid.Row="2" Margin="320,0,0,0" TooltipText="{DynamicResource ConnectionAddressTip}"/>
 
         <StackPanel Grid.Row="3" IsEnabled="{c:Binding !AutoDetectConnection}">
             <hc:ComboBox
@@ -206,11 +208,13 @@
             Text="{c:Binding ScreencapCost}" />
 
         <StackPanel Grid.Row="6" HorizontalAlignment="Center">
-            <CheckBox
-                Margin="20,10"
-                Content="{DynamicResource RetryOnDisconnected}"
-                IsChecked="{Binding RetryOnDisconnected}"
-                ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
+            <StackPanel Orientation="Horizontal">
+                <CheckBox
+                    Margin="20,10,0,10"
+                    Content="{DynamicResource RetryOnDisconnected}"
+                    IsChecked="{Binding RetryOnDisconnected}"/>
+                <controls:TooltipBlock TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource AllowAdbRestart}"

@@ -46,13 +46,14 @@
                         Content="{DynamicResource StartupUpdateCheck}"
                         IsChecked="{Binding StartupUpdateCheck}"
                         IsEnabled="False" />
-                    <CheckBox
-                        Margin="8"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource UpdateAutoCheck}"
-                        IsChecked="{Binding UpdateAutoCheck}"
-                        ToolTip="{DynamicResource UpdateAutoCheckTip}" />
+                    <StackPanel Margin="8" Orientation="Horizontal">
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{DynamicResource UpdateAutoCheck}"
+                            IsChecked="{Binding UpdateAutoCheck}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
+                    </StackPanel>
                     <CheckBox
                         Margin="8"
                         HorizontalAlignment="Left"

@@ -28,8 +28,7 @@
                 hc:TitleElement.Title="{DynamicResource AccountSwitch}"
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static helper:Instances.SettingsViewModel}}"
-                Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="{DynamicResource AccountSwitchTip}" />
+                Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
             <Button
                 Grid.Column="1"
                 Padding="12,1,12,1"
@@ -39,14 +38,19 @@
                 BorderThickness="0,1,1,1"
                 Command="{s:Action AccountSwitchManualRun}"
                 Content="{DynamicResource AccountSwitchManualRun}" />
+            <controls:TooltipBlock
+                Grid.Column="1"
+                Margin="0,0,5,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                TooltipText="{DynamicResource AccountSwitchTip}" />
         </Grid>
 
         <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource AutoDetectConnection}"
-                IsChecked="{Binding AutoDetectConnection}"
-                ToolTip="{DynamicResource AutoDetectConnectionTip}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource AutoDetectConnection}" IsChecked="{Binding AutoDetectConnection}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource AutoDetectConnectionTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AlwaysAutoDetectConnection}"
@@ -73,38 +77,44 @@
                     Content="{DynamicResource Select}" />
             </Grid>
 
-            <hc:ComboBox
-                Margin="0,5"
-                HorizontalContentAlignment="Stretch"
-                hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
-                IsEditable="True"
-                ItemsSource="{Binding ConnectAddressHistory}"
-                Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-                ToolTip="{DynamicResource ConnectionAddressTip}"
-                Visibility="{c:Binding !AutoDetectConnection}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                            <Button
-                                Grid.Column="1"
-                                HorizontalAlignment="Right"
-                                Command="{s:Action RemoveAddressClick}"
-                                CommandParameter="{Binding}"
-                                Content="×"
-                                FontWeight="Bold" />
-                        </Grid>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </hc:ComboBox>
+            <Grid Margin="0,5">
+                <hc:ComboBox
+                    HorizontalContentAlignment="Stretch"
+                    hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
+                    IsEditable="True"
+                    ItemsSource="{Binding ConnectAddressHistory}"
+                    Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
+                    Visibility="{c:Binding !AutoDetectConnection}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding}" />
+                                <Button
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Command="{s:Action RemoveAddressClick}"
+                                    CommandParameter="{Binding}"
+                                    Content="×"
+                                    FontWeight="Bold" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </hc:ComboBox>
+                <controls:TooltipBlock
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    TooltipText="{DynamicResource ConnectionAddressTip}" />
+            </Grid>
+
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource ConnectionPreset}"

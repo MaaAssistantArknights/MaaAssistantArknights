@@ -32,34 +32,49 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
-                    <CheckBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        Content="{DynamicResource UseSanityPotion}"
-                        IsChecked="{Binding UseMedicineWithNull}"
-                        IsEnabled="{c:Binding !UseStone}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
-                    <CheckBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
-                        IsChecked="{Binding UseStoneWithNull}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
-                    <CheckBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        Content="{DynamicResource PerformBattles}"
-                        IsChecked="{Binding HasTimesLimitedWithNull}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                    <Grid Margin="6">
+                        <CheckBox
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            Content="{DynamicResource UseSanityPotion}"
+                            IsChecked="{Binding UseMedicineWithNull}"
+                            IsEnabled="{c:Binding !UseStone}"
+                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                          Target={x:Type helper:CheckBoxHelper}}" />
+                        <controls:TooltipBlock
+                            Margin="0,2.5,7.5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            TooltipText="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                    </Grid>
+                    <Grid Margin="6">
+                        <CheckBox
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
+                            IsChecked="{Binding UseStoneWithNull}"
+                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                          Target={x:Type helper:CheckBoxHelper}}" />
+                        <controls:TooltipBlock
+                            Margin="0,2.5,7.5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            TooltipText="{DynamicResource CheckBoxesNotSaved}" />
+                    </Grid>
+                    <Grid Margin="6">
+                        <CheckBox
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            Content="{DynamicResource PerformBattles}"
+                            IsChecked="{Binding HasTimesLimitedWithNull}"
+                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                          Target={x:Type helper:CheckBoxHelper}}" />
+                        <controls:TooltipBlock
+                            Margin="0,2.5,7.5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            TooltipText="{DynamicResource CheckBoxesNotSavedAsNull}" />
+                    </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <hc:NumericUpDown
@@ -101,15 +116,20 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
-                    <CheckBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        Content="{DynamicResource AssignedMaterial}"
-                        IsChecked="{Binding IsSpecifiedDropsWithNull}"
-                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                      Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource NoAutoNavigation}" />
+                    <Grid Margin="6">
+                        <CheckBox
+                            Height="30"
+                            VerticalContentAlignment="Center"
+                            Content="{DynamicResource AssignedMaterial}"
+                            IsChecked="{Binding IsSpecifiedDropsWithNull}"
+                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                          Target={x:Type helper:CheckBoxHelper}}" />
+                        <controls:TooltipBlock
+                            Margin="0,2.5,7.5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            TooltipText="{DynamicResource NoAutoNavigation}" />
+                    </Grid>
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
                         <controls:TextBlock
                             HorizontalAlignment="Center"
@@ -155,17 +175,17 @@
                     <Grid Height="42">
                         <controls:TextBlock
                             x:Name="SeriesTextBlock"
-                            Margin="0,6,0,6"
+                            Margin="0,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Series}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource SeriesTip}">
-                            <controls:TooltipBlock.RenderTransform>
-                                <TranslateTransform X="{c:Binding ActualWidth/2 + 10, ElementName=SeriesTextBlock}" />
-                            </controls:TooltipBlock.RenderTransform>
-                        </controls:TooltipBlock>
+                        <controls:TooltipBlock
+                            Margin="0,10,13.5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            TooltipText="{DynamicResource SeriesTip}" />
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -189,12 +209,20 @@
                 <StackPanel Orientation="Vertical">
                     <Grid Height="42">
                         <controls:TextBlock
+                            x:Name="StageSelectTextBlock"
                             Margin="6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource StageSelect}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
+                        <Grid Visibility="{c:Binding CustomStageCode}">
+                            <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}">
+                                <controls:TooltipBlock.RenderTransform>
+                                    <TranslateTransform d:X="30" X="{c:Binding 'ActualWidth/2 + 10', ElementName=StageSelectTextBlock}" />
+                                </controls:TooltipBlock.RenderTransform>
+                            </controls:TooltipBlock>
+                        </Grid>
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
                         <controls:TextBlock
@@ -217,12 +245,18 @@
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
                         <controls:TextBlock
+                            x:Name="RemainingSanityStageTextBlock"
                             Margin="6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource RemainingSanityStage}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}">
+                            <controls:TooltipBlock.RenderTransform>
+                                <TranslateTransform d:X="30" X="{c:Binding 'ActualWidth/2 + 10', ElementName=RemainingSanityStageTextBlock}" />
+                            </controls:TooltipBlock.RenderTransform>
+                        </controls:TooltipBlock>
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -276,7 +310,6 @@
                             ItemsSource="{Binding RemainingSanityStageList}"
                             SelectedValue="{Binding RemainingSanityStage}"
                             SelectedValuePath="Value"
-                            ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                             Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
                     <StackPanel
@@ -320,7 +353,6 @@
                             IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                          Source={x:Static helper:Instances.TaskQueueViewModel}}"
                             Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
-                            ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                             Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
                 </StackPanel>
@@ -357,25 +389,22 @@
         </Grid>
 
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource DrGrandet}"
-                IsChecked="{Binding IsDrGrandet}"
-                ToolTip="{DynamicResource DrGrandetTip}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource CustomStageCode}"
-                IsChecked="{Binding CustomStageCode}"
-                ToolTip="{DynamicResource CustomStageCodeTip}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource DrGrandetTip}" />
+            </StackPanel>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
-            <CheckBox
-                Margin="0,10"
-                Content="{DynamicResource UseRemainingSanityStage}"
-                IsChecked="{Binding UseRemainingSanityStage}"
-                ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource UseRemainingSanityStage}" IsChecked="{Binding UseRemainingSanityStage}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"
