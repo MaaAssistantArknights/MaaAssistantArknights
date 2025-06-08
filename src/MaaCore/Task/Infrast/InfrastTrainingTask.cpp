@@ -58,11 +58,13 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
-    auto task_replace = Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
+    std::vector<std::pair<std::string, std::string>> task_replace =
+        Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
     ranges::copy(replace_map, std::back_inserter(task_replace));
     RegionOCRer rec_analyzer(image);
     rec_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
     rec_analyzer.set_replace(task_replace);
+    rec_analyzer.set_use_raw(true);
     if (!rec_analyzer.analyze()) {
         Log.error(__FUNCTION__, "recognition failed");
         return false;
