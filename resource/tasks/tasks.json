@@ -3340,20 +3340,9 @@
     "InfrastTrainingLevel1": {},
     "InfrastTrainingLevel2": {},
     "InfrastTrainingLevel3": {},
-    "InfrastTrainingTimeRec0": {
+    "InfrastTrainingTime": {
         "baseTask": "NumberOcrReplace",
-        "Doc": "HH",
-        "roi": [154, 645, 35, 40]
-    },
-    "InfrastTrainingTimeRec1": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "MM",
-        "roi": [188, 645, 35, 40]
-    },
-    "InfrastTrainingTimeRec2": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "SS",
-        "roi": [220, 645, 35, 40]
+        "roi": [150, 645, 100, 40]
     },
     "InfrastTrainingChooseSkillRec": {
         "algorithm": "OcrDetect",
