@@ -111,7 +111,7 @@ bool asst::InfrastTrainingTask::analyze_status()
         { "skill", m_skill_name },
         { "level", m_level },
         { "time", *time_opt },
-        };
+    };
     callback(AsstMsg::SubTaskExtraInfo, info);
 
     return true;
@@ -150,7 +150,7 @@ std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv
     analyzer.set_use_raw(true);
     if (!analyzer.analyze()) {
         return std::nullopt;
-        }
+    }
     const auto& text = analyzer.get_result().text;
     if (text.empty() || text.find(":") == std::string::npos) {
         Log.error(__FUNCTION__, "time left analyze failed");
