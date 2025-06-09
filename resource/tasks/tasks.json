@@ -504,12 +504,14 @@
         "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [300, 100, 20, 20],
-        "rectMove": [900, 100, 20, 20]
+        "rectMove": [900, 100, 20, 20],
+        "highResolutionSwipeFix": true
     },
     "ChapterSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [900, 100, 20, 20],
-        "rectMove": [300, 100, 20, 20]
+        "rectMove": [300, 100, 20, 20],
+        "highResolutionSwipeFix": true
     },
     "ChapterSwipeToTheLeft": {
         "Doc": "滑动到最左",

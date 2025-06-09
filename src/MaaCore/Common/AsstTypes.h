@@ -575,6 +575,7 @@ struct TaskInfo : public TaskPipelineInfo
     bool sub_error_ignored = false;                        // 子任务如果失败了，是否继续执行剩下的任务
     int max_times = INT_MAX;                               // 任务最多执行多少次
     Rect specific_rect;                                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+    bool high_resolution_swipe_fix = false;                // 是否启用高分辨率滑动修正，仅对 ProcessTask 生效（其实只有关卡的滑动用上了
     int pre_delay = 0;                                     // 执行该任务前的延时
     int post_delay = 0;                                    // 执行该任务后的延时
     int retry_times = INT_MAX;                             // 未找到图像时的重试次数

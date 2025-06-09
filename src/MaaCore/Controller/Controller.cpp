@@ -199,10 +199,11 @@ bool asst::Controller::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    bool high_resolution_swipe_fix)
 {
     CHECK_EXIST(m_controller, false);
-    return m_scale_proxy->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause);
+    return m_scale_proxy->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
 }
 
 bool asst::Controller::inject_input_event(InputEvent& event)
