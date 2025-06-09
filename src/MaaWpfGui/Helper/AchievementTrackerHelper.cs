@@ -61,7 +61,13 @@ namespace MaaWpfGui.Helper
             Load();
 
             // 保存一下新注册的成就，保证 data 里能找到
-            Save();
+            Achievements = _achievements
+                .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
+                .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
+                .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
+                .ThenBy(kv => kv.Value.Category) // 按类别分组
+                .ThenBy(kv => kv.Value.Id) // 最后按 Id
+                .ToDictionary(kv => kv.Key, kv => kv.Value);
             Instances.MainWindowManager.WindowRestored += (_, _) =>
             {
                 TryShowPendingGrowls();
