@@ -2,9 +2,11 @@
 
     <Style BasedOn="{StaticResource TextBoxExtend}" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
     </Style>
     <Style BasedOn="{StaticResource TextBoxExtend}" TargetType="{x:Type hc:TextBox}">
         <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
     </Style>
 
 </ResourceDictionary>

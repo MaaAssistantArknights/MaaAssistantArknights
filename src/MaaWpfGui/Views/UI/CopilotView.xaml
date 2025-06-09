@@ -139,8 +139,8 @@
                         IsHitTestVisible="{Binding AddUserAdditional}"
                         MaxLines="1"
                         Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
+                        ToolTip="{DynamicResource AddUserAdditionalTip}"
                         Visibility="{c:Binding AddUserAdditional}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
                 </StackPanel>
 
                 <StackPanel
