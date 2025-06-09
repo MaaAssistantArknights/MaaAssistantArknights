@@ -936,6 +936,9 @@
     "StageDrops-TimesCheck": {
         "text": ["連續", "成功", "代理", "作戰"]
     },
+    "StageDrops-TimesRec": {
+        "roi": [73, 364, 221, 31]
+    },
     "StageDrops-Stage12-TripleFlag": {
         "text": ["後勤", "急派"]
     },

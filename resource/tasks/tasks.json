@@ -4020,7 +4020,7 @@
         "baseTask": "NumberOcrReplace",
         "isAscii": false,
         "text": [],
-        "roi": [73, 364, 221, 50]
+        "roi": [73, 378, 221, 31]
     },
     "StageDrops-BaseLine": {
         "template": "empty.png",
