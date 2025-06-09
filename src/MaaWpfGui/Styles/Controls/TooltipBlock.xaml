@@ -11,7 +11,9 @@
     <Border
         Width="15"
         Height="15"
-        Margin="5,0,0,0"
+        Margin="2,0,0,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
         Background="{DynamicResource MouseOverRegionBrush}"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
