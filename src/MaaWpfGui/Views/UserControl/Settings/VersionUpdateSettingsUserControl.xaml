@@ -52,7 +52,7 @@
                             VerticalAlignment="Center"
                             Content="{DynamicResource UpdateAutoCheck}"
                             IsChecked="{Binding UpdateAutoCheck}" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateAutoCheckTip}" />
                     </StackPanel>
                     <CheckBox
                         Margin="8"
