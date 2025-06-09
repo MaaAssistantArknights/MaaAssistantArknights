@@ -346,8 +346,8 @@
         "next": ["ClickStageName", "FullStageNavigation"]
     },
     "FullStageNavigation": {
-        "Doc": "右滑五次，然后检测关卡并左滑",
-        "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
+        "Doc": "右滑 10 次，然后检测关卡并左滑",
+        "Doc2": "在一次关卡导航中，仅swipe 10次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
         "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
         "specificRect": [600, 100, 20, 20],
@@ -4525,7 +4525,7 @@
         "exceededNext": ["Copilot@ChapterSwipeToTheRightAndPlot"]
     },
     "Copilot@ChapterSwipeToTheRightAndPlot": {
-        "doc": "划五次到最右，然后扫有无初见剧情",
+        "doc": "划 10 次到最右，然后扫有无初见剧情",
         "baseTask": "ChapterSwipeToTheRight",
         "exceededNext": ["Copilot@ClickPlotStage"]
     },
