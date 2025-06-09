@@ -45,12 +45,12 @@ public unsafe class FontConfigIntegration
     public static void Install()
     {
         Debug.WriteLine($"FontConfigIntegration Install");
+
         // GC.KeepAlive(DefaultFont.UserInterface);
         // DefaultFont.UserInterface = GetFontFamilyFromPattern("system-ui");
         // DefaultFont.Monospace = GetFontFamilyFromPattern("monospace");
         // DefaultFont.SansSerif = GetFontFamilyFromPattern("sans-serif");
         // DefaultFont.Serif = GetFontFamilyFromPattern("serif");
-
         Install("Global User Interface", "system-ui");
         Install("Global Monospace", "monospace");
         Install("Global Sans Serif", "sans-serif");
