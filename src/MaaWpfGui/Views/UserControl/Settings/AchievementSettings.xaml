@@ -14,7 +14,7 @@
     d:DataContext="{d:DesignInstance {x:Type viewModels:AchievementSettingsUserControlModel}}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel MinWidth="250">
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <controls:TextBlock Text="{DynamicResource AchievementLevel}" />
             <controls:TextBlock Text="{Binding UnlockedCount, Source={x:Static helper:AchievementTrackerHelper.Instance}}" />
