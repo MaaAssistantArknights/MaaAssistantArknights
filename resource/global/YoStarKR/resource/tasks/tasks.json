@@ -1373,6 +1373,9 @@
     "StageDrops-TimesCheck": {
         "text": ["연속", "대리", "지휘"]
     },
+    "StageDrops-TimesRec": {
+        "roi": [73, 364, 221, 31]
+    },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],
         "template": "empty.png",

@@ -1333,6 +1333,9 @@
     "StageDrops-TimesCheck": {
         "text": ["Continuous", "Auto", "Operation"]
     },
+    "StageDrops-TimesRec": {
+        "roi": [73, 364, 221, 31]
+    },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
     },
