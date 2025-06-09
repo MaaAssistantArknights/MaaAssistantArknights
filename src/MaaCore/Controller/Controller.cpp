@@ -203,7 +203,8 @@ bool asst::Controller::swipe(
     bool high_resolution_swipe_fix)
 {
     CHECK_EXIST(m_controller, false);
-    return m_scale_proxy->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
+    return m_scale_proxy
+        ->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
 }
 
 bool asst::Controller::inject_input_event(InputEvent& event)
