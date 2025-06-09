@@ -215,7 +215,8 @@ ProcessTask::NodeStatus ProcessTask::run_action(const HitDetail& hits) const
             (param_size > 0) ? task->special_params.at(0) : 0,
             (param_size > 1) ? task->special_params.at(1) : false,
             (param_size > 2) ? task->special_params.at(2) : 1,
-            (param_size > 3) ? task->special_params.at(3) : 1);
+            (param_size > 3) ? task->special_params.at(3) : 1,
+            task->high_resolution_swipe_fix);
         return NodeStatus::Success;
     }
     case ProcessTaskAction::DoNothing:
@@ -426,7 +427,8 @@ void ProcessTask::exec_swipe_task(
     int duration,
     bool extra_swipe,
     double slope_in,
-    double slope_out) const
+    double slope_out,
+    bool high_resolution_swipe_fix) const
 {
-    ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out);
+    ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, false, high_resolution_swipe_fix);
 }

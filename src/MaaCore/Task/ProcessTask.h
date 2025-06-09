@@ -75,7 +75,8 @@ protected:
         int duration,
         bool extra_swipe,
         double slope_in,
-        double slope_out) const;
+        double slope_out,
+        bool high_resolution_swipe_fix) const;
 
     TaskList m_begin_task_list;
     std::string m_pre_task_name;

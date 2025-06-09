@@ -80,12 +80,24 @@ bool asst::ControlScaleProxy::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    bool high_resolution_swipe_fix)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
     int y1 = static_cast<int>(p1.y * m_control_scale);
-    int x2 = static_cast<int>(p2.x * m_control_scale);
-    int y2 = static_cast<int>(p2.y * m_control_scale);
+    int x2, y2;
+    if (high_resolution_swipe_fix) {
+        // 保持滑动距离一致：先计算原始的相对偏移，再加到缩放后的起点上
+        int dx = p2.x - p1.x; // 不缩放
+        int dy = p2.y - p1.y;
+        x2 = x1 + dx;
+        y2 = y1 + dy;
+        Log.trace("High-resolution swipe fix, offset", Point(dx, dy));
+    }
+    else {
+        x2 = static_cast<int>(p2.x * m_control_scale);
+        y2 = static_cast<int>(p2.y * m_control_scale);
+    }
 
     Log.trace("Swipe with scaled coordinates", p1, p2, m_control_scale);
 
@@ -99,7 +111,8 @@ bool asst::ControlScaleProxy::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    bool high_resolution_swipe_fix)
 {
     auto rand_p1 = rand_point_in_rect(r1);
     auto rand_p2 = rand_point_in_rect(r2);
@@ -113,7 +126,7 @@ bool asst::ControlScaleProxy::swipe(
         rand_p2.x = rand_p1.x - static_cast<int>(x_dist * opt.adb_swipe_x_distance_multiplier);
     }
 
-    return swipe(rand_p1, rand_p2, duration, extra_swipe, slope_in, slope_out, with_pause);
+    return swipe(rand_p1, rand_p2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
 }
 
 bool asst::ControlScaleProxy::inject_input_event(InputEvent event)
