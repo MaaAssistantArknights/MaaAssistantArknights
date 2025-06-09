@@ -26,7 +26,7 @@
     "AD-Open": {
         "baseTask": "SS-Open",
         "template": ["StageSideStory.png", "StageActivity.png"],
-        "next": ["ADChapterToAD"]   
+        "next": ["ADChapterToAD"]
     },
     "AD-OpenOcr": {
         "baseTask": "SS-OpenOcr",
