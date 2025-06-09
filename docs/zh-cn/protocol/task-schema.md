@@ -91,6 +91,10 @@ icon: material-symbols:task
         "specialParams": [int, ...],        // 某些特殊识别器需要的参数
                                             // 额外的，当 action 为 Swipe 时可选，[0] 表示 duration，[1] 表示 是否启用额外滑动
 
+        "highResolutionSwipeFix": false,    // 可选项，是否启用高分辨率滑动修复
+                                            // 现阶段应该只有关卡导航未使用 unity 滑动方式所以需要开启
+                                            // 默认为 false
+    
         /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
 
         "template": "xxx.png",              // 可选项，要匹配的图片文件名，可以是字符串或字符串列表
