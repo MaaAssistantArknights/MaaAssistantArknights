@@ -22,24 +22,9 @@ namespace MaaWpfGui.Helper
 {
     public static class JsonDataHelper
     {
-        private static readonly string _dataDir = Path.Combine(Environment.CurrentDirectory, "data");
+        private static readonly string _dataDir = "data";
         private static readonly object _lock = new();
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "JsonDataHelper");
-
-        static JsonDataHelper()
-        {
-            try
-            {
-                if (!Directory.Exists(_dataDir))
-                {
-                    Directory.CreateDirectory(_dataDir);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to create data directory.");
-            }
-        }
 
         /// <summary>
         /// 从 data/{key}.json 读取对象，如果不存在则返回 defaultValue
@@ -91,6 +76,7 @@ namespace MaaWpfGui.Helper
             {
                 try
                 {
+                    Directory.CreateDirectory(_dataDir);
                     var json = JsonConvert.SerializeObject(value, Formatting.Indented);
                     File.WriteAllText(filePath, json);
                     return true;
