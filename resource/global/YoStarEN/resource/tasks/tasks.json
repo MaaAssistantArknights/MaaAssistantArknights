@@ -1035,7 +1035,10 @@
     },
     "InfrastTrainingIdle": {
         "text": ["Idle", "ldle"],
-        "roi": [408, 636, 108, 58]
+        "roi": [326, 637, 165, 41]
+    },
+    "InfrastTrainingProcessing": {
+        "text": ["Progress"]
     },
     "InfrastTrainingCompleted": {
         "roi": [408, 636, 108, 58],
