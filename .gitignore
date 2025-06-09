@@ -467,3 +467,6 @@ Thumbs.db
 
 # macOS Finder Shit
 .DS_Store
+
+# wpf 设计器会运行代码）
+data/
