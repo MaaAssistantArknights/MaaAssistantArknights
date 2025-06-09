@@ -3314,6 +3314,10 @@
         "text": ["空闲中"],
         "roi": [346, 626, 161, 52]
     },
+    "InfrastTrainingProcessing": {
+        "baseTask": "InfrastTrainingIdle",
+        "text": ["进度"]
+    },
     "InfrastTrainingCompleted": {
         "baseTask": "InfrastTrainingIdle",
         "text": ["训练完成"],
