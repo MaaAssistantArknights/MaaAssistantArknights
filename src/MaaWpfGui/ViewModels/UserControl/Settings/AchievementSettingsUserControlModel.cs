@@ -15,13 +15,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
 using Stylet;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+using Application = System.Windows.Application;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -36,9 +38,33 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
     public void BackupAchievements()
     {
-        var path = $"Achievement_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
-        JsonDataHelper.Set(path, AchievementTrackerHelper.Instance.Achievements);
-        Growl.Success($"{LocalizationHelper.GetString("AchievementBackupSuccess")} data/{path}.json");
+        using var dialog = new FolderBrowserDialog();
+        dialog.SelectedPath = Environment.CurrentDirectory;
+        dialog.ShowNewFolderButton = true;
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+        {
+            return;
+        }
+
+        var selectedPath = dialog.SelectedPath;
+        var fileName = $"Achievement_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
+        bool success = JsonDataHelper.Set(fileName, AchievementTrackerHelper.Instance.Achievements, selectedPath);
+
+        if (success)
+        {
+            var growlInfo = new GrowlInfo
+            {
+                IsCustom = true,
+                Message = $"{LocalizationHelper.GetString("AchievementBackupSuccess")} {Path.Combine(selectedPath, fileName)}.json",
+                StaysOpen = true,
+            };
+            Growl.Success(growlInfo);
+        }
+        else
+        {
+            Growl.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
+        }
     }
 
     public void RestoreAchievements()
@@ -46,7 +72,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         var dlg = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "JSON|*.json",
-            InitialDirectory = Path.Combine(System.Environment.CurrentDirectory, "data"),
+            InitialDirectory = Path.Combine(Environment.CurrentDirectory, "data"),
         };
 
         if (dlg.ShowDialog() != true)
