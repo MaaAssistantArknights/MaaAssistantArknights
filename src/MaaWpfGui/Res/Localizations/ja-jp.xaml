@@ -285,6 +285,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDKを入力してください</system:String>
@@ -563,6 +564,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">• 自動:
+レベルの最大代理乗数を自動で判別し、最大代理乗数を維持し、正気ポーション使用後に正気度オーバーフローが発生しないようにします。
+
+• 値 (1～6):
+設定された乗数に従って代理を実行します。
+現在の正気度が設定された乗数を満たしていない場合（例えば、5回分しか残っていないのに6回に設定している場合）、バトルに参加できません。
+または
+バトル回数が設定された乗数を満たしていない場合（例えば、5回分しか残っていないのに6回に設定している場合）、バトルに参加できません。
+
+• 選択しない場合:
+ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
@@ -731,12 +743,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、｢,｣ でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません
-メインストーリーの同じチャプター、サイドストーリーのみサポートされています（EXチャプターからSチャプターへの移動はサポートされていません）
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません。サポートのみです:
+  1. メインストーリー：同一章内でのナビゲーション
+  2. SideStory：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
 開始前にステージ選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(強襲)</system:String>
-    <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
-    <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
+右クリックしてレイドの難易度を追加します</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">左クリックですべてのタスクをクリア
+右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>

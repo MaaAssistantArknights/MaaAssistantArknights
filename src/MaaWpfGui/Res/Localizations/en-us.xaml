@@ -284,6 +284,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from Github</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
@@ -559,6 +560,17 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="Series">Series</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
+Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
+
+• Value (1~6):
+Execute proxy according to the set multiplier
+If the current sanity is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you cannot enter the battle
+Or
+If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
+
+• Not selected:
+Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
@@ -722,17 +734,20 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators maybe cannot be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation
-Only supports: the same chapter of the main story, SideStory (does not support jumping from EX chapter to S chapter)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
+  1. MainStory: Navigation within the same chapter
+  2. SideStory: Navigation within current page (Normal/EX/S cannot jump to each other)
 Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
-    <system:String x:Key="CopilotAddTask">Right click to add challenge difficulty</system:String>
-    <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
+Right click to add challenge difficulty</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all tasks
+Right-click to clear inactive tasks</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>

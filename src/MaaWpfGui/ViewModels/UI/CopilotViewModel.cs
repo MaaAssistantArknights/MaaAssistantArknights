@@ -182,7 +182,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _filename, value);
                 ClearLog();
-                UpdateFilename(value);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+                }
+                else
+                {
+                    UpdateFilename(value);
+                }
             }
         }
 
@@ -522,16 +529,6 @@ namespace MaaWpfGui.ViewModels.UI
             RateCopilot(CopilotId, false);
         }
 
-        private void EasterEgg(string text)
-        {
-            switch (text)
-            {
-                case "/help":
-                    AddLog(LocalizationHelper.GetString("HelloWorld"), UiLogColor.Message, showTime: false);
-                    break;
-            }
-        }
-
         #endregion 方法
 
         #endregion UI绑定及操作
@@ -589,8 +586,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                EasterEgg(filename);
-                return;
+                payload = null;
             }
 
             if (payload is CopilotModel copilot)
