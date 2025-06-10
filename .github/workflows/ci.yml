@@ -560,7 +560,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Release to Github
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.2.2
         with:
           body_path: CHANGELOG.md
           files: |
