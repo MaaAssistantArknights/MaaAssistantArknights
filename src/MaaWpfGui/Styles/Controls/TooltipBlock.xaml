@@ -17,7 +17,7 @@
         Background="{DynamicResource MouseOverRegionBrush}"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
-        ToolTipService.IsEnabled="{c:Binding (TooltipTextEmpty ? \'False\' : \'True\')}">
+        ToolTipService.IsEnabled="{c:Binding 'TooltipTextEmpty ? \'False\' : \'True\''}">
         <Border.ToolTip>
             <TextBlock
                 MaxWidth="{Binding TooltipMaxWidth}"

@@ -135,12 +135,12 @@
                         MaxWidth="200"
                         Margin="10,0,0,0"
                         VerticalContentAlignment="Center"
-                        ToolTipService.InitialShowDelay="0"
                         IsEnabled="{c:Binding '(Form) and (Idle)'}"
                         IsHitTestVisible="{Binding AddUserAdditional}"
                         MaxLines="1"
                         Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}"
+                        ToolTipService.InitialShowDelay="0"
                         Visibility="{c:Binding AddUserAdditional}" />
                 </StackPanel>
 
