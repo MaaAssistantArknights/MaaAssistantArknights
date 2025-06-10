@@ -740,12 +740,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航
-僅支援: 主線關同一章節, SideStory (不支援從 EX 跳轉 S)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航。僅支援:
+  1. 主線關卡：同一章節內導航
+  2. SideStory：當前頁面內導航（普通/EX/S 相互不可跳轉）
 開始前請切換至關卡選擇頁面</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
-    <system:String x:Key="CopilotAddTask">右鍵添加突襲難度</system:String>
-    <system:String x:Key="CopilotClearTask">右鍵清除未激活任務</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵添加普通難度
+右鍵添加突襲難度</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">左键清除所有任务
+右键清除未激活任务</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>

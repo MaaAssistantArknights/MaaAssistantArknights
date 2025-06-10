@@ -742,12 +742,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、｢,｣ でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません
-メインストーリーの同じチャプター、サイドストーリーのみサポートされています（EXチャプターからSチャプターへの移動はサポートされていません）
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません。サポートのみです:
+  1. メインストーリー：同一章内でのナビゲーション
+  2. SideStory：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
 開始前にステージ選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(強襲)</system:String>
-    <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
-    <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
+右クリックしてレイドの難易度を追加します</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">左クリックですべてのタスクをクリア
+右クリックで非アクティブなタスクをクリア</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>

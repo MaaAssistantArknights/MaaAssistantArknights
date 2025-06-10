@@ -741,12 +741,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다.
-지원: 메인 스토리의 동일 챕터, 사이드 스토리(EX 챕터에서 S 챕터로의 이동은 지원하지 않습니다.)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원:
+  1. 메인 스토리: 동일 챕터 내 네비게이션
+  2. SideStory: 현재 페이지 내 네비게이션（일반/EX/S 서로 이동 불가）
 시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
-    <system:String x:Key="CopilotAddTask">하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
-    <system:String x:Key="CopilotClearTask">다 끝난 작업을 제거하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
+하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">좌클릭으로 모든 작업 지우기
+우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>

@@ -738,12 +738,15 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation
-Only supports: the same chapter of the main story, SideStory (does not support jumping from EX chapter to S chapter)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
+  1. MainStory: Navigation within the same chapter
+  2. SideStory: Navigation within current page (Normal/EX/S cannot jump to each other)
 Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
-    <system:String x:Key="CopilotAddTask">Right click to add challenge difficulty</system:String>
-    <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
+Right click to add challenge difficulty</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all tasks
+Right-click to clear inactive tasks</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
