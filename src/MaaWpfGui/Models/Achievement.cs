@@ -80,6 +80,9 @@ namespace MaaWpfGui.Models
         public bool IsRare { get; set; } = false;
 
         [JsonIgnore]
+        public bool IsVisibleInSearch { get; set; } = true;
+
+        [JsonIgnore]
         public string MedalBrushKey
         {
             get

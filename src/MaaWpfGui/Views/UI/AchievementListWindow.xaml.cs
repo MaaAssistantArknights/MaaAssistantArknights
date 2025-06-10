@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.ComponentModel;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UI
@@ -24,6 +25,13 @@ namespace MaaWpfGui.Views.UI
         {
             InitializeComponent();
             DataContext = AchievementTrackerHelper.Instance;
+            Closing += OnWindowClosing;
+        }
+
+        private static void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            // 关闭窗口时执行一次空搜索，重置可见性
+            AchievementTrackerHelper.Instance.Search();
         }
     }
 }

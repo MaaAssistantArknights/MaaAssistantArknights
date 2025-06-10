@@ -17,8 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Command;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
@@ -30,6 +32,21 @@ namespace MaaWpfGui.Helper
 {
     public class AchievementTrackerHelper : PropertyChangedBase
     {
+        public AchievementTrackerHelper()
+        {
+            InitializeAchievements();
+            Load();
+            Sort();
+            Instances.MainWindowManager.WindowRestored += (_, _) =>
+            {
+                TryShowPendingGrowls();
+            };
+
+            SearchCmd = new RelayCommand<string>(Search);
+        }
+
+        public static AchievementTrackerHelper Instance { get; } = new();
+
         private Dictionary<string, Achievement> _achievements = [];
 
         public Dictionary<string, Achievement> Achievements
@@ -47,24 +64,34 @@ namespace MaaWpfGui.Helper
         public Dictionary<string, Achievement> VisibleAchievements
         {
             get => Achievements
-                .Where(kv => kv.Value.IsUnlocked || !kv.Value.IsHidden)
+                .Where(kv => kv.Value.IsVisibleInSearch && (kv.Value.IsUnlocked || !kv.Value.IsHidden))
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        public int UnlockedCount => Achievements.Count(a => a.Value.IsUnlocked);
+        public ICommand SearchCmd { get; }
 
-        public static AchievementTrackerHelper Instance { get; } = new();
-
-        private AchievementTrackerHelper()
+        public void Search(string text = "")
         {
-            InitializeAchievements();
-            Load();
-            Sort();
-            Instances.MainWindowManager.WindowRestored += (_, _) =>
+            text = text.Trim();
+            if (string.IsNullOrWhiteSpace(text))
             {
-                TryShowPendingGrowls();
-            };
+                foreach (var achievement in Achievements)
+                {
+                    achievement.Value.IsVisibleInSearch = true;
+                }
+            }
+            else
+            {
+                foreach (var (_, value) in Achievements)
+                {
+                    value.IsVisibleInSearch = value.Title.Contains(text) || value.Description.Contains(text) || value.Conditions.Contains(text);
+                }
+            }
+
+            NotifyOfPropertyChange(nameof(VisibleAchievements));
         }
+
+        public int UnlockedCount => Achievements.Count(a => a.Value.IsUnlocked);
 
         private void Load()
         {
@@ -108,7 +135,7 @@ namespace MaaWpfGui.Helper
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
                 .ThenBy(kv => kv.Value.Category) // 按类别分组
-                // .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
+                                                 // .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
         }

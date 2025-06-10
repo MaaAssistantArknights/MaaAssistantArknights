@@ -65,5 +65,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <hc:SearchBar
+            MinWidth="100"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
+            CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+            IsRealTime="True" />
     </Grid>
 </hc:Window>
