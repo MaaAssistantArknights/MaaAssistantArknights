@@ -24,7 +24,18 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            <StackPanel
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="8,0,0,0"
+                    Text="{DynamicResource AccountSwitch}"
+                    Visibility="Hidden" />
+                <controls:TooltipBlock Margin="0,0,5,0" TooltipText="{DynamicResource AccountSwitchTip}" />
+            </StackPanel>
             <hc:TextBox
+                Grid.Column="0"
                 hc:TitleElement.Title="{DynamicResource AccountSwitch}"
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static helper:Instances.SettingsViewModel}}"
@@ -38,12 +49,6 @@
                 BorderThickness="0,1,1,1"
                 Command="{s:Action AccountSwitchManualRun}"
                 Content="{DynamicResource AccountSwitchManualRun}" />
-            <controls:TooltipBlock
-                Grid.Column="1"
-                Margin="0,0,5,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                TooltipText="{DynamicResource AccountSwitchTip}" />
         </Grid>
 
         <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
@@ -78,6 +83,16 @@
             </Grid>
 
             <Grid Margin="0,5">
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        Text="{DynamicResource ConnectionAddress}"
+                        Visibility="Hidden" />
+                    <controls:TooltipBlock Margin="0,0,5,0" TooltipText="{DynamicResource ConnectionAddressTip}" />
+                </StackPanel>
                 <hc:ComboBox
                     HorizontalContentAlignment="Stretch"
                     hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
@@ -108,11 +123,6 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </hc:ComboBox>
-                <controls:TooltipBlock
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    TooltipText="{DynamicResource ConnectionAddressTip}" />
             </Grid>
 
             <hc:ComboBox

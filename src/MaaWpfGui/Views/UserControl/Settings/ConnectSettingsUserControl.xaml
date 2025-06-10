@@ -71,42 +71,48 @@
                 Content="{DynamicResource Select}" />
         </StackPanel>
 
-        <hc:ComboBox
+        <StackPanel
             Grid.Row="2"
-            Width="300"
-            Height="30"
-            Margin="10"
-            HorizontalContentAlignment="Stretch"
-            hc:TitleElement.Title="{DynamicResource ConnectionAddress}"
-            hc:TitleElement.TitlePlacement="Left"
-            IsEditable="True"
-            IsEnabled="{c:Binding !AutoDetectConnection}"
-            ItemsSource="{Binding ConnectAddressHistory}"
-            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                        <Button
-                            Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Command="{s:Action RemoveAddressClick}"
-                            CommandParameter="{Binding}"
-                            Content="×"
-                            FontWeight="Bold" />
-                    </Grid>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </hc:ComboBox>
-        <controls:TooltipBlock Grid.Row="2" Margin="320,0,0,0" TooltipText="{DynamicResource ConnectionAddressTip}"/>
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <!--  对称居中  -->
+            <controls:TooltipBlock Visibility="Hidden" />
+            <hc:ComboBox
+                Width="300"
+                Height="30"
+                Margin="10"
+                hc:TitleElement.Title="{DynamicResource ConnectionAddress}"
+                hc:TitleElement.TitlePlacement="Left"
+                IsEditable="True"
+                IsEnabled="{c:Binding !AutoDetectConnection}"
+                ItemsSource="{Binding ConnectAddressHistory}"
+                Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Command="{s:Action RemoveAddressClick}"
+                                CommandParameter="{Binding}"
+                                Content="×"
+                                FontWeight="Bold" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+            <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
+        </StackPanel>
+
 
         <StackPanel Grid.Row="3" IsEnabled="{c:Binding !AutoDetectConnection}">
             <hc:ComboBox
@@ -212,7 +218,7 @@
                 <CheckBox
                     Margin="20,10,0,10"
                     Content="{DynamicResource RetryOnDisconnected}"
-                    IsChecked="{Binding RetryOnDisconnected}"/>
+                    IsChecked="{Binding RetryOnDisconnected}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
             </StackPanel>
             <CheckBox
