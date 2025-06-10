@@ -266,7 +266,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
     auto task_ptr = Task.get("StageDrops-Item");
 
     bool has_error = false;
-    const auto& roi = task_ptr->roi;
+    const auto& roi = task_ptr->rect_move;
     for (auto it = m_baseline.cbegin(); it != m_baseline.cend(); ++it) {
         const auto& [baseline, drop_type] = *it;
         bool is_first_drop_type = it == m_baseline.cbegin();
