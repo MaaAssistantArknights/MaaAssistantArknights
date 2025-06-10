@@ -3636,8 +3636,6 @@
     "BattleQuickFormationModule-Item": {
         "template": "empty.png",
         "action": "ClickSelf",
-        "method": "RGBCount",
-        "colorWithClose": false,
         "roi": [5, 370, 80, 350],
         "postDelay": 300
     },
