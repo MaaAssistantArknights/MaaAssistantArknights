@@ -1089,4 +1089,285 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="ReminderIntervalMinutes">リマインダー間隔時間（分）</system:String>
     <system:String x:Key="TaskTimeoutWarning">タスクが {0} 分以上実行されています（現在 {1} 分実行中）。長時間ログの更新がない場合、手動で介入する必要があるかもしれません。</system:String>
     <!--  !TimeOutTimer  -->
+    <!--  Achievement  -->
+    <system:String x:Key="AchievementCelebrate">🎉 実績を獲得した</system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">達成の条件: </system:String>
+    <system:String x:Key="AchievementLevel" xml:space="preserve">実績レベル：</system:String>
+    <system:String x:Key="AchievementView">実績を確認</system:String>
+    <system:String x:Key="AchievementBackup">実績をバックアップ</system:String>
+    <system:String x:Key="AchievementRestore">バックアップを読み込む</system:String>
+    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">獲得した：</system:String>
+    <system:String x:Key="AchievementList">実績リスト</system:String>
+    <system:String x:Key="AchievementBackupSuccess">バックアップした</system:String>
+    <system:String x:Key="AchievementRestoreSuccess">実績の進捗が復元されました</system:String>
+    <system:String x:Key="AchievementRestoreFailed">復元に失敗しました、ファイル形式が無効です</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender1.Title">戦術実戦</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">あなたはすでに始めました。</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">自動作戦を 10 回達成する</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender2.Title">代理パイオニア</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">私よりも熟練しています。</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">自動作戦を 100 回達成する</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">クローシャ代理プログラムは正常に動作中。</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Conditions">自動作戦を 1000 回達成する</system:String>
+
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">「私は自分がやっていることを知っている。」――あるユーザーがクリックする前に。</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">1秒以内にポップアップを閉じる（おそらく見ていなかったのでしょう）</system:String>
+
+    <system:String x:Key="Achievement.TacticalRetreat.Title">臨陣脱逃</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">これは放棄したわけではなく、戦術的撤退をしただけです！</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手動で実行中の代理を1回中止する</system:String>
+
+    <system:String x:Key="Achievement.PeekScreen.Title">覗き込む</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">じっと見つめるのが好きですね.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">Peepを1回使用する控</system:String>
+
+    <system:String x:Key="Achievement.CongratulationError.Title">喜報</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">私のMAAに何が起こったのかしら？</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">MAAのエラーメッセージをトリガーする</system:String>
+
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">招かれざる客</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">未知の領域をトリガーしました。</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">未処理の異常が発生し、クラッシュログに記録される</system:String>
+
+    <system:String x:Key="Achievement.CustomizationMaster.Title">カスタム達人</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">うちは二次元です！</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">背景画像を1回変更する</system:String>
+
+    <system:String x:Key="Achievement.RealGacha.Title">本当のガチャ</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">シミュレーションのガチャではないのですか？どうして本物を引いてしまったのでしょう？？?</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">パラスガチャを1回使用する</system:String>
+
+    <system:String x:Key="Achievement.FirstLaunch.Title">初めて来ました</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">MaaAssistantArknightsへようこそ。</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Conditions">ソフトウェアを初めて起動する</system:String>
+
+    <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
+    <system:String x:Key="Achievement.Martian.Description">古いバージョンは使いやすかったですか？</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
+
+    <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
+    <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAAのスタッフ規則</system:String>
+
+    <system:String x:Key="Achievement.VersionClick.Title">これもクリックできるの？</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">これは何ですか？バージョン番号、クリックしてみて。</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">設定ページのバージョン番号バッジをクリックする</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver1.Title">精緻な計画</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">理性を一度も無駄にしません。</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">理性回復機能を 1 回使用する</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver2.Title">補給マスター</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">あなたは薬剤の使い方がめっちゃ上手していた。</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">理性回復機能を 10 回使用する</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver3.Title">永遠の動力機</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">あなたの理性は永遠に尽きることがないようです。</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">理性回復機能を 50 回使用する</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">時間管理の達人</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">より効果的な計画。</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">スケジュール実行を 1 回実行する</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster2.Title">汎用型自動化解決策0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTSの自動化デプロイを熟知しました。</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">スケジュール実行を 100 回実行する</system:String>
+
+    <system:String x:Key="Achievement.SanityExpire.Title">もうすぐ期限切れ</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">急いで！！！</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">「48時間以内に期限が切れる回復剤を無制限に使用」を使用し、1回のタスクで 8 本以上の期限切れ理性回復剤を使用する</system:String>
+
+    <system:String x:Key="Achievement.OverLimitAgent.Title">限界を超える代理</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">大道を磨り減らすような代理タスクを実行しました。</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">1回のタスクで 100 回以上自動作戦を行う。</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">Mirrorちゃんです！これで私たちは助かります！</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初めてMirrorちゃんを成功裏に使用する</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">これ…合ってますか？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">誰が私のアルファベットビスケットを食べたのですか？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirrorちゃんの CDK を誤って記入する</system:String>
+
+    <system:String x:Key="Achievement.ProblemFeedback.Title">リスク調査</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">必ず排除すべきは、内部からのリスクです。</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">問題報告を 1 回行う</system:String>
+
+    <system:String x:Key="Achievement.MapOutdated.Title">せっかち者</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">急いでいることは分かっていますが、少しお待ちください。</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">リソースを更新せずに自動戦闘を使用する</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot1.Title">課題をコピー</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">本当に放置してクリアしました。</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">「自動戦闘」機能で 1 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot2.Title">ずっと放置</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">イベントを全部MAAに任せました。</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">「自動戦闘」機能で 10 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot3.Title">次回の調査も非常に簡単</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">最後までボスの仕組みが分かりませんでした。</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">「自動戦闘」機能で 100 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学無効</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">事はここまでです、まずは寝ましょう。</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公開求人中に6星のタグが 500 回出なかった</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">MAAがやったに違いない！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公開求人中に6星のタグが 500 回連続で出なかった</system:String>
+
+    <system:String x:Key="Achievement.MosquitoLeg.Title">少しずつ積み上げていく</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">あなたは少しずつ積み上げていくことの大切さを深く理解しています。</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">「サポートを借りで OF-1 をクリア」機能を5回以上使用する</system:String>
+
+    <system:String x:Key="Achievement.Pioneer1.Title">テストパイオニア</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">あなたはテスト中のバージョンを先行体験しました。</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">MAAをベータ版に更新する</system:String>
+
+    <system:String x:Key="Achievement.Pioneer2.Title">スーパーテストパイオニア</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">あなたは最新のテストバージョンを先行体験しました（新しい問題があれば問題報告をお願いします！）</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">MAAを内部テスト版に更新する</system:String>
+
+    <system:String x:Key="Achievement.Pioneer3.Title">デバッグの先駆者</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">このバージョンを使える人は特別です。</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">未公開バージョンのMAAを使用する</system:String>
+
+    <system:String x:Key="Achievement.Irreplaceable.Title">替代不可</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">たぶん、別の作業を変更すべきですか？</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">「自動戦闘 - 自動編成」使用時、少なくとも2名のオペレーターが不足している。</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">高遅延危機</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">「kale」</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均スクリーンショット時間が 800ms を超えている</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">少し遅くないですか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">スクリーンショットは少し苦労しているように見えます。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均スクリーンショット時間が 400ms から 800ms の間</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">スクリーンショットチャレンジ · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">スクリーンショットを強化してみませんか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均スクリーンショット時間が 400ms 未満</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">スクリーンショットチャレンジ · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">スクリーンショットが速すぎて反応できませんでした。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均スクリーンショット時間が 100ms 未満</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">スクリーンショットチャレンジ · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">スクリーンショット速度がMAAユーザーの90％を超えました。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均スクリーンショット時間が 10ms 未満</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">スクリーンショットチャレンジ · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">あなたは MAA の隠された力を発見しました。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均スクリーンショット時間が 5ms 未満</system:String>
+
+    <system:String x:Key="Achievement.Lucky.Title">ラッキー</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">この実績を見ることができる人は、三連金を引いたらしいです。</system:String>
+    <system:String x:Key="Achievement.Lucky.Conditions">MAAを起動した際に極小確率で発生する</system:String>
+
+    <system:String x:Key="Achievement.CdnTorture.Title">ネットワークは苦しい</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">宇宙より遠い場所、それは Github のサーバーです。</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Conditions">リソースのダウンロードに 3 回以上失敗する</system:String>
+
+    <system:String x:Key="Achievement.AfkWatcher.Title">放置仲間</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">放置しているのか、それとも忘れていましたか？</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">ウィンドウを最小化した後、長時間操作しない</system:String>
+
+    <system:String x:Key="Achievement.MissionStartCount.Title">離れず一緒に</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">信頼でもあり、依存でもあります。</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Conditions">1日のうちにタスクを 3 回以上開始する</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">初めて終点に到達</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">その場所を……辿り着くできるならば……</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">MAAで自動ローグを 1 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">再び終点に到達</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">この道はもう何度も通りました。</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">MAAで自動ローグを 5 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">終点常連</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">目を閉じても歩けます。</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">MAAで自動ローグを 10 回クリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">失敗は成功の母である</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">いつか成功の岸に到達するために、失敗は成功の階段です。</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">MAAで自動ローグを 100 回放棄する</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">満杯した</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">カノット、あなたの店で一番高いものを出して！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">ローグライクで、源石錐投資が999に到達する</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">励ましの一言</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">「Like」は作者への最大の励ましです！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">作業に 1 回「Like」を付ける</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">積極的な交流</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">「Like」を10回付けて、コミュニティに積極的に参加しています。</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">作業に累計 10 回「Like」を付ける</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">いいね達人</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">「Like」を50回付けたあなたは、すでに「Like」の達人です！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">作業に累計 50 回「Like」を付ける</system:String>
+
+    <system:String x:Key="Achievement.TaskStartCancel.Title">まさにジジジジジ</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">ああ、合っている、合っていない、ああ、合っている、合っていない…</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Conditions">タスク開始後、すぐに停止する。</system:String>
+
+    <system:String x:Key="Achievement.CopilotError.Title">あらら</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">事故が起きました…</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">代理戦闘中にエラーが発生</system:String>
+
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">長いタスク</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">少し待ってみませんか？</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">タイムアウトアラートが発生</system:String>
+
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">全勤先鋒</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">あなたは、すでに博士の代理人です。</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">タスク開始から連続してオンラインで3時間以上</system:String>
+
+    <system:String x:Key="Achievement.UseDaily1.Title">毎日支給</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">7日間連続でサインイン、残念ながら報酬はありません。</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Conditions">MAAを 7 日間連続で使用する</system:String>
+
+    <system:String x:Key="Achievement.UseDaily2.Title">全勤賞</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">今月の全勤賞を私に振り込んでください。</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Conditions">MAAを 30 日間連続で使用する</system:String>
+
+    <system:String x:Key="Achievement.UseDaily3.Title">年中無休</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">毎日でパラスを搾取しているのはあなたでしょうか？</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Conditions">MAAを 365 日間連続で使用する</system:String>
+
+    <system:String x:Key="Achievement.AprilFools.Title">愚かな同行者</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">今日は本当に誰かがログインするのですか？</system:String>
+    <system:String x:Key="Achievement.AprilFools.Conditions">4月1日にプログラムを起動する</system:String>
+
+    <system:String x:Key="Achievement.MidnightLaunch.Title">真夜中の戦闘</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">あなたは夜行性のエキスパートですか？</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Conditions">午前0時以降に起動する</system:String>
+
+    <system:String x:Key="Achievement.LunarNewYear.Title">新春おめでとう</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">幸運が6星と一緒にやってきます！</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Conditions">旧正月の期間にプログラムを起動する</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN04.Title">簡単なこと</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">この難易度は私を困らせることはできない。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">自動ローグで、任意のテーマで N4 難易度以上をクリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN08.Title">困難に挑戦する</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">困難を恐れない。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">自動ローグで、任意のテーマで N8 難易度以上をクリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN12.Title">人間を超越</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">普通の人よりも上手くプレイしています。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">自動ローグで、任意のテーマで N12 難易度以上をクリアする</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">本物の仙術だなあ。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">自動ローグで、任意のテーマで N15 難易度以上をクリアする</system:String>
+    <!--  !Achievement  -->
 </ResourceDictionary>

@@ -35,6 +35,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -646,13 +647,36 @@ namespace MaaWpfGui.Main
 
                         switch (screencapCostAvgInt)
                         {
+                            // 日志提示
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
                                 break;
-
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
+                            default:
+                            {
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
+
+                                if (screencapCostAvgInt < 100)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                                }
+
+                                if (screencapCostAvgInt < 10)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                                }
+
+                                if (screencapCostAvgInt < 5)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                                }
+
+                                break;
+                            }
                         }
                     }
 
@@ -756,6 +780,7 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
                         break;
@@ -818,6 +843,7 @@ namespace MaaWpfGui.Main
                             }
 
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
                         }
                     }
 
@@ -1109,6 +1135,11 @@ namespace MaaWpfGui.Main
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators"), UiLogColor.Error);
                             }
+
+                            if (missingOpers is not null && missingOpers.Count >= 2)
+                            {
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
+                            }
                         }
 
                         break;
@@ -1187,6 +1218,7 @@ namespace MaaWpfGui.Main
                             /* 肉鸽相关 */
                             case "ExitThenAbandon":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"), UiLogColor.Error);
+                                AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RoguelikeRetreat);
                                 break;
 
                             // case "StartAction":
@@ -1248,6 +1280,7 @@ namespace MaaWpfGui.Main
 
                             case "GamePass":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeGamePass"), UiLogColor.RareOperator);
+                                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.RoguelikeGamePassGroup);
                                 break;
 
                             case "BattleStartAll":
@@ -1309,6 +1342,7 @@ namespace MaaWpfGui.Main
                                     case "EndOfActionThenStop":
                                         TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.MosquitoLeg, 1);
                                         break;
                                     case "VisitLimited" or "VisitNextBlack":
                                         TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
@@ -1387,6 +1421,9 @@ namespace MaaWpfGui.Main
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                                 : string.Empty)}");
+
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
+
                         break;
                     }
 
@@ -1456,6 +1493,16 @@ namespace MaaWpfGui.Main
                         else
                         {
                             Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
+                        }
+
+                        if (level == 6)
+                        {
+                            AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RecruitNoSixStarStreak, 1);
+                        }
+                        else
+                        {
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStar); // 累计
+                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RecruitNoSixStarStreak); // 连续
                         }
 
                         /*
@@ -1690,6 +1737,11 @@ namespace MaaWpfGui.Main
                         if ((subTaskDetails?.Children())?.Any() is true)
                         {
                             FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
+                            if (FightTimes.TimesFinished > 0)
+                            {
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                            }
+
                             if (FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
                             {
                                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
@@ -1720,11 +1772,14 @@ namespace MaaWpfGui.Main
                     {
                         MedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
                     }
                     else
                     {
                         ExpiringMedicineUsedTimes += medicineCount;
                         medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
+                        AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                     }
 
                     Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);

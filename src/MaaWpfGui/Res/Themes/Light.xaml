@@ -25,6 +25,31 @@
         Opacity="0.75"
         Color="#eeeeee" />
 
+    <!--  普通成就（银色）  -->
+    <SolidColorBrush x:Key="NormalMedalBrush" Color="#B0B0B0" />
+    <!--  隐藏成就（金色）  -->
+    <SolidColorBrush x:Key="HiddenMedalBrush" Color="#D4AF37" />
+    <!--  未解锁  -->
+    <SolidColorBrush x:Key="LockedMedalBrush" Color="#6B4C2B" />
+    <SolidColorBrush x:Key="AchievementBrush.BasicUsage" Color="#42A5F5" />
+    <SolidColorBrush x:Key="AchievementBrush.FeatureExploration" Color="#66BB6A" />
+    <SolidColorBrush x:Key="AchievementBrush.AutoBattle" Color="#FFA726" />
+    <SolidColorBrush x:Key="AchievementBrush.Humor" Color="#AB47BC" />
+    <SolidColorBrush x:Key="AchievementBrush.BugRelated" Color="#EF5350" />
+    <SolidColorBrush x:Key="AchievementBrush.Behavior" Color="#37474F" />
+    <SolidColorBrush x:Key="AchievementBrush.EasterEgg" Color="#FFEB3B" />
+    <SolidColorBrush x:Key="AchievementBrush.Rare" Color="#EC407A" />
+    <LinearGradientBrush x:Key="AchievementBrush.Rare.LinearGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0.0" Color="#42A5F5" />
+        <GradientStop Offset="0.14" Color="#66BB6A" />
+        <GradientStop Offset="0.29" Color="#FFA726" />
+        <GradientStop Offset="0.43" Color="#AB47BC" />
+        <GradientStop Offset="0.57" Color="#EF5350" />
+        <GradientStop Offset="0.71" Color="#37474F" />
+        <GradientStop Offset="0.86" Color="#FFEB3B" />
+        <GradientStop Offset="1" Color="#EC407A" />
+    </LinearGradientBrush>
+
     <!--  MdXaml Brush  -->
     <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
     <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />

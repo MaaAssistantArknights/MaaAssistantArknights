@@ -22,24 +22,9 @@ namespace MaaWpfGui.Helper
 {
     public static class JsonDataHelper
     {
-        private static readonly string _dataDir = Path.Combine(Environment.CurrentDirectory, "data");
+        private static readonly string _dataDir = "data";
         private static readonly object _lock = new();
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "JsonDataHelper");
-
-        static JsonDataHelper()
-        {
-            try
-            {
-                if (!Directory.Exists(_dataDir))
-                {
-                    Directory.CreateDirectory(_dataDir);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to create data directory.");
-            }
-        }
 
         /// <summary>
         /// 从 data/{key}.json 读取对象，如果不存在则返回 defaultValue
@@ -47,10 +32,11 @@ namespace MaaWpfGui.Helper
         /// <typeparam name="T">要获取的数据类型</typeparam>
         /// <param name="key">文件名</param>
         /// <param name="defaultValue">数据类型</param>
+        /// <param name="dataDir">目标文件夹</param>
         /// <returns>反序列化数据</returns>
-        public static T? Get<T>(string key, T? defaultValue = default)
+        public static T? Get<T>(string key, T? defaultValue = default, string? dataDir = null)
         {
-            var filePath = Path.Combine(_dataDir, $"{key}.json");
+            var filePath = Path.Combine(dataDir ?? _dataDir, $"{key}.json");
 
             if (!File.Exists(filePath))
             {
@@ -80,15 +66,17 @@ namespace MaaWpfGui.Helper
         /// <typeparam name="T">要写入的数据类型</typeparam>
         /// <param name="key">文件名</param>
         /// <param name="value">数据</param>
+        /// <param name="dataDir">目标文件夹</param>
         /// <returns>是否设置成功</returns>
-        public static bool Set<T>(string key, T value)
+        public static bool Set<T>(string key, T value, string? dataDir = null)
         {
-            var filePath = Path.Combine(_dataDir, $"{key}.json");
+            var filePath = Path.Combine(dataDir ?? _dataDir, $"{key}.json");
 
             lock (_lock)
             {
                 try
                 {
+                    Directory.CreateDirectory(_dataDir);
                     var json = JsonConvert.SerializeObject(value, Formatting.Indented);
                     File.WriteAllText(filePath, json);
                     return true;

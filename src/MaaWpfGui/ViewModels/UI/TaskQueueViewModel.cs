@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -629,6 +630,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             LinkStart();
+
+            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup, 1);
         }
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
@@ -1247,6 +1250,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private DateTime? _taskStartTime = null;
+
         /// <summary>
         /// Starts.
         /// </summary>
@@ -1257,6 +1262,8 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Not idle, return.");
                 return;
             }
+
+            _taskStartTime = DateTime.Now;
 
             ClearLog();
 
@@ -1408,6 +1415,26 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
                 await Stop();
                 SetStopped();
+            }
+
+            AchievementTrackerHelper.Instance.MissionStartCountAdd();
+            AchievementTrackerHelper.Instance.UseDailyAdd();
+        }
+
+        public void ManualStop()
+        {
+            _ = Stop();
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
+
+            if (_taskStartTime is null)
+            {
+                return;
+            }
+
+            var duration = DateTime.Now - _taskStartTime.Value;
+            if (duration.TotalSeconds < 5)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.TaskStartCancel);
             }
         }
 

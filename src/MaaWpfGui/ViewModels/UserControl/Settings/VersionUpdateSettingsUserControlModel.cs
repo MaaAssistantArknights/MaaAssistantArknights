@@ -509,6 +509,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         {
             ResourceUpdater.ResourceReload();
         }
+        else
+        {
+            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.CdnTorture);
+        }
 
         IsCheckingForUpdates = false;
     }

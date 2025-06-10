@@ -1,0 +1,68 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Settings.AchievementSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type viewModels:AchievementSettingsUserControlModel}}"
+    s:View.ActionTarget="{Binding}"
+    mc:Ignorable="d">
+    <StackPanel MinWidth="250">
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <controls:TextBlock Text="{DynamicResource AchievementLevel}" />
+            <controls:TextBlock Text="{Binding UnlockedCount, Source={x:Static helper:AchievementTrackerHelper.Instance}}" />
+        </StackPanel>
+        <Button
+            Margin="5"
+            Command="{s:Action OnShowAchievementsClick}"
+            Content="{DynamicResource AchievementView}" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Command="{s:Action BackupAchievements}"
+                Content="{DynamicResource AchievementBackup}" />
+            <Button
+                Margin="5"
+                Command="{s:Action RestoreAchievements}"
+                Content="{DynamicResource AchievementRestore}" />
+        </StackPanel>
+
+        <Border
+            Width="100"
+            Height="100"
+            Margin="5"
+            hc:FloatingBlock.Content="{Binding Tip}"
+            Background="{DynamicResource MouseOverRegionBrush}"
+            BorderBrush="{Binding MedalBrush}"
+            BorderThickness="1"
+            PreviewMouseLeftButtonDown="{s:Action OnDebugClick}"
+            Style="{StaticResource BorderCircular}">
+            <Path
+                Margin="4"
+                d:Fill="{DynamicResource NormalMedalBrush}"
+                Data="{DynamicResource HangoverGeometry}"
+                Fill="{Binding MedalBrush}"
+                Stretch="Uniform" />
+        </Border>
+
+        <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding IsDebugVersion}">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Command="{s:Action UnlockAll}"
+                    Content="Unlock All" />
+                <Button
+                    Margin="5"
+                    Command="{s:Action LockAll}"
+                    Content="Lock All" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

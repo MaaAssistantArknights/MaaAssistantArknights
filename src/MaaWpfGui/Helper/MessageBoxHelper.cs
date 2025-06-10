@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using Windows.Win32;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
@@ -157,7 +158,18 @@ namespace MaaWpfGui.Helper
                     YesContent = yes,
                     NoContent = no,
                 };
-                return HandyControl.Controls.MessageBox.Show(info);
+
+                DateTime startTime = DateTime.Now;
+
+                var result = HandyControl.Controls.MessageBox.Show(info);
+
+                var duration = DateTime.Now - startTime;
+                if (duration.TotalSeconds <= 1)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.QuickCloser);
+                }
+
+                return result;
             }
         }
 
