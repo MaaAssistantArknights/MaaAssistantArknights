@@ -703,6 +703,9 @@
     <None Include="..\..\resource\tasks\Stages\base.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
+    <None Include="..\..\resource\tasks\Stages\AD.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h">

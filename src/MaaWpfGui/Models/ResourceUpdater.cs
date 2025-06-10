@@ -1,6 +1,6 @@
 // <copyright file="ResourceUpdater.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 
 using System;
@@ -169,6 +170,7 @@ namespace MaaWpfGui.Models
                         break;
                     case Enums.MirrorChyanErrorCode.KeyInvalid:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
+                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                         break;
                     case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
@@ -279,6 +281,7 @@ namespace MaaWpfGui.Models
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanFirstUse);
             return true;
         }
 
@@ -289,6 +292,7 @@ namespace MaaWpfGui.Models
         /// <list type="bullet">
         /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本。（海外源不会自动下载）</description></item>
+        /// <item><description><see cref="CheckUpdateRetT.NoMirrorChyanCdk"/>：有新版本，但未填写 cdk</description></item>
         /// <item><description><see cref="CheckUpdateRetT.OnlyGameResourceUpdated"/>：下载成功。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
         /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>

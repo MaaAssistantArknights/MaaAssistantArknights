@@ -25,12 +25,12 @@
                 Margin="0,10"
                 Content="{DynamicResource ReceiveMail}"
                 IsChecked="{Binding ReceiveMail}" />
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding ReceiveFreeRecruit}"
-                ToolTip="{DynamicResource ReceiveFreeRecruitTip}">
-                <controls:TextBlock Text="{DynamicResource ReceiveFreeRecruit}" TextWrapping="Wrap" />
-            </CheckBox>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding ReceiveFreeRecruit}">
+                    <controls:TextBlock Text="{DynamicResource ReceiveFreeRecruit}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource ReceiveFreeRecruitTip}" />
+            </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding ReceiveOrundum}">
                 <controls:TextBlock Text="{DynamicResource ReceiveOrundum}" TextWrapping="Wrap" />
             </CheckBox>

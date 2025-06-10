@@ -8,6 +8,7 @@
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/BattleHelper.h"
+#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {
@@ -34,17 +35,16 @@ protected:
     virtual AbstractTask& this_task() override { return *this; }
 
     virtual void clear() override;
-
-    bool do_once();
+    bool do_once(const cv::Mat& image, const cv::Mat& image_prev);
 
     struct DeployPlanInfo
     {
         // int oper_priority;                         // 干员招募优先级
         std::string oper_name;                        // 干员名称
-        int oper_order_in_group;                      // 干员在干员组中排名
-        int rank;                                     // 干员组在部署指令扁平化后的排名
+        int oper_order_in_group {};                   // 干员在干员组中排名
+        int rank {};                                  // 干员组在部署指令扁平化后的排名
         Point placed;                                 // 指令坐标
-        battle::DeployDirection direction;            // 部署朝向
+        battle::DeployDirection direction {};         // 部署朝向
 
         bool operator<(const DeployPlanInfo& x) const // 重载小于号,同rank时先部署组内排名靠前的
         {

@@ -1,6 +1,6 @@
 // <copyright file="MessageBoxHelper.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #pragma warning disable CS0618
 #pragma warning disable SA1401
 
@@ -20,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using Windows.Win32;
 using Windows.Win32.UI.Controls;
 using Windows.Win32.UI.Shell;
@@ -157,7 +159,18 @@ namespace MaaWpfGui.Helper
                     YesContent = yes,
                     NoContent = no,
                 };
-                return HandyControl.Controls.MessageBox.Show(info);
+
+                DateTime startTime = DateTime.Now;
+
+                var result = HandyControl.Controls.MessageBox.Show(info);
+
+                var duration = DateTime.Now - startTime;
+                if (duration.TotalSeconds <= 1)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.QuickCloser);
+                }
+
+                return result;
             }
         }
 

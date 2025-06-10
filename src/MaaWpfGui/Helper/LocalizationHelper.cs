@@ -1,6 +1,6 @@
 // <copyright file="LocalizationHelper.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -184,9 +184,9 @@ namespace MaaWpfGui.Helper
         private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];
         private static readonly Random _pallasRand = new();
 
-        private static string GetPallasString()
+        public static string GetPallasString(int low = 3, int high = 6)
         {
-            int len = _pallasRand.Next(3, 6);
+            int len = _pallasRand.Next(low, high);
             StringBuilder cheersBuilder = new StringBuilder(len);
             for (int i = 0; i < len; i++)
             {

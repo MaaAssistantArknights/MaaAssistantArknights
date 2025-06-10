@@ -91,6 +91,9 @@ icon: material-symbols:task
         "specialParams": [ int, ... ],      // 某些特殊辨識器需要的參數
                                             // 額外的，當 action 為 Swipe 時可選，[0] 表示 duration，[1] 表示 是否啟用額外滑動
 
+        "highResolutionSwipeFix": false,    // 可選項，是否啟用高解析度滑動修正，目前應該只有關卡導航未使用 Unity 滑動方式所以需要開啟
+                                            // 預設為 false
+
         /* 以下欄位僅當 algorithm 為 MatchTemplate 時有效 */
 
         "template": "xxx.png",              // 可選項，要匹配的圖片檔案名稱

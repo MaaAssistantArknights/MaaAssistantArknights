@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.HotKeyEditorUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,8 +17,7 @@
         IsReadOnlyCaretVisible="False"
         IsUndoEnabled="False"
         PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
-        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}"
-        ToolTip="{DynamicResource HotKeyChangingTip}">
+        Text="{Binding HotKey, ElementName=UserControl, Mode=OneWay, TargetNullValue=&lt; not set &gt;}">
         <TextBox.ContextMenu>
             <ContextMenu Visibility="Collapsed" />
         </TextBox.ContextMenu>

@@ -1,6 +1,6 @@
 // <copyright file="CopilotViewModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 
 using System;
@@ -182,7 +183,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _filename, value);
                 ClearLog();
-                UpdateFilename(value);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+                }
+                else
+                {
+                    UpdateFilename(value);
+                }
             }
         }
 
@@ -513,23 +521,19 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void LikeWebJson()
         {
-            RateCopilot(CopilotId);
+            Task.Run(async () =>
+            {
+                if (await RateCopilot(CopilotId) == PrtsStatus.Success)
+                {
+                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.CopilotLikeGroup);
+                }
+            });
         }
 
         // ReSharper disable once UnusedMember.Global
         public void DislikeWebJson()
         {
-            RateCopilot(CopilotId, false);
-        }
-
-        private void EasterEgg(string text)
-        {
-            switch (text)
-            {
-                case "/help":
-                    AddLog(LocalizationHelper.GetString("HelloWorld"), UiLogColor.Message, showTime: false);
-                    break;
-            }
+            _ = RateCopilot(CopilotId, false);
         }
 
         #endregion 方法
@@ -589,8 +593,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                EasterEgg(filename);
-                return;
+                payload = null;
             }
 
             if (payload is CopilotModel copilot)
@@ -712,6 +715,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
                 navigateName = FindStageName(copilot.Documentation?.Title ?? string.Empty);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             }
 
             CopilotTaskName = navigateName;
@@ -778,6 +782,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {copilot.StageName}", UiLogColor.Error, showTime: false);
                 _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
             }
 
             if (writeToCache)
@@ -1080,7 +1085,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1)
                     {
-                        RateCopilot(model.CopilotId);
+                        _ = RateCopilot(model.CopilotId);
                     }
 
                     break;
@@ -1297,11 +1302,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async void RateCopilot(int copilotId, bool isLike = true)
+        private async Task<PrtsStatus> RateCopilot(int copilotId, bool isLike = true)
         {
             if (copilotId <= 0 || _recentlyRatedCopilotId.Contains(copilotId))
             {
-                return;
+                return PrtsStatus.NotFound;
             }
 
             var result = await RateWebJsonAsync(copilotId, isLike ? "Like" : "Dislike");
@@ -1316,6 +1321,8 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error, showTime: false);
                     break;
             }
+
+            return result;
         }
 
         private async Task<bool> VerifyCopilotListTask()
@@ -1358,6 +1365,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
                     _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
                     return false;
                 }
             }

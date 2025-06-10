@@ -74,25 +74,30 @@
                 ItemsSource="{Binding RoguelikeRolesList}"
                 SelectedValue="{Binding RoguelikeRoles}"
                 SelectedValuePath="Value" />
-            <hc:ComboBox
-                Name="StartingCoreCharComboBox"
-                Margin="0,5,0,25"
-                hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
-                DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
-                IsEditable="True"
-                IsTextSearchEnabled="False"
-                ItemsSource="{Binding RoguelikeCoreCharList}"
-                Loaded="{s:Action MakeComboBoxSearchable,
-                                  Target={x:Type setting:SettingsViewModel}}"
-                ToolTip="{DynamicResource StartingCoreCharTip}">
-                <hc:ComboBox.Text>
-                    <Binding Path="RoguelikeCoreChar" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <local:StartingCoreCharRule />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </hc:ComboBox.Text>
-            </hc:ComboBox>
+            <Grid Margin="0,5">
+                <hc:ComboBox
+                    Name="StartingCoreCharComboBox"
+                    hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
+                    DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
+                    IsEditable="True"
+                    IsTextSearchEnabled="False"
+                    ItemsSource="{Binding RoguelikeCoreCharList}"
+                    Loaded="{s:Action MakeComboBoxSearchable,
+                                      Target={x:Type setting:SettingsViewModel}}">
+                    <hc:ComboBox.Text>
+                        <Binding Path="RoguelikeCoreChar" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:StartingCoreCharRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </hc:ComboBox.Text>
+                </hc:ComboBox>
+                <controls:TooltipBlock
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    TooltipText="{DynamicResource StartingCoreCharTip}" />
+            </Grid>
         </StackPanel>
 
         <StackPanel IsEnabled="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">

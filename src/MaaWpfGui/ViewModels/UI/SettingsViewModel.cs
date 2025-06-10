@@ -1,6 +1,6 @@
 // <copyright file="SettingsViewModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -110,6 +110,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static IssueReportUserControlModel IssueReportSettings { get; } = IssueReportUserControlModel.Instance;
 
+        /// <summary>
+        /// Gets 成就model
+        /// </summary>
+        public static AchievementSettingsUserControlModel AchievementSettings { get; } = AchievementSettingsUserControlModel.Instance;
+
         #endregion 设置界面Model
 
         /// <summary>
@@ -141,6 +146,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("BackgroundSettings"),
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
+            LocalizationHelper.GetString("AchievementSettings"),
             LocalizationHelper.GetString("UpdateSettings"),
             LocalizationHelper.GetString("IssueReport"),
             LocalizationHelper.GetString("AboutUs"),

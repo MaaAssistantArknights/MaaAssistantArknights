@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
+    <system:String x:Key="AchievementSettings">Achievements</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="IssueReport">Issue Report</system:String>
     <system:String x:Key="MaaVersion">MAA Version</system:String>
@@ -284,6 +285,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from Github</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
@@ -559,6 +561,17 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="Series">Series</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
+Automatically identify the maximum proxy multiplier of the level, maintain the maximum proxy multiplier and do not overflow sanity after using sanity potion
+
+• Value (1~6):
+Execute proxy according to the set multiplier
+If the current sanity is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you cannot enter the battle
+Or
+If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
+
+• Not selected:
+Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
@@ -722,17 +735,20 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators maybe cannot be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation
-Only supports: the same chapter of the main story, SideStory (does not support jumping from EX chapter to S chapter)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
+  1. MainStory: Navigation within the same chapter
+  2. SideStory: Navigation within current page (Normal/EX/S cannot jump to each other)
 Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
-    <system:String x:Key="CopilotAddTask">Right click to add challenge difficulty</system:String>
-    <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
+Right click to add challenge difficulty</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all tasks
+Right-click to clear inactive tasks</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
@@ -847,6 +863,7 @@ Please switch to the stage selection page before starting</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Combat completed</system:String>
     <system:String x:Key="FightFailed">Combat failed</system:String>
+    <system:String x:Key="FightTimesUnused">Completed {0} battles, will execute {1} multiplier proxy next time, will complete {2} battles after entering, exceeds {3} limit, will not enter battle</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
@@ -1069,4 +1086,285 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="ReminderIntervalMinutes">Reminder interval (minutes)</system:String>
     <system:String x:Key="TaskTimeoutWarning">The task has been running for more than {0} minutes (currently running for {1} minutes). If there are no further log updates for a long time, manual intervention may be required.</system:String>
     <!--  !TimeOutTimer  -->
+    <!--  Achievement  -->
+    <system:String x:Key="AchievementCelebrate">🎉 Achievement Unlocked</system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">Unlock Condition: </system:String>
+    <system:String x:Key="AchievementLevel" xml:space="preserve">Achievement Level: </system:String>
+    <system:String x:Key="AchievementView">View Achievements</system:String>
+    <system:String x:Key="AchievementBackup">Backup Achievements</system:String>
+    <system:String x:Key="AchievementRestore">Restore Backup</system:String>
+    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">Unlocked at: </system:String>
+    <system:String x:Key="AchievementList">Achievement List</system:String>
+    <system:String x:Key="AchievementBackupSuccess">Backed up to</system:String>
+    <system:String x:Key="AchievementRestoreSuccess">Achievement progress restored</system:String>
+    <system:String x:Key="AchievementRestoreFailed">Restore failed, invalid file format</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender1.Title">Tactical Practice</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">You've got the hang of it</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">Complete 10 auto-battle operations</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender2.Title">Auto-Battle Pioneer</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">Even more skilled than me</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">Complete 50 auto-battle operations</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">Closure's proxy program is running normally.</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Conditions">Complete 1000 auto-battle operations</system:String>
+
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">"I know what I'm doing!" —A user, moments before clicking</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">Close popup within 1 second (you probably didn't read it)</system:String>
+
+    <system:String x:Key="Achievement.TacticalRetreat.Title">Tactical Retreat</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">I'm not giving up, it's a tactical retreat!</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">Manually stop a running auto-battle operation</system:String>
+
+    <system:String x:Key="Achievement.PeekScreen.Title">Screen Peeker</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">Love staring at the screen, huh? .jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">Use Peep function once</system:String>
+
+    <system:String x:Key="Achievement.CongratulationError.Title">Good News</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">Why isn't my MAA working anymore?</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">Triggered a MAA error</system:String>
+
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">Uninvited Guest</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">You've triggered an unknown domain.</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">Unhandled exception occurred and was recorded in crash logs</system:String>
+
+    <system:String x:Key="Achievement.CustomizationMaster.Title">Customization Master</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">We're all about that 2D life!</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">Change background image once</system:String>
+
+    <system:String x:Key="Achievement.RealGacha.Title">Real Gacha</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">Isn't this supposed to be a gacha simulator? How did I actually pull???</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">Use Gacha function once</system:String>
+
+    <system:String x:Key="Achievement.FirstLaunch.Title">First Timer</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">Welcome to MaaAssistantArknights.</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Conditions">Launch the software for the first time</system:String>
+
+    <system:String x:Key="Achievement.Martian.Title">Martian</system:String>
+    <system:String x:Key="Achievement.Martian.Description">How's that ancient version working for you?</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">Resource or version date is more than 3 months old</system:String>
+
+    <system:String x:Key="Achievement.Rules.Title">Serious Erro-</system:String>
+    <system:String x:Key="Achievement.Rules.Description">I'll be watching you.</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA Employee Guidelines</system:String>
+
+    <system:String x:Key="Achievement.VersionClick.Title">That's Clickable?</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">What's this? Version number, let me click it.</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">Click the version number badge on settings page</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver1.Title">Penny Pincher</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">Every point of sanity used perfectly.</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">Use sanity recovery function 1 time</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver2.Title">Supply Master</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">You've mastered the use of potions.</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">Use sanity recovery function 10 times</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver3.Title">Perpetual Motion Machine</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">Your sanity seems to never run out.</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">Use sanity recovery function 50 times</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">XX Management Master</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">More efficient planning.</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">Execute scheduled task 1 time</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster2.Title">Universal Automation Solution 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">You are familiar with PRTS's automated deployment.</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">Execute scheduled tasks 100 times</system:String>
+
+    <system:String x:Key="Achievement.SanityExpire.Title">About to Expire</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">Hurry up and use them!!!</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">Use "Unlimited expiring (&lt;48h) sanity potions", use more than 8 expiring potions in a single task</system:String>
+
+    <system:String x:Key="Achievement.OverLimitAgent.Title">Over-Limit Agent</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">You performed an agent task that could grind the great dao to dust.</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">Perform more than 100 auto-battle operations in a single task</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">It's MirrorChyan! We're saved!</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">Successfully use MirrorChyan for the first time</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">Is This... Right?</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">Who ate my alphabet cookies?</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Enter incorrect MirrorChyan CDK</system:String>
+
+    <system:String x:Key="Achievement.ProblemFeedback.Title">Risk Assessment</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">What must be eliminated are the risks from within.</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">Submit problem feedback once</system:String>
+
+    <system:String x:Key="Achievement.MapOutdated.Title">Impatient King</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">I know you're in a hurry, but don't rush.</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">Use auto-battle without updating resources</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot1.Title">Copying Homework</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">True hands-off gaming.</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">Use "Copilot" function to clear 1 time</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot2.Title">Hands-Off All the Way</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">Leave all events to MAA.</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">Use "Copilot" function to clear 10 times</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot3.Title">Will Still Mark "Very Easy" Next Time</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">Still don't know the final boss mechanics in the end.</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">Use "Copilot" function to clear 100 times</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">Superstition Invalid</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">Things have come to this, let's sleep first.</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">Accumulated 500 recruitments without 6★ tags appearing</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">It Must Be MAA's Fault!</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE!</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">500 consecutive recruitments without 6★ tags appearing</system:String>
+
+    <system:String x:Key="Achievement.MosquitoLeg.Title">Even Mosquito Legs Are Meat!</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">You deeply understand the principle of accumulating little by little.</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">Use "Support Unit Combat OF-1" function more than 5 times</system:String>
+
+    <system:String x:Key="Achievement.Pioneer1.Title">Test Pioneer</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">You experienced the beta version ahead of others.</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">Update MAA to beta version</system:String>
+
+    <system:String x:Key="Achievement.Pioneer2.Title">Super Test Pioneer</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">You used the latest test version (please report any new issues!)</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">Update MAA to alpha version</system:String>
+
+    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG Vanguard</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">Anyone who can get this version is no ordinary person.</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">Use unreleased version of MAA</system:String>
+
+    <system:String x:Key="Achievement.Irreplaceable.Title">Irreplaceable</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">Maybe I should get different homework?</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">When using "Copilot - Auto Squad", missing at least two operators</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">High Ping Warrior</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">"lag"</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">Average screenshot time exceeds 800ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">Isn't This a Bit Too Slow</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">Screenshots seem a bit sluggish.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">Average screenshot time between 400ms and 800ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">Screenshot Challenge · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">Maybe try screenshot enhancement?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">Average screenshot time under 400ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">Screenshot Challenge · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">Screenshots so fast I didn't even react.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">Average screenshot time under 100ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">Screenshot Challenge · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">Screenshot speed beats 90% of MAA users.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">Average screenshot time under 10ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">Screenshot Challenge · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">You have discovered MAA's hidden power.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">Average screenshot time under 5ms</system:String>
+
+    <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">Legend says those who see this achievement got three 6★s in a row.</system:String>
+    <system:String x:Key="Achievement.Lucky.Conditions">Extremely low probability trigger when starting MAA</system:String>
+
+    <system:String x:Key="Achievement.CdnTorture.Title">Network Torture</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">Farther than the universe are GitHub's servers.</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Conditions">Resource download failed more than 3 times</system:String>
+
+    <system:String x:Key="Achievement.AfkWatcher.Title">Call-for-Help AFK Party</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">Are you AFK, or did you forget to close it?</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">Window minimized for a long time without operation</system:String>
+
+    <system:String x:Key="Achievement.MissionStartCount.Title">Never Give Up</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">It's trust, and it's dependence.</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Conditions">Start tasks more than 3 times in one day</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">First Arrival at the End</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">If only we could reach... that place...</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">Clear Integrated Strategies with MAA 1 time</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">Return to the End</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">I've walked this path many times.</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">Clear Integrated Strategies with MAA 5 times</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">Regular at the End</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">Could walk there with eyes closed.</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">Clear Integrated Strategies with MAA 10 times</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">Failure Is the Mother of Success</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">One day, we'll reach the shore of success. Failure is the ladder to success.</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">MAA abandons exploration 100 times</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">All Full</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">Cannott, bring out your most expensive stuff!</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">Integrated Strategies Originium Ingots reach 999</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">Encouragement</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">Likes are the greatest encouragement to authors!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">Like a copilot 1 time</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">Active Interaction</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">10 likes, actively participating in community interaction.</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">Like copilots 10 times total</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">Like Master</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">50 likes, you've become a like master!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">Like copilots 50 times total</system:String>
+
+    <system:String x:Key="Achievement.TaskStartCancel.Title">So Indecisive</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">Ah yes yes, ah no no, ah yes yes, ah no no...</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Conditions">Stop immediately after starting a task</system:String>
+
+    <system:String x:Key="Achievement.CopilotError.Title">Oops</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">An accident happened...</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during copilot operation</system:String>
+
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">Long Task</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">How about we wait a bit longer?</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">Trigger timeout reminder</system:String>
+
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">Perfect Attendance Pioneer</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">You have become the Doctor's stand-in.</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">Continuously online for more than 3 hours after starting tasks</system:String>
+
+    <system:String x:Key="Achievement.UseDaily1.Title">Daily Check-in</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">Seven consecutive days of check-in, too bad there's no reward.</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Conditions">Use MAA for 7 consecutive days</system:String>
+
+    <system:String x:Key="Achievement.UseDaily2.Title">Perfect Attendance Award</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">Let's give out this month's perfect attendance award.</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Conditions">Use MAA for 30 consecutive days</system:String>
+
+    <system:String x:Key="Achievement.UseDaily3.Title">No Rest All Year</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">So you're the one exploiting MAA every day?</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Conditions">Use MAA for 365 consecutive days</system:String>
+
+    <system:String x:Key="Achievement.AprilFools.Title">Fooled Together</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">Surely no one would go online today?</system:String>
+    <system:String x:Key="Achievement.AprilFools.Conditions">Open the program on April 1st</system:String>
+
+    <system:String x:Key="Achievement.MidnightLaunch.Title">Midnight Operation</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">Are you a night operation specialist?</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Conditions">Launch after midnight (12 AM)</system:String>
+
+    <system:String x:Key="Achievement.LunarNewYear.Title">Happy Lunar New Year</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">Good luck and 6★s come together!</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Conditions">Open the program during Lunar New Year</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN04.Title">Simple and Easy</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">This difficulty can't stop me.</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">Clear any I.S. at N4 difficulty or above with MAA</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN08.Title">Challenge the Difficult</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">Brave MAA fears no difficulty.</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">Clear any I.S. at N8 difficulty or above with MAA</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN12.Title">Beyond Human</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">Playing better than most people.</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">Clear any I.S. at N12 difficulty or above with MAA</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN15.Title">Immortal Arts Cup Contestant</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">Immortal MAA truly immortal.</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">Clear any I.S. at N15 difficulty or above with MAA</system:String>
+    <!--  !Achievement  -->
 </ResourceDictionary>

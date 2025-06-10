@@ -606,9 +606,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
             return false;
         }
 
-        do_strategic_action(image);
         std::this_thread::yield();
-
         image = m_inst_helper.ctrler()->get_image();
     }
     return true;

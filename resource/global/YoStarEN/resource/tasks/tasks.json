@@ -1035,7 +1035,10 @@
     },
     "InfrastTrainingIdle": {
         "text": ["Idle", "ldle"],
-        "roi": [408, 636, 108, 58]
+        "roi": [326, 637, 165, 41]
+    },
+    "InfrastTrainingProcessing": {
+        "text": ["Progress"]
     },
     "InfrastTrainingCompleted": {
         "roi": [408, 636, 108, 58],
@@ -1043,19 +1046,6 @@
     },
     "InfrastTrainingOperatorAndSkill": {
         "roi": [152, 621, 341, 29]
-    },
-    "InfrastTrainingTimeRec0": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "HH",
-        "roi": [156, 651, 31, 25]
-    },
-    "InfrastTrainingTimeRec1": {
-        "Doc": "MM",
-        "roi": [188, 651, 30, 25]
-    },
-    "InfrastTrainingTimeRec2": {
-        "Doc": "SS",
-        "roi": [219, 651, 31, 25]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -1309,7 +1299,9 @@
         ]
     },
     "BattleQuickFormationExpandRole": {
-        "roi": [1166, 0, 114, 120]
+        "algorithm": "OcrDetect",
+        "text": ["Job", "Class"],
+        "roi": [1207, 25, 42, 32]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["Deployment Cost"],
@@ -1344,6 +1336,9 @@
     "StageDrops-TimesCheck": {
         "text": ["Continuous", "Auto", "Operation"]
     },
+    "StageDrops-TimesRec": {
+        "roi": [73, 364, 221, 31]
+    },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
     },
@@ -1365,11 +1360,9 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
-    "OperBoxRoleTabSelect": {
-        "roi": [1158, 0, 122, 126]
-    },
     "OperBoxRoleTab": {
-        "roi": [1166, 0, 114, 124]
+        "baseTask": "BattleQuickFormationExpandRole",
+        "action": "Stop"
     },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",

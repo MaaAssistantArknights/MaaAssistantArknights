@@ -1,0 +1,76 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.UI.AchievementListWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    Title="{DynamicResource AchievementList}"
+    Width="600"
+    Height="400"
+    MinWidth="250">
+    <Grid>
+        <ListBox
+            ItemsSource="{Binding VisibleAchievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+            VirtualizingPanel.ScrollUnit="Pixel">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding 'IsUnlocked or !IsHidden'}">
+                        <Path
+                            Width="40"
+                            Height="40"
+                            Data="{DynamicResource HangoverGeometry}"
+                            Fill="{Binding MedalBrush}"
+                            Stretch="Uniform" />
+                        <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
+                            <VirtualizingStackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource MessageLogBrush}"
+                                    Text="{Binding Title}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock Text=" (NEW)" Visibility="{c:Binding IsNewUnlock}" />
+                            </VirtualizingStackPanel>
+                            <TextBlock
+                                Foreground="{DynamicResource TraceLogBrush}"
+                                Text="{Binding Description}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Foreground="{DynamicResource InfoLogBrush}"
+                                Text="{Binding Conditions}"
+                                TextWrapping="Wrap" />
+                            <ProgressBar
+                                Width="200"
+                                Height="12"
+                                HorizontalAlignment="Left"
+                                BorderThickness="1"
+                                Maximum="{Binding Target}"
+                                Minimum="0"
+                                Visibility="{c:Binding '!IsUnlocked and IsProgressive'}"
+                                Value="{Binding Progress}" />
+                            <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding IsUnlocked}">
+                                <TextBlock
+                                    Foreground="{Binding MedalBrush}"
+                                    Text="{DynamicResource AchievementUnlockedAt}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Foreground="{Binding MedalBrush}"
+                                    Text="{Binding UnlockedTimeLocal, StringFormat={}{0:G}}"
+                                    TextWrapping="Wrap" />
+                            </VirtualizingStackPanel>
+                        </VirtualizingStackPanel>
+                    </VirtualizingStackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <hc:SearchBar
+            MinWidth="100"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
+            CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
+            IsRealTime="True" />
+    </Grid>
+</hc:Window>

@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">界面主题</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">更新设置</system:String>
+    <system:String x:Key="AchievementSettings">成就设置</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="IssueReport">问题反馈</system:String>
     <system:String x:Key="MaaVersion">MAA 版本</system:String>
@@ -285,6 +286,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">检测到更新后，强制从 Github 下载更新包</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">请输入 CDK</system:String>
@@ -432,14 +434,14 @@
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
-    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为1920x1080！</system:String>
-    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为1920x1080</system:String>
+    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为 1920x1080！</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允许吃源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢确认｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
+    <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
@@ -563,6 +565,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
+自动识别关卡最大代理倍率, 保持最大代理倍率且使用理智药后理智不溢出
+
+• 数值 (1~6):
+按设定倍率执行代理
+若当前理智不足完成设定倍率 (如仅够 5 次但设为 6 倍), 则无法进入战斗
+ 或者
+战斗次数不足完成设定倍率 (如仅够 5 次但设为 6 倍), 也将无法进入战斗
+
+• 不选择:
+不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
@@ -726,18 +739,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队可能暂时无法识别带有 ｢特别关注｣ 标记的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支持跨章节导航
-仅支持: 主线关同一章节, SideStory (不支持从 EX 跳转 S)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支持跨章节导航。仅支持:
+  1. 主线关卡：同一章节内导航
+  2. SideStory：当前页面内导航（普通/EX/S 相互不可跳转）
 开始前请切换至关卡选择页面</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突袭)</system:String>
-    <system:String x:Key="CopilotAddTask">右键添加突袭难度</system:String>
-    <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">左键添加普通难度
+右键添加突袭难度</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">左键清除所有任务
+右键清除未激活任务</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
@@ -851,6 +867,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
     <system:String x:Key="FightCompleted">战斗完成</system:String>
     <system:String x:Key="FightFailed">战斗失败</system:String>
+    <system:String x:Key="FightTimesUnused">已完成 {0} 次战斗, 下次将执行 {1} 倍率代理, 进入后将完成 {2} 次战斗, 超过 {3} 次限制, 不进入战斗</system:String>
     <system:String x:Key="UpperLimit">投资达到上限</system:String>
     <system:String x:Key="GameCrash">游戏崩溃，重新启动</system:String>
     <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
@@ -1073,4 +1090,285 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
     <!--  !TimeOutTimer  -->
+    <!--  Achievement  -->
+    <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>
+    <system:String x:Key="AchievementConditions" xml:space="preserve">达成条件: </system:String>
+    <system:String x:Key="AchievementLevel" xml:space="preserve">成就等级：</system:String>
+    <system:String x:Key="AchievementView">查看成就</system:String>
+    <system:String x:Key="AchievementBackup">备份成就</system:String>
+    <system:String x:Key="AchievementRestore">加载备份</system:String>
+    <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">解锁于：</system:String>
+    <system:String x:Key="AchievementList">成就列表</system:String>
+    <system:String x:Key="AchievementBackupSuccess">已备份到</system:String>
+    <system:String x:Key="AchievementRestoreSuccess">已恢复成就进度</system:String>
+    <system:String x:Key="AchievementRestoreFailed">恢复失败，文件格式无效</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了。</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Conditions">完成 10 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender2.Title">代理先锋</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">比我还熟练。</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Conditions">完成 100 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.SanitySpender3.Title">ZOOT</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">可露希尔代理程序正常运转中。</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Conditions">完成 1000 次代理通关</system:String>
+
+    <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">“我知道我在做什么。”——某用户在点击之前。</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">1s 内关闭弹窗（你大概是没看吧）</system:String>
+
+    <system:String x:Key="Achievement.TacticalRetreat.Title">临阵脱逃</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">我不是放弃，是战术性撤退！</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Conditions">手动中止一次正在运行的代理</system:String>
+
+    <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
+
+    <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">我的MAA怎么用不了了？</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
+
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域。</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出现未处理异常并被崩溃日志记录</system:String>
+
+    <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
+
+    <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了？？？</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
+
+    <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Conditions">第一次启动软件</system:String>
+
+    <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
+    <system:String x:Key="Achievement.Martian.Description">远古版本好用吗？</system:String>
+    <system:String x:Key="Achievement.Martian.Conditions">资源时间或版本时间距今超过 3 个月</system:String>
+
+    <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
+    <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
+
+    <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下。</system:String>
+    <system:String x:Key="Achievement.VersionClick.Conditions">点击设置页的版本号徽章</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver2.Title">补给大师</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">你对药剂的使用炉火纯青。</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">使用理智回复功能 10 次</system:String>
+
+    <system:String x:Key="Achievement.SanitySaver3.Title">永动机</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">你的理智似乎永远用不完。</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">使用理智回复功能 50 次</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">××管理大师</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">更有效的规划。</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">定时执行 1 次</system:String>
+
+    <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自动化部署。</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">定时执行 100 次</system:String>
+
+    <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
+
+    <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 Mirror酱！我们有救了！</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 Mirror酱</system:String>
+
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">这……对吗？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">谁偷吃了我的字母饼干？</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirror酱 CDK 填写错误</system:String>
+
+    <system:String x:Key="Achievement.ProblemFeedback.Title">隐患勘察</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">一定要杜绝的是，来自内部的风险。</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次问题反馈</system:String>
+
+    <system:String x:Key="Achievement.MapOutdated.Title">急急国王</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先别急。</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新资源的情况下使用自动战斗</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot1.Title">抄作业</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">真正的摆完挂机。</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 ｢自动战斗｣ 功能通关 1 次</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot2.Title">一摆到底</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">活动全交给牛牛打。</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 ｢自动战斗｣ 功能通关 10 次</system:String>
+
+    <system:String x:Key="Achievement.UseCopilot3.Title">下次还填非常简单</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">到最后也不知道关底 boss 什么机制。</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢自动战斗｣ 功能通关 100 次</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学无效</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡觉吧。</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 500 次没出现六星 tag</system:String>
+
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">一定是 MAA 干的！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 500 次没出现六星 tag</system:String>
+
+    <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢借助战打 OF-1｣ 功能超过 5 次</system:String>
+
+    <system:String x:Key="Achievement.Pioneer1.Title">测试先锋</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">您率先体验了处于测试中的版本。</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">将 MAA 更新至公测版</system:String>
+
+    <system:String x:Key="Achievement.Pioneer2.Title">超级测试先锋</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">将 MAA 更新至内测版</system:String>
+
+    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG 急先锋</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">能下到这个版本的都不是一般人。</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">使用未发布版本的 MAA</system:String>
+
+    <system:String x:Key="Achievement.Irreplaceable.Title">无可替代</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">或许我应该换一份作业？</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢自动战斗 - 自动编队｣ 时，缺少至少两名干员</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 战士</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">“kale”</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均截图用时超过 800ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">是不是有点太慢了</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">截图显得有点吃力。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截图用时在 400ms 到 800ms 之间</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">截图挑战 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不试试截图增强？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截图用时小于 400ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">截图挑战 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">截图快得我都没反应过来。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均截图用时小于 100ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">截图挑战 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">截图速度击败了 90% 的 MAA 用户。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均截图用时小于 10ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">截图挑战 · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">你发现了 MAA 的隐藏力量。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均截图用时小于 5ms</system:String>
+
+    <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">据说能看到这条成就的人都三连金了。</system:String>
+    <system:String x:Key="Achievement.Lucky.Conditions">启动 MAA 时有极！小！概率触发</system:String>
+
+    <system:String x:Key="Achievement.CdnTorture.Title">网络折磨人</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更远的地方，是 Github 的服务器。</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Conditions">下载资源失败超过 3 次</system:String>
+
+    <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
+
+    <system:String x:Key="Achievement.MissionStartCount.Title">不离不弃</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Conditions">一天内开始任务超过 3 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">初抵终点</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...那个地方...</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用牛牛通关肉鸽 1 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">再临终点</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">这条道路我已走过多次。</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用牛牛通关肉鸽 5 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">终点常客</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">闭着眼睛都能走到这。</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用牛牛通关肉鸽 10 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">失败是成功之母</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">终有一天，我们会到达成功的彼岸，失败是成功的阶梯。</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">牛牛放弃探索 100 次</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Title">满了满了</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Description">坎诺特，把你店里最贵的端出来！</system:String>
+    <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">肉鸽源石锭到达 999</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">鼓励一下</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">点赞是对作者最大的鼓励！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">给作业点赞 1 次</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">积极互动</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">点赞 10 次，积极参与社区互动。</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">给作业累计点赞 10 次</system:String>
+
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">点赞达人</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">点赞 50 次，你已经成为点赞大师！</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">给作业累计点赞 50 次</system:String>
+
+    <system:String x:Key="Achievement.TaskStartCancel.Title">真是纠纠又结结啊</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">啊对的对的，啊不对不对，啊对的对的，啊不对不对…</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Conditions">在开始任务后马上又停止</system:String>
+
+    <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
+
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">漫长的任务</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">要不，咱再等等？</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Conditions">触发超时提醒</system:String>
+
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">全勤先锋</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">你，已经成为博士的替身了。</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">开始任务能连续在线超过 3 小时</system:String>
+
+    <system:String x:Key="Achievement.UseDaily1.Title">天天打卡</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">连续签到七天，可惜没有奖励。</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Conditions">连续 7 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.UseDaily2.Title">全勤奖</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">这个月的全勤奖发一下。</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Conditions">连续 30 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.UseDaily3.Title">全年无休</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">就是你天天在压榨牛牛？</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Conditions">连续 365 天使用 MAA</system:String>
+
+    <system:String x:Key="Achievement.AprilFools.Title">愚你同行</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">不会真有人今天上线吧？</system:String>
+    <system:String x:Key="Achievement.AprilFools.Conditions">在 4 月 1 日 打开程序</system:String>
+
+    <system:String x:Key="Achievement.MidnightLaunch.Title">午夜作战</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">你是深夜行动专家吗？</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Conditions">在午夜 0 点后 启动</system:String>
+
+    <system:String x:Key="Achievement.LunarNewYear.Title">新春快乐</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">好运和六星一起到来！</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Conditions">在农历新年期间打开程序</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 以上难度</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 以上难度</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 以上难度</system:String>
+
+    <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 以上难度</system:String>
+    <!--  !Achievement  -->
 </ResourceDictionary>

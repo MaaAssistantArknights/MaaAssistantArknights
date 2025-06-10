@@ -116,9 +116,7 @@
                                         </TextBlock.Style>
                                     </controls:TextBlock>
 
-                                    <hc:ButtonGroup
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Stretch">
+                                    <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Stretch">
                                         <RadioButton
                                             Margin="0"
                                             HorizontalAlignment="Stretch"
@@ -241,7 +239,7 @@
                     Width="100"
                     Height="50"
                     Margin="5"
-                    Command="{s:Action Stop}"
+                    Command="{s:Action ManualStop}"
                     Content="{DynamicResource Stop}"
                     IsEnabled="{c:Binding '!Stopping'}"
                     Visibility="{c:Binding 'Inited and (!Idle or Stopping) and !(RoguelikeInCombatAndShowWait and !Waiting)'}" />

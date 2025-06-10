@@ -1094,7 +1094,11 @@
         "text": ["도달", "불가", "최대치"]
     },
     "InfrastTrainingIdle": {
-        "text": ["미사용중"]
+        "text": ["미사용중"],
+        "roi": [380, 645, 135, 35]
+    },
+    "InfrastTrainingProcessing": {
+        "text": ["진행도"]
     },
     "InfrastTrainingCompleted": {
         "text": ["훈련완료"]
@@ -1372,6 +1376,9 @@
     },
     "StageDrops-TimesCheck": {
         "text": ["연속", "대리", "지휘"]
+    },
+    "StageDrops-TimesRec": {
+        "roi": [73, 364, 221, 31]
     },
     "StageDrops-Quantity": {
         "maskRange": [200, 255],

@@ -1,6 +1,6 @@
 // <copyright file="FightSettingsUserControlModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -461,7 +462,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public Dictionary<string, int> SeriesList { get; } = new()
+    public static Dictionary<string, int> SeriesList { get; } = new()
     {
         { "AUTO", 0 },
         { "6", 6 },
@@ -478,7 +479,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     private static int InitFightSeries()
     {
         var series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
-        if (Enumerable.Range(-1, 8).Contains(series))
+        if (SeriesList.ContainsValue(series))
         {
             return series;
         }

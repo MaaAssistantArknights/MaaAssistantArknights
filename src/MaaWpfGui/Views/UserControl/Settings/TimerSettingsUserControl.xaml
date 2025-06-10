@@ -35,22 +35,25 @@
             Grid.Row="1"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <CheckBox
-                Height="30"
-                Margin="5,0"
-                HorizontalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="{DynamicResource ForceScheduledStart}"
-                IsChecked="{Binding ForceScheduledStart}"
-                ToolTip="{DynamicResource ForceScheduledStartTip}" />
-            <CheckBox
-                Height="30"
-                Margin="5,0"
-                HorizontalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Content="{DynamicResource TimerCustomConfig}"
-                IsChecked="{Binding CustomConfig}"
-                ToolTip="{DynamicResource TimerCustomConfigTip}" />
+            <StackPanel Margin="5,0" Orientation="Horizontal">
+                <CheckBox
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource ForceScheduledStart}"
+                    IsChecked="{Binding ForceScheduledStart}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource ForceScheduledStartTip}" />
+            </StackPanel>
+
+            <StackPanel Margin="5,0" Orientation="Horizontal">
+                <CheckBox
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource TimerCustomConfig}"
+                    IsChecked="{Binding CustomConfig}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TimerCustomConfigTip}" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
