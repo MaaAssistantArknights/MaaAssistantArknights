@@ -456,6 +456,7 @@
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
         "roi": [1016, 602, 264, 118],
+        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@TraderRandomShopping",
@@ -1028,6 +1029,7 @@
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
+        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@RecruitOther",
@@ -1045,6 +1047,7 @@
     "Roguelike@RecruitWithoutButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
+        "maxTimes": 10,
         "specificRect": [1180, 15, 85, 60]
     },
     "Roguelike@ReturnToMap": {

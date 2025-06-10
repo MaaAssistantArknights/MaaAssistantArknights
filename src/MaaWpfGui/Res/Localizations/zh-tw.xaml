@@ -284,6 +284,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">檢測到更新後，強制從 Github 下載更新包</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>
@@ -557,10 +558,21 @@ C:\\leidian\\LDPlayer9。\n
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石</system:String>
-    <system:String x:Key="PerformBattles">指定次數</system:String>
+    <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>
     <system:String x:Key="Series">代理倍率</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">• AUTO:
+自動辨識關卡最大代理倍率, 保持最大代理倍率且使用理智藥後理智不溢出
+
+• 數值 (1~6):
+按設定倍率執行代理
+若當前理智不足完成設定倍率 (如僅夠 5 次但設為 6 倍), 則無法進入戰鬥
+ 或者
+戰鬥次數不足完成設定倍率 (如僅夠 5 次但設為 6 倍), 也將無法進入戰鬥
+
+• 不選擇:
+不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
@@ -724,17 +736,20 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識 ｢特別關注｣ 的幹員</system:String>
+    <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的幹員</system:String>
     <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
     <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航
-僅支援: 主線關同一章節, SideStory (不支援從 EX 跳轉 S)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航。僅支援:
+  1. 主線關卡：同一章節內導航
+  2. SideStory：當前頁面內導航（普通/EX/S 相互不可跳轉）
 開始前請切換至關卡選擇頁面</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
-    <system:String x:Key="CopilotAddTask">右鍵添加突襲難度</system:String>
-    <system:String x:Key="CopilotClearTask">右鍵清除未激活任務</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵添加普通難度
+右鍵添加突襲難度</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">左键清除所有任务
+右键清除未激活任务</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
@@ -849,6 +864,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
     <system:String x:Key="FightCompleted">戰鬥完成</system:String>
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>
+    <system:String x:Key="FightTimesUnused">已完成 {0} 次戰鬥, 下次將執行 {1} 倍率代理, 進入後將完成 {2} 次戰鬥, 超過 {3} 次限制, 不進入戰鬥</system:String>
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>

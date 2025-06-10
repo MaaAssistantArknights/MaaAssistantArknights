@@ -36,7 +36,8 @@ public:
         bool extra_swipe = false,
         double slope_in = 1,
         double slope_out = 1,
-        bool with_pause = false);
+        bool with_pause = false,
+        bool high_resolution_swipe_fix = false);
     bool swipe(
         const Rect& r1,
         const Rect& r2,
@@ -44,7 +45,8 @@ public:
         bool extra_swipe = false,
         double slope_in = 1,
         double slope_out = 1,
-        bool with_pause = false);
+        bool with_pause = false,
+        bool high_resolution_swipe_fix = false);
 
     bool inject_input_event(InputEvent event);
 

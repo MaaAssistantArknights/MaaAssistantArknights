@@ -1699,7 +1699,7 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(
                             $"[{operatorName}] {skillName}\n" +
                             $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
-                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]:D2}:{subTaskDetails["mm"]:D2}:{subTaskDetails["ss"]:D2}",
+                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["time"]}",
                             UiLogColor.Info);
                         break;
                     }
@@ -1740,6 +1740,11 @@ namespace MaaWpfGui.Main
                             if (FightTimes.TimesFinished > 0)
                             {
                                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                            }
+
+                            if (FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
+                            {
+                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
                             }
                         }
 

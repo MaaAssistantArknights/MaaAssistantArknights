@@ -19,14 +19,15 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
                 HorizontalAlignment="Left"
-                IsChecked="{Binding Once}"
-                ToolTip="{DynamicResource PostActionOnceTip}"
-                ToolTipService.InitialShowDelay="0">
-                <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
-            </CheckBox>
+                Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Once}">
+                    <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock TooltipText="{DynamicResource PostActionOnceTip}" />
+            </StackPanel>
             <hc:Divider />
             <CheckBox
                 Margin="0,10"
@@ -71,14 +72,15 @@
                 <controls:TextBlock Text="{DynamicResource Sleep}" TextWrapping="Wrap" />
             </CheckBox>
 
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
-                IsChecked="{Binding Hibernate}"
-                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
-                ToolTip="{DynamicResource HibernateTip}"
-                ToolTipService.InitialShowDelay="0">
-                <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
-            </CheckBox>
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Hibernate}" MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                    <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource HibernateTip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Shutdown}"

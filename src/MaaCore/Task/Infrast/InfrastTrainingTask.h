@@ -18,15 +18,21 @@ protected:
     virtual bool _run() override;
 
 private:
-    bool analyze_status();
-    bool level_analyze(cv::Mat image);
+    enum TrainingStatus
+    {
+        Idle,
+        Processing,
+        Completed,
+    };
+
+    std::optional<TrainingStatus> analyze_status();
+    bool level_analyze(const cv::Mat& image);
     bool training_completed();
-    bool time_left_analyze(cv::Mat image);
+    std::optional<std::string> time_left_analyze(const cv::Mat& image);
     bool continue_train(int index);
     static int skill_index_from_rect(const Rect& r);
 
     int m_level;
-    int time_left[3];
     std::string m_operator_name;
     std::string m_skill_name;
     // asst::battle::Role m_operator_role;

@@ -70,14 +70,16 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
     cache_oper_elite_status();
     speed_up();
-
     bool timeout = false;
     auto start_time = std::chrono::steady_clock::now();
+    cv::Mat image, image_prev;
     while (!need_exit()) {
         // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
-        if (!do_once() && !m_first_deploy) {
+        image = ctrler()->get_image();
+        if (!do_once(image, image_prev) && !m_first_deploy) {
             break;
         }
+        image_prev = std::move(image);
 
         auto duration = std::chrono::steady_clock::now() - start_time;
         if (!timeout && duration > 8min) {
@@ -453,7 +455,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     return is_success;
 }
 
-bool asst::RoguelikeBattleTaskPlugin::do_once()
+bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Mat& image_prev)
 {
     check_drone_tiles();
 
@@ -468,7 +470,6 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
     }
 
-    cv::Mat image = ctrler()->get_image();
     prev_frame_time = std::chrono::steady_clock::now();
 
     if (!m_first_deploy) {
@@ -501,8 +502,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (!update_deployment(false, image)) {
         return false;
     }
-    update_cost(image);
-    update_kills(image);
+    update_cost(image, image_prev);
+    update_kills(image, image_prev);
 
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones

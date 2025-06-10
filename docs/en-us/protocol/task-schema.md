@@ -87,6 +87,10 @@ Usage of `resource/tasks` and description of each field
         "specialParams": [ int, ... ],      // Parameters needed for some special recognizers
                                             // extra, optional when action is Swipe, [0] for duration, [1] for whether to enable extra sliding
 
+        "highResolutionSwipeFix": false,    // Optional. Whether to enable high-resolution swipe fix.
+                                            // Currently, only stage navigation does not use the Unity swipe method, so it needs to be enabled there.
+                                            // Default is false
+
         /* The following fields are only valid if the algorithm is MatchTemplate */
 
         "template": "xxx.png",              // Optional, the name of the image file to be matched

@@ -575,15 +575,16 @@ struct TaskInfo : public TaskPipelineInfo
     bool sub_error_ignored = false;                        // 子任务如果失败了，是否继续执行剩下的任务
     int max_times = INT_MAX;                               // 任务最多执行多少次
     Rect specific_rect;                                    // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
-    int pre_delay = 0;                                     // 执行该任务前的延时
-    int post_delay = 0;                                    // 执行该任务后的延时
-    int retry_times = INT_MAX;                             // 未找到图像时的重试次数
-    Rect roi;                                              // 要识别的区域，若为0则全图识别
-    Rect rect_move;                                        // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
-                                                           // 即识别到了res，点击res + result_move的位置
-    bool cache = false;                                    // 是否使用缓存区域
-    std::vector<int> special_params;                       // 某些任务会用到的特殊参数
-    std::string input_text; // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
+    bool high_resolution_swipe_fix = false; // 是否启用高分辨率滑动修正，仅对 ProcessTask 生效（其实只有关卡的滑动用上了
+    int pre_delay = 0;                      // 执行该任务前的延时
+    int post_delay = 0;                     // 执行该任务后的延时
+    int retry_times = INT_MAX;              // 未找到图像时的重试次数
+    Rect roi;                               // 要识别的区域，若为0则全图识别
+    Rect rect_move;                         // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
+                                            // 即识别到了res，点击res + result_move的位置
+    bool cache = false;                     // 是否使用缓存区域
+    std::vector<int> special_params;        // 某些任务会用到的特殊参数
+    std::string input_text;                 // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
 };
 
 using TaskPtr = std::shared_ptr<TaskInfo>;

@@ -461,7 +461,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    public Dictionary<string, int> SeriesList { get; } = new()
+    public static Dictionary<string, int> SeriesList { get; } = new()
     {
         { "AUTO", 0 },
         { "6", 6 },
@@ -478,7 +478,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     private static int InitFightSeries()
     {
         var series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
-        if (Enumerable.Range(-1, 8).Contains(series))
+        if (SeriesList.ContainsValue(series))
         {
             return series;
         }

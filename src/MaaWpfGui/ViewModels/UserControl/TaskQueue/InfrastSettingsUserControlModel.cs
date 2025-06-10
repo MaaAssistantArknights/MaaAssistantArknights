@@ -22,6 +22,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
@@ -102,8 +103,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
         InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList!);
         InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
-
-        _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
     }
 
     /// <summary>
@@ -149,20 +148,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         set
         {
             SetAndNotify(ref _dormThreshold, value);
-            DormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
             ConfigurationHelper.SetValue(ConfigurationKeys.DormThreshold, value.ToString());
         }
-    }
-
-    private string _dormThresholdLabel = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the label of dormitory threshold.
-    /// </summary>
-    public string DormThresholdLabel
-    {
-        get => _dormThresholdLabel;
-        set => SetAndNotify(ref _dormThresholdLabel, value);
     }
 
     /// <summary>
@@ -317,11 +304,11 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 CustomInfrastFile = @"resource\custom_infrast\" + value;
             }
 
-            NotifyOfPropertyChange(nameof(IsCustomInfrastFileReadOnly));
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);
         }
     }
 
+    [PropertyDependsOn(nameof(DefaultInfrast))]
     public bool IsCustomInfrastFileReadOnly => _defaultInfrast != UserDefined;
 
     private bool _dormFilterNotStationedEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, bool.TrueString));

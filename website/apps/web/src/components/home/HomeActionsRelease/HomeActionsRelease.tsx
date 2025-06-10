@@ -428,7 +428,7 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="下载失败，正在尝试直接下载……"
+        title="正在尝试从海外源(Github)下载……"
       />
     )
   } else {

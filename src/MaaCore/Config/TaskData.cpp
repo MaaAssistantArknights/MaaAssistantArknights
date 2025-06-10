@@ -516,6 +516,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     ASST_TASKDATA_GET_VALUE_OR("subErrorIgnored", sub_error_ignored);
     ASST_TASKDATA_GET_VALUE_OR("rectMove", rect_move);
     ASST_TASKDATA_GET_VALUE_OR("specificRect", specific_rect);
+    ASST_TASKDATA_GET_VALUE_OR("highResolutionSwipeFix", high_resolution_swipe_fix);
     ASST_TASKDATA_GET_VALUE_OR("specialParams", special_params);
     ASST_TASKDATA_GET_VALUE_OR("inputText", input_text);
 
@@ -1023,6 +1024,7 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
     task_info_ptr->sub_error_ignored = false;
     task_info_ptr->rect_move = Rect();
     task_info_ptr->specific_rect = Rect();
+    task_info_ptr->high_resolution_swipe_fix = false;
 
     return task_info_ptr;
 }
@@ -1041,7 +1043,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // common
               "action",        "algorithm",     "baseTask",        "exceededNext",   "maxTimes",
               "next",          "onErrorNext",   "postDelay",       "preDelay",       "reduceOtherTimes",
-              "specialParams", "sub",           "subErrorIgnored",
+              "specialParams", "sub",           "subErrorIgnored", "highResolutionSwipeFix",
 
               // specific
               "cache",         "colorScales",   "colorWithClose",  "maskRange",      "method",
@@ -1052,7 +1054,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // common
               "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
-              "specialParams", "sub",         "subErrorIgnored",
+              "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
 
               // specific
               "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
@@ -1063,7 +1065,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // common
               "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
-              "specialParams", "sub",         "subErrorIgnored",
+              "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
               // specific
               "template",      "roi",         "count",         "ratio",          "detector",
           } },
@@ -1072,7 +1074,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // common
               "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
-              "specialParams", "sub",         "subErrorIgnored",
+              "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
 
               // specific
               "inputText"

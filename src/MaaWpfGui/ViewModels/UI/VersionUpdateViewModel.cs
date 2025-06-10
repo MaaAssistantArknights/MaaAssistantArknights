@@ -189,9 +189,7 @@ public class VersionUpdateViewModel : Screen
     /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
     public bool CheckAndUpdateNow()
     {
-        if (UpdateTag == string.Empty
-            || UpdatePackageName == string.Empty
-            || !File.Exists(UpdatePackageName))
+        if (UpdateTag == string.Empty || UpdatePackageName == string.Empty || !File.Exists(UpdatePackageName))
         {
             return false;
         }
@@ -231,13 +229,14 @@ public class VersionUpdateViewModel : Screen
         }
 
         string removeListFile = Path.Combine(extractDir, "removelist.txt");
+        string mirrorChyanChangeFile = Path.Combine(extractDir, "changes.json");
+        bool isOTAPackage = File.Exists(removeListFile) || File.Exists(mirrorChyanChangeFile);
         string[] removeList = [];
         if (File.Exists(removeListFile))
         {
             removeList = File.ReadAllLines(removeListFile);
         }
 
-        string mirrorChyanChangeFile = Path.Combine(extractDir, "changes.json");
         if (File.Exists(mirrorChyanChangeFile))
         {
             try
@@ -287,7 +286,7 @@ public class VersionUpdateViewModel : Screen
                 }
             }
         }
-        else
+        else if (!isOTAPackage)
         {
             List<Task> deleteTasks = [];
             foreach (var dir in Directory.GetDirectories(extractDir))
@@ -296,7 +295,7 @@ public class VersionUpdateViewModel : Screen
                 {
                     try
                     {
-                        FileSystem.DeleteDirectory(dir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        FileSystem.DeleteDirectory(dir.Replace(extractDir, curDir), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
                     catch
                     { // ignore

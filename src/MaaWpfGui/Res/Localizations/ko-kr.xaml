@@ -284,6 +284,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">업데이트 감지 후, Github에서 강제로 업데이트 패키지 다운로드</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDK를 입력해 주세요</system:String>
@@ -440,7 +441,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 남은 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
-    <system:String x:Key="HideSeries">연속 전투 횟수 숨기기</system:String>
+    <system:String x:Key="HideSeries">연속 전투 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
@@ -561,7 +562,18 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
-    <system:String x:Key="Series">연속 전투 횟수</system:String>
+    <system:String x:Key="Series">연속 전투</system:String>
+    <system:String x:Key="SeriesTip" xml:space="preserve">AUTO:
+스테이지의 가능한 최대 대리 지휘 횟수의 배수를 감지하고, 자동으로 최대 대리 지휘 횟수를 유지하며, 이성 회복제 사용 후 이성이 남지 않도록 합니다.
+
+단순 배수 (1~6):
+설정된 배수에 따라 대리 지휘 횟수를 실행합니다.
+현재 이성 수치가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투를 시작하지 않습니다.
+또는
+스테이지가 설정된 배수를 완료하기에 충분하지 않은 경우(예: 5회만 가능하지만 6회로 설정), 전투를 시작하지 않습니다.
+
+미선택:
+연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>
     <system:String x:Key="StageSelect2">대안</system:String>
     <system:String x:Key="RemainingSanityStage">남은 이성</system:String>
@@ -730,12 +742,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다.
-지원: 메인 스토리의 동일 챕터, 사이드 스토리(EX 챕터에서 S 챕터로의 이동은 지원하지 않습니다.)
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원:
+  1. 메인 스토리: 동일 챕터 내 네비게이션
+  2. SideStory: 현재 페이지 내 네비게이션（일반/EX/S 서로 이동 불가）
 시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
-    <system:String x:Key="CopilotAddTask">하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
-    <system:String x:Key="CopilotClearTask">다 끝난 작업을 제거하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
+    <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
+하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">좌클릭으로 모든 작업 지우기
+우클릭으로 비활성 작업 지우기</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
@@ -850,6 +865,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
+    <system:String x:Key="FightTimesUnused">{0} 전투 완료, 다음번에 {1} 배수 프록시 실행, 입장 후 {2} 전투 완료, 제한 {3} 초과, 전투에 입장하지 않음</system:String>
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다</system:String>

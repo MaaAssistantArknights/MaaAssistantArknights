@@ -46,13 +46,14 @@
                         Content="{DynamicResource StartupUpdateCheck}"
                         IsChecked="{Binding StartupUpdateCheck}"
                         IsEnabled="False" />
-                    <CheckBox
-                        Margin="8"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource UpdateAutoCheck}"
-                        IsChecked="{Binding UpdateAutoCheck}"
-                        ToolTip="{DynamicResource UpdateAutoCheckTip}" />
+                    <StackPanel Margin="8" Orientation="Horizontal">
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{DynamicResource UpdateAutoCheck}"
+                            IsChecked="{Binding UpdateAutoCheck}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateAutoCheckTip}" />
+                    </StackPanel>
                     <CheckBox
                         Margin="8"
                         HorizontalAlignment="Left"
@@ -65,13 +66,15 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
-                    <CheckBox
-                        Margin="8"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource ForceGithubGlobalSource}"
-                        IsChecked="{Binding ForceGithubGlobalSource}"
-                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
+                    <StackPanel Margin="8" Orientation="Horizontal">
+                        <CheckBox
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{DynamicResource ForceGithubGlobalSource}"
+                            IsChecked="{Binding ForceGithubGlobalSource}"
+                            Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
+                        <controls:TooltipBlock TooltipText="{DynamicResource ForceGithubGlobalSourceTip}" />
+                    </StackPanel>
                     <StackPanel Margin="8">
                         <controls:TextBlock
                             Margin="8,0,0,5"

@@ -8,8 +8,6 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
-#include <regex>
-
 bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
@@ -25,11 +23,12 @@ bool asst::InfrastTrainingTask::_run()
         }
     }
 
-    if (!analyze_status()) {
+    auto status = analyze_status();
+    if (!status) {
         return false;
     }
 
-    if (m_continue_training && m_level != 3) {
+    if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) { // 继续训练
         click_bottom_left_tab();
         OCRer choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
@@ -45,34 +44,35 @@ bool asst::InfrastTrainingTask::_run()
     return true;
 }
 
-bool asst::InfrastTrainingTask::analyze_status()
+std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTask::analyze_status()
 {
-    cv::Mat image = ctrler()->get_image();
+    const auto& image = ctrler()->get_image();
     RegionOCRer idle_analyzer(image);
     idle_analyzer.set_task_info("InfrastTrainingIdle");
     if (idle_analyzer.analyze()) {
         json::value cb_info = basic_info_with_what("InfrastTrainingIdle");
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
-        m_continue_training = false;
-        return true;
+        return TrainingStatus::Idle;
     }
 
     const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
-    auto task_replace = Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
+    std::vector<std::pair<std::string, std::string>> task_replace =
+        Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
     ranges::copy(replace_map, std::back_inserter(task_replace));
     RegionOCRer rec_analyzer(image);
     rec_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
     rec_analyzer.set_replace(task_replace);
+    rec_analyzer.set_use_raw(true);
     if (!rec_analyzer.analyze()) {
         Log.error(__FUNCTION__, "recognition failed");
-        return false;
+        return std::nullopt;
     }
 
     std::string raw_str = rec_analyzer.get_result().text;
     size_t separation_pos = raw_str.find('\n');
     if (separation_pos == std::string::npos) {
         Log.error(__FUNCTION__, "separate string failed");
-        return false;
+        return std::nullopt;
     }
 
     // '\n'前为干员名，'\n'后为技能名
@@ -84,7 +84,7 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     if (!level_analyze(image)) {
         Log.error(__FUNCTION__, "analyze level failed");
-        return false;
+        return std::nullopt;
     }
 
     if (training_completed()) {
@@ -95,28 +95,27 @@ bool asst::InfrastTrainingTask::analyze_status()
             { "level", m_level },
         };
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
-        return true;
+        return TrainingStatus::Completed;
     }
 
-    m_continue_training = false;
-
-    if (!time_left_analyze(image)) {
-        return false;
+    const auto& time_opt = time_left_analyze(image);
+    if (!time_opt) {
+        return std::nullopt;
     }
 
-    {
-        json::value cb_info = basic_info_with_what("InfrastTrainingTimeLeft");
-        cb_info["details"] = json::object {
-            { "operator", m_operator_name }, { "skill", m_skill_name }, { "level", m_level },
-            { "hh", time_left[0] },          { "mm", time_left[1] },    { "ss", time_left[2] },
-        };
-        callback(AsstMsg::SubTaskExtraInfo, cb_info);
-    }
+    json::value info = basic_info_with_what("InfrastTrainingTimeLeft");
+    info["details"] = json::object {
+        { "operator", m_operator_name },
+        { "skill", m_skill_name },
+        { "level", m_level },
+        { "time", *time_opt },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
 
-    return true;
+    return TrainingStatus::Processing;
 }
 
-bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
+bool asst::InfrastTrainingTask::level_analyze(const cv::Mat& image)
 {
     const std::string task_name = "InfrastTrainingLevel";
 
@@ -138,38 +137,25 @@ bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
 
 bool asst::InfrastTrainingTask::training_completed()
 {
-    return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
+    ProcessTask task(*this, { "InfrastTrainingProcessing", "InfrastTrainingCompleted" });
+    return task.run() && task.get_last_task_name() == "InfrastTrainingCompleted";
 }
 
-bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
+std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv::Mat& image)
 {
     LogTraceFunction;
-
-    RegionOCRer progress_analyzer(image);
-    std::regex re(R"(\d+)");
-    std::smatch match;
-
-    for (int i = 0; i < 3; ++i) {
-        progress_analyzer.set_task_info("InfrastTrainingTimeRec" + std::to_string(i));
-        if (!progress_analyzer.analyze()) {
-            return false;
-        }
-
-        std::string raw_str = progress_analyzer.get_result().text;
-        Log.info(__FUNCTION__, raw_str);
-        if (!std::regex_search(raw_str, match, re)) {
-            Log.error(__FUNCTION__, "regex_search failed");
-            return false;
-        }
-        std::string str_time = match.str();
-
-        if (!utils::chars_to_number(str_time, time_left[i])) {
-            Log.error(__FUNCTION__, "chars_to_number failed");
-            return false;
-        }
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info("InfrastTrainingTime");
+    analyzer.set_use_raw(true);
+    if (!analyzer.analyze()) {
+        return std::nullopt;
     }
-
-    return true;
+    const auto& text = analyzer.get_result().text;
+    if (text.empty() || text.find(":") == std::string::npos) {
+        Log.error(__FUNCTION__, "time left analyze failed");
+        return std::nullopt;
+    }
+    return text;
 }
 
 asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
