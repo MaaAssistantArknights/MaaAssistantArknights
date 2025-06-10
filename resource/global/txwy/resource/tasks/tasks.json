@@ -687,6 +687,9 @@
     "InfrastTrainingIdle": {
         "text": ["空閒中"]
     },
+    "InfrastTrainingProcessing": {
+        "text": ["進度"]
+    },
     "InfrastTrainingCompleted": {
         "text": ["訓練完成", "完成"]
     },
