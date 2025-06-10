@@ -319,15 +319,15 @@ namespace MaaWpfGui.Main
 
             if (Instances.VersionUpdateViewModel.IsDebugVersion())
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerDebug);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer3);
             }
             else if (Instances.VersionUpdateViewModel.IsBetaVersion())
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerTest);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer1);
             }
             else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PioneerSuperTest);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer2);
             }
 
             // 0.066% 概率触发

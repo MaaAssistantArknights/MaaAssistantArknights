@@ -54,9 +54,10 @@ namespace MaaWpfGui.Constants
         public const string MirrorChyanCdkError = "MirrorChyanCdkError";
 
         public const string MosquitoLeg = "MosquitoLeg";
-        public const string PioneerTest = "PioneerTest";
-        public const string PioneerSuperTest = "PioneerSuperTest";
-        public const string PioneerDebug = "PioneerDebug";
+
+        public const string Pioneer1 = "Pioneer1";
+        public const string Pioneer2 = "Pioneer2";
+        public const string Pioneer3 = "Pioneer3";
 
         public const string RealGacha = "RealGacha";
         public const string PeekScreen = "PeekScreen";
@@ -91,11 +92,12 @@ namespace MaaWpfGui.Constants
         public const string RecruitNoSixStar = "RecruitNoSixStar";
         public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
 
-        public const string SnapshotChallenge999 = "SnapshotChallenge999";
-        public const string SnapshotChallenge800 = "SnapshotChallenge800";
-        public const string SnapshotChallenge400 = "SnapshotChallenge400";
-        public const string SnapshotChallenge100 = "SnapshotChallenge100";
-        public const string SnapshotChallenge10 = "SnapshotChallenge10";
+        public const string SnapshotChallenge1 = "SnapshotChallenge1"; // 999
+        public const string SnapshotChallenge2 = "SnapshotChallenge2"; // 800
+        public const string SnapshotChallenge3 = "SnapshotChallenge3"; // 400
+        public const string SnapshotChallenge4 = "SnapshotChallenge4"; // 100
+        public const string SnapshotChallenge5 = "SnapshotChallenge6"; // 10
+        public const string SnapshotChallenge6 = "SnapshotChallenge6"; // 5
 
         #endregion
 

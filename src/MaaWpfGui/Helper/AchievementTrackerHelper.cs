@@ -59,15 +59,7 @@ namespace MaaWpfGui.Helper
         {
             InitializeAchievements();
             Load();
-
-            // 保存一下新注册的成就，保证 data 里能找到
-            Achievements = _achievements
-                .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
-                .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
-                .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
-                .ThenBy(kv => kv.Value.Category) // 按类别分组
-                .ThenBy(kv => kv.Value.Id) // 最后按 Id
-                .ToDictionary(kv => kv.Key, kv => kv.Value);
+            Sort();
             Instances.MainWindowManager.WindowRestored += (_, _) =>
             {
                 TryShowPendingGrowls();
@@ -105,15 +97,20 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
+            Sort();
+
+            JsonDataHelper.Set("Achievement", _achievements);
+        }
+
+        private void Sort()
+        {
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
-                .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Category) // 按类别分组
+                // .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            JsonDataHelper.Set("Achievement", _achievements);
         }
 
         public void RegisterAchievement(Achievement achievement)
@@ -388,9 +385,9 @@ namespace MaaWpfGui.Helper
             FeatureExploration(id: AchievementIds.MirrorChyanFirstUse, isHidden: true), // 第一次成功使用 MirrorChyan 下载
             FeatureExploration(id: AchievementIds.MirrorChyanCdkError, isHidden: true), // MirrorChyan CDK 错误
 
-            FeatureExploration(id: AchievementIds.PioneerTest), // 将 MAA 更新至公测版
-            FeatureExploration(id: AchievementIds.PioneerSuperTest, isHidden: true), // 将 MAA 更新至内测版（隐藏）
-            FeatureExploration(id: AchievementIds.PioneerDebug, isHidden: true), // 使用未发布版本的 MAA（隐藏）
+            FeatureExploration(id: AchievementIds.Pioneer1), // 将 MAA 更新至公测版
+            FeatureExploration(id: AchievementIds.Pioneer2, isHidden: true), // 将 MAA 更新至内测版（隐藏）
+            FeatureExploration(id: AchievementIds.Pioneer3, isHidden: true), // 使用未发布版本的 MAA（隐藏）
 
             FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
 
@@ -413,11 +410,12 @@ namespace MaaWpfGui.Helper
             #endregion
 
             #region 搞笑/梗类成就
-            Humor(id: AchievementIds.SnapshotChallenge999, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
-            Humor(id: AchievementIds.SnapshotChallenge800, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
-            Humor(id: AchievementIds.SnapshotChallenge400), // 平均截图用时小于 400ms（截图挑战 · Normal）
-            Humor(id: AchievementIds.SnapshotChallenge100), // 平均截图用时小于 100ms（截图挑战 · Fast）
-            Humor(id: AchievementIds.SnapshotChallenge10, isRare: true), // 平均截图用时小于 10ms（截图挑战 · Ultra）
+            Humor(id: AchievementIds.SnapshotChallenge1, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
+            Humor(id: AchievementIds.SnapshotChallenge2, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+            Humor(id: AchievementIds.SnapshotChallenge3), // 平均截图用时小于 400ms（截图挑战 · Normal）
+            Humor(id: AchievementIds.SnapshotChallenge4), // 平均截图用时小于 100ms（截图挑战 · Fast）
+            Humor(id: AchievementIds.SnapshotChallenge5), // 平均截图用时小于 10ms（截图挑战 · Ultra）
+            Humor(id: AchievementIds.SnapshotChallenge6, isHidden: true, isRare: true), // 平均截图用时小于 5ms
 
             Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
             Humor(id: AchievementIds.TacticalRetreat), // 停止任务

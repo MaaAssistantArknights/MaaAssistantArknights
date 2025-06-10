@@ -1210,41 +1210,45 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.MosquitoLeg.Description">あなたは少しずつ積み上げていくことの大切さを深く理解しています。</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">「サポートを借りで OF-1 をクリア」機能を5回以上使用する</system:String>
 
-    <system:String x:Key="Achievement.PioneerTest.Title">テストパイオニア</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Description">あなたはテスト中のバージョンを先行体験しました。</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Conditions">MAAをベータ版に更新する</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Title">テストパイオニア</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">あなたはテスト中のバージョンを先行体験しました。</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">MAAをベータ版に更新する</system:String>
 
-    <system:String x:Key="Achievement.PioneerSuperTest.Title">スーパーテストパイオニア</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Description">あなたは最新のテストバージョンを先行体験しました（新しい問題があれば問題報告をお願いします！）</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">MAAを内部テスト版に更新する</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Title">スーパーテストパイオニア</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">あなたは最新のテストバージョンを先行体験しました（新しい問題があれば問題報告をお願いします！）</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">MAAを内部テスト版に更新する</system:String>
 
-    <system:String x:Key="Achievement.PioneerDebug.Title">デバッグの先駆者</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Description">このバージョンを使える人は特別です。</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Conditions">未公開バージョンのMAAを使用する</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Title">デバッグの先駆者</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">このバージョンを使える人は特別です。</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">未公開バージョンのMAAを使用する</system:String>
 
     <system:String x:Key="Achievement.Irreplaceable.Title">替代不可</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">たぶん、別の作業を変更すべきですか？</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">「自動戦闘 - 自動編成」使用時、少なくとも2名のオペレーターが不足している。</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge999.Title">高遅延危機</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Description">「kale」</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">平均スクリーンショット時間が 800ms を超えている</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">高遅延危機</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">「kale」</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均スクリーンショット時間が 800ms を超えている</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge800.Title">少し遅くないですか？</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Description">スクリーンショットは少し苦労しているように見えます。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">平均スクリーンショット時間が 400ms から 800ms の間</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">少し遅くないですか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">スクリーンショットは少し苦労しているように見えます。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均スクリーンショット時間が 400ms から 800ms の間</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge400.Title">スクリーンショットチャレンジ · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Description">スクリーンショットを強化してみませんか？</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">平均スクリーンショット時間が 400ms 未満</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">スクリーンショットチャレンジ · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">スクリーンショットを強化してみませんか？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均スクリーンショット時間が 400ms 未満</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge100.Title">スクリーンショットチャレンジ · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Description">スクリーンショットが速すぎて反応できませんでした。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">平均スクリーンショット時間が 100ms 未満</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">スクリーンショットチャレンジ · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">スクリーンショットが速すぎて反応できませんでした。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均スクリーンショット時間が 100ms 未満</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge10.Title">スクリーンショットチャレンジ · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Description">スクリーンショット速度がMAAユーザーの99％を超えました。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">平均スクリーンショット時間が 10ms 未満</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">スクリーンショットチャレンジ · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">スクリーンショット速度がMAAユーザーの90％を超えました。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均スクリーンショット時間が 10ms 未満</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">スクリーンショットチャレンジ · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">あなたは MAA の隠された力を発見しました。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均スクリーンショット時間が 5ms 未満</system:String>
 
     <system:String x:Key="Achievement.Lucky.Title">ラッキー</system:String>
     <system:String x:Key="Achievement.Lucky.Description">この実績を見ることができる人は、三連金を引いたらしいです。</system:String>

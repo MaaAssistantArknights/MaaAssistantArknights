@@ -1207,41 +1207,45 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.MosquitoLeg.Description">티끌을 모으면 태산이 된다는걸 아시는군요</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">「지원 유닛을 사용해 크레딧 수급」 기능을 5회 이상 사용</system:String>
 
-    <system:String x:Key="Achievement.PioneerTest.Title">베타 테스터</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Description">테스트 중인 베타 버전을 체험하셨어요</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Conditions">MAA를 베타 버전으로 업데이트</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Title">베타 테스터</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">테스트 중인 베타 버전을 체험하셨어요</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">MAA를 베타 버전으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.PioneerSuperTest.Title">슈퍼 베타 테스터</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Description">최신 개발 버전을 사용하셨어요 (문제가 발생하면 문제 신고로 가주세요!)</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">MAA를 개발 버전으로 업데이트</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Title">슈퍼 베타 테스터</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">최신 개발 버전을 사용하셨어요 (문제가 발생하면 문제 신고로 가주세요!)</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">MAA를 개발 버전으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG 테스터</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Description">이 버전을 사용할 수 있는 분들은 일반인이 아닐거에요</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Conditions">DEBUG 버전의 MAA 사용</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG 테스터</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">이 버전을 사용할 수 있는 분들은 일반인이 아닐거에요</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">DEBUG 버전의 MAA 사용</system:String>
 
     <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가능</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">「자동지휘 - 자동 편성」 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge999.Title">Hight Ping 전사</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Description">"Disconnect"</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">평균 스크린샷 시간이 800ms 초과</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">Hight Ping 전사</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">"Disconnect"</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">평균 스크린샷 시간이 800ms 초과</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge800.Title">좀 많이 느린 거 아닌가요</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Description">스크린샷을 찍는데 좀 힘들어 보이네요</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">좀 많이 느린 거 아닌가요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">스크린샷을 찍는데 좀 힘들어 보이네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge400.Title">스크린샷 도전 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Description">스크린샷 향상을 시도해보는 건 어떨까요?</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">스크린샷 도전 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">스크린샷 향상을 시도해보는 건 어떨까요?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge100.Title">스크린샷 도전 · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Description">스크린샷이 너무 빨라서 저도 반응을 못했네요</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">평균 스크린샷 시간이 100ms 미만</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">스크린샷 도전 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">스크린샷이 너무 빨라서 저도 반응을 못했네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">평균 스크린샷 시간이 100ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge10.Title">스크린샷 도전 · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Description">스크린샷 속도가 99%의 유저보다 빨라요</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">평균 스크린샷 시간이 10ms 미만</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">스크린샷 도전 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">스크린샷 속도가 90%의 유저보다 빨라요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">평균 스크린샷 시간이 10ms 미만</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">스크린샷 도전 · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">당신은 MAA의 숨겨진 힘을 발견했습니다</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">평균 스크린샷 시간이 5ms 미만</system:String>
 
     <system:String x:Key="Achievement.Lucky.Title">뜻밖의 행운</system:String>
     <system:String x:Key="Achievement.Lucky.Description">이 도전과제를 클리어한 사람은 단챠로 6성을 뽑았다고 하네요</system:String>

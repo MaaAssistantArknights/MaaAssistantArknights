@@ -650,24 +650,29 @@ namespace MaaWpfGui.Main
                             // 日志提示
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge999);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
                                 break;
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge800);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
                             default:
                             {
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge400);
+                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
 
                                 if (screencapCostAvgInt < 100)
                                 {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge100);
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
                                 }
 
                                 if (screencapCostAvgInt < 10)
                                 {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge10);
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                                }
+
+                                if (screencapCostAvgInt < 5)
+                                {
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
                                 }
 
                                 break;

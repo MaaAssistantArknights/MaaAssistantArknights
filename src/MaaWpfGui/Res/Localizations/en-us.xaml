@@ -1207,41 +1207,45 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.MosquitoLeg.Description">You deeply understand the principle of accumulating little by little.</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">Use "Support Unit Combat OF-1" function more than 5 times</system:String>
 
-    <system:String x:Key="Achievement.PioneerTest.Title">Test Pioneer</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Description">You experienced the beta version ahead of others.</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Conditions">Update MAA to beta version</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Title">Test Pioneer</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">You experienced the beta version ahead of others.</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">Update MAA to beta version</system:String>
 
-    <system:String x:Key="Achievement.PioneerSuperTest.Title">Super Test Pioneer</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Description">You used the latest test version (please report any new issues!)</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">Update MAA to alpha version</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Title">Super Test Pioneer</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">You used the latest test version (please report any new issues!)</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">Update MAA to alpha version</system:String>
 
-    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG Vanguard</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Description">Anyone who can get this version is no ordinary person.</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Conditions">Use unreleased version of MAA</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG Vanguard</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">Anyone who can get this version is no ordinary person.</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">Use unreleased version of MAA</system:String>
 
     <system:String x:Key="Achievement.Irreplaceable.Title">Irreplaceable</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">Maybe I should get different homework?</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">When using "Copilot - Auto Squad", missing at least two operators</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge999.Title">High Ping Warrior</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Description">"lag"</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">Average screenshot time exceeds 800ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">High Ping Warrior</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">"lag"</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">Average screenshot time exceeds 800ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge800.Title">Isn't This a Bit Too Slow</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Description">Screenshots seem a bit sluggish.</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">Average screenshot time between 400ms and 800ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">Isn't This a Bit Too Slow</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">Screenshots seem a bit sluggish.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">Average screenshot time between 400ms and 800ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge400.Title">Screenshot Challenge · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Description">Maybe try screenshot enhancement?</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">Average screenshot time under 400ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">Screenshot Challenge · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">Maybe try screenshot enhancement?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">Average screenshot time under 400ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge100.Title">Screenshot Challenge · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Description">Screenshots so fast I didn't even react.</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">Average screenshot time under 100ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">Screenshot Challenge · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">Screenshots so fast I didn't even react.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">Average screenshot time under 100ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge10.Title">Screenshot Challenge · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Description">Screenshot speed beats 99% of MAA users.</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">Average screenshot time under 10ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">Screenshot Challenge · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">Screenshot speed beats 90% of MAA users.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">Average screenshot time under 10ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">Screenshot Challenge · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">You have discovered MAA's hidden power.</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">Average screenshot time under 5ms</system:String>
 
     <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
     <system:String x:Key="Achievement.Lucky.Description">Legend says those who see this achievement got three 6★s in a row.</system:String>

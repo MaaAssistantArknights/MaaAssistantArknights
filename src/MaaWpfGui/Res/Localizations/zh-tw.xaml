@@ -1210,41 +1210,45 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了積少成多的道理。</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 「借助戰打 OF-1」 功能超過 5 次</system:String>
 
-    <system:String x:Key="Achievement.PioneerTest.Title">測試先鋒</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Description">您率先體驗了處於測試中的版本。</system:String>
-    <system:String x:Key="Achievement.PioneerTest.Conditions">將 MAA 更新至公測版</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Title">測試先鋒</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">您率先體驗了處於測試中的版本。</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">將 MAA 更新至公測版</system:String>
 
-    <system:String x:Key="Achievement.PioneerSuperTest.Title">超級測試先鋒</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Description">您使用了最新的測試版本（出現任何新的問題請前往問題反饋！ ）</system:String>
-    <system:String x:Key="Achievement.PioneerSuperTest.Conditions">將 MAA 更新至內測版</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Title">超級測試先鋒</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">您使用了最新的測試版本（出現任何新的問題請前往問題反饋！ ）</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">將 MAA 更新至內測版</system:String>
 
-    <system:String x:Key="Achievement.PioneerDebug.Title">DEBUG 急先鋒</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Description">能下到這個版本的都不是一般人。</system:String>
-    <system:String x:Key="Achievement.PioneerDebug.Conditions">使用未發佈版本的 MAA</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG 急先鋒</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">能下到這個版本的都不是一般人。</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Conditions">使用未發佈版本的 MAA</system:String>
 
     <system:String x:Key="Achievement.Irreplaceable.Title">無可替代</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">或許我應該換一份作業？</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 「自動戰鬥 - 自動編隊」 時，缺少至少兩名幹員</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge999.Title">高 ping 戰士</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Description">“kale”</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge999.Conditions">平均截圖用時超過 800ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 戰士</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">“kale”</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">平均截圖用時超過 800ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge800.Title">是不是有點太慢了</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Description">截圖顯得有點吃力。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge800.Conditions">平均截圖用時在 400ms 到 800ms 之間</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">是不是有點太慢了</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">截圖顯得有點吃力。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">平均截圖用時在 400ms 到 800ms 之間</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge400.Title">截圖挑戰 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Description">要不試試截圖增強？</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge400.Conditions">平均截圖用時小於 400ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">截圖挑戰 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">要不試試截圖增強？</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">平均截圖用時小於 400ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge100.Title">截圖挑戰 · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Description">截圖快得我都沒反應過來。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge100.Conditions">平均截圖用時小於 100ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">截圖挑戰 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">截圖快得我都沒反應過來。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">平均截圖用時小於 100ms</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge10.Title">截圖挑戰 · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Description">截圖速度擊敗了 99% 的 MAA 使用者。</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge10.Conditions">平均截圖用時小於 10ms</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">截圖挑戰 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">截圖速度擊敗了 90% 的 MAA 使用者。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">平均截圖用時小於 10ms</system:String>
+
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">截圖挑戰 · Beyond</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">你發現了 MAA 的隱藏力量。</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">平均截圖用時小於 5ms</system:String>
 
     <system:String x:Key="Achievement.Lucky.Title">Lucky</system:String>
     <system:String x:Key="Achievement.Lucky.Description">據說能看到這條成就的人都三連金了。</system:String>
@@ -1336,19 +1340,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">簡簡單單</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">這種難度難不倒我。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通關任意肉鴿 N8 難度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通關任意肉鴿 N4 以上難度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑戰困難</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困難。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通關任意肉鴿 N8 難度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通關任意肉鴿 N8 以上難度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">超越人類</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通關任意肉鴿 N12 難度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通關任意肉鴿 N12 以上難度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙術牛牛真仙術。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通關任意肉鴿 N15 難度以上</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通關任意肉鴿 N15 以上難度</system:String>
 
     <!--  !Achievement  -->
 </ResourceDictionary>
