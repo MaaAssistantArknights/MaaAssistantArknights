@@ -21,6 +21,7 @@ using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Serilog;
@@ -151,6 +152,8 @@ public class IssueReportUserControlModel : PropertyChangedBase
     // ReSharper disable once UnusedMember.Global
     public void SetAcknowledgedNightlyWarning()
     {
+        // 其实不应该放这里，但懒得写一个新的方法，就塞到这里了
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProblemFeedback);
         VersionUpdateSettingsUserControlModel.Instance.HasAcknowledgedNightlyWarning = true;
     }
 

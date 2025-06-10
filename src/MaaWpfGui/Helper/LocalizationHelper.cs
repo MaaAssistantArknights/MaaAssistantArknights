@@ -184,9 +184,9 @@ namespace MaaWpfGui.Helper
         private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];
         private static readonly Random _pallasRand = new();
 
-        private static string GetPallasString()
+        public static string GetPallasString(int low = 3, int high = 6)
         {
-            int len = _pallasRand.Next(3, 6);
+            int len = _pallasRand.Next(low, high);
             StringBuilder cheersBuilder = new StringBuilder(len);
             for (int i = 0; i < len; i++)
             {

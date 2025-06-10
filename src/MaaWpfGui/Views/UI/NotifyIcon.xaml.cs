@@ -131,7 +131,7 @@ namespace MaaWpfGui.Views.UI
 
         private static void StopTask(object sender, RoutedEventArgs e)
         {
-            Instances.TaskQueueViewModel?.Stop();
+            Instances.TaskQueueViewModel?.ManualStop();
             _logger.Information("Tray service task stop.");
         }
 

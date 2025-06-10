@@ -101,6 +101,11 @@ namespace MaaWpfGui.States
 
             var elapsedMinutes = (DateTime.Now - _taskStartTime.Value).TotalMinutes;
 
+            if (elapsedMinutes > 3 * 60)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProxyOnline3Hours);
+            }
+
             // 如果任务运行时间未超过超时时间，则直接返回
             if (elapsedMinutes <= TaskTimeoutMinutes)
             {
@@ -112,6 +117,8 @@ namespace MaaWpfGui.States
                 LocalizationHelper.GetString("TaskTimeoutWarning"),
                 TaskTimeoutMinutes,
                 Math.Round(elapsedMinutes));
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
 
             TimeoutOccurred?.Invoke(this, message);
         }

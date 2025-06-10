@@ -874,6 +874,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             case "RoguelikeInvestmentReachFull":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, 999);
                 break;
 
             case "RoguelikeInvestmentReachLimit":
@@ -882,12 +883,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             case "RoguelikeInvestment":
                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, (int)subTaskDetails["deposit"]!);
                 break;
 
             case "RoguelikeSettlement":
                 {// 肉鸽结算
                     var report = subTaskDetails;
                     var pass = (bool)report!["game_pass"]!;
+                    var difficulty = (int)(report["difficulty"] ?? -1);
                     var roguelikeInfo = string.Format(
                         LocalizationHelper.GetString("RoguelikeSettlement"),
                         pass ? "✓" : "✗",
@@ -898,10 +901,33 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                         report["boss"],
                         report["recruit"],
                         report["collection"],
-                        report["difficulty"],
+                        difficulty,
                         report["score"],
                         report["exp"],
                         report["skill"]);
+
+                    if (pass)
+                    {
+                        if (difficulty > 4)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN04);
+                        }
+
+                        if (difficulty > 8)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN08);
+                        }
+
+                        if (difficulty > 12)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN12);
+                        }
+
+                        if (difficulty > 15)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN15);
+                        }
+                    }
 
                     Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
                     break;
