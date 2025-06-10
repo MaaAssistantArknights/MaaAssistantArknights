@@ -66,13 +66,15 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoInstallUpdatePackage}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
-                    <StackPanel Margin="8" Orientation="Horizontal">
+                    <StackPanel
+                        Margin="8"
+                        Orientation="Horizontal"
+                        Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}">
                         <CheckBox
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{DynamicResource ForceGithubGlobalSource}"
-                            IsChecked="{Binding ForceGithubGlobalSource}"
-                            Visibility="{c:Binding 'UpdateSource == &quot;Github&quot;'}" />
+                            IsChecked="{Binding ForceGithubGlobalSource}" />
                         <controls:TooltipBlock TooltipText="{DynamicResource ForceGithubGlobalSourceTip}" />
                     </StackPanel>
                     <StackPanel Margin="8">
