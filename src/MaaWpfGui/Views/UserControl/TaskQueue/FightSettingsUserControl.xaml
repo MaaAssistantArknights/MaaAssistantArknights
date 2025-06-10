@@ -240,11 +240,12 @@
                             Text="{DynamicResource RemainingSanityStage}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}">
-                            <controls:TooltipBlock.RenderTransform>
-                                <TranslateTransform d:X="30" X="{c:Binding 'ActualWidth/2 + 10', ElementName=RemainingSanityStageTextBlock}" />
-                            </controls:TooltipBlock.RenderTransform>
-                        </controls:TooltipBlock>
+                        <controls:TooltipBlock 
+                            Margin="0,5,6,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            NormalOpacity="0.25"
+                            TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
                     </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
