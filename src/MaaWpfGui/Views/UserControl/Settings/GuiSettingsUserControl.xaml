@@ -57,12 +57,13 @@
                     Margin="10"
                     Content="{DynamicResource WindowTitleScrollable}"
                     IsChecked="{Binding WindowTitleScrollable}" />
-                <CheckBox
-                    Margin="10"
-                    Content="{DynamicResource MainTasksNullFunctionality}"
-                    IsChecked="{Binding MainTasksInvertNullFunction}"
-                    ToolTip="{DynamicResource MainTasksNullFunctionalityTip}"
-                    ToolTipService.InitialShowDelay="0" />
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+                        Margin="10,10,0,10"
+                        Content="{DynamicResource MainTasksNullFunctionality}"
+                        IsChecked="{Binding MainTasksInvertNullFunction}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource MainTasksNullFunctionalityTip}" />
+                </StackPanel>
                 <hc:CheckComboBox
                     Width="180"
                     Margin="10"

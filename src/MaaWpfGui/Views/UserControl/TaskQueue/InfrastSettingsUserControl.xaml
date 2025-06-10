@@ -88,18 +88,27 @@
                 Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Rotation',
                                        Source={x:Static setting:TaskQueueViewModel.InfrastTask}}" />
             <StackPanel Margin="0" Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation', Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
-                <TextBlock
+                <StackPanel
                     Margin="0,5"
-                    HorizontalAlignment="Stretch"
-                    Block.TextAlignment="Center"
-                    Foreground="{DynamicResource PrimaryTextBrush}"
-                    Text="{Binding DormThresholdLabel}"
-                    TextWrapping="Wrap" />
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <controls:TextBlock
+                        MaxWidth="180"
+                        d:Text="{DynamicResource DormThreshold}"
+                        TextWrapping="Wrap">
+                        <controls:TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}: {1}%">
+                                <Binding Source="{StaticResource DormThreshold}" />
+                                <Binding Path="DormThreshold" />
+                            </MultiBinding>
+                        </controls:TextBlock.Text>
+                    </controls:TextBlock>
+                    <controls:TooltipBlock TooltipText="{DynamicResource InfrastThresholdTip}" />
+                </StackPanel>
                 <Slider
                     Margin="0,5"
                     Maximum="100"
                     Minimum="0"
-                    ToolTip="{DynamicResource InfrastThresholdTip}"
                     Value="{Binding DormThreshold}" />
                 <ListBox
                     Margin="0,5"
@@ -152,16 +161,17 @@
                 IsChecked="{Binding DormTrustEnabled}"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
                                        Source={x:Static setting:TaskQueueViewModel.InfrastTask}}" />
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{c:Binding DormFilterNotStationedEnabled}"
-                Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
-                <controls:TextBlock
-                    Text="{DynamicResource DormFilterNotStationedEnabled}"
-                    TextWrapping="Wrap"
-                    ToolTip="{DynamicResource DormFilterNotStationedTips}" />
-            </CheckBox>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=DormFilterNotStationedTipsTooltipBlock}"
+                    IsChecked="{c:Binding DormFilterNotStationedEnabled}"
+                    Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
+                                           Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
+                    <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource DormFilterNotStationedTips}" />
+            </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
             </CheckBox>

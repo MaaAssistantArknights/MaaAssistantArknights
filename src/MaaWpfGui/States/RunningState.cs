@@ -1,6 +1,6 @@
 // <copyright file="RunningState.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -101,6 +101,11 @@ namespace MaaWpfGui.States
 
             var elapsedMinutes = (DateTime.Now - _taskStartTime.Value).TotalMinutes;
 
+            if (elapsedMinutes > 3 * 60)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProxyOnline3Hours);
+            }
+
             // 如果任务运行时间未超过超时时间，则直接返回
             if (elapsedMinutes <= TaskTimeoutMinutes)
             {
@@ -112,6 +117,8 @@ namespace MaaWpfGui.States
                 LocalizationHelper.GetString("TaskTimeoutWarning"),
                 TaskTimeoutMinutes,
                 Math.Round(elapsedMinutes));
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
 
             TimeoutOccurred?.Invoke(this, message);
         }

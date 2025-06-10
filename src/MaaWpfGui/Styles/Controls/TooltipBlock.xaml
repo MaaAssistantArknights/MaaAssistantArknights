@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Styles.Controls.TooltipBlock"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,10 +11,13 @@
     <Border
         Width="15"
         Height="15"
-        Margin="5,0,0,0"
+        Margin="2,0,0,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
         Background="{DynamicResource MouseOverRegionBrush}"
         Style="{StaticResource BorderCircular}"
-        ToolTipService.InitialShowDelay="0">
+        ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
+        ToolTipService.IsEnabled="{c:Binding 'TooltipTextEmpty ? \'False\' : \'True\''}">
         <Border.ToolTip>
             <TextBlock
                 MaxWidth="{Binding TooltipMaxWidth}"

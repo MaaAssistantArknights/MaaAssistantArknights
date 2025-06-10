@@ -1,6 +1,6 @@
 // <copyright file="VersionUpdateSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -113,6 +114,8 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 _timer.IsEnabled = true;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.VersionClick);
+
             if (_easterEggsCount < 5)
             {
                 ++_easterEggsCount;
@@ -128,6 +131,8 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
             };
             MessageBoxHelper.Show(info);
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.Rules);
 
             /*
             var growlInfo = new GrowlInfo

@@ -1,6 +1,6 @@
 // <copyright file="Bootstrapper.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -36,6 +38,7 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
@@ -298,8 +301,61 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
+            if (Application.Current.IsShuttingDown())
+            {
+                return;
+            }
+
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
+
+            // 以下是成就解锁逻辑
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
+            if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
+                (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
+            }
+
+            if (Instances.VersionUpdateViewModel.IsDebugVersion())
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer3);
+            }
+            else if (Instances.VersionUpdateViewModel.IsBetaVersion())
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer1);
+            }
+            else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer2);
+            }
+
+            // 0.066% 概率触发
+            if (new Random().NextDouble() < 0.00066)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Lucky);
+            }
+
+            var now = DateTime.Now;
+
+            // 0~4 点启动
+            if (now.Hour is > 0 and < 4)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MidnightLaunch);
+            }
+
+            // 愚人节启动
+            if (now is { Month: 4, Day: 1 })
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.AprilFools);
+            }
+
+            // 春节
+            ChineseLunisolarCalendar chineseCalendar = new();
+            if (chineseCalendar.GetMonth(now) == 1 && chineseCalendar.GetDayOfMonth(now) == 1)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.LunarNewYear);
+            }
         }
 
         /// <inheritdoc/>

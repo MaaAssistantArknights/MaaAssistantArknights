@@ -116,6 +116,11 @@
                 "specialParams": {
                     "$ref": "#/definitions/ParamsArray",
                     "description": "某些任务使用的特殊参数（大部分是手写阈值等）"
+                },
+                "highResolutionSwipeFix": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，是否启用高分辨率滑动修复，现阶段应该只有关卡导航未使用 unity 滑动方式所以需要开启，默认为 false"
                 }
             }
         },

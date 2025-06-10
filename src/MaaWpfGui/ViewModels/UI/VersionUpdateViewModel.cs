@@ -1,6 +1,6 @@
 // <copyright file="VersionUpdateViewModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 
 using System;
@@ -703,7 +704,7 @@ public class VersionUpdateViewModel : Screen
 
         string? ComparableHash(string version)
         {
-            if (IsStdVersion(version))
+            if (IsStdVersion(version) || IsBetaVersion(version))
             {
                 return version;
             }
@@ -808,6 +809,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanFirstUse);
         return CheckUpdateRetT.OK;
     }
 
@@ -1050,6 +1052,7 @@ public class VersionUpdateViewModel : Screen
                     break;
                 case Enums.MirrorChyanErrorCode.KeyInvalid:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                     break;
                 case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
@@ -1257,7 +1260,29 @@ public class VersionUpdateViewModel : Screen
             return false;
         }
 
-        return !IsNightlyVersion(semVersion);
+        return !semVersion.IsPrerelease;
+    }
+
+    public bool IsBetaVersion(string? version = null)
+    {
+        version ??= _curVersion;
+
+        if (IsDebugVersion(version))
+        {
+            return false;
+        }
+
+        if (version.StartsWith('c') || version.StartsWith("20") || version.Contains("Local"))
+        {
+            return false;
+        }
+
+        if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
+        {
+            return false;
+        }
+
+        return semVersion.IsPrerelease && !IsNightlyVersion(semVersion);
     }
 
     public static bool IsNightlyVersion(SemVersion version)

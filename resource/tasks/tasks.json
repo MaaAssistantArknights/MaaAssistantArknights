@@ -346,8 +346,8 @@
         "next": ["ClickStageName", "FullStageNavigation"]
     },
     "FullStageNavigation": {
-        "Doc": "右滑五次，然后检测关卡并左滑",
-        "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
+        "Doc": "右滑 10 次，然后检测关卡并左滑",
+        "Doc2": "在一次关卡导航中，仅swipe 10次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
         "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
         "specificRect": [600, 100, 20, 20],
@@ -504,12 +504,14 @@
         "Doc": "在上面一点滑避免点到关卡划不动",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [300, 100, 20, 20],
-        "rectMove": [900, 100, 20, 20]
+        "rectMove": [900, 100, 20, 20],
+        "highResolutionSwipeFix": true
     },
     "ChapterSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [900, 100, 20, 20],
-        "rectMove": [300, 100, 20, 20]
+        "rectMove": [300, 100, 20, 20],
+        "highResolutionSwipeFix": true
     },
     "ChapterSwipeToTheLeft": {
         "Doc": "滑动到最左",
@@ -1649,17 +1651,20 @@
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "roi": [0, 300, 1280, 420],
+        "reduceOtherTimes": ["RecruitSkipWithoutButton*10"],
         "next": ["RecruitFinish@LoadingText", "RecruitFinish", "Recruit", "RecruitSkip", "RecruitSkipWithoutButton"]
     },
     "RecruitSkip": {
         "action": "ClickSelf",
         "roi": [1100, 0, 180, 150],
+        "reduceOtherTimes": ["RecruitSkipWithoutButton*10"],
         "next": ["RecruitSkip", "RecruitSkipWithoutButton"]
     },
     "RecruitSkipWithoutButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1180, 15, 85, 60],
+        "maxTimes": 10,
         "next": ["RecruitFinish", "RecruitFlag", "RecruitSkip", "Recruit", "RecruitSkipWithoutButton"]
     },
     "StartRecruit": {
@@ -1868,6 +1873,7 @@
         "action": "ClickSelf",
         "template": "RecruitNowConfirm.png",
         "roi": [586, 399, 694, 192],
+        "reduceOtherTimes": ["RecruitingActivitiesRecruitSkipWithoutButton*10"],
         "next": [
             "RecruitingActivitiesRecruitSkip",
             "RecruitingActivitiesRecruitNowConfirm",
@@ -1878,12 +1884,14 @@
         "action": "ClickSelf",
         "template": "RecruitSkip.png",
         "roi": [1100, 0, 180, 150],
+        "reduceOtherTimes": ["RecruitingActivitiesRecruitSkipWithoutButton*10"],
         "next": ["RecruitingActivitiesRecruitSkip", "RecruitingActivitiesRecruitSkipWithoutButton"]
     },
     "RecruitingActivitiesRecruitSkipWithoutButton": {
         "action": "ClickRect",
         "algorithm": "JustReturn",
         "specificRect": [1180, 15, 85, 60],
+        "maxTimes": 10,
         "next": [
             "RecruitingActivitiesRecruitEnd",
             "RecruitingActivitiesRecruitSkip",
@@ -2242,7 +2250,7 @@
         "roi": [544, 0, 210, 201],
         "maskRange": [1, 255],
         "action": "ClickRect",
-        "specificRect": [645, 665, 0, 0],
+        "specificRect": [645, 665, 1, 1],
         "postDelay": 1500,
         "next": ["CreditShop-Bought", "Stop"]
     },
@@ -3308,6 +3316,10 @@
         "text": ["空闲中"],
         "roi": [346, 626, 161, 52]
     },
+    "InfrastTrainingProcessing": {
+        "baseTask": "InfrastTrainingIdle",
+        "text": ["进度"]
+    },
     "InfrastTrainingCompleted": {
         "baseTask": "InfrastTrainingIdle",
         "text": ["训练完成"],
@@ -3334,20 +3346,9 @@
     "InfrastTrainingLevel1": {},
     "InfrastTrainingLevel2": {},
     "InfrastTrainingLevel3": {},
-    "InfrastTrainingTimeRec0": {
+    "InfrastTrainingTime": {
         "baseTask": "NumberOcrReplace",
-        "Doc": "HH",
-        "roi": [154, 645, 35, 40]
-    },
-    "InfrastTrainingTimeRec1": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "MM",
-        "roi": [188, 645, 35, 40]
-    },
-    "InfrastTrainingTimeRec2": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "SS",
-        "roi": [220, 645, 35, 40]
+        "roi": [150, 645, 100, 40]
     },
     "InfrastTrainingChooseSkillRec": {
         "algorithm": "OcrDetect",
@@ -4019,7 +4020,7 @@
         "baseTask": "NumberOcrReplace",
         "isAscii": false,
         "text": [],
-        "roi": [73, 364, 221, 31]
+        "roi": [73, 378, 221, 31]
     },
     "StageDrops-BaseLine": {
         "template": "empty.png",
@@ -4035,7 +4036,7 @@
     "StageDrops-Item": {
         "template": "empty.png",
         "templThreshold": 0.65,
-        "roi": [0, -130, 138, 130],
+        "rectMove": [0, -130, 138, 130],
         "maskRange": [1, 255]
     },
     "StageDrops-DropType-ExpAndLMB": {
@@ -4526,7 +4527,7 @@
         "exceededNext": ["Copilot@ChapterSwipeToTheRightAndPlot"]
     },
     "Copilot@ChapterSwipeToTheRightAndPlot": {
-        "doc": "划五次到最右，然后扫有无初见剧情",
+        "doc": "划 10 次到最右，然后扫有无初见剧情",
         "baseTask": "ChapterSwipeToTheRight",
         "exceededNext": ["Copilot@ClickPlotStage"]
     },

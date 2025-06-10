@@ -1,6 +1,6 @@
 // <copyright file="RecognizerViewModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -845,6 +846,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.RealGacha);
+
             GachaShowDisclaimer = false;
         }
 
@@ -1047,6 +1050,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // 点击按钮开始 Peep
                 Peeping = true;
+
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
 
                 // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
                 if (Idle)

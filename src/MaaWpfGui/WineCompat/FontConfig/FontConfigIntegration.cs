@@ -1,7 +1,16 @@
 // <copyright file="FontConfigIntegration.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MAA project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
 // </copyright>
+
 #pragma warning disable SA1312
 using System;
 using System.Diagnostics;
@@ -45,12 +54,12 @@ public unsafe class FontConfigIntegration
     public static void Install()
     {
         Debug.WriteLine($"FontConfigIntegration Install");
+
         // GC.KeepAlive(DefaultFont.UserInterface);
         // DefaultFont.UserInterface = GetFontFamilyFromPattern("system-ui");
         // DefaultFont.Monospace = GetFontFamilyFromPattern("monospace");
         // DefaultFont.SansSerif = GetFontFamilyFromPattern("sans-serif");
         // DefaultFont.Serif = GetFontFamilyFromPattern("serif");
-
         Install("Global User Interface", "system-ui");
         Install("Global Monospace", "monospace");
         Install("Global Sans Serif", "sans-serif");

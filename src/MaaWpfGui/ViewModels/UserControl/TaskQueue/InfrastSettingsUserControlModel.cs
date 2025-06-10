@@ -1,6 +1,6 @@
 // <copyright file="InfrastSettingsUserControlModel.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
@@ -102,8 +104,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
         InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList!);
         InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
-
-        _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
     }
 
     /// <summary>
@@ -149,20 +149,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         set
         {
             SetAndNotify(ref _dormThreshold, value);
-            DormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
             ConfigurationHelper.SetValue(ConfigurationKeys.DormThreshold, value.ToString());
         }
-    }
-
-    private string _dormThresholdLabel = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the label of dormitory threshold.
-    /// </summary>
-    public string DormThresholdLabel
-    {
-        get => _dormThresholdLabel;
-        set => SetAndNotify(ref _dormThresholdLabel, value);
     }
 
     /// <summary>
@@ -317,11 +305,11 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 CustomInfrastFile = @"resource\custom_infrast\" + value;
             }
 
-            NotifyOfPropertyChange(nameof(IsCustomInfrastFileReadOnly));
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);
         }
     }
 
+    [PropertyDependsOn(nameof(DefaultInfrast))]
     public bool IsCustomInfrastFileReadOnly => _defaultInfrast != UserDefined;
 
     private bool _dormFilterNotStationedEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, bool.TrueString));

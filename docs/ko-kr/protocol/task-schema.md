@@ -93,6 +93,10 @@ icon: material-symbols:task
         "specialParams": [ int, ... ],      // 일부 특수 인식기에 필요한 매개변수를 나타냅니다.
                                             // 추가 옵션, action이 Swipe인 경우 [0]은 지속 시간, [1]은 추가 슬라이드 여부를 나타냅니다.
 
+        "highResolutionSwipeFix": false,    // 선택 항목. 고해상도 스와이프 보정을 활성화할지 여부.
+                                            // 현재는 스테이지 내비게이션만 Unity 스와이프 방식을 사용하지 않으므로 이 옵션을 켜야 함
+                                            // 기본값은 false
+
         /* 다음 필드들은 algorithm이 MatchTemplate인 경우에만 유효합니다. */
 
         "template": "xxx.png",              // 선택 사항, 이미지 매칭에 사용할 이미지 파일의 이름을 나타냅니다.
