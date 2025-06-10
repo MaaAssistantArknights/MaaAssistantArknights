@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -67,7 +68,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
         public static SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
@@ -164,7 +165,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _enableAfterActionSetting, value);
-                TaskSettingVisibilityInfo.Current.Set("AfterAction", value);
+                TaskSettingVisibilityInfo.Instance.Set("AfterAction", value);
             }
         }
 
@@ -1839,6 +1840,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 调用 ProcSubTaskMsg 方法
                 instance.ProcSubTaskMsg(msg, details);
+            }
+        }
+
+        public void RefreshTaskModel(BaseTask task)
+        {
+            foreach (var instance in TaskViewModelTypes)
+            {
+                instance.RefreshUI(task);
             }
         }
     }

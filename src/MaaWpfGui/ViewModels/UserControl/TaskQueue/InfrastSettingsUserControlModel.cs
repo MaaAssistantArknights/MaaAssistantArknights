@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -50,7 +51,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>
-    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
     public void InitInfrast()
     {
@@ -223,36 +224,19 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
     ];
 
-    // 5.16.0-b1，后续版本直接使用 ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
-    private Mode _infrastMode = GetInfrastMode();
-
-    private static Mode GetInfrastMode()
-    {
-        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastEnabled) &&
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out string outStr) &&
-            bool.TryParse(outStr, out bool enable) && enable)
-        {
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, Mode.Custom.ToString());
-            return Mode.Custom;
-        }
-
-        return ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
-    }
-
     /// <summary>
     /// Gets or sets the infrast mode.
     /// </summary>
     public Mode InfrastMode
     {
-        get => _infrastMode;
+        get => GetTaskConfig<InfrastTask>()?.Mode ?? default;
         set
         {
-            if (!SetAndNotify(ref _infrastMode, value))
+            if (!SetTaskConfig<InfrastTask>(t => t.Mode == value, t => t.Mode = value))
             {
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, value.ToString());
             RefreshCustomInfrastPlan();
             NotifyOfPropertyChange(nameof(CustomInfrastPlanIndex));
         }
@@ -653,6 +637,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
 
         ++CustomInfrastPlanIndex;
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is InfrastTask)
+        {
+            Refresh();
+        }
     }
 
     public override (AsstTaskType Type, JObject Params) Serialize()

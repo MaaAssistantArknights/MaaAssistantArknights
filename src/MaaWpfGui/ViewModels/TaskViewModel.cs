@@ -16,14 +16,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-
 public abstract class TaskViewModel : PropertyChangedBase
 {
     private readonly Dictionary<string, List<string>> _propertyDependencies = []; // 属性依赖关系, key为被订阅的属性名, value为依赖于该属性的属性名列表
@@ -80,9 +83,37 @@ public abstract class TaskViewModel : PropertyChangedBase
         }
     }
 
+    protected T? GetTaskConfig<T>()
+        where T : BaseTask
+    {
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T;
+    }
+
+    protected bool SetTaskConfig<T>(Func<T, bool> isEqual, Action<T> @setValue, [CallerMemberName] string propertyName = "")
+        where T : BaseTask
+    {
+        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T task)
+        {
+            if (!isEqual(task))
+            {
+                setValue(task);
+                NotifyOfPropertyChange(propertyName);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public virtual void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
     }
+
+    /// <summary>
+    /// 刷新UI
+    /// </summary>
+    /// <param name="baseTask">需要刷新的任务</param>
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务
