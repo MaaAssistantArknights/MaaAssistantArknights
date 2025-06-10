@@ -62,14 +62,16 @@
                             Margin="5"
                             Content="{DynamicResource AutoSettingTime}"
                             IsChecked="{Binding RecruitAutoSetTime}" />
-                        <CheckBox
-                            MaxWidth="200"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            IsChecked="{Binding RecruitmentShowPotential}"
-                            ToolTip="{DynamicResource RecruitmentShowPotentialTips}">
-                            <controls:TextBlock Text="{DynamicResource RecruitmentShowPotential}" TextWrapping="Wrap" />
-                        </CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox
+                                MaxWidth="200"
+                                Margin="5,5,0,5"
+                                HorizontalAlignment="Left"
+                                IsChecked="{Binding RecruitmentShowPotential}">
+                                <controls:TextBlock Text="{DynamicResource RecruitmentShowPotential}" TextWrapping="Wrap" />
+                            </CheckBox>
+                            <controls:TooltipBlock TooltipText="{DynamicResource RecruitmentShowPotentialTips}" />
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel VerticalAlignment="Center">

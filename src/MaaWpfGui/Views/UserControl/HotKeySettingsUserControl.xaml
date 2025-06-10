@@ -39,9 +39,10 @@
                 Block.TextAlignment="Center"
                 Text="{DynamicResource HotKeyShowGui}" />
             <userControl:HotKeyEditorUserControl
-                Margin="10"
+                Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyShowGui}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Right"
@@ -52,9 +53,10 @@
                 Block.TextAlignment="Center"
                 Text="{DynamicResource HotKeyLinkStart}" />
             <userControl:HotKeyEditorUserControl
-                Margin="10"
+                Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyLinkStart}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
