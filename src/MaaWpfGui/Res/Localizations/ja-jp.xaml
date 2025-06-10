@@ -851,6 +851,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExplorationAbandoned">この探索を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>
+    <system:String x:Key="FightTimesUnused">{0} 回の戦闘を完了しました。次回は {1} 回の乗数プロキシを実行します。参加後、{2} 回の戦闘を完了します。{3} 回の制限を超えたため、戦闘には参加しません。</system:String>
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
     <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>

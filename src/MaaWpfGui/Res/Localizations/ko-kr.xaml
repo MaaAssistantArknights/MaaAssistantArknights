@@ -850,6 +850,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
+    <system:String x:Key="FightTimesUnused">{0} 전투 완료, 다음번에 {1} 배수 프록시 실행, 입장 후 {2} 전투 완료, 제한 {3} 초과, 전투에 입장하지 않음</system:String>
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다</system:String>
