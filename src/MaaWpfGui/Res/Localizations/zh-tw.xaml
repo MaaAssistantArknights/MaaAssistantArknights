@@ -284,6 +284,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">檢測到更新後，強制從 Github 下載更新包</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>

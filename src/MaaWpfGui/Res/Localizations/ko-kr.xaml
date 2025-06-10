@@ -284,6 +284,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">업데이트 감지 후, Github에서 강제로 업데이트 패키지 다운로드</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDK를 입력해 주세요</system:String>

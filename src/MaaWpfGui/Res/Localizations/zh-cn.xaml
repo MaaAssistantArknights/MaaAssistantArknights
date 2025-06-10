@@ -285,6 +285,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">检测到更新后，强制从 Github 下载更新包</system:String>
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">请输入 CDK</system:String>

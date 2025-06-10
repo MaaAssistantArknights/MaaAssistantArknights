@@ -284,6 +284,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from Github</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>

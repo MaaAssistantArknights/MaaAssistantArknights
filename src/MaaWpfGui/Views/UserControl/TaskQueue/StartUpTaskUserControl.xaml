@@ -82,7 +82,7 @@
                     Content="{DynamicResource Select}" />
             </Grid>
 
-            <Grid Margin="0,5">
+            <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
                 <StackPanel
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
@@ -98,8 +98,7 @@
                     hc:InfoElement.Title="{DynamicResource ConnectionAddress}"
                     IsEditable="True"
                     ItemsSource="{Binding ConnectAddressHistory}"
-                    Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-                    Visibility="{c:Binding !AutoDetectConnection}">
+                    Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

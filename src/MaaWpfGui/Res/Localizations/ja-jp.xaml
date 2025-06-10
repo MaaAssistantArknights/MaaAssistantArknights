@@ -285,6 +285,7 @@
 </system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
+    <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDKを入力してください</system:String>
