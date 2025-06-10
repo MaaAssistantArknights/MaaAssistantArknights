@@ -735,7 +735,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識 ｢特別關注｣ 的幹員</system:String>
+    <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的幹員</system:String>
     <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
     <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
