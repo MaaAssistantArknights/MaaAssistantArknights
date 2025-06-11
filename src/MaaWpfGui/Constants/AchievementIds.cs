@@ -96,7 +96,7 @@ namespace MaaWpfGui.Constants
         public const string SnapshotChallenge2 = "SnapshotChallenge2"; // 800
         public const string SnapshotChallenge3 = "SnapshotChallenge3"; // 400
         public const string SnapshotChallenge4 = "SnapshotChallenge4"; // 100
-        public const string SnapshotChallenge5 = "SnapshotChallenge6"; // 10
+        public const string SnapshotChallenge5 = "SnapshotChallenge5"; // 10
         public const string SnapshotChallenge6 = "SnapshotChallenge6"; // 5
 
         #endregion
