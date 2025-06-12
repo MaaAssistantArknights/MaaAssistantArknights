@@ -3646,7 +3646,10 @@
         "baseTask": "BattleQuickFormationModule-Item"
     },
     "BattleQuickFormationModule-2": {
-        "baseTask": "BattleQuickFormationModule-Item"
+        "doc": "y模组匹配，由于y模组的字母有两种形式，所以需要两个模板",
+        "baseTask": "BattleQuickFormationModule-Item",
+        "template": ["BattleQuickFormationModule-2-A.png", "BattleQuickFormationModule-2-B.png"],
+        "templThreshold": [0.92, 0.92]
     },
     "BattleQuickFormationModule-3": {
         "baseTask": "BattleQuickFormationModule-Item"
