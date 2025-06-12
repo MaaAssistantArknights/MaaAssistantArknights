@@ -4425,5 +4425,11 @@
     "YoStarKR/InfrastFilterMenu3": "ef57720977079cc962c51cc006c320a190b7ed436a0a00790364efe7997771cc",
     "YoStarKR/InfrastFilterMenu2": "8538903e9a85ce5a6e898d0e7d26f2d076543e36d8a1cc4a8fe71caee3b9881d",
     "YoStarJP/InfrastReceptionMessageBoard-CouldReceive": "8d9d489d3ab64e1d96a37a9a7473749072ee145785804e33a8c2e75147e2253f",
-    "YoStarKR/InfrastReceptionMessageBoard-CouldReceive": "03038a14b13164a3f81f956530ff1699b51a410a8dcad9c7e71330769e395dee"
+    "YoStarKR/InfrastReceptionMessageBoard-CouldReceive": "03038a14b13164a3f81f956530ff1699b51a410a8dcad9c7e71330769e395dee",
+    "YoStarKR/DepotEnterGaming": "955f4ba35c0bafec15b426f749faa1490d53de0f362acfe7eb35c6db24764ac5",
+    "YoStarKR/FriendsGaming": "0d3b12c1ccd9f6477d1b8e561ea82bac71cdbd2827980a1c4130ebd59546277f",
+    "YoStarKR/GachaEnterGaming": "177eb1c055cd8f4e6175f358c62d530b66d51cd65778616013f7091be221f469",
+    "YoStarKR/MallGaming": "5cf9ca9368aa6943f4c539c2a1b1601254ec9002554558d44f2f8b0dd586d69e",
+    "YoStarKR/RecruitGaming": "da050701a6c6d8538d9772034e57b9017a5413b590da7ff142fe8b0eeaaa5387",
+    "YoStarKR/TerminalGaming": "ea06c322dc9faaaa4bfd355a539f8943a32ddd4204ccf18bfda70ee33828c2f0"
 }
