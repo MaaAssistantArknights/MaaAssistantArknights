@@ -1009,12 +1009,12 @@
         "text": ["尋訪十次", "訪十次"]
     },
     "RecruitSupportConfirm": {
-        "text": ["招募", "助戰"],
         "ocrReplace": [
             [".*募", "招募"],
             ["招.*", "招募"],
             ["訪戰", "助戰"]
-        ]
+        ],
+        "text": ["招募", "助戰"]
     },
     "Store@EnterTicketStore": {
         "text": ["憑證交易所"]
