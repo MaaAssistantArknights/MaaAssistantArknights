@@ -4431,5 +4431,20 @@
     "YoStarKR/GachaEnterGaming": "177eb1c055cd8f4e6175f358c62d530b66d51cd65778616013f7091be221f469",
     "YoStarKR/MallGaming": "5cf9ca9368aa6943f4c539c2a1b1601254ec9002554558d44f2f8b0dd586d69e",
     "YoStarKR/RecruitGaming": "da050701a6c6d8538d9772034e57b9017a5413b590da7ff142fe8b0eeaaa5387",
-    "YoStarKR/TerminalGaming": "ea06c322dc9faaaa4bfd355a539f8943a32ddd4204ccf18bfda70ee33828c2f0"
+    "YoStarKR/TerminalGaming": "ea06c322dc9faaaa4bfd355a539f8943a32ddd4204ccf18bfda70ee33828c2f0",
+    "YoStarEN/DepotEnterGaming": "dd7837828e011c89125d59799c5c217c994be0858ea50f692da4174bec8e78a9",
+    "YoStarEN/FriendsGaming": "a9b8e5e662f1e5651985bf827e55c0622ddb4ecdea8ed6a43d9cd246d912696b",
+    "YoStarEN/GachaEnterGaming": "46f0a796bc3cfa86c494a0da5e41e4496bb5913e7f320f51b31c8cecd62e2318",
+    "YoStarEN/MallGaming": "0f797803e8d09fec59e7c0b0f999a316c6d1de8ff68a018a2b9ac2add09edec3",
+    "YoStarEN/RecruitGaming": "dc0cdf899b06dc93f5eba1153eb9624f9e3a1a1cb7a633385ded6d23ce408d6e",
+    "YoStarEN/TerminalGaming": "2c2f6a131a48368c1bef59ac0045f769e21752c21002774eb08ba95490f8809d",
+    "YoStarJP/DepotEnterGaming": "2d4414ead027c9641e79a8322742169a86b8eb19d394056f36a19b1992a0dc41",
+    "YoStarJP/EnterInfrastGaming": "df81ff6e3f056bd6a597f97a39b848dc70014c946a7a5c76feff09478acfbe83",
+    "YoStarJP/FriendsGaming": "1169a6d6f89476b26e65a06b38ae4ca5785ef8b5cc8c56052ac3d8dde7f6c891",
+    "YoStarJP/GachaEnterGaming": "fdf4c9c51d7cbd4064042fa112aba10a045ece44d65834316fa4f4593b937f9c",
+    "YoStarJP/MallGaming": "6b90fc033afe87954d45ea26b088f0d0e40dba8daddce406c294f4b1c68cd509",
+    "YoStarJP/OperBoxEnterGaming": "64a9ad62a835b9f050bacdb3b7dff5f8dfe28f73d8a872f1a30c6dc34e73c038",
+    "YoStarJP/RecruitGaming": "ed0c2b4d4b5088f485a2058c920e86b26fb194caf4e6bef0975500b20ae7b8e3",
+    "YoStarJP/TaskGaming": "846419fc6327084034ce8268e90088f81e0e9bf9f58f444dfd33b2c0e5615dbf",
+    "YoStarJP/TerminalGaming": "4ffa1033be8cf7e1d0e7f8d6b11a6dd0fcd0264f06b94f977515bf2d0c09eb58"
 }
