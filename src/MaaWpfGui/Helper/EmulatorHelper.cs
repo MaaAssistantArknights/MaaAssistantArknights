@@ -83,8 +83,14 @@ public class EmulatorHelper
             emuIndex = (port - 16384) / 32;
         }
 
-        Process[] processes = Process.GetProcessesByName("MuMuPlayer");
-        if (processes.Length <= 0)
+        // 尝试找到正在运行的模拟器进程
+        Process[] processes = Process.GetProcessesByName("MuMuNxDevice"); // 新版
+        if (processes.Length == 0)
+        {
+            processes = Process.GetProcessesByName("MuMuPlayer"); // 兼容旧版
+        }
+
+        if (processes.Length == 0)
         {
             return false;
         }
@@ -101,21 +107,34 @@ public class EmulatorHelper
             return false;
         }
 
-        if (processModule == null)
+        string? emulatorExePath = processModule?.FileName;
+        if (emulatorExePath == null)
         {
             return false;
         }
 
-        string? emuLocation = processModule.FileName;
-        emuLocation = Path.GetDirectoryName(emuLocation);
-        if (emuLocation == null)
+        // 从 exe 路径回推安装目录
+        // 新版路径推导: nx_device\12.0\shell\MuMuNxDevice.exe → 上三级目录 = 安装目录
+        // 旧版路径推导: shell\MuMuPlayer.exe → 上一级目录 = 安装目录
+        var installPath = Path.GetFullPath(Path.GetFileName(emulatorExePath).Equals("MuMuNxDevice.exe", StringComparison.OrdinalIgnoreCase)
+            ? Path.Combine(Path.GetDirectoryName(emulatorExePath)!, @"..\..\..")
+            : Path.Combine(Path.GetDirectoryName(emulatorExePath)!, ".."));
+
+        // 新旧路径分别尝试 MuMuManager.exe
+        string newConsolePath = Path.Combine(installPath, @"nx_main\MuMuManager.exe");
+        string oldConsolePath = Path.Combine(installPath, @"shell\MuMuManager.exe");
+
+        string? consolePath = null;
+        if (File.Exists(newConsolePath))
         {
-            return false;
+            consolePath = newConsolePath;
+        }
+        else if (File.Exists(oldConsolePath))
+        {
+            consolePath = oldConsolePath;
         }
 
-        string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
-
-        if (File.Exists(consolePath))
+        if (consolePath != null)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
             {
@@ -134,7 +153,7 @@ public class EmulatorHelper
             return KillEmulatorByWindow();
         }
 
-        _logger.Error($"Error: `{consolePath}` not found, try to kill emulator by window.");
+        _logger.Error("Error: MuMuManager.exe not found in expected locations (new or old). Trying to kill emulator by window.");
         return KillEmulatorByWindow();
     }
 
