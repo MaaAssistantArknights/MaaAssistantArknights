@@ -2,7 +2,7 @@ name: Auto Close not reading issues or Fold checkboxes
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   check-then-close-or-fold:
