@@ -37,8 +37,6 @@ regex_ignore_list = [
     # OVERSEAS
     # UNRELEASED THEMES
     "DahuangCity",
-    "Gaming",
-    r"Sarkaz(?!@)"
     # UNRELEASED I.S.
 ]
 
