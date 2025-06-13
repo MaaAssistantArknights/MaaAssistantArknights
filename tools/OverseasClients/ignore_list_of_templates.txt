@@ -123,6 +123,7 @@ EnterChooseLevelOfDifficulty.png
 EnterEpisode0.png
 EnterEpisode4.png
 EnterEpisode9.png
+EnterInfrastGaming.png
 EnterInfrastSami.png
 EnterInfrastSiege.png
 EnterStageIS.png
@@ -135,8 +136,8 @@ FightSeries-Default-1.png
 FightSeries-Icon.png
 FightSeries-Indicator.png
 FightSeries-List-1.png
-FightSeries-List-Multiply.png
 FightSeries-List-Exceeded.png
+FightSeries-List-Multiply.png
 Fire@Reclamation@Badge.png
 Fire@Reclamation@BetweenDayFlag.png
 Fire@Reclamation@ClickBlackMarket.png
@@ -233,6 +234,7 @@ NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
 OperBoxEnterDelicious.png
+OperBoxEnterGaming.png
 OperBoxEnterSiege.png
 OperBoxFlagElite1.png
 OperBoxFlagElite2.png
@@ -539,6 +541,8 @@ Sniper@UseSupportUnit-RoleSelected.png
 Sniper@UseSupportUnit-SelectRole.png
 Special@UseSupportUnit-RoleSelected.png
 Special@UseSupportUnit-SelectRole.png
+SS@Store@ClickItem.png
+SS@Store@RecruitSkip.png
 SSSDrawCard.png
 SSSFightDirectly.png
 SSSFightStart-PreSelect-Clear.png
@@ -567,6 +571,7 @@ StageLS5.png
 StageLS6.png
 StageOFNew.png
 StageResource.png
+StageSanityCost.png
 StageSideStory.png
 StageTheme.png
 StartLoginBServer.png
@@ -606,8 +611,10 @@ Tales@RA@WorkbenchButton.png
 Tales@RA@WorkbenchIcon.png
 Tank@UseSupportUnit-RoleSelected.png
 Tank@UseSupportUnit-SelectRole.png
+TaskGaming.png
 TaskSiege.png
 TerminalDelicious.png
+TerminalSarkaz.png
 TerminalSiege.png
 UnableToAgent.png
 UnableToAgent2.png
