@@ -309,6 +309,7 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                             IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                          Source={x:Static helper:Instances.TaskQueueViewModel}}"
                             Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
@@ -321,6 +322,7 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                              Source={x:Static helper:Instances.TaskQueueViewModel}}"
                                 Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
@@ -329,6 +331,7 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                              Source={x:Static helper:Instances.TaskQueueViewModel}}"
                                 Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
@@ -338,6 +341,7 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            hc:InfoElement.Placeholder="{DynamicResource NotSelected}"
                             IsEnabled="{c:Binding UseRemainingSanityStage}"
                             IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                          Source={x:Static helper:Instances.TaskQueueViewModel}}"
