@@ -47,6 +47,9 @@ jobs:
       with:
         script: |
           const originalBody = context.payload.issue.body;
+          if (originalBody.includes('<details><summary>Checkboxes</summary>\n\n')) {
+            return;
+          }
           const checkboxSectionRegex_cn_bug = /([\s\S]*?)(### 问题描述\n\n)/;
           const checkboxSectionRegex_cn_feat = /([\s\S]*?)(### 说说你遇到的问题？\n\n)/;
           const checkboxSectionRegex_en_bug = /([\s\S]*?)(### Description\n\n)/;
