@@ -33,6 +33,10 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// </summary>
 public class FightSettingsUserControlModel : TaskViewModel
 {
+    public static FightTimes? FightReport { get; set; }
+
+    public static SanityInfo? SanityReport { get; set; }
+
     static FightSettingsUserControlModel()
     {
         Instance = new();
