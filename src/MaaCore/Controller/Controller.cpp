@@ -135,6 +135,12 @@ bool asst::Controller::back_to_home()
     return true;
 }
 
+std::optional<std::string> asst::Controller::get_activities()
+{
+    CHECK_EXIST(m_controller, "");
+    return m_controller->get_activities();
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
@@ -155,10 +161,22 @@ bool asst::Controller::start_game(const std::string& client_type)
     return m_controller->start_game(client_type);
 }
 
+bool asst::Controller::start_activity(const std::string& activity_name)
+{
+    CHECK_EXIST(m_controller, false);
+    return m_controller->start_activity(activity_name);
+}
+
 bool asst::Controller::stop_game(const std::string& client_type)
 {
     CHECK_EXIST(m_controller, false);
     return m_controller->stop_game(client_type);
+}
+
+bool asst::Controller::stop_activity(const std::string& activity_name)
+{
+    CHECK_EXIST(m_controller, false);
+    return m_controller->stop_activity(activity_name);
 }
 
 bool asst::Controller::click(const Point& p)
@@ -345,7 +363,7 @@ cv::Mat asst::Controller::get_image(bool raw)
     static constexpr int MaxTryCount = 20;
     bool success = false;
     for (int i = 0; i < MaxTryCount && inited(); ++i) {
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             break;
         }
         if (screencap()) {
@@ -353,7 +371,7 @@ cv::Mat asst::Controller::get_image(bool raw)
             break;
         }
     }
-    while (!success && !need_exit()) {
+    while (!success && (!need_exit() || is_restarting())) {
         if (screencap(true)) {
             break;
         }
