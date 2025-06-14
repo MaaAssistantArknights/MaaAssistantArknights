@@ -19,6 +19,11 @@
             "condition": [0, 3]
         },
         {
+            "groups": ["益达"],
+            "location": [2, 3],
+            "direction": "right"
+        },
+        {
             "groups": ["异德", "刺客", "挡人先锋", "其他地面"],
             "location": [5, 3],
             "direction": "left",
