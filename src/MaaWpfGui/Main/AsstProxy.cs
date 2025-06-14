@@ -36,7 +36,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -658,26 +657,26 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
                             default:
-                            {
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
-
-                                if (screencapCostAvgInt < 100)
                                 {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
-                                }
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
 
-                                if (screencapCostAvgInt < 10)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
-                                }
+                                    if (screencapCostAvgInt < 100)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                                    }
 
-                                if (screencapCostAvgInt < 5)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
-                                }
+                                    if (screencapCostAvgInt < 10)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                                    }
 
-                                break;
-                            }
+                                    if (screencapCostAvgInt < 5)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                                    }
+
+                                    break;
+                                }
                         }
                     }
 
@@ -791,15 +790,8 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainStart:
                     {
-                        Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
-                        {
-                            "Fight" => true,
-                            _ => Instances.TaskQueueViewModel.FightTaskRunning,
-                        };
-
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
                         TaskStatusUpdate(taskId, TaskStatus.InProgress);
-
                         break;
                     }
 
@@ -817,12 +809,7 @@ namespace MaaWpfGui.Main
 
                         switch (taskChain)
                         {
-                            case "Fight":
-                                Instances.TaskQueueViewModel.FightTaskRunning = false;
-                                break;
-
                             case "Infrast":
-                                Instances.TaskQueueViewModel.InfrastTaskRunning = false;
                                 InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
                                 InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
@@ -2106,6 +2093,15 @@ namespace MaaWpfGui.Main
             if (_tasksStatus.TryGetValue(id, out var value))
             {
                 value.Status = status;
+                if (value.Type == TaskType.Fight)
+                {
+                    Instances.TaskQueueViewModel.FightTaskRunning = status == TaskStatus.InProgress;
+                }
+                else if (value.Type == TaskType.Infrast)
+                {
+                    Instances.TaskQueueViewModel.InfrastTaskRunning = status == TaskStatus.InProgress;
+                }
+
                 return true;
             }
             else

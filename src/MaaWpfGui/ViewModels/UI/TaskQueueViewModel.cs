@@ -1288,8 +1288,6 @@ namespace MaaWpfGui.ViewModels.UI
             TaskItemSelectionChanged();
             InfrastTask.InfrastOrderSelectionChanged();
 
-            InfrastTaskRunning = true;
-
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
@@ -1738,8 +1736,6 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                FightTaskRunning = false;
-                InfrastTaskRunning = false;
                 UpdateMainTasksProgress(0);
             }
         }
