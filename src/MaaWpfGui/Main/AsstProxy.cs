@@ -45,6 +45,7 @@ using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
 using AsstTaskId = System.Int32;
+using FightTask = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
 namespace MaaWpfGui.Main
@@ -688,10 +689,10 @@ namespace MaaWpfGui.Main
 
         private void OnToastNotificationTimerTick(object? sender, EventArgs e)
         {
-            if (SanityReport is not null)
+            if (FightTask.SanityReport is not null)
             {
                 var sanityReport = LocalizationHelper.GetString("SanityReport");
-                var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
+                var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                 sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
                 ToastNotification.ShowDirect(sanityReport);
             }
@@ -820,9 +821,9 @@ namespace MaaWpfGui.Main
                                 break;
                         }
 
-                        if (taskChain == "Fight" && SanityReport is not null)
+                        if (taskChain == "Fight" && FightTask.SanityReport is not null)
                         {
-                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
+                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
                         }
                         else
@@ -898,9 +899,9 @@ namespace MaaWpfGui.Main
 
                         var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
 
-                        if (SanityReport is not null)
+                        if (FightTask.SanityReport is not null)
                         {
-                            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
+                            var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
@@ -949,7 +950,7 @@ namespace MaaWpfGui.Main
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
-                            if (SanityReport is not null)
+                            if (FightTask.SanityReport is not null)
                             {
                                 toast.AppendContentText(sanityReport);
                             }
@@ -1162,19 +1163,19 @@ namespace MaaWpfGui.Main
                             case "StartButton2":
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
-                                if (FightTimes is null)
+                                if (FightTask.FightReport is null)
                                 {
                                     missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), "???", "???"));
                                 }
                                 else
                                 {
-                                    var times = FightTimes.Series == 1 ? $"{FightTimes.TimesFinished + 1}" : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}";
-                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTimes.SanityCost));
+                                    var times = FightTask.FightReport.Series == 1 ? $"{FightTask.FightReport.TimesFinished + 1}" : $"{FightTask.FightReport.TimesFinished + 1}~{FightTask.FightReport.TimesFinished + FightTask.FightReport.Series}";
+                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTask.FightReport.SanityCost));
                                 }
 
-                                if (SanityReport is not null)
+                                if (FightTask.SanityReport is not null)
                                 {
-                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                                 }
 
                                 if (ExpiringMedicineUsedTimes > 0)
@@ -1722,10 +1723,10 @@ namespace MaaWpfGui.Main
 
                 case "SanityBeforeStage":
                     {
-                        SanityReport = null;
+                        FightTask.SanityReport = null;
                         if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                         {
-                            SanityReport = report;
+                            FightTask.SanityReport = report;
                         }
 
                         break;
@@ -1733,18 +1734,18 @@ namespace MaaWpfGui.Main
 
                 case "FightTimes":
                     {
-                        FightTimes = null;
+                        FightTask.FightReport = null;
                         if ((subTaskDetails?.Children())?.Any() is true)
                         {
-                            FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
-                            if (FightTimes.TimesFinished > 0)
+                            FightTask.FightReport = subTaskDetails.ToObject<FightTask.FightTimes>()!;
+                            if (FightTask.FightReport.TimesFinished > 0)
                             {
-                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTask.FightReport.TimesFinished);
                             }
 
-                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
+                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightTask.Instance.HasTimesLimited && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
                             {
-                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
+                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTask.FightReport.TimesFinished, FightTask.FightReport.Series, FightTask.FightReport.TimesFinished + FightTask.FightReport.Series, FightTask.Instance.MaxTimes), UiLogColor.Error);
                             }
                         }
 
