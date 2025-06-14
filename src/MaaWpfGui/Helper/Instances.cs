@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1401, CS8632
+#pragma warning disable SA1401
 
 using GlobalHotKey;
 using MaaWpfGui.Main;
@@ -33,10 +33,6 @@ namespace MaaWpfGui.Helper
     {
         public static class Data
         {
-            public static FightSettingsUserControlModel.FightTimes? FightTimes { get; set; }
-
-            public static FightSettingsUserControlModel.SanityInfo? SanityReport { get; set; }
-
             public static int MedicineUsedTimes { get; set; }
 
             public static int ExpiringMedicineUsedTimes { get; set; }
@@ -47,7 +43,7 @@ namespace MaaWpfGui.Helper
 
             public static void ClearCache()
             {
-                SanityReport = null;
+                FightSettingsUserControlModel.SanityReport = null;
                 MedicineUsedTimes = 0;
                 ExpiringMedicineUsedTimes = 0;
                 StoneUsedTimes = 0;
