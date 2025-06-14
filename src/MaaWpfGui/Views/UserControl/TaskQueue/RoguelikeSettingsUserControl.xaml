@@ -35,8 +35,7 @@
                 ItemsSource="{Binding RoguelikeDifficultyList}"
                 ScrollViewer.CanContentScroll="False"
                 SelectedValue="{Binding RoguelikeDifficulty}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeTheme != task:RoguelikeTheme.Phantom'}" />
+                SelectedValuePath="Value" />
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"

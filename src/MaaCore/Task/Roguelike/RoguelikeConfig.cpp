@@ -20,13 +20,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     m_theme = theme;
     m_mode = mode;
-    if (m_theme != RoguelikeTheme::Phantom) {
-        m_difficulty = params.get("difficulty", 0);
-    }
-    else if (params.contains("difficulty")) {
-        Log.error(__FUNCTION__, "| Invalid difficulty for theme", m_theme);
-        return false;
-    }
+    m_difficulty = params.get("difficulty", -1);
+
+    Log.info("Roguelike theme", m_theme, "| mode", static_cast<int>(m_mode), "| difficulty", m_difficulty);
 
     if (mode == RoguelikeMode::Collectible) {
         m_collectible_mode_shopping = params.get("collectible_mode_shopping", false);

@@ -200,14 +200,10 @@ public class AsstRoguelikeTask : AsstBaseTask
         {
             ["mode"] = Mode,
             ["theme"] = Theme.ToString(),
+            ["difficulty"] = Difficulty,
             ["starts_count"] = Starts,
             ["investment_enabled"] = InvestmentEnabled,
         };
-
-        if (Theme != RoguelikeTheme.Phantom)
-        {
-            taskParams["difficulty"] = Difficulty;
-        }
 
         if (InvestmentEnabled)
         {
