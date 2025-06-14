@@ -739,6 +739,7 @@ namespace MaaWpfGui.Main
             {
                 case AsstMsg.TaskChainStopped:
                     Instances.TaskQueueViewModel.SetStopped();
+                    TaskStatusUpdate(taskId, TaskStatus.Completed);
                     if (isCopilotTaskChain)
                     {
                         _runningState.SetIdle(true);
@@ -781,6 +782,7 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            TaskStatusUpdate(taskId, TaskStatus.Completed);
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
@@ -788,21 +790,26 @@ namespace MaaWpfGui.Main
                     }
 
                 case AsstMsg.TaskChainStart:
-                    Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
-                        "Fight" => true,
-                        _ => Instances.TaskQueueViewModel.FightTaskRunning,
-                    };
+                        Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
+                        {
+                            "Fight" => true,
+                            _ => Instances.TaskQueueViewModel.FightTaskRunning,
+                        };
 
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
-                    break;
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
+                        TaskStatusUpdate(taskId, TaskStatus.InProgress);
+
+                        break;
+                    }
 
                 case AsstMsg.TaskChainCompleted:
                     {
                         // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
-                        if (_taskStatus.TryGetValue(taskId, out var taskType))
+                        TaskStatusUpdate(taskId, TaskStatus.Completed);
+                        if (_tasksStatus.TryGetValue(taskId, out var task))
                         {
-                            if (_mainTaskTypes.Contains(taskType))
+                            if (_mainTaskTypes.Contains(task.Type))
                             {
                                 Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                             }
@@ -846,9 +853,10 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
                         }
+
+                        break;
                     }
 
-                    break;
                 case AsstMsg.TaskChainExtraInfo:
                     break;
 
@@ -857,11 +865,11 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        var latestMainTaskIds = _taskStatus.Where(i => _mainTaskTypes.Contains(i.Value)).Select(i => i.Key);
+                        var latestMainTaskIds = _tasksStatus.Where(i => _mainTaskTypes.Contains(i.Value.Type)).Select(i => i.Key);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
-                    if (_taskStatus.ContainsValue(TaskType.Copilot))
+                    if (_tasksStatus.Any(t => t.Value.Type == TaskType.Copilot))
                     {
                         if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
@@ -873,8 +881,8 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buyWine = _taskStatus.ContainsValue(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-                    _taskStatus.Clear();
+                    bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                    _tasksStatus.Clear();
 
                     TaskQueueViewModel.FightTask.ResetFightVariables();
                     TaskQueueViewModel.RecruitTask.ResetRecruitVariables();
@@ -2084,9 +2092,29 @@ namespace MaaWpfGui.Main
             TaskType.Reclamation,
         ];
 
-        private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
+        private readonly Dictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
-        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => new Dictionary<AsstTaskId, TaskType>(_taskStatus);
+        public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
+
+        private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            if (_tasksStatus.TryGetValue(id, out var value))
+            {
+                value.Status = status;
+                return true;
+            }
+            else
+            {
+                Log.Error("Task ID {TaskId} not found in _tasksStatus", id);
+            }
+
+            return false;
+        }
 
         public bool AsstAppendCloseDown(string clientType)
         {
@@ -2159,7 +2187,7 @@ namespace MaaWpfGui.Main
                 ["filename"] = filename,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
-            _taskStatus.Add(id, TaskType.Copilot);
+            _tasksStatus.Add(id, (TaskType.Copilot, TaskStatus.Idle));
             return id != 0 && AsstStart();
         }
 
@@ -2177,7 +2205,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            _taskStatus.Add(id, wpfTasktype);
+            _tasksStatus.Add(id, (wpfTasktype, TaskStatus.Idle));
             return true;
         }
 
@@ -2220,7 +2248,7 @@ namespace MaaWpfGui.Main
             bool ret = MaaService.AsstStop(_handle);
             if (clearTask)
             {
-                _taskStatus.Clear();
+                _tasksStatus.Clear();
             }
 
             return ret;
@@ -2326,6 +2354,27 @@ namespace MaaWpfGui.Main
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+    }
+
+    /// <summary>
+    /// 任务状态
+    /// </summary>
+    public enum TaskStatus
+    {
+        /// <summary>
+        /// 未开始
+        /// </summary>
+        Idle = 0,
+
+        /// <summary>
+        /// 进行中
+        /// </summary>
+        InProgress = 1,
+
+        /// <summary>
+        /// 已完成
+        /// </summary>
+        Completed = 2,
     }
 
     public enum AsstStaticOptionKey
