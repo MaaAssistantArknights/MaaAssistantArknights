@@ -250,7 +250,7 @@
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
-    <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
+    <system:String x:Key="SpecifiedDropsTip">This feature would not automatically calculate the optimal stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
