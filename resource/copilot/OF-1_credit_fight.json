@@ -39,7 +39,9 @@
                     "name": "焰尾"
                 },
                 {
-                    "name": "德克萨斯"
+                    "name": "德克萨斯",
+                    "skill": 2,
+                    "skill_usage": 1
                 },
                 {
                     "name": "凛冬"
