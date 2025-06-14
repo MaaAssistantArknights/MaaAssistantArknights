@@ -36,7 +36,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -658,26 +657,26 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
                             default:
-                            {
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
-
-                                if (screencapCostAvgInt < 100)
                                 {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
-                                }
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
 
-                                if (screencapCostAvgInt < 10)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
-                                }
+                                    if (screencapCostAvgInt < 100)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                                    }
 
-                                if (screencapCostAvgInt < 5)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
-                                }
+                                    if (screencapCostAvgInt < 10)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                                    }
 
-                                break;
-                            }
+                                    if (screencapCostAvgInt < 5)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                                    }
+
+                                    break;
+                                }
                         }
                     }
 
@@ -1743,7 +1742,7 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
                             }
 
-                            if (FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
+                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
                             {
                                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
                             }
