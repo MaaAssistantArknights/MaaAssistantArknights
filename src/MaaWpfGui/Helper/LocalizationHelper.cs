@@ -181,6 +181,36 @@ namespace MaaWpfGui.Helper
             return $"{{{{ {key} }}}}";
         }
 
+        /// <summary>
+        /// Gets a formatted localized string.
+        /// </summary>
+        /// <param name="key">The key of the string.</param>
+        /// <param name="culture">The language of the string</param>
+        /// <param name="otherKeys">The other format keys</param>
+        /// <returns></returns>
+        public static string GetFormattedString(string key, string? culture, params string[] otherKeys)
+        {
+            var format = GetString(key, culture);
+            var args = otherKeys.Select(k => GetString(k, culture)).Cast<object?>().ToArray();
+            return string.Format(format, args);
+        }
+
+        /// <summary>
+        /// Gets a formatted localized string.
+        /// </summary>
+        /// <param name="key">The key of the string.</param>
+        /// <param name="culture">The language of the string</param>
+        /// <returns></returns>
+        public static string GetFormattedString(string key, string? culture = null)
+        {
+            var raw = GetString(key, culture);
+            return Regex.Replace(raw, @"\{key=(\w+)\}", match =>
+            {
+                var innerKey = match.Groups[1].Value;
+                return GetString(innerKey, culture);
+            });
+        }
+
         private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];
         private static readonly Random _pallasRand = new();
 
