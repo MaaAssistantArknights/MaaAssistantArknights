@@ -268,7 +268,7 @@
 3. 请不要在其他地方讨论内测版问题，例如用户群、评论区等。这会占用公共资源且无法及时反馈和解决问题。
 4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
 
-您可通过点击 设置-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
+您可通过点击 ｢设置 - 问题反馈｣ 链接来取消该弹窗，感谢您的理解与配合！</system:String>
     <system:String x:Key="UpdateCheck">更新渠道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">软件更新</system:String>
@@ -290,8 +290,8 @@
     <system:String x:Key="MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切换更新源后填写</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">请输入 CDK</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">请前往 ｢设置-更新设置｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往 ｢设置-更新设置-资源更新｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">请前往 ｢设置 - 更新设置｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">检测到资源更新: {0}。请前往 ｢设置 - 更新设置 - 资源更新｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">检测到资源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已过期，请使用新的 CDK 进行授权。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
@@ -351,7 +351,7 @@
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
     <system:String x:Key="EmulatorPathNotExist">模拟器路径不存在</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，｢{0}｣ 与 ｢{1}｣ 勾选状态已被还原</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模拟器路径为空，｢{key=RetryOnDisconnected}｣ 与 ｢{key=OpenEmulatorAfterLaunch}｣ 勾选状态已被还原</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
@@ -503,7 +503,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写 ｢启动设置-模拟器路径｣ 后重新勾选。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写 ｢启动设置 - 模拟器路径｣ 后重新勾选。</system:String>
     <system:String x:Key="AllowAdbRestart">连接失败后尝试重启 ADB Server</system:String>
     <system:String x:Key="AllowAdbHardRestart">连接失败后尝试关闭并重启 ADB 进程</system:String>
     <!--  !设置  -->
@@ -623,7 +623,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
-    <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 设置 - 连接设置 - 强制替换 ADB，或触控模式选择 ADB Input（不推荐）。</system:String>
+    <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 ｢设置 - 连接设置 - 强制替换 ADB｣，或触控模式选择 ADB Input（不推荐）。</system:String>
     <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
@@ -822,7 +822,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
     <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
-    <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
+    <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 ｢设置 - 连接设置｣ 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常。</system:String>
