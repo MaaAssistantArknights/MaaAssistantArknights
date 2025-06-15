@@ -75,7 +75,7 @@
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n｢設定 - パフォーマンス設定｣ で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
@@ -158,20 +158,20 @@
     <system:String x:Key="RoguelikeStrategyDeepExploration">深層探索をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
-    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
+    <system:String x:Key="StartingCoreChar">最初のオペレーター</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">このオペレーターがbattle_dataにありません。</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">｢最初のオペレーター｣ 直接昇進</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 直接昇進</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣の昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
     <system:String x:Key="RoguelikeCollapseList">崩壊パラダイムリスト</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン ｢;｣ で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢最初のオペレーター｣ をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに ｢停止｣ を遅らせる</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに ｢{key=Stop}｣ を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>
@@ -267,7 +267,7 @@
 3. 内部テスト版の問題をユーザーグループやコメントセクションなどの他の場所で議論しないでください。これにより公共のリソースが占有され、迅速なフィードバックと解決が妨げられます。
 4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
 
-設定 - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
+｢{key=Settings} - {key=IssueReport}｣のリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">更新チャネル</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
@@ -277,7 +277,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 海外ソースを使用：
     ● ソフトウェアバージョン：MAA Teamが提供するAPIで更新をチェックし、GitHubまたはMAA Teamが提供するCN Mirrorsから自動的に更新パッケージを取得
-    ● リソースバージョン：MirrorChyanが無料の更新検出を提供、設定で ｢リソース更新｣ をクリックしてGitHubから手動でダウンロード可能
+    ● リソースバージョン：MirrorChyanが無料の更新検出を提供、設定で ｢{key=ResourceUpdate}｣ をクリックしてGitHubから手動でダウンロード可能
 
 🔑 MirrorChyanを使用：
     ● ソフトウェアとリソースはMirrorChyan経由で優先的に高速ダウンロード
@@ -289,16 +289,16 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDKを入力してください</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢設定 - 更新設定｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。｢設定 - 更新設定 - リソース更新｣ に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK の有効期限が切れました。新しい CDK を使用して認証してください。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢Global Source｣ からダウンロード中...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢MirrorChyan｣ からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢{key=GlobalSource}｣ からダウンロード中...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢{key=MirrorChyan}｣ からダウンロード中...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">バージョン: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">内容: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Webサイトで確認</system:String>
@@ -398,7 +398,7 @@
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 一日一回だけ。
-この機能は、ステージを現在/前回に選択している場合は無効です。
+この機能は、ステージを ｢{key=DefaultStage}｣ に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
@@ -415,7 +415,7 @@
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="ReceiveFreeRecruit">リミテッドスカウトから毎日無料スカウトを行う</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトしない</system:String>
-    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n｢確認｣ ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
+    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n｢{key=Confirm}｣ ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
@@ -436,7 +436,7 @@
     <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="AllowUseStoneSave">源石の数を割る保存状態を許可</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。｢確認｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">この機能は危険な機能と見なされます。｢{key=Confirm}｣ ボタンを押すと、リスクを理解し、受け入れることに同意したと見なされます。</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
@@ -503,7 +503,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！｢起動設定-エミュレータのパス｣ を入力してから再度選択してください。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！｢{key=StartupSettings} - {key=EmulatorPath}｣ を入力してから再度選択してください。</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
     <!--  !設定  -->
@@ -622,7 +622,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
-    <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
+    <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
     <system:String x:Key="Stopped">動作停止</system:String>
@@ -646,7 +646,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
     <system:String x:Key="RecruitmentShowPotential">潜在数を表示する（星4以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために ｢オペレーター｣ を使用してください。</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために ｢{key=OperBoxRecognition}｣ を使用してください。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
@@ -673,7 +673,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">ディレクトリを開く</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、｢自動戦闘｣ ページを開き、映像をドラッグしてください。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、｢{key=Copilot}｣ ページを開き、映像をドラッグしてください。
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
     <!--  VideoRecognition  -->
     <!--  Gacha Recognition  -->
@@ -765,11 +765,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
         1. この機能を使用する際には、メインストーリー、ストーリーコレクション、またはサイドストーリーに ｢行動開始｣ ボタンが表示されている場合に限ります。\n\n
-        2. 逆理演算の場合は、｢自動編成｣ をオフにする必要があり、スキルを選択した後、｢演算開始｣ ボタンのインターフェースから開始する必要があります；\n\n
+        2. 逆理演算の場合は、｢{key=AutoSquad}｣ をオフにする必要があり、スキルを選択した後、｢演算開始｣ ボタンのインターフェースから開始する必要があります；\n\n
         3. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
-        手動形成後、｢開始デプロイメント｣ 画面から開始してください（｢ループ回数｣ で使用可能）。\n\n
-        4. サポートを使うときは、｢自動編成｣ をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
-        5. ｢戦術要員｣ 機能を有効にすると、｢自動編成｣ のオペレーター選択に影響を与える可能性があります。｢自動編成｣ を 使用する際は ｢戦術要員｣ をオフにするか、不足しているオペレーターを手動で補充して編成を完成させることをお勧めします。\n\n
+        手動形成後、｢開始デプロイメント｣ 画面から開始してください（｢{key=LoopTimes} で使用可能）。\n\n
+        4. サポートを使うときは、｢{key=AutoSquad}｣ をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
+        5. ｢戦術要員｣ 機能を有効にすると、｢{key=AutoSquad}｣ のオペレーター選択に影響を与える可能性があります。｢{key=AutoSquad}｣ を 使用する際は ｢戦術要員｣ をオフにするか、不足しているオペレーターを手動で補充して編成を完成させることをお勧めします。\n\n
         6. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n
         7. バトルリスト:\n
         ジョブを選択した後、リストの下のステージ名が正しいことを確認してください (例: CV-EX-1)。 \n
@@ -821,7 +821,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</system:String>
     <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
-    <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。設定-接続設定に入って、他のタッチモードに変更してください。</system:String>
+    <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。｢{key=Settings} - {key=ConnectionSettings}｣ に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
@@ -927,7 +927,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、｢設定 - アップデート設定 - ソフト更新｣ に移動してリソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
@@ -1011,7 +1011,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢MirrorChyan｣ からリソース {0} を更新しています...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢{key=MirrorChyan}｣ からリソース {0} を更新しています...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
     <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。</system:String>
@@ -1200,19 +1200,19 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.MapOutdated.Title">せっかち者</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">急いでいることは分かっていますが、少しお待ちください。</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">リソースを更新せずに自動戦闘を使用する</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">リソースを更新せずに ｢{key=Copilot}｣ を使用する</system:String>
 
     <system:String x:Key="Achievement.UseCopilot1.Title">課題をコピー</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">本当に放置してクリアしました。</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">「自動戦闘」機能で 1 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">「{key=Copilot}」機能で 1 回クリアする</system:String>
 
     <system:String x:Key="Achievement.UseCopilot2.Title">ずっと放置</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">イベントを全部MAAに任せました。</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">「自動戦闘」機能で 10 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">「{key=Copilot}」機能で 10 回クリアする</system:String>
 
     <system:String x:Key="Achievement.UseCopilot3.Title">次回の調査も非常に簡単</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">最後までボスの仕組みが分かりませんでした。</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">「自動戦闘」機能で 100 回クリアする</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">「{key=Copilot}」機能で 100 回クリアする</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学無効</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">事はここまでです、まずは寝ましょう。</system:String>
@@ -1224,7 +1224,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">少しずつ積み上げていく</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">あなたは少しずつ積み上げていくことの大切さを深く理解しています。</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">「サポートを借りで OF-1 をクリア」機能を5回以上使用する</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">｢{key=CreditFight}｣ 機能を5回以上使用する</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">テストパイオニア</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">あなたはテスト中のバージョンを先行体験しました。</system:String>
@@ -1240,7 +1240,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.Irreplaceable.Title">替代不可</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">たぶん、別の作業を変更すべきですか？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">「自動戦闘 - 自動編成」使用時、少なくとも2名のオペレーターが不足している。</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 使用時、少なくとも2名のオペレーターが不足している。</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高遅延危機</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">「kale」</system:String>
