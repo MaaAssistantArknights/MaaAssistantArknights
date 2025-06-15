@@ -97,7 +97,7 @@ namespace MaaWpfGui.Helper
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri(@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
+                    Source = new(@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
                 };
                 foreach (var key in dictionary.Keys)
                 {
@@ -120,10 +120,11 @@ namespace MaaWpfGui.Helper
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Res\Localizations\{cur}.xaml", UriKind.Relative),
+                    Source = new($@"Res\Localizations\{cur}.xaml", UriKind.Relative),
                 };
+                _preprocessedCultures.Add(cur);
+                PreprocessDictionary(dictionary, cur);
                 Application.Current.Resources.MergedDictionaries.Add(dictionary);
-
                 if (cur == _culture)
                 {
                     break;
@@ -140,6 +141,27 @@ namespace MaaWpfGui.Helper
             catch
             {
                 /* ignore */
+            }
+        }
+
+        private static readonly HashSet<string> _preprocessedCultures = [];
+
+        private static void PreprocessDictionary(ResourceDictionary dictionary, string culture)
+        {
+            foreach (var keyObj in dictionary.Keys)
+            {
+                if (keyObj is not string key)
+                {
+                    continue;
+                }
+
+                if (dictionary[key] is not string raw || !raw.Contains("{key="))
+                {
+                    continue;
+                }
+
+
+                dictionary[key] = GetFormattedString(key, culture);
             }
         }
 
@@ -160,8 +182,14 @@ namespace MaaWpfGui.Helper
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Res\Localizations\{culture}.xaml", UriKind.Relative),
+                    Source = new($@"Res\Localizations\{culture}.xaml", UriKind.Relative),
                 };
+
+                if (_preprocessedCultures.Add(culture))
+                {
+                    PreprocessDictionary(dictionary, culture);
+                }
+
                 if (dictionary.Contains(key))
                 {
                     return Regex.Unescape(dictionary[key]?.ToString() ?? $"{{{{ {key} }}}}");
@@ -186,22 +214,8 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="key">The key of the string.</param>
         /// <param name="culture">The language of the string</param>
-        /// <param name="otherKeys">The other format keys</param>
-        /// <returns></returns>
-        public static string GetFormattedString(string key, string? culture, params string[] otherKeys)
-        {
-            var format = GetString(key, culture);
-            var args = otherKeys.Select(k => GetString(k, culture)).Cast<object?>().ToArray();
-            return string.Format(format, args);
-        }
-
-        /// <summary>
-        /// Gets a formatted localized string.
-        /// </summary>
-        /// <param name="key">The key of the string.</param>
-        /// <param name="culture">The language of the string</param>
-        /// <returns></returns>
-        public static string GetFormattedString(string key, string? culture = null)
+        /// <returns>The formatted string.</returns>
+        private static string GetFormattedString(string key, string? culture = null)
         {
             var raw = GetString(key, culture);
             return Regex.Replace(raw, @"\{key=(\w+)\}", match =>
