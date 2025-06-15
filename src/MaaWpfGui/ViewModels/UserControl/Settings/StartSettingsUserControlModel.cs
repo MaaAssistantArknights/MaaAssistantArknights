@@ -179,7 +179,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     ConnectSettings.RetryOnDisconnected = false;
                     OpenEmulatorAfterLaunch = false;
-                    Growl.Warning(LocalizationHelper.GetFormattedString("EmulatorPathEmptyWarning"));
+                    Growl.Warning(LocalizationHelper.GetString("EmulatorPathEmptyWarning"));
                 }
             }
             else if (!File.Exists(value))
