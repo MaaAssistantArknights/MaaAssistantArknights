@@ -266,7 +266,7 @@
 3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
 4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
 
-您可通過點擊 設置-問題回饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
+您可通過點擊 ｢設置 - 問題回饋｣ 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新通道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">軟體更新</system:String>
@@ -288,8 +288,8 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢設定-更新設定｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢設定-更新設定-資源更新｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢設定 - 更新設定｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢設定 - 更新設定 - 資源更新｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
@@ -501,7 +501,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢啟動設定-模擬器路徑｣ 後重新勾選。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢啟動設定 - 模擬器路徑｣ 後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
     <!--  !設定  -->
@@ -620,7 +620,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
-    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
+    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 ｢設定 - 連接設定 - 強制替換 ADB｣，或觸控模式選擇 ADB Input（不推薦）。</system:String>
     <system:String x:Key="Waiting">正在等待當前任務結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
@@ -819,7 +819,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
-    <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
+    <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 ｢設定 - 連接設定｣ 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常。</system:String>
