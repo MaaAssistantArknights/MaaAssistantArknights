@@ -13,6 +13,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
             "groups": ["百嘉", "基石"],
             "location": [8, 3],
             "direction": "left"
@@ -30,6 +35,12 @@
         {
             "groups": ["单奶", "群奶"],
             "location": [9, 3],
+            "direction": "left"
+        },
+
+        {
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "其他地面"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
@@ -63,6 +74,11 @@
         {
             "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "其他地面"],
             "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "其他地面"],
+            "location": [8, 5],
             "direction": "left"
         }
     ]
