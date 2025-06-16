@@ -249,7 +249,7 @@
     <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">該選項右鍵選中時僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">該選項右鍵選中時僅跳過一次</system:String>
-    <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
+    <system:String x:Key="SpecifiedDropsTip">此選項不會自動計算最優關卡</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定時檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新檔</system:String>
