@@ -16,7 +16,6 @@
     d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="False"
-    ShowMaxButton="False"
     ShowMinButton="False"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
