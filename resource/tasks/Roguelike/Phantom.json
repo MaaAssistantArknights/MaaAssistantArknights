@@ -4,6 +4,22 @@
         "text": ["古堡笔记"]
     },
     "Phantom@Roguelike@ChooseDifficulty": {},
+    "Phantom@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Phantom@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheUp*2"]
+    },
+    "Phantom@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Phantom@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheDown*2"]
+    },
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
