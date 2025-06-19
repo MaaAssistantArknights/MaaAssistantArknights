@@ -564,7 +564,7 @@
     "SideStoryReopen": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "text": ["复刻"],
+        "text": ["复刻", "活动已开放"],
         "roi": [0, 500, 500, 150],
         "postDelay": 3000
     },
