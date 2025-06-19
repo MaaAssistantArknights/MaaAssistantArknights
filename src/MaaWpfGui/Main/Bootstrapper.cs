@@ -339,7 +339,7 @@ namespace MaaWpfGui.Main
             var now = DateTime.Now;
 
             // 0~4 点启动
-            if (now.Hour is > 0 and < 4)
+            if (now.Hour is >= 0 and < 4)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.MidnightLaunch);
             }

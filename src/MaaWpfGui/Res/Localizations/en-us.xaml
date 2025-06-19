@@ -76,7 +76,7 @@
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in ｢Settings - Performance｣.</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
@@ -111,7 +111,7 @@
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room; this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
@@ -159,18 +159,18 @@
     <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Investigation, clear as far as possible</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
-    <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
+    <system:String x:Key="StartingCoreChar">Starting Operator</system:String>
     <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The operator is not in battle_data.</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢Starting Operator｣ Elite 2</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢Starting Operator｣ Elite 2, No Battle</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢{key=StartingCoreChar}｣ Elite 2</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢{key=StartingCoreChar}｣ Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with ｢Life Prioritizing Squad｣ and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ｢;｣</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ｢;｣. Leave blank to use the default list.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select ｢Starting Operator｣ from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select ｢{key=StartingCoreChar}｣ from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">Stop before final boss</system:String>
@@ -250,7 +250,7 @@
     <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
-    <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
+    <system:String x:Key="SpecifiedDropsTip">This feature would not automatically calculate the optimal stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
@@ -267,7 +267,7 @@ Please note:
 3. Please do not discuss nightly build issues in other places, such as user groups or comment sections. This occupies public resources and prevents timely feedback and resolution.
 4. Do not share the method to enable nightly updates with non-developer users to avoid unnecessary confusion and risk.
 
-You can cancel this popup by clicking the Settings - Issue Report link. Thank you for your understanding and cooperation!</system:String>
+You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}｣ Report link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="UpdateCheck">Update Channel</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Software update</system:String>
@@ -277,7 +277,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 Using Global Source:
     ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or CN Mirrors provided by MAA Team
-    ● Resource version: Free update detection provided by MirrorChyan, manually click ｢Resource update｣ in settings to download from GitHub
+    ● Resource version: Free update detection provided by MirrorChyan, manually click ｢{key=ResourceUpdate}｣ in settings to download from GitHub
 
 🔑 Using MirrorChyan:
     ● Software and resources are prioritized for high-speed download via MirrorChyan
@@ -289,16 +289,16 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢Settings - Update Settings｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢Settings- Update Settings - Resource Update｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢{key=Settings} - {key=UpdateSettings}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">The CDK has expired. Please use a new CDK for authorization.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from ｢Global Source｣...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from ｢MirrorChyan｣...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from ｢{key=GlobalSource}｣...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from ｢{key=MirrorChyan}｣...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version:&#160;</system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info:&#160;</system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
@@ -350,7 +350,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
     <system:String x:Key="EmulatorPathNotExist">The emulator path does not exist</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, ｢{0}｣ and ｢{1}｣ check states have been reset</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">The emulator path is empty, ｢{key=RetryOnDisconnected}｣ and ｢{key=OpenEmulatorAfterLaunch}｣ check states have been reset</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
@@ -398,7 +398,7 @@ You can cancel this popup by clicking the Settings - Issue Report link. Thank yo
     <system:String x:Key="CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 Only once a day.
-This function is invalid when the stage is selected as Current/Last.
+This function is invalid when the stage is selected as ｢{key=DefaultStage}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
@@ -415,7 +415,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
-    <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing ｢Confirm｣, you understand and are willing to accept the possible risks.</system:String>
+    <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing ｢{key=Confirm}｣, you understand and are willing to accept the possible risks.</system:String>
     <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the Lucky Strips</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
@@ -436,7 +436,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="SwitchResolutionTip">Change the emulator resolution to 1920x1080!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">Make sure the emulator is set to 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">Save ｢Use Originium｣</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢Confirm｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">This function is considered dangerous. Pressing the ｢{key=Confirm}｣ button indicates that you understand and are willing to accept the potential risks.</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Farm the specified stage after completing the main task, won't use sanity potion or Originium</system:String>
@@ -502,7 +502,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢Launch Settings - Emulator Path｣ and reselect.</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  !Settings  -->
@@ -619,7 +619,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
-    <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on ADB Input (Deprecated).</system:String>
+    <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
@@ -643,7 +643,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the ｢Farming｣ tab. Please open the in game recruit tag selection screen before pressing ｢Begin to Recruit｣</system:String>
     <system:String x:Key="AutoSettingTime">Auto set time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">Please use the ｢Operator｣ task to get the ｢Potential｣ information.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the ｢{key=OperBoxRecognition}｣ task to get the ｢Potential｣ information.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5★ Tags</system:String>
@@ -670,7 +670,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the ｢Copilot｣ tab and drag the strategy video into it.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the ｢{key=Copilot}｣ tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!--  !Video Recognition  -->
     <!--  Gacha Recognition  -->
@@ -735,7 +735,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators maybe cannot be recognized</system:String>
+    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators may not be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
@@ -762,11 +762,11 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotTip">
         Tips: \n\n
         1. Please use this function only when the ｢Mission Start｣ button is visible in the main stage, story collection, or SideStory.\n\n
-        2. For Paradox Simulation, you need to turn off ｢Auto Squad｣ and select the skill before, then start in game ｢Start｣ screen.\n\n
+        2. For Paradox Simulation, you need to turn off ｢{key=AutoSquad}｣ and select the skill before, then start in game ｢Start｣ screen.\n\n
         3. For SSS, there are multiple built-in files under the ｢resource/copilot｣ folder.\n
-        Please start on the ｢Start Deployment｣ screen after manual formation (can be used with ｢Loop Times｣ )\n\n
-        4. You need turn off the ｢Auto Squad｣ when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Marking an operator as｢Favourite｣ may affect the operator selection in ｢Auto Squad｣ . It is recommended to turn off ｢Favourite｣ when using ｢Auto Squad｣ , or manually supplement missing operators to ensure the formation is complete.\n\n
+        Please start on the ｢Start Deployment｣ screen after manual formation (can be used with ｢{key=LoopTimes} )\n\n
+        4. You need turn off the ｢{key=AutoSquad}｣ when using a friendly support unit, then start with your support unit selected.\n\n
+        5. Marking an operator as｢Favourite｣ may affect the operator selection in ｢{key=AutoSquad}｣ . It is recommended to turn off ｢Favourite｣ when using ｢{key=AutoSquad}｣ , or manually supplement missing operators to ensure the formation is complete.\n\n
         6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
         7. Battle list:\n
         After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n
@@ -818,7 +818,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
-    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to ｢Settings - Connection Settings｣ to switch to a different touch mode.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to ｢{key=Settings} - {key=ConnectionSettings}｣ to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
@@ -924,7 +924,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢Settings - Update - Resource update｣ and try updating the resource version!</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
@@ -950,7 +950,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">Please check the FAQ before reporting any issues</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">Please check the ｢{key=Help}｣ before reporting any issues</system:String>
     <system:String x:Key="CheckUpdateBeforeReportingIssue">Please upgrade first and test if the issue persists in the new version. Confirm it's not a common issue before reporting.</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issues</system:String>
@@ -1008,7 +1008,7 @@ Right-click to clear inactive tasks</system:String>
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from ｢MirrorChyan｣...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">Updating resource {0} from ｢{key=MirrorChyan}｣...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
     <system:String x:Key="GameResourceNotModified">Game resources updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resources updated.</system:String>
@@ -1197,19 +1197,19 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.MapOutdated.Title">Impatient King</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">I know you're in a hurry, but don't rush.</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">Use auto-battle without updating resources</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">Use ｢{key=Copilot}｣ without updating resources</system:String>
 
     <system:String x:Key="Achievement.UseCopilot1.Title">Copying Homework</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">True hands-off gaming.</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">Use "Copilot" function to clear 1 time</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">Use ｢{key=Copilot}｣ function to clear 1 time</system:String>
 
     <system:String x:Key="Achievement.UseCopilot2.Title">Hands-Off All the Way</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">Leave all events to MAA.</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">Use "Copilot" function to clear 10 times</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">Use ｢{key=Copilot}｣ function to clear 10 times</system:String>
 
     <system:String x:Key="Achievement.UseCopilot3.Title">Will Still Mark "Very Easy" Next Time</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">Still don't know the final boss mechanics in the end.</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">Use "Copilot" function to clear 100 times</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">Use ｢{key=Copilot}｣ function to clear 100 times</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">Superstition Invalid</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">Things have come to this, let's sleep first.</system:String>
@@ -1221,7 +1221,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">Even Mosquito Legs Are Meat!</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">You deeply understand the principle of accumulating little by little.</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">Use "Support Unit Combat OF-1" function more than 5 times</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">Use ｢{key=CreditFight}｣ function more than 5 times</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">Test Pioneer</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">You experienced the beta version ahead of others.</system:String>
@@ -1237,7 +1237,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.Irreplaceable.Title">Irreplaceable</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">Maybe I should get different homework?</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">When using "Copilot - Auto Squad", missing at least two operators</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">When using ｢{key=Copilot} - {key=AutoSquad}｣, missing at least two operators</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">High Ping Warrior</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">"lag"</system:String>

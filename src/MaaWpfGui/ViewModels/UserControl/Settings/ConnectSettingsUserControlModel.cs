@@ -266,17 +266,31 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     {
                         try
                         {
-                            const string UninstallKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0";
-                            const string UninstallExeName = @"\uninstall.exe";
+                            string[] possibleUninstallKeys =
+                            [
+                                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0",
+                                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer"
+                            ];
 
-                            using var driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
-                            if (driverKey == null)
+                            const string UninstallExeName = @"\uninstall.exe";
+                            string? uninstallString = null;
+                            foreach (var keyPath in possibleUninstallKeys)
+                            {
+                                using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
+                                if (driverKey == null) continue;
+
+                                uninstallString = driverKey.GetValue("UninstallString") as string;
+                                if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (string.IsNullOrEmpty(uninstallString))
                             {
                                 EmulatorPath = string.Empty;
                                 return;
                             }
-
-                            var uninstallString = driverKey.GetValue("UninstallString") as string;
 
                             if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
                             {

@@ -72,7 +72,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         var dlg = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "JSON|*.json",
-            InitialDirectory = Path.Combine(Environment.CurrentDirectory, "data"),
+            InitialDirectory = Environment.CurrentDirectory,
         };
 
         if (dlg.ShowDialog() != true)
@@ -80,7 +80,9 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        var data = JsonDataHelper.Get(Path.GetFileNameWithoutExtension(dlg.FileName), new Dictionary<string, Achievement>());
+        var fileName = Path.GetFileNameWithoutExtension(dlg.FileName);
+        var directoryName = Path.GetDirectoryName(dlg.FileName);
+        var data = JsonDataHelper.Get(fileName, new Dictionary<string, Achievement>(), directoryName);
         if (data is { Count: > 0 })
         {
             foreach (var pair in data)

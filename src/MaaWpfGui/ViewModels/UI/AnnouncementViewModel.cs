@@ -71,7 +71,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 scrollViewer.ScrollToTop();
             });
-            AnnouncementSections = new(ParseAnnouncementInfo(AnnouncementInfo));
+            AnnouncementSections = [.. ParseAnnouncementInfo(AnnouncementInfo)];
         }
 
         private void UpdateImageSource()
@@ -102,7 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Content = markdown,
             });
 
-            return new(sections);
+            return [.. sections];
         }
 
         public ICommand UpdateScrollStateCommand { get; }
@@ -196,7 +196,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _announcementInfo, value);
                 AnnouncementInFile = value;
-                AnnouncementSections = new(ParseAnnouncementInfo(AnnouncementInfo));
+                AnnouncementSections = [.. ParseAnnouncementInfo(AnnouncementInfo)];
             }
         }
 
@@ -251,7 +251,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var body = await HttpResponseHelper.GetStringAsync(response);
-            if (!string.IsNullOrEmpty(body))
+            if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
             {
                 AnnouncementInfo = body;
                 DoNotRemindThisAnnouncementAgain = false;

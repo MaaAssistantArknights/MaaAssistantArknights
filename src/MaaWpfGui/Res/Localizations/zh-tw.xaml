@@ -75,7 +75,7 @@
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往 ｢設置 - 性能設置｣ 選擇其他 GPU 或禁用此消息。</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">不推薦使用當前選擇的推理加速 GPU（{0}）。\n\n您可以前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 選擇其他 GPU 或禁用此消息。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
@@ -158,20 +158,20 @@
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入調查，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
-    <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
+    <system:String x:Key="StartingCoreChar">開局幹員</system:String>
     <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員未在 battle_data 中。</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢開局幹員｣ 直升精二</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢開局幹員｣ 直升精二，不進行作戰</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不進行作戰</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
     <system:String x:Key="RoguelikeCollapseList">坍縮範式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分號 ｢;｣ 隔開，留白將使用默認列表。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢開局幹員｣ 使用助戰</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢停止｣ 動作</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">启用刷钱种子</system:String>
@@ -249,7 +249,7 @@
     <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">該選項右鍵選中時僅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">該選項右鍵選中時僅跳過一次</system:String>
-    <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
+    <system:String x:Key="SpecifiedDropsTip">此選項不會自動計算最優關卡</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定時檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新檔</system:String>
@@ -266,7 +266,7 @@
 3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
 4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
 
-您可通過點擊 設置-問題回饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
+您可通過點擊 ｢{key=Settings} - {key=IssueReport}｣ 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新通道</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">軟體更新</system:String>
@@ -276,7 +276,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用海外源：
     ● 軟體版本：由 MAA Team 提供 API 檢查更新，從 GitHub 或由 MAA Team 提供的國內鏡像自動拉取更新包
-    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊 ｢資源更新｣ 從 GitHub 下載
+    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊 ｢{key=ResourceUpdate}｣ 從 GitHub 下載
 
 🔑 使用 MirrorChyan：
     ● 軟體與資源優先通過 MirrorChyan 高速下載
@@ -288,16 +288,16 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢設定-更新設定｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢設定-更新設定-資源更新｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢{key=Settings} - {key=UpdateSettings}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 類型與待下載的資源不匹配，請檢查 CDK 適用範圍。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用 ｢全域來源｣ 下載…</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用 ｢MirrorChyan｣ 下載…</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用 ｢{key=GlobalSource}｣ 下載…</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用 ｢{key=MirrorChyan}｣ 下載…</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本號: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">更新資訊: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">前往頁面查看</system:String>
@@ -349,7 +349,7 @@
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="EmulatorPathNotExist">模擬器路徑不存在</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，｢{0}｣ 與 ｢{1}｣ 勾選狀態已被還原</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">模擬器路徑為空，｢{key=RetryOnDisconnected}｣ 與 ｢{key=OpenEmulatorAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -397,7 +397,7 @@
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
-關卡選擇爲 ｢當前/上次｣ 時此功能無效。
+關卡選擇爲 ｢{key=DefaultStage}｣ 時此功能無效。
 別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
     <system:String x:Key="HighPriority">優先購買 子串即可 分號分隔</system:String>
     <system:String x:Key="Blacklist">黑名單 子串即可 分號分隔</system:String>
@@ -414,7 +414,7 @@
     <system:String x:Key="ReceiveMail">領取所有郵件獎勵</system:String>
     <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
-    <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下 ｢確認｣ 鍵即視為你了解並願意承擔可能出現的風險</system:String>
+    <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下 ｢{key=Confirm}｣ 鍵即視為你了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
@@ -435,7 +435,7 @@
     <system:String x:Key="SwitchResolutionTip">將模擬器解析度更改為 1920x1080！</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
     <system:String x:Key="AllowUseStoneSave">允許吃源石保存狀態</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢確認｣ 鍵即視為你了解並願意承擔可能出現的風險。</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Confirm}｣ 鍵即視為你了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
@@ -501,7 +501,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢啟動設定-模擬器路徑｣ 後重新勾選。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
     <!--  !設定  -->
@@ -620,7 +620,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
-    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
+    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣，或觸控模式選擇 ADB Input（不推薦）。</system:String>
     <system:String x:Key="Waiting">正在等待當前任務結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
@@ -644,7 +644,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用 ~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
     <system:String x:Key="RecruitmentShowPotential">顯示幹員潛能（四星及以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢幹員辨識｣ 獲得幹員資訊。</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢{key=OperBoxRecognition}｣ 獲得幹員資訊。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
@@ -671,7 +671,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="VideoRecognition">影片辨識</system:String>
     <system:String x:Key="StartToVideoRecognition">開始辨識</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打開資料夾</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開 ｢自動戰鬥｣ 頁，將攻略影片文件拖入後開始即可。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開 ｢{key=Copilot}｣ 頁，將攻略影片文件拖入後開始即可。
 需要影片分辨率為 16:9，且無黑邊、模擬器邊框、異形屏矯正等干擾因素。</system:String>
     <!--  !自動戰鬥  -->
     <!--  Gacha Recognition  -->
@@ -763,11 +763,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotTip">
         小提示: \n\n
         1. 主線、故事集、SideStory 請在有 ｢開始行動｣ 按鈕的介面再使用本功能。\n\n
-        2. 模擬悖論需要關閉 ｢自動編隊｣，選好技能後在｢開始模擬｣按鈕的介面再開始。\n\n
+        2. 模擬悖論需要關閉 ｢{key=AutoSquad}｣，選好技能後在｢開始模擬｣按鈕的介面再開始。\n\n
         3. 保全派駐 在 resource/copilot 文件夾下內建了多份作業。\n
-        請手動編隊後在 ｢開始部署｣ 介面開始（可配合 ｢循環次數｣ 使用）。\n\n
-        4. 使用好友助戰可以關閉｢自動編隊｣，手動選擇幹員後開始。\n\n
-        5. 將幹員標為 ｢特別關注｣ 可能會影響 ｢自動編隊｣ 時的識別與選擇。建議在使用 ｢自動編隊｣ 時考慮移除 ｢特別注意｣ 標記，或手動補充缺少的幹員以確保編隊完整。\n\n
+        請手動編隊後在 ｢開始部署｣ 介面開始（可配合 ｢{key=LoopTimes} 使用）。\n\n
+        4. 使用好友助戰可以關閉｢{key=AutoSquad}｣，手動選擇幹員後開始。\n\n
+        5. 將幹員標為 ｢特別關注｣ 可能會影響 ｢{key=AutoSquad}｣ 時的識別與選擇。建議在使用 ｢{key=AutoSquad}｣ 時考慮移除 ｢特別注意｣ 標記，或手動補充缺少的幹員以確保編隊完整。\n\n
         6. Copilot 作業站的神秘代碼可點擊輸入框右側的貼上按鈕貼上。左鍵單擊可貼上單個作業，右鍵單擊則可貼上整個作業集。\n\n
         7. 戰鬥列表:\n
         選擇作業後，檢查列表下方的關卡名是否正確 (如: CV-EX-1)。\n
@@ -819,7 +819,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
-    <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
+    <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 ｢{key=Settings} - {key=ConnectionSettings}｣ 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常。</system:String>
@@ -925,7 +925,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢設置 - 更新設定 - 資源更新｣，嘗試更新資源版本！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
@@ -951,8 +951,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於 ｢常見問題｣ 後，再進行 ｢問題回饋｣</system:String>
-    <system:String x:Key="CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非 ｢常見問題｣ 後再進行 ｢問題回饋｣</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">請在確認您的問題不屬於 ｢{key=Help}｣ 後，再進行 ｢{key=Issue}｣</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非 ｢{key=Help}｣ 後再進行 ｢{key=Issue}｣</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
     <system:String x:Key="GenerateSupportPayload">產生紀錄壓縮包</system:String>
@@ -1009,7 +1009,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">熱更數據獲取成功</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新。</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用 ｢MirrorChyan｣ 更新資源{0}……</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">正在使用 ｢{key=MirrorChyan}｣ 更新資源{0}……</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在編製索引</system:String>
     <system:String x:Key="GameResourceNotModified">遊戲資源已更新。</system:String>
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新。</system:String>
@@ -1200,19 +1200,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.MapOutdated.Title">急急國王</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先別急。</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新資源的情況下使用自動戰鬥</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新資源的情況下使用 ｢{key=Copilot}｣</system:String>
 
     <system:String x:Key="Achievement.UseCopilot1.Title">抄作業</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">真正的擺完掛機。</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 「自動戰鬥」 功能通關 1 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 「{key=Copilot}」 功能通關 1 次</system:String>
 
     <system:String x:Key="Achievement.UseCopilot2.Title">一擺到底</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">活動全交給牛牛打。</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 「自動戰鬥」 功能通關 10 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 「{key=Copilot}」 功能通關 10 次</system:String>
 
     <system:String x:Key="Achievement.UseCopilot3.Title">下次還填非常簡單</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">到最後也不知道關底 boss 什麼機制。</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 「自動戰鬥」 功能通關 100 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 「{key=Copilot}」 功能通關 100 次</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄學無效</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡覺吧。</system:String>
@@ -1224,7 +1224,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了積少成多的道理。</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 「借助戰打 OF-1」 功能超過 5 次</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢{key=CreditFight}｣ 功能超過 5 次</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">測試先鋒</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">您率先體驗了處於測試中的版本。</system:String>
@@ -1240,7 +1240,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.Irreplaceable.Title">無可替代</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">或許我應該換一份作業？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 「自動戰鬥 - 自動編隊」 時，缺少至少兩名幹員</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot} - {key=AutoSquad}｣ 時，缺少至少兩名幹員</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 戰士</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">“kale”</system:String>

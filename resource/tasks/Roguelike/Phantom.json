@@ -4,6 +4,22 @@
         "text": ["古堡笔记"]
     },
     "Phantom@Roguelike@ChooseDifficulty": {},
+    "Phantom@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Phantom@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheUp*2"]
+    },
+    "Phantom@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [1144, 472, 78, 24],
+        "postDelay": 800,
+        "template": "Phantom@Roguelike@StartExplore.png",
+        "roi": [1026, 470, 254, 248],
+        "sub": ["SwipeToTheDown*2"]
+    },
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
@@ -288,8 +304,16 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode1": {
-        "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
-        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+        "Doc": "一层可能不开门，导致打完二层才退；不再复用mode4",
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["迷雾歧途", "_default"],
+            ["落阳庭院", "_exit"],
+            ["故土残躯", "_exit"],
+            ["噩梦之始", "_exit"],
+            ["血月长廊", "_exit"],
+            ["渴欲大厅", "_exit"]
+        ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],

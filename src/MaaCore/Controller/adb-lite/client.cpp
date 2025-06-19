@@ -7,6 +7,8 @@
 #include "client.hpp"
 #include "protocol.hpp"
 
+#include "Utils/Platform.hpp"
+
 using asio::ip::tcp;
 using tcp_endpoints = tcp::resolver::results_type;
 
@@ -244,6 +246,12 @@ std::string client_impl::exec(const std::string_view command)
 
 bool client_impl::push(const std::string_view src, const std::string_view dst, int perm)
 {
+    // bail out if source file cannot be opened
+    std::ifstream file(std::filesystem::path(asst::platform::to_osstring(std::string(src))), std::ios::binary);
+    if (!file.is_open()) {
+        return false;
+    }
+
     tcp::socket socket(m_context);
     asio::connect(socket, m_endpoints);
 
@@ -259,7 +267,6 @@ bool client_impl::push(const std::string_view src, const std::string_view dst, i
     send_sync_request(socket, "SEND", request_size, send_request.data());
 
     // DATA request: file data trunk, trunk size
-    std::ifstream file(src.data(), std::ios::binary);
     const auto buf_size = 64000;
     std::array<char, buf_size> buffer;
     while (!file.eof()) {

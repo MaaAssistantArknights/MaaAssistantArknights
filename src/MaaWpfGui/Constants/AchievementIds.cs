@@ -22,7 +22,7 @@ namespace MaaWpfGui.Constants
         public const string SanitySpender2 = "SanitySpender2";
         public const string SanitySpender3 = "SanitySpender3";
 
-        public const string SanitySaverGroup = "SanitySaverGroup";
+        public const string SanitySaverGroup = "SanitySaver";
         public const string SanitySaver1 = "SanitySaver1";
         public const string SanitySaver2 = "SanitySaver2";
         public const string SanitySaver3 = "SanitySaver3";
@@ -96,7 +96,7 @@ namespace MaaWpfGui.Constants
         public const string SnapshotChallenge2 = "SnapshotChallenge2"; // 800
         public const string SnapshotChallenge3 = "SnapshotChallenge3"; // 400
         public const string SnapshotChallenge4 = "SnapshotChallenge4"; // 100
-        public const string SnapshotChallenge5 = "SnapshotChallenge6"; // 10
+        public const string SnapshotChallenge5 = "SnapshotChallenge5"; // 10
         public const string SnapshotChallenge6 = "SnapshotChallenge6"; // 5
 
         #endregion

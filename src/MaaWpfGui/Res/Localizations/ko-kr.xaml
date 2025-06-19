@@ -75,7 +75,7 @@
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢설정 - 성능 설정｣ 에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
@@ -158,18 +158,18 @@
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
-    <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
+    <system:String x:Key="StartingCoreChar">시작 오퍼레이터</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 오퍼레이터는 battle_data에 없습니다</system:String>
-    <system:String x:Key="RoguelikeStartWithEliteTwo">시작 오퍼레이터 2정까지 반복</system:String>
-    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정까지 반복, 전투 X</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복, 전투 X</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">구상 2개로 시작할 때 까지 반복</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">통합전략 중지 시 전투 클리어 후 작업 종료</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
@@ -249,7 +249,7 @@
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">이 옵션은 우클릭 시 한 번만 건너뜁니다</system:String>
-    <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
+    <system:String x:Key="SpecifiedDropsTip">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
@@ -266,7 +266,7 @@
 3. 사용자 그룹이나 댓글 섹션 등 다른 곳에서 개발 버전 문제를 논의하지 마세요. 이는 공공 리소스를 차지하고 신속한 피드백과 해결을 방해합니다.
 4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마세요. 불필요한 혼란과 위험을 피하기 위해서입니다.
 
-설정 - 문제 신고 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
+｢{key=Settings} - {key=IssueReport}｣ 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
     <system:String x:Key="UpdateCheck">업데이트 채널</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
@@ -276,7 +276,7 @@
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 글로벌 소스 사용:
     ● 소프트웨어 버전: MAA Team이 제공하는 API를 통해 업데이트를 확인하며, GitHub 또는 MAA Team이 제공하는 중국 미러에서 자동으로 업데이트 패키지를 받아옵니다.
-    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢리소스 업데이트｣ 를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
+    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢{key=ResourceUpdate}｣ 를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
 
 🔑 MirrorChyan 사용:
     ● 소프트웨어와 리소스는 MirrorChyan을 통해 고속 다운로드가 우선적으로 지원됩니다.
@@ -288,16 +288,16 @@
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
     <system:String x:Key="MirrorChyanCdkPlaceholder2">CDK를 입력해 주세요</system:String>
-    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢설정 - 업데이트 설정｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
-    <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢설정 - 업데이트 설정 - 리소스 업데이트｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
+    <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
+    <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">리소스 업데이트 {0}이 감지되었습니다</system:String>
     <system:String x:Key="MirrorChyanCdkExpired">CDK가 만료되었습니다. 새 CDK로 인증해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢글로벌 소스｣ 에서 다운로드 중...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢MirrorChyan｣ 에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢{key=GlobalSource}｣ 에서 다운로드 중...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢{key=MirrorChyan}｣ 에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">버전: </system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">정보: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">웹사이트로 가기</system:String>
@@ -349,7 +349,7 @@
     <system:String x:Key="EmulatorPathSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
     <system:String x:Key="EmulatorPathNotExist">에뮬레이터 경로가 존재하지 않습니다</system:String>
-    <system:String x:Key="EmulatorPathEmptyWarning">에뮬레이터 경로가 비어 있습니다. ｢{0}｣ 및 ｢{1}｣ 선택 상태가 초기화되었습니다</system:String>
+    <system:String x:Key="EmulatorPathEmptyWarning">에뮬레이터 경로가 비어 있습니다. ｢{key=RetryOnDisconnected}｣ 및 ｢{key=OpenEmulatorAfterLaunch}｣ 선택 상태가 초기화되었습니다</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB 강제 교체</system:String>
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>
@@ -397,7 +397,7 @@
     <system:String x:Key="CreditFight">지원 유닛을 사용해 크레딧 수급</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원 유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 이 작업은 하루에 한 번만 실행할 수 있습니다.
-현재 스테이지가 현재/최근으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
+현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (｢;｣ 로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (｢;｣ 로 구분)</system:String>
@@ -414,7 +414,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="ReceiveFreeRecruit">한정 가챠에서 일일 무료 뽑기 진행</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
-    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢확인｣ 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
+    <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢{key=Confirm}｣ 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴에서 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 받기</system:String>
@@ -435,7 +435,7 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="SwitchResolutionTip">에뮬레이터 해상도를 1920x1080으로 변경!</system:String>
     <system:String x:Key="ResolutionInfoYoStarEN">에뮬레이터가 1920x1080으로 설정되어 있는지 확인하세요</system:String>
     <system:String x:Key="AllowUseStoneSave">순오리지늄 사용 상태 저장 허용</system:String>
-    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢확인｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
+    <system:String x:Key="AllowUseStoneSaveWarning">이 기능은 위험할 수 있습니다. ｢{key=Confirm}｣ 버튼을 누르면 잠재적인 위험을 이해하고 감수하는 것으로 간주됩니다.</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
@@ -502,7 +502,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢연결 설정/에뮬레이터 경로｣ 를 입력한 후 다시 선택하세요.</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 를 입력한 후 다시 선택하세요.</system:String>
     <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작 시도</system:String>
     <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작 시도</system:String>
     <!--  !설정  -->
@@ -621,7 +621,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
-    <system:String x:Key="AdbReplacementTips">작업이 완전히 응답하지 않는 경우 설정-연결 설정-ADB 강제 교체를 시행하거나 터치 모드에서 ADB Input(비권장)을 선택하세요.</system:String>
+    <system:String x:Key="AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
     <system:String x:Key="Waiting">전투가 끝나기를 기다리며……</system:String>
     <system:String x:Key="Stopping">중지 중……</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
@@ -645,7 +645,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognitionTip">시작 화면의 공개모집 기능과는 별도로 독립된 기능입니다\n게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인 (★4 이상)</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 ｢오퍼레이터 인식｣ 기능을 사용하세요.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
@@ -672,7 +672,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
     <system:String x:Key="StartToVideoRecognition">인식 시작</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">폴더 열기</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">｢자동지휘｣ 화면에서 영상 파일을 드래그하여 시작하세요.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">｢{key=Copilot}｣ 화면에서 영상 파일을 드래그하여 시작하세요.
 동영상의 해상도 비율은 16:9에 게임화면만 나와야 하며, 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  영상 인식  -->
     <!--  헤드헌팅  -->
@@ -764,11 +764,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTip">
         팁:\n\n
         1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 ｢작전 개시｣ 버튼이 표시될 때에만 사용해주세요 \n\n
-        2. 패러독스 시뮬레이션의 경우 ｢자동 편성｣ 을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
+        2. 패러독스 시뮬레이션의 경우 ｢{key=AutoSquad}｣ 을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
         3. 보안파견의 Copilot 파일의 경우 MAA 내의 ｢resource/copilot｣ 폴더에 있습니다 \n
-        수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢반복횟수｣ 와 함께 사용 가능)\n\n
-        4. 지원 유닛을 사용할 때에는 반드시 ｢자동 편성｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
-        5. ｢선호｣ 기능을 활성화하면 ｢자동 편성｣ 의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢자동 편성｣을 사용할 때 ｢선호｣ 을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
+        수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢{key=LoopTimes} 와 함께 사용 가능)\n\n
+        4. 지원 유닛을 사용할 때에는 반드시 ｢{key=AutoSquad}｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
+        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
         6. Copilot 작업 스테이션에서 입력란 오른쪽의 붙여넣기 버튼을 클릭하여 신비한 코드를 붙여넣을 수 있습니다. 왼쪽 클릭으로 단일 작업을 붙여넣고, 오른쪽 클릭으로 작업 세트 전체를 붙여넣습니다.\n\n
         7. 전투 목록:\n
         작업을 선택한 후 목록 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
@@ -820,7 +820,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
-    <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. ｢{key=Settings} - {key=ConnectionSettings}｣에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능에서 비정상적인 동작이 발생할 수 있습니다.</system:String>
@@ -926,7 +926,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢설정 - 소프트웨어 업데이트 - 리소스 업데이트｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
+    <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
@@ -1010,7 +1010,7 @@ C:\\leidian\\LDPlayer9
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="GameResourceUpdating">게임 리소스가 업데이트 중입니다.</system:String>
-    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢MirrorChyan｣ 에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
+    <system:String x:Key="GameResourceUpdatingMirrorChyan">｢{key=MirrorChyan}｣ 에서 리소스 {0}을(를) 업데이트하는 중...</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
     <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었습니다.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었습니다.</system:String>
@@ -1197,19 +1197,19 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.MapOutdated.Title">혹시 한국인?</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">급한건 알겠지만 잠시만요</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">리소스 업데이트 없이 「자동 전투」 기능 사용</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">리소스 업데이트 없이 ｢{key=Copilot}｣ 기능 사용</system:String>
 
     <system:String x:Key="Achievement.UseCopilot1.Title">컨닝 페이퍼</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">진정한 방치 플레이</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">「자동 전투」 기능으로 1회 클리어</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">｢{key=Copilot}｣ 기능으로 1회 클리어</system:String>
 
     <system:String x:Key="Achievement.UseCopilot2.Title">끝까지 방치</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">MAA야 너만 믿고 있을게</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">「자동 전투」 기능으로 10회 클리어</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">｢{key=Copilot}｣ 기능으로 10회 클리어</system:String>
 
     <system:String x:Key="Achievement.UseCopilot3.Title">딸깍</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">보스 기믹이 뭔가요?</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">「자동 전투」 기능으로 100회 클리어</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">｢{key=Copilot}｣ 기능으로 100회 클리어</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">인디언식 기우제는 실패했어요</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">일이 이렇게 되었으니, 잠이나 자야겠어요</system:String>
@@ -1221,7 +1221,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">티끌 모아 태산</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">티끌을 모으면 태산이 된다는걸 아시는군요</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">「지원 유닛을 사용해 크레딧 수급」 기능을 5회 이상 사용</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">｢{key=CreditFight}｣ 기능을 5회 이상 사용</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">베타 테스터</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">테스트 중인 베타 버전을 체험하셨어요</system:String>
@@ -1237,7 +1237,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가능</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">「자동지휘 - 자동 편성」 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">Hight Ping 전사</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">"Disconnect"</system:String>
