@@ -117,6 +117,7 @@ bool asst::FightTask::set_params(const json::value& params)
                 m_sidestory_reopen_task_ptr->set_sidestory_name(stage.substr(9));
                 m_sidestory_reopen_task_ptr->set_enable(true);
                 m_stage_navigation_task_ptr->set_enable(false);
+                m_fight_times_prt->set_series(1); // 确保复刻活动别多刷
             }
             else if (m_stage_navigation_task_ptr->set_stage_name(stage)) {
                 m_sidestory_reopen_task_ptr->set_enable(false);
