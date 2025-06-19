@@ -157,7 +157,7 @@
                     </TabControl.ItemContainerStyle>
                 </TabControl>
                 <ScrollViewer HorizontalAlignment="Right" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Margin="0,20,0,0" hc:Growl.GrowlParent="True" />
+                    <StackPanel Margin="0,25,0,0" hc:Growl.GrowlParent="True" />
                 </ScrollViewer>
                 <hc:GifImage
                     Width="100"
