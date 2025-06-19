@@ -13580,6 +13580,150 @@
         "stageId": "act43side_08",
         "width": 11
     },
+    "act43side_ex01#f#-activities/act43side/level_act43side_ex01": {
+        "code": "AD-EX-1",
+        "filename": "act43side_ex01#f#-activities-act43side-level_act43side_ex01.json",
+        "height": 11,
+        "levelId": "activities/act43side/level_act43side_ex01",
+        "name": "灰尘道具间",
+        "stageId": "act43side_ex01#f#",
+        "width": 12
+    },
+    "act43side_ex01-activities/act43side/level_act43side_ex01": {
+        "code": "AD-EX-1",
+        "filename": "act43side_ex01-activities-act43side-level_act43side_ex01.json",
+        "height": 11,
+        "levelId": "activities/act43side/level_act43side_ex01",
+        "name": "灰尘道具间",
+        "stageId": "act43side_ex01",
+        "width": 12
+    },
+    "act43side_ex02#f#-activities/act43side/level_act43side_ex02": {
+        "code": "AD-EX-2",
+        "filename": "act43side_ex02#f#-activities-act43side-level_act43side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex02",
+        "name": "演员化妆间",
+        "stageId": "act43side_ex02#f#",
+        "width": 11
+    },
+    "act43side_ex02-activities/act43side/level_act43side_ex02": {
+        "code": "AD-EX-2",
+        "filename": "act43side_ex02-activities-act43side-level_act43side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex02",
+        "name": "演员化妆间",
+        "stageId": "act43side_ex02",
+        "width": 11
+    },
+    "act43side_ex03#f#-activities/act43side/level_act43side_ex03": {
+        "code": "AD-EX-3",
+        "filename": "act43side_ex03#f#-activities-act43side-level_act43side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex03",
+        "name": "摄影棚场区",
+        "stageId": "act43side_ex03#f#",
+        "width": 12
+    },
+    "act43side_ex03-activities/act43side/level_act43side_ex03": {
+        "code": "AD-EX-3",
+        "filename": "act43side_ex03-activities-act43side-level_act43side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex03",
+        "name": "摄影棚场区",
+        "stageId": "act43side_ex03",
+        "width": 12
+    },
+    "act43side_ex04#f#-activities/act43side/level_act43side_ex04": {
+        "code": "AD-EX-4",
+        "filename": "act43side_ex04#f#-activities-act43side-level_act43side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_ex04",
+        "name": "外景拍摄区",
+        "stageId": "act43side_ex04#f#",
+        "width": 10
+    },
+    "act43side_ex04-activities/act43side/level_act43side_ex04": {
+        "code": "AD-EX-4",
+        "filename": "act43side_ex04-activities-act43side-level_act43side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act43side/level_act43side_ex04",
+        "name": "外景拍摄区",
+        "stageId": "act43side_ex04",
+        "width": 10
+    },
+    "act43side_ex05#f#-activities/act43side/level_act43side_ex05": {
+        "code": "AD-EX-5",
+        "filename": "act43side_ex05#f#-activities-act43side-level_act43side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex05",
+        "name": "电影放映房",
+        "stageId": "act43side_ex05#f#",
+        "width": 11
+    },
+    "act43side_ex05-activities/act43side/level_act43side_ex05": {
+        "code": "AD-EX-5",
+        "filename": "act43side_ex05-activities-act43side-level_act43side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex05",
+        "name": "电影放映房",
+        "stageId": "act43side_ex05",
+        "width": 11
+    },
+    "act43side_ex06#f#-activities/act43side/level_act43side_ex06": {
+        "code": "AD-EX-6",
+        "filename": "act43side_ex06#f#-activities-act43side-level_act43side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex06",
+        "name": "自助移动酒吧",
+        "stageId": "act43side_ex06#f#",
+        "width": 11
+    },
+    "act43side_ex06-activities/act43side/level_act43side_ex06": {
+        "code": "AD-EX-6",
+        "filename": "act43side_ex06-activities-act43side-level_act43side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex06",
+        "name": "自助移动酒吧",
+        "stageId": "act43side_ex06",
+        "width": 11
+    },
+    "act43side_ex07#f#-activities/act43side/level_act43side_ex07": {
+        "code": "AD-EX-7",
+        "filename": "act43side_ex07#f#-activities-act43side-level_act43side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex07",
+        "name": "群演集合区",
+        "stageId": "act43side_ex07#f#",
+        "width": 13
+    },
+    "act43side_ex07-activities/act43side/level_act43side_ex07": {
+        "code": "AD-EX-7",
+        "filename": "act43side_ex07-activities-act43side-level_act43side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act43side/level_act43side_ex07",
+        "name": "群演集合区",
+        "stageId": "act43side_ex07",
+        "width": 13
+    },
+    "act43side_ex08#f#-activities/act43side/level_act43side_ex08": {
+        "code": "AD-EX-8",
+        "filename": "act43side_ex08#f#-activities-act43side-level_act43side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act43side/level_act43side_ex08",
+        "name": "舞台与无尽的阶梯",
+        "stageId": "act43side_ex08#f#",
+        "width": 11
+    },
+    "act43side_ex08-activities/act43side/level_act43side_ex08": {
+        "code": "AD-EX-8",
+        "filename": "act43side_ex08-activities-act43side-level_act43side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act43side/level_act43side_ex08",
+        "name": "舞台与无尽的阶梯",
+        "stageId": "act43side_ex08",
+        "width": 11
+    },
     "act43side_tr01-activities/act43side/level_act43side_tr01": {
         "code": "AD-TR-1",
         "filename": "act43side_tr01-activities-act43side-level_act43side_tr01.json",

@@ -180,7 +180,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
         }
     }
     close_series_list();
-    Log.error(__FUNCTION__, "no available series found");
+    (available_only ? LogInfo : LogError) << __FUNCTION__ << "no available series found";
     return std::nullopt;
 }
 

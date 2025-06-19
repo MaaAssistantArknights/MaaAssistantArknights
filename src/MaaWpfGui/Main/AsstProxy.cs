@@ -36,7 +36,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -46,6 +45,7 @@ using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
 using AsstTaskId = System.Int32;
+using FightTask = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
 namespace MaaWpfGui.Main
@@ -658,26 +658,26 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
                             default:
-                            {
-                                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
-
-                                if (screencapCostAvgInt < 100)
                                 {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
-                                }
+                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
 
-                                if (screencapCostAvgInt < 10)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
-                                }
+                                    if (screencapCostAvgInt < 100)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge4);
+                                    }
 
-                                if (screencapCostAvgInt < 5)
-                                {
-                                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
-                                }
+                                    if (screencapCostAvgInt < 10)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge5);
+                                    }
 
-                                break;
-                            }
+                                    if (screencapCostAvgInt < 5)
+                                    {
+                                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge6);
+                                    }
+
+                                    break;
+                                }
                         }
                     }
 
@@ -689,10 +689,10 @@ namespace MaaWpfGui.Main
 
         private void OnToastNotificationTimerTick(object? sender, EventArgs e)
         {
-            if (SanityReport is not null)
+            if (FightTask.SanityReport is not null)
             {
                 var sanityReport = LocalizationHelper.GetString("SanityReport");
-                var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
+                var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                 sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
                 ToastNotification.ShowDirect(sanityReport);
             }
@@ -739,6 +739,7 @@ namespace MaaWpfGui.Main
             {
                 case AsstMsg.TaskChainStopped:
                     Instances.TaskQueueViewModel.SetStopped();
+                    TaskStatusUpdate(taskId, TaskStatus.Completed);
                     if (isCopilotTaskChain)
                     {
                         _runningState.SetIdle(true);
@@ -781,6 +782,7 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            TaskStatusUpdate(taskId, TaskStatus.Completed);
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
@@ -788,21 +790,19 @@ namespace MaaWpfGui.Main
                     }
 
                 case AsstMsg.TaskChainStart:
-                    Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
-                        "Fight" => true,
-                        _ => Instances.TaskQueueViewModel.FightTaskRunning,
-                    };
-
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
-                    break;
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
+                        TaskStatusUpdate(taskId, TaskStatus.InProgress);
+                        break;
+                    }
 
                 case AsstMsg.TaskChainCompleted:
                     {
                         // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
-                        if (_taskStatus.TryGetValue(taskId, out var taskType))
+                        TaskStatusUpdate(taskId, TaskStatus.Completed);
+                        if (_tasksStatus.TryGetValue(taskId, out var task))
                         {
-                            if (_mainTaskTypes.Contains(taskType))
+                            if (_mainTaskTypes.Contains(task.Type))
                             {
                                 Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                             }
@@ -810,20 +810,15 @@ namespace MaaWpfGui.Main
 
                         switch (taskChain)
                         {
-                            case "Fight":
-                                Instances.TaskQueueViewModel.FightTaskRunning = false;
-                                break;
-
                             case "Infrast":
-                                Instances.TaskQueueViewModel.InfrastTaskRunning = false;
                                 InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
                                 InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
                         }
 
-                        if (taskChain == "Fight" && SanityReport is not null)
+                        if (taskChain == "Fight" && FightTask.SanityReport is not null)
                         {
-                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
+                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
                         }
                         else
@@ -846,9 +841,10 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
                         }
+
+                        break;
                     }
 
-                    break;
                 case AsstMsg.TaskChainExtraInfo:
                     break;
 
@@ -857,11 +853,11 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        var latestMainTaskIds = _taskStatus.Where(i => _mainTaskTypes.Contains(i.Value)).Select(i => i.Key);
+                        var latestMainTaskIds = _tasksStatus.Where(i => _mainTaskTypes.Contains(i.Value.Type)).Select(i => i.Key);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
-                    if (_taskStatus.ContainsValue(TaskType.Copilot))
+                    if (_tasksStatus.Any(t => t.Value.Type == TaskType.Copilot))
                     {
                         if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
@@ -873,8 +869,8 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buyWine = _taskStatus.ContainsValue(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-                    _taskStatus.Clear();
+                    bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                    _tasksStatus.Clear();
 
                     TaskQueueViewModel.FightTask.ResetFightVariables();
                     TaskQueueViewModel.RecruitTask.ResetRecruitVariables();
@@ -899,9 +895,9 @@ namespace MaaWpfGui.Main
 
                         var allTaskCompleteLog = string.Format(LocalizationHelper.GetString("AllTasksComplete"), diffTaskTime);
 
-                        if (SanityReport is not null)
+                        if (FightTask.SanityReport is not null)
                         {
-                            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.SanityCurrent < SanityReport.SanityMax ? (SanityReport.SanityMax - SanityReport.SanityCurrent) * 6 : 0);
+                            var recoveryTime = FightTask.SanityReport.ReportTime.AddMinutes(FightTask.SanityReport.SanityCurrent < FightTask.SanityReport.SanityMax ? (FightTask.SanityReport.SanityMax - FightTask.SanityReport.SanityCurrent) * 6 : 0);
                             sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                             allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
@@ -950,7 +946,7 @@ namespace MaaWpfGui.Main
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
-                            if (SanityReport is not null)
+                            if (FightTask.SanityReport is not null)
                             {
                                 toast.AppendContentText(sanityReport);
                             }
@@ -1163,19 +1159,19 @@ namespace MaaWpfGui.Main
                             case "StartButton2":
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
-                                if (FightTimes is null)
+                                if (FightTask.FightReport is null)
                                 {
                                     missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), "???", "???"));
                                 }
                                 else
                                 {
-                                    var times = FightTimes.Series == 1 ? $"{FightTimes.TimesFinished + 1}" : $"{FightTimes.TimesFinished + 1}~{FightTimes.TimesFinished + FightTimes.Series}";
-                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTimes.SanityCost));
+                                    var times = FightTask.FightReport.Series == 1 ? $"{FightTask.FightReport.TimesFinished + 1}" : $"{FightTask.FightReport.TimesFinished + 1}~{FightTask.FightReport.TimesFinished + FightTask.FightReport.Series}";
+                                    missionStartLogBuilder.AppendLine(string.Format(LocalizationHelper.GetString("MissionStart.FightTask"), times, FightTask.FightReport.SanityCost));
                                 }
 
-                                if (SanityReport is not null)
+                                if (FightTask.SanityReport is not null)
                                 {
-                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.SanityCurrent, SanityReport.SanityMax);
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
                                 }
 
                                 if (ExpiringMedicineUsedTimes > 0)
@@ -1723,10 +1719,10 @@ namespace MaaWpfGui.Main
 
                 case "SanityBeforeStage":
                     {
-                        SanityReport = null;
+                        FightTask.SanityReport = null;
                         if (subTaskDetails?.ToObject<FightSettingsUserControlModel.SanityInfo>() is { SanityMax: > 0 } report)
                         {
-                            SanityReport = report;
+                            FightTask.SanityReport = report;
                         }
 
                         break;
@@ -1734,18 +1730,18 @@ namespace MaaWpfGui.Main
 
                 case "FightTimes":
                     {
-                        FightTimes = null;
+                        FightTask.FightReport = null;
                         if ((subTaskDetails?.Children())?.Any() is true)
                         {
-                            FightTimes = subTaskDetails.ToObject<FightSettingsUserControlModel.FightTimes>()!;
-                            if (FightTimes.TimesFinished > 0)
+                            FightTask.FightReport = subTaskDetails.ToObject<FightTask.FightTimes>()!;
+                            if (FightTask.FightReport.TimesFinished > 0)
                             {
-                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTimes.TimesFinished);
+                                AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTask.FightReport.TimesFinished);
                             }
 
-                            if (FightSettingsUserControlModel.Instance.HasTimesLimited && FightTimes.TimesFinished + FightTimes.Series > FightSettingsUserControlModel.Instance.MaxTimes)
+                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightTask.Instance.HasTimesLimited && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
                             {
-                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTimes.TimesFinished, FightTimes.Series, FightTimes.TimesFinished + FightTimes.Series, FightSettingsUserControlModel.Instance.MaxTimes), UiLogColor.Error);
+                                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTask.FightReport.TimesFinished, FightTask.FightReport.Series, FightTask.FightReport.TimesFinished + FightTask.FightReport.Series, FightTask.Instance.MaxTimes), UiLogColor.Error);
                             }
                         }
 
@@ -2084,9 +2080,38 @@ namespace MaaWpfGui.Main
             TaskType.Reclamation,
         ];
 
-        private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
+        private readonly Dictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
-        public IReadOnlyDictionary<AsstTaskId, TaskType> TaskStatus => new Dictionary<AsstTaskId, TaskType>(_taskStatus);
+        public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
+
+        private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
+        {
+            if (id == 0)
+            {
+                return false;
+            }
+
+            if (_tasksStatus.TryGetValue(id, out var value))
+            {
+                value.Status = status;
+                if (value.Type == TaskType.Fight)
+                {
+                    Instances.TaskQueueViewModel.FightTaskRunning = status == TaskStatus.InProgress;
+                }
+                else if (value.Type == TaskType.Infrast)
+                {
+                    Instances.TaskQueueViewModel.InfrastTaskRunning = status == TaskStatus.InProgress;
+                }
+
+                return true;
+            }
+            else
+            {
+                Log.Error("Task ID {TaskId} not found in _tasksStatus", id);
+            }
+
+            return false;
+        }
 
         public bool AsstAppendCloseDown(string clientType)
         {
@@ -2159,7 +2184,7 @@ namespace MaaWpfGui.Main
                 ["filename"] = filename,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
-            _taskStatus.Add(id, TaskType.Copilot);
+            _tasksStatus.Add(id, (TaskType.Copilot, TaskStatus.Idle));
             return id != 0 && AsstStart();
         }
 
@@ -2177,7 +2202,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            _taskStatus.Add(id, wpfTasktype);
+            _tasksStatus.Add(id, (wpfTasktype, TaskStatus.Idle));
             return true;
         }
 
@@ -2220,7 +2245,7 @@ namespace MaaWpfGui.Main
             bool ret = MaaService.AsstStop(_handle);
             if (clearTask)
             {
-                _taskStatus.Clear();
+                _tasksStatus.Clear();
             }
 
             return ret;
@@ -2326,6 +2351,27 @@ namespace MaaWpfGui.Main
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+    }
+
+    /// <summary>
+    /// 任务状态
+    /// </summary>
+    public enum TaskStatus
+    {
+        /// <summary>
+        /// 未开始
+        /// </summary>
+        Idle = 0,
+
+        /// <summary>
+        /// 进行中
+        /// </summary>
+        InProgress = 1,
+
+        /// <summary>
+        /// 已完成
+        /// </summary>
+        Completed = 2,
     }
 
     public enum AsstStaticOptionKey

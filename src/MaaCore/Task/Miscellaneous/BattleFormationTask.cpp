@@ -70,6 +70,9 @@ bool asst::BattleFormationTask::_run()
     formation_with_last_opers();
     std::vector<OperGroup> missing_operators;
     for (auto& [role, oper_groups] : m_formation) {
+        if (oper_groups.empty()) {
+            continue; // 干员已编入, 跳过
+        }
         add_formation(role, oper_groups, missing_operators);
     }
 

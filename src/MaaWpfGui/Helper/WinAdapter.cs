@@ -33,6 +33,7 @@ namespace MaaWpfGui.Helper
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
+            { "MuMuNxDevice", "MuMuEmulator12" }, // MuMu 12 5.0
             { "MEmu", "XYAZ" },
         };
 
@@ -48,6 +49,8 @@ namespace MaaWpfGui.Helper
             { "Nox", [@".\nox_adb.exe"] },
             {
                 "MuMuEmulator12", [
+                    @"..\..\..\nx_main\adb.exe",
+
                     @"..\vmonitor\bin\adb_server.exe",
                     @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
                     @".\adb.exe"

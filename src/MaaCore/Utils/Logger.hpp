@@ -859,6 +859,7 @@ private:
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)
     {
+        rotate();
 #ifdef ASST_DEBUG
         return LogStream(
             std::unique_lock { m_trace_mutex },

@@ -2,7 +2,7 @@ name: Auto Close not reading issues or Fold checkboxes
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
   check-then-close-or-fold:
@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Check checkbox status
       id: unread-checkbox-check
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           const texts = [
@@ -23,7 +23,7 @@ jobs:
 
     - name: Close and lock issue
       if: steps.unread-checkbox-check.outputs.result == 'true'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           await github.rest.issues.update({
@@ -43,10 +43,13 @@ jobs:
 
     - name: Fold checkboxes
       if: steps.unread-checkbox-check.outputs.result == 'false'
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           const originalBody = context.payload.issue.body;
+          if (originalBody.includes('<details><summary>Checkboxes</summary>\n\n')) {
+            return;
+          }
           const checkboxSectionRegex_cn_bug = /([\s\S]*?)(### 问题描述\n\n)/;
           const checkboxSectionRegex_cn_feat = /([\s\S]*?)(### 说说你遇到的问题？\n\n)/;
           const checkboxSectionRegex_en_bug = /([\s\S]*?)(### Description\n\n)/;

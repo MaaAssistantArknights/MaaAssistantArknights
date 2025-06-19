@@ -519,20 +519,19 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // ReSharper disable once UnusedMember.Global
-        public void LikeWebJson()
+        public async void LikeWebJson()
         {
-            Task.Run(async () =>
+            CouldLikeWebJson = false;
+            if (await RateCopilot(CopilotId) == PrtsStatus.Success)
             {
-                if (await RateCopilot(CopilotId) == PrtsStatus.Success)
-                {
-                    AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.CopilotLikeGroup);
-                }
-            });
+                AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.CopilotLikeGroup);
+            }
         }
 
         // ReSharper disable once UnusedMember.Global
         public void DislikeWebJson()
         {
+            CouldLikeWebJson = false;
             _ = RateCopilot(CopilotId, false);
         }
 
@@ -1314,7 +1313,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 case PrtsStatus.Success:
                     _recentlyRatedCopilotId.Add(copilotId);
-                    CouldLikeWebJson = false;
                     AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info, showTime: false);
                     break;
                 case PrtsStatus.NetworkError:

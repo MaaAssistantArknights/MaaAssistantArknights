@@ -7,8 +7,8 @@ updates:
     commit-message:
       prefix: ci
     assignees:
-      - constrat
       - AnnAngela
+      - Constrat
     groups:
       github-actions:
         patterns:
