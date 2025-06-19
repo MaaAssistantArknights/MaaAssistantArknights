@@ -16,6 +16,10 @@
 原路径：{安装目录}\shell\MuMuPlayer.exe  
 新路径：{安装目录}\nx_device\12.0\shell\MuMuNxDevice.exe
 
+---
+
+以下是详细内容：
+
 ### 新增 | New
 
 * 傀影肉鸽添加难度选择 (#12897) @SherkeyXD
