@@ -606,7 +606,8 @@
     "StageQueue@CloseStonePage": {
         "maxTimes": 2147483647,
         "exceededNext": [],
-        "next": []
+        "next": [],
+        "postDelay": 500
     },
     "StageQueue@StartButton1": {
         "Doc": "开始战斗1",
