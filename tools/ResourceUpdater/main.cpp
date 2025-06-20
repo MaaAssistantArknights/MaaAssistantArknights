@@ -1318,6 +1318,10 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
             name_buffer = stage_obj["name"].as_string();
             if (remove_spaces) {
                 name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
+                // ro4_b_9 is blank so skip it
+                if (name_buffer.empty()) {
+                    continue;
+                }
             }
             stage_names.emplace(id, name_buffer);
         }
