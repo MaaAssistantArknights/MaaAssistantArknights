@@ -4446,5 +4446,14 @@
     "YoStarJP/OperBoxEnterGaming": "64a9ad62a835b9f050bacdb3b7dff5f8dfe28f73d8a872f1a30c6dc34e73c038",
     "YoStarJP/RecruitGaming": "ed0c2b4d4b5088f485a2058c920e86b26fb194caf4e6bef0975500b20ae7b8e3",
     "YoStarJP/TaskGaming": "846419fc6327084034ce8268e90088f81e0e9bf9f58f444dfd33b2c0e5615dbf",
-    "YoStarJP/TerminalGaming": "4ffa1033be8cf7e1d0e7f8d6b11a6dd0fcd0264f06b94f977515bf2d0c09eb58"
+    "YoStarJP/TerminalGaming": "4ffa1033be8cf7e1d0e7f8d6b11a6dd0fcd0264f06b94f977515bf2d0c09eb58",
+    "YoStarKR/DepotEnterDahuangCity": "0725c065f5319d13df358f1883f6f6da5d82a1c622882930c1de8f101fc9f5e7",
+    "YoStarKR/EnterInfrastDahuangCity": "1acb8a27467efb938b09c395258c8ffa2e8c497485fff459018fb0f5c0f08b65",
+    "YoStarKR/FriendsDahuangCity": "e8a36b10b177401555c5698f56caf38b4c4fe7d61b1c98220a8ce8457bb6fc54",
+    "YoStarKR/GachaEnterDahuangCity": "a428e60ad5b09a5876c1e505d2dd418c568ab15e4d2570a1d209a3e829dc83b1",
+    "YoStarKR/MallDahuangCity": "a3644b4916e3f9180daa73ad7b682229ae4eb27234dc4f5467d3b68376bcca85",
+    "YoStarKR/OperBoxEnterDahuangCity": "34aa0e7df2e92bfdb1c413c0448e0f23790c6f5ab899832adb6c1eedf69416f8",
+    "YoStarKR/RecruitDahuangCity": "e04977378ab2e82a68a35928144a759361c2c38e48a72bf20354561ac6550eba",
+    "YoStarKR/TaskDahuangCity": "1b43996c2b4cf2e9b77598fa4f965f306ff93a894125861cabba2daa6f55bc87",
+    "YoStarKR/TerminalDahuangCity": "1d06e1c170ff8e0e4f76365d704de00a4beb21e73989c5c9aa66e910411827c7"
 }
