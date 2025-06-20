@@ -731,9 +731,9 @@
             ["Judgement: Defender", "论断：重装"],
             ["Judgement: Sniper", "论断：狙击"],
             ["Gul'dul's Silence", "戈渎不语"],
-            ["Qui'sartuštaj's Promise", "奎萨图什塔允诺"],
-            ["Balor'sača's Arrogance", "霸迩萨狂言"],
-            ["Yliš's Ravings", "以勒什呓语"],
+            ["Qui'sartu.?taj's Promise", "奎萨图什塔允诺"],
+            ["Balor'sa.?a's Arrogance", "霸迩萨狂言"],
+            ["Yli.?'s Ravings", "以勒什呓语"],
             ["Shard of the Untold Kings", "未叙魔王残片"],
             ["Eye of Fortune", "财眼"],
             ["Clotheskaz", "衣卡兹"],
@@ -975,8 +975,6 @@
             ["PlausibleButFalse", "似是而非"],
             ["Disappear.", "消失。"],
             ["OmenintheVoid", "空无前兆"],
-            ["AllorNothing", "孤注一掷"],
-            ["AllorNothing", "孤注一掷"],
             ["AllorNothing", "孤注一掷"]
         ]
     },
