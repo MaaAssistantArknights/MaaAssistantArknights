@@ -4,6 +4,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
+#include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
@@ -23,6 +24,25 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
+    auto image = imread(utils::path("C:/users/status102/desktop/fight.png"));
+    auto image2 = imread(utils::path("C:/users/status102/desktop/fight2.png"));
+    auto image_ = imread(utils::path("C:/users/status102/desktop/fight-.png"));
+    bool ret = false;
+    cv::Mat start = imread(utils::path("C:/users/status102/desktop/start.png"));
+    cv::Mat out;
+
+    cv::cvtColor(image2, out, cv::COLOR_BGR2HSV);
+    cv::cvtColor(image, out, cv::COLOR_BGR2HSV);
+    cv::cvtColor(start, out, cv::COLOR_BGR2HSV);
+
+    Matcher battle_flag_analyzer(start);
+    battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
+    ret = battle_flag_analyzer.analyze().has_value();
+
+    BattlefieldMatcher battle_flag_analyzer_2(start);
+    auto battle_result_opt = battle_flag_analyzer_2.analyze();
+    ret &= battle_result_opt && battle_result_opt->pause_button && !battle_result_opt->is_pasuing;
+
     return true;
 }
 
