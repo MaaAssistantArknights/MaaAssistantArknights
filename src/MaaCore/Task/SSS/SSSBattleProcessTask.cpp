@@ -66,7 +66,7 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
         if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_same_time).count() > 30000) {
             // 30s 能回 60 费，基本上已经到了挂机的时候，放缓检查的速度
             Log.trace("30s is unchanged and the waiting time is extended to 1s");
-            interval_time = 1000;
+            // interval_time = 1000;
         }
     }
     else {
