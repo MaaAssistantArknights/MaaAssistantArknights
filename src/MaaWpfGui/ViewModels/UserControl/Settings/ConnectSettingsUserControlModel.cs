@@ -134,6 +134,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         get => _connectAddress;
         set
         {
+            value = value
+                .Replace(" ", "")
+                .Replace("：", ":")
+                .Replace(";", ":")
+                .Replace("；", ":")
+                .Trim();
+
             if (ConnectAddress == value)
             {
                 return;

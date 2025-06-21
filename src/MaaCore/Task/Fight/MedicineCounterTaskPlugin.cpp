@@ -52,7 +52,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
         return false;
     }
     LogTrace << __FUNCTION__ << "Using medicines init finished,"
-             << " using:" << using_medicine->using_count << ", used:" << m_used_count;
+             << " using:" << using_medicine->using_count << ", used:" << m_used_count << ", max:" << m_max_count;
 
     // 移除超量使用的理智药后，再次获取理智药数量
     // 如果移除后没有使用任何理智药，则单独返回数据；进入插件时应当有使用至少一瓶药

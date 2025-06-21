@@ -25,7 +25,7 @@ bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details)
     else if (task.ends_with("CloseStonePage")) {
         m_is_medicine_exhausted = true;
     }
-    else if (task.ends_with("Fight@EndOfAction") || task.ends_with("Fight@EndOfActionAnnihilation")) {
+    else if (task.ends_with("EndOfAction") || task.ends_with("EndOfActionAnnihilation")) {
         m_fight_times += m_series_current;
     }
     else if (task.ends_with("StartButton1")) {

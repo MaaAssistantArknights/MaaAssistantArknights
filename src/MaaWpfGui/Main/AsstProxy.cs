@@ -15,6 +15,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -39,6 +40,7 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
@@ -235,6 +237,14 @@ namespace MaaWpfGui.Main
         {
             _callback = CallbackFunction;
             _runningState = RunningState.Instance;
+            _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) =>
+            {
+                if (args.Action == NotifyCollectionChangedAction.Reset)
+                {
+                    Instances.TaskQueueViewModel.FightTaskRunning = false;
+                    Instances.TaskQueueViewModel.InfrastTaskRunning = false;
+                }
+            };
         }
 
         /// <summary>
@@ -2080,7 +2090,7 @@ namespace MaaWpfGui.Main
             TaskType.Reclamation,
         ];
 
-        private readonly Dictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
+        private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
 
         public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
 

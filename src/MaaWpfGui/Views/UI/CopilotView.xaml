@@ -370,7 +370,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding CopilotUrl}"
                     TextDecorations="None">
-                    <TextBlock Text="{Binding UrlText}" />
+                    <TextBlock d:Text="PrtsPlus" Text="{Binding UrlText}" />
                 </Hyperlink>
             </controls:TextBlock>
         </Grid>

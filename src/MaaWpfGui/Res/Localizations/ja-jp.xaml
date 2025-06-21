@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
+    <system:String x:Key="AchievementSettings">実績設定</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="IssueReport">問題報告</system:String>
     <system:String x:Key="MaaVersion">MAA バージョン</system:String>
@@ -196,7 +197,7 @@
     <system:String x:Key="IS4NewSquad5">奇想天外分隊</system:String>
     <system:String x:Key="IS4NewSquad6">破棘成金分隊</system:String>
     <system:String x:Key="IS4NewSquad7">擬態学者分隊</system:String>
-    <system:String x:Key="IS4NewSquad8">専門人士分隊（占位）</system:String>
+    <system:String x:Key="IS4NewSquad8">専門家分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
