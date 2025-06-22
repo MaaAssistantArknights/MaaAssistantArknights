@@ -115,7 +115,7 @@ bool asst::BattleFormationTask::_run()
         report_missing_operators(cached_missing_operators);
         return false;
     }
-    
+
     // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
     if (!m_user_additional.empty()) {
         auto limit = 12 - m_size_of_operators_in_formation;
@@ -136,14 +136,14 @@ bool asst::BattleFormationTask::_run()
             add_formation(role, oper_groups, missing_operators);
         }
     }
-    
+
     // 添加其他附加干员和信赖干员
     add_additional();
     if (m_add_trust) {
         add_trust_operators();
     }
     confirm_selection();
-    
+
     // 在所有干员都添加完成后，再判断是否有缺失干员
     if (!cached_missing_operators.empty()) {
         // 然后再报告缺失干员
