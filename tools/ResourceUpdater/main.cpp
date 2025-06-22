@@ -1316,8 +1316,13 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_base_
             }
 
             name_buffer = stage_obj["name"].as_string();
+            // ko-kr requires space removal
             if (remove_spaces) {
                 name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
+                // ro4_b_9 is blank for all clients so we skip it
+                if (name_buffer.empty()) {
+                    continue;
+                }
             }
             stage_names.emplace(id, name_buffer);
         }

@@ -186,6 +186,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+                    CopilotUrl = CopilotUiUrl;
                 }
                 else
                 {

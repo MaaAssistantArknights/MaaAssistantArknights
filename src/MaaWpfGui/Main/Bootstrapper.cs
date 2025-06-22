@@ -306,8 +306,16 @@ namespace MaaWpfGui.Main
                 return;
             }
 
+            bool wasFirstBoot = Instances.VersionUpdateViewModel.IsFirstBootAfterUpdate;
+
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
+
+            // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
+            if (!wasFirstBoot && Instances.VersionUpdateViewModel.IsFirstBootAfterUpdate)
+            {
+                return;
+            }
 
             // 以下是成就解锁逻辑
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
