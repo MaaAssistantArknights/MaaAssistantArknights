@@ -68,6 +68,11 @@ public class AsstCopilotTask : AsstBaseTask
     public bool UseSanityPotion { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 缺少干员时仍然追加或补充低信赖干员
+    /// </summary>
+    public bool ContinueWhenMissingOperators { get; set; }
+
+    /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
     public List<UserAdditional>? UserAdditionals { get; set; }
@@ -83,6 +88,7 @@ public class AsstCopilotTask : AsstBaseTask
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
+            ["continue_when_missing_operators"] = ContinueWhenMissingOperators,
         };
 
         if (UserAdditionals?.Count > 0)

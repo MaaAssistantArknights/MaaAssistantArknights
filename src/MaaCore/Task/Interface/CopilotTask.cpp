@@ -50,7 +50,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     start_2_tp->set_tasks({ "BattleStartAll" }).set_retry_times(3).set_ignore_error(false);
     m_subtasks.emplace_back(start_2_tp);
 
-    // 跳过“以下干员出战后将被禁用，是否继续？”对话框
+    // 跳过"以下干员出战后将被禁用，是否继续？"对话框
     auto start_3_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_3_tp->set_tasks({ "SkipForbiddenOperConfirm", "Stop" }).set_ignore_error(false);
     m_subtasks.emplace_back(start_3_tp);
@@ -85,6 +85,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     int select_formation = params.get("select_formation", 0);                        // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                                 // 是否自动补信赖
     bool add_user_additional = params.contains("user_additional");                   // 是否自动补用户自定义干员
+    bool continue_when_missing_operators = params.get("continue_when_missing_operators", false);  // 是否在缺少干员时继续编队
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
@@ -149,6 +150,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_add_trust(add_trust);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
+    m_formation_task_ptr->set_continue_when_missing_operators(continue_when_missing_operators);
 
     if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;

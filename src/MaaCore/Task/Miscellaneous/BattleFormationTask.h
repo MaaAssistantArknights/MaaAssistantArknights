@@ -59,6 +59,9 @@ public:
 
     void set_data_resource(DataResource resource) { m_data_resource = resource; }
 
+    // 设置是否在缺少干员时继续编队
+    void set_continue_when_missing_operators(bool value) { m_continue_when_missing_operators = value; }
+
     // ————————————————————————————————
     // 助战干员选择相关
     // ————————————————————————————————
@@ -119,6 +122,7 @@ protected:
     std::string m_last_oper_name;
     int m_select_formation_index = 0;
     int m_missing_retry_times = 1; // 识别不到干员的重试次数
+    bool m_continue_when_missing_operators = false; // 是否在缺少干员时继续编队
 
     // ————————————————————————————————
     // 助战干员选择相关
