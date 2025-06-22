@@ -921,7 +921,30 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 {// 肉鸽结算
                     var report = subTaskDetails;
                     var pass = (bool)report!["game_pass"]!;
-                    var difficulty = (int)(report["difficulty"] ?? -1);
+
+                    int difficulty = -1;
+                    var difficultyStr = (string?)(report["difficulty"] ?? string.Empty);
+                    if (!string.IsNullOrEmpty(difficultyStr))
+                    {
+                        string numericString = string.Empty;
+                        foreach (char c in difficultyStr)
+                        {
+                            if ((c >= '0' && c <= '9') || c == ' ')
+                            {
+                                numericString = string.Concat(numericString, c);
+                            }
+                            else
+                            {
+                                numericString = string.Empty;
+                            }
+                        }
+
+                        if (Int32.TryParse(numericString, out int temp))
+                        {
+                            difficulty = temp;
+                        }
+                    }
+
                     var roguelikeInfo = string.Format(
                         LocalizationHelper.GetString("RoguelikeSettlement"),
                         pass ? "✓" : "✗",
@@ -932,7 +955,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                         report["boss"],
                         report["recruit"],
                         report["collection"],
-                        difficulty,
+                        report["difficulty"],
                         report["score"],
                         report["exp"],
                         report["skill"]);
