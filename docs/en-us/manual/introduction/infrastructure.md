@@ -17,8 +17,8 @@ icon: material-symbols:view-quilt-rounded
 ### Additional Notes
 
 - Base shift management currently optimizes for single-facility efficiency, not cross-facility global optimization.
-    - Recognizable and usable examples: `Shamare + Tequila`, `Vermeil + Scene`.
-    - Unrecognizable examples: `Rosmontis System`, `Pinus Sylvestris Knights`.
+  - Recognizable and usable examples: `Shamare + Tequila`, `Vermeil + Scene`.
+  - Unrecognizable examples: `Rosmontis System`, `Pinus Sylvestris Knights`.
 - When `Drone Usage Purpose` is set to `Trading Post - LMD`, the `Shamare Group` will be additionally recognized and prioritized.
 - Reception Room selects Operators with corresponding Clue affinity when only one Clue type is missing; otherwise selects generic Operators.
 - Reception Room sends Clues only when self-owned Clues are full, limited to three per send. Customize send quantity by modifying `ClueSelected` - `maxTimes` in `resource/tasks/tasks.json` under MAA folder.
