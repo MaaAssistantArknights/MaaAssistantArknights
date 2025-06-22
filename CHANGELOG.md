@@ -14,7 +14,10 @@
 * StageQueue战斗次数统计 @status102
 * skip blank stages in KR replacement on ResoureUpdater (#13045) @HX3N @Constrat
 * YostarEN ocr for new IS @Constrat
+* YostarEN Sarkaz DLC2 @Constrat
+* YoStarEN StageDrops-TimesRec roi @status102
 * YoStarKR tasks ocrReplace @ABA2396
+* YostarJP infrast training room and IS4 squad (#13053) @Manicsteiner
 
 ### 其他 | Other
 
@@ -24,3 +27,4 @@
 * YostarJP Dahuang city theme and ocr edits (#13044) @Manicsteiner
 * YostarKR DahuangCity theme (#13043) @HX3N
 * 调整 ssreopen 识别 @ABA2396
+* 更换 Mirrorc logo @MistEO
