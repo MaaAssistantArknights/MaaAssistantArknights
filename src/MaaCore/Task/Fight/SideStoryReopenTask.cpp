@@ -1,6 +1,7 @@
 #include "SideStoryReopenTask.h"
 
 #include "Config/TaskData.h"
+#include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Fight/StageQueueMissionCompletedTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -197,6 +198,9 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
     fight_task.set_times_limit("StageQueue@StoneConfirm", use_stone ? 1 : 0)
         .set_times_limit("StageQueue@StartButton1", 1)
         .set_times_limit("StageQueue@StartButton2", 1);
+
+    auto m_fight_times_prt = fight_task.register_plugin<FightTimesTaskPlugin>();
+    m_fight_times_prt->set_series(1);
 
     auto medicine_plugin = fight_task.register_plugin<MedicineCounterTaskPlugin>();
     medicine_plugin->set_count(use_medicine ? 1 : 0);

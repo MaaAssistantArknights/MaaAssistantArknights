@@ -245,6 +245,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageEmergencyDps",
@@ -261,6 +262,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageTrader",
@@ -277,6 +279,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@DialogTimeout",
             "Phantom@Roguelike@StageCombatDps",

@@ -1295,7 +1295,13 @@
             ["Kaz Falls", "卡兹瀑布"],
             ["Firepower Squad", "火力小队"],
             ["Chaos", "混沌"],
-            ["'Heretics'", "“外道”"]
+            ["Ice Age", "冰川期"],
+            ["Frequent Dispute", "争议频发"],
+            ["Rhine Guardians", "莱茵卫士"],
+            ["Motorized Squad", "机动队"],
+            ["Fate's Finale", "不容拒绝"],
+            ["Dense Jungle", "丛林密布"],
+            ["Motorized Squad", "机动队"]
         ]
     },
     "BattleQuickFormationExpandRole": {
@@ -1337,7 +1343,7 @@
         "text": ["Continuous", "Auto", "Operation"]
     },
     "StageDrops-TimesRec": {
-        "roi": [73, 364, 221, 31]
+        "roi": [73, 364, 347, 31]
     },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
