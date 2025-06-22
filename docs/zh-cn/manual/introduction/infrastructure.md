@@ -30,7 +30,7 @@ icon: material-symbols:view-quilt-rounded
 
 - 该模式需要先在游戏内设置好预设队列，MAA 会自动进行轮换。
 
-## 自定义基建换班 (Beta)
+## 自定义基建换班
 
 - 一图流的大佬们帮忙写了一个 [排班生成器](https://ark.yituliu.cn/tools/schedule)，可参考 [基建协议文档](../../protocol/base-scheduling-schema.md) 使用。
 - MAA 文件夹下 `/resource/custom_infrast/` 中内置了几套理论极限效率的作业，可用作参考。由于其对干员及练度的需求极高，不推荐直接使用。

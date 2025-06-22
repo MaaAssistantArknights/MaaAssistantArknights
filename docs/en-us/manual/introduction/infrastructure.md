@@ -5,27 +5,32 @@ icon: material-symbols:view-quilt-rounded
 
 # Base
 
-::: important This page may be outdated.
-:::
+## Normal Mode
 
-## Workshift Strategy
+### Shift Strategy
 
-- Automatically calculate and choose the **optimal solution within a single facility**. Supports all general and special skill combinations.
-- Supports recognition of Battle Record, Pure Gold, Originium Shard, Chip and so on for different operators.
-- Automatically use drones according to the selected `drone usage`.
-- Recognizes the percentage of the Morale bar. When Morale is below some threshold, the operator will be moved to the dormitory.
+- Automatically calculates and selects the **optimal solution within a single facility**, supporting all combinations of generic skills and special skills.
+- Automatically identifies EXP Records, Pure Gold Ingots, Originium Shards, and Chips, deploying corresponding Operator combinations for each.
+- Automatically uses Drones according to the selected `Drone Usage`.
+- Automatically detects morale levels and assigns Operators with remaining morale percentage below the `Base Facility Morale Threshold` to Dormitories.
 
-## Note
+### Additional Notes
 
-- The work shift strategy is based on the optimal solution within a single facility instead of multiple facilities. Combinations such as: `Shamare-Tequila`, `Vermeil-Scene` within a single facility can be recognized correctly; while combinations like `Rosmontis`, `Pinus Sylvestris` among facilities are not supported yet.
-- If `Usage of Drone` is selected with the option `Trading Post-LMD`, it will recognize `Shamare` and reserve it for her.
-- Operators of the corresponding faction will be selected when only one Clue is needed in the Reception Room; otherwise, general operators will be chosen.
-- The reception Room will send out Clues only when your Clues are full. Three Clues will be sent out at most. If wanted, you can edit the number of sent Clues in the `ClueSelected` - `maxTimes` field in `resource/tasks/tasks.json`.
-- If you do not want operators like `Irene` or someone else to be put into the dormitory when the training room is not in use, you can switch off `Working operator shall not be put into the dormitory` in the settings. Note that this may cause the operators with non-full fatigue to not enter the dormitory as well.
-- Due to the complexity of the Control Center, only `Amiya`, `Swire`, `Kal'tsit`, `Team Rainbow` and other Morale+0.05 operators will be considered. To be improved in future.
-- Some alternate operators may have conflicts in Infrastructure. Please take note if there are "Operator conflict" warnings on the UI, and double check the Infrastructure to shift manually (e.g. some facilities may not have any operator).
-- You can choose the facility categories that need to be handled by MAA, with all selected by default.
+- Base shift management currently optimizes for single-facility efficiency, not cross-facility global optimization.
+    - Recognizable and usable examples: `Shamare + Tequila`, `Vermeil + Scene`.
+    - Unrecognizable examples: `Rosmontis System`, `Pinus Sylvestris Knights`.
+- When `Drone Usage Purpose` is set to `Trading Post - LMD`, the `Shamare Group` will be additionally recognized and prioritized.
+- Reception Room selects Operators with corresponding Clue affinity when only one Clue type is missing; otherwise selects generic Operators.
+- Reception Room sends Clues only when self-owned Clues are full, limited to three per send. Customize send quantity by modifying `ClueSelected` - `maxTimes` in `resource/tasks/tasks.json` under MAA folder.
+- Enabling `Do not move stationed Operators to Dormitories` prevents Operators like `Irene` and `Logos` from being assigned to Dormitories when not training in Training Room, but also prevents Processing Station Operators with insufficient morale from entering Dormitories.
+- Control Center strategy is complex; currently only considers `Amiya`, `Swire`, `Kal'tsit`, `Team Rainbow`, and other Operators with +0.05 morale bonus. Will be gradually optimized.
+- Select which facility types MAA should manage (default: all selected).
 
-## Custom infrastructure shift change (Beta)
+## One-click Rotation Mode
 
-- Several sets of extremely efficient tasks are built-in under the MAA folder `/resource/custom_infrast/`, which can be used as a reference. Due to its high requirements for operators and their levels, it is not recommended for direct use.
+- This mode requires preset squads configured in-game. MAA will automatically rotate them.
+
+## Custom Base Mode
+
+- [Schedule Generator](https://ark.yituliu.cn/tools/schedule) created by strategy experts. Refer to [Base Facility Protocol Documentation](../../protocol/base-scheduling-schema.md) for usage.
+- MAA folder `/resource/custom_infrast/` contains built-in theoretically maximum-efficiency presets. Not recommended for direct use due to extreme Operator and development level requirements.
