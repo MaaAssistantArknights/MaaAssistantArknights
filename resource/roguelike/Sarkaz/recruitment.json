@@ -822,7 +822,8 @@
                 },
                 {
                     "name": "信仰搅拌机",
-                    "skill": 2,
+                    "skill": 3,
+                    "alternate_skill": 2,
                     "recruit_priority": 620,
                     "promote_priority": 650,
                     "recruit_priority_offsets": [
