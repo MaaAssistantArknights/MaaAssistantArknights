@@ -1501,7 +1501,7 @@
                 },
                 {
                     "name": "晓歌",
-                    "skill": 1,
+                    "skill": 2,
                     "is_key": true,
                     "recruit_priority": 707,
                     "promote_priority": 330,
@@ -1520,6 +1520,32 @@
                     "is_key": true,
                     "recruit_priority": 709,
                     "promote_priority": 830,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["异德", "刺客"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "寻澜",
+                    "skill": 2,
+                    "recruit_priority": 627,
+                    "promote_priority": 420,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["异德", "刺客"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "齐尔查克",
+                    "skill": 1,
+                    "recruit_priority": 577,
+                    "promote_priority": 410,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["异德", "刺客"],
@@ -2399,6 +2425,12 @@
                     "name": "晓歌"
                 },
                 {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
+                },
+                {
                     "name": "导火索"
                 },
                 {
@@ -2606,6 +2638,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "火哨"
@@ -2828,6 +2866,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "谜图"

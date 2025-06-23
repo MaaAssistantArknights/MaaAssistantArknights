@@ -1994,6 +1994,32 @@
                     ]
                 },
                 {
+                    "name": "寻澜",
+                    "skill": 2,
+                    "recruit_priority": 627,
+                    "promote_priority": 420,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 2,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
+                    "name": "齐尔查克",
+                    "skill": 1,
+                    "recruit_priority": 577,
+                    "promote_priority": 410,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 2,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
                     "name": "谜图",
                     "skill": 2,
                     "recruit_priority": 551,
@@ -2667,6 +2693,12 @@
                     "name": "晓歌"
                 },
                 {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
+                },
+                {
                     "name": "布洛卡"
                 },
                 {
@@ -2861,6 +2893,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "火哨"
@@ -3074,6 +3112,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "谜图"
