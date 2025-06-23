@@ -4464,5 +4464,14 @@
     "YoStarJP/DepotEnterDahuangCity": "0e99e8b68ea9923427c3cb0572b8d8fe4339ff3d283eefa8f0be6708b24e4c49",
     "YoStarJP/TerminalDahuangCity": "ea646568e66058ed0c554b0216cc827a32cf4bbbe1ab6ae0d89a697d0376199c",
     "YoStarJP/MallDahuangCity": "a947816c7d45a3c87b21f298d05cfdd59bd5044862eadb979bfd2477db1ec63a",
-    "YoStarJP/OperBoxEnterDahuangCity": "725f465099e085fd670073a052f85449b9e94a643c6566d75ec735ccc9e9f8e1"
+    "YoStarJP/OperBoxEnterDahuangCity": "725f465099e085fd670073a052f85449b9e94a643c6566d75ec735ccc9e9f8e1",
+    "YoStarEN/DepotEnterDahuangCity": "5bee0240879c6bbc79149540cc89a64be260ac2de4898388ec833ed4fcb883db",
+    "YoStarEN/EnterInfrastDahuangCity": "373407927bc34125509a9dc9df4db0a990480fda38659a83fca41c47a0f1d3dc",
+    "YoStarEN/FriendsDahuangCity": "61e3ff4515b24d506fa3244cb8ca00e7c96f3c85b4e3c5384fd64cc99e4df12a",
+    "YoStarEN/GachaEnterDahuangCity": "717cf986aafc71595696946ce915d2dea53569e67ed183c234e08e7dc571e094",
+    "YoStarEN/MallDahuangCity": "8f074e89a00b9e3436caa1f070aa1a26dfbf69b405f1d7cf49e38316084842c9",
+    "YoStarEN/OperBoxEnterDahuangCity": "6f0c34a0954cfef3957dfa90eb747454b572ec16865bfc3ad75028ae7ecef830",
+    "YoStarEN/RecruitDahuangCity": "2609ddbc0bb887e74929365520aa6874288073efba5e8ffb15d04c46a357b641",
+    "YoStarEN/TaskDahuangCity": "898b17db8c8b5cd9cc1801c36a600e897cbedabe79001c8350af565703cb5164",
+    "YoStarEN/TerminalDahuangCity": "8283af0f8f0b0b5a450b1f2bdfa24878e1fa1d36fa163c584d45ff3bce52140c"
 }
