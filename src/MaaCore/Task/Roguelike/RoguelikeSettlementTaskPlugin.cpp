@@ -102,8 +102,8 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         }
         else {
             std::string tag = task_name;
-        utils::tolowers(tag);
-        info["details"][tag] = ocr.get_result().text;
+            utils::tolowers(tag);
+            info["details"][tag] = ocr.get_result().text;
         }
     };
 
