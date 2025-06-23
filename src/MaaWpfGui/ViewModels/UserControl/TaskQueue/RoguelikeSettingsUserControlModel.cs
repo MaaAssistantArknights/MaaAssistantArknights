@@ -921,7 +921,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 {// 肉鸽结算
                     var report = subTaskDetails;
                     var pass = (bool)report!["game_pass"]!;
-                    var difficulty = (int)(report["difficulty"] ?? -1);
+                    var difficulty = int.TryParse((string)report["difficulty"]!, out var result) ? result : -1;
+                    // var difficulty = (int)(report["difficulty"] ?? -1);
                     var roguelikeInfo = string.Format(
                         LocalizationHelper.GetString("RoguelikeSettlement"),
                         pass ? "✓" : "✗",
