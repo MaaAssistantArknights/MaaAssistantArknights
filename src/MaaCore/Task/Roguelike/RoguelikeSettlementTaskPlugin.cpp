@@ -76,7 +76,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
     auto analyze_battle_data = [&](const std::string& task_name) {
         RegionOCRer ocr(image);
         ocr.set_task_info("RoguelikeSettlementOcr-" + task_name);
-        ocr.set_bin_threshold(0, 255);
+        ocr.set_bin_threshold(0, 160);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
             return;
