@@ -44,6 +44,65 @@
             ]
         },
         {
+            "name": "元素",
+            "opers": [
+                {
+                    "name": "酒神",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 805,
+                    "promote_priority": 802,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["元素"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "塑心",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 705,
+                    "promote_priority": 702,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["元素"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "波卜",
+                    "skill": 1,
+                    "recruit_priority": 258,
+                    "promote_priority": 401,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["元素"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "凛视",
+                    "skill": 2,
+                    "recruit_priority": 257,
+                    "promote_priority": 400,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["元素"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "凯尔希",
             "opers": [
                 {
@@ -763,7 +822,8 @@
                 },
                 {
                     "name": "信仰搅拌机",
-                    "skill": 2,
+                    "skill": 3,
+                    "alternate_skill": 2,
                     "recruit_priority": 620,
                     "promote_priority": 650,
                     "recruit_priority_offsets": [
@@ -2165,6 +2225,32 @@
                     ]
                 },
                 {
+                    "name": "寻澜",
+                    "skill": 2,
+                    "recruit_priority": 627,
+                    "promote_priority": 420,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 2,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
+                    "name": "齐尔查克",
+                    "skill": 1,
+                    "recruit_priority": 577,
+                    "promote_priority": 410,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 2,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
                     "name": "谜图",
                     "skill": 2,
                     "recruit_priority": 551,
@@ -2459,7 +2545,7 @@
                 },
                 {
                     "name": "承曦格雷伊",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 781,
                     "promote_priority": 500
                 },
@@ -2550,6 +2636,12 @@
             "name": "辅助",
             "opers": [
                 {
+                    "name": "酒神"
+                },
+                {
+                    "name": "塑心"
+                },
+                {
                     "name": "铃兰",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2580,13 +2672,6 @@
                     "promote_priority": 402
                 },
                 {
-                    "name": "塑心",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 405,
-                    "promote_priority": 402
-                },
-                {
                     "name": "巫恋",
                     "skill": 2,
                     "recruit_priority": 462,
@@ -2599,10 +2684,10 @@
                     "promote_priority": 255
                 },
                 {
-                    "name": "凛视",
-                    "skill": 2,
-                    "recruit_priority": 257,
-                    "promote_priority": 400
+                    "name": "波卜"
+                },
+                {
+                    "name": "凛视"
                 },
                 {
                     "name": "真理",
@@ -2889,6 +2974,12 @@
                     "name": "晓歌"
                 },
                 {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
+                },
+                {
                     "name": "布洛卡"
                 },
                 {
@@ -3093,6 +3184,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "火哨"
@@ -3341,6 +3438,12 @@
                 },
                 {
                     "name": "晓歌"
+                },
+                {
+                    "name": "寻澜"
+                },
+                {
+                    "name": "齐尔查克"
                 },
                 {
                     "name": "谜图"
