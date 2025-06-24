@@ -1,5 +1,6 @@
 #include "SideStoryReopenTask.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
@@ -70,7 +71,7 @@ bool asst::SideStoryReopenTask::_run()
         return false;
     }
 
-    std::string m_sidestory_reopen_task = m_sidestory_name + "ChapterTo" + m_sidestory_name;
+    const auto& m_sidestory_reopen_task = m_sidestory_name + "ChapterTo" + m_sidestory_name;
     if (!Task.get(m_sidestory_reopen_task)) {
         Log.error(__FUNCTION__, m_sidestory_reopen_task, "task not exists");
 
@@ -78,7 +79,6 @@ bool asst::SideStoryReopenTask::_run()
         callback(AsstMsg::SubTaskExtraInfo, task_not_exists);
         return false;
     }
-    Task.get("SideStoryReopen")->next = { m_sidestory_name + "ChapterTo" + m_sidestory_name };
 
     if (!at_normal_page() && !navigate_to_normal_page()) {
         Log.error(__FUNCTION__, "cound not navigate to normal page");
@@ -160,7 +160,8 @@ bool asst::SideStoryReopenTask::navigate_to_normal_page()
     LogTraceFunction;
 
     return ProcessTask(*this, { "StageBegin" }).set_times_limit("GoLastBattle", 0).run() &&
-           ProcessTask(*this, { "SideStoryReopen" }).run();
+           ProcessTask(*this, { "SideStoryReopen" }).run() && sleep(Config.get_options().task_delay) &&
+           ProcessTask(*this, { m_sidestory_name + "ChapterTo" + m_sidestory_name }).run();
 }
 
 /// <summary>
@@ -171,7 +172,7 @@ bool asst::SideStoryReopenTask::select_stage(int stage_index)
 {
     LogTraceFunction;
 
-    std::string m_stage_code = m_sidestory_name + "-" + std::to_string(stage_index);
+    const auto& m_stage_code = m_sidestory_name + "-" + std::to_string(stage_index);
 
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };
