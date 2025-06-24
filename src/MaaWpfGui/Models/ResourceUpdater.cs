@@ -248,6 +248,7 @@ namespace MaaWpfGui.Models
             const string MirrorchyanZipFile = "MaaResourceMirrorchyan.zip";
             const string ExtractFolder = "MaaResourceMirrorchyan";
 
+            OutputDownloadProgress(string.Empty, globalSource: false);
             if (!await DownloadFullPackageAsync(url, MirrorchyanZipFile, false).ConfigureAwait(false))
             {
                 Fail();
