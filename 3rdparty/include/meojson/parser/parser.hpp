@@ -19,6 +19,7 @@ namespace json
 // ****************************
 
 template <
+    bool accept_jsonc = false,
     typename string_t = default_string_t,
     typename parsing_t = void,
     typename accel_traits = _packed_bytes::packed_bytes_trait_max>
@@ -56,6 +57,7 @@ private:
 
     bool skip_string_literal_with_accel();
     bool skip_whitespace() noexcept;
+    bool skip_comment() noexcept;
     bool skip_digit();
     bool skip_unicode_escape(uint16_t& pair_high, string_t& result);
 
@@ -74,14 +76,20 @@ auto parse(const parsing_t& content);
 template <typename char_t>
 auto parse(char_t* content);
 
+template <typename parsing_t>
+auto parsec(const parsing_t& content);
+
+template <typename char_t>
+auto parsec(char_t* content);
+
 template <
     typename istream_t,
     typename = std::enable_if_t<
         std::is_base_of_v<std::basic_istream<typename istream_t::char_type>, istream_t>>>
-auto parse(istream_t& istream, bool check_bom);
+auto parse(istream_t& istream, bool check_bom = false, bool with_commets = false);
 
 template <typename ifstream_t = std::ifstream, typename path_t = void>
-auto open(const path_t& path, bool check_bom = false);
+auto open(const path_t& path, bool check_bom = false, bool with_commets = false);
 
 namespace literals
 {
@@ -105,15 +113,17 @@ const basic_value<string_t> invalid_value();
 // *      parser impl      *
 // *************************
 
-template <typename string_t, typename parsing_t, typename accel_traits>
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
 inline std::optional<basic_value<string_t>>
-    parser<string_t, parsing_t, accel_traits>::parse(const parsing_t& content)
+    parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse(const parsing_t& content)
 {
-    return parser<string_t, parsing_t, accel_traits>(content.cbegin(), content.cend()).parse();
+    return parser<accept_jsonc, string_t, parsing_t, accel_traits>(content.cbegin(), content.cend())
+        .parse();
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline std::optional<basic_value<string_t>> parser<string_t, parsing_t, accel_traits>::parse()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline std::optional<basic_value<string_t>>
+    parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse()
 {
     if (!skip_whitespace()) {
         return std::nullopt;
@@ -135,8 +145,7 @@ inline std::optional<basic_value<string_t>> parser<string_t, parsing_t, accel_tr
         return std::nullopt;
     }
 
-    // After the parsing is complete, there should be no more content other than
-    // spaces behind
+    // After the parsing is complete, there should be no more content other than spaces behind
     if (skip_whitespace()) {
         return std::nullopt;
     }
@@ -144,8 +153,8 @@ inline std::optional<basic_value<string_t>> parser<string_t, parsing_t, accel_tr
     return result_value;
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_value()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_value()
 {
     switch (*_cur) {
     case 'n':
@@ -176,8 +185,8 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_va
     }
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_null()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_null()
 {
     for (const auto& ch : _utils::null_string<string_t>()) {
         if (_cur != _end && *_cur == ch) {
@@ -191,8 +200,9 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_nu
     return basic_value<string_t>();
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_boolean()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t>
+    parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_boolean()
 {
     switch (*_cur) {
     case 't':
@@ -220,8 +230,8 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_bo
     }
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_number()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_number()
 {
     const auto first = _cur;
     if (*_cur == '-') {
@@ -259,8 +269,8 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_nu
     return basic_value<string_t>(basic_value<string_t>::value_type::number, string_t(first, _cur));
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_string()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_string()
 {
     auto string_opt = parse_stdstring();
     if (!string_opt) {
@@ -271,8 +281,8 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_st
         std::move(string_opt).value());
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_array()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_array()
 {
     if (*_cur == '[') {
         ++_cur;
@@ -294,6 +304,12 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_ar
     while (true) {
         if (!skip_whitespace()) {
             return invalid_value<string_t>();
+        }
+
+        if constexpr (accept_jsonc) {
+            if (*_cur == ']') {
+                break;
+            }
         }
 
         basic_value<string_t> val = parse_value();
@@ -322,8 +338,8 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_ar
     return basic_array<string_t>(std::move(result));
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_object()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline basic_value<string_t> parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_object()
 {
     if (*_cur == '{') {
         ++_cur;
@@ -345,6 +361,12 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_ob
     while (true) {
         if (!skip_whitespace()) {
             return invalid_value<string_t>();
+        }
+
+        if constexpr (accept_jsonc) {
+            if (*_cur == '}') {
+                break;
+            }
         }
 
         auto key_opt = parse_stdstring();
@@ -389,8 +411,9 @@ inline basic_value<string_t> parser<string_t, parsing_t, accel_traits>::parse_ob
     return basic_object<string_t>(std::move(result));
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline std::optional<string_t> parser<string_t, parsing_t, accel_traits>::parse_stdstring()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline std::optional<string_t>
+    parser<accept_jsonc, string_t, parsing_t, accel_traits>::parse_stdstring()
 {
     if (*_cur == '"') {
         ++_cur;
@@ -477,8 +500,8 @@ inline std::optional<string_t> parser<string_t, parsing_t, accel_traits>::parse_
     return std::nullopt;
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline bool parser<string_t, parsing_t, accel_traits>::skip_unicode_escape(
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline bool parser<accept_jsonc, string_t, parsing_t, accel_traits>::skip_unicode_escape(
     uint16_t& pair_high,
     string_t& result)
 {
@@ -574,8 +597,9 @@ inline bool parser<string_t, parsing_t, accel_traits>::skip_unicode_escape(
     return true;
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline bool parser<string_t, parsing_t, accel_traits>::skip_string_literal_with_accel()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline bool
+    parser<accept_jsonc, string_t, parsing_t, accel_traits>::skip_string_literal_with_accel()
 {
     if constexpr (sizeof(*_cur) != 1) {
         return false;
@@ -602,8 +626,8 @@ inline bool parser<string_t, parsing_t, accel_traits>::skip_string_literal_with_
     return _cur != _end;
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline bool parser<string_t, parsing_t, accel_traits>::skip_whitespace() noexcept
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline bool parser<accept_jsonc, string_t, parsing_t, accel_traits>::skip_whitespace() noexcept
 {
     while (_cur != _end) {
         switch (*_cur) {
@@ -612,6 +636,17 @@ inline bool parser<string_t, parsing_t, accel_traits>::skip_whitespace() noexcep
         case '\r':
         case '\n':
             ++_cur;
+            break;
+        case '/':
+            if constexpr (accept_jsonc) {
+                if (!skip_comment()) {
+                    return false;
+                }
+                // else continue;
+            }
+            else {
+                return false;
+            }
             break;
         case '\0':
             return false;
@@ -622,8 +657,59 @@ inline bool parser<string_t, parsing_t, accel_traits>::skip_whitespace() noexcep
     return false;
 }
 
-template <typename string_t, typename parsing_t, typename accel_traits>
-inline bool parser<string_t, parsing_t, accel_traits>::skip_digit()
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+bool json::parser<accept_jsonc, string_t, parsing_t, accel_traits>::skip_comment() noexcept
+{
+    if (_cur == _end || *_cur != '/') {
+        return false;
+    }
+
+    if (++_cur == _end) {
+        return false;
+    }
+
+    enum class comment_type
+    {
+        invalid,
+        line,
+        block,
+    } t = comment_type::invalid;
+
+    switch (*_cur++) {
+    case '/':
+        t = comment_type::line;
+        break;
+    case '*':
+        t = comment_type::block;
+        break;
+    default:
+        return false;
+    }
+
+    while (_cur != _end) {
+        switch (*_cur++) {
+        case '\n':
+            if (t == comment_type::line) {
+                return true;
+            }
+            break;
+        case '*':
+            if (t == comment_type::block && _cur != _end && *_cur == '/') {
+                ++_cur;
+                return true;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    // _cur == _end
+    return t == comment_type::line;
+}
+
+template <bool accept_jsonc, typename string_t, typename parsing_t, typename accel_traits>
+inline bool parser<accept_jsonc, string_t, parsing_t, accel_traits>::skip_digit()
 {
     // At least one digit
     if (_cur != _end && std::isdigit(*_cur)) {
@@ -653,7 +739,7 @@ template <typename parsing_t>
 auto parse(const parsing_t& content)
 {
     using string_t = std::basic_string<typename parsing_t::value_type>;
-    return parser<string_t, parsing_t>::parse(content);
+    return parser<false, string_t, parsing_t>::parse(content);
 }
 
 template <typename char_t>
@@ -663,7 +749,7 @@ auto parse(char_t* content)
 }
 
 template <typename istream_t, typename _>
-auto parse(istream_t& ifs, bool check_bom)
+auto parse(istream_t& ifs, bool check_bom, bool with_commets)
 {
     using string_t = std::basic_string<typename istream_t::char_type>;
 
@@ -686,11 +772,11 @@ auto parse(istream_t& ifs, bool check_bom)
             str.assign(str.begin() + 3, str.end());
         }
     }
-    return parse(str);
+    return with_commets ? parsec(str) : parse(str);
 }
 
 template <typename ifstream_t, typename path_t>
-auto open(const path_t& filepath, bool check_bom)
+auto open(const path_t& filepath, bool check_bom, bool with_commets)
 {
     using char_t = typename ifstream_t::char_type;
     using string_t = std::basic_string<char_t>;
@@ -701,9 +787,22 @@ auto open(const path_t& filepath, bool check_bom)
     if (!ifs.is_open()) {
         return return_t(std::nullopt);
     }
-    auto opt = parse(ifs, check_bom);
+    auto opt = parse(ifs, check_bom, with_commets);
     ifs.close();
     return opt;
+}
+
+template <typename parsing_t>
+auto parsec(const parsing_t& content)
+{
+    using string_t = std::basic_string<typename parsing_t::value_type>;
+    return parser<true, string_t, parsing_t>::parse(content);
+}
+
+template <typename char_t>
+auto parsec(char_t* content)
+{
+    return parsec(std::basic_string_view<std::decay_t<char_t>> { content });
 }
 
 namespace literals
