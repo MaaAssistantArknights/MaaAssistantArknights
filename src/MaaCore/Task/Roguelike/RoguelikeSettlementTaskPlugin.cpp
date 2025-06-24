@@ -77,6 +77,9 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         RegionOCRer ocr(image);
         ocr.set_task_info("RoguelikeSettlementOcr-" + task_name);
         ocr.set_bin_threshold(0, 160);
+        auto merge_map = number_replace;
+        merge_map.emplace_back("[^\\d]+", "");
+        ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
             return;
