@@ -1659,7 +1659,7 @@
     "Roguelike@StartExploreWithSeed-SetDifficulty": {
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [847, 246, 276, 205],
+        "roi": [844, 251, 269, 156],
         "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
     },
     "Roguelike@StrategyChange": {
