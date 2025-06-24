@@ -24,9 +24,8 @@
         "next": ["BP-OpenOcr", "BP-Open"]
     },
     "BP-Open": {
-        "baseTask": "SS-OpenOcr",
-        "text": ["生路", "防线巩固", "防线", "线巩", "巩固"],
-        "roi": [105, 538, 159, 26],
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
         "next": ["BPChapterToBP"]
     },
     "BP-OpenOcr": {
