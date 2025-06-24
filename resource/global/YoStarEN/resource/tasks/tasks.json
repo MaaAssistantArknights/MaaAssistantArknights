@@ -20,10 +20,6 @@
     "EnterChapterDifficultyNormal": {
         "text": ["Start Operation"]
     },
-    "SideStoryReopen": {
-        "text": ["Rerun", "Retrospection"],
-        "roi": [0, 500, 500, 150]
-    },
     "StageResource": {
         "roi": [600, 600, 250, 110]
     },

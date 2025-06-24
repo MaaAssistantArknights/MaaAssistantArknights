@@ -28,9 +28,6 @@
     "EnterChapterDifficultyNormal": {
         "text": ["노멀모드", "노멀", "작전진입"]
     },
-    "SideStoryReopen": {
-        "text": ["재개방"]
-    },
     "StageResource": {
         "doc": "Delete when the UI is updated (#12266)",
         "roi": [600, 600, 250, 110]
