@@ -13805,6 +13805,123 @@
         "stageId": "act4bossrush_tm04",
         "width": 28
     },
+    "act5bossrush_01-activities/act5bossrush/level_bossrush5_01": {
+        "code": "TN-1",
+        "filename": "act5bossrush_01-activities-act5bossrush-level_bossrush5_01.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_01",
+        "name": "严寒骤血",
+        "stageId": "act5bossrush_01",
+        "width": 17
+    },
+    "act5bossrush_02-activities/act5bossrush/level_bossrush5_02": {
+        "code": "TN-2",
+        "filename": "act5bossrush_02-activities-act5bossrush-level_bossrush5_02.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_02",
+        "name": "无声破裂",
+        "stageId": "act5bossrush_02",
+        "width": 20
+    },
+    "act5bossrush_03-activities/act5bossrush/level_bossrush5_03": {
+        "code": "TN-3",
+        "filename": "act5bossrush_03-activities-act5bossrush-level_bossrush5_03.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_03",
+        "name": "幕间重影",
+        "stageId": "act5bossrush_03",
+        "width": 22
+    },
+    "act5bossrush_04-activities/act5bossrush/level_bossrush5_04": {
+        "code": "TN-4",
+        "filename": "act5bossrush_04-activities-act5bossrush-level_bossrush5_04.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_04",
+        "name": "沸海遮日",
+        "stageId": "act5bossrush_04",
+        "width": 20
+    },
+    "act5bossrush_ex01-activities/act5bossrush/level_bossrush5_ex01": {
+        "code": "TN-1",
+        "filename": "act5bossrush_ex01-activities-act5bossrush-level_bossrush5_ex01.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_ex01",
+        "name": "严寒骤血",
+        "stageId": "act5bossrush_ex01",
+        "width": 17
+    },
+    "act5bossrush_ex02-activities/act5bossrush/level_bossrush5_ex02": {
+        "code": "TN-2",
+        "filename": "act5bossrush_ex02-activities-act5bossrush-level_bossrush5_ex02.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_ex02",
+        "name": "无声破裂",
+        "stageId": "act5bossrush_ex02",
+        "width": 20
+    },
+    "act5bossrush_ex03-activities/act5bossrush/level_bossrush5_ex03": {
+        "code": "TN-3",
+        "filename": "act5bossrush_ex03-activities-act5bossrush-level_bossrush5_ex03.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_ex03",
+        "name": "幕间重影",
+        "stageId": "act5bossrush_ex03",
+        "width": 22
+    },
+    "act5bossrush_ex04-activities/act5bossrush/level_bossrush5_ex04": {
+        "code": "TN-4",
+        "filename": "act5bossrush_ex04-activities-act5bossrush-level_bossrush5_ex04.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_ex04",
+        "name": "沸海遮日",
+        "stageId": "act5bossrush_ex04",
+        "width": 20
+    },
+    "act5bossrush_fin04-activities/act5bossrush/level_bossrush5_fin04": {
+        "code": "TN-4",
+        "filename": "act5bossrush_fin04-activities-act5bossrush-level_bossrush5_fin04.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_fin04",
+        "name": "沸海遮日",
+        "stageId": "act5bossrush_fin04",
+        "width": 20
+    },
+    "act5bossrush_tm01-activities/act5bossrush/level_bossrush5_01": {
+        "code": "TN-1",
+        "filename": "act5bossrush_tm01-activities-act5bossrush-level_bossrush5_01.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_01",
+        "name": "严寒骤血",
+        "stageId": "act5bossrush_tm01",
+        "width": 17
+    },
+    "act5bossrush_tm02-activities/act5bossrush/level_bossrush5_02": {
+        "code": "TN-2",
+        "filename": "act5bossrush_tm02-activities-act5bossrush-level_bossrush5_02.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_02",
+        "name": "无声破裂",
+        "stageId": "act5bossrush_tm02",
+        "width": 20
+    },
+    "act5bossrush_tm03-activities/act5bossrush/level_bossrush5_03": {
+        "code": "TN-3",
+        "filename": "act5bossrush_tm03-activities-act5bossrush-level_bossrush5_03.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_03",
+        "name": "幕间重影",
+        "stageId": "act5bossrush_tm03",
+        "width": 22
+    },
+    "act5bossrush_tm04-activities/act5bossrush/level_bossrush5_04": {
+        "code": "TN-4",
+        "filename": "act5bossrush_tm04-activities-act5bossrush-level_bossrush5_04.json",
+        "height": 8,
+        "levelId": "activities/act5bossrush/level_bossrush5_04",
+        "name": "沸海遮日",
+        "stageId": "act5bossrush_tm04",
+        "width": 20
+    },
     "act5d0_01-activities/act5d0/level_act5d0_01": {
         "code": "CB-1",
         "filename": "act5d0_01-activities-act5d0-level_act5d0_01.json",
