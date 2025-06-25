@@ -159,9 +159,11 @@ bool asst::SideStoryReopenTask::navigate_to_normal_page()
 {
     LogTraceFunction;
 
-    return ProcessTask(*this, { "StageBegin" }).set_times_limit("GoLastBattle", 0).run() &&
-           ProcessTask(*this, { "SideStoryReopen" }).run() && sleep(Config.get_options().task_delay) &&
-           ProcessTask(*this, { m_sidestory_name + "ChapterTo" + m_sidestory_name }).run();
+    bool ret = ProcessTask(*this, { "StageBegin" }).set_times_limit("GoLastBattle", 0).run();
+    ret = ret && sleep(Config.get_options().task_delay);
+    ret = ret && ProcessTask(*this, { m_sidestory_name + "-OpenOpt" }).run();
+    ret = ret && sleep(Config.get_options().task_delay);
+    return ret;
 }
 
 /// <summary>

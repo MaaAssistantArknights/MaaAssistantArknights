@@ -20,9 +20,6 @@
     "EnterChapterDifficultyNormal": {
         "text": ["進入", "作戰"]
     },
-    "SideStoryReopen": {
-        "text": ["復刻"]
-    },
     "StageResource": {
         "roi": [600, 600, 250, 110]
     },
