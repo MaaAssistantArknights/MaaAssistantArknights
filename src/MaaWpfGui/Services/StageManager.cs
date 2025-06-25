@@ -194,7 +194,7 @@ namespace MaaWpfGui.Services
                 // 「当前/上次」关卡导航
                 { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty }},
                 // 周一和周日的关卡提示
-                { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday, DayOfWeek.Wednesday], IsHidden = true } },
+                { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
                 { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },  };
         }
 
