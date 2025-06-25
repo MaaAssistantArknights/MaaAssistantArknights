@@ -319,8 +319,8 @@ namespace MaaWpfGui.Main
 
             // 以下是成就解锁逻辑
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
-            if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
-                (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
+            if ((DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
+                (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
             }
