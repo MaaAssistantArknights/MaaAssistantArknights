@@ -35,6 +35,7 @@ namespace MaaWpfGui.Constants
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
+        public const string StagesOfTodayTipHeight = "GUI.StagesOfTodayTipHeight";
 
         // public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat"; 是否使用自定义的时间格式
         public const string LogItemDateFormat = "GUI.LogItemDateFormatString";

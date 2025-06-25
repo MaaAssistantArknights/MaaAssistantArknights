@@ -16,13 +16,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -962,6 +962,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _stagesOfToday;
             private set => SetAndNotify(ref _stagesOfToday, value);
+        }
+
+        private GridLength _tipHeight = new(Convert.ToDouble(ConfigurationHelper.GetValue(ConfigurationKeys.StagesOfTodayTipHeight, "150")));
+
+        public GridLength TipHeight
+        {
+            get => _tipHeight;
+            set => SetAndNotify(ref _tipHeight, value);
+        }
+
+        public void SetTipHeight()
+        {
+            ConfigurationHelper.SetValue(ConfigurationKeys.StagesOfTodayTipHeight, _tipHeight.ToString());
         }
 
         /// <summary>

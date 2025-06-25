@@ -273,14 +273,19 @@
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="360" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MaxHeight="250" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2" />
+                <RowDefinition
+                    Height="{Binding TipHeight, Mode=TwoWay}"
+                    MinHeight="60"
+                    MaxHeight="{c:Binding 'ExtentHeight + 30 + 10 + 20',
+                                          ElementName=ScrollViewer}" />
+                <!--  按钮高度30，按钮和 tip 间隔 10，上下 margin 10  -->
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"
                 Grid.RowSpan="{c:Binding 'TaskSettingVisibilities.AfterAction ? 2:1'}"
-                Margin="10"
+                Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 HorizontalScrollBarVisibility="Auto"
@@ -325,35 +330,47 @@
                     <taskQueue:CustomUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
-            <hc:ButtonGroup
+            <GridSplitter
                 Grid.Row="1"
                 Width="220"
-                Margin="0,0,10,0"
-                Orientation="Horizontal"
-                Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
-                                       FalseToVisibility=Hidden}">
-                <RadioButton
-                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
-                    Background="{DynamicResource TransparentRegionBrush}"
-                    Content="{DynamicResource GeneralSettings}"
-                    IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
-                    IsEnabled="True" />
-                <RadioButton
-                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
-                    Background="{DynamicResource TransparentRegionBrush}"
-                    Content="{DynamicResource AdvancedSettings}"
-                    IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
-                    IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
-            </hc:ButtonGroup>
-            <hc:ScrollViewer
-                Grid.Row="2"
-                Width="200"
-                Margin="0,10,10,10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                PanningMode="Both">
-                <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
-            </hc:ScrollViewer>
+                HorizontalAlignment="Stretch"
+                Background="{DynamicResource MouseOverRegionBrush}"
+                DragCompleted="{s:Action SetTipHeight}" />
+            <Grid Grid.Row="2" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <hc:ButtonGroup
+                    Width="220"
+                    Height="30"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
+                                           FalseToVisibility=Hidden}">
+                    <RadioButton
+                        hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
+                        Background="{DynamicResource TransparentRegionBrush}"
+                        Content="{DynamicResource GeneralSettings}"
+                        IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
+                        IsEnabled="True" />
+                    <RadioButton
+                        hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
+                        Background="{DynamicResource TransparentRegionBrush}"
+                        Content="{DynamicResource AdvancedSettings}"
+                        IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
+                        IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
+                </hc:ButtonGroup>
+                <hc:ScrollViewer
+                    x:Name="ScrollViewer"
+                    Grid.Row="2"
+                    Width="200"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    PanningMode="Both">
+                    <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
+                </hc:ScrollViewer>
+            </Grid>
         </Grid>
 
         <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
