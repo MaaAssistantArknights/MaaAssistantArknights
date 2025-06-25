@@ -601,7 +601,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PR-C-2">先/輔晶片組</system:String>
     <system:String x:Key="PR-D-1">近/特晶片</system:String>
     <system:String x:Key="PR-D-2">近/特晶片組</system:String>
-    <system:String x:Key="Annihilation">剿滅模式</system:String>
+    <system:String x:Key="Annihilation">當期剿滅</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日關卡小提示: </system:String>
     <system:String x:Key="CETip">CE（龍門幣）</system:String>
     <system:String x:Key="APTip">AP（紅票）</system:String>

@@ -190,8 +190,12 @@ namespace MaaWpfGui.Services
         private static Dictionary<string, StageInfo> InitializeDefaultStages()
         {
             // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
-            // 「当前/上次」关卡导航
-            return new() { { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } } };
+            return new() {
+                // 「当前/上次」关卡导航
+                { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty }},
+                // 周一和周日的关卡提示
+                { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday, DayOfWeek.Wednesday], IsHidden = true } },
+                { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },  };
         }
 
         private static bool TryParseVersion(string? version, out SemVersion versionObj)
@@ -296,10 +300,6 @@ namespace MaaWpfGui.Services
                 { "PR-C-2", new("PR-C-2", string.Empty, [DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
                 { "PR-D-1", new("PR-D-1", "PR-DTip", [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
                 { "PR-D-2", new("PR-D-2", string.Empty, [DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday], resourceCollection) },
-
-                // 周一和周日的关卡提示
-                { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
-                { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
             };
 
             foreach (var kvp in permanentStages)
