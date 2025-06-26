@@ -51,6 +51,10 @@ namespace MaaWpfGui.Configuration
 
         public string WindowTitlePrefix { get; set; } = string.Empty;
 
+        public string FoundBadModules { get; set; } = string.Empty;
+
+        public string SuppressedBadModules { get; set; } = string.Empty;
+
         // ReSharper disable once UnusedMember.Global
         public void OnPropertyChanged(string propertyName, object before, object after)
         {

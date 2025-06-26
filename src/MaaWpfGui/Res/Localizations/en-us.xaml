@@ -1367,4 +1367,11 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.RoguelikeN15.Description">Immortal MAA truly immortal.</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">Clear any I.S. at N15 difficulty or above with MAA</system:String>
     <!--  !Achievement  -->
+
+    <!--  BadModules  -->
+    <system:String x:Key="BadModules.Warning.Heading">Compatibility Warning</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">The following DLL(s) injected into MAA may crash MAA or corrupt MAA user interface:</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog">If you encounter such issues with MAA, please try adding MAA to the exclusion list of the relevant software, or uninstall the related software and check if the problem persists.</system:String>
+    <system:String x:Key="BadModules.Warning.DoNotShowAgain">Do not show this warning again</system:String>
+    <!--  !BadModules  -->
 </ResourceDictionary>
