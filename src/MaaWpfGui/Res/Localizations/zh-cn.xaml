@@ -1371,4 +1371,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 以上难度</system:String>
     <!--  !Achievement  -->
+
+    <!--  BadModules  -->
+    <system:String x:Key="BadModules.Warning.Heading">悲报</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">以下注入到 MAA 的 DLL 可能会导致 MAA 闪退或界面渲染异常：</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
+    <!--  !BadModules  -->
 </ResourceDictionary>
