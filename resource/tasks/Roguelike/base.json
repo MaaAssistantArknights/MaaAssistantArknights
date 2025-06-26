@@ -1250,7 +1250,7 @@
         "preDelay": 600,
         "roi": [0, 405, 725, 225]
     },
-        "Roguelike@StageEncounterOcrChoice": {
+    "Roguelike@StageEncounterOcrChoice": {
         "baseTask": "Roguelike@StageEncounterOcrReplace",
         "text": [],
         "preDelay": 600,
