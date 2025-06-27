@@ -160,8 +160,9 @@
                     Margin="0,27,0,0"
                     Padding="0,-2,0,0"
                     HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
                     VerticalScrollBarVisibility="Hidden">
-                    <StackPanel hc:Growl.GrowlParent="True" />
+                    <StackPanel Margin="0,0,0,5" hc:Growl.GrowlParent="True" />
                 </ScrollViewer>
                 <hc:GifImage
                     Width="100"
