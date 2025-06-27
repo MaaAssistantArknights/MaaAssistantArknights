@@ -612,6 +612,12 @@
     "RecruitingActivitiesRecruitEnd": {
         "text": ["尋訪一次", "尋訪"]
     },
+    "SpecialAccessActivities": {
+        "text": ["周年", "專享", "活動", "月卡", "推薦"]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "text": ["立即", "立即領取"]
+    },
     "NoFriends": {
         "text": ["暫無好友"]
     },
