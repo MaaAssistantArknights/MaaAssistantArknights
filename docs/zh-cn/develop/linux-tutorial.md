@@ -11,6 +11,10 @@ icon: teenyicons:linux-alt-solid
 MAA 的构建方法仍在讨论中, 本教程的内容可能过时, 请以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) 中的脚本为准。也可参考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights)、[nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。
 :::
 
+::: info
+Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议参考 [MaaAssistantArknights/MaaMacGui](https://github.com/MaaAssistantArknights/MaaMacGui) 项目的 README.md。
+:::
+
 ## 编译过程
 
 1. 下载编译所需的依赖
