@@ -195,6 +195,7 @@ enum class ActionType
     BulletTime,  // 使用 1/5 的速度
     Output,      // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
+    GiveUp,      // 放弃行动
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头

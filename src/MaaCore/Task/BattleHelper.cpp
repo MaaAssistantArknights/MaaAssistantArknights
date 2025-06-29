@@ -956,6 +956,19 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     return update_deployment(true);
 }
 
+bool asst::BattleHelper::give_up()
+{
+    LogTraceFunction;
+    if (!m_in_battle) {
+        Log.error("Not in battle, cannot give up");
+        return false;
+    }
+    
+    ProcessTask(this_task(), { "BattleGiveUp" }).run();
+    check_in_battle();
+    return true;
+}
+
 std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& image)
 {
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");

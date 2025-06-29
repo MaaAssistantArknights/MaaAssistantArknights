@@ -262,6 +262,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     case ActionType::SkillDaemon:
         ret = wait_until_end();
         break;
+
+    case ActionType::GiveUp:
+        ret = give_up();
+        break;
+
     default:
         ret = do_derived_action(action, index);
         break;
@@ -288,11 +293,12 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::Deploy, "Deploy" },
         { ActionType::UseSkill, "UseSkill" },
         { ActionType::Retreat, "Retreat" },
-        { ActionType::SkillDaemon, "SkillDaemon" },
-        { ActionType::SwitchSpeed, "SwitchSpeed" },
         { ActionType::SkillUsage, "SkillUsage" },
+        { ActionType::SwitchSpeed, "SwitchSpeed" },
         { ActionType::BulletTime, "BulletTime" },
         { ActionType::Output, "Output" },
+        { ActionType::SkillDaemon, "SkillDaemon" },
+        { ActionType::GiveUp, "GiveUp" },
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
