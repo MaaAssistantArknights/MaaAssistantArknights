@@ -963,7 +963,7 @@ bool asst::BattleHelper::give_up()
         Log.error("Not in battle, cannot give up");
         return false;
     }
-    
+
     ProcessTask(this_task(), { "BattleGiveUp" }).run();
     check_in_battle();
     return true;

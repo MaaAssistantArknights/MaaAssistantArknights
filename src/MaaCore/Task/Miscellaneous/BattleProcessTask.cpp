@@ -290,18 +290,12 @@ const std::string& asst::BattleProcessTask::get_name_from_group(const std::strin
 void asst::BattleProcessTask::notify_action(const battle::copilot::Action& action)
 {
     const static std::unordered_map<ActionType, std::string> ActionNames = {
-        { ActionType::Deploy, "Deploy" },
-        { ActionType::UseSkill, "UseSkill" },
-        { ActionType::Retreat, "Retreat" },
-        { ActionType::SkillUsage, "SkillUsage" },
-        { ActionType::SwitchSpeed, "SwitchSpeed" },
-        { ActionType::BulletTime, "BulletTime" },
-        { ActionType::Output, "Output" },
-        { ActionType::SkillDaemon, "SkillDaemon" },
-        { ActionType::GiveUp, "GiveUp" },
-        { ActionType::MoveCamera, "MoveCamera" },
-        { ActionType::DrawCard, "DrawCard" },
-        { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::Deploy, "Deploy" },           { ActionType::UseSkill, "UseSkill" },
+        { ActionType::Retreat, "Retreat" },         { ActionType::SkillUsage, "SkillUsage" },
+        { ActionType::SwitchSpeed, "SwitchSpeed" }, { ActionType::BulletTime, "BulletTime" },
+        { ActionType::Output, "Output" },           { ActionType::SkillDaemon, "SkillDaemon" },
+        { ActionType::GiveUp, "GiveUp" },           { ActionType::MoveCamera, "MoveCamera" },
+        { ActionType::DrawCard, "DrawCard" },       { ActionType::CheckIfStartOver, "CheckIfStartOver" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
