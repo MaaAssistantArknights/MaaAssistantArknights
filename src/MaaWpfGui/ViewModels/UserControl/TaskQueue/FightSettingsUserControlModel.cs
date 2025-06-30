@@ -87,7 +87,12 @@ public class FightSettingsUserControlModel : TaskViewModel
                 return Stage2;
             }
 
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage3) ? Stage3 : Stage1;
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3))
+            {
+                return Stage3;
+            }
+
+            return Instances.TaskQueueViewModel.IsStageOpen(Stage4) ? Stage4 : Stage1;
         }
     }
 
@@ -109,7 +114,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             { "炭", "SK-5" },
         };
 
-    public string?[] Stages => [Stage1, Stage2, Stage3];
+    public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
 
     /// <remarks>Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
     public string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
@@ -178,7 +183,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     private string _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
 
     /// <summary>
-    /// Gets or sets the stage2.
+    /// Gets or sets the stage3.
     /// </summary>
     public string Stage3
     {
@@ -201,6 +206,36 @@ public class FightSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _stage3, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.Stage3, value);
+            Instances.TaskQueueViewModel.UpdateDatePrompt();
+        }
+    }
+
+    private string _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
+
+    /// <summary>
+    /// Gets or sets the stage4.
+    /// </summary>
+    public string Stage4
+    {
+        get => _stage4;
+        set
+        {
+            if (_stage4 == value)
+            {
+                return;
+            }
+
+            if (CustomStageCode)
+            {
+                if (_stage4?.Length != 3 && value != null)
+                {
+                    value = ToUpperAndCheckStage(value);
+                }
+            }
+
+            SetAndNotify(ref _stage4, value);
+            Instances.TaskQueueViewModel.SetFightParams();
+            ConfigurationHelper.SetValue(ConfigurationKeys.Stage4, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
@@ -245,6 +280,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
         Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
         Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+        Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
         RemainingSanityStage = RemainingSanityStageList.FirstOrDefault(x => x.Value == RemainingSanityStage)?.Value ?? string.Empty;
     }
 
