@@ -3805,6 +3805,24 @@
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255]
     },
+    "BattleGiveUp": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [52, 28, 54, 53],
+        "next": ["BattleGiveUpConfirm"]
+    },
+    "BattleGiveUpConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["放弃", "行动"],
+        "roi": [813, 538, 294, 74],
+        "next": ["BattleGiveUpMissionFailed"]
+    },
+    "BattleGiveUpMissionFailed": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [0, 0, 1280, 720]
+    },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
         "action": "ClickRect",

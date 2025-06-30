@@ -157,6 +157,7 @@ public class CopilotModel : CopilotBase
         /// <item>"Output" - 打印</item>
         /// <item>"SkillDaemon" - 摆完挂机</item>
         /// <item>"MoveCamera" - 移动镜头</item>
+        /// <item>"GiveUp" - 放弃行动</item>
         /// </list>
         /// </summary>
         [JsonProperty("type")]
