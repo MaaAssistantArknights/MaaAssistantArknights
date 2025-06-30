@@ -21,6 +21,7 @@ public:
     std::shared_ptr<Controller> ctrler() const;
     std::shared_ptr<Status> status() const;
     bool need_exit() const;
+    bool is_restarting() const;
     bool sleep(unsigned millisecond) const;
 
     Assistant* inst() noexcept;
