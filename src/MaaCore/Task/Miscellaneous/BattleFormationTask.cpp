@@ -440,6 +440,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     int skill = 0;
+    int module = -1;
+    bool ret = true;
     for (const auto& res :
          opers_result | views::filter([](const QuickFormationOper& oper) { return !oper.is_selected; })) {
         const std::string& name = res.text;
@@ -450,6 +452,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
+                    module = oper.requirements.module;
 
                     m_opers_in_formation->emplace(name, iter->first);
                     ++m_size_of_operators_in_formation;
@@ -472,6 +475,19 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                 ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
             }
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
+            sleep(delay);
+        }
+        if (module >= 0 && module <= 4) {
+            ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
+            ret = ret && ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(module) }).run();
+            if (!ret) {
+                LogError << __FUNCTION__ << "| Module " << std::to_string(module)
+                         << "not found, please check the module number";
+                ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
+                sleep(delay);
+                // 继续检查同组其他干员
+                continue;
+            }
             sleep(delay);
         }
         auto group_name = iter->first;
