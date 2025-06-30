@@ -740,9 +740,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的干员</system:String>
-    <system:String x:Key="AddTrust">补充低信赖干员</system:String>
+    <system:String x:Key="AddTrust">追加低信赖</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="ContinueWhenMissingOperators">缺少干员时仍然追加或补充低信赖干员</system:String>
+    <system:String x:Key="ContinueWhenMissingOperatorsTip">当作业中的一些干员不在当前帐号时，仍然添加已有的干员，并追加自定义干员和低信赖干员</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支持跨章节导航。仅支持:

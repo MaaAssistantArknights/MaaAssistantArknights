@@ -225,6 +225,21 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useSanityPotion, value);
         }
 
+        private bool _continueWhenMissingOperators = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotContinueWhenMissingOperators, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to continue adding operators when missing required operators.
+        /// </summary>
+        public bool ContinueWhenMissingOperators
+        {
+            get => _continueWhenMissingOperators;
+            set
+            {
+                SetAndNotify(ref _continueWhenMissingOperators, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotContinueWhenMissingOperators, value.ToString());
+            }
+        }
+
         private bool _addUserAdditional = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, bool.FalseString));
 
         /// <summary>
@@ -1192,6 +1207,7 @@ namespace MaaWpfGui.ViewModels.UI
                          IsRaid = model.IsRaid,
                          LoopTimes = Loop ? LoopTimes : 1,
                          UseSanityPotion = _useSanityPotion,
+                         ContinueWhenMissingOperators = _continueWhenMissingOperators,
                      };
                      var (type, param) = task.Serialize();
                      return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
@@ -1232,6 +1248,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
+                    ContinueWhenMissingOperators = _continueWhenMissingOperators,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret &= Instances.AsstProxy.AsstStart();
