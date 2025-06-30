@@ -242,6 +242,7 @@ namespace MaaWpfGui.Constants
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
         public const string Stage3 = "MainFunction.Stage3";
+        public const string Stage4 = "MainFunction.Stage4";
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
         public const string UseStone = "MainFunction.UseStone";
