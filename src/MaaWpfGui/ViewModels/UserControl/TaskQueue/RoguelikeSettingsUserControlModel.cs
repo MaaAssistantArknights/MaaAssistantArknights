@@ -917,11 +917,25 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, (int)subTaskDetails["deposit"]!);
                 break;
 
+            // 肉鸽结算
             case "RoguelikeSettlement":
-                {// 肉鸽结算
+                {
                     var report = subTaskDetails;
                     var pass = (bool)report!["game_pass"]!;
                     var difficulty = report["difficulty"]?.ToObject<int>() ?? -1;
+                    if (difficulty < 0 || difficulty > GetMaxDifficultyForTheme(RoguelikeTheme))
+                    {
+                        // 最后一位是 0 可能是识别错了，打个补丁
+                        if (difficulty % 10 == 0)
+                        {
+                            difficulty /= 10;
+                        }
+                        else
+                        {
+                            difficulty = -1;
+                        }
+                    }
+
                     var roguelikeInfo = string.Format(
                         LocalizationHelper.GetString("RoguelikeSettlement"),
                         pass ? "✓" : "✗",
