@@ -696,7 +696,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                             : -1 },
                   } },
             };
-            if (m_screencap_cost.size() - filtered_count > 0) {
+            if (m_screencap_cost.size() > filtered_count) {
                 info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
             }
             callback(AsstMsg::ConnectionInfo, info);
