@@ -1,4 +1,13 @@
 {
+    "HS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["HS-OpenOcr", "HS-Open"]
+    },
+    "HS-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["HSChapterToHS"]
+    },
     "HS-9": {
         "sub": ["HS-OpenOpt"]
     },
@@ -10,15 +19,6 @@
     },
     "HS-5": {
         "sub": ["HS-OpenOpt"]
-    },
-    "HS-OpenOpt": {
-        "algorithm": "JustReturn",
-        "next": ["HS-OpenOcr", "HS-Open"]
-    },
-    "HS-Open": {
-        "baseTask": "SS-Open",
-        "template": ["StageSideStory.png", "StageActivity.png"],
-        "next": ["HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["회서리"]
