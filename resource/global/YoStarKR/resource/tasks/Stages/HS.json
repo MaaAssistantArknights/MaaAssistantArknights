@@ -1,4 +1,16 @@
 {
+    "HS-9": {
+        "sub": ["HS-OpenOpt"]
+    },
+    "HS-8": {
+        "sub": ["HS-OpenOpt"]
+    },
+    "HS-7": {
+        "sub": ["HS-OpenOpt"]
+    },
+    "HS-5": {
+        "sub": ["HS-OpenOpt"]
+    },
     "HS-OpenOpt": {
         "algorithm": "JustReturn",
         "next": ["HS-OpenOcr", "HS-Open"]
