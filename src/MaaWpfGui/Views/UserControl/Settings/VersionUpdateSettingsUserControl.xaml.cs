@@ -88,7 +88,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 {
                     try
                     {
-                        Clipboard.SetData(DataFormats.UnicodeText, text);
+                        System.Windows.Forms.Clipboard.SetDataObject(text, true);
                     }
                     catch (Exception e)
                     {

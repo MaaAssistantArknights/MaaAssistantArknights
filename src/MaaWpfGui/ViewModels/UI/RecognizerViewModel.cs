@@ -469,7 +469,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void ExportToArkplanner()
         {
-            Clipboard.SetDataObject(ArkPlannerResult);
+            System.Windows.Forms.Clipboard.SetDataObject(ArkPlannerResult);
             DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
@@ -480,7 +480,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void ExportToLolicon()
         {
-            Clipboard.SetDataObject(LoliconResult);
+            System.Windows.Forms.Clipboard.SetDataObject(LoliconResult);
             DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
@@ -724,7 +724,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxHaveList.Concat(OperBoxNotHaveList), Formatting.Indented));
+            System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxHaveList.Concat(OperBoxNotHaveList), Formatting.Indented));
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
