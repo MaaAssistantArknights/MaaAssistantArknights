@@ -17,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace MaaWpfGui.Styles.Properties
+namespace MaaWpfGui.Extensions.UIBehaviors
 {
     public static class ClipboardInterceptor
     {
@@ -121,7 +121,7 @@ namespace MaaWpfGui.Styles.Properties
             {
                 var pasteText = System.Windows.Forms.Clipboard.GetText();
 
-                int start = tb.SelectionStart;
+                var start = tb.SelectionStart;
 
                 tb.SelectedText = pasteText;
                 tb.CaretIndex = start + pasteText.Length;
