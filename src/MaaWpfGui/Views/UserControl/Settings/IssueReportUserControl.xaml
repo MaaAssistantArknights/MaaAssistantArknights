@@ -18,18 +18,27 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length > 0', Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}">
+        <StackPanel
+            MaxWidth="450"
+            HorizontalAlignment="Center"
+            Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length > 0',
+                                   Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}">
             <controls:TextBlock Text="{Binding NewVersionFoundInfo, Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewVersionFoundInfo.Length > 0', Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
             <controls:TextBlock Text="{Binding NewResourceFoundInfo, Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" Visibility="{c:Binding 'NewResourceFoundInfo.Length > 0', Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
             <controls:TextBlock
                 Margin="5,0,5,5"
                 HorizontalAlignment="Center"
-                Text="{DynamicResource CheckUpdateBeforeReportingIssue}" />
+                Block.TextAlignment="Center"
+                Text="{DynamicResource CheckUpdateBeforeReportingIssue}"
+                TextWrapping="Wrap" />
         </StackPanel>
         <controls:TextBlock
+            MaxWidth="450"
             Margin="5"
             HorizontalAlignment="Center"
+            Block.TextAlignment="Center"
             Text="{DynamicResource CheckHelpBeforeReportingIssue}"
+            TextWrapping="Wrap"
             Visibility="{c:Binding 'NewVersionFoundInfo.Length + NewResourceFoundInfo.Length == 0',
                                    Source={x:Static ui:SettingsViewModel.VersionUpdateSettings}}" />
         <Grid>
