@@ -4,6 +4,10 @@
         "template": ["StageSideStory.png", "StageActivity.png"],
         "next": ["HSChapterToHS"]
     },
+    "HS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["HS-OpenOcr", "HS-Open"]
+    },
     "HS-9": {
         "sub": ["HS-OpenOpt"]
     },
@@ -15,10 +19,6 @@
     },
     "HS-5": {
         "sub": ["HS-OpenOpt"]
-    },
-    "HS-OpenOpt": {
-        "algorithm": "JustReturn",
-        "next": ["HS-OpenOcr", "HS-Open"]
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
