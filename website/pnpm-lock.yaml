@@ -22,7 +22,7 @@ importers:
         version: 2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0)
       '@vuepress/plugin-docsearch':
         specifier: 2.0.0-rc.109
-        version: 2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
+        version: 2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
       '@vuepress/plugin-google-analytics':
         specifier: 2.0.0-rc.107
         version: 2.0.0-rc.107(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
@@ -43,7 +43,7 @@ importers:
         version: 2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))
       vuepress-theme-hope:
         specifier: 2.0.0-rc.93
-        version: 2.0.0-rc.93(@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))))(hls.js@1.5.20)(markdown-it@14.1.0)(sass-embedded@1.89.2)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
+        version: 2.0.0-rc.93(@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))))(hls.js@1.5.20)(markdown-it@14.1.0)(sass-embedded@1.89.2)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
 
   apps/web:
     dependencies:
@@ -58,13 +58,13 @@ importers:
         version: 6.41.0
       '@react-three/drei':
         specifier: ^10.4.2
-        version: 10.4.2(@react-three/fiber@9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/react@18.3.18)(@types/three@0.163.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
+        version: 10.4.2(@react-three/fiber@9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/react@19.1.8)(@types/three@0.177.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
       '@react-three/fiber':
         specifier: ^9.1.4
-        version: 9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
+        version: 9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
       '@react-three/postprocessing':
         specifier: ^3.0.4
-        version: 3.0.4(@react-three/fiber@9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/three@0.163.0)(react@19.1.0)(three@0.177.0)
+        version: 3.0.4(@react-three/fiber@9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/three@0.177.0)(react@19.1.0)(three@0.177.0)
       '@sentry/react':
         specifier: ^9.34.0
         version: 9.34.0(react@19.1.0)
@@ -112,14 +112,14 @@ importers:
         specifier: ^20.17.16
         version: 20.17.16
       '@types/react':
-        specifier: ^18.3.18
-        version: 18.3.18
+        specifier: ^19.1.0
+        version: 19.1.8
       '@types/react-dom':
-        specifier: ^18.3.5
-        version: 18.3.5(@types/react@18.3.18)
+        specifier: ^19.1.0
+        version: 19.1.6(@types/react@19.1.8)
       '@types/three':
-        specifier: ^0.163.0
-        version: 0.163.0
+        specifier: ^0.177.0
+        version: 0.177.0
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.1.6(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(sass@1.77.8)(yaml@2.7.0))
@@ -318,6 +318,9 @@ packages:
 
   '@bufbuild/protobuf@2.6.0':
     resolution: {integrity: sha512-6cuonJVNOIL7lTj5zgo/Rc2bKAo4/GvN+rKCrUj7GdEHRzCk8zKOfFwUsL9nAVk5rSIsRmlgcpLzTRysopEeeg==}
+
+  '@dimforge/rapier3d-compat@0.12.0':
+    resolution: {integrity: sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow==}
 
   '@docsearch/css@3.9.0':
     resolution: {integrity: sha512-cQbnVbq0rrBwNAKegIac/t6a8nWoUAn8frnkLFW6YARaRmAQr5/Eoe6Ln2fqkUCZ40KpdrKbpSAmgrkviOxuWA==}
@@ -1333,21 +1336,18 @@ packages:
   '@types/offscreencanvas@2019.7.3':
     resolution: {integrity: sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==}
 
-  '@types/prop-types@15.7.14':
-    resolution: {integrity: sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==}
-
-  '@types/react-dom@18.3.5':
-    resolution: {integrity: sha512-P4t6saawp+b/dFrUr2cvkVsfvPguwsxtH6dNIYRllMsefqFzkZk5UIjzyDOv5g1dXIPdG4Sp1yCR4Z6RCUsG/Q==}
+  '@types/react-dom@19.1.6':
+    resolution: {integrity: sha512-4hOiT/dwO8Ko0gV1m/TJZYk3y0KBnY9vzDh7W+DH17b2HFSOGgdj33dhihPeuy3l0q23+4e+hoXHV6hCC4dCXw==}
     peerDependencies:
-      '@types/react': ^18.0.0
+      '@types/react': ^19.0.0
 
   '@types/react-reconciler@0.28.9':
     resolution: {integrity: sha512-HHM3nxyUZ3zAylX8ZEyrDNd2XZOnQ0D5XfunJF5FLQnZbHHYq4UWvW1QfelQNXv1ICNkwYhfxjwfnqivYB6bFg==}
     peerDependencies:
       '@types/react': '*'
 
-  '@types/react@18.3.18':
-    resolution: {integrity: sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==}
+  '@types/react@19.1.8':
+    resolution: {integrity: sha512-AwAfQ2Wa5bCx9WP8nZL2uMZWod7J7/JSplxbTmBQ5ms6QpqNYm672H0Vu9ZVKVngQ+ii4R/byguVEUZQyeg44g==}
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
@@ -1355,8 +1355,8 @@ packages:
   '@types/stats.js@0.17.3':
     resolution: {integrity: sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==}
 
-  '@types/three@0.163.0':
-    resolution: {integrity: sha512-uIdDhsXRpQiBUkflBS/i1l3JX14fW6Ot9csed60nfbZNXHDTRsnV2xnTVwXcgbvTiboAR4IW+t+lTL5f1rqIqA==}
+  '@types/three@0.177.0':
+    resolution: {integrity: sha512-/ZAkn4OLUijKQySNci47lFO+4JLE1TihEjsGWPUT+4jWqxtwOPPEwJV1C3k5MEx0mcBPCdkFjzRzDOnHEI1R+A==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -1725,6 +1725,9 @@ packages:
     resolution: {integrity: sha512-K7GrQIxJ/ANtucxIXbQlUHdB0TPA8c+q5i+zbrjxuhJCnJ9GtBg75sBSnvmLSxHKPg2Yo8w62PWksl9kwH0Q8g==}
     peerDependencies:
       vue: ^3.5.0
+
+  '@webgpu/types@0.1.63':
+    resolution: {integrity: sha512-s9Kuh0nE/2+nKrvmKNMB2fE5Zlr3DL2t3OFKM55v5jRcfCOxbkOHhQoshoFum5mmXIfEtRXtLCWmkeTJsVjE9w==}
 
   '@xobotyi/scrollbar-width@1.9.5':
     resolution: {integrity: sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==}
@@ -4487,11 +4490,13 @@ snapshots:
 
   '@bufbuild/protobuf@2.6.0': {}
 
+  '@dimforge/rapier3d-compat@0.12.0': {}
+
   '@docsearch/css@3.9.0': {}
 
-  '@docsearch/js@3.9.0(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)':
+  '@docsearch/js@3.9.0(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)':
     dependencies:
-      '@docsearch/react': 3.9.0(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
+      '@docsearch/react': 3.9.0(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
       preact: 10.22.1
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -4500,14 +4505,14 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/react@3.9.0(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)':
+  '@docsearch/react@3.9.0(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)':
     dependencies:
       '@algolia/autocomplete-core': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)(search-insights@2.15.0)
       '@algolia/autocomplete-preset-algolia': 1.17.9(@algolia/client-search@5.20.0)(algoliasearch@5.20.0)
       '@docsearch/css': 3.9.0
       algoliasearch: 5.20.0
     optionalDependencies:
-      '@types/react': 18.3.18
+      '@types/react': 19.1.8
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       search-insights: 2.15.0
@@ -5013,32 +5018,32 @@ snapshots:
 
   '@pkgr/core@0.2.7': {}
 
-  '@react-three/drei@10.4.2(@react-three/fiber@9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/react@18.3.18)(@types/three@0.163.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)':
+  '@react-three/drei@10.4.2(@react-three/fiber@9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/react@19.1.8)(@types/three@0.177.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)':
     dependencies:
       '@babel/runtime': 7.26.7
       '@mediapipe/tasks-vision': 0.10.17
       '@monogrid/gainmap-js': 3.1.0(three@0.177.0)
-      '@react-three/fiber': 9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
+      '@react-three/fiber': 9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
       '@use-gesture/react': 10.3.1(react@19.1.0)
       camera-controls: 2.9.0(three@0.177.0)
       cross-env: 7.0.3
       detect-gpu: 5.0.67
       glsl-noise: 0.0.0
       hls.js: 1.5.20
-      maath: 0.10.8(@types/three@0.163.0)(three@0.177.0)
+      maath: 0.10.8(@types/three@0.177.0)(three@0.177.0)
       meshline: 3.3.1(three@0.177.0)
       react: 19.1.0
-      stats-gl: 2.4.2(@types/three@0.163.0)(three@0.177.0)
+      stats-gl: 2.4.2(@types/three@0.177.0)(three@0.177.0)
       stats.js: 0.17.0
       suspend-react: 0.1.3(react@19.1.0)
       three: 0.177.0
       three-mesh-bvh: 0.8.3(three@0.177.0)
       three-stdlib: 2.35.13(three@0.177.0)
       troika-three-text: 0.52.4(three@0.177.0)
-      tunnel-rat: 0.1.2(@types/react@18.3.18)(react@19.1.0)
+      tunnel-rat: 0.1.2(@types/react@19.1.8)(react@19.1.0)
       use-sync-external-store: 1.4.0(react@19.1.0)
       utility-types: 3.11.0
-      zustand: 5.0.3(@types/react@18.3.18)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0))
+      zustand: 5.0.3(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0))
     optionalDependencies:
       react-dom: 19.1.0(react@19.1.0)
     transitivePeerDependencies:
@@ -5046,14 +5051,14 @@ snapshots:
       - '@types/three'
       - immer
 
-  '@react-three/fiber@9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)':
+  '@react-three/fiber@9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)':
     dependencies:
       '@babel/runtime': 7.26.7
-      '@types/react-reconciler': 0.28.9(@types/react@18.3.18)
+      '@types/react-reconciler': 0.28.9(@types/react@19.1.8)
       '@types/webxr': 0.5.21
       base64-js: 1.5.1
       buffer: 6.0.3
-      its-fine: 2.0.0(@types/react@18.3.18)(react@19.1.0)
+      its-fine: 2.0.0(@types/react@19.1.8)(react@19.1.0)
       react: 19.1.0
       react-reconciler: 0.31.0(react@19.1.0)
       react-use-measure: 2.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -5061,17 +5066,17 @@ snapshots:
       suspend-react: 0.1.3(react@19.1.0)
       three: 0.177.0
       use-sync-external-store: 1.4.0(react@19.1.0)
-      zustand: 5.0.3(@types/react@18.3.18)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0))
+      zustand: 5.0.3(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0))
     optionalDependencies:
       react-dom: 19.1.0(react@19.1.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@react-three/postprocessing@3.0.4(@react-three/fiber@9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/three@0.163.0)(react@19.1.0)(three@0.177.0)':
+  '@react-three/postprocessing@3.0.4(@react-three/fiber@9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0))(@types/three@0.177.0)(react@19.1.0)(three@0.177.0)':
     dependencies:
-      '@react-three/fiber': 9.1.4(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
-      maath: 0.6.0(@types/three@0.163.0)(three@0.177.0)
+      '@react-three/fiber': 9.1.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(three@0.177.0)
+      maath: 0.6.0(@types/three@0.177.0)(three@0.177.0)
       n8ao: 1.9.4(postprocessing@6.37.4(three@0.177.0))(three@0.177.0)
       postprocessing: 6.37.4(three@0.177.0)
       react: 19.1.0
@@ -5307,19 +5312,16 @@ snapshots:
 
   '@types/offscreencanvas@2019.7.3': {}
 
-  '@types/prop-types@15.7.14': {}
-
-  '@types/react-dom@18.3.5(@types/react@18.3.18)':
+  '@types/react-dom@19.1.6(@types/react@19.1.8)':
     dependencies:
-      '@types/react': 18.3.18
+      '@types/react': 19.1.8
 
-  '@types/react-reconciler@0.28.9(@types/react@18.3.18)':
+  '@types/react-reconciler@0.28.9(@types/react@19.1.8)':
     dependencies:
-      '@types/react': 18.3.18
+      '@types/react': 19.1.8
 
-  '@types/react@18.3.18':
+  '@types/react@19.1.8':
     dependencies:
-      '@types/prop-types': 15.7.14
       csstype: 3.1.3
 
   '@types/sax@1.2.7':
@@ -5328,11 +5330,13 @@ snapshots:
 
   '@types/stats.js@0.17.3': {}
 
-  '@types/three@0.163.0':
+  '@types/three@0.177.0':
     dependencies:
+      '@dimforge/rapier3d-compat': 0.12.0
       '@tweenjs/tween.js': 23.1.3
       '@types/stats.js': 0.17.3
       '@types/webxr': 0.5.21
+      '@webgpu/types': 0.1.63
       fflate: 0.8.2
       meshoptimizer: 0.18.1
 
@@ -5645,11 +5649,11 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))':
+  '@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))':
     dependencies:
       '@docsearch/css': 3.9.0
-      '@docsearch/js': 3.9.0(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
-      '@docsearch/react': 3.9.0(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
+      '@docsearch/js': 3.9.0(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
+      '@docsearch/react': 3.9.0(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)
       '@vuepress/helper': 2.0.0-rc.109(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
       '@vueuse/core': 13.5.0(vue@3.5.17(typescript@4.9.5))
       ts-debounce: 4.0.0
@@ -5955,6 +5959,8 @@ snapshots:
   '@vueuse/shared@13.5.0(vue@3.5.17(typescript@4.9.5))':
     dependencies:
       vue: 3.5.17(typescript@4.9.5)
+
+  '@webgpu/types@0.1.63': {}
 
   '@xobotyi/scrollbar-width@1.9.5': {}
 
@@ -7148,9 +7154,9 @@ snapshots:
       has-symbols: 1.1.0
       set-function-name: 2.0.2
 
-  its-fine@2.0.0(@types/react@18.3.18)(react@19.1.0):
+  its-fine@2.0.0(@types/react@19.1.8)(react@19.1.0):
     dependencies:
-      '@types/react-reconciler': 0.28.9(@types/react@18.3.18)
+      '@types/react-reconciler': 0.28.9(@types/react@19.1.8)
       react: 19.1.0
     transitivePeerDependencies:
       - '@types/react'
@@ -7267,14 +7273,14 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  maath@0.10.8(@types/three@0.163.0)(three@0.177.0):
+  maath@0.10.8(@types/three@0.177.0)(three@0.177.0):
     dependencies:
-      '@types/three': 0.163.0
+      '@types/three': 0.177.0
       three: 0.177.0
 
-  maath@0.6.0(@types/three@0.163.0)(three@0.177.0):
+  maath@0.6.0(@types/three@0.177.0)(three@0.177.0):
     dependencies:
-      '@types/three': 0.163.0
+      '@types/three': 0.177.0
       three: 0.177.0
 
   magic-string@0.30.17:
@@ -8047,9 +8053,9 @@ snapshots:
       stack-generator: 2.0.10
       stacktrace-gps: 3.1.2
 
-  stats-gl@2.4.2(@types/three@0.163.0)(three@0.177.0):
+  stats-gl@2.4.2(@types/three@0.177.0)(three@0.177.0):
     dependencies:
-      '@types/three': 0.163.0
+      '@types/three': 0.177.0
       three: 0.177.0
 
   stats.js@0.17.0: {}
@@ -8271,9 +8277,9 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tunnel-rat@0.1.2(@types/react@18.3.18)(react@19.1.0):
+  tunnel-rat@0.1.2(@types/react@19.1.8)(react@19.1.0):
     dependencies:
-      zustand: 4.5.6(@types/react@18.3.18)(react@19.1.0)
+      zustand: 4.5.6(@types/react@19.1.8)(react@19.1.0)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -8525,7 +8531,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  vuepress-theme-hope@2.0.0-rc.93(@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))))(hls.js@1.5.20)(markdown-it@14.1.0)(sass-embedded@1.89.2)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))):
+  vuepress-theme-hope@2.0.0-rc.93(@vuepress/plugin-docsearch@2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))))(hls.js@1.5.20)(markdown-it@14.1.0)(sass-embedded@1.89.2)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5))):
     dependencies:
       '@vuepress/helper': 2.0.0-rc.109(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
       '@vuepress/plugin-active-header-links': 2.0.0-rc.107(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
@@ -8568,7 +8574,7 @@ snapshots:
       vuepress-plugin-md-enhance: 2.0.0-rc.93(markdown-it@14.1.0)(sass-embedded@1.89.2)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
       vuepress-shared: 2.0.0-rc.90(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
     optionalDependencies:
-      '@vuepress/plugin-docsearch': 2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@18.3.18)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
+      '@vuepress/plugin-docsearch': 2.0.0-rc.109(@algolia/client-search@5.20.0)(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(search-insights@2.15.0)(typescript@4.9.5)(vuepress@2.0.0-rc.23(@vuepress/bundler-vite@2.0.0-rc.23(@types/node@20.17.16)(jiti@1.21.7)(sass-embedded@1.89.2)(typescript@4.9.5)(yaml@2.7.0))(typescript@4.9.5)(vue@3.5.17(typescript@4.9.5)))
       sass-embedded: 1.89.2
     transitivePeerDependencies:
       - '@vue/repl'
@@ -8714,16 +8720,16 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zustand@4.5.6(@types/react@18.3.18)(react@19.1.0):
+  zustand@4.5.6(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       use-sync-external-store: 1.4.0(react@19.1.0)
     optionalDependencies:
-      '@types/react': 18.3.18
+      '@types/react': 19.1.8
       react: 19.1.0
 
-  zustand@5.0.3(@types/react@18.3.18)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0)):
+  zustand@5.0.3(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.4.0(react@19.1.0)):
     optionalDependencies:
-      '@types/react': 18.3.18
+      '@types/react': 19.1.8
       react: 19.1.0
       use-sync-external-store: 1.4.0(react@19.1.0)
 
