@@ -73,10 +73,10 @@ namespace MaaWpfGui.Helper
             Save();
         }
 
-        public static void Set(HttpResponseMessage? response)
+        // UPDATE: 重定向会导致 uri 变成其他地址，导致存的 ETag 无法匹配原始地址，所以要传入原始地址
+        public static void Set(HttpResponseMessage? response, string uri)
         {
             var etag = response?.Headers.ETag?.Tag;
-            var uri = response?.RequestMessage?.RequestUri?.ToString();
             if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(etag))
             {
                 return;
