@@ -242,6 +242,7 @@ namespace MaaWpfGui.Helper
 
         public static string FormatResourceVersion(string? resourceVersion, DateTime resourceDateTime)
         {
+            resourceDateTime = resourceDateTime.ToLocalTime();
             return CustomCultureInfo.Name.ToLowerInvariant() switch
             {
                 "zh-cn" => $"{resourceVersion}{resourceDateTime:#MMdd}",

@@ -37,6 +37,7 @@ using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
@@ -237,6 +238,11 @@ namespace MaaWpfGui.Main
             }
         }
 
+        protected override void OnLaunch()
+        {
+            BadModules.CheckAndWarnBadInjectedModules();
+        }
+
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
@@ -319,8 +325,8 @@ namespace MaaWpfGui.Main
 
             // 以下是成就解锁逻辑
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
-            if ((DateTime.Now - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
-                (DateTime.Now - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
+            if ((DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
+                (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
             }

@@ -1,18 +1,24 @@
 {
     "HS-Open": {
-        "baseTask": "SS-Open"
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["HSChapterToHS"]
+    },
+    "HS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["HS-OpenOcr", "HS-Open"]
     },
     "HS-9": {
-        "sub": ["HS-Open", "HSChapterToHS"]
+        "sub": ["HS-OpenOpt"]
     },
     "HS-8": {
-        "sub": ["HS-Open", "HSChapterToHS"]
+        "sub": ["HS-OpenOpt"]
     },
     "HS-7": {
-        "sub": ["HS-Open", "HSChapterToHS"]
+        "sub": ["HS-OpenOpt"]
     },
     "HS-5": {
-        "sub": ["HS-Open", "HSChapterToHS"]
+        "sub": ["HS-OpenOpt"]
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]

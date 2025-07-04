@@ -166,7 +166,7 @@ namespace MaaWpfGui.Views.UI
 
             try
             {
-                Clipboard.SetDataObject(data, true);
+                System.Windows.Forms.Clipboard.SetDataObject(data, true);
             }
             catch
             {

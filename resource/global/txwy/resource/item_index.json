@@ -1079,6 +1079,14 @@
         "sortId": 10025,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_5601": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_5601.png",
+        "name": "尋訪數據契約",
+        "sortId": 10026,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1487,6 +1495,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act1collection_point_token": {
+        "classifyType": "NONE",
+        "description": "為了激勵前往舒巴特-阿爾薩蘭地區建設基地的外勤幹員，羅德島發放了一定量的特殊獎勵兌換點數。幹員憑藉兌換點數可兌換急需的物資。",
+        "icon": "act1collection_point_token.png",
+        "name": "“探索者”兌換點數",
+        "sortId": -10000,
+        "usage": "用於兌換相應的階段性活動獎勵。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",
@@ -1775,6 +1791,14 @@
         "sortId": -10000,
         "usage": "完成尖滅測試作戰後得到的報酬。可用於兌換補給品。"
     },
+    "act38side_token_ticket": {
+        "classifyType": "NONE",
+        "description": "神秘的匿名寄件者自稱“狂歡之主”，分不清是恐嚇還是玩笑。滲透信紙的殷紅並非某人的鮮血，而是醇香的美酒，似乎說明這邀請函也是與狂歡一同誕生的產物。",
+        "icon": "act38side_token_ticket.png",
+        "name": "匿名邀請函",
+        "sortId": -10000,
+        "usage": "匿名人士在狂歡節上散發的邀請函，憑此可以到城內各處的狂歡夜集市兌換豐厚禮品。放心，人們看到信函，一定會給予熱情招待。"
+    },
     "act3bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -1953,7 +1977,7 @@
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
-        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
+        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請藉此消耗掉多餘的卡路里。",
         "icon": "ap_supply_lt_60.png",
         "name": "緊急理智試劑",
         "sortId": 30003,
@@ -1961,7 +1985,7 @@
     },
     "ap_supply_lt_80": {
         "classifyType": "CONSUME",
-        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
+        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請藉此消耗掉多餘的卡路里。",
         "icon": "ap_supply_lt_80.png",
         "name": "緊急理智加強劑",
         "sortId": 30003,
@@ -2164,7 +2188,7 @@
         "description": "沒有人知道到底是誰掏的腰包，只有對羅德島滿懷希望的情感是真切的。",
         "icon": "randomDiamondShd_1.png",
         "name": "羅德島迎春紅包",
-        "sortId": 60111,
+        "sortId": 60112,
         "usage": "分發給羅德島全員的紅包，數額隨機，飽含著對新年的祝福。"
     },
     "randomDiamondShd_2": {
@@ -2172,7 +2196,7 @@
         "description": "沒有人知道到底是誰掏的腰包，只有對羅德島滿懷希望的情感是真切的。",
         "icon": "randomDiamondShd_2.png",
         "name": "慶典禮盒",
-        "sortId": 60112,
+        "sortId": 60113,
         "usage": "分發給羅德島全員的禮盒，數額隨機，飽含著慶典到來的喜悅。"
     },
     "randomMaterialRune_0": {
@@ -2359,12 +2383,20 @@
         "sortId": 60109,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_act38side": {
+        "classifyType": "CONSUME",
+        "description": "煙火籌委會為狂歡節特製的煙火桶也能直接用來包裝禮品，打開拿取物資時有極小可能會爆炸——當作驚喜禮盒吧。",
+        "icon": "randomMaterial_act38side.png",
+        "name": "狂歡煙火桶",
+        "sortId": 60115,
+        "usage": "裝有狂歡節上可能用到的各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
         "description": "“儘管內裡如心聲般各不相似，它們也足以成為你探尋真相的助力。跟隨尚未忘卻的迴響，你終會抓住那個答案。”",
         "icon": "randomMaterial_leith2.png",
         "name": "查訪補給",
-        "sortId": 60114,
+        "sortId": 60115,
         "usage": "不知何人將其交予你，裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_rhine2": {
@@ -2380,7 +2412,7 @@
         "description": "來自峯聯貿易的材料補給箱。供應商很高興能與大客戶合作，協同物流公司為您送來這些贈品。",
         "icon": "randomMaterial_siesta2.png",
         "name": "峯聯貿易物流補給",
-        "sortId": 60113,
+        "sortId": 60114,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "return_credit_token": {
