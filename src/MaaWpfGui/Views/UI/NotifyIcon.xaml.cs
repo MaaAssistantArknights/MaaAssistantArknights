@@ -118,7 +118,7 @@ namespace MaaWpfGui.Views.UI
 
             _clickTimer.Start();
             _canClick = false;
-            Instances.MainWindowManager?.SwitchWindowState();
+            Instances.MainWindowManager?.Show();
         }
 
         private static void StartTask(object sender, RoutedEventArgs e)
