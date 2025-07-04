@@ -57,7 +57,7 @@ namespace MaaWpfGui.Services.Web
 
                 await File.WriteAllTextAsync(cache, body);
 
-                ETagCache.Set(response);
+                ETagCache.Set(response, url);
 
                 return json;
             }

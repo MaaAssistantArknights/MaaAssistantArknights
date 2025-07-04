@@ -257,7 +257,7 @@ namespace MaaWpfGui.ViewModels.UI
                 DoNotRemindThisAnnouncementAgain = false;
             }
 
-            ETagCache.Set(response);
+            ETagCache.Set(response, url);
             ETagCache.Save();
         }
 
