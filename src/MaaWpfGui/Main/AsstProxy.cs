@@ -760,7 +760,8 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
-                        if (taskChain == "Fight" && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
+                        _tasksStatus.TryGetValue(taskId, out var value);
+                        if (value is { Type: TaskType.Fight } && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
                             if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
                             {
@@ -2060,6 +2061,7 @@ namespace MaaWpfGui.Main
             StartUp,
             CloseDown,
             Fight,
+            FightAnnihilationAlternate,
             FightRemainingSanity,
             Recruit,
             Infrast,
