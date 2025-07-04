@@ -231,6 +231,16 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
+                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                        <!--  a placeholder  -->
+                        <controls:TextBlock
+                            Margin="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text=""
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
                     <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
                         <controls:TextBlock
                             x:Name="RemainingSanityStageTextBlock"
@@ -287,6 +297,16 @@
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage3}"
                                 SelectedValuePath="Value" />
+                            <ComboBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                DisplayMemberPath="Display"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning,
+                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                ItemsSource="{Binding StageList}"
+                                SelectedValue="{Binding Stage4}"
+                                SelectedValuePath="Value" />
                         </StackPanel>
                         <ComboBox
                             Height="30"
@@ -335,6 +355,15 @@
                                 IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                              Source={x:Static helper:Instances.TaskQueueViewModel}}"
                                 Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="{DynamicResource CustomStageCodeTip}" />
+                            <TextBox
+                                Height="30"
+                                Margin="6"
+                                VerticalContentAlignment="Center"
+                                hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                IsHitTestVisible="{c:Binding !FightTaskRunning,
+                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                Text="{Binding Stage4, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                         </StackPanel>
                         <TextBox

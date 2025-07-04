@@ -378,7 +378,7 @@ bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, co
     REPARSE_MOUNTPOINT_DATA_BUFFER& ReparseBuffer = (REPARSE_MOUNTPOINT_DATA_BUFFER&)buf;
 
     // Prepare reparse point data
-    memset(buf, 0, sizeof(buf));
+    SecureZeroMemory(buf, sizeof(buf));
     ReparseBuffer.ReparseTag = IO_REPARSE_TAG_MOUNT_POINT;
     wcsncpy_s(ReparseBuffer.ReparseTarget, MAX_PATH + 1, nttarget.c_str(), MAX_PATH);
     ReparseBuffer.ReparseTargetMaximumLength = (WORD)((nttarget.size() + 1) * sizeof(WCHAR));

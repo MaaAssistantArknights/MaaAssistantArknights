@@ -871,6 +871,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var stage1 = FightTask.Stage1 ?? string.Empty;
                 var stage2 = FightTask.Stage2 ?? string.Empty;
                 var stage3 = FightTask.Stage3 ?? string.Empty;
+                var stage4 = FightTask.Stage4 ?? string.Empty;
                 var rss = FightTask.RemainingSanityStage ?? string.Empty;
 
                 var tempStageList = hideUnavailableStage
@@ -890,11 +891,12 @@ namespace MaaWpfGui.ViewModels.UI
                     stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
                     stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
                     stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
+                    stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
                 }
                 else if (FightTask.UseAlternateStage)
                 {
                     // 11%
-                    AddStagesIfNotExist([stage1, stage2, stage3], tempStageList);
+                    AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
                 }
                 else
                 {
@@ -904,6 +906,7 @@ namespace MaaWpfGui.ViewModels.UI
                     // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
                     stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
                     stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
+                    stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
                 }
 
                 // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
@@ -924,6 +927,7 @@ namespace MaaWpfGui.ViewModels.UI
                 FightTask.Stage1 = stage1;
                 FightTask.Stage2 = stage2;
                 FightTask.Stage3 = stage3;
+                FightTask.Stage4 = stage4;
                 FightTask.RemainingSanityStage = rss;
                 if (!FightTask.CustomStageCode)
                 {
@@ -1612,7 +1616,7 @@ namespace MaaWpfGui.ViewModels.UI
                     task.Stone = 0;
                     task.MaxTimes = int.MaxValue;
                     task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
                     break;
                 }
             }

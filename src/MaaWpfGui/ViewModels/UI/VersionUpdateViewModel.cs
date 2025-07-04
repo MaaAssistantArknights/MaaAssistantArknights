@@ -1133,7 +1133,6 @@ public class VersionUpdateViewModel : Screen
     /// <returns>操作成功返回 true，反之则返回 false</returns>
     private static async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
     {
-        _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
         try
         {
             return await Instances.HttpService.DownloadFileAsync(
@@ -1150,7 +1149,6 @@ public class VersionUpdateViewModel : Screen
 
     private static async Task<bool> DownloadFromMirrorChyan(string url, string filename)
     {
-        _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
         try
         {
             return await Instances.HttpService.DownloadFileAsync(
@@ -1180,13 +1178,25 @@ public class VersionUpdateViewModel : Screen
 
     private static bool _globalSource = true;
 
-    private static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
+    public static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
     {
         globalSource ??= _globalSource;
         _globalSource = globalSource.Value;
         if (_logItemViewModels == null)
         {
-            return;
+            try
+            {
+                _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
+            }
+            catch
+            {
+                return;
+            }
+
+            if (_logItemViewModels == null)
+            {
+                return;
+            }
         }
 
         string fullText;

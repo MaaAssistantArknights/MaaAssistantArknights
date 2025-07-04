@@ -561,13 +561,6 @@
         "action": "ClickSelf",
         "roi": [487, 600, 143, 120]
     },
-    "SideStoryReopen": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": ["复刻", "活动已开放"],
-        "roi": [0, 500, 500, 150],
-        "postDelay": 3000
-    },
     "StageQueue@CheckPrts": {
         "algorithm": "JustReturn",
         "maxTimes": 3,

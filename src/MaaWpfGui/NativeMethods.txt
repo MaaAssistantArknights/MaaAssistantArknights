@@ -24,3 +24,7 @@ TD_ERROR_ICON
 TD_WARNING_ICON
 TD_INFORMATION_ICON
 SHGetStockIconInfo
+
+//BadInjectedDllChecker
+GetModuleHandle
+GetModuleFileName
