@@ -1616,7 +1616,7 @@ namespace MaaWpfGui.ViewModels.UI
                     task.Stone = 0;
                     task.MaxTimes = int.MaxValue;
                     task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
+                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
                     break;
                 }
             }
