@@ -2083,6 +2083,7 @@ namespace MaaWpfGui.Main
         [
             TaskType.StartUp,
             TaskType.Fight,
+            TaskType.FightAnnihilationAlternate,
             TaskType.FightRemainingSanity,
             TaskType.Recruit,
             TaskType.Infrast,
