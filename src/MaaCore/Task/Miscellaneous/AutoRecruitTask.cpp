@@ -600,7 +600,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
 #ifdef ASST_DEBUG
-        to_report = true;
+        // to_report = true;
 #endif
         if (to_report) {
             upload_result(tag_ids, info["details"]);
@@ -611,8 +611,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // refresh
-        if (m_need_refresh && m_has_refresh && !has_special_tag && !(m_skip_robot && has_robot_tag) &&
-            (final_combination.min_level == 3 && !has_preferred_tag)) {
+        // clang-format off
+        if (m_need_refresh && m_has_refresh &&                               // 基础条件
+            !has_special_tag &&                                              // 5 星以上 tag 不刷新
+            !(m_skip_robot && has_robot_tag) &&                              // 手动确认 bot tag 不刷新
+            (final_combination.min_level == 3 &&!is_confirm_level_valid(3))) // 如果只有 3 星 tag 且不勾选确认 3 星，即使有倾向 tag 也应该刷新
+        // clang-format on
+        {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
