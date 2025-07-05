@@ -347,6 +347,7 @@
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
@@ -359,6 +360,7 @@
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
     <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
