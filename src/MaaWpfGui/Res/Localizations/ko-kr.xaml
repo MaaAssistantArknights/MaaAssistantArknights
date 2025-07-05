@@ -346,6 +346,7 @@
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">에뮬레이터 실행 파일 선택（｢{key=AdditionCommand}｣ 매개변수로 인스턴스 지정 가능） 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">바에서 바를 주문하고 싶습니까?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
@@ -358,6 +359,7 @@
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령（예: ｢--instance 1｣ 은 1 번 인스턴스）。&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다。</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
     <system:String x:Key="CopilotWithScript">자동지휘 시 스크립트 사용</system:String>
