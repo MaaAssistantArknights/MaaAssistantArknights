@@ -137,8 +137,7 @@ bool asst::InfrastTrainingTask::level_analyze(const cv::Mat& image)
 
 bool asst::InfrastTrainingTask::training_completed()
 {
-    ProcessTask task(*this, { "InfrastTrainingProcessing", "InfrastTrainingCompleted" });
-    return task.run() && task.get_last_task_name() == "InfrastTrainingCompleted";
+    return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
 }
 
 std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv::Mat& image)
