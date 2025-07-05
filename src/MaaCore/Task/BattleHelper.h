@@ -92,6 +92,7 @@ protected:
         int max_distance = INT_MAX,
         double radian = 0);
     bool move_camera(const std::pair<double, double>& delta);
+    bool give_up();
 
     std::string analyze_detail_page_oper_name(const cv::Mat& image);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;

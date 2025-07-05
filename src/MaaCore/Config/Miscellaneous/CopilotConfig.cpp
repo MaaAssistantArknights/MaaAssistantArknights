@@ -169,6 +169,13 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "GiveUp", ActionType::GiveUp },
+            { "giveup", ActionType::GiveUp },
+            { "GIVEUP", ActionType::GiveUp },
+            { "Giveup", ActionType::GiveUp },
+            { "放弃", ActionType::GiveUp },
+            { "放弃行动", ActionType::GiveUp },
+
             { "MoveCamera", ActionType::MoveCamera },
             { "movecamera", ActionType::MoveCamera },
             { "MOVECAMERA", ActionType::MoveCamera },
