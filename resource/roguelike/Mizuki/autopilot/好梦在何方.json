@@ -29,6 +29,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 7],
+            "direction": "up"
+        },
+        {
             "groups": ["挡人先锋"],
             "location": [10, 6],
             "direction": "left"
