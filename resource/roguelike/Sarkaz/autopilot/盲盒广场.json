@@ -1,0 +1,54 @@
+{
+    "stage_name": "盲盒广场",
+    "replacement_home": [
+        {
+            "location": [7, 6],
+            "direction": "left"
+        },
+        {
+            "location": [8, 6],
+            "direction": "left"
+        },
+        {
+            "location": [5, 4],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["投掷手"],
+            "location": [5, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [7, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [7, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "高台输出"],
+            "location": [8, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "高台输出"],
+            "location": [9, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [8, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [9, 6],
+            "direction": "left"
+        }
+    ]
+}
