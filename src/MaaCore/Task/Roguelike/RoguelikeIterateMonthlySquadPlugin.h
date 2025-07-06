@@ -20,7 +20,8 @@ private:
     std::unordered_map<std::string, int> monthlySquadCount = { { "Phantom", 8 },
                                                                { "Mizuki", 8 },
                                                                { "Sami", 8 },
-                                                               { "Sarkaz", 8 } };
+                                                               { "Sarkaz", 8 },
+                                                               { "JieGarden", 8 } };
     bool m_checkComms;
     bool m_completed;
     bool m_iterateMS;
