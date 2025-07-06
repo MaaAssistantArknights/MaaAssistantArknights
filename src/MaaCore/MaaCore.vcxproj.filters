@@ -187,6 +187,9 @@
     <None Include="..\..\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\base\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\base\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\tasks\Stages\AS.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
