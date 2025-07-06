@@ -187,6 +187,105 @@
     <None Include="..\..\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\base\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\tasks\Stages\AS.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\BB.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\BP.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\CF.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\CR.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\CV.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\CW.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\DH.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\DT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\DV.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\EA.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\EP.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\FC.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\GA.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\GO.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\GT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\HE.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\HS.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\IC.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\IS.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\IW.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\LE.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\NL.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\OD.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\OF.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\OR.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\PV.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\RS.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\SL.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\SN.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\Supplies.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\WB.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
+    <None Include="..\..\resource\tasks\Stages\ZT.json">
+      <Filter>Resource\tasks\base\Stages</Filter>
+    </None>
     <None Include="..\..\resource\global\txwy\resource\tasks\tasks.json">
       <Filter>Resource\tasks\txwy</Filter>
     </None>
@@ -244,6 +343,9 @@
     <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\YoStarEN\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\YoStarEN\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\global\YoStarJP\resource\tasks\tasks.json">
       <Filter>Resource\tasks\YoStarJP</Filter>
     </None>
@@ -274,6 +376,9 @@
     <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\YoStarJP\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\YoStarJP\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\tasks.json">
       <Filter>Resource\tasks\YoStarKR</Filter>
     </None>
@@ -290,6 +395,9 @@
       <Filter>Resource\tasks\YoStarKR\Roguelike</Filter>
     </None>
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Sarkaz.json">
+      <Filter>Resource\tasks\YoStarKR\Roguelike</Filter>
+    </None>
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\JieGarden.json">
       <Filter>Resource\tasks\YoStarKR\Roguelike</Filter>
     </None>
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\base.json">
