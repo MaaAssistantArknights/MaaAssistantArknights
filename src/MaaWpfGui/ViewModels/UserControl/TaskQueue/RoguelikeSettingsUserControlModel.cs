@@ -42,11 +42,24 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     public void InitRoguelike()
     {
+        GenerateRoguelikeThemeList();
         UpdateRoguelikeDifficultyList();
         UpdateRoguelikeModeList();
         UpdateRoguelikeSquadList();
 
         UpdateRoguelikeCoreCharList();
+    }
+
+    private void GenerateRoguelikeThemeList()
+    {
+        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom });
+        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki });
+        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
+        RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
+        if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
+        {
+            RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
+        }
     }
 
     private void UpdateRoguelikeDifficultyList()
@@ -105,6 +118,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             Theme.Mizuki => 18,
             Theme.Sami => 15,
             Theme.Sarkaz => 18,
+            Theme.JieGarden => 18,
             _ => 20,
         };
     }
@@ -323,14 +337,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the list of roguelike lists.
     /// </summary>
-    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = Theme.Phantom },
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki },
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami },
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz },
-            new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden },
-        ];
+    public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
 
     private Theme _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.Sarkaz);
 
