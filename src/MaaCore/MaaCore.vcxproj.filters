@@ -187,6 +187,9 @@
     <None Include="..\..\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\base\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\base\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\tasks\Stages\AS.json">
       <Filter>Resource\tasks\base\Stages</Filter>
     </None>
@@ -421,6 +424,9 @@
     <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\YoStarEN\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\global\YoStarEN\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\YoStarEN\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\global\YoStarEN\resource\tasks\Stages\AS.json">
       <Filter>Resource\tasks\YoStarEN\Stages</Filter>
     </None>
@@ -533,6 +539,9 @@
       <Filter>Resource\tasks\YoStarJP\Roguelike</Filter>
     </None>
     <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\Sarkaz.json">
+      <Filter>Resource\tasks\YoStarJP\Roguelike</Filter>
+    </None>
+    <None Include="..\..\resource\global\YoStarJP\resource\tasks\Roguelike\JieGarden.json">
       <Filter>Resource\tasks\YoStarJP\Roguelike</Filter>
     </None>
     <None Include="..\..\resource\global\YoStarJP\resource\tasks\Stages\AS.json">
@@ -688,6 +697,9 @@
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\Sarkaz.json">
       <Filter>Resource\tasks\YoStarKR\Roguelike</Filter>
     </None>
+    <None Include="..\..\resource\global\YoStarKR\resource\tasks\Roguelike\JieGarden.json">
+      <Filter>Resource\tasks\YoStarKR\Roguelike</Filter>
+    </None>
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\RA\base.json">
       <Filter>Resource\tasks\YoStarKR\RA</Filter>
     </None>
@@ -705,9 +717,6 @@
     </None>
     <None Include="..\..\resource\tasks\Stages\AD.json">
       <Filter>Resource\tasks\base\Stages</Filter>
-    </None>
-    <None Include="..\..\resource\tasks\Roguelike\JieGarden.json">
-      <Filter>Resource\tasks\base\Roguelike</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
