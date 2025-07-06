@@ -329,6 +329,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki },
             new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami },
             new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden },
         ];
 
     private Theme _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.Sarkaz);
