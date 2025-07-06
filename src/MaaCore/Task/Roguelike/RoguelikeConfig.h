@@ -16,6 +16,7 @@ public:
     static constexpr std::string_view Mizuki = "Mizuki";
     static constexpr std::string_view Sami = "Sami";
     static constexpr std::string_view Sarkaz = "Sarkaz";
+    static constexpr std::string_view JieGarden = "JieGarden";
 };
 
 enum class RoguelikeMode
@@ -79,7 +80,7 @@ public:
     static constexpr bool is_valid_theme(std::string_view theme)
     {
         return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami ||
-               theme == RoguelikeTheme::Sarkaz;
+               theme == RoguelikeTheme::Sarkaz || theme == RoguelikeTheme::JieGarden;
     }
 
     static constexpr bool is_valid_mode(RoguelikeMode mode, std::string_view theme = RoguelikeTheme::Sami)
