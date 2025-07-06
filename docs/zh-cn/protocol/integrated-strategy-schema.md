@@ -12,7 +12,7 @@ icon: ri:game-fill
 ## 肉鸽资源存放位置
 
 - `resource/roguelike/` 下按照主题存放各个肉鸽的作业资源
-  - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源, `Sami/` 为萨米肉鸽资源，`Sarkaz/` 为萨卡兹肉鸽资源
+  - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源, `Sami/` 为萨米肉鸽资源，`Sarkaz/` 为萨卡兹肉鸽资源，`JieGarden/` 为界园肉鸽资源
     - `autopilot/` 内是各个关卡的作战 json
       - `关卡名.json` 关卡的作战逻辑
     - `encounter/` 内是不期而遇类（所有非战斗和商店节点）事件逻辑
@@ -26,6 +26,10 @@ icon: ri:game-fill
   - `collapsal_paradigms.json` 表示萨米肉鸽坍缩范式的类型
   - `autopilot/关卡名_collapse.json` 关卡的作战逻辑（刷坍缩范式模式）
   - `encounter/collapse.json` 刷坍缩范式模式不期而遇逻辑
+
+- 在 `Sarkaz/` 下的
+  - `fragments.json` 存储了萨卡兹肉鸽思绪的基本信息
+  - `map.json` 存储了萨卡兹肉鸽蓝图过图的模板图片信息
 
 ## 肉鸽第一步——干员招募
 
