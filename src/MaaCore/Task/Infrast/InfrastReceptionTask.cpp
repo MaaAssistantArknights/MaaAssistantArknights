@@ -77,17 +77,13 @@ bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
 
 bool asst::InfrastReceptionTask::get_friend_clue()
 {
-    ProcessTask task_temp(
-        *this,
-        { "InfrastClueFriendNew", "ReceptionFlag" });
+    ProcessTask task_temp(*this, { "InfrastClueFriendNew", "ReceptionFlag" });
     return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
 }
 
 bool asst::InfrastReceptionTask::get_self_clue()
 {
-    ProcessTask task_temp(
-        *this,
-        { "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
+    ProcessTask task_temp(*this, { "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
     return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
 }
 
