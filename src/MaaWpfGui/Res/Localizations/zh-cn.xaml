@@ -1279,7 +1279,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>
     <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
-    <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">最小化到托盘后长时间不操作</system:String>
 
     <system:String x:Key="Achievement.MissionStartCount.Title">不离不弃</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
