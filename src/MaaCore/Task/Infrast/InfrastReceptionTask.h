@@ -22,7 +22,8 @@ private:
     // 收取信息板的周限300信用
     bool receive_message_board();
     bool close_end_of_clue_exchange();
-    bool get_clue();
+    bool get_friend_clue();
+    bool get_self_clue();
     bool use_clue();
     bool proc_clue_vacancy();
     bool unlock_clue_exchange();

@@ -30,11 +30,19 @@ bool asst::InfrastReceptionTask::_run()
 
     close_end_of_clue_exchange();
 
-    // 防止送线索把可以填入的送了
+    get_friend_clue();
+    if (need_exit()) {
+        return false;
+    }
+
     use_clue();
     back_to_reception_main();
 
-    get_clue();
+    if (need_exit()) {
+        return false;
+    }
+
+    get_self_clue();
     if (need_exit()) {
         return false;
     }
@@ -67,11 +75,19 @@ bool asst::InfrastReceptionTask::close_end_of_clue_exchange()
     return task_temp.run();
 }
 
-bool asst::InfrastReceptionTask::get_clue()
+bool asst::InfrastReceptionTask::get_friend_clue()
 {
     ProcessTask task_temp(
         *this,
-        { "InfrastClueSelfNew", "InfrastClueFriendNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
+        { "InfrastClueFriendNew", "ReceptionFlag" });
+    return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
+}
+
+bool asst::InfrastReceptionTask::get_self_clue()
+{
+    ProcessTask task_temp(
+        *this,
+        { "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
     return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
 }
 
