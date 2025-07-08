@@ -5417,6 +5417,168 @@
         "stageId": "act18side_tr02",
         "width": 9
     },
+    "act19mini_01#f#-activities/act19mini/level_act19mini_01": {
+        "code": "FM-1",
+        "filename": "act19mini_01#f#-activities-act19mini-level_act19mini_01.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_01",
+        "name": "求同则塞",
+        "stageId": "act19mini_01#f#",
+        "width": 11
+    },
+    "act19mini_01-activities/act19mini/level_act19mini_01": {
+        "code": "FM-1",
+        "filename": "act19mini_01-activities-act19mini-level_act19mini_01.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_01",
+        "name": "求同则塞",
+        "stageId": "act19mini_01",
+        "width": 11
+    },
+    "act19mini_02#f#-activities/act19mini/level_act19mini_02": {
+        "code": "FM-2",
+        "filename": "act19mini_02#f#-activities-act19mini-level_act19mini_02.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_02",
+        "name": "求异则悖",
+        "stageId": "act19mini_02#f#",
+        "width": 11
+    },
+    "act19mini_02-activities/act19mini/level_act19mini_02": {
+        "code": "FM-2",
+        "filename": "act19mini_02-activities-act19mini-level_act19mini_02.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_02",
+        "name": "求异则悖",
+        "stageId": "act19mini_02",
+        "width": 11
+    },
+    "act19mini_03#f#-activities/act19mini/level_act19mini_03": {
+        "code": "FM-3",
+        "filename": "act19mini_03#f#-activities-act19mini-level_act19mini_03.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_03",
+        "name": "求遐则失",
+        "stageId": "act19mini_03#f#",
+        "width": 11
+    },
+    "act19mini_03-activities/act19mini/level_act19mini_03": {
+        "code": "FM-3",
+        "filename": "act19mini_03-activities-act19mini-level_act19mini_03.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_03",
+        "name": "求遐则失",
+        "stageId": "act19mini_03",
+        "width": 11
+    },
+    "act19mini_04#f#-activities/act19mini/level_act19mini_04": {
+        "code": "FM-4",
+        "filename": "act19mini_04#f#-activities-act19mini-level_act19mini_04.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_04",
+        "name": "求迩则乱",
+        "stageId": "act19mini_04#f#",
+        "width": 12
+    },
+    "act19mini_04-activities/act19mini/level_act19mini_04": {
+        "code": "FM-4",
+        "filename": "act19mini_04-activities-act19mini-level_act19mini_04.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_04",
+        "name": "求迩则乱",
+        "stageId": "act19mini_04",
+        "width": 12
+    },
+    "act19mini_05#f#-activities/act19mini/level_act19mini_05": {
+        "code": "FM-5",
+        "filename": "act19mini_05#f#-activities-act19mini-level_act19mini_05.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_05",
+        "name": "求缓则迟",
+        "stageId": "act19mini_05#f#",
+        "width": 11
+    },
+    "act19mini_05-activities/act19mini/level_act19mini_05": {
+        "code": "FM-5",
+        "filename": "act19mini_05-activities-act19mini-level_act19mini_05.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_05",
+        "name": "求缓则迟",
+        "stageId": "act19mini_05",
+        "width": 11
+    },
+    "act19mini_06#f#-activities/act19mini/level_act19mini_06": {
+        "code": "FM-6",
+        "filename": "act19mini_06#f#-activities-act19mini-level_act19mini_06.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_06",
+        "name": "求速则贪",
+        "stageId": "act19mini_06#f#",
+        "width": 11
+    },
+    "act19mini_06-activities/act19mini/level_act19mini_06": {
+        "code": "FM-6",
+        "filename": "act19mini_06-activities-act19mini-level_act19mini_06.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_06",
+        "name": "求速则贪",
+        "stageId": "act19mini_06",
+        "width": 11
+    },
+    "act19mini_07#f#-activities/act19mini/level_act19mini_07": {
+        "code": "FM-7",
+        "filename": "act19mini_07#f#-activities-act19mini-level_act19mini_07.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_07",
+        "name": "求退则惘",
+        "stageId": "act19mini_07#f#",
+        "width": 11
+    },
+    "act19mini_07-activities/act19mini/level_act19mini_07": {
+        "code": "FM-7",
+        "filename": "act19mini_07-activities-act19mini-level_act19mini_07.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_07",
+        "name": "求退则惘",
+        "stageId": "act19mini_07",
+        "width": 11
+    },
+    "act19mini_08#f#-activities/act19mini/level_act19mini_08": {
+        "code": "FM-8",
+        "filename": "act19mini_08#f#-activities-act19mini-level_act19mini_08.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_08",
+        "name": "求进则愎",
+        "stageId": "act19mini_08#f#",
+        "width": 12
+    },
+    "act19mini_08-activities/act19mini/level_act19mini_08": {
+        "code": "FM-8",
+        "filename": "act19mini_08-activities-act19mini-level_act19mini_08.json",
+        "height": 8,
+        "levelId": "activities/act19mini/level_act19mini_08",
+        "name": "求进则愎",
+        "stageId": "act19mini_08",
+        "width": 12
+    },
+    "act19mini_s01-activities/act19mini/level_act19mini_sub-1-1": {
+        "code": "FM-S-1",
+        "filename": "act19mini_s01-activities-act19mini-level_act19mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_sub-1-1",
+        "name": "有求则苦",
+        "stageId": "act19mini_s01",
+        "width": 10
+    },
+    "act19mini_s02-activities/act19mini/level_act19mini_sub-2-1": {
+        "code": "FM-S-2",
+        "filename": "act19mini_s02-activities-act19mini-level_act19mini_sub-2-1.json",
+        "height": 7,
+        "levelId": "activities/act19mini/level_act19mini_sub-2-1",
+        "name": "莫向外求",
+        "stageId": "act19mini_s02",
+        "width": 10
+    },
     "act19side_01-activities/act19side/level_act19side_01": {
         "code": "DV-1",
         "filename": "act19side_01-activities-act19side-level_act19side_01.json",
@@ -22580,6 +22742,15 @@
         "stageId": "mem_quercu_1",
         "width": 10
     },
+    "mem_ray_1-obt/memory/level_memory_ray_1": {
+        "code": "mem_ray_1",
+        "filename": "mem_ray_1-obt-memory-level_memory_ray_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_ray_1",
+        "name": "沙地兽与弩",
+        "stageId": "mem_ray_1",
+        "width": 12
+    },
     "mem_robin_1-obt/memory/level_memory_robin_1": {
         "code": "mem_robin_1",
         "filename": "mem_robin_1-obt-memory-level_memory_robin_1.json",
@@ -22614,6 +22785,15 @@
         "levelId": "obt/memory/level_memory_rope_1",
         "name": "哎呀，人呢？",
         "stageId": "mem_rope_1",
+        "width": 11
+    },
+    "mem_saga_1-obt/memory/level_memory_saga_1": {
+        "code": "mem_saga_1",
+        "filename": "mem_saga_1-obt-memory-level_memory_saga_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_saga_1",
+        "name": "一心晦明",
+        "stageId": "mem_saga_1",
         "width": 11
     },
     "mem_savage_1-obt/memory/level_memory_savage_1": {
@@ -22948,6 +23128,15 @@
         "name": "乘风追击",
         "stageId": "mem_tiger_1",
         "width": 10
+    },
+    "mem_tinman_1-obt/memory/level_memory_tinman_1": {
+        "code": "mem_tinman_1",
+        "filename": "mem_tinman_1-obt-memory-level_memory_tinman_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_tinman_1",
+        "name": "“快餐派对”",
+        "stageId": "mem_tinman_1",
+        "width": 11
     },
     "mem_tknogi_1-obt/memory/level_memory_tknogi_1": {
         "code": "mem_tknogi_1",

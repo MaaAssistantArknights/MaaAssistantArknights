@@ -1041,8 +1041,8 @@
         "text": ["Done"]
     },
     "InfrastTrainingOperatorAndSkill": {
-        "roi": [152, 621, 341, 29],
         "text": [],
+        "roi": [152, 621, 341, 29],
         "ocrReplace": [
             ["^\\[", ""],
             ["\\]", "\n"],
