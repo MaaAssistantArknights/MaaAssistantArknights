@@ -27,76 +27,115 @@ namespace MaaWpfGui.Helper
     {
         private static readonly ILogger _logger = Log.ForContext<ETagCache>();
 
-        private static readonly string _cacheFile = Path.Combine(Environment.CurrentDirectory, "cache/etag.json");
-        private static Dictionary<string, string> _cache = [];
+        private static readonly string _etagFile = Path.Combine(Environment.CurrentDirectory, "cache/etag.json");
+        private static readonly string _lastModifiedFile = Path.Combine(Environment.CurrentDirectory, "cache/last_modified.json");
+        private static Dictionary<string, string> _etagCache = [];
+        private static Dictionary<string, DateTimeOffset> _lastModifiedCache = [];
 
         public static void Load()
         {
-            if (File.Exists(_cacheFile) is false)
+            // ETag
+            if (File.Exists(_etagFile))
             {
-                _cache = [];
-                return;
+                try
+                {
+                    var json = File.ReadAllText(_etagFile);
+                    _etagCache = JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? [];
+                }
+                catch (Exception e)
+                {
+                    _logger.Warning(e, "Failed to load ETag cache");
+                    _etagCache = [];
+                }
             }
 
-            try
+            // Last-Modified
+            if (File.Exists(_lastModifiedFile))
             {
-                var jsonStr = File.ReadAllText(_cacheFile);
-                _cache = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr) ?? [];
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e.Message);
+                try
+                {
+                    var json = File.ReadAllText(_lastModifiedFile);
+                    _lastModifiedCache = JsonConvert.DeserializeObject<Dictionary<string, DateTimeOffset>>(json) ?? [];
+                }
+                catch (Exception e)
+                {
+                    _logger.Warning(e, "Failed to load Last-Modified cache");
+                    _lastModifiedCache = [];
+                }
             }
         }
 
         public static void Save()
         {
-            var jsonStr = JsonConvert.SerializeObject(_cache);
-            File.WriteAllText(_cacheFile, jsonStr);
+            File.WriteAllText(_etagFile, JsonConvert.SerializeObject(_etagCache, Formatting.Indented));
+            File.WriteAllText(_lastModifiedFile, JsonConvert.SerializeObject(_lastModifiedCache, Formatting.Indented));
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public static string Get(string? url)
+        public static string GetETag(string? url) =>
+            url != null && _etagCache.TryGetValue(url, out var etag) ? etag : string.Empty;
+
+        public static DateTimeOffset? GetLastModified(string? url) =>
+            url != null && _lastModifiedCache.TryGetValue(url, out var lm) ? lm : null;
+
+        public static void SetETag(string url, string etag)
         {
-            if (url is null)
+            _etagCache[url] = etag;
+        }
+
+        public static void SetLastModified(string url, DateTimeOffset? dt)
+        {
+            if (dt.HasValue)
             {
-                return string.Empty;
+                _lastModifiedCache[url] = dt.Value;
             }
-
-            return _cache.TryGetValue(url, out string? ret) ? ret : string.Empty;
-        }
-
-        // ReSharper disable once MemberCanBePrivate.Global
-        public static void Set(string url, string etag)
-        {
-            _cache[url] = etag;
-            Save();
         }
 
         // UPDATE: 重定向会导致 uri 变成其他地址，导致存的 ETag 无法匹配原始地址，所以要传入原始地址
         public static void Set(HttpResponseMessage? response, string uri)
         {
-            var etag = response?.Headers.ETag?.Tag;
-            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(etag))
+            if (response == null || string.IsNullOrEmpty(uri))
             {
                 return;
             }
 
-            Set(uri, etag);
+            var etag = response.Headers.ETag?.Tag;
+            var lastModified = response.Content?.Headers?.LastModified;
+
+            if (!string.IsNullOrEmpty(etag))
+            {
+                SetETag(uri, etag);
+            }
+
+            if (lastModified.HasValue)
+            {
+                SetLastModified(uri, lastModified.Value);
+            }
+
+            Save();
         }
 
         public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
         {
-            var etag = force ? string.Empty : Get(url);
-            Dictionary<string, string> headers = new Dictionary<string, string>
+            var headers = new Dictionary<string, string>
             {
                 { "Accept", "application/octet-stream" },
                 { "Connection", "close" },
             };
 
-            if (!string.IsNullOrEmpty(etag))
+            if (!force)
             {
-                headers["If-None-Match"] = etag;
+                var etag = GetETag(url);
+                var lastModified = GetLastModified(url);
+
+                if (!string.IsNullOrEmpty(etag))
+                {
+                    headers["If-None-Match"] = etag;
+                }
+
+                if (lastModified.HasValue)
+                {
+                    headers["If-Modified-Since"] = lastModified.Value.ToUniversalTime().ToString("R");
+                }
             }
 
             try

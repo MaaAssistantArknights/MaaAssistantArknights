@@ -28,15 +28,19 @@ namespace MaaWpfGui.Extensions
             var uri = response?.RequestMessage?.RequestUri;
             var statusCode = response?.StatusCode.ToString();
             var etag = response?.Headers.ETag?.Tag;
+            var lastModified = response?.Content?.Headers?.LastModified?.ToString("R"); // RFC1123
 
             if (response != null && (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotModified))
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url} {Etag}", statusCode, method, uri?.GetLeftPart(uriPartial), etag);
+                _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {Etag}", statusCode, method, uri?.GetLeftPart(uriPartial), etag);
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
             }
         }
+
     }
 }
