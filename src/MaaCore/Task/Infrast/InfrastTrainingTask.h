@@ -35,6 +35,7 @@ private:
     int m_level;
     std::string m_operator_name;
     std::string m_skill_name;
+    cv::Mat m_skill_img;
     // asst::battle::Role m_operator_role;
 
     bool m_continue_training = false;

@@ -5,6 +5,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -30,9 +31,9 @@ bool asst::InfrastTrainingTask::_run()
 
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) { // 继续训练
         click_bottom_left_tab();
-        OCRer choose_skill_analyzer(ctrler()->get_image());
+        FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
-        choose_skill_analyzer.set_required({ m_skill_name });
+        choose_skill_analyzer.set_templ(m_skill_img);
         if (!choose_skill_analyzer.analyze()) {
             Log.error(__FUNCTION__, "choose skill failed");
             return false;
@@ -78,6 +79,8 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
     // '\n'前为干员名，'\n'后为技能名
     m_operator_name = raw_str.substr(0, separation_pos);
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
+    Rect roi = Task.get("InfrastTrainingSkillImg")->roi;
+    m_skill_img = image(make_rect<cv::Rect>(roi));
 
     // TODO: 根据角色职业增加换班功能
     // m_operator_role = BattleData.get_role(m_operator_name);
