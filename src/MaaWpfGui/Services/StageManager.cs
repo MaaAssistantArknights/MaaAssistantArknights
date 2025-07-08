@@ -65,7 +65,8 @@ namespace MaaWpfGui.Services
             // 清理旧的缓存文件
             const string CacheAllFileDownloadComplete = "cache/allFileDownloadComplete.json";
             const string LastUpdateTime = "cache/LastUpdateTime.json";
-            var filesToClean = new[] { CacheAllFileDownloadComplete, LastUpdateTime };
+            const string StageAndTasksUpdateTime = "cache/stageAndTasksUpdateTime.json";
+            var filesToClean = new[] { CacheAllFileDownloadComplete, LastUpdateTime, StageAndTasksUpdateTime };
 
             foreach (var file in filesToClean)
             {
@@ -82,10 +83,7 @@ namespace MaaWpfGui.Services
                 }
             }
 
-            const string StageAndTasksUpdateTime = "cache/stageAndTasksUpdateTime.json";
             MergePermanentAndActivityStages(await LoadWebStages());
-            var unixTimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-            await File.WriteAllTextAsync(StageAndTasksUpdateTime, GenerateJsonString("timestamp", new(unixTimestamp)));
 
             _ = Execute.OnUIThreadAsync(() =>
             {
@@ -98,17 +96,6 @@ namespace MaaWpfGui.Services
                 };
                 Growl.Info(growlInfo);
             });
-
-            return;
-
-            static string GenerateJsonString(string key, JValue value)
-            {
-                JObject json = new JObject
-                {
-                    [key] = value,
-                };
-                return JsonConvert.SerializeObject(json);
-            }
         }
 
         private static string GetClientType()
