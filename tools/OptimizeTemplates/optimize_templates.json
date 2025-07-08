@@ -4475,5 +4475,6 @@
     "YoStarEN/TaskDahuangCity": "898b17db8c8b5cd9cc1801c36a600e897cbedabe79001c8350af565703cb5164",
     "YoStarEN/TerminalDahuangCity": "8283af0f8f0b0b5a450b1f2bdfa24878e1fa1d36fa163c584d45ff3bce52140c",
     "resource/template/items/act5bossrush_milestone_point": "879cc87af19c4ad554077031c4b15dc251db3fd70691c67cbdb24daf577c937e",
-    "resource/template/items/act5bossrush_token_relic": "56d7a3a44e27723e77897c62511fc4ceb006b9d5203e8fb9d1ffa003c2c9ee6b"
+    "resource/template/items/act5bossrush_token_relic": "56d7a3a44e27723e77897c62511fc4ceb006b9d5203e8fb9d1ffa003c2c9ee6b",
+    "resource/template/items/act19mini_token_sweetie": "0780ab7eb3b1a3b63ba35479b5be96a78c4e691cfe85bdf8496cc848ec5f9d08"
 }
