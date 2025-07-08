@@ -3333,12 +3333,16 @@
             [" ", ""],
             ["·", ""],
             ["\\*", ""],
-            ["α", "a"],
-            ["β", "B"],
-            ["γ", "y"],
-            ["Y", "y"],
-            ["(;；)+", ""]
+            [";", ""],
+            ["；", ""],
+            ["[Aa]", "·α"],
+            ["[Bb]", "·β"],
+            ["[Yy]", "·γ"]
         ]
+    },
+    "InfrastTrainingSkillImg": {
+        "template": "empty.png",
+        "roi": [28, 558, 106, 108]
     },
     "InfrastTrainingLevel": {
         "template": "empty.png",
@@ -3353,18 +3357,9 @@
         "roi": [150, 645, 100, 40]
     },
     "InfrastTrainingChooseSkillRec": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "ocrReplace": [
-            [" ", ""],
-            ["·", ""],
-            ["\\*", ""],
-            ["α", "a"],
-            ["β", "B"],
-            ["γ", "y"],
-            ["Y", "y"],
-            ["(;；)+", ""]
-        ],
+        "algorithm": "FeatureMatch",
+        "template": "empty.png",
+        "count": 10,
         "roi": [470, 80, 145, 615]
     },
     "InfrastTrainingContinue1": {
