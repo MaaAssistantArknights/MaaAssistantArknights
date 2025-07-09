@@ -1,15 +1,15 @@
 {
     "Roguelike": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
