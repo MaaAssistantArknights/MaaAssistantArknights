@@ -33,7 +33,7 @@
             ["^Ch'en$", "陈"],
             ["^Thorns$", "棘刺"],
             ["^Specter$", "幽灵鲨"],
-            ["Nearl? the Radiant Kn?ight", "耀骑士临光"],
+            ["Nearl? the Rad?iant Kn?ight", "耀骑士临光"],
             ["^Lappland$", "拉普兰德"],
             ["Indra", "因陀罗"],
             ["Amiya", "阿米娅"],
@@ -1042,7 +1042,7 @@
     },
     "InfrastTrainingOperatorAndSkill": {
         "text": [],
-        "roi": [152, 621, 341, 29],
+        "roi": [152, 601, 341, 54],
         "ocrReplace": [
             ["^\\[", ""],
             ["\\]", "\n"],
@@ -1051,6 +1051,9 @@
             [" [Bb]$", " β"],
             [" [Yy]$", " γ"]
         ]
+    },
+    "InfrastTrainingTime": {
+        "roi": [155, 655, 95, 25]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
