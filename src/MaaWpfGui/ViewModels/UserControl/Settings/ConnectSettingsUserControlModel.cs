@@ -867,7 +867,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 {
                     Source = TestLinkImage,
                 },
-                WindowStartupLocation = WindowStartupLocation.Manual,
             };
             _imagePopupWindow.Loaded += (_, _) =>
             {

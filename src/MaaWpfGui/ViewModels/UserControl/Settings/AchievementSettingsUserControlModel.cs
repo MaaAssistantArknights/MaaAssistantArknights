@@ -115,10 +115,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     {
         if (_achievementsWindow is null)
         {
-            _achievementsWindow = new AchievementListWindow
-            {
-                WindowStartupLocation = WindowStartupLocation.Manual,
-            };
+            _achievementsWindow = new AchievementListWindow();
             _achievementsWindow.Loaded += (_, _) =>
             {
                 WindowManager.MoveWindowToRootCenter(_achievementsWindow);
