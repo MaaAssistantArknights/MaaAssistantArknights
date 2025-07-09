@@ -518,6 +518,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return;
                 }
 
+                if (value)
+                {
+                    Index = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress).ToString();
+                }
+
                 SetAndNotify(ref _manualSetIndex, value);
                 Instances.AsstProxy.Connected = false;
                 ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerManualSetIndex, value.ToString());
