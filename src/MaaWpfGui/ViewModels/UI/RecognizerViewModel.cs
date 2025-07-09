@@ -53,7 +53,7 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
-            _peepImageTimer.Elapsed += RefreshPeepImageAsync;
+            _peepImageTimer.Elapsed += PeepImageTimerElapsed;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
@@ -188,9 +188,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts calculation.
         /// </summary>
+        /// <returns>Task</returns>
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
-        public async void RecruitStartCalc()
+        public async Task RecruitStartCalc()
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -496,9 +497,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts depot recognition.
         /// </summary>
+        /// <returns>Task</returns>
         // xaml 中用到了
         // ReSharper disable once UnusedMember.Global
-        public async void StartDepot()
+        public async Task StartDepot()
         {
             _runningState.SetIdle(false);
             string errMsg = string.Empty;
@@ -692,9 +694,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 开始识别干员
         /// </summary>
+        /// <returns>Task</returns>
         /// xaml 中用到了
         /// ReSharper disable once UnusedMember.Global
-        public async void StartOperBox()
+        public async Task StartOperBox()
         {
             _tempOperHaveSet = [];
             OperBoxHaveList = [];
@@ -745,16 +748,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         // xaml 中用到了
         // ReSharper disable once UnusedMember.Global
-        public void GachaOnce()
+        public async Task GachaOnce()
         {
-            StartGacha();
+            await StartGacha();
         }
 
         // xaml 中用到了
         // ReSharper disable once UnusedMember.Global
-        public void GachaTenTimes()
+        public async Task GachaTenTimes()
         {
-            StartGacha(false);
+            await StartGacha(false);
         }
 
         private bool _isGachaInProgress;
@@ -776,7 +779,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public async void StartGacha(bool once = true)
+        public async Task StartGacha(bool once = true)
         {
             _runningState.SetIdle(false);
 
@@ -795,7 +798,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             RefreshGachaTip(null, null);
             IsGachaInProgress = true;
-            Peep();
+            _ = Peep();
         }
 
         private void RefreshGachaTip(object? sender, EventArgs? e)
@@ -953,7 +956,19 @@ namespace MaaWpfGui.ViewModels.UI
         private static int _peepImageSemaphoreFailCount = 0;
         private static readonly SemaphoreSlim _peepImageSemaphore = new(_peepImageSemaphoreCurrentCount, PeepImageSemaphoreMaxCount);
 
-        private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
+        private async void PeepImageTimerElapsed(object? sender, EventArgs? e)
+        {
+            try
+            {
+                await RefreshPeepImageAsync();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        private async Task RefreshPeepImageAsync()
         {
             if (!await _peepImageSemaphore.WaitAsync(0))
             {
@@ -1023,7 +1038,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 获取或停止获取实时截图，在抽卡时额外停止抽卡
         /// </summary>
-        public async void Peep()
+        /// <returns>Task</returns>
+        public async Task Peep()
         {
             if (IsPeepTransitioning)
             {

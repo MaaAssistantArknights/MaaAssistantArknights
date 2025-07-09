@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,13 @@ namespace MaaWpfGui.Utilities
 {
     internal class BadModules
     {
-        private static string[] names = ["NahimicOSD.dll", "AudioDevProps2.dll"];
+        private static readonly string[] _names = ["NahimicOSD.dll", "AudioDevProps2.dll"];
 
         public static unsafe string[] GetBadInjectedModules()
         {
             var result = new List<string>();
             char[]? buffer = null;
-            foreach (var name in names)
+            foreach (var name in _names)
             {
                 var hmod = PInvoke.GetModuleHandle(name);
                 if (!hmod.IsInvalid)
@@ -37,20 +38,20 @@ namespace MaaWpfGui.Utilities
             return result.ToArray();
         }
 
-        private class WPFWin32Window : System.Windows.Forms.IWin32Window, System.Windows.Interop.IWin32Window
+        private class WpfWin32Window(System.Windows.Window w) : System.Windows.Forms.IWin32Window, System.Windows.Interop.IWin32Window
         {
             public IntPtr Handle => _helper.Handle;
 
-            private System.Windows.Interop.WindowInteropHelper _helper;
-
-            public WPFWin32Window(System.Windows.Window w)
-            {
-                _helper = new System.Windows.Interop.WindowInteropHelper(w);
-            }
+            private readonly System.Windows.Interop.WindowInteropHelper _helper = new(w);
         }
 
         public static void CheckAndWarnBadInjectedModules()
         {
+            if (System.Windows.Application.Current.MainWindow is null)
+            {
+                return;
+            }
+
             var allBadModules = GetBadInjectedModules();
             var prevFound = ConfigFactory.Root.GUI.FoundBadModules.Split(";", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             var suppressed = ConfigFactory.Root.GUI.SuppressedBadModules.Split(";", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -92,7 +93,7 @@ namespace MaaWpfGui.Utilities
                     };
                 }
 
-                TaskDialog.ShowDialog(new WPFWin32Window(System.Windows.Application.Current.MainWindow), page);
+                TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
 
                 if (page.Verification?.Checked ?? false)
                 {

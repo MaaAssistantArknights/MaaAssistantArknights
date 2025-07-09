@@ -396,7 +396,7 @@ namespace MaaWpfGui.Main
                 {
                     // 重置按钮状态，不影响LinkStart判断
                     _runningState.SetIdle(true);
-                    Instances.TaskQueueViewModel.LinkStart();
+                    await Instances.TaskQueueViewModel.LinkStart();
                 }
             });
         }
@@ -975,7 +975,7 @@ namespace MaaWpfGui.Main
                         }
 
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
-                        Instances.TaskQueueViewModel.CheckAfterCompleted();
+                        _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
                     else if (isCopilotTaskChain)
                     {
@@ -2170,6 +2170,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox) && AsstStart();
         }
 
+        /// <summary>
+        /// 牛牛抽卡。
+        /// </summary>
+        /// <param name="once">是否为单抽，默认为 true</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartGacha(bool once = true)
         {
             var task = new AsstCustomTask()
@@ -2180,6 +2185,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.Gacha, type, param) && AsstStart();
         }
 
+        /// <summary>
+        /// 小游戏。
+        /// </summary>
+        /// <param name="taskName">任务名（tasks.json 中的 key）</param>
+        /// <returns>是否成功。</returns>
         public bool AsstMiniGame(string taskName)
         {
             var task = new AsstCustomTask()
@@ -2190,6 +2200,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
         }
 
+        /// <summary>
+        /// 视频识别。
+        /// </summary>
+        /// <param name="filename">文件路径</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartVideoRec(string filename)
         {
             var taskParams = new JObject
@@ -2201,12 +2216,12 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
-        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, (AsstTaskType Type, JObject? TaskParams) task)
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, (AsstTaskType Type, JObject? TaskParams) task)
         {
-            return AsstAppendTaskWithEncoding(wpfTasktype, task.Type, task.TaskParams);
+            return AsstAppendTaskWithEncoding(wpfTaskType, task.Type, task.TaskParams);
         }
 
-        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, AsstTaskType type, JObject? taskParams = null)
         {
             taskParams ??= [];
             AsstTaskId id = AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
@@ -2215,7 +2230,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            _tasksStatus.Add(id, (wpfTasktype, TaskStatus.Idle));
+            _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
             return true;
         }
 
