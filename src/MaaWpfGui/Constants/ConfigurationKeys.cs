@@ -73,6 +73,7 @@ namespace MaaWpfGui.Constants
         public const string MuMu12Display = "Connect.MuMu12Display";
         public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled";
         public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
+        public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
         public const string LdPlayerIndex = "Connect.LdPlayerIndex";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowAdbRestart = "Connect.AllowADBRestart";

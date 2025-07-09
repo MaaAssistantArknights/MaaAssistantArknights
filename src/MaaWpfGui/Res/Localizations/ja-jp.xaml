@@ -502,6 +502,7 @@ C:\\leidian\\LDPlayer9
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
+    <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ を手動で入力</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>

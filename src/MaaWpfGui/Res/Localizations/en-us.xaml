@@ -500,7 +500,8 @@ The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
-    <system:String x:Key="LdIndex">Instance Number</system:String>
+    <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
+    <system:String x:Key="LdIndex">Instance Index</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>

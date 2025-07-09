@@ -252,7 +252,7 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 #endif
 }
 
-void asst::AdbController::init_ld_extras([[maybe_unused]] const AdbCfg& adb_cfg)
+void asst::AdbController::init_ld_extras([[maybe_unused]] const AdbCfg& adb_cfg, const std::string& address)
 {
 #if !ASST_WITH_EMULATOR_EXTRAS
     Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
@@ -263,10 +263,53 @@ void asst::AdbController::init_ld_extras([[maybe_unused]] const AdbCfg& adb_cfg)
     }
 
     std::filesystem::path ld_path = utils::path(adb_cfg.extras.get("path", ""));
-    int ld_index = adb_cfg.extras.get("index", 0);
+    int ld_index;
+    if (adb_cfg.extras.contains("index")) {
+        ld_index = adb_cfg.extras.get("index", 0);
+    }
+    else {
+        ld_index = get_ld_index(address);
+    }
     int ld_pid = adb_cfg.extras.get("pid", 0);
     m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
 #endif
+}
+
+int asst::AdbController::get_ld_index(const std::string& address)
+{
+    LogTrace << VAR(address);
+
+    // emulator-5554
+    if (address.starts_with("emulator-")) {
+        constexpr int base_emulator_port = 5554;
+        std::string port_str = address.substr(9); // after "emulator-"
+        if (port_str.empty() || !ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
+            Log.error("emulator port is invalid", port_str);
+            return 0;
+        }
+        int port = std::stoi(port_str);
+        int index = (port - base_emulator_port) / 2;
+        LogInfo << VAR(port_str) << VAR(port) << VAR(index);
+        return index;
+    }
+
+    // 127.0.0.1:5555
+    auto pos = address.find(':');
+    if (pos != std::string::npos && address.substr(0, pos) == "127.0.0.1") {
+        constexpr int base_adb_port = 5555;
+        std::string port_str = address.substr(pos + 1);
+        if (port_str.empty() || !ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
+            Log.error("adb port is invalid", port_str);
+            return 0;
+        }
+        int port = std::stoi(port_str);
+        int index = (port - base_adb_port) / 2;
+        LogInfo << VAR(port_str) << VAR(port) << VAR(index);
+        return index;
+    }
+
+    Log.error("address is invalid or unsupported", address);
+    return 0;
 }
 
 void asst::AdbController::close_socket() noexcept
@@ -1054,7 +1097,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         init_mumu_extras(adb_cfg, address);
     }
     else if (config == "LDPlayer") {
-        init_ld_extras(adb_cfg);
+        init_ld_extras(adb_cfg, address);
     }
 
     if (need_exit()) {
