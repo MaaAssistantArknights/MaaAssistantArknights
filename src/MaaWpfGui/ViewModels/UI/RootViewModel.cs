@@ -48,7 +48,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             InitViewModels();
-            InitProxy();
+            _ = InitProxy();
             if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
@@ -76,9 +76,16 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
-        private static async void InitProxy()
+        private static async Task InitProxy()
         {
-            await Task.Run(Instances.AsstProxy.Init);
+            try
+            {
+                await Task.Run(Instances.AsstProxy.Init);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void InitViewModels()

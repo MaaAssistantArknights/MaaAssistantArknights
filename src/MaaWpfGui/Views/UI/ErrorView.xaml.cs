@@ -177,10 +177,17 @@ namespace MaaWpfGui.Views.UI
 
         private async void CopyErrorMessage_Click(object sender, RoutedEventArgs e)
         {
-            CopyToClipboard();
-            CopiedTip.IsOpen = true;
-            await Task.Delay(3000);
-            CopiedTip.IsOpen = false;
+            try
+            {
+                CopyToClipboard();
+                CopiedTip.IsOpen = true;
+                await Task.Delay(3000);
+                CopiedTip.IsOpen = false;
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

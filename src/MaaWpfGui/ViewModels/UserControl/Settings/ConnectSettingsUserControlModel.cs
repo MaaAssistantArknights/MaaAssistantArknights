@@ -809,9 +809,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Test Link And Get Image.
     /// </summary>
+    /// <returns>Task</returns>
     // UI 绑定的方法
     // ReSharper disable once UnusedMember.Global
-    public async void TestLinkAndGetImage()
+    public async Task TestLinkAndGetImage()
     {
         _runningState.SetIdle(false);
 
@@ -879,7 +880,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             var img = (Image)_imagePopupWindow.Content;
             img.MouseLeftButtonUp += (_, _) =>
             {
-                TestLinkAndGetImage();
+                _ = TestLinkAndGetImage();
             };
         }
         else
@@ -983,7 +984,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     // UI 绑定的方法
     // ReSharper disable once UnusedMember.Global
-    public async void ReplaceAdb()
+    public async Task ReplaceAdb()
     {
         if (string.IsNullOrEmpty(AdbPath))
         {

@@ -240,15 +240,22 @@ namespace MaaWpfGui.Configuration
 
         private static async void OnPropertyChanged(string key, object? oldValue, object? newValue)
         {
-            var result = await SaveAsync();
-            if (result)
+            try
             {
-                ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-                _logger.Debug("Configuration {Key} has been set to {Value}", key, newValue);
+                var result = await SaveAsync();
+                if (result)
+                {
+                    ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
+                    _logger.Debug($"Configuration {key} has been set to {newValue}");
+                }
+                else
+                {
+                    _logger.Warning($"Failed to save configuration {key} to {newValue}");
+                }
             }
-            else
+            catch (Exception e)
             {
-                _logger.Warning("Failed to save configuration {Key} to {Value}", key, newValue);
+                _logger.Error(e, $"Failed to save configuration {key} to {newValue}, Exception: {e.Message}");
             }
         }
 

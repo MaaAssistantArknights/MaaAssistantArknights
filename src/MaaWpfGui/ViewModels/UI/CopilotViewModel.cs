@@ -190,7 +190,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    UpdateFilename(value);
+                    _ = UpdateFilename(value);
                 }
             }
         }
@@ -391,8 +391,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Paste clipboard contents.
         /// </summary>
+        /// <returns>Task</returns>
         // ReSharper disable once UnusedMember.Global
-        public async void PasteClipboardCopilotSet()
+        public async Task PasteClipboardCopilotSet()
         {
             StartEnabled = false;
             UseCopilotList = true;
@@ -408,8 +409,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 批量导入作业
         /// </summary>
+        /// <returns>Task</returns>
         // ReSharper disable once UnusedMember.Global
-        public async void ImportFiles()
+        public async Task ImportFiles()
         {
             var dialog = new OpenFileDialog
             {
@@ -450,7 +452,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                     else if (payload is SSSCopilotModel)
                     {
-                        AddLog($"unsupport type: SSS", UiLogColor.Error, showTime: false);
+                        AddLog("Unsupported type: SSS", UiLogColor.Error, showTime: false);
                     }
                 }
                 catch
@@ -463,16 +465,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
-        public void AddCopilotTask()
+        public async Task AddCopilotTask()
         {
-            AddCopilotTaskToList(CopilotTaskName, false);
+            await AddCopilotTaskToList(CopilotTaskName, false);
         }
 
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
-        public void AddCopilotTask_Adverse()
+        public async Task AddCopilotTask_Adverse()
         {
-            AddCopilotTaskToList(CopilotTaskName, true);
+            await AddCopilotTaskToList(CopilotTaskName, true);
         }
 
         // UI 绑定的方法
@@ -520,7 +522,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // ReSharper disable once UnusedMember.Global
-        public async void LikeWebJson()
+        public async Task LikeWebJson()
         {
             CouldLikeWebJson = false;
             if (await RateCopilot(CopilotId) == PrtsStatus.Success)
@@ -540,7 +542,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion UI绑定及操作
 
-        private async void UpdateFilename(string filename)
+        private async Task UpdateFilename(string filename)
         {
             StartEnabled = false;
             await UpdateFileDoc(filename);
@@ -950,7 +952,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async void AddCopilotTaskToList(string? stageName, bool isRaid)
+        private async Task AddCopilotTaskToList(string? stageName, bool isRaid)
         {
             if (string.IsNullOrEmpty(stageName) || InvalidStageNameRegex().IsMatch(stageName))
             {
@@ -1116,9 +1118,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
+        /// <returns>Task</returns>
         // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
-        public async void Start()
+        public async Task Start()
         {
             /*
             if (_form)

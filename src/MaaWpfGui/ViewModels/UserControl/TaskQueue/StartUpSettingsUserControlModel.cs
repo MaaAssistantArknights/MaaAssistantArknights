@@ -48,7 +48,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
     // ReSharper disable once UnusedMember.Global
     public void AccountSwitchManualRun()
     {
-        Instances.TaskQueueViewModel.QuickSwitchAccount();
+        _ = Instances.TaskQueueViewModel.QuickSwitchAccount();
     }
 
     public override void ProcSubTaskMsg(AsstMsg msg, JObject details)
