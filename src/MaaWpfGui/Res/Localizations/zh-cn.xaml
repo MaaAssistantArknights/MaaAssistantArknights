@@ -314,7 +314,7 @@
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本, 由于当前版本过旧, 无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old, 如有需要请手动备份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old，如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>

@@ -314,7 +314,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。現在のバージョンが古すぎるため、OTA増分アップデートパッケージは利用できません。完全なパッケージがダウンロードされ、リソースフォルダはゴミ箱に移動され、.old ファイルが削除されます。必要に応じて手動でバックアップしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。OTA増分アップデートパッケージは利用できません。完全なパッケージがダウンロードされ、リソースフォルダはゴミ箱に移動され、.old ファイルが削除されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
