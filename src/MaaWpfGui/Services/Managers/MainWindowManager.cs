@@ -60,15 +60,13 @@ namespace MaaWpfGui.Services.Managers
         /// <inheritdoc/>
         public void Show()
         {
-            MainWindow.Show();
-            MainWindow.WindowState = WindowState.Normal;
-            MainWindow.Activate();
+            WindowManager.ShowWindow(MainWindow);
         }
 
         /// <inheritdoc/>
         public void ForceShow()
         {
-            ((WindowManager)Instances.WindowManager).ForceShow(MainWindow);
+            WindowManager.ForceShow(MainWindow);
         }
 
         /// <inheritdoc/>

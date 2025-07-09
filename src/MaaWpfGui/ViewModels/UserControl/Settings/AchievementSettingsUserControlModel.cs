@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,8 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
 using Stylet;
 using Application = System.Windows.Application;
+using Window = System.Windows.Window;
+using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -106,14 +109,27 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private static Window? _achievementsWindow;
+
     public void OnShowAchievementsClick()
     {
-        var win = new AchievementListWindow
+        if (_achievementsWindow is null)
         {
-            Owner = Application.Current.MainWindow,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-        };
-        win.ShowDialog();
+            _achievementsWindow = new AchievementListWindow
+            {
+                WindowStartupLocation = WindowStartupLocation.Manual,
+            };
+            _achievementsWindow.Loaded += (_, _) =>
+            {
+                WindowManager.MoveWindowToRootCenter(_achievementsWindow);
+            };
+            _achievementsWindow.Closed += (_, _) =>
+            {
+                _achievementsWindow = null;
+            };
+        }
+
+        WindowManager.ShowWindow(_achievementsWindow);
     }
 
     private static readonly SolidColorBrush _hiddenMedalBrush = Application.Current.Resources["HiddenMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Gold);
