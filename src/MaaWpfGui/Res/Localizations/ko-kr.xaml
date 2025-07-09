@@ -501,6 +501,7 @@ C:\\leidian\\LDPlayer9
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
+    <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣  수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>

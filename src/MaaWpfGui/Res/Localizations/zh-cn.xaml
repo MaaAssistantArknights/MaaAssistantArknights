@@ -501,6 +501,7 @@ C:\\leidian\\LDPlayer9。\n
 主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
+    <system:String x:Key="LdManualSetIndex">手动填写 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>

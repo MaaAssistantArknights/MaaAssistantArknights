@@ -499,6 +499,7 @@ C:\\leidian\\LDPlayer9。\n
 主多開為 0，其他多開為版本/編號 ID 後的數字。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
+    <system:String x:Key="LdManualSetIndex">手動填寫 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">實例號碼</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>

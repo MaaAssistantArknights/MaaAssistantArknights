@@ -286,7 +286,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                             foreach (var keyPath in possibleUninstallKeys)
                             {
                                 using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
-                                if (driverKey == null) continue;
+                                if (driverKey == null)
+                                {
+                                    continue;
+                                }
 
                                 uninstallString = driverKey.GetValue("UninstallString") as string;
                                 if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
@@ -443,25 +446,29 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     {
                         try
                         {
-                            const string UninstallKeyPath = @"Software\leidian\ldplayer9";
+                            string[] possiblePaths =
+                            [
+                                @"Software\mrfz\mrfz",        // 专版路径优先
+                                @"Software\leidian\ldplayer9" // 原版路径
+                            ];
+
                             const string InstallDirValueName = "InstallDir";
 
-                            using var driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
-                            if (driverKey == null)
+                            foreach (var regPath in possiblePaths)
                             {
-                                EmulatorPath = string.Empty;
-                                return;
+                                using var driverKey = Registry.CurrentUser.OpenSubKey(regPath);
+                                if (driverKey == null)
+                                {
+                                    continue;
+                                }
+
+                                var installDir = driverKey.GetValue(InstallDirValueName) as string;
+                                if (!string.IsNullOrEmpty(installDir))
+                                {
+                                    EmulatorPath = installDir;
+                                    break;
+                                }
                             }
-
-                            var installDir = driverKey.GetValue(InstallDirValueName) as string;
-
-                            if (string.IsNullOrEmpty(installDir))
-                            {
-                                EmulatorPath = string.Empty;
-                                return;
-                            }
-
-                            EmulatorPath = installDir;
                         }
                         catch (Exception e)
                         {
@@ -496,6 +503,24 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 Instances.AsstProxy.Connected = false;
                 SetAndNotify(ref _emulatorPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerEmulatorPath, value);
+            }
+        }
+
+        private bool _manualSetIndex = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, bool.FalseString));
+
+        public bool ManualSetIndex
+        {
+            get => _manualSetIndex;
+            set
+            {
+                if (_manualSetIndex == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _manualSetIndex, value);
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerManualSetIndex, value.ToString());
             }
         }
 
@@ -577,12 +602,18 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return JsonConvert.SerializeObject(new JObject());
                 }
 
+                var index = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+
                 var configObject = new JObject
                 {
                     ["path"] = EmulatorPath,
-                    ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                    ["pid"] = GetEmulatorPid(indexParse),
+                    ["pid"] = GetEmulatorPid(index),
                 };
+                if (ManualSetIndex)
+                {
+                    configObject["index"] = index;
+                }
+
                 return JsonConvert.SerializeObject(configObject);
             }
         }
