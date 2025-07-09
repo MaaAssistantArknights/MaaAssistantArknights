@@ -1183,7 +1183,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶及以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>
@@ -1359,19 +1359,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 及以上难度</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
