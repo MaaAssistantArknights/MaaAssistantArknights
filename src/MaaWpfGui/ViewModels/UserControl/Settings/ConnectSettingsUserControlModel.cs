@@ -36,7 +36,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using WinRT;
 using Window = HandyControl.Controls.Window;
+using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -802,6 +804,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private static Window? _imagePopupWindow;
+
     /// <summary>
     /// Test Link And Get Image.
     /// </summary>
@@ -822,8 +826,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
 
         TestLinkImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-        await Instances.TaskQueueViewModel.Stop();
-        Instances.TaskQueueViewModel.SetStopped();
+        _runningState.SetIdle(true);
 
         if (TestLinkImage is null)
         {
@@ -845,15 +848,50 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         TestLinkInfo = ScreencapTestCost;
 
-        var popupWindow = new Window
+        if (_imagePopupWindow == null)
         {
-            Width = 800,
-            Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-            Content = new Image { Source = TestLinkImage, },
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Owner = Application.Current.MainWindow,
-        };
-        popupWindow.ShowDialog();
+            const double TotalWindowWidth = 800;
+
+            var nc = SystemParameters.WindowNonClientFrameThickness;
+            var rb = SystemParameters.WindowResizeBorderThickness;
+
+            double contentWidth = TotalWindowWidth - (nc.Left + nc.Right + rb.Left + rb.Right);
+            double contentHeight = contentWidth * 9.0 / 16.0;
+
+            double totalWindowHeight = contentHeight + (nc.Top + nc.Bottom + rb.Top + rb.Bottom);
+            _imagePopupWindow = new()
+            {
+                Width = TotalWindowWidth,
+                Height = totalWindowHeight,
+                Content = new Image
+                {
+                    Source = TestLinkImage,
+                },
+                WindowStartupLocation = WindowStartupLocation.Manual,
+            };
+            _imagePopupWindow.Loaded += (_, _) =>
+            {
+                WindowManager.MoveWindowToRootCenter(_imagePopupWindow);
+            };
+            _imagePopupWindow.Closed += (_, _) =>
+            {
+                _imagePopupWindow = null;
+            };
+            var img = (Image)_imagePopupWindow.Content;
+            img.MouseLeftButtonUp += (_, _) =>
+            {
+                TestLinkAndGetImage();
+            };
+        }
+        else
+        {
+            if (_imagePopupWindow.Content is Image image)
+            {
+                image.Source = TestLinkImage;
+            }
+        }
+
+        WindowManager.ShowWindow(_imagePopupWindow);
     }
 
     private BitmapImage? _testLinkImage;
