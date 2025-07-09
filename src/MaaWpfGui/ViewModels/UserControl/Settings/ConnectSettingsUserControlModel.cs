@@ -593,6 +593,29 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return 0;
         }
 
+        private static int GetEmulatorIndex(string address)
+        {
+            int index = 0;
+            if (string.IsNullOrEmpty(address))
+            {
+                return index;
+            }
+
+            const int BaseEmulatorPort = 5554;
+            const int BaseAdbPort = 5555;
+
+            if (address.StartsWith("emulator-") && int.TryParse(address[9..], out int port))
+            {
+                index = (port - BaseEmulatorPort) / 2;
+            }
+            else if (address.StartsWith("127.0.0.1:") && int.TryParse(address[10..], out int port2))
+            {
+                index = (port2 - BaseAdbPort) / 2;
+            }
+
+            return index;
+        }
+
         public string Config
         {
             get
@@ -602,17 +625,22 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return JsonConvert.SerializeObject(new JObject());
                 }
 
-                var index = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+                int index;
+                if (ManualSetIndex)
+                {
+                    index = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+                }
+                else
+                {
+                    index = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress);
+                }
 
                 var configObject = new JObject
                 {
                     ["path"] = EmulatorPath,
+                    ["index"] = index,
                     ["pid"] = GetEmulatorPid(index),
                 };
-                if (ManualSetIndex)
-                {
-                    configObject["index"] = index;
-                }
 
                 return JsonConvert.SerializeObject(configObject);
             }
