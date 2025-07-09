@@ -252,29 +252,6 @@ void asst::AdbController::set_mumu_package(const std::string& client_type)
 #endif
 }
 
-void asst::AdbController::init_ld_extras([[maybe_unused]] const AdbCfg& adb_cfg, const std::string& address)
-{
-#if !ASST_WITH_EMULATOR_EXTRAS
-    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
-#else
-    if (adb_cfg.extras.empty()) {
-        LogWarn << "adb_cfg.extras is empty";
-        return;
-    }
-
-    std::filesystem::path ld_path = utils::path(adb_cfg.extras.get("path", ""));
-    int ld_index;
-    if (adb_cfg.extras.contains("index")) {
-        ld_index = adb_cfg.extras.get("index", 0);
-    }
-    else {
-        ld_index = get_ld_index(address);
-    }
-    int ld_pid = adb_cfg.extras.get("pid", 0);
-    m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
-#endif
-}
-
 int asst::AdbController::get_ld_index(const std::string& address)
 {
     LogTrace << VAR(address);
@@ -310,6 +287,31 @@ int asst::AdbController::get_ld_index(const std::string& address)
 
     Log.error("address is invalid or unsupported", address);
     return 0;
+}
+
+void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::string& address)
+{
+#if !ASST_WITH_EMULATOR_EXTRAS
+    std::ignore = adb_cfg;
+    std::ignore = address;
+    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+#else
+    if (adb_cfg.extras.empty()) {
+        LogWarn << "adb_cfg.extras is empty";
+        return;
+    }
+
+    std::filesystem::path ld_path = utils::path(adb_cfg.extras.get("path", ""));
+    int ld_index;
+    if (adb_cfg.extras.contains("index")) {
+        ld_index = adb_cfg.extras.get("index", 0);
+    }
+    else {
+        ld_index = get_ld_index(address);
+    }
+    int ld_pid = adb_cfg.extras.get("pid", 0);
+    m_ld_extras.init(ld_path, ld_index, ld_pid, m_width, m_height);
+#endif
 }
 
 void asst::AdbController::close_socket() noexcept
