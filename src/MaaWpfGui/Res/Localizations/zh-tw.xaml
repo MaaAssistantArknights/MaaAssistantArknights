@@ -189,6 +189,7 @@
     <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="IS4NewSquad1">魂靈護送分隊</system:String>
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
@@ -197,7 +198,7 @@
     <system:String x:Key="IS4NewSquad6">點刺成錠分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad7">擬態學者分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad8">專業人士分隊（待 DLC 更新）</system:String>
-    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分隊（待 IS5 更新）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
     <system:String x:Key="SupportSquad">後勤分隊</system:String>
@@ -213,6 +214,7 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">穩紮穩打（重裝、術師、狙擊）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
     <system:String x:Key="AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
+    <system:String x:Key="FlexibleDeployment">靈活部署（先鋒、輔助、特種）</system:String>
     <system:String x:Key="AlgorithmFinish">演算結束</system:String>
     <system:String x:Key="AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造點數</system:String>

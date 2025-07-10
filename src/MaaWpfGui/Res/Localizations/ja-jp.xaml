@@ -199,6 +199,7 @@
     <system:String x:Key="IS4NewSquad6">破棘成金分隊</system:String>
     <system:String x:Key="IS4NewSquad7">擬態学者分隊</system:String>
     <system:String x:Key="IS4NewSquad8">専門家分隊</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -214,6 +215,7 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体（重装、術師、狙撃）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">前線支援（前衛、補助、医療）</system:String>
     <system:String x:Key="AsYourHeartDesires">自由自在（ランダム）</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
     <system:String x:Key="AlgorithmFinish">演算終了</system:String>
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
