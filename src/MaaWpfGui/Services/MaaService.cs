@@ -67,6 +67,9 @@ namespace MaaWpfGui.Services
         public static extern unsafe ulong AsstGetImage(AsstHandle handle, byte* buff, ulong buffSize);
 
         [DllImport("MaaCore.dll")]
+        public static extern unsafe ulong AsstGetImageBgr(AsstHandle handle, byte* buff, ulong buffSize);
+
+        [DllImport("MaaCore.dll")]
         public static extern ulong AsstGetNullSize();
 
         [DllImport("MaaCore.dll")]

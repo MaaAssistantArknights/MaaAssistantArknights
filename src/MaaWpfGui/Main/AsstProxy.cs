@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Data;
@@ -201,11 +202,6 @@ namespace MaaWpfGui.Main
             }
         }
 
-        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
-        {
-            return await Task.Run(() => AsstGetImage(handle));
-        }
-
         public BitmapImage? AsstGetImage()
         {
             return AsstGetImage(_handle);
@@ -217,6 +213,11 @@ namespace MaaWpfGui.Main
             return AsstGetImage(_handle);
         }
 
+        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImage(handle));
+        }
+
         public async Task<BitmapImage?> AsstGetImageAsync()
         {
             return await AsstGetImageAsync(_handle);
@@ -226,6 +227,79 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstAsyncScreencap(_handle, true);
             return await AsstGetImageAsync(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
+        {
+            const int Width = 1280, Height = 720, Channels = 3;
+            const int TotalSize = Width * Height * Channels;
+
+            var buffer = ArrayPool<byte>.Shared.Rent(TotalSize);
+
+            ulong readSize;
+            fixed (byte* ptr = buffer)
+            {
+                readSize = MaaService.AsstGetImageBgr(handle, ptr, TotalSize);
+            }
+
+            if (readSize == MaaService.AsstGetNullSize())
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+                return null;
+            }
+
+            // **不拷贝，直接返回池内存**
+            // 外层代码用完必须调用 ArrayPool<byte>.Shared.Return(buffer)
+            return buffer;
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public byte[]? AsstGetImageBgrData()
+        {
+            return AsstGetImageBgrData(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public byte[]? AsstGetFreshImageBgrData()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return AsstGetImageBgrData(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public static async Task<byte[]?> AsstGetImageBgrDataAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImageBgrData(handle));
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public async Task<byte[]?> AsstGetImageBgrDataAsync()
+        {
+            return await AsstGetImageBgrDataAsync(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public async Task<byte[]?> AsstGetFreshImageBgrDataAsync()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return await AsstGetImageBgrDataAsync(_handle);
+        }
+
+        public static WriteableBitmap WriteBgrToBitmap(byte[] bgrData, WriteableBitmap? targetBitmap)
+        {
+            const int Width = 1280, Height = 720;
+            const int Stride = Width * 3;
+
+            targetBitmap ??= new(Width, Height, 96, 96, PixelFormats.Bgr24, null);
+            targetBitmap.Lock();
+            targetBitmap.WritePixels(
+                new(0, 0, Width, Height),
+                bgrData,
+                Stride,
+                0);
+            targetBitmap.Unlock();
+            return targetBitmap;
         }
 
         private readonly MaaService.CallbackDelegate _callback;

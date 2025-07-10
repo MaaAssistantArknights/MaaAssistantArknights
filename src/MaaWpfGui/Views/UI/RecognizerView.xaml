@@ -602,7 +602,7 @@
                         hc:TitleElement.HorizontalAlignment="Center"
                         hc:TitleElement.Title="{DynamicResource PeepTargetFps}"
                         hc:TitleElement.TitlePlacement="Top"
-                        Maximum="60"
+                        Maximum="600"
                         Minimum="1"
                         Value="{Binding PeepTargetFps, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
