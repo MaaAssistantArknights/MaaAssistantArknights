@@ -198,6 +198,7 @@
     <system:String x:Key="IS4NewSquad6">연금술 분대</system:String>
     <system:String x:Key="IS4NewSquad7">의태학자 분대</system:String>
     <system:String x:Key="IS4NewSquad8">전문가 분대</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -213,6 +214,7 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">차근차근 (디펜더, 캐스터, 스나이퍼)</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">상호보완 (가드, 서포터, 메딕)</system:String>
     <system:String x:Key="AsYourHeartDesires">원하는 대로 (랜덤)</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
     <system:String x:Key="AlgorithmFinish">연산 종료</system:String>
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
