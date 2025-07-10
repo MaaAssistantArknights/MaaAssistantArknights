@@ -367,7 +367,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
 
     // public List<CombData> RoguelikeCoreCharList { get; set; }
-    private Theme _roguelikeTheme = Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.Sarkaz.ToString()), out Theme outTheme) ? outTheme : Theme.Sarkaz;
+    private Theme _roguelikeTheme = Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.JieGarden.ToString()), out Theme outTheme) ? outTheme : Theme.JieGarden;
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
