@@ -187,6 +187,10 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             ("IS4NewSquad7", "拟态学者分队"),
             ("IS4NewSquad8", "专业人士分队"),
         ],
+        ["JieGarden_Default"] =
+        [
+            ("IS5NewSquad1", "高台突破分队"),
+        ]
     };
 
     // 通用分队
