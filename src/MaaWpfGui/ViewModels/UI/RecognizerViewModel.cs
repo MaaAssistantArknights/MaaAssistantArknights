@@ -13,17 +13,20 @@
 
 #nullable enable
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
@@ -32,7 +35,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
+using Windows.Storage.Streams;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -238,7 +241,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
             var (type, taskParams) = task.Serialize();
-            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams);
+            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
             ret &= Instances.AsstProxy.AsstStart();
         }
 
@@ -902,9 +905,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private BitmapImage? _peepImage;
+        private WriteableBitmap? _peepImage;
 
-        public BitmapImage? PeepImage
+        public WriteableBitmap? PeepImage
         {
             get => _peepImage;
             set => SetAndNotify(ref _peepImage, value);
@@ -931,7 +934,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 value = value switch
                 {
-                    > 60 => 60,
+                    > 600 => 600,
                     < 1 => 1,
                     _ => value,
                 };
@@ -968,6 +971,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private readonly WriteableBitmap?[] _peepImageCache = new WriteableBitmap?[PeepImageSemaphoreMaxCount];
+
         private async Task RefreshPeepImageAsync()
         {
             if (!await _peepImageSemaphore.WaitAsync(0))
@@ -984,14 +989,15 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     _peepImageSemaphoreCurrentCount++;
                     _peepImageSemaphore.Release();
+                    _logger.Information($"Screenshot Semaphore Full, increase semaphore count to {_peepImageSemaphoreCurrentCount}");
                     return;
                 }
 
-                _logger.Warning($"Gacha Semaphore Full, Reduce fps count to {--PeepTargetFps}");
+                _logger.Warning($"Screenshot Semaphore Full, Reduce Target FPS count to {--PeepTargetFps}");
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     Growl.Clear();
-                    Growl.Warning($"Screenshot taking too long, reduce FPS to {PeepTargetFps}");
+                    Growl.Warning($"Screenshot taking too long, reduce Target FPS to {PeepTargetFps}");
                 });
                 return;
             }
@@ -999,14 +1005,30 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 var count = Interlocked.Increment(ref _peepImageCount);
-                var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-                if (!Peeping || count <= _peepImageNewestCount || cacheImage is null)
+                var index = count % _peepImageCache.Length;
+                var frameData = await Instances.AsstProxy.AsstGetFreshImageBgrDataAsync();
+                if (frameData is null || frameData.Length == 0)
                 {
+                    _logger.Warning("Peep image data is null or empty.");
                     return;
                 }
 
+                // 若不满足条件，提前释放 frameData 避免内存泄露
+                if (!Peeping || count <= _peepImageNewestCount)
+                {
+                    _logger.Debug($"Peep image count {count} is not the newest, skip updating image.");
+                    ArrayPool<byte>.Shared.Return(frameData);
+                    return;
+                }
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    _peepImageCache[index] = AsstProxy.WriteBgrToBitmap(frameData, _peepImageCache[index]);
+                });
+
+                PeepImage = _peepImageCache[index];
+                ArrayPool<byte>.Shared.Return(frameData);
                 Interlocked.Exchange(ref _peepImageNewestCount, count);
-                PeepImage = cacheImage;
 
                 var now = DateTime.Now;
                 Interlocked.Increment(ref _frameCount);
@@ -1055,6 +1077,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Peeping = false;
                     _peepImageTimer.Stop();
+                    Array.Fill(_peepImageCache, null);
 
                     // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
                     if (IsGachaInProgress || IsPeepInProgress)
