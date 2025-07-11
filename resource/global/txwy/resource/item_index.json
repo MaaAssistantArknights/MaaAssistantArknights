@@ -1535,6 +1535,14 @@
         "sortId": -10000,
         "usage": "用以在里程碑處兌換獎勵。"
     },
+    "act1vecb_milestone_point": {
+        "classifyType": "NONE",
+        "description": "羅德島工程部製作的特殊紀念物，負責設計它的工程幹員似乎是從近期風靡羅德島的一款桌遊中獲得的靈感。",
+        "icon": "act1vecb_milestone_point.png",
+        "name": "勝績積分",
+        "sortId": -10000,
+        "usage": "可在突破里程碑中兌換獎勵。"
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "紙頁上留有各種不同的筆跡，甚至可以從數量上判斷雜誌轉手的次數。其中大多是無意義的塗鴉，但智慧的閃光也散落其間。",
