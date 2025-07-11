@@ -22,6 +22,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -441,8 +442,10 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    [PropertyDependsOn(nameof(RoguelikeMode), nameof(RoguelikeTheme), nameof(RoguelikeSquad))]
     public bool RoguelikeSquadIsProfessional => RoguelikeMode == 4 && RoguelikeTheme != Theme.Phantom && RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
 
+    [PropertyDependsOn(nameof(RoguelikeMode), nameof(RoguelikeTheme), nameof(RoguelikeSquad))]
     public bool RoguelikeSquadIsFoldartal => RoguelikeMode == 4 && RoguelikeTheme == Theme.Sami && RoguelikeSquad == "生活至上分队";
 
     private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
