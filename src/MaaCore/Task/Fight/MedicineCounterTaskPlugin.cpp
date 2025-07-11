@@ -227,7 +227,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
                        .is_expiring = is_expiring });
         LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ","
                  << "inventory count:" << inventory_count << ","
-                 << "is expiring:" << std::boolalpha << is_expiring << std::noboolalpha;
+                 << "is expiring:" << expiring_status_to_string(is_expiring);
     }
     return MedicineResult { .using_count = use, .medicines = medicines };
 }
