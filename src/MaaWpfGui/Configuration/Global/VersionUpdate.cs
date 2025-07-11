@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.ComponentModel;
+using MaaWpfGui.Configuration.Factory;
 
 namespace MaaWpfGui.Configuration.Global
 {

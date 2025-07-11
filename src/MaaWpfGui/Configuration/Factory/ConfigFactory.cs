@@ -23,7 +23,6 @@ using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Helper;
 using ObservableCollections;
@@ -143,7 +142,7 @@ namespace MaaWpfGui.Configuration.Factory
                     OnPropertyChanged("Root.Configurations", null, null);
                 };
 
-                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
+                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Global.Timer>("Root.Timers.");
                 parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
                 parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
                 parsed.GUI.PropertyChanged += OnPropertyChangedFactory();
