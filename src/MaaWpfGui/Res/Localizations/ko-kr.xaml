@@ -1321,7 +1321,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.CopilotError.Title">아이고</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">사고가 났네요...</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">대리 작전에서 실수 발생</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 실수 발생</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">긴 작업</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">좀 더 기다려볼까요?</system:String>

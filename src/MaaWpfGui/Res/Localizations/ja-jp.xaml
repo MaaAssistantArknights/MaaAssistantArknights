@@ -1324,7 +1324,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.CopilotError.Title">あらら</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">事故が起きました…</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">代理戦闘中にエラーが発生</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 中にエラーが発生</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">長いタスク</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">少し待ってみませんか？</system:String>
