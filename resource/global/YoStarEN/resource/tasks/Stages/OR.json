@@ -1,0 +1,8 @@
+{    
+    "OR-OpenOcr": {
+        "text": ["Joy", "Reunion", "Flavor", "Life"]
+    },
+    "ORChapterToOR": {
+        "text": ["FLAVOR", "Flavor", "FOOD", "Food"]
+    }
+}
