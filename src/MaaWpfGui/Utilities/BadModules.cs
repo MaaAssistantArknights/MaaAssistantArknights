@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using Windows.Win32;
 

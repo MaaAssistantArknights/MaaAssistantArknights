@@ -20,7 +20,7 @@ using System.Linq;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;

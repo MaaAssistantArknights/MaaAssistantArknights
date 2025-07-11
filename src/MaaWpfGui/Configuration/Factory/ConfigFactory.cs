@@ -23,13 +23,15 @@ using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Global;
+using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration.Factory
 {
     public static class ConfigFactory
     {
@@ -387,8 +389,8 @@ namespace MaaWpfGui.Configuration
         {
             get
             {
-                List<string> lists = new List<string>(Root.Configurations.Count);
-                using IEnumerator<KeyValuePair<string, SpecificConfig>> enumerator = Root.Configurations.GetEnumerator();
+                var lists = new List<string>(Root.Configurations.Count);
+                using var enumerator = Root.Configurations.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
                     lists.Add(enumerator.Current.Key);
