@@ -759,6 +759,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
+    <system:String x:Key="CopilotModule">모듈</system:String>
+    <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
     <system:String x:Key="TotalOperatorsCount">총 {0}명의 오퍼레이터</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="OtherOperators">기타 오퍼레이터:</system:String>
