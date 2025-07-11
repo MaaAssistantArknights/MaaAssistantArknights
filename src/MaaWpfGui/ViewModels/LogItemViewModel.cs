@@ -164,11 +164,25 @@ namespace MaaWpfGui.ViewModels
                 row.Children.Add(itemStack);
             }
 
-            return new()
+            var toolTip = new ToolTip
             {
                 Content = row,
-                Placement = PlacementMode.Top,
+                Placement = PlacementMode.Center,
             };
+            toolTip.Opened += (s, e) =>
+            {
+                if (toolTip.PlacementTarget is FrameworkElement target)
+                {
+                    double offset = -(target.ActualHeight / 2) - (toolTip.ActualHeight / 2);
+                    toolTip.VerticalOffset = offset;
+                }
+                else
+                {
+                    toolTip.VerticalOffset = -60;
+                }
+            };
+
+            return toolTip;
         }
     }
 }
