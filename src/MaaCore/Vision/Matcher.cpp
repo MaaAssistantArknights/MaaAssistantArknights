@@ -21,12 +21,11 @@ Matcher::ResultOpt Matcher::analyze() const
 
         double min_val = 0.0, max_val = 0.0;
         cv::Point min_loc, max_loc;
-        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+        cv::Mat valid_mask;
+        cv::inRange(matched, 0.0f, 1.0f + 1e-5f, valid_mask);
+        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc, valid_mask);
 
         Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
-        if (std::isnan(max_val) || std::isinf(max_val)) {
-            max_val = 0;
-        }
 
         double threshold = m_params.templ_thres[i];
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
