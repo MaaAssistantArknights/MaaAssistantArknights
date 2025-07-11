@@ -1,6 +1,6 @@
 // <copyright file="BaseTask.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -60,6 +60,7 @@ public class BaseTask : INotifyPropertyChanged
     }
 }
 
+#pragma warning disable SA1402 // File may only contain a single type
 public class CloseDownTask : BaseTask
 {
 }
@@ -91,3 +92,5 @@ public class OperBoxTask : BaseTask
 public class CustomTask : BaseTask
 {
 }
+
+#pragma warning restore SA1402 // File may only contain a single type
