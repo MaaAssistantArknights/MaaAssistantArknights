@@ -179,6 +179,7 @@ namespace MaaWpfGui.Main
             _logger.Information("===================================");
 
             ConfigurationHelper.Load();
+            ConfigConverter.ConvertConfig();
             LocalizationHelper.Load();
             ETagCache.Load();
 
@@ -572,7 +573,7 @@ namespace MaaWpfGui.Main
         {
             // 配置名可能就包在引号中，需要转义符，如 \"a\"
             string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
-            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig) && ConfigFactory.SwitchConfig(desiredConfig);
         }
     }
 }

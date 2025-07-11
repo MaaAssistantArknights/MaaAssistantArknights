@@ -12,14 +12,17 @@
 // </copyright>
 
 #nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -42,6 +45,14 @@ public class CustomSettingsUserControlModel : TaskViewModel
             value = value.Replace("，", ",").Replace("；", ";");
             SetAndNotify(ref _taskName, value);
             OnPropertyChanged(nameof(FormattedTaskNames));
+        }
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is CustomTask)
+        {
+            Refresh();
         }
     }
 
@@ -73,9 +84,7 @@ public class CustomSettingsUserControlModel : TaskViewModel
     {
         var task = new AsstCustomTask()
         {
-            CustomTasks = TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(task => task.Trim())
-                .ToList(),
+            CustomTasks = [.. TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
         };
         return task.Serialize();
     }
@@ -84,23 +93,44 @@ public class CustomSettingsUserControlModel : TaskViewModel
     {
         if (string.IsNullOrWhiteSpace(TaskName))
         {
-            return new List<(AsstTaskType, JObject)>();
+            return [];
         }
 
         if (!TaskName.Contains(';'))
         {
-            return new List<(AsstTaskType, JObject)> { Serialize() };
+            return [Serialize()];
         }
 
         var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
         return taskGroups.Select(group => new AsstCustomTask()
-            {
-                CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
+        {
+            CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(task => task.Trim())
                     .ToList(),
-            })
+        })
             .Select(task => task.Serialize())
             .ToList();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not CustomTask custom)
+        {
+            return null;
+        }
+
+        var task = new AsstCustomTask()
+        {
+            // CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+        };
+        if (taskId is int id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task);
+        }
     }
 }

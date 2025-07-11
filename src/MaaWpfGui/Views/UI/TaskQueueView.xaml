@@ -72,7 +72,7 @@
                                         Grid.Column="0"
                                         MaxWidth="140"
                                         HorizontalAlignment="Left"
-                                        IsChecked="{Binding IsCheckedWithNull}"
+                                        IsChecked="{Binding IsEnable}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
                                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                       Target={x:Type helper:CheckBoxHelper}}">
@@ -107,7 +107,7 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding Source={x:Static setting:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
-                                                            <Condition Binding="{Binding IsCheckedWithNull}" Value="{x:Null}" />
+                                                            <Condition Binding="{Binding IsEnable}" Value="{x:Null}" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
                                                     </MultiDataTrigger>
