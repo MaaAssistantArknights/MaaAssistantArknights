@@ -22,7 +22,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -738,7 +737,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
             }
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            TaskItemViewModels = [.. tempOrderList];
             TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
 
             FightTask.InitDrops();
