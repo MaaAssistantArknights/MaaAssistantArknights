@@ -396,7 +396,9 @@
                                 FontWeight="{Binding Weight}"
                                 ForegroundKey="{Binding Color}"
                                 Text="{Binding Content}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                ToolTip="{Binding ToolTip}"
+                                ToolTipService.InitialShowDelay="0" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

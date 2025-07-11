@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -981,11 +983,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
+        /// <param name="toolTip">The toolTip</param>
+        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
         {
             Execute.OnUIThread(() =>
             {
-                var log = new LogItemViewModel(content, color, weight);
+                var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
                 LogItemViewModels.Add(log);
                 _logger.Information(content);
             });

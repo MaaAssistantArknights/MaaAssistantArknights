@@ -11,7 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
@@ -32,7 +37,8 @@ namespace MaaWpfGui.ViewModels
         /// <param name="weight">The font weight.</param>
         /// <param name="dateFormat">The Date format string</param>
         /// <param name="showTime">The showtime bool.</param>
-        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true)
+        /// <param name="poptipContent">The poptip content</param>
+        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true, ToolTip? toolTip = null)
         {
             if (string.IsNullOrEmpty(dateFormat))
             {
@@ -44,6 +50,7 @@ namespace MaaWpfGui.ViewModels
             Color = color;
             Weight = weight;
             ShowTime = showTime;
+            ToolTip = toolTip;
         }
 
         private string _time;
@@ -96,6 +103,72 @@ namespace MaaWpfGui.ViewModels
         {
             get => _weight;
             set => SetAndNotify(ref _weight, value);
+        }
+
+        private ToolTip? _toolTip;
+
+        /// <summary>
+        /// Gets or sets the toolTip.
+        /// </summary>
+        public ToolTip? ToolTip
+        {
+            get => _toolTip;
+            set => SetAndNotify(ref _toolTip, value);
+        }
+
+        public static ToolTip CreateMaterialDropTooltip(IEnumerable<(string ItemId, int Total, int Add)> drops)
+        {
+            var row = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new(4),
+            };
+
+            foreach (var (itemId, total, add) in drops)
+            {
+                var image = new Image
+                {
+                    Source = ItemListHelper.GetItemImage(itemId),
+                    Width = 32,
+                    Height = 32,
+                    Margin = new(2),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                string countText = add > 0
+                    ? $"{total:#,#} (+{add:#,#})"
+                    : $"{total:#,#}";
+
+                var text = new TextBlock
+                {
+                    Text = countText,
+                    FontSize = 12,
+                    FontWeight = FontWeights.Bold,
+                    TextAlignment = TextAlignment.Center,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new(2, 0, 2, 2),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    MaxWidth = 64,
+                };
+
+                var itemStack = new StackPanel
+                {
+                    Orientation = Orientation.Vertical,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new(4, 0, 4, 0),
+                };
+                itemStack.Children.Add(image);
+                itemStack.Children.Add(text);
+
+                row.Children.Add(itemStack);
+            }
+
+            return new()
+            {
+                Content = row,
+                Placement = PlacementMode.Top,
+            };
         }
     }
 }
