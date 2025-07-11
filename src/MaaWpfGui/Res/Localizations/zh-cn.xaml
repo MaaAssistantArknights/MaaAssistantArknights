@@ -1324,7 +1324,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 出现失误</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">漫长的任务</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">要不，咱再等等？</system:String>

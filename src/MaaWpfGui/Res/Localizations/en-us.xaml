@@ -1320,7 +1320,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.CopilotError.Title">Oops</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">An accident happened...</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during copilot operation</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during ｢{key=Copilot}｣</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">Long Task</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">How about we wait a bit longer?</system:String>
