@@ -13,8 +13,8 @@
 
 #nullable enable
 using System.Collections.Generic;
-using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
@@ -47,7 +47,7 @@ public class AsstRoguelikeTask : AsstBaseTask
     ///     </item>
     /// </list>
     /// </summary>
-    public RoguelikeMode Mode { get; set; }
+    public int Mode { get; set; }
 
     /// <summary>
     /// Gets or sets 刷投资的目标难度/其他模式的选择难度
@@ -198,7 +198,7 @@ public class AsstRoguelikeTask : AsstBaseTask
     {
         var taskParams = new JObject
         {
-            ["mode"] = (int)Mode,
+            ["mode"] = Mode,
             ["theme"] = Theme.ToString(),
             ["difficulty"] = Difficulty,
             ["starts_count"] = Starts,
@@ -227,12 +227,12 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["core_char"] = CoreChar;
         }
 
-        if (Mode == RoguelikeMode.Exp)
+        if (Mode == 0)
         {
             taskParams["stop_at_final_boss"] = StopAtFinalBoss;
             taskParams["stop_at_max_level"] = StopAtMaxLevel;
         }
-        else if (Mode == RoguelikeMode.Collectible)
+        else if (Mode == 4)
         {
             // 刷开局模式
             taskParams["collectible_mode_shopping"] = CollectibleModeShopping;
@@ -242,13 +242,13 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["collectible_mode_start_list"] = JObject.FromObject(CollectibleModeStartRewards);
         }
 
-        if (Mode == RoguelikeMode.Squad)
+        if (Mode == 6)
         {
             taskParams["monthly_squad_auto_iterate"] = MonthlySquadAutoIterate;
             taskParams["monthly_squad_check_comms"] = MonthlySquadCheckComms;
         }
 
-        if (Mode == RoguelikeMode.Exploration)
+        if (Mode == 7)
         {
             taskParams["deep_exploration_auto_iterate"] = DeepExplorationAutoIterate;
         }
@@ -263,7 +263,7 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["start_foldartal_list"] = JArray.FromObject(SamiNewSquad2StartingFoldartals);
         }
 
-        if (Mode == RoguelikeMode.CLP_PDS && ExpectedCollapsalParadigms.Count > 0)
+        if (Mode == 5 && ExpectedCollapsalParadigms.Count > 0)
         {
             taskParams["expected_collapsal_paradigms"] = JArray.FromObject(ExpectedCollapsalParadigms);
         }
