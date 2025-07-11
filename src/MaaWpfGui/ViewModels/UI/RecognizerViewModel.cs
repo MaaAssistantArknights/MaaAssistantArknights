@@ -354,7 +354,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public string Id { get; set; } = null!;
 
-            public BitmapImage? Image { get; set; }
+            public BitmapSource? Image { get; set; }
 
             public string? Count { get; set; }
         }
@@ -399,11 +399,6 @@ namespace MaaWpfGui.ViewModels.UI
         public string LoliconResult { get; set; } = string.Empty;
 
         /// <summary>
-        /// gets or sets the depot image.
-        /// </summary>
-        private static readonly Dictionary<string, BitmapImage?> _imageCache = new();
-
-        /// <summary>
         /// parse of depot recognition result
         /// </summary>
         /// <param name="details">detailed json-style parameters</param>
@@ -430,17 +425,11 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                if (!_imageCache.TryGetValue(id, out var image))
-                {
-                    image = ItemListHelper.GetItemImage(id);
-                    _imageCache[id] = image;
-                }
-
                 DepotResultDate result = new()
                 {
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
-                    Image = image,
+                    Image = ItemListHelper.GetItemImage(id),
                     Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
                         ? (haveValue > 10000
                             ? $"{haveValue / 10000.0:F1}w"
