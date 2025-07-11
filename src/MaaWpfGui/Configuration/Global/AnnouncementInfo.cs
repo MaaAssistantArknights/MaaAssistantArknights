@@ -13,7 +13,7 @@
 
 using System.ComponentModel;
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration.Global
 {
     public class AnnouncementInfo : INotifyPropertyChanged
     {

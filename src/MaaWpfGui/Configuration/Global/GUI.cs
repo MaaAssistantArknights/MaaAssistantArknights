@@ -15,7 +15,7 @@ using System.ComponentModel;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration.Global
 {
     public class GUI : INotifyPropertyChanged
     {

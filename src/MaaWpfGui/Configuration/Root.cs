@@ -14,6 +14,8 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using MaaWpfGui.Configuration.Global;
+using MaaWpfGui.Configuration.Single;
 using ObservableCollections;
 
 namespace MaaWpfGui.Configuration
