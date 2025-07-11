@@ -37,6 +37,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -1475,9 +1476,11 @@ namespace MaaWpfGui.Main
                         var statistics = subTaskDetails!["stats"] ?? new JArray();
                         var stageInfo = subTaskDetails!["stage"] ?? new JObject();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
+                        var drops = new List<(string ItemId, int Total, int Add)>();
 
                         foreach (var item in statistics)
                         {
+                            var itemId = item["itemId"]?.ToString();
                             var itemName = item["itemName"]?.ToString();
                             if (itemName == "furni")
                             {
@@ -1493,6 +1496,11 @@ namespace MaaWpfGui.Main
                                 allDrops += $" (+{addQuantity:#,#})";
                             }
 
+                            if (!string.IsNullOrEmpty(itemId))
+                            {
+                                drops.Add((itemId, totalQuantity, addQuantity));
+                            }
+
                             allDrops += "\n";
                         }
 
@@ -1502,7 +1510,8 @@ namespace MaaWpfGui.Main
                             $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
-                                : string.Empty)}");
+                                : string.Empty)}",
+                            toolTip: LogItemViewModel.CreateMaterialDropTooltip(drops));
 
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
