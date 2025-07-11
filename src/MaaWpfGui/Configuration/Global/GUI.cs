@@ -16,78 +16,77 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 
-namespace MaaWpfGui.Configuration.Global
+namespace MaaWpfGui.Configuration.Global;
+
+public class GUI : INotifyPropertyChanged
 {
-    public class GUI : INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public DarkModeType DarkMode { get; set; } = DarkModeType.SyncWithOs;
+
+    public bool UseNotify { get; set; } = true;
+
+    public bool MainTasksInvertNullFunction { get; set; } = false;
+
+    public string Localization { get; set; } = LocalizationHelper.DefaultLanguage;
+
+    public bool MinimizeToTray { get; set; } = false;
+
+    public bool HideCloseButton { get; set; } = false;
+
+    public string LogItemDateFormat { get; set; } = "HH:mm:ss";
+
+    public WindowPlacement? WindowPlacement { get; set; } = null;
+
+    public bool LoadWindowPlacement { get; set; } = true;
+
+    public bool SaveWindowPlacement { get; set; } = true;
+
+    public bool UseAlternateStage { get; set; } = false;
+
+    public bool HideUnavailableStage { get; set; } = true;
+
+    public bool CustomStageCode { get; set; } = false;
+
+    public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
+
+    public string WindowTitlePrefix { get; set; } = string.Empty;
+
+    public string FoundBadModules { get; set; } = string.Empty;
+
+    public string SuppressedBadModules { get; set; } = string.Empty;
+
+    // ReSharper disable once UnusedMember.Global
+    public void OnPropertyChanged(string propertyName, object before, object after)
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
+    }
 
-        public DarkModeType DarkMode { get; set; } = DarkModeType.SyncWithOs;
-
-        public bool UseNotify { get; set; } = true;
-
-        public bool MainTasksInvertNullFunction { get; set; } = false;
-
-        public string Localization { get; set; } = LocalizationHelper.DefaultLanguage;
-
-        public bool MinimizeToTray { get; set; } = false;
-
-        public bool HideCloseButton { get; set; } = false;
-
-        public string LogItemDateFormat { get; set; } = "HH:mm:ss";
-
-        public WindowPlacement? WindowPlacement { get; set; } = null;
-
-        public bool LoadWindowPlacement { get; set; } = true;
-
-        public bool SaveWindowPlacement { get; set; } = true;
-
-        public bool UseAlternateStage { get; set; } = false;
-
-        public bool HideUnavailableStage { get; set; } = true;
-
-        public bool CustomStageCode { get; set; } = false;
-
-        public InverseClearType InverseClearMode { get; set; } = InverseClearType.Clear;
-
-        public string WindowTitlePrefix { get; set; } = string.Empty;
-
-        public string FoundBadModules { get; set; } = string.Empty;
-
-        public string SuppressedBadModules { get; set; } = string.Empty;
-
-        // ReSharper disable once UnusedMember.Global
-        public void OnPropertyChanged(string propertyName, object before, object after)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-        }
+    /// <summary>
+    /// 表示深色模式的类型。
+    /// </summary>
+    public enum DarkModeType
+    {
+        /// <summary>
+        /// 与操作系统的深色模式同步。
+        /// </summary>
+        SyncWithOs = 0,
 
         /// <summary>
-        /// 表示深色模式的类型。
+        /// 明亮的主题。
         /// </summary>
-        public enum DarkModeType
-        {
-            /// <summary>
-            /// 与操作系统的深色模式同步。
-            /// </summary>
-            SyncWithOs = 0,
+        Light,
 
-            /// <summary>
-            /// 明亮的主题。
-            /// </summary>
-            Light,
+        /// <summary>
+        /// 暗黑的主题。
+        /// </summary>
+        Dark,
+    }
 
-            /// <summary>
-            /// 暗黑的主题。
-            /// </summary>
-            Dark,
-        }
-
-        public enum InverseClearType
-        {
-            Clear = 0,
-            Inverse,
-            ClearInverse,
-        }
+    public enum InverseClearType
+    {
+        Clear = 0,
+        Inverse,
+        ClearInverse,
     }
 }

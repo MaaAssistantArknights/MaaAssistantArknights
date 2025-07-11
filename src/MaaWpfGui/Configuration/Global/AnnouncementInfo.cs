@@ -14,25 +14,24 @@
 using System.ComponentModel;
 using MaaWpfGui.Configuration.Factory;
 
-namespace MaaWpfGui.Configuration.Global
+namespace MaaWpfGui.Configuration.Global;
+
+public class AnnouncementInfo : INotifyPropertyChanged
 {
-    public class AnnouncementInfo : INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 下次不再显示公告
+    /// </summary>
+    public bool DoNotShowAgain { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 不显示公告
+    /// </summary>
+    public bool DoNotShow { get; set; } = false;
+
+    public void OnPropertyChanged(string propertyName, object before, object after)
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 下次不再显示公告
-        /// </summary>
-        public bool DoNotShowAgain { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether 不显示公告
-        /// </summary>
-        public bool DoNotShow { get; set; } = false;
-
-        public void OnPropertyChanged(string propertyName, object before, object after)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-        }
+        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
     }
 }
