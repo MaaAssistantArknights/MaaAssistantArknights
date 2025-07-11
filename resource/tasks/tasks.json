@@ -1469,12 +1469,12 @@
     "UsingMedicineCount": {
         "baseTask": "NumberOcrReplace",
         "rectMove": [-95, 28, 105, 60],
-        "specialParams": [150, 255]
+        "specialParams": [220, 255]
     },
     "MedicineInventory": {
         "baseTask": "NumberOcrReplace",
         "rectMove": [-29, 87, 40, 33],
-        "specialParams": [150, 255]
+        "specialParams": [220, 255]
     },
     "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
