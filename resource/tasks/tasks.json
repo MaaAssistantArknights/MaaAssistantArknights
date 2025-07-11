@@ -3629,6 +3629,37 @@
         "action": "ClickRect",
         "specificRect": [15, 650, 80, 30]
     },
+    "BattleQuickFormationModulePage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["分支"],
+        "roi": [185, 320, 180, 40],
+        "postDelay": 500
+    },
+    "BattleQuickFormationModule-Item": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [5, 370, 80, 350],
+        "postDelay": 300
+    },
+    "BattleQuickFormationModule-0": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-1": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-2": {
+        "doc": "y模组匹配，由于y模组的字母有两种形式，所以需要两个模板",
+        "baseTask": "BattleQuickFormationModule-Item",
+        "template": ["BattleQuickFormationModule-2-A.png", "BattleQuickFormationModule-2-B.png"],
+        "templThreshold": [0.92, 0.92]
+    },
+    "BattleQuickFormationModule-3": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
+    "BattleQuickFormationModule-4": {
+        "baseTask": "BattleQuickFormationModule-Item"
+    },
     "BattleQuickFormationSkill-SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",

@@ -756,6 +756,8 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
+    <system:String x:Key="CopilotModule">Module</system:String>
+    <system:String x:Key="CopilotWithoutModule">Without Module</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
     <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
     <system:String x:Key="OtherOperators">Other operators:&#160;</system:String>
