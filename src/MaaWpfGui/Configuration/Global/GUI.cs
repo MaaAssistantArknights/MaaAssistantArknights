@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.ComponentModel;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 
