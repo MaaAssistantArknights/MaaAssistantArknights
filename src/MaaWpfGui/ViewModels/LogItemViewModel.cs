@@ -142,6 +142,19 @@ namespace MaaWpfGui.ViewModels
             return toolTip;
         }
 
+        public static ToolTip CreateTooltip(string text, int maxWidth = 750)
+        {
+            var tb = new TextBlock
+            {
+                Text = text,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new(4),
+                MaxWidth = maxWidth,
+            };
+
+            return CreateTooltip(tb);
+        }
+
         /// <summary>
         /// 掉落识别物品的 Tooltip 创建方法。
         /// </summary>
