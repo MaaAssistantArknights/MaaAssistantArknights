@@ -1584,6 +1584,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
+                        var tooltip = LogItemViewModel.CreateTooltip($"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}");
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
@@ -1591,11 +1592,11 @@ namespace MaaWpfGui.Main
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold");
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold", toolTip: tooltip);
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info, toolTip: tooltip);
                         }
 
                         if (level == 6)
