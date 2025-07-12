@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
+    <system:String x:Key="Copy">コピー</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>

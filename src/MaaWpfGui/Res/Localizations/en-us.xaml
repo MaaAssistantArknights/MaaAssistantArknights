@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
+    <system:String x:Key="Copy">Copy</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
