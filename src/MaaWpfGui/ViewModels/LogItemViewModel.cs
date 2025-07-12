@@ -21,6 +21,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -106,6 +107,9 @@ namespace MaaWpfGui.ViewModels
             get => _weight;
             set => SetAndNotify(ref _weight, value);
         }
+
+        [PropertyDependsOn(nameof(ToolTip))]
+        public bool ShowToolTip => _toolTip is { Content: not null };
 
         private ToolTip? _toolTip;
 
