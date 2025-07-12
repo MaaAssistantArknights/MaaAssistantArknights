@@ -367,7 +367,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
 
-    private Theme _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.Sarkaz);
+    private Theme _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.JieGarden);
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
