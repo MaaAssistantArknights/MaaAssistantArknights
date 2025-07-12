@@ -142,6 +142,11 @@ namespace MaaWpfGui.ViewModels
             return toolTip;
         }
 
+        /// <summary>
+        /// 掉落识别物品的 Tooltip 创建方法。
+        /// </summary>
+        /// <param name="drops">掉落物列表</param>
+        /// <returns>ToolTip</returns>
         public static ToolTip CreateMaterialDropTooltip(IEnumerable<(string ItemId, int Total, int Add)> drops)
         {
             var row = new WrapPanel
@@ -215,6 +220,58 @@ namespace MaaWpfGui.ViewModels
             }
 
             return CreateTooltip(row);
+        }
+
+        /// <summary>
+        /// 截图测速 Tooltip 创建方法。
+        /// </summary>
+        /// <param name="methods">测速列表</param>
+        /// <returns>ToolTip</returns>
+        public static ToolTip? CreateScreencapTooltip(IEnumerable<(string Method, string Cost)>? methods)
+        {
+            if (methods == null)
+            {
+                return null;
+            }
+
+            var panel = new StackPanel
+            {
+                Orientation = Orientation.Vertical,
+                Margin = new(4),
+            };
+
+            foreach (var (method, cost) in methods)
+            {
+                var grid = new Grid();
+                grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+                grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Auto) });
+
+                var methodText = new TextBlock
+                {
+                    Text = method,
+                    FontSize = 12,
+                    Margin = new(2, 1, 6, 1),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                };
+                Grid.SetColumn(methodText, 0);
+
+                var costText = new TextBlock
+                {
+                    Text = cost + " ms",
+                    FontSize = 12,
+                    Margin = new(2, 1, 2, 1),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                };
+                Grid.SetColumn(costText, 1);
+
+                grid.Children.Add(methodText);
+                grid.Children.Add(costText);
+                panel.Children.Add(grid);
+            }
+
+            return panel.Children.Count == 0
+                ? null
+                : CreateTooltip(panel);
         }
 
         #endregion

@@ -634,6 +634,18 @@ namespace MaaWpfGui.Main
                         string method = details["details"]?["method"]?.ToString() ?? "???";
                         SettingsViewModel.ConnectSettings.ScreencapMethod = method;
 
+                        List<(string Method, string Cost)>? screencapAlternatives = null;
+                        var alternativesToken = details["details"]?["alternatives"];
+                        if (alternativesToken is JArray { Count: > 1 } arr)
+                        {
+                            screencapAlternatives = arr.Select(item =>
+                            {
+                                string method1 = item?["method"]?.ToString() ?? "???";
+                                string cost1 = item?["cost"]?.ToString() ?? "???";
+                                return (method1, cost1);
+                            }).ToList();
+                        }
+
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
                         if (int.TryParse(costString, out var timeCost))
@@ -699,7 +711,7 @@ namespace MaaWpfGui.Main
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         var fastestScreencapString = fastestScreencapStringBuilder.ToString();
                         SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: LogItemViewModel.CreateScreencapTooltip(screencapAlternatives));
                         Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
                         // 截图增强未生效禁止启动
