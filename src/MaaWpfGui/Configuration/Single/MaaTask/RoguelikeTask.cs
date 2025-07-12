@@ -186,6 +186,11 @@ public enum RoguelikeTheme
     /// 萨卡兹
     /// </summary>
     Sarkaz,
+
+    /// <summary>
+    /// 界园
+    /// </summary>
+    JieGarden,
 }
 
 public enum RoguelikeMode
