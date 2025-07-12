@@ -1321,6 +1321,9 @@
         "text": ["Deployment Cost"],
         "roi": [996, 443, 222, 125]
     },
+    "BattleQuickFormationModulePage": {
+        "text": ["Branch"]
+    },
     "BattleQuickFormationRole-All-OCR": {
         "text": ["All"]
     },
