@@ -401,12 +401,21 @@
                             Content="{DynamicResource ShowChangelog}"
                             IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                     </StackPanel>
-                    <Button
-                        Grid.Row="4"
-                        Margin="5"
-                        Command="{s:Action ManualUpdateResource}"
-                        Content="{DynamicResource ResourceUpdate}"
-                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                    <StackPanel Grid.Row="4">
+                        <Button
+                            Margin="5"
+                            Command="{s:Action ManualUpdateResource}"
+                            Content="{DynamicResource ResourceUpdate}"
+                            IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                        <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Hyperlink
+                                Cursor="Hand"
+                                NavigateUri="{Binding Source={x:Static constants:MaaUrls.ResourceRepository}}"
+                                TextDecorations="None">
+                                <TextBlock Text="{DynamicResource ResourceRepository}" />
+                            </Hyperlink>
+                        </controls:TextBlock>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </Grid>
