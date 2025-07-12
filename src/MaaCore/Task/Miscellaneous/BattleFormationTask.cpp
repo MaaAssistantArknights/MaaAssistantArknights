@@ -107,9 +107,12 @@ bool asst::BattleFormationTask::_run()
         Log.info(__FUNCTION__, "| Returned to quick formation scene");
     }
 
-    // 在尝试补齐编队后依然有缺失干员，自动编队失败
-    if (!missing_operators.empty()) {
-        report_missing_operators(missing_operators);
+    // 缓存缺失干员列表
+    std::vector<OperGroup> cached_missing_operators = missing_operators;
+
+    // 如果没有勾选"缺少干员时仍然追加或补充低信赖干员"，则报告缺失干员并返回失败
+    if (!m_continue_when_missing_operators) {
+        report_missing_operators(cached_missing_operators);
         return false;
     }
 
@@ -134,11 +137,19 @@ bool asst::BattleFormationTask::_run()
         }
     }
 
+    // 添加其他附加干员和信赖干员
     add_additional();
     if (m_add_trust) {
         add_trust_operators();
     }
     confirm_selection();
+
+    // 在所有干员都添加完成后，再判断是否有缺失干员
+    if (!cached_missing_operators.empty()) {
+        // 然后再报告缺失干员
+        report_missing_operators(cached_missing_operators);
+        return false;
+    }
 
     if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
         m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({ m_specific_support_unit }, 5, true);

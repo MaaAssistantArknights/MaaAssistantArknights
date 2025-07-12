@@ -206,6 +206,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
+        public const string CopilotContinueWhenMissingOperators = "Copilot.ContinueWhenMissingOperators";
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string ProxyType = "VersionUpdate.ProxyType";
         public const string VersionType = "VersionUpdate.VersionType";
