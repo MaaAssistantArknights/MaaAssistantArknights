@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -165,7 +166,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void InfrastItemSelectedAll()
     {
         foreach (var item in InfrastItemViewModels)
@@ -175,7 +176,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void InfrastItemUnselectedAll()
     {
         foreach (var item in InfrastItemViewModels)
@@ -360,8 +361,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Selects infrast config file.
     /// </summary>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    /// UI 绑定的方法
+    [UsedImplicitly]
     public void SelectCustomInfrastFile()
     {
         var dialog = new OpenFileDialog

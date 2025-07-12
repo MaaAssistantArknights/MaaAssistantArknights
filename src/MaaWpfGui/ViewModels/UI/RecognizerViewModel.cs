@@ -20,10 +20,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -35,7 +35,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using Windows.Storage.Streams;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -192,8 +191,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// Starts calculation.
         /// </summary>
         /// <returns>Task</returns>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public async Task RecruitStartCalc()
         {
             string errMsg = string.Empty;
@@ -458,8 +457,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to ArkPlanner.
         /// </summary>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ExportToArkplanner()
         {
             System.Windows.Forms.Clipboard.Clear();
@@ -470,8 +469,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to Lolicon.
         /// </summary>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ExportToLolicon()
         {
             System.Windows.Forms.Clipboard.Clear();
@@ -490,8 +489,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// Starts depot recognition.
         /// </summary>
         /// <returns>Task</returns>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public async Task StartDepot()
         {
             _runningState.SetIdle(false);
@@ -688,7 +687,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <returns>Task</returns>
         /// xaml 中用到了
-        /// ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public async Task StartOperBox()
         {
             _tempOperHaveSet = [];
@@ -712,8 +712,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void ExportOperBox()
         {
             if (OperBoxDataArray.Count == 0)
@@ -738,15 +738,13 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaInfo, value);
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
         public async Task GachaOnce()
         {
             await StartGacha();
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
         public async Task GachaTenTimes()
         {
             await StartGacha(false);
@@ -827,8 +825,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void GachaAgreeDisclaimer()
         {
             var result = MessageBoxHelper.Show(

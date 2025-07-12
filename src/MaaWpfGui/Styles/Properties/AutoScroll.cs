@@ -15,6 +15,7 @@ using System;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using JetBrains.Annotations;
 
 namespace MaaWpfGui.Styles.Properties
 {
@@ -30,7 +31,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static bool GetAutoScroll(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoScrollProperty);

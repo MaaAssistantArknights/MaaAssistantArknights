@@ -15,10 +15,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Notification;
-using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -36,7 +36,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public static void ExternalNotificationSendTest()
     {
         ExternalNotificationService.Send(

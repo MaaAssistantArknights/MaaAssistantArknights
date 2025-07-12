@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -45,7 +46,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void AccountSwitchManualRun()
     {
         _ = Instances.TaskQueueViewModel.QuickSwitchAccount();

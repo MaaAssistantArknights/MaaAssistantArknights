@@ -457,16 +457,6 @@ public class VersionUpdateViewModel : Screen
         MirrorChyan,
     }
 
-    // ReSharper disable once IdentifierTypo
-    // ReSharper disable once UnusedMember.Global
-    public enum Downloader
-    {
-        /// <summary>
-        /// 原生下载器
-        /// </summary>
-        Native,
-    }
-
     private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
 
     /// <summary>

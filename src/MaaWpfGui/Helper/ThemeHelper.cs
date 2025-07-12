@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
@@ -117,7 +118,7 @@ namespace MaaWpfGui.Helper
                 : $"#FF{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static string Brush2HexString(SolidColorBrush brush, bool keepAlpha = false)
         {
             return brush != null
