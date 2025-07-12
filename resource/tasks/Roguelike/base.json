@@ -701,7 +701,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@GetDrop",
         "Doc2": "希望，黄色的“拿走”按钮",
-        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"]
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
     },
     "Roguelike@GetDrop3": {
         "Doc": "base_task",
