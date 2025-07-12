@@ -625,7 +625,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     min_cost = duration;
                 }
                 Log.info("MumuExtras cost", duration.count(), "ms");
-                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, std::to_string(duration.count()));
+                all_methods_cost.emplace_back(
+                    AdbProperty::ScreencapMethod::MumuExtras,
+                    std::to_string(duration.count()));
             }
             else {
                 Log.info("MumuExtras is not supported");
