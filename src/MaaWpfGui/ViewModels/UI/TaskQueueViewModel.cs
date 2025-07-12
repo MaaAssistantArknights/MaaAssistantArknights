@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1010,8 +1011,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects all.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void SelectedAll()
         {
             foreach (var item in TaskItemViewModels)
@@ -1102,8 +1103,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Changes inversion mode.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
@@ -1112,8 +1113,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects inversely.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void InverseSelected()
         {
             if (InverseMode)
@@ -1483,7 +1484,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public async Task WaitAndStop()
         {
             Waiting = true;
@@ -1774,7 +1775,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Waiting
         {
             // UI 会根据这个值来改变 Visibility
-            // ReSharper disable once UnusedMember.Global
+            [UsedImplicitly]
             get => _waiting;
             private set => SetAndNotify(ref _waiting, value);
         }

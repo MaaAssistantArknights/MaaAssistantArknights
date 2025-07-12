@@ -76,7 +76,7 @@ public class RoguelikeTask : BaseTask
     public RoguelikeCollectibleAward CollectibleStartAwards { get; set; } = RoguelikeCollectibleAward.HotWater | RoguelikeCollectibleAward.Hope | RoguelikeCollectibleAward.Idea;
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets 烧水购物
+    /// Gets or sets a value indicating whether 烧水购物
     /// </summary>
     public bool CollectibleShopping { get; set; }
 

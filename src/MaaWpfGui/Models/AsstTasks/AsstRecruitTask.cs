@@ -31,7 +31,7 @@ public class AsstRecruitTask : AsstBaseTask
     public int RecruitTimes { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets 是否刷新三星 Tags, 可选，默认false
+    /// Gets or sets a value indicating whether 是否刷新三星 Tags, 可选，默认false
     /// </summary>
     public bool Refresh { get; set; }
 

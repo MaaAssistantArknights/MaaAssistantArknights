@@ -13,6 +13,7 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -53,7 +54,7 @@ public class BaseTask : INotifyPropertyChanged
     /// </summary>
     public TaskType TaskType { get; init; }
 
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

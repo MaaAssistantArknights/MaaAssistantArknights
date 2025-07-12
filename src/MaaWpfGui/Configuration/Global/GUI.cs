@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.ComponentModel;
+using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -56,7 +57,7 @@ public class GUI : INotifyPropertyChanged
 
     public string SuppressedBadModules { get; set; } = string.Empty;
 
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

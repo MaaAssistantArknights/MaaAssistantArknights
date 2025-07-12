@@ -175,7 +175,6 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="key">The configuration key.</param>
         /// <returns>The return value of <see cref="Save"/>.</returns>
-        // ReSharper disable once UnusedMember.Global
         public static bool DeleteValue(string key) => DeleteValue(key, out _);
 
         /// <summary>
@@ -184,7 +183,6 @@ namespace MaaWpfGui.Helper
         /// <param name="key">The configuration key.</param>
         /// <param name="value">The old value.</param>
         /// <returns>The return value of <see cref="Save"/>.</returns>
-        // ReSharper disable once UnusedMember.Global
         public static bool DeleteValue(string key, out string value)
         {
             value = string.Empty;

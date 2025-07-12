@@ -16,10 +16,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
+using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -149,7 +148,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void SetAcknowledgedNightlyWarning()
     {
         // 其实不应该放这里，但懒得写一个新的方法，就塞到这里了

@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace MaaWpfGui.Constants
 {
     /// <summary>
@@ -51,7 +53,7 @@ namespace MaaWpfGui.Constants
         /// <summary>
         /// The recommended color for robot operator logs.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public const string RobotOperator = "RobotOperatorLogBrush";
 
         /// <summary>

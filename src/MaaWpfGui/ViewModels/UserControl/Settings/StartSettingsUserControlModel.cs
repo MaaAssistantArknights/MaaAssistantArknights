@@ -13,7 +13,6 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -23,14 +22,13 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Windows;
 using HandyControl.Controls;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 
@@ -511,8 +509,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Selects the emulator to execute.
     /// </summary>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    /// UI 绑定的方法
+    [UsedImplicitly]
     public void SelectEmulatorExec()
     {
         var dialog = new OpenFileDialog

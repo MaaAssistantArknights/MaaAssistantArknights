@@ -14,6 +14,7 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single;
@@ -54,7 +55,7 @@ public class Root : INotifyPropertyChanged
         set => Configurations[Current] = value;
     }
 
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void OnPropertyChanged(string propertyName, object before, object after)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

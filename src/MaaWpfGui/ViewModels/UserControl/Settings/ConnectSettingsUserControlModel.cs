@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -36,7 +37,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using WinRT;
 using Window = HandyControl.Controls.Window;
 using WindowManager = MaaWpfGui.Helper.WindowManager;
 
@@ -180,7 +180,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void RemoveAddressClick(string address)
     {
         ConnectAddressHistory.Remove(address);
@@ -852,8 +852,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Selects ADB program file.
     /// </summary>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    /// UI 绑定的方法
+    [UsedImplicitly]
     public void SelectFile()
     {
         var dialog = new OpenFileDialog();
@@ -874,8 +874,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// Test Link And Get Image.
     /// </summary>
     /// <returns>Task</returns>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    /// UI 绑定的方法
+    [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
         _runningState.SetIdle(false);
@@ -1047,7 +1047,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public async Task ReplaceAdb()
     {
         if (string.IsNullOrEmpty(AdbPath))
