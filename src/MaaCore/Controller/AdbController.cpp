@@ -557,6 +557,8 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
     image_payload = cv::Mat(); // 清空缓存
     if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
+        std::vector<std::pair<AdbProperty::ScreencapMethod, std::string>> all_methods_cost;
+
         Log.info("Try to find the fastest way to screencap");
         auto min_cost = milliseconds(LLONG_MAX);
         clear_lf_info();
@@ -571,9 +573,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawByNc, std::to_string(duration.count()));
         }
         else {
             Log.info("RawByNc is not supported");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawByNc, "???");
         }
         clear_lf_info();
 
@@ -586,9 +590,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawWithGzip, std::to_string(duration.count()));
         }
         else {
             Log.info("RawWithGzip is not supported");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawWithGzip, "???");
         }
         clear_lf_info();
 
@@ -601,9 +607,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, std::to_string(duration.count()));
         }
         else {
             Log.info("Encode is not supported");
+            all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, "???");
         }
 
 #if ASST_WITH_EMULATOR_EXTRAS
@@ -617,9 +625,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     min_cost = duration;
                 }
                 Log.info("MumuExtras cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, std::to_string(duration.count()));
             }
             else {
                 Log.info("MumuExtras is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, "???");
             }
         }
         if (m_ld_extras.inited()) {
@@ -632,9 +642,11 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                     min_cost = duration;
                 }
                 Log.info("LDExtras cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, std::to_string(duration.count()));
             }
             else {
                 Log.info("LDExtras is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::LDExtras, "???");
             }
         }
 #endif
@@ -660,6 +672,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                       { "cost", min_cost.count() },
                   } },
             };
+            json::array alt;
+            for (auto& [method, cost] : all_methods_cost) {
+                alt.push_back(json::object { { "method", MethodName.at(method) }, { "cost", cost } });
+            }
+            auto details_obj = info.at("details").as_object();
+            details_obj["alternatives"] = std::move(alt);
+            info.as_object()["details"] = std::move(details_obj);
             callback(AsstMsg::ConnectionInfo, info);
         }
         clear_lf_info();
