@@ -118,15 +118,22 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </controls:TextBlock>
-                            <hc:PasswordBox
-                                Width="150"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
-                                IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
-                                IsSafeEnabled="False"
-                                ShowEyeButton="True"
-                                UnsafePassword="{Binding MirrorChyanCdk}" />
+                            <Grid Width="150">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <hc:PasswordBox
+                                    hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
+                                    IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding MirrorChyanCdk}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{s:Action MirrorChyanCdkCopy}"
+                                    Content="{DynamicResource Copy}" />
+                            </Grid>
                         </StackPanel>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
