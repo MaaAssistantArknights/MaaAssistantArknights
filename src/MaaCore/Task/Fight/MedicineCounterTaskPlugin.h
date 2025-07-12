@@ -52,7 +52,7 @@ private:
     struct Medicine
     {
         int use = 0;
-        int inventry = 0;
+        int inventory = 0;
         asst::Rect reduce_button_position;
         ExpiringStatus is_expiring;
     };
@@ -65,7 +65,7 @@ private:
     };
 
     // 识别使用的药量
-    std::optional<MedicineResult> init_count(cv::Mat image) const;
+    std::optional<MedicineResult> init_count(const cv::Mat& image) const;
     // 减少药品使用
     void reduce_excess(const MedicineResult& using_medicine, int reduce);
 
