@@ -53,6 +53,7 @@
                         MinHeight="220"
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=16}"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         Background="Transparent"
@@ -352,7 +353,10 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 PanningMode="Both">
-                <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
+                <controls:TextBlock
+                    d:Text="{DynamicResource TodaysStageTip}"
+                    Text="{Binding StagesOfToday}"
+                    TextWrapping="Wrap" />
             </hc:ScrollViewer>
         </Grid>
 
@@ -363,7 +367,6 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
-            d:Height="440"
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
@@ -372,7 +375,7 @@
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                d:ItemsSource="{d:SampleData ItemCount=16}"
+                d:ItemsSource="{d:SampleData ItemCount=30}"
                 ItemsSource="{Binding LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -423,7 +426,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="10"
                                         Foreground="{DynamicResource PrimaryTextBrush}"
-                                        Text=">" />
+                                        Text="&gt;" />
                                 </Border>
                             </Grid>
                         </Grid>
