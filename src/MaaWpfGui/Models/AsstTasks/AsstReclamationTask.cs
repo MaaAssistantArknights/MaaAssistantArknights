@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
@@ -28,7 +29,7 @@ public class AsstReclamationTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 生息演算主题
     /// </summary>
-    public string Theme { get; set; } = "Tales";
+    public ReclamationTheme Theme { get; set; } = ReclamationTheme.Tales;
 
     /// <summary>
     /// Gets or sets 生息演算模式
@@ -43,7 +44,7 @@ public class AsstReclamationTask : AsstBaseTask
     ///     </item>
     /// </list>
     /// </summary>
-    public int Mode { get; set; } = 0;
+    public ReclamationMode Mode { get; set; } = ReclamationMode.NoArchive;
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
@@ -69,8 +70,8 @@ public class AsstReclamationTask : AsstBaseTask
     {
         var data = new JObject
         {
-            ["theme"] = Theme,
-            ["mode"] = Mode,
+            ["theme"] = Theme.ToString(),
+            ["mode"] = (int)Mode,
             ["increment_mode"] = IncrementMode,
             ["num_craft_batches"] = MaxCraftCountPerRound,
             ["tools_to_craft"] = new JArray(ToolToCraft),

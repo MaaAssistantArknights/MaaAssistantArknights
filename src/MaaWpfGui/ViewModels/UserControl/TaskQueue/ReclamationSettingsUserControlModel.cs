@@ -22,7 +22,8 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
-
+using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
+using Mode= MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class ReclamationSettingsUserControlModel : TaskViewModel
@@ -37,42 +38,42 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the list of reclamation themes.
     /// </summary>
-    public List<CombinedData> ReclamationThemeList { get; } =
+    public List<GenericCombinedData<Theme>> ReclamationThemeList { get; } =
         [
-            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = "Fire" },
-            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = "Tales" },
+            new() { Display = $"{LocalizationHelper.GetString("ReclamationThemeFire")} ({LocalizationHelper.GetString("ClosedStage")})", Value = Theme.Fire },
+            new() { Display = LocalizationHelper.GetString("ReclamationThemeTales"), Value = Theme.Tales },
         ];
 
-    private string _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, "Tales");
+    private Theme _reclamationTheme = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationTheme, Theme.Tales);
 
     /// <summary>
     /// Gets or sets the Reclamation theme.
     /// </summary>
-    public string ReclamationTheme
+    public Theme ReclamationTheme
     {
         get => _reclamationTheme;
         set
         {
             SetAndNotify(ref _reclamationTheme, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value.ToString());
         }
     }
 
     /// <summary>
     /// Gets the list of reclamation modes.
     /// </summary>
-    public List<GenericCombinedData<int>> ReclamationModeList { get; } =
+    public List<GenericCombinedData<Mode>> ReclamationModeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = 0 },
-            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = 1 },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.NoArchive },
+            new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.Archive },
         ];
 
-    private int _reclamationMode = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, "1"), out var outMode) ? outMode : 1;
+    private Mode _reclamationMode = ConfigurationHelper.GetValue(ConfigurationKeys.ReclamationMode, Mode.Archive);
 
     /// <summary>
     /// Gets or sets 策略，无存档刷生息点数 / 有存档刷生息点数
     /// </summary>
-    public int ReclamationMode
+    public Mode ReclamationMode
     {
         get => _reclamationMode;
         set
@@ -173,7 +174,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <returns>返回(Asst任务类型, 参数)</returns>
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        return new AsstReclamationTask()
+        return new AsstReclamationTask
         {
             Theme = ReclamationTheme,
             Mode = ReclamationMode,
