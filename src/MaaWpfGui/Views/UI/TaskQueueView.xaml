@@ -363,6 +363,7 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
+            d:Height="440"
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
@@ -371,6 +372,7 @@
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                d:ItemsSource="{d:SampleData ItemCount=16}"
                 ItemsSource="{Binding LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -388,17 +390,42 @@
                                 Foreground="{DynamicResource TraceLogBrush}"
                                 Text="{Binding Time}"
                                 TextWrapping="Wrap" />
-                            <controls:TextBlock
+                            <Grid
                                 Grid.Column="1"
                                 Margin="0,5"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Stretch"
-                                FontWeight="{Binding Weight}"
-                                ForegroundKey="{Binding Color}"
-                                Text="{Binding Content}"
-                                TextWrapping="Wrap"
                                 ToolTip="{Binding ToolTip}"
-                                ToolTipService.InitialShowDelay="200" />
+                                ToolTipService.InitialShowDelay="200">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <controls:TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    FontWeight="{Binding Weight}"
+                                    ForegroundKey="{Binding Color}"
+                                    Text="{Binding Content}"
+                                    TextWrapping="Wrap" />
+                                <Border
+                                    Grid.Column="1"
+                                    Width="15"
+                                    Height="15"
+                                    Margin="10,0,0,0"
+                                    Background="{DynamicResource MouseOverRegionBrush}"
+                                    Style="{StaticResource BorderCircular}"
+                                    Visibility="{c:Binding ShowToolTip}">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="10"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        Text=">" />
+                                </Border>
+                            </Grid>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
