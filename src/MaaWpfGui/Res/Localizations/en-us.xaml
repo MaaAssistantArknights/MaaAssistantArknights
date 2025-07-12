@@ -199,6 +199,7 @@
     <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
     <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">Top Gun Squad</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -214,6 +215,7 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
@@ -374,6 +376,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
