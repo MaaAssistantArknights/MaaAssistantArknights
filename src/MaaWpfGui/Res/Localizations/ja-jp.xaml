@@ -274,6 +274,7 @@
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
+    <system:String x:Key="ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 海外ソースを使用：

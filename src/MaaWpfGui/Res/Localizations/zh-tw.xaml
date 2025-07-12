@@ -272,6 +272,7 @@
     <system:String x:Key="UpdateCheckNow">軟體更新</system:String>
     <system:String x:Key="ShowChangelog">更新日誌</system:String>
     <system:String x:Key="ResourceUpdate">資源更新</system:String>
+    <system:String x:Key="ResourceRepository">資源倉庫</system:String>
     <system:String x:Key="UpdateSource">更新來源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用海外源：
