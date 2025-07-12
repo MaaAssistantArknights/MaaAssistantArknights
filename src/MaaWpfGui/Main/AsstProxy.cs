@@ -889,7 +889,7 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainStart:
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain));
                         TaskStatusUpdate(taskId, TaskStatus.InProgress);
                         break;
                     }
@@ -917,11 +917,11 @@ namespace MaaWpfGui.Main
                         if (taskChain == "Fight" && FightTask.SanityReport is not null)
                         {
                             var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain) + sanityLog);
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
                         }
 
                         if (isCopilotTaskChain)
@@ -1066,7 +1066,7 @@ namespace MaaWpfGui.Main
                     }
                     else if (isCopilotTaskChain)
                     {
-                        ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
                     }
 
                     if (buyWine)
@@ -1531,7 +1531,9 @@ namespace MaaWpfGui.Main
                     }
 
                 case "EnterFacility":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") + subTaskDetails!["facility"] + " " + (int)(subTaskDetails["index"] ?? -1));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                        LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                        ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"));
                     break;
 
                 case "ProductIncorrect":

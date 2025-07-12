@@ -515,12 +515,17 @@ C:\\leidian\\LDPlayer9
     <!--  자동화  -->
     <system:String x:Key="Farming">시작</system:String>
     <system:String x:Key="WakeUp">로그인</system:String>
+    <system:String x:Key="StartUp">{key=WakeUp}</system:String>
     <system:String x:Key="Recruiting">공개모집</system:String>
+    <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">기반시설 교대</system:String>
+    <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">이성 사용</system:String>
+    <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
+    <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
     <system:String x:Key="MiniGame">미니게임</system:String>
