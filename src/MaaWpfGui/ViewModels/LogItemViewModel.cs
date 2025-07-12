@@ -14,9 +14,11 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
@@ -37,7 +39,7 @@ namespace MaaWpfGui.ViewModels
         /// <param name="weight">The font weight.</param>
         /// <param name="dateFormat">The Date format string</param>
         /// <param name="showTime">The showtime bool.</param>
-        /// <param name="poptipContent">The poptip content</param>
+        /// <param name="toolTip">The toolTip</param>
         public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true, ToolTip? toolTip = null)
         {
             if (string.IsNullOrEmpty(dateFormat))
@@ -45,12 +47,12 @@ namespace MaaWpfGui.ViewModels
                 dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
             }
 
-            Time = DateTime.Now.ToString(dateFormat);
-            Content = content;
-            Color = color;
-            Weight = weight;
-            ShowTime = showTime;
-            ToolTip = toolTip;
+            _time = DateTime.Now.ToString(dateFormat);
+            _content = content;
+            _color = color;
+            _weight = weight;
+            _showTime = showTime;
+            _toolTip = toolTip;
         }
 
         private string _time;
@@ -64,7 +66,7 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _time, value);
         }
 
-        private bool _showTime = true;
+        private bool _showTime;
 
         public bool ShowTime
         {
@@ -116,16 +118,44 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _toolTip, value);
         }
 
+        #region 创建日志 Tooltip 的辅助方法
+
+        private static ToolTip CreateTooltip(object content)
+        {
+            var toolTip = new ToolTip
+            {
+                Content = content,
+                Placement = PlacementMode.Center,
+            };
+            toolTip.Opened += (_, _) =>
+            {
+                if (toolTip.PlacementTarget is FrameworkElement target)
+                {
+                    double offset = -(target.ActualHeight / 2) - (toolTip.ActualHeight / 2);
+                    toolTip.VerticalOffset = offset;
+                }
+                else
+                {
+                    toolTip.VerticalOffset = -60;
+                }
+            };
+            return toolTip;
+        }
+
         public static ToolTip CreateMaterialDropTooltip(IEnumerable<(string ItemId, int Total, int Add)> drops)
         {
-            var row = new StackPanel
+            var row = new WrapPanel
             {
                 Orientation = Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Margin = new(4),
+                ItemWidth = 64,
+                MaxWidth = (64 * 5) + (4 * 10),
             };
 
-            foreach (var (itemId, total, add) in drops)
+            foreach (var (itemId, total, add) in drops
+                         .OrderByDescending(x => x.Add)
+                         .ThenByDescending(x => x.Total))
             {
                 var image = new Image
                 {
@@ -136,17 +166,13 @@ namespace MaaWpfGui.ViewModels
                     HorizontalAlignment = HorizontalAlignment.Center,
                 };
 
-                string countText = add > 0
-                    ? $"{total:#,#} (+{add:#,#})"
-                    : $"{total:#,#}";
-
                 var text = new TextBlock
                 {
-                    Text = countText,
+                    Text = FormatNumber(total),
                     FontSize = 12,
                     FontWeight = FontWeights.Bold,
                     TextAlignment = TextAlignment.Center,
-                    TextWrapping = TextWrapping.Wrap,
+                    TextWrapping = TextWrapping.NoWrap,
                     Margin = new(2, 0, 2, 2),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     MaxWidth = 64,
@@ -161,28 +187,36 @@ namespace MaaWpfGui.ViewModels
                 itemStack.Children.Add(image);
                 itemStack.Children.Add(text);
 
+                if (add > 0)
+                {
+                    var textAdd = new TextBlock
+                    {
+                        FontSize = 10,
+                        TextAlignment = TextAlignment.Center,
+                        TextWrapping = TextWrapping.NoWrap,
+                        Margin = new(2, 0, 2, 2),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        MaxWidth = 64,
+                    };
+                    textAdd.Inlines.Add(new Run($"(+{FormatNumber(add)})"));
+                    itemStack.Children.Add(textAdd);
+                }
+
                 row.Children.Add(itemStack);
+                continue;
+
+                static string FormatNumber(int n) => n switch
+                {
+                    >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
+                    >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
+                    >= 1_000 => $"{n / 1_000.0:#.#}k",
+                    _ => $"{n}",
+                };
             }
 
-            var toolTip = new ToolTip
-            {
-                Content = row,
-                Placement = PlacementMode.Center,
-            };
-            toolTip.Opened += (s, e) =>
-            {
-                if (toolTip.PlacementTarget is FrameworkElement target)
-                {
-                    double offset = -(target.ActualHeight / 2) - (toolTip.ActualHeight / 2);
-                    toolTip.VerticalOffset = offset;
-                }
-                else
-                {
-                    toolTip.VerticalOffset = -60;
-                }
-            };
-
-            return toolTip;
+            return CreateTooltip(row);
         }
+
+        #endregion
     }
 }
