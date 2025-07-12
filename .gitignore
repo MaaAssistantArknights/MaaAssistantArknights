@@ -467,3 +467,5 @@ Thumbs.db
 
 # macOS Finder Shit
 .DS_Store
+
+/config/maa_pi_config.json
