@@ -35,12 +35,17 @@ private:
         Expiring = 2,
     };
 
-    inline static std::string expiring_status_to_string(ExpiringStatus status) {
+    static std::string expiring_status_to_string(ExpiringStatus status)
+    {
         switch (status) {
-            case ExpiringStatus::UnSure: return "UnSure";
-            case ExpiringStatus::NotExpiring: return "NotExpiring";
-            case ExpiringStatus::Expiring: return "Expiring";
-            default: return "Unknown";
+        case ExpiringStatus::UnSure:
+            return "UnSure";
+        case ExpiringStatus::NotExpiring:
+            return "NotExpiring";
+        case ExpiringStatus::Expiring:
+            return "Expiring";
+        default:
+            return "Unknown";
         }
     }
 
