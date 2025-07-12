@@ -398,7 +398,7 @@
                                 Text="{Binding Content}"
                                 TextWrapping="Wrap"
                                 ToolTip="{Binding ToolTip}"
-                                ToolTipService.InitialShowDelay="0" />
+                                ToolTipService.InitialShowDelay="200" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
