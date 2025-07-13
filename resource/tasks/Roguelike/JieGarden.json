@@ -307,6 +307,7 @@
             "JieGarden@Roguelike@StageDreadfulFoe-5",
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageBoons",
+            "JieGarden@Roguelike@StageGuidance",
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageTrader",
@@ -556,6 +557,12 @@
         "templThreshold": 0.95,
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
+    "JieGarden@Roguelike@StageGuidance": {
+        "Doc": "指点迷津",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
+    },
     "JieGarden@Roguelike@StageProphecy": {
         "Doc": "命运所指",
         "baseTask": "JieGarden@Roguelike@Stage",
@@ -657,6 +664,7 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
+            "JieGarden@Roguelike@StageGuidance",
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageCombatDps",
             "JieGarden@Roguelike@StageSafeHouse",
@@ -680,6 +688,7 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
+            "JieGarden@Roguelike@StageGuidance",
             "JieGarden@Roguelike@StageTrader",
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageBoons",
@@ -713,6 +722,7 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
+            "JieGarden@Roguelike@StageGuidance",
             "JieGarden@Roguelike@StageCombatDps",
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageBoons",
@@ -744,12 +754,6 @@
         "template": "JieGarden@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
-    "JieGarden@Roguelike@StartExploreWithSeed-ClickPen": {},
-    "JieGarden@Roguelike@StartExploreWithSeed-Confirm": {},
-    "JieGarden@Roguelike@StartExploreWithSeed-InputSeed": {
-        "inputText": "U1eIA1I29844Ae925i,rogue_4,6"
-    },
-    "JieGarden@Roguelike@StartExploreWithSeed-SetDifficulty": {},
     "JieGarden@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],
