@@ -1321,15 +1321,15 @@
         "text": ["Deployment Cost"],
         "roi": [996, 443, 222, 125]
     },
-    "BattleQuickFormationModulePage": {
-        "text": ["Branch"]
-    },
     "BattleQuickFormationRole-All-OCR": {
         "text": ["All"]
     },
     "BattleQuickFormationOCR": {
         "rectMove": [0, 231, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
+    },
+    "BattleQuickFormationModulePage": {
+        "text": ["Branch"]
     },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]
