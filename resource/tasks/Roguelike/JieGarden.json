@@ -192,12 +192,22 @@
     },
     "JieGarden@Roguelike@GetDropLeave": {},
     "JieGarden@Roguelike@GetDropRecruit": {},
+    "JieGarden@Roguelike@GetDropSwitch": {
+        "Doc": "交换通宝",
+        "template": "JieGarden@Roguelike@GetDropSwitch.png",
+        "action": "ClickSelf",
+        "roi": [0, 420, 1280, 175],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "next_Doc": ["这里大概是直接点放弃"]
+    },
     "JieGarden@Roguelike@GetDropSelect": {
         "next": [
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@GetDropSelectRecruit",
             "JieGarden@Roguelike@GetDropSelectReward",
+            "JieGarden@Roguelike@GetDropSwitch",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@GetDropCompleted",
             "JieGarden@Roguelike@GetDropSelect"
@@ -214,6 +224,7 @@
             "JieGarden@Roguelike@GetDrop3",
             "JieGarden@Roguelike@GetDropSelectReward",
             "JieGarden@Roguelike@GetDropSelect",
+            "JieGarden@Roguelike@GetDropSwitch",
             "JieGarden@Roguelike@GetDropRecruit"
         ]
     },
@@ -276,6 +287,12 @@
     "JieGarden@Roguelike@NextLevel": {
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "辉光天顶", "是非境"],
         "roi": [550, 564, 184, 64]
+    },
+    "JieGarden@Roguelike@RandomPick": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [346, 560, 684, 66],
+        "next": ["JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@RecruitMain": {
         "template": "JieGarden@Roguelike@Recruit.png"
@@ -661,6 +678,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPick",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -685,6 +703,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPick",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -709,6 +728,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPick",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing-FastInvestment"
@@ -719,6 +739,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPick",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -742,6 +763,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPick",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing"
