@@ -4,7 +4,7 @@
         x:Key="BaseListBoxStyle"
         BasedOn="{StaticResource ListBoxBaseStyle}"
         TargetType="{x:Type ListBox}">
-        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
     </Style>
 
     <!--  透明项样式  -->
@@ -24,14 +24,14 @@
         x:Key="TransparentListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -40,14 +40,14 @@
         x:Key="NoSelectedHighlightListBoxItemStyle"
         BasedOn="{StaticResource ListBoxItemBaseStyle}"
         TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="Padding" Value="10,0,0,0" />
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
             </Trigger>
         </Style.Triggers>
     </Style>

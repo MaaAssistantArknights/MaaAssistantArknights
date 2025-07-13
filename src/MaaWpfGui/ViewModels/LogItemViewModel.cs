@@ -131,10 +131,8 @@ namespace MaaWpfGui.ViewModels
 
             var borderFactory = new FrameworkElementFactory(typeof(Border));
             borderFactory.SetValue(Border.CornerRadiusProperty, new CornerRadius(4));
-            borderFactory.SetValue(Border.BackgroundProperty, Application.Current.Resources["VersionUpdateViewBackgroundBrush"] as Brush);
-            borderFactory.SetValue(Border.BorderBrushProperty, new TemplateBindingExtension(Control.BorderBrushProperty));
-            borderFactory.SetValue(Border.BorderThicknessProperty, new TemplateBindingExtension(Control.BorderThicknessProperty));
-            borderFactory.SetValue(Border.PaddingProperty, new Thickness(5, 0, 5, 0));
+            borderFactory.SetValue(Border.BackgroundProperty, Application.Current.Resources["MouseOverRegionBrush"] as Brush);
+            borderFactory.SetValue(Border.PaddingProperty, new Thickness(10));
 
             var contentPresenterFactory = new FrameworkElementFactory(typeof(ContentPresenter));
             contentPresenterFactory.SetValue(ContentPresenter.ContentProperty, new TemplateBindingExtension(ContentControl.ContentProperty));
