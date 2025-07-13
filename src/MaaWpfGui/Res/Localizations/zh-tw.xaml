@@ -198,7 +198,12 @@
     <system:String x:Key="IS4NewSquad6">點刺成錠分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad7">擬態學者分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad8">專業人士分隊（待 DLC 更新）</system:String>
-    <system:String x:Key="IS5NewSquad1">高台突破分隊（待 IS5 更新）</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
     <system:String x:Key="SupportSquad">後勤分隊</system:String>
