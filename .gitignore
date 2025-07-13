@@ -467,3 +467,6 @@ Thumbs.db
 
 # macOS Finder Shit
 .DS_Store
+
+# MaaSupportExtension config
+/config/maa_pi_config.json
