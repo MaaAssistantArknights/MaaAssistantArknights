@@ -6,7 +6,7 @@
         }
     },
     "JieGarden@Roguelike@CheckLevel": {
-        "text": ["假说辑录"]
+        "text": ["游园纪念"]
     },
     "JieGarden@Roguelike@ChooseBurdenOperator": {
         "roi": [11, 493, 140, 143],
@@ -442,7 +442,7 @@
         "specificRect": [490, 530, 45, 55]
     },
     "JieGarden@Roguelike@NextLevel": {
-        "text": ["熔魂之始", "锻铁根须", "灰铸迷城", "或然歧域", "虚实疆界", "辉光天顶", "诡谲断章"],
+        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "辉光天顶", "是非境"],
         "roi": [550, 564, 184, 64]
     },
     "JieGarden@Roguelike@RecruitMain": {
@@ -1216,38 +1216,38 @@
         "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],
         "ocrReplace": [
-            ["熔魂之始", "_fastInvestment"],
-            ["锻铁根须", "_exit"],
-            ["灰铸迷城", "_exit"],
-            ["或然歧域", "_exit"],
-            ["虚实疆界", "_exit"],
+            ["洪陆楼", "_fastInvestment"],
+            ["山水阁", "_exit"],
+            ["云瓦亭", "_exit"],
+            ["汝吾门", "_exit"],
+            ["见字祠", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["是非境", "_exit"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default"],
         "ocrReplace": [
-            ["熔魂之始", "_default"],
-            ["锻铁根须", "_default"],
-            ["灰铸迷城", "_default"],
-            ["或然歧域", "_default"],
-            ["虚实疆界", "_default"],
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云瓦亭", "_default"],
+            ["汝吾门", "_default"],
+            ["见字祠", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["是非境", "_SKIP_"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
-            ["熔魂之始", "_aggressive"],
-            ["锻铁根须", "_aggressive"],
-            ["灰铸迷城", "_pragmatic"],
-            ["或然歧域", "_pragmatic"],
-            ["虚实疆界", "_default"],
+            ["洪陆楼", "_aggressive"],
+            ["山水阁", "_aggressive"],
+            ["云瓦亭", "_pragmatic"],
+            ["汝吾门", "_pragmatic"],
+            ["见字祠", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["是非境", "_SKIP_"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
@@ -1257,49 +1257,49 @@
     "JieGarden@Roguelike@StrategyChange_mode10001": {
         "text": ["_routing", "_exit"],
         "ocrReplace": [
-            ["熔魂之始", "_routing"],
-            ["锻铁根须", "_exit"],
-            ["灰铸迷城", "_exit"],
-            ["或然歧域", "_exit"],
-            ["虚实疆界", "_exit"],
+            ["洪陆楼", "_routing"],
+            ["山水阁", "_exit"],
+            ["云瓦亭", "_exit"],
+            ["汝吾门", "_exit"],
+            ["见字祠", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["是非境", "_exit"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],
         "ocrReplace": [
-            ["熔魂之始", "_default"],
-            ["锻铁根须", "_default"],
-            ["灰铸迷城", "_exit"],
-            ["或然歧域", "_exit"],
-            ["虚实疆界", "_exit"],
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云瓦亭", "_exit"],
+            ["汝吾门", "_exit"],
+            ["见字祠", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["是非境", "_exit"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
         "text": ["_default"],
         "ocrReplace": [
-            ["熔魂之始", "_default"],
-            ["锻铁根须", "_default"],
-            ["灰铸迷城", "_default"],
-            ["或然歧域", "_default"],
-            ["虚实疆界", "_default"],
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云瓦亭", "_default"],
+            ["汝吾门", "_default"],
+            ["见字祠", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["是非境", "_SKIP_"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
         "text": ["_default"],
         "ocrReplace": [
-            ["熔魂之始", "_default"],
-            ["锻铁根须", "_default"],
-            ["灰铸迷城", "_default"],
-            ["或然歧域", "_default"],
-            ["虚实疆界", "_default"],
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云瓦亭", "_default"],
+            ["汝吾门", "_default"],
+            ["见字祠", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["是非境", "_SKIP_"]
         ]
     },
     "JieGarden@Roguelike@TodoEnter": {},

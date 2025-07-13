@@ -179,10 +179,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     {
         ["Phantom_Default"] =
         [
+            ("GatheringSquad", "集群分队"),
+            ("SpearheadSquad", "矛头分队"),
             ("ResearchSquad", "研究分队"),
         ],
         ["Mizuki_Default"] =
         [
+            ("GatheringSquad", "集群分队"),
+            ("SpearheadSquad", "矛头分队"),
             ("IS2NewSquad1", "心胜于物分队"),
             ("IS2NewSquad2", "物尽其用分队"),
             ("IS2NewSquad3", "以人为本分队"),
@@ -190,6 +194,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ],
         ["Sami_Default"] =
         [
+            ("GatheringSquad", "集群分队"),
+            ("SpearheadSquad", "矛头分队"),
             ("IS3NewSquad1", "永恒狩猎分队"),
             ("IS3NewSquad2", "生活至上分队"),
             ("IS3NewSquad3", "科学主义分队"),
@@ -197,6 +203,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ],
         ["Sarkaz_1"] =
         [
+            ("GatheringSquad", "集群分队"),
+            ("SpearheadSquad", "矛头分队"),
             ("IS4NewSquad2", "博闻广记分队"),
             ("IS4NewSquad3", "蓝图测绘分队"),
             ("IS4NewSquad6", "点刺成锭分队"),
@@ -204,6 +212,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ],
         ["Sarkaz_Default"] =
         [
+            ("GatheringSquad", "集群分队"),
+            ("SpearheadSquad", "矛头分队"),
             ("IS4NewSquad1", "魂灵护送分队"),
             ("IS4NewSquad2", "博闻广记分队"),
             ("IS4NewSquad3", "蓝图测绘分队"),
@@ -215,7 +225,12 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         ],
         ["JieGarden_Default"] =
         [
+            ("SpecialForceSquad", "特勤分队"),
             ("IS5NewSquad1", "高台突破分队"),
+            ("IS5NewSquad2", "地面突破分队"),
+            ("IS5NewSquad3", "游客分队"),
+            ("IS5NewSquad4", "司岁台分队"),
+            ("IS5NewSquad5", "天师府分队"),
         ],
     };
 
@@ -223,9 +238,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     private readonly List<(string Key, string Value)> _commonSquads =
     [
         ("LeaderSquad", "指挥分队"),
-        ("GatheringSquad", "集群分队"),
         ("SupportSquad", "后勤分队"),
-        ("SpearheadSquad", "矛头分队"),
         ("TacticalAssaultOperative", "突击战术分队"),
         ("TacticalFortificationOperative", "堡垒战术分队"),
         ("TacticalRangedOperative", "远程战术分队"),
