@@ -525,8 +525,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小遊戲</system:String>
+    <system:String x:Key="Custom">自訂任務</system:String>
+    <system:String x:Key="SingleStep">單步任務</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主題</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遺聞</system:String>
@@ -663,6 +666,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !公招辨識  -->
     <!--  倉庫辨識  -->
     <system:String x:Key="DepotRecognition">倉庫辨識</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">開始辨識</system:String>
     <system:String x:Key="ExportToArkplanner">匯出到企鵝物流刷圖規劃</system:String>
@@ -671,6 +675,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !倉庫辨識  -->
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">幹員辨識</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特別關注會影響幹員識別準確率，如有特別關注幹員識別錯誤請自行判斷。</system:String>
     <system:String x:Key="OperBoxHaveList">已擁有: {0} 名</system:String>
     <system:String x:Key="OperBoxNotHaveList">未擁有: {0} 名</system:String>

@@ -159,7 +159,7 @@ Todo
   仓库识别
 - `OperBox`  
   干员 box 识别
-- `ReclamationAlgorithm`  
+- `Reclamation`  
   生息演算
 - `Custom`  
   自定义任务

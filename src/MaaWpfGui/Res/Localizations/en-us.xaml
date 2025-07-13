@@ -526,8 +526,11 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="MiniGame">Mini-Games</system:String>
+    <system:String x:Key="Custom">Custom Task</system:String>
+    <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
@@ -662,6 +665,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  !Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -670,6 +674,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) operators can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>

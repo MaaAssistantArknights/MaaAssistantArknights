@@ -528,8 +528,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">ミニゲーム</system:String>
+    <system:String x:Key="Custom">カスタムタスク</system:String>
+    <system:String x:Key="SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
@@ -666,6 +669,7 @@ C:\\leidian\\LDPlayer9
     <!--  !公開求人  -->
     <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
@@ -674,6 +678,7 @@ C:\\leidian\\LDPlayer9
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">｢戦術要員｣ は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>

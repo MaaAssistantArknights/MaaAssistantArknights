@@ -157,7 +157,7 @@ Todo
     倉庫辨識
 - `OperBox`  
     幹員 box 辨識
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算
 - `Custom`  
     自定義任務

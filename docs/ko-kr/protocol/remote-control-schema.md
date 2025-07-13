@@ -84,7 +84,7 @@ MAA는 이 엔드 포인트를 계속하여 폴링하여 실행해야하는 작�
 
 ::: note
 
-- LinkStart-[TaskName] 유형의 작업 유형의 LinkStart의 선택 가능한 값은 LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-ReclamationAlgorithm입니다.
+- LinkStart-[TaskName] 유형의 작업 유형의 LinkStart의 선택 가능한 값은 LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-Reclamation입니다.
 - Settings-[SettingsName] 작업 유형의 유형 매개 변수의 선택 가능한 값은 Settings-ConnectionAddress, Settings-Stage1입니다.
 - 설정 시리즈 작업은 여전히 순서대로 실행되며 작업을 받은 즉시 실행되지 않으며 이전 작업 뒤에 배치됩니다.
 - 여러 즉시 실행 작업은 순서대로 실행되지만 이러한 작업은 모두 빠르게 실행되므로 순서에 관심을 두지 않아도됩니다.

@@ -527,9 +527,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
-    <system:String x:Key="Custom">Debug</system:String>
+    <system:String x:Key="Custom">自定义任务</system:String>
+    <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
@@ -666,6 +668,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !公招识别  -->
     <!--  仓库识别  -->
     <system:String x:Key="DepotRecognition">仓库识别</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
@@ -674,6 +677,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。</system:String>
     <system:String x:Key="OperBoxHaveList">已拥有: {0} 名</system:String>
     <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
@@ -738,6 +742,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !日志  -->
     <!--  自动战斗  -->
     <system:String x:Key="Copilot">自动战斗</system:String>
+    <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="CopilotTaskName">关卡名</system:String>
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>

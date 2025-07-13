@@ -162,7 +162,7 @@ Todo
     倉庫の識別
 - `OperBox`  
     オペレーターボックス識別
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     生息演算
 - `Custom`  
     カストム タスク

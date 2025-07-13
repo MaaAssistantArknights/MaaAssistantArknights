@@ -73,7 +73,7 @@ This endpoint must return a JSON formatted Response and must at least meet the f
 
 ::: note
 
-- The `LinkStart-[TaskName]` series of tasks have optinal `type` : `LinkStart-Base`，`LinkStart-WakeUp`，`LinkStart-Combat`，`LinkStart-Recruiting`，`LinkStart-Mall`，`LinkStart-Mission`，`LinkStart-AutoRoguelike`，`LinkStart-ReclamationAlgorithm`
+- The `LinkStart-[TaskName]` series of tasks have optinal `type` : `LinkStart-Base`，`LinkStart-WakeUp`，`LinkStart-Combat`，`LinkStart-Recruiting`，`LinkStart-Mall`，`LinkStart-Mission`，`LinkStart-AutoRoguelike`，`LinkStart-Reclamation`
 - The `Settings-[SettingsName]` series of tasks have optinal `type` : `Settings-ConnectionAddress`, `Settings-Stage1`
 - The Settings series of tasks are still meant to be executed sequentially, not immediately upon receipt, but after the previous task.
 - Multiple immediately executable tasks are also executed in the order in which they are issued, except that they are all executed so quickly that, in general, it is not necessary to be concerned about their order.
