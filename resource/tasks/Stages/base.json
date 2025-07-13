@@ -29,8 +29,8 @@
         "colorScales": [[64, 96]],
         "next": ["SS@Store@CheckUnlimited", "SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
     },
-    "SS@Store@CheckUnlimited":{
-        "roi": [838,402,161,125],
+    "SS@Store@CheckUnlimited": {
+        "roi": [838, 402, 161, 125],
         "templThreshold": 0.95,
         "next": ["Stop"]
     },
