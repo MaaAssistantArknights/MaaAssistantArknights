@@ -18,7 +18,7 @@
     mc:Ignorable="d">
     <TabControl
         Margin="0,10"
-        Background="{DynamicResource MouseOverRegionBrush}"
+        Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
@@ -204,7 +204,7 @@
                     TextWrapping="Wrap" />
                 <TabControl
                     Grid.Row="1"
-                    Background="{DynamicResource MouseOverRegionBrush}"
+                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
                     BorderThickness="0"
                     SelectedIndex="{c:Binding 'OperBoxNotHaveList.Count != 0 ? 0 : 1',
                                               Mode=OneTime}"

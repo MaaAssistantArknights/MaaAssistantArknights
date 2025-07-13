@@ -2,8 +2,6 @@
 
     <!--  Custom Brush  -->
     <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
-    <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#2d2d30" />
-    <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#2d2d30" />
 
     <!--  HandyControl Brush  -->
     <!--  See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml  -->
@@ -16,20 +14,21 @@
     <!--  背景颜色  -->
     <SolidColorBrush x:Key="RegionBrush" Color="#1c1c1c" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush"
+        x:Key="RegionBrushOpacity25"
         Opacity="0.25"
         Color="#1c1c1c" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush50"
+        x:Key="RegionBrushOpacity50"
         Opacity="0.50"
         Color="#1c1c1c" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush75"
+        x:Key="RegionBrushOpacity75"
         Opacity="0.75"
         Color="#1c1c1c" />
 
+    <SolidColorBrush x:Key="MouseOverRegionBrush" Color="#2b2b30" />
     <SolidColorBrush
-        x:Key="MouseOverRegionBrush"
+        x:Key="MouseOverRegionBrushOpacity75"
         Opacity="0.75"
         Color="#303036" />
 
@@ -87,6 +86,7 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="Orange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="Gray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
+
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
 

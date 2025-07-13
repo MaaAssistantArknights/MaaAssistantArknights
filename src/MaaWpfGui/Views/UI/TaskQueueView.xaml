@@ -37,7 +37,7 @@
             <Border
                 Width="210"
                 MaxWidth="210"
-                Background="{DynamicResource TransparentRegionBrush}"
+                Background="{DynamicResource RegionBrushOpacity25}"
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
@@ -159,7 +159,7 @@
                             Width="90"
                             Height="30"
                             VerticalAlignment="Top"
-                            Background="{DynamicResource TransparentRegionBrush}"
+                            Background="{DynamicResource RegionBrushOpacity25}"
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
@@ -334,14 +334,14 @@
                 Visibility="{c:Binding !TaskSettingVisibilities.AfterAction,
                                        FalseToVisibility=Hidden}">
                 <RadioButton
-                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
-                    Background="{DynamicResource TransparentRegionBrush}"
+                    hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                    Background="{DynamicResource RegionBrushOpacity25}"
                     Content="{DynamicResource GeneralSettings}"
                     IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="True" />
                 <RadioButton
-                    hc:VisualElement.HighlightBackground="{DynamicResource TransparentRegionBrush}"
-                    Background="{DynamicResource TransparentRegionBrush}"
+                    hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                    Background="{DynamicResource RegionBrushOpacity25}"
                     Content="{DynamicResource AdvancedSettings}"
                     IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
                     IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
@@ -418,7 +418,7 @@
                                     Width="15"
                                     Height="15"
                                     Margin="10,0,0,0"
-                                    Background="{DynamicResource MouseOverRegionBrush}"
+                                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
                                     Style="{StaticResource BorderCircular}"
                                     Visibility="{c:Binding ShowToolTip}">
                                     <Path

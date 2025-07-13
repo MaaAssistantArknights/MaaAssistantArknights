@@ -14,7 +14,7 @@
         Margin="2,0,0,0"
         HorizontalAlignment="Left"
         VerticalAlignment="Center"
-        Background="{DynamicResource MouseOverRegionBrush}"
+        Background="{DynamicResource MouseOverRegionBrushOpacity75}"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
         ToolTipService.IsEnabled="{c:Binding 'TooltipTextEmpty ? \'False\' : \'True\''}">
