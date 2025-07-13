@@ -22,11 +22,17 @@
     },
     "SS@Store@ClickItem": {
         "action": "ClickSelf",
-        "doc": "匹配物品用的模板, 用roi排除最后一列",
-        "roi": [0, 200, 1200, 520],
+        "doc": "~~匹配物品用的模板, 用 roi 排除最后一列~~",
+        "doc2": "无限池原来越多了, 用 roi 已经不够了, 新增 CheckUnlimited",
+        "roi": [0, 150, 690, 560],
         "method": "RGBCount",
         "colorScales": [[64, 96]],
-        "next": ["SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
+        "next": ["SS@Store@CheckUnlimited", "SS@Store@ChooseMaxAmount", "SS@Store@Purchase"]
+    },
+    "SS@Store@CheckUnlimited":{
+        "roi": [838,402,161,125],
+        "templThreshold": 0.95,
+        "next": ["Stop"]
     },
     "SS@Store@ChooseMaxAmount": {
         "roi": [986, 352, 164, 139],
