@@ -421,12 +421,15 @@
                                     Background="{DynamicResource MouseOverRegionBrush}"
                                     Style="{StaticResource BorderCircular}"
                                     Visibility="{c:Binding ShowToolTip}">
-                                    <TextBlock
+                                    <Path
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="10"
-                                        Foreground="{DynamicResource PrimaryTextBrush}"
-                                        Text="&gt;" />
+                                        Height="8"
+                                        Width="8"
+                                        Data="M 0 0 L 0.5 0.5 L 0 1"
+                                        Stretch="Uniform"
+                                        Stroke="{DynamicResource PrimaryTextBrush}"
+                                        StrokeThickness="2" />
                                 </Border>
                             </Grid>
                         </Grid>
