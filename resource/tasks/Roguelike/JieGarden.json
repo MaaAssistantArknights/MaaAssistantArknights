@@ -8,55 +8,6 @@
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
     },
-    "JieGarden@Roguelike@ChooseBurdenOperator": {
-        "roi": [11, 493, 140, 143],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorSelect1"]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorAtStart": {
-        "roi": [590, 620, 200, 50],
-        "templThreshold": 0.9,
-        "action": "ClickRect",
-        "specificRect": [600, 660, 220, 40],
-        "postDelay": 500,
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperator", "JieGarden@Roguelike@ChooseBurdenOperatorQuit"]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorConfirm": {
-        "roi": [542, 551, 135, 134],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorQuit"]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorQuit": {
-        "roi": [0, 0, 150, 148],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@ChooseBurdenOperatorQuit",
-            "JieGarden@Roguelike@DropsFlag",
-            "JieGarden@Roguelike@Stages#next",
-            "JieGarden@Roguelike@ExitThenAbandon"
-        ]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorSelect1": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [330, 240, 0, 0],
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorSelect2"]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorSelect2": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [450, 240, 0, 0],
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorSelect3"]
-    },
-    "JieGarden@Roguelike@ChooseBurdenOperatorSelect3": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [570, 240, 0, 0],
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorConfirm"]
-    },
     "JieGarden@Roguelike@ChooseDifficulty": {
         "roi": [1086, 309, 194, 140]
     },
@@ -128,9 +79,7 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@CloseEvent",
-            "JieGarden@Roguelike@ChooseOperFlag",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "JieGarden@Roguelike@ChooseOperFlag"
         ]
     },
     "JieGarden@Roguelike@CloseCollectionContinue": {
@@ -148,9 +97,7 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@CloseEvent",
-            "JieGarden@Roguelike@ChooseOperFlag",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "JieGarden@Roguelike@ChooseOperFlag"
         ]
     },
     "JieGarden@Roguelike@CloseEvent": {
@@ -161,121 +108,6 @@
         "template": "JieGarden@Roguelike@CloseCollectionClose.png"
     },
     "JieGarden@Roguelike@Continue": {},
-    "JieGarden@Roguelike@DecreaseBurdenAbandon": {
-        "templThreshold": 0.9,
-        "roi": [499, 471, 167, 151],
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenCheckRetardation",
-            "JieGarden@Roguelike@DecreaseBurdenCheckChaos",
-            "JieGarden@Roguelike@DecreaseBurdenCheckClear",
-            "JieGarden@Roguelike@DecreaseBurdenAbandon"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenAbandonThought": {
-        "template": "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1.png",
-        "roi": [1101, 51, 179, 137],
-        "templThreshold": 0.95,
-        "action": "ClickRect",
-        "specificRect": [430, 215, 0, 0],
-        "next": ["JieGarden@Roguelike@DecreaseBurdenAbandon", "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1"]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenChaos": {
-        "roi": [559, 608, 157, 112],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "JieGarden@Roguelike@CloseCollectionContinue",
-            "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenChaos"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenCheckChaos": {
-        "templThreshold": 0.95,
-        "roi": [83, 66, 190, 135],
-        "next": ["JieGarden@Roguelike@DecreaseBurdenAbandonThought"]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenCheckClear": {
-        "templThreshold": 0.95,
-        "roi": [83, 63, 194, 136],
-        "next": ["JieGarden@Roguelike@ChooseBurdenOperatorQuit"]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenCheckRetardation": {
-        "templThreshold": 0.95,
-        "roi": [85, 64, 188, 137],
-        "next": ["JieGarden@Roguelike@DecreaseBurdenAbandonThought"]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenRetardation": {
-        "roi": [561, 607, 153, 113],
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "JieGarden@Roguelike@CloseCollectionContinue",
-            "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenRetardation"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1": {
-        "roi": [1101, 51, 179, 137],
-        "templThreshold": 0.9,
-        "action": "ClickRect",
-        "specificRect": [1210, 120, 0, 0],
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "JieGarden@Roguelike@CloseCollectionContinue",
-            "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault1"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2": {
-        "roi": [1101, 51, 179, 137],
-        "templThreshold": 0.9,
-        "action": "ClickRect",
-        "specificRect": [1210, 120, 0, 0],
-        "next": [
-            "JieGarden@Roguelike@CloseCollectionContinue",
-            "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "JieGarden@Roguelike@DecreaseBurdenUseTheFirst"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenUse": {
-        "roi": [734, 469, 168, 155],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenUse",
-            "JieGarden@Roguelike@DecreaseBurdenCheckRetardation",
-            "JieGarden@Roguelike@DecreaseBurdenCheckChaos",
-            "JieGarden@Roguelike@DecreaseBurdenCheckClear",
-            "JieGarden@Roguelike@DecreaseBurdenUseButDuplicate",
-            "JieGarden@Roguelike@DecreaseBurdenAbandonThought"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenUseButDuplicate": {
-        "roi": [771, 424, 143, 141],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenCheckRetardation",
-            "JieGarden@Roguelike@DecreaseBurdenCheckChaos",
-            "JieGarden@Roguelike@DecreaseBurdenCheckClear",
-            "JieGarden@Roguelike@DecreaseBurdenAbandonThought"
-        ]
-    },
-    "JieGarden@Roguelike@DecreaseBurdenUseTheFirst": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [430, 215, 0, 0],
-        "next": [
-            "JieGarden@Roguelike@DecreaseBurdenUse",
-            "JieGarden@Roguelike@DecreaseBurdenAbandon",
-            "JieGarden@Roguelike@DecreaseBurdenAbandonThought"
-        ]
-    },
     "JieGarden@Roguelike@DeepExploration": {
         "template": "Roguelike@DeepExploration.png"
     },
@@ -476,19 +308,12 @@
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageSafeHouseCR",
-            "JieGarden@Roguelike@StageSafeHouseHD",
             "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageTrader",
-            "JieGarden@Roguelike@StageTraderCR",
-            "JieGarden@Roguelike@StageTraderHD",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageEmergencyTransportation",
             "JieGarden@Roguelike@StageBoskyPassage",
             "JieGarden@Roguelike@StageProphecy",
-            "JieGarden@Roguelike@StageFilterTruth",
-            "JieGarden@Roguelike@StageFilterTruthCR",
-            "JieGarden@Roguelike@StageFilterTruthHD",
             "JieGarden@Roguelike@StageConfrontation"
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
@@ -568,27 +393,6 @@
         "roi": [246, 60, 288, 575],
         "postDelay": 300
     },
-    "JieGarden@Roguelike@RoutingRefreshNode": {
-        "roi": [796, 150, 50, 150],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@RoutingRefreshNodeConfirm"]
-    },
-    "JieGarden@Roguelike@RoutingRefreshNodeCompleted": {
-        "algorithm": "JustReturn"
-    },
-    "JieGarden@Roguelike@RoutingRefreshNodeConfirm": {
-        "algorithm": "OcrDetect",
-        "roi": [993, 472, 53, 26],
-        "text": ["确定"],
-        "action": "ClickSelf",
-        "postDelay": 300,
-        "next": ["JieGarden@Roguelike@RoutingRefreshNodeWaiting", "JieGarden@Roguelike@RoutingRefreshNodeCompleted"]
-    },
-    "JieGarden@Roguelike@RoutingRefreshNodeWaiting": {
-        "baseTask": "LoadingText",
-        "postDelay": 300,
-        "next": ["JieGarden@Roguelike@RoutingRefreshNodeWaiting", "JieGarden@Roguelike@RoutingRefreshNodeCompleted"]
-    },
     "JieGarden@Roguelike@RoutingSwipeRight": {
         "doc": "生成地图时向左滑动",
         "algorithm": "JustReturn",
@@ -649,58 +453,6 @@
         ],
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
-    "JieGarden@Roguelike@StageBurdenOperation": {
-        "doc": "#next 放入 JieGarden@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
-        "baseTask": "JieGarden@Roguelike@StageBurdenOperation-Start"
-    },
-    "JieGarden@Roguelike@StageBurdenOperation-None": {
-        "algorithm": "JustReturn",
-        "next": []
-    },
-    "JieGarden@Roguelike@StageBurdenOperation-Start": {
-        "algorithm": "JustReturn",
-        "next": [
-            "JieGarden@Roguelike@ChooseBurdenOperatorAtStart",
-            "JieGarden@Roguelike@DecreaseBurdenChaos",
-            "JieGarden@Roguelike@DecreaseBurdenRetardation"
-        ]
-    },
-    "JieGarden@Roguelike@StageCanDeepen": {
-        "baseTask": "JieGarden@Roguelike@StageCanReconstruct",
-        "Doc": "印象加深",
-        "next": ["JieGarden@Roguelike@StageCanDeepenConfirm"]
-    },
-    "JieGarden@Roguelike@StageCanDeepenConfirm": {
-        "action": "ClickSelf",
-        "roi": [786, 594, 120, 114],
-        "next": ["JieGarden@Roguelike@StageCanReconstructClose"]
-    },
-    "JieGarden@Roguelike@StageCanReconstruct": {
-        "Doc": "印象固化",
-        "action": "ClickSelf",
-        "roi": [1092, 106, 178, 152],
-        "next": ["JieGarden@Roguelike@StageCanReconstructConfirm"]
-    },
-    "JieGarden@Roguelike@StageCanReconstructClose": {
-        "action": "ClickSelf",
-        "roi": [1144, 0, 136, 152],
-        "next": [
-            "JieGarden@Roguelike@StageTraderEnter",
-            "JieGarden@Roguelike@StageFilterTruthEnter",
-            "JieGarden@Roguelike@StageSafeHouseEnter",
-            "JieGarden@Roguelike@StageCanReconstructClose"
-        ]
-    },
-    "JieGarden@Roguelike@StageCanReconstructConfirm": {
-        "action": "ClickSelf",
-        "template": [
-            "JieGarden@Roguelike@StageCanReconstructConfirmTrader.png",
-            "JieGarden@Roguelike@StageCanReconstructConfirmFilterTruth.png",
-            "JieGarden@Roguelike@StageCanReconstructConfirmSafeHouse.png"
-        ],
-        "roi": [786, 594, 120, 114],
-        "next": ["JieGarden@Roguelike@StageCanReconstructClose"]
-    },
     "JieGarden@Roguelike@StageCombatDps": {
         "method": "HSVCount",
         "colorScales": [
@@ -711,7 +463,6 @@
         ],
         "postDelay": 600,
         "next": [
-            "JieGarden@Roguelike@StageRefresh",
             "JieGarden@Roguelike@StageCombatDpsEnter",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@Stages#next"
@@ -753,7 +504,6 @@
         "templThreshold": 0.95,
         "postDelay": 600,
         "next": [
-            "JieGarden@Roguelike@StageRefresh",
             "JieGarden@Roguelike@StageCombatDpsEnter",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@Stages#next"
@@ -800,106 +550,6 @@
     "JieGarden@Roguelike@StageEnterBattleAgain": {
         "specificRect": [1100, 558, 111, 50]
     },
-    "JieGarden@Roguelike@StageFilterTruth": {
-        "Doc": "去伪存真",
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": ["JieGarden@Roguelike@StageFilterTruthEnter", "JieGarden@Roguelike@Stages#next"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthCR": {
-        "Doc": "可重建",
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": [
-            "JieGarden@Roguelike@StageCanReconstruct",
-            "JieGarden@Roguelike@StageCanDeepen",
-            "JieGarden@Roguelike@StageFilterTruthEnter",
-            "JieGarden@Roguelike@Stages#next"
-        ]
-    },
-    "JieGarden@Roguelike@StageFilterTruthCanCombine": {
-        "action": "ClickSelf",
-        "templThreshold": 0.95,
-        "roi": [750, 525, 188, 129],
-        "next": ["JieGarden@Roguelike@StageFilterTruthChooseCollection", "JieGarden@Roguelike@StageFilterTruthConfirm"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthCannotCombine": {
-        "templThreshold": 0.95,
-        "roi": [279, 374, 155, 170],
-        "next": ["JieGarden@Roguelike@StageFilterTruthLeave"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthChooseCollection": {
-        "Doc": "合成出现藏品二选一",
-        "baseTask": "JieGarden@Roguelike@GetDrop3",
-        "template": "JieGarden@Roguelike@GetDrop3.png",
-        "next": ["JieGarden@Roguelike@StageFilterTruthTryCombine1", "JieGarden@Roguelike@StageFilterTruthCannotCombine"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthCloseCollection": {
-        "baseTask": "JieGarden@Roguelike@CloseCollectionClose",
-        "template": "JieGarden@Roguelike@CloseCollectionClose.png",
-        "next": ["JieGarden@Roguelike@StageFilterTruthTryCombine1", "JieGarden@Roguelike@StageFilterTruthLeave"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthConfirm": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [346, 560, 684, 66],
-        "next": ["JieGarden@Roguelike@StageFilterTruthTryCombine1", "JieGarden@Roguelike@StageFilterTruthCannotCombine"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthEnter": {
-        "baseTask": "JieGarden@Roguelike@StageEnter",
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [23, 150, 40],
-                [25, 230, 150]
-            ]
-        ],
-        "postDelay": 1500,
-        "next": [
-            "JieGarden@Roguelike@StageFilterTruthCloseCollection",
-            "JieGarden@Roguelike@StageFilterTruthTryCombine1",
-            "JieGarden@Roguelike@StageFilterTruthEnter",
-            "JieGarden@Roguelike@StageFilterTruthLeave"
-        ]
-    },
-    "JieGarden@Roguelike@StageFilterTruthHD": {
-        "Doc": "已深化",
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": ["JieGarden@Roguelike@StageFilterTruthEnter", "JieGarden@Roguelike@Stages#next"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthLeave": {
-        "action": "ClickSelf",
-        "roi": [1046, 443, 234, 204],
-        "next": ["JieGarden@Roguelike@StageFilterTruthLeaveConfirm", "JieGarden@Roguelike@StageFilterTruthLeave"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthLeaveConfirm": {
-        "action": "ClickSelf",
-        "roi": [985, 447, 295, 203],
-        "next": ["JieGarden@Roguelike@Stages#next"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthTryCombine1": {
-        "action": "ClickRect",
-        "roi": [777, 147, 12, 10],
-        "specificRect": [803, 186, 29, 23],
-        "next": ["JieGarden@Roguelike@StageFilterTruthTryCombine2"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthTryCombine2": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [907, 188, 22, 20],
-        "next": ["JieGarden@Roguelike@StageFilterTruthCanCombine", "JieGarden@Roguelike@StageFilterTruthTryCombine3"]
-    },
-    "JieGarden@Roguelike@StageFilterTruthTryCombine3": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [810, 330, 24, 13],
-        "next": [
-            "JieGarden@Roguelike@StageFilterTruthCanCombine",
-            "JieGarden@Roguelike@StageFilterTruthCannotCombine",
-            "JieGarden@Roguelike@StageFilterTruthLeave"
-        ]
-    },
     "JieGarden@Roguelike@StageGambling": {
         "Doc": "兴致盎然",
         "baseTask": "JieGarden@Roguelike@Stage",
@@ -918,55 +568,8 @@
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
-    "JieGarden@Roguelike@StageRefresh": {
-        "action": "ClickSelf",
-        "method": "RGBCount",
-        "postDelay": 500,
-        "colorScales": [[0, 200]],
-        "colorWithClose": false,
-        "roi": [770, 141, 100, 117],
-        "next": ["JieGarden@Roguelike@StageRefreshConfirm", "JieGarden@Roguelike@StageRefreshUpperLimit"]
-    },
-    "JieGarden@Roguelike@StageRefreshClickLeft": {
-        "action": "ClickRect",
-        "template": "JieGarden@Roguelike@StageTraderEnter.png",
-        "roi": [1035, 370, 226, 300],
-        "specificRect": [153, 79, 63, 29],
-        "next": ["JieGarden@Roguelike@Stages#next"]
-    },
-    "JieGarden@Roguelike@StageRefreshConfirm": {
-        "action": "ClickSelf",
-        "postDelay": 700,
-        "roi": [767, 409, 469, 155],
-        "next": ["JieGarden@Roguelike@StageRefreshNoThought", "JieGarden@Roguelike@StageRefreshClickLeft"]
-    },
-    "JieGarden@Roguelike@StageRefreshNoThought": {
-        "action": "ClickRect",
-        "templThreshold": 0.85,
-        "roi": [902, 24, 327, 179],
-        "specificRect": [1100, 558, 111, 50],
-        "next": ["JieGarden@Roguelike@QuickFormation"]
-    },
-    "JieGarden@Roguelike@StageRefreshUpperLimit": {
-        "action": "ClickRect",
-        "templThreshold": 0.9,
-        "roi": [901, 24, 379, 186],
-        "specificRect": [1100, 558, 111, 50],
-        "next": ["JieGarden@Roguelike@QuickFormation"]
-    },
     "JieGarden@Roguelike@StageSafeHouse": {
         "templThreshold": 0.95
-    },
-    "JieGarden@Roguelike@StageSafeHouseCR": {
-        "Doc": "可重建",
-        "templThreshold": 0.95,
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "next": [
-            "JieGarden@Roguelike@StageCanReconstruct",
-            "JieGarden@Roguelike@StageCanDeepen",
-            "JieGarden@Roguelike@StageSafeHouseEnter",
-            "JieGarden@Roguelike@Stages#next"
-        ]
     },
     "JieGarden@Roguelike@StageSafeHouseEnter": {
         "method": "HSVCount",
@@ -977,12 +580,6 @@
             ]
         ],
         "next": ["JieGarden@Roguelike@StageSafeHouseEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
-    },
-    "JieGarden@Roguelike@StageSafeHouseHD": {
-        "Doc": "已深化",
-        "templThreshold": 0.95,
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "next": ["JieGarden@Roguelike@StageSafeHouseEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "algorithm": "OcrDetect",
@@ -995,17 +592,6 @@
     },
     "JieGarden@Roguelike@StageTrader": {
         "templThreshold": 0.95
-    },
-    "JieGarden@Roguelike@StageTraderCR": {
-        "Doc": "可重建",
-        "templThreshold": 0.95,
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "next": [
-            "JieGarden@Roguelike@StageCanReconstruct",
-            "JieGarden@Roguelike@StageCanDeepen",
-            "JieGarden@Roguelike@StageTraderEnter",
-            "JieGarden@Roguelike@Stages#next"
-        ]
     },
     "JieGarden@Roguelike@StageTraderEnter": {
         "method": "HSVCount",
@@ -1020,7 +606,6 @@
             "JieGarden@Roguelike@StageTraderEnter-CloseCollectionContinue",
             "JieGarden@Roguelike@StageVerticalConfirmTrader",
             "JieGarden@Roguelike@StageTraderEnter",
-            "JieGarden@Roguelike@StageTraderRefreshWithDice",
             "JieGarden@Roguelike@StageTraderInvestSystem",
             "JieGarden@Roguelike@TraderRandomShopping",
             "JieGarden@Roguelike@StageTraderLeave",
@@ -1037,27 +622,9 @@
         "baseTask": "JieGarden@Roguelike@CloseCollectionContinue",
         "next": ["JieGarden@Roguelike@StageTraderEnter#next"]
     },
-    "JieGarden@Roguelike@StageTraderHD": {
-        "Doc": "已深化",
-        "templThreshold": 0.95,
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "next": ["JieGarden@Roguelike@StageTraderEnter", "JieGarden@Roguelike@Stages#next"]
-    },
     "JieGarden@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": ["JieGarden@Roguelike@ExitThenAbandon"]
-    },
-    "JieGarden@Roguelike@StageTraderRefresh": {
-        "template": "Roguelike@StageTraderRefresh.png",
-        "action": "ClickSelf",
-        "roi": [230, 73, 212, 141],
-        "next": ["JieGarden@Roguelike@StageTraderRefreshConfirm"]
-    },
-    "JieGarden@Roguelike@StageTraderRefreshConfirm": {
-        "template": "Roguelike@StageTraderRefreshConfirm.png",
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [640, 414, 504, 154]
     },
     "JieGarden@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
@@ -1089,20 +656,12 @@
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@StageBurdenOperation#next",
             "JieGarden@Roguelike@StageBoskyPassage",
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageCombatDps",
-            "JieGarden@Roguelike@StageSafeHouseHD",
             "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageSafeHouseCR",
             "JieGarden@Roguelike@StageBoons",
-            "JieGarden@Roguelike@StageTraderHD",
             "JieGarden@Roguelike@StageTrader",
-            "JieGarden@Roguelike@StageTraderCR",
-            "JieGarden@Roguelike@StageFilterTruthHD",
-            "JieGarden@Roguelike@StageFilterTruth",
-            "JieGarden@Roguelike@StageFilterTruthCR",
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageConfrontation",
             "JieGarden@Roguelike@StageWindAndRain",
@@ -1120,21 +679,13 @@
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@StageBurdenOperation#next",
             "JieGarden@Roguelike@StageBoskyPassage",
-            "JieGarden@Roguelike@StageTraderHD",
             "JieGarden@Roguelike@StageTrader",
-            "JieGarden@Roguelike@StageTraderCR",
-            "JieGarden@Roguelike@StageSafeHouseHD",
             "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageSafeHouseCR",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageEmergencyTransportation",
             "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageProphecy",
-            "JieGarden@Roguelike@StageFilterTruthHD",
-            "JieGarden@Roguelike@StageFilterTruth",
-            "JieGarden@Roguelike@StageFilterTruthCR",
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageConfrontation",
@@ -1151,7 +702,6 @@
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenRetardation",
             "JieGarden@Roguelike@Routing-FastInvestment"
         ]
     },
@@ -1162,22 +712,13 @@
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@DecreaseBurdenChaos",
-            "JieGarden@Roguelike@DecreaseBurdenRetardation",
             "JieGarden@Roguelike@StageBoskyPassage",
             "JieGarden@Roguelike@StageCombatDps",
-            "JieGarden@Roguelike@StageSafeHouseHD",
             "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageSafeHouseCR",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageEncounter",
-            "JieGarden@Roguelike@StageFilterTruthHD",
-            "JieGarden@Roguelike@StageFilterTruth",
-            "JieGarden@Roguelike@StageFilterTruthCR",
             "JieGarden@Roguelike@StageConfrontation",
-            "JieGarden@Roguelike@StageTraderHD",
             "JieGarden@Roguelike@StageTrader",
-            "JieGarden@Roguelike@StageTraderCR",
             "JieGarden@Roguelike@StageProphecy",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageEmergencyTransportation",
@@ -1193,9 +734,6 @@
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@ChooseBurdenOperatorAtStart",
-            "JieGarden@Roguelike@DecreaseBurdenChaos",
-            "JieGarden@Roguelike@DecreaseBurdenRetardation",
             "JieGarden@Roguelike@Routing"
         ]
     },
