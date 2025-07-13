@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Media;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
@@ -126,11 +127,29 @@ namespace MaaWpfGui.ViewModels
 
         private static ToolTip CreateTooltip(object content)
         {
+            var baseStyle = Application.Current.TryFindResource(typeof(ToolTip)) as Style;
+
+            var borderFactory = new FrameworkElementFactory(typeof(Border));
+            borderFactory.SetValue(Border.CornerRadiusProperty, new CornerRadius(4));
+            borderFactory.SetValue(Border.BackgroundProperty, Application.Current.Resources["VersionUpdateViewBackgroundBrush"] as Brush);
+            borderFactory.SetValue(Border.BorderBrushProperty, new TemplateBindingExtension(Control.BorderBrushProperty));
+            borderFactory.SetValue(Border.BorderThicknessProperty, new TemplateBindingExtension(Control.BorderThicknessProperty));
+            borderFactory.SetValue(Border.PaddingProperty, new Thickness(5, 0, 5, 0));
+
+            var contentPresenterFactory = new FrameworkElementFactory(typeof(ContentPresenter));
+            contentPresenterFactory.SetValue(ContentPresenter.ContentProperty, new TemplateBindingExtension(ContentControl.ContentProperty));
+            borderFactory.AppendChild(contentPresenterFactory);
+
+            var customTemplate = new ControlTemplate(typeof(ToolTip)) { VisualTree = borderFactory, };
+            var style = new Style(typeof(ToolTip), baseStyle) { Setters = { new Setter(Control.TemplateProperty, customTemplate) } };
+
             var toolTip = new ToolTip
             {
                 Content = content,
                 Placement = PlacementMode.Center,
+                Style = style,
             };
+
             toolTip.Opened += (_, _) =>
             {
                 if (toolTip.PlacementTarget is FrameworkElement target)
