@@ -185,8 +185,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _recruitCaught;
-
         /// <summary>
         /// Starts calculation.
         /// </summary>
@@ -197,10 +195,12 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            _recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!_recruitCaught)
+            _runningState.SetIdle(false);
+            var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!recruitCaught)
             {
                 RecruitInfo = errMsg;
+                _runningState.SetIdle(true);
                 return;
             }
 
