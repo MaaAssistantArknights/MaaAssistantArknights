@@ -27,7 +27,6 @@ public partial class TooltipBlock : UserControl
     public TooltipBlock()
     {
         InitializeComponent();
-        DataContext = this;
 
         Opacity = NormalOpacity;
 
