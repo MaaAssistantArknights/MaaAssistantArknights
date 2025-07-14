@@ -23,11 +23,24 @@
                 Text="{Binding TooltipText}"
                 TextWrapping="Wrap" />
         </Border.ToolTip>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="10"
-            Foreground="{DynamicResource PrimaryTextBrush}"
-            Text="?" />
+        <Grid>
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="10"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="{Binding TextBlockText}"
+                Visibility="{c:Binding !TextBlockTextEmpty}" />
+            <Path
+                Width="8"
+                Height="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Data="{Binding PathDate}"
+                Stretch="Uniform"
+                Stroke="{DynamicResource PrimaryTextBrush}"
+                StrokeThickness="{Binding PathStrokeThickness}" />
+        </Grid>
+
     </Border>
 </UserControl>
