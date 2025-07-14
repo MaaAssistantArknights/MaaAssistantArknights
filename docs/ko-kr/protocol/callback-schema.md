@@ -156,7 +156,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   창고 인식
 - `OperBox`  
   오퍼레이터 박스 인식
-- `ReclamationAlgorithm`  
+- `Reclamation`  
   Reclamation Algorithm (CN 클라이언트의 새로운 모드)
 - `Custom`  
   사용자 정의 태스크

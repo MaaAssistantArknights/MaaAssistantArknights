@@ -118,15 +118,22 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </controls:TextBlock>
-                            <hc:PasswordBox
-                                Width="150"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
-                                IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
-                                IsSafeEnabled="False"
-                                ShowEyeButton="True"
-                                UnsafePassword="{Binding MirrorChyanCdk}" />
+                            <Grid Width="150">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <hc:PasswordBox
+                                    hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
+                                    IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
+                                    IsSafeEnabled="False"
+                                    ShowEyeButton="True"
+                                    UnsafePassword="{Binding MirrorChyanCdk}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{s:Action MirrorChyanCdkCopy}"
+                                    Content="{DynamicResource Copy}" />
+                            </Grid>
                         </StackPanel>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
@@ -401,12 +408,21 @@
                             Content="{DynamicResource ShowChangelog}"
                             IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                     </StackPanel>
-                    <Button
-                        Grid.Row="4"
-                        Margin="5"
-                        Command="{s:Action ManualUpdateResource}"
-                        Content="{DynamicResource ResourceUpdate}"
-                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                    <StackPanel Grid.Row="4">
+                        <Button
+                            Margin="5"
+                            Command="{s:Action ManualUpdateResource}"
+                            Content="{DynamicResource ResourceUpdate}"
+                            IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                        <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Hyperlink
+                                Cursor="Hand"
+                                NavigateUri="{Binding Source={x:Static constants:MaaUrls.ResourceRepository}}"
+                                TextDecorations="None">
+                                <TextBlock Text="{DynamicResource ResourceRepository}" />
+                            </Hyperlink>
+                        </controls:TextBlock>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </Grid>

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -665,7 +666,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void DropsListDropDownClosed()
     {
         foreach (var item in DropsList)

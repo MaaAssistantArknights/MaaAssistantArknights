@@ -41,7 +41,8 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
         /// </summary>
-        private static void MoveWindowToDisplay(Window window)
+        /// <param name="window">需要居中的窗口</param>
+        public static void MoveWindowToRootCenter(Window window)
         {
             var mainWindow = Application.Current.MainWindow;
             if (mainWindow is not { WindowState: WindowState.Normal })
@@ -109,7 +110,7 @@ namespace MaaWpfGui.Helper
             }
             else if (!isDialog && ownerViewModel == null)
             {
-                MoveWindowToDisplay(window);
+                MoveWindowToRootCenter(window);
             }
 
             return window;
@@ -156,14 +157,35 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        public bool ForceShow(Window window)
+        /// <summary>
+        /// 显示窗口并激活
+        /// </summary>
+        /// <param name="window">需要操作的窗口</param>
+        /// <returns>是否成功激活</returns>
+        public static bool ShowWindow(Window window)
+        {
+            window.Show();
+            if (window.WindowState == WindowState.Minimized)
+            {
+                window.WindowState = WindowState.Normal;
+            }
+
+            return window.Activate();
+        }
+
+        /// <summary>
+        /// 强制显示窗口并激活
+        /// </summary>
+        /// <param name="window">需要操作的窗口</param>
+        /// <returns>是否成功激活</returns>
+        public static bool ForceShow(Window window)
         {
             WindowPlacement wp = default;
             var result = SetWindowPlacement(window, ref wp, true);
             return result;
         }
 
-        private bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp, bool force = false)
+        private static bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp, bool force = false, bool minimizeDirectly = false)
         {
             try
             {
@@ -174,7 +196,7 @@ namespace MaaWpfGui.Helper
                 wp.Flags = 0;
 
                 // wp.ShowCmd = wp.ShowCmd == SwShowminimized ? SwShownormal : wp.ShowCmd;
-                wp.ShowCmd = !_minimizeDirectly || force ? SwShownormal : SwShowminimized;
+                wp.ShowCmd = !minimizeDirectly || force ? SwShownormal : SwShowminimized;
                 return SetWindowPlacement(window.Handle, ref wp);
             }
             catch

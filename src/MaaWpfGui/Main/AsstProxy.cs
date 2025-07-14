@@ -25,6 +25,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Data;
@@ -36,6 +38,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -201,11 +204,6 @@ namespace MaaWpfGui.Main
             }
         }
 
-        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
-        {
-            return await Task.Run(() => AsstGetImage(handle));
-        }
-
         public BitmapImage? AsstGetImage()
         {
             return AsstGetImage(_handle);
@@ -217,6 +215,11 @@ namespace MaaWpfGui.Main
             return AsstGetImage(_handle);
         }
 
+        public static async Task<BitmapImage?> AsstGetImageAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImage(handle));
+        }
+
         public async Task<BitmapImage?> AsstGetImageAsync()
         {
             return await AsstGetImageAsync(_handle);
@@ -226,6 +229,79 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstAsyncScreencap(_handle, true);
             return await AsstGetImageAsync(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public static unsafe byte[]? AsstGetImageBgrData(AsstHandle handle)
+        {
+            const int Width = 1280, Height = 720, Channels = 3;
+            const int TotalSize = Width * Height * Channels;
+
+            var buffer = ArrayPool<byte>.Shared.Rent(TotalSize);
+
+            ulong readSize;
+            fixed (byte* ptr = buffer)
+            {
+                readSize = MaaService.AsstGetImageBgr(handle, ptr, TotalSize);
+            }
+
+            if (readSize == MaaService.AsstGetNullSize())
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+                return null;
+            }
+
+            // **不拷贝，直接返回池内存**
+            // 外层代码用完必须调用 ArrayPool<byte>.Shared.Return(buffer)
+            return buffer;
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public byte[]? AsstGetImageBgrData()
+        {
+            return AsstGetImageBgrData(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public byte[]? AsstGetFreshImageBgrData()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return AsstGetImageBgrData(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public static async Task<byte[]?> AsstGetImageBgrDataAsync(AsstHandle handle)
+        {
+            return await Task.Run(() => AsstGetImageBgrData(handle));
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public async Task<byte[]?> AsstGetImageBgrDataAsync()
+        {
+            return await AsstGetImageBgrDataAsync(_handle);
+        }
+
+        // 需要外部调用 ArrayPool<byte>.Shared.Return(buffer)
+        public async Task<byte[]?> AsstGetFreshImageBgrDataAsync()
+        {
+            MaaService.AsstAsyncScreencap(_handle, true);
+            return await AsstGetImageBgrDataAsync(_handle);
+        }
+
+        public static WriteableBitmap WriteBgrToBitmap(byte[] bgrData, WriteableBitmap? targetBitmap)
+        {
+            const int Width = 1280, Height = 720;
+            const int Stride = Width * 3;
+
+            targetBitmap ??= new(Width, Height, 96, 96, PixelFormats.Bgr24, null);
+            targetBitmap.Lock();
+            targetBitmap.WritePixels(
+                new(0, 0, Width, Height),
+                bgrData,
+                Stride,
+                0);
+            targetBitmap.Unlock();
+            return targetBitmap;
         }
 
         private readonly MaaService.CallbackDelegate _callback;
@@ -396,7 +472,7 @@ namespace MaaWpfGui.Main
                 {
                     // 重置按钮状态，不影响LinkStart判断
                     _runningState.SetIdle(true);
-                    Instances.TaskQueueViewModel.LinkStart();
+                    await Instances.TaskQueueViewModel.LinkStart();
                 }
             });
         }
@@ -559,6 +635,18 @@ namespace MaaWpfGui.Main
                         string method = details["details"]?["method"]?.ToString() ?? "???";
                         SettingsViewModel.ConnectSettings.ScreencapMethod = method;
 
+                        List<(string Method, string Cost)>? screencapAlternatives = null;
+                        var alternativesToken = details["details"]?["alternatives"];
+                        if (alternativesToken is JArray { Count: > 1 } arr)
+                        {
+                            screencapAlternatives = arr.Select(item =>
+                            {
+                                string method1 = item?["method"]?.ToString() ?? "???";
+                                string cost1 = item?["cost"]?.ToString() ?? "???";
+                                return (method1, cost1);
+                            }).ToList();
+                        }
+
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
                         if (int.TryParse(costString, out var timeCost))
@@ -624,7 +712,7 @@ namespace MaaWpfGui.Main
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         var fastestScreencapString = fastestScreencapStringBuilder.ToString();
                         SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: screencapAlternatives.CreateScreencapTooltip());
                         Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
                         // 截图增强未生效禁止启动
@@ -802,7 +890,7 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainStart:
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain));
                         TaskStatusUpdate(taskId, TaskStatus.InProgress);
                         break;
                     }
@@ -830,11 +918,11 @@ namespace MaaWpfGui.Main
                         if (taskChain == "Fight" && FightTask.SanityReport is not null)
                         {
                             var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), FightTask.SanityReport.SanityCurrent, FightTask.SanityReport.SanityMax);
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain) + sanityLog);
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
                         }
 
                         if (isCopilotTaskChain)
@@ -975,11 +1063,11 @@ namespace MaaWpfGui.Main
                         }
 
                         // Instances.TaskQueueViewModel.CheckAndShutdown();
-                        Instances.TaskQueueViewModel.CheckAfterCompleted();
+                        _ = Instances.TaskQueueViewModel.CheckAfterCompleted();
                     }
                     else if (isCopilotTaskChain)
                     {
-                        ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(taskChain));
                     }
 
                     if (buyWine)
@@ -1401,9 +1489,11 @@ namespace MaaWpfGui.Main
                         var statistics = subTaskDetails!["stats"] ?? new JArray();
                         var stageInfo = subTaskDetails!["stage"] ?? new JObject();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
+                        var drops = new List<(string ItemId, int Total, int Add)>();
 
                         foreach (var item in statistics)
                         {
+                            var itemId = item["itemId"]?.ToString();
                             var itemName = item["itemName"]?.ToString();
                             if (itemName == "furni")
                             {
@@ -1419,6 +1509,11 @@ namespace MaaWpfGui.Main
                                 allDrops += $" (+{addQuantity:#,#})";
                             }
 
+                            if (!string.IsNullOrEmpty(itemId))
+                            {
+                                drops.Add((itemId, totalQuantity, addQuantity));
+                            }
+
                             allDrops += "\n";
                         }
 
@@ -1428,7 +1523,8 @@ namespace MaaWpfGui.Main
                             $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
-                                : string.Empty)}");
+                                : string.Empty)}",
+                            toolTip: drops.CreateMaterialDropTooltip());
 
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
@@ -1436,7 +1532,9 @@ namespace MaaWpfGui.Main
                     }
 
                 case "EnterFacility":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") + subTaskDetails!["facility"] + " " + (int)(subTaskDetails["index"] ?? -1));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") +
+                                                        LocalizationHelper.GetString($"{subTaskDetails?["facility"]}") + " " +
+                                                        ((int)(subTaskDetails?["index"] ?? -2) + 1).ToString("D2"));
                     break;
 
                 case "ProductIncorrect":
@@ -1489,6 +1587,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
+                        var tooltip = $"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}".CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
@@ -1496,11 +1595,11 @@ namespace MaaWpfGui.Main
                                 toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
                             }
 
-                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold");
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold", toolTip: tooltip);
                         }
                         else
                         {
-                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info, toolTip: tooltip);
                         }
 
                         if (level == 6)
@@ -2170,6 +2269,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.OperBox, AsstTaskType.OperBox) && AsstStart();
         }
 
+        /// <summary>
+        /// 牛牛抽卡。
+        /// </summary>
+        /// <param name="once">是否为单抽，默认为 true</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartGacha(bool once = true)
         {
             var task = new AsstCustomTask()
@@ -2180,6 +2284,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.Gacha, type, param) && AsstStart();
         }
 
+        /// <summary>
+        /// 小游戏。
+        /// </summary>
+        /// <param name="taskName">任务名（tasks.json 中的 key）</param>
+        /// <returns>是否成功。</returns>
         public bool AsstMiniGame(string taskName)
         {
             var task = new AsstCustomTask()
@@ -2190,6 +2299,11 @@ namespace MaaWpfGui.Main
             return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
         }
 
+        /// <summary>
+        /// 视频识别。
+        /// </summary>
+        /// <param name="filename">文件路径</param>
+        /// <returns>是否成功。</returns>
         public bool AsstStartVideoRec(string filename)
         {
             var taskParams = new JObject
@@ -2201,12 +2315,12 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
-        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, (AsstTaskType Type, JObject? TaskParams) task)
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, (AsstTaskType Type, JObject? TaskParams) task)
         {
-            return AsstAppendTaskWithEncoding(wpfTasktype, task.Type, task.TaskParams);
+            return AsstAppendTaskWithEncoding(wpfTaskType, task.Type, task.TaskParams);
         }
 
-        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, AsstTaskType type, JObject? taskParams = null)
         {
             taskParams ??= [];
             AsstTaskId id = AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
@@ -2215,7 +2329,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            _tasksStatus.Add(id, (wpfTasktype, TaskStatus.Idle));
+            _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
             return true;
         }
 

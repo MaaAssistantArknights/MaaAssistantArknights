@@ -154,7 +154,7 @@ Todo
     Depot Recognition
 - `OperBox`  
     Operator Box Recognition
-- `ReclamationAlgorithm`  
+- `Reclamation`  
     Reclamation Algorithm ( A new mode in CN client)
 - `Custom`  
     Custom Task

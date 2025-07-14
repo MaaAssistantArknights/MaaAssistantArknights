@@ -14,47 +14,50 @@
 #nullable enable
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
+using MaaWpfGui.Configuration.Single;
 using ObservableCollections;
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration;
+
+public class Root : INotifyPropertyChanged
 {
-    public class Root : INotifyPropertyChanged
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    [JsonInclude]
+    public ObservableDictionary<string, SpecificConfig> Configurations { get; private set; } = [];
+
+    [JsonInclude]
+    public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
+
+    public string Current { get; set; } = "Default";
+
+    [JsonInclude]
+    public VersionUpdate VersionUpdate { get; private set; } = new VersionUpdate();
+
+    [JsonInclude]
+    public AnnouncementInfo AnnouncementInfo { get; private set; } = new AnnouncementInfo();
+
+    [JsonInclude]
+    public GUI GUI { get; private set; } = new GUI();
+
+    [JsonIgnore]
+    public SpecificConfig CurrentConfig
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [JsonInclude]
-        public ObservableDictionary<string, SpecificConfig> Configurations { get; private set; } = [];
-
-        [JsonInclude]
-        public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
-
-        public string Current { get; set; } = "Default";
-
-        [JsonInclude]
-        public VersionUpdate VersionUpdate { get; private set; } = new VersionUpdate();
-
-        [JsonInclude]
-        public AnnouncementInfo AnnouncementInfo { get; private set; } = new AnnouncementInfo();
-
-        [JsonInclude]
-        public GUI GUI { get; private set; } = new GUI();
-
-        [JsonIgnore]
-        public SpecificConfig CurrentConfig
+        get
         {
-            get
-            {
-                Configurations.TryGetValue(Current, out var result);
-                return result;
-            }
-
-            set => Configurations[Current] = value;
+            Configurations.TryGetValue(Current, out var result);
+            return result;
         }
 
-        // ReSharper disable once UnusedMember.Global
-        public void OnPropertyChanged(string propertyName, object before, object after)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
-        }
+        set => Configurations[Current] = value;
+    }
+
+    [UsedImplicitly]
+    public void OnPropertyChanged(string propertyName, object before, object after)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
     }
 }

@@ -60,7 +60,7 @@ public class AsstFightTask : AsstBaseTask
     public int Series { get; set; } = 1;
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets 葛朗台
+    /// Gets or sets a value indicating whether 葛朗台
     /// </summary>
     [JsonProperty("DrGrandet")]
     public bool IsDrGrandet { get; set; }

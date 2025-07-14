@@ -88,6 +88,7 @@ namespace MaaWpfGui.Views.UserControl.Settings
                 {
                     try
                     {
+                        System.Windows.Forms.Clipboard.Clear();
                         System.Windows.Forms.Clipboard.SetDataObject(text, true);
                     }
                     catch (Exception e)

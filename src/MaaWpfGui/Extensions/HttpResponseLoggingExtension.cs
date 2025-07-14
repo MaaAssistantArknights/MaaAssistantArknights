@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Net;
 using System.Net.Http;
 using Serilog;
 
@@ -26,15 +27,20 @@ namespace MaaWpfGui.Extensions
             var method = response?.RequestMessage?.Method;
             var uri = response?.RequestMessage?.RequestUri;
             var statusCode = response?.StatusCode.ToString();
+            var etag = response?.Headers.ETag?.Tag;
+            var lastModified = response?.Content?.Headers?.LastModified?.ToString("R"); // RFC1123
 
-            if (response is { IsSuccessStatusCode: true })
+            if (response != null && (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotModified))
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(uriPartial));
+                _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, uri?.GetLeftPart(uriPartial));
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
             }
         }
+
     }
 }

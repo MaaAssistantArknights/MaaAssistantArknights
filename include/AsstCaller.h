@@ -65,6 +65,7 @@ extern "C"
     AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, AsstBool block);
 
     AsstSize ASSTAPI AsstGetImage(AsstHandle handle, void* buff, AsstSize buff_size);
+    AsstSize ASSTAPI AsstGetImageBgr(AsstHandle handle, void* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetUUID(AsstHandle handle, char* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetTasksList(AsstHandle handle, AsstTaskId* buff, AsstSize buff_size);
     AsstSize ASSTAPI AsstGetNullSize();

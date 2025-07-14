@@ -13,6 +13,9 @@
                 },
                 {
                     "$ref": "#/definitions/OcrDetectTask"
+                },
+                {
+                    "$ref": "#/definitions/FeatureMatchTask"
                 }
             ]
         }
@@ -217,6 +220,45 @@
             },
             "description": "文字识别",
             "required": ["algorithm", "text"]
-        }
+        },
+       "FeatureMatchTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "FeatureMatch"
+                },
+                "template": {
+                    "type": "string",
+                    "default": "",
+                    "description": "可选项，要匹配的图片文件名\n不填时默认为 \"任务名.png\""
+                },
+                "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 4,
+                    "description": "匹配的特征点数量要求（阈值）。默认值为 4。"
+                },
+                "ratio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1.0,
+                    "default": 0.6,
+                    "description": "KNN 匹配的距离比值，[0 - 1.0] 越大越宽松。默认值为 0.6。"
+                },
+                "detector": {
+                    "type": "string",
+                    "enum": ["SIFT", "ORB", "BRISK", "KAZE", "AKAZE", "SURF"],
+                    "default": "SIFT",
+                    "description": "特征点检测器。默认值为 SIFT。可选：SIFT, ORB, BRISK, KAZE, AKAZE, SURF"
+                }
+            },
+            "description": "使用特征点算法进行图像匹配",
+            "required": ["algorithm"]
+       }
     }
 }

@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -190,7 +191,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    UpdateFilename(value);
+                    _ = UpdateFilename(value);
                 }
             }
         }
@@ -358,7 +359,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects file.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void SelectFile()
         {
             var dialog = new OpenFileDialog
@@ -375,7 +377,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Paste clipboard contents.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void PasteClipboard()
         {
             if (Clipboard.ContainsText())
@@ -391,8 +394,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Paste clipboard contents.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
-        public async void PasteClipboardCopilotSet()
+        /// <returns>Task</returns>
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task PasteClipboardCopilotSet()
         {
             StartEnabled = false;
             UseCopilotList = true;
@@ -408,8 +413,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 批量导入作业
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
-        public async void ImportFiles()
+        /// <returns>Task</returns>
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task ImportFiles()
         {
             var dialog = new OpenFileDialog
             {
@@ -450,7 +457,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                     else if (payload is SSSCopilotModel)
                     {
-                        AddLog($"unsupport type: SSS", UiLogColor.Error, showTime: false);
+                        AddLog("Unsupported type: SSS", UiLogColor.Error, showTime: false);
                     }
                 }
                 catch
@@ -462,28 +469,28 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void AddCopilotTask()
+        [UsedImplicitly]
+        public async Task AddCopilotTask()
         {
-            AddCopilotTaskToList(CopilotTaskName, false);
+            await AddCopilotTaskToList(CopilotTaskName, false);
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public void AddCopilotTask_Adverse()
+        [UsedImplicitly]
+        public async Task AddCopilotTask_Adverse()
         {
-            AddCopilotTaskToList(CopilotTaskName, true);
+            await AddCopilotTaskToList(CopilotTaskName, true);
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void SelectCopilotTask(int index)
         {
             Filename = CopilotItemViewModels[index].FilePath;
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void DeleteCopilotTask(int index)
         {
             CopilotItemViewModels.RemoveAt(index);
@@ -491,7 +498,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void CleanUnableCopilotTask()
         {
             foreach (var item in CopilotItemViewModels.Where(model => !model.IsChecked).ToList())
@@ -503,7 +510,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void ClearCopilotTask()
         {
             CopilotItemViewModels.Clear();
@@ -519,8 +526,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // ReSharper disable once UnusedMember.Global
-        public async void LikeWebJson()
+        // UI 绑定的方法
+        [UsedImplicitly]
+        public async Task LikeWebJson()
         {
             CouldLikeWebJson = false;
             if (await RateCopilot(CopilotId) == PrtsStatus.Success)
@@ -529,7 +537,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void DislikeWebJson()
         {
             CouldLikeWebJson = false;
@@ -540,7 +549,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion UI绑定及操作
 
-        private async void UpdateFilename(string filename)
+        private async Task UpdateFilename(string filename)
         {
             StartEnabled = false;
             await UpdateFileDoc(filename);
@@ -889,9 +898,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
-        // TODO: 不知道为啥现在拖放不用了，之后瞅瞅
+        /// TODO: 不知道为啥现在拖放不用了，之后瞅瞅
+        [UsedImplicitly]
         public void DropFile(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -899,7 +907,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0)?.ToString();
+            var filename = ((Array?)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0)?.ToString();
             DropFile(filename);
         }
 
@@ -930,8 +938,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
+        [UsedImplicitly]
         public void OnDropDownOpened(object sender, EventArgs e)
         {
             if (sender is not ComboBox comboBox)
@@ -950,7 +957,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async void AddCopilotTaskToList(string? stageName, bool isRaid)
+        private async Task AddCopilotTaskToList(string? stageName, bool isRaid)
         {
             if (string.IsNullOrEmpty(stageName) || InvalidStageNameRegex().IsMatch(stageName))
             {
@@ -1116,9 +1123,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void Start()
+        /// <returns>Task</returns>
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task Start()
         {
             /*
             if (_form)
@@ -1261,8 +1269,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
         public void Stop()
         {
             if (SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript)
@@ -1377,8 +1384,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">点击事件发送者</param>
         /// <param name="e">点击事件</param>
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
+        [UsedImplicitly]
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is not UIElement element)
@@ -1396,7 +1402,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">点击事件发送者</param>
         /// <param name="e">点击事件</param>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter)

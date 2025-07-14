@@ -16,6 +16,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using HandyControl.Controls;
+using JetBrains.Annotations;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
 namespace MaaWpfGui.Styles.Properties
@@ -47,7 +48,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static double GetVerticalOffset(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer))
@@ -124,7 +125,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static double GetViewportHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -201,7 +202,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static double GetExtentHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -279,7 +280,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
         {
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);

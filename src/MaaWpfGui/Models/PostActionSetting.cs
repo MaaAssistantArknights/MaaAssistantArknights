@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
@@ -307,7 +308,7 @@ public class PostActionSetting : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void PostActionsAndOnce(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton != MouseButton.Right)
@@ -321,7 +322,7 @@ public class PostActionSetting : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void PostActionsClear()
     {
         Once = false;

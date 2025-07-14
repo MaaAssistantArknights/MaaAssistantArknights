@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Tools;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -48,7 +49,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             InitViewModels();
-            InitProxy();
+            _ = InitProxy();
             if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
@@ -76,9 +77,16 @@ namespace MaaWpfGui.ViewModels.UI
             _ = Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
-        private static async void InitProxy()
+        private static async Task InitProxy()
         {
-            await Task.Run(Instances.AsstProxy.Init);
+            try
+            {
+                await Task.Run(Instances.AsstProxy.Init);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void InitViewModels()
@@ -194,7 +202,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void ToggleTopMostCommand()
         {
             IsWindowTopMost = !IsWindowTopMost;
@@ -230,7 +238,6 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gifVisibility, value);
         }
 
-        // ReSharper disable once UnusedMember.Global
         public void ChangeGif()
         {
             if (++_gifIndex >= _gitList.Length)
@@ -244,7 +251,8 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool _isDragging = false;
         private static Point _offset;
 
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void DraggableElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is not HandyControl.Controls.GifImage childElement)
@@ -257,7 +265,8 @@ namespace MaaWpfGui.ViewModels.UI
             childElement.CaptureMouse();
         }
 
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void DraggableElementMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (sender is not HandyControl.Controls.GifImage childElement)
@@ -269,7 +278,8 @@ namespace MaaWpfGui.ViewModels.UI
             childElement.ReleaseMouseCapture();
         }
 
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void DraggableElementMouseMove(object sender, MouseEventArgs e)
         {
             if (!_isDragging || sender is not HandyControl.Controls.GifImage { Parent: Grid parentElement } childElement)

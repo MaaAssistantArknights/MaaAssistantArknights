@@ -59,7 +59,7 @@ namespace MaaWpfGui.Services.HotKeys
 
             if (_runningState.GetIdle())
             {
-                Instances.TaskQueueViewModel.LinkStart();
+                _ = Instances.TaskQueueViewModel.LinkStart();
 
                 if (Instances.MainWindowManager.GetWindowState() != WindowState.Minimized)
                 {

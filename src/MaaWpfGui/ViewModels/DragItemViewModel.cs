@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using Stylet;
@@ -79,7 +80,7 @@ namespace MaaWpfGui.ViewModels
         private bool? _isCheckedWithNull;
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets whether the key is checked with null.
+        /// Gets or sets a value indicating whether the key is checked with null.
         /// </summary>
         public bool? IsCheckedWithNull
         {
@@ -93,7 +94,7 @@ namespace MaaWpfGui.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets whether the key is checked.
+        /// Gets or sets a value indicating whether the key is checked.
         /// </summary>
         public bool IsChecked
         {
@@ -107,7 +108,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the icon path.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public string IconPath
         {
             get => _iconPath;
@@ -119,7 +120,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the token.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public string Token
         {
             get => _token;
@@ -131,7 +132,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the running status.
         /// </summary>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public string RunStatus
         {
             get => _runStatus;
@@ -141,7 +142,7 @@ namespace MaaWpfGui.ViewModels
         private bool _enableSetting;
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
+        /// Gets or sets a value indicating whether the setting enabled.
         /// </summary>
         public bool EnableSetting
         {

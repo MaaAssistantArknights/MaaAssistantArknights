@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Controls;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -172,7 +174,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Checks after completion.
         /// </summary>
-        public async void CheckAfterCompleted()
+        /// <returns>Task</returns>
+        public async Task CheckAfterCompleted()
         {
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             var actions = PostActionSetting;
@@ -429,23 +432,30 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async void Timer1_Elapsed(object sender, EventArgs e)
         {
-            // 提前记录时间，避免等待超过定时时间
-            DateTime currentTime = DateTime.Now;
-            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
-
-            if (currentTime == _lastTimerElapsed)
+            try
             {
-                return;
+                // 提前记录时间，避免等待超过定时时间
+                DateTime currentTime = DateTime.Now;
+                currentTime = new(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
+
+                if (currentTime == _lastTimerElapsed)
+                {
+                    return;
+                }
+
+                _lastTimerElapsed = currentTime;
+
+                HandleDatePromptUpdate();
+                HandleCheckForUpdates();
+
+                InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
+
+                await HandleTimerLogic(currentTime);
             }
-
-            _lastTimerElapsed = currentTime;
-
-            HandleDatePromptUpdate();
-            HandleCheckForUpdates();
-
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
-
-            await HandleTimerLogic(currentTime);
+            catch
+            {
+                // ignored
+            }
         }
 
         private static int CalculateRandomDelay()
@@ -629,7 +639,7 @@ namespace MaaWpfGui.ViewModels.UI
                 InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
 
-            LinkStart();
+            await LinkStart();
 
             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup, 1);
         }
@@ -730,7 +740,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
             }
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+            TaskItemViewModels = [.. tempOrderList];
             TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
 
             FightTask.InitDrops();
@@ -974,11 +984,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
+        /// <param name="toolTip">The toolTip</param>
+        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
         {
             Execute.OnUIThread(() =>
             {
-                var log = new LogItemViewModel(content, color, weight);
+                var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
                 LogItemViewModels.Add(log);
                 _logger.Information(content);
             });
@@ -1000,8 +1011,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects all.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void SelectedAll()
         {
             foreach (var item in TaskItemViewModels)
@@ -1092,8 +1103,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Changes inversion mode.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
@@ -1102,8 +1113,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects inversely.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void InverseSelected()
         {
             if (InverseMode)
@@ -1259,7 +1270,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts.
         /// </summary>
-        public async void LinkStart()
+        /// <returns>Task</returns>
+        public async Task LinkStart()
         {
             if (!_runningState.GetIdle())
             {
@@ -1472,8 +1484,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void WaitAndStop()
+        [UsedImplicitly]
+        public async Task WaitAndStop()
         {
             Waiting = true;
             AddLog(LocalizationHelper.GetString("Waiting"));
@@ -1527,7 +1539,7 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.SetIdle(true);
         }
 
-        public async void QuickSwitchAccount()
+        public async Task QuickSwitchAccount()
         {
             if (!_runningState.GetIdle())
             {
@@ -1763,7 +1775,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Waiting
         {
             // UI 会根据这个值来改变 Visibility
-            // ReSharper disable once UnusedMember.Global
+            [UsedImplicitly]
             get => _waiting;
             private set => SetAndNotify(ref _waiting, value);
         }

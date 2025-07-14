@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -404,7 +405,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void AddConfiguration()
         {
             if (string.IsNullOrEmpty(NewConfigurationName))
@@ -439,7 +440,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void DeleteConfiguration(CombinedData delete)
         {
             if (ConfigurationHelper.DeleteConfiguration(delete.Display))
@@ -476,7 +477,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void NextGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Bottom2Top";
@@ -484,7 +485,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void PrevGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Top2Bottom";
@@ -492,7 +493,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public void DoneGuide()
         {
             TaskSettingVisibilities.Guide = false;
@@ -672,7 +673,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">Event args</param>
         // UI 绑定的方法
         // EventArgs 不能省略，否则会报错
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         // ReSharper disable once UnusedParameter.Global
         public static void MakeComboBoxSearchable(object sender, EventArgs e)
         {
@@ -680,7 +681,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public async Task CheckAndDownloadAnnouncement()
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();

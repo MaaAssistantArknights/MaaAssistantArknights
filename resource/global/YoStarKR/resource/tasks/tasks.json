@@ -1362,6 +1362,9 @@
     "BattleQuickFormationRole-All-OCR": {
         "text": ["전체"]
     },
+    "BattleQuickFormationModulePage": {
+        "text": ["세부", "분류"]
+    },
     "BattleStartPre": {
         "ocrReplace": [
             [".+드모드", "하드모드"],

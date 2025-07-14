@@ -157,7 +157,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
 }
 
 std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
-    asst::MedicineCounterTaskPlugin::init_count(cv::Mat image) const
+    asst::MedicineCounterTaskPlugin::init_count(const cv::Mat& image) const
 {
     int use = 0;
     MultiMatcher multi_matcher(image);
@@ -222,12 +222,12 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         use += using_count;
         medicines.emplace_back(
             Medicine { .use = using_count,
-                       .inventry = inventory_count,
+                       .inventory = inventory_count,
                        .reduce_button_position = result.rect,
                        .is_expiring = is_expiring });
         LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ","
                  << "inventory count:" << inventory_count << ","
-                 << "is expiring:" << static_cast<int>(is_expiring);
+                 << "is expiring:" << expiring_status_to_string(is_expiring);
     }
     return MedicineResult { .using_count = use, .medicines = medicines };
 }

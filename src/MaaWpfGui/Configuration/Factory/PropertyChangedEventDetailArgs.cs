@@ -14,7 +14,7 @@
 #nullable enable
 using System.ComponentModel;
 
-namespace MaaWpfGui.Configuration
+namespace MaaWpfGui.Configuration.Factory
 {
     // https://github.com/dotnet/runtime/issues/27252
     public class PropertyChangedEventDetailArgs : PropertyChangedEventArgs

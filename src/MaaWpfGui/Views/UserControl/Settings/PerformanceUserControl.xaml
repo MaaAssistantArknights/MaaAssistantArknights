@@ -33,7 +33,7 @@
             Margin="10,5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Background="{DynamicResource TransparentRegionBrush}"
+            Background="{DynamicResource RegionBrushOpacity25}"
             ItemsSource="{Binding GpuOptions}"
             PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
                                          Target={x:Type helper:MouseWheelHelper}}"

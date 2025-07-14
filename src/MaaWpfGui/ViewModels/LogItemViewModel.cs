@@ -11,9 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Media;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 
@@ -32,18 +41,20 @@ namespace MaaWpfGui.ViewModels
         /// <param name="weight">The font weight.</param>
         /// <param name="dateFormat">The Date format string</param>
         /// <param name="showTime">The showtime bool.</param>
-        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true)
+        /// <param name="toolTip">The toolTip</param>
+        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "", bool showTime = true, ToolTip? toolTip = null)
         {
             if (string.IsNullOrEmpty(dateFormat))
             {
                 dateFormat = SettingsViewModel.GuiSettings.LogItemDateFormatString;
             }
 
-            Time = DateTime.Now.ToString(dateFormat);
-            Content = content;
-            Color = color;
-            Weight = weight;
-            ShowTime = showTime;
+            _time = DateTime.Now.ToString(dateFormat);
+            _content = content;
+            _color = color;
+            _weight = weight;
+            _showTime = showTime;
+            _toolTip = toolTip;
         }
 
         private string _time;
@@ -57,7 +68,7 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _time, value);
         }
 
-        private bool _showTime = true;
+        private bool _showTime;
 
         public bool ShowTime
         {
@@ -96,6 +107,20 @@ namespace MaaWpfGui.ViewModels
         {
             get => _weight;
             set => SetAndNotify(ref _weight, value);
+        }
+
+        [PropertyDependsOn(nameof(ToolTip))]
+        public bool ShowToolTip => _toolTip is { Content: not null };
+
+        private ToolTip? _toolTip;
+
+        /// <summary>
+        /// Gets or sets the toolTip.
+        /// </summary>
+        public ToolTip? ToolTip
+        {
+            get => _toolTip;
+            set => SetAndNotify(ref _toolTip, value);
         }
     }
 }

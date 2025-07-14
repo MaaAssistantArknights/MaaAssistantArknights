@@ -84,7 +84,7 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
 
 ::: note
 
-- LinkStart-[TaskName] 型的任务 type 的可选值为 LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike，LinkStart-ReclamationAlgorithm
+- LinkStart-[TaskName] 型的任务 type 的可选值为 LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike，LinkStart-Reclamation
 - Settings-[SettingsName] 型的任务的 type 的可选值为 Settings-ConnectionAddress, Settings-Stage1
 - Settings 系列任务仍然是要按顺序执行的，并不会在收到任务的时候立刻执行，而是排在上一个任务的后面
 - 多个立即执行的任务也会按下发顺序执行，只不过这些任务的执行速度都很快，通常来说，并不需要关注他们的顺序。

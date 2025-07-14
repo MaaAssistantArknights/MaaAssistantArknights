@@ -13,9 +13,12 @@
 
 #nullable enable
 using System;
+using System.Drawing.Drawing2D;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Styles.Controls;
 
@@ -27,13 +30,18 @@ public partial class TooltipBlock : UserControl
     public TooltipBlock()
     {
         InitializeComponent();
-        DataContext = this;
 
         Opacity = NormalOpacity;
 
         MouseEnter += OnMouseEnter;
         MouseLeave += OnMouseLeave;
     }
+
+    public static readonly DependencyProperty PathDateProperty = DependencyProperty.Register(nameof(PathDate), typeof(Geometry), typeof(TooltipBlock), new FrameworkPropertyMetadata(null));
+
+    public static readonly DependencyProperty PathStrokeThicknessProperty = DependencyProperty.Register(nameof(PathStrokeThickness), typeof(double), typeof(TooltipBlock), new(1d));
+
+    public static readonly DependencyProperty TextBlockTextProperty = DependencyProperty.Register(nameof(TextBlockText), typeof(string), typeof(TooltipBlock), new("?"));
 
     public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText), typeof(string), typeof(TooltipBlock), new(string.Empty));
 
@@ -44,6 +52,26 @@ public partial class TooltipBlock : UserControl
     public static readonly DependencyProperty HoverOpacityProperty = DependencyProperty.Register(nameof(HoverOpacity), typeof(double), typeof(TooltipBlock), new(1.0, OnOpacityChanged));
 
     public static readonly DependencyProperty InitialShowDelayProperty = DependencyProperty.Register(nameof(InitialShowDelay), typeof(int), typeof(TooltipBlock), new(200));
+
+    public Geometry? PathDate
+    {
+        get => (Geometry?)GetValue(PathDateProperty);
+        set => SetValue(PathDateProperty, value);
+    }
+
+    public double PathStrokeThickness
+    {
+        get => (double)GetValue(PathStrokeThicknessProperty);
+        set => SetValue(PathStrokeThicknessProperty, value);
+    }
+
+    public bool TextBlockTextEmpty => string.IsNullOrEmpty(TextBlockText);
+
+    public string TextBlockText
+    {
+        get => (string)GetValue(TextBlockTextProperty);
+        set => SetValue(TextBlockTextProperty, value);
+    }
 
     public string TooltipText
     {

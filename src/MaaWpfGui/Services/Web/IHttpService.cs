@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace MaaWpfGui.Services.Web
 {
@@ -47,7 +48,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
         /// <returns>Response stream, null when failed</returns>
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
 
         /// <summary>

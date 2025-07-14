@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
+    <system:String x:Key="Copy">복사</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -273,6 +274,7 @@
     <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
+    <system:String x:Key="ResourceRepository">리소스 저장소</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 글로벌 소스 사용:
@@ -313,7 +315,7 @@
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">새로운 버전이 빌드되는 중입니다. 다음에 다시 시도해 주세요</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. 현재 버전이 너무 오래되어 OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 리소스 폴더는 휴지통과 .old 폴더로 이동합니다. 필요한 경우 수동으로 백업해 주세요.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">새 버전이 감지되었습니다. OTA 증분 업데이트 패키지를 사용할 수 없습니다. 전체 패키지가 다운로드되고 리소스 폴더는 휴지통과 .old 폴더로 이동합니다. 필요한 경우 수동으로 백업해 주세요.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
@@ -346,6 +348,7 @@
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">에뮬레이터 실행 파일 선택（｢{key=AdditionCommand}｣ 매개변수로 인스턴스 지정 가능） 또는 직접 에뮬레이터/게임 바로 가기 선택 가능합니다.&#10;｢{key=WakeUp}｣ 작업이 에뮬레이터 시작 지연으로 실패할 경우, 게임 바로 가기 사용 후 ｢{key=WaitForEmulator}｣ 시간 연장을 권장합니다.</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">바에서 바를 주문하고 싶습니까?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
@@ -358,6 +361,7 @@
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (비권장)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">에뮬레이터 실행 매개변수 추가 명령（예: ｢--instance 1｣ 은 1 번 인스턴스）。&#10;명령 형식은 에뮬레이터마다 다르며 일반적으로 인스턴스 번호나 창 모드 등을 포함합니다。</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
     <system:String x:Key="CopilotWithScript">자동지휘 시 스크립트 사용</system:String>
@@ -499,6 +503,7 @@ C:\\leidian\\LDPlayer9
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
+    <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣  수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>
@@ -510,15 +515,23 @@ C:\\leidian\\LDPlayer9
     <!--  자동화  -->
     <system:String x:Key="Farming">시작</system:String>
     <system:String x:Key="WakeUp">로그인</system:String>
+    <system:String x:Key="StartUp">{key=WakeUp}</system:String>
     <system:String x:Key="Recruiting">공개모집</system:String>
+    <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">기반시설 교대</system:String>
+    <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">이성 사용</system:String>
+    <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
+    <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">생존연산</system:String>
     <system:String x:Key="MiniGame">미니게임</system:String>
+    <system:String x:Key="Custom">사용자 정의 작업</system:String>
+    <system:String x:Key="SingleStep">단일 단계 작업</system:String>
     <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>
     <system:String x:Key="ReclamationThemeTales">사막 이야기</system:String>
@@ -655,6 +668,7 @@ C:\\leidian\\LDPlayer9
     <!--  !공개모집 태그 인식  -->
     <!--  창고 인식  -->
     <system:String x:Key="DepotRecognition">창고 인식</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
     <system:String x:Key="StartToDepotRecognition">인식 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
@@ -663,6 +677,7 @@ C:\\leidian\\LDPlayer9
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ 오퍼레이터를 등록 해제하세요.</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
@@ -756,6 +771,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
+    <system:String x:Key="CopilotModule">모듈</system:String>
+    <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
     <system:String x:Key="TotalOperatorsCount">총 {0}명의 오퍼레이터</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="OtherOperators">기타 오퍼레이터:</system:String>
@@ -1318,7 +1335,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.CopilotError.Title">아이고</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">사고가 났네요...</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">대리 작전에서 실수 발생</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 실수 발생</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">긴 작업</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">좀 더 기다려볼까요?</system:String>

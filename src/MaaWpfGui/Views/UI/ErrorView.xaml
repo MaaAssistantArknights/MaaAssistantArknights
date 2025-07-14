@@ -223,7 +223,7 @@
         <Border
             Grid.Row="1"
             Padding="12,0"
-            Background="{DynamicResource ErrorViewBackgroundBrush}">
+            Background="{DynamicResource MouseOverRegionBrush}">
             <Grid MinHeight="40">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

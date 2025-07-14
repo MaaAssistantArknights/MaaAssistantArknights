@@ -307,6 +307,22 @@ std::vector<uchar> asst::Assistant::get_image() const
     return buf;
 }
 
+std::vector<uchar> asst::Assistant::get_image_bgr() const
+{
+    if (!inited()) {
+        return {};
+    }
+
+    cv::Mat img = m_ctrler->get_image_cache();
+
+    if (!img.isContinuous()) {
+        img = img.clone();
+    }
+
+    std::vector<uchar> buf(img.data, img.data + img.total() * img.elemSize());
+    return buf;
+}
+
 bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
