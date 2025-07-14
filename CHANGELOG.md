@@ -56,6 +56,11 @@
 * 高版本检测到低版本更新时错误提示无更新包 @ABA2396
 * 无法继续专精 @ABA2396
 
+### 文档 | Docs
+
+* 更新 CHANGELOG.md @ABA2396
+* Auto Update Changelogs of v5.18.0-beta.1 (#13201) @github-actions[bot]
+
 ### 其他 | Other
 
 * 抽离 ToolTip 创建方法，统一 ToolTip 格式 @ABA2396
