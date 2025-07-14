@@ -5,6 +5,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -30,9 +31,9 @@ bool asst::InfrastTrainingTask::_run()
 
     if (m_continue_training && *status == TrainingStatus::Completed && m_level != 3) { // 继续训练
         click_bottom_left_tab();
-        OCRer choose_skill_analyzer(ctrler()->get_image());
+        FeatureMatcher choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
-        choose_skill_analyzer.set_required({ m_skill_name });
+        choose_skill_analyzer.set_templ(m_skill_img);
         if (!choose_skill_analyzer.analyze()) {
             Log.error(__FUNCTION__, "choose skill failed");
             return false;
@@ -55,29 +56,52 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
         return TrainingStatus::Idle;
     }
 
-    const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
-    std::vector<std::pair<std::string, std::string>> task_replace =
-        Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
-    ranges::copy(replace_map, std::back_inserter(task_replace));
-    RegionOCRer rec_analyzer(image);
-    rec_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
-    rec_analyzer.set_replace(task_replace);
-    rec_analyzer.set_use_raw(true);
-    if (!rec_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "recognition failed");
-        return std::nullopt;
+    {
+        const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+        std::vector<std::pair<std::string, std::string>> task_replace =
+            Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
+        ranges::copy(replace_map, std::back_inserter(task_replace));
+        RegionOCRer name_analyzer(image);
+        name_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
+        name_analyzer.set_replace(task_replace);
+        name_analyzer.set_use_raw(true);
+        if (!name_analyzer.analyze()) {
+            Log.error(__FUNCTION__, "operator name recognition failed");
+            return std::nullopt;
+        }
+
+        std::string name_str = name_analyzer.get_result().text;
+        size_t separation_pos = name_str.find('\n');
+        if (separation_pos == std::string::npos) {
+            Log.error(__FUNCTION__, "separate string failed");
+            return std::nullopt;
+        }
+
+        // '\n'前为干员名，'\n'后为技能名
+        m_operator_name = name_str.substr(0, separation_pos);
     }
 
-    std::string raw_str = rec_analyzer.get_result().text;
-    size_t separation_pos = raw_str.find('\n');
-    if (separation_pos == std::string::npos) {
-        Log.error(__FUNCTION__, "separate string failed");
-        return std::nullopt;
+    {
+        RegionOCRer skill_analyzer(image);
+        skill_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
+        skill_analyzer.set_use_raw(true);
+        if (!skill_analyzer.analyze()) {
+            Log.error(__FUNCTION__, "skill name recognition failed");
+            return std::nullopt;
+        }
+
+        std::string skill_str = skill_analyzer.get_result().text;
+        size_t separation_pos = skill_str.find('\n');
+        if (separation_pos == std::string::npos) {
+            Log.error(__FUNCTION__, "separate string failed");
+            return std::nullopt;
+        }
+
+        m_skill_name = skill_str.substr(separation_pos + 1);
     }
 
-    // '\n'前为干员名，'\n'后为技能名
-    m_operator_name = raw_str.substr(0, separation_pos);
-    m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
+    Rect roi = Task.get("InfrastTrainingSkillImg")->roi;
+    m_skill_img = image(make_rect<cv::Rect>(roi));
 
     // TODO: 根据角色职业增加换班功能
     // m_operator_role = BattleData.get_role(m_operator_name);
@@ -137,8 +161,7 @@ bool asst::InfrastTrainingTask::level_analyze(const cv::Mat& image)
 
 bool asst::InfrastTrainingTask::training_completed()
 {
-    ProcessTask task(*this, { "InfrastTrainingProcessing", "InfrastTrainingCompleted" });
-    return task.run() && task.get_last_task_name() == "InfrastTrainingCompleted";
+    return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
 }
 
 std::optional<std::string> asst::InfrastTrainingTask::time_left_analyze(const cv::Mat& image)

@@ -199,7 +199,7 @@ bool MumuExtras::init_screencap()
         return false;
     }
 
-    display_buffer_.resize(display_width_ * display_height_ * 4);
+    display_buffer_.resize(static_cast<size_t>(display_width_) * display_height_ * 4);
 
     LogDebug << VAR(display_width_) << VAR(display_height_) << VAR(display_buffer_.size());
     return true;

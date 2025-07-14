@@ -1,67 +1,103 @@
-## v5.18.3
-
-### 修复 | Fix
-
-* 公招刷新条件 @ABA2396
-
-## v5.18.2
+## v5.18.0-beta.1
 
 ### 新增 | New
 
-* wpfgui 添加第三备选关卡 (stage4) (#13106) @Daydreamer114
-* 优化 CropRoi 使用体验 @SherkeyXD
-* 新增资源更新进度显示 @ABA2396
-* 肉鸽更新干员招募逻辑 (#13071) @Saratoga-Official
-* 显示剩余理智 @hguandl
-* warn about known problematic injected dlls @dantmnf
-* YostarEN Dahuang City theme @Constrat
+* 优化会客室线索处理逻辑 (#13160) @Lemon-miaow
+* 官网添加非当前电脑构架提示 @ABA2396
+* 支持MaaPipelineSupport插件 (#13189) @neko-para
+* 添加悬浮窗标识符 @ABA2396
+* 添加任务及基建设施日志翻译 @ABA2396
+* 新增公招星级悬浮提示 @ABA2396
+* 新增通过 string 直接构造 Tooltip 方法 @ABA2396
+* cdk 添加复制按钮 @ABA2396
+* 新增资源仓库超链接 @ABA2396
+* 为截图测试日志添加 Tooltip 展示所有截图方式耗时 @ABA2396
+* 支持编队添加干员时选择模组 (#12811) @travellerse @status102 @ABA2396
+* 日志栏新增 ToolTip 提示 @ABA2396
+* 新增返回 bgr byte[] 数据接口，大幅降低 peep 性能占用 @ABA2396
+* 新增雷电专版注册表自动检测，新增雷电端口自动检测 @ABA2396
+* fetch 请求增加 If-Modified-Since @ABA2396
 
 ### 改进 | Improved
 
-* 更新繁中服線索與部分截圖 (#13094) @momomochi987 @pre-commit-ci[bot]
-* SSReopen 使用 XX-OpenOpt 代替 SideStoryReopen 导航 (#13078) @status102
-* 减少运行中 Task 修改 @status102
+* 添加萨卡兹肉鸽 机动队 溃乱魔典 盲盒广场 关卡策略 (#12636) @zitzoom
+* 添加缺失的翻译与文档更新 @ABA2396
+* 优化掉落显示 @ABA2396
+* 优化物品图显示缓存 @ABA2396
+* 肉鸽参数显示简化, 开局干员空时不显示使用助战 @status102
+* 优化窗口显示 @ABA2396
+* 训练室继续专精使用特征匹配识别技能 @ABA2396
+* 优化热更逻辑 @ABA2396
 
 ### 修复 | Fix
 
-* 当首选关卡为剿灭时，后续备选关卡和剩余理智出现问题时不会报错  @ABA2396
-* 修复因重定向导致 ETag 缓存与原始地址不符的问题 @ABA2396
-* 未勾选自动确认 3 星且有对应倾向 3 星 tag 时不会刷新 @ABA2396
-* 繁中服無法識別荒蕪拉普蘭德 (#13125) @vonnoq
-* 存在更新时问题反馈提示显示不全 @ABA2396
-* 规避 WPF 剪贴板卡顿，修复剪切不清除文本的问题。支持 (Rich)TextBox 复制/剪切/粘贴 和 DataGrid 复制 @ABA2396
-* 不知道为啥有时候肉鸽难度识别最后会多个0，ui打个补丁 @ABA2396
-* 调整 YoStarEN 大荒城公招、抽卡的截图以修复识别失败的问题 (#13117) @gui-ying233
-* Toast遮挡右侧界面 @status102
-* 引航者试炼#5 TN-1 ~ TN-4地图view[1] & 干员部署修复 @status102
-* 肉鸽结算Ocr 非数字替换 @status102
-* 写的什么jb导航 @ABA2396
-* 肉鸽结算 Ocr bin threshold @status102
-* 难度识别出非数字时崩溃 @ABA2396
-* Mac Mirror酱更新检测 @hguandl
-* YostarEN & YostarJP HS rerun navigation @Constrat
-* YostarKR HS rerun navigation (#13124) @HX3N
-* Mumu5.0 MumuExtra @Daydreamer114
-* no unsigned subtraction @SherkeyXD
-* KR/JP SS@Store@Purchase OCR @Daydreamer114
-* txwy failed dataload @Constrat
-
-### 文档 | Docs
-
-* 更新 Linux 开发环境配置教程 加入 Mac 开发建议 @zhangweijian97
-* 用户文档基建换班添加队列轮换说明 (#13064) @Lemon-miaow @pre-commit-ci[bot]
+* TooltipBlock 无法使用 binding @ABA2396
+* 肉鸽, 生息演算 calcBinding枚举修复 @status102
+* 商店功能错误购买商品 @ABA2396
+* 小工具-公招识别 手动触发时不会改变显示状态 @ABA2396
+* 移除Roguelike@GetDrop2中重复的Roguelike@DropsFlag任务 (#13180) @status102
+* 肉鸽界面设计器error (#13185) @status102
+* typo & const ref @status102
+* 修复 ExpiringStatus 无法用于日志输出的问题 @ABA2396
+* 理智药使用量ocr错误 @status102
+* 修复模板匹配遇到 inf 与 nan 时返回 0 的错误结果 @ABA2396
+* 无法匹配活动商店部分商品 @ABA2396
+* 外服训练室技能名可能被部分替换成干员名 @ABA2396
+* import @status102
+* 更新肉鸽商店刷新按钮模板 (#13172) @Lemon-miaow
+* 一叶扁舟 choices @Daydreamer114
+* JP 似是而非 OCR @Daydreamer114
+* 魂灵见闻：善恶同道 OCR @Daydreamer114
+* EN training room OCR @Constrat
+* 获取雷电 pid 失败 @ABA2396
+* EN not enough space for SSS selection @Constrat
+* EN InfrastTrainingOperatorAndSkill adaptation @Constrat
+* 训练室技能名识别 @ABA2396
+* 高版本检测到低版本更新时错误提示无更新包 @ABA2396
+* 无法继续专精 @ABA2396
 
 ### 其他 | Other
 
-* 调整单击托盘图标动作，符合常规软件行为 @ABA2396
-* 调整命名空间 @ABA2396
-* 繁中服_周年月卡領取 &「揭幕者們」活動導航 (#13092) @momomochi987
-* 资源日期使用本地时间显示 @ABA2396
-* 调整关卡选择中的剿灭显示 @ABA2396
-* 显示错误 @ABA2396
-* 肉鸽callback中Int类型限定 @status102
-* 繁中服「荒原安保派駐」定向導能元件 (#13057) @momomochi987
-* remove TaskTransitionVisualizer @SherkeyXD
-* use SecureZeroMemory for safety @SherkeyXD
-* SSS#7 Dossoles global @Constrat
-* meojson update to v4.4.1 & remove json5 (#13079) @status102
+* 抽离 ToolTip 创建方法，统一 ToolTip 格式 @ABA2396
+* 日志栏使用 TooltipBlock @ABA2396
+* TooltipBlock 支持显示 svg @ABA2396
+* YostarKR SS@Store@CheckUnlimited.png @HX3N
+* manual resource updater @Constrat
+* YostarEN SS@Store@CheckUnlimited.png @Constrat
+* YostarJP SS_Store_CheckUnlimited (#13192) @Manicsteiner
+* 移除导航 filters @ABA2396
+* 统一颜色 @ABA2396
+* 使用自定义悬浮窗样式 @ABA2396
+* 使用 svg 代替 >，避免字体影响 @ABA2396
+* 添加设计时预览 @ABA2396
+* 日志栏 InitialShowDelay 改为 200，避免误触 @ABA2396
+* 使用 UsedImplicitly @ABA2396
+* YostarKR BattleQuickFormationModulePage @HX3N
+* YostarEN BattleQuickFormationModulePage @Constrat
+* YostarJP tasks edits (#13187) @Manicsteiner
+* style @status102
+* 生息演算任务参数枚举 @status102
+* tooltip 顶部居中 @ABA2396
+* 调整成就描述 @ABA2396
+* YostarEN OR Navigation @Constrat
+* YostarKR OR navigation (#13179) @HX3N
+* style @status102
+* 肉鸽模式参数枚举 @status102
+* file header @status102
+* 新Config长草任务存储已完成部分预载 @status102
+* 新Config结构修改 @status102
+* 调整提示 @ABA2396
+* no overflow @SherkeyXD
+* 勾选手动填写实例号后查询一次实例 @ABA2396
+* 避免使用 async void @ABA2396
+* 省略默认参数 @ABA2396
+* 调整成就描述 @ABA2396
+* 调整 ocrReplace @ABA2396
+* 添加 FeatureMatch schema @ABA2396
+* 米奇妙妙 ocr @ABA2396
+* 调整描述 @ABA2396
+* bump maa-cli to 0.5.6 (#13150) @wangl-cc
+* 添加日志记录 @ABA2396
+* 设置剪切板前先清空 @ABA2396
+* response.Log 添加 etag 日志 @ABA2396
+* 添加模拟器路径与附加命令的提示 @ABA2396

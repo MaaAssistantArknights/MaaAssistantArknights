@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,8 +23,10 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
@@ -32,7 +35,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -53,7 +55,7 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
-            _peepImageTimer.Elapsed += RefreshPeepImageAsync;
+            _peepImageTimer.Elapsed += PeepImageTimerElapsed;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
@@ -183,21 +185,22 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _recruitCaught;
-
         /// <summary>
         /// Starts calculation.
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once UnusedMember.Global
-        public async void RecruitStartCalc()
+        /// <returns>Task</returns>
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task RecruitStartCalc()
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            _recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!_recruitCaught)
+            _runningState.SetIdle(false);
+            var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!recruitCaught)
             {
                 RecruitInfo = errMsg;
+                _runningState.SetIdle(true);
                 return;
             }
 
@@ -237,7 +240,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
             var (type, taskParams) = task.Serialize();
-            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.RecruitCalc, type, taskParams);
+            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
             ret &= Instances.AsstProxy.AsstStart();
         }
 
@@ -350,7 +353,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public string Id { get; set; } = null!;
 
-            public BitmapImage? Image { get; set; }
+            public BitmapSource? Image { get; set; }
 
             public string? Count { get; set; }
         }
@@ -395,11 +398,6 @@ namespace MaaWpfGui.ViewModels.UI
         public string LoliconResult { get; set; } = string.Empty;
 
         /// <summary>
-        /// gets or sets the depot image.
-        /// </summary>
-        private static readonly Dictionary<string, BitmapImage?> _imageCache = new();
-
-        /// <summary>
         /// parse of depot recognition result
         /// </summary>
         /// <param name="details">detailed json-style parameters</param>
@@ -426,17 +424,11 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                if (!_imageCache.TryGetValue(id, out var image))
-                {
-                    image = ItemListHelper.GetItemImage(id);
-                    _imageCache[id] = image;
-                }
-
                 DepotResultDate result = new()
                 {
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
-                    Image = image,
+                    Image = ItemListHelper.GetItemImage(id),
                     Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
                         ? (haveValue > 10000
                             ? $"{haveValue / 10000.0:F1}w"
@@ -465,10 +457,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to ArkPlanner.
         /// </summary>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ExportToArkplanner()
         {
+            System.Windows.Forms.Clipboard.Clear();
             System.Windows.Forms.Clipboard.SetDataObject(ArkPlannerResult);
             DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
@@ -476,10 +469,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to Lolicon.
         /// </summary>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        /// UI 绑定的方法
+        [UsedImplicitly]
         public void ExportToLolicon()
         {
+            System.Windows.Forms.Clipboard.Clear();
             System.Windows.Forms.Clipboard.SetDataObject(LoliconResult);
             DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
@@ -494,9 +488,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts depot recognition.
         /// </summary>
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
-        public async void StartDepot()
+        /// <returns>Task</returns>
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task StartDepot()
         {
             _runningState.SetIdle(false);
             string errMsg = string.Empty;
@@ -690,9 +685,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 开始识别干员
         /// </summary>
+        /// <returns>Task</returns>
         /// xaml 中用到了
-        /// ReSharper disable once UnusedMember.Global
-        public async void StartOperBox()
+        /// UI 绑定的方法
+        [UsedImplicitly]
+        public async Task StartOperBox()
         {
             _tempOperHaveSet = [];
             OperBoxHaveList = [];
@@ -715,8 +712,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void ExportOperBox()
         {
             if (OperBoxDataArray.Count == 0)
@@ -724,6 +721,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            System.Windows.Forms.Clipboard.Clear();
             System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxHaveList.Concat(OperBoxNotHaveList), Formatting.Indented));
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
@@ -740,18 +738,16 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaInfo, value);
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
-        public void GachaOnce()
+        // UI 绑定的方法
+        public async Task GachaOnce()
         {
-            StartGacha();
+            await StartGacha();
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
-        public void GachaTenTimes()
+        // UI 绑定的方法
+        public async Task GachaTenTimes()
         {
-            StartGacha(false);
+            await StartGacha(false);
         }
 
         private bool _isGachaInProgress;
@@ -773,7 +769,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public async void StartGacha(bool once = true)
+        public async Task StartGacha(bool once = true)
         {
             _runningState.SetIdle(false);
 
@@ -792,7 +788,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             RefreshGachaTip(null, null);
             IsGachaInProgress = true;
-            Peep();
+            _ = Peep();
         }
 
         private void RefreshGachaTip(object? sender, EventArgs? e)
@@ -829,8 +825,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中用到了
-        // ReSharper disable once UnusedMember.Global
+        // UI 绑定的方法
+        [UsedImplicitly]
         public void GachaAgreeDisclaimer()
         {
             var result = MessageBoxHelper.Show(
@@ -896,9 +892,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private BitmapImage? _peepImage;
+        private WriteableBitmap? _peepImage;
 
-        public BitmapImage? PeepImage
+        public WriteableBitmap? PeepImage
         {
             get => _peepImage;
             set => SetAndNotify(ref _peepImage, value);
@@ -925,7 +921,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 value = value switch
                 {
-                    > 60 => 60,
+                    > 600 => 600,
                     < 1 => 1,
                     _ => value,
                 };
@@ -950,7 +946,21 @@ namespace MaaWpfGui.ViewModels.UI
         private static int _peepImageSemaphoreFailCount = 0;
         private static readonly SemaphoreSlim _peepImageSemaphore = new(_peepImageSemaphoreCurrentCount, PeepImageSemaphoreMaxCount);
 
-        private async void RefreshPeepImageAsync(object? sender, EventArgs? e)
+        private async void PeepImageTimerElapsed(object? sender, EventArgs? e)
+        {
+            try
+            {
+                await RefreshPeepImageAsync();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        private readonly WriteableBitmap?[] _peepImageCache = new WriteableBitmap?[PeepImageSemaphoreMaxCount];
+
+        private async Task RefreshPeepImageAsync()
         {
             if (!await _peepImageSemaphore.WaitAsync(0))
             {
@@ -966,14 +976,15 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     _peepImageSemaphoreCurrentCount++;
                     _peepImageSemaphore.Release();
+                    _logger.Information($"Screenshot Semaphore Full, increase semaphore count to {_peepImageSemaphoreCurrentCount}");
                     return;
                 }
 
-                _logger.Warning($"Gacha Semaphore Full, Reduce fps count to {--PeepTargetFps}");
+                _logger.Warning($"Screenshot Semaphore Full, Reduce Target FPS count to {--PeepTargetFps}");
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     Growl.Clear();
-                    Growl.Warning($"Screenshot taking too long, reduce FPS to {PeepTargetFps}");
+                    Growl.Warning($"Screenshot taking too long, reduce Target FPS to {PeepTargetFps}");
                 });
                 return;
             }
@@ -981,14 +992,30 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 var count = Interlocked.Increment(ref _peepImageCount);
-                var cacheImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-                if (!Peeping || count <= _peepImageNewestCount || cacheImage is null)
+                var index = count % _peepImageCache.Length;
+                var frameData = await Instances.AsstProxy.AsstGetFreshImageBgrDataAsync();
+                if (frameData is null || frameData.Length == 0)
                 {
+                    _logger.Warning("Peep image data is null or empty.");
                     return;
                 }
 
+                // 若不满足条件，提前释放 frameData 避免内存泄露
+                if (!Peeping || count <= _peepImageNewestCount)
+                {
+                    _logger.Debug($"Peep image count {count} is not the newest, skip updating image.");
+                    ArrayPool<byte>.Shared.Return(frameData);
+                    return;
+                }
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    _peepImageCache[index] = AsstProxy.WriteBgrToBitmap(frameData, _peepImageCache[index]);
+                });
+
+                PeepImage = _peepImageCache[index];
+                ArrayPool<byte>.Shared.Return(frameData);
                 Interlocked.Exchange(ref _peepImageNewestCount, count);
-                PeepImage = cacheImage;
 
                 var now = DateTime.Now;
                 Interlocked.Increment(ref _frameCount);
@@ -1020,7 +1047,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 获取或停止获取实时截图，在抽卡时额外停止抽卡
         /// </summary>
-        public async void Peep()
+        /// <returns>Task</returns>
+        public async Task Peep()
         {
             if (IsPeepTransitioning)
             {
@@ -1036,6 +1064,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Peeping = false;
                     _peepImageTimer.Stop();
+                    Array.Fill(_peepImageCache, null);
 
                     // 由 Peep() 方法启动的 Peep 也需要停止，Block 不会自动停止
                     if (IsGachaInProgress || IsPeepInProgress)

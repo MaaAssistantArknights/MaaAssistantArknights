@@ -30,7 +30,7 @@ public class AsstStartUpTask : AsstBaseTask
     public string ClientType { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets 是否自动启动客户端
+    /// Gets or sets a value indicating whether 是否自动启动客户端
     /// </summary>
     [JsonProperty("start_game_enabled")]
     public bool StartGame { get; set; }

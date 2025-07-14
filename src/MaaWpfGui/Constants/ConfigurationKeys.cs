@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace MaaWpfGui.Constants
 {
     /// <summary>
@@ -23,10 +25,10 @@ namespace MaaWpfGui.Constants
         public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
 
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public const string ConfigurationData = "Data";
 
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
@@ -73,6 +75,7 @@ namespace MaaWpfGui.Constants
         public const string MuMu12Display = "Connect.MuMu12Display";
         public const string LdPlayerExtrasEnabled = "Connect.LdPlayerExtras.Enabled";
         public const string LdPlayerEmulatorPath = "Connect.LdPlayerEmulatorPath";
+        public const string LdPlayerManualSetIndex = "Connect.LdPlayerManualSetIndex";
         public const string LdPlayerIndex = "Connect.LdPlayerIndex";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowAdbRestart = "Connect.AllowADBRestart";
@@ -218,7 +221,7 @@ namespace MaaWpfGui.Constants
         public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
 
         // 这个已经废弃了，还要留着吗？
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public const string UseAria2 = "VersionUpdate.UseAria2";
 
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";

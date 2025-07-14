@@ -135,7 +135,7 @@
             <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
             <Grid>
                 <TabControl
-                    Background="{DynamicResource TransparentRegionBrush}"
+                    Background="{DynamicResource RegionBrushOpacity25}"
                     BorderThickness="0,1,0,0"
                     DisplayMemberPath="DisplayName"
                     ItemsSource="{Binding Items}"
@@ -152,7 +152,7 @@
                     </TabControl.ContentTemplate>
                     <TabControl.ItemContainerStyle>
                         <Style BasedOn="{StaticResource TabItemInLine}" TargetType="TabItem">
-                            <Setter Property="Background" Value="{DynamicResource TransparentRegionBrush}" />
+                            <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
                         </Style>
                     </TabControl.ItemContainerStyle>
                 </TabControl>

@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -37,6 +38,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using Window = HandyControl.Controls.Window;
+using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -178,7 +180,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void RemoveAddressClick(string address)
     {
         ConnectAddressHistory.Remove(address);
@@ -284,7 +286,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                             foreach (var keyPath in possibleUninstallKeys)
                             {
                                 using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
-                                if (driverKey == null) continue;
+                                if (driverKey == null)
+                                {
+                                    continue;
+                                }
 
                                 uninstallString = driverKey.GetValue("UninstallString") as string;
                                 if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
@@ -441,25 +446,29 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     {
                         try
                         {
-                            const string UninstallKeyPath = @"Software\leidian\ldplayer9";
+                            string[] possiblePaths =
+                            [
+                                @"Software\mrfz\mrfz",        // 专版路径优先
+                                @"Software\leidian\ldplayer9" // 原版路径
+                            ];
+
                             const string InstallDirValueName = "InstallDir";
 
-                            using var driverKey = Registry.CurrentUser.OpenSubKey(UninstallKeyPath);
-                            if (driverKey == null)
+                            foreach (var regPath in possiblePaths)
                             {
-                                EmulatorPath = string.Empty;
-                                return;
+                                using var driverKey = Registry.CurrentUser.OpenSubKey(regPath);
+                                if (driverKey == null)
+                                {
+                                    continue;
+                                }
+
+                                var installDir = driverKey.GetValue(InstallDirValueName) as string;
+                                if (!string.IsNullOrEmpty(installDir))
+                                {
+                                    EmulatorPath = installDir;
+                                    break;
+                                }
                             }
-
-                            var installDir = driverKey.GetValue(InstallDirValueName) as string;
-
-                            if (string.IsNullOrEmpty(installDir))
-                            {
-                                EmulatorPath = string.Empty;
-                                return;
-                            }
-
-                            EmulatorPath = installDir;
                         }
                         catch (Exception e)
                         {
@@ -494,6 +503,29 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 Instances.AsstProxy.Connected = false;
                 SetAndNotify(ref _emulatorPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerEmulatorPath, value);
+            }
+        }
+
+        private bool _manualSetIndex = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LdPlayerManualSetIndex, bool.FalseString));
+
+        public bool ManualSetIndex
+        {
+            get => _manualSetIndex;
+            set
+            {
+                if (_manualSetIndex == value)
+                {
+                    return;
+                }
+
+                if (value)
+                {
+                    Index = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress).ToString();
+                }
+
+                SetAndNotify(ref _manualSetIndex, value);
+                Instances.AsstProxy.Connected = false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerManualSetIndex, value.ToString());
             }
         }
 
@@ -566,6 +598,29 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return 0;
         }
 
+        private static int GetEmulatorIndex(string address)
+        {
+            int index = 0;
+            if (string.IsNullOrEmpty(address))
+            {
+                return index;
+            }
+
+            const int BaseEmulatorPort = 5554;
+            const int BaseAdbPort = 5555;
+
+            if (address.StartsWith("emulator-") && int.TryParse(address[9..], out int port))
+            {
+                index = (port - BaseEmulatorPort) / 2;
+            }
+            else if (address.StartsWith("127.0.0.1:") && int.TryParse(address[10..], out int port2))
+            {
+                index = (port2 - BaseAdbPort) / 2;
+            }
+
+            return index;
+        }
+
         public string Config
         {
             get
@@ -575,12 +630,23 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     return JsonConvert.SerializeObject(new JObject());
                 }
 
+                int index;
+                if (ManualSetIndex)
+                {
+                    index = int.TryParse(Index, out var indexParse) ? indexParse : 0;
+                }
+                else
+                {
+                    index = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress);
+                }
+
                 var configObject = new JObject
                 {
                     ["path"] = EmulatorPath,
-                    ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                    ["pid"] = GetEmulatorPid(indexParse),
+                    ["index"] = index,
+                    ["pid"] = GetEmulatorPid(index),
                 };
+
                 return JsonConvert.SerializeObject(configObject);
             }
         }
@@ -786,8 +852,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Selects ADB program file.
     /// </summary>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    /// UI 绑定的方法
+    [UsedImplicitly]
     public void SelectFile()
     {
         var dialog = new OpenFileDialog();
@@ -802,12 +868,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private static Window? _imagePopupWindow;
+
     /// <summary>
     /// Test Link And Get Image.
     /// </summary>
-    // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
-    public async void TestLinkAndGetImage()
+    /// <returns>Task</returns>
+    /// UI 绑定的方法
+    [UsedImplicitly]
+    public async Task TestLinkAndGetImage()
     {
         _runningState.SetIdle(false);
 
@@ -822,8 +891,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
 
         TestLinkImage = await Instances.AsstProxy.AsstGetFreshImageAsync();
-        await Instances.TaskQueueViewModel.Stop();
-        Instances.TaskQueueViewModel.SetStopped();
+        _runningState.SetIdle(true);
 
         if (TestLinkImage is null)
         {
@@ -845,15 +913,49 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         TestLinkInfo = ScreencapTestCost;
 
-        var popupWindow = new Window
+        if (_imagePopupWindow == null)
         {
-            Width = 800,
-            Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-            Content = new Image { Source = TestLinkImage, },
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Owner = Application.Current.MainWindow,
-        };
-        popupWindow.ShowDialog();
+            const double TotalWindowWidth = 800;
+
+            var nc = SystemParameters.WindowNonClientFrameThickness;
+            var rb = SystemParameters.WindowResizeBorderThickness;
+
+            double contentWidth = TotalWindowWidth - (nc.Left + nc.Right + rb.Left + rb.Right);
+            double contentHeight = contentWidth * 9.0 / 16.0;
+
+            double totalWindowHeight = contentHeight + (nc.Top + nc.Bottom + rb.Top + rb.Bottom);
+            _imagePopupWindow = new()
+            {
+                Width = TotalWindowWidth,
+                Height = totalWindowHeight,
+                Content = new Image
+                {
+                    Source = TestLinkImage,
+                },
+            };
+            _imagePopupWindow.Loaded += (_, _) =>
+            {
+                WindowManager.MoveWindowToRootCenter(_imagePopupWindow);
+            };
+            _imagePopupWindow.Closed += (_, _) =>
+            {
+                _imagePopupWindow = null;
+            };
+            var img = (Image)_imagePopupWindow.Content;
+            img.MouseLeftButtonUp += (_, _) =>
+            {
+                _ = TestLinkAndGetImage();
+            };
+        }
+        else
+        {
+            if (_imagePopupWindow.Content is Image image)
+            {
+                image.Source = TestLinkImage;
+            }
+        }
+
+        WindowManager.ShowWindow(_imagePopupWindow);
     }
 
     private BitmapImage? _testLinkImage;
@@ -945,8 +1047,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
-    public async void ReplaceAdb()
+    [UsedImplicitly]
+    public async Task ReplaceAdb()
     {
         if (string.IsNullOrEmpty(AdbPath))
         {

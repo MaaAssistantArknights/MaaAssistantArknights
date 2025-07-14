@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HandyControl.Controls;
 using HandyControl.Tools.Command;
-using MaaWpfGui.Configuration;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Serilog;
@@ -253,6 +253,15 @@ namespace MaaWpfGui.ViewModels.UI
             var body = await HttpResponseHelper.GetStringAsync(response);
             if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
             {
+                _logger.Information($"old Announcement:\n" +
+                                    $"===================================\n" +
+                                    $"{AnnouncementInfo}\n" +
+                                    $"===================================\n" +
+                                    $"\n" +
+                                    $"new AnnouncementInfo:\n" +
+                                    $"===================================\n" +
+                                    $"{body}\n" +
+                                    $"===================================");
                 AnnouncementInfo = body;
                 DoNotRemindThisAnnouncementAgain = false;
             }

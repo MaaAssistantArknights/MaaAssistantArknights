@@ -62,15 +62,28 @@ namespace MaaWpfGui.Services
 
         public async Task UpdateStageWeb()
         {
-            if (!await CheckWebUpdate())
+            // 清理旧的缓存文件
+            const string CacheAllFileDownloadComplete = "cache/allFileDownloadComplete.json";
+            const string LastUpdateTime = "cache/LastUpdateTime.json";
+            const string StageAndTasksUpdateTime = "cache/stageAndTasksUpdateTime.json";
+            var filesToClean = new[] { CacheAllFileDownloadComplete, LastUpdateTime, StageAndTasksUpdateTime };
+
+            foreach (var file in filesToClean)
             {
-                return;
+                try
+                {
+                    if (File.Exists(file))
+                    {
+                        File.Delete(file);
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
-            const string FilePath = "cache/allFileDownloadComplete.json";
-            await File.WriteAllTextAsync(FilePath, GenerateJsonString(false));
             MergePermanentAndActivityStages(await LoadWebStages());
-            await File.WriteAllTextAsync(FilePath, GenerateJsonString(true));
 
             _ = Execute.OnUIThreadAsync(() =>
             {
@@ -83,17 +96,6 @@ namespace MaaWpfGui.Services
                 };
                 Growl.Info(growlInfo);
             });
-
-            return;
-
-            static string GenerateJsonString(bool allFileDownloadComplete)
-            {
-                JObject json = new JObject
-                {
-                    ["allFileDownloadComplete"] = allFileDownloadComplete,
-                };
-                return JsonConvert.SerializeObject(json);
-            }
         }
 
         private static string GetClientType()
@@ -115,6 +117,7 @@ namespace MaaWpfGui.Services
             return activity;
         }
 
+        /*
         private static async Task<bool> CheckWebUpdate()
         {
             // Check if we need to update from the web
@@ -134,6 +137,7 @@ namespace MaaWpfGui.Services
             bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
             return webTimestamp > localTimestamp || !allFileDownloadComplete;
         }
+        */
 
         private static async Task<JObject> LoadWebStages()
         {

@@ -701,7 +701,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@GetDrop",
         "Doc2": "希望，黄色的“拿走”按钮",
-        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"]
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
     },
     "Roguelike@GetDrop3": {
         "Doc": "base_task",
@@ -1244,7 +1244,7 @@
         "ocrReplace": [
             ["绝境(？|\\?)抉择(？|\\?)", "绝境？抉择？"],
             ["魂灵见闻.*以血还血", "魂灵见闻：以血还血"],
-            ["魂灵见闻.*善恶同道", "魂灵见闻：善恶同道"],
+            ["魂灵见闻.*善恶((同)|(向))道", "魂灵见闻：善恶同道"],
             ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"]
         ],
         "preDelay": 600,

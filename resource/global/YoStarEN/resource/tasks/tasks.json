@@ -33,7 +33,7 @@
             ["^Ch'en$", "陈"],
             ["^Thorns$", "棘刺"],
             ["^Specter$", "幽灵鲨"],
-            ["Nearl? the Radiant Kn?ight", "耀骑士临光"],
+            ["Nearl? the Rad?iant Kn?ight", "耀骑士临光"],
             ["^Lappland$", "拉普兰德"],
             ["Indra", "因陀罗"],
             ["Amiya", "阿米娅"],
@@ -1041,7 +1041,19 @@
         "text": ["Done"]
     },
     "InfrastTrainingOperatorAndSkill": {
-        "roi": [152, 621, 341, 29]
+        "text": [],
+        "roi": [152, 601, 341, 54],
+        "ocrReplace": [
+            ["^\\[", ""],
+            ["\\]", "\n"],
+            ["(·|;)+", ""],
+            [" [Aa]$", " α"],
+            [" [Bb]$", " β"],
+            [" [Yy]$", " γ"]
+        ]
+    },
+    "InfrastTrainingTime": {
+        "roi": [155, 655, 95, 25]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -1316,6 +1328,9 @@
         "rectMove": [0, 231, 116, 22],
         "specialParams": [105, 2, 7, 0, 3, 10]
     },
+    "BattleQuickFormationModulePage": {
+        "text": ["Branch"]
+    },
     "BattleStartPre": {
         "text": ["Start", "Start Challenge"]
     },
@@ -1401,7 +1416,7 @@
             ["Security Talent Agreement", "保全人才合作协议"],
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
-            ["Lightweight Rangefinder", "轻型瞄准测距仪"]
+            ["Lightweight Range[finder]*", "轻型瞄准测距仪"]
         ]
     },
     "SSSBuffChooseConfirm": {

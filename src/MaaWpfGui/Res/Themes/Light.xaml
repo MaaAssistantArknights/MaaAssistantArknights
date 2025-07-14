@@ -2,26 +2,25 @@
 
     <!--  Custom Brush  -->
     <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
-    <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
-    <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
 
     <!--  HandyControl Brush  -->
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush"
+        x:Key="RegionBrushOpacity25"
         Opacity="0.25"
         Color="#ffffff" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush50"
+        x:Key="RegionBrushOpacity50"
         Opacity="0.50"
         Color="#ffffff" />
     <SolidColorBrush
-        x:Key="TransparentRegionBrush75"
+        x:Key="RegionBrushOpacity75"
         Opacity="0.75"
         Color="#ffffff" />
 
+    <SolidColorBrush x:Key="MouseOverRegionBrush" Color="#f3f3f3" />
     <SolidColorBrush
-        x:Key="MouseOverRegionBrush"
+        x:Key="MouseOverRegionBrushOpacity75"
         Opacity="0.75"
         Color="#eeeeee" />
 
@@ -67,6 +66,7 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
+
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
 

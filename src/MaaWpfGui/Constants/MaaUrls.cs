@@ -26,6 +26,8 @@ namespace MaaWpfGui.Constants
 
         public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
+        public const string ResourceRepository = "https://github.com/MaaAssistantArknights/MaaResource";
+
         public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";
 
         public const string Telegram = "https://t.me/+Mgc2Zngr-hs3ZjU1";

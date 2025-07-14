@@ -457,16 +457,6 @@ public class VersionUpdateViewModel : Screen
         MirrorChyan,
     }
 
-    // ReSharper disable once IdentifierTypo
-    // ReSharper disable once UnusedMember.Global
-    public enum Downloader
-    {
-        /// <summary>
-        /// 原生下载器
-        /// </summary>
-        Native,
-    }
-
     private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
 
     /// <summary>
@@ -1073,14 +1063,6 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.UnknownError;
         }
 
-        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
-        {
-            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
-            toast.Show(30);
-            _logger.Warning("No OTA package found, but full package found.");
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
-        }
-
         var version = data["data"]?["version_name"]?.ToString();
         if (string.IsNullOrEmpty(version))
         {
@@ -1090,6 +1072,14 @@ public class VersionUpdateViewModel : Screen
         if (!NeedToUpdate(version))
         {
             return CheckUpdateRetT.AlreadyLatest;
+        }
+
+        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
+        {
+            using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
+            toast.Show(30);
+            _logger.Warning("No OTA package found, but full package found.");
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
         }
 
         // 到这里已经确定有新版本了

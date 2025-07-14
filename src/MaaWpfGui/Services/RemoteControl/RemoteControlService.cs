@@ -377,7 +377,7 @@ namespace MaaWpfGui.Services.RemoteControl
                             Instances.TaskQueueViewModel.AddLog(startLogStr);
                             await Execute.OnUIThreadAsync(() =>
                             {
-                                Instances.TaskQueueViewModel.LinkStart();
+                               _ = Instances.TaskQueueViewModel.LinkStart();
                             });
                             await _runningState.UntilIdleAsync();
 
@@ -395,14 +395,14 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-Reclamation":
                         {
-                            await LinkStart(new[] { type.Split('-')[1] });
+                            await LinkStart([type.Split('-')[1]]);
                             break;
                         }
 
                     case "Toolbox-GachaOnce":
                         {
                             await _runningState.UntilIdleAsync();
-                            Instances.RecognizerViewModel.GachaOnce();
+                            await Instances.RecognizerViewModel.GachaOnce();
                             await _runningState.UntilIdleAsync();
 
                             break;
@@ -411,7 +411,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Toolbox-GachaTenTimes":
                         {
                             await _runningState.UntilIdleAsync();
-                            Instances.RecognizerViewModel.GachaTenTimes();
+                            await Instances.RecognizerViewModel.GachaTenTimes();
                             await _runningState.UntilIdleAsync();
 
                             break;
@@ -423,7 +423,7 @@ namespace MaaWpfGui.Services.RemoteControl
                             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                             if (connected)
                             {
-                                var image = Instances.AsstProxy.AsstGetImage();
+                                var image = await Instances.AsstProxy.AsstGetImageAsync();
                                 if (image == null)
                                 {
                                     status = "FAILED";

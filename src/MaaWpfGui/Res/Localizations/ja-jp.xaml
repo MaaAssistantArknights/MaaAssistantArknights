@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU ({0})は推奨されません。\n\n｢{key=Settings} - {key=PerformanceSettings}｣ で別の GPU を選択するか、このメッセージを無効にできます。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
+    <system:String x:Key="Copy">コピー</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -274,6 +275,7 @@
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
+    <system:String x:Key="ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 海外ソースを使用：
@@ -314,7 +316,7 @@
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。現在のバージョンが古すぎるため、OTA増分アップデートパッケージは利用できません。完全なパッケージがダウンロードされ、リソースフォルダはゴミ箱に移動され、.old ファイルが削除されます。必要に応じて手動でバックアップしてください。</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">新しいバージョンが検出されました。OTA増分アップデートパッケージは利用できません。完全なパッケージがダウンロードされ、リソースフォルダはゴミ箱に移動され、.old ファイルが削除されます。必要に応じて手動でバックアップしてください。</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
@@ -347,6 +349,7 @@
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">エミュレーター本体を選択（｢{key=AdditionCommand}｣ 起動パラメータでインスタンス指定可能）、または直接エミュレーター/ゲームのショートカットを選択できます。&#10;｢{key=WakeUp}｣ タスクがエミュレーター起動遅延で失敗する場合、ゲームショートカットを使用し｢{key=WaitForEmulator}｣を延長することを推奨します。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
@@ -359,6 +362,7 @@
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">エミュレーター起動パラメータの追加コマンド（例： ｢--instance 1｣ は 1 番インスタンス）。&#10;コマンド形式はエミュレーターにより異なり、通常はインスタンス番号やウィンドウモードなどを含みます。</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
     <system:String x:Key="CopilotWithScript">自動戦闘時に上記のスクリプトを有効にする</system:String>
@@ -500,6 +504,7 @@ C:\\leidian\\LDPlayer9
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
+    <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣ を手動で入力</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
@@ -511,15 +516,23 @@ C:\\leidian\\LDPlayer9
     <!--  スタート  -->
     <system:String x:Key="Farming">スタート</system:String>
     <system:String x:Key="WakeUp">ウェイクアップ</system:String>
+    <system:String x:Key="StartUp">{key=WakeUp}</system:String>
     <system:String x:Key="Recruiting">公開求人</system:String>
+    <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">基地仕事</system:String>
+    <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">作戦</system:String>
+    <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
+    <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">ミニゲーム</system:String>
+    <system:String x:Key="Custom">カスタムタスク</system:String>
+    <system:String x:Key="SingleStep">単一ステップタスク</system:String>
     <system:String x:Key="ReclamationTheme">主題</system:String>
     <system:String x:Key="ReclamationThemeFire">砂中の火</system:String>
     <system:String x:Key="ReclamationThemeTales">熱砂秘聞</system:String>
@@ -656,6 +669,7 @@ C:\\leidian\\LDPlayer9
     <!--  !公開求人  -->
     <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
@@ -664,6 +678,7 @@ C:\\leidian\\LDPlayer9
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">｢戦術要員｣ は、オペレーター識別の正確性に影響します。戦術要員のオペレーターの識別が誤っている場合は、自己判断してください。</system:String>
     <system:String x:Key="OperBoxHaveList">所有している: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">所有していない: {0}</system:String>
@@ -757,6 +772,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
+    <system:String x:Key="CopilotModule">モジュール</system:String>
+    <system:String x:Key="CopilotWithoutModule">モジュールなし</system:String>
     <system:String x:Key="TotalOperatorsCount">合計 {0} 名のオペレーター</system:String>
     <system:String x:Key="DirectiveECTerm">拡張式戦術ユニット：</system:String>
     <system:String x:Key="OtherOperators">その他のオペレーター：</system:String>
@@ -1321,7 +1338,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
 
     <system:String x:Key="Achievement.CopilotError.Title">あらら</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">事故が起きました…</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">代理戦闘中にエラーが発生</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 中にエラーが発生</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">長いタスク</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">少し待ってみませんか？</system:String>

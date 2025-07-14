@@ -55,6 +55,8 @@ public:
 
     // 获取上次的截图
     virtual std::vector<unsigned char> get_image() const = 0;
+    // 获取上次的截图的 bgr 数据
+    virtual std::vector<unsigned char> get_image_bgr() const = 0;
     // 获取 UUID
     virtual std::string get_uuid() const = 0;
     // 获取任务列表
@@ -96,6 +98,7 @@ public:
     virtual bool running() const override;
 
     virtual std::vector<unsigned char> get_image() const override;
+    virtual std::vector<unsigned char> get_image_bgr() const override;
     virtual std::string get_uuid() const override;
     virtual std::vector<TaskId> get_tasks_list() const override;
 

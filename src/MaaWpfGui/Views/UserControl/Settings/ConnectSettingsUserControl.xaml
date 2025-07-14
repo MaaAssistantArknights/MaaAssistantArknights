@@ -168,24 +168,32 @@
                         HorizontalAlignment="Center"
                         Content="{DynamicResource LdExtrasEnabled}"
                         IsChecked="{Binding LdPlayerExtras.Enable}" />
-                    <hc:TextBox
-                        Width="420"
-                        Height="30"
-                        Margin="10"
-                        hc:InfoElement.Placeholder="Example: C:\leidian\LDPlayer9"
-                        hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        Text="{Binding LdPlayerExtras.EmulatorPath}"
-                        Visibility="{c:Binding LdPlayerExtras.Enable}" />
-                    <hc:TextBox
-                        Width="130"
-                        Height="30"
-                        Margin="10"
-                        hc:InfoElement.Placeholder="0"
-                        hc:TitleElement.Title="{DynamicResource LdIndex}"
-                        hc:TitleElement.TitlePlacement="Left"
-                        Text="{Binding LdPlayerExtras.Index}"
-                        Visibility="{c:Binding LdPlayerExtras.Enable}" />
+                    <StackPanel Visibility="{c:Binding LdPlayerExtras.Enable}">
+                        <hc:TextBox
+                            Width="420"
+                            Height="30"
+                            Margin="10"
+                            hc:InfoElement.Placeholder="Example: C:\leidian\LDPlayer9"
+                            hc:TitleElement.Title="{DynamicResource LdEmulatorPath}"
+                            hc:TitleElement.TitlePlacement="Left"
+                            Text="{Binding LdPlayerExtras.EmulatorPath}" />
+                        <StackPanel>
+                            <CheckBox
+                                HorizontalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="{DynamicResource LdManualSetIndex}"
+                                IsChecked="{Binding LdPlayerExtras.ManualSetIndex}" />
+                            <hc:TextBox
+                                Width="130"
+                                Height="30"
+                                Margin="10"
+                                hc:InfoElement.Placeholder="0"
+                                hc:TitleElement.Title="{DynamicResource LdIndex}"
+                                hc:TitleElement.TitlePlacement="Left"
+                                Text="{Binding LdPlayerExtras.Index}"
+                                Visibility="{c:Binding LdPlayerExtras.ManualSetIndex}" />
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

@@ -73,7 +73,25 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            output.Add(($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}", UiLogColor.Message));
+            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}";
+            if (oper.Requirements is not null)
+            {
+                if (oper.Requirements.Module >= 0)
+                {
+                    // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
+                    log += oper.Requirements.Module switch
+                    {
+                        0 => $" {LocalizationHelper.GetString("CopilotWithoutModule")}",
+                        1 => $" {LocalizationHelper.GetString("CopilotModule")} Χ",
+                        2 => $" {LocalizationHelper.GetString("CopilotModule")} Y",
+                        3 => $" {LocalizationHelper.GetString("CopilotModule")} α",
+                        4 => $" {LocalizationHelper.GetString("CopilotModule")} Δ",
+                        _ => string.Empty,
+                    };
+                }
+            }
+
+            output.Add((log, UiLogColor.Message));
         }
 
         foreach (var group in Groups)

@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Windows;
+using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -321,6 +321,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
 
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void MirrorChyanCdkCopy()
+    {
+        System.Windows.Forms.Clipboard.Clear();
+        System.Windows.Forms.Clipboard.SetDataObject(MirrorChyanCdk);
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
     /// </summary>
@@ -430,7 +438,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// Updates manually.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    /// ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public async Task ManualUpdate()
     {
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
@@ -467,7 +475,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public async Task ManualUpdateResource()
     {
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == "MirrorChyan" && string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
@@ -518,7 +526,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     }
 
     // UI 绑定的方法
-    // ReSharper disable once UnusedMember.Global
+    [UsedImplicitly]
     public void ShowChangelog()
     {
         Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);

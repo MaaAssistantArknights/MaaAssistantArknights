@@ -1,0 +1,43 @@
+{
+  "name": "MaaAssistantArknights",
+  "controller": [
+    {
+      "name": "Adb",
+      "type": "Adb"
+    }
+  ],
+  "resource": [
+    {
+      "name": "官服",
+      "path": ["{PROJECT_DIR}/resource"]
+    },
+    {
+      "name": "日服",
+      "path": [
+        "{PROJECT_DIR}/resource",
+        "{PROJECT_DIR}/resource/global/YoStarJP/resource"
+      ]
+    },
+    {
+      "name": "韩服",
+      "path": [
+        "{PROJECT_DIR}/resource",
+        "{PROJECT_DIR}/resource/global/YoStarKR/resource"
+      ]
+    },
+    {
+      "name": "美服",
+      "path": [
+        "{PROJECT_DIR}/resource",
+        "{PROJECT_DIR}/resource/global/YoStarEN/resource"
+      ]
+    },
+    {
+      "name": "台服",
+      "path": [
+        "{PROJECT_DIR}/resource",
+        "{PROJECT_DIR}/resource/global/txwy/resource"
+      ]
+    }
+  ]
+}

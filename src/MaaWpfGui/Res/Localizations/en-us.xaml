@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">The current selected GPU ({0}) for inference acceleration is not recommended.\n\nYou can choose another GPU or suppress this message in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
+    <system:String x:Key="Copy">Copy</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
@@ -273,6 +274,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="UpdateCheckNow">Software update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
+    <system:String x:Key="ResourceRepository">Resource Repository</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 Using Global Source:
@@ -313,7 +315,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. Since the current version is too old, no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. But no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory</system:String>
@@ -346,6 +348,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">You may select the emulator executable (with ｢{key=AdditionCommand}｣ launch parameters to specify the instance), or directly choose the emulator/game shortcut.&#10;If the ｢{key=WakeUp}｣ task fails due to prolonged emulator startup, it's recommended to use the game shortcut and increase ｢{key=WaitForEmulator}｣.</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
@@ -358,6 +361,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">Additional commands for emulator parameters (e.g. ｢--instance 1｣ for instance 1).&#10;Command formats vary by emulator, typically including instance numbers and window modes, please consult your emulator's documentation.</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
     <system:String x:Key="CopilotWithScript">Enable the above script during Copilot</system:String>
@@ -498,7 +502,8 @@ The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
-    <system:String x:Key="LdIndex">Instance Number</system:String>
+    <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
+    <system:String x:Key="LdIndex">Instance Index</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
@@ -509,15 +514,23 @@ The primary instance is 0, and other instances are the numbers after the version
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
     <system:String x:Key="WakeUp">Login</system:String>
+    <system:String x:Key="StartUp">{key=WakeUp}</system:String>
     <system:String x:Key="Recruiting">Auto Recruit</system:String>
+    <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">Base</system:String>
+    <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">Combat</system:String>
+    <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
+    <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">Reclamation Algorithm</system:String>
     <system:String x:Key="MiniGame">Mini-Games</system:String>
+    <system:String x:Key="Custom">Custom Task</system:String>
+    <system:String x:Key="SingleStep">Single-Step Task</system:String>
     <system:String x:Key="ReclamationTheme">Reclamation Algorithm Theme</system:String>
     <system:String x:Key="ReclamationThemeFire">Fire Within the Sand</system:String>
     <system:String x:Key="ReclamationThemeTales">Tales Within the Sand</system:String>
@@ -652,6 +665,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  !Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the ｢debug/depot｣ folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -660,6 +674,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) operators can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
@@ -753,6 +768,8 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
+    <system:String x:Key="CopilotModule">Module</system:String>
+    <system:String x:Key="CopilotWithoutModule">Without Module</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
     <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
     <system:String x:Key="OtherOperators">Other operators:&#160;</system:String>
@@ -1317,7 +1334,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.CopilotError.Title">Oops</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">An accident happened...</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during copilot operation</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during ｢{key=Copilot}｣</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">Long Task</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">How about we wait a bit longer?</system:String>

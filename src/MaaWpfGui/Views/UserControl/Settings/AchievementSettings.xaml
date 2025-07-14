@@ -39,7 +39,7 @@
             Height="100"
             Margin="5"
             hc:FloatingBlock.Content="{Binding Tip}"
-            Background="{DynamicResource MouseOverRegionBrush}"
+            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             BorderBrush="{Binding MedalBrush}"
             BorderThickness="1"
             PreviewMouseLeftButtonDown="{s:Action OnDebugClick}"

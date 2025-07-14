@@ -77,6 +77,7 @@
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource EmulatorPath}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource SelectShortcutTip}" />
                     <Button
                         Margin="10,0,0,0"
                         Command="{s:Action SelectEmulatorExec}"
@@ -84,14 +85,18 @@
                 </StackPanel>
                 <TextBox Margin="20,5" Text="{Binding EmulatorPath}" />
             </StackPanel>
-            <StackPanel IsEnabled="{Binding EmulatorPath.Length}">
+            <StackPanel>
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
                     <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource AdditionCommand}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource AdditionCommandTip}" />
                 </StackPanel>
-                <TextBox Margin="20,5" Text="{Binding EmulatorAddCommand}" />
+                <TextBox
+                    Margin="20,5"
+                    IsEnabled="{Binding EmulatorPath.Length}"
+                    Text="{Binding EmulatorAddCommand}" />
             </StackPanel>
             <StackPanel
                 Margin="10"

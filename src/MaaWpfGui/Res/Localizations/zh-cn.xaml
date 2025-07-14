@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">不推荐使用当前选择的推理加速 GPU（{0}）。\n\n您可以前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 选择其他 GPU 或禁用此消息。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
+    <system:String x:Key="Copy">复制</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -274,6 +275,7 @@
     <system:String x:Key="UpdateCheckNow">软件更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
     <system:String x:Key="ResourceUpdate">资源更新</system:String>
+    <system:String x:Key="ResourceRepository">资源仓库</system:String>
     <system:String x:Key="UpdateSource">更新源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
 🌏 使用海外源：
@@ -314,7 +316,7 @@
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
-    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本, 由于当前版本过旧, 无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old, 如有需要请手动备份</system:String>
+    <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old，如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">新版本下载失败</system:String>
     <system:String x:Key="NewVersionDownloadFailedDesc">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
@@ -347,6 +349,7 @@
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="SelectShortcutTip" xml:space="preserve">可选择模拟器本体（配合 ｢{key=AdditionCommand}｣ 启动参数可指定启动模拟器实例），也可直接选择模拟器或游戏的快捷方式。&#10;如因模拟器启动时间过长导致 ｢{key=WakeUp}｣ 任务失败，推荐填写游戏快捷方式并延长 ｢{key=WaitForEmulator}｣。</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
@@ -359,6 +362,7 @@
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
+    <system:String x:Key="AdditionCommandTip" xml:space="preserve">附加命令用于指定模拟器启动参数（如 ｢--instance 1｣ 表示启动 1 号实例）。&#10;不同模拟器的命令格式不同，通常包括实例编号、窗口模式等参数，请参考您使用的模拟器文档</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
     <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
@@ -499,6 +503,7 @@ C:\\leidian\\LDPlayer9。\n
 主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
+    <system:String x:Key="LdManualSetIndex">手动填写 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">实例编号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截图增强未生效，请检查相关设置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
@@ -510,16 +515,23 @@ C:\\leidian\\LDPlayer9。\n
     <!--  一键长草  -->
     <system:String x:Key="Farming">一键长草</system:String>
     <system:String x:Key="WakeUp">开始唤醒</system:String>
+    <system:String x:Key="StartUp">{key=WakeUp}</system:String>
     <system:String x:Key="Recruiting">自动公招</system:String>
+    <system:String x:Key="Recruit">{key=Recruiting}</system:String>
     <system:String x:Key="Base">基建换班</system:String>
+    <system:String x:Key="Infrast">{key=Base}</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
+    <system:String x:Key="Fight">{key=Combat}</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">获取信用及购物</system:String>
     <system:String x:Key="Mission">领取奖励</system:String>
+    <system:String x:Key="Award">{key=Mission}</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
+    <system:String x:Key="Roguelike">{key=AutoRoguelike}</system:String>
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
-    <system:String x:Key="Custom">Debug</system:String>
+    <system:String x:Key="Custom">自定义任务</system:String>
+    <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
     <system:String x:Key="ReclamationThemeTales">沙洲遗闻</system:String>
@@ -656,6 +668,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !公招识别  -->
     <!--  仓库识别  -->
     <system:String x:Key="DepotRecognition">仓库识别</system:String>
+    <system:String x:Key="Depot">{key=DepotRecognition}</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
@@ -664,6 +677,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
+    <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
     <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。</system:String>
     <system:String x:Key="OperBoxHaveList">已拥有: {0} 名</system:String>
     <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
@@ -728,6 +742,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !日志  -->
     <!--  自动战斗  -->
     <system:String x:Key="Copilot">自动战斗</system:String>
+    <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
     <system:String x:Key="CopilotTaskName">关卡名</system:String>
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
@@ -757,6 +772,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="CopilotModule">模组</system:String>
+    <system:String x:Key="CopilotWithoutModule">不使用模组</system:String>
     <system:String x:Key="TotalOperatorsCount">共 {0} 名干员</system:String>
     <system:String x:Key="DirectiveECTerm">导能原件：</system:String>
     <system:String x:Key="OtherOperators">编队工具人：</system:String>
@@ -1181,7 +1198,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶及以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>
@@ -1277,7 +1294,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.AfkWatcher.Title">摇人挂机党</system:String>
     <system:String x:Key="Achievement.AfkWatcher.Description">你是在挂机，还是忘了关？</system:String>
-    <system:String x:Key="Achievement.AfkWatcher.Conditions">窗口最小化后长时间不操作</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Conditions">最小化到托盘后长时间不操作</system:String>
 
     <system:String x:Key="Achievement.MissionStartCount.Title">不离不弃</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依赖。</system:String>
@@ -1321,7 +1338,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">代理作战出现失误</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 出现失误</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">漫长的任务</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">要不，咱再等等？</system:String>
@@ -1357,19 +1374,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 及以上难度</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
