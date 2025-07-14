@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -711,7 +712,7 @@ namespace MaaWpfGui.Main
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         var fastestScreencapString = fastestScreencapStringBuilder.ToString();
                         SettingsViewModel.ConnectSettings.ScreencapTestCost = fastestScreencapString;
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: LogItemViewModel.CreateScreencapTooltip(screencapAlternatives));
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color, toolTip: screencapAlternatives.CreateScreencapTooltip());
                         Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
                         // 截图增强未生效禁止启动
@@ -1523,7 +1524,7 @@ namespace MaaWpfGui.Main
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                                 : string.Empty)}",
-                            toolTip: LogItemViewModel.CreateMaterialDropTooltip(drops));
+                            toolTip: drops.CreateMaterialDropTooltip());
 
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
@@ -1586,7 +1587,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
-                        var tooltip = LogItemViewModel.CreateTooltip($"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}");
+                        var tooltip = $"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}".CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
