@@ -166,7 +166,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             case Theme.JieGarden:
                 RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
-                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("PlaceHolder"), Value = "坚不可摧" });
+                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
                 break;
         }
 
