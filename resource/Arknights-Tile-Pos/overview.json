@@ -27098,6 +27098,1014 @@
         "stageId": "ro4_t_8",
         "width": 11
     },
+    "ro5_b_1-obt/roguelike/ro5/level_rogue5_b-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_1-obt-roguelike-ro5-level_rogue5_b-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-1",
+        "name": "月华寒",
+        "stageId": "ro5_b_1",
+        "width": 11
+    },
+    "ro5_b_1_b-obt/roguelike/ro5/level_rogue5_b-1-b": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_1_b-obt-roguelike-ro5-level_rogue5_b-1-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-1-b",
+        "name": "夕娥忆",
+        "stageId": "ro5_b_1_b",
+        "width": 12
+    },
+    "ro5_b_2-obt/roguelike/ro5/level_rogue5_b-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_2-obt-roguelike-ro5-level_rogue5_b-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-2",
+        "name": "剑·刀·矛",
+        "stageId": "ro5_b_2",
+        "width": 11
+    },
+    "ro5_b_2_b-obt/roguelike/ro5/level_rogue5_b-2-b": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_2_b-obt-roguelike-ro5-level_rogue5_b-2-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-2-b",
+        "name": "仁·义·武",
+        "stageId": "ro5_b_2_b",
+        "width": 11
+    },
+    "ro5_b_3-obt/roguelike/ro5/level_rogue5_b-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_3-obt-roguelike-ro5-level_rogue5_b-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-3",
+        "name": "点化",
+        "stageId": "ro5_b_3",
+        "width": 12
+    },
+    "ro5_b_3_b-obt/roguelike/ro5/level_rogue5_b-3-b": {
+        "code": "ISW-NO",
+        "filename": "ro5_b_3_b-obt-roguelike-ro5-level_rogue5_b-3-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-3-b",
+        "name": "求道",
+        "stageId": "ro5_b_3_b",
+        "width": 11
+    },
+    "ro5_b_4-obt/roguelike/ro5/level_rogue5_b-4": {
+        "code": "ISW-DF",
+        "filename": "ro5_b_4-obt-roguelike-ro5-level_rogue5_b-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-4",
+        "name": "破岁阵祀",
+        "stageId": "ro5_b_4",
+        "width": 13
+    },
+    "ro5_b_5-obt/roguelike/ro5/level_rogue5_b-5": {
+        "code": "ISW-DF",
+        "filename": "ro5_b_5-obt-roguelike-ro5-level_rogue5_b-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-5",
+        "name": "昔字如烟",
+        "stageId": "ro5_b_5",
+        "width": 13
+    },
+    "ro5_b_6-obt/roguelike/ro5/level_rogue5_b-6": {
+        "code": "ISW-DF",
+        "filename": "ro5_b_6-obt-roguelike-ro5-level_rogue5_b-6.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_b-6",
+        "name": "谋岁者",
+        "stageId": "ro5_b_6",
+        "width": 11
+    },
+    "ro5_duel_1-obt/roguelike/ro5/level_rogue5_d-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_duel_1-obt-roguelike-ro5-level_rogue5_d-1.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro5/level_rogue5_d-1",
+        "name": "夕江对擂",
+        "stageId": "ro5_duel_1",
+        "width": 18
+    },
+    "ro5_duel_2-obt/roguelike/ro5/level_rogue5_d-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_duel_2-obt-roguelike-ro5-level_rogue5_d-2.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro5/level_rogue5_d-2",
+        "name": "南武群英会",
+        "stageId": "ro5_duel_2",
+        "width": 18
+    },
+    "ro5_dv_5-obt/roguelike/ro5/level_rogue5_dv-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_dv_5-obt-roguelike-ro5-level_rogue5_dv-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_dv-5",
+        "name": "分明",
+        "stageId": "ro5_dv_5",
+        "width": 11
+    },
+    "ro5_e_1_1-obt/roguelike/ro5/level_rogue5_1-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_1_1-obt-roguelike-ro5-level_rogue5_1-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-1",
+        "name": "狡鼷三窟",
+        "stageId": "ro5_e_1_1",
+        "width": 10
+    },
+    "ro5_e_1_2-obt/roguelike/ro5/level_rogue5_1-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_1_2-obt-roguelike-ro5-level_rogue5_1-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-2",
+        "name": "赶集",
+        "stageId": "ro5_e_1_2",
+        "width": 9
+    },
+    "ro5_e_1_3-obt/roguelike/ro5/level_rogue5_1-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_1_3-obt-roguelike-ro5-level_rogue5_1-3.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-3",
+        "name": "正经生意",
+        "stageId": "ro5_e_1_3",
+        "width": 9
+    },
+    "ro5_e_1_4-obt/roguelike/ro5/level_rogue5_1-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_1_4-obt-roguelike-ro5-level_rogue5_1-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-4",
+        "name": "老戏骨",
+        "stageId": "ro5_e_1_4",
+        "width": 11
+    },
+    "ro5_e_2_1-obt/roguelike/ro5/level_rogue5_2-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_2_1-obt-roguelike-ro5-level_rogue5_2-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-1",
+        "name": "有教无类",
+        "stageId": "ro5_e_2_1",
+        "width": 10
+    },
+    "ro5_e_2_2-obt/roguelike/ro5/level_rogue5_2-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_2_2-obt-roguelike-ro5-level_rogue5_2-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-2",
+        "name": "飞来横祸",
+        "stageId": "ro5_e_2_2",
+        "width": 10
+    },
+    "ro5_e_2_3-obt/roguelike/ro5/level_rogue5_2-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_2_3-obt-roguelike-ro5-level_rogue5_2-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-3",
+        "name": "所守者，义",
+        "stageId": "ro5_e_2_3",
+        "width": 11
+    },
+    "ro5_e_2_4-obt/roguelike/ro5/level_rogue5_2-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_2_4-obt-roguelike-ro5-level_rogue5_2-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-4",
+        "name": "明抢暗偷",
+        "stageId": "ro5_e_2_4",
+        "width": 9
+    },
+    "ro5_e_3_1-obt/roguelike/ro5/level_rogue5_3-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_3_1-obt-roguelike-ro5-level_rogue5_3-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-1",
+        "name": "啖之以利",
+        "stageId": "ro5_e_3_1",
+        "width": 9
+    },
+    "ro5_e_3_2-obt/roguelike/ro5/level_rogue5_3-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_3_2-obt-roguelike-ro5-level_rogue5_3-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-2",
+        "name": "长驱不复",
+        "stageId": "ro5_e_3_2",
+        "width": 11
+    },
+    "ro5_e_3_3-obt/roguelike/ro5/level_rogue5_3-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_3_3-obt-roguelike-ro5-level_rogue5_3-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-3",
+        "name": "背山面水",
+        "stageId": "ro5_e_3_3",
+        "width": 13
+    },
+    "ro5_e_3_4-obt/roguelike/ro5/level_rogue5_3-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_3_4-obt-roguelike-ro5-level_rogue5_3-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-4",
+        "name": "去晦",
+        "stageId": "ro5_e_3_4",
+        "width": 10
+    },
+    "ro5_e_3_5-obt/roguelike/ro5/level_rogue5_3-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_3_5-obt-roguelike-ro5-level_rogue5_3-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-5",
+        "name": "落叶归根",
+        "stageId": "ro5_e_3_5",
+        "width": 12
+    },
+    "ro5_e_4_1-obt/roguelike/ro5/level_rogue5_4-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_1-obt-roguelike-ro5-level_rogue5_4-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-1",
+        "name": "山海必争",
+        "stageId": "ro5_e_4_1",
+        "width": 11
+    },
+    "ro5_e_4_2-obt/roguelike/ro5/level_rogue5_4-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_2-obt-roguelike-ro5-level_rogue5_4-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-2",
+        "name": "贪饵",
+        "stageId": "ro5_e_4_2",
+        "width": 12
+    },
+    "ro5_e_4_3-obt/roguelike/ro5/level_rogue5_4-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_3-obt-roguelike-ro5-level_rogue5_4-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-3",
+        "name": "识文",
+        "stageId": "ro5_e_4_3",
+        "width": 12
+    },
+    "ro5_e_4_4-obt/roguelike/ro5/level_rogue5_4-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_4-obt-roguelike-ro5-level_rogue5_4-4.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-4",
+        "name": "赶场戏班",
+        "stageId": "ro5_e_4_4",
+        "width": 10
+    },
+    "ro5_e_4_5-obt/roguelike/ro5/level_rogue5_4-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_5-obt-roguelike-ro5-level_rogue5_4-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-5",
+        "name": "峥嵘战功",
+        "stageId": "ro5_e_4_5",
+        "width": 12
+    },
+    "ro5_e_4_6-obt/roguelike/ro5/level_rogue5_4-6": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_4_6-obt-roguelike-ro5-level_rogue5_4-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-6",
+        "name": "暗箭难防",
+        "stageId": "ro5_e_4_6",
+        "width": 11
+    },
+    "ro5_e_5_1-obt/roguelike/ro5/level_rogue5_5-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_1-obt-roguelike-ro5-level_rogue5_5-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-1",
+        "name": "青山不语",
+        "stageId": "ro5_e_5_1",
+        "width": 12
+    },
+    "ro5_e_5_2-obt/roguelike/ro5/level_rogue5_5-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_2-obt-roguelike-ro5-level_rogue5_5-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-2",
+        "name": "离域检查",
+        "stageId": "ro5_e_5_2",
+        "width": 12
+    },
+    "ro5_e_5_3-obt/roguelike/ro5/level_rogue5_5-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_3-obt-roguelike-ro5-level_rogue5_5-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-3",
+        "name": "薄礼一份",
+        "stageId": "ro5_e_5_3",
+        "width": 11
+    },
+    "ro5_e_5_4-obt/roguelike/ro5/level_rogue5_5-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_4-obt-roguelike-ro5-level_rogue5_5-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-4",
+        "name": "往事喑哑",
+        "stageId": "ro5_e_5_4",
+        "width": 12
+    },
+    "ro5_e_5_5-obt/roguelike/ro5/level_rogue5_5-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_5-obt-roguelike-ro5-level_rogue5_5-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-5",
+        "name": "邙山镇地方志",
+        "stageId": "ro5_e_5_5",
+        "width": 13
+    },
+    "ro5_e_5_6-obt/roguelike/ro5/level_rogue5_5-6": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_5_6-obt-roguelike-ro5-level_rogue5_5-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-6",
+        "name": "不成烟火",
+        "stageId": "ro5_e_5_6",
+        "width": 12
+    },
+    "ro5_e_6_1-obt/roguelike/ro5/level_rogue5_6-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_6_1-obt-roguelike-ro5-level_rogue5_6-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_6-1",
+        "name": "炎灼",
+        "stageId": "ro5_e_6_1",
+        "width": 12
+    },
+    "ro5_e_6_2-obt/roguelike/ro5/level_rogue5_6-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_e_6_2-obt-roguelike-ro5-level_rogue5_6-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_6-2",
+        "name": "人镇",
+        "stageId": "ro5_e_6_2",
+        "width": 11
+    },
+    "ro5_e_t_1-obt/roguelike/ro5/level_rogue5_t-1": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_1-obt-roguelike-ro5-level_rogue5_t-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-1",
+        "name": "源源不断",
+        "stageId": "ro5_e_t_1",
+        "width": 10
+    },
+    "ro5_e_t_10-obt/roguelike/ro5/level_rogue5_t-10": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_10-obt-roguelike-ro5-level_rogue5_t-10.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-10",
+        "name": "为崖作伥",
+        "stageId": "ro5_e_t_10",
+        "width": 11
+    },
+    "ro5_e_t_2-obt/roguelike/ro5/level_rogue5_t-2": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_2-obt-roguelike-ro5-level_rogue5_t-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-2",
+        "name": "闪闪发光",
+        "stageId": "ro5_e_t_2",
+        "width": 11
+    },
+    "ro5_e_t_3-obt/roguelike/ro5/level_rogue5_t-3": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_3-obt-roguelike-ro5-level_rogue5_t-3.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-3",
+        "name": "循循善诱",
+        "stageId": "ro5_e_t_3",
+        "width": 11
+    },
+    "ro5_e_t_4-obt/roguelike/ro5/level_rogue5_t-4": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_4-obt-roguelike-ro5-level_rogue5_t-4.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-4",
+        "name": "易易鸭鸭",
+        "stageId": "ro5_e_t_4",
+        "width": 13
+    },
+    "ro5_e_t_5-obt/roguelike/ro5/level_rogue5_t-5": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_5-obt-roguelike-ro5-level_rogue5_t-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-5",
+        "name": "劫罚",
+        "stageId": "ro5_e_t_5",
+        "width": 10
+    },
+    "ro5_e_t_6-obt/roguelike/ro5/level_rogue5_t-6": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_6-obt-roguelike-ro5-level_rogue5_t-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-6",
+        "name": "生百相",
+        "stageId": "ro5_e_t_6",
+        "width": 10
+    },
+    "ro5_e_t_7-obt/roguelike/ro5/level_rogue5_t-7": {
+        "code": "ISW-DF",
+        "filename": "ro5_e_t_7-obt-roguelike-ro5-level_rogue5_t-7.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-7",
+        "name": "硕果累累",
+        "stageId": "ro5_e_t_7",
+        "width": 11
+    },
+    "ro5_e_t_8-obt/roguelike/ro5/level_rogue5_t-8": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_8-obt-roguelike-ro5-level_rogue5_t-8.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-8",
+        "name": "以逸待劳",
+        "stageId": "ro5_e_t_8",
+        "width": 11
+    },
+    "ro5_e_t_9_a-obt/roguelike/ro5/level_rogue5_t-9-a": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_9_a-obt-roguelike-ro5-level_rogue5_t-9-a.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-a",
+        "name": "喜从驮来",
+        "stageId": "ro5_e_t_9_a",
+        "width": 12
+    },
+    "ro5_e_t_9_b-obt/roguelike/ro5/level_rogue5_t-9-b": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_9_b-obt-roguelike-ro5-level_rogue5_t-9-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-b",
+        "name": "硅基伥的宴席",
+        "stageId": "ro5_e_t_9_b",
+        "width": 11
+    },
+    "ro5_e_t_9_c-obt/roguelike/ro5/level_rogue5_t-9-c": {
+        "code": "ISW-SP",
+        "filename": "ro5_e_t_9_c-obt-roguelike-ro5-level_rogue5_t-9-c.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-c",
+        "name": "彻底失控",
+        "stageId": "ro5_e_t_9_c",
+        "width": 12
+    },
+    "ro5_ev_1-obt/roguelike/ro5/level_rogue5_ev-1": {
+        "code": "ISW-SP",
+        "filename": "ro5_ev_1-obt-roguelike-ro5-level_rogue5_ev-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_ev-1",
+        "name": "神游天外",
+        "stageId": "ro5_ev_1",
+        "width": 12
+    },
+    "ro5_ev_2-obt/roguelike/ro5/level_rogue5_ev-2": {
+        "code": "ISW-SP",
+        "filename": "ro5_ev_2-obt-roguelike-ro5-level_rogue5_ev-2.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_ev-2",
+        "name": "作壁上观",
+        "stageId": "ro5_ev_2",
+        "width": 12
+    },
+    "ro5_fs_1-obt/roguelike/ro5/level_rogue5_fs-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_1-obt-roguelike-ro5-level_rogue5_fs-1.json",
+        "height": 11,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-1",
+        "name": "谤天",
+        "stageId": "ro5_fs_1",
+        "width": 11
+    },
+    "ro5_fs_1_b-obt/roguelike/ro5/level_rogue5_fs-1b": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_1_b-obt-roguelike-ro5-level_rogue5_fs-1b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-1b",
+        "name": "谤天",
+        "stageId": "ro5_fs_1_b",
+        "width": 9
+    },
+    "ro5_fs_2-obt/roguelike/ro5/level_rogue5_fs-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_2-obt-roguelike-ro5-level_rogue5_fs-2.json",
+        "height": 11,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-2",
+        "name": "迎雷",
+        "stageId": "ro5_fs_2",
+        "width": 11
+    },
+    "ro5_fs_2_b-obt/roguelike/ro5/level_rogue5_fs-2b": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_2_b-obt-roguelike-ro5-level_rogue5_fs-2b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-2b",
+        "name": "迎雷",
+        "stageId": "ro5_fs_2_b",
+        "width": 9
+    },
+    "ro5_fs_3-obt/roguelike/ro5/level_rogue5_fs-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_3-obt-roguelike-ro5-level_rogue5_fs-3.json",
+        "height": 11,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-3",
+        "name": "蔑震",
+        "stageId": "ro5_fs_3",
+        "width": 11
+    },
+    "ro5_fs_3_b-obt/roguelike/ro5/level_rogue5_fs-3b": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_3_b-obt-roguelike-ro5-level_rogue5_fs-3b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-3b",
+        "name": "蔑震",
+        "stageId": "ro5_fs_3_b",
+        "width": 9
+    },
+    "ro5_fs_4-obt/roguelike/ro5/level_rogue5_fs-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_4-obt-roguelike-ro5-level_rogue5_fs-4.json",
+        "height": 11,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-4",
+        "name": "赴陨",
+        "stageId": "ro5_fs_4",
+        "width": 11
+    },
+    "ro5_fs_4_b-obt/roguelike/ro5/level_rogue5_fs-4b": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_4_b-obt-roguelike-ro5-level_rogue5_fs-4b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-4b",
+        "name": "赴陨",
+        "stageId": "ro5_fs_4_b",
+        "width": 9
+    },
+    "ro5_fs_5-obt/roguelike/ro5/level_rogue5_fs-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_5-obt-roguelike-ro5-level_rogue5_fs-5.json",
+        "height": 11,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-5",
+        "name": "斥洪",
+        "stageId": "ro5_fs_5",
+        "width": 11
+    },
+    "ro5_fs_5_b-obt/roguelike/ro5/level_rogue5_fs-5b": {
+        "code": "ISW-NO",
+        "filename": "ro5_fs_5_b-obt-roguelike-ro5-level_rogue5_fs-5b.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_fs-5b",
+        "name": "斥洪",
+        "stageId": "ro5_fs_5_b",
+        "width": 9
+    },
+    "ro5_n_1_1-obt/roguelike/ro5/level_rogue5_1-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_1_1-obt-roguelike-ro5-level_rogue5_1-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-1",
+        "name": "狡鼷三窟",
+        "stageId": "ro5_n_1_1",
+        "width": 10
+    },
+    "ro5_n_1_2-obt/roguelike/ro5/level_rogue5_1-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_1_2-obt-roguelike-ro5-level_rogue5_1-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-2",
+        "name": "赶集",
+        "stageId": "ro5_n_1_2",
+        "width": 9
+    },
+    "ro5_n_1_3-obt/roguelike/ro5/level_rogue5_1-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_1_3-obt-roguelike-ro5-level_rogue5_1-3.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-3",
+        "name": "正经生意",
+        "stageId": "ro5_n_1_3",
+        "width": 9
+    },
+    "ro5_n_1_4-obt/roguelike/ro5/level_rogue5_1-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_1_4-obt-roguelike-ro5-level_rogue5_1-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_1-4",
+        "name": "老戏骨",
+        "stageId": "ro5_n_1_4",
+        "width": 11
+    },
+    "ro5_n_2_1-obt/roguelike/ro5/level_rogue5_2-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_2_1-obt-roguelike-ro5-level_rogue5_2-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-1",
+        "name": "有教无类",
+        "stageId": "ro5_n_2_1",
+        "width": 10
+    },
+    "ro5_n_2_2-obt/roguelike/ro5/level_rogue5_2-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_2_2-obt-roguelike-ro5-level_rogue5_2-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-2",
+        "name": "飞来横祸",
+        "stageId": "ro5_n_2_2",
+        "width": 10
+    },
+    "ro5_n_2_3-obt/roguelike/ro5/level_rogue5_2-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_2_3-obt-roguelike-ro5-level_rogue5_2-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-3",
+        "name": "所守者，义",
+        "stageId": "ro5_n_2_3",
+        "width": 11
+    },
+    "ro5_n_2_4-obt/roguelike/ro5/level_rogue5_2-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_2_4-obt-roguelike-ro5-level_rogue5_2-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_2-4",
+        "name": "明抢暗偷",
+        "stageId": "ro5_n_2_4",
+        "width": 9
+    },
+    "ro5_n_3_1-obt/roguelike/ro5/level_rogue5_3-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_3_1-obt-roguelike-ro5-level_rogue5_3-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-1",
+        "name": "啖之以利",
+        "stageId": "ro5_n_3_1",
+        "width": 9
+    },
+    "ro5_n_3_2-obt/roguelike/ro5/level_rogue5_3-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_3_2-obt-roguelike-ro5-level_rogue5_3-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-2",
+        "name": "长驱不复",
+        "stageId": "ro5_n_3_2",
+        "width": 11
+    },
+    "ro5_n_3_3-obt/roguelike/ro5/level_rogue5_3-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_3_3-obt-roguelike-ro5-level_rogue5_3-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-3",
+        "name": "背山面水",
+        "stageId": "ro5_n_3_3",
+        "width": 13
+    },
+    "ro5_n_3_4-obt/roguelike/ro5/level_rogue5_3-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_3_4-obt-roguelike-ro5-level_rogue5_3-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-4",
+        "name": "去晦",
+        "stageId": "ro5_n_3_4",
+        "width": 10
+    },
+    "ro5_n_3_5-obt/roguelike/ro5/level_rogue5_3-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_3_5-obt-roguelike-ro5-level_rogue5_3-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_3-5",
+        "name": "落叶归根",
+        "stageId": "ro5_n_3_5",
+        "width": 12
+    },
+    "ro5_n_4_1-obt/roguelike/ro5/level_rogue5_4-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_1-obt-roguelike-ro5-level_rogue5_4-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-1",
+        "name": "山海必争",
+        "stageId": "ro5_n_4_1",
+        "width": 11
+    },
+    "ro5_n_4_2-obt/roguelike/ro5/level_rogue5_4-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_2-obt-roguelike-ro5-level_rogue5_4-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-2",
+        "name": "贪饵",
+        "stageId": "ro5_n_4_2",
+        "width": 12
+    },
+    "ro5_n_4_3-obt/roguelike/ro5/level_rogue5_4-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_3-obt-roguelike-ro5-level_rogue5_4-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-3",
+        "name": "识文",
+        "stageId": "ro5_n_4_3",
+        "width": 12
+    },
+    "ro5_n_4_4-obt/roguelike/ro5/level_rogue5_4-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_4-obt-roguelike-ro5-level_rogue5_4-4.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-4",
+        "name": "赶场戏班",
+        "stageId": "ro5_n_4_4",
+        "width": 10
+    },
+    "ro5_n_4_5-obt/roguelike/ro5/level_rogue5_4-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_5-obt-roguelike-ro5-level_rogue5_4-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-5",
+        "name": "峥嵘战功",
+        "stageId": "ro5_n_4_5",
+        "width": 12
+    },
+    "ro5_n_4_6-obt/roguelike/ro5/level_rogue5_4-6": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_4_6-obt-roguelike-ro5-level_rogue5_4-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_4-6",
+        "name": "暗箭难防",
+        "stageId": "ro5_n_4_6",
+        "width": 11
+    },
+    "ro5_n_5_1-obt/roguelike/ro5/level_rogue5_5-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_1-obt-roguelike-ro5-level_rogue5_5-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-1",
+        "name": "青山不语",
+        "stageId": "ro5_n_5_1",
+        "width": 12
+    },
+    "ro5_n_5_2-obt/roguelike/ro5/level_rogue5_5-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_2-obt-roguelike-ro5-level_rogue5_5-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-2",
+        "name": "离域检查",
+        "stageId": "ro5_n_5_2",
+        "width": 12
+    },
+    "ro5_n_5_3-obt/roguelike/ro5/level_rogue5_5-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_3-obt-roguelike-ro5-level_rogue5_5-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-3",
+        "name": "薄礼一份",
+        "stageId": "ro5_n_5_3",
+        "width": 11
+    },
+    "ro5_n_5_4-obt/roguelike/ro5/level_rogue5_5-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_4-obt-roguelike-ro5-level_rogue5_5-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-4",
+        "name": "往事喑哑",
+        "stageId": "ro5_n_5_4",
+        "width": 12
+    },
+    "ro5_n_5_5-obt/roguelike/ro5/level_rogue5_5-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_5-obt-roguelike-ro5-level_rogue5_5-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-5",
+        "name": "邙山镇地方志",
+        "stageId": "ro5_n_5_5",
+        "width": 13
+    },
+    "ro5_n_5_6-obt/roguelike/ro5/level_rogue5_5-6": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_5_6-obt-roguelike-ro5-level_rogue5_5-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_5-6",
+        "name": "不成烟火",
+        "stageId": "ro5_n_5_6",
+        "width": 12
+    },
+    "ro5_n_6_1-obt/roguelike/ro5/level_rogue5_6-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_6_1-obt-roguelike-ro5-level_rogue5_6-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_6-1",
+        "name": "炎灼",
+        "stageId": "ro5_n_6_1",
+        "width": 12
+    },
+    "ro5_n_6_2-obt/roguelike/ro5/level_rogue5_6-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_n_6_2-obt-roguelike-ro5-level_rogue5_6-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_6-2",
+        "name": "人镇",
+        "stageId": "ro5_n_6_2",
+        "width": 11
+    },
+    "ro5_sv_1-obt/roguelike/ro5/level_rogue5_sv-1": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_1-obt-roguelike-ro5-level_rogue5_sv-1.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-1",
+        "name": "地有四难",
+        "stageId": "ro5_sv_1",
+        "width": 11
+    },
+    "ro5_sv_10-obt/roguelike/ro5/level_rogue5_sv-10": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_10-obt-roguelike-ro5-level_rogue5_sv-10.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-10",
+        "name": "迷惘",
+        "stageId": "ro5_sv_10",
+        "width": 12
+    },
+    "ro5_sv_2-obt/roguelike/ro5/level_rogue5_sv-2": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_2-obt-roguelike-ro5-level_rogue5_sv-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-2",
+        "name": "凭器",
+        "stageId": "ro5_sv_2",
+        "width": 11
+    },
+    "ro5_sv_3-obt/roguelike/ro5/level_rogue5_sv-3": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_3-obt-roguelike-ro5-level_rogue5_sv-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-3",
+        "name": "忘形",
+        "stageId": "ro5_sv_3",
+        "width": 12
+    },
+    "ro5_sv_4-obt/roguelike/ro5/level_rogue5_sv-4": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_4-obt-roguelike-ro5-level_rogue5_sv-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-4",
+        "name": "贪妄",
+        "stageId": "ro5_sv_4",
+        "width": 12
+    },
+    "ro5_sv_5-obt/roguelike/ro5/level_rogue5_sv-5": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_5-obt-roguelike-ro5-level_rogue5_sv-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-5",
+        "name": "奇谭",
+        "stageId": "ro5_sv_5",
+        "width": 8
+    },
+    "ro5_sv_6-obt/roguelike/ro5/level_rogue5_sv-6": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_6-obt-roguelike-ro5-level_rogue5_sv-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-6",
+        "name": "破局",
+        "stageId": "ro5_sv_6",
+        "width": 9
+    },
+    "ro5_sv_7-obt/roguelike/ro5/level_rogue5_sv-7": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_7-obt-roguelike-ro5-level_rogue5_sv-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-7",
+        "name": "不鉴",
+        "stageId": "ro5_sv_7",
+        "width": 9
+    },
+    "ro5_sv_8-obt/roguelike/ro5/level_rogue5_sv-8": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_8-obt-roguelike-ro5-level_rogue5_sv-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-8",
+        "name": "靡靡之音",
+        "stageId": "ro5_sv_8",
+        "width": 9
+    },
+    "ro5_sv_9-obt/roguelike/ro5/level_rogue5_sv-9": {
+        "code": "ISW-NO",
+        "filename": "ro5_sv_9-obt-roguelike-ro5-level_rogue5_sv-9.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_sv-9",
+        "name": "愠怒",
+        "stageId": "ro5_sv_9",
+        "width": 10
+    },
+    "ro5_t_1-obt/roguelike/ro5/level_rogue5_t-1": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_1-obt-roguelike-ro5-level_rogue5_t-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-1",
+        "name": "源源不断",
+        "stageId": "ro5_t_1",
+        "width": 10
+    },
+    "ro5_t_10-obt/roguelike/ro5/level_rogue5_t-10": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_10-obt-roguelike-ro5-level_rogue5_t-10.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-10",
+        "name": "为崖作伥",
+        "stageId": "ro5_t_10",
+        "width": 11
+    },
+    "ro5_t_2-obt/roguelike/ro5/level_rogue5_t-2": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_2-obt-roguelike-ro5-level_rogue5_t-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-2",
+        "name": "闪闪发光",
+        "stageId": "ro5_t_2",
+        "width": 11
+    },
+    "ro5_t_3-obt/roguelike/ro5/level_rogue5_t-3": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_3-obt-roguelike-ro5-level_rogue5_t-3.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-3",
+        "name": "循循善诱",
+        "stageId": "ro5_t_3",
+        "width": 11
+    },
+    "ro5_t_4-obt/roguelike/ro5/level_rogue5_t-4": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_4-obt-roguelike-ro5-level_rogue5_t-4.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-4",
+        "name": "易易鸭鸭",
+        "stageId": "ro5_t_4",
+        "width": 13
+    },
+    "ro5_t_5-obt/roguelike/ro5/level_rogue5_t-5": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_5-obt-roguelike-ro5-level_rogue5_t-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-5",
+        "name": "劫罚",
+        "stageId": "ro5_t_5",
+        "width": 10
+    },
+    "ro5_t_6-obt/roguelike/ro5/level_rogue5_t-6": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_6-obt-roguelike-ro5-level_rogue5_t-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-6",
+        "name": "生百相",
+        "stageId": "ro5_t_6",
+        "width": 10
+    },
+    "ro5_t_7-obt/roguelike/ro5/level_rogue5_t-7": {
+        "code": "ISW-DF",
+        "filename": "ro5_t_7-obt-roguelike-ro5-level_rogue5_t-7.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-7",
+        "name": "硕果累累",
+        "stageId": "ro5_t_7",
+        "width": 11
+    },
+    "ro5_t_8-obt/roguelike/ro5/level_rogue5_t-8": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_8-obt-roguelike-ro5-level_rogue5_t-8.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-8",
+        "name": "以逸待劳",
+        "stageId": "ro5_t_8",
+        "width": 11
+    },
+    "ro5_t_9_a-obt/roguelike/ro5/level_rogue5_t-9-a": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_9_a-obt-roguelike-ro5-level_rogue5_t-9-a.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-a",
+        "name": "喜从驮来",
+        "stageId": "ro5_t_9_a",
+        "width": 12
+    },
+    "ro5_t_9_b-obt/roguelike/ro5/level_rogue5_t-9-b": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_9_b-obt-roguelike-ro5-level_rogue5_t-9-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-b",
+        "name": "硅基伥的宴席",
+        "stageId": "ro5_t_9_b",
+        "width": 11
+    },
+    "ro5_t_9_c-obt/roguelike/ro5/level_rogue5_t-9-c": {
+        "code": "ISW-SP",
+        "filename": "ro5_t_9_c-obt-roguelike-ro5-level_rogue5_t-9-c.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro5/level_rogue5_t-9-c",
+        "name": "彻底失控",
+        "stageId": "ro5_t_9_c",
+        "width": 12
+    },
     "sandbox_1_01-obt/sandbox/sandbox_1/level_sandbox1_01": {
         "code": "RA-NO",
         "filename": "sandbox_1_01-obt-sandbox-sandbox_1-level_sandbox1_01.json",

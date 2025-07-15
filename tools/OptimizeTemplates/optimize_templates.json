@@ -4485,5 +4485,7 @@
     "official/BattleQuickFormationModule-3": "45488b9624681dada7cedbec77cbb41bd29eb2a6c5f21736ee6fec2f20c05a5d",
     "official/BattleQuickFormationModule-4": "4cca86922ce3a8a4e6ec97bc605aeb57c7281ff7b539dcdf41c72929e426f8e5",
     "official/SS@Store@CheckUnlimited": "4a164dfdf6fa76f9bfe4f8cfc9e26241f0fffc47e02d87e1cbcdb332c1630411",
-    "YoStarJP/SS@Store@CheckUnlimited": "b8b01be514e7b4b1eaee33b8e48517f76053198bc51d2b4dea88dfbb46f8e57a"
+    "YoStarJP/SS@Store@CheckUnlimited": "b8b01be514e7b4b1eaee33b8e48517f76053198bc51d2b4dea88dfbb46f8e57a",
+    "resource/template/items/rogue_5_token_bp": "08d1ff895cd55916bfff7957eeb8ad37d01a9d23d2c25beb7794f737faf48dc9",
+    "resource/template/infrast/Bskill_ctrl_d_r_tag": "a44282577a969b2cdcbefc3b1e615dc064760b8429616ad4e3b81049fceff587"
 }
