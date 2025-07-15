@@ -4487,5 +4487,6 @@
     "official/SS@Store@CheckUnlimited": "4a164dfdf6fa76f9bfe4f8cfc9e26241f0fffc47e02d87e1cbcdb332c1630411",
     "YoStarJP/SS@Store@CheckUnlimited": "b8b01be514e7b4b1eaee33b8e48517f76053198bc51d2b4dea88dfbb46f8e57a",
     "resource/template/items/rogue_5_token_bp": "08d1ff895cd55916bfff7957eeb8ad37d01a9d23d2c25beb7794f737faf48dc9",
-    "resource/template/infrast/Bskill_ctrl_d_r_tag": "a44282577a969b2cdcbefc3b1e615dc064760b8429616ad4e3b81049fceff587"
+    "resource/template/infrast/Bskill_ctrl_d_r_tag": "a44282577a969b2cdcbefc3b1e615dc064760b8429616ad4e3b81049fceff587",
+    "YoStarKR/SS@Store@CheckUnlimited": "8a2c63891876c6cc2b96933c135b3b9205d0e30fed4178f70dfd6a09aba3f909"
 }
