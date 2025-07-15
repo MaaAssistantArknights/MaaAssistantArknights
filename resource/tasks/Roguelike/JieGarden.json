@@ -504,7 +504,9 @@
         "templThreshold": 0.95,
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
-    "JieGarden@Roguelike@StageDreadfulFoe": {},
+    "JieGarden@Roguelike@StageDreadfulFoe": {
+        "roi": [705, 224, 307, 173]
+    },
     "JieGarden@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "JieGarden@Roguelike@Stage",
         "templThreshold": 0.85,
@@ -518,7 +520,8 @@
         ]
     },
     "JieGarden@Roguelike@StageDreadfulFoe-5Enter": {
-        "baseTask": "JieGarden@Roguelike@StageEnterBattle"
+        "baseTask": "JieGarden@Roguelike@StageEnterBattle",
+        "roi": [977, 415, 303, 262]
     },
     "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
     "JieGarden@Roguelike@StageEmergencyDps": {
