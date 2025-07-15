@@ -83,7 +83,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: dist
+            publish_dir: "."
             publish_branch: gh-pages
 
       - name: Deploy to Azure (prod)
