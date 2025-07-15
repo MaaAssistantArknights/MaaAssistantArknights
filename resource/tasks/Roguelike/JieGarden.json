@@ -3,13 +3,14 @@
         "crop_doc": {
             "roi": [1067, 255, 159, 154],
             "mask": []
-        }
+        },
+        "roi": [1060, 250, 156, 152]
     },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
     },
     "JieGarden@Roguelike@ChooseDifficulty": {
-        "roi": [1086, 309, 194, 140]
+        "roi": [1079, 304, 201, 153]
     },
     "JieGarden@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
@@ -162,7 +163,9 @@
             "JieGarden@Roguelike@RecruitOther"
         ]
     },
-    "JieGarden@Roguelike@EnterAfterRecruit": {},
+    "JieGarden@Roguelike@EnterAfterRecruit": {
+        "roi": [1040, 240, 240, 179]
+    },
     "JieGarden@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["JieGarden@Roguelike@ExitThenAbandon", "JieGarden@Roguelike@Abandon"]
@@ -262,7 +265,7 @@
     "JieGarden@Roguelike@LastRewardConfirm": {},
     "JieGarden@Roguelike@LastRewardRand": {},
     "JieGarden@Roguelike@MapObject": {
-        "roi": [257, 488, 189, 123],
+        "roi": [255, 491, 192, 119],
         "next": ["JieGarden@Roguelike@RecruitOther"]
     },
     "JieGarden@Roguelike@MissionFailedFlag": {
@@ -493,7 +496,8 @@
                 [130, 130, 40],
                 [131, 180, 180]
             ]
-        ]
+        ],
+        "roi": [1046, 461, 222, 197]
     },
     "JieGarden@Roguelike@StageConfrontation": {
         "Doc": "狭路相逢",
@@ -543,7 +547,9 @@
     "JieGarden@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
-    "JieGarden@Roguelike@StageEncounterEnter": {},
+    "JieGarden@Roguelike@StageEncounterEnter": {
+        "roi": [1046, 458, 220, 203]
+    },
     "JieGarden@Roguelike@StageEncounterLeaveConfirm": {},
     "JieGarden@Roguelike@StageEncounterOptionFree": {},
     "JieGarden@Roguelike@StageEncounterOptionLeave": {},
@@ -770,7 +776,7 @@
         ]
     },
     "JieGarden@Roguelike@StartExplore": {
-        "roi": [1014, 481, 266, 219]
+        "roi": [1001, 524, 273, 196]
     },
     "JieGarden@Roguelike@StartExplore-EnterCheck": {
         "template": "JieGarden@Roguelike@StartExplore.png",
@@ -872,7 +878,7 @@
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
         "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
-        "roi": [912, 648, 58, 58],
+        "roi": [848, 610, 140, 110],
         "action": "ClickSelf"
     },
     "JieGarden@RoguelikeSettlementConfirm": {
