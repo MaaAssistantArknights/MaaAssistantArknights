@@ -329,7 +329,6 @@
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageGuidance",
             "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageTrader",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageEmergencyTransportation",
@@ -574,12 +573,6 @@
     "JieGarden@Roguelike@StageEnterBattleAgain": {
         "specificRect": [1100, 558, 111, 50]
     },
-    "JieGarden@Roguelike@StageGambling": {
-        "Doc": "兴致盎然",
-        "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
-    },
     "JieGarden@Roguelike@StageGuidance": {
         "Doc": "指点迷津",
         "baseTask": "JieGarden@Roguelike@Stage",
@@ -699,7 +692,6 @@
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageProphecy",
             "JieGarden@Roguelike@StageEmergencyTransportation",
-            "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
         ]
@@ -718,7 +710,6 @@
             "JieGarden@Roguelike@StageSafeHouse",
             "JieGarden@Roguelike@StageBoons",
             "JieGarden@Roguelike@StageEmergencyTransportation",
-            "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageProphecy",
             "JieGarden@Roguelike@StageEncounter",
             "JieGarden@Roguelike@StageWindAndRain",
@@ -759,7 +750,6 @@
             "JieGarden@Roguelike@StageProphecy",
             "JieGarden@Roguelike@StageWindAndRain",
             "JieGarden@Roguelike@StageEmergencyTransportation",
-            "JieGarden@Roguelike@StageGambling",
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
