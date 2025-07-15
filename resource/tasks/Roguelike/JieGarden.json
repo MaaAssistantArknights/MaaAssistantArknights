@@ -67,7 +67,7 @@
     },
     "JieGarden@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
-        "roi": [572, 434, 144, 141],
+        "roi": [586, 483, 132, 133],
         "method": "RGBCount",
         "colorScales": [
             [
