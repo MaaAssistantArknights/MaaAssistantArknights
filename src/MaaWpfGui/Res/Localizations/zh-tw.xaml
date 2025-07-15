@@ -220,6 +220,7 @@
     <system:String x:Key="OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
     <system:String x:Key="AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
     <system:String x:Key="FlexibleDeployment">靈活部署（先鋒、輔助、特種）</system:String>
+    <system:String x:Key="Unbreakable">堅不可摧（重裝、術師、醫療）</system:String>
     <system:String x:Key="AlgorithmFinish">演算結束</system:String>
     <system:String x:Key="AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造點數</system:String>

@@ -221,6 +221,7 @@
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
     <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
