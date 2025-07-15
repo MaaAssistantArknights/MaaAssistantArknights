@@ -269,7 +269,7 @@
         "next": ["JieGarden@Roguelike@RecruitOther"]
     },
     "JieGarden@Roguelike@MissionFailedFlag": {
-        "roi": [505, 342, 265, 154]
+        "roi": [437, 242, 403, 192]
     },
     "JieGarden@Roguelike@MissionFailedFlag2": {},
     "JieGarden@Roguelike@MonthlySquad": {
@@ -294,7 +294,7 @@
     "JieGarden@Roguelike@RandomPick": {
         "action": "ClickSelf",
         "postDelay": 500,
-        "roi": [346, 560, 684, 66],
+        "roi": [1033, 462, 153, 155],
         "next": ["JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@RecruitMain": {
@@ -384,7 +384,7 @@
     },
     "JieGarden@Roguelike@RoutingContinue": {
         "template": "JieGarden@Roguelike@Continue.png",
-        "roi": [1050, 550, 210, 100],
+        "roi": [1008, 523, 265, 197],
         "action": "ClickSelf",
         "next": ["JieGarden@Roguelike@RoutingContinueConfirm"]
     },
