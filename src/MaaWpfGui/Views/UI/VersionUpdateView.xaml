@@ -20,7 +20,7 @@
     Icon="../../newlogo.ico"
     mc:Ignorable="d">
     <hc:ScrollViewer IsInertiaEnabled="True">
-        <Grid>
+        <Grid Background="{DynamicResource MdXamlBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
