@@ -649,6 +649,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-1">前衛/特殊SoC・初</system:String>
     <system:String x:Key="PR-D-2">前衛/特殊SoC・中</system:String>
     <system:String x:Key="Annihilation">殲滅作戦</system:String>
+    <system:String x:Key="Chernobog">チェルノボーグ</system:String>
+    <system:String x:Key="LungmenOutskirts">龍門郊外</system:String>
+    <system:String x:Key="LungmenDowntown">龍門市街</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日のステージのヒント: </system:String>
     <system:String x:Key="CETip">CE（龍門幣）</system:String>
     <system:String x:Key="APTip">AP（購買資格証）</system:String>
