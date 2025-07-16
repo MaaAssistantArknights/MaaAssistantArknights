@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string>
 #include <thread>
-#include <print>
 
 void ASST_CALL callback(AsstMsgId msg, const char* details_json, void* custom_arg)
 {
@@ -13,7 +12,7 @@ void ASST_CALL callback(AsstMsgId msg, const char* details_json, void* custom_ar
         return;
     }
 
-    std::println("{}: {}", msg, details_json);
+    std::printf("%d: %s", msg, details_json);
 }
 
 int main([[maybe_unused]] int argc, char** argv)
