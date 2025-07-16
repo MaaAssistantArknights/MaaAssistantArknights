@@ -18,8 +18,8 @@
         },
         {
             "name": "护鸭金刚",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3
         },
         {
             "name": "来者不拒",
@@ -51,6 +51,7 @@
                     ]
                 }
             ]
+
         },
         {
             "name": "相会",
@@ -188,6 +189,11 @@
         },
         {
             "name": "禳解",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "地镇",
             "option_num": 2,
             "choose": 2
         }
