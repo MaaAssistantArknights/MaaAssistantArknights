@@ -6,8 +6,7 @@
             "direction": "down"
         }
     ],
-    "blacklist_location": [
-    ],
+    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["益达", "焰苇", "水陈", "高台输出"],

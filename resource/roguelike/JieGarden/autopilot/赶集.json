@@ -6,8 +6,7 @@
             "direction": "left"
         }
     ],
-    "blacklist_location": [
-    ],
+    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],

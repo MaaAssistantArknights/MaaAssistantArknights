@@ -6,8 +6,7 @@
             "direction": "right"
         }
     ],
-    "blacklist_location": [
-    ],
+    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
