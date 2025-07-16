@@ -128,8 +128,10 @@
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
     <ClInclude Include="Task\Infrast\InfrastTrainingTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
+    <ClInclude Include="Task\Interface\DGLabTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\BattleSpyTask.h" />
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
@@ -327,8 +329,10 @@
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.cpp" />
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
     <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp" />
+    <ClCompile Include="Task\Interface\DGLabTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\BattleSpyTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
