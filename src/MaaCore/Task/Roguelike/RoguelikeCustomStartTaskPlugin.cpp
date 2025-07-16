@@ -269,6 +269,9 @@ std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list()
     else if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_start_select.ideas) {
         list.emplace_back("Sarkaz@Roguelike@LastReward5"); // 构想
     }
+    else if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_start_select.ticket) {
+        list.emplace_back("JieGarden@Roguelike@LastReward5"); // 票券
+    }
 
     return list;
 }

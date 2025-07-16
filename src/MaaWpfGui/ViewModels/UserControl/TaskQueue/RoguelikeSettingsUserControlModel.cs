@@ -609,9 +609,10 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         { "Mizuki@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithKey") },
         { "Mizuki@Roguelike@LastReward6", LocalizationHelper.GetString("RoguelikeStartWithDice") },
         { "Sarkaz@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithIdea") },
+        { "JieGarden@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithTicket") },
     };
 
-    private object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4 Sarkaz@Roguelike@LastReward5")
+    private object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4")
         .Split(' ')
         .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
         .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
@@ -1143,6 +1144,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 { "Mizuki@Roguelike@LastReward5", "key" },
                 { "Mizuki@Roguelike@LastReward6", "dice" },
                 { "Sarkaz@Roguelike@LastReward5", "ideas" },
+                { "JieGarden@Roguelike@LastReward5", "ticket" },
             };
             var startWithSelect = new JObject();
             foreach (var select in RoguelikeStartWithSelectList)

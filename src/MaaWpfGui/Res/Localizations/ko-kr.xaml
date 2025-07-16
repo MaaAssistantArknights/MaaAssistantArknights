@@ -399,6 +399,7 @@
     <system:String x:Key="RoguelikeStartWithKey">열쇠</system:String>
     <system:String x:Key="RoguelikeStartWithDice">주사위</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">구상</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
     <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Stats 보고</system:String>

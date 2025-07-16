@@ -400,6 +400,7 @@
     <system:String x:Key="RoguelikeStartWithKey">钥匙</system:String>
     <system:String x:Key="RoguelikeStartWithDice">骰子</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">构想</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>

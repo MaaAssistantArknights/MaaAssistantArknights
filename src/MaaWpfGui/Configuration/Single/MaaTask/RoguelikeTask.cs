@@ -268,4 +268,9 @@ public enum RoguelikeCollectibleAward
     /// 构想, Sarkaz@Roguelike@LastReward5
     /// </summary>
     Idea = 1 << 7,
+
+    /// <summary>
+    /// 票券, JieGarden@Roguelike@LastReward5
+    /// </summary>
+    Ticket = 1 << 8,
 }

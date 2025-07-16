@@ -400,6 +400,7 @@
     <system:String x:Key="RoguelikeStartWithKey">鍵</system:String>
     <system:String x:Key="RoguelikeStartWithDice">ダイスロール回数</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
