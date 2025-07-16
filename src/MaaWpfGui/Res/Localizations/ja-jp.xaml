@@ -765,6 +765,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に ｢戦術要員｣ オペレーターを認識できません</system:String>
     <system:String x:Key="AddTrust">信頼度が低いオペレーターを追加する</system:String>
+    <system:String x:Key="SkipModuleWhenNotSatisfied">モジュールが要件を満たさない場合、デフォルトモジュールを選択する</system:String>
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ はセパレータ、｢,｣ でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
