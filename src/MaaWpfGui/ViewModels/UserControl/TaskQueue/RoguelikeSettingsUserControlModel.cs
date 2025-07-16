@@ -1113,7 +1113,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
             StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme== Theme.Mizuki || RoguelikeTheme== Theme.Sami,
-            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && StartWithEliteTwo,
+            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme== Theme.Mizuki || RoguelikeTheme== Theme.Sami,
 
             // 月度小队
             MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,
