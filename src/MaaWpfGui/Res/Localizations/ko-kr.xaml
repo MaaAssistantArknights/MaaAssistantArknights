@@ -165,7 +165,6 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 오퍼레이터는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복, 전투 X</system:String>
-    <system:String x:Key="RoguelikeStartWithTwoIdeas">구상 2개로 시작할 때 까지 반복</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
