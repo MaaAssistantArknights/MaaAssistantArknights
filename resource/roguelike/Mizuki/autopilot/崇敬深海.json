@@ -58,6 +58,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+        {
             "groups": ["控制", "狙击"],
             "location": [5, 3],
             "direction": "left"

@@ -42,6 +42,11 @@
             "direction": "up"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 3],
+            "direction": "right"
+        },
+        {
             "groups": ["召唤"],
             "location": [6, 3],
             "direction": "right"

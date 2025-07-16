@@ -21,6 +21,12 @@
     "role_order": ["sniper", "caster", "warrior", "pioneer", "medic", "support", "tank"],
     "deploy_plan": [
         {
+            "Doc": "先把我无敌的维什戴尔大人摆上去再说",
+            "groups": ["益达"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
             "groups": ["投锋", "挡人先锋"],
             "location": [6, 3],
             "direction": "down"
