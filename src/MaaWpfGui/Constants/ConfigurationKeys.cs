@@ -320,6 +320,8 @@ namespace MaaWpfGui.Constants
 
         public const string DebugTaskName = "Debug.TaskName";
 
+        public const string DGLabTaskName = "DGLab.TaskName";
+
         public const string MiniGameTaskName = "MiniGame.TaskName";
 
         public const string AchievementBubbleAutoClose = "Achievement.BubbleAutoClose";

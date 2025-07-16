@@ -541,6 +541,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Reclamation">생존연산</system:String>
     <system:String x:Key="MiniGame">미니게임</system:String>
     <system:String x:Key="Custom">사용자 정의 작업</system:String>
+    <system:String x:Key="DGLab">DG-Lab</system:String>
     <system:String x:Key="SingleStep">단일 단계 작업</system:String>
     <system:String x:Key="ReclamationTheme">생존연산 테마</system:String>
     <system:String x:Key="ReclamationThemeFire">모래 속의 불</system:String>

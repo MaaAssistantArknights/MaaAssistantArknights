@@ -541,6 +541,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Reclamation">生息演算</system:String>
     <system:String x:Key="MiniGame">小游戏</system:String>
     <system:String x:Key="Custom">自定义任务</system:String>
+    <system:String x:Key="DGLab">DG-Lab</system:String>
     <system:String x:Key="SingleStep">单步任务</system:String>
     <system:String x:Key="ReclamationTheme">生息演算主题</system:String>
     <system:String x:Key="ReclamationThemeFire">沙中之火</system:String>
