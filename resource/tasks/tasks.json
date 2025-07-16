@@ -1046,7 +1046,7 @@
         "roi": [1100, 0, 180, 200]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnnoBase",
+        "baseTask": "CloseAnnoBase",    
         "roi": [1125, 24, 138, 139]
     },
     "CloseAnnoSpecialAccess": {
@@ -1150,7 +1150,52 @@
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
     },
+    
+    "Chernobog": {
+        "Doc": "切换剿灭关卡-切尔诺伯格",
+        "algorithm": "OcrDetect",
+        "text": ["切尔诺伯格"],
+        "action": "ClickSelf"
+    },
+    "LungmenOutskirts": {
+        "Doc": "切换剿灭关卡-龙门外环",
+        "algorithm": "OcrDetect",
+        "text": ["龙门外环"],
+        "action": "ClickSelf"
+    },
+    "LungmenDowntown": {
+    "Doc": "切换剿灭关卡-龙门市区",
+    "algorithm": "OcrDetect",
+    "text": ["龙门市区"],
+    "action": "ClickSelf"
+},
+    "AnnihilationSwitchButton": {
+        "Doc": "切换剿灭关卡（菜单按钮）",
+        "algorithm": "OcrDetect",
+        "text": ["切换"],
+        "action": "ClickSelf",
+        "next": ["#back"]
+    },
+    "AnnihilationReturn": {
+        "Doc": "从剿灭关卡界面退回到含有切换按钮的界面",
+        "template": "Return.png",
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "preDelay": 1000,
+        "postDelay": 500,
+        "roi": [0, 0, 180, 80],
+        "next": ["AnnihilationSwitchButton"]
+    },
     "Annihilation": {
+        "Doc": "长期剿灭导航",
+        "template": "StageAnnihilation.png",
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "roi": [900, 70, 380, 400],
+        "maskRange": [1, 255],
+        "next": ["AnnihilationReturn"]
+    },
+    "CurrentAnnihilation": {
         "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
         "templThreshold": 0.9,

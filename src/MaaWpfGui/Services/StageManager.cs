@@ -293,7 +293,10 @@ namespace MaaWpfGui.Services
                 { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
                 // 剿灭模式
-                { "Annihilation", new() { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
+                { "Annihilation", new() { Display = LocalizationHelper.GetString("Annihilation"), Value = "CurrentAnnihilation" } },
+                { "Chernobog", new() { Display = LocalizationHelper.GetString("Chernobog"), Value = "Chernobog@Annihilation" } },
+                { "LungmenOutskirts", new() { Display = LocalizationHelper.GetString("LungmenOutskirts"), Value = "LungmenOutskirts@Annihilation" } },
+                { "LungmenDowntown", new() { Display = LocalizationHelper.GetString("LungmenDowntown"), Value = "LungmenDowntown@Annihilation" } },
 
                 // 芯片本
                 { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
