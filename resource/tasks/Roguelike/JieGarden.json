@@ -570,7 +570,9 @@
     "JieGarden@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
     },
-    "JieGarden@Roguelike@StageEncounterOptionWonderland": {},
+    "JieGarden@Roguelike@StageEncounterOptionWonderland": {
+        "templThreshold": 0.95
+    },
     "JieGarden@Roguelike@StageEncounterOptions": {
         "next": [
             "JieGarden@Roguelike@StageEncounterOptionFree",
