@@ -6,6 +6,24 @@
         },
         "roi": [1060, 250, 156, 152]
     },
+    "JieGarden@Roguelike@AbandonSwitch": {
+        "Doc": "放弃交换通宝",
+        "template": "JieGarden@Roguelike@AbandonSwitch.png",
+        "action": "ClickSelf",
+        "roi": [859, 605, 226, 115],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "next": ["JieGarden@Roguelike@AbandonSwitchConfirm", "JieGarden@Roguelike@AbandonSwitch"]
+    },
+    "JieGarden@Roguelike@AbandonSwitchConfirm": {
+        "Doc": "放弃交换通宝确认",
+        "template": "JieGarden@Roguelike@AbandonSwitchConfirm.png",
+        "action": "ClickSelf",
+        "roi": [832, 406, 311, 160],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "next": ["JieGarden@Roguelike@DropsFlag", "JieGarden@Roguelike@AbandonSwitchConfirm"]
+    },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
     },
@@ -38,10 +56,6 @@
             "JieGarden@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "JieGarden@Roguelike@ChooseOperFlag": {
-        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
-        "roi": [1031, 606, 249, 114]
-    },
     "JieGarden@Roguelike@ChooseOperConfirm": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
@@ -55,6 +69,10 @@
             "JieGarden@Roguelike@EnterAfterRecruit",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
+    },
+    "JieGarden@Roguelike@ChooseOperFlag": {
+        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
+        "roi": [1031, 606, 249, 114]
     },
     "JieGarden@Roguelike@ClickToDrops": {
         "specificRect": [600, 600, 25, 25]
@@ -203,33 +221,6 @@
     },
     "JieGarden@Roguelike@GetDropLeave": {},
     "JieGarden@Roguelike@GetDropRecruit": {},
-    "JieGarden@Roguelike@GetDropSwitch": {
-        "Doc": "交换通宝",
-        "template": "JieGarden@Roguelike@GetDropSwitch.png",
-        "action": "ClickSelf",
-        "roi": [0, 420, 1280, 175],
-        "postDelay": 1000,
-        "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@AbandonSwitch", "JieGarden@Roguelike@GetDropSwitch"]
-    },
-    "JieGarden@Roguelike@AbandonSwitch": {
-        "Doc": "放弃交换通宝",
-        "template": "JieGarden@Roguelike@AbandonSwitch.png",
-        "action": "ClickSelf",
-        "roi": [859, 605, 226, 115],
-        "postDelay": 1000,
-        "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@AbandonSwitchConfirm", "JieGarden@Roguelike@AbandonSwitch"]
-    },
-    "JieGarden@Roguelike@AbandonSwitchConfirm": {
-        "Doc": "放弃交换通宝确认",
-        "template": "JieGarden@Roguelike@AbandonSwitchConfirm.png",
-        "action": "ClickSelf",
-        "roi": [832, 406, 311, 160],
-        "postDelay": 1000,
-        "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@DropsFlag", "JieGarden@Roguelike@AbandonSwitchConfirm"]
-    },
     "JieGarden@Roguelike@GetDropSelect": {
         "next": [
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -244,6 +235,15 @@
     },
     "JieGarden@Roguelike@GetDropSelectRecruit": {},
     "JieGarden@Roguelike@GetDropSelectReward": {},
+    "JieGarden@Roguelike@GetDropSwitch": {
+        "Doc": "交换通宝",
+        "template": "JieGarden@Roguelike@GetDropSwitch.png",
+        "action": "ClickSelf",
+        "roi": [0, 420, 1280, 175],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "next": ["JieGarden@Roguelike@AbandonSwitch", "JieGarden@Roguelike@GetDropSwitch"]
+    },
     "JieGarden@Roguelike@GetDrops": {
         "next": [
             "JieGarden@Roguelike@CloseCollectionContinue",
