@@ -1046,7 +1046,7 @@
         "roi": [1100, 0, 180, 200]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnnoBase",    
+        "baseTask": "CloseAnnoBase",
         "roi": [1125, 24, 138, 139]
     },
     "CloseAnnoSpecialAccess": {
@@ -1150,7 +1150,7 @@
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
     },
-    
+
     "Chernobog": {
         "Doc": "切换剿灭关卡-切尔诺伯格",
         "algorithm": "OcrDetect",
@@ -1164,11 +1164,11 @@
         "action": "ClickSelf"
     },
     "LungmenDowntown": {
-    "Doc": "切换剿灭关卡-龙门市区",
-    "algorithm": "OcrDetect",
-    "text": ["龙门市区"],
-    "action": "ClickSelf"
-},
+        "Doc": "切换剿灭关卡-龙门市区",
+        "algorithm": "OcrDetect",
+        "text": ["龙门市区"],
+        "action": "ClickSelf"
+    },
     "AnnihilationSwitchButton": {
         "Doc": "切换剿灭关卡（菜单按钮）",
         "algorithm": "OcrDetect",
