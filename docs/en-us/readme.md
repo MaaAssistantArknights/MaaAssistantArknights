@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](/images/maa-logo_512x512.png =256x256)
+![MAA Logo =256x256](/images/maa-logo_512x512.png)
 
 <!-- markdownlint-restore -->
 # MaaAssistantArknights

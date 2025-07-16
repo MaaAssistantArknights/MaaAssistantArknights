@@ -47,7 +47,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         UpdateRoguelikeModeList();
         UpdateRoguelikeRolesList();
         UpdateRoguelikeSquadList();
-
+        UpdateRoguelikeStartWithAllDict();
+        UpdateRoguelikeStartWithSelectList();
         UpdateRoguelikeCoreCharList();
     }
 
@@ -405,6 +406,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             UpdateRoguelikeModeList();
             UpdateRoguelikeRolesList();
             UpdateRoguelikeSquadList();
+            UpdateRoguelikeStartWithAllDict();
+            UpdateRoguelikeStartWithSelectList();
             UpdateRoguelikeCoreCharList();
 
             // 强制刷新难度显示
@@ -599,23 +602,70 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
 
-    public static Dictionary<string, string> RoguelikeStartWithAllDict { get; } = new()
-    {
-        { "Roguelike@LastReward", LocalizationHelper.GetString("RoguelikeStartWithKettle") },
-        { "Roguelike@LastReward2", LocalizationHelper.GetString("RoguelikeStartWithShield") },
-        { "Roguelike@LastReward3", LocalizationHelper.GetString("RoguelikeStartWithIngot") },
-        { "Roguelike@LastReward4", LocalizationHelper.GetString("RoguelikeStartWithHope") },
-        { "Roguelike@LastRewardRand", LocalizationHelper.GetString("RoguelikeStartWithRandomReward") },
-        { "Mizuki@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithKey") },
-        { "Mizuki@Roguelike@LastReward6", LocalizationHelper.GetString("RoguelikeStartWithDice") },
-        { "Sarkaz@Roguelike@LastReward5", LocalizationHelper.GetString("RoguelikeStartWithIdea") },
-    };
+    private Dictionary<string, string> _roguelikeStartWithAllDict = new();
 
-    private object[] _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4 Sarkaz@Roguelike@LastReward5")
-        .Split(' ')
-        .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
-        .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
-        .ToArray();
+    /// <summary>
+    /// Gets the available start with rewards dictionary based on current theme.
+    /// </summary>
+    public Dictionary<string, string> RoguelikeStartWithAllDict => _roguelikeStartWithAllDict;
+
+    private void UpdateRoguelikeStartWithAllDict()
+    {
+        var baseDict = new Dictionary<string, string>
+        {
+            { "Roguelike@LastReward", LocalizationHelper.GetString("RoguelikeStartWithKettle") },
+            { "Roguelike@LastReward2", LocalizationHelper.GetString("RoguelikeStartWithShield") },
+            { "Roguelike@LastReward3", LocalizationHelper.GetString("RoguelikeStartWithIngot") },
+            { "Roguelike@LastRewardRand", LocalizationHelper.GetString("RoguelikeStartWithRandomReward") },
+        };
+
+        switch (RoguelikeTheme)
+        {
+            case Theme.Phantom:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                break;
+
+            case Theme.Mizuki:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                baseDict["Mizuki@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithKey");
+                baseDict["Mizuki@Roguelike@LastReward6"] = LocalizationHelper.GetString("RoguelikeStartWithDice");
+                break;
+
+            case Theme.Sami:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                break;
+
+            case Theme.Sarkaz:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                baseDict["Sarkaz@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithIdea");
+                break;
+
+            case Theme.JieGarden:
+                baseDict["JieGarden@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithTicket");
+                break;
+        }
+
+        _roguelikeStartWithAllDict = baseDict;
+        OnPropertyChanged(nameof(RoguelikeStartWithAllDict));
+    }
+
+    private object[] _roguelikeStartWithSelectListRaw = Array.Empty<object>();
+
+    private void UpdateRoguelikeStartWithSelectList()
+    {
+        string lastRewardString = "Roguelike@LastReward";
+        if (RoguelikeTheme != Theme.JieGarden)
+        {
+            lastRewardString += " Roguelike@LastReward4";
+        }
+
+        _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, lastRewardString)
+            .Split(' ')
+            .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
+            .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
+            .ToArray();
+        OnPropertyChanged(nameof(RoguelikeStartWithSelectListRaw));
+    }
 
     public object[] RoguelikeStartWithSelectListRaw
     {
@@ -626,6 +676,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
+            UpdateRoguelikeStartWithSelectList(); // Refresh the list after config change
         }
     }
 
@@ -1112,8 +1163,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 刷开局
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
-            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional,
-            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo,
+            StartWithEliteTwo = (RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
+            StartWithEliteTwoNonBattle = (RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
 
             // 月度小队
             MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,
@@ -1140,10 +1191,21 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 { "Roguelike@LastReward3", "ingot" },
                 { "Roguelike@LastReward4", "hope" },
                 { "Roguelike@LastRewardRand", "random" },
-                { "Mizuki@Roguelike@LastReward5", "key" },
-                { "Mizuki@Roguelike@LastReward6", "dice" },
-                { "Sarkaz@Roguelike@LastReward5", "ideas" },
             };
+            if (RoguelikeTheme == Theme.Mizuki)
+            {
+                rewardKeys["Mizuki@Roguelike@LastReward5"] = "key";
+                rewardKeys["Mizuki@Roguelike@LastReward6"] = "dice";
+            }
+            else if (RoguelikeTheme == Theme.Sarkaz)
+            {
+                rewardKeys["Sarkaz@Roguelike@LastReward5"] = "ideas";
+            }
+            else if (RoguelikeTheme == Theme.JieGarden)
+            {
+                rewardKeys["JieGarden@Roguelike@LastReward5"] = "ticket";
+            }
+
             var startWithSelect = new JObject();
             foreach (var select in RoguelikeStartWithSelectList)
             {
