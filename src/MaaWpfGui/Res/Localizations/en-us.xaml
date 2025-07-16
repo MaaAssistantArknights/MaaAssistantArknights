@@ -648,6 +648,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
     <system:String x:Key="Annihilation">Annihilation</system:String>
+    <system:String x:Key="Chernobog">Chernobog</system:String>
+    <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>
+    <system:String x:Key="LungmenDowntown">Lungmen Downtown</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's open stages:&#160;</system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Purchase Certificate)</system:String>

@@ -901,6 +901,18 @@
         "text": ["Unit Limit"],
         "roi": [1144, 545, 135, 32]
     },
+        "Chernobog": {
+        "text": ["Chernobog"]
+    },
+    "LungmenOutskirts": {
+        "text": ["Lungmen Outskirts"]
+    },
+    "LungmenDowntown": {
+        "text": ["Lungmen Downtown"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["Switch"]
+    },
     "EndOfActionAnnihilation": {
         "text": ["MISSION", "RESULTS"],
         "roi": [13, 126, 386, 208]
