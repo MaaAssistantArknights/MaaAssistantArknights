@@ -126,6 +126,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static CustomSettingsUserControlModel CustomTask => CustomSettingsUserControlModel.Instance;
 
+        public static DGLabSettingsUserControlModel DGLabTask => DGLabSettingsUserControlModel.Instance;
+
         #endregion 长草任务Model
 
         private static readonly IEnumerable<TaskViewModel> TaskViewModelTypes = InitTaskViewModelList();
@@ -698,6 +700,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
             {
                 taskList.Add("Custom");
+                taskList.Add("DGLab");
             }
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
@@ -1391,6 +1394,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                             break;
                         }
+
+                    case "DGLab":
+                        if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
+                        {
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.DGLab, DGLabTask.Serialize());
+                        }
+                        break;
 
                     default:
                         --count;
