@@ -31,6 +31,7 @@
 * 修复界园主题选择问题 @DavidWang19
 * 卡得偿所愿 @ABA2396
 * 更新退出事件模板图 @DavidWang19
+* 去掉界园没有的刷2希望开局 @DavidWang19
 
 ### 其他 | Other
 
