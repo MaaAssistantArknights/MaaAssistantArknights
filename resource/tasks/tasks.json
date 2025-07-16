@@ -1046,7 +1046,7 @@
         "roi": [1100, 0, 180, 200]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnnoBase",    
+        "baseTask": "CloseAnnoBase",
         "roi": [1125, 24, 138, 139]
     },
     "CloseAnnoSpecialAccess": {
