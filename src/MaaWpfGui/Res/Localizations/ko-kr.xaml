@@ -648,6 +648,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
     <system:String x:Key="Annihilation">섬멸 작전</system:String>
+    <system:String x:Key="Chernobog">체르노보그</system:String>
+    <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
+    <system:String x:Key="LungmenDowntown">용문 시내</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">오늘 오픈된 스테이지: </system:String>
     <system:String x:Key="CETip">CE (용문폐)</system:String>
     <system:String x:Key="APTip">AP (구매증명서)</system:String>
