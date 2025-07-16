@@ -38,6 +38,14 @@
             "JieGarden@Roguelike@ChooseOperConfirm#next"
         ]
     },
+    "JieGarden@Roguelike@ChooseOperFlag": {
+        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
+        "roi": [1031, 606, 249, 114]
+    },
+    "JieGarden@Roguelike@ChooseOperConfirm": {
+        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
+        "roi": [1031, 606, 249, 114]
+    },
     "JieGarden@Roguelike@ChooseOperConfirmToGiveUp": {
         "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
