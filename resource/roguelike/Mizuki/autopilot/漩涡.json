@@ -8,6 +8,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
             "groups": ["异德", "刺客", "其他地面"],
             "location": [7, 5],
             "direction": "up"

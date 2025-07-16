@@ -18,6 +18,11 @@
             "direction": "left"
         },
         {
+            "groups": ["益达"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
             "groups": ["单奶"],
             "location": [4, 4],
             "direction": "right"
