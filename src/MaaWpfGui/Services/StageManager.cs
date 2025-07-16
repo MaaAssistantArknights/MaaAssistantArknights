@@ -297,6 +297,9 @@ namespace MaaWpfGui.Services
 
                 // 剿灭模式
                 { "Annihilation", new() { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
+                { "Chernobog", new() { Display = LocalizationHelper.GetString("Chernobog"), Value = "Chernobog@AnnihilationReturn@Annihilation" } },
+                { "LungmenOutskirts", new() { Display = LocalizationHelper.GetString("LungmenOutskirts"), Value = "LungmenOutskirts@AnnihilationReturn@Annihilation" } },
+                { "LungmenDowntown", new() { Display = LocalizationHelper.GetString("LungmenDowntown"), Value = "LungmenDowntown@AnnihilationReturn@Annihilation" } },
 
                 // 芯片本
                 { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },
