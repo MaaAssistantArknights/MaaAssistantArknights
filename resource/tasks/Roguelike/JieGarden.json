@@ -490,13 +490,6 @@
     },
     "JieGarden@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "JieGarden@Roguelike@StageEnter",
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [137, 150, 40],
-                [138, 180, 180]
-            ]
-        ],
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageCombatDps": {
@@ -515,13 +508,6 @@
         ]
     },
     "JieGarden@Roguelike@StageCombatDpsEnter": {
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [130, 130, 40],
-                [131, 180, 180]
-            ]
-        ],
         "roi": [1046, 461, 222, 197]
     },
     "JieGarden@Roguelike@StageConfrontation": {
@@ -624,13 +610,6 @@
         "templThreshold": 0.95
     },
     "JieGarden@Roguelike@StageSafeHouseEnter": {
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [106, 100, 50],
-                [107, 160, 180]
-            ]
-        ],
         "next": ["JieGarden@Roguelike@StageSafeHouseEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
@@ -646,13 +625,6 @@
         "templThreshold": 0.95
     },
     "JieGarden@Roguelike@StageTraderEnter": {
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [71, 150, 40],
-                [73, 180, 150]
-            ]
-        ],
         "next": [
             "JieGarden@Roguelike@StageTraderEnter-CloseCollectionClose",
             "JieGarden@Roguelike@StageTraderEnter-CloseCollectionContinue",
