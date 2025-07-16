@@ -1908,6 +1908,9 @@ namespace MaaWpfGui.Main
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails!["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
+                case "DGLabMsg":
+                    Instances.TaskQueueViewModel.AddLog($"{subTaskDetails!["Msg"]}", UiLogColor.Info);
+                    break;
             }
         }
 

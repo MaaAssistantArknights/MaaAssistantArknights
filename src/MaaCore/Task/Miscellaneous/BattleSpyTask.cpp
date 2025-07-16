@@ -36,6 +36,12 @@ asst::BattleSpyTask::BattleSpyTask(const AsstCallback& callback, Assistant* inst
 bool asst::BattleSpyTask::_run()
 {
     LogTraceFunction;
+
+    json::value info = basic_info_with_what("DGLabMsg");
+    auto& details = info["details"];
+    details["Msg"] = "进入 asst::BattleSpyTask::_run() 了";
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
     clear();
 
     // TODO, 识别关卡名

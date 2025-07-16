@@ -30,7 +30,7 @@ public class DGLabSettingsUserControlModel : TaskViewModel
 
     public static DGLabSettingsUserControlModel Instance { get; }
 
-    private string _taskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DebugTaskName, string.Empty);
+    private string _taskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.DGLabTaskName, string.Empty);
 
     public string TaskName
     {
@@ -44,36 +44,7 @@ public class DGLabSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstCustomTask()
-        {
-            CustomTasks = TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(task => task.Trim())
-                .ToList(),
-        };
+        var task = new AsstDGLabTask();
         return task.Serialize();
-    }
-
-    public List<(AsstTaskType Type, JObject Params)> SerializeMultiTasks()
-    {
-        if (string.IsNullOrWhiteSpace(TaskName))
-        {
-            return new List<(AsstTaskType, JObject)>();
-        }
-
-        if (!TaskName.Contains(';'))
-        {
-            return new List<(AsstTaskType, JObject)> { Serialize() };
-        }
-
-        var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries);
-
-        return taskGroups.Select(group => new AsstCustomTask()
-        {
-            CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(task => task.Trim())
-                    .ToList(),
-        })
-            .Select(task => task.Serialize())
-            .ToList();
     }
 }
