@@ -1313,7 +1313,7 @@ namespace MaaWpfGui.Main
 
                             /* 肉鸽相关 */
                             case "ExitThenAbandon":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"), UiLogColor.Error);
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"), UiLogColor.ExplorationAbandonedIS);
                                 AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RoguelikeRetreat);
                                 break;
 

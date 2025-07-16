@@ -79,14 +79,16 @@
     <SolidColorBrush x:Key="CombatISRaw" Color="#FF8C00" />
     <SolidColorBrush x:Key="EmergencyISRaw" Color="#C71585" />
     <SolidColorBrush x:Key="BossISRaw" Color="#B22222 " />
+    <SolidColorBrush x:Key="ExplorationAbandonedISRaw" Color="#708090" />
 
-    <SolidColorBrush x:Key="SuccessIS" Color="#699769" />
-    <SolidColorBrush x:Key="SafehouseIS" Color="#6385a6" />
-    <SolidColorBrush x:Key="TraderIS" Color="#6c8f7c" />
-    <SolidColorBrush x:Key="EventIS" Color="#8297a5" />
-    <SolidColorBrush x:Key="TruthIS" Color="#847b62" />
-    <SolidColorBrush x:Key="CombatIS" Color="#a6845a" />
-    <SolidColorBrush x:Key="EmergencyIS" Color="#956082" />
-    <SolidColorBrush x:Key="BossIS" Color="#8f6464" />
+    <SolidColorBrush x:Key="SuccessIS" Color="#708f70" />
+    <SolidColorBrush x:Key="SafehouseIS" Color="#6c8399" />
+    <SolidColorBrush x:Key="TraderIS" Color="#728a7d" />
+    <SolidColorBrush x:Key="EventIS" Color="#819098" />
+    <SolidColorBrush x:Key="TruthIS" Color="#837d6c" />
+    <SolidColorBrush x:Key="CombatIS" Color="#998266" />
+    <SolidColorBrush x:Key="EmergencyIS" Color="#8e6b81" />
+    <SolidColorBrush x:Key="BossIS" Color="#8a6d6d" />
+    <SolidColorBrush x:Key="ExplorationAbandonedIS" Color="#7d8083" />
 
 </ResourceDictionary>
