@@ -151,7 +151,7 @@
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>
@@ -189,6 +189,7 @@
     <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="IS4NewSquad1">魂靈護送分隊</system:String>
     <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
     <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
@@ -197,7 +198,12 @@
     <system:String x:Key="IS4NewSquad6">點刺成錠分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad7">擬態學者分隊（待 DLC 更新）</system:String>
     <system:String x:Key="IS4NewSquad8">專業人士分隊（待 DLC 更新）</system:String>
-    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
     <system:String x:Key="SupportSquad">後勤分隊</system:String>
@@ -213,6 +219,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">穩紮穩打（重裝、術師、狙擊）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
     <system:String x:Key="AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
+    <system:String x:Key="FlexibleDeployment">靈活部署（先鋒、輔助、特種）</system:String>
+    <system:String x:Key="Unbreakable">堅不可摧（重裝、術師、醫療）</system:String>
     <system:String x:Key="AlgorithmFinish">演算結束</system:String>
     <system:String x:Key="AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造點數</system:String>
@@ -373,6 +381,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
     <system:String x:Key="RoguelikeDifficulty">難度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
@@ -941,6 +950,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Current">當前</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">幹員不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>

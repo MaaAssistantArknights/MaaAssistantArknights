@@ -26,7 +26,7 @@ namespace MaaWpfGui.Extensions.UIBehaviors
                 "EnableSafeClipboard",
                 typeof(bool),
                 typeof(ClipboardInterceptor),
-                new PropertyMetadata(false, OnEnableSafeClipboardChanged));
+                new(false, OnEnableSafeClipboardChanged));
 
         public static void SetEnableSafeClipboard(DependencyObject element, bool value)
             => element.SetValue(EnableSafeClipboardProperty, value);
@@ -47,26 +47,42 @@ namespace MaaWpfGui.Extensions.UIBehaviors
                 case DataGrid dg when (bool)e.NewValue:
                     AddCommandBindingsToDataGrid(dg);
                     break;
+                case ComboBox cb when (bool)e.NewValue && cb.IsEditable:
+                    cb.Loaded += OnComboBoxLoaded;
+                    break;
             }
         }
 
         private static void AddCommandBindingsToTextBox(TextBox tb)
         {
-            tb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopyTextBox));
-            tb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCutTextBox));
-            tb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPasteTextBox));
+            tb.CommandBindings.Add(new(ApplicationCommands.Copy, OnCopyTextBox));
+            tb.CommandBindings.Add(new(ApplicationCommands.Cut, OnCutTextBox));
+            tb.CommandBindings.Add(new(ApplicationCommands.Paste, OnPasteTextBox));
         }
 
         private static void AddCommandBindingsToRichTextBox(RichTextBox rtb)
         {
-            rtb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopyRichTextBox));
-            rtb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCutRichTextBox));
-            rtb.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPasteRichTextBox));
+            rtb.CommandBindings.Add(new(ApplicationCommands.Copy, OnCopyRichTextBox));
+            rtb.CommandBindings.Add(new(ApplicationCommands.Cut, OnCutRichTextBox));
+            rtb.CommandBindings.Add(new(ApplicationCommands.Paste, OnPasteRichTextBox));
         }
 
         private static void AddCommandBindingsToDataGrid(DataGrid dg)
         {
-            dg.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopyDataGrid));
+            dg.CommandBindings.Add(new(ApplicationCommands.Copy, OnCopyDataGrid));
+        }
+
+        private static void OnComboBoxLoaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is not ComboBox cb)
+            {
+                return;
+            }
+
+            if (cb.Template.FindName("PART_EditableTextBox", cb) is TextBox textBox)
+            {
+                AddCommandBindingsToTextBox(textBox);
+            }
         }
 
         private static void OnCopyTextBox(object sender, ExecutedRoutedEventArgs e)
@@ -213,7 +229,7 @@ namespace MaaWpfGui.Extensions.UIBehaviors
             if (sender is not DataGrid dg)
             {
                 return;
-            };
+            }
 
             // 获取选中单元格内容，拼成制表符分隔的文本
             var selectedCells = dg.SelectedCells;
@@ -253,6 +269,5 @@ namespace MaaWpfGui.Extensions.UIBehaviors
 
             e.Handled = true;
         }
-
     }
 }

@@ -91,13 +91,24 @@
     <SolidColorBrush x:Key="LdSpecialScreenshot" Color="#6666FF" />
 
     <!--  UiLogColor - I.S.  -->
-    <SolidColorBrush x:Key="SuccessIS" Color="LimeGreen" />
-    <SolidColorBrush x:Key="SafehouseIS" Color="DodgerBlue" />
-    <SolidColorBrush x:Key="TraderIS" Color="MediumSeaGreen" />
-    <SolidColorBrush x:Key="EventIS" Color="LightSkyBlue" />
-    <SolidColorBrush x:Key="TruthIS" Color="#8D701C" />
-    <SolidColorBrush x:Key="CombatIS" Color="DarkOrange" />
-    <SolidColorBrush x:Key="EmergencyIS" Color="MediumVioletRed" />
-    <SolidColorBrush x:Key="BossIS" Color="Firebrick " />
+    <SolidColorBrush x:Key="SuccessISRaw" Color="#32CD32" />
+    <SolidColorBrush x:Key="SafehouseISRaw" Color="#1E90FF" />
+    <SolidColorBrush x:Key="TraderISRaw" Color="#3CB371" />
+    <SolidColorBrush x:Key="EventISRaw" Color="#87CEFA" />
+    <SolidColorBrush x:Key="TruthISRaw" Color="#8D701C" />
+    <SolidColorBrush x:Key="CombatISRaw" Color="#FF8C00" />
+    <SolidColorBrush x:Key="EmergencyISRaw" Color="#C71585" />
+    <SolidColorBrush x:Key="BossISRaw" Color="#B22222" />
+    <SolidColorBrush x:Key="ExplorationAbandonedISRaw" Color="#708090" />
+
+    <SolidColorBrush x:Key="SuccessIS" Color="#91b091" />
+    <SolidColorBrush x:Key="SafehouseIS" Color="#8da4ba" />
+    <SolidColorBrush x:Key="TraderIS" Color="#93ab9e" />
+    <SolidColorBrush x:Key="EventIS" Color="#a2b0b9" />
+    <SolidColorBrush x:Key="TruthIS" Color="#a39e8d" />
+    <SolidColorBrush x:Key="CombatIS" Color="#baa387" />
+    <SolidColorBrush x:Key="EmergencyIS" Color="#af8ba2" />
+    <SolidColorBrush x:Key="BossIS" Color="#ab8e8e" />
+    <SolidColorBrush x:Key="ExplorationAbandonedIS" Color="#9ea1a4" />
 
 </ResourceDictionary>

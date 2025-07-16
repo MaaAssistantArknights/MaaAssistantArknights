@@ -9,8 +9,18 @@
     "deploy_plan": [
         {
             "groups": ["挡人先锋"],
-            "location": [5, 3],
+            "location": [5, 4],
             "direction": "right"
+        },
+        {
+            "groups": ["益达"],
+            "location": [4, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["蕾缪安"],
+            "location": [3, 1],
+            "direction": "down"
         },
         {
             "groups": ["投锋"],

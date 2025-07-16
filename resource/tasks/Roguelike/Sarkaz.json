@@ -1053,12 +1053,6 @@
         "roi": [230, 73, 212, 141],
         "next": ["Sarkaz@Roguelike@StageTraderRefreshConfirm"]
     },
-    "Sarkaz@Roguelike@StageTraderRefreshConfirm": {
-        "template": "Roguelike@StageTraderRefreshConfirm.png",
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [640, 414, 504, 154]
-    },
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",

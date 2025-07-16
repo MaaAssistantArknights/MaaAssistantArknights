@@ -152,7 +152,7 @@
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 오퍼레이터 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">각뿔 우선, 2번째 구역 도달 시 탐험 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">각뿔 수집, 투자 완료 시 자동 종료</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">2정 오퍼레이터 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
@@ -199,6 +199,12 @@
     <system:String x:Key="IS4NewSquad6">연금술 분대</system:String>
     <system:String x:Key="IS4NewSquad7">의태학자 분대</system:String>
     <system:String x:Key="IS4NewSquad8">전문가 분대</system:String>
+    <system:String x:Key="IS5NewSquad1">고지대 돌파 분대 (高台突破分队)</system:String>
+    <system:String x:Key="IS5NewSquad2">지상 돌파 분대 (地面突破分队)</system:String>
+    <system:String x:Key="IS5NewSquad3">방문객 분대 (游客分队)</system:String>
+    <system:String x:Key="IS5NewSquad4">사세대 분대 (司岁台分队)</system:String>
+    <system:String x:Key="IS5NewSquad5">천사부 분대 (天师府分队)</system:String>
+    <system:String x:Key="SpecialForceSquad">특근 분대 (特勤分队)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -214,6 +220,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">차근차근 (디펜더, 캐스터, 스나이퍼)</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">상호보완 (가드, 서포터, 메딕)</system:String>
     <system:String x:Key="AsYourHeartDesires">원하는 대로 (랜덤)</system:String>
+    <system:String x:Key="FlexibleDeployment">유연한 배치 (뱅가드, 서포터, 스페셜) (灵活部署)</system:String>
+    <system:String x:Key="Unbreakable">불굴의 의지 (디펜더, 캐스터, 메딕) (坚不可摧)</system:String>
     <system:String x:Key="AlgorithmFinish">연산 종료</system:String>
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
@@ -374,6 +382,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
     <system:String x:Key="RoguelikeThemeSami">사미</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
@@ -943,6 +952,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Current">현재</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용할 수 없는 운영자: {0}, 제한: {1}</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>

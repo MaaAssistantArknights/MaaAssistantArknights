@@ -79,6 +79,14 @@ jobs:
       - name: Show environment
         run: echo ${{ env.AZURE_TARGET_ENV }}
 
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: env.AZURE_TARGET_ENV == 'prod'
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: "."
+            publish_branch: gh-pages
+
       - name: Deploy to Azure (prod)
         id: deploy-prod
         uses: Azure/static-web-apps-deploy@v1

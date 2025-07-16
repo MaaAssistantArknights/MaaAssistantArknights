@@ -113,6 +113,11 @@ namespace MaaWpfGui.Constants
         /// </summary>
         public const string BossIS = "BossIS";
 
+        /// <summary>
+        /// The recommended color for abandoned.
+        /// </summary>
+        public const string ExplorationAbandonedIS = "ExplorationAbandonedIS";
+
         // 颜色在MaaWpfGui\Res\Themes中定义
         // Brush are defined in MaaWpfGui\Res\Themes
     }

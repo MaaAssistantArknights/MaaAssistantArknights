@@ -13,6 +13,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [3, 2],
+            "direction": "down"
+        },
+        {
             "groups": ["召唤", "高台C", "控制", "术师", "辅助"],
             "location": [2, 4],
             "direction": "up"

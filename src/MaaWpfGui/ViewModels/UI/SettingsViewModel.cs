@@ -671,10 +671,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        // UI 绑定的方法
-        // EventArgs 不能省略，否则会报错
+        /// UI 绑定的方法
         [UsedImplicitly]
-        // ReSharper disable once UnusedParameter.Global
         public static void MakeComboBoxSearchable(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();

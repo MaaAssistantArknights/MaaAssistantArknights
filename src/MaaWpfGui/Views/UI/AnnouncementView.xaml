@@ -18,93 +18,91 @@
     ShowCloseButton="False"
     ShowMinButton="False"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="{DynamicResource MdXamlBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ListBox
-                    d:ItemsSource="{d:SampleData ItemCount=7}"
-                    ItemsSource="{Binding AnnouncementSections}"
-                    SelectedItem="{Binding SelectedAnnouncementSection}">
-                    <hc:Interaction.Triggers>
-                        <hc:EventTrigger EventName="SelectionChanged">
-                            <hc:InvokeCommandAction Command="{Binding ScrollToTopCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
-                        </hc:EventTrigger>
-                    </hc:Interaction.Triggers>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Padding="5"
-                                Text="{Binding Title}"
-                                TextWrapping="Wrap" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Image
-                    Grid.Row="1"
-                    d:Source="/Res/Img/NoSkland.jpg"
-                    Source="{Binding ImageSource}" />
-            </Grid>
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <hc:ScrollViewer
-                    x:Name="ScrollViewer"
-                    Grid.Row="0"
-                    IsInertiaEnabled="True">
-                    <hc:Interaction.Triggers>
-                        <hc:EventTrigger EventName="ScrollChanged">
-                            <hc:InvokeCommandAction Command="{Binding UpdateScrollStateCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
-                        </hc:EventTrigger>
-                    </hc:Interaction.Triggers>
-                    <mdxam:MarkdownScrollViewer
-                        Margin="10,0,10,0"
-                        d:Markdown="#Test&#10;This is a test text.&#10;&#10;~~This is a test text~~&#10;&#10;*This is a test text*&#10;&#10;**This is a test text**"
-                        ClickAction="SafetyOpenBrowser"
-                        Markdown="{Binding SelectedAnnouncementSection.Content}"
-                        PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
-                                                     Target={x:Type helper:MouseWheelHelper}}">
-                        <mdxam:MarkdownScrollViewer.MarkdownStyle>
-                            <StaticResource ResourceKey="MdXamlStyle" />
-                        </mdxam:MarkdownScrollViewer.MarkdownStyle>
-                        <mdxam:MarkdownScrollViewer.Plugins>
-                            <StaticResource ResourceKey="MdXamlPlugin" />
-                        </mdxam:MarkdownScrollViewer.Plugins>
-                    </mdxam:MarkdownScrollViewer>
-                </hc:ScrollViewer>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListBox
+                d:ItemsSource="{d:SampleData ItemCount=7}"
+                ItemsSource="{Binding AnnouncementSections}"
+                SelectedItem="{Binding SelectedAnnouncementSection}">
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="SelectionChanged">
+                        <hc:InvokeCommandAction Command="{Binding ScrollToTopCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Padding="5"
+                            Text="{Binding Title}"
+                            TextWrapping="Wrap" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Image
+                Grid.Row="1"
+                d:Source="/Res/Img/NoSkland.jpg"
+                Source="{Binding ImageSource}" />
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <hc:ScrollViewer
+                x:Name="ScrollViewer"
+                Grid.Row="0"
+                IsInertiaEnabled="True">
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="ScrollChanged">
+                        <hc:InvokeCommandAction Command="{Binding UpdateScrollStateCommand}" CommandParameter="{Binding ElementName=ScrollViewer}" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+                <mdxam:MarkdownScrollViewer
+                    Margin="10,0,10,0"
+                    d:Markdown="#Test&#10;This is a test text.&#10;&#10;~~This is a test text~~&#10;&#10;*This is a test text*&#10;&#10;**This is a test text**"
+                    ClickAction="SafetyOpenBrowser"
+                    Markdown="{Binding SelectedAnnouncementSection.Content}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}">
+                    <mdxam:MarkdownScrollViewer.MarkdownStyle>
+                        <StaticResource ResourceKey="MdXamlStyle" />
+                    </mdxam:MarkdownScrollViewer.MarkdownStyle>
+                    <mdxam:MarkdownScrollViewer.Plugins>
+                        <StaticResource ResourceKey="MdXamlPlugin" />
+                    </mdxam:MarkdownScrollViewer.Plugins>
+                </mdxam:MarkdownScrollViewer>
+            </hc:ScrollViewer>
 
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="30,10,20,10"
+            <StackPanel
+                Grid.Row="1"
+                Margin="30,10,20,10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <CheckBox
+                    Height="30"
+                    Margin="10"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <CheckBox
-                        Height="30"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Content="{DynamicResource ShowDisclaimerNoMore}"
-                        IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
-                        IsEnabled="{Binding IsScrolledToBottom}" />
-                    <Button
-                        Height="50"
-                        MinWidth="100"
-                        Margin="10"
-                        Command="{s:Action Close}"
-                        Content="{DynamicResource Confirm}"
-                        IsEnabled="{Binding IsScrolledToBottom}" />
-                </StackPanel>
-            </Grid>
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource ShowDisclaimerNoMore}"
+                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
+                    IsEnabled="{Binding IsScrolledToBottom}" />
+                <Button
+                    Height="50"
+                    MinWidth="100"
+                    Margin="10"
+                    Command="{s:Action Close}"
+                    Content="{DynamicResource Confirm}"
+                    IsEnabled="{Binding IsScrolledToBottom}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </hc:Window>

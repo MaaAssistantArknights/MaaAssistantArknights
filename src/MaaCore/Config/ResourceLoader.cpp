@@ -192,18 +192,21 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sarkaz"_p / "autopilot"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "JieGarden"_p / "autopilot"_p);
 
     // –––––––– Roguelike Recruitment Config ––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
     LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Mizuki"_p / "recruitment.json"_p);
     LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Sami"_p / "recruitment.json"_p);
     LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Sarkaz"_p / "recruitment.json"_p);
+    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "JieGarden"_p / "recruitment.json"_p);
 
     // –––––––– Roguelike Shopping Config –––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Phantom"_p / "shopping.json"_p);
     LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
     LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
     LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Sarkaz"_p / "shopping.json"_p);
+    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "JieGarden"_p / "shopping.json"_p);
 
     // –––––––– Roguelike Encounter Config ––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
@@ -216,6 +219,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
         "roguelike"_p / "Sarkaz"_p / "encounter"_p / "default.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeStageEncounterConfig,
+        "roguelike"_p / "JieGarden"_p / "encounter"_p / "default.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
         "roguelike"_p / "Phantom"_p / "encounter"_p / "deposit.json"_p);

@@ -152,7 +152,7 @@
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
@@ -199,6 +199,12 @@
     <system:String x:Key="IS4NewSquad6">点刺成锭分队</system:String>
     <system:String x:Key="IS4NewSquad7">拟态学者分队</system:String>
     <system:String x:Key="IS4NewSquad8">专业人士分队</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -214,6 +220,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">稳扎稳打（重装、术师、狙击）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">取长补短（近卫、辅助、医疗）</system:String>
     <system:String x:Key="AsYourHeartDesires">随心所欲（三张随机）</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
     <system:String x:Key="AlgorithmFinish">演算结束</system:String>
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
@@ -375,6 +383,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
@@ -944,6 +953,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Current">当前</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">干员不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>

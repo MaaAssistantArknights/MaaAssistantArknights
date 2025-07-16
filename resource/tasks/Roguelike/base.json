@@ -1,15 +1,15 @@
 {
     "Roguelike": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -1467,6 +1467,12 @@
         "action": "ClickSelf",
         "roi": [985, 447, 295, 203],
         "next": ["Roguelike@Stages#next"]
+    },
+    "Roguelike@StageTraderRefreshConfirm": {
+        "template": ["Roguelike@StageTraderRefreshConfirmNew.png", "Roguelike@StageTraderRefreshConfirm.png"],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [640, 414, 504, 154]
     },
     "Roguelike@StageTraderRefreshWithDice": {
         "template": "Roguelike@StageTraderRefresh.png",

@@ -75,6 +75,7 @@
     <None Include="..\..\resource\tasks\RA\Reclamation2.json" />
     <None Include="..\..\resource\tasks\RA\Tales.json" />
     <None Include="..\..\resource\tasks\Roguelike\base.json" />
+    <None Include="..\..\resource\tasks\Roguelike\JieGarden.json" />
     <None Include="..\..\resource\tasks\Roguelike\Mizuki.json" />
     <None Include="..\..\resource\tasks\Roguelike\Phantom.json" />
     <None Include="..\..\resource\tasks\Roguelike\Sami.json" />

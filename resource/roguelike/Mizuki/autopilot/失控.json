@@ -70,6 +70,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [9, 4],
+            "direction": "left"
+        },
+        {
             "groups": ["玛恩纳"],
             "location": [10, 5],
             "direction": "left"
