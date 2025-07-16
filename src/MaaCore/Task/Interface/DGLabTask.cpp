@@ -11,7 +11,7 @@ asst::DGLabTask::DGLabTask(const AsstCallback& callback, Assistant* inst) :
     m_subtasks.emplace_back(m_battle_spy_ptr);
 }
 
-bool asst::DGLabTask::set_params(const json::value& params)
+bool asst::DGLabTask::set_params([[maybe_unused]] const json::value& params)
 {
     // 一直监视，直到战斗结束
     m_battle_spy_ptr->set_wait_until_end(true);
