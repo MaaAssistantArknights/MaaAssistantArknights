@@ -44,7 +44,7 @@ public class AsstReclamationTask : AsstBaseTask
     ///     </item>
     /// </list>
     /// </summary>
-    public ReclamationMode Mode { get; set; } = ReclamationMode.NoArchive;
+    public ReclamationMode Mode { get; set; } = ReclamationMode.Archive;
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
