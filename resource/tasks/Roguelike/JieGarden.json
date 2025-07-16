@@ -448,7 +448,7 @@
         "specialParams": [200, 1]
     },
     "JieGarden@Roguelike@SelectTheme": {
-        "text": ["假说辑录"]
+        "text": ["游园纪念"]
     },
     "JieGarden@Roguelike@SpecialValRecognition": {
         "Doc": "特殊值识别，构想数量",
