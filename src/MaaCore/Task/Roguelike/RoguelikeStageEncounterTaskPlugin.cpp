@@ -23,10 +23,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::va
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
-        Log.info("界园适配临时措施：不期而遇json完工后删除");
-        return false;
-    }
     if (task_view == "Roguelike@StageEncounterJudgeOption") {
         return true;
     }
