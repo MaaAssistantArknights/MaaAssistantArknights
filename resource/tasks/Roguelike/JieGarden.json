@@ -215,7 +215,6 @@
     },
     "JieGarden@Roguelike@GetDrop1": {},
     "JieGarden@Roguelike@GetDrop2": {},
-    "JieGarden@Roguelike@GetDrop3": {},
     "JieGarden@Roguelike@GetDropCompleted": {
         "specificRect": [600, 600, 25, 25]
     },
@@ -250,7 +249,6 @@
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@GetDrop1",
             "JieGarden@Roguelike@GetDrop2",
-            "JieGarden@Roguelike@GetDrop3",
             "JieGarden@Roguelike@GetDropSelectReward",
             "JieGarden@Roguelike@GetDropSelect",
             "JieGarden@Roguelike@GetDropSwitch",
@@ -265,7 +263,6 @@
         "template": [
             "JieGarden@Roguelike@LastReward5.png",
             "JieGarden@Roguelike@LastReward.png",
-            "JieGarden@Roguelike@LastReward4.png",
             "JieGarden@Roguelike@LastReward2.png",
             "JieGarden@Roguelike@LastReward3.png",
             "JieGarden@Roguelike@LastRewardRand.png"
@@ -275,7 +272,6 @@
         "next": [
             "JieGarden@Roguelike@LastReward5",
             "JieGarden@Roguelike@LastReward",
-            "JieGarden@Roguelike@LastReward4",
             "JieGarden@Roguelike@LastReward2",
             "JieGarden@Roguelike@LastReward3",
             "JieGarden@Roguelike@LastRewardRand"
@@ -283,7 +279,6 @@
     },
     "JieGarden@Roguelike@LastReward2": {},
     "JieGarden@Roguelike@LastReward3": {},
-    "JieGarden@Roguelike@LastReward4": {},
     "JieGarden@Roguelike@LastReward5": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 构想",
         "baseTask": "JieGarden@Roguelike@LastReward"
