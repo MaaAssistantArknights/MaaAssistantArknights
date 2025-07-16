@@ -579,15 +579,15 @@
     "StageQueue": {
         "baseTask": "Fight",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -774,15 +774,15 @@
     },
     "SwitchAccount": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -984,15 +984,15 @@
         "baseTask": "Home",
         "action": "DoNothing",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -1010,15 +1010,15 @@
     },
     "StartUp": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -1589,15 +1589,15 @@
     },
     "Fight": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -1624,15 +1624,15 @@
     },
     "Recruit": {
         "template": [
-            "Recruit.png",
-            "RecruitDark.png",
-            "RecruitSami.png",
-            "RecruitMistCity.png",
-            "RecruitSiege.png",
-            "RecruitSarkaz.png",
-            "RecruitDelicious.png",
-            "RecruitGaming.png",
-            "RecruitDahuangCity.png"
+            "Default/Recruit.png",
+            "Dark/Recruit.png",
+            "Sami/Recruit.png",
+            "MistCity/Recruit.png",
+            "Siege/Recruit.png",
+            "Sarkaz/Recruit.png",
+            "Delicious/Recruit.png",
+            "Gaming/Recruit.png",
+            "DahuangCity/Recruit.png"
         ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
@@ -1705,15 +1705,15 @@
         "baseTask": "Home",
         "action": "DoNothing",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -1749,15 +1749,15 @@
         "baseTask": "Home",
         "action": "DoNothing",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -1831,15 +1831,15 @@
         "baseTask": "Home",
         "action": "DoNothing",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -1912,15 +1912,15 @@
         "baseTask": "Home",
         "action": "DoNothing",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -1967,15 +1967,15 @@
     },
     "Award": {
         "template": [
-            "Task.png",
-            "TaskDark.png",
-            "TaskSami.png",
-            "TaskMistCity.png",
-            "TaskSiege.png",
-            "TaskSarkaz.png",
-            "TaskDelicious.png",
-            "TaskGaming.png",
-            "TaskDahuangCity.png"
+            "Default/Task.png",
+            "Dark/Task.png",
+            "Sami/Task.png",
+            "MistCity/Task.png",
+            "Siege/Task.png",
+            "Sarkaz/Task.png",
+            "Delicious/Task.png",
+            "Gaming/Task.png",
+            "DahuangCity/Task.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -2030,15 +2030,15 @@
     "MailReturnToHome": {
         "baseTask": "Home",
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -2087,15 +2087,15 @@
     },
     "Visit": {
         "template": [
-            "Friends.png",
-            "FriendsDark.png",
-            "FriendsSami.png",
-            "FriendsMistCity.png",
-            "FriendsSiege.png",
-            "FriendsSarkaz.png",
-            "FriendsDelicious.png",
-            "FriendsGaming.png",
-            "FriendsDahuangCity.png"
+            "Default/Friends.png",
+            "Dark/Friends.png",
+            "Sami/Friends.png",
+            "MistCity/Friends.png",
+            "Siege/Friends.png",
+            "Sarkaz/Friends.png",
+            "Delicious/Friends.png",
+            "Gaming/Friends.png",
+            "DahuangCity/Friends.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -2146,15 +2146,15 @@
     "Mall": {
         "doc": "请同步更新 Store@EnterStore 的 template",
         "template": [
-            "Mall.png",
-            "MallDark.png",
-            "MallSami.png",
-            "MallMistCity.png",
-            "MallSiege.png",
-            "MallSarkaz.png",
-            "MallDelicious.png",
-            "MallGaming.png",
-            "MallDahuangCity.png"
+            "Default/Mall.png",
+            "Dark/Mall.png",
+            "Sami/Mall.png",
+            "MistCity/Mall.png",
+            "Siege/Mall.png",
+            "Sarkaz/Mall.png",
+            "Delicious/Mall.png",
+            "Gaming/Mall.png",
+            "DahuangCity/Mall.png"
         ],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
@@ -2205,15 +2205,15 @@
     },
     "Home": {
         "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png",
-            "TerminalSarkaz.png",
-            "TerminalDelicious.png",
-            "TerminalGaming.png",
-            "TerminalDahuangCity.png"
+            "Default/Terminal.png",
+            "Dark/Terminal.png",
+            "Sami/Terminal.png",
+            "MistCity/Terminal.png",
+            "Siege/Terminal.png",
+            "Sarkaz/Terminal.png",
+            "Delicious/Terminal.png",
+            "Gaming/Terminal.png",
+            "DahuangCity/Terminal.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -2414,15 +2414,15 @@
     },
     "Infrast": {
         "template": [
-            "EnterInfrast.png",
-            "EnterInfrastDark.png",
-            "EnterInfrastSami.png",
-            "EnterInfrastMistCity.png",
-            "EnterInfrastSiege.png",
-            "EnterInfrastSarkaz.png",
-            "EnterInfrastDelicious.png",
-            "EnterInfrastGaming.png",
-            "EnterInfrastDahuangCity.png"
+            "Default/EnterInfrast.png",
+            "Dark/EnterInfrast.png",
+            "Sami/EnterInfrast.png",
+            "MistCity/EnterInfrast.png",
+            "Siege/EnterInfrast.png",
+            "Sarkaz/EnterInfrast.png",
+            "Delicious/EnterInfrast.png",
+            "Gaming/EnterInfrast.png",
+            "DahuangCity/EnterInfrast.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -4217,15 +4217,15 @@
     "DepotEnter": {
         "action": "ClickSelf",
         "template": [
-            "DepotEnter.png",
-            "DepotEnterDark.png",
-            "DepotEnterSami.png",
-            "DepotEnterMistCity.png",
-            "DepotEnterSiege.png",
-            "DepotEnterSarkaz.png",
-            "DepotEnterDelicious.png",
-            "DepotEnterGaming.png",
-            "DepotEnterDahuangCity.png"
+            "Default/DepotEnter.png",
+            "Dark/DepotEnter.png",
+            "Sami/DepotEnter.png",
+            "MistCity/DepotEnter.png",
+            "Siege/DepotEnter.png",
+            "Sarkaz/DepotEnter.png",
+            "Delicious/DepotEnter.png",
+            "Gaming/DepotEnter.png",
+            "DahuangCity/DepotEnter.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -4301,15 +4301,15 @@
     },
     "OperBoxEnter": {
         "template": [
-            "OperBoxEnter.png",
-            "OperBoxEnterDark.png",
-            "OperBoxEnterSami.png",
-            "OperBoxEnterMistCity.png",
-            "OperBoxEnterSiege.png",
-            "OperBoxEnterSarkaz.png",
-            "OperBoxEnterDelicious.png",
-            "OperBoxEnterGaming.png",
-            "OperBoxEnterDahuangCity.png"
+            "Default/OperBoxEnter.png",
+            "Dark/OperBoxEnter.png",
+            "Sami/OperBoxEnter.png",
+            "MistCity/OperBoxEnter.png",
+            "Siege/OperBoxEnter.png",
+            "Sarkaz/OperBoxEnter.png",
+            "Delicious/OperBoxEnter.png",
+            "Gaming/OperBoxEnter.png",
+            "DahuangCity/OperBoxEnter.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -4787,15 +4787,15 @@
     "GachaEnter": {
         "action": "ClickSelf",
         "template": [
-            "GachaEnter.png",
-            "GachaEnterDark.png",
-            "GachaEnterSami.png",
-            "GachaEnterMistCity.png",
-            "GachaEnterSiege.png",
-            "GachaEnterSarkaz.png",
-            "GachaEnterDelicious.png",
-            "GachaEnterGaming.png",
-            "GachaEnterDahuangCity.png"
+            "Default/GachaEnter.png",
+            "Dark/GachaEnter.png",
+            "Sami/GachaEnter.png",
+            "MistCity/GachaEnter.png",
+            "Siege/GachaEnter.png",
+            "Sarkaz/GachaEnter.png",
+            "Delicious/GachaEnter.png",
+            "Gaming/GachaEnter.png",
+            "DahuangCity/GachaEnter.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -4957,15 +4957,15 @@
     "Store@EnterStore": {
         "baseTask": "Mall",
         "template": [
-            "Mall.png",
-            "MallDark.png",
-            "MallSami.png",
-            "MallMistCity.png",
-            "MallSiege.png",
-            "MallSarkaz.png",
-            "MallDelicious.png",
-            "MallGaming.png",
-            "MallDahuangCity.png"
+            "Default/Mall.png",
+            "Dark/Mall.png",
+            "Sami/Mall.png",
+            "MistCity/Mall.png",
+            "Siege/Mall.png",
+            "Sarkaz/Mall.png",
+            "Delicious/Mall.png",
+            "Gaming/Mall.png",
+            "DahuangCity/Mall.png"
         ],
         "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },

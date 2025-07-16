@@ -967,7 +967,8 @@
                 },
                 {
                     "name": "娜仁图亚",
-                    "skill": 2,
+                    "skill": 1,
+                    "skill_usage": 2,
                     "is_key": true,
                     "recruit_priority": 681,
                     "promote_priority": 600,
@@ -2489,6 +2490,21 @@
                     "is_key": true,
                     "recruit_priority": 996,
                     "promote_priority": 1000,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "棘刺", "召唤", "地面阻挡"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "司霆惊蛰",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 995,
+                    "promote_priority": 999,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["凯尔希", "棘刺", "召唤", "地面阻挡"],

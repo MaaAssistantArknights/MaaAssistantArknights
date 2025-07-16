@@ -28,6 +28,11 @@
     "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [4, 4],
+            "direction": "left"
+        },
+        {
             "groups": ["百嘉"],
             "location": [6, 4],
             "direction": "down"

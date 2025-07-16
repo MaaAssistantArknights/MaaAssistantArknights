@@ -163,6 +163,21 @@
                     ]
                 },
                 {
+                    "name": "司霆惊蛰",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 995,
+                    "promote_priority": 999,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "召唤", "地面阻挡"],
+                            "is_less": true,
+                            "offset": -200,
+                            "doc": "地面阻挡<1时，司霆惊蛰的招募优先级-200"
+                        }
+                    ]
+                },
+                {
                     "name": "银灰",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -1102,7 +1117,8 @@
                 },
                 {
                     "name": "娜仁图亚",
-                    "skill": 2,
+                    "skill": 1,
+                    "skill_usage": 2,
                     "is_key": true,
                     "recruit_priority": 581,
                     "promote_priority": 500,

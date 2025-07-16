@@ -48,6 +48,11 @@
             "direction": "right"
         },
         {
+            "groups": ["益达"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
             "groups": ["玛恩纳"],
             "location": [5, 4],
             "direction": "right"

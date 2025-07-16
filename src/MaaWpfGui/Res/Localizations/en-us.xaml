@@ -152,7 +152,7 @@
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits automatically after investment completes</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
@@ -199,6 +199,12 @@
     <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
     <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">Top Gun Squad</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -214,6 +220,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
@@ -374,6 +382,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
@@ -940,6 +949,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">Oper unavailable: {0}, Restriction: {1}</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>

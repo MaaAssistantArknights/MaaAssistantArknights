@@ -16,6 +16,11 @@
     ],
     "deploy_plan": [
         {
+            "groups": ["益达"],
+            "location": [3, 4],
+            "direction": "up"
+        },
+        {
             "groups": ["投锋", "挡人先锋"],
             "location": [7, 3],
             "direction": "left"
@@ -37,7 +42,8 @@
         },
         {
             "groups": ["号角", "基石", "地面C", "挡人先锋", "重装", "其他地面"],
-            "location": [6, 1],
+            "doc": "往右放一格不然识别不到开技能",
+            "location": [7, 1],
             "direction": "left"
         },
         {

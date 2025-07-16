@@ -1,0 +1,200 @@
+{
+    "theme": "JieGarden",
+    "stage": [
+        {
+            "name": "解惑",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "岔路",
+            "option_num": 4,
+            "choose": 1
+        },
+        {
+            "name": "偏安",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "护鸭金刚",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "来者不拒",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "挑个小的",
+                    "option_num": 3,
+                    "choose": 1,
+                    "requirements": [
+                        {
+                            "name": "OriginiumIngot",
+                            "type": ">=",
+                            "value": "4"
+                        }
+                    ]
+                },
+                {
+                    "name": "挑个大的",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "OriginiumIngot",
+                            "type": ">=",
+                            "value": "15"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "相会",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "老贼羽",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "“鲍老板连锁”",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "火祀",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "鼓上佩落",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "偏安",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "掌灯与引烛",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "会友",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "夕江对擂",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "烛堂",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "天险",
+            "option_num": 4,
+            "choose": 4
+        },
+        {
+            "name": "烟火漫天",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "滚圆财神",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "饕餮廊",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "同心",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "柳儿",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "硕果园",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "孤钓",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "集印",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "海中来客",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "观者自在",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "岔路",
+            "option_num": 4,
+            "choose": 1
+        },
+        {
+            "name": "千古鸭帝",
+            "option_num": 2,
+            "choose": 1,
+            "choices": [
+                {
+                    "name": "细细想来也有道理",
+                    "option_num": 3,
+                    "choose": 1,
+                    "requirements": [
+                        {
+                            "name": "OriginiumIngot",
+                            "type": ">=",
+                            "value": "15"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "石山",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "禳解",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "地镇",
+            "option_num": 2,
+            "choose": 2
+        }
+    ]
+}
