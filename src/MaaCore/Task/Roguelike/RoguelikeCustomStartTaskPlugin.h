@@ -23,6 +23,7 @@ struct RoguelikeStartSelect // 刷开局模式下凹开局奖励选择
     bool key = false;       // 钥匙
     bool dice = false;      // 骰子
     bool ideas = false;     // 构想
+    bool ticket = false;    // 票券
 };
 
 class RoguelikeCustomStartTaskPlugin : public AbstractRoguelikeTaskPlugin

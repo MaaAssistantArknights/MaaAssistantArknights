@@ -398,6 +398,7 @@
     <system:String x:Key="RoguelikeStartWithKey">鑰匙</system:String>
     <system:String x:Key="RoguelikeStartWithDice">骰子</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
     <system:String x:Key="PenguinId">企鵝物流匯報 ID（僅數字部分）</system:String>
     <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>

@@ -72,6 +72,9 @@ public:
     int idea_count = 0;         // 构想数量
     int burden_number = 0;      // 负荷
     int burden_upper_limit = 3; // 负荷上限
+
+    // ------------------ 界园 ------------------
+    int ticket_count = 0;      // 票券数量
 };
 
 class RoguelikeConfig
