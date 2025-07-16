@@ -940,6 +940,22 @@
         "text": ["피드백", "전달"],
         "roi": [700, 620, 400, 80]
     },
+    "Chernobog": {
+        "text": ["체르노보그"],
+        "roi": [895, 455, 160, 45]
+    },
+    "LungmenOutskirts": {
+        "text": ["용문외곽"],
+        "roi": [895, 255, 160, 45]
+    },
+    "LungmenDowntown": {
+        "text": ["용문시내"],
+        "roi": [895, 355, 160, 45]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["변경"],
+        "roi": [1090, 665, 45, 30]
+    },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전개시"]
