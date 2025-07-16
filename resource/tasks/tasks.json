@@ -1150,7 +1150,6 @@
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
     },
-
     "Chernobog": {
         "Doc": "切换剿灭关卡-切尔诺伯格",
         "algorithm": "OcrDetect",

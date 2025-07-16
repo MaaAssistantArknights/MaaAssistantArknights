@@ -885,6 +885,18 @@
         "text": ["Submitting feedback", "to the neural network"],
         "roi": [675, 605, 427, 115]
     },
+    "Chernobog": {
+        "text": ["Chernobog"]
+    },
+    "LungmenOutskirts": {
+        "text": ["Lungmen Outskirts"]
+    },
+    "LungmenDowntown": {
+        "text": ["Lungmen Downtown"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["Switch"]
+    },
     "UsePrts": {
         "templThreshold": 0.7
     },
@@ -900,18 +912,6 @@
     "PRTS3": {
         "text": ["Unit Limit"],
         "roi": [1144, 545, 135, 32]
-    },
-        "Chernobog": {
-        "text": ["Chernobog"]
-    },
-    "LungmenOutskirts": {
-        "text": ["Lungmen Outskirts"]
-    },
-    "LungmenDowntown": {
-        "text": ["Lungmen Downtown"]
-    },
-    "AnnihilationSwitchButton": {
-        "text": ["Switch"]
     },
     "EndOfActionAnnihilation": {
         "text": ["MISSION", "RESULTS"],
