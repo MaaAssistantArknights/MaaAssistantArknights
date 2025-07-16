@@ -314,6 +314,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="NewVersionDetectFailedTitle">Update Package Detect Failed</system:String>
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
+    <system:String x:Key="UpdateWithoutOtaWarning">Non-OTA automatic update completed, resource folder has been moved to the Recycle Bin and .old, please back up manually if necessary</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">A new version has been detected. But no OTA incremental update package is available. The complete package will be downloaded and the resource folder will be moved to the recycle bin and .old. Please back up manually if necessary.</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>

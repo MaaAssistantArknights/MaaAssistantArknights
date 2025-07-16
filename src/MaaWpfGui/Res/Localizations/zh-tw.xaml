@@ -313,6 +313,7 @@
     <system:String x:Key="NewVersionDetectFailedTitle">檢查更新失敗</system:String>
     <system:String x:Key="CheckNetworking">請檢查網絡連接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">獲取更新資訊失敗。</system:String>
+    <system:String x:Key="UpdateWithoutOtaWarning">非 OTA 自動更新完成, resource 資料夾已移至回收站及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新包。將下載完整包並移動 resource 資料夾到回收站及 .old，如有需要請手動備份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在準備下載更新檔……</system:String>

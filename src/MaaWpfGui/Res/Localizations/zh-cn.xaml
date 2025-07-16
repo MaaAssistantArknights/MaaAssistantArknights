@@ -315,6 +315,7 @@
     <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
+    <system:String x:Key="UpdateWithoutOtaWarning">非 OTA 自动更新完成, resource 文件夹已被移动至回收站及 .old，如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">我知道你很急但你先别急.jpg</system:String>
     <system:String x:Key="NewVersionNoOtaPackage">检测到新版本，但无可用的 OTA 增量更新包。将下载完整包并移动 resource 文件夹到回收站及 .old，如有需要请手动备份</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">正在准备下载更新包……</system:String>

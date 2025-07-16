@@ -290,7 +290,7 @@ public class VersionUpdateViewModel : Screen
         else if (!isOTAPackage)
         {
             List<Task> deleteTasks = [];
-            foreach (var dir in Directory.GetDirectories(extractDir))
+            foreach (var dir in Directory.EnumerateDirectories(extractDir))
             {
                 deleteTasks.Add(Task.Run(() =>
                 {
@@ -484,6 +484,15 @@ public class VersionUpdateViewModel : Screen
             if (!DoNotShowUpdate)
             {
                 Instances.WindowManager.ShowWindow(this);
+            }
+
+            if (ConfigurationHelper.ContainsKey(ConfigurationKeys.UpdateWithoutOtaWarning))
+            {
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UpdateWithoutOtaWarning);
+                using var toast = new ToastNotification(LocalizationHelper.GetString("UpdateWithoutOtaWarning"));
+                toast.Show(30);
+                _logger.Warning("update without ota package.");
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UpdateWithoutOtaWarning"), UiLogColor.Warning);
             }
         }
         else
@@ -979,6 +988,7 @@ public class VersionUpdateViewModel : Screen
             using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
             toast.Show(30);
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateWithoutOtaWarning, true.ToString());
         }
 
         return CheckUpdateRetT.OK;
@@ -1080,6 +1090,7 @@ public class VersionUpdateViewModel : Screen
             toast.Show(30);
             _logger.Warning("No OTA package found, but full package found.");
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NewVersionNoOtaPackage"), UiLogColor.Warning);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateWithoutOtaWarning, true.ToString());
         }
 
         // 到这里已经确定有新版本了

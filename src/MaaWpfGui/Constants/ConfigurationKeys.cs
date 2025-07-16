@@ -216,6 +216,7 @@ namespace MaaWpfGui.Constants
         public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
         public const string StartupUpdateCheck = "VersionUpdate.StartupUpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+        public const string UpdateWithoutOtaWarning = "VersionUpdate.UpdateWithoutOtaWarning";
         public const string ResourceApi = "VersionUpdate.ResourceApi";
         public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates";
         public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
