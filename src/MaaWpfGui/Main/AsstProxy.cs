@@ -1707,15 +1707,24 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "BattleFormationSelected":
-                    var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["selected"]?.ToString());
-                    var group_name = subTaskDetails!["group_name"]?.ToString();
-                    if (group_name is not null && oper_name != group_name)
                     {
-                        oper_name = $"{group_name} => {oper_name}";
+                        var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["selected"]?.ToString());
+                        var group_name = subTaskDetails!["group_name"]?.ToString();
+                        if (group_name is not null && oper_name != group_name)
+                        {
+                            oper_name = $"{group_name} => {oper_name}";
+                        }
+
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + oper_name);
+                        break;
                     }
 
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + oper_name);
-                    break;
+                case "BattleFormationOperUnavailable":
+                    {
+                        var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationOperUnavailable"), oper_name, subTaskDetails["requirement_type"]));
+                        break;
+                    }
 
                 case "CopilotAction":
                     {

@@ -481,8 +481,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
             ret = ret && ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(module) }).run();
             if (!ret) {
-                LogError << __FUNCTION__ << "| Module " << std::to_string(module)
+                LogWarn << __FUNCTION__ << "| Module " << std::to_string(module)
                          << "not found, please check the module number";
+
+                json::value info = basic_info_with_what("BattleFormationOperUnavailable");
+                info["details"]["oper_name"] = name;
+                info["details"]["requirement_type"] = "module";
+                callback(AsstMsg::SubTaskExtraInfo, info);
                 ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
                 sleep(delay);
                 // 继续检查同组其他干员
