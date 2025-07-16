@@ -2719,6 +2719,14 @@
         "sortId": -10000,
         "usage": "用于在“繁荣馈赠”中兑换奖励的凭证。"
     },
+    "so_char_exp_1": {
+        "classifyType": "NONE",
+        "description": "特勤干员作战环境更加复杂，情况十分多变，录制过程相当艰苦。但能为日后的作战提供帮助，一切都是值得的。\n此次的总集篇特别追加了花絮版。",
+        "icon": "so_char_exp_1.png",
+        "name": "特勤作战记录",
+        "sortId": -10000,
+        "usage": "记录了特勤干员作战录像的储存装置，可以增加特勤干员的经验值。"
+    },
     "token_Obsidian": {
         "classifyType": "NONE",
         "description": "虽然不知道有什么用，但收集来也没错，毕竟商务部门一定会发现它的价值的。",
