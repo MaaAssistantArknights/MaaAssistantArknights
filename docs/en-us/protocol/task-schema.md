@@ -243,11 +243,11 @@ Virtual tasks can be divided into **command virtual tasks** (`#none` / `#self` /
 | back | # Preceding task name | `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` will be skipped if it appears directly<sup>3</sup> |
 | next, sub, etc. | # The field corresponding to the previous task name | Take `next` for example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` will be skipped if it appears directly |
 
-_Note<sup>1</sup>: `"#none"` generally used in conjunction with the template task to add prefixes, or used in the `baseTask` field to avoid unnecessary fields in multi-file inheritance._
+*Note<sup>1</sup>: `"#none"` generally used in conjunction with the template task to add prefixes, or used in the `baseTask` field to avoid unnecessary fields in multi-file inheritance.*
 
-_Note<sup>2</sup>: `"XXX#self"` has the same meaning as `"#self"`._
+*Note<sup>2</sup>: `"XXX#self"` has the same meaning as `"#self"`.*
 
-_Note<sup>3</sup>: When several tasks have `"next": [ "#back" ]`, `"T1@T2@T3"` represents executing `T3`, `T2`, and `T1` in sequence._
+*Note<sup>3</sup>: When several tasks have `"next": [ "#back" ]`, `"T1@T2@T3"` represents executing `T3`, `T2`, and `T1` in sequence.*
 
 ### Multi-File Task
 

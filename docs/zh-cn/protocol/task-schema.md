@@ -242,11 +242,11 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 |     back     |   # 前面的任务名   |                                      `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过<sup>3</sup>                         |
 | next, sub 等 | # 前任务名对应字段 |                      以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                       |
 
-_Note<sup>1</sup>: `"#none"` 一般配合模板任务增加前缀的特性使用，或用在字段 `baseTask` 中避免多文件继承不必要的字段。_
+*Note<sup>1</sup>: `"#none"` 一般配合模板任务增加前缀的特性使用，或用在字段 `baseTask` 中避免多文件继承不必要的字段。*
 
-_Note<sup>2</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
+*Note<sup>2</sup>: `"XXX#self"` 与 `"#self"` 含义相同。*
 
-_Note<sup>3</sup>: 当几个任务有 `"next": [ "#back" ]` 时，`"T1@T2@T3"` 代表依次执行 `T3`, `T2`, `T1`。_
+*Note<sup>3</sup>: 当几个任务有 `"next": [ "#back" ]` 时，`"T1@T2@T3"` 代表依次执行 `T3`, `T2`, `T1`。*
 
 ### 多文件任务
 
