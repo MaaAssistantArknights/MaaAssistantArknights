@@ -62,7 +62,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     public string ClientType
     {
         get
-        {
+        { // v5.19.0-beta.1
             if (!string.IsNullOrEmpty(_clientType))
             {
                 return _clientType;
