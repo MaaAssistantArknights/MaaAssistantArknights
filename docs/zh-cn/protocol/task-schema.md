@@ -11,13 +11,13 @@ icon: material-symbols:task
 请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
 :::
 
-## 完整字段一览
+## 1. 完整字段一览
 
 ```json
 {
     "TaskName": {                           // 任务名，带 @ 时可能为特殊任务，字段默认值会有不同，详见下方特殊任务类型
 
-        "baseTask": "xxx",                  // 以 xxx 任务为模板生成任务，详细见下方特殊任务类型中的 Base Task
+        "baseTask": "xxx",                  // 以 xxx 任务为模板生成任务，即继承 xxx 任务，见下文 #任务的继承
 
         "algorithm": "MatchTemplate",       // 可选项，表示识别算法的类型
                                             // 不填写时默认为 MatchTemplate
@@ -171,73 +171,154 @@ icon: material-symbols:task
 }
 ```
 
-## 特殊任务类型
+## 2. 文档术语说明（不是语法）
 
-### Template Task（`@` 型任务）
+- `task::A`：指一个名为 `A` 的 task
+- `task::A->B`：指一个名为 `A` 的 task，且该 task 继承自 `task:B`
+- `arg::key`：指某个 task 的一个字段 `key`，关于字段见上文
+- `arg::key=value`：指某个 task 的一个字段 `key`，且这个字段的指为 `value`
 
-Template task 与 base task 合称**模板任务**。
+## 3. 任务的继承
 
-允许把某个任务 "A" 当作模板，然后 "B@A" 表示由 "A" 生成的任务。
+对于一个任务 `task::A` 继承另一个任务 `task::B`，称为**任务A 继承 任务B**，记作 `task::A->B`，此时，`task::A` 称为 `task::B` 的派生任务，`task::B` 称为 `task::A` 的基任务
 
-- 如果 `tasks.json` 中未显式定义任务 "B@A"，则在 `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` 字段中增加 `B@` 前缀（如遇任务名开头为 `#` 则增加 `B` 前缀），其余参数与 "A" 任务相同。就是说如果任务 "A" 有以下参数：
+### 3.1 继承方式
 
-    ```json
-    "A": {
-        "template": "A.png",
-        ...,
-        "next": [ "N1", "N2" ]
-    }
-    ```
+###  3.1.1 通过 Base Task 继承
 
-    就相当于同时定义了
+对于一个任务 `task::A`，可以通过设置其字段 `arg::baseTask=B`，使其继承 `task::B`，这称为任务的 Base Task 继承（BTE）。
 
-    ```json
-    "B@A": {
-        "template": "A.png",
-        ...,
-        "next": [ "B@N1", "B@N2" ]
-    }
-    ```
+例如，以下内容创建了一个 `task::A->B`：
+```json
+# 例 3.1.1
+{
+  "B": {
+    "template": "B.png",
+    "action": "ClickSelf",
+    "next": [ "C" ]
+  },
+  "A": {
+    "baseTask": "B" // 继承 task::B
+  }
+}
+```
 
-- 如果 `tasks.json` 中定义了任务 "B@A"，则：
-    1. 如果 "B@A" 与 "A" 的 `algorithm` 字段不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）
-    2. 如果是图像匹配任务，`template` 若未显式定义则为 `B@A.png`（而不是继承"A"的 `template` 名），其余情况任何派生类参数若未显式定义，直接继承 "A" 任务的参数
-    3. 对于 `TaskInfo` 基类中定义的参数（任何类型任务都有的参数，例如 `algorithm`, `roi`, `next` 等），若没有在 "B@A" 内显式定义，则除了上面提到的 `sub` 等五个字段在继承时会增加 "B@" 前缀外，其余参数直接继承 "A" 任务的参数
+### 3.1.2 通过 Template Task 继承（`@` 型继承）
 
-### Base Task
+可以通过显式 Template Task 或者隐式 Template Task 进行任务的继承，统称为任务的 Template Task 继承（BBE）。
 
-Base task 与 template task 合称**模板任务**。
+#### 显式继承
 
-有字段 `baseTask` 的任务即为 base task。
+对于一个任务，如果其命名为 `A@B`，那么相当于定义了一个 `task::A@B->B`（注意，并 **不是** `task::A->B`），这称为任务的 Template Task 显式继承（TTEE）。
 
-Base task 的逻辑优先于 template task。这意味着 `"B@A": { "baseTask": "C", ... }` 与任务 A 没有任何相关。
+例如，以下内容创建了一个 `task::A@B->B`：
+```json
+# 例 3.1.2-1
+{
+  "B": {
+    "template": "B.png",
+    "action": "ClickSelf",
+    "next": [ "C1", "C2" ]
+  },
+  "A@B": {  // 注意此时任务名是 A@B 而不是 A，调用 A 可能会出错
+  }
+}
+```
 
-任何参数若未显式定义则不加前缀地直接使用 `baseTask` 对应任务的参数，除了 `template` 未显式定义时仍为 `"任务名.png"`。
+#### 隐式继承
 
-#### 多文件任务
+如果在任务列表字段（`arg::next`，`arg::sub` 等）内调用类型 `A@B` 型任务，且 `task::A@B` 未显式定义时，MAA 将会隐式创建一个任务 `task::A@B->B`，这称为任务的 Template Task 隐式继承（TTIE）。
 
-如果后加载的任务文件 (例如外服 `tasks.json`; 下称文件二) 中定义的任务在先加载的任务文件 (例如国服 `tasks.json`; 下称文件一) 中也定义了同名任务，那么:
+例如，以下内容隐式创建了一个 `task::A@B->B`:
+```json
+# 例 3.1.2-2
+{
+  "B": {
+    "template": "B.png",
+    "action": "ClickSelf",
+    "next": [ "C1", "C2" ]
+  },
+  "D": {
+    "next": ["A@B"]         // 这里隐式创建了一个 task::A@B->B
+  }
+}
+```
+
+### 3.2 字段继承与覆写
+
+对于一个派生任务，其字段默认继承于其**基任务**（部分字段除外），同时可以手动进行覆写，此处指的覆写是将字段指修改为**不同于其基任务**的值。
+
+部分特殊字段继承遵循以下规律：
+
+1. 对于使用 BTE 和 BBEE 继承方式的任务，其字段 `arg::template` 不继承。
+2. 对于使用 BTE 和 BBEE 继承方式的任务，如果其字段 `arg::algorithm` 被覆写，则派生类参数不继承（即只继承 `TaskInfo` 定义的参数）
+3. 对于使用 BBIE 继承方式的任务，其字段 `arg::template` 继承，若其基任务无 `arg::template` 字段，则该字段为默认值（即 `任务名.png`）。
+4. 对于 BBE 继承方式的任务 `task::A@B->B`，其任务列表字段（`arg::next`，`arg::sub` 等）继承且在参数前**直接**添加 `A@`前缀（如遇参数为 `#` 开头则添加 `B` 前缀）
+
+例如，`# 例 3.1.1` 中 `task::A` 的定义相当于：
+```json
+# 例 3.2-1
+{
+  "A": {
+    "baseTask": "B"               // 继承 task::B
+    "algorithm": "MatchTemplate", // 这是 task 字段默认值
+    "template": "B.png",          // 此字段不继承（条目 1）
+    "action": "ClickSelf",        // 从 task::B 中继承的字段
+    "next": [ "C" ]               // 从 task::B 中继承的字段
+  }
+}
+```
+`# 例 3.1.2-1` 和 `# 例 3.1.2-2` 中 `task::A@B` 的定义相当于：
+```json
+# 例 3.2-2
+{
+  "A@B": {
+    "baseTask": "B",              // 相当于本任务继承 task::B
+    "algorithm": "MatchTemplate", // 这是 task 字段默认值
+    "action": "ClickSelf",        // 从 task::B 中继承的字段
+    "next": [ "A@C1", "A@C2" ]    // 从 task::B 中继承的字段，并添加前缀 A@（条目 4）
+    # 例 3.1.2-1
+    "template": "A@B.png"         // 不继承（条目 1）
+    # 例 3.1.2-2
+    "template": "B.png"           // 继承（条目 3）
+  }
+}
+```
+
+
+### 3.3 多文件任务冲突
+
+如果后加载的文件二和先加载的文件一中定义了同名任务 `task::A`，那么：
 
 - 如果文件二中任务没有 `baseTask` 字段，则直接继承文件一中同名任务的字段。
 - 如果文件二中任务有 `baseTask` 字段，则不继承文件一中同名任务的字段，而是直接覆盖。
 
-### Virtual Task（虚任务）
 
-Virtual task 也称 sharp task（`#` 型任务）。
 
-任务名带 `#` 的任务即为 virtual task。 `#` 后可接 `next`, `back`, `self`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`。
+## 4. 任务表达式
 
-|  虚任务类型  |        含义        |                                                                 简单示例                                                                 |
-| :----------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-|     self     |      父任务名      | `"A": {"next": "#self"}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": "A@B@C#self"}` 中的 `"A@B@C#self"` 被解释为 `"B"`。<sup>1</sup> |
-|     back     |   # 前面的任务名   |                                      `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过                                       |
-| next, sub 等 | # 前任务名对应字段 |                      以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                       |
+特殊表达式：
+
+|           表达式           |                 含义                 |                                                                    实例                                                                    |
+|:-----------------------:|:----------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|
+|       `(A)#none`        |           忽略此表达式以及其前面的参数           |                                       例如 `A#none + B` 被解释为 `B` <br> `["#none", "B"]` 被解释为 `["B"]`                                        |
+|       `(A)#self`        |            当前表达式所在的任务名             |       `"A": {"next": "#self"}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": "A@B@C#self"}` 中的 `"A@B@C#self"` 被解释为 `"B"`。<sup>1</sup>        |
+|       `(A)#back`        |             表达式前面的任务名              |                                             `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过                                             |
+| `(A)#next`, `(A)#sub` 等 |     表达式前面任务的 `next`，`sub` 等字段      |                               以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                               |
+|          `A@B`          |            创建隐式继承的派生任务             | `A@B`，若 `task::B` 中的 `next` 等任务列表字段含有 `#back`，则 `#back` 解析为 `A` <br> `A@B@C`，若 `task::C` 中的 `next` 等任务列表字段含有 `#back`，则 `#back` 解析为 `A@B` |
+|          `A+B`          | 任务列表合并（在 `next` 系列属性中同名任务只保留最靠前者）  |                                                                  `A+B`                                                                   |
+|          `A*B`          |              重复执行多次任务              |                                                  `(ClickCornerAfterPRTS+ClickCorner)*5`                                                  |
+|          `A^B`          |        任务列表差（在前者但不在后者，顺序不变）        |                                                       `(A+A+B+C)^(A+B+D)`（结果为 `C`）                                                       |
 
 _Note<sup>1</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
 
-#### 简单示例
+表达式 `A@B`, `(A)#X`, `A*B`, `A+B`, `A^B` 有优先级：`#X`> `A@B` = `A#X` > `A*B` > `A+B` = `A^B`。
+
+
+### 4.1 简单示例
 
 ```json
+# 例 4.1-1
 {
     "A": { "next": ["N1", "N2"] },
     "C": { "next": ["B@A#next"] },
@@ -254,6 +335,7 @@ _Note<sup>1</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
 可以得到：
 
 ```cpp
+# 例 4.1-2
 Task.get("C")->next = { "B@N1", "B@N2" };
 
 Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
@@ -261,13 +343,14 @@ Task.get("Loading")->next = { "Loading" };
 Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 ```
 
-#### 一些用途
+### 4.2 一些用途
 
 - 当几个任务有 `"next": [ "#back" ]` 时，`"Task1@Task2@Task3"` 代表依次执行 `Task3`, `Task2`, `Task1`。
 
-#### 其它相关
+### 4.3 其它相关
 
 ```json
+# 例 4.3-1
 {
     "A": { "next": ["N0"] },
     "B": { "next": ["A#next"] },
@@ -277,16 +360,30 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 
 以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
 
-## 运行时修改任务
+
+### 4.3 Schema 检验
+
+本项目为 `tasks.json` 配置了 json schema 检验，schema 文件为`docs/maa_tasks_schema.json`。
+
+#### 4.3.1 Visual Studio
+
+在 `MaaCore.vcxporj` 中已对其进行配置，开箱即用。提示效果较为晦涩，且有部分信息缺失。
+
+#### 4.3.2 Visual Studio Code
+
+在 `.vscode/settings.json` 中已对其进行配置，用 vscode 打开该**项目文件夹**即可使用。提示效果较好。
+
+## 5. 运行时修改任务
 
 - `Task.lazy_parse()` 可以在运行时加载 json 任务配置文件。 lazy_parse 规则与[多文件任务](#多文件任务)相同。
 - `Task.set_task_base()` 可以修改任务的 `baseTask` 字段。
 
-### 使用示例
+### 5.1 使用示例
 
 假设有任务配置文件如下：
 
 ```json
+# 例 5.1-1
 {
     "A": {
         "baseTask": "A_default"
@@ -306,6 +403,7 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 以下代码可以实现根据 mode 的值改变任务 "A"，同时会改变其它依赖任务 "A" 的任务，如 "B@A":
 
 ```cpp
+例 5.1-2
 switch (mode) {
 case 1:
     Task.set_task_base("A", "A_mode1");  // 基本上相当于用 A_mode1 的内容直接替换 A，下同
@@ -318,28 +416,3 @@ default:
     break;
 }
 ```
-
-## 表达式计算
-
-|    符号     |                           含义                           |                  实例                  |
-| :---------: | :------------------------------------------------------: | :------------------------------------: |
-|     `@`     |                         模板任务                         |            `Fight@ReturnTo`            |
-| `#`（单目） |                          虚任务                          |                `#self`                 |
-| `#`（双目） |                          虚任务                          |          `StartUpThemes#next`          |
-|     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
-|     `+`     | 任务列表合并（在 next 系列属性中同名任务只保留最靠前者） |                 `A+B`                  |
-|     `^`     |         任务列表差（在前者但不在后者，顺序不变）         |   `(A+A+B+C)^(A+B+D)`（结果为 `C`）    |
-
-运算符 `@`, `#`, `*`, `+`, `^` 有优先级：`#`（单目）> `@` = `#`（双目）> `*` > `+` = `^`。
-
-## Schema 检验
-
-本项目为 `tasks.json` 配置了 json schema 检验，schema 文件为`docs/maa_tasks_schema.json`。
-
-### Visual Studio
-
-在 `MaaCore.vcxporj` 中已对其进行配置，开箱即用。提示效果较为晦涩，且有部分信息缺失。
-
-### Visual Studio Code
-
-在 `.vscode/settings.json` 中已对其进行配置，用 vscode 打开该**项目文件夹**即可使用。提示效果较好。
