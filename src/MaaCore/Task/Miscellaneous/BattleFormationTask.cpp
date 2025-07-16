@@ -482,7 +482,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             ret = ret && ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(module) }).run();
             if (!ret) {
                 LogWarn << __FUNCTION__ << "| Module " << std::to_string(module)
-                         << "not found, please check the module number";
+                        << "not found, please check the module number";
 
                 json::value info = basic_info_with_what("BattleFormationOperUnavailable");
                 info["details"]["oper_name"] = name;
