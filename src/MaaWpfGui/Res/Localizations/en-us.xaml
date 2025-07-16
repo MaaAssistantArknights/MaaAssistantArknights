@@ -165,7 +165,6 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The operator is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢{key=StartingCoreChar}｣ Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢{key=StartingCoreChar}｣ Elite 2, No Battle</system:String>
-    <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with ｢Life Prioritizing Squad｣ and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ｢;｣</system:String>
@@ -199,12 +198,12 @@
     <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
     <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">Top Gun Squad</system:String>
-    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
-    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad1">High Ground Breakthrough Squad (高台突破分队)</system:String>
+    <system:String x:Key="IS5NewSquad2">Ground Breakthrough Squad (地面突破分队)</system:String>
+    <system:String x:Key="IS5NewSquad3">Tourist Squad (游客分队)</system:String>
+    <system:String x:Key="IS5NewSquad4">Sisuitai Squad (司岁台分队)</system:String>
+    <system:String x:Key="IS5NewSquad5">Tianshifu Squad (天师府分队)</system:String>
+    <system:String x:Key="SpecialForceSquad">Special Service Squad (特勤分队)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -400,6 +399,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">Idea[TODO]</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
