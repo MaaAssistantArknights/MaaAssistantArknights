@@ -1468,6 +1468,12 @@
         "roi": [985, 447, 295, 203],
         "next": ["Roguelike@Stages#next"]
     },
+    "Roguelike@StageTraderRefreshConfirm": {
+        "template": ["Roguelike@StageTraderRefreshConfirmNew.png", "Roguelike@StageTraderRefreshConfirm.png"],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [640, 414, 504, 154]
+    },
     "Roguelike@StageTraderRefreshWithDice": {
         "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",

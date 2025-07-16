@@ -805,12 +805,6 @@
         "roi": [230, 73, 212, 141],
         "next": ["Sami@Roguelike@StageTraderRefreshConfirm"]
     },
-    "Sami@Roguelike@StageTraderRefreshConfirm": {
-        "template": "Roguelike@StageTraderRefreshConfirm.png",
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [640, 414, 504, 154]
-    },
     "Sami@Roguelike@StageVerticalBoons": {
         "baseTask": "Roguelike@StageVertical",
         "templThreshold": 0.95,
