@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/react'
-import { BrowserTracing } from '@sentry/tracing'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -13,7 +12,7 @@ import './index.css'
 
 Sentry.init({
   dsn: 'https://6e0c079fe21c424189cc0f89ba7bb029@o1299554.ingest.sentry.io/6536125',
-  integrations: [new BrowserTracing()],
+  integrations: [Sentry.browserTracingIntegration()],
   tracesSampleRate: 0.01,
 })
 
