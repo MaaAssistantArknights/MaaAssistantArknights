@@ -5,6 +5,16 @@
 #include <stdio.h>
 #include <string>
 #include <thread>
+#include <print>
+
+void ASST_CALL callback(AsstMsgId msg, const char* details_json, void* custom_arg)
+{
+    if (msg == 2) {
+        return;
+    }
+
+    std::println("{}: {}", msg, details_json);
+}
 
 int main([[maybe_unused]] int argc, char** argv)
 {
@@ -38,7 +48,7 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 #endif
 
-    auto ptr = AsstCreate();
+    auto ptr = AsstCreateEx(callback, nullptr);
     if (ptr == nullptr) {
         std::cerr << "create failed" << std::endl;
         return -1;
@@ -50,10 +60,11 @@ int main([[maybe_unused]] int argc, char** argv)
 #endif
 
 #ifndef ASST_DEBUG
-    AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", nullptr, true);
+    //AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", nullptr, true);
 #else
-    AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG", true);
+    AsstAsyncConnect(ptr, R"("D:\\Program Files\\Netease\\MuMu\\nx_main\\adb.exe")", "127.0.0.1:5555", "", true);
 #endif
+    AsstAsyncConnect(ptr, R"("D:\\Program Files\\Netease\\MuMu\\nx_main\\adb.exe")", "127.0.0.1:5555", "", true);
     if (!AsstConnected(ptr)) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
@@ -65,7 +76,7 @@ int main([[maybe_unused]] int argc, char** argv)
 #ifndef ASST_DEBUG
 
     /* 详细参数可参考 docs / 集成文档.md */
-    AsstAppendTask(ptr, "StartUp", nullptr);
+    /*AsstAppendTask(ptr, "StartUp", nullptr);
 
     AsstAppendTask(ptr, "Fight", R"(
     {
@@ -120,20 +131,29 @@ int main([[maybe_unused]] int argc, char** argv)
         "roles": "稳扎稳打",
         "core_char": "维什戴尔"
     }
-    )");
+    )");*/
 
 #else
 
-    AsstAppendTask(ptr, "Debug", nullptr);
+    //AsstAppendTask(ptr, "Debug", nullptr);
 
 #endif
 
-    AsstStart(ptr);
+    //    AsstAppendTask(ptr, "Copilot", R"(
+    //{
+    //    "filename": "D:\\MaaAssistantArknights\\resource\\copilot\\OF-1_credit_fight.json"
+    //})");
 
-    while (AsstRunning(ptr)) {
-        std::this_thread::yield();
+    bool stop = false;
+    while (!stop) {
+        AsstAppendTask(ptr, "DGLab", nullptr);
+        AsstStart(ptr);
+
+        while (AsstRunning(ptr)) {
+            std::this_thread::yield();
+        }
     }
-
+    
     AsstStop(ptr);
     AsstDestroy(ptr);
     ptr = nullptr;

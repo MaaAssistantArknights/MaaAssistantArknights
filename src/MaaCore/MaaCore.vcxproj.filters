@@ -1061,6 +1061,12 @@
     <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Interface\DGLabTask.h">
+      <Filter>Source\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\BattleSpyTask.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1580,6 +1586,12 @@
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\DGLabTask.cpp">
+      <Filter>Source\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\BattleSpyTask.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
