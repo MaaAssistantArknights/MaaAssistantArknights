@@ -22,7 +22,7 @@
 
 ### 新增 | New
 
-* 初步适配界园肉鸽 @DavidWang19 @SherkeyXD @status102 @HYY1116 @Saratoga-Official @HYY1116 @ABA2396
+* 初步适配界园肉鸽 @DavidWang19 @SherkeyXD @status102 @HYY1116 @Saratoga-Official @ABA2396
 * 干员因模组不可选中时, 增加提示输出 (#13230) @status102
 
 ### 改进 | Improved
