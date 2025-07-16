@@ -1046,7 +1046,7 @@
         "roi": [1100, 0, 180, 200]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnnoBase",
+        "baseTask": "CloseAnnoBase",    
         "roi": [1125, 24, 138, 139]
     },
     "CloseAnnoSpecialAccess": {
@@ -1154,18 +1154,21 @@
         "Doc": "切换剿灭关卡-切尔诺伯格",
         "algorithm": "OcrDetect",
         "text": ["切尔诺伯格"],
+        "roi": [721, 22, 529, 693],
         "action": "ClickSelf"
     },
     "LungmenOutskirts": {
         "Doc": "切换剿灭关卡-龙门外环",
         "algorithm": "OcrDetect",
         "text": ["龙门外环"],
+        "roi": [721, 22, 529, 693],
         "action": "ClickSelf"
     },
     "LungmenDowntown": {
         "Doc": "切换剿灭关卡-龙门市区",
         "algorithm": "OcrDetect",
         "text": ["龙门市区"],
+        "roi": [721, 22, 529, 693],
         "action": "ClickSelf"
     },
     "AnnihilationSwitchButton": {
@@ -1173,6 +1176,7 @@
         "algorithm": "OcrDetect",
         "text": ["切换"],
         "action": "ClickSelf",
+        "roi": [966, 577, 315, 142],
         "next": ["#back"]
     },
     "AnnihilationReturn": {
