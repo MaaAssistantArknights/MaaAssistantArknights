@@ -996,7 +996,7 @@
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [100, 560, 100, 100],
         "rectMove": [550, 560, 100, 100],
-        "next": ["Roguelike@SelectTheme","Roguelike@PreSelectThemeSwipe"]
+        "next": ["Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipe"]
     },
     "Roguelike@QuickFormation": {
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
