@@ -399,7 +399,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             if (RoguelikeDifficulty != -1 && RoguelikeDifficulty != int.MaxValue && RoguelikeDifficulty > maxDifficulty)
             {
                 RoguelikeDifficulty = -1; // Set to "Current" if not supported
-            }            // 确保在更新列表之前先更新相关属性
+            }
+
+            // 确保在更新列表之前先更新相关属性
             UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
             UpdateRoguelikeRolesList();
@@ -593,7 +595,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
         }
-    }    /// <summary>
+    }
+
+    /// <summary>
     /// Gets a value indicating whether only need with elite two's core char.
     /// </summary>
     public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
@@ -603,25 +607,36 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the available start with rewards dictionary based on current theme.
     /// </summary>
-    public Dictionary<string, string> RoguelikeStartWithAllDict => _roguelikeStartWithAllDict;    private void UpdateRoguelikeStartWithAllDict()
+    public Dictionary<string, string> RoguelikeStartWithAllDict => _roguelikeStartWithAllDict;
+
+    private void UpdateRoguelikeStartWithAllDict()
     {
         var baseDict = new Dictionary<string, string>
         {
             { "Roguelike@LastReward", LocalizationHelper.GetString("RoguelikeStartWithKettle") },
             { "Roguelike@LastReward2", LocalizationHelper.GetString("RoguelikeStartWithShield") },
             { "Roguelike@LastReward3", LocalizationHelper.GetString("RoguelikeStartWithIngot") },
-            { "Roguelike@LastReward4", LocalizationHelper.GetString("RoguelikeStartWithHope") },
             { "Roguelike@LastRewardRand", LocalizationHelper.GetString("RoguelikeStartWithRandomReward") },
         };
 
         switch (RoguelikeTheme)
         {
+            case Theme.Phantom:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                break;
+
             case Theme.Mizuki:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
                 baseDict["Mizuki@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithKey");
                 baseDict["Mizuki@Roguelike@LastReward6"] = LocalizationHelper.GetString("RoguelikeStartWithDice");
                 break;
 
+            case Theme.Sami:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                break;
+
             case Theme.Sarkaz:
+                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
                 baseDict["Sarkaz@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithIdea");
                 break;
 
@@ -634,9 +649,17 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         OnPropertyChanged(nameof(RoguelikeStartWithAllDict));
     }
 
-    private object[] _roguelikeStartWithSelectListRaw = Array.Empty<object>();    private void UpdateRoguelikeStartWithSelectList()
+    private object[] _roguelikeStartWithSelectListRaw = Array.Empty<object>();
+
+    private void UpdateRoguelikeStartWithSelectList()
     {
-        _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4")
+        string lastRewardString = "Roguelike@LastReward";
+        if (RoguelikeTheme != Theme.JieGarden)
+        {
+            lastRewardString += " Roguelike@LastReward4";
+        }
+
+        _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, lastRewardString)
             .Split(' ')
             .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
             .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
@@ -1140,8 +1163,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 刷开局
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
-            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme== Theme.Mizuki || RoguelikeTheme== Theme.Sami,
-            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme== Theme.Mizuki || RoguelikeTheme== Theme.Sami,
+            StartWithEliteTwo = (RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
+            StartWithEliteTwoNonBattle = (RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
 
             // 月度小队
             MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,
