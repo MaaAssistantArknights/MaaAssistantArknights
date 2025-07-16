@@ -51,13 +51,18 @@
                     ]
                 }
             ]
+
         },
         {
             "name": "相会",
             "option_num": 3,
             "choose": 2
         },
-
+        {
+            "name": "老贼羽",
+            "option_num": 2,
+            "choose": 1
+        },
         {
             "name": "“鲍老板连锁”",
             "option_num": 2,
@@ -78,6 +83,22 @@
             "option_num": 2,
             "choose": 2
         },
+        {
+            "name": "掌灯与引烛",
+            "option_num":3,
+            "choose":3
+        },
+        {
+            "name": "会友",
+            "option_num":2,
+            "choose": 2
+        },
+        {
+            "name": "夕江对擂",
+            "option_num":2,
+            "choose":2
+        },
+
 
         {
             "name": "烟火漫天",
@@ -115,11 +136,13 @@
             "choose": 2
         },
 
+
         {
             "name": "海中来客",
             "option_num": 2,
             "choose": 2
         },
+
 
         {
             "name": "观者自在",
