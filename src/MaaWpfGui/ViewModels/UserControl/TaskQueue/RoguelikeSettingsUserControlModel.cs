@@ -1141,11 +1141,21 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 { "Roguelike@LastReward3", "ingot" },
                 { "Roguelike@LastReward4", "hope" },
                 { "Roguelike@LastRewardRand", "random" },
-                { "Mizuki@Roguelike@LastReward5", "key" },
-                { "Mizuki@Roguelike@LastReward6", "dice" },
-                { "Sarkaz@Roguelike@LastReward5", "ideas" },
-                { "JieGarden@Roguelike@LastReward5", "ticket" },
             };
+            if (RoguelikeTheme == Theme.Mizuki)
+            {
+                rewardKeys["Mizuki@Roguelike@LastReward5"] = "key";
+                rewardKeys["Mizuki@Roguelike@LastReward6"] = "dice";
+            }
+            else if (RoguelikeTheme == Theme.Sarkaz)
+            {
+                rewardKeys["Sarkaz@Roguelike@LastReward5"] = "ideas";
+            }
+            else if (RoguelikeTheme == Theme.JieGarden)
+            {
+                rewardKeys["JieGarden@Roguelike@LastReward5"] = "ticket";
+            }
+
             var startWithSelect = new JObject();
             foreach (var select in RoguelikeStartWithSelectList)
             {
