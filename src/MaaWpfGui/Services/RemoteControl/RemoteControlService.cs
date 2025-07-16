@@ -678,6 +678,10 @@ namespace MaaWpfGui.Services.RemoteControl
                             taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationSettingsUserControlModel.Instance.Serialize());
                             break;
 
+                        case "DGLab":
+                            taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.DGLab, DGLabSettingsUserControlModel.Instance.Serialize());
+                            break;
+
                         default:
                             --count;
 

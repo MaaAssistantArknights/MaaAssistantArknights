@@ -2191,6 +2191,7 @@ namespace MaaWpfGui.Main
             Reclamation,
             MiniGame,
             Custom,
+            DGLab,
         }
 
         private readonly HashSet<TaskType> _mainTaskTypes =
@@ -2205,6 +2206,7 @@ namespace MaaWpfGui.Main
             TaskType.Award,
             TaskType.Roguelike,
             TaskType.Reclamation,
+            TaskType.DGLab,
         ];
 
         private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
@@ -2239,6 +2241,12 @@ namespace MaaWpfGui.Main
 
             return false;
         }
+
+        public bool AsstAppendDGLab()
+        {
+            return AsstAppendTaskWithEncoding(TaskType.DGLab, AsstTaskType.DGLab) && AsstStart();
+        }
+
 
         public bool AsstAppendCloseDown(string clientType)
         {
@@ -2409,6 +2417,11 @@ namespace MaaWpfGui.Main
         public void AsstDestroy()
         {
             MaaService.AsstDestroy(_handle);
+        }
+
+        public bool AsstDGLab()
+        {
+            return MaaService.AsstDGLab(_handle);
         }
     }
 

@@ -80,6 +80,9 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern unsafe void AsstSetConnectionExtras(byte* name, byte* extras);
+
+        [DllImport("MaaCore.dll")]
+        public static extern bool AsstDGLab(AsstHandle handle);
     }
 
     public enum AsstTaskType : byte
@@ -163,5 +166,10 @@ namespace MaaWpfGui.Services
         /// 自定义任务
         /// </summary>
         Custom,
+
+        /// <summary>
+        /// DGLab
+        /// </summary>
+        DGLab,
     }
 }
