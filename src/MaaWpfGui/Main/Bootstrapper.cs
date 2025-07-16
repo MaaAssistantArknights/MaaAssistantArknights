@@ -14,7 +14,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -28,7 +27,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -39,7 +37,6 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
@@ -323,53 +320,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            // 以下是成就解锁逻辑
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
-            if ((DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
-                (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
-            }
-
-            if (Instances.VersionUpdateViewModel.IsDebugVersion())
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer3);
-            }
-            else if (Instances.VersionUpdateViewModel.IsBetaVersion())
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer1);
-            }
-            else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer2);
-            }
-
-            // 0.066% 概率触发
-            if (new Random().NextDouble() < 0.00066)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.Lucky);
-            }
-
-            var now = DateTime.Now;
-
-            // 0~4 点启动
-            if (now.Hour is >= 0 and < 4)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MidnightLaunch);
-            }
-
-            // 愚人节启动
-            if (now is { Month: 4, Day: 1 })
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.AprilFools);
-            }
-
-            // 春节
-            ChineseLunisolarCalendar chineseCalendar = new();
-            if (chineseCalendar.GetMonth(now) == 1 && chineseCalendar.GetDayOfMonth(now) == 1)
-            {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.LunarNewYear);
-            }
+            AchievementTrackerHelper.Events.Startup();
         }
 
         /// <inheritdoc/>
