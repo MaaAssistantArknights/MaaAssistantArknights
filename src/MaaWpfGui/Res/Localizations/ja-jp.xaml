@@ -199,6 +199,12 @@
     <system:String x:Key="IS4NewSquad6">破棘成金分隊</system:String>
     <system:String x:Key="IS4NewSquad7">擬態学者分隊</system:String>
     <system:String x:Key="IS4NewSquad8">専門家分隊</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -214,6 +220,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体（重装、術師、狙撃）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">前線支援（前衛、補助、医療）</system:String>
     <system:String x:Key="AsYourHeartDesires">自由自在（ランダム）</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
     <system:String x:Key="AlgorithmFinish">演算終了</system:String>
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
@@ -375,6 +383,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界ガーデン</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>

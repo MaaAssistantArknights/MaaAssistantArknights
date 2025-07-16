@@ -34,6 +34,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     buy_once();
     const auto& theme = m_config->get_theme();
     if ((theme == RoguelikeTheme::Sami || theme == RoguelikeTheme::Sarkaz) &&
+        // 界园可能没有免费刷新，先不进这里
         m_config->get_mode() == RoguelikeMode::Exp) {
         // 点击刷新
         ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run();

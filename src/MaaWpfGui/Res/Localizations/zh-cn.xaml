@@ -199,6 +199,12 @@
     <system:String x:Key="IS4NewSquad6">点刺成锭分队</system:String>
     <system:String x:Key="IS4NewSquad7">拟态学者分队</system:String>
     <system:String x:Key="IS4NewSquad8">专业人士分队</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分队</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分队</system:String>
+    <system:String x:Key="IS5NewSquad3">游客分队</system:String>
+    <system:String x:Key="IS5NewSquad4">司岁台分队</system:String>
+    <system:String x:Key="IS5NewSquad5">天师府分队</system:String>
+    <system:String x:Key="SpecialForceSquad">特勤分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -214,6 +220,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">稳扎稳打（重装、术师、狙击）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">取长补短（近卫、辅助、医疗）</system:String>
     <system:String x:Key="AsYourHeartDesires">随心所欲（三张随机）</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
     <system:String x:Key="AlgorithmFinish">演算结束</system:String>
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
@@ -375,6 +383,7 @@
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
