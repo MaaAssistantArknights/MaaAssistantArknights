@@ -588,7 +588,7 @@
     "JieGarden@Roguelike@StageGuidance": {
         "Doc": "指点迷津",
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
+        "templThreshold": 0.97,
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageProphecy": {
