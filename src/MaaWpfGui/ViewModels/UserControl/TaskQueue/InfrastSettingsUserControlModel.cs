@@ -653,7 +653,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             ContinueTraining = ContinueTraining,
             DormThreshold = DormThreshold / 100.0,
             DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
-            DormDormTrustEnabled = DormTrustEnabled,
+            DormTrustEnabled = DormTrustEnabled,
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             Filename = CustomInfrastFile,
