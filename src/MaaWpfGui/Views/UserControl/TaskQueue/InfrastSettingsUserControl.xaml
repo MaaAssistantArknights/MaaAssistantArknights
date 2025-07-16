@@ -29,7 +29,7 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <StackPanel Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <hc:ComboBox
                     Margin="0,4"
                     VerticalContentAlignment="Center"
@@ -73,21 +73,27 @@
             </StackPanel>
             <ComboBox
                 Margin="0,5"
+                d:IsEnabled="True"
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
                 DisplayMemberPath="Display"
                 IsEnabled="{c:Binding 'InfrastMode != task:InfrastMode.Custom',
-                                      Source={x:Static setting:TaskQueueViewModel.InfrastTask}}"
+                                      Source={x:Static task:InfrastSettingsUserControlModel.Instance}}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
             <controls:TextBlock
                 Width="220"
                 Margin="0,4"
+                d:Visibility="Visible"
                 Text="{DynamicResource InfrastModeRotationTip}"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Rotation',
-                                       Source={x:Static setting:TaskQueueViewModel.InfrastTask}}" />
-            <StackPanel Margin="0" Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation', Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
+                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}" />
+            <StackPanel
+                Margin="0"
+                d:Visibility="Visible"
+                Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
+                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Center"
@@ -154,22 +160,21 @@
         </StackPanel>
 
         <!--  高级设置  -->
-        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
             <CheckBox
                 Margin="0,10"
+                d:Visibility="Visible"
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static setting:TaskQueueViewModel.InfrastTask}}" />
-            <StackPanel 
+                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}" />
+            <StackPanel
                 Margin="0,10"
+                d:Visibility="Visible"
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static setting:TaskQueueViewModel.InfrastTask}}">
-                <CheckBox
-                    MaxWidth="{c:Binding '220 - ActualWidth',
-                                         ElementName=DormFilterNotStationedTipsTooltipBlock}"
-                    IsChecked="{c:Binding DormFilterNotStationedEnabled}">
+                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
                     <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource DormFilterNotStationedTips}" />
