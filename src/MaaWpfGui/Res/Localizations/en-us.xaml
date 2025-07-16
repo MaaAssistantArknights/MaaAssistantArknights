@@ -949,6 +949,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">Oper unavailable: {0}, Restriction: {1}</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>

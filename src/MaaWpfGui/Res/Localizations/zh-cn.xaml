@@ -953,6 +953,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Current">当前</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">干员不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
