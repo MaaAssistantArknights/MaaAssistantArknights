@@ -22,8 +22,9 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
+using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
-using Mode= MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
+
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 public class ReclamationSettingsUserControlModel : TaskViewModel
