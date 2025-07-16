@@ -1,5 +1,6 @@
 #include "DGLabTask.h"
-#include <Utils/Logger.hpp>
+
+#include "Utils/Logger.hpp"
 
 asst::DGLabTask::DGLabTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
@@ -12,8 +13,6 @@ asst::DGLabTask::DGLabTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DGLabTask::set_params(const json::value& params)
 {
-    (void)params;
-
     // 一直监视，直到战斗结束
     m_battle_spy_ptr->set_wait_until_end(true);
 
