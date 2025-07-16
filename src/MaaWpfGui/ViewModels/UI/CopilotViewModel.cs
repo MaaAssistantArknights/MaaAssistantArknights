@@ -1121,6 +1121,62 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// Connect To Emulator.
+        /// </summary>
+        /// <returns>bool</returns>
+        private async Task<bool> ConnectToEmulator()
+        {
+            string errMsg = string.Empty;
+            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+
+            // 尝试启动模拟器
+            if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
+
+                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            // 尝试断开连接, 然后重新连接
+            if (!connected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
+                await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
+                Instances.AsstProxy.Connected = false;
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            // 尝试重启 ADB
+            if (!connected && SettingsViewModel.ConnectSettings.AllowAdbRestart)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
+
+                await Task.Run(() => SettingsViewModel.StartSettings.RestartAdb());
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            // 尝试杀掉 ADB 进程
+            if (!connected && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
+
+                await Task.Run(() => SettingsViewModel.StartSettings.HardRestartAdb());
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            if (connected)
+            {
+                return true;
+            }
+
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            return false;
+        }
+
+
+        /// <summary>
         /// Starts copilot.
         /// </summary>
         /// <returns>Task</returns>
@@ -1165,11 +1221,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
-            string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!caught)
+            if (!await this.ConnectToEmulator())
             {
-                AddLog(errMsg, UiLogColor.Error);
                 Stop();
                 return;
             }
