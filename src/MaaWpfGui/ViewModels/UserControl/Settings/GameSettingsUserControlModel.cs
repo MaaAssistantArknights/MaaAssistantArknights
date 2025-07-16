@@ -46,7 +46,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public List<CombinedData> ClientTypeList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
             new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
             new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
             new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
@@ -55,14 +54,24 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
         ];
 
-    private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+    private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
 
     /// <summary>
     /// Gets or sets the client type.
     /// </summary>
     public string ClientType
     {
-        get => _clientType;
+        get
+        {
+            if (!string.IsNullOrEmpty(_clientType))
+            {
+                return _clientType;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, "Official");
+            return "Official";
+        }
+
         set
         {
             SetAndNotify(ref _clientType, value);
