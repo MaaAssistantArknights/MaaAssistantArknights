@@ -563,7 +563,8 @@
     "JieGarden@Roguelike@StageEncounterOptionFree": {},
     "JieGarden@Roguelike@StageEncounterOptionLeave": {},
     "JieGarden@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.85
+        "templThreshold": 0.85,
+        "roi": [900, 0, 180, 700]
     },
     "JieGarden@Roguelike@StageEncounterOptionWonderland": {
         "templThreshold": 0.95
