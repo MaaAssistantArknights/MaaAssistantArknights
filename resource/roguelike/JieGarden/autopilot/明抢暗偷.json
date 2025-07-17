@@ -52,6 +52,11 @@
             "groups": ["处决者"],
             "location": [3, 5],
             "direction": "left"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [5, 4],
+            "direction": "left"
         }
     ]
 }
