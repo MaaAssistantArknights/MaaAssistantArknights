@@ -40,10 +40,13 @@ namespace MaaWpfGui.Helper
             InitializeAchievements();
             Load();
             Sort();
-            Instances.MainWindowManager.WindowRestored += (_, _) =>
+            if (Instances.MainWindowManager is not null)
             {
-                TryShowPendingGrowls();
-            };
+                Instances.MainWindowManager.WindowRestored += (_, _) =>
+                {
+                    TryShowPendingGrowls();
+                };
+            }
 
             SearchCmd = new RelayCommand<string>(Search);
         }
@@ -138,7 +141,6 @@ namespace MaaWpfGui.Helper
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
                 .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
                 .ThenBy(kv => kv.Value.Category) // 按类别分组
-                                                 // .ThenBy(kv => kv.Value.IsHidden) // 隐藏排后面
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
@@ -270,7 +272,7 @@ namespace MaaWpfGui.Helper
         private void CheckProgressUnlock(Achievement achievement)
         {
             if (achievement.IsUnlocked ||
-                achievement.Target == default ||
+                achievement.Target == 0 ||
                 achievement.Progress < achievement.Target)
             {
                 return;
@@ -554,30 +556,30 @@ namespace MaaWpfGui.Helper
             /// </summary>
             public static void Startup()
             {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.FirstLaunch);
+                Instance.Unlock(AchievementIds.FirstLaunch);
                 if ((DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
                     (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.Martian);
+                    Instance.Unlock(AchievementIds.Martian);
                 }
 
                 if (Instances.VersionUpdateViewModel.IsDebugVersion())
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer3);
+                    Instance.Unlock(AchievementIds.Pioneer3);
                 }
                 else if (Instances.VersionUpdateViewModel.IsBetaVersion())
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer1);
+                    Instance.Unlock(AchievementIds.Pioneer1);
                 }
                 else if (!Instances.VersionUpdateViewModel.IsStdVersion()) // 内测版要传入 SemVersion 判断，这里就取反判断了
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.Pioneer2);
+                    Instance.Unlock(AchievementIds.Pioneer2);
                 }
 
                 // 0.066% 概率触发
                 if (new Random().NextDouble() < 0.00066)
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.Lucky);
+                    Instance.Unlock(AchievementIds.Lucky);
                 }
 
                 var now = DateTime.Now;
@@ -585,20 +587,20 @@ namespace MaaWpfGui.Helper
                 // 0~4 点启动
                 if (now.Hour is >= 0 and < 4)
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MidnightLaunch);
+                    Instance.Unlock(AchievementIds.MidnightLaunch);
                 }
 
                 // 愚人节启动
                 if (now is { Month: 4, Day: 1 })
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.AprilFools);
+                    Instance.Unlock(AchievementIds.AprilFools);
                 }
 
                 // 春节
                 ChineseLunisolarCalendar chineseCalendar = new();
                 if (chineseCalendar.GetMonth(now) == 1 && chineseCalendar.GetDayOfMonth(now) == 1)
                 {
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.LunarNewYear);
+                    Instance.Unlock(AchievementIds.LunarNewYear);
                 }
             }
         }
