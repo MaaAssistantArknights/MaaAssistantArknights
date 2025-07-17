@@ -36,8 +36,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    const RoguelikeMode& mode = m_config->get_mode();
-    const auto& event_map = RoguelikeStageEncounter.get_events(theme, mode);
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
@@ -46,24 +44,53 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     if (need_exit()) {
         return false;
     }
+
     cv::Mat image = ctrler()->get_image();
     OCRer name_analyzer(image);
     name_analyzer.set_task_info(event_name_task_ptr);
     name_analyzer.set_required(event_names);
+
     if (!name_analyzer.analyze()) {
         Log.error("Unknown Event");
-        auto info = basic_info_with_what("EncounterOcrError");
-        callback(AsstMsg::SubTaskExtraInfo, info);
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("EncounterOcrError"));
         return true;
     }
+
     const auto& result_vec = name_analyzer.get_result();
     if (result_vec.empty()) {
         Log.error("Unknown Event");
         return true;
     }
-    std::string text = result_vec.front().text;
 
-    Config::RoguelikeEvent event = event_map.at(text);
+    std::string current_event_name = result_vec.front().text;
+
+    // 处理主事件及其链式 next_event
+    while (!current_event_name.empty()) {
+        auto next = handle_single_event(current_event_name);
+        if (!next.has_value()) {
+            break;
+        }
+        current_event_name = *next;
+    }
+
+    return true;
+}
+
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_single_event(const std::string& event_name)
+{
+    const std::string& theme = m_config->get_theme();
+    const RoguelikeMode& mode = m_config->get_mode();
+    const auto& event_map = RoguelikeStageEncounter.get_events(theme, mode);
+
+    auto it = event_map.find(event_name);
+    if (it == event_map.end()) {
+        Log.error("Unknown event:", event_name);
+        return std::nullopt;
+    }
+
+    const auto& event = it->second;
+
+    cv::Mat image = ctrler()->get_image();
 
     int special_val = 0;
     // 水月的不好识别，先试试萨米能不能用
@@ -72,14 +99,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         analyzer.set_task_info(m_config->get_theme() + "@Roguelike@SpecialValRecognition");
         analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
         analyzer.set_use_char_model(true);
-
         if (!analyzer.analyze()) {
-            return false;
+            return std::nullopt;
         }
         utils::chars_to_number(analyzer.get_result().front().text, special_val);
     }
 
-    // 现在只有抗干扰值判断
     int choose_option = process_task(event, special_val);
     Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
 
@@ -101,11 +126,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         }
     }
 
-    const auto click_option_task_name = [&](const int item, const int total) {
+    const auto click_option_task_name = [&](int item, int total) {
         if (item > total) {
             Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);
-            return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" +
-                   std::to_string(total);
+            item = total;
         }
         return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" + std::to_string(item);
     };
@@ -119,18 +143,30 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     sleep(500);
     image = ctrler()->get_image();
     if (hp(image) <= 0) {
-        return true;
+        if (!event.next_event.empty()) {
+            Log.debug("HP gone but next_event exists:", event.next_event);
+            // 多点几次，确保跳过剧情动画
+            for (int i = 0; i < 3; ++i) {
+                ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
+                ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
+                image = ctrler()->get_image();
+                if (hp(image) > 0) {
+                    break;
+                }
+            }
+
+            return event.next_event;
+        }
+        return std::nullopt;
     }
 
     int max_time = event.option_num;
     while (max_time > 0) {
-        // 从下往上点
         for (int i = max_time; i > 0; --i) {
-            // 判断是否因为任何原因返回了Stages管辖范围
             bool ret =
                 ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).set_retry_times(3).run();
             if (ret) {
-                return true;
+                return std::nullopt;
             }
 
             for (int j = 0; j < 2; ++j) {
@@ -139,20 +175,19 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             }
 
             if (need_exit()) {
-                return false;
+                return std::nullopt;
             }
 
             sleep(500);
             image = ctrler()->get_image();
             if (hp(image) <= 0) {
-                return true;
+                return std::nullopt;
             }
         }
-        // 没通关结局有些事件会少选项
         --max_time;
     }
 
-    return false;
+    return event.next_event.empty() ? std::nullopt : std::optional { event.next_event };
 }
 
 bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(

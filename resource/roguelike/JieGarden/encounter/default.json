@@ -54,6 +54,12 @@
         },
         {
             "name": "相会",
+            "option_num": 1,
+            "choose": 1,
+            "next_event": "相会_next_event"
+        },
+        {
+            "name": "相会_next_event",
             "option_num": 3,
             "choose": 2
         },
