@@ -38,6 +38,11 @@ public class ReclamationTask : BaseTask
     /// Gets or sets 单次最大制造轮数
     /// </summary>
     public int MaxCraftCountPerRound { get; set; } = 16;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 商店购物
+    /// </summary>
+    public bool ClearStore { get; set; } = true;
 }
 
 public enum ReclamationTheme
