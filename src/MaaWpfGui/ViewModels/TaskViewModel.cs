@@ -87,13 +87,13 @@ public abstract class TaskViewModel : PropertyChangedBase
     protected T? GetTaskConfig<T>()
         where T : BaseTask
     {
-        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Current.CurrentIndex] as T;
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T;
     }
 
     protected bool SetTaskConfig<T>(Func<T, bool> isEqual, Action<T> @setValue, [CallerMemberName] string propertyName = "")
         where T : BaseTask
     {
-        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Current.CurrentIndex] is T task)
+        if (ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T task)
         {
             if (!isEqual(task))
             {
