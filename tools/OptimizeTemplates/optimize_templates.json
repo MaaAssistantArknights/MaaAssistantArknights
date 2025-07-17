@@ -4924,5 +4924,6 @@
     "resource/template/Roguelike/base/RoguelikeFormationOper": "880e8d8a935cb842315933c81af25a10aad929d6d265cf19bac2ebd4096373b2",
     "resource/template/Roguelike/base/RoguelikeRecruitOcrFlag": "7a276e75c88b47e39be3eb5c1a63ed908c98cb0237617f0b15848b1340fd2d0b",
     "resource/template/Roguelike/base/RoguelikeRecruitSupportElite1": "e7023daed761e6f0515c70b11b9e2ee6d0c5caf9856db0b497b9ad42e3a23f0d",
-    "resource/template/items/so_char_exp_1": "cb41bf2b18fe2bfab75da8fb32f84a152484eedd47dd74a3dab6e51f321bf7f5"
+    "resource/template/items/so_char_exp_1": "cb41bf2b18fe2bfab75da8fb32f84a152484eedd47dd74a3dab6e51f321bf7f5",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterDrawCopperResult": "d423eea2d172756ca48741d76ea2808e04cdc5db9c79f6f51fe72e44dc98aa38"
 }
