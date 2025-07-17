@@ -68,7 +68,7 @@ namespace MaaWpfGui.Helper
                 {
                     window.SourceInitialized += (s, e) =>
                     {
-                        bool success = SetWindowPlacement(window, ref wp);
+                        bool success = SetWindowPlacement(window, ref wp, minimizeDirectly: _minimizeDirectly);
                         _logger.Information("Whether the window placement was set successfully: {Success}", success);
                     };
                 }
@@ -96,16 +96,9 @@ namespace MaaWpfGui.Helper
                     };
                 }
 
-                if (_minimizeDirectly)
-                {
-                    window.WindowState = WindowState.Minimized;
-                }
-
-                // ReSharper disable once InvertIf
                 if (_minimizeDirectly && _minimizeToTray)
                 {
                     window.ShowInTaskbar = false;
-                    window.Visibility = Visibility.Hidden;
                 }
             }
             else if (!isDialog && ownerViewModel == null)
@@ -165,11 +158,7 @@ namespace MaaWpfGui.Helper
         public static bool ShowWindow(Window window)
         {
             window.Show();
-            if (window.WindowState == WindowState.Minimized)
-            {
-                window.WindowState = WindowState.Normal;
-            }
-
+            window.WindowState = WindowState.Normal;
             return window.Activate();
         }
 
