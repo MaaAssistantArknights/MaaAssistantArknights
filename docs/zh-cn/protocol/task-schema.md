@@ -184,12 +184,11 @@ icon: material-symbols:task
 
 ### 3.1 继承方式
 
-### 3.1.1 通过 Base Task 继承
+###  3.1.1 通过 Base Task 继承
 
 对于一个任务 `task::A`，可以通过设置其字段 `arg::baseTask=B`，使其继承 `task::B`，这称为任务的 Base Task 继承（BTE）。
 
 例如，以下内容创建了一个 `task::A->B`：
-
 ```json
 # 例 3.1.1
 {
@@ -213,7 +212,6 @@ icon: material-symbols:task
 对于一个任务，如果其命名为 `A@B`，那么相当于定义了一个 `task::A@B->B`（注意，并 **不是** `task::A->B`），这称为任务的 Template Task 显式继承（TTEE）。
 
 例如，以下内容创建了一个 `task::A@B->B`：
-
 ```json
 # 例 3.1.2-1
 {
@@ -232,7 +230,6 @@ icon: material-symbols:task
 如果在任务列表字段（`arg::next`，`arg::sub` 等）内调用类型 `A@B` 型任务，且 `task::A@B` 未显式定义时，MAA 将会隐式创建一个任务 `task::A@B->B`，这称为任务的 Template Task 隐式继承（TTIE）。
 
 例如，以下内容隐式创建了一个 `task::A@B->B`:
-
 ```json
 # 例 3.1.2-2
 {
@@ -259,7 +256,6 @@ icon: material-symbols:task
 4. 对于 BBE 继承方式的任务 `task::A@B->B`，其任务列表字段（`arg::next`，`arg::sub` 等）继承且在参数前**直接**添加 `A@`前缀（如遇参数为 `#` 开头则添加 `B` 前缀）
 
 例如，`# 例 3.1.1` 中 `task::A` 的定义相当于：
-
 ```json
 # 例 3.2-1
 {
@@ -272,9 +268,7 @@ icon: material-symbols:task
   }
 }
 ```
-
 `# 例 3.1.2-1` 和 `# 例 3.1.2-2` 中 `task::A@B` 的定义相当于：
-
 ```json
 # 例 3.2-2
 {
@@ -291,12 +285,15 @@ icon: material-symbols:task
 }
 ```
 
+
 ### 3.3 多文件任务冲突
 
 如果后加载的文件二和先加载的文件一中定义了同名任务 `task::A`，那么：
 
 - 如果文件二中任务没有 `baseTask` 字段，则直接继承文件一中同名任务的字段。
 - 如果文件二中任务有 `baseTask` 字段，则不继承文件一中同名任务的字段，而是直接覆盖。
+
+
 
 ## 4. 任务表达式
 
@@ -316,6 +313,7 @@ icon: material-symbols:task
 _Note<sup>1</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
 
 表达式 `A@B`, `(A)#X`, `A*B`, `A+B`, `A^B` 有优先级：`#X`> `A@B` = `A#X` > `A*B` > `A+B` = `A^B`。
+
 
 ### 4.1 简单示例
 
@@ -362,6 +360,7 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 
 以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
 
+
 ### 4.3 Schema 检验
 
 本项目为 `tasks.json` 配置了 json schema 检验，schema 文件为`docs/maa_tasks_schema.json`。
@@ -376,7 +375,7 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 
 ## 5. 运行时修改任务
 
-- `Task.lazy_parse()` 可以在运行时加载 json 任务配置文件。 lazy_parse 规则与[多文件任务](#多文件任务)相同。
+- `Task.lazy_parse()` 可以在运行时加载 json 任务配置文件。 lazy_parse 规则与[多文件任务冲突](#33-多文件任务冲突)相同。
 - `Task.set_task_base()` 可以修改任务的 `baseTask` 字段。
 
 ### 5.1 使用示例
