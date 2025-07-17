@@ -549,6 +549,20 @@
     "JieGarden@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
+    "JieGarden@Roguelike@StageEncounterDrawCopperResult": {
+        "Docs": "某些事件需要投钱来判断结果，这里要点一下投钱结果页面的对号",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "roi": [562, 568, 154, 152],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "JieGarden@Roguelike@StageEncounterOptions#next",
+            "JieGarden@Roguelike@StageEncounterSpecialClose",
+            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@ClickToDrops"
+        ]
+    },
     "JieGarden@Roguelike@StageEncounterEnter": {
         "roi": [1046, 458, 220, 203]
     },
@@ -568,6 +582,7 @@
             "JieGarden@Roguelike@StageSafeHouseReuse",
             "JieGarden@Roguelike@StageEncounterOptionLeave",
             "JieGarden@Roguelike@StageEncounterOptionWonderland",
+            "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@StageCombatDpsEnter",
