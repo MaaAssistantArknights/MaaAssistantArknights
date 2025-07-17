@@ -57,7 +57,7 @@ namespace MaaWpfGui.Models
 
         public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
 
-        public static TaskSettingVisibilityInfo Current { get; } = new();
+        public static TaskSettingVisibilityInfo Instance { get; } = new();
 
         // 长草任务当前选中
         public int CurrentIndex { get; set; }
