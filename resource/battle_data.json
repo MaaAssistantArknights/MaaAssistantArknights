@@ -372,8 +372,7 @@
         },
         "char_1040_blaze2": {
             "name": "烛煌",
-            "name_en": "烛煌",
-            "name_en_unavailable": true,
+            "name_en": "Blaze the Igniting Spark",
             "name_jp": "熾炎ブレイズ",
             "name_kr": "블레이즈 디 이그나이팅 스파크",
             "name_tw": "烛煌",
@@ -1239,8 +1238,7 @@
         },
         "char_2026_yu": {
             "name": "余",
-            "name_en": "余",
-            "name_en_unavailable": true,
+            "name_en": "Yu",
             "name_jp": "ユー",
             "name_kr": "위",
             "name_tw": "余",
@@ -2725,8 +2723,7 @@
         },
         "char_4052_surfer": {
             "name": "寻澜",
-            "name_en": "寻澜",
-            "name_en_unavailable": true,
+            "name_en": "Surfer",
             "name_jp": "サーファー",
             "name_kr": "서퍼",
             "name_tw": "寻澜",
@@ -3518,8 +3515,7 @@
         },
         "char_4172_xingzh": {
             "name": "行箸",
-            "name_en": "行箸",
-            "name_en_unavailable": true,
+            "name_en": "Xingzhu",
             "name_jp": "シィンズゥ",
             "name_kr": "싱주",
             "name_tw": "行箸",
@@ -8279,8 +8275,7 @@
         },
         "trap_211_cjgtow": {
             "name": "火灶",
-            "name_en": "火灶",
-            "name_en_unavailable": true,
+            "name_en": "Stove",
             "name_jp": "竈台",
             "name_kr": "화로",
             "name_tw": "火灶",
@@ -8292,8 +8287,7 @@
         },
         "trap_212_cjbtow": {
             "name": "废弃火灶",
-            "name_en": "废弃火灶",
-            "name_en_unavailable": true,
+            "name_en": "Derelict Stove",
             "name_jp": "破棄された竈台",
             "name_kr": "버려진 화로",
             "name_tw": "废弃火灶",
