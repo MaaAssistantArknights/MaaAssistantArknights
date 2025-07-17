@@ -59,6 +59,9 @@ namespace MaaWpfGui.Models
 
         public static TaskSettingVisibilityInfo Current { get; } = new();
 
+        // 长草任务当前选中
+        public int CurrentIndex { get; set; }
+
         public void Set(string taskName, bool enable)
         {
             if (Guide && enable)
