@@ -96,9 +96,11 @@ namespace MaaWpfGui.Helper
                     };
                 }
 
+                // ReSharper disable once InvertIf
                 if (_minimizeDirectly && _minimizeToTray)
                 {
                     window.ShowInTaskbar = false;
+                    window.Visibility = Visibility.Hidden;
                 }
             }
             else if (!isDialog && ownerViewModel == null)
