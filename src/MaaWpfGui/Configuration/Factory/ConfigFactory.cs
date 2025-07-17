@@ -247,16 +247,16 @@ public static class ConfigFactory
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-                _logger.Debug($"Configuration {key} has been set to {newValue}");
+                _logger.Debug("Configuration {Key} has been set to {NewValue}", key, newValue);
             }
             else
             {
-                _logger.Warning($"Failed to save configuration {key} to {newValue}");
+                _logger.Warning("Failed to save configuration {Key} to {NewValue}", key, newValue);
             }
         }
         catch (Exception e)
         {
-            _logger.Error(e, $"Failed to save configuration {key} to {newValue}, Exception: {e.Message}");
+            _logger.Error(e, "Failed to save configuration {Key} to {NewValue}, Exception: {Message}", key, newValue, e.Message);
         }
     }
 
@@ -305,20 +305,20 @@ public static class ConfigFactory
         {
             if (Save())
             {
-                _logger.Information($"{_configurationFile} saved");
+                _logger.Information("{File} saved", _configurationFile);
             }
             else
             {
-                _logger.Warning($"{_configurationFile} save failed");
+                _logger.Warning("{File} save failed", _configurationFile);
             }
 
             if (Save(_configurationBakFile))
             {
-                _logger.Information($"{_configurationBakFile} saved");
+                _logger.Information("{File} saved", _configurationBakFile);
             }
             else
             {
-                _logger.Warning($"{_configurationBakFile} save failed");
+                _logger.Warning("{File} save failed", _configurationBakFile);
             }
         }
     }

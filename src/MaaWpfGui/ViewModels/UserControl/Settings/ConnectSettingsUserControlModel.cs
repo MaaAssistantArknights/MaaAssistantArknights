@@ -319,7 +319,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         }
                         catch (Exception e)
                         {
-                            _logger.Warning($"An error occurred: {e.Message}");
+                            _logger.Warning("An error occurred: {EMessage}", e.Message);
                             EmulatorPath = string.Empty;
                         }
                     }
@@ -472,7 +472,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         }
                         catch (Exception e)
                         {
-                            _logger.Warning($"An error occurred: {e.Message}");
+                            _logger.Warning("An error occurred: {EMessage}", e.Message);
                             EmulatorPath = string.Empty;
                         }
                     }
@@ -771,7 +771,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
         catch (Exception e)
         {
-            _logger.Information(e.Message);
+            _logger.Warning(e, "Exception caught");
             error = LocalizationHelper.GetString("EmulatorException");
             return false;
         }
@@ -1085,7 +1085,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
         catch (Exception ex)
         {
-            _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
+            _logger.Error("An error occurred while deleting directory: {Type}: {ExMessage}", ex.GetType(), ex.Message);
             ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
             return;
         }

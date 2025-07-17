@@ -248,7 +248,7 @@ public class VersionUpdateViewModel : Screen
             }
             catch (Exception e)
             {
-                _logger.Error($"parse mirrorChyan changes.json error: {e.Message}");
+                _logger.Error("parse mirrorChyan changes.json error: {EMessage}", e.Message);
             }
         }
 
@@ -282,7 +282,7 @@ public class VersionUpdateViewModel : Screen
                 }
                 catch (Exception e)
                 {
-                    _logger.Error($"move file error, path: {path}, moveTo: {moveTo}, error: {e.Message}");
+                    _logger.Error("move file error, path: {Path}, moveTo: {MoveTo}, error: {EMessage}", path, moveTo, e.Message);
                     throw;
                 }
             }
@@ -299,8 +299,8 @@ public class VersionUpdateViewModel : Screen
                         FileSystem.DeleteDirectory(dir.Replace(extractDir, curDir), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
                     catch
-                    { // ignore
-                        _logger.Error($"delete directory error, dir: {dir}");
+                    {
+                        _logger.Error("delete directory error, dir: {Dir}", dir);
                     }
                 }));
             }
@@ -344,7 +344,7 @@ public class VersionUpdateViewModel : Screen
             }
             catch (Exception e)
             {
-                _logger.Error($"move file error, file name: {file}, error: {e.Message}");
+                _logger.Error("move file error, file name: {File}, error: {EMessage}", file, e.Message);
                 throw;
             }
         }
@@ -366,7 +366,7 @@ public class VersionUpdateViewModel : Screen
             }
             catch (Exception e)
             {
-                _logger.Error($"delete file error, filePath: {filePath}, error: {e.Message}, try to backup.");
+                _logger.Error("delete file error, filePath: {FilePath}, error: {EMessage}, try to backup.", filePath, e.Message);
                 int index = 0;
                 string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
                 string backupFilePath = $"{filePath}.{currentDate}.{index}";
@@ -383,7 +383,7 @@ public class VersionUpdateViewModel : Screen
                 }
                 catch (Exception e1)
                 {
-                    _logger.Error($"move file error, path: {filePath}, moveTo: {backupFilePath}, error: {e1.Message}");
+                    _logger.Error("move file error, path: {FilePath}, moveTo: {BackupFilePath}, error: {E1Message}", filePath, backupFilePath, e1.Message);
                     throw;
                 }
             }
@@ -1006,7 +1006,7 @@ public class VersionUpdateViewModel : Screen
         catch (Exception e)
         {
             _logger.Error(e, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
-            _logger.Information($"current_version: {_curVersion}, cdk: {cdk.Mask()}, arch: {arch}, channel: {channel}");
+            _logger.Information("current_version: {CurVersion}, cdk: {Mask}, arch: {Arch}, channel: {Channel}", _curVersion, cdk.Mask(), arch, channel);
         }
 
         if (response is null)
@@ -1016,7 +1016,7 @@ public class VersionUpdateViewModel : Screen
         }
 
         var jsonStr = await response.Content.ReadAsStringAsync();
-        _logger.Information(jsonStr);
+        _logger.Information("{JsonStr}", jsonStr);
         JObject? data = null;
         try
         {
@@ -1024,7 +1024,7 @@ public class VersionUpdateViewModel : Screen
         }
         catch (Exception ex)
         {
-            _logger.Error("Failed to deserialize json: " + ex.Message);
+            _logger.Error(ex, "Failed to deserialize json");
         }
 
         if (data is null)
@@ -1083,7 +1083,7 @@ public class VersionUpdateViewModel : Screen
         }
 
         // 到这里已经确定有新版本了
-        _logger.Information($"New version found: {version}");
+        _logger.Information("New version found: {Version}", version);
 
         _mirrorcVersionName = version;
         _mirrorcReleaseNote = data["data"]?["release_note"]?.ToString();

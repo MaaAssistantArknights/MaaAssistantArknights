@@ -975,7 +975,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception ex)
             {
                 AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
-                _logger.Error(ex.ToString());
+                _logger.Error(ex, "Exception caught");
             }
         }
 

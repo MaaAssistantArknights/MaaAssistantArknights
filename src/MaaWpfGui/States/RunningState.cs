@@ -202,7 +202,7 @@ namespace MaaWpfGui.States
 
                 if (confirmed >= confirmTimes)
                 {
-                    _logger.Information($"Idle state confirmed after {confirmTimes} checks.");
+                    _logger.Information("Idle state confirmed after {ConfirmTimes} checks.", confirmTimes);
                     return;
                 }
             }

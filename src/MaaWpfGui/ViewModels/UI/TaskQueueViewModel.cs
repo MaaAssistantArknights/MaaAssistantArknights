@@ -256,7 +256,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool HasOtherMaa()
             {
                 var processesCount = Process.GetProcessesByName("MAA").Length;
-                _logger.Information($"MAA processes count: {processesCount}");
+                _logger.Information("MAA processes count: {ProcessesCount}", processesCount);
                 return processesCount > 1;
             }
 
@@ -505,7 +505,7 @@ namespace MaaWpfGui.ViewModels.UI
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
             {
-                _logger.Information($"waiting for update check: {delayTime}");
+                _logger.Information("waiting for update check: {DelayTime}", delayTime);
                 await Task.Delay(delayTime);
                 await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
                 await ResourceUpdater.ResourceUpdateAndReloadAsync();
@@ -572,14 +572,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
-                _logger.Information($"Scheduled configuration change: Timer Index: {configIndex}");
+                _logger.Information("Scheduled configuration change: Timer Index: {ConfigIndex}", configIndex);
                 HandleConfigChange(configIndex);
                 return;
             }
 
             if (timeToStart)
             {
-                _logger.Information($"Scheduled start: Timer Index: {configIndex}");
+                _logger.Information("Scheduled start: Timer Index: {ConfigIndex}", configIndex);
                 await HandleScheduledStart(configIndex);
 
                 SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
@@ -602,7 +602,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (SettingsViewModel.TimerSettings.CustomConfig &&
                     Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig)
                 {
-                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig}");
+                    _logger.Warning(
+                        "Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {ConfigIndex}). Current Configuration: {CurrentConfiguration}, Scheduled Configuration: {TimerConfig}",
+                        configIndex,
+                        Instances.SettingsViewModel.CurrentConfiguration,
+                        SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig);
                     return;
                 }
 
@@ -668,10 +672,10 @@ namespace MaaWpfGui.ViewModels.UI
                     dialog.Close();
                     tcs.TrySetResult(true);
                 };
-                _logger.Information($"Timer wait time: {seconds}");
+                _logger.Information("Timer wait time: {Seconds}", seconds);
                 await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
-                _logger.Information($"Timer canceled: {canceled}");
+                _logger.Information("Timer canceled: {Canceled}", canceled);
                 return canceled;
             }
         }
@@ -989,7 +993,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
                 LogItemViewModels.Add(log);
-                _logger.Information(content);
+                _logger.Information("{Content}", content);
             });
         }
 
@@ -1002,7 +1006,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 LogItemViewModels.Clear();
                 _logger.Information("Main windows log clear.");
-                _logger.Information(string.Empty);
+                _logger.Information("{Empty}", string.Empty);
             });
         }
 
