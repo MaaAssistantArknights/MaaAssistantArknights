@@ -111,14 +111,7 @@
     },
     "JieGarden@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
-        "roi": [549, 440, 123, 130],
-        "method": "RGBCount",
-        "colorScales": [
-            [
-                [110, 110, 110],
-                [130, 130, 130]
-            ]
-        ],
+        "roi": [563, 486, 174, 125],
         "next": [
             "JieGarden@Roguelike@StageEncounterEnter",
             "JieGarden@Roguelike@Stages#next",
