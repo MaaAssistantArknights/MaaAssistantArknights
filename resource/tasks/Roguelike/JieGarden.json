@@ -589,7 +589,12 @@
         "Doc": "指点迷津",
         "baseTask": "JieGarden@Roguelike@Stage",
         "templThreshold": 0.97,
-        "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
+        "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageGuidanceEnter": {
+        "baseTask": "JieGarden@Roguelike@StageEnter",
+        "template": "JieGarden@Roguelike@StageBoskyPassageEnter.png",
+        "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageProphecy": {
         "Doc": "命运所指",
