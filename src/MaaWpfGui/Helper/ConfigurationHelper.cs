@@ -450,20 +450,20 @@ namespace MaaWpfGui.Helper
 
                 if (Save())
                 {
-                    _logger.Information($"{_configurationFile} saved");
+                    _logger.Information("{File} saved", _configurationFile);
                 }
                 else
                 {
-                    _logger.Warning($"{_configurationFile} save failed");
+                    _logger.Warning("{File} save failed", _configurationFile);
                 }
 
                 if (Save(_configurationBakFile))
                 {
-                    _logger.Information($"{_configurationBakFile} saved");
+                    _logger.Information("{File} saved", _configurationBakFile);
                 }
                 else
                 {
-                    _logger.Warning($"{_configurationBakFile} save failed");
+                    _logger.Warning("{File} save failed", _configurationBakFile);
                 }
             }
 

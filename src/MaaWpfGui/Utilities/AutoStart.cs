@@ -102,14 +102,14 @@ namespace MaaWpfGui.Utilities
                 if (key == null)
                 {
                     error = "Failed to open registry key.";
-                    _logger.Error(error);
+                    _logger.Error("{ErrorMessage}", error);
                     return false;
                 }
 
                 if (set)
                 {
                     key.SetValue(_registryKeyName, "\"" + _fileValue + "\"");
-                    _logger.Information($"Set [{_registryKeyName}, \"{_fileValue}\"] into \"{CurrentUserRunKey}\"");
+                    _logger.Information("Set [{RegistryKeyName}, \"{FileValue}\"] into \"{CurrentUserRunKey}\"", _registryKeyName, _fileValue, CurrentUserRunKey);
                 }
                 else
                 {
@@ -121,19 +121,19 @@ namespace MaaWpfGui.Utilities
             catch (UnauthorizedAccessException uae)
             {
                 error = "Unauthorized access: " + uae.Message;
-                _logger.Error(error);
+                _logger.Error("{ErrorMessage}", error);
                 return false;
             }
             catch (SecurityException se)
             {
                 error = "Security error: " + se.Message;
-                _logger.Error(error);
+                _logger.Error("{ErrorMessage}", error);
                 return false;
             }
             catch (Exception e)
             {
                 error = "Failed to set startup: " + e.Message;
-                _logger.Error(error);
+                _logger.Error("{ErrorMessage}", error);
                 return false;
             }
         }

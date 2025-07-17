@@ -428,7 +428,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             {
                 var count = CustomInfrastPlanInfoList.Count;
                 value = ((value % count) + count) % count;
-                _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
+                _logger.Warning("CustomInfrastPlanIndex out of range, reset to Index % Count: {Value}", value);
             }
 
             if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)

@@ -124,11 +124,11 @@ namespace MaaWpfGui.Services.Notification
 
             if (sendResult.Successful)
             {
-                _logger.Information($"Successfully sent Email notification to {emailTo}");
+                _logger.Information("Successfully sent Email notification to {EmailTo}", emailTo);
                 return true;
             }
 
-            _logger.Warning($"Failed to send Email notification to {emailTo}, {sendResult.ErrorMessages}");
+            _logger.Warning("Failed to send Email notification to {EmailTo}, {SendResultErrorMessages}", emailTo, sendResult.ErrorMessages);
             return false;
         }
 

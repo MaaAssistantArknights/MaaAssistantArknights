@@ -66,7 +66,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         {
             if (!AutoStart.SetStart(value, out var error))
             {
-                _logger.Error($"Failed to set startup: {error}");
+                _logger.Error("Failed to set startup: {Error}", error);
                 MessageBoxHelper.Show(error, LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning);
                 return;
             }
@@ -366,14 +366,11 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 if (e is Win32Exception { NativeErrorCode: 740 })
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning);
-
-                    _logger.Warning(
-                        "Insufficient permissions to start the emulator:\n" +
-                        "EmulatorPath: " + EmulatorPath + "\n");
+                    _logger.Warning("Insufficient permissions to start the emulator:\nEmulatorPath: {EmulatorPath}\n", EmulatorPath);
                 }
                 else
                 {
-                    _logger.Warning("Emulator start failed with error: " + e.Message);
+                    _logger.Warning("Emulator start failed with error: {ErrorMessage}", e.Message);
                 }
 
                 return;
@@ -496,13 +493,13 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error($"Error in HardRestartAdb: {ex.Message}");
+                    _logger.Error("Error in HardRestartAdb: {ExMessage}", ex.Message);
                 }
             }
         }
         catch (Exception ex)
         {
-            _logger.Error($"Error in HardRestartAdb: {ex.Message}");
+            _logger.Error("Error in HardRestartAdb: {ExMessage}", ex.Message);
         }
     }
 

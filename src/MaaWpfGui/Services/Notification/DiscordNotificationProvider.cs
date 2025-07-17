@@ -70,7 +70,7 @@ public class DiscordNotificationProvider(IHttpService httpService) : IExternalNo
             return null;
         }
 
-        _logger.Debug($"DM Channel created successfully. Channel ID: {channelId}");
+        _logger.Debug("DM Channel created successfully. Channel ID: {JsonElement}", channelId);
         return channelId.GetString();
     }
 

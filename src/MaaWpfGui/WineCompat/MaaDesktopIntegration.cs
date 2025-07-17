@@ -18,7 +18,7 @@ namespace MaaWpfGui.WineCompat;
 
 internal unsafe class MaaDesktopIntegration
 {
-    public static bool Availabile { get; }
+    public static bool Available { get; }
 
     static MaaDesktopIntegration()
     {
@@ -28,7 +28,7 @@ internal unsafe class MaaDesktopIntegration
             {
                 glib_default_main_loop_start();
                 AppDomain.CurrentDomain.ProcessExit += (sender, args) => glib_default_main_loop_stop();
-                Availabile = true;
+                Available = true;
             }
             catch
             {
