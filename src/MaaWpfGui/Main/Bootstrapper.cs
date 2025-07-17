@@ -328,6 +328,8 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+
             Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
