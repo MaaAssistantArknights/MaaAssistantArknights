@@ -802,7 +802,7 @@
             ["DuckLord.*sImprov", "即兴鸭子演出"],
             ["AboutThatUrsusMan", "有关那位乌萨斯人"],
             ["CoffinofEvil", "邪恶之棺"],
-            ["EyeForanEye", "以血还血"],
+            ["^EyeForanEye$", "以血还血"],
             ["SecretEntrance", "暗门"],
             ["SecretChamber", "密室"],
             ["JunkyardBazaar", "废品地摊"],
