@@ -971,9 +971,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _tasksStatus.Clear();
 
-                    TaskQueueViewModel.FightTask.ResetFightVariables();
-                    TaskQueueViewModel.RecruitTask.ResetRecruitVariables();
-                    Instances.TaskQueueViewModel.ResetTaskSelection();
+                    Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                     _runningState.SetIdle(true);
 
                     if (isMainTaskQueueAllCompleted)

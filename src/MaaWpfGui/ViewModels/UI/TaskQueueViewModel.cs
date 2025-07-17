@@ -633,9 +633,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
 
-                FightTask.ResetFightVariables();
-                RecruitTask.ResetRecruitVariables();
-                ResetTaskSelection();
+                ResetAllTemporaryVariable();
                 InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
 
@@ -1154,6 +1152,16 @@ namespace MaaWpfGui.ViewModels.UI
                     item.IsChecked = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
                 }
             }
+        }
+
+        /// <summary>
+        /// 还原所有临时变量（右键半选）
+        /// </summary>
+        public void ResetAllTemporaryVariable()
+        {
+            FightTask.ResetFightVariables();
+            RecruitTask.ResetRecruitVariables();
+            ResetTaskSelection();
         }
 
         private async Task<bool> ConnectToEmulator()
