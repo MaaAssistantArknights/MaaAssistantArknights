@@ -128,27 +128,34 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     {
         var roguelikeMode = RoguelikeMode;
 
-        RoguelikeModeList =
-        [
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
-
-            // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-            // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
-            new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
-        ];
-
         switch (RoguelikeTheme)
         {
-            case Theme.Sami:
-                RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = Mode.CLP_PDS });
+            case Theme.JieGarden:
+                RoguelikeModeList =
+                [
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
+                ];
+                break;
+
+            default:
+                RoguelikeModeList =
+                [
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
+                ];
+
+                if (RoguelikeTheme == Theme.Sami)
+                {
+                    RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = Mode.CLP_PDS });
+                }
 
                 break;
         }
 
-        RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : 0;
+        RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : RoguelikeModeList.First().Value;
     }
 
     private void UpdateRoguelikeRolesList()
