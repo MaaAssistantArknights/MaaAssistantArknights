@@ -208,7 +208,7 @@
             ["Leonhardt", "莱恩哈特"],
             ["Absinthe", "苦艾"],
             ["Ceobe", "刻俄柏"],
-            ["Leizi?", "惊蛰"],
+            ["^Leizi?$", "惊蛰"],
             ["Mostima", "莫斯提马"],
             ["^Greyy$", "格雷伊"],
             ["Nightmare", "夜魔"],
