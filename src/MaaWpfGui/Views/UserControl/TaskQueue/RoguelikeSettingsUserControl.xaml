@@ -198,8 +198,9 @@
                 d:Visibility="Visible"
                 hc:ListBoxAttach.SelectedItems="{Binding RoguelikeStartWithSelectListRaw}"
                 hc:TitleElement.Title="{DynamicResource RoguelikeStartWithSelectList}"
-                DisplayMemberPath="Value"
-                ItemsSource="{Binding RoguelikeStartWithAllDict}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding RoguelikeStartAwards}"
+                SelectedValuePath="Value"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwoRaw',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
             <CheckBox
