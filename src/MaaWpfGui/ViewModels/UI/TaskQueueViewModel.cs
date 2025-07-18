@@ -58,9 +58,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly IContainer _container;
 
-        private StageManager? _stageManager;
-
-        private StageManager StageManager => _stageManager ??= _container.Get<StageManager>();
+        private readonly StageManager _stageManager;
 
         private readonly RunningState _runningState;
 
@@ -323,6 +321,7 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel(IContainer container)
         {
             _container = container;
+            _stageManager = _container.Get<StageManager>();
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
             _runningState.TimeoutOccurred += RunningState_TimeOut;
@@ -770,7 +769,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="name">stage name</param>
         /// <returns>Whether the specified stage is open</returns>
-        public bool IsStageOpen(string name) => StageManager.IsStageOpen(name, CurDayOfWeek);
+        public bool IsStageOpen(string name) => _stageManager.IsStageOpen(name, CurDayOfWeek);
 
         /// <summary>
         /// Returns the valid stage if it is open, otherwise returns an empty string.
@@ -794,7 +793,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>可等待</returns>
         public async Task UpdateDatePromptAndStagesWeb()
         {
-            await StageManager.UpdateStageWeb();
+            await _stageManager.UpdateStageWeb();
             UpdateDatePromptAndStagesLocally();
         }
 
@@ -843,7 +842,7 @@ namespace MaaWpfGui.ViewModels.UI
             // Closed activity stages
             foreach (var stage in FightTask.Stages)
             {
-                if (stage == null || StageManager.GetStageInfo(stage).IsActivityClosed() != true)
+                if (stage == null || _stageManager.GetStageInfo(stage).IsActivityClosed() != true)
                 {
                     continue;
                 }
@@ -852,7 +851,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // Open stages today
-            var openStages = StageManager.GetStageTips(CurDayOfWeek);
+            var openStages = _stageManager.GetStageTips(CurDayOfWeek);
             if (!string.IsNullOrEmpty(openStages))
             {
                 builder.Append(openStages);
@@ -892,10 +891,10 @@ namespace MaaWpfGui.ViewModels.UI
                 var rss = FightTask.RemainingSanityStage ?? string.Empty;
 
                 var tempStageList = hideUnavailableStage
-                    ? StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
-                    : StageManager.GetStageList().ToList();
+                    ? _stageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
+                    : _stageManager.GetStageList().ToList();
 
-                var tempRemainingSanityStageList = StageManager.GetStageList().ToList();
+                var tempRemainingSanityStageList = _stageManager.GetStageList().ToList();
 
                 if (FightTask.CustomStageCode)
                 {
@@ -970,7 +969,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var stageInfo = StageManager.GetStageInfo(stage);
+            var stageInfo = _stageManager.GetStageInfo(stage);
             stageList.Add(stageInfo);
         }
 
