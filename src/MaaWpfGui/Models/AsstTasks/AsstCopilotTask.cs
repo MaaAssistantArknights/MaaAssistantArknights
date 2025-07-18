@@ -43,9 +43,9 @@ public class AsstCopilotTask : AsstBaseTask
     public bool AddTrust { get; set; }
 
     /// <summary>
-    /// 模组不满足要求时选择默认模组
+    /// 跳过未满足的干员属性要求
     /// </summary>
-    public bool SkipModuleWhenNotSatisfied { get; set; }
+    public bool SkipUnmetOperatorRequirements { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 导航至关卡（启用自动战斗序列、取消代理）
@@ -84,7 +84,7 @@ public class AsstCopilotTask : AsstBaseTask
             ["filename"] = FileName,
             ["formation"] = Formation,
             ["add_trust"] = AddTrust,
-            ["skip_module_when_not_satisfied"] = SkipModuleWhenNotSatisfied,
+            ["skip_unmet_operator_requirements"] = SkipUnmetOperatorRequirements,
             ["need_navigate"] = NeedNavigate,
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,

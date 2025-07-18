@@ -218,15 +218,15 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _addTrust, value);
         }
 
-        private bool _skipModuleWhenNotSatisfied;
+        private bool _skipUnmetOperatorRequirements;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        public bool SkipModuleWhenNotSatisfied
+        public bool SkipUnmetOperatorRequirements
         {
-            get => _skipModuleWhenNotSatisfied;
-            set => SetAndNotify(ref _skipModuleWhenNotSatisfied, value);
+            get => _skipUnmetOperatorRequirements;
+            set => SetAndNotify(ref _skipUnmetOperatorRequirements, value);
         }
 
         private bool _useSanityPotion;
@@ -1205,7 +1205,7 @@ namespace MaaWpfGui.ViewModels.UI
                          FileName = model.FilePath,
                          Formation = _form,
                          AddTrust = _addTrust,
-                         SkipModuleWhenNotSatisfied = _skipModuleWhenNotSatisfied,
+                         SkipUnmetOperatorRequirements = _skipUnmetOperatorRequirements,
                          UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                          NeedNavigate = UseCopilotList,
                          StageName = model.Name,
@@ -1248,7 +1248,7 @@ namespace MaaWpfGui.ViewModels.UI
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                     Formation = _form,
                     AddTrust = _addTrust,
-                    SkipModuleWhenNotSatisfied = _skipModuleWhenNotSatisfied,
+                    SkipUnmetOperatorRequirements = _skipUnmetOperatorRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,

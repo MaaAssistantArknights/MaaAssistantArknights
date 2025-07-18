@@ -488,7 +488,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                 info["details"]["oper_name"] = name;
                 info["details"]["requirement_type"] = "module";
                 callback(AsstMsg::SubTaskExtraInfo, info);
-                if (m_skip_module_when_not_satisfied) {
+                if (m_skip_unmet_operator_requirements) {
                     // 模组不满足时选择默认模组
                     LogInfo << __FUNCTION__ << "| Module " << std::to_string(module)
                             << " not satisfied, skip module selection";

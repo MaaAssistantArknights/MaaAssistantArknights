@@ -764,7 +764,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 오퍼레이터 추가</system:String>
-    <system:String x:Key="SkipModuleWhenNotSatisfied">모듈이 요구 사항을 충족하지 않을 때 기본 모듈을 선택합니다.</system:String>
+    <system:String x:Key="SkipUnmetOperatorRequirements">미충족 오퍼레이터 속성 요구사항 건너뛰기</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>

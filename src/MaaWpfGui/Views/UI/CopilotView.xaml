@@ -153,8 +153,8 @@
                         Height="30"
                         Margin="10,0"
                         HorizontalAlignment="Center"
-                        Content="{DynamicResource SkipModuleWhenNotSatisfied}"
-                        IsChecked="{Binding SkipModuleWhenNotSatisfied}"
+                        Content="{DynamicResource SkipUnmetOperatorRequirements}"
+                        IsChecked="{Binding SkipUnmetOperatorRequirements}"
                         IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding Form}" />
                 </StackPanel>
