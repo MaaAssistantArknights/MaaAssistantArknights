@@ -636,20 +636,20 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         RoguelikeStartAwards = list;
         OnPropertyChanged(nameof(RoguelikeStartAwards));
-        _roguelikeStartWithSelectListRaw = RoguelikeStartAwards.Where(i => config.Contains(i.Value)).ToArray();
-        OnPropertyChanged(nameof(RoguelikeStartWithSelectListRaw));
+        _roguelikeStartWithSelectList = RoguelikeStartAwards.Where(i => config.Contains(i.Value)).ToArray();
+        OnPropertyChanged(nameof(RoguelikeStartWithSelectList));
     }
 
-    private object[] _roguelikeStartWithSelectListRaw = [];
+    private object[] _roguelikeStartWithSelectList = [];
 
-    public object[] RoguelikeStartWithSelectListRaw
+    public object[] RoguelikeStartWithSelectList
     {
-        get => _roguelikeStartWithSelectListRaw;
+        get => _roguelikeStartWithSelectList;
         set
         {
-            SetAndNotify(ref _roguelikeStartWithSelectListRaw, value);
+            SetAndNotify(ref _roguelikeStartWithSelectList, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
-            var config = string.Join(' ', _roguelikeStartWithSelectListRaw.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList());
+            var config = string.Join(' ', _roguelikeStartWithSelectList.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
         }
     }
@@ -1170,7 +1170,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             };
 
             var startWithSelect = new JObject();
-            foreach (var select in _roguelikeStartWithSelectListRaw.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList())
+            foreach (var select in _roguelikeStartWithSelectList.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList())
             {
                 if (rewardKeys.TryGetValue(select, out var paramKey))
                 {
