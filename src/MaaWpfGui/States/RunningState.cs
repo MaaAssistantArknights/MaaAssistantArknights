@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -158,7 +159,11 @@ namespace MaaWpfGui.States
         public bool GetIdle() => Idle;
 
         // action
-        public void SetIdle(bool idle) => Idle = idle;
+        public void SetIdle(bool idle, [CallerMemberName] string caller = "")
+        {
+            _logger.Information("Idle: {Old} to {New} (called from {Caller})", Idle, idle, caller);
+            Idle = idle;
+        }
 
         // subscribes
         public event EventHandler<bool> IdleChanged;
