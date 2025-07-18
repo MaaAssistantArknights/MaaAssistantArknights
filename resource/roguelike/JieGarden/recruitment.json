@@ -3006,7 +3006,7 @@
                 },
                 {
                     "name": "罗比菈塔",
-                    "skill": 2,
+                    "skill": 1,
                     "is_key": true,
                     "recruit_priority": 424
                 },
@@ -3619,12 +3619,7 @@
                     "promote_priority": 550
                 },
                 {
-                    "name": "锡人",
-                    "skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 870,
-                    "promote_priority": 610
+                    "name": "锡人"
                 },
                 {
                     "name": "引星棘刺",

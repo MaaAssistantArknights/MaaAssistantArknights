@@ -31,6 +31,7 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         }
         event.option_num = event_json.get("option_num", 0);
         event.default_choose = event_json.get("choose", 0);
+        event.next_event = event_json.get("next_event", "");
         if (auto choice_require_opt = event_json.find("choices");
             choice_require_opt && choice_require_opt->is_array()) {
             for (const auto& choice_json : choice_require_opt->as_array()) {

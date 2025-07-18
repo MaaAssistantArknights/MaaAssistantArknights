@@ -150,7 +150,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _enableSetting, value);
-                TaskSettingVisibilityInfo.Current.Set(OriginalName, value);
+                TaskSettingVisibilityInfo.Instance.Set(OriginalName, value);
             }
         }
     }

@@ -142,7 +142,7 @@ namespace MaaWpfGui.Models
             catch (Exception e)
             {
                 _logger.Error(e, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
-                _logger.Information($"current_version: {currentVersion}, cdk: {cdk.Mask()}");
+                _logger.Information("current_version: {CurrentVersion}, cdk: {Mask}", currentVersion, cdk.Mask());
             }
 
             if (response is null)
@@ -153,7 +153,7 @@ namespace MaaWpfGui.Models
             }
 
             var jsonStr = await response.Content.ReadAsStringAsync();
-            _logger.Information(jsonStr);
+            _logger.Information("{jsonStr}", jsonStr);
             JObject? data = null;
             try
             {
@@ -161,7 +161,7 @@ namespace MaaWpfGui.Models
             }
             catch (Exception ex)
             {
-                _logger.Error("Failed to deserialize json: " + ex.Message);
+                _logger.Error(ex, "Failed to deserialize json.");
             }
 
             if (data is null)
@@ -214,7 +214,7 @@ namespace MaaWpfGui.Models
 
             // 到这里已经确定有新版本了
             var releaseNote = data["data"]?["release_note"]?.ToString();
-            _logger.Information($"New version found: {version:yyyy-MM-dd+HH:mm:ss.fff}, {releaseNote}");
+            _logger.Information("New version found: {DateTime:yyyy-MM-dd+HH:mm:ss.fff}, {ReleaseNote}", version, releaseNote);
 
             releaseNote = LocalizationHelper.FormatResourceVersion(releaseNote, version);
 

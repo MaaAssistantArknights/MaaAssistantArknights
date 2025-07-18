@@ -1087,6 +1087,14 @@
         "sortId": 10026,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_5801": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_5801.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10026,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1886,6 +1894,14 @@
         "name": "'Strategist' Point",
         "sortId": -10000,
         "usage": "Can be exchanged for the corresponding event stage reward."
+    },
+    "act40side_token_yumyum": {
+        "classifyType": "NONE",
+        "description": "Fragrant meals fear not alleys deep. While invisible to the eye on most days, there is a faint aroma lining the streets, at least until it hits you face-first in front of the restaurant it leads to. You need only follow the scent of food to paint a grand picture of Baizao's streets.",
+        "icon": "act40side_token_yumyum.png",
+        "name": "'Yum-yum!'",
+        "sortId": -10000,
+        "usage": "Don't be stingy when it comes to complimenting how the food smells at Savors at Yu's. Once the Young Chef's ears go red from praise, he'll discreetly add a few extra bits of meat to your plate."
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",

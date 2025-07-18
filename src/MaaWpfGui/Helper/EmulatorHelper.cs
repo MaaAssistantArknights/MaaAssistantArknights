@@ -102,8 +102,8 @@ public class EmulatorHelper
         }
         catch (Exception e)
         {
-            _logger.Error("Error: Failed to get the main module of the emulator process.");
-            _logger.Error(e.Message);
+            _logger.Error("Failed to get the main module of the emulator process.");
+            _logger.Error("{EMessage}", e.Message);
             return false;
         }
 
@@ -145,15 +145,15 @@ public class EmulatorHelper
             var process = Process.Start(startInfo);
             if (process != null && process.WaitForExit(5000))
             {
-                _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                _logger.Information("Emulator at index {EmuIndex} closed through console. Console path: {ConsolePath}", emuIndex, consolePath);
                 return true;
             }
 
-            _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+            _logger.Warning("Console process at index {EmuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {ConsolePath}", emuIndex, consolePath);
             return KillEmulatorByWindow();
         }
 
-        _logger.Error("Error: MuMuManager.exe not found in expected locations (new or old). Trying to kill emulator by window.");
+        _logger.Error("MuMuManager.exe not found in expected locations (new or old). Trying to kill emulator by window.");
         return KillEmulatorByWindow();
     }
 
@@ -191,8 +191,8 @@ public class EmulatorHelper
         }
         catch (Exception e)
         {
-            _logger.Error("Error: Failed to get the main module of the emulator process.");
-            _logger.Error(e.Message);
+            _logger.Error("Failed to get the main module of the emulator process.");
+            _logger.Error("{EMessage}", e.Message);
             return false;
         }
 
@@ -221,15 +221,15 @@ public class EmulatorHelper
             var process = Process.Start(startInfo);
             if (process != null && process.WaitForExit(5000))
             {
-                _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                _logger.Information("Emulator at index {EmuIndex} closed through console. Console path: {ConsolePath}", emuIndex, consolePath);
                 return true;
             }
 
-            _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+            _logger.Warning("Console process at index {EmuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {ConsolePath}", emuIndex, consolePath);
             return KillEmulatorByWindow();
         }
 
-        _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+        _logger.Error("`{ConsolePath}` not found, try to kill emulator by window.", consolePath);
         return KillEmulatorByWindow();
     }
 
@@ -265,8 +265,8 @@ public class EmulatorHelper
         }
         catch (Exception e)
         {
-            _logger.Error("Error: Failed to get the main module of the emulator process.");
-            _logger.Error(e.Message);
+            _logger.Error("Failed to get the main module of the emulator process.");
+            _logger.Error("{EMessage}", e.Message);
             return false;
         }
 
@@ -295,15 +295,15 @@ public class EmulatorHelper
             var process = Process.Start(startInfo);
             if (process != null && process.WaitForExit(5000))
             {
-                _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                _logger.Information("Emulator at index {EmuIndex} closed through console. Console path: {ConsolePath}", emuIndex, consolePath);
                 return true;
             }
 
-            _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+            _logger.Warning("Console process at index {EmuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {ConsolePath}", emuIndex, consolePath);
             return KillEmulatorByWindow();
         }
 
-        _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+        _logger.Error("Error: `{ConsolePath}` not found, try to kill emulator by window.", consolePath);
         return KillEmulatorByWindow();
     }
 
@@ -331,8 +331,8 @@ public class EmulatorHelper
         }
         catch (Exception e)
         {
-            _logger.Error("Error: Failed to get the main module of the emulator process.");
-            _logger.Error(e.Message);
+            _logger.Error("Failed to get the main module of the emulator process.");
+            _logger.Error("{EMessage}", e.Message);
             return false;
         }
 
@@ -361,15 +361,15 @@ public class EmulatorHelper
             var process = Process.Start(startInfo);
             if (process != null && process.WaitForExit(5000))
             {
-                _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                _logger.Information("Emulator at index {EmuIndex} closed through console. Console path: {ConsolePath}", emuIndex, consolePath);
                 return true;
             }
 
-            _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+            _logger.Warning("Console process at index {EmuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {ConsolePath}", emuIndex, consolePath);
             return KillEmulatorByWindow();
         }
 
-        _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+        _logger.Error("`{ConsolePath}` not found, try to kill emulator by window.", consolePath);
         return KillEmulatorByWindow();
     }
 
@@ -392,8 +392,8 @@ public class EmulatorHelper
         }
         catch (Exception e)
         {
-            _logger.Error("Error: Failed to get the main module of the emulator process.");
-            _logger.Error(e.Message);
+            _logger.Error("Failed to get the main module of the emulator process.");
+            _logger.Error("{EMessage}", e.Message);
             return false;
         }
 
@@ -413,21 +413,21 @@ public class EmulatorHelper
 
         if (File.Exists(consolePath))
         {
-            _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+            _logger.Information("`{ConsolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.", consolePath);
             return KillEmulatorByWindow();
         }
 
-        _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+        _logger.Information("`{ConsolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.", consolePath);
         if (KillEmulator())
         {
             return true;
         }
 
-        _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+        _logger.Information("Failed to kill emulator by the port, try to kill emulator process with PID.");
 
         if (processes.Length > 1)
         {
-            _logger.Warning("Warning: The number of elements in processes exceeds one, abort closing the emulator");
+            _logger.Warning("The number of elements in processes exceeds one, abort closing the emulator");
             return false;
         }
 
@@ -438,7 +438,7 @@ public class EmulatorHelper
         }
         catch (Exception ex)
         {
-            _logger.Error($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+            _logger.Error(ex, "Failed to kill emulator process with PID {ProcessId}. Exception: {ExceptionMessage}", processes[0].Id, ex.Message);
         }
 
         return false;
@@ -453,10 +453,10 @@ public class EmulatorHelper
         int pid = 0;
         var windowName = new[]
         {
-                "明日方舟",
-                "明日方舟 - MuMu模拟器",
-                "BlueStacks App Player",
-                "BlueStacks",
+            "明日方舟",
+            "明日方舟 - MuMu模拟器",
+            "BlueStacks App Player",
+            "BlueStacks",
         };
         foreach (string i in windowName)
         {
@@ -484,12 +484,12 @@ public class EmulatorHelper
                 emulator.Kill();
                 if (emulator.WaitForExit(5000))
                 {
-                    _logger.Information($"Emulator with process ID {pid} killed successfully.");
+                    _logger.Information("Emulator with process ID {Pid} killed successfully.", pid);
                     KillEmulator();
                     return true;
                 }
 
-                _logger.Error($"Failed to kill emulator with process ID {pid}.");
+                _logger.Error("Failed to kill emulator with process ID {Pid}.", pid);
                 return false;
             }
 
@@ -516,8 +516,8 @@ public class EmulatorHelper
     {
         int pid = 0;
         string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
-        var port = address.StartsWith("127") ? address.Substring(10) : "5555";
-        _logger.Information($"address: {address}, port: {port}");
+        var port = address.StartsWith("127") ? address[10..] : "5555";
+        _logger.Information("address: {Address}, port: {Port}", address, port);
 
         string portCmd = "netstat -ano|findstr \"" + port + "\"";
         Process checkCmd = new Process

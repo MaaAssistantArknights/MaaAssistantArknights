@@ -106,7 +106,7 @@ namespace MaaWpfGui.Utilities
             }
             catch (Exception ex)
             {
-                _logger.Error($"Shutdown error: {ex.Message}");
+                _logger.Error("Shutdown error: {ExMessage}", ex.Message);
                 return false;
             }
             finally
@@ -126,7 +126,7 @@ namespace MaaWpfGui.Utilities
             }
             catch (Exception ex)
             {
-                _logger.Error($"Hibernate error: {ex.Message}");
+                _logger.Error("Hibernate error: {ExMessage}", ex.Message);
                 return false;
             }
         }
@@ -139,7 +139,7 @@ namespace MaaWpfGui.Utilities
             }
             catch (Exception ex)
             {
-                _logger.Error($"Sleep error: {ex.Message}");
+                _logger.Error("Sleep error: {ExMessage}", ex.Message);
                 return false;
             }
         }

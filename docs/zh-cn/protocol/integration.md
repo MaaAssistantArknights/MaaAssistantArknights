@@ -228,10 +228,11 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 {
     "enable": bool,  // 是否启用本任务，可选，默认值 true
     "theme": string, // 主题，可选，默认值 "Phantom"
-                     //   Phantom - 傀影与猩红血钻
-                     //   Mizuki  - 水月与深蓝之树
-                     //   Sami    - 探索者的银凇止境
-                     //   Sarkaz  - 萨卡兹的无终奇语
+                     //   Phantom   - 傀影与猩红血钻
+                     //   Mizuki    - 水月与深蓝之树
+                     //   Sami      - 探索者的银凇止境
+                     //   Sarkaz    - 萨卡兹的无终奇语
+                     //   JieGarden - 界园
     "mode": int,     // 模式，可选，默认值 0
                      //   0 - 刷分/奖励点数，尽可能稳定地打更多层数
                      //   1 - 刷源石锭，第一层投资完就退出
@@ -266,7 +267,16 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
       string,                           // 仅当开局拥有列表中所有的密文板时才算凹开局成功；
       ...                               // 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板；
     ],
-    "start_with_two_ideas": bool,       // 是否凹 2 构想开局，可选，默认值 false；仅在主题为 Sarkaz 且模式为 4 时有效
+    "collectible_mode_start_list": {    // 凹开局时期望的奖励，可选，默认全为 false；仅在模式为 4 时有效
+        "hot_water": bool,              // 热水壶奖励，常用于触发烧水机制（通用）
+        "shield": bool,                 // 护盾奖励，约等于额外生命值（通用）
+        "ingot": bool,                  // 源石锭奖励（通用）
+        "hope": bool,                   // 希望奖励（通用，注意：JieGarden 主题下无 hope 奖励）
+        "random": bool,                 // 随机奖励选项：游戏中指“消耗所有源石锭换一个随机收藏品”（通用）
+        "key": bool,                    // 钥匙奖励，仅在 Mizuki 主题时有效
+        "dice": bool,                   // 骰子奖励，仅在 Mizuki 主题时有效
+        "ideas": bool,                  // 2 构想奖励，仅在 Sarkaz 主题时有效
+    },
     "use_foldartal": bool,                    // 是否使用密文板，模式 5 下默认值 false，其他模式下默认值 true；仅适用于 Sami 主题
     "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，模式 5 下默认值 true，其他模式下默认值 false
     "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，模式 5 下默认值 true，其他模式下默认值 false；
