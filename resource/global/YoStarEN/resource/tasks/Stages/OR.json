@@ -3,6 +3,7 @@
         "text": ["Joy", "Reunion", "Flavor", "Life"]
     },
     "ORChapterToOR": {
-        "text": ["FLAVOR", "Flavor", "FOOD", "Food", "AVO"]
+        "text": ["FLAVOR"],
+        "roi": [850, 531, 71, 18]
     }
 }
