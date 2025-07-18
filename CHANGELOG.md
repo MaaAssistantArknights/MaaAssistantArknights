@@ -2,12 +2,12 @@
 
 ### 新增 | New
 
+* 界园肉鸽更新战斗逻辑、事件选择 @DavidWang19 @ABA2396 @Saratoga-Official @SherkeyXD
 * macos 版本添加界园入口 @hguandl
 * maa-cli 版本初步适配界园肉鸽 (#13278) @wangl-cc
 
 ### 改进 | Improved
 
-* 界园肉鸽更新战斗逻辑、事件选择 @DavidWang19 @ABA2396 @Saratoga-Official @SherkeyXD
 * 新Config任务参数读写, 界面刷新, 任务添改base @status102
 * 优化加载顺序, 简化StageManager变量 (#13277) @status102
 * 肉鸽任务参数初始化简化 @status102
