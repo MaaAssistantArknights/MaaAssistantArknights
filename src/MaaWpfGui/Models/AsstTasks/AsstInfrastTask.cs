@@ -68,7 +68,7 @@ public class AsstInfrastTask : AsstBaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 宿舍是否使用蹭信赖功能
     /// </summary>
-    public bool DormDormTrustEnabled { get; set; }
+    public bool DormTrustEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 制造站搓玉是否补货
@@ -99,7 +99,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["continue_training"] = ContinueTraining,
             ["threshold"] = DormThreshold,
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
-            ["dorm_trust_enabled"] = DormDormTrustEnabled,
+            ["dorm_trust_enabled"] = DormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["reception_message_board"] = ReceptionMessageBoard,
             ["mode"] = (int)Mode,

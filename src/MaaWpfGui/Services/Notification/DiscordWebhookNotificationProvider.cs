@@ -61,7 +61,7 @@ public class DiscordWebhookNotificationProvider(IHttpService httpService) : IExt
         }
 
         var responseData = JsonSerializer.Deserialize<DiscordWebhookResponse>(response);
-        _logger.Warning($"Failed to send Discord Webhook, {responseData?.Message}");
+        _logger.Warning("Failed to send Discord Webhook, {ResponseDataMessage}", responseData?.Message);
 
         return false;
     }

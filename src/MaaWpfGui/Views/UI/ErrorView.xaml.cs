@@ -11,10 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,13 +30,13 @@ namespace MaaWpfGui.Views.UI
     /// </summary>
     public partial class ErrorView : INotifyPropertyChanged
     {
-        protected bool ShouldExit { get; set; }
+        protected bool ShouldExit { get; set; } = true;
 
-        public string ExceptionMessage { get; set; }
+        public string ExceptionMessage { get; set; } = string.Empty;
 
-        public string PossibleSolution { get; set; }
+        public string PossibleSolution { get; set; } = string.Empty;
 
-        public string ExceptionDetails { get; set; }
+        public string ExceptionDetails { get; set; } = string.Empty;
 
         private bool _congratulationsOnError = true;
 
@@ -93,10 +94,17 @@ namespace MaaWpfGui.Views.UI
             var isZhCn = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Collapsed;
 
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CongratulationError);
+            try
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.CongratulationError);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private static string GetSolution(string error, string details)
         {

@@ -150,11 +150,11 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
-            _logger.Information($"Version {uiVersion}");
-            _logger.Information($"Built at {builtDate:O}");
-            _logger.Information($"Maa ENV: {maaEnv}");
-            _logger.Information($"Command Line: {string.Join(' ', args)}");
-            _logger.Information($"User Dir {Directory.GetCurrentDirectory()}");
+            _logger.Information("Version {UiVersion}", uiVersion);
+            _logger.Information("Built at {BuiltDate:O}", builtDate);
+            _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
+            _logger.Information("Command Line: {Join}", string.Join(' ', args));
+            _logger.Information("User Dir {GetCurrentDirectory}", Directory.GetCurrentDirectory());
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -167,10 +167,10 @@ namespace MaaWpfGui.Main
 
             if (WineRuntimeInformation.IsRunningUnderWine)
             {
-                _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
+                _logger.Information("Running under Wine {WineVersion} on {HostSystemName}", WineRuntimeInformation.WineVersion, WineRuntimeInformation.HostSystemName);
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-                _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
-                _logger.Information($"MaaDesktopIntegration available: {MaaDesktopIntegration.Availabile}");
+                _logger.Information("MaaWineBridge status: {WineBridgeAvailability}", MaaWineBridge.Availability);
+                _logger.Information("MaaDesktopIntegration available: {Available}", MaaDesktopIntegration.Available);
             }
 
             _logger.Information("===================================");
@@ -280,7 +280,7 @@ namespace MaaWpfGui.Main
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
-            builder.Bind<StageManager>().ToSelf();
+            builder.Bind<StageManager>().ToSelf().InSingletonScope();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
 
@@ -328,10 +328,12 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+
             Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
-            _logger.Information(string.Empty);
+            _logger.Information("{Message}", string.Empty);
             Log.CloseAndFlush();
             base.OnExit(e);
 
@@ -404,7 +406,7 @@ namespace MaaWpfGui.Main
         public static void ShutdownAndRestartWithoutArgs([CallerMemberName] string caller = "")
         {
             _isRestartingWithoutArgs = true;
-            _logger.Information($"Shutdown and restart without Args, call by `{caller}`");
+            _logger.Information("Shutdown and restart without Args, call by `{Caller}`", caller);
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
@@ -418,7 +420,7 @@ namespace MaaWpfGui.Main
 
         public static void Shutdown([CallerMemberName] string caller = "")
         {
-            _logger.Information($"Shutdown called by `{caller}`");
+            _logger.Information("Shutdown called by `{Caller}`", caller);
             Execute.OnUIThread(Application.Current.Shutdown);
         }
 
@@ -508,7 +510,7 @@ namespace MaaWpfGui.Main
             }
             catch (Exception ex)
             {
-                _logger.Error($"Error updating configuration: {desiredConfig}, ex: {ex.Message}");
+                _logger.Error("Error updating configuration: {DesiredConfig}, ex: {ExMessage}", desiredConfig, ex.Message);
             }
 
             return false;

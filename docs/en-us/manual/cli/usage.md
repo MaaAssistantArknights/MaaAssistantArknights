@@ -47,7 +47,7 @@ After installing and configuring MaaCore, you can run tasks. maa-cli supports tw
 - `maa fight [stage]`: run a "fight" task, the `stage` is the stage to fight, like `1-7`, `CE-6`, etc.; if not given, the user will be prompted to input one.
 - `maa copilot <maa_uri>...`: run a "copilot" task, the `maa_uri` is the URI of a copilot task, multiple URIs will be executed in sequence, `maa_uri` can be `maa://1234` or local file path `./1234.json`.
 - `maa sscopilot <maa_uri>`: run a "sscopilot" task, the `maa_uri` is the URI of a sscopilot task.
-- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki`, `Sami` and `Sarkaz`.
+- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki`, `Sami`, `Sarkaz` and `JieGarden`.
 - `maa reclamation [theme]`: run a "reclamation" task, the `theme` is the theme of reclamation, and available themes are `Tales`.
 
 The above tasks accept some parameters, you can view the specific parameters by `maa <task> --help`.

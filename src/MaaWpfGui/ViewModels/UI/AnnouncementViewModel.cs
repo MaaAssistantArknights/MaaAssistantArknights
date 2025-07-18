@@ -253,15 +253,18 @@ namespace MaaWpfGui.ViewModels.UI
             var body = await HttpResponseHelper.GetStringAsync(response);
             if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
             {
-                _logger.Information($"old Announcement:\n" +
-                                    $"===================================\n" +
-                                    $"{AnnouncementInfo}\n" +
-                                    $"===================================\n" +
-                                    $"\n" +
-                                    $"new AnnouncementInfo:\n" +
-                                    $"===================================\n" +
-                                    $"{body}\n" +
-                                    $"===================================");
+                const string Template =
+                    "old Announcement:\n" +
+                    "===================================\n" +
+                    "{AnnouncementInfo}\n" +
+                    "===================================\n\n" +
+                    "new AnnouncementInfo:\n" +
+                    "===================================\n" +
+                    "{Body}\n" +
+                    "===================================";
+                _logger.Information(Template,
+                    AnnouncementInfo,
+                    body);
                 AnnouncementInfo = body;
                 DoNotRemindThisAnnouncementAgain = false;
             }

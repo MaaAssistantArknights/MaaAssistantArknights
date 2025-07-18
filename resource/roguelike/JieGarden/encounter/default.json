@@ -54,6 +54,12 @@
         },
         {
             "name": "相会",
+            "option_num": 1,
+            "choose": 1,
+            "next_event": "相会-收藏品选择"
+        },
+        {
+            "name": "相会-收藏品选择",
             "option_num": 3,
             "choose": 2
         },

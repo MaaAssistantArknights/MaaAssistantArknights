@@ -80,6 +80,9 @@
     "JieGarden@Roguelike@ClickToStartPoint": {
         "specificRect": [600, 600, 25, 25]
     },
+    "JieGarden@Roguelike@ClickToStartPointAfterFailed": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "JieGarden@Roguelike@CloseCollection": {
         "Doc": "深入调查/月度小队会给个藏品，要先关掉",
         "method": "RGBCount",
@@ -111,14 +114,7 @@
     },
     "JieGarden@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
-        "roi": [549, 440, 123, 130],
-        "method": "RGBCount",
-        "colorScales": [
-            [
-                [110, 110, 110],
-                [130, 130, 130]
-            ]
-        ],
+        "roi": [563, 486, 174, 125],
         "next": [
             "JieGarden@Roguelike@StageEncounterEnter",
             "JieGarden@Roguelike@Stages#next",
@@ -556,6 +552,20 @@
     "JieGarden@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
+    "JieGarden@Roguelike@StageEncounterDrawCopperResult": {
+        "Docs": "某些事件需要投钱来判断结果，这里要点一下投钱结果页面的对号",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "roi": [562, 568, 154, 152],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "JieGarden@Roguelike@StageEncounterOptions#next",
+            "JieGarden@Roguelike@StageEncounterSpecialClose",
+            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@ClickToDrops"
+        ]
+    },
     "JieGarden@Roguelike@StageEncounterEnter": {
         "roi": [1046, 458, 220, 203]
     },
@@ -563,7 +573,8 @@
     "JieGarden@Roguelike@StageEncounterOptionFree": {},
     "JieGarden@Roguelike@StageEncounterOptionLeave": {},
     "JieGarden@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.85
+        "templThreshold": 0.85,
+        "roi": [900, 0, 180, 700]
     },
     "JieGarden@Roguelike@StageEncounterOptionWonderland": {
         "templThreshold": 0.95
@@ -574,6 +585,7 @@
             "JieGarden@Roguelike@StageSafeHouseReuse",
             "JieGarden@Roguelike@StageEncounterOptionLeave",
             "JieGarden@Roguelike@StageEncounterOptionWonderland",
+            "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@StageCombatDpsEnter",
@@ -588,8 +600,13 @@
     "JieGarden@Roguelike@StageGuidance": {
         "Doc": "指点迷津",
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
+        "templThreshold": 0.97,
+        "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageGuidanceEnter": {
+        "baseTask": "JieGarden@Roguelike@StageEnter",
+        "template": "JieGarden@Roguelike@StageBoskyPassageEnter.png",
+        "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageProphecy": {
         "Doc": "命运所指",

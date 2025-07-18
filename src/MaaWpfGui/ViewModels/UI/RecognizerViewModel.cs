@@ -976,11 +976,11 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     _peepImageSemaphoreCurrentCount++;
                     _peepImageSemaphore.Release();
-                    _logger.Information($"Screenshot Semaphore Full, increase semaphore count to {_peepImageSemaphoreCurrentCount}");
+                    _logger.Information("Screenshot Semaphore Full, increase semaphore count to {PeepImageSemaphoreCurrentCount}", _peepImageSemaphoreCurrentCount);
                     return;
                 }
 
-                _logger.Warning($"Screenshot Semaphore Full, Reduce Target FPS count to {--PeepTargetFps}");
+                _logger.Warning("Screenshot Semaphore Full, Reduce Target FPS count to {PeepTargetFps}", --PeepTargetFps);
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     Growl.Clear();
@@ -1003,7 +1003,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // 若不满足条件，提前释放 frameData 避免内存泄露
                 if (!Peeping || count <= _peepImageNewestCount)
                 {
-                    _logger.Debug($"Peep image count {count} is not the newest, skip updating image.");
+                    _logger.Debug("Peep image count {Count} is not the newest, skip updating image.", count);
                     ArrayPool<byte>.Shared.Return(frameData);
                     return;
                 }

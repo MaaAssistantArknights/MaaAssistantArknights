@@ -54,6 +54,7 @@ public:
         int option_num = 0;
         int default_choose = 0;
         std::vector<ChoiceRequire> choice_require;
+        std::string next_event;
     };
 
 private:

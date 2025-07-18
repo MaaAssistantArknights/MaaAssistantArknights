@@ -245,7 +245,7 @@ public enum RoguelikeCollectibleAward
     Ingot = 1 << 2,
 
     /// <summary>
-    /// 希望, Roguelike@LastReward4
+    /// 2希望, Roguelike@LastReward4
     /// </summary>
     Hope = 1 << 3,
 

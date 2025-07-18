@@ -87,17 +87,17 @@ namespace MaaWpfGui.Helper
         {
             WindowManager = container.Get<WindowManager>();
 
+            // 这两实例化时存在依赖顺序
+            HttpService = container.Get<HttpService>();
+            MaaApiService = container.Get<MaaApiService>();
+
+            VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
             AsstProxy = container.Get<AsstProxy>();
             TaskQueueViewModel = container.Get<TaskQueueViewModel>();
             RecognizerViewModel = container.Get<RecognizerViewModel>();
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
-            VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
-            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
-
-            // 这两实例化时存在依赖顺序
-            HttpService = container.Get<HttpService>();
-            MaaApiService = container.Get<MaaApiService>();
 
             RemoteControlService = container.Get<RemoteControlService>();
 

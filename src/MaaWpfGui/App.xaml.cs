@@ -42,7 +42,7 @@ namespace MaaWpfGui
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (WineRuntimeInformation.IsRunningUnderWine && MaaDesktopIntegration.Availabile)
+            if (WineRuntimeInformation.IsRunningUnderWine && MaaDesktopIntegration.Available)
             {
                 // override buintin font map as early as possible
                 FontConfigIntegration.Install();

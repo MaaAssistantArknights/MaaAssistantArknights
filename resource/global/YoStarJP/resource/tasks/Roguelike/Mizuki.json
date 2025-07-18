@@ -1,7 +1,4 @@
 {
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": ["選択"]
-    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["進化系図", "進化", "系図"]
     },

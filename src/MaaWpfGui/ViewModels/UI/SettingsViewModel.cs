@@ -52,7 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Instance;
 
         #region 设置界面Model
 

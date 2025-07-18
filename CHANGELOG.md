@@ -1,68 +1,44 @@
-## v5.20.0-beta.2
-
-### 主要更新 | Highlight
-
-#### ⚠️ 重要提醒
-
-本次更新调整了模板图的目录结构，若您正在从 v5.19.x 及以下版本**手动**更新至该版本，那么**请勿直接覆盖旧版本文件夹**，否则可能导致部分旧文件未被正确删除，从而引发识别问题。
-
-推荐的更新方式有两种：
-1. 使用自动更新功能（推荐）：自动更新将会正确清理旧文件。
-2. 手动更新时：请将新版本解压到一个全新的文件夹，再将原有的 config 与 data 文件夹复制过去，以保留您的配置。
-
-#### 界园肉鸽来咯～(∠・ω< )⌒★ | Highlight
-
-牛牛火速为大家适配了界园肉鸽的刷钱模式！v5.20.0-beta.1 中存在的部分刷钱卡死问题已经被修复，现在大家可以愉快的给坎诺特上供啦~
-
-至于刷等级模式，各位博士还请耐心等待 ~~，我们已经在压榨帕鲁干活了（划掉~~
-
----
-
-以下是详细内容：
-
-## v5.20.0-beta.2
+## v5.20.0-beta.3
 
 ### 新增 | New
 
-* 界园肉鸽烧水支持票券 @SherkeyXD
-
-### 修复 | Fix
-
-* 修复界园主题选择问题 @DavidWang19
-* 卡得偿所愿 @ABA2396
-* 更新退出事件模板图 @DavidWang19
-* 去掉界园没有的刷2希望开局 @DavidWang19
-
-### 其他 | Other
-
-* 刷开局精二仅为水月和萨米显示 @SherkeyXD
-* 移除未被使用的wpf文本 @SherkeyXD
-* 删除界园多余的模板图和task @DavidWang19
-* EN IS5 squads @Constrat
-
-## v5.20.0-beta.1
-
-### 新增 | New
-
-* 初步适配界园肉鸽 @DavidWang19 @SherkeyXD @status102 @HYY1116 @Saratoga-Official @ABA2396 @weinibuliu @Daydreamer114 @SweetSmellFox
-* 干员因模组不可选中时, 增加提示输出 (#13230) @status102
+* 界园肉鸽更新战斗逻辑、事件选择 @DavidWang19 @ABA2396 @Saratoga-Official @SherkeyXD
+* macos 版本添加界园入口 @hguandl
+* maa-cli 版本初步适配界园肉鸽 (#13278) @wangl-cc
 
 ### 改进 | Improved
 
-* 改进水月肉鸽干员部署逻辑 (#12671) @linlucath @Saratoga-Official
+* 新Config任务参数读写, 界面刷新, 任务添改base @status102
+* 优化加载顺序, 简化StageManager变量 (#13277) @status102
+* 肉鸽任务参数初始化简化 @status102
+* 先筛选未进驻再清空队列 @ABA2396
+* 优化日志输出 @ABA2396
+* 重构部分预载 @status102
 
 ### 修复 | Fix
 
-* 移除ClientType未选择, 统一变更为官服 (#13220) @status102
-* ComboBox 剪贴板异常 @ABA2396
-* 公告及更新日志背景颜色异常 @ABA2396
+* 手动改时间或睡眠跨日后关卡列表与提示未更新 @ABA2396
+* v5.20.0-beta.2.d037 重启后概率闪退 @ABA2396
+* 刷理智代理倍率移除1000适配 @status102
+* YostarEN OR navigation @Constrat
+* YostarEN Eye for an Eye Sarkaz Encounter @Constrat
+* YostarKR 以血还血 ocr tweak @HX3N
+* 尝试修复点击过头导致选到月度小队 @SherkeyXD
+* yostaren sarkaz encouter ocr tweaks @Constrat
+* 缺 dll 和 resource 的时候没弹喜报 @ABA2396
+* 勾选｢反转主任务右键单击效果｣时，半选主任务在重启后无法还原选中状态 @ABA2396
+* 最小化会在桌角留下一个小窗口 @ABA2396
+* 勾选启动后直接最小化后无法拖动窗口 @ABA2396
+* 更新关卡ocr替换 @DavidWang19
+* 肉鸽导航无法选择傀影肉鸽 (#13255) @Lemon-miaow
+* 修复在得偿所愿或其他位置选择投钱后卡住的问题 @DavidWang19
+* 修复检测不到next的问题 @DavidWang19
+* typo @status102
+* 调整指点迷津节点阈值 @DavidWang19
 
 ### 其他 | Other
 
-* 刷理智界面设计器error @status102
-* 基建任务枚举引用路径统一, 修复设计器error @status102
-* 启动时成就打包 (#13221) @status102
-* 移动所有主题的模板图 @SherkeyXD
-* bump dependencies (#13121) @SherkeyXD
-* KR JieGarden translation @HX3N
-
+* YostarJP ocr edits (#13276) @Manicsteiner
+* TaskSettingVisibilityInfo.Current -> Instance @status102
+* YostarKR OR ocr edits @HX3N
+* 长草任务当前选中index @status102

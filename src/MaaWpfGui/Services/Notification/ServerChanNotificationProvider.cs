@@ -69,11 +69,11 @@ namespace MaaWpfGui.Services.Notification
                         return true;
                     }
 
-                    _logger.Warning($"Failed to send ServerChan notification, code: {code}");
+                    _logger.Warning("Failed to send ServerChan notification, code: {Value}", code);
                 }
                 else
                 {
-                    _logger.Warning($"Failed to send ServerChan notification, unknown response: {responseContent}");
+                    _logger.Warning("Failed to send ServerChan notification, unknown response: {ResponseContent}", responseContent);
                 }
             }
             catch (Exception ex)

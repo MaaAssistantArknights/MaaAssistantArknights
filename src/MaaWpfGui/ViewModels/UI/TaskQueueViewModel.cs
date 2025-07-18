@@ -57,7 +57,9 @@ namespace MaaWpfGui.ViewModels.UI
     public class TaskQueueViewModel : Screen
     {
         private readonly IContainer _container;
-        private StageManager _stageManager;
+
+        private readonly StageManager _stageManager;
+
         private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
@@ -65,12 +67,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or private sets the view models of task items.
         /// </summary>
-        public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; }
+        public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; } = [];
 
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
         public static SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
@@ -128,14 +130,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 长草任务Model
 
-        private static readonly IEnumerable<TaskViewModel> TaskViewModelTypes = InitTaskViewModelList();
+        private static readonly IEnumerable<TaskViewModel> _taskViewModelTypes = InitTaskViewModelList();
 
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
         /// <param name="sender">ignored object</param>
         /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
-        public void TaskItemSelectionChanged(object sender = null, NotifyCollectionChangedEventArgs e = null)
+        public void TaskItemSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
         {
             _ = (sender, e);
             Execute.OnUIThread(() =>
@@ -152,7 +154,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or private sets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; }
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
         #region ActionAfterTasks
 
@@ -167,7 +169,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _enableAfterActionSetting, value);
-                TaskSettingVisibilityInfo.Current.Set("AfterAction", value);
+                TaskSettingVisibilityInfo.Instance.Set("AfterAction", value);
             }
         }
 
@@ -256,7 +258,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool HasOtherMaa()
             {
                 var processesCount = Process.GetProcessesByName("MAA").Length;
-                _logger.Information($"MAA processes count: {processesCount}");
+                _logger.Information("MAA processes count: {ProcessesCount}", processesCount);
                 return processesCount > 1;
             }
 
@@ -319,12 +321,13 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel(IContainer container)
         {
             _container = container;
+            _stageManager = _container.Get<StageManager>();
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
             _runningState.TimeoutOccurred += RunningState_TimeOut;
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
             Instances.SettingsViewModel.Idle = e;
@@ -334,7 +337,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private void RunningState_TimeOut(object sender, string message)
+        private void RunningState_TimeOut(object? sender, string message)
         {
             Execute.OnUIThread(() =>
             {
@@ -355,7 +358,6 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _stageManager = _container.Get<StageManager>();
 
             DisplayName = LocalizationHelper.GetString("Farming");
             LogItemViewModels = [];
@@ -430,7 +432,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private DateTime _lastTimerElapsed = DateTime.MinValue;
 
-        private async void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object? sender, EventArgs e)
         {
             try
             {
@@ -505,7 +507,7 @@ namespace MaaWpfGui.ViewModels.UI
             var delayTime = CalculateRandomDelay();
             _ = Task.Run(async () =>
             {
-                _logger.Information($"waiting for update check: {delayTime}");
+                _logger.Information("waiting for update check: {DelayTime}", delayTime);
                 await Task.Delay(delayTime);
                 await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
                 await ResourceUpdater.ResourceUpdateAndReloadAsync();
@@ -572,14 +574,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
-                _logger.Information($"Scheduled configuration change: Timer Index: {configIndex}");
+                _logger.Information("Scheduled configuration change: Timer Index: {ConfigIndex}", configIndex);
                 HandleConfigChange(configIndex);
                 return;
             }
 
             if (timeToStart)
             {
-                _logger.Information($"Scheduled start: Timer Index: {configIndex}");
+                _logger.Information("Scheduled start: Timer Index: {ConfigIndex}", configIndex);
                 await HandleScheduledStart(configIndex);
 
                 SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].IsOn ??= false;
@@ -602,7 +604,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (SettingsViewModel.TimerSettings.CustomConfig &&
                     Instances.SettingsViewModel.CurrentConfiguration != SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig)
                 {
-                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig}");
+                    _logger.Warning(
+                        "Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {ConfigIndex}). Current Configuration: {CurrentConfiguration}, Scheduled Configuration: {TimerConfig}",
+                        configIndex,
+                        Instances.SettingsViewModel.CurrentConfiguration,
+                        SettingsViewModel.TimerSettings.TimerModels.Timers[configIndex].TimerConfig);
                     return;
                 }
 
@@ -614,8 +620,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (await TimerCanceledAsync(
                         LocalizationHelper.GetString("ForceScheduledStart"),
                         LocalizationHelper.GetString("ForceScheduledStartTip"),
-                        LocalizationHelper.GetString("Cancel"),
-                        10))
+                        LocalizationHelper.GetString("Cancel")))
                 {
                     return;
                 }
@@ -633,15 +638,13 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
 
-                FightTask.ResetFightVariables();
-                RecruitTask.ResetRecruitVariables();
-                ResetTaskSelection();
+                ResetAllTemporaryVariable();
                 InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
 
             await LinkStart();
 
-            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup, 1);
+            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.ScheduleMasterGroup);
         }
 
         private static async Task<bool> TimerCanceledAsync(string content = "", string tipContent = "", string buttonContent = "", int seconds = 10)
@@ -670,10 +673,10 @@ namespace MaaWpfGui.ViewModels.UI
                     dialog.Close();
                     tcs.TrySetResult(true);
                 };
-                _logger.Information($"Timer wait time: {seconds}");
+                _logger.Information("Timer wait time: {Seconds}", seconds);
                 await Task.WhenAny(Task.Delay(delay), tcs.Task);
                 dialog.Close();
-                _logger.Information($"Timer canceled: {canceled}");
+                _logger.Information("Timer canceled: {Canceled}", canceled);
                 return canceled;
             }
         }
@@ -700,8 +703,8 @@ namespace MaaWpfGui.ViewModels.UI
                 taskList.Add("Custom");
             }
 
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
-            var nonOrderList = new List<DragItemViewModel>();
+            var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[taskList.Count]);
+            var nonOrderList = new List<DragItemViewModel?>();
             for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
@@ -730,6 +733,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             foreach (var newVm in nonOrderList)
             {
+                if (newVm == null)
+                {
+                    continue;
+                }
+
                 int i = 0;
                 while (tempOrderList[i] != null)
                 {
@@ -740,7 +748,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetTaskOrder(newVm.OriginalName, i.ToString());
             }
 
-            TaskItemViewModels = [.. tempOrderList];
+            TaskItemViewModels = [.. tempOrderList.OfType<DragItemViewModel>()];
             TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
 
             FightTask.InitDrops();
@@ -754,16 +762,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private DayOfWeek _curDayOfWeek;
-
-        public DayOfWeek CurDayOfWeek => _curDayOfWeek;
+        public DayOfWeek CurDayOfWeek { get; private set; }
 
         /// <summary>
         /// Determine whether the specified stage is open
         /// </summary>
         /// <param name="name">stage name</param>
         /// <returns>Whether the specified stage is open</returns>
-        public bool IsStageOpen(string name) => _stageManager.IsStageOpen(name, _curDayOfWeek);
+        public bool IsStageOpen(string name) => _stageManager.IsStageOpen(name, CurDayOfWeek);
 
         /// <summary>
         /// Returns the valid stage if it is open, otherwise returns an empty string.
@@ -806,21 +812,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private DateOnly _lastPromptDate;
+
         private bool NeedToUpdateDatePrompt()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
 
-            _curDayOfWeek = now.DayOfWeek;
+            CurDayOfWeek = now.DayOfWeek;
 
-            // yj历的4/16点
-            return now is { Minute: 0, Hour: 0 or 12 };
+            // yj历的 4/16 点
+            var today = DateOnly.FromDateTime(now);
+            bool isCriticalTime = now is { Minute: 0, Hour: 0 or 12 };
+            bool isNewDate = today != _lastPromptDate;
+
+            if (!isCriticalTime && !isNewDate)
+            {
+                return false;
+            }
+
+            _lastPromptDate = today;
+            return true;
         }
 
         private static bool NeedToCheckForUpdates()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
 
-            // yj历的4/22点
+            // yj历的 4/22 点
             return now is { Minute: 0, Hour: 0 or 18 };
         }
 
@@ -836,7 +854,7 @@ namespace MaaWpfGui.ViewModels.UI
             // Closed activity stages
             foreach (var stage in FightTask.Stages)
             {
-                if (stage == null || _stageManager.GetStageInfo(stage)?.IsActivityClosed() != true)
+                if (stage == null || _stageManager.GetStageInfo(stage).IsActivityClosed() != true)
                 {
                     continue;
                 }
@@ -845,7 +863,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // Open stages today
-            var openStages = _stageManager.GetStageTips(_curDayOfWeek);
+            var openStages = _stageManager.GetStageTips(CurDayOfWeek);
             if (!string.IsNullOrEmpty(openStages))
             {
                 builder.Append(openStages);
@@ -991,7 +1009,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
                 LogItemViewModels.Add(log);
-                _logger.Information(content);
+                _logger.Information("{Content}", content);
             });
         }
 
@@ -1004,7 +1022,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 LogItemViewModels.Clear();
                 _logger.Information("Main windows log clear.");
-                _logger.Information(string.Empty);
+                _logger.Information("{Empty}", string.Empty);
             });
         }
 
@@ -1154,6 +1172,16 @@ namespace MaaWpfGui.ViewModels.UI
                     item.IsChecked = GuiSettingsUserControlModel.Instance.MainTasksInvertNullFunction;
                 }
             }
+        }
+
+        /// <summary>
+        /// 还原所有临时变量（右键半选）
+        /// </summary>
+        public void ResetAllTemporaryVariable()
+        {
+            FightTask.ResetFightVariables();
+            RecruitTask.ResetRecruitVariables();
+            ResetTaskSelection();
         }
 
         private async Task<bool> ConnectToEmulator()
@@ -1624,11 +1652,15 @@ namespace MaaWpfGui.ViewModels.UI
 
                     AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
                     var task = mainParam.ToObject<AsstFightTask>();
-                    task.Stage = stage;
-                    task.Stone = 0;
-                    task.MaxTimes = int.MaxValue;
-                    task.Drops = [];
-                    mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
+                    if (task != null)
+                    {
+                        task.Stage = stage;
+                        task.Stone = 0;
+                        task.MaxTimes = int.MaxValue;
+                        task.Drops = [];
+                        mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
+                    }
+
                     break;
                 }
             }
@@ -1663,7 +1695,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var type = TaskType.Fight;
             var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-            if (!EnableSetFightParams || id == default)
+            if (!EnableSetFightParams || id == 0)
             {
                 return;
             }
@@ -1676,14 +1708,14 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var type = TaskType.FightRemainingSanity;
             var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-            if (id == default)
+            if (id == 0)
             {
                 return;
             }
 
             var task = new AsstFightTask()
             {
-                Stage = FightTask.RemainingSanityStage,
+                Stage = FightTask.RemainingSanityStage ?? string.Empty,
                 MaxTimes = int.MaxValue,
                 Series = 1,
                 IsDrGrandet = FightTask.IsDrGrandet,
@@ -1702,7 +1734,7 @@ namespace MaaWpfGui.ViewModels.UI
         public static void SetInfrastParams()
         {
             int id = Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == TaskType.Infrast).Key;
-            if (id == default)
+            if (id == 0)
             {
                 return;
             }
@@ -1854,7 +1886,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static IEnumerable<TaskViewModel> InitTaskViewModelList()
         {
-            var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace == "MaaWpfGui.ViewModels.UserControl.TaskQueue" && t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskViewModel)));
+            var types = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t is { Namespace: "MaaWpfGui.ViewModels.UserControl.TaskQueue", IsClass: true, IsAbstract: false } && t.IsSubclassOf(typeof(TaskViewModel)));
             foreach (var type in types)
             {
                 // 获取 Instance 字段
@@ -1873,7 +1907,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public static void InvokeProcSubTaskMsg(AsstMsg msg, JObject details)
         {
-            foreach (var instance in TaskViewModelTypes)
+            foreach (var instance in _taskViewModelTypes)
             {
                 // 调用 ProcSubTaskMsg 方法
                 instance.ProcSubTaskMsg(msg, details);

@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -25,7 +26,7 @@ namespace MaaWpfGui.States
     public class RunningState
     {
         private static RunningState _instance;
-        private static ILogger _logger = Logger.None;
+        private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
 
         private RunningState()
         {
@@ -158,7 +159,11 @@ namespace MaaWpfGui.States
         public bool GetIdle() => Idle;
 
         // action
-        public void SetIdle(bool idle) => Idle = idle;
+        public void SetIdle(bool idle, [CallerMemberName] string caller = "")
+        {
+            _logger.Information("Idle: {Old} to {New} (called from {Caller})", Idle, idle, caller);
+            Idle = idle;
+        }
 
         // subscribes
         public event EventHandler<bool> IdleChanged;
@@ -202,7 +207,7 @@ namespace MaaWpfGui.States
 
                 if (confirmed >= confirmTimes)
                 {
-                    _logger.Information($"Idle state confirmed after {confirmTimes} checks.");
+                    _logger.Information("Idle state confirmed after {ConfirmTimes} checks.", confirmTimes);
                     return;
                 }
             }

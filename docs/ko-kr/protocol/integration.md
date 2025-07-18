@@ -206,10 +206,11 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,  // 작업을 활성화할지 여부, 선택 가능, 기본값 true
     "theme": string, // 테마, 선택 가능, 기본값 "Phantom"
-                     //   Phantom - 괴영과 주홍색 혈다이아
-                     //   Mizuki  - 수월과 심해의 나무
-                     //   Sami    - 탐색자의 은서림의 종점
-                     //   Sarkaz  - 사카즈의 끝없는 기묘담
+                     //   Phantom   - 괴영과 주홍색 혈다이아
+                     //   Mizuki    - 수월과 심해의 나무
+                     //   Sami      - 탐색자의 은서림의 종점
+                     //   Sarkaz    - 사카즈의 끝없는 기묘담
+                     //   JieGarden - 界园
     "mode": int,     // 모드, 선택 가능, 기본값 0
                      //   0 - 점수/보상 포인트 획득, 가능한 한 안정적으로 더 많은 층 도달
                      //   1 - 원석 정 수집, 첫 층에서 투자 후 종료
@@ -242,7 +243,16 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,                         // 시작 시 목록의 모든 밀문을 보유할 경우 시작 리셋 성공으로 간주;
         ...                             // 주의: 이 파라미터는 "생활 우선 부대"와 함께 사용해야 하며, 다른 부대에서는 시작 보상으로 밀문 획득 불가;
     ],
-    "start_with_two_ideas": bool,       // 2 번 구상 개시 여부 (선택 가능, 기본값: false); 테마가 Sarkaz 이고 모드가 4 일 때만 유효
+    "collectible_mode_start_list": {    // 시작 시 원하는 보상 항목 (선택 사항), 기본값은 모두 false; 모드 4에서만 유효
+        "hot_water": bool,              // 보온병 보상, 물 끓이기 시스템 활성화에 사용됨 (공통)
+        "shield": bool,                 // 방어막 보상, 추가 체력과 동일 (공통)
+        "ingot": bool,                  // 원석 주괴 보상 (공통)
+        "hope": bool,                   // 희망 보상 (공통, 참고: JieGarden 테마에서는 제공되지 않음)
+        "random": bool,                 // 랜덤 보상 옵션: 모든 원석 주괴를 소모해 무작위 수집품 획득 (공통)
+        "key": bool,                    // 열쇠 보상, Mizuki 테마에서만 유효
+        "dice": bool,                   // 주사위 보상, Mizuki 테마에서만 유효
+        "ideas": bool,                  // 2개 구상 보상, Sarkaz 테마에서만 유효
+    },
     "use_foldartal": bool,                    // 밀문 사용 여부, 모드 5에서는 기본값 false, 다른 모드에서는 기본값 true; Sami 테마에만 해당
     "check_collapsal_paradigms": bool,        // 획득한 붕괴 패러다임을 확인할지 여부, 모드 5에서는 기본값 true, 다른 모드에서는 기본값 false
     "double_check_collapsal_paradigms": bool, // 붕괴 패러다임 확인 누락 방지 조치를 수행할지 여부, 모드 5에서는 기본값 true, 다른 모드에서는 기본값 false;

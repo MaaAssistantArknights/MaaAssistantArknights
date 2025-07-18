@@ -151,12 +151,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
+    private string? _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage2.
     /// </summary>
-    public string Stage2
+    public string? Stage2
     {
         get => _stage2;
         set
@@ -181,12 +181,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
+    private string? _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage3.
     /// </summary>
-    public string Stage3
+    public string? Stage3
     {
         get => _stage3;
         set
@@ -211,12 +211,12 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
+    private string? _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage4.
     /// </summary>
-    public string Stage4
+    public string? Stage4
     {
         get => _stage4;
         set
@@ -285,9 +285,9 @@ public class FightSettingsUserControlModel : TaskViewModel
         RemainingSanityStage = RemainingSanityStageList.FirstOrDefault(x => x.Value == RemainingSanityStage)?.Value ?? string.Empty;
     }
 
-    private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
+    private string? _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
 
-    public string RemainingSanityStage
+    public string? RemainingSanityStage
     {
         get => _remainingSanityStage;
         set

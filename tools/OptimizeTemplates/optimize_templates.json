@@ -4554,7 +4554,7 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch": "a26e0b5d8b510e85e483717894c13087982c4304c5a7d272c02a9a4a11454b80",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageConfrontation": "c64c261528e70a89a81f6b1010f96be12224a9051454fb1ec8ec591e38464335",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeEncounterGrey": "d6634bae016571238d42b2d152e6e89cdeb58a9efa6c9912f32c2df4c63cb042",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterOptionUnknown": "c443935104af98446000f8f5e1c33022ba0589ef03f690d70228adb79b2ebf29",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterOptionUnknown": "b3c87985d3cfc17d1bd9bf9b57a794a03caca49e7154719f0bd3e0b77dc13001",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@RandomPick": "ac609bfb27020e9ee1227dfb0ef469f2546a21fde8b4c885745f5ecf065c80c4",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelectReward": "fdba3031cae2afd1517dd286a44d0548b70dc092253efdf1eda0e0e9f800660b",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LastReward": "235e7acdce75195a7bb5c42cb312f24edee40475e0f59b99ffdd01a1151ef0f9",
@@ -4923,5 +4923,7 @@
     "resource/template/Roguelike/base/RoguelikeRecruitSupportElite2": "db940d417e7e8557b6f53cfcd121316193898855b36a50f426cac2b974cef061",
     "resource/template/Roguelike/base/RoguelikeFormationOper": "880e8d8a935cb842315933c81af25a10aad929d6d265cf19bac2ebd4096373b2",
     "resource/template/Roguelike/base/RoguelikeRecruitOcrFlag": "7a276e75c88b47e39be3eb5c1a63ed908c98cb0237617f0b15848b1340fd2d0b",
-    "resource/template/Roguelike/base/RoguelikeRecruitSupportElite1": "e7023daed761e6f0515c70b11b9e2ee6d0c5caf9856db0b497b9ad42e3a23f0d"
+    "resource/template/Roguelike/base/RoguelikeRecruitSupportElite1": "e7023daed761e6f0515c70b11b9e2ee6d0c5caf9856db0b497b9ad42e3a23f0d",
+    "resource/template/items/so_char_exp_1": "cb41bf2b18fe2bfab75da8fb32f84a152484eedd47dd74a3dab6e51f321bf7f5",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterDrawCopperResult": "d423eea2d172756ca48741d76ea2808e04cdc5db9c79f6f51fe72e44dc98aa38"
 }

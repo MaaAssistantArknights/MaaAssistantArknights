@@ -85,9 +85,9 @@ namespace MaaWpfGui.Main
         {
             fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
             {
-                _logger.Information($"AsstLoadResource dirname: {dirname}");
+                _logger.Information("AsstLoadResource dirname: {Dirname}", dirname);
                 var ret = MaaService.AsstLoadResource(ptr);
-                _logger.Information($"AsstLoadResource ret: {ret}");
+                _logger.Information("AsstLoadResource ret: {Ret}", ret);
                 return ret;
             }
         }
@@ -102,21 +102,21 @@ namespace MaaWpfGui.Main
 
         private static unsafe bool AsstConnect(AsstHandle handle, string adbPath, string address, string config)
         {
-            _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}");
+            _logger.Information("handle: {Handle}, adbPath: {AdbPath}, address: {Address}, config: {Config}", (long)handle, adbPath, address, config);
 
             fixed (byte* ptr1 = EncodeNullTerminatedUtf8(adbPath),
                 ptr2 = EncodeNullTerminatedUtf8(address),
                 ptr3 = EncodeNullTerminatedUtf8(config))
             {
                 bool ret = MaaService.AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                _logger.Information("handle: {Handle}, adbPath: {AdbPath}, address: {Address}, config: {Config}, return: {Ret}", (long)handle, adbPath, address, config, ret);
                 return ret;
             }
         }
 
         private static unsafe void AsstSetConnectionExtras(string name, string extras)
         {
-            _logger.Information($"name: {name}, extras: {extras}");
+            _logger.Information("name: {Name}, extras: {Extras}", name, extras);
 
             fixed (byte* ptr1 = EncodeNullTerminatedUtf8(name),
                 ptr2 = EncodeNullTerminatedUtf8(extras))
@@ -372,11 +372,11 @@ namespace MaaWpfGui.Main
                 const string Resource = @"\resource";
                 if (!Directory.Exists(path + Resource))
                 {
-                    _logger.Warning($"Resource not found: {path + Resource}");
+                    _logger.Warning("Resource not found: {Path}", path + Resource);
                     return true;
                 }
 
-                _logger.Information($"Load resource: {path + Resource}");
+                _logger.Information("Load resource: {Path}", path + Resource);
                 return AsstLoadResource(path);
             }
 
@@ -397,15 +397,15 @@ namespace MaaWpfGui.Main
                     if (!Directory.Exists(tasksFolderPath))
                     {
                         Directory.CreateDirectory(tasksFolderPath);
-                        _logger.Information($"Created directory: {tasksFolderPath}");
+                        _logger.Information("Created directory: {TasksFolderPath}", tasksFolderPath);
                     }
 
                     File.Move(tasksJsonPath, newTasksJsonPath, true);
-                    _logger.Information($"Moved {tasksJsonPath} to {newTasksJsonPath}");
+                    _logger.Information("Moved {TasksJsonPath} to {NewTasksJsonPath}", tasksJsonPath, newTasksJsonPath);
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error($"Failed to move tasks.json: {ex.Message}");
+                    _logger.Error("Failed to move tasks.json: {ExMessage}", ex.Message);
                 }
             }
         }
@@ -971,9 +971,7 @@ namespace MaaWpfGui.Main
                     bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _tasksStatus.Clear();
 
-                    TaskQueueViewModel.FightTask.ResetFightVariables();
-                    TaskQueueViewModel.RecruitTask.ResetRecruitVariables();
-                    Instances.TaskQueueViewModel.ResetTaskSelection();
+                    Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
                     _runningState.SetIdle(true);
 
                     if (isMainTaskQueueAllCompleted)
@@ -2038,12 +2036,12 @@ namespace MaaWpfGui.Main
                 if (!actualConnectionStatus)
                 {
                     Connected = false;
-                    _logger.Information($"Connection lost to {_connectedAdb} {_connectedAddress}");
+                    _logger.Information("Connection lost to {ConnectedAdb} {ConnectedAddress}", _connectedAdb, _connectedAddress);
                     error = "Connection lost";
                 }
                 else
                 {
-                    _logger.Information($"Already connected to {_connectedAdb} {_connectedAddress}");
+                    _logger.Information("Already connected to {ConnectedAdb} {ConnectedAddress}", _connectedAdb, _connectedAddress);
                     if (!_forcedReloadResource)
                     {
                         return true;
@@ -2324,6 +2322,11 @@ namespace MaaWpfGui.Main
             return id != 0 && AsstStart();
         }
 
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstBaseTask task)
+        {
+            return AsstAppendTaskWithEncoding(wpfTasktype, task.Serialize());
+        }
+
         public bool AsstAppendTaskWithEncoding(TaskType wpfTaskType, (AsstTaskType Type, JObject? TaskParams) task)
         {
             return AsstAppendTaskWithEncoding(wpfTaskType, task.Type, task.TaskParams);
@@ -2340,6 +2343,11 @@ namespace MaaWpfGui.Main
 
             _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
             return true;
+        }
+
+        public bool AsstSetTaskParamsEncoded(AsstTaskId id, AsstBaseTask task)
+        {
+            return AsstSetTaskParamsEncoded(id, task.Serialize().Params);
         }
 
         public bool AsstSetTaskParamsEncoded(AsstTaskId id, JObject? taskParams = null)

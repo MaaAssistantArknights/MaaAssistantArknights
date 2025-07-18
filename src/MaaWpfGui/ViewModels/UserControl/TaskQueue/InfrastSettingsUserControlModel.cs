@@ -52,7 +52,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>
-    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+    public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
     public void InitInfrast()
     {
@@ -428,7 +428,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             {
                 var count = CustomInfrastPlanInfoList.Count;
                 value = ((value % count) + count) % count;
-                _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
+                _logger.Warning("CustomInfrastPlanIndex out of range, reset to Index % Count: {Value}", value);
             }
 
             if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
@@ -653,7 +653,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             ContinueTraining = ContinueTraining,
             DormThreshold = DormThreshold / 100.0,
             DormFilterNotStationedEnabled = DormFilterNotStationedEnabled,
-            DormDormTrustEnabled = DormTrustEnabled,
+            DormTrustEnabled = DormTrustEnabled,
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             Filename = CustomInfrastFile,
