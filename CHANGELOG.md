@@ -38,9 +38,9 @@ Additionally, some log content supports expanded display. Hover the mouse over t
 
 #### Copilot now supports module configuration
 
-Starting with this version, the copilot feature will support setting operator modules in tasks (zoot.plus's tasks editor v2 supports module configuration). This means we can now automatically configure modules for strategies that have specific module requirements~
+Starting with this version, the copilot feature will support setting operator modules in tasks (zoot.plus's tasks editor v2 supports module configuration). This means we can now automatically configure modules for tasks that have specific module requirements~
 
-However, custom operator configurations currently do not support module settings, so if you want to bring Abyssal Hunter support units, you'll still need to manually configure their modules~
+However, custom operator configurations currently do not support module settings, so for example if you want to bring Abyssal Hunter operators, you'll still need to manually configure their modules~
 
 #### Emulator Support
 
