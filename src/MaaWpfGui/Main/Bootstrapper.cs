@@ -280,7 +280,7 @@ namespace MaaWpfGui.Main
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
-            builder.Bind<StageManager>().ToSelf();
+            builder.Bind<StageManager>().ToSelf().InSingletonScope();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
 
