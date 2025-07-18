@@ -218,10 +218,11 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,  // このタスクを有効にするかどうか、省略可能、デフォルト値 true
     "theme": string, // テーマ、省略可能、デフォルト値 "Phantom"
-                     //   Phantom - 傀影と猩紅の血晶
-                     //   Mizuki  - 水月と蒼青の樹
-                     //   Sami    - 探索者の銀霜の果て
-                     //   Sarkaz  - サルカズの無尽の奇譚
+                     //   Phantom   - 傀影と猩紅の血晶
+                     //   Mizuki    - 水月と蒼青の樹
+                     //   Sami      - 探索者の銀霜の果て
+                     //   Sarkaz    - サルカズの無尽の奇譚
+                     //   JieGarden - 界园
     "mode": int,     // モード、省略可能、デフォルト値 0
                      //   0 - ポイント稼ぎ、より安定して層数を増やす
                      //   1 - 源石錠稼ぎ、1層で投資後終了
@@ -254,7 +255,16 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,                         // 開幕でリスト内の全ての密文を持っている場合に開幕リセット成功とする；
         ...                             // 注意、このパラメータは「生活至上部隊」と同時に使用する必要がある。他の部隊では開幕報酬で密文を取得できない；
     ],
-    "start_with_two_ideas": bool,       // 凹 2 構想開局の有無（選択可能、デフォルト値：false）；テーマが Sarkaz で、モードが 4 の時のみ有効
+    "collectible_mode_start_list": {    // 開始時に取得したい報酬。任意項目。デフォルトはすべて false。モード 4 の場合のみ有効
+        "hot_water": bool,              // 魔法瓶（湯）報酬。お湯を沸かす機能のトリガー（共通）
+        "shield": bool,                 // シールド報酬。追加のHP相当（共通）
+        "ingot": bool,                  // 源石錠の報酬（共通）
+        "hope": bool,                   // 希望の報酬（共通。※JieGarden テーマでは無効）
+        "random": bool,                 // ランダム報酬オプション：全ての源石錠を消費してランダムなコレクションを入手（共通）
+        "key": bool,                    // 鍵の報酬。Mizuki テーマでのみ有効
+        "dice": bool,                   // サイコロの報酬。Mizuki テーマでのみ有効
+        "ideas": bool,                  // 2つの構想報酬。Sarkaz テーマでのみ有効
+    },
     "use_foldartal": bool,                    // 密文を使用するか、モード5ではデフォルト値 false、他のモードではデフォルト値 true；Samiテーマにのみ対応
     "check_collapsal_paradigms": bool,        // 取得した崩壊パラダイムを検査するか、モード5ではデフォルト値 true、他のモードではデフォルト値 false
     "double_check_collapsal_paradigms": bool, // 崩壊パラダイムの検査漏れ対策を行うか、モード5ではデフォルト値 true、他のモードではデフォルト値 false；
