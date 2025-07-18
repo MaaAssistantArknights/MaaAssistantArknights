@@ -1,7 +1,16 @@
 ## v5.20.0
 
+### 界园肉鸽来咯～(∠・ω< )⌒★ | Highlight
+
+牛牛火速为大家适配了界园肉鸽的刷钱模式！部分刷钱卡死问题已经被修复，现在大家可以愉快的给坎诺特上供啦~
+
+至于刷等级模式，各位博士还请耐心等待，~~我们已经在压榨帕鲁干活了~~
+
 ### 新增 | New
 
+* 初步适配界园肉鸽并初步实现存钱 (#13183) @DavidWang19 @Daydreamer114 @SherkeyXD @status102 @HYY1116 @Saratoga-Official
+* macos 添加界园入口 @hguandl
+* maa-cli 初步适配界园肉鸽 (#13150) @wangl-cc
 * 临时屏蔽界园中除投资外的策略选项 @ABA2396
 * Wpf UserAgent with UiVersion @MistEO
 * 优化会客室线索处理逻辑 (#13160) @Lemon-miaow @pre-commit-ci[bot]
@@ -21,7 +30,6 @@
 * fetch 请求增加 If-Modified-Since @ABA2396
 * 适配部分已知的不期而遇 (#13233) @HYY1116 @pre-commit-ci[bot] @SherkeyXD
 * 界园肉鸽二层作战逻辑 @Saratoga-Official
-* 初步适配界园肉鸽并初步实现存钱 (#13183) @DavidWang19 @Daydreamer114 @SherkeyXD @status102 @HYY1116 @Saratoga-Official
 * 刷开局wpf仅显示当前主题可用选项 @SherkeyXD
 * 界园肉鸽烧水支持票券 @SherkeyXD
 * 添加 idle 状态切换记录 @ABA2396
@@ -29,7 +37,6 @@
 * 界园肉鸽部分关卡自动战斗逻辑 (#13219) @Saratoga-Official
 * 新Config任务参数读写, 界面刷新, 任务添改base @status102
 * 新的添加任务 @status102
-* 添加界园入口 @hguandl
 
 ### 改进 | Improved
 
@@ -136,11 +143,6 @@
 
 * 整理一下刚糊的ua @MistEO
 * yostaren prepare leizi for alter @Constrat
-* Release v5.20.0-beta.3 (#13274) @ABA2396
-* Release v5.20.0-beta.2 (#13251) @MistEO
-* Release v5.20.0-beta.1 (#13217) @MistEO
-* Release v5.19.0-beta.1 (#13204) @ABA2396
-* Release v5.18.0-beta.1 (#13200) @ABA2396
 * 抽离 ToolTip 创建方法，统一 ToolTip 格式 @ABA2396
 * 日志栏使用 TooltipBlock @ABA2396
 * TooltipBlock 支持显示 svg @ABA2396
@@ -179,7 +181,6 @@
 * 添加 FeatureMatch schema @ABA2396
 * 米奇妙妙 ocr @ABA2396
 * 调整描述 @ABA2396
-* bump maa-cli to 0.5.6 (#13150) @wangl-cc
 * 添加日志记录 @ABA2396
 * 设置剪切板前先清空 @ABA2396
 * response.Log 添加 etag 日志 @ABA2396
