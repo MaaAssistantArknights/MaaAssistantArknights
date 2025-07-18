@@ -636,8 +636,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         RoguelikeStartAwards = list;
         OnPropertyChanged(nameof(RoguelikeStartAwards));
-        _roguelikeStartWithSelectList = RoguelikeStartAwards.Where(i => config.Contains(i.Value)).ToArray();
-        OnPropertyChanged(nameof(RoguelikeStartWithSelectList));
+        RoguelikeStartWithSelectList = RoguelikeStartAwards.Where(i => config.Contains(i.Value)).ToArray();
     }
 
     private object[] _roguelikeStartWithSelectList = [];
@@ -648,7 +647,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         set
         {
             SetAndNotify(ref _roguelikeStartWithSelectList, value);
-            Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _roguelikeStartWithSelectList.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
         }
