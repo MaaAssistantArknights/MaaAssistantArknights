@@ -12,7 +12,6 @@
 * macos 添加界园入口 @hguandl
 * maa-cli 初步适配界园肉鸽 (#13150) @wangl-cc
 * 临时屏蔽界园中除投资外的策略选项 @ABA2396
-* Wpf UserAgent with UiVersion @MistEO
 * 优化会客室线索处理逻辑 (#13160) @Lemon-miaow @pre-commit-ci[bot]
 * 官网添加非当前电脑构架提示 @ABA2396
 * 支持MaaPipelineSupport插件 (#13189) @neko-para
@@ -123,21 +122,15 @@
 
 ### 文档 | Docs
 
-* Auto Update Changelogs of v5.18.0-beta.1 (#13201) @github-actions[bot]
-* 更新 CHANGELOG.md @ABA2396
 * changelog @status102
 * update changelog @SherkeyXD
-* Auto Update Changelogs of v5.20.0-beta.1 (#13244) @github-actions[bot] @MistEO
 * 更新changelog @DavidWang19
-* Auto Update Changelogs of v5.20.0-beta.2 (#13253) @github-actions[bot] @SherkeyXD
 * 修复 readme logo @Rbqwow
 * 还漏了两个 @DavidWang19
 * 还漏了一个 @SherkeyXD
 * 还有一只.png @SherkeyXD
 * 有猪.jpg @SherkeyXD
-* Update CHANGELOG.md @MistEO
 * 更新肉鸽文档 @ABA2396
-* Auto Update Changelogs of v5.20.0-beta.3 (#13283) @github-actions[bot] @MistEO
 
 ### 其他 | Other
 
@@ -206,3 +199,4 @@
 * TaskSettingVisibilityInfo.Current -> Instance @status102
 * YostarKR OR ocr edits @HX3N
 * 长草任务当前选中index @status102
+* Wpf UserAgent with UiVersion @MistEO
