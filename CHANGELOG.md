@@ -28,7 +28,7 @@
 
 #### [CN ONLY] Auto I.S. Supports the Sui's Garden of Grotesqueries
 
-This version initially supports investing coins in Sui's Garden of Grotesqueries (the most stable setup is using Wiš'adel in High Ground Breakthrough Squad (高台突破分队), Tactical Ranged Squad or Leader Squad). Other features (such as quick gaining experience points, grinding to obtain Hot Water Kettle or Elite II operators, etc.) are still under development~
+This version initially supports investing coins in Sui's Garden of Grotesqueries (the most stable setup is using Wiš'adel in High Ground Breakthrough Squad (高台突破分队, new squad in this I.S.), Tactical Ranged Squad or Leader Squad). Other features (such as quick gaining experience points, grinding to obtain Hot Water Kettle or Elite II operators, etc.) are still under development~
 
 #### What Is This Question Mark? And What About This Arrow?
 
