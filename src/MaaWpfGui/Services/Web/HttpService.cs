@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace MaaWpfGui.Services.Web
 {
     public class HttpService : IHttpService
     {
-        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
+        private readonly string UiVersion;
+        private readonly string UserAgent;
 
         private static string Proxy
         {
@@ -54,6 +56,9 @@ namespace MaaWpfGui.Services.Web
 
         public HttpService()
         {
+            UiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
+            UserAgent = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76 MaaWpfGui/{UiVersion}";
+
             ConfigurationHelper.ConfigurationUpdateEvent += (key, old, value) =>
             {
                 if (key != ConfigurationKeys.UpdateProxy)
