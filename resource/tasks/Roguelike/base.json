@@ -990,13 +990,21 @@
         "action": "ClickSelf",
         "text": ["查看", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 60, 45],
-        "next": ["#self", "Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipe"]
+        "next": ["#self", "Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipeToTheRight"]
     },
-    "Roguelike@PreSelectThemeSwipe": {
+    "Roguelike@PreSelectThemeSwipeToLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [100, 560, 100, 100],
         "rectMove": [550, 560, 100, 100],
-        "next": ["Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipe"]
+        "maxTimes": 10,
+        "next": ["Roguelike@SelectTheme", "#self"]
+    },
+    "Roguelike@PreSelectThemeSwipeToTheRight": {
+        "baseTask": "SwipeToTheRight",
+        "specificRect": [550, 560, 100, 100],
+        "rectMove": [100, 560, 100, 100],
+        "reduceOtherTimes": ["Roguelike@PreSelectThemeSwipeToLeft*10"],
+        "next": ["Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipeToLeft"]
     },
     "Roguelike@QuickFormation": {
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
