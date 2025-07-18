@@ -48,7 +48,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         UpdateRoguelikeRolesList();
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
-        UpdateRoguelikeStartWithSelectList();
         UpdateRoguelikeCoreCharList();
     }
 
@@ -407,7 +406,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             UpdateRoguelikeRolesList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeStartWithAllDict();
-            UpdateRoguelikeStartWithSelectList();
             UpdateRoguelikeCoreCharList();
 
             // 强制刷新难度显示
@@ -602,70 +600,47 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
 
-    private Dictionary<string, string> _roguelikeStartWithAllDict = new();
-
     /// <summary>
     /// Gets the available start with rewards dictionary based on current theme.
     /// </summary>
-    public Dictionary<string, string> RoguelikeStartWithAllDict => _roguelikeStartWithAllDict;
+    public List<GenericCombinedData<string>> RoguelikeStartAwards { get; private set; } = [];
 
     private void UpdateRoguelikeStartWithAllDict()
     {
-        var baseDict = new Dictionary<string, string>
+        var config = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, "Roguelike@LastReward Roguelike@LastReward4").Split(' ');
+        var list = new List<GenericCombinedData<string>>()
         {
-            { "Roguelike@LastReward", LocalizationHelper.GetString("RoguelikeStartWithKettle") },
-            { "Roguelike@LastReward2", LocalizationHelper.GetString("RoguelikeStartWithShield") },
-            { "Roguelike@LastReward3", LocalizationHelper.GetString("RoguelikeStartWithIngot") },
-            { "Roguelike@LastRewardRand", LocalizationHelper.GetString("RoguelikeStartWithRandomReward") },
+           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKettle"), Value = "Roguelike@LastReward" },
+           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithShield"), Value = "Roguelike@LastReward2" },
+           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithIngot"), Value = "Roguelike@LastReward3" },
+           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithHope"), Value = "Roguelike@LastReward4" },
+           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithRandomReward"), Value = "Roguelike@LastRewardRand" },
         };
 
         switch (RoguelikeTheme)
         {
-            case Theme.Phantom:
-                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
-                break;
-
             case Theme.Mizuki:
-                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
-                baseDict["Mizuki@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithKey");
-                baseDict["Mizuki@Roguelike@LastReward6"] = LocalizationHelper.GetString("RoguelikeStartWithDice");
-                break;
-
-            case Theme.Sami:
-                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
+                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKey"), Value = "Mizuki@Roguelike@LastReward5" });
+                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithDice"), Value = "Mizuki@Roguelike@LastReward6" });
                 break;
 
             case Theme.Sarkaz:
-                baseDict["Roguelike@LastReward4"] = LocalizationHelper.GetString("RoguelikeStartWithHope");
-                baseDict["Sarkaz@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithIdea");
+                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithIdea"), Value = "Sarkaz@Roguelike@LastReward5" });
                 break;
 
             case Theme.JieGarden:
-                baseDict["JieGarden@Roguelike@LastReward5"] = LocalizationHelper.GetString("RoguelikeStartWithTicket");
+                list.Remove(list.First(i => i.Value == "Roguelike@LastReward4"));
+                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithTicket"), Value = "JieGarden@Roguelike@LastReward5" });
                 break;
         }
 
-        _roguelikeStartWithAllDict = baseDict;
-        OnPropertyChanged(nameof(RoguelikeStartWithAllDict));
+        RoguelikeStartAwards = list;
+        OnPropertyChanged(nameof(RoguelikeStartAwards));
+        _roguelikeStartWithSelectListRaw = RoguelikeStartAwards.Where(i => config.Contains(i.Value)).ToArray();
+        OnPropertyChanged(nameof(RoguelikeStartWithSelectListRaw));
     }
 
     private object[] _roguelikeStartWithSelectListRaw = [];
-
-    private void UpdateRoguelikeStartWithSelectList()
-    {
-        string lastRewardString = "Roguelike@LastReward";
-        if (RoguelikeTheme != Theme.JieGarden)
-        {
-            lastRewardString += " Roguelike@LastReward4";
-        }
-
-        _roguelikeStartWithSelectListRaw = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, lastRewardString)
-            .Split(' ')
-            .Where(s => RoguelikeStartWithAllDict.ContainsKey(s.ToString()))
-            .Select(s => (object)new KeyValuePair<string, string>(s, RoguelikeStartWithAllDict[s]))
-            .ToArray();
-        OnPropertyChanged(nameof(RoguelikeStartWithSelectListRaw));
-    }
 
     public object[] RoguelikeStartWithSelectListRaw
     {
@@ -674,9 +649,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _roguelikeStartWithSelectListRaw, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
-            var config = string.Join(' ', _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
+            var config = string.Join(' ', _roguelikeStartWithSelectListRaw.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
-            UpdateRoguelikeStartWithSelectList(); // Refresh the list after config change
         }
     }
 
