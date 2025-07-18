@@ -25,7 +25,7 @@ namespace MaaWpfGui.States
     public class RunningState
     {
         private static RunningState _instance;
-        private static ILogger _logger = Logger.None;
+        private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
 
         private RunningState()
         {
