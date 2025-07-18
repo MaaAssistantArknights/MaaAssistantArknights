@@ -2,23 +2,17 @@
 
 ### 新增 | New
 
-* 肉鸽支持多级事件选择 @ABA2396
-* 界园肉鸽部分关卡自动战斗逻辑 (#13219) @Saratoga-Official
-* 新Config任务参数读写, 界面刷新, 任务添改base @status102
-* 新的添加任务 @status102
-* 添加界园入口 @hguandl
+* macos 版本添加界园入口 @hguandl
+* maa-cli 版本初步适配界园肉鸽 (#13278) @wangl-cc
 
 ### 改进 | Improved
 
+* 界园肉鸽更新战斗逻辑、事件选择 @DavidWang19 @ABA2396 @Saratoga-Official @SherkeyXD
+* 新Config任务参数读写, 界面刷新, 任务添改base @status102
 * 优化加载顺序, 简化StageManager变量 (#13277) @status102
 * 肉鸽任务参数初始化简化 @status102
-* 不期而遇子事件可读性优化 @SherkeyXD
 * 先筛选未进驻再清空队列 @ABA2396
 * 优化日志输出 @ABA2396
-* 调整干员罗比菈塔在肉鸽使用的技能 @Saratoga-Official
-* 界园肉鸽中停止招募锡人 @DavidWang19
-* 优化界园不期而遇默认逻辑 @DavidWang19
-* 优化指点迷津节点task的复用 @DavidWang19
 * 重构部分预载 @status102
 
 ### 修复 | Fix
@@ -44,11 +38,7 @@
 
 ### 其他 | Other
 
-* 界园肉鸽没有二希望开（？） @ABA2396
 * YostarJP ocr edits (#13276) @Manicsteiner
-* bump maa-cli to 0.5.7 (#13278) @wangl-cc
-* 肉鸽烧水参数rename @status102
-* 肉鸽开局奖励选择 @status102
 * TaskSettingVisibilityInfo.Current -> Instance @status102
 * YostarKR OR ocr edits @HX3N
 * 长草任务当前选中index @status102
