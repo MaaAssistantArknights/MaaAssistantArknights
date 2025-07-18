@@ -1133,8 +1133,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 刷开局
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
-            StartWithEliteTwo = (RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
-            StartWithEliteTwoNonBattle = (RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme == Theme.Mizuki) || RoguelikeTheme == Theme.Sami,
+            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && (RoguelikeTheme == Theme.Mizuki || RoguelikeTheme == Theme.Sami),
+            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && (RoguelikeTheme == Theme.Mizuki || RoguelikeTheme == Theme.Sami),
 
             // 月度小队
             MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,
