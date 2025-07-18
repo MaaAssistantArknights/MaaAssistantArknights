@@ -649,7 +649,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         OnPropertyChanged(nameof(RoguelikeStartWithAllDict));
     }
 
-    private object[] _roguelikeStartWithSelectListRaw = Array.Empty<object>();
+    private object[] _roguelikeStartWithSelectListRaw = [];
 
     private void UpdateRoguelikeStartWithSelectList()
     {
@@ -679,8 +679,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             UpdateRoguelikeStartWithSelectList(); // Refresh the list after config change
         }
     }
-
-    public List<string> RoguelikeStartWithSelectList => _roguelikeStartWithSelectListRaw.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList();
 
     private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
@@ -1191,23 +1189,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 { "Roguelike@LastReward3", "ingot" },
                 { "Roguelike@LastReward4", "hope" },
                 { "Roguelike@LastRewardRand", "random" },
+                { "Mizuki@Roguelike@LastReward5", "key" },
+                { "Mizuki@Roguelike@LastReward6", "dice" },
+                { "Sarkaz@Roguelike@LastReward5", "ideas" },
+                { "JieGarden@Roguelike@LastReward5", "ticket" },
             };
-            if (RoguelikeTheme == Theme.Mizuki)
-            {
-                rewardKeys["Mizuki@Roguelike@LastReward5"] = "key";
-                rewardKeys["Mizuki@Roguelike@LastReward6"] = "dice";
-            }
-            else if (RoguelikeTheme == Theme.Sarkaz)
-            {
-                rewardKeys["Sarkaz@Roguelike@LastReward5"] = "ideas";
-            }
-            else if (RoguelikeTheme == Theme.JieGarden)
-            {
-                rewardKeys["JieGarden@Roguelike@LastReward5"] = "ticket";
-            }
 
             var startWithSelect = new JObject();
-            foreach (var select in RoguelikeStartWithSelectList)
+            foreach (var select in _roguelikeStartWithSelectListRaw.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList())
             {
                 if (rewardKeys.TryGetValue(select, out var paramKey))
                 {
