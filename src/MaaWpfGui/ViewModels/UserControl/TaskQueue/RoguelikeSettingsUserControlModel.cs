@@ -629,7 +629,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 break;
 
             case Theme.JieGarden:
-                list.Remove(list.First(i => i.Value == "Roguelike@LastReward4"));
+                list.RemoveAll(i => i.Value == "Roguelike@LastReward4");
                 list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithTicket"), Value = "JieGarden@Roguelike@LastReward5" });
                 break;
         }
