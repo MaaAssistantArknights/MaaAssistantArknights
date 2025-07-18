@@ -119,6 +119,7 @@
 * 修复检测不到next的问题 @DavidWang19
 * typo @status102
 * 调整指点迷津节点阈值 @DavidWang19
+* 肉鸽导航 @Lemon-miaow
 
 ### 文档 | Docs
 
