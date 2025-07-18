@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
@@ -22,6 +23,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.ReclamationMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
@@ -184,5 +186,33 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             ToolToCraft = ReclamationToolToCraft.Split(';').Select(s => s.Trim()).ToList(),
             ClearStore = ReclamationClearStore,
         }.Serialize();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not ReclamationTask task)
+        {
+            return null;
+        }
+
+        var toolToCraft = !string.IsNullOrEmpty(task.ToolToCraft) ? task.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+        var asstTask = new AsstReclamationTask()
+        {
+            Theme = task.Theme,
+            Mode = task.Mode,
+            IncrementMode = task.IncrementMode,
+            MaxCraftCountPerRound = task.MaxCraftCountPerRound,
+            ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
+            ClearStore = task.ClearStore,
+        };
+
+        if (taskId is { } id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, asstTask);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, asstTask);
+        }
     }
 }

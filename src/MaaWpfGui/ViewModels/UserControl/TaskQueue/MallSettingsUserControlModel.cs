@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -24,6 +26,8 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
+using Serilog;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -316,5 +320,60 @@ public class MallSettingsUserControlModel : TaskViewModel
             ReserveMaxCredit = CreditReserveMaxCredit,
         };
         return task.Serialize();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not MallTask mall)
+        {
+            return null;
+        }
+
+        var fightStage = ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).FirstOrDefault()?.IsEnable is not false && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.Stage1 == string.Empty;
+        if (fightStage)
+        {
+            Log.Warning("刷理智 当前/上次导致无法OF-1");
+            return false;
+        }
+
+        var creditFight = mall.CreditFight;
+        var visitFriends = mall.VisitFriends;
+        try
+        {
+            creditFight &= DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            visitFriends &= !CreditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+        }
+
+        var task = new AsstMallTask()
+        {
+            CreditFight = creditFight && !fightStage,
+            SelectFormation = mall.CreditFightFormation,
+            VisitFriends = visitFriends,
+            WithShopping = mall.Shopping,
+            FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],
+            Blacklist = [.. mall.BlackList.Split(';').Select(s => s.Trim()).Union(_blackCharacterListMapping[SettingsViewModel.GameSettings.ClientType])],
+            ForceShoppingIfCreditFull = mall.ShoppingIgnoreBlackListWhenFull,
+            OnlyBuyDiscount = mall.OnlyBuyDiscount,
+            ReserveMaxCredit = mall.ReserveMaxCredit,
+        };
+
+        if (taskId is { } id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task);
+        }
     }
 }
