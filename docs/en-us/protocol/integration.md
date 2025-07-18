@@ -211,10 +211,11 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 {
     "enable": bool,  // Whether to enable this task, optional, default is true
     "theme": string, // Theme, optional, default is "Phantom"
-                     //   Phantom - Phantom & Crimson Solitaire
-                     //   Mizuki  - Mizuki & Caerula Arbor
-                     //   Sami    - Expeditioner's Jǫklumarkar
-                     //   Sarkaz  - 萨卡兹的无终奇语
+                     //   Phantom   - Phantom & Crimson Solitaire
+                     //   Mizuki    - Mizuki & Caerula Arbor
+                     //   Sami      - Expeditioner's Jǫklumarkar
+                     //   Sarkaz    - 萨卡兹的无终奇语
+                     //   JieGarden - 界园
     "mode": int,     // Mode, optional, default is 0
                      //   0 - Score farming/reward points, aiming to consistently reach higher levels
                      //   1 - Source stone farming, exit after investing in the first layer
@@ -249,7 +250,16 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
         string,                         // Reset is successful only when all Foldartals in the list are present in the opening rewards;
         ...                             // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
     ],
-    "start_with_two_ideas": bool,       // Whether to start with 2 ideas, optional, default is false；effective only for Sarkaz theme and mode 4
+    "collectible_mode_start_list": {    // Desired starting rewards (optional), all false by default; only valid in mode 4
+        "hot_water": bool,              // Hot Water reward, typically used to trigger boiling mechanism (universal)
+        "shield": bool,                 // Shield reward, equivalent to extra HP (universal)
+        "ingot": bool,                  // Originium Ingot reward (universal)
+        "hope": bool,                   // Hope reward (universal, note: not available in JieGarden theme)
+        "random": bool,                 // Random reward option: consumes all Ingots for a random collectible (universal)
+        "key": bool,                    // Key reward, only available in Mizuki theme
+        "dice": bool,                   // Dice reward, only available in Mizuki theme
+        "ideas": bool,                  // 2 Ideas reward, only available in Sarkaz theme
+    },
     "use_foldartal": bool,                    // Whether to use Foldartals, default is false in mode 5 and true in other modes; only applicable to the Sami theme
     "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
     "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;
