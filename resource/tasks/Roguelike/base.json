@@ -1003,6 +1003,7 @@
         "baseTask": "SwipeToTheRight",
         "specificRect": [550, 560, 100, 100],
         "rectMove": [100, 560, 100, 100],
+        "reduceOtherTimes": ["Roguelike@PreSelectThemeSwipeToLeft*10"],
         "next": ["Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipeToLeft"]
     },
     "Roguelike@QuickFormation": {
