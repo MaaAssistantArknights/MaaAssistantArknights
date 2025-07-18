@@ -1,10 +1,54 @@
 ## v5.20.0
 
-### 界园肉鸽来咯～(∠・ω< )⌒★ | Highlight
+### 界园导游，启动！ | Highlight
 
-牛牛火速为大家适配了界园肉鸽的刷钱模式！部分刷钱卡死问题已经被修复，现在大家可以愉快的给坎诺特上供啦~
+我们为你带来了界园肉鸽实装以来的第一个稳定版，如果有遇到任何问题请及时反馈~
 
-至于刷等级模式，各位博士还请耐心等待，~~我们已经在压榨帕鲁干活了~~
+#### 自动肉鸽模式支持界园主题
+
+这个版本我们初步支持了界园肉鸽的刷源石锭存钱策略（牛牛使用维什戴尔+狙医分队/指挥分队最稳），其他功能（比如速刷等级、速烧开水等）还在开发中哦~
+
+#### 这个问号是什么，这个箭头又是什么？
+
+对于部分难懂的设置项，我们添加了显眼的问号图标，将鼠标悬浮上去即可查看详细说明~
+
+另外，日志中部分内容支持扩展显示，鼠标悬浮在该行的箭头处即可查看扩展内容（如截图延迟、自动公招推测的干员列表等）
+
+#### 自动战斗功能支持设定模组啦
+
+在这个版本开始，自动战斗功能将支持作业里设置干员的模组（zoot.plus 的作业编辑器 v2 版支持设置模组），这样，对于部分有特定模组要求的作业，牛牛也能自动设置啦~
+
+不过目前自定干员部分还不支持设置模组哦，所以如果要带深海队挂件的话还是得手动设置下模组~
+
+#### 模拟器支持
+
+这个版本开始，牛牛能自动检测雷电模拟器明日方舟专版并设置端口啦~
+
+----
+
+#### [CN ONLY] Auto I.S. Supports the Sui's Garden of Grotesqueries
+
+This version initially supports investing coins in Sui's Garden of Grotesqueries (the most stable setup is using Wiš'adel in High Ground Breakthrough Squad (高台突破分队), Tactical Ranged Squad or Leader Squad). Other features (such as quick gaining experience points, grinding to obtain Hot Water Kettle or Elite II operators, etc.) are still under development~
+
+#### What Is This Question Mark? And What About This Arrow?
+
+For some confusing settings, we've added prominent question mark icons, hover your mouse over them to see detailed explanations~
+
+Additionally, some log content supports expanded display. Hover the mouse over the arrow in the corresponding row to view extended details (such as screenshot delays, automatically inferred operator lists from recruitment, etc.)
+
+#### Copilot now supports module configuration
+
+Starting with this version, the copilot feature will support setting operator modules in tasks (zoot.plus's tasks editor v2 supports module configuration). This means we can now automatically configure modules for strategies that have specific module requirements~
+
+However, custom operator configurations currently do not support module settings, so if you want to bring Abyssal Hunter support units, you'll still need to manually configure their modules~
+
+#### Emulator Support
+
+Starting from this version, we can automatically detect the LD Emulator Arknights Special Edition and configure the port~
+
+----
+
+以下是详细信息：
 
 ### 新增 | New
 
