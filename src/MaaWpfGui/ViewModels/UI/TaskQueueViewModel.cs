@@ -812,21 +812,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private DateOnly _lastPromptDate;
+
         private bool NeedToUpdateDatePrompt()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
 
             CurDayOfWeek = now.DayOfWeek;
 
-            // yj历的4/16点
-            return now is { Minute: 0, Hour: 0 or 12 };
+            // yj历的 4/16 点
+            var today = DateOnly.FromDateTime(now);
+            bool isCriticalTime = now is { Minute: 0, Hour: 0 or 12 };
+            bool isNewDate = today != _lastPromptDate;
+
+            if (!isCriticalTime && !isNewDate)
+            {
+                return false;
+            }
+
+            _lastPromptDate = today;
+            return true;
         }
 
         private static bool NeedToCheckForUpdates()
         {
             var now = DateTime.UtcNow.ToYjDateTime();
 
-            // yj历的4/22点
+            // yj历的 4/22 点
             return now is { Minute: 0, Hour: 0 or 18 };
         }
 
