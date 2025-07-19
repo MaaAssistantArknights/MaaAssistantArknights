@@ -82,7 +82,7 @@ namespace MaaWpfGui.Services.Web
             _client = BuildHttpClient();
         }
 
-        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null)
+        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace MaaWpfGui.Services.Web
                 var stopwatch = Stopwatch.StartNew();
                 var response = await _client.SendAsync(request).ConfigureAwait(false);
                 stopwatch.Stop();
-                response.Log();
+                response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
 
                 return response.IsSuccessStatusCode is false ? -1.0 : stopwatch.Elapsed.TotalMilliseconds;
             }
@@ -161,8 +161,10 @@ namespace MaaWpfGui.Services.Web
                 }
             }
 
+            var stopwatch = Stopwatch.StartNew();
             var response = await _client.SendAsync(request, httpCompletionOption);
-            response.Log(uriPartial);
+            stopwatch.Stop();
+            response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
             return response;
         }
 
@@ -207,8 +209,10 @@ namespace MaaWpfGui.Services.Web
 
             message.Headers.Accept.ParseAdd("application/json");
             message.Content = content;
+            var stopwatch = Stopwatch.StartNew();
             var response = await _client.SendAsync(message);
-            response.Log(uriPartial);
+            stopwatch.Stop();
+            response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
             return response;
         }
 
