@@ -19,7 +19,7 @@
     d:DataContext="{d:DesignInstance {x:Type ui:VersionUpdateViewModel}}"
     Icon="../../newlogo.ico"
     mc:Ignorable="d">
-    <hc:ScrollViewer IsInertiaEnabled="True">
+    <hc:ScrollViewer Margin="10,5" IsInertiaEnabled="True">
         <Grid Background="{DynamicResource MdXamlBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
@@ -49,7 +49,6 @@
 
             <mdxam:MarkdownScrollViewer
                 Grid.Row="1"
-                Margin="10,10,10,0"
                 ClickAction="SafetyOpenBrowser"
                 Markdown="{Binding UpdateInfo}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
