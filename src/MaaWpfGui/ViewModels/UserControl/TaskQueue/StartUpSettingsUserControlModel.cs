@@ -102,7 +102,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
             AccountName = accountName,
         };
 
-        if (taskId is { } id)
+        if (taskId is int id)
         {
             return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
         }
