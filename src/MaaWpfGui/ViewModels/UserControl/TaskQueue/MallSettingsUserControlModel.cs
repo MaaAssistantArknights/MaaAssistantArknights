@@ -338,9 +338,13 @@ public class MallSettingsUserControlModel : TaskViewModel
 
         var creditFight = mall.CreditFight;
         var visitFriends = mall.VisitFriends;
+
+        var lastCreditFightTaskTime = GetTaskConfig<MallTask>()?.CreditFightLastTime ?? string.Empty;
+        bool creditVisitOnceADay = GetTaskConfig<MallTask>()?.VisitFriendsOnceADay ?? default;
+        var lastCreditVisitFriendsTime = GetTaskConfig<MallTask>()?.VisitFriendsLastTime ?? string.Empty;
         try
         {
-            creditFight &= DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            creditFight &= DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
         }
         catch
         {
@@ -348,7 +352,7 @@ public class MallSettingsUserControlModel : TaskViewModel
 
         try
         {
-            visitFriends &= !CreditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(LastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            visitFriends &= !creditVisitOnceADay || DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
         }
         catch
         {
