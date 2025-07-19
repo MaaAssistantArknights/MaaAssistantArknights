@@ -59,6 +59,7 @@
             <hc:ScrollViewer
                 x:Name="ScrollViewer"
                 Grid.Row="0"
+                Margin="10,5"
                 IsInertiaEnabled="True">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="ScrollChanged">
@@ -66,7 +67,6 @@
                     </hc:EventTrigger>
                 </hc:Interaction.Triggers>
                 <mdxam:MarkdownScrollViewer
-                    Margin="10,0,10,0"
                     d:Markdown="#Test&#10;This is a test text.&#10;&#10;~~This is a test text~~&#10;&#10;*This is a test text*&#10;&#10;**This is a test text**"
                     ClickAction="SafetyOpenBrowser"
                     Markdown="{Binding SelectedAnnouncementSection.Content}"
