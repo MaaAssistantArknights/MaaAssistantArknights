@@ -641,7 +641,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
     <!--  !战斗设置  -->
     <!--  日志  -->
-    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。请下载完整包并解压到新的文件夹，切勿覆盖原有目录。可将原有的 config 与 data 文件夹复制到新文件夹中，以保留原有配置。</system:String>
+    <system:String x:Key="VersionMismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能导致不可预测的行为，请勿手动替换文件或者在更新时占用文件。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">请下载完整包并解压到新的文件夹，切勿直接覆盖原文件夹。\n可将原有的 config 与 data 文件夹复制到新文件夹中，以保留原有配置。</system:String>
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
@@ -833,7 +834,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
+    <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">无法删除目录，可能已被替换或发生了其他问题。请检查日志获取更多信息。</system:String>

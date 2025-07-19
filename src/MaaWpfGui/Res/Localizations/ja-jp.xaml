@@ -642,7 +642,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  !戦闘設定  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。設定を保持するには、元の config および data フォルダーを新しいフォルダーにコピーしてください。</system:String>
+    <system:String x:Key="VersionMismatch">UI と Core のバージョンが一致しません: {0} と {1}、予測不可能な動作を引き起こす可能性があります。ファイルを手動で置き換えたり、更新中にファイルを占有しないでください。\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">完全パッケージをダウンロードし、既存のフォルダーを上書きせずに新しいフォルダーに解凍してください。\n設定を保持するには、元の config および data フォルダーを新しいフォルダーにコピーしてください。</system:String>
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
@@ -833,7 +834,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
+    <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください。\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">ディレクトリを削除できません。既に置換されたか、他の問題が発生している可能性があります。詳細な情報はログをご確認ください。</system:String>

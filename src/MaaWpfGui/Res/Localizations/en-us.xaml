@@ -638,11 +638,12 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
-    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates. Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder. You may copy the original config and data folders into the new folder to retain your existing settings.</system:String>
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may cause unpredictable behavior. Please do not manually replace files or occupy files during updates.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">Please download the full package and extract it into a new folder. Do not overwrite the existing installation folder.\nYou may copy the original config and data folders into the new folder to retain your existing settings.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
-    <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
+    <system:String x:Key="AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings} - {key=ConnectionSettings} - {key=ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
@@ -829,7 +830,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
+    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">Unable to delete directory, it may have been replaced or encountered other issues. Please check the logs for more information.</system:String>
