@@ -41,6 +41,18 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
     private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
 
+    private bool _startGame = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, bool.TrueString));
+
+    public bool StartGame
+    {
+        get => _startGame;
+        set
+        {
+            SetAndNotify(ref _startGame, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.StartGame, value.ToString());
+        }
+    }
+
     /// <summary>
     /// Gets the list of the client types.
     /// </summary>

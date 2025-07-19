@@ -85,6 +85,7 @@ namespace MaaWpfGui.Constants
         public const string TouchMode = "Connect.TouchMode";
         public const string AdbReplaced = "Connect.AdbReplaced";
 
+        public const string StartGame = "Start.StartGame";
         public const string ClientType = "Start.ClientType";
         public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";

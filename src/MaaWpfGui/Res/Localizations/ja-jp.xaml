@@ -350,6 +350,7 @@
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
+    <system:String x:Key="StartGameLaunchClient">起動時にクライアントを開始する</system:String>
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">グローバルサーバーの対応は非常に大変で、皆様の協力が必要です！プログラミングの知識は必要ありません。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>

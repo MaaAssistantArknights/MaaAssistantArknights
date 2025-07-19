@@ -349,6 +349,7 @@
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
+    <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트를 실행</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
