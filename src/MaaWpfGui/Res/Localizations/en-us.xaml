@@ -261,6 +261,7 @@
     <system:String x:Key="SpecifiedDropsTip">This feature would not automatically calculate the optimal stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
@@ -570,7 +571,9 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="Sleep">Sleep</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only once*</system:String>
-    <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">If you want to execute only once, please check "Only once" first
+When "Only once" is checked, after executing the action, it will restore to the state before "Only once" was checked
+Right-clicking the actions below will synchronize the activation/cancellation of the "Only once" selection state</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -748,6 +751,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
+    <system:String x:Key="SSSCopilot">SSS {key=Copilot}</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
     <system:String x:Key="CopilotTaskName">Stage Code</system:String>
     <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
@@ -763,6 +767,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
   1. MainStory: Navigation within the same chapter
@@ -773,7 +778,6 @@ Please switch to the stage selection page before starting</system:String>
 Right click to add challenge difficulty</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all tasks
 Right-click to clear inactive tasks</system:String>
-    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
