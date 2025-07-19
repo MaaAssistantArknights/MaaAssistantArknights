@@ -448,8 +448,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         {
                             string[] possiblePaths =
                             [
-                                @"Software\mrfz\mrfz",        // 专版路径优先
-                                @"Software\leidian\ldplayer9" // 原版路径
+                                @"Software\leidian\ldplayer9", // 原版路径优先
+                                @"Software\mrfz\mrfz"
                             ];
 
                             const string InstallDirValueName = "InstallDir";
