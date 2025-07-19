@@ -65,6 +65,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var clientType = SettingsViewModel.GameSettings.ClientType;
+        var startGame = SettingsViewModel.GameSettings.StartGame;
         var accountName = clientType switch
         {
             "Official" or "Bilibili" => AccountName,
@@ -74,7 +75,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         var task = new AsstStartUpTask()
         {
             ClientType = clientType,
-            StartGame = !string.IsNullOrEmpty(clientType),
+            StartGame = startGame,
             AccountName = accountName,
         };
 

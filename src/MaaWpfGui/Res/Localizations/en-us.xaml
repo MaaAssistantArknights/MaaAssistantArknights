@@ -349,6 +349,7 @@ You can cancel this popup by clicking the ï½¢{key=Settings} - {key=IssueReport}ï
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
+    <system:String x:Key="StartGameLaunchClient">Launch Client on Start</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
