@@ -940,6 +940,18 @@
         "text": ["피드백", "전달"],
         "roi": [700, 620, 400, 80]
     },
+    "Chernobog": {
+        "text": ["체르노보그"]
+    },
+    "LungmenOutskirts": {
+        "text": ["용문외곽"]
+    },
+    "LungmenDowntown": {
+        "text": ["용문시내"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["변경"]
+    },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전개시"]
