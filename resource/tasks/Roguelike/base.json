@@ -1500,7 +1500,8 @@
     },
     "Roguelike@StageTraderRefreshWithDiceConfirm": {
         "action": "ClickSelf",
-        "roi": [759, 415, 171, 161],
+        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshConfirmNew"],
+        "roi": [580, 375, 700, 230],
         "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
     },
     "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
