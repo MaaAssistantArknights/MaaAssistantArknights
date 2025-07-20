@@ -169,6 +169,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
     }
     else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
+        // wpfGui cache糊屎, 依然会存在 tasks.json for ETag. 未来移除
         Log.warn("================  DEPRECATED  ================");
         Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since v5.15.4");
         Log.warn("================  DEPRECATED  ================");
