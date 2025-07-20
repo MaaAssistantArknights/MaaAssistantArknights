@@ -842,7 +842,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 進行連接。如果要再次嘗試，請 ｢關閉模擬器與 ADB｣，或 ｢重新啟動電腦後在未開啟模擬器的情況下使用管理員權限打開 MAA｣ 進行操作。</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
-    <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
+    <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例，建議使用 1280x720 或 1920x1080</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重開模擬器與 ADB 或重開電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>

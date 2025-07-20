@@ -845,7 +845,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">Failed to replace ADB file</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Connected using local ADB. If you want to try again, please disconnect the emulator from ADB and close it, or restart your computer and open MAA with administrator privileges without starting the emulator.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
-    <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio</system:String>
+    <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio; 1280x720 or 1920x1080 is recommended</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Failed to obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider switching to another emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>
