@@ -844,7 +844,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB를 사용하여 연결되었습니다. 다시 시도하려면 에뮬레이터를 ADB에서 연결 해제하고 닫거나, 컴퓨터를 재시작하고 에뮬레이터를 시작하지 않은 상태에서 관리자 권한으로 MAA를 열어주세요.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 1280 x 720 이상으로 설정해주세요</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 해상도를 1280x720 이상으로 설정해주세요. 1280x720 또는 1920x1080을 권장합니다</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하세요</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
