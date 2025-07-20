@@ -43,7 +43,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to save response to file: " + e.Message);
+                _logger.Error(e, "Failed to save response to file: ");
                 return false;
             }
 
@@ -71,7 +71,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to get response as stream: " + e.Message);
+                _logger.Error(e, "Failed to get response as stream: ");
                 return null;
             }
         }
@@ -89,7 +89,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to get response as string: " + e.Message);
+                _logger.Error(e, "Failed to get response as string: ");
                 return string.Empty;
             }
         }

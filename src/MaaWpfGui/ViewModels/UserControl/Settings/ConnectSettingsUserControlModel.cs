@@ -1058,11 +1058,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (!File.Exists(MaaUrls.GoogleAdbFilename))
         {
-            var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.GoogleAdbDownloadUrl), MaaUrls.GoogleAdbFilename);
+            string[] downloadUrls =
+            [
+                MaaUrls.GoogleAdbDownloadUrl,
+                MaaUrls.AdbMaaMirrorDownloadUrl,
+                MaaUrls.AdbMaaMirror2DownloadUrl
+            ];
 
-            if (!downloadResult)
+            bool downloadResult = false;
+            foreach (var url in downloadUrls)
             {
-                downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.AdbMaaMirrorDownloadUrl), MaaUrls.GoogleAdbFilename);
+                downloadResult = await Instances.HttpService.DownloadFileAsync(new(url), MaaUrls.GoogleAdbFilename);
+                if (downloadResult)
+                {
+                    break;
+                }
             }
 
             if (!downloadResult)
