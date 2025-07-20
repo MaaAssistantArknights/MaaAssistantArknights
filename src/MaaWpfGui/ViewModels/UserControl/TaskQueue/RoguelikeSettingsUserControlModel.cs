@@ -58,7 +58,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
         if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
-        {
+        { // 外服暂未开放界园
             RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
         }
     }
@@ -130,11 +130,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         switch (RoguelikeTheme)
         {
-            case Theme.JieGarden:
-                RoguelikeModeList =
-                [
-                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
-                ];
+            case Theme.JieGarden: // 界园目前仅支持刷钱
+                RoguelikeModeList = [new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }];
                 break;
 
             default:
