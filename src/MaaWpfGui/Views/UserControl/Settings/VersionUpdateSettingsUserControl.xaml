@@ -133,6 +133,7 @@
                                 <Button
                                     Grid.Column="1"
                                     hc:BorderElement.CornerRadius="0,4,4,0"
+                                    BorderThickness="0,1,1,1"
                                     Command="{s:Action MirrorChyanCdkCopy}"
                                     Content="{DynamicResource Copy}" />
                             </Grid>
