@@ -400,7 +400,7 @@ namespace MaaWpfGui.Main
                         _logger.Information("Created directory: {TasksFolderPath}", tasksFolderPath);
                     }
 
-                    File.Move(tasksJsonPath, newTasksJsonPath, true);
+                    File.Copy(tasksJsonPath, newTasksJsonPath, true);
                     _logger.Information("Moved {TasksJsonPath} to {NewTasksJsonPath}", tasksJsonPath, newTasksJsonPath);
                 }
                 catch (Exception ex)
