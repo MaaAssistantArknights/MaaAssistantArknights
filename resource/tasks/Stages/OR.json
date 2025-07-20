@@ -14,6 +14,11 @@
         "sub": ["OR-OpenOpt"],
         "next": ["OR-7@SideStoryStage", "OR-7@SwipeToStage"]
     },
+    "OR-5": {
+        "algorithm": "JustReturn",
+        "sub": ["OR-OpenOpt"],
+        "next": ["OR-5@SideStoryStage", "OR-5@SwipeToStage"]
+    },
     "OR-4": {
         "algorithm": "JustReturn",
         "sub": ["OR-OpenOpt"],
@@ -49,6 +54,9 @@
     },
     "OR-7@SideStoryStage": {
         "text": ["OR-7"]
+    },
+    "OR-5@SideStoryStage": {
+        "text": ["OR-5"]
     },
     "OR-4@SideStoryStage": {
         "text": ["OR-4"]
