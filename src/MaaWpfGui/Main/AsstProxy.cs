@@ -352,15 +352,15 @@ namespace MaaWpfGui.Main
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                MoveTasksJson(mainCache);
+                CopyTasksJson(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
             {
                 // Read resources first, then read cache
-                MoveTasksJson(mainCache);
-                MoveTasksJson(globalCache);
+                CopyTasksJson(mainCache);
+                CopyTasksJson(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -381,7 +381,7 @@ namespace MaaWpfGui.Main
             }
 
             // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
-            static void MoveTasksJson(string oldPath)
+            static void CopyTasksJson(string oldPath)
             {
                 try
                 {

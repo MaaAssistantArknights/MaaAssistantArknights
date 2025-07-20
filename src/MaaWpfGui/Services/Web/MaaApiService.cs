@@ -11,7 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
+#nullable enable
+
 using System.IO;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
@@ -25,11 +26,26 @@ namespace MaaWpfGui.Services.Web
     {
         private const string CacheDir = "cache/";
 
-        public async Task<JObject> RequestMaaApiWithCache(string api)
+        public async Task<JObject?> RequestMaaApiWithCache(string api)
         {
-            var url = MaaUrls.MaaApi + api;
+            return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2);
+        }
 
-            // await Instances.HttpService.GetStringAsync(new Uri(url));
+        private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null)
+        {
+            var json = await TryRequest(api, primaryBaseUrl);
+            if (json != null || string.IsNullOrEmpty(fallbackBaseUrl))
+            {
+                return json;
+            }
+
+            return await TryRequest(api, fallbackBaseUrl);
+        }
+
+        private async Task<JObject?> TryRequest(string api, string baseUrl)
+        {
+            var url = baseUrl + api;
+
             var response = await ETagCache.FetchResponseWithEtag(url);
             if (response == null ||
                 response.StatusCode == System.Net.HttpStatusCode.NotModified ||
@@ -46,9 +62,9 @@ namespace MaaWpfGui.Services.Web
 
             try
             {
-                var json = (JObject)JsonConvert.DeserializeObject(body);
+                var json = (JObject?)JsonConvert.DeserializeObject(body);
                 var cache = CacheDir + api;
-                string directoryPath = Path.GetDirectoryName(cache);
+                string? directoryPath = Path.GetDirectoryName(cache);
 
                 if (!Directory.Exists(directoryPath))
                 {
@@ -56,7 +72,6 @@ namespace MaaWpfGui.Services.Web
                 }
 
                 await File.WriteAllTextAsync(cache, body);
-
                 ETagCache.Set(response, url);
 
                 return json;
@@ -67,7 +82,7 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public JObject LoadApiCache(string api)
+        public JObject? LoadApiCache(string api)
         {
             var cache = CacheDir + api;
             if (!File.Exists(cache))
@@ -77,7 +92,7 @@ namespace MaaWpfGui.Services.Web
 
             try
             {
-                return (JObject)JsonConvert.DeserializeObject(File.ReadAllText(cache));
+                return (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(cache));
             }
             catch
             {
