@@ -1491,6 +1491,7 @@
     "UsingMedicine-Target": {
         "baseTask": "NumberOcrReplace",
         "roi": [255, 390, 315, 140],
+        "ocrReplaceDoc": "有时候会识别出小数点等其他东西，需要附加到 NumberOcrReplace 的后面，cpp 中处理",
         "ocrReplace": [["[^\\d]", ""]]
     },
     "UsingMedicine-SanityMax": {
