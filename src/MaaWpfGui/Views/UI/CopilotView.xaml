@@ -145,6 +145,21 @@
                 </StackPanel>
 
                 <StackPanel
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding Form}">
+                    <CheckBox
+                        Height="30"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource Copilot.IgnoreRequirements}"
+                        IsChecked="{Binding IgnoreRequirements}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding Form}" />
+                </StackPanel>
+
+                <StackPanel
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}"
                     Orientation="Horizontal">
