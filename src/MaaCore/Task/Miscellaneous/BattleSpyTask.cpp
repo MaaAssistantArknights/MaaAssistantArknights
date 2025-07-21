@@ -47,15 +47,26 @@ bool asst::BattleSpyTask::_run()
     // TODO, 识别关卡名
     /*if (!calc_tiles_info(m_stage_name)) {
         Log.error("get stage info failed");
+        json::value error_info = basic_info_with_what("GetStageInfoFailed");
+        callback(AsstMsg::SubTaskError, error_info);
         return false;
     }*/
 
     if (!update_deployment(true)) {
         Log.error("update deployment failed");
+        json::value error_info = basic_info_with_what("UpdateDeploymentFailed");
+        details["Msg"] = "update deployment failed";
+        callback(AsstMsg::SubTaskError, error_info);
         return false;
     }
 
-    to_group();
+    if (!to_group()) {
+        Log.error("to_group failed");
+        json::value error_info = basic_info_with_what("ToGroupFailed");
+        details["Msg"] = "to_group failed";
+        callback(AsstMsg::SubTaskError, error_info);
+        return false;
+    }
 
     while (need_to_wait_until_end() && check_in_battle() && update_deployment() && update_kills(ctrler()->get_image())) {
         // TODO: 分析技能准备情况
@@ -100,6 +111,15 @@ bool asst::BattleSpyTask::_run()
             });
 
             Log.info(__FUNCTION__, "Stage Code:", stage_code, "Stars:", analyzer.get_stars());
+            
+            json::value stage_info = basic_info_with_what("StageAnalysisCompleted");
+            auto& stage_details = stage_info["details"];
+            stage_details["stage_code"] = stage_code;
+            stage_details["stars"] = analyzer.get_stars();
+            stage_details["difficulty"] = difficulty;
+            int stars = analyzer.get_stars();
+            details["Msg"] = stage_code + ", " + std::to_string(stars) + ", " + enum_to_string(difficulty);
+            callback(AsstMsg::SubTaskExtraInfo, stage_info);
             break;
         }
         else {
@@ -112,18 +132,35 @@ bool asst::BattleSpyTask::_run()
                 notify_action({ { "star", star }, { "difficulty", difficulty } });
                 break;
             }
+            
+            if (i == maxTry - 1) {
+                Log.warn(__FUNCTION__, "Failed to analyze stage after", maxTry, "attempts");
+                json::value warn_info = basic_info_with_what("StageAnalysisFailed");
+                auto& warn_details = warn_info["details"];
+                warn_details["attempts"] = maxTry;
+                details["Msg"] = "__FUNCTION__,  Failed to analyze stage after " + std::to_string(maxTry) + " attempts";
+                callback(AsstMsg::SubTaskExtraInfo, warn_info);
+            }
         }
     }
+
+    json::value completion_info = basic_info_with_what("BattleSpyTaskCompleted");
+    callback(AsstMsg::SubTaskExtraInfo, completion_info);
 
     return true;
 }
 
-void asst::BattleSpyTask::clear()
-{
-    BattleHelper::clear();
-
-    m_oper_in_group.clear();
-    m_in_bullet_time = false;
+void asst::BattleSpyTask::clear()  
+{  
+    BattleHelper::clear();  
+  
+    m_oper_in_group.clear();  
+    m_in_bullet_time = false;  
+  
+    json::value clear_info = basic_info_with_what("BattleSpyTaskCleared");  
+    auto& details = clear_info["details"];
+    details["Msg"] = "BattleSpyTask cleared";  
+    callback(AsstMsg::SubTaskExtraInfo, clear_info);  
 }
 
 bool asst::BattleSpyTask::set_stage_name(const std::string& stage_name)
@@ -140,6 +177,13 @@ bool asst::BattleSpyTask::set_stage_name(const std::string& stage_name)
     }
 
     m_combat_data = Copilot.get_data();
+    
+    json::value stage_set_info = basic_info_with_what("StageNameSet");
+    auto& stage_set_details = stage_set_info["details"];
+    stage_set_details["stage_name"] = stage_name;
+    auto& details = stage_set_info["details"];
+    details["Msg"] = "Stage name set to " + stage_name;
+    callback(AsstMsg::SubTaskExtraInfo, stage_set_info);
 
     return true;
 }
@@ -185,6 +229,10 @@ bool asst::BattleSpyTask::to_group()
     }
     else {
         Log.warn("get_char_allocation_for_each_group failed");
+        json::value warn_info = basic_info_with_what("CharAllocationFailed");
+        auto& details = warn_info["details"];
+        details["Msg"] = "get_char_allocation_for_each_group failed";
+        callback(AsstMsg::SubTaskExtraInfo, warn_info);
         for (const auto& [gp, names] : groups) {
             if (names.empty()) {
                 continue;
@@ -217,6 +265,12 @@ bool asst::BattleSpyTask::to_group()
         });
         if (group_it == get_combat_data().groups.end()) {
             Log.warn(__FUNCTION__, "Group not found in combat data: ", group_name);
+            json::value warn_info = basic_info_with_what("GroupNotFoundInCombatData");
+            auto& group_details = warn_info["details"];
+            group_details["group_name"] = group_name;
+            auto& details = warn_info["details"];
+            details["Msg"] = "Group not found in combat data: " + group_name;
+            callback(AsstMsg::SubTaskExtraInfo, warn_info);
             continue;
         }
         const auto& this_group = group_it->second;
@@ -247,9 +301,18 @@ bool asst::BattleSpyTask::is_skill_ready(const cv::Mat& imageRect)
     BattlefieldClassifier skill_analyzer(imageRect);
     skill_analyzer.set_object_of_interest({ .skill_ready = true });
     
-
     //const Point& battlefield_point = target_iter->second.pos;
     skill_analyzer.set_base_point({0,0});
 
-    return skill_analyzer.analyze()->skill_ready.ready;
+    auto result = skill_analyzer.analyze();
+    if (!result) {
+        Log.warn(__FUNCTION__, "Failed to analyze skill readiness");
+        json::value warn_info = basic_info_with_what("SkillAnalysisFailed");
+        auto& details = warn_info["details"];
+        details["Msg"] = "Failed to analyze skill readiness";
+        callback(AsstMsg::SubTaskExtraInfo, warn_info);
+        return false;
+    }
+
+    return result->skill_ready.ready;
 }
