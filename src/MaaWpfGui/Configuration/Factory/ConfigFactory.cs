@@ -350,7 +350,7 @@ public static class ConfigFactory
 
         if (copyFrom is null)
         {
-            Root.Configurations[configName] = new SpecificConfig();
+            Root.Configurations[configName] = new();
         }
         else
         {
@@ -360,7 +360,7 @@ public static class ConfigFactory
                 return false;
             }
 
-            Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options);
+            Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options) ?? new();
         }
 
         return true;
