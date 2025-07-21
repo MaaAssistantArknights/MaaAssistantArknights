@@ -110,9 +110,9 @@ protected:
     std::vector<QuickFormationOper> analyzer_opers(const cv::Mat& image);
 
     std::string m_stage_name;
-    std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
-    std::unordered_map<battle::Role, std::vector<OperGroup>> m_user_formation;
-    int m_size_of_operators_in_formation = 0;                             // 编队中干员个数
+    std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
+    std::unordered_map<battle::Role, std::vector<OperGroup>> m_user_formation; // 解析后用户自定编队
+    int m_size_of_operators_in_formation = 0;                                  // 编队中干员个数
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
         std::make_shared<std::unordered_map<std::string, std::string>>(); // 编队中的干员名称-所属组名
     bool m_add_trust = false;                                             // 是否需要追加信赖干员

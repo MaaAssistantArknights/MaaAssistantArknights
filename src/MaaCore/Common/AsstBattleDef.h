@@ -33,6 +33,16 @@ struct OperatorRequirements
     // int potentiality = -1; // 潜能要求
 };
 
+// 干员编队状态
+enum class OperStatus
+{
+    Unchecked,   // 未检查
+    Selected,    // 已编入
+    Missing,     // 缺失
+    Unavailable, // 不可用
+    // Unknown,     // 未知状态
+};
+
 struct OperUsage // 干员用法
 {
     std::string name;
@@ -40,6 +50,7 @@ struct OperUsage // 干员用法
     SkillUsage skill_usage = SkillUsage::NotUse;
     int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
     asst::battle::OperatorRequirements requirements = {}; // 练度需求
+    OperStatus status = OperStatus::Unchecked;       // 编队状态
 };
 
 enum class DeployDirection
