@@ -1305,7 +1305,5 @@
         "roi": [912, 648, 58, 58],
         "action": "ClickSelf"
     },
-    "Sarkaz@RoguelikeSettlementConfirm": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
-    }
+    "Sarkaz@RoguelikeSettlementConfirm": {}
 }
