@@ -83,17 +83,17 @@ public class FightSettingsUserControlModel : TaskViewModel
                 return Stage1;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2 ??= string.Empty))
             {
                 return Stage2;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3 ??= string.Empty))
             {
                 return Stage3;
             }
 
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage4) ? Stage4 : Stage1;
+            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;
         }
     }
 
