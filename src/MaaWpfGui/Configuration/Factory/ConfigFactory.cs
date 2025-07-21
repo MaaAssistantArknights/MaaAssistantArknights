@@ -222,7 +222,7 @@ public static class ConfigFactory
                 after = detailArgs.NewValue;
             }
 
-            OnPropertyChanged(key + o.GetType().Name + "." + args.PropertyName, null, after);
+            OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, null, after);
         };
     }
 
