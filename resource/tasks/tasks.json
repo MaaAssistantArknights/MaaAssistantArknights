@@ -1490,11 +1490,13 @@
     },
     "UsingMedicine-Target": {
         "baseTask": "NumberOcrReplace",
-        "roi": [255, 390, 315, 140]
+        "roi": [255, 390, 315, 140],
+        "ocrReplace": [["[^\\d]", ""]]
     },
     "UsingMedicine-SanityMax": {
         "baseTask": "NumberOcrReplace",
-        "roi": [440, 330, 150, 55]
+        "roi": [440, 330, 150, 55],
+        "ocrReplace": [["[^\\d]", ""]]
     },
     "DrGrandetUseOriginiums": {
         "algorithm": "OcrDetect",

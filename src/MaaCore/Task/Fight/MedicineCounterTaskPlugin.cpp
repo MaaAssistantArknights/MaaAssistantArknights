@@ -111,6 +111,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
         Log.error(__FUNCTION__, "unable to analyze sanity");
     }
     else if (*sanity_target >= *sanity_max) [[unlikely]] {
+        Log.info(__FUNCTION__, "sanity target >= sanity max, reduce count");
         if (m_dr_grandet) { // 博朗台: 如果溢出则等待
             auto waitTime = DrGrandetTaskPlugin::analyze_time_left(image);
             if (waitTime > 0) {
@@ -258,9 +259,16 @@ void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_
 
 std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const cv::Mat& image)
 {
+    const auto& ocr_task = Task.get<OcrTaskInfo>("UsingMedicine-Target");
+    const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+    const auto& task_replace = ocr_task->replace_map;
+    auto merge_map = std::vector(number_replace);
+    ranges::copy(task_replace, std::back_inserter(merge_map));
+
     RegionOCRer ocr(image);
     ocr.set_bin_threshold(100, 255);
-    ocr.set_task_info("UsingMedicine-Target");
+    ocr.set_task_info(ocr_task);
+    ocr.set_replace(merge_map);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
         return std::nullopt;
@@ -275,9 +283,16 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
 
 std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const cv::Mat& image)
 {
+    const auto& ocr_task = Task.get<OcrTaskInfo>("UsingMedicine-SanityMax");
+    const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+    const auto& task_replace = ocr_task->replace_map;
+    auto merge_map = std::vector(number_replace);
+    ranges::copy(task_replace, std::back_inserter(merge_map));
+
     RegionOCRer ocr(image);
     ocr.set_bin_threshold(100, 255);
-    ocr.set_task_info("UsingMedicine-SanityMax");
+    ocr.set_task_info(ocr_task);
+    ocr.set_replace(merge_map);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
         return std::nullopt;
