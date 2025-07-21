@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
@@ -206,5 +207,20 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     public void LockAll()
     {
         AchievementTrackerHelper.Instance.LockAll();
+    }
+
+    private bool _disableAchievementNotifications = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DisableAchievementNotifications, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to disable achievement notifications.
+    /// </summary>
+    public bool DisableAchievementNotifications
+    {
+        get => _disableAchievementNotifications;
+        set
+        {
+            SetAndNotify(ref _disableAchievementNotifications, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DisableAchievementNotifications, value.ToString());
+        }
     }
 }
