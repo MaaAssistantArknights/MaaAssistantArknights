@@ -859,7 +859,7 @@ namespace MaaWpfGui.Main
                         _tasksStatus.TryGetValue(taskId, out var value);
                         if (value is { Type: TaskType.Fight } && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
