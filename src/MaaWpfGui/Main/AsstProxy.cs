@@ -580,8 +580,8 @@ namespace MaaWpfGui.Main
 
         public bool Connected { get; set; }
 
-        private string _connectedAdb;
-        private string _connectedAddress;
+        private string _connectedAdb = string.Empty;
+        private string _connectedAddress = string.Empty;
 
         private void ProcConnectInfo(JObject details)
         {
