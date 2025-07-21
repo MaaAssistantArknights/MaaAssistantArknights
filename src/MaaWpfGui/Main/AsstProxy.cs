@@ -424,11 +424,7 @@ namespace MaaWpfGui.Main
 
                 if (x.IsDeprecated)
                 {
-                    if (!GpuOption.AllowDeprecatedGpu)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), description), UiLogColor.Warning);
-                    }
-
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), description), UiLogColor.Warning);
                     _logger.Warning("Using deprecated GPU {0} (Driver {1} {2})", description, version, date);
                 }
                 else
