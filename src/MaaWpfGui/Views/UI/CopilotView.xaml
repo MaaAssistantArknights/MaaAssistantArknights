@@ -166,6 +166,20 @@
                         Visibility="{c:Binding UseCopilotList}" />
                 </StackPanel>
                 <StackPanel
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Height="30"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource ContinueWhenMissingOperators}"
+                        IsChecked="{Binding ContinueWhenMissingOperators}"
+                        ToolTip="{DynamicResource ContinueWhenMissingOperatorsTip}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding Form}" />
+                </StackPanel>
+                <StackPanel
                     Height="30"
                     Margin="0,7"
                     HorizontalAlignment="Center"
