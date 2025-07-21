@@ -143,18 +143,18 @@
                         ToolTipService.InitialShowDelay="0"
                         Visibility="{c:Binding AddUserAdditional}" />
                 </StackPanel>
-                
+
                 <StackPanel
                     Height="30"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
                     Visibility="{c:Binding Form}">
-                        <CheckBox
+                    <CheckBox
                         Height="30"
                         Margin="10,0"
                         HorizontalAlignment="Center"
-                        Content="{DynamicResource SkipUnmetOperatorRequirements}"
-                        IsChecked="{Binding SkipUnmetOperatorRequirements}"
+                        Content="{DynamicResource Copilot.IgnoreRequirements}"
+                        IsChecked="{Binding IgnoreRequirements}"
                         IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding Form}" />
                 </StackPanel>

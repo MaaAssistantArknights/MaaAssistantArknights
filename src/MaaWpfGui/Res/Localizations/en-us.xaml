@@ -747,6 +747,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
     <!--  !Logs  -->
     <!--  Copilot  -->
+    <system:String x:Key="Operator">Operator</system:String>
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
     <system:String x:Key="CopilotTaskName">Stage Code</system:String>
@@ -761,7 +762,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators may not be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
-    <system:String x:Key="SkipUnmetOperatorRequirements">Skip unmet operator requirements</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} attribute requirements</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
