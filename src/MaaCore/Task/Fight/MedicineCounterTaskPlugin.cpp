@@ -263,10 +263,10 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
     const auto& ocr_task = Task.get<OcrTaskInfo>("UsingMedicine-Target");
     const auto& ocr_replace = ocr_task->replace_map;
 
-    std::vector<std::pair<std::string, std::string>> merged_replace;
+    std::decay_t<decltype(ocr_replace)> merged_replace {};
     merged_replace.reserve(number_replace.size() + ocr_replace.size());
-    merged_replace.insert(merged_replace.end(), number_replace.begin(), number_replace.end());
-    merged_replace.insert(merged_replace.end(), ocr_replace.begin(), ocr_replace.end());
+    ranges::copy(number_replace, std::back_inserter(merged_replace));
+    ranges::copy(ocr_replace, std::back_inserter(merged_replace));
 
     RegionOCRer ocr(image);
     ocr.set_bin_threshold(100, 255);
