@@ -222,4 +222,19 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.AchievementBubbleAutoClose, value.ToString());
         }
     }
+
+    private bool _disableAchievementNotifications = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DisableAchievementNotifications, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to disable achievement notifications.
+    /// </summary>
+    public bool DisableAchievementNotifications
+    {
+        get => _disableAchievementNotifications;
+        set
+        {
+            SetAndNotify(ref _disableAchievementNotifications, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.DisableAchievementNotifications, value.ToString());
+        }
+    }
 }

@@ -247,6 +247,12 @@ namespace MaaWpfGui.Helper
 
         public static void ShowInfo(GrowlInfo info)
         {
+            // 检查是否禁用了成就通知
+            if (SettingsViewModel.AchievementSettings.DisableAchievementNotifications)
+            {
+                return;
+            }
+
             Execute.OnUIThread(() =>
             {
                 var win = Instances.MainWindowManager.GetWindowIfVisible();
