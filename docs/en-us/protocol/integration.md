@@ -43,7 +43,7 @@ Appends a task.
 // Corresponding task parameters
 {
     "enable": bool,              // Whether to enable this task, optional, true by default
-    "client_type": string,       // Client version, optional, empty by default
+    "client_type": string,       // Client version, required
                                  // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
     "start_game_enabled": bool   // Whether to launch client automatically, optional, false by default
 }
