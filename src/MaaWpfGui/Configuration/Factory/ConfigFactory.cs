@@ -78,7 +78,7 @@ public static class ConfigFactory
                 }
                 catch (Exception e)
                 {
-                    _logger.Information("Failed to parse configuration file: " + e);
+                    _logger.Information(e, "Failed to parse configuration file.");
                 }
             }
 
@@ -101,7 +101,7 @@ public static class ConfigFactory
                 }
                 catch (Exception e)
                 {
-                    _logger.Information("Failed to parse configuration file: " + e);
+                    _logger.Information(e, "Failed to parse configuration file.");
                 }
             }
 
@@ -126,7 +126,7 @@ public static class ConfigFactory
                         {
                             foreach (var value in args.NewItems)
                             {
-                                SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
+                                SpecificConfigBind(value.Key, value.Value);
                             }
                         }
 

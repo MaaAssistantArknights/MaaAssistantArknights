@@ -35,13 +35,13 @@ public class Root : INotifyPropertyChanged
     public string Current { get; set; } = "Default";
 
     [JsonInclude]
-    public VersionUpdate VersionUpdate { get; private set; } = new VersionUpdate();
+    public VersionUpdate VersionUpdate { get; private set; } = new();
 
     [JsonInclude]
-    public AnnouncementInfo AnnouncementInfo { get; private set; } = new AnnouncementInfo();
+    public AnnouncementInfo AnnouncementInfo { get; private set; } = new();
 
     [JsonInclude]
-    public GUI GUI { get; private set; } = new GUI();
+    public GUI GUI { get; private set; } = new();
 
     [JsonIgnore]
     public SpecificConfig CurrentConfig
