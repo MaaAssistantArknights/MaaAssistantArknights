@@ -49,7 +49,7 @@ public class Root : INotifyPropertyChanged
         get
         {
             Configurations.TryGetValue(Current, out var result);
-            return result;
+            return result ?? new SpecificConfig();
         }
 
         set => Configurations[Current] = value;
