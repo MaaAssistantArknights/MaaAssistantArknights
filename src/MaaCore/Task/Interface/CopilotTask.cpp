@@ -84,6 +84,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool with_formation = params.get("formation", false);                            // 是否使用自动编队
     int select_formation = params.get("select_formation", 0);                        // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                                 // 是否自动补信赖
+    bool ignore_requirements = params.get("ignore_requirements", false);             // 跳过未满足的干员属性要求
     bool add_user_additional = params.contains("user_additional");                   // 是否自动补用户自定义干员
     auto support_unit_usage = static_cast<SupportUnitUsage>(
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
@@ -147,6 +148,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_enable(with_formation);
     m_formation_task_ptr->set_select_formation(select_formation);
     m_formation_task_ptr->set_add_trust(add_trust);
+    m_formation_task_ptr->set_ignore_requirements(ignore_requirements);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
     m_formation_task_ptr->set_specific_support_unit(support_unit_name);
 

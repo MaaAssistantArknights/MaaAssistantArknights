@@ -218,6 +218,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _addTrust, value);
         }
 
+        private bool _ignoreRequirements;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool IgnoreRequirements
+        {
+            get => _ignoreRequirements;
+            set => SetAndNotify(ref _ignoreRequirements, value);
+        }
+
         private bool _useSanityPotion;
 
         public bool UseSanityPotion
@@ -1194,6 +1205,7 @@ namespace MaaWpfGui.ViewModels.UI
                          FileName = model.FilePath,
                          Formation = _form,
                          AddTrust = _addTrust,
+                         IgnoreRequirements = _ignoreRequirements,
                          UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                          NeedNavigate = UseCopilotList,
                          StageName = model.Name,
@@ -1236,6 +1248,7 @@ namespace MaaWpfGui.ViewModels.UI
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                     Formation = _form,
                     AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,

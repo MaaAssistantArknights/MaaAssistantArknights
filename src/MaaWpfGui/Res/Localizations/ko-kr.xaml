@@ -752,6 +752,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="IdentificationCompleted">인식 완료</system:String>
     <!--  !로그  -->
     <!--  Copilot  -->
+    <system:String x:Key="Operator">오퍼레이터</system:String>
     <system:String x:Key="Copilot">자동지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="CopilotTaskName">스테이지 코드</system:String>
@@ -766,6 +767,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 오퍼레이터 추가</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 모듈 요구 사항 무시</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>

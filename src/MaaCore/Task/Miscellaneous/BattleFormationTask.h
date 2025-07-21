@@ -43,6 +43,9 @@ public:
     // 是否追加低信赖干员
     void set_add_trust(bool add_trust) { m_add_trust = add_trust; }
 
+    // 设置是否跳过未满足的干员属性要求
+    void set_ignore_requirements(bool value) { m_ignore_requirements = value; }
+
     // 设置对指定编队自动编队
     void set_select_formation(int index) { m_select_formation_index = index; }
 
@@ -113,6 +116,7 @@ protected:
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
         std::make_shared<std::unordered_map<std::string, std::string>>(); // 编队中的干员名称-所属组名
     bool m_add_trust = false;                                             // 是否需要追加信赖干员
+    bool m_ignore_requirements = false;                                   // 是否跳过未满足的干员属性要求
     std::vector<std::pair<std::string, int>> m_user_additional;           // 追加干员表，从头往后加
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
