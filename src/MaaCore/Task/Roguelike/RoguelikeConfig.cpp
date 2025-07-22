@@ -75,8 +75,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     if (m_mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
-        if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
-            investment_with_more_score = params.get("investment_enter_second_floor", true);
+        if (params.contains("investment_enter_second_floor")) {
             Log.warn("================  DEPRECATED  ================");
             LogWarn << "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
                        "'investment_with_more_score'";
