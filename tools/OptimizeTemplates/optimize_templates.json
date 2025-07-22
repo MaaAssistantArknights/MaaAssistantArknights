@@ -4927,5 +4927,8 @@
     "resource/template/items/so_char_exp_1": "cb41bf2b18fe2bfab75da8fb32f84a152484eedd47dd74a3dab6e51f321bf7f5",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterDrawCopperResult": "d423eea2d172756ca48741d76ea2808e04cdc5db9c79f6f51fe72e44dc98aa38",
     "resource/template/Roguelike/Sarkaz/Sarkaz@RoguelikeSettlementConfirm": "7bd2b501be950c44316e0011647ad9c78321ba0871ee96045d9dac0a919409d4",
-    "resource/template/items/act5collection_point_token": "d3715ee929df07e35e6f861ea6b40f8e63416ef50f1517d1a6286acefd3b0c5f"
+    "resource/template/items/act5collection_point_token": "d3715ee929df07e35e6f861ea6b40f8e63416ef50f1517d1a6286acefd3b0c5f",
+    "txwy/SS@Store@CheckUnlimited": "e2d0cce8f0943dc765cc5185f3670f42ea8dd0128beae5c8a8119cde75354d3b",
+    "txwy/StageDrops-DropType-Furniture": "9ee3ad1f514fc66bbf57a1f6f630ef95476ec35f67e310e5f33a67e1f7851713",
+    "resource/global/txwy/resource/template/Roguelike/base/Roguelike@StageTraderRefresh": "1063d00573d3b76455c48dea80f25b1458994b875a8679050a41f37bd7d3d119"
 }
