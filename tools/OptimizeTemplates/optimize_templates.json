@@ -4926,5 +4926,6 @@
     "resource/template/Roguelike/base/RoguelikeRecruitSupportElite1": "e7023daed761e6f0515c70b11b9e2ee6d0c5caf9856db0b497b9ad42e3a23f0d",
     "resource/template/items/so_char_exp_1": "cb41bf2b18fe2bfab75da8fb32f84a152484eedd47dd74a3dab6e51f321bf7f5",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterDrawCopperResult": "d423eea2d172756ca48741d76ea2808e04cdc5db9c79f6f51fe72e44dc98aa38",
-    "resource/template/Roguelike/Sarkaz/Sarkaz@RoguelikeSettlementConfirm": "7bd2b501be950c44316e0011647ad9c78321ba0871ee96045d9dac0a919409d4"
+    "resource/template/Roguelike/Sarkaz/Sarkaz@RoguelikeSettlementConfirm": "7bd2b501be950c44316e0011647ad9c78321ba0871ee96045d9dac0a919409d4",
+    "resource/template/items/act5collection_point_token": "d3715ee929df07e35e6f861ea6b40f8e63416ef50f1517d1a6286acefd3b0c5f"
 }
