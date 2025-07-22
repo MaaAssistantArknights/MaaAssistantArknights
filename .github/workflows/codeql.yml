@@ -76,3 +76,14 @@
           uses: github/codeql-action/analyze@v3
           with:
             category: "/language:multi-manual"
+
+        - name: Delete old caches
+          shell: pwsh
+          run: |
+            $oldCaches = gh cache list --key codeql --order asc --json key | ConvertFrom-Json | Select-Object -SkipLast 1
+              foreach ($cache in $oldCaches) {
+                if ($cache.key) {
+                  Write-Host "Deleting cache: $($cache.key)"
+                  gh cache delete $cache.key
+                }
+              }
