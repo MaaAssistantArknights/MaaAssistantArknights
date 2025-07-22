@@ -1135,6 +1135,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AchievementRestoreFailed">恢复失败，文件格式无效</system:String>
     <system:String x:Key="AchievementNotificationSettings">成就通知设置</system:String>
     <system:String x:Key="DisableAchievementNotifications">禁用自动弹出成就气泡</system:String>
+    <system:String x:Key="AchievementBubbleAutoClose">成就气泡弹出后一段时间消失</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">战术实战</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">你已经上手了。</system:String>

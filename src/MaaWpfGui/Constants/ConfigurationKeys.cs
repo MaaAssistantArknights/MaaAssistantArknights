@@ -327,5 +327,6 @@ namespace MaaWpfGui.Constants
         // public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";// 已迁移
 
         public const string DisableAchievementNotifications = "Achievement.DisableNotifications";
+        public const string AchievementBubbleAutoClose = "Achievement.BubbleAutoClose";
     }
 }
