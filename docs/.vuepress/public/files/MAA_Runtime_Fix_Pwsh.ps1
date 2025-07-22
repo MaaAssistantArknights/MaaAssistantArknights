@@ -25,10 +25,23 @@
 #     Pause
 # }
 
+$VCRedistURL = "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+$DotNetDesktopRuntimeURL = "https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe"
+
+# 新建下载用临时文件夹
+# 源于 https://pnpm.io/installation的PowerShell安装脚本 和 https://stackoverflow.com/a/34559554/6537420
+function New-TemporaryDirectory {
+  $parent = [System.IO.Path]::GetTempPath()
+  [string] $name = [System.Guid]::NewGuid()
+  New-Item -ItemType Directory -Path (Join-Path $parent $name)
+}
+
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 # 获取 UAC 权限并启动一个 RemoteSigned 脚本策略会话
-If (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)) {
+If (-Not $isAdmin) {
     Write-Host "正在获取管理员权限..."
-    Start-Process powershell.exe "-ExecutionPolicy RemoteSigned -File `"$PSCommandPath`" -ArgumentList `"$PSCommandPath`"" -Verb RunAs
+    Start-Process -FilePath "powershell.exe" -ArgumentList "-ExecutionPolicy RemoteSigned -File `"$PSCommandPath`"" -Verb RunAs
     Exit
 }
 
@@ -45,13 +58,25 @@ if ($Internet_Settings.ProxyEnable -eq 1) {
 Remove-Variable -Name Internet_Settings
 
 # 新建下载用临时文件夹
-New-Item -Path "$env:TEMP" -Name "MAA_Runtime_Fix_Pwsh" -ItemType "Directory" | Out-Null
+$tempFileFolder = New-TemporaryDirectory
+$tempFileVCRedist = (Join-Path $tempFileFolder.FullName "vc_redist.x64.exe")
+$tempFileDotNet = (Join-Path $tempFileFolder.FullName "windowsdesktop-runtime.exe")
 
 # 使用 BITS 下载运行库安装包
 Write-Host "正在下载运行库安装包..."
 # Start-Sleep -Seconds 1
-Start-BitsTransfer -Source "https://aka.ms/vs/17/release/vc_redist.x64.exe" -Destination "$env:TEMP\MAA_Runtime_Fix_Pwsh\vc_redist.x64.exe"
-Start-BitsTransfer -Source "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0.11/windowsdesktop-runtime-8.0.11-win-x64.exe" -Destination "$env:TEMP\MAA_Runtime_Fix_Pwsh\windowsdesktop-runtime-8.0.11-win-x64.exe"
+Start-BitsTransfer -Source $VCRedistURL -Destination $tempFileVCRedist
+if (!(Test-Path $tempFileVCRedist)) {
+    Write-Host "下载 vc_redist.x64 失败，请检查网络连接或代理设置。"
+    Pause
+    Exit 1
+}
+Start-BitsTransfer -Source $DotNetDesktopRuntimeURL -Destination $tempFileDotNet
+if (!(Test-Path $tempFileDotNet)) {
+    Write-Host "下载 windowsdesktop-runtime 失败，请检查网络连接或代理设置。"
+    Pause
+    Exit 1
+}
 
 # 卸载 vc++ 和 dotnet8
 Write-Host ""
@@ -61,18 +86,16 @@ winget uninstall "Microsoft.VCRedist.2015+.x64" "Microsoft.DotNet.DesktopRuntime
 # 安装 vc++
 Write-Host ""
 Write-Host "正在安装/修复 Microsoft Visual C++ 可再发行程序包..."
-$vcProcess = Start-Process "$env:TEMP\MAA_Runtime_Fix_Pwsh\vc_redist.x64.exe" -ArgumentList '/repair', '/passive', '/norestart' -PassThru
-$vcProcess.WaitForExit()
+Start-Process $tempFileVCRedist -ArgumentList '/repair', '/passive', '/norestart' -Wait
 
 # 安装 dotnet8
 Write-Host "正在安装/修复 .NET 桌面运行时 8..."
-$dotnetProcess = Start-Process "$env:TEMP\MAA_Runtime_Fix_Pwsh\windowsdesktop-runtime-8.0.11-win-x64.exe" -ArgumentList '/repair', '/passive', '/norestart' -PassThru
-$dotnetProcess.WaitForExit()
+Start-Process $tempFileDotNet -ArgumentList '/repair', '/passive', '/norestart' -Wait
 
 # 删除临时文件夹
 Write-Host ""
 Write-Host "正在清理临时文件..."
-Remove-Item -Path "$env:TEMP\MAA_Runtime_Fix_Pwsh" -Recurse -Force
+Remove-Item -Path $tempFileFolder -Recurse -Force
 
 Write-Host "运行库修复完成，请再次尝试运行 MAA。"
 Write-Host ""
