@@ -18,7 +18,8 @@ public:
     enum class RoutingStrategy
     {
         None,
-        FastInvestment,
+        FastInvestment_Sarkaz,
+        FastInvestment_JieGarden,
         FastPass
     };
 
