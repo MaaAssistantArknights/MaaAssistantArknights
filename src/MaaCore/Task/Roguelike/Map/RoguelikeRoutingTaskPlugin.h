@@ -46,7 +46,7 @@ private:
     int m_node_height = 0;         // 节点 Rect.height
     int m_column_offset = 0;       // 两列节点之间的距离
     int m_nameplate_offset = 0;    // 节点 Rect 下边缘到节点铭牌下边缘的距离
-    int m_roi_margin = 0;          // roi 时的 margin offset
+    int m_roi_margin = 0;          // roi 的 margin offset
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
 };
 }

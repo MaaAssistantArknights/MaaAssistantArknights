@@ -414,7 +414,7 @@
             "| specialParams[4]: 节点 Rect.height",
             "| specialParams[5]: 两列节点之间的距离",
             "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "| specialParams[7]: roi 时的 margin offset",
+            "| specialParams[7]: roi 的 margin offset",
             "| specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
