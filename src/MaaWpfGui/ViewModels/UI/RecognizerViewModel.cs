@@ -20,6 +20,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -99,15 +101,100 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _recruitInfo, value);
         }
 
-        private string _recruitResult = string.Empty;
+        private ObservableCollection<Inline> _recruitResultInlines = [];
 
-        /// <summary>
-        /// Gets or sets the recruit result.
-        /// </summary>
-        public string RecruitResult
+        public ObservableCollection<Inline> RecruitResultInlines
         {
-            get => _recruitResult;
-            set => SetAndNotify(ref _recruitResult, value);
+            get => _recruitResultInlines;
+            set => SetAndNotify(ref _recruitResultInlines, value);
+        }
+
+        public void UpdateRecruitResult(JArray? resultArray)
+        {
+            ObservableCollection<Inline> recruitResultInlines = [];
+
+            foreach (var combs in resultArray ?? [])
+            {
+                int tagLevel = (int)(combs["level"] ?? -1);
+                recruitResultInlines.Add(new Run($"{tagLevel}★ Tags:    "));
+
+                foreach (var tag in (JArray?)combs["tags"] ?? [])
+                {
+                    recruitResultInlines.Add(new Run($"{tag}    "));
+                }
+
+                recruitResultInlines.Add(new LineBreak());
+
+                foreach (var oper in (JArray?)combs["opers"] ?? [])
+                {
+                    int operLevel = (int)(oper["level"] ?? -1);
+                    var operId = oper["id"]?.ToString();
+                    var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
+
+                    bool isMaxPot = false;
+                    string potentialText = string.Empty;
+
+                    if (RecruitmentShowPotential && OperBoxPotential != null && operId != null && (tagLevel >= 4 || operLevel == 1))
+                    {
+                        if (OperBoxPotential.TryGetValue(operId, out var pot))
+                        {
+                            potentialText = $" ( {pot} )";
+                            if (pot == 6)
+                            {
+                                isMaxPot = true;
+                                potentialText = " ( MAX )";
+                            }
+                        }
+                        else
+                        {
+                            potentialText = " ( !!! NEW !!! )";
+                        }
+                    }
+
+                    var run = new Run($"{operName}{potentialText}    ");
+                    var foreground = GetColorByStarWithOpacity(operLevel, isMaxPot ? 0.4 : 1.0);
+                    if (foreground != null)
+                    {
+                        run.Foreground = foreground;
+                    }
+
+                    recruitResultInlines.Add(run);
+                }
+
+                recruitResultInlines.Add(new LineBreak());
+                recruitResultInlines.Add(new LineBreak());
+            }
+
+            RecruitResultInlines = recruitResultInlines;
+            return;
+
+            SolidColorBrush GetBrushWithOpacity(Color baseColor, double opacity)
+            {
+                byte alpha = (byte)(opacity * 255);
+                return new(Color.FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B));
+            }
+
+            Brush? GetColorByStarWithOpacity(int level, double opacity = 1.0)
+            {
+                var brushKey = level switch
+                {
+                    >= 6 => UiLogColor.Star6Operator,
+                    5 => UiLogColor.Star5Operator,
+                    4 => UiLogColor.Star4Operator,
+                    3 => UiLogColor.Star3Operator,
+                    2 => UiLogColor.Star2Operator,
+                    _ => UiLogColor.Star1Operator,
+                };
+
+                var brush = Application.Current.TryFindResource(brushKey) as SolidColorBrush;
+                if (brush == null)
+                {
+                    return null;
+                }
+
+                var baseColor = brush.Color;
+                return GetBrushWithOpacity(baseColor, opacity);
+            }
         }
 
         private bool _chooseLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
@@ -205,7 +292,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             RecruitInfo = LocalizationHelper.GetString("Identifying");
-            RecruitResult = string.Empty;
 
             var levelList = new List<int>();
 
@@ -277,44 +363,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case "RecruitResult":
                     {
-                        string resultContent = string.Empty;
                         JArray? resultArray = (JArray?)subTaskDetails?["result"];
-                        /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in resultArray ?? [])
-                        {
-                            int tagLevel = (int)(combs["level"] ?? -1);
-                            resultContent += tagLevel + "★ Tags:    ";
-                            resultContent = (((JArray?)combs["tags"]) ?? []).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
-
-                            resultContent += "\n\t";
-                            foreach (var oper in (JArray?)combs["opers"] ?? [])
-                            {
-                                int operLevel = (int)(oper["level"] ?? -1);
-                                var operId = oper["id"]?.ToString();
-                                var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
-
-                                string potential = string.Empty;
-
-                                if (RecruitmentShowPotential && OperBoxPotential != null && operId != null
-                                    && (tagLevel >= 4 || operLevel == 1))
-                                {
-                                    if (OperBoxPotential.ContainsKey(operId))
-                                    {
-                                        potential = " ( " + OperBoxPotential[operId] + " )";
-                                    }
-                                    else
-                                    {
-                                        potential = " ( !!! NEW !!! )";
-                                    }
-                                }
-
-                                resultContent += operLevel + "★ " + operName + potential + "    ";
-                            }
-
-                            resultContent += "\n\n";
-                        }
-
-                        RecruitResult = resultContent;
+                        UpdateRecruitResult(resultArray);
                     }
 
                     break;
