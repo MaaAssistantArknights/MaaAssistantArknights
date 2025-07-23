@@ -462,7 +462,7 @@
             "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png",
             "JieGarden@Roguelike@MapNodeBoskyPassage.png"
         ],
-        "roi": [246, 60, 288, 575],
+        "roi": [0, 60, 1280, 575],
         "postDelay": 300
     },
     "JieGarden@Roguelike@RoutingSwipeRight": {
