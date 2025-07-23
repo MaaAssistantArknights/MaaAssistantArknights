@@ -1134,7 +1134,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="AchievementRestoreSuccess">Achievement progress restored</system:String>
     <system:String x:Key="AchievementRestoreFailed">Restore failed, invalid file format</system:String>
     <system:String x:Key="AchievementBubbleAutoClose">Achievement bubble will disappear after a short time</system:String>
-    <system:String x:Key="DisableAchievementNotifications">Disable achievement auto-popup notifications</system:String>
+    <system:String x:Key="DisableAchievementNotifications">Disable Achievement auto-popup notifications</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">Tactical Practice</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">You've got the hang of it</system:String>
