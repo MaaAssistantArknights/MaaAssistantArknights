@@ -46,6 +46,13 @@
         "roi": [958, 530, 322, 189],
         "sub": ["SwipeToTheDown*2"]
     },
+    "JieGarden@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "JieGarden@StartExplore@Roguelike@ChooseOperConfirm",
+            "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "JieGarden@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
     "JieGarden@Roguelike@ChooseOper": {
         "next": [
             "JieGarden@Roguelike@CloseCollectionContinue",
@@ -56,9 +63,23 @@
             "JieGarden@Roguelike@ChooseOperConfirm#next"
         ]
     },
+    "JieGarden@StartExplore@Roguelike@ChooseOperConfirm": {
+        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
+        "roi": [1031, 606, 249, 114]
+    },
     "JieGarden@Roguelike@ChooseOperConfirm": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
+    },
+    "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "JieGarden@StartExplore@Roguelike@RecruitOther",
+            "JieGarden@Roguelike@EnterAfterRecruit",
+            "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
     },
     "JieGarden@Roguelike@ChooseOperConfirmToGiveUp": {
         "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
@@ -71,6 +92,10 @@
         ]
     },
     "JieGarden@Roguelike@ChooseOperFlag": {
+        "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
+        "roi": [1031, 606, 249, 114]
+    },
+    "JieGarden@StartExplore@Roguelike@ChooseOperFlag": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
@@ -184,6 +209,10 @@
             "JieGarden@Roguelike@CloseEvent",
             "JieGarden@Roguelike@RecruitOther"
         ]
+    },
+    "JieGarden@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "JieGarden@Roguelike@EnterAfterRecruit.png",
+        "roi": [1040, 240, 240, 179]
     },
     "JieGarden@Roguelike@EnterAfterRecruit": {
         "roi": [1040, 240, 240, 179]
@@ -314,11 +343,23 @@
         "roi": [1033, 462, 153, 155],
         "next": ["JieGarden@Roguelike@Stages#next"]
     },
-    "JieGarden@Roguelike@RecruitMain": {
+    "JieGarden@StartExplore@Roguelike@RecruitMain": {
+        "template": "JieGarden@Roguelike@Recruit.png"
+    },
+    "JieGarden@StartExplore@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
     },
     "JieGarden@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
+    },
+    "JieGarden@StartExplore@Roguelike@RecruitWithoutButton": {
+        "maxTimes": 10,
+        "exceededNext": ["JieGarden@Roguelike@Abandon"],
+        "next": [
+            "JieGarden@StartExplore@Roguelike@RecruitOther",
+            "JieGarden@StartExplore@Roguelike@EnterAfterRecruit",
+            "JieGarden@StartExplore@Roguelike@RecruitWithoutButton"
+        ]
     },
     "JieGarden@Roguelike@RecruitWithoutButton": {
         "next": [

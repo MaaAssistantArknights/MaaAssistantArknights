@@ -155,7 +155,7 @@
         ],
         "onErrorNext": ["Phantom@Roguelike@DialogTimeout", "Phantom@Roguelike@Stages#next"]
     },
-    "Phantom@Roguelike@RecruitMain": {
+    "Phantom@StartExplore@Roguelike@RecruitMain": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
     "Phantom@Roguelike@RecruitOther": {

@@ -453,6 +453,25 @@
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
         "algorithm": "JustReturn"
     },
+    "Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "Roguelike@ChooseOperConfirmToGiveUp",
+            "Roguelike@RecruitOther",
+            "Roguelike@EnterAfterRecruit",
+            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
+    },
+    "StartExplore@Roguelike@ChooseOperConfirm": {
+        "template": "Roguelike@ChooseOperConfirm.png",
+        "next": [
+            "StartExplore@Roguelike@RecruitSkip",
+            "StartExplore@Roguelike@ChooseOperConfirm",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
+    },
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
         "roi": [1016, 602, 264, 118],
@@ -855,7 +874,7 @@
         "action": "ClickSelf",
         "template": "empty.png",
         "roi": [171, 474, 935, 205],
-        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@RecruitMain"]
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "StartExplore@Roguelike@RecruitMain"]
     },
     "Roguelike@LastRewardRand": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
@@ -1019,6 +1038,10 @@
         "roi": [56, 41, 194, 134],
         "next": ["Roguelike@ChooseOperFlag"]
     },
+    "StartExplore@Roguelike@RecruitMain": {
+        "Doc": "开始探索专用招募入口, 招募单个干员后不参与局内流程",
+        "template": "empty.png"
+    },
     "Roguelike@RecruitMain": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -1028,11 +1051,25 @@
         "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide"],
         "postDelay": 1000
     },
+    "StartExplore@Roguelike@RecruitOther": {
+        "Doc": "开始探索专用招募入口, 招募单个干员后不参与局内流程",
+        "template": "empty.png"
+    },
     "Roguelike@RecruitOther": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@RecruitMain",
         "roi": [80, 470, 1120, 154]
+    },
+    "StartExplore@Roguelike@RecruitSkip": {
+        "template": "RecruitSkip.png",
+        "reduceOtherTimes": ["StartExplore@Roguelike@RecruitWithoutButton*10"],
+        "next": [
+            "StartExplore@Roguelike@RecruitSkip",
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@ChooseOperFlag",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
@@ -1071,7 +1108,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 529],
-        "next": ["Roguelike@RecruitMain"]
+        "next": ["StartExplore@Roguelike@RecruitMain"]
     },
     "Roguelike@RolesDefault": {
         "Doc": "base_task",

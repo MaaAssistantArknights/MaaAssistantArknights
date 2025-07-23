@@ -35,7 +35,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
     m_waiting_to_run = RoguelikeCustomType::None;
     for (const auto& [t_msg, t_task, t] : TaskMap) {
-        if (t_msg == msg && t_task == task_view) {
+        if (t_msg == msg && task_view.ends_with(t_task)) {
             m_waiting_to_run = t;
             break;
         }
@@ -55,6 +55,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return true;
     }
 
+    // Roles CoreChar
     if (auto it = m_customs.find(m_waiting_to_run); it == m_customs.cend()) {
         return false;
     }

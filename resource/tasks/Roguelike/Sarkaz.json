@@ -445,7 +445,7 @@
         "text": ["熔魂之始", "锻铁根须", "灰铸迷城", "或然歧域", "虚实疆界", "辉光天顶", "诡谲断章"],
         "roi": [550, 564, 184, 64]
     },
-    "Sarkaz@Roguelike@RecruitMain": {
+    "Sarkaz@StartExplore@Roguelike@RecruitMain": {
         "template": "Sarkaz@Roguelike@Recruit.png"
     },
     "Sarkaz@Roguelike@RecruitOther": {

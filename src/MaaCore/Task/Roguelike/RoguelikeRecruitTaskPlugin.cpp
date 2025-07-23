@@ -28,7 +28,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@ChooseOper") {
+    if (task_view.ends_with("Roguelike@ChooseOper")) {
         return true;
     }
     else {

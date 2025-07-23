@@ -274,7 +274,7 @@
             "Mizuki@Roguelike@StrategyChange"
         ]
     },
-    "Mizuki@Roguelike@RecruitMain": {
+    "Mizuki@StartExplore@Roguelike@RecruitMain": {
         "template": "Mizuki@Roguelike@Recruit.png"
     },
     "Mizuki@Roguelike@RecruitOther": {
