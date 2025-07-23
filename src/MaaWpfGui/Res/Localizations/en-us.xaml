@@ -111,8 +111,8 @@
     <system:String x:Key="OriginStone">Originium Shards</system:String>
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in Dormitory</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room; this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed {key=Operator}s in Dormitory</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove {key=Operator}s like Irene from the Training Room; this will also prevent {key=Operator}s from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
@@ -123,7 +123,7 @@
     <system:String x:Key="InfrastMode">Base Mode</system:String>
     <system:String x:Key="InfrastModeNormal">Normal Mode</system:String>
     <system:String x:Key="InfrastModeRotation">One-click Rotation Mode</system:String>
-    <system:String x:Key="InfrastModeRotationTip">Please manually set up operator queues in game before using One-click Rotation Mode</system:String>
+    <system:String x:Key="InfrastModeRotationTip">Please manually set up {key=Operator} queues in game before using One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeCustom">Custom Base Mode</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
@@ -150,19 +150,19 @@
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
-    <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and {key=Operator} groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits automatically after investment completes</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II {key=Operator}s</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, clear as far as possible</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Investigation, clear as far as possible</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
-    <system:String x:Key="StartingCoreChar">Starting Operator</system:String>
+    <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">The operator is not in battle_data.</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">The {key=Operator} is not in battle_data.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for ｢{key=StartingCoreChar}｣ Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for ｢{key=StartingCoreChar}｣ Elite 2, No Battle</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
@@ -552,7 +552,7 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="ReclamationIncrementModeHold">Hold</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">Max Craft Count Per Round</system:String>
     <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
-    <system:String x:Key="OperNameLanguage">Operator display language</system:String>
+    <system:String x:Key="OperNameLanguage">{key=Operator} display language</system:String>
     <system:String x:Key="OperNameLanguageMAA">Follow MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">Follow game client</system:String>
     <system:String x:Key="OperNameLanguageForce">Force use of specified language</system:String>
@@ -687,9 +687,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to Clipboard</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
-    <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="OperBoxRecognition">{key=Operator}</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) operators can't be recognized. Please remove them from your favourites before starting.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">Favourited (marked) {key=Operator}s can't be recognized. Please remove them from your favourites before starting.</system:String>
     <system:String x:Key="OperBoxHaveList">Owned: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">Not owned: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
@@ -766,11 +766,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked operators may not be recognized</system:String>
-    <system:String x:Key="AddTrust">Add low-trust operators</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} Module requirements</system:String>
-    <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
-    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
+    <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key={key=Operator}} Module requirements</system:String>
+    <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
@@ -787,9 +787,9 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
     <system:String x:Key="CopilotModule">Module</system:String>
     <system:String x:Key="CopilotWithoutModule">Without Module</system:String>
-    <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
+    <system:String x:Key="TotalOperatorsCount">Total {0} {key=Operator}(s)</system:String>
     <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
-    <system:String x:Key="OtherOperators">Other operators:&#160;</system:String>
+    <system:String x:Key="OtherOperators">Other {key=Operator}s:&#160;</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):&#160;</system:String>
     <system:String x:Key="InitialStrategy">Initial Strategy:&#160;</system:String>
     <!--  Logs  -->
@@ -800,7 +800,7 @@ Right-click to clear inactive tasks</system:String>
         3. For SSS, there are multiple built-in files under the ｢resource/copilot｣ folder.\n
         Please start on the ｢Start Deployment｣ screen after manual formation (can be used with ｢{key=LoopTimes} )\n\n
         4. You need turn off the ｢{key=AutoSquad}｣ when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Marking an operator as｢Favourite｣ may affect the operator selection in ｢{key=AutoSquad}｣ . It is recommended to turn off ｢Favourite｣ when using ｢{key=AutoSquad}｣ , or manually supplement missing operators to ensure the formation is complete.\n\n
+        5. Marking an {key=Operator} as｢Favourite｣ may affect the {key=Operator} selection in ｢{key=AutoSquad}｣ . It is recommended to turn off ｢Favourite｣ when using ｢{key=AutoSquad}｣ , or manually supplement missing {key=Operator}s to ensure the formation is complete.\n\n
         6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
         7. Battle list:\n
         After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n
@@ -875,7 +875,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:&#160;</system:String>
+    <system:String x:Key="MissingOperators">{key=Operator}s of the following {key=Operator} groups are missing:&#160;</system:String>
     <system:String x:Key="RecruitSupportOperator">Add support unit: {0}</system:String>
     <system:String x:Key="StageQueue">Stage Queue:&#160;</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
@@ -892,7 +892,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Combat completed</system:String>
@@ -932,8 +932,8 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="FurnitureDrop">Furniture</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility:&#160;</system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group:&#160;</system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list:&#160;</system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred operators:&#160;</system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match {key=Operator} groups, group list:&#160;</system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">Preferred {key=Operator}s:&#160;</system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
@@ -951,7 +951,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
     <system:String x:Key="AutoRecruitHighPriority">Preference for 3★ Tags</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">Will select as many Tag preferences as possible</system:String>
-    <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
+    <system:String x:Key="NotEnoughStaff">Insufficient {key=Operator}s</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
@@ -1016,14 +1016,14 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. The official version of MAA will not have Debug mode. If you see a Debug option while running, close the software immediately, do not click it, and contact the nearest MAA developer.\n
-2. Infrastructure shift changes are automatic. If you find an operator working continuously for more than 72 hours, manually adjust the shifts and check if the system time is correct.\n
+2. Infrastructure shift changes are automatic. If you find an {key=Operator} working continuously for more than 72 hours, manually adjust the shifts and check if the system time is correct.\n
 3. Recruitment tags will not change. If you notice tags changing before the countdown ends, do not continue recruiting. Restart MAA and try again.\n
 4. MAA will not send friend requests. If you receive a friend request from ｢MAA_System｣, do not accept it and delete the account.\n
 5. Roguelike assistance only provides suggestions. If the game automatically selects a non-existent option, force quit and restart the client.\n
 6. MAA's log files should not contain garbled text. If you find logs with errors other than ｢ERROR: Data parsing failed｣, delete the logs and reinstall the software.\n
 7. Night mode is safe. However, if MAA starts automatically at 3:33 AM and runs ｢unknown tasks｣, unplug the power and wait until sunrise to use it again.\n
 8. The last rule does not exist. If you see this, forget it and use MAA as usual.\n
-9. Do not click on炒...锟斤拷拷拷拷喜报拷拷拷饭 in MAA.\n
+9. Do not click on ███████████ █████████ in MAA.\n
 10. MirrorChyan is kind. You only need to pay a small price to receive its protection.\n
 11. MAA does not support future versions. If the software updates to an unreleased version number (e.g., v10.0.0), do not run it and wait for an official announcement.\n
 12. MAA has no voice prompts. If you hear whispers, laughter, or non-program-generated voices, turn off the speakers and check for unknown scripts running.\n
@@ -1272,7 +1272,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.Irreplaceable.Title">Irreplaceable</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">Maybe I should get different homework?</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">When using ｢{key=Copilot} - {key=AutoSquad}｣, missing at least two operators</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">When using ｢{key=Copilot} - {key=AutoSquad}｣, missing at least two {key=Operator}s</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">High Ping Warrior</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">"lag"</system:String>

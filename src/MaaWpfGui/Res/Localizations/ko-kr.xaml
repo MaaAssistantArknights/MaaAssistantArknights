@@ -111,8 +111,8 @@
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">업무중인 오퍼레이터 숙소 배치 제한</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 오퍼레이터를 훈련실에서 제거하지 않고, 가공소의 오퍼레이터가 숙소에 배치되는 것을 방지합니다.</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">업무중인 {key=Operator} 숙소 배치 제한</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
@@ -123,7 +123,7 @@
     <system:String x:Key="InfrastMode">인프라 모드</system:String>
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 쉬프트</system:String>
-    <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 오퍼레이터 대열을 수동으로 설정해 주세요</system:String>
+    <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 {key=Operator} 대열을 수동으로 설정해 주세요</system:String>
     <system:String x:Key="InfrastModeCustom">커스텀 기반시설</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
@@ -149,20 +149,20 @@
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (예외 출력 차단)</system:String>
-    <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
-    <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 오퍼레이터 교체를 사용하는 회의실에만 유효합니다</system:String>
+    <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
+    <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">각뿔 수집, 투자 완료 시 자동 종료</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">2정 오퍼레이터 또는 전기주전자 획득까지 반복</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">2정 {key=Operator} 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
-    <system:String x:Key="StartingCoreChar">시작 오퍼레이터</system:String>
+    <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 오퍼레이터는 battle_data에 없습니다</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
@@ -552,7 +552,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
     <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
-    <system:String x:Key="OperNameLanguage">오퍼레이터 이름 표시 언어</system:String>
+    <system:String x:Key="OperNameLanguage">{key=Operator} 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 언어 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
     <system:String x:Key="OperNameLanguageForce">지정된 언어를 강제로 사용</system:String>
@@ -670,7 +670,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognitionTip">시작 화면의 공개모집 기능과는 별도로 독립된 기능입니다\n게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인 (★4 이상)</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">{key=Operator} 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
@@ -687,9 +687,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
-    <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
+    <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ 오퍼레이터를 등록 해제하세요.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ {key=Operator}를 등록 해제하세요.</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
@@ -765,11 +765,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
-    <system:String x:Key="AddTrust">신뢰도가 낮은 오퍼레이터 추가</system:String>
+    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 모듈 요구 사항 무시</system:String>
-    <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
-    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
+    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원:
   1. 메인 스토리: 동일 챕터 내 네비게이션
@@ -786,9 +786,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotSkill">스킬</system:String>
     <system:String x:Key="CopilotModule">모듈</system:String>
     <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
-    <system:String x:Key="TotalOperatorsCount">총 {0}명의 오퍼레이터</system:String>
+    <system:String x:Key="TotalOperatorsCount">총 {0}명의 {key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
-    <system:String x:Key="OtherOperators">기타 오퍼레이터:</system:String>
+    <system:String x:Key="OtherOperators">기타 {key=Operator}:</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
     <!--  Logs  -->
@@ -799,7 +799,7 @@ C:\\leidian\\LDPlayer9
         3. 보안파견의 Copilot 파일의 경우 MAA 내의 ｢resource/copilot｣ 폴더에 있습니다 \n
         수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢{key=LoopTimes} 와 함께 사용 가능)\n\n
         4. 지원 유닛을 사용할 때에는 반드시 ｢{key=AutoSquad}｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
-        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
+        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 {key=Operator} 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 {key=Operator}를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
         6. Copilot 작업 스테이션에서 입력란 오른쪽의 붙여넣기 버튼을 클릭하여 신비한 코드를 붙여넣을 수 있습니다. 왼쪽 클릭으로 단일 작업을 붙여넣고, 오른쪽 클릭으로 작업 세트 전체를 붙여넣습니다.\n\n
         7. 전투 목록:\n
         작업을 선택한 후 목록 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
@@ -874,7 +874,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다:</system:String>
+    <system:String x:Key="MissingOperators">다음 {key=Operator}들이 누락되었습니다:</system:String>
     <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
@@ -891,7 +891,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">요구 오퍼레이터 충돌</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
     <system:String x:Key="BegunToExplore" xml:space="preserve">탐험 시작됨</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
@@ -931,14 +931,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FurnitureDrop">가구</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">오퍼레이터 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 오퍼레이터: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 {key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>
     <system:String x:Key="ProductChanged">생산품이 변경됨</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
-    <system:String x:Key="RecruitmentOfStar">★{0} 오퍼레이터를 모집했습니다!</system:String>
+    <system:String x:Key="RecruitmentOfStar">★{0} {key=Operator}를 모집했습니다!</system:String>
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
@@ -950,12 +950,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택</system:String>
     <system:String x:Key="AutoRecruitHighPriority">선호 태그</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">가능한 한 많은 태그 기본 설정을 선택합니다</system:String>
-    <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
+    <system:String x:Key="NotEnoughStaff">{key=Operator} 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">편성 사용</system:String>
     <system:String x:Key="Current">현재</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용할 수 없는 운영자: {0}, 제한: {1}</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
@@ -1269,7 +1269,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가능</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 {key=Operator}가 부족</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">Hight Ping 전사</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">"Disconnect"</system:String>
