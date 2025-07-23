@@ -74,7 +74,10 @@
                                 Margin="5,5,0,5"
                                 HorizontalAlignment="Left"
                                 IsChecked="{Binding RecruitmentShowPotential}">
-                                <controls:TextBlock Text="{DynamicResource RecruitmentShowPotential}" TextWrapping="Wrap" />
+                                <controls:TextBlock
+                                    Text="{DynamicResource RecruitmentShowPotential}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                             </CheckBox>
                             <controls:TooltipBlock TooltipText="{DynamicResource RecruitmentShowPotentialTips}" />
                         </StackPanel>
