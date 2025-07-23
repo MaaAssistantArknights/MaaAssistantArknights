@@ -41,15 +41,21 @@
                             VerticalAlignment="Top"
                             Focusable="True"
                             FontSize="14"
+                            ForceCursor="False"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding RecruitInfo}"
                             TextWrapping="Wrap" />
-                        <controls:TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            FontSize="14"
-                            Text="{Binding RecruitResult}"
-                            TextWrapping="Wrap" />
+                        <Border
+                            Padding="10"
+                            Background="{DynamicResource RegionBrushOpacity50}"
+                            CornerRadius="4"
+                            Visibility="{c:Binding 'RecruitResultInlines.Count > 0'}">
+                            <controls:TextBlock
+                                HorizontalAlignment="Left"
+                                BindableInlines="{Binding RecruitResultInlines}"
+                                FontSize="14"
+                                TextWrapping="Wrap" />
+                        </Border>
                     </StackPanel>
                 </hc:ScrollViewer>
                 <StackPanel

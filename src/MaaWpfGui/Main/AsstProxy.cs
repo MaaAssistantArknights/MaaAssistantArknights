@@ -1593,7 +1593,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
-                        var tooltip = $"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}".CreateTooltip(PlacementMode.Center);
+                        var tooltip = Instances.RecognizerViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
