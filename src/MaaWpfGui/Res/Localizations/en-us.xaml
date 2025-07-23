@@ -669,7 +669,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the ｢Farming｣ tab. Please open the in game recruit tag selection screen before pressing ｢Begin to Recruit｣</system:String>
     <system:String x:Key="AutoSettingTime">Auto set time</system:String>
-    <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
+    <system:String x:Key="RecruitmentShowPotential">Show Potential (4/5/6★ Tags)</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">Please use the ｢{key=OperBoxRecognition}｣ task to get the ｢Potential｣ information.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4★ Tags</system:String>

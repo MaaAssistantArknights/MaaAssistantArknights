@@ -667,7 +667,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用 ~</system:String>
     <system:String x:Key="AutoSettingTime">自動設定時間</system:String>
-    <system:String x:Key="RecruitmentShowPotential">顯示{key=Operator}潛能（四星及以上）</system:String>
+    <system:String x:Key="RecruitmentShowPotential">顯示{key=Operator}潛能（4/5/6★ Tags）</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">請使用 ｢{key=OperBoxRecognition}｣ 獲得{key=Operator}資訊。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自動選擇 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
