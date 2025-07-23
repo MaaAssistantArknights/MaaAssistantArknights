@@ -124,7 +124,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     const std::string& theme = m_config->get_theme();
 
     m_map.reset();
-    size_t curr_col = m_map.init_index + 1;
+    size_t curr_col = RoguelikeMap::INIT_INDEX + 1;
     Rect roi = Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingNodeAnalyze")->roi;
 
     // 第一列节点
@@ -162,8 +162,6 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     }
 
     ProcessTask(*this, { theme + "@Roguelike@RoutingExitThenContinue" }).run(); // 通过退出重进回到初始位置
-
-    return;
 }
 
 void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const cv::Mat& image, const int& node_x)
@@ -172,13 +170,13 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
 
     const size_t node_column = m_map.get_node_column(node);
 
-    if (node_column == m_map.init_index) {
+    if (node_column == RoguelikeMap::INIT_INDEX) {
         Log.error(__FUNCTION__, "| cannot generate edges for init node");
         return;
     }
 
-    if (node_column == m_map.init_index + 1) {
-        m_map.add_edge(m_map.init_index, node); // 第一列节点直接与 init 连接
+    if (node_column == RoguelikeMap::INIT_INDEX + 1) {
+        m_map.add_edge(RoguelikeMap::INIT_INDEX, node); // 第一列节点直接与 init 连接
         return;
     }
 
@@ -221,14 +219,10 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
             ranges::minmax(rightmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int rightmost_y = (rightmost_y_min_p.y + rightmost_y_max_p.y) / 2;
 
-        if (std::abs(prev_y - node_y) < m_direction_threshold &&
-            std::abs(leftmost_y - rightmost_y) < m_direction_threshold) {
-            m_map.add_edge(prev, node);
-        }
-        else if (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) {
-            m_map.add_edge(prev, node);
-        }
-        else if (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold) {
+        if ((std::abs(prev_y - node_y) < m_direction_threshold &&
+            std::abs(leftmost_y - rightmost_y) < m_direction_threshold) ||
+            (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) ||
+            (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold)) {
             m_map.add_edge(prev, node);
         }
     }
@@ -292,7 +286,7 @@ void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes()
         node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
         node_analyzer.set_roi(next_node_rect);
         if (node_analyzer.analyze()) {
-            Matcher::Result match_results = node_analyzer.get_result();
+            const Matcher::Result& match_results = node_analyzer.get_result();
             m_map.set_node_type(next_node, RoguelikeMapInfo.templ2type(theme, match_results.templ_name));
         }
     }
@@ -302,14 +296,14 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
 {
     LogTraceFunction;
 
-    const size_t curr_column = m_map.get_node_column(m_map.get_curr_pos());
+    const size_t curr_col = m_map.get_node_column(m_map.get_curr_pos());
 
     m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
         if (node->visited) {
             return 1000;
         }
 
-        if (node->column == curr_column) {
+        if (node->column == curr_col) {
             return 1000;
         }
 
@@ -354,10 +348,10 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
 
 void asst::RoguelikeRoutingTaskPlugin::update_selected_x()
 {
-    if (m_selected_column == m_map.init_index) {
+    if (m_selected_column == RoguelikeMap::INIT_INDEX) {
         m_selected_x = m_origin_x - m_column_offset;
     }
-    else if (m_selected_column == m_map.init_index + 1) {
+    else if (m_selected_column == RoguelikeMap::INIT_INDEX + 1) {
         m_selected_x = m_origin_x;
     }
     else if (m_selected_column == m_map.get_num_columns() - 1) [[unlikely]] {
