@@ -16,8 +16,8 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
 {
     const std::string& theme = m_config->get_theme();
 
-    // 本插件暂处于实验阶段，仅用于萨卡兹肉鸽
-    if (theme != RoguelikeTheme::Sarkaz) {
+    // 本插件暂处于实验阶段，仅用于萨卡兹和界园肉鸽的第一层
+    if (theme != RoguelikeTheme::Sarkaz && theme != RoguelikeTheme::JieGarden) {
         return false;
     }
 
@@ -36,8 +36,14 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
-    if (mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
-        m_routing_strategy = RoutingStrategy::FastInvestment;
+    if (theme == RoguelikeTheme::Sarkaz && mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
+        m_routing_strategy = RoutingStrategy::FastInvestment_Sarkaz;
+        return true;
+    }
+
+    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::Investment && squad == "指挥分队" &&
+        m_config->get_difficulty() >= 3) {
+        m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
         return true;
     }
 
@@ -82,7 +88,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     LogTraceFunction;
 
     switch (m_routing_strategy) {
-    case RoutingStrategy::FastInvestment:
+    case RoutingStrategy::FastInvestment_Sarkaz:
         if (m_need_generate_map) {
             // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
             ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
