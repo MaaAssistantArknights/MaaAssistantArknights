@@ -3,6 +3,7 @@
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/RoguelikeMapConfig.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
+#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {
@@ -27,8 +28,32 @@ protected:
     virtual bool _run() override;
 
 private:
+    /// <summary>
+    /// 识别画面中节点并更新地图信息。
+    /// </summary>
+    /// <param name="image">截图。</param>
+    /// <param name="leftmost_column">
+    ///     画面最左侧节点 (忽视 init node) 所在列的 index。
+    ///     按照定义，要求 leftmost_column >= 1。
+    /// </param>
+    /// <param name="image_draw_opt">ASST_DEBUG 模式下用于标注识别结果的截图。若为 std::nullopt 则不标注识别结果。</param>
+    /// <returns>
+    /// 若有新地图信息，则返回 true, 反之则返回 false。
+    /// </returns>
+    /// <remarks>
+    /// 画面中最多同时存在三列节点。
+    /// </remarks>
+    bool update_map(
+        const cv::Mat& image,
+        size_t leftmost_column = RoguelikeMap::INIT_INDEX + 1,
+        std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt = std::nullopt);
+
     void generate_map();
-    void generate_edges(const size_t& node, const cv::Mat& image, const int& node_x);
+    void generate_edges(
+        const size_t& node,
+        const cv::Mat& image,
+        const int& node_x,
+        std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt = std::nullopt);
     void refresh_following_combat_nodes();
     void navigate_route();
     void update_selected_x();

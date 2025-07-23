@@ -123,6 +123,61 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     return true;
 }
 
+bool asst::RoguelikeRoutingTaskPlugin::update_map(
+    const cv::Mat& image,
+    const size_t leftmost_column,
+    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
+{
+    LogTraceFunction;
+
+    if (leftmost_column == 0) {
+        Log.error(__FUNCTION__, "| leftmost_column must be greater than zero");
+        return false;
+    }
+
+    const std::string& theme = m_config->get_theme();
+
+    size_t curr_col = leftmost_column - 1;
+    int curr_x = -m_node_width - 1; // 第一列节点将触发 rect.x >= curr_x + m_node_width 并更新 curr_col 与 curr_x
+
+    MultiMatcher node_analyzer(image);
+    node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
+    if (!node_analyzer.analyze()) {
+        Log.error(__FUNCTION__, "| no nodes are recognised");
+        return false;
+    }
+    MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
+    sort_by_vertical_(match_results); // 按照水平方向从左到右排序各列节点，同一列节点按照垂直方向从上到下排序
+
+    const size_t old_num_columns = m_map.get_num_columns();
+    for (const auto& [rect, score, templ_name] : match_results) {
+        const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(rect), cv::Scalar(255, 255, 255), 2);
+            cv::putText(
+                image_draw_opt.value().get(),
+                templ_name,
+                cv::Point(rect.x, rect.y - m_roi_margin),
+                cv::FONT_HERSHEY_DUPLEX,
+                0.5,
+                cv::Scalar(255, 255, 255));
+        }
+#endif
+        if (rect.x >= curr_x + m_node_width) { // 识别到下一列的节点
+            ++curr_col;
+            curr_x = rect.x;
+        }
+        if (curr_col >= old_num_columns) // 仅更新新列节点
+        {
+            const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();
+            generate_edges(node, image, rect.x, image_draw_opt);
+        }
+    }
+
+    return true;
+}
+
 void asst::RoguelikeRoutingTaskPlugin::generate_map()
 {
     LogTraceFunction;
@@ -170,7 +225,11 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     ProcessTask(*this, { theme + "@Roguelike@RoutingExitThenContinue" }).run(); // 通过退出重进回到初始位置
 }
 
-void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const cv::Mat& image, const int& node_x)
+void asst::RoguelikeRoutingTaskPlugin::generate_edges(
+    const size_t& node,
+    const cv::Mat& image,
+    const int& node_x,
+    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
 {
     LogTraceFunction;
 
@@ -201,6 +260,11 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
         const int center_y = (prev_y + node_y + m_node_height) / 2;
         roi.x = center_x - m_roi_margin;
         roi.y = center_y - m_roi_margin;
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(roi), cv::Scalar(255, 255, 255), 1);
+        }
+#endif
         analyzer.set_roi(roi);
 
         if (!analyzer.analyze()) { // 节点间没有连线
@@ -230,6 +294,16 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
             (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) ||
             (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold)) {
             m_map.add_edge(prev, node);
+#ifdef ASST_DEBUG
+            if (image_draw_opt.has_value()) {
+                cv::line(
+                    image_draw_opt.value().get(),
+                    cv::Point(node_x - m_column_offset + m_node_width / 2, prev_y + m_node_height / 2),
+                    cv::Point(node_x + m_node_width / 2, node_y + m_node_height / 2),
+                    cv::Scalar(255, 255, 255),
+                    2);
+            }
+#endif
         }
     }
 
@@ -238,10 +312,25 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
         size_t prev = node - 1;
         roi.x = node_x + m_node_width / 2 - m_roi_margin;
         roi.y = (m_map.get_node_y(prev) + m_node_height + m_nameplate_offset + node_y) / 2 - m_roi_margin;
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(roi), cv::Scalar(255, 255, 255), 1);
+        }
+#endif
         analyzer.set_roi(roi);
         if (analyzer.analyze()) {
             m_map.add_edge(prev, node);
             m_map.add_edge(node, prev);
+#ifdef ASST_DEBUG
+            if (image_draw_opt.has_value()) {
+                cv::line(
+                    image_draw_opt.value().get(),
+                    cv::Point(node_x + m_node_width / 2, m_map.get_node_y(prev) + m_node_height / 2),
+                    cv::Point(node_x + m_node_width / 2, node_y + m_node_height / 2),
+                    cv::Scalar(255, 255, 255),
+                    2);
+            }
+#endif
         }
     }
 }
