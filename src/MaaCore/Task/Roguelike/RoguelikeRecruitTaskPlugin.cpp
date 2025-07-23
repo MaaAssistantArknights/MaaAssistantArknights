@@ -76,6 +76,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::Investment &&
+        m_config->get_squad() == "指挥分队" && m_config->get_difficulty() >= 3) {
+        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
     if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
         m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
