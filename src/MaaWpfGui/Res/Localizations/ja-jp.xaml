@@ -670,7 +670,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
-    <system:String x:Key="RecruitmentShowPotential">潜在数を表示する（星4以上）</system:String>
+    <system:String x:Key="RecruitmentShowPotential">潜在数を表示する（4/5/6★ Tags）</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために ｢{key=OperBoxRecognition}｣ を使用してください。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
