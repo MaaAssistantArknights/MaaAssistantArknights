@@ -111,8 +111,8 @@
     <system:String x:Key="OriginStone">制造站-源石碎片</system:String>
     <system:String x:Key="Chip">制造站-芯片组</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等干员从训练室移除，但也会导致加工站干员不能进入宿舍。</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的{key=Operator}放入宿舍</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等{key=Operator}从训练室移除，但也会导致加工站{key=Operator}不能进入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
@@ -150,19 +150,19 @@
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
-    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
+    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用{key=Operator}编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，投资完成后自动退出</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二{key=Operator}开局</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">烧水使用分队</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小队，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入调查，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
-    <system:String x:Key="StartingCoreChar">开局干员</system:String>
+    <system:String x:Key="StartingCoreChar">开局{key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员未在 battle_data 中。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的{key=Operator}未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹 ｢{key=StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹 ｢{key=StartingCoreChar}｣ 直升精二，不进行作战</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
@@ -552,7 +552,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationIncrementModeHold">长按</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">单次最大组装轮数</system:String>
     <system:String x:Key="ReclamationClearStore">任务完成后购买商店</system:String>
-    <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
+    <system:String x:Key="OperNameLanguage">{key=Operator}名称显示语言</system:String>
     <system:String x:Key="OperNameLanguageMAA">跟随 MAA</system:String>
     <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
     <system:String x:Key="OperNameLanguageForce">强制使用指定语言</system:String>
@@ -669,8 +669,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
-    <system:String x:Key="RecruitmentShowPotential">显示干员潜能（四星及以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">请使用 ｢{key=OperBoxRecognition}｣ 获取干员信息。</system:String>
+    <system:String x:Key="RecruitmentShowPotential">显示{key=Operator}潜能（四星及以上）</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">请使用 ｢{key=OperBoxRecognition}｣ 获取{key=Operator}信息。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自动选择 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
@@ -687,9 +687,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
     <!--  !仓库识别  -->
     <!--  干员识别  -->
-    <system:String x:Key="OperBoxRecognition">干员识别</system:String>
+    <system:String x:Key="OperBoxRecognition">{key=Operator}识别</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">特别关注会影响{key=Operator}识别准确率，如有特别关注{key=Operator}识别错误请自行判断。</system:String>
     <system:String x:Key="OperBoxHaveList">已拥有: {0} 名</system:String>
     <system:String x:Key="OperBoxNotHaveList">未拥有: {0} 名</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
@@ -766,11 +766,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的干员</system:String>
-    <system:String x:Key="AddTrust">补充低信赖干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的{key=Operator}</system:String>
+    <system:String x:Key="AddTrust">补充低信赖{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}属性要求</system:String>
-    <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
-    <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支持跨章节导航。仅支持:
@@ -787,7 +787,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotSkill">技能</system:String>
     <system:String x:Key="CopilotModule">模组</system:String>
     <system:String x:Key="CopilotWithoutModule">不使用模组</system:String>
-    <system:String x:Key="TotalOperatorsCount">共 {0} 名干员</system:String>
+    <system:String x:Key="TotalOperatorsCount">共 {0} 名{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">导能原件：</system:String>
     <system:String x:Key="OtherOperators">编队工具人：</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">开局装备（横向）：</system:String>
@@ -799,8 +799,8 @@ C:\\leidian\\LDPlayer9。\n
         2. 模拟悖论需要关闭 ｢{key=AutoSquad}｣，并选好技能后处于 ｢开始模拟｣ 按钮的界面再开始。\n\n
         3. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在 ｢开始部署｣ 界面开始（可配合 ｢{key=LoopTimes}｣ 使用）。\n\n
-        4. 使用好友助战可以关闭 ｢{key=AutoSquad}｣，手动选择干员后开始。\n\n
-        5. 将干员标为 ｢特别关注｣ 可能会影响 ｢{key=AutoSquad}｣ 时的识别与选择。建议在使用 ｢{key=AutoSquad}｣ 时考虑移除 ｢特别关注｣ 标记，或手动补充缺失的干员以确保编队完整。\n\n
+        4. 使用好友助战可以关闭 ｢{key=AutoSquad}｣，手动选择{key=Operator}后开始。\n\n
+        5. 将{key=Operator}标为 ｢特别关注｣ 可能会影响 ｢{key=AutoSquad}｣ 时的识别与选择。建议在使用 ｢{key=AutoSquad}｣ 时考虑移除 ｢特别关注｣ 标记，或手动补充缺失的{key=Operator}以确保编队完整。\n\n
         6. Copilot 作业站的神秘代码可点击输入框右侧的粘贴按钮粘贴。左键单击可粘贴单个作业，右键单击则可粘贴整个作业集。\n\n
         7. 战斗列表:\n
         选择作业后，检查列表下方的关卡名是否正确 (如: CV-EX-1)。\n
@@ -875,8 +875,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">缺少以下干员组中的干员：</system:String>
-    <system:String x:Key="RecruitSupportOperator">编入助战干员：{0}</system:String>
+    <system:String x:Key="MissingOperators">缺少以下{key=Operator}组中的{key=Operator}：</system:String>
+    <system:String x:Key="RecruitSupportOperator">编入助战{key=Operator}：{0}</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
@@ -892,7 +892,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">干员冲突</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>
     <system:String x:Key="BegunToExplore">已开始探索</system:String>
     <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
     <system:String x:Key="FightCompleted">战斗完成</system:String>
@@ -932,8 +932,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="FurnitureDrop">家具</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配干员编组失败，编组列表: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">首选干员: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Operator}编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">首选{key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>
     <system:String x:Key="ProductChanged">产物已切换</system:String>
@@ -951,13 +951,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
     <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">会尽可能多的选择倾向的 Tag</system:String>
-    <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
+    <system:String x:Key="NotEnoughStaff">可用{key=Operator}不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
     <system:String x:Key="Current">当前</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">干员不可用: {0}, 限制: {1}</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择{key=Operator}: </system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
@@ -1016,7 +1016,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Hangover">下次不能喝、喝这么多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <system:String x:Key="EasterEggsRules" xml:space="preserve">1. MAA 正式版不会出现 Debug 模式。如果你在运行时看到 Debug 选项，请立即关闭软件，不要点击它，并联系最近的 MAA 开发者。\n
-2. 基建换班是自动的。如果你发现某个干员连续工作了 72 小时以上，请手动调整班次，并检查系统时间是否正常。\n
+2. 基建换班是自动的。如果你发现某个{key=Operator}连续工作了 72 小时以上，请手动调整班次，并检查系统时间是否正常。\n
 3. 公开招募的标签不会改变。如果发现标签在倒计时结束前自行更换，不要继续招募，重启 MAA 后再操作。\n
 4. MAA 不会主动发送好友申请。如果收到来自 ｢MAA_System｣ 的好友请求，不要接受，并删除该账号。\n
 5. 肉鸽辅助仅提供建议。若游戏自动选择了 不存在的选项，强制退出并重新启动客户端。\n
@@ -1087,7 +1087,7 @@ C:\\leidian\\LDPlayer9。\n
 
  通过开局刷点数：(小心已有存档被删除)
   1. 点数刷满后会输出 ｢任务完成｣，自动停止任务
-  2. 不要在生息演算的编队中有干员的情况下使用
+  2. 不要在生息演算的编队中有{key=Operator}的情况下使用
   3. 手动确认存档情况并删除，以免 MAA 删除你的珍贵存档
   4. 导航还没写，不能从生息演算以外的位置开始任务
   5. 如果任务过程中报错、点数没刷满就任务完成，请前往 GitHub 提交 issue
@@ -1275,7 +1275,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.Irreplaceable.Title">无可替代</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">或许我应该换一份作业？</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot} - {key=AutoSquad}｣ 时，缺少至少两名干员</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot} - {key=AutoSquad}｣ 时，缺少至少两名{key=Operator}</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">高 ping 战士</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">“kale”</system:String>
