@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -33,44 +32,21 @@ public class AwardSettingsUserControlModel : TaskViewModel
 
     public static AwardSettingsUserControlModel Instance { get; }
 
-    private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether receive award is enabled.
-    /// </summary>
     public bool ReceiveAward
     {
-        get => _receiveAward;
-        set
-        {
-            SetAndNotify(ref _receiveAward, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
-        }
+        get => GetTaskConfig<AwardTask>()?.Award ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Award == value, t => t.Award = value);
     }
 
-    private bool _receiveMail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether receive mail is enabled.
-    /// </summary>
     public bool ReceiveMail
     {
-        get => _receiveMail;
-        set
-        {
-            SetAndNotify(ref _receiveMail, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
-        }
+        get => GetTaskConfig<AwardTask>()?.Mail ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Mail == value, t => t.Mail = value);
     }
 
-    private bool _receiveFreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether receive mail is enabled.
-    /// </summary>
-    public bool ReceiveFreeRecruit
+    public bool ReceiveFreeGacha
     {
-        get => _receiveFreeRecruit;
+        get => GetTaskConfig<AwardTask>()?.FreeGacha ?? default;
         set
         {
             if (value)
@@ -89,53 +65,33 @@ public class AwardSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            SetAndNotify(ref _receiveFreeRecruit, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+            SetTaskConfig<AwardTask>(t => t.FreeGacha == value, t => t.FreeGacha = value);
         }
     }
 
-    private bool _receiveOrundum = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether receive orundum is enabled.
-    /// </summary>
     public bool ReceiveOrundum
     {
-        get => _receiveOrundum;
-        set
-        {
-            SetAndNotify(ref _receiveOrundum, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
-        }
+        get => GetTaskConfig<AwardTask>()?.Orundum ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Orundum == value, t => t.Orundum = value);
     }
 
-    private bool _receiveMining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether receive mining is enabled.
-    /// </summary>
     public bool ReceiveMining
     {
-        get => _receiveMining;
-        set
-        {
-            SetAndNotify(ref _receiveMining, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMining, value.ToString());
-        }
+        get => GetTaskConfig<AwardTask>()?.Mining ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.Mining == value, t => t.Mining = value);
     }
 
-    private bool _receiveReceiveSpecialAccess = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to collect special access rewards.
-    /// </summary>
     public bool ReceiveSpecialAccess
     {
-        get => _receiveReceiveSpecialAccess;
-        set
+        get => GetTaskConfig<AwardTask>()?.SpecialAccess ?? default;
+        set => SetTaskConfig<AwardTask>(t => t.SpecialAccess == value, t => t.SpecialAccess = value);
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is AwardTask)
         {
-            SetAndNotify(ref _receiveReceiveSpecialAccess, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
+            Refresh();
         }
     }
 
@@ -145,7 +101,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
         {
             Award = ReceiveAward,
             Mail = ReceiveMail,
-            FreeGacha = ReceiveFreeRecruit,
+            FreeGacha = ReceiveFreeGacha,
             Orundum = ReceiveOrundum,
             Mining = ReceiveMining,
             SpecialAccess = ReceiveSpecialAccess,

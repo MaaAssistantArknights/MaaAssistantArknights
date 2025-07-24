@@ -12,9 +12,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:task="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:task="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type task:InfrastSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui:InfrastSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -29,7 +30,7 @@
                 ItemsSource="{Binding InfrastModeList}"
                 SelectedValue="{Binding InfrastMode}"
                 SelectedValuePath="Value" />
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
                 <hc:ComboBox
                     Margin="0,4"
                     VerticalContentAlignment="Center"
@@ -77,7 +78,7 @@
                 hc:InfoElement.Title="{DynamicResource DroneUsage}"
                 DisplayMemberPath="Display"
                 IsEnabled="{c:Binding 'InfrastMode != task:InfrastMode.Custom',
-                                      Source={x:Static task:InfrastSettingsUserControlModel.Instance}}"
+                                      Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
                 ItemsSource="{Binding UsesOfDronesList}"
                 SelectedValue="{Binding UsesOfDrones}"
                 SelectedValuePath="Value" />
@@ -88,12 +89,12 @@
                 Text="{DynamicResource InfrastModeRotationTip}"
                 TextWrapping="Wrap"
                 Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Rotation',
-                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}" />
+                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0"
                 d:Visibility="Visible"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Center"
@@ -167,13 +168,13 @@
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}" />
+                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}" />
             <StackPanel
                 Margin="0,10"
                 d:Visibility="Visible"
                 Orientation="Horizontal"
                 Visibility="{c:Binding 'InfrastMode != task:InfrastMode.Rotation',
-                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=DormFilterNotStationedTipsTooltipBlock}" IsChecked="{c:Binding DormFilterNotStationedEnabled}">
                     <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
                 </CheckBox>

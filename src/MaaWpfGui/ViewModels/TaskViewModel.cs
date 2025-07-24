@@ -114,9 +114,7 @@ public abstract class TaskViewModel : PropertyChangedBase
     /// 刷新UI
     /// </summary>
     /// <param name="baseTask">需要刷新的任务</param>
-    public virtual void RefreshUI(BaseTask baseTask)
-    {
-    }
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务
@@ -125,8 +123,5 @@ public abstract class TaskViewModel : PropertyChangedBase
     /// [Obsolete] 重构后弃用
     public abstract (AsstTaskType Type, JObject Params) Serialize();
 
-    public virtual bool? SerializeTask(BaseTask baseTask, int? taskId = null)
-    {
-        return null;
-    }
+    public abstract bool? SerializeTask(BaseTask baseTask, int? taskId = null);
 }
