@@ -236,6 +236,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // –––––––– Roguelike Map Config ––––––––––––––––––––––––––––––––––––––––––––------
     LoadResourceAndCheckRet(RoguelikeMapConfig, "roguelike"_p / "Sarkaz"_p / "map.json"_p);
+    LoadResourceAndCheckRet(RoguelikeMapConfig, "roguelike"_p / "JieGarden"_p / "map.json"_p);
 
     // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(RoguelikeFoldartalConfig, "roguelike"_p / "Sami"_p / "foldartal.json"_p);

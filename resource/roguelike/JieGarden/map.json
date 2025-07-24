@@ -1,0 +1,25 @@
+{
+    "theme": "JieGarden",
+    "node": [
+        {
+            "type": "CombatOps",
+            "template": ["JieGarden@Roguelike@MapNodeCombatOps.png", "JieGarden@Roguelike@MapNodeCombatOpsGrey.png"]
+        },
+        {
+            "type": "EmergencyOps",
+            "template": ["JieGarden@Roguelike@MapNodeEmergencyOps.png", "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png"]
+        },
+        {
+            "type": "Encounter",
+            "template": ["JieGarden@Roguelike@MapNodeEncounter.png", "JieGarden@Roguelike@MapNodeEncounterGrey.png"]
+        },
+        {
+            "type": "RogueTrader",
+            "template": ["JieGarden@Roguelike@MapNodeRogueTrader.png", "JieGarden@Roguelike@MapNodeRogueTraderGrey.png"]
+        },
+        {
+            "type": "BoskyPassage",
+            "template": ["JieGarden@Roguelike@MapNodeBoskyPassage.png", "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"]
+        }
+    ]
+}
