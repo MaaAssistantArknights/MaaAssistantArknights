@@ -41,6 +41,5 @@ namespace MaaWpfGui.Extensions
                     statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
             }
         }
-
     }
 }
