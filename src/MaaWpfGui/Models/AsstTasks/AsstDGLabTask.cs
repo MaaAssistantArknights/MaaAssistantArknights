@@ -12,5 +12,6 @@ namespace MaaWpfGui.Models.AsstTasks;
 public class AsstDGLabTask : AsstBaseTask
 {
     public override AsstTaskType TaskType => AsstTaskType.DGLab;
+
     public override (AsstTaskType TaskType, JObject Params) Serialize() => (TaskType, JObject.FromObject(this));
 }
