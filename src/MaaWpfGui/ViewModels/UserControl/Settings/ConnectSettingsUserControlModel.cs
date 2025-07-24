@@ -137,7 +137,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         set
         {
             value = value
-                .Replace(" ", "")
+                .Replace(" ", string.Empty)
                 .Replace("：", ":")
                 .Replace(";", ":")
                 .Replace("；", ":")
