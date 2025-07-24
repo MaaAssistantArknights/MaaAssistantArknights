@@ -58,12 +58,19 @@
                         </Border>
                     </StackPanel>
                 </hc:ScrollViewer>
-                <StackPanel
+                <Grid
                     Grid.Row="1"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Margin="10,0"
+                        VerticalAlignment="Center">
                         <CheckBox
                             Margin="5"
                             Content="{DynamicResource AutoSettingTime}"
@@ -83,7 +90,11 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel VerticalAlignment="Center">
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
                         <StackPanel Height="30" Orientation="Horizontal">
                             <CheckBox
                                 Margin="5"
@@ -182,15 +193,17 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
+
                     <Button
+                        Grid.Column="2"
                         Width="180"
                         Height="70"
-                        Margin="38,0,0,0"
+                        Margin="10,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
                         Content="{DynamicResource StartToRecruit}" />
-                </StackPanel>
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
