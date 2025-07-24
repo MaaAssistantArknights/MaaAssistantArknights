@@ -192,7 +192,7 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 910,
+                    "recruit_priority": 610,
                     "promote_priority": 990
                 },
                 {
@@ -243,10 +243,24 @@
                     ]
                 },
                 {
+                    "name": "鸿雪",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 550,
+                    "promote_priority": 810,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "高台输出"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "菲亚梅塔",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 720,
+                    "recruit_priority": 620,
                     "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
