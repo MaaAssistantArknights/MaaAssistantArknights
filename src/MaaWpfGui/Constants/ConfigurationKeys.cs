@@ -323,12 +323,10 @@ namespace MaaWpfGui.Constants
         public const string MiniGameTaskName = "MiniGame.TaskName";
 
         public const string AchievementBubbleAutoClose = "Achievement.BubbleAutoClose";
+        public const string DisableAchievementNotifications = "Achievement.DisableNotifications";
 
         // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
         // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移
         // public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";// 已迁移
-
-        public const string DisableAchievementNotifications = "Achievement.DisableNotifications";
-        public const string AchievementBubbleAutoClose = "Achievement.BubbleAutoClose";
     }
 }

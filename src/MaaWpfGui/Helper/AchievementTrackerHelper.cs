@@ -185,9 +185,6 @@ namespace MaaWpfGui.Helper
             achievement.IsNewUnlock = true;
             Save();
 
-            // Check if user wants auto-close bubbles
-            bool shouldStayOpen = staysOpen && !SettingsViewModel.AchievementSettings.AchievementBubbleAutoClose;
-
             var growlInfo = new GrowlInfo
             {
                 IsCustom = true,

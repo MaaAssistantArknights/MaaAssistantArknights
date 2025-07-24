@@ -23,20 +23,6 @@
             Margin="5"
             Command="{s:Action OnShowAchievementsClick}"
             Content="{DynamicResource AchievementView}" />
-        
-        <!-- 成就通知设置 -->
-        <CheckBox
-            Margin="5"
-            HorizontalAlignment="Center"
-            Content="{DynamicResource DisableAchievementNotifications}"
-            IsChecked="{Binding DisableAchievementNotifications}" />
-        
-        <CheckBox
-            Margin="5"
-            HorizontalAlignment="Center"
-            Content="{DynamicResource AchievementBubbleAutoClose}"
-            IsChecked="{Binding AchievementBubbleAutoClose}" />
-        
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button
                 Margin="5"
@@ -65,6 +51,12 @@
                 Fill="{Binding MedalBrush}"
                 Stretch="Uniform" />
         </Border>
+        <!--  成就通知设置  -->
+        <CheckBox
+            Margin="5"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource DisableAchievementNotifications}"
+            IsChecked="{Binding DisableAchievementNotifications}" />
         <CheckBox
             Margin="5"
             HorizontalAlignment="Center"

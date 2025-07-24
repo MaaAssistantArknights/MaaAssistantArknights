@@ -237,19 +237,4 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             ConfigurationHelper.SetValue(ConfigurationKeys.DisableAchievementNotifications, value.ToString());
         }
     }
-
-    private bool _achievementBubbleAutoClose = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AchievementBubbleAutoClose, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether achievement bubbles should auto-close after some time.
-    /// </summary>
-    public bool AchievementBubbleAutoClose
-    {
-        get => _achievementBubbleAutoClose;
-        set
-        {
-            SetAndNotify(ref _achievementBubbleAutoClose, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementBubbleAutoClose, value.ToString());
-        }
-    }
 }
