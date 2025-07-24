@@ -414,12 +414,11 @@ namespace MaaWpfGui.Helper
 
         public static GpuOption GetCurrent()
         {
-            bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, "false"), out var useGpu);
             var preferredGpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
             var preferredGpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
 
             GpuOption result;
-            if (useGpu)
+            if (ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false))
             {
                 var options = GetGpuOptions();
                 if (ReferenceEquals(options, _unavailableOptions))
