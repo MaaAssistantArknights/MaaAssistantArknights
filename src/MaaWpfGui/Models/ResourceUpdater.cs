@@ -75,8 +75,7 @@ namespace MaaWpfGui.Models
                 {
                     DirectoryMerge(
                         Path.Combine(basePath, folder),
-                        Path.Combine(Directory.GetCurrentDirectory(), folder)
-                    );
+                        Path.Combine(Directory.GetCurrentDirectory(), folder));
                 }
             }
             catch (Exception e)
@@ -307,7 +306,6 @@ namespace MaaWpfGui.Models
                 OutputDownloadProgress(downloading: false, output: msg);
             }
         }
-
 
         /// <summary>
         /// 检查并下载资源更新。
