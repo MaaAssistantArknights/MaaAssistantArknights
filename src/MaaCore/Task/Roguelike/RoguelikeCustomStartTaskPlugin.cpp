@@ -54,6 +54,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         }
         return true;
     }
+    if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
+        return !m_config->get_core_char().empty();
+    }
 
     // Roles CoreChar
     if (auto it = m_customs.find(m_waiting_to_run); it == m_customs.cend()) {
@@ -73,8 +76,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
     }
 
+    m_config->set_core_char(params.get("core_char", ""));                            // 开局干员名
     set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));                 // 开局职业组
-    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));          // 开局干员名
     m_config->set_use_support(params.get("use_support", false));                     // 开局干员是否为助战干员
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
 
@@ -202,7 +205,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
-    const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
+    const std::string& char_name = m_config->get_core_char();
 
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {
         { battle::Role::Caster, "术师" }, { battle::Role::Medic, "医疗" },   { battle::Role::Pioneer, "先锋" },
@@ -229,8 +232,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     ctrler()->click(role_rect);
 
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
-
-    m_config->set_core_char(char_name);
     return true;
 }
 
