@@ -51,7 +51,11 @@
                 Fill="{Binding MedalBrush}"
                 Stretch="Uniform" />
         </Border>
-
+        <CheckBox
+            Margin="5"
+            HorizontalAlignment="Center"
+            Content="{DynamicResource AchievementBubbleAutoClose}"
+            IsChecked="{Binding AchievementBubbleAutoClose}" />
         <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding IsDebugVersion}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button

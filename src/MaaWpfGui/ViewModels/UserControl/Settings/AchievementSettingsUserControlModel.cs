@@ -15,11 +15,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
@@ -206,5 +206,20 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     public void LockAll()
     {
         AchievementTrackerHelper.Instance.LockAll();
+    }
+
+    private bool _achievementBubbleAutoClose = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementBubbleAutoClose, false);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether achievement bubbles should auto-close after some time.
+    /// </summary>
+    public bool AchievementBubbleAutoClose
+    {
+        get => _achievementBubbleAutoClose;
+        set
+        {
+            SetAndNotify(ref _achievementBubbleAutoClose, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementBubbleAutoClose, value.ToString());
+        }
     }
 }
