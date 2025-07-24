@@ -125,9 +125,32 @@ namespace MaaWpfGui.ViewModels.UI
 
                 recruitResultInlines.Add(new LineBreak());
 
-                foreach (var oper in (JArray?)combs["opers"] ?? [])
+                var opersArray = (JArray?)combs["opers"] ?? [];
+
+                var opersWithPotential = opersArray.Select(oper =>
                 {
                     int operLevel = (int)(oper["level"] ?? -1);
+                    var operId = oper["id"]?.ToString();
+
+                    int pot = -1;
+                    if (RecruitmentShowPotential && OperBoxPotential != null && operId != null && (tagLevel >= 4 || operLevel == 1))
+                    {
+                        if (OperBoxPotential.TryGetValue(operId, out var potentialValue))
+                        {
+                            pot = potentialValue;
+                        }
+                    }
+
+                    return new { Oper = oper, Potential = pot, OperLevel = operLevel };
+                })
+                .OrderByDescending(x => x.OperLevel)
+                .ThenBy(x => x.Potential)
+                .ToList();
+
+                foreach (var x in opersWithPotential)
+                {
+                    var oper = x.Oper;
+                    int operLevel = x.OperLevel;
                     var operId = oper["id"]?.ToString();
                     var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
 
