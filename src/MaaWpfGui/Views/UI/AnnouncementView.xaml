@@ -12,7 +12,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     Title="{DynamicResource Announcement}"
     Width="750"
-    Height="500"
+    Height="550"
     d:DataContext="{d:DesignInstance {x:Type ui:AnnouncementViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="False"
