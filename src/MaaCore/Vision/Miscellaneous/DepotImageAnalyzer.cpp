@@ -315,9 +315,9 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         digit_str.erase(digit_str.size() - 1, digit_str.size());
     }
     // 没小数点的时候万会识别成 F（怎么还会和上面不一样的
-    else if (size_t w3_pos = digit_str.ends_with('F'); w3_pos != std::string::npos) {
+    else if (digit_str.ends_with('F')) {
         multiple = 10000;
-        digit_str.erase(w3_pos, digit_str.size());
+        digit_str.erase(digit_str.size() - 1);
     }
     else if (size_t k_pos = digit_str.find('K'); k_pos != std::string::npos) {
         multiple = 1000;
