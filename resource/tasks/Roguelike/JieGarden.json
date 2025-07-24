@@ -447,7 +447,10 @@
             "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
             "JieGarden@Roguelike@MapNodeEncounter.png",
             "JieGarden@Roguelike@MapNodeEncounterGrey.png",
-            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png"
+            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
+            "JieGarden@Roguelike@MapNodeRogueTrader.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
         ],
         "roi": [246, 60, 288, 575],
         "postDelay": 300
