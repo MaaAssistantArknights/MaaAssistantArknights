@@ -1,89 +1,91 @@
-  name: "CodeQL Advanced"
+name: "CodeQL Advanced"
 
-  on:
-    pull_request:
-      branches: ["dev"]
-    schedule:
-      - cron: "45 11 * * *"
-    workflow_dispatch:
+on:
+  pull_request:
+    branches: ["dev"]
+  schedule:
+    - cron: "45 11 * * *"
+  workflow_dispatch:
 
-  permissions:
-    security-events: write
-    packages: read
-    actions: read
-    contents: read
+permissions:
+  actions: write
+  contents: read
+  packages: read
+  security-events: write
 
-  jobs:
-    analyze-none:
-      name: Analyze CI and MaaWebsite
-      runs-on: windows-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-          with:
-            show-progress: false
+jobs:
+  analyze-none:
+    name: Analyze CI and MaaWebsite
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
 
-        - name: Setup CodeQL
-          uses: github/codeql-action/init@v3
-          with:
-            languages: javascript-typescript,actions
-            build-mode: none
+      - name: Setup CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript,actions
+          build-mode: none
 
-        - name: Run CodeQL
-          uses: github/codeql-action/analyze@v3
-          with:
-            category: "/language:multi-none"
+      - name: Run CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:multi-none"
 
-    analyze-manual:
-      name: Analyze MaaCore and MaaWpfGui
-      runs-on: windows-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-          with:
-            show-progress: false
+  analyze-manual:
+    name: Analyze MaaCore and MaaWpfGui
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
 
-        - name: Setup build environments
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            git submodule update --init --depth 1 3rdparty/EmulatorExtras
-            dotnet restore
-            python3 maadeps-download.py x64-windows
+      - name: Setup build environments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+          dotnet restore
+          python3 maadeps-download.py x64-windows
 
-        - name: Create fake event file
-          shell: bash
-          run: cp -v "$GITHUB_EVENT_PATH" ./event.json
+      - name: Create fake event file
+        shell: bash
+        run: cp -v "$GITHUB_EVENT_PATH" ./event.json
 
-        - name: Setup CodeQL
-          uses: github/codeql-action/init@v3
-          with:
-            languages: c-cpp,csharp
-            build-mode: manual
+      - name: Setup CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: c-cpp,csharp
+          build-mode: manual
 
-        - name: Build MAA
-          shell: pwsh
-          run: |
-            $env:GITHUB_WORKFLOW = 'dev-build-win'
-            $env:GITHUB_EVENT_PATH = "$pwd\\event.json"
-            $env:GITHUB_REF = "refs/heads/not_master"
-            $env:MAA_BUILDER_MAA_VERSION = 'v0.0.1'
-            ./build.cmd DevBuild
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build MAA
+        shell: pwsh
+        run: |
+          $env:GITHUB_WORKFLOW = 'dev-build-win'
+          $env:GITHUB_EVENT_PATH = "$pwd\\event.json"
+          $env:GITHUB_REF = "refs/heads/not_master"
+          $env:MAA_BUILDER_MAA_VERSION = 'v0.0.1'
+          ./build.cmd DevBuild
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Run CodeQL
-          uses: github/codeql-action/analyze@v3
-          with:
-            category: "/language:multi-manual"
+      - name: Run CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:multi-manual"
 
-        - name: Delete old caches
-          shell: pwsh
-          run: |
-            $oldCaches = gh cache list --key codeql --order asc --json key | ConvertFrom-Json | Select-Object -SkipLast 1
-              foreach ($cache in $oldCaches) {
-                if ($cache.key) {
-                  Write-Host "Deleting cache: $($cache.key)"
-                  gh cache delete $cache.key
-                }
+      - name: Delete old caches
+        shell: pwsh
+        run: |
+          $oldCaches = gh cache list --key codeql --order asc --json key | ConvertFrom-Json | Select-Object -SkipLast 1
+            foreach ($cache in $oldCaches) {
+              if ($cache.key) {
+                Write-Host "Deleting cache: $($cache.key)"
+                gh cache delete $cache.key
               }
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
