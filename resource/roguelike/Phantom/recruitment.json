@@ -41,11 +41,11 @@
             "name": "元素",
             "opers": [
                 {
-                    "name": "酒神",
+                    "name": "塑心",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 805,
-                    "promote_priority": 802,
+                    "recruit_priority": 705,
+                    "promote_priority": 702,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["元素"],
@@ -55,11 +55,11 @@
                     ]
                 },
                 {
-                    "name": "塑心",
+                    "name": "酒神",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 705,
-                    "promote_priority": 702,
+                    "recruit_priority": 605,
+                    "promote_priority": 602,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["元素"],
@@ -228,15 +228,16 @@
                     ]
                 },
                 {
-                    "name": "鸿雪",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 550,
-                    "promote_priority": 810,
+                    "name": "娜仁图亚",
+                    "skill": 1,
+                    "skill_usage": 2,
+                    "is_key": true,
+                    "recruit_priority": 681,
+                    "promote_priority": 600,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["高台C", "高台输出"],
-                            "threshold": 2,
+                            "groups": ["水陈", "速狙", "益达"],
+                            "threshold": 1,
                             "offset": -300
                         }
                     ]
@@ -960,21 +961,6 @@
                         {
                             "groups": ["凯尔希", "近卫", "重装"],
                             "is_less": true,
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "娜仁图亚",
-                    "skill": 1,
-                    "skill_usage": 2,
-                    "is_key": true,
-                    "recruit_priority": 681,
-                    "promote_priority": 600,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["水陈", "速狙", "益达"],
                             "threshold": 1,
                             "offset": -300
                         }
