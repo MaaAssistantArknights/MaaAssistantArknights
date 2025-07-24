@@ -189,7 +189,8 @@ namespace MaaWpfGui.Helper
             {
                 IsCustom = true,
                 Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
-                StaysOpen = staysOpen,
+                StaysOpen = staysOpen && !SettingsViewModel.AchievementSettings.AchievementBubbleAutoClose,
+                WaitTime = 15,
                 IconKey = "HangoverGeometry",
                 IconBrushKey = achievement.MedalBrushKey,
             };
