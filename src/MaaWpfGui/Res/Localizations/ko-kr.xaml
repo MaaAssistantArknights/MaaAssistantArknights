@@ -352,6 +352,11 @@
     <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt;가 성공적으로 추가되었습니다</system:String>
     <system:String x:Key="ConfigExists">구성 &lt; {0}&gt;가 이미 있습니다</system:String>
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
+이 기능은 시스템 시작 시 자동 실행을 위해 레지스트리를 수정합니다.
+MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목을 자동으로 정리하지 않습니다.
+레지스트리 잔여 항목이 걱정된다면 프로그램 삭제 전에 이 옵션을 비활성화하세요.
+</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 &gt; Windows 도구 &gt; 작업 스케줄러에서 사용자 지정 작업을 생성하세요. 트리거를 설정할 때 "가장 높은 권한으로 실행"을 반드시 선택하세요.
     </system:String>
@@ -447,6 +452,13 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="MinimizeToTray">최소화 시 트레이에 숨기기</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
+MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.  
+여러 위치에서 MAA를 실행하면 Windows는 각 경로마다 별도의 알림 아이콘(예: 작업 표시줄 알림)을 생성합니다. 이는 라이브러리의 기본 동작이며 MAA가 제어하거나 자동으로 정리할 수 없습니다.  
+정리하려면 레지스트리 편집기를 열고 다음 경로로 이동하세요:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+해당 경로에 해당하는 항목을 삭제하세요.
+</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>

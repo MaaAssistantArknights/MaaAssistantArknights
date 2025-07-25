@@ -351,6 +351,11 @@
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
+此功能透過修改登錄檔來實現開機自動啟動。
+由於 MAA 為非安裝軟體，不會自動清除登錄檔項目。
+若在意登錄檔殘留，請在刪除程式前先取消啟用此選項。
+</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         ｢以系統管理員身分執行｣ 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選 ｢以最高權限執行｣。
     </system:String>
@@ -446,6 +451,13 @@
     <system:String x:Key="HideTray">隱藏工作列圖標</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
+MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 庫，該庫預設以程式所在路徑作為註冊識別。  
+若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該庫的預設行為，MAA 無法控制或自動清除。  
+如需清理，請手動開啟登錄檔編輯器，定位至：
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+刪除對應的路徑項目即可。
+</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反轉主任務右鍵單擊效果</system:String>
