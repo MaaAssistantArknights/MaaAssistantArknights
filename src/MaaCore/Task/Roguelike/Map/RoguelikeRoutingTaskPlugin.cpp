@@ -6,6 +6,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
@@ -114,7 +115,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             std::string stem = utils::get_time_filestem();
             auto relative_path = relative_dir / (stem + "_draw.png");
             Log.trace("Save image", relative_path, std::filesystem::absolute(relative_dir));
-            bool ret = imwrite(relative_path, image_draw);
+            bool ret = asst::imwrite(relative_path, image_draw);
             Log.info(ret ? "Succeeded!" : "Failed!");
 #endif
             m_need_generate_map = false;
