@@ -285,13 +285,22 @@
     <system:String x:Key="ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 海外ソースを使用：
-    ● ソフトウェアバージョン：MAA Teamが提供するAPIで更新をチェックし、GitHubまたはMAA Teamが提供するCN Mirrorsから自動的に更新パッケージを取得
-    ● リソースバージョン：MirrorChyanが無料の更新検出を提供、設定で ｢{key=ResourceUpdate}｣ をクリックしてGitHubから手動でダウンロード可能
+🌏 {key=GlobalSource}を使用：
+    ● {key=UpdateCheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
+    ● {key=ResourceUpdate}：{key=MirrorChyan} による無料の更新確認が可能。設定画面で「{key=ResourceUpdate}」をクリックして GitHub から手動ダウンロード可能
 
-🔑 MirrorChyanを使用：
-    ● ソフトウェアとリソースはMirrorChyan経由で優先的に高速ダウンロード
-    ● リソースバージョンの自動更新を追加提供
+🔑 {key=MirrorChyan}を使用：
+    ● CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
+    ● 高速 CDN を通じて {key=MirrorChyan} から優先的にダウンロード、より安定かつ高速
+
+📦 手動更新：
+    ● {key=UpdateCheckNow}：完全パッケージをダウンロードし、新しいフォルダに解凍してください。設定やデータ保持のために旧フォルダの config および data フォルダをコピーできます。古いフォルダへの上書きは避けてください。リソース破損の恐れがあります
+    ● {key=ResourceUpdate}：リソースパックをダウンロードし、resource フォルダに上書きしてください。増分データのため、元のフォルダを削除しないでください
+
+📄 更新内容：
+    ● {key=UpdateCheckNow}：UI や機能のアップデートを含みます。すべての画面変更や新機能は{key=UpdateCheckNow}経由で提供されます
+    ● {key=ResourceUpdate}：自動戦闘用の新ステージ、ドロップ認識用アイコン、公募タグなどの素材データを含みます
+    ● ナビホットパッチ：自動でトリガーされ、ホーム画面のヒントやイベントステージ入口を更新します。成功すると右上に「{key=ApiUpdateSuccess}」と表示されます
 </system:String>
     <system:String x:Key="GlobalSource">グローバルソース</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>

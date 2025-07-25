@@ -284,13 +284,22 @@
     <system:String x:Key="ResourceRepository">리소스 저장소</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 글로벌 소스 사용:
-    ● 소프트웨어 버전: MAA Team이 제공하는 API를 통해 업데이트를 확인하며, GitHub 또는 MAA Team이 제공하는 중국 미러에서 자동으로 업데이트 패키지를 받아옵니다.
-    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢{key=ResourceUpdate}｣ 를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
+🌏 {key=GlobalSource} 사용：
+    ● {key=UpdateCheckNow}：MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국 내에서는 직접 연결 가능한 미러도 제공되며, 피크 시간에는 대역폭이 제한될 수 있습니다
+    ● {key=ResourceUpdate}：{key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
 
-🔑 MirrorChyan 사용:
-    ● 소프트웨어와 리소스는 MirrorChyan을 통해 고속 다운로드가 우선적으로 지원됩니다.
-    ● 리소스 버전에 대한 자동 업데이트도 추가로 제공됩니다.
+🔑 {key=MirrorChyan} 사용：
+    ● CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
+    ● {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
+
+📦 수동 업데이트：
+    ● {key=UpdateCheckNow}：전체 패키지를 다운로드하여 새 폴더에 압축 해제하십시오. 기존 폴더의 config 및 data 폴더를 복사하여 데이터를 유지할 수 있습니다. 이전 버전에 덮어쓰지 마십시오—리소스 손상 위험이 있습니다
+    ● {key=ResourceUpdate}：리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰십시오. 증분 업데이트이므로 원래 폴더를 삭제하지 마십시오
+
+📄 업데이트 설명：
+    ● {key=UpdateCheckNow}：UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
+    ● {key=ResourceUpdate}：자동 전투용 신규 스테이지, 드롭 아이콘, 공개 채용 태그 등의 리소스 데이터가 포함됩니다
+    ● 내비 핫픽스：자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
