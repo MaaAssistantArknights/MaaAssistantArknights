@@ -456,7 +456,6 @@
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
         "roi": [1016, 602, 264, 118],
-        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@TraderRandomShopping",
@@ -468,6 +467,7 @@
     "Roguelike@ChooseOperFlag": {
         "template": "Roguelike@ChooseOperConfirm.png",
         "roi": [1016, 602, 264, 118],
+        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": ["Roguelike@RecruitCloseGuide", "Roguelike@ChooseOper"]
     },
     "Roguelike@ClickToDrops": {
