@@ -915,6 +915,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>
     <system:String x:Key="BegunToExplore">探索を開始しました</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">前方の戦闘数：{0}、ルートを再計画します</system:String>
     <system:String x:Key="ExplorationAbandoned">この探索を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>

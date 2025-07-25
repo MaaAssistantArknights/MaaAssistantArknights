@@ -915,6 +915,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>
     <system:String x:Key="BegunToExplore">已开始探索</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">前方战斗数：{0}，重开路线</system:String>
     <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
     <system:String x:Key="FightCompleted">战斗完成</system:String>
     <system:String x:Key="FightFailed">战斗失败</system:String>
