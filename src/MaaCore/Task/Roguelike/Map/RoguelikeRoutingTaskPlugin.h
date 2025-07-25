@@ -36,9 +36,8 @@ private:
     ///     画面最左侧节点 (忽视 init node) 所在列的 index。
     ///     按照定义，要求 leftmost_column >= 1。
     /// </param>
-    /// <param name="image_draw_opt">ASST_DEBUG 模式下用于标注识别结果的截图。若为 std::nullopt 则不标注识别结果。</param>
-    /// <returns>
-    /// 若有新地图信息，则返回 true, 反之则返回 false。
+    /// <param name="image_draw_opt">ASST_DEBUG 模式下用于标注识别结果的截图。若为 std::nullopt
+    /// 则不标注识别结果。</param> <returns> 若有新地图信息，则返回 true, 反之则返回 false。
     /// </returns>
     /// <remarks>
     /// 画面中最多同时存在三列节点。
