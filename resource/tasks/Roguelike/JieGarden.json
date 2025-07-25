@@ -333,7 +333,8 @@
         "next": [
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseInterview",
-            "JieGarden@Roguelike@StrategyChange"
+            "JieGarden@Roguelike@StrategyChange",
+            "JieGarden@Roguelike@NextLevel"
         ]
     },
     "JieGarden@Roguelike@RandomPickAfterNextLevel": {
