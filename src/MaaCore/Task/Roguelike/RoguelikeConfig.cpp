@@ -54,7 +54,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
 
-        // 点刺成锭分队特殊策略
+        // 萨卡兹点刺成锭分队特殊策略
         if (m_theme == "Sarkaz") {
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
@@ -69,6 +69,13 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 Task.set_task_base(
                     "Sarkaz@Roguelike@StageBurdenOperation",
                     "Sarkaz@Roguelike@StageBurdenOperation-Start");
+            }
+        }
+        // 界园指挥分队特殊策略
+        if (m_theme == "JieGarden") {
+            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
+                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange-FastInvestment");
             }
         }
     }
