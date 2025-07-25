@@ -953,7 +953,28 @@ namespace MaaWpfGui.Main
                     }
 
                 case AsstMsg.TaskChainExtraInfo:
-                    break;
+                    {
+                        var what = details["what"]?.ToString();
+                        var why = details["why"]?.ToString();
+
+                        switch (what)
+                        {
+                            case "RoutingRestart":
+                                string msgText = string.Empty;
+                                switch (why)
+                                {
+                                    case "TooManyBattlesAhead":
+                                        var cost = details["node_cost"]?.ToString() ?? "?";
+                                        msgText = string.Format(LocalizationHelper.GetString("RoutingRestartTooManyBattles"), cost);
+                                        break;
+                                }
+
+                                Instances.TaskQueueViewModel.AddLog(msgText, UiLogColor.Warning);
+                                break;
+                        }
+
+                        break;
+                    }
 
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = false;

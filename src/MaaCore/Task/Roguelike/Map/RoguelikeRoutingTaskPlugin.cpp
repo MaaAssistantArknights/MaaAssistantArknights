@@ -133,6 +133,14 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
             // 若无法避免超过两场战斗则重开
             if (m_map.get_node_cost(next_node) >= 2) {
+                callback(
+                    AsstMsg::TaskChainExtraInfo,
+                    json::object {
+                        { "what", "RoutingRestart" },
+                        { "why", "TooManyBattlesAhead" },
+                        { "node_cost", m_map.get_node_cost(next_node) },
+                    });
+
                 Task.set_task_base(
                     "JieGarden@Roguelike@RoutingAction",
                     "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
