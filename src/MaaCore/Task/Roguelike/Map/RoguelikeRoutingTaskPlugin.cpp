@@ -342,7 +342,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
         const int rightmost_y = (rightmost_y_min_p.y + rightmost_y_max_p.y) / 2;
 
         if ((std::abs(prev_y - node_y) < m_direction_threshold &&
-            std::abs(leftmost_y - rightmost_y) < m_direction_threshold) ||
+             std::abs(leftmost_y - rightmost_y) < m_direction_threshold) ||
             (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) ||
             (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold)) {
             m_map.add_edge(prev, node);
