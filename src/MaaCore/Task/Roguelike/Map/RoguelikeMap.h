@@ -81,8 +81,11 @@ public:
 
     // ———————— get map details ———————————————————————————————————————————————————————
     [[nodiscard]] size_t size() const { return m_nodes.size(); }
+
     [[nodiscard]] size_t get_num_columns() const { return m_column_indices.size(); }
+
     [[nodiscard]] size_t get_curr_pos() const { return m_curr_pos; }
+
     [[nodiscard]] size_t get_column_begin(const size_t& column) const;
     [[nodiscard]] size_t get_column_end(const size_t& column) const;
     [[nodiscard]] size_t get_next_node() const;
@@ -113,6 +116,8 @@ private:
     std::vector<RoguelikeNodePtr> m_nodes;
     std::vector<size_t> m_column_indices; // m_column_indices[c] 代表列 c 的 node index 的上限 (exclusive)
     size_t m_curr_pos = 0;                // 当前位置的 node index
-    RoguelikeNodeCostFun m_cost_fun = [&]([[maybe_unused]] const RoguelikeNodePtr& node) { return 0; };
+    RoguelikeNodeCostFun m_cost_fun = [&]([[maybe_unused]] const RoguelikeNodePtr& node) {
+        return 0;
+    };
 };
 }

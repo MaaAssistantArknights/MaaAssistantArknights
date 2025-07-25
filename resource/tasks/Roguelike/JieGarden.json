@@ -436,7 +436,7 @@
     "JieGarden@Roguelike@LeaveOperation": {
         "roi": [41, 22, 78, 71],
         "action": "ClickSelf",
-        "next":["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
+        "next": ["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
         "algorithm": "OcrDetect",
@@ -450,10 +450,7 @@
         "text": ["放弃行动"],
         "roi": [770, 470, 150, 45],
         "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@OperationFailed",
-            "JieGarden@Roguelike@ConfirmToGiveUp"
-        ]
+        "next": ["JieGarden@Roguelike@OperationFailed", "JieGarden@Roguelike@ConfirmToGiveUp"]
     },
     "JieGarden@Roguelike@OperationFailed": {
         "baseTask": "JieGarden@Roguelike@MissionFailedFlag",
