@@ -103,6 +103,23 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         }
         break;
+    case RoutingStrategy::FastInvestment_JieGarden:
+        if (m_need_generate_map) {
+            cv::Mat image = ctrler()->get_image();
+            cv::Mat image_draw = image.clone();
+            update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
+#ifdef ASST_DEBUG
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
+            std::filesystem::create_directories(relative_dir);
+            std::string stem = utils::get_time_filestem();
+            auto relative_path = relative_dir / (stem + "_draw.png");
+            Log.trace("Save image", relative_path, std::filesystem::absolute(relative_dir));
+            bool ret = imwrite(relative_path, image_draw);
+            Log.info(ret ? "Succeeded!" : "Failed!");
+#endif
+            m_need_generate_map = false;
+        }
+        break;
     case RoutingStrategy::FastPass:
         if (m_need_generate_map) {
             generate_map();
