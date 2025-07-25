@@ -290,7 +290,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
     const size_t& node,
     const cv::Mat& image,
     const int& node_x,
-    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
+    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt [[maybe_unused]])
 {
     LogTraceFunction;
 
