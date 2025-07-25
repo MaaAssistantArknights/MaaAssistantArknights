@@ -914,6 +914,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
     <system:String x:Key="BegunToExplore" xml:space="preserve">탐험 시작됨</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">앞에 전투 횟수: {0}, 경로를 다시 설정합니다</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>

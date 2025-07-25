@@ -915,6 +915,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">Too many battles ahead: {0}, restarting route</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Combat completed</system:String>
     <system:String x:Key="FightFailed">Combat failed</system:String>
