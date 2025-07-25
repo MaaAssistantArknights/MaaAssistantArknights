@@ -90,21 +90,12 @@
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
     },
-    "Sami@Roguelike@ChooseDifficulty_Easiest": {
+    "Sami@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
         "template": "Sami@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "Sami@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1119, 479, 80, 22],
-        "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@ChooseOper": {
         "next": [

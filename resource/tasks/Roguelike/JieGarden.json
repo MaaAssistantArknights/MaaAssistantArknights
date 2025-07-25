@@ -56,21 +56,12 @@
     "JieGarden@Roguelike@ChooseDifficulty": {
         "roi": [1079, 304, 201, 153]
     },
-    "JieGarden@Roguelike@ChooseDifficulty_Easiest": {
+    "JieGarden@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
         "template": "JieGarden@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "JieGarden@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1119, 479, 80, 22],
-        "postDelay": 800,
-        "template": "JieGarden@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [958, 530, 322, 189]
     },
     "JieGarden@Roguelike@ChooseOper": {
         "next": [
