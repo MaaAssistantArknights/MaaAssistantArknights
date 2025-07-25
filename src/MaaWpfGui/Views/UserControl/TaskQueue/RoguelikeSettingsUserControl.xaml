@@ -129,8 +129,9 @@
                 Margin="0,10"
                 d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScoreRaw}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Investment and RoguelikeTheme != task:RoguelikeTheme.JieGarden',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}">
+                <!--  先只在ui屏蔽，要实现进洞退出才能做到进二层  -->
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource InvestmentWithMoreScore}"
