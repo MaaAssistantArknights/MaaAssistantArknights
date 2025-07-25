@@ -329,7 +329,7 @@
     },
     "JieGarden@Roguelike@NextLevel": {
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
-        "roi": [550, 564, 184, 64]
+        "roi": [550, 545, 184, 64]
     },
     "JieGarden@Roguelike@RandomPick": {
         "action": "ClickSelf",
