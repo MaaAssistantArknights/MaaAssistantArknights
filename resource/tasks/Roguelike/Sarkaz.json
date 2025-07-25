@@ -77,21 +77,12 @@
     "Sarkaz@Roguelike@ChooseDifficulty": {
         "roi": [1086, 309, 194, 140]
     },
-    "Sarkaz@Roguelike@ChooseDifficulty_Easiest": {
+    "Sarkaz@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
         "template": "Sarkaz@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "Sarkaz@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1119, 479, 80, 22],
-        "postDelay": 800,
-        "template": "Sarkaz@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [958, 530, 322, 189]
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
