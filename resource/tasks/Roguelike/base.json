@@ -453,13 +453,22 @@
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
         "algorithm": "JustReturn"
     },
+    "StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@EnterAfterRecruit",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
+    },
     "Roguelike@ChooseOperConfirmToGiveUp": {
         "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
             "Roguelike@ChooseOperConfirmToGiveUp",
             "Roguelike@RecruitOther",
-            "Roguelike@EnterAfterRecruit",
             "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
@@ -1083,6 +1092,14 @@
     "Roguelike@RecruitSupportConfirm": {
         "doc": "集成战略模式招募助战干员后点击确认按钮，注意 roi 变化",
         "roi": [810, 500, 200, 40]
+    },
+    "StartExplore@Roguelike@RecruitWithoutButton": {
+        "exceededNext": ["Roguelike@Abandon"],
+        "next": [
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@EnterAfterRecruit",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
     },
     "Roguelike@RecruitWithoutButton": {
         "algorithm": "JustReturn",

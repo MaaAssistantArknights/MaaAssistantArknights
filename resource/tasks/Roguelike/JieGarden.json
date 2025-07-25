@@ -72,14 +72,7 @@
         "roi": [1031, 606, 249, 114]
     },
     "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
-        "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
-        "next": [
-            "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
-            "JieGarden@StartExplore@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@EnterAfterRecruit",
-            "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
-        ]
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png"
     },
     "JieGarden@Roguelike@ChooseOperConfirmToGiveUp": {
         "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
@@ -87,15 +80,14 @@
         "next": [
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",
             "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@EnterAfterRecruit",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
-    "JieGarden@Roguelike@ChooseOperFlag": {
+    "JieGarden@StartExplore@Roguelike@ChooseOperFlag": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
-    "JieGarden@StartExplore@Roguelike@ChooseOperFlag": {
+    "JieGarden@Roguelike@ChooseOperFlag": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
@@ -189,7 +181,6 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@StageEncounterOptions#next",
             "JieGarden@Roguelike@StageEncounterSpecialClose",
-            "JieGarden@Roguelike@EnterAfterRecruit",
             "JieGarden@Roguelike@StageTraderLeave",
             "JieGarden@Roguelike@CloseEvent",
             "JieGarden@Roguelike@RecruitOther"
@@ -204,7 +195,6 @@
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@StageEncounterOptions#next",
             "JieGarden@Roguelike@StageEncounterSpecialClose",
-            "JieGarden@Roguelike@EnterAfterRecruit",
             "JieGarden@Roguelike@StageTraderLeave",
             "JieGarden@Roguelike@CloseEvent",
             "JieGarden@Roguelike@RecruitOther"
@@ -352,19 +342,10 @@
     "JieGarden@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
     },
-    "JieGarden@StartExplore@Roguelike@RecruitWithoutButton": {
-        "maxTimes": 10,
-        "exceededNext": ["JieGarden@Roguelike@Abandon"],
-        "next": [
-            "JieGarden@StartExplore@Roguelike@RecruitOther",
-            "JieGarden@StartExplore@Roguelike@EnterAfterRecruit",
-            "JieGarden@StartExplore@Roguelike@RecruitWithoutButton"
-        ]
-    },
+    "JieGarden@StartExplore@Roguelike@RecruitWithoutButton": {},
     "JieGarden@Roguelike@RecruitWithoutButton": {
         "next": [
             "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@EnterAfterRecruit",
             "JieGarden@Roguelike@TraderRandomShopping",
             "JieGarden@Roguelike@StageTraderLeave",
             "JieGarden@Roguelike@DropsFlag",

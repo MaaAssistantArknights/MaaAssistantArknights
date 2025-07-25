@@ -20,6 +20,13 @@
         "roi": [1026, 470, 254, 248],
         "sub": ["SwipeToTheDown*2"]
     },
+    "Phantom@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "Phantom@StartExplore@Roguelike@ChooseOperConfirm",
+            "Phantom@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Phantom@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
@@ -65,6 +72,9 @@
     "Phantom@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "baseTask": "Phantom@Roguelike@DropsFlag_default"
+    },
+    "Phantom@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "Phantom@Roguelike@EnterAfterRecruit.png"
     },
     "Phantom@Roguelike@EnterAfterRecruit": {},
     "Phantom@Roguelike@ExitThenAbandon": {
@@ -158,9 +168,13 @@
     "Phantom@Roguelike@RecruitMain": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
+    "Phantom@StartExplore@Roguelike@RecruitOther": {
+        "template": "Phantom@Roguelike@Recruit.png"
+    },
     "Phantom@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
+    "Phantom@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Phantom@Roguelike@RecruitWithoutButton": {
         "next": [
             "Phantom@Roguelike@RecruitOther",
