@@ -554,7 +554,7 @@
         "baseTask": "Sami@Roguelike@NextLevel",
         "next": ["Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@ExitThenAbandon"]
     },
-    "Sami@StartExplore@Roguelike@RecruitMain": {
+    "Sami@Roguelike@RecruitMain": {
         "template": "Sami@Roguelike@Recruit.png"
     },
     "Sami@Roguelike@RecruitOther": {

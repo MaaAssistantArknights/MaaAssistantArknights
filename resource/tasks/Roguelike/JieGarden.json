@@ -343,7 +343,7 @@
         "roi": [1033, 462, 153, 155],
         "next": ["JieGarden@Roguelike@Stages#next"]
     },
-    "JieGarden@StartExplore@Roguelike@RecruitMain": {
+    "JieGarden@Roguelike@RecruitMain": {
         "template": "JieGarden@Roguelike@Recruit.png"
     },
     "JieGarden@StartExplore@Roguelike@RecruitOther": {

@@ -874,7 +874,7 @@
         "action": "ClickSelf",
         "template": "empty.png",
         "roi": [171, 474, 935, 205],
-        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "StartExplore@Roguelike@RecruitMain"]
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@RecruitMain"]
     },
     "Roguelike@LastRewardRand": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
@@ -1038,17 +1038,13 @@
         "roi": [56, 41, 194, 134],
         "next": ["Roguelike@ChooseOperFlag"]
     },
-    "StartExplore@Roguelike@RecruitMain": {
-        "Doc": "开始探索专用招募入口, 招募单个干员后不参与局内流程",
-        "template": "empty.png"
-    },
     "Roguelike@RecruitMain": {
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
         "templThreshold": 0.6,
         "roi": [80, 470, 410, 154],
-        "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide"],
+        "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide"],
         "postDelay": 1000
     },
     "StartExplore@Roguelike@RecruitOther": {
@@ -1108,7 +1104,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 529],
-        "next": ["StartExplore@Roguelike@RecruitMain"]
+        "next": ["Roguelike@RecruitMain"]
     },
     "Roguelike@RolesDefault": {
         "Doc": "base_task",
