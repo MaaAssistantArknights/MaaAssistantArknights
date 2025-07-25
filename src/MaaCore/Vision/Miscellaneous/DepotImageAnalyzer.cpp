@@ -52,7 +52,8 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 }
 
 // 计算 BGR 均值差
-double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scalar& b) {
+double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scalar& b)
+{
     const double d0 = a[0] - b[0];
     const double d1 = a[1] - b[1];
     const double d2 = a[2] - b[2];
