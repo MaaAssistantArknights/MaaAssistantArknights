@@ -19,12 +19,13 @@ bool asst::DepotImageAnalyzer::analyze()
     m_all_items_roi.clear();
     m_result.clear();
 
-    prepare_cached_templates();
+    if (m_cached_templs.empty()) {
+        prepare_cached_templates();
+    }
     // 因为模板素材的尺寸与实际截图中素材尺寸不符，所以这里先对原图进行一下缩放
     resize();
     bool ret = analyze_base_rect();
     if (!ret) {
-        m_cached_templs.clear();
         return false;
     }
 
@@ -34,7 +35,6 @@ bool asst::DepotImageAnalyzer::analyze()
     m_image_draw = m_image_draw_resized;
     save_img(utils::path("debug") / utils::path("depot"));
 #endif
-    m_cached_templs.clear();
     return ret;
 }
 
@@ -42,11 +42,8 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 {
     LogTraceFunction;
 
-    m_cached_templs.clear();
-
     for (const auto& item_id : ItemData.get_ordered_material_item_id()) {
         cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
-        // 只取中心 50x50 区域做均值
         m_template_mean_colors[item_id] = cv::mean(templ(get_center_rect(templ)));
         // 抹去右下角 80x50 区域（防止影响匹配）
         templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
@@ -55,9 +52,11 @@ void asst::DepotImageAnalyzer::prepare_cached_templates()
 }
 
 // 计算 BGR 均值差
-double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scalar& b)
-{
-    return std::sqrt(std::pow(a[0] - b[0], 2) + std::pow(a[1] - b[1], 2) + std::pow(a[2] - b[2], 2));
+double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scalar& b) {
+    const double d0 = a[0] - b[0];
+    const double d1 = a[1] - b[1];
+    const double d2 = a[2] - b[2];
+    return d0 * d0 + d1 * d1 + d2 * d2;
 }
 
 cv::Rect asst::DepotImageAnalyzer::get_center_rect(const cv::Mat& img, int box_size)
@@ -77,7 +76,8 @@ std::vector<std::string> asst::DepotImageAnalyzer::filter_candidates_by_color(
 {
     std::vector<std::string> result;
 
-    cv::Scalar roi_mean = cv::mean(roi(get_center_rect(roi)));
+    auto mat = roi(get_center_rect(roi));
+    cv::Scalar roi_mean = cv::mean(mat);
     for (const auto& [id, templ_mean] : template_mean_colors) {
         if (color_diff(roi_mean, templ_mean) <= max_diff) {
             result.push_back(id);
@@ -249,7 +249,7 @@ size_t asst::DepotImageAnalyzer::match_item(
 
     // 用颜色过滤得到候选模板 ID，传入缓存的模板均值和阈值
     const auto candidates =
-        filter_candidates_by_color(m_image_resized(make_rect<cv::Rect>(roi)), m_template_mean_colors, 20);
+        filter_candidates_by_color(m_image_resized(make_rect<cv::Rect>(roi)), m_template_mean_colors);
     Log.info("Candidate templates count:", candidates.size());
 
     Matcher analyzer(m_image_resized);

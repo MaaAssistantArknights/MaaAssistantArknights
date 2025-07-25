@@ -27,14 +27,20 @@ public:
 
     const auto& get_result() const noexcept { return m_result; }
 
+    static void clear_cached_templates()
+    {
+        m_cached_templs.clear();
+        m_template_mean_colors.clear();
+    }
+
 private:
     void resize();
     void prepare_cached_templates();
     static double color_diff(const cv::Scalar& a, const cv::Scalar& b);
-    std::vector<std::string> filter_candidates_by_color(
+    static std::vector<std::string> filter_candidates_by_color(
         const cv::Mat& roi,
         const std::unordered_map<std::string, cv::Scalar>& template_mean_colors,
-        double max_diff = 50.0);
+        double max_diff = 400.0);
     static cv::Rect get_center_rect(const cv::Mat& img, int box_size = 40);
     bool analyze_base_rect();
     bool analyze_all_items();
@@ -57,7 +63,7 @@ private:
     std::vector<Rect> m_all_items_roi;
     std::unordered_map<std::string, ItemInfo> m_result;
 
-    std::unordered_map<std::string, cv::Mat> m_cached_templs;
-    std::unordered_map<std::string, cv::Scalar> m_template_mean_colors;
+    inline static std::unordered_map<std::string, cv::Mat> m_cached_templs;
+    inline static std::unordered_map<std::string, cv::Scalar> m_template_mean_colors;
 };
 }
