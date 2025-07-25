@@ -208,33 +208,33 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         AchievementTrackerHelper.Instance.LockAll();
     }
 
-    private bool _achievementBubbleAutoClose = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementBubbleAutoClose, false);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether achievement bubbles should auto-close after some time.
-    /// </summary>
-    public bool AchievementBubbleAutoClose
-    {
-        get => _achievementBubbleAutoClose;
-        set
-        {
-            SetAndNotify(ref _achievementBubbleAutoClose, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementBubbleAutoClose, value.ToString());
-        }
-    }
-
-    private bool _disableAchievementNotifications = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DisableAchievementNotifications, bool.FalseString));
+    private bool _achievementPopupDisabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupDisabled, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to disable achievement notifications.
     /// </summary>
-    public bool DisableAchievementNotifications
+    public bool AchievementPopupDisabled
     {
-        get => _disableAchievementNotifications;
+        get => _achievementPopupDisabled;
         set
         {
-            SetAndNotify(ref _disableAchievementNotifications, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.DisableAchievementNotifications, value.ToString());
+            SetAndNotify(ref _achievementPopupDisabled, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementPopupDisabled, value.ToString());
+        }
+    }
+
+    private bool _achievementPopupAutoClose = ConfigurationHelper.GetValue(ConfigurationKeys.AchievementPopupAutoClose, false);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether achievement bubbles should auto-close after some time.
+    /// </summary>
+    public bool AchievementPopupAutoClose
+    {
+        get => _achievementPopupAutoClose;
+        set
+        {
+            SetAndNotify(ref _achievementPopupAutoClose, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AchievementPopupAutoClose, value.ToString());
         }
     }
 }

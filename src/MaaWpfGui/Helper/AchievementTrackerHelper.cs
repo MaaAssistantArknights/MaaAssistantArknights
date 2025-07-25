@@ -189,7 +189,7 @@ namespace MaaWpfGui.Helper
             {
                 IsCustom = true,
                 Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
-                StaysOpen = staysOpen && !SettingsViewModel.AchievementSettings.AchievementBubbleAutoClose,
+                StaysOpen = staysOpen && !SettingsViewModel.AchievementSettings.AchievementPopupAutoClose,
                 WaitTime = 15,
                 IconKey = "HangoverGeometry",
                 IconBrushKey = achievement.MedalBrushKey,
@@ -202,7 +202,7 @@ namespace MaaWpfGui.Helper
             _allowSave = false; // 禁止保存，避免重复触发 Save
             foreach (var achievement in _achievements.Values.Where(a => !a.IsUnlocked))
             {
-                if (!SettingsViewModel.AchievementSettings.DisableAchievementNotifications)
+                if (!SettingsViewModel.AchievementSettings.AchievementPopupDisabled)
                 {
                     await Task.Delay(100);
                 }
@@ -252,7 +252,7 @@ namespace MaaWpfGui.Helper
         public static void ShowInfo(GrowlInfo info)
         {
             // 检查是否禁用了成就通知
-            if (SettingsViewModel.AchievementSettings.DisableAchievementNotifications)
+            if (SettingsViewModel.AchievementSettings.AchievementPopupDisabled)
             {
                 return;
             }
