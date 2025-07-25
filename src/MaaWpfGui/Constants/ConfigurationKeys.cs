@@ -322,7 +322,8 @@ namespace MaaWpfGui.Constants
 
         public const string MiniGameTaskName = "MiniGame.TaskName";
 
-        public const string AchievementBubbleAutoClose = "Achievement.BubbleAutoClose";
+        public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
+        public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
 
         // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
         // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移

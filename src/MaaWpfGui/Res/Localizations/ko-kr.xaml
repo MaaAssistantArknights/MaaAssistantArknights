@@ -1151,7 +1151,8 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="AchievementBackupSuccess">백업 완료</system:String>
     <system:String x:Key="AchievementRestoreSuccess">도전과제 진행도 복원 완료</system:String>
     <system:String x:Key="AchievementRestoreFailed">복원 실패, 파일 형식이 유효하지 않음</system:String>
-    <system:String x:Key="AchievementBubbleAutoClose">업적 알림이 잠시 후 자동으로 사라집니다</system:String>
+    <system:String x:Key="AchievementPopupAutoClose">업적 알림이 잠시 후 자동으로 사라집니다</system:String>
+    <system:String x:Key="AchievementPopupDisabled">도전과제 달성 알림 자동 팝업 비활성화</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">뉴비</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">이제 감이 잡혔네요</system:String>
