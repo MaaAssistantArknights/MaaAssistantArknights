@@ -1034,7 +1034,7 @@
         "action": "ClickSelf",
         "templThreshold": 0.6,
         "roi": [80, 470, 410, 154],
-        "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide"],
+        "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide", "Roguelike@RecruitMain"],
         "postDelay": 1000
     },
     "Roguelike@RecruitOther": {
