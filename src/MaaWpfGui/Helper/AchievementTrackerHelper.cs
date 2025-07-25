@@ -202,7 +202,11 @@ namespace MaaWpfGui.Helper
             _allowSave = false; // 禁止保存，避免重复触发 Save
             foreach (var achievement in _achievements.Values.Where(a => !a.IsUnlocked))
             {
-                await Task.Delay(100);
+                if (!SettingsViewModel.AchievementSettings.DisableAchievementNotifications)
+                {
+                    await Task.Delay(100);
+                }
+
                 Unlock(achievement.Id, false);
             }
 
