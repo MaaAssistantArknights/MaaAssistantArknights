@@ -119,6 +119,41 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 #endif
             m_need_generate_map = false;
         }
+        if (m_map.get_curr_pos() == RoguelikeMap::INIT_INDEX) {
+            m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
+                if (node->type == RoguelikeNodeType::CombatOps || node->type == RoguelikeNodeType::EmergencyOps ||
+                    node->type == RoguelikeNodeType::DreadfulFoe) {
+                    return 1;
+                }
+                return 0;
+            });
+            m_map.update_node_costs();
+            const size_t next_node = m_map.get_next_node();
+
+            // 若无法避免超过两场战斗则重开
+            if (m_map.get_node_cost(next_node) >= 2) {
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+                reset_in_run_variables();
+            }
+            else {
+                const int next_node_x = m_origin_x;
+                const int next_node_y = m_map.get_node_y(next_node);
+                Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
+                ctrler()->click(next_node_center);
+                sleep(200);
+
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                m_map.set_curr_pos(next_node);
+            }
+        }
+        else {
+            // 执行默认的避战策略
+            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+        }
         break;
     case RoutingStrategy::FastPass:
         if (m_need_generate_map) {
