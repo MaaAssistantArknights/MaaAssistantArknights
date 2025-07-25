@@ -370,7 +370,13 @@
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
     "JieGarden@Roguelike@Routing-FastInvestment": {
-        "template": ["JieGarden@Roguelike@StageCombatDps"],
+        "template": [
+            "JieGarden@Roguelike@MapNodeCombatOps.png",
+            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
+            "JieGarden@Roguelike@MapNodeEncounter.png",
+            "JieGarden@Roguelike@MapNodeRogueTrader.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
+        ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
     "JieGarden@Roguelike@RoutingAction": {
@@ -486,10 +492,10 @@
             "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
             "JieGarden@Roguelike@MapNodeEncounter.png",
             "JieGarden@Roguelike@MapNodeEncounterGrey.png",
-            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
             "JieGarden@Roguelike@MapNodeRogueTrader.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
+            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassage.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
         ],
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
