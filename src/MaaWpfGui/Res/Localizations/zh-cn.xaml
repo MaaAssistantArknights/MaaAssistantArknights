@@ -285,13 +285,22 @@
     <system:String x:Key="ResourceRepository">资源仓库</system:String>
     <system:String x:Key="UpdateSource">更新源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 使用海外源：
-    ● 软件版本：由 MAA Team 提供 API 检查更新，从 GitHub 或由 MAA Team 提供的国内镜像自动拉取更新包
-    ● 资源版本：由 Mirror酱 提供免费的更新检测，可手动在设置中点击 ｢{key=ResourceUpdate}｣ 从 GitHub 下载
+🌏 使用{key=GlobalSource}：
+    ● {key=UpdateCheckNow}：由 MAA Team 提供更新检测，从 GitHub 拉取更新包，国内同步提供直连镜像（带宽有限，高峰期可能受限）
+    ● {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=ResourceUpdate}｣ 从 GitHub 下载
 
-🔑 使用 Mirror酱：
-    ● 软件与资源优先通过 Mirror酱 高速下载
-    ● 额外提供资源版本的自动更新
+🔑 使用 {key=MirrorChyan}：
+    ● 填写 CDK 后，支持软件与资源的自动更新
+    ● 优先通过 {key=MirrorChyan} 高速 CDN 下载，更稳定快速
+
+📦 手动更新：
+    ● {key=UpdateCheckNow}：下载完整包并解压至全新文件夹，复制原文件夹中的 config 与 data 可保留数据。请勿直接覆盖旧版本，可能导致资源损坏
+    ● {key=ResourceUpdate}：下载资源包后覆盖 resource 文件夹。资源为增量内容，请勿删除原文件夹，会资源损坏
+
+📄 更新说明：
+    ● {key=UpdateCheckNow}：包含界面与功能更新。界面改动、新功能需通过{key=UpdateCheckNow}获得
+    ● {key=ResourceUpdate}：包含自动战斗新关卡、掉落识别图标、公招干员标签等素材数据
+    ● 导航热更：自动触发，用于更新主界面提示与活动关卡入口。成功后右上角会显示「{key=ApiUpdateSuccess}」
 </system:String>
     <system:String x:Key="GlobalSource">海外源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">强制使用 GitHub</system:String>

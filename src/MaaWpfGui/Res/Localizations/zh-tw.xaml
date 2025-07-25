@@ -283,13 +283,22 @@
     <system:String x:Key="ResourceRepository">資源倉庫</system:String>
     <system:String x:Key="UpdateSource">更新來源</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 使用海外源：
-    ● 軟體版本：由 MAA Team 提供 API 檢查更新，從 GitHub 或由 MAA Team 提供的國內鏡像自動拉取更新包
-    ● 資源版本：由 MirrorChyan 提供免費的更新檢測，可手動在設定中點擊 ｢{key=ResourceUpdate}｣ 從 GitHub 下載
+🌏 使用{key=GlobalSource}：
+    ● {key=UpdateCheckNow}：由 MAA Team 提供更新檢測，從 GitHub 下載更新包，國內同步提供直連鏡像（頻寬有限，高峰時段可能受限）
+    ● {key=ResourceUpdate}：由 {key=MirrorChyan} 提供免費的更新檢測，可手動在設定中點擊「{key=ResourceUpdate}」從 GitHub 下載
 
-🔑 使用 MirrorChyan：
-    ● 軟體與資源優先通過 MirrorChyan 高速下載
-    ● 額外提供資源版本的自動更新
+🔑 使用 {key=MirrorChyan}：
+    ● 填寫 CDK 後，支援軟體與資源的自動更新
+    ● 優先透過 {key=MirrorChyan} 高速 CDN 下載，更穩定快速
+
+📦 手動更新：
+    ● {key=UpdateCheckNow}：下載完整包並解壓至全新資料夾，複製原資料夾中的 config 與 data 可保留資料。請勿直接覆蓋舊版本，可能導致資源損壞
+    ● {key=ResourceUpdate}：下載資源包後覆蓋 resource 資料夾。資源為增量內容，請勿刪除原資料夾，否則會資源損壞
+
+📄 更新說明：
+    ● {key=UpdateCheckNow}：包含介面與功能更新。介面改動、新功能需透過{key=UpdateCheckNow}取得
+    ● {key=ResourceUpdate}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
+    ● 導航熱更：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示「{key=ApiUpdateSuccess}」
 </system:String>
     <system:String x:Key="GlobalSource">全域來源</system:String>
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>

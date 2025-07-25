@@ -285,13 +285,22 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="ResourceRepository">Resource Repository</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 Using Global Source:
-    ● Software version: Update checks via API provided by MAA Team, automatically pulls update packages from GitHub or CN Mirrors provided by MAA Team
-    ● Resource version: Free update detection provided by MirrorChyan, manually click ｢{key=ResourceUpdate}｣ in settings to download from GitHub
+🌏 Using {key=GlobalSource}:
+    ● {key=UpdateCheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
+    ● {key=ResourceUpdate}: Free update checks provided by {key=MirrorChyan}. You can manually click "{key=ResourceUpdate}" in Settings to download from GitHub
 
-🔑 Using MirrorChyan:
-    ● Software and resources are prioritized for high-speed download via MirrorChyan
-    ● Additional automatic updates for resource version provided
+🔑 Using {key=MirrorChyan}:
+    ● After entering a CDK, automatic updates for both software and resources are enabled
+    ● Downloads are prioritized via the high-speed {key=MirrorChyan} CDN for greater stability and speed
+
+📦 Manual Update:
+    ● {key=UpdateCheckNow}: Download and extract the full package to a new folder. Copy the `config` and `data` folders from the old folder to retain your data. Do not overwrite the old folder directly—this may cause resource corruption
+    ● {key=ResourceUpdate}: Download the resource package and overwrite the `resource` folder. The package is incremental; do not delete the original folder, or errors may occur
+
+📄 Update Notes:
+    ● {key=UpdateCheckNow}: Includes UI and feature updates. All interface changes and new features are delivered via {key=UpdateCheckNow}
+    ● {key=ResourceUpdate}: Includes new stage maps for Auto Battle, drop item icons for recognition, recruitment tags for operator recognition, and other resource data
+    ● Navigation Hotfix: Triggered automatically to update main screen prompts and event stage entries. A success message “{key=ApiUpdateSuccess}” will appear in the top right corner
 </system:String>
     <system:String x:Key="GlobalSource">Global Source</system:String>
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
