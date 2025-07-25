@@ -35,13 +35,15 @@
                 TextAlignment="Center"
                 Visibility="{c:Binding 'ConfigurationList.Count > 1',
                                        Source={x:Static helper:Instances.SettingsViewModel}}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Block.TextAlignment="Center"
-                Content="{DynamicResource LaunchOnSystemStartup}"
-                IsChecked="{Binding StartSelf}" />
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <CheckBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Block.TextAlignment="Center"
+                    Content="{DynamicResource LaunchOnSystemStartup}"
+                    IsChecked="{Binding StartSelf}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource LaunchOnSystemStartupWarning}" />
+            </StackPanel>
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"

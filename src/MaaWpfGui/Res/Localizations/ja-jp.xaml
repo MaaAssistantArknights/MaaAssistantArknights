@@ -353,6 +353,11 @@
     <system:String x:Key="AddConfigSuccess">構成&lt; {0}&gt;が正常に追加されました</system:String>
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
+この機能は、レジストリを変更してシステム起動時に自動起動するように設定します。
+MAA は非インストール型のアプリケーションであり、レジストリを自動で削除しません。
+レジストリの残留が気になる場合は、削除前にこのオプションを無効にしてください。
+</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         管理者権限での起動は、起動時の自動実行をサポートしていません。MAAを長時間管理者権限で実行することはお勧めしません。\n必要な場合は、｢コントロールパネル &gt; Windowsツール &gt; タスクスケジューラ｣ に移動してカスタムタスクを作成してください。トリガーを設定する際に、｢最も高い特権で実行｣ を必ず選択してください。
     </system:String>
@@ -448,6 +453,13 @@
     <system:String x:Key="HideTray">トレイアイコンを隠す</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
+MAA は非インストール型のポータブルソフトウェアで、通知機能は Microsoft.Toolkit.Uwp.Notifications ライブラリを使用しています。このライブラリはデフォルトで実行ファイルのパスを登録識別子として使用します。  
+複数の場所から MAA を起動すると、Windows は各パスごとに別々の通知アイコン（タスクバーのトーストなど）を作成します。これはライブラリのデフォルト動作であり、MAA は制御または自動削除できません。  
+削除したい場合は、レジストリエディターを開き、以下の場所に移動してください：
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+該当するパスのキーを削除してください。
+</system:String>
     <system:String x:Key="HideCloseButton">｢閉じる｣ ボタンを隠す</system:String>
     <system:String x:Key="WindowTitleScrollable">タイトルのスクロール機能</system:String>
     <system:String x:Key="MainTasksNullFunctionality">メインタスクの右クリック効果を反転</system:String>

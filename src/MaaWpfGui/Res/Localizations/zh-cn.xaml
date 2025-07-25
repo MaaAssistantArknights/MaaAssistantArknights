@@ -353,6 +353,11 @@
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 添加成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动 MAA</system:String>
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
+该功能通过修改注册表实现开机自启动。
+由于 MAA 是非安装型软件，不会自动清理注册表项。
+如介意注册表残留，请在删除程序前取消启用此选项。
+</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         管理员权限启动不支持开机自启。不建议长期以管理员权限运行 MAA。\n如确有需要，请前往 控制面板 > Windows 工具 > 任务计划程序 创建自定义任务。设置触发器时，请确保勾选 ｢使用最高权限运行｣。
     </system:String>
@@ -448,6 +453,13 @@
     <system:String x:Key="HideTray">隐藏托盘图标</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
+MAA 是非安装型软件，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 库，该库默认以程序所在路径作为注册标识。  
+如果从多个路径启动过 MAA，Windows 会为每个路径生成不同的通知来源图标（如任务栏弹窗图标），这是该库的默认行为，MAA 无法控制或自动清除。  
+如需清理，请手动打开注册表编辑器，定位至：
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+删除对应的路径项即可。
+</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
     <system:String x:Key="MainTasksNullFunctionality">反转主任务右键单击效果</system:String>
