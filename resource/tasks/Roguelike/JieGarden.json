@@ -330,7 +330,11 @@
     "JieGarden@Roguelike@NextLevel": {
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
         "roi": [550, 545, 184, 64],
-        "next": ["JieGarden@Roguelike@RandomPickAfterNextLevel"]
+        "next": [
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
+            "JieGarden@Roguelike@CloseInterview",
+            "JieGarden@Roguelike@StrategyChange"
+        ]
     },
     "JieGarden@Roguelike@RandomPickAfterNextLevel": {
         "baseTask": "JieGarden@Roguelike@RandomPick",
@@ -387,12 +391,6 @@
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
-    "JieGarden@Roguelike@Routing-CombatOps": {
-        "doc": "点击普通战斗节点",
-        "baseTask": "JieGarden@Roguelike@StageCombatDps",
-        "template": "JieGarden@Roguelike@StageCombatDps.png",
-        "next": []
-    },
     "JieGarden@Roguelike@Routing-FastInvestment": {
         "template": ["JieGarden@Roguelike@StageCombatDps"],
         "next": ["JieGarden@Roguelike@RoutingAction"]
@@ -405,9 +403,62 @@
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
-    "JieGarden@Roguelike@RoutingAction-StageEncounterEnter": {
+    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave": {
         "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
+    },
+    "JieGarden@Roguelike@StageCombatOpsEnterThenLeave": {
+        "baseTask": "JieGarden@Roguelike@StageCombatDpsEnter",
+        "template": "JieGarden@Roguelike@StageCombatDpsEnter.png",
+        "next": ["JieGarden@Roguelike@StageCombatOpsStartActionThenLeave"]
+    },
+    "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
+        "baseTask": "Roguelike@StartAction",
+        "template": "Roguelike@StartAction.png",
+        "sub": ["JieGarden@Roguelike@DialogConfirmRed"],
+        "subErrorIgnored": true,
+        "next": [
+            "JieGarden@Roguelike@LeaveOperation",
+            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterLoadingText",
+            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterMerelyWaiting"
+        ]
+    },
+    "JieGarden@Roguelike@DialogConfirmRed": {
+        "roi": [822, 475, 41, 41],
+        "action": "ClickSelf"
+    },
+    "JieGarden@Roguelike@LeaveOperation": {
+        "roi": [41, 22, 78, 71],
+        "action": "ClickSelf",
+        "next":["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
+    },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "algorithm": "OcrDetect",
+        "text": ["放弃行动"],
+        "roi": [700, 390, 110, 41],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@ConfirmToGiveUp", "JieGarden@Roguelike@GiveUpOperation"]
+    },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "algorithm": "OcrDetect",
+        "text": ["放弃行动"],
+        "roi": [770, 470, 150, 45],
+        "action": "ClickSelf",
+        "next": [
+            "JieGarden@Roguelike@OperationFailed",
+            "JieGarden@Roguelike@ConfirmToGiveUp"
+        ]
+    },
+    "JieGarden@Roguelike@OperationFailed": {
+        "baseTask": "JieGarden@Roguelike@MissionFailedFlag",
+        "template": "JieGarden@Roguelike@MissionFailedFlag.png",
+        "action": "ClickSelf",
+        "next": [
+            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingIcon",
+            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingText",
+            "JieGarden@Roguelike@OperationFailed",
+            "JieGarden@Roguelike@NextLevel"
+        ]
     },
     "JieGarden@Roguelike@RoutingAction-StageTraderEnter": {
         "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
@@ -771,7 +822,7 @@
         ]
     },
     "JieGarden@Roguelike@Stages_fastInvestment": {
-        "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
+        "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
