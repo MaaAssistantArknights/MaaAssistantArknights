@@ -306,7 +306,17 @@
     },
     "JieGarden@Roguelike@NextLevel": {
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
-        "roi": [550, 545, 184, 64]
+        "roi": [550, 545, 184, 64],
+        "next": ["JieGarden@Roguelike@RandomPickAfterNextLevel"]
+    },
+    "JieGarden@Roguelike@RandomPickAfterNextLevel": {
+        "baseTask": "JieGarden@Roguelike@RandomPick",
+        "template": "JieGarden@Roguelike@RandomPick",
+        "next": [
+            "JieGarden@Roguelike@RandomPickAfterNextLevel@NextAfterLoadingText",
+            "JieGarden@Roguelike@CloseInterview",
+            "JieGarden@Roguelike@StrategyChange"
+        ]
     },
     "JieGarden@Roguelike@RandomPick": {
         "action": "ClickSelf",
