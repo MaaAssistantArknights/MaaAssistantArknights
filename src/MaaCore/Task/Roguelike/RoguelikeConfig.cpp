@@ -76,6 +76,8 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange-FastInvestment");
+                // 防止没进 StrategyChange 的情况
+                Task.set_task_base("JieGarden@Roguelike@Stages", "JieGarden@Roguelike@Stages_fastInvestment");
             }
         }
     }

@@ -338,11 +338,12 @@
     },
     "JieGarden@Roguelike@RandomPickAfterNextLevel": {
         "baseTask": "JieGarden@Roguelike@RandomPick",
-        "template": "JieGarden@Roguelike@RandomPick",
+        "template": "JieGarden@Roguelike@RandomPick.png",
         "next": [
             "JieGarden@Roguelike@RandomPickAfterNextLevel@NextAfterLoadingText",
             "JieGarden@Roguelike@CloseInterview",
-            "JieGarden@Roguelike@StrategyChange"
+            "JieGarden@Roguelike@StrategyChange",
+            "#self"
         ]
     },
     "JieGarden@Roguelike@RandomPick": {
