@@ -555,8 +555,8 @@
         "method": "HSVCount",
         "colorScales": [
             [
-                [90, 2, 121],
-                [134, 142, 230]
+                [150, 120, 50],
+                [180, 200, 200]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
