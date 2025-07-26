@@ -91,6 +91,12 @@
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
+    "JieGarden@Roguelike@ClickRemainingCandleFlame": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [1091, 98, 189, 136],
+        "next": ["JieGarden@Roguelike@LeaveBoskyPassage", "#self"]
+    },
     "JieGarden@Roguelike@ClickToDrops": {
         "specificRect": [600, 600, 25, 25]
     },
@@ -147,6 +153,19 @@
     "JieGarden@Roguelike@CloseInterview": {
         "template": "JieGarden@Roguelike@CloseCollectionClose.png"
     },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "algorithm": "OcrDetect",
+        "text": ["放弃行动"],
+        "roi": [770, 470, 150, 45],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@OperationFailed", "JieGarden@Roguelike@ConfirmToGiveUp"]
+    },
+    "JieGarden@Roguelike@ConfirmToLeaveBoskyPassage": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [867, 406, 242, 160],
+        "next": ["JieGarden@Roguelike@NextLevel", "#self"]
+    },
     "JieGarden@Roguelike@Continue": {},
     "JieGarden@Roguelike@DeepExploration": {
         "template": "Roguelike@DeepExploration.png"
@@ -159,6 +178,10 @@
     },
     "JieGarden@Roguelike@DeepExplorationRewardMiss": {
         "template": "Roguelike@RewardCompleted.png"
+    },
+    "JieGarden@Roguelike@DialogConfirmRed": {
+        "roi": [822, 475, 41, 41],
+        "action": "ClickSelf"
     },
     "JieGarden@Roguelike@DialogSkip": {
         "template": "Roguelike@DialogSkip.png",
@@ -267,6 +290,13 @@
             "JieGarden@Roguelike@GetDropRecruit"
         ]
     },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "algorithm": "OcrDetect",
+        "text": ["放弃行动"],
+        "roi": [700, 390, 110, 41],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@ConfirmToGiveUp", "JieGarden@Roguelike@GiveUpOperation"]
+    },
     "JieGarden@Roguelike@InitialDrop": {
         "template": "JieGarden@Roguelike@Confirm.png"
     },
@@ -297,6 +327,17 @@
     },
     "JieGarden@Roguelike@LastRewardConfirm": {},
     "JieGarden@Roguelike@LastRewardRand": {},
+    "JieGarden@Roguelike@LeaveBoskyPassage": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [1051, 317, 158, 148],
+        "next": ["JieGarden@Roguelike@ConfirmToLeaveBoskyPassage", "#self"]
+    },
+    "JieGarden@Roguelike@LeaveOperation": {
+        "roi": [41, 22, 78, 71],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
+    },
     "JieGarden@Roguelike@MapObject": {
         "roi": [255, 491, 192, 119],
         "next": ["JieGarden@Roguelike@RecruitOther"]
@@ -330,6 +371,23 @@
             "JieGarden@Roguelike@NextLevel"
         ]
     },
+    "JieGarden@Roguelike@OperationFailed": {
+        "baseTask": "JieGarden@Roguelike@MissionFailedFlag",
+        "template": "JieGarden@Roguelike@MissionFailedFlag.png",
+        "action": "ClickSelf",
+        "next": [
+            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingIcon",
+            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingText",
+            "JieGarden@Roguelike@OperationFailed",
+            "JieGarden@Roguelike@NextLevel"
+        ]
+    },
+    "JieGarden@Roguelike@RandomPick": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [1033, 462, 153, 155],
+        "next": ["JieGarden@Roguelike@Stages#next"]
+    },
     "JieGarden@Roguelike@RandomPickAfterNextLevel": {
         "baseTask": "JieGarden@Roguelike@RandomPick",
         "template": "JieGarden@Roguelike@RandomPick.png",
@@ -339,30 +397,6 @@
             "JieGarden@Roguelike@StrategyChange",
             "#self"
         ]
-    },
-    "JieGarden@Roguelike@RandomPick": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [1033, 462, 153, 155],
-        "next": ["JieGarden@Roguelike@Stages#next"]
-    },
-    "JieGarden@Roguelike@ClickRemainingCandleFlame": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [1091, 98, 189, 136],
-        "next": ["JieGarden@Roguelike@LeaveBoskyPassage", "#self"]
-    },
-    "JieGarden@Roguelike@LeaveBoskyPassage": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [1051, 317, 158, 148],
-        "next": ["JieGarden@Roguelike@ConfirmToLeaveBoskyPassage", "#self"]
-    },
-    "JieGarden@Roguelike@ConfirmToLeaveBoskyPassage": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [867, 406, 242, 160],
-        "next": ["JieGarden@Roguelike@NextLevel", "#self"]
     },
     "JieGarden@Roguelike@RecruitMain": {
         "template": "JieGarden@Roguelike@Recruit.png"
@@ -425,56 +459,6 @@
     "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
-    },
-    "JieGarden@Roguelike@StageCombatOpsEnterThenLeave": {
-        "baseTask": "JieGarden@Roguelike@StageCombatDpsEnter",
-        "template": "JieGarden@Roguelike@StageCombatDpsEnter.png",
-        "next": ["JieGarden@Roguelike@StageCombatOpsStartActionThenLeave"]
-    },
-    "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
-        "baseTask": "Roguelike@StartAction",
-        "template": "Roguelike@StartAction.png",
-        "sub": ["JieGarden@Roguelike@DialogConfirmRed"],
-        "subErrorIgnored": true,
-        "next": [
-            "JieGarden@Roguelike@LeaveOperation",
-            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterLoadingText",
-            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterMerelyWaiting"
-        ]
-    },
-    "JieGarden@Roguelike@DialogConfirmRed": {
-        "roi": [822, 475, 41, 41],
-        "action": "ClickSelf"
-    },
-    "JieGarden@Roguelike@LeaveOperation": {
-        "roi": [41, 22, 78, 71],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
-    },
-    "JieGarden@Roguelike@GiveUpOperation": {
-        "algorithm": "OcrDetect",
-        "text": ["放弃行动"],
-        "roi": [700, 390, 110, 41],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@ConfirmToGiveUp", "JieGarden@Roguelike@GiveUpOperation"]
-    },
-    "JieGarden@Roguelike@ConfirmToGiveUp": {
-        "algorithm": "OcrDetect",
-        "text": ["放弃行动"],
-        "roi": [770, 470, 150, 45],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@OperationFailed", "JieGarden@Roguelike@ConfirmToGiveUp"]
-    },
-    "JieGarden@Roguelike@OperationFailed": {
-        "baseTask": "JieGarden@Roguelike@MissionFailedFlag",
-        "template": "JieGarden@Roguelike@MissionFailedFlag.png",
-        "action": "ClickSelf",
-        "next": [
-            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingIcon",
-            "JieGarden@Roguelike@OperationFailed@NextAfterLoadingText",
-            "JieGarden@Roguelike@OperationFailed",
-            "JieGarden@Roguelike@NextLevel"
-        ]
     },
     "JieGarden@Roguelike@RoutingAction-StageTraderEnter": {
         "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
@@ -602,6 +586,22 @@
     },
     "JieGarden@Roguelike@StageCombatDpsEnter": {
         "roi": [1046, 461, 222, 197]
+    },
+    "JieGarden@Roguelike@StageCombatOpsEnterThenLeave": {
+        "baseTask": "JieGarden@Roguelike@StageCombatDpsEnter",
+        "template": "JieGarden@Roguelike@StageCombatDpsEnter.png",
+        "next": ["JieGarden@Roguelike@StageCombatOpsStartActionThenLeave"]
+    },
+    "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
+        "baseTask": "Roguelike@StartAction",
+        "template": "Roguelike@StartAction.png",
+        "sub": ["JieGarden@Roguelike@DialogConfirmRed"],
+        "subErrorIgnored": true,
+        "next": [
+            "JieGarden@Roguelike@LeaveOperation",
+            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterLoadingText",
+            "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave@NextAfterMerelyWaiting"
+        ]
     },
     "JieGarden@Roguelike@StageConfrontation": {
         "Doc": "狭路相逢",
@@ -848,6 +848,10 @@
             "JieGarden@Roguelike@Routing-FastInvestment"
         ]
     },
+    "JieGarden@Roguelike@Stages_leaveBoskyPassage": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+    },
     "JieGarden@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
@@ -871,10 +875,6 @@
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
         ]
-    },
-    "JieGarden@Roguelike@Stages_leaveBoskyPassage": {
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
     },
     "JieGarden@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
