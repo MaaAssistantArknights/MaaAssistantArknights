@@ -205,13 +205,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
-    const std::string& char_name = m_config->get_core_char();
-
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {
         { battle::Role::Caster, "术师" }, { battle::Role::Medic, "医疗" },   { battle::Role::Pioneer, "先锋" },
         { battle::Role::Sniper, "狙击" }, { battle::Role::Special, "特种" }, { battle::Role::Support, "辅助" },
         { battle::Role::Tank, "重装" },   { battle::Role::Warrior, "近卫" }
     };
+    const std::string& char_name = m_config->get_core_char();
     const auto& role = BattleData.get_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
@@ -228,11 +227,19 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     if (!analyzer.analyze()) {
         return false;
     }
-    const auto& role_rect = analyzer.get_result().front().rect;
-    ctrler()->click(role_rect);
+    for (int retry = 0; retry < 3; ++retry) {
+        const auto& role_rect = analyzer.get_result().front().rect;
+        ctrler()->click(role_rect);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-    sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
-    return true;
+        ProcessTask check(*this, { m_config->get_theme() + "@Roguelike@ChooseOperFlag" });
+        check.set_times_limit("Roguelike@ChooseOperFlag", 0);
+        check.set_retry_times(0);
+        if (check.run()) {
+            return true; // 进入选择干员界面
+        }
+    }
+    return false; // 进入选择干员界面失败
 }
 
 std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list() const
