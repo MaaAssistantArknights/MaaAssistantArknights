@@ -20,6 +20,13 @@
         "roi": [1026, 470, 254, 248],
         "sub": ["SwipeToTheDown*2"]
     },
+    "Mizuki@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirm",
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
     "Mizuki@Roguelike@ChooseOper": {
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
@@ -124,6 +131,9 @@
     "Mizuki@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "baseTask": "Mizuki@Roguelike@DropsFlag_default"
+    },
+    "Mizuki@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "Mizuki@Roguelike@EnterAfterRecruit.png"
     },
     "Mizuki@Roguelike@EnterAfterRecruit": {},
     "Mizuki@Roguelike@ExitThenAbandon": {
@@ -277,9 +287,13 @@
     "Mizuki@Roguelike@RecruitMain": {
         "template": "Mizuki@Roguelike@Recruit.png"
     },
+    "Mizuki@StartExplore@Roguelike@RecruitOther": {
+        "template": "Mizuki@Roguelike@Recruit.png"
+    },
     "Mizuki@Roguelike@RecruitOther": {
         "template": "Mizuki@Roguelike@Recruit.png"
     },
+    "Mizuki@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Mizuki@Roguelike@RecruitWithoutButton": {
         "next": [
             "Mizuki@Roguelike@RecruitOther",

@@ -28,7 +28,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@ChooseOper") {
+    if (task_view.ends_with("Roguelike@ChooseOper")) {
         return true;
     }
     else {
@@ -575,8 +575,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char()
     LogTraceFunction;
     const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
 
-    auto core_opt = m_config->get_core_char();
-    m_config->set_core_char("");
+    const auto& core_opt = m_config->get_core_char();
     if (!core_opt.empty()) {
         if (recruit_support_char(core_opt, MaxRefreshTimes)) {
             return true;
@@ -675,11 +674,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_config->get_core_char();
+    const auto& core_opt = m_config->get_core_char();
     if (core_opt.empty()) {
         return false;
     }
-    m_config->set_core_char("");
     return recruit_appointed_char(core_opt);
 }
 
