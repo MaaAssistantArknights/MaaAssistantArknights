@@ -453,10 +453,10 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="MinimizeToTray">최소화 시 트레이에 숨기기</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
     <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.  
-여러 위치에서 MAA를 실행하면 Windows는 각 경로마다 별도의 알림 아이콘(예: 작업 표시줄 알림)을 생성합니다. 이는 라이브러리의 기본 동작이며 MAA가 제어하거나 자동으로 정리할 수 없습니다.  
+MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.
+여러 위치에서 MAA를 실행하면 Windows는 각 경로마다 별도의 알림 아이콘(예: 작업 표시줄 알림)을 생성합니다. 이는 라이브러리의 기본 동작이며 MAA가 제어하거나 자동으로 정리할 수 없습니다.
 정리하려면 레지스트리 편집기를 열고 다음 경로로 이동하세요:
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
 해당 경로에 해당하는 항목을 삭제하세요.
 </system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
@@ -648,6 +648,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
     <system:String x:Key="Annihilation">섬멸 작전</system:String>
+    <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>
@@ -686,6 +687,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
+    <system:String x:Key="AnnihilationWarning">제거 모드를 사용할 경우 대체 스테이지 설정해 주십시오.</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>

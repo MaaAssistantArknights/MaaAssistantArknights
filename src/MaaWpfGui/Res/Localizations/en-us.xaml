@@ -454,10 +454,10 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA is a portable (non-installed) application. Its notification feature uses the Microsoft.Toolkit.Uwp.Notifications library, which by default registers notifications using the application's executable path.  
-If you have run MAA from multiple locations, Windows will create separate notification icons (e.g., in the taskbar toast) for each path. This is the default behavior of the library and cannot be controlled or cleaned up automatically by MAA.  
+MAA is a portable (non-installed) application. Its notification feature uses the Microsoft.Toolkit.Uwp.Notifications library, which by default registers notifications using the application's executable path.
+If you have run MAA from multiple locations, Windows will create separate notification icons (e.g., in the taskbar toast) for each path. This is the default behavior of the library and cannot be controlled or cleaned up automatically by MAA.
 To clean up, open the Registry Editor and navigate to:
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
 Then delete the entries corresponding to the paths.
 </system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
@@ -647,6 +647,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="PR-C-2">Pio/Sup Ⅱ</system:String>
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
+    <system:String x:Key="AnnihilationMode">AnnihilationMode</system:String>
     <system:String x:Key="Annihilation">Annihilation</system:String>
     <system:String x:Key="Chernobog">Chernobog</system:String>
     <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>
@@ -686,6 +687,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
+    <system:String x:Key="AnnihilationWarning">If you use the Annihilation Mode, please configure alternate stage.</system:String>
     <!--  !Logs  -->
     <!--  !Farming  -->
     <system:String x:Key="Toolbox">Toolbox</system:String>

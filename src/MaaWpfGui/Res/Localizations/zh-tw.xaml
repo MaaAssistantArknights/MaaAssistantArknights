@@ -452,10 +452,10 @@
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 庫，該庫預設以程式所在路徑作為註冊識別。  
-若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該庫的預設行為，MAA 無法控制或自動清除。  
+MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 庫，該庫預設以程式所在路徑作為註冊識別。
+若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該庫的預設行為，MAA 無法控制或自動清除。
 如需清理，請手動開啟登錄檔編輯器，定位至：
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
 刪除對應的路徑項目即可。
 </system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
@@ -645,6 +645,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PR-C-2">先/輔晶片組</system:String>
     <system:String x:Key="PR-D-1">近/特晶片</system:String>
     <system:String x:Key="PR-D-2">近/特晶片組</system:String>
+    <system:String x:Key="AnnihilationMode">剿滅模式</system:String>
     <system:String x:Key="Annihilation">當期剿滅</system:String>
 	<system:String x:Key="Chernobog">切爾諾伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龍門外環</system:String>
@@ -684,6 +685,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
+    <system:String x:Key="AnnihilationWarning">若使用剿滅模式，請配置備選關卡。</system:String>
+
     <!--  !設定失敗  -->
     <!--  !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
