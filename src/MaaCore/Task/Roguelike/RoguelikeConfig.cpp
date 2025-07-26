@@ -98,7 +98,6 @@ void asst::RoguelikeConfig::clear()
     m_status.opers.reserve(m_status.formation_upper_limit);
 
     // ------------------ 通用参数 ------------------
-    m_core_char = std::string();
     m_squad = std::string();
 }
 
