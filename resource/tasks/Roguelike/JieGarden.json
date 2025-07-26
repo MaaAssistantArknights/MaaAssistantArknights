@@ -19,7 +19,8 @@
     },
     "JieGarden@StartExplore@Roguelike@EnterAfterRecruit": {
         "template": "JieGarden@Roguelike@EnterAfterRecruit.png",
-        "roi": [1040, 240, 240, 179]
+        "roi": [1040, 240, 240, 179],
+        "next": ["#self", "JieGarden@Roguelike@NextLevel"]
     },
     "JieGarden@StartExplore@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
