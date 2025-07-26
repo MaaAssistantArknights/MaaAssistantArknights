@@ -232,7 +232,10 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
         ctrler()->click(role_rect);
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-        ProcessTask check(*this, { m_config->get_theme() + "@Roguelike@ChooseOperFlag" });
+        ProcessTask check(
+            *this,
+            { m_config->get_theme() + "@Roguelike@ChooseOperFlag",
+              m_config->get_theme() + "@Roguelike@RecruitCloseGuide" });
         check.set_times_limit("Roguelike@ChooseOperFlag", 0);
         check.set_retry_times(0);
         if (check.run()) {
