@@ -84,7 +84,7 @@
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",
             "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@Stages#next"
+            "JieGarden@Roguelike@NextLevel"
         ]
     },
     "JieGarden@Roguelike@ChooseOperFlag": {
