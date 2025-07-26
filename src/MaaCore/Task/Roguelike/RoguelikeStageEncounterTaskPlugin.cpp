@@ -139,27 +139,45 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         sleep(300);
     }
 
-    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
+
+    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     image = ctrler()->get_image();
-    if (hp(image) <= 0) {
+    bool hp_disappeared = (hp(image) <= 0);
+    // fallback 可变选项，临时处理，之后还得改成更通用的方式
+    if (!hp_disappeared) {
+        for (const auto& [total, item] : event.fallback_choices) {
+            Log.info("Trying fallback choice", total, "-", item);
+            for (int j = 0; j < 2; ++j) {
+                ProcessTask(*this, { click_option_task_name(item, total) }).run();
+                sleep(300);
+            }
+            sleep(500);
+            image = ctrler()->get_image();
+            if (hp(image) <= 0) {
+                Log.info("Fallback choice success");
+                hp_disappeared = true;
+                break;
+            }
+        }
+    }
+
+    if (hp_disappeared) {
         if (!event.next_event.empty()) {
-            Log.debug("HP gone but next_event exists:", event.next_event);
-            // 多点几次，确保跳过剧情动画
             for (int i = 0; i < 3; ++i) {
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
                 image = ctrler()->get_image();
                 if (hp(image) > 0) {
-                    break;
+                    Log.debug("HP gone, going to next_event:", event.next_event);
+                    return event.next_event;
                 }
             }
-
-            return event.next_event;
         }
         return std::nullopt;
     }
 
+    // 兜底处理，从 option_num-option_num 点到 1-1
     int max_time = event.option_num;
     while (max_time > 0) {
         for (int i = max_time; i > 0; --i) {
@@ -243,6 +261,8 @@ int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::Roguelik
 
 int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
 {
+    LogTraceFunction;
+
     int hp_val;
     asst::OCRer analyzer(image);
     analyzer.set_task_info("Roguelike@HpRecognition");
