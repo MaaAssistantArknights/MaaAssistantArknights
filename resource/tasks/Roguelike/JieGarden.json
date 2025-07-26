@@ -774,7 +774,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPick",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -798,7 +798,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPick",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -822,7 +822,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPick",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing-FastInvestment"
@@ -833,7 +833,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPick",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageBoskyPassage",
@@ -856,7 +856,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPick",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing"
@@ -871,15 +871,15 @@
     },
     "JieGarden@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_exit"],
+        "text": ["_fastInvestment", "_restart"],
         "ocrReplace": [
             ["洪陆楼", "_fastInvestment"],
-            ["山水阁", "_exit"],
-            ["云瓦亭", "_exit"],
-            ["汝吾门", "_exit"],
-            ["见字祠", "_exit"],
-            ["始末陵", "_exit"],
-            ["是非境", "_exit"]
+            ["山水阁", "_restart"],
+            ["云瓦亭", "_restart"],
+            ["汝吾门", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_restart"]
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
@@ -908,8 +908,16 @@
         ]
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
-        "baseTask": "JieGarden@Roguelike@StrategyChange_mode4",
-        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+        "text": ["_default", "_restart"],
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云瓦亭", "_restart"],
+            ["汝吾门", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_restart"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
         "text": ["_routing", "_exit"],

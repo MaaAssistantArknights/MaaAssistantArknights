@@ -111,12 +111,9 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            std::filesystem::create_directories(relative_dir);
-            std::string stem = utils::get_time_filestem();
-            auto relative_path = relative_dir / (stem + "_draw.png");
-            Log.trace("Save image", relative_path, std::filesystem::absolute(relative_dir));
-            bool ret = asst::imwrite(relative_path, image_draw);
-            Log.info(ret ? "Succeeded!" : "Failed!");
+            const auto relative_path = relative_dir / (utils::get_time_filestem() + "_draw.png");
+            Log.trace("Save image", relative_path);
+            asst::imwrite(relative_path, image_draw);
 #endif
             m_need_generate_map = false;
         }
@@ -290,7 +287,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
     const size_t& node,
     const cv::Mat& image,
     const int& node_x,
-    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt [[maybe_unused]])
+    [[maybe_unused]] std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
 {
     LogTraceFunction;
 
