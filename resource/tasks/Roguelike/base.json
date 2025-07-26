@@ -1037,7 +1037,7 @@
         "next": [
             "StartExplore@Roguelike@ChooseOperFlag",
             "StartExplore@Roguelike@RecruitCloseGuide",
-            "Roguelike@RecruitMain"
+            "#self"
         ],
         "postDelay": 1000
     },
