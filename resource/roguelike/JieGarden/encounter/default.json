@@ -19,7 +19,8 @@
         {
             "name": "护鸭金刚",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "fallback_choices": [[2,2]]
         },
         {
             "name": "来者不拒",
