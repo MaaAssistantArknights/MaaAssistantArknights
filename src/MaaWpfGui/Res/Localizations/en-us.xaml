@@ -647,7 +647,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="PR-C-2">Pio/Sup Ⅱ</system:String>
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
-    <system:String x:Key="AnnihilationMode">AnnihilationMode</system:String>
+    <system:String x:Key="AnnihilationMode">Annihilation Mode</system:String>
     <system:String x:Key="Annihilation">Annihilation</system:String>
     <system:String x:Key="Chernobog">Chernobog</system:String>
     <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>
