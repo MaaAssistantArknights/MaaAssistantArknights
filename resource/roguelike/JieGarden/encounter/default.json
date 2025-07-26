@@ -105,8 +105,8 @@
         },
         {
             "name": "烛堂",
-            "option_num": 3,
-            "choose": 3
+            "option_num": 4,
+            "choose": 4
         },
         {
             "name": "天险",
@@ -199,8 +199,13 @@
         },
         {
             "name": "地镇",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "传讯",
+            "option_num": 3,
+            "choose": 3
         }
     ]
 }
