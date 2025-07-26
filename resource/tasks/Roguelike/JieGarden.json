@@ -81,9 +81,10 @@
         "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
+            "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",
             "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+            "JieGarden@Roguelike@Stages#next"
         ]
     },
     "JieGarden@Roguelike@ChooseOperFlag": {
