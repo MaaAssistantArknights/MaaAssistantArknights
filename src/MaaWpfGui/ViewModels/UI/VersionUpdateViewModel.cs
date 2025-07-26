@@ -878,36 +878,27 @@ public class VersionUpdateViewModel : Screen
 
         string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch
         {
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
-            _ => "stable",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "version/beta.json",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "version/alpha.json",
+            _ => "version/stable.json",
         };
 
         var latestVersion = json[versionType]?["version"]?.ToString();
-        var detailUrl = json[versionType]?["detail"]?.ToString();
 
         latestVersion ??= string.Empty;
-        detailUrl ??= string.Empty;
 
         if (!NeedToUpdate(latestVersion))
         {
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        return await GetVersionDetailsByMaaApi(detailUrl);
+        return await GetVersionDetailsByMaaApi(versionType);
     }
 
-    private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string url)
+    private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
     {
-        string? response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
-
-        if (string.IsNullOrEmpty(response))
-        {
-            _logger.Error("Failed to get update info from Maa API.");
-            return CheckUpdateRetT.FailedToGetInfo;
-        }
-
-        if (JsonConvert.DeserializeObject(response) is not JObject json)
+        var json = await Instances.MaaApiService.RequestMaaApiWithCache(versionType);
+        if (json is null)
         {
             return CheckUpdateRetT.FailedToGetInfo;
         }
