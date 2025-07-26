@@ -334,6 +334,7 @@
         "baseTask": "JieGarden@Roguelike@RandomPick",
         "template": "JieGarden@Roguelike@RandomPick.png",
         "next": [
+            "JieGarden@Roguelike@ClickRemainingCandleFlame",
             "JieGarden@Roguelike@RandomPickAfterNextLevel@NextAfterLoadingText",
             "JieGarden@Roguelike@CloseInterview",
             "JieGarden@Roguelike@StrategyChange",
@@ -345,6 +346,24 @@
         "postDelay": 500,
         "roi": [1033, 462, 153, 155],
         "next": ["JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@ClickRemainingCandleFlame": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [1091, 98, 189, 136],
+        "next": ["JieGarden@Roguelike@LeaveBoskyPassage", "#self"]
+    },
+    "JieGarden@Roguelike@LeaveBoskyPassage": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [1051, 317, 158, 148],
+        "next": ["JieGarden@Roguelike@ConfirmToLeaveBoskyPassage", "#self"]
+    },
+    "JieGarden@Roguelike@ConfirmToLeaveBoskyPassage": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [867, 406, 242, 160],
+        "next": ["JieGarden@Roguelike@NextLevel", "#self"]
     },
     "JieGarden@Roguelike@RecruitMain": {
         "template": "JieGarden@Roguelike@Recruit.png"
