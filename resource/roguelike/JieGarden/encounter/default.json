@@ -199,8 +199,15 @@
         },
         {
             "name": "地镇",
-            "option_num": 3,
-            "choose": 3
+            "option_num": 2,
+            "choose": 1,
+            "fallback_choices": [[3,1]],
+            "next_event": "地镇-2"
+        },
+        {
+            "name": "地镇-2",
+            "option_num": 2,
+            "choose": 2
         },
         {
             "name": "传讯",
