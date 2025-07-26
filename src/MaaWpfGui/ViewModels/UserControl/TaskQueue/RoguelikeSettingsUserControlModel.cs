@@ -130,8 +130,11 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         switch (RoguelikeTheme)
         {
-            case Theme.JieGarden: // 界园目前仅支持刷钱
-                RoguelikeModeList = [new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }];
+            case Theme.JieGarden:
+                RoguelikeModeList = [
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
+                ];
                 break;
 
             default:
