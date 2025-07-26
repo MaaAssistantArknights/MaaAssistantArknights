@@ -1583,6 +1583,11 @@
         "algorithm": "JustReturn",
         "next": ["Roguelike@ExitThenAbandon_ToHardest"]
     },
+    "Roguelike@Stages_restart": {
+        "doc": "保持当前难度重开，用于投资进入第二层后退出",
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@ExitThenAbandon"]
+    },
     "Roguelike@StartAction": {
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
