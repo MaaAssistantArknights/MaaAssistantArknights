@@ -20,7 +20,7 @@
             "name": "护鸭金刚",
             "option_num": 3,
             "choose": 3,
-            "fallback_choices": [[2,2]]
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "来者不拒",
@@ -202,7 +202,7 @@
             "name": "地镇",
             "option_num": 2,
             "choose": 1,
-            "fallback_choices": [[3,1]],
+            "fallback_choices": [[3, 1]],
             "next_event": "地镇-2"
         },
         {
