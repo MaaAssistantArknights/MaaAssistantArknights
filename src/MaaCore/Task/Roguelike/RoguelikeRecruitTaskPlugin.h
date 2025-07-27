@@ -55,7 +55,8 @@ private:
         const RecruitPriorityOffset& condition,
         const std::unordered_map<std::string, RoguelikeOper>& chars_map);
 
-    int m_recruit_count = 0;        // 第几次招募
+    int m_recruit_count = 0;                // 第几次招募
+    mutable bool m_initail_recruit = false; // 是否第一次招募，第一次招募时会进行一些初始化操作
     bool m_starts_complete = false; // 开局干员是否已经招募，阵容中必须有开局干员，没有前仅招募start干员或预备干员
     bool m_team_complete = false;   // 阵容是否完备，阵容完备前，仅招募key干员或预备干员
 };

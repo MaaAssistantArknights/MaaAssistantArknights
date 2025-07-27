@@ -28,6 +28,12 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
+    if (task_view.ends_with("Roguelike@StartExplore")) {
+        m_initail_recruit = true;
+    }
+    if (task_view.ends_with("Roguelike@EnterAfterRecruit")) {
+        m_initail_recruit = false;
+    }
     if (task_view.ends_with("Roguelike@ChooseOper")) {
         return true;
     }
@@ -89,17 +95,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
-    // 是否使用助战干员开局
-    if (m_config->get_use_support()) {
-        if (recruit_support_char()) {
-            m_starts_complete = true;
-            return true;
+    if (m_initail_recruit && m_recruit_count == 1) {
+        if (m_config->get_use_support()) { // 是否使用助战干员开局
+            if (recruit_support_char()) {
+                m_starts_complete = true;
+                return true;
+            }
         }
-    }
-    else {
-        if (recruit_own_char()) {
-            m_starts_complete = true;
-            return true;
+        else {
+            if (recruit_own_char()) {
+                m_starts_complete = true;
+                return true;
+            }
         }
     }
 
