@@ -1001,7 +1001,5 @@
         "roi": [848, 610, 140, 110],
         "action": "ClickSelf"
     },
-    "JieGarden@RoguelikeSettlementConfirm": {
-        "template": "JieGarden@Roguelike@Confirm.png"
-    }
+    "JieGarden@RoguelikeSettlementConfirm": {}
 }
