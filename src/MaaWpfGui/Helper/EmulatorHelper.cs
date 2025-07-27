@@ -76,11 +76,36 @@ public class EmulatorHelper
         {
             emuIndex = int.TryParse(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Index, out var indexParse) ? indexParse : 0;
         }
-        else
+        else if (address.Contains(':'))
         {
             string portStr = address.Split(':')[1];
-            int port = int.Parse(portStr);
-            emuIndex = (port - 16384) / 32;
+            if (int.TryParse(portStr, out int port))
+            {
+                emuIndex = (port - 16384) / 32;
+            }
+            else
+            {
+                _logger.Error("Failed to parse port from address {Address}", address);
+                return false;
+            }
+        }
+        else if (address.StartsWith("emulator-", StringComparison.OrdinalIgnoreCase))
+        {
+            string[] parts = address.Split('-');
+            if (parts.Length >= 2 && int.TryParse(parts[1], out int port))
+            {
+                emuIndex = (port - 5554) / 2;
+            }
+            else
+            {
+                _logger.Error("Failed to parse port from emulator style address {Address}", address);
+                return false;
+            }
+        }
+        else
+        {
+            _logger.Error("Unsupported address format: {Address}", address);
+            return false;
         }
 
         // 尝试找到正在运行的模拟器进程
