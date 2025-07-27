@@ -58,10 +58,17 @@ namespace MaaWpfGui.Constants
         [UsedImplicitly]
         public const string RobotOperator = "RobotOperatorLogBrush";
 
+        #region 公招
+
         /// <summary>
         /// The recommended color for 1-star operators (also used for robot operators).
         /// </summary>
         public const string Star1Operator = "Star1OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 1-star operators when potential is full.
+        /// </summary>
+        public const string Star1OperatorPotentialFull = "Star1OperatorLogBrushPotentialFull";
 
         /// <summary>
         /// The recommended color for 2-star operators.
@@ -69,9 +76,19 @@ namespace MaaWpfGui.Constants
         public const string Star2Operator = "Star2OperatorLogBrush";
 
         /// <summary>
+        /// The recommended color for 2-star operators when potential is full.
+        /// </summary>
+        public const string Star2OperatorPotentialFull = "Star2OperatorLogBrushPotentialFull";
+
+        /// <summary>
         /// The recommended color for 3-star operators.
         /// </summary>
         public const string Star3Operator = "Star3OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 3-star operators when potential is full.
+        /// </summary>
+        public const string Star3OperatorPotentialFull = "Star3OperatorLogBrushPotentialFull";
 
         /// <summary>
         /// The recommended color for 4-star operators.
@@ -79,14 +96,31 @@ namespace MaaWpfGui.Constants
         public const string Star4Operator = "Star4OperatorLogBrush";
 
         /// <summary>
+        /// The recommended color for 4-star operators when potential is full.
+        /// </summary>
+        public const string Star4OperatorPotentialFull = "Star4OperatorLogBrushPotentialFull";
+
+        /// <summary>
         /// The recommended color for 5-star operators.
         /// </summary>
         public const string Star5Operator = "Star5OperatorLogBrush";
 
         /// <summary>
+        /// The recommended color for 5-star operators when potential is full.
+        /// </summary>
+        public const string Star5OperatorPotentialFull = "Star5OperatorLogBrushPotentialFull";
+
+        /// <summary>
         /// The recommended color for 6-star operators.
         /// </summary>
         public const string Star6Operator = "Star6OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 6-star operators when potential is full.
+        /// </summary>
+        public const string Star6OperatorPotentialFull = "Star6OperatorLogBrushPotentialFull";
+
+        #endregion
 
         /// <summary>
         /// The recommended color for file downloading or downloaded or download failed.

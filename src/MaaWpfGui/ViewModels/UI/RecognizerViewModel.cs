@@ -176,22 +176,9 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     var run = new Run($"{operName}{potentialText}    ");
-                    var opacity = isMaxPot ? 0.4 : 1.0;
-
-                    if (Math.Abs(opacity - 1.0) < 1e-4)
-                    {
-                        var brushKey = GetBrushKeyByStar(operLevel);
-                        run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
-                        run.Tag = brushKey;
-                    }
-                    else
-                    {
-                        var brush = GetBrushWithOpacityByStar(operLevel, opacity);
-                        if (brush != null)
-                        {
-                            run.Foreground = brush;
-                        }
-                    }
+                    var brushKey = GetBrushKeyByStar(operLevel, isMaxPot);
+                    run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
+                    run.Tag = brushKey;
 
                     recruitResultInlines.Add(run);
                 }
@@ -209,23 +196,24 @@ namespace MaaWpfGui.ViewModels.UI
                 return new(Color.FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B));
             }
 
-            string GetBrushKeyByStar(int level)
+            string GetBrushKeyByStar(int level, bool isMax)
             {
-                return level switch
+                return (level, isMax) switch
                 {
-                    >= 6 => UiLogColor.Star6Operator,
-                    5 => UiLogColor.Star5Operator,
-                    4 => UiLogColor.Star4Operator,
-                    3 => UiLogColor.Star3Operator,
-                    2 => UiLogColor.Star2Operator,
-                    _ => UiLogColor.Star1Operator,
+                    (6, true) => UiLogColor.Star6OperatorPotentialFull,
+                    (6, false) => UiLogColor.Star6Operator,
+                    (5, true) => UiLogColor.Star5OperatorPotentialFull,
+                    (5, false) => UiLogColor.Star5Operator,
+                    (4, true) => UiLogColor.Star4OperatorPotentialFull,
+                    (4, false) => UiLogColor.Star4Operator,
+                    (3, true) => UiLogColor.Star3OperatorPotentialFull,
+                    (3, false) => UiLogColor.Star3Operator,
+                    (2, true) => UiLogColor.Star2OperatorPotentialFull,
+                    (2, false) => UiLogColor.Star2Operator,
+                    (1, true) => UiLogColor.Star1OperatorPotentialFull,
+                    (1, false) => UiLogColor.Star1Operator,
+                    _ => UiLogColor.Text,
                 };
-            }
-
-            Brush? GetBrushWithOpacityByStar(int level, double opacity)
-            {
-                var brushKey = GetBrushKeyByStar(level);
-                return Application.Current.TryFindResource(brushKey) is not SolidColorBrush brush ? null : GetBrushWithOpacity(brush.Color, opacity);
             }
         }
 
