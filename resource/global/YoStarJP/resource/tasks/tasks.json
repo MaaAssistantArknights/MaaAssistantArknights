@@ -867,13 +867,13 @@
         "text": ["ニューラル", "コネクタ", "接続中"],
         "roi": [700, 600, 350, 120]
     },
-    "Chernobog": {
+    "Chernobog@AnnihilationStage": {
         "text": ["チェルノボーグ"]
     },
-    "LungmenOutskirts": {
+    "LungmenOutskirts@AnnihilationStage": {
         "text": ["龍門郊外"]
     },
-    "LungmenDowntown": {
+    "LungmenDowntown@AnnihilationStage": {
         "text": ["龍門市街"]
     },
     "AnnihilationSwitchButton": {
