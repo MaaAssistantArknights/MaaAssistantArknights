@@ -414,36 +414,22 @@
             </Grid>
         </Grid>
 
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical">
-                    <Grid Height="42">
-                        <controls:TextBlock
-                            x:Name="AnnihilationMode"
-                            Margin="0,6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource AnnihilationMode}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Grid>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Key"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                     Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                        ItemsSource="{Binding AnnihilationModeList}"
-                        SelectedValue="{Binding AnnihilationStage}"
-                        SelectedValuePath="Value"/>
-                </StackPanel>
-            </Grid>
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <StackPanel>
+                <CheckBox
+                    Margin="0,10"
+                    Content="{DynamicResource UseCustomAnnihilation}"
+                    IsChecked="{Binding UseCustomAnnihilation}" />
+                <ComboBox
+                    Height="30"
+                    DisplayMemberPath="Key"
+                    IsHitTestVisible="{c:Binding !FightTaskRunning,
+                                                 Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    ItemsSource="{Binding AnnihilationModeList}"
+                    SelectedValue="{Binding AnnihilationStage}"
+                    SelectedValuePath="Value"
+                    Visibility="{c:Binding UseCustomAnnihilation}" />
+            </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource DrGrandetTip}" />

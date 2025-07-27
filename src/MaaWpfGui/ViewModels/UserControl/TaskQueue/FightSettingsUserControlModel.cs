@@ -715,6 +715,18 @@ public class FightSettingsUserControlModel : TaskViewModel
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@AnnihilationReturn@Annihilation" },
     };
 
+    private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
+
+    public bool UseCustomAnnihilation
+    {
+        get => _useCustomAnnihilation;
+        set
+        {
+            SetAndNotify(ref _useCustomAnnihilation, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
+        }
+    }
+
     private string _annihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
 
     public string AnnihilationStage

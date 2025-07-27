@@ -647,6 +647,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PR-C-2">先/辅芯片组</system:String>
     <system:String x:Key="PR-D-1">近/特芯片</system:String>
     <system:String x:Key="PR-D-2">近/特芯片组</system:String>
+    <system:String x:Key="AnnihilationStage">剿灭关卡</system:String>
+    <system:String x:Key="UseCustomAnnihilation">自定义{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">剿灭模式</system:String>
     <system:String x:Key="Annihilation">当期剿灭</system:String>
     <system:String x:Key="Chernobog">切尔诺伯格</system:String>
