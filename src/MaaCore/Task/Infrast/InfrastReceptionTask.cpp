@@ -88,17 +88,17 @@ bool asst::InfrastReceptionTask::get_self_clue()
         task.set_retry_times(ProcessTask::RetryTimesDefault);
         return task.run();
     };
-    
-    run_with_retries({ "InfrastClueSelfNew", "InfrastClueSelfMaybeFull" , "ReceptionFlag"});
-    
-    if (!ProcessTask(*this, {"InfrastClueSelfFull"}).set_retry_times(0).run()) {
-        return run_with_retries({"CloseCluePage", "ReceptionFlag"});
+
+    run_with_retries({ "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
+
+    if (!ProcessTask(*this, { "InfrastClueSelfFull" }).set_retry_times(0).run()) {
+        return run_with_retries({ "CloseCluePage", "ReceptionFlag" });
     }
     if (m_enable_clue_exchange) {
-        return run_with_retries({"CloseCluePageThenSendClue"});
+        return run_with_retries({ "CloseCluePageThenSendClue" });
     }
-    
-    return run_with_retries({"CloseCluePage", "ReceptionFlag"});
+
+    return run_with_retries({ "CloseCluePage", "ReceptionFlag" });
 }
 
 bool asst::InfrastReceptionTask::use_clue()
