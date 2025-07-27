@@ -225,8 +225,7 @@
         ]
     },
     "JieGarden@Roguelike@EnterAfterRecruit": {
-        "roi": [1040, 240, 240, 179],
-        "next": ["JieGarden@Roguelike@EnterAfterRecruit", "JieGarden@Roguelike@NextLevel"]
+        "roi": [1040, 240, 240, 179]
     },
     "JieGarden@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
