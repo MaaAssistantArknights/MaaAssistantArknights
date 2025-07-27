@@ -116,12 +116,13 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var combs in resultArray ?? [])
             {
                 int tagLevel = (int)(combs["level"] ?? -1);
-                recruitResultInlines.Add(new Run($"{tagLevel}★ Tags:    "));
+                var tagStr = $"{tagLevel}★ Tags:    ";
+                tagStr = ((JArray?)combs["tags"] ?? []).Aggregate(tagStr, (current, tag) => current + $"{tag}    ");
+                var tagRun = new Run(tagStr);
+                tagRun.SetResourceReference(TextElement.ForegroundProperty, UiLogColor.Text);
+                tagRun.Tag = UiLogColor.Text;
 
-                foreach (var tag in (JArray?)combs["tags"] ?? [])
-                {
-                    recruitResultInlines.Add(new Run($"{tag}    "));
-                }
+                recruitResultInlines.Add(tagRun);
 
                 recruitResultInlines.Add(new LineBreak());
 
@@ -175,10 +176,21 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     var run = new Run($"{operName}{potentialText}    ");
-                    var foreground = GetColorByStarWithOpacity(operLevel, isMaxPot ? 0.4 : 1.0);
-                    if (foreground != null)
+                    var opacity = isMaxPot ? 0.4 : 1.0;
+
+                    if (Math.Abs(opacity - 1.0) < 1e-4)
                     {
-                        run.Foreground = foreground;
+                        var brushKey = GetBrushKeyByStar(operLevel);
+                        run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
+                        run.Tag = brushKey;
+                    }
+                    else
+                    {
+                        var brush = GetBrushWithOpacityByStar(operLevel, opacity);
+                        if (brush != null)
+                        {
+                            run.Foreground = brush;
+                        }
                     }
 
                     recruitResultInlines.Add(run);
@@ -197,9 +209,9 @@ namespace MaaWpfGui.ViewModels.UI
                 return new(Color.FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B));
             }
 
-            Brush? GetColorByStarWithOpacity(int level, double opacity = 1.0)
+            string GetBrushKeyByStar(int level)
             {
-                var brushKey = level switch
+                return level switch
                 {
                     >= 6 => UiLogColor.Star6Operator,
                     5 => UiLogColor.Star5Operator,
@@ -208,15 +220,12 @@ namespace MaaWpfGui.ViewModels.UI
                     2 => UiLogColor.Star2Operator,
                     _ => UiLogColor.Star1Operator,
                 };
+            }
 
-                var brush = Application.Current.TryFindResource(brushKey) as SolidColorBrush;
-                if (brush == null)
-                {
-                    return null;
-                }
-
-                var baseColor = brush.Color;
-                return GetBrushWithOpacity(baseColor, opacity);
+            Brush? GetBrushWithOpacityByStar(int level, double opacity)
+            {
+                var brushKey = GetBrushKeyByStar(level);
+                return Application.Current.TryFindResource(brushKey) is not SolidColorBrush brush ? null : GetBrushWithOpacity(brush.Color, opacity);
             }
         }
 

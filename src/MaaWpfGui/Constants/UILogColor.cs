@@ -20,6 +20,8 @@ namespace MaaWpfGui.Constants
     /// </summary>
     public static class UiLogColor
     {
+        public const string Text = "PrimaryTextBrush";
+
         /// <summary>
         /// The recommended color for error logs.
         /// </summary>
