@@ -854,7 +854,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolution">解決策</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">MAA.exe ファイルを単独で移動しないでください。ソフトウェアの場所を変更する必要がある場合は、フォルダー全体を移動するか、このフォルダーに MAA.exe のショートカットを作成してから、ショートカットを別の場所にドラッグしてください。</system:String>
     <system:String x:Key="ErrorSolutionCrash">ドキュメント ｢よくある問題 - クラッシュ｣ を参照してください。</system:String>
-    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。ルートディレクトリにあるアップデートパッケージを手動で解凍してみてください。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。まずは MAA.exe の再起動をお試しください。問題が解決しない場合は、PC を再起動して再度お試しください。必要なファイルの削除が行われない可能性があるため、手動で解凍しないでください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
