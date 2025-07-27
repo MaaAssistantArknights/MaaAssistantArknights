@@ -1635,25 +1635,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             var (type, mainParam) = FightTask.Serialize();
             bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
-            if (!mainFightRet && curStage != "AnnihilationMode")
+            if (!mainFightRet)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
                 return false;
             }
 
-            if ((curStage == "AnnihilationMode") && FightTask.UseAlternateStage)
+            if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
             {
-                AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
-
-                // 先打剿灭
-                var annihilationTask = mainParam.ToObject<AsstFightTask>();
-                annihilationTask.Stage = ConfigurationHelper.GetValue(ConfigurationKeys.Annihilation, "Annihilation");
-                annihilationTask.Stone = 0;
-                annihilationTask.MaxTimes = int.MaxValue;
-                annihilationTask.Drops = [];
-                mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, annihilationTask.Serialize().Params);
-
-                // 再打备选
                 foreach (var stage in FightTask.Stages)
                 {
                     if (stage is null || !IsStageOpen(stage) || (stage == curStage))
@@ -1673,10 +1662,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                     break;
                 }
-            }
-            else if (curStage == "AnnihilationMode")
-            {
-                AddLog(LocalizationHelper.GetString("AnnihilationWarning"), UiLogColor.Warning);
             }
 
             if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))

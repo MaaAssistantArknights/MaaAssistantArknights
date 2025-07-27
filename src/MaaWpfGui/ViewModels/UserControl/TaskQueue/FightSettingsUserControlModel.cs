@@ -715,15 +715,15 @@ public class FightSettingsUserControlModel : TaskViewModel
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@AnnihilationReturn@Annihilation" },
     };
 
-    private string _annihilationMode = ConfigurationHelper.GetValue(ConfigurationKeys.Annihilation, "Annihilation");
+    private string _annihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
 
-    public string AnnihilationMode
+    public string AnnihilationStage
     {
-        get => _annihilationMode;
+        get => _annihilationStage;
         set
         {
-            SetAndNotify(ref _annihilationMode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Annihilation, value);
+            SetAndNotify(ref _annihilationStage, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
         }
     }
 
@@ -886,6 +886,11 @@ public class FightSettingsUserControlModel : TaskViewModel
             ServerType = Instances.SettingsViewModel.ServerType,
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
+
+        if (Stage == "Annihilation")
+        {
+            task.Stage = AnnihilationStage;
+        }
 
         if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
         {
