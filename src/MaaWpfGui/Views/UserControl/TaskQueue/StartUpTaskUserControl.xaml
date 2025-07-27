@@ -36,6 +36,7 @@
             </StackPanel>
             <hc:TextBox
                 Grid.Column="0"
+                hc:BorderElement.CornerRadius="4,0,0,4"
                 hc:TitleElement.Title="{DynamicResource AccountSwitch}"
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static helper:Instances.SettingsViewModel}}"
@@ -50,6 +51,23 @@
                 Command="{s:Action AccountSwitchManualRun}"
                 Content="{DynamicResource AccountSwitchManualRun}" />
         </Grid>
+
+        <StackPanel>
+            <hc:ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource ClientType}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                ItemsSource="{Binding ClientTypeList, Source={x:Static ui:SettingsViewModel.GameSettings}}"
+                SelectedValue="{Binding ClientType, Source={x:Static ui:SettingsViewModel.GameSettings}}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding !TaskSettingVisibilities.Guide,
+                                       Source={x:Static helper:Instances.SettingsViewModel}}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource StartGameLaunchClient}"
+                IsChecked="{Binding StartGame, Source={x:Static ui:SettingsViewModel.GameSettings}}" />
+        </StackPanel>
 
         <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
             <StackPanel Margin="0,10" Orientation="Horizontal">
@@ -132,6 +150,7 @@
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value"
                 Visibility="{c:Binding !AutoDetectConnection}" />
+
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource TouchMode}"
@@ -141,17 +160,5 @@
                 SelectedValue="{Binding TouchMode}"
                 SelectedValuePath="Value" />
         </StackPanel>
-
-        <hc:ComboBox
-            Margin="0,5"
-            hc:InfoElement.Title="{DynamicResource ClientType}"
-            DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
-            ItemsSource="{Binding ClientTypeList, Source={x:Static ui:SettingsViewModel.GameSettings}}"
-            SelectedValue="{Binding ClientType, Source={x:Static ui:SettingsViewModel.GameSettings}}"
-            SelectedValuePath="Value"
-            Visibility="{c:Binding !TaskSettingVisibilities.Guide,
-                                   Source={x:Static helper:Instances.SettingsViewModel}}" />
-
     </StackPanel>
 </UserControl>

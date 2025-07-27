@@ -85,6 +85,20 @@
     <SolidColorBrush x:Key="MessageLogBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="Orange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="Gray" />
+
+    <SolidColorBrush x:Key="Star1OperatorLogBrush" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="Star1OperatorLogBrushPotentialFull" Color="#66E6E6E6" />
+    <SolidColorBrush x:Key="Star2OperatorLogBrush" Color="#88BB44" />
+    <SolidColorBrush x:Key="Star2OperatorLogBrushPotentialFull" Color="#6688BB44" />
+    <SolidColorBrush x:Key="Star3OperatorLogBrush" Color="#66CCFF" />
+    <SolidColorBrush x:Key="Star3OperatorLogBrushPotentialFull" Color="#6666CCFF" />
+    <SolidColorBrush x:Key="Star4OperatorLogBrush" Color="#BB88FF" />
+    <SolidColorBrush x:Key="Star4OperatorLogBrushPotentialFull" Color="#66BB88FF" />
+    <SolidColorBrush x:Key="Star5OperatorLogBrush" Color="#FFBB55" />
+    <SolidColorBrush x:Key="Star5OperatorLogBrushPotentialFull" Color="#66FFBB55" />
+    <SolidColorBrush x:Key="Star6OperatorLogBrush" Color="Orange" />
+    <SolidColorBrush x:Key="Star6OperatorLogBrushPotentialFull" Color="#66FFA500" />
+
     <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
 
     <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />

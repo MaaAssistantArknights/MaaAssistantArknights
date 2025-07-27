@@ -940,6 +940,18 @@
         "text": ["피드백", "전달"],
         "roi": [700, 620, 400, 80]
     },
+    "Chernobog@AnnihilationStage": {
+        "text": ["체르노보그"]
+    },
+    "LungmenOutskirts@AnnihilationStage": {
+        "text": ["용문외곽"]
+    },
+    "LungmenDowntown@AnnihilationStage": {
+        "text": ["용문시내"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["변경"]
+    },
     "StartButton1": {
         "ocrReplace": [["개.+", "개시"]],
         "text": ["작전개시"]
@@ -1075,7 +1087,7 @@
         "ocrReplace": [
             ["^획득.+", "획득 가능"],
             ["오더.*", "오더 납품"],
-            ["(신|센)(뢰|리)도", "오퍼레이터 신뢰도"]
+            ["(신|센)(뢰|리)도$", "오퍼레이터 신뢰도"]
         ],
         "text": ["획득 가능", "오더 납품", "오퍼레이터 신뢰도"]
     },

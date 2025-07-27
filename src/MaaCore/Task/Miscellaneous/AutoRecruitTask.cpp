@@ -355,7 +355,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
         // without incrementing the count
         m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
-        return false;
+        return true;
     }
 
     if (calc_result.force_skip) {

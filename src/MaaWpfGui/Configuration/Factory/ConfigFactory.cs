@@ -78,7 +78,7 @@ public static class ConfigFactory
                 }
                 catch (Exception e)
                 {
-                    _logger.Information("Failed to parse configuration file: " + e);
+                    _logger.Information(e, "Failed to parse configuration file.");
                 }
             }
 
@@ -101,7 +101,7 @@ public static class ConfigFactory
                 }
                 catch (Exception e)
                 {
-                    _logger.Information("Failed to parse configuration file: " + e);
+                    _logger.Information(e, "Failed to parse configuration file.");
                 }
             }
 
@@ -126,7 +126,7 @@ public static class ConfigFactory
                         {
                             foreach (var value in args.NewItems)
                             {
-                                SpecificConfigBind(args.NewItem.Key, args.NewItem.Value);
+                                SpecificConfigBind(value.Key, value.Value);
                             }
                         }
 
@@ -222,7 +222,7 @@ public static class ConfigFactory
                 after = detailArgs.NewValue;
             }
 
-            OnPropertyChanged(key + o.GetType().Name + "." + args.PropertyName, null, after);
+            OnPropertyChanged(key + o?.GetType().Name + "." + args.PropertyName, null, after);
         };
     }
 
@@ -350,7 +350,7 @@ public static class ConfigFactory
 
         if (copyFrom is null)
         {
-            Root.Configurations[configName] = new SpecificConfig();
+            Root.Configurations[configName] = new();
         }
         else
         {
@@ -360,7 +360,7 @@ public static class ConfigFactory
                 return false;
             }
 
-            Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options);
+            Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options) ?? new();
         }
 
         return true;

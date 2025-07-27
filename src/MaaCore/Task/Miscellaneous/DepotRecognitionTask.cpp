@@ -50,6 +50,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         future.wait();
         callback_analyze_result(false);
     }
+    DepotImageAnalyzer::clear_cached_templates();
     return !m_all_items.empty();
 }
 

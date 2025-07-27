@@ -456,7 +456,6 @@
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
         "roi": [1016, 602, 264, 118],
-        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@TraderRandomShopping",
@@ -465,9 +464,19 @@
             "Roguelike@RecruitWithoutButton"
         ]
     },
+    "Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "Roguelike@ChooseOperConfirmToGiveUp",
+            "Roguelike@RecruitOther",
+            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
+    },
     "Roguelike@ChooseOperFlag": {
         "template": "Roguelike@ChooseOperConfirm.png",
         "roi": [1016, 602, 264, 118],
+        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": ["Roguelike@RecruitCloseGuide", "Roguelike@ChooseOper"]
     },
     "Roguelike@ClickToDrops": {
@@ -625,7 +634,7 @@
         "action": "ClickSelf",
         "roi": [1078, 234, 202, 239],
         "postDelay": 3000,
-        "next": ["Roguelike@EnterAfterRecruit", "Roguelike@Stages#next"]
+        "next": ["#self", "Roguelike@NextLevel"]
     },
     "Roguelike@Exit": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -792,7 +801,7 @@
         "baseTask": "NumberOcrReplace",
         "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
         "text": [],
-        "roi": [190, 30, 60, 30]
+        "roi": [170, 30, 70, 30]
     },
     "Roguelike@InBattleFlag": {
         "template": "BattleOfficiallyBegin.png",
@@ -1025,7 +1034,7 @@
         "action": "ClickSelf",
         "templThreshold": 0.6,
         "roi": [80, 470, 410, 154],
-        "next": ["Roguelike@ChooseOperFlag", "Roguelike@RecruitCloseGuide"],
+        "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide", "#self"],
         "postDelay": 1000
     },
     "Roguelike@RecruitOther": {
@@ -1036,7 +1045,6 @@
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
-        "reduceOtherTimes": ["Roguelike@RecruitWithoutButton*10"],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@RecruitOther",
@@ -1252,7 +1260,8 @@
             ["绝境(？|\\?)抉择(？|\\?)", "绝境？抉择？"],
             ["魂灵见闻.*以血还血", "魂灵见闻：以血还血"],
             ["魂灵见闻.*善恶((同)|(向))道", "魂灵见闻：善恶同道"],
-            ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"]
+            ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"],
+            [".*餮廊", "饕餮廊"]
         ],
         "preDelay": 600,
         "roi": [0, 405, 725, 225]
@@ -1500,7 +1509,8 @@
     },
     "Roguelike@StageTraderRefreshWithDiceConfirm": {
         "action": "ClickSelf",
-        "roi": [759, 415, 171, 161],
+        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshConfirmNew"],
+        "roi": [580, 375, 700, 230],
         "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
     },
     "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
@@ -1573,6 +1583,11 @@
         "algorithm": "JustReturn",
         "next": ["Roguelike@ExitThenAbandon_ToHardest"]
     },
+    "Roguelike@Stages_restart": {
+        "doc": "保持当前难度重开，用于投资进入第二层后退出",
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@ExitThenAbandon"]
+    },
     "Roguelike@StartAction": {
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
         "action": "ClickSelf",
@@ -1616,7 +1631,7 @@
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
-        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪"],
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园林"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
         "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
@@ -1754,5 +1769,45 @@
         "template": "Roguelike@QuickFormation.png",
         "roi": [817, 0, 402, 146],
         "next": ["Roguelike@WaitForStartButtonClicked"]
+    },
+    "StartExplore@Roguelike@ChooseOperConfirm": {
+        "template": "Roguelike@ChooseOperConfirm.png",
+        "next": [
+            "StartExplore@Roguelike@RecruitSkip",
+            "StartExplore@Roguelike@ChooseOperConfirm",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
+        "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
+        "next": [
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@EnterAfterRecruit",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+        ]
+    },
+    "StartExplore@Roguelike@RecruitOther": {
+        "Doc": "开始探索专用招募入口, 招募单个干员后不参与局内流程",
+        "template": "empty.png"
+    },
+    "StartExplore@Roguelike@RecruitSkip": {
+        "template": "RecruitSkip.png",
+        "next": [
+            "StartExplore@Roguelike@RecruitSkip",
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@ChooseOperFlag",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "StartExplore@Roguelike@RecruitWithoutButton": {
+        "exceededNext": ["Roguelike@Abandon"],
+        "next": [
+            "StartExplore@Roguelike@RecruitOther",
+            "StartExplore@Roguelike@EnterAfterRecruit",
+            "StartExplore@Roguelike@RecruitWithoutButton"
+        ]
     }
 }

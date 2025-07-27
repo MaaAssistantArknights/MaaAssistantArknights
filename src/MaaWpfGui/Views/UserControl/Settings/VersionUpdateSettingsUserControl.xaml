@@ -124,6 +124,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <hc:PasswordBox
+                                    hc:BorderElement.CornerRadius="4,0,0,4"
                                     hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
                                     IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                                     IsSafeEnabled="False"
@@ -131,6 +132,8 @@
                                     UnsafePassword="{Binding MirrorChyanCdk}" />
                                 <Button
                                     Grid.Column="1"
+                                    hc:BorderElement.CornerRadius="0,4,4,0"
+                                    BorderThickness="0,1,1,1"
                                     Command="{s:Action MirrorChyanCdkCopy}"
                                     Content="{DynamicResource Copy}" />
                             </Grid>

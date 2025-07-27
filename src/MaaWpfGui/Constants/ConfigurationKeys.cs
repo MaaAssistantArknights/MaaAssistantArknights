@@ -85,6 +85,7 @@ namespace MaaWpfGui.Constants
         public const string TouchMode = "Connect.TouchMode";
         public const string AdbReplaced = "Connect.AdbReplaced";
 
+        public const string StartGame = "Start.StartGame";
         public const string ClientType = "Start.ClientType";
         public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
@@ -245,6 +246,8 @@ namespace MaaWpfGui.Constants
         public const string Stage2 = "MainFunction.Stage2";
         public const string Stage3 = "MainFunction.Stage3";
         public const string Stage4 = "MainFunction.Stage4";
+        public const string UseCustomAnnihilation = "MainFunction.Annihilation.UseCustom";
+        public const string AnnihilationStage = "MainFunction.Annihilation.Stage";
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
         public const string UseStone = "MainFunction.UseStone";
@@ -320,6 +323,9 @@ namespace MaaWpfGui.Constants
         public const string DebugTaskName = "Debug.TaskName";
 
         public const string MiniGameTaskName = "MiniGame.TaskName";
+
+        public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
+        public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
 
         // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
         // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移

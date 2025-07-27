@@ -678,12 +678,38 @@ namespace MaaWpfGui.ViewModels.UI
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }
 
+        private bool _isCheckingAnnouncement = false;
+
+        public bool IsCheckingAnnouncement
+        {
+            get => _isCheckingAnnouncement;
+            set
+            {
+                SetAndNotify(ref _isCheckingAnnouncement, value);
+            }
+        }
+
         // UI 绑定的方法
         [UsedImplicitly]
         public async Task CheckAndDownloadAnnouncement()
         {
-            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
-            _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            if (IsCheckingAnnouncement)
+            {
+                return;
+            }
+
+            IsCheckingAnnouncement = true;
+
+            try
+            {
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                await Execute.OnUIThreadAsync(() =>
+                    Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            }
+            finally
+            {
+                IsCheckingAnnouncement = false;
+            }
         }
 
         /// <summary>
@@ -695,10 +721,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             string updateTip = string.Empty;
             var newVersionFoundInfo = VersionUpdateSettings.NewVersionFoundInfo;
-            var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+            var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
             var startupUpdateCheck = VersionUpdateSettings.StartupUpdateCheck;
             var isDebug = Instances.VersionUpdateViewModel.IsDebugVersion();
-            if (newVersionFoundInfo != coreVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
+            if (newVersionFoundInfo != uiVersion && !isDebug && !string.IsNullOrEmpty(newVersionFoundInfo) && startupUpdateCheck)
             {
                 updateTip = $"{newVersionFoundInfo}";
             }
@@ -754,7 +780,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ? $" - {LocalizationHelper.FormatResourceVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
                 : string.Empty;
             rvm.WindowUpdateInfo = updateTip.Trim();
-            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {coreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {uiVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
         /// <summary>

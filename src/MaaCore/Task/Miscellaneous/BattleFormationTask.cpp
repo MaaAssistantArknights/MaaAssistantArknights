@@ -488,10 +488,17 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                 info["details"]["oper_name"] = name;
                 info["details"]["requirement_type"] = "module";
                 callback(AsstMsg::SubTaskExtraInfo, info);
-                ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
-                sleep(delay);
-                // 继续检查同组其他干员
-                continue;
+                if (m_ignore_requirements) {
+                    // 模组不满足时选择默认模组
+                    LogInfo << __FUNCTION__ << "| Module " << std::to_string(module)
+                            << " not satisfied, skip module selection";
+                }
+                else {
+                    ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
+                    sleep(delay);
+                    // 继续检查同组其他干员
+                    continue;
+                }
             }
             sleep(delay);
         }

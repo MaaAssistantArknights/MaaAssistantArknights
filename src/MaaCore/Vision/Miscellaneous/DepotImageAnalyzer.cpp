@@ -9,6 +9,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
+#include <algorithm>
 #include <numbers>
 
 bool asst::DepotImageAnalyzer::analyze()
@@ -18,6 +19,9 @@ bool asst::DepotImageAnalyzer::analyze()
     m_all_items_roi.clear();
     m_result.clear();
 
+    if (m_cached_templs.empty()) {
+        prepare_cached_templates();
+    }
     // 因为模板素材的尺寸与实际截图中素材尺寸不符，所以这里先对原图进行一下缩放
     resize();
     bool ret = analyze_base_rect();
@@ -32,6 +36,56 @@ bool asst::DepotImageAnalyzer::analyze()
     save_img(utils::path("debug") / utils::path("depot"));
 #endif
     return ret;
+}
+
+void asst::DepotImageAnalyzer::prepare_cached_templates()
+{
+    LogTraceFunction;
+
+    for (const auto& item_id : ItemData.get_ordered_material_item_id()) {
+        cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
+        m_template_mean_colors[item_id] = cv::mean(templ(get_center_rect(templ)));
+        // 抹去右下角 80x50 区域（防止影响匹配）
+        templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+        m_cached_templs[item_id] = std::move(templ);
+    }
+}
+
+// 计算 BGR 均值差
+double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scalar& b)
+{
+    const double d0 = a[0] - b[0];
+    const double d1 = a[1] - b[1];
+    const double d2 = a[2] - b[2];
+    return d0 * d0 + d1 * d1 + d2 * d2;
+}
+
+cv::Rect asst::DepotImageAnalyzer::get_center_rect(const cv::Mat& img, int box_size)
+{
+    int width = std::min(box_size, img.cols);
+    int height = std::min(box_size, img.rows);
+    int x = std::max(0, (img.cols - width) / 2);
+    int y = std::max(0, (img.rows - height) / 2);
+    return { x, y, width, height };
+}
+
+// 用平均颜色筛选候选模板
+std::vector<std::string> asst::DepotImageAnalyzer::filter_candidates_by_color(
+    const cv::Mat& roi,
+    const std::unordered_map<std::string, cv::Scalar>& template_mean_colors,
+    double max_diff) // 色差阈值，可调
+{
+    std::vector<std::string> result;
+
+    auto mat = roi(get_center_rect(roi));
+    cv::Scalar roi_mean = cv::mean(mat);
+    for (const auto& [id, templ_mean] : template_mean_colors) {
+        if (color_diff(roi_mean, templ_mean) <= max_diff) {
+            result.push_back(id);
+        }
+    }
+
+    return result;
 }
 
 void asst::DepotImageAnalyzer::set_match_begin_pos(size_t pos) noexcept
@@ -188,46 +242,68 @@ size_t asst::DepotImageAnalyzer::match_item(
 {
     LogTraceFunction;
 
-    const auto& all_items = ItemData.get_ordered_material_item_id();
-
-    Matcher analyzer(m_image_resized);
-    analyzer.set_task_info("DepotMatchData");
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
     if (with_enlarge) {
         enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
     }
+
+    // 用颜色过滤得到候选模板 ID，传入缓存的模板均值和阈值
+    const auto candidates =
+        filter_candidates_by_color(m_image_resized(make_rect<cv::Rect>(roi)), m_template_mean_colors);
+    Log.info("Candidate templates count:", candidates.size());
+
+    Matcher analyzer(m_image_resized);
+    analyzer.set_task_info("DepotMatchData");
     analyzer.set_roi(enlarged_roi);
 
     MatchRect matched;
     std::string matched_item_id;
     size_t matched_index = NPos;
-    for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
-        const std::string& item_id = all_items.at(index);
-        // analyzer.set_templ(item_id);
-        // TODO: too slow? find a way to set mask directly
-        cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
-        templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
-        analyzer.set_templ(templ);
+
+    const auto& all_items = ItemData.get_ordered_material_item_id();
+
+    // 按候选模板ID顺序过滤，且保证 index >= begin_index
+    size_t extra_count = 0;
+    for (const auto& item_id : candidates) {
+        // 找到该 item_id 在 all_items 中的位置（保证顺序和 begin_index）
+        auto it = std::find(
+            all_items.begin() + static_cast<std::vector<std::string>::difference_type>(begin_index),
+            all_items.end(),
+            item_id);
+        if (it == all_items.end()) {
+            continue; // 不满足 begin_index 之后的条件，跳过
+        }
+        size_t index = std::distance(all_items.begin(), it);
+
+        auto templ_it = m_cached_templs.find(item_id);
+        if (templ_it == m_cached_templs.end()) {
+            continue;
+        }
+
+        analyzer.set_templ(templ_it->second);
         if (!analyzer.analyze()) {
             continue;
         }
-        if (double score = analyzer.get_result().score; score >= matched.score) {
+
+        if (const double score = analyzer.get_result().score; score >= matched.score) {
             matched = analyzer.get_result();
             matched_item_id = item_id;
             matched_index = index;
         }
+
         // 匹配到了任一结果后，再往后匹配几个。
         // 因为有些相邻的材料长得很像（同一种类的）
-        constexpr size_t MaxExtraMatch = 8;
-        if (matched_index != NPos && ++extra_count >= MaxExtraMatch) {
+        if (matched_index != NPos && ++extra_count >= 8) { // MaxExtraMatch = 8
             break;
         }
     }
+
     Log.info("Item id:", matched_item_id);
     if (matched_item_id.empty()) {
         return NPos;
     }
+
     item_info.item_id = matched_item_id;
     item_info.rect = matched.rect;
     return matched_index;
@@ -262,9 +338,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     mask_rect.width -= 1;
     mask_rect.height -= 1;
 
-    if (mask_rect.height < 18) {
-        mask_rect.height = 18;
-    }
+    mask_rect.height = std::max(mask_rect.height, 18);
     const auto mid_x = mask.cols / 2; // center of image
     if (mask_rect.br().x - mid_x < 30) {
         mask_rect.width = mid_x + 30 - mask_rect.x;
@@ -313,6 +387,11 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
              digit_str.size() > 1 && w2_pos != std::string::npos && digit_str[digit_str.size() - 1] == '5') {
         multiple = 10000;
         digit_str.erase(digit_str.size() - 1, digit_str.size());
+    }
+    // 没小数点的时候万会识别成 F（怎么还会和上面不一样的
+    else if (digit_str.ends_with('F')) {
+        multiple = 10000;
+        digit_str.erase(digit_str.size() - 1);
     }
     else if (size_t k_pos = digit_str.find('K'); k_pos != std::string::npos) {
         multiple = 1000;

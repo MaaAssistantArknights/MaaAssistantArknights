@@ -34,11 +34,11 @@ jobs:
             state_reason: 'not_planned'
           });
           
-          await github.rest.issues.lock({
+          await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
-            lock_reason: 'spam'
+            labels: ['low-quality-report']
           });
 
     - name: Fold checkboxes

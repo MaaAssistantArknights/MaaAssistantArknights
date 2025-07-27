@@ -20,6 +20,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -99,15 +101,120 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _recruitInfo, value);
         }
 
-        private string _recruitResult = string.Empty;
+        private ObservableCollection<Inline> _recruitResultInlines = [];
 
-        /// <summary>
-        /// Gets or sets the recruit result.
-        /// </summary>
-        public string RecruitResult
+        public ObservableCollection<Inline> RecruitResultInlines
         {
-            get => _recruitResult;
-            set => SetAndNotify(ref _recruitResult, value);
+            get => _recruitResultInlines;
+            set => SetAndNotify(ref _recruitResultInlines, value);
+        }
+
+        public void UpdateRecruitResult(JArray? resultArray)
+        {
+            ObservableCollection<Inline> recruitResultInlines = [];
+
+            foreach (var combs in resultArray ?? [])
+            {
+                int tagLevel = (int)(combs["level"] ?? -1);
+                var tagStr = $"{tagLevel}★ Tags:    ";
+                tagStr = ((JArray?)combs["tags"] ?? []).Aggregate(tagStr, (current, tag) => current + $"{tag}    ");
+                var tagRun = new Run(tagStr);
+                tagRun.SetResourceReference(TextElement.ForegroundProperty, UiLogColor.Text);
+                tagRun.Tag = UiLogColor.Text;
+
+                recruitResultInlines.Add(tagRun);
+
+                recruitResultInlines.Add(new LineBreak());
+
+                var opersArray = (JArray?)combs["opers"] ?? [];
+
+                var opersWithPotential = opersArray.Select(oper =>
+                {
+                    int operLevel = (int)(oper["level"] ?? -1);
+                    var operId = oper["id"]?.ToString();
+
+                    int pot = -1;
+                    if (RecruitmentShowPotential && OperBoxPotential != null && operId != null && (tagLevel >= 4 || operLevel == 1))
+                    {
+                        if (OperBoxPotential.TryGetValue(operId, out var potentialValue))
+                        {
+                            pot = potentialValue;
+                        }
+                    }
+
+                    return new { Oper = oper, Potential = pot, OperLevel = operLevel };
+                })
+                .OrderByDescending(x => x.OperLevel)
+                .ThenBy(x => x.Potential)
+                .ToList();
+
+                foreach (var x in opersWithPotential)
+                {
+                    var oper = x.Oper;
+                    int operLevel = x.OperLevel;
+                    var operId = oper["id"]?.ToString();
+                    var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
+
+                    bool isMaxPot = false;
+                    string potentialText = string.Empty;
+
+                    if (RecruitmentShowPotential && OperBoxPotential != null && operId != null && (tagLevel >= 4 || operLevel == 1))
+                    {
+                        if (OperBoxPotential.TryGetValue(operId, out var pot))
+                        {
+                            potentialText = $" ( {pot} )";
+                            if (pot == 6)
+                            {
+                                isMaxPot = true;
+                                potentialText = " ( MAX )";
+                            }
+                        }
+                        else
+                        {
+                            potentialText = " ( !!! NEW !!! )";
+                        }
+                    }
+
+                    var run = new Run($"{operName}{potentialText}    ");
+                    var brushKey = GetBrushKeyByStar(operLevel, isMaxPot);
+                    run.SetResourceReference(TextElement.ForegroundProperty, brushKey);
+                    run.Tag = brushKey;
+
+                    recruitResultInlines.Add(run);
+                }
+
+                recruitResultInlines.Add(new LineBreak());
+                recruitResultInlines.Add(new LineBreak());
+            }
+
+            RecruitResultInlines = recruitResultInlines;
+            return;
+
+            SolidColorBrush GetBrushWithOpacity(Color baseColor, double opacity)
+            {
+                byte alpha = (byte)(opacity * 255);
+                return new(Color.FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B));
+            }
+
+            string GetBrushKeyByStar(int level, bool isMax)
+            {
+                return (level, isMax) switch
+                {
+                    (6, true) => UiLogColor.Star6OperatorPotentialFull,
+                    (6, false) => UiLogColor.Star6Operator,
+                    (5, true) => UiLogColor.Star5OperatorPotentialFull,
+                    (5, false) => UiLogColor.Star5Operator,
+                    (4, true) => UiLogColor.Star4OperatorPotentialFull,
+                    (4, false) => UiLogColor.Star4Operator,
+                    (3, true) => UiLogColor.Star3OperatorPotentialFull,
+                    (3, false) => UiLogColor.Star3Operator,
+                    (2, true) => UiLogColor.Star2OperatorPotentialFull,
+                    (2, false) => UiLogColor.Star2Operator,
+                    (1, true) => UiLogColor.Star1OperatorPotentialFull,
+                    (1, false) => UiLogColor.Star1Operator,
+                    _ => UiLogColor.Text,
+                };
+            }
         }
 
         private bool _chooseLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
@@ -205,7 +312,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             RecruitInfo = LocalizationHelper.GetString("Identifying");
-            RecruitResult = string.Empty;
 
             var levelList = new List<int>();
 
@@ -277,44 +383,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case "RecruitResult":
                     {
-                        string resultContent = string.Empty;
                         JArray? resultArray = (JArray?)subTaskDetails?["result"];
-                        /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in resultArray ?? [])
-                        {
-                            int tagLevel = (int)(combs["level"] ?? -1);
-                            resultContent += tagLevel + "★ Tags:    ";
-                            resultContent = (((JArray?)combs["tags"]) ?? []).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
-
-                            resultContent += "\n\t";
-                            foreach (var oper in (JArray?)combs["opers"] ?? [])
-                            {
-                                int operLevel = (int)(oper["level"] ?? -1);
-                                var operId = oper["id"]?.ToString();
-                                var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
-
-                                string potential = string.Empty;
-
-                                if (RecruitmentShowPotential && OperBoxPotential != null && operId != null
-                                    && (tagLevel >= 4 || operLevel == 1))
-                                {
-                                    if (OperBoxPotential.ContainsKey(operId))
-                                    {
-                                        potential = " ( " + OperBoxPotential[operId] + " )";
-                                    }
-                                    else
-                                    {
-                                        potential = " ( !!! NEW !!! )";
-                                    }
-                                }
-
-                                resultContent += operLevel + "★ " + operName + potential + "    ";
-                            }
-
-                            resultContent += "\n\n";
-                        }
-
-                        RecruitResult = resultContent;
+                        UpdateRecruitResult(resultArray);
                     }
 
                     break;

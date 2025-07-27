@@ -62,44 +62,68 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     return true;
 }
 
+int asst::RoguelikeDifficultySelectionTaskPlugin::detect_current_difficulty() const
+{
+    LogTraceFunction;
+
+    const cv::Mat image = ctrler()->get_image();
+    OCRer analyzer(image);
+    analyzer.set_task_info("Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty");
+    if (analyzer.analyze()) {
+        const std::string text = analyzer.get_result().front().text;
+        Log.info("Detected difficulty text:", text);
+        int difficulty;
+        if (!utils::chars_to_number(text, difficulty)) {
+            Log.error("Failed to convert difficulty text to number. Text =", text);
+            return 0;
+        }
+        return difficulty;
+    }
+    else {
+        Log.error("OCR failed. Cannot detect difficulty.");
+        return 0;
+    }
+}
+
 bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int difficulty)
 {
     LogTraceFunction;
 
     if (difficulty == INT_MAX) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyEnter" }).run();
+        ProcessTask(*this, { "SwipeToTheDown" }).run();
+        ProcessTask(*this, { "SwipeToTheDown" }).run();
+        m_current_difficulty = detect_current_difficulty();
     }
     else if (difficulty == 0) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Easiest" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyEnter" }).run();
+        ProcessTask(*this, { "SwipeToTheUp" }).run();
+        ProcessTask(*this, { "SwipeToTheUp" }).run();
+        m_current_difficulty = detect_current_difficulty();
     }
     else {
-        // 从最高难度依次点下来
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
-        std::vector<std::string> difficulty_list;
-        for (int i = 20; i >= difficulty; --i) { // 难度识别内容为 20 ~ difficulty
-            difficulty_list.push_back(std::to_string(i));
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyEnter" }).run();
+        m_current_difficulty = detect_current_difficulty();
+        Log.info("Target difficulty:", difficulty);
+        Log.info("Current difficulty:", m_current_difficulty);
+        if (m_current_difficulty != difficulty) {
+            if (m_current_difficulty < difficulty) {
+                ProcessTask(*this, { "SwipeToTheDown" }).run();
+                ProcessTask(*this, { "SwipeToTheDown" }).run();
+            }
+            std::vector<std::string> difficulty_list;
+            for (int i = 20; i >= difficulty; --i) { // 难度识别内容为 20 ~ difficulty
+                difficulty_list.push_back(std::to_string(i));
+            }
+            Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified")->text =
+                difficulty_list;
+            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified", "Stop" }).run();
+            m_current_difficulty = detect_current_difficulty();
         }
-        Task.get<OcrTaskInfo>(m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified")->text = difficulty_list;
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Specified", "Stop" }).run();
     }
 
-    // 识别当前难度
-    const cv::Mat image = ctrler()->get_image();
-    OCRer current_difficulty_analyzer(image);
-    current_difficulty_analyzer.set_task_info("Roguelike@ChooseDifficulty_AnalyzeCurrentDifficulty");
-    if (current_difficulty_analyzer.analyze()) {
-        const std::string current_difficulty_text = current_difficulty_analyzer.get_result().front().text;
-        Log.info(__FUNCTION__, "| Current difficulty text is", current_difficulty_text);
-        if (!utils::chars_to_number(current_difficulty_text, m_current_difficulty)) {
-            Log.error("Fail to convert current difficulty text to int, reset current difficulty to 0");
-            m_current_difficulty = 0;
-        }
-    }
-    else {
-        Log.error(__FUNCTION__, "| Fail to detect current difficulty, reset current difficulty to 0");
-        m_current_difficulty = 0;
-    }
-    Log.info(__FUNCTION__, "| Current difficulty is", m_current_difficulty);
+    Log.info("Target difficulty:", difficulty);
+    Log.info("Current difficulty:", m_current_difficulty);
 
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyConfirm" }).run();
 

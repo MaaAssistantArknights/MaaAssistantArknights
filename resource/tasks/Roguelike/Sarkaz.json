@@ -1,4 +1,22 @@
 {
+    "Sarkaz@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm",
+            "Sarkaz@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Sarkaz@StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
+        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png"
+    },
+    "Sarkaz@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "Sarkaz@Roguelike@EnterAfterRecruit.png",
+        "next": ["#self", "Sarkaz@Roguelike@NextLevel"]
+    },
+    "Sarkaz@StartExplore@Roguelike@RecruitOther": {
+        "template": "Sarkaz@Roguelike@Recruit.png"
+    },
+    "Sarkaz@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Sarkaz@Roguelike@Abandon": {
         "crop_doc": {
             "roi": [1067, 255, 159, 154],
@@ -60,21 +78,12 @@
     "Sarkaz@Roguelike@ChooseDifficulty": {
         "roi": [1086, 309, 194, 140]
     },
-    "Sarkaz@Roguelike@ChooseDifficulty_Easiest": {
+    "Sarkaz@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
         "template": "Sarkaz@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "Sarkaz@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1119, 479, 80, 22],
-        "postDelay": 800,
-        "template": "Sarkaz@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [958, 530, 322, 189]
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
@@ -92,7 +101,6 @@
         "next": [
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
             "Sarkaz@Roguelike@RecruitOther",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
@@ -530,7 +538,7 @@
             "| specialParams[4]: 节点 Rect.height",
             "| specialParams[5]: 两列节点之间的距离",
             "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "| specialParams[7]: roi 时的 margin offset",
+            "| specialParams[7]: roi 的 margin offset",
             "| specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
@@ -1305,7 +1313,5 @@
         "roi": [912, 648, 58, 58],
         "action": "ClickSelf"
     },
-    "Sarkaz@RoguelikeSettlementConfirm": {
-        "template": "Sarkaz@Roguelike@Confirm.png"
-    }
+    "Sarkaz@RoguelikeSettlementConfirm": {}
 }

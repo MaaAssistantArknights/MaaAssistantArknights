@@ -32,6 +32,20 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         event.option_num = event_json.get("option_num", 0);
         event.default_choose = event_json.get("choose", 0);
         event.next_event = event_json.get("next_event", "");
+        if (auto fallback_array_opt = event_json.find("fallback_choices");
+            fallback_array_opt && fallback_array_opt->is_array()) {
+            for (const auto& pair_json : fallback_array_opt->as_array()) {
+                if (!pair_json.is_array()) {
+                    continue;
+                }
+                auto pair_arr = pair_json.as_array();
+                if (pair_arr.size() < 2) {
+                    continue;
+                }
+                event.fallback_choices.emplace_back(pair_arr[0].as_integer(), pair_arr[1].as_integer());
+            }
+        }
+
         if (auto choice_require_opt = event_json.find("choices");
             choice_require_opt && choice_require_opt->is_array()) {
             for (const auto& choice_json : choice_require_opt->as_array()) {

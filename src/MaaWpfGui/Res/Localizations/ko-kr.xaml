@@ -76,7 +76,7 @@
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
-    <system:String x:Key="GpuDeprecatedMessage">추론 가속을 위해 현재 선택된 GPU({0})의 사용이 권장되지 않습니다\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU를 선택하거나 이 메시지를 비활성화할 수 있습니다</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">현재 선택된 추론 가속 GPU({0})는 호환성 문제가 있어, 인식 오류, 위치 이상 또는 기타 예기치 않은 문제가 발생할 수 있습니다.\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  설정 가이드  -->
@@ -111,8 +111,8 @@
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">업무중인 오퍼레이터 숙소 배치 제한</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 오퍼레이터를 훈련실에서 제거하지 않고, 가공소의 오퍼레이터가 숙소에 배치되는 것을 방지합니다.</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">업무중인 {key=Operator} 숙소 배치 제한</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
     <system:String x:Key="ContinueTraining">스킬 훈련 완료 시 이어서 훈련 시도</system:String>
@@ -123,7 +123,7 @@
     <system:String x:Key="InfrastMode">인프라 모드</system:String>
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 쉬프트</system:String>
-    <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 오퍼레이터 대열을 수동으로 설정해 주세요</system:String>
+    <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 {key=Operator} 대열을 수동으로 설정해 주세요</system:String>
     <system:String x:Key="InfrastModeCustom">커스텀 기반시설</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
@@ -149,20 +149,20 @@
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (예외 출력 차단)</system:String>
-    <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
-    <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 오퍼레이터 교체를 사용하는 회의실에만 유효합니다</system:String>
+    <system:String x:Key="DormThreshold">{key=Operator} 컨디션 한계점</system:String>
+    <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 {key=Operator} 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">각뿔 수집, 투자 완료 시 자동 종료</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">2정 오퍼레이터 또는 전기주전자 획득까지 반복</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">2정 {key=Operator} 또는 전기주전자 획득까지 반복</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">희귀 붕괴 패러다임 파밍, 일반 붕괴 패러다임 획득 시 재시작</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
-    <system:String x:Key="StartingCoreChar">시작 오퍼레이터</system:String>
+    <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 오퍼레이터는 battle_data에 없습니다</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">해당 {key=Operator}는 battle_data에 없습니다</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">｢{key=StartingCoreChar}｣ 2정까지 반복, 전투 X</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">1층 암호판 획득 반복, 전투 X</system:String>
@@ -284,13 +284,22 @@
     <system:String x:Key="ResourceRepository">리소스 저장소</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
-🌏 글로벌 소스 사용:
-    ● 소프트웨어 버전: MAA Team이 제공하는 API를 통해 업데이트를 확인하며, GitHub 또는 MAA Team이 제공하는 중국 미러에서 자동으로 업데이트 패키지를 받아옵니다.
-    ● 리소스 버전: MirrorChyan이 무료로 업데이트 감지를 제공하며, 설정의 ｢{key=ResourceUpdate}｣ 를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다.
+🌏 {key=GlobalSource} 사용：
+    ● {key=UpdateCheckNow}：MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국 내에서는 직접 연결 가능한 미러도 제공되며, 피크 시간에는 대역폭이 제한될 수 있습니다
+    ● {key=ResourceUpdate}：{key=MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
 
-🔑 MirrorChyan 사용:
-    ● 소프트웨어와 리소스는 MirrorChyan을 통해 고속 다운로드가 우선적으로 지원됩니다.
-    ● 리소스 버전에 대한 자동 업데이트도 추가로 제공됩니다.
+🔑 {key=MirrorChyan} 사용：
+    ● CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
+    ● {key=MirrorChyan}의 고속 CDN을 통해 우선 다운로드되어 더욱 안정적이고 빠릅니다
+
+📦 수동 업데이트：
+    ● {key=UpdateCheckNow}：전체 패키지를 다운로드하여 새 폴더에 압축 해제하십시오. 기존 폴더의 config 및 data 폴더를 복사하여 데이터를 유지할 수 있습니다. 이전 버전에 덮어쓰지 마십시오—리소스 손상 위험이 있습니다
+    ● {key=ResourceUpdate}：리소스 패키지를 다운로드한 후 resource 폴더에 덮어쓰십시오. 증분 업데이트이므로 원래 폴더를 삭제하지 마십시오
+
+📄 업데이트 설명：
+    ● {key=UpdateCheckNow}：UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
+    ● {key=ResourceUpdate}：자동 전투용 신규 스테이지, 드롭 아이콘, 공개 채용 태그 등의 리소스 데이터가 포함됩니다
+    ● 내비 핫픽스：자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
@@ -343,12 +352,18 @@
     <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt;가 성공적으로 추가되었습니다</system:String>
     <system:String x:Key="ConfigExists">구성 &lt; {0}&gt;가 이미 있습니다</system:String>
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
+    <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
+이 기능은 시스템 시작 시 자동 실행을 위해 레지스트리를 수정합니다.
+MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목을 자동으로 정리하지 않습니다.
+레지스트리 잔여 항목이 걱정된다면 프로그램 삭제 전에 이 옵션을 비활성화하세요.
+</system:String>
     <system:String x:Key="LaunchOnSystemStartupAdminPrompt">
         관리자 권한으로 실행 시 부팅 시 자동 실행이 지원되지 않습니다. MAA를 관리자 권한으로 장시간 실행하는 것은 권장하지 않습니다.\n필요할 경우 제어판 &gt; Windows 도구 &gt; 작업 스케줄러에서 사용자 지정 작업을 생성하세요. 트리거를 설정할 때 "가장 높은 권한으로 실행"을 반드시 선택하세요.
     </system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
+    <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트를 실행</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
@@ -437,6 +452,13 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="MinimizeToTray">최소화 시 트레이에 숨기기</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
+    <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
+MAA는 설치하지 않는 포터블 프로그램입니다. 알림 기능은 Microsoft.Toolkit.Uwp.Notifications 라이브러리를 사용하며, 이 라이브러리는 기본적으로 실행 파일 경로를 등록 식별자로 사용합니다.
+여러 위치에서 MAA를 실행하면 Windows는 각 경로마다 별도의 알림 아이콘(예: 작업 표시줄 알림)을 생성합니다. 이는 라이브러리의 기본 동작이며 MAA가 제어하거나 자동으로 정리할 수 없습니다.
+정리하려면 레지스트리 편집기를 열고 다음 경로로 이동하세요:
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
+해당 경로에 해당하는 항목을 삭제하세요.
+</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
     <system:String x:Key="WindowTitleScrollable">윈도우 제목 스크롤</system:String>
     <system:String x:Key="MainTasksNullFunctionality">메인 작업 오른쪽 클릭 효과 반전</system:String>
@@ -551,7 +573,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationIncrementModeHold">길게 누르기</system:String>
     <system:String x:Key="ReclamationMaxCraftCountPerRound">한 번의 최대 제작 횟수</system:String>
     <system:String x:Key="ReclamationClearStore">Clear Store after finished</system:String>
-    <system:String x:Key="OperNameLanguage">오퍼레이터 이름 표시 언어</system:String>
+    <system:String x:Key="OperNameLanguage">{key=Operator} 이름 표시 언어</system:String>
     <system:String x:Key="OperNameLanguageMAA">MAA 언어 따라가기</system:String>
     <system:String x:Key="OperNameLanguageClient">게임 클라이언트 따라가기</system:String>
     <system:String x:Key="OperNameLanguageForce">지정된 언어를 강제로 사용</system:String>
@@ -625,7 +647,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-C-2">PR-C-2 (뱅가드/서포터)</system:String>
     <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
-    <system:String x:Key="Annihilation">섬멸 작전</system:String>
+    <system:String x:Key="AnnihilationStage">섬멸 작전</system:String>
+    <system:String x:Key="UseCustomAnnihilation">사용자 지정 {key=AnnihilationStage}</system:String>
+    <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
+    <system:String x:Key="Annihilation">이번 섬멸 작전</system:String>
+    <system:String x:Key="Chernobog">체르노보그</system:String>
+    <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
+    <system:String x:Key="LungmenDowntown">용문 시내</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">오늘 오픈된 스테이지: </system:String>
     <system:String x:Key="CETip">CE (용문폐)</system:String>
     <system:String x:Key="APTip">AP (구매증명서)</system:String>
@@ -640,7 +668,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
-    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오. 전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요. 기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하십시오.</system:String>
+    <system:String x:Key="VersionMismatch">UI와 Core 버전이 일치하지 않습니다: {0} 및 {1}, 예측할 수 없는 동작을 유발할 수 있습니다. 파일을 수동으로 교체하거나 업데이트 중에 파일을 점유하지 마십시오.\n\n{key=FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="FullPackageUpgradeTips">전체 패키지를 다운로드하여 기존 폴더를 덮어쓰지 말고 새 폴더에 압축을 푸세요.\n기존 설정을 유지하려면 기존 config 및 data 폴더를 새 폴더로 복사하십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -667,8 +696,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentRecognition">공개모집 태그 인식</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">시작 화면의 공개모집 기능과는 별도로 독립된 기능입니다\n게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
-    <system:String x:Key="RecruitmentShowPotential">잠재능력 확인 (★4 이상)</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
+    <system:String x:Key="RecruitmentShowPotential">잠재능력 확인(4/5/6★ Tags)</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">{key=Operator} 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
@@ -685,9 +714,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
     <!--  !창고 인식  -->
     <!--  오퍼레이터 인식  -->
-    <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
+    <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ 오퍼레이터를 등록 해제하세요.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ {key=Operator}를 등록 해제하세요.</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
@@ -750,6 +779,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="IdentificationCompleted">인식 완료</system:String>
     <!--  !로그  -->
     <!--  Copilot  -->
+    <system:String x:Key="Operator">오퍼레이터</system:String>
     <system:String x:Key="Copilot">자동지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="CopilotTaskName">스테이지 코드</system:String>
@@ -762,10 +792,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 오퍼레이터를 인식할 수 없습니다</system:String>
-    <system:String x:Key="AddTrust">신뢰도가 낮은 오퍼레이터 추가</system:String>
-    <system:String x:Key="AddUserAdditional">커스텀 오퍼레이터 추가</system:String>
-    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 오퍼레이터를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 모듈 요구 사항 무시</system:String>
+    <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
+    <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원:
   1. 메인 스토리: 동일 챕터 내 네비게이션
@@ -782,9 +813,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotSkill">스킬</system:String>
     <system:String x:Key="CopilotModule">모듈</system:String>
     <system:String x:Key="CopilotWithoutModule">모듈 없이 시작</system:String>
-    <system:String x:Key="TotalOperatorsCount">총 {0}명의 오퍼레이터</system:String>
+    <system:String x:Key="TotalOperatorsCount">총 {0}명의 {key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
-    <system:String x:Key="OtherOperators">기타 오퍼레이터:</system:String>
+    <system:String x:Key="OtherOperators">기타 {key=Operator}:</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
     <!--  Logs  -->
@@ -795,7 +826,7 @@ C:\\leidian\\LDPlayer9
         3. 보안파견의 Copilot 파일의 경우 MAA 내의 ｢resource/copilot｣ 폴더에 있습니다 \n
         수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢{key=LoopTimes} 와 함께 사용 가능)\n\n
         4. 지원 유닛을 사용할 때에는 반드시 ｢{key=AutoSquad}｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
-        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 오퍼레이터 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 오퍼레이터를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
+        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 {key=Operator} 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 {key=Operator}를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
         6. Copilot 작업 스테이션에서 입력란 오른쪽의 붙여넣기 버튼을 클릭하여 신비한 코드를 붙여넣을 수 있습니다. 왼쪽 클릭으로 단일 작업을 붙여넣고, 오른쪽 클릭으로 작업 세트 전체를 붙여넣습니다.\n\n
         7. 전투 목록:\n
         작업을 선택한 후 목록 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
@@ -831,7 +862,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요</system:String>
+    <system:String x:Key="ResourceBroken">리소스 파일이 손상되었습니다. 전체 패키지를 다시 다운로드하세요.\n\n{key=FullPackageUpgradeTips}</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">폴더 삭제에 실패했습니다. 폴더가 바뀌었거나 다른 문제가 발생했을 수 있습니다. 자세한 내용은 로그를 확인하세요.</system:String>
@@ -842,7 +873,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB를 사용하여 연결되었습니다. 다시 시도하려면 에뮬레이터를 ADB에서 연결 해제하고 닫거나, 컴퓨터를 재시작하고 에뮬레이터를 시작하지 않은 상태에서 관리자 권한으로 MAA를 열어주세요.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 1280 x 720 이상으로 설정해주세요</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 해상도를 1280x720 이상으로 설정해주세요. 1280x720 또는 1920x1080을 권장합니다</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하세요</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
@@ -850,8 +881,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. ｢{key=Settings} - {key=ConnectionSettings}｣에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능에서 비정상적인 동작이 발생할 수 있습니다.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) Copilot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느려서 (평균: {0}ms) Copilot 기능에서 일부 비정상적인 동작이 발생할 수 있습니다. MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡처 속도가 너무 느려서 (평균: {0}ms) Copliot 기능이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 재시작하거나 변경하는 것을 권장합니다! MuMu12 또는 LDPlayer를 사용하는 경우 스크린샷 향상 기능을 활성화해 보세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -870,7 +901,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다:</system:String>
+    <system:String x:Key="MissingOperators">다음 {key=Operator}들이 누락되었습니다:</system:String>
     <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
@@ -887,8 +918,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">요구 오퍼레이터 충돌</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
     <system:String x:Key="BegunToExplore" xml:space="preserve">탐험 시작됨</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">앞에 전투 횟수: {0}, 경로를 다시 설정합니다</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
@@ -927,14 +959,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="FurnitureDrop">가구</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
-    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">오퍼레이터 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 오퍼레이터: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">{key=Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 {key=Operator}: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>
     <system:String x:Key="ProductChanged">생산품이 변경됨</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
-    <system:String x:Key="RecruitmentOfStar">★{0} 오퍼레이터를 모집했습니다!</system:String>
+    <system:String x:Key="RecruitmentOfStar">★{0} {key=Operator}를 모집했습니다!</system:String>
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
@@ -946,12 +978,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택</system:String>
     <system:String x:Key="AutoRecruitHighPriority">선호 태그</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">가능한 한 많은 태그 기본 설정을 선택합니다</system:String>
-    <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
+    <system:String x:Key="NotEnoughStaff">{key=Operator} 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">편성 사용</system:String>
     <system:String x:Key="Current">현재</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
-    <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용할 수 없는 운영자: {0}, 제한: {1}</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
@@ -1126,6 +1158,8 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="AchievementBackupSuccess">백업 완료</system:String>
     <system:String x:Key="AchievementRestoreSuccess">도전과제 진행도 복원 완료</system:String>
     <system:String x:Key="AchievementRestoreFailed">복원 실패, 파일 형식이 유효하지 않음</system:String>
+    <system:String x:Key="AchievementPopupAutoClose">업적 알림이 잠시 후 자동으로 사라집니다</system:String>
+    <system:String x:Key="AchievementPopupDisabled">도전과제 달성 알림 자동 팝업 비활성화</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">뉴비</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Description">이제 감이 잡혔네요</system:String>
@@ -1265,7 +1299,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
 
     <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가능</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 오퍼레이터가 부족</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 {key=Operator}가 부족</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">Hight Ping 전사</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Description">"Disconnect"</system:String>

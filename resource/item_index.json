@@ -2023,6 +2023,14 @@
         "sortId": -10000,
         "usage": "用于对遏制单元进行数据迭代。"
     },
+    "act5collection_point_token": {
+        "classifyType": "NONE",
+        "description": "为了激励外勤人员，罗德岛发放了一定量的特殊兑换点数。凭借兑换点数可兑换急需的物资。",
+        "icon": "act5collection_point_token.png",
+        "name": "特殊兑换点数",
+        "sortId": -10000,
+        "usage": "用于兑换相应的阶段性活动奖励。"
+    },
     "act5d0_point_medal": {
         "classifyType": "NONE",
         "description": "毫无意义的奢华纯金打造，由龙门顶级雕金匠亲手铸造而成，全泰拉限量发行，明明是杯子却叫做勋章，象征着大帝的最高赞誉，每一口都价值千金。但不要用来煮热咖啡！",

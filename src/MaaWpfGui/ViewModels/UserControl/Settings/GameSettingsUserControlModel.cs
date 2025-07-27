@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -40,6 +41,18 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     private static readonly ILogger _logger = Log.ForContext<GameSettingsUserControlModel>();
 
     private static VersionUpdateSettingsUserControlModel VersionUpdateSettings => SettingsViewModel.VersionUpdateSettings;
+
+    private bool _startGame = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartGame, bool.TrueString));
+
+    public bool StartGame
+    {
+        get => _startGame;
+        set
+        {
+            SetAndNotify(ref _startGame, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.StartGame, value.ToString());
+        }
+    }
 
     /// <summary>
     /// Gets the list of the client types.
@@ -74,14 +87,41 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
         set
         {
-            SetAndNotify(ref _clientType, value);
+            var oldValue = _clientType;
+            if (!SetAndNotify(ref _clientType, value))
+            {
+                return;
+            }
+
             ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
             VersionUpdateSettings.ResourceInfoUpdate();
             Instances.TaskQueueViewModel.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
-            Instances.AsstProxy.LoadResource();
-            SettingsViewModel.AskRestartToApplySettings(_clientType is "YoStarEN");
+
+            if (!NeedRestartAfterClientTypeChange(oldValue, value))
+            {
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                Instances.AsstProxy.LoadResource();
+            });
+
+            SettingsViewModel.AskRestartToApplySettings(value is "YoStarEN");
         }
+    }
+
+    private static bool NeedRestartAfterClientTypeChange(string oldType, string newType)
+    {
+        if (string.IsNullOrEmpty(oldType) || oldType == newType)
+        {
+            return false;
+        }
+
+        // 官服 <-> B服 之间切换不需要重启
+        return (oldType != "Official" || newType != "Bilibili") &&
+               (oldType != "Bilibili" || newType != "Official");
     }
 
     private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));

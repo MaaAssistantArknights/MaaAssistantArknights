@@ -1,24 +1,30 @@
 {
+    "Mizuki@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirm",
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Mizuki@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Mizuki@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "Mizuki@Roguelike@EnterAfterRecruit.png",
+        "next": ["#self", "Mizuki@Roguelike@NextLevel"]
+    },
+    "Mizuki@StartExplore@Roguelike@RecruitOther": {
+        "template": "Mizuki@Roguelike@Recruit.png"
+    },
+    "Mizuki@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["生态谱系"]
     },
     "Mizuki@Roguelike@ChooseDifficulty": {},
-    "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
+    "Mizuki@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1144, 472, 78, 24],
         "postDelay": 800,
         "template": "Mizuki@Roguelike@StartExplore.png",
-        "roi": [1026, 470, 254, 248],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1144, 472, 78, 24],
-        "postDelay": 800,
-        "template": "Mizuki@Roguelike@StartExplore.png",
-        "roi": [1026, 470, 254, 248],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [1026, 470, 254, 248]
     },
     "Mizuki@Roguelike@ChooseOper": {
         "next": [

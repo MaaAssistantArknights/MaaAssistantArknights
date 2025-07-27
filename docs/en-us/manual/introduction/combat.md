@@ -48,7 +48,13 @@ icon: hugeicons:brain-02
   - LMD stages and Battle Record stages 5/6. The input must be `CE-6` or `LS-6` even if you have not unlocked it yet. In that case, the program will automatically switch to the corresponding stage 5.
   - Skill Summary, Shop Voucher, and Carbon Stages 5. The input also must be `CA-5`, `AP-5`, and `SK-5` respectively.
   - Chip stages. The input must be complete with stage number, such as `PR-A-1`.
-  - Annihilation. The input must be `Annihilation`.
+  - The Annihilation mode supports the following values:
+
+    - Current Annihilation: Annihilation
+    - Chernobog: Chernobog@Annihilation
+    - Lungmen Outskirts: LungmenOutskirts@Annihilation
+    - Lungmen Downtown: LungmenDowntown@Annihilation
+
   - Some side story stages, now contains `OF-1`, `OF-F3` and `GT-5`.
   - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. The prompt will be shown on the main page when this is available.
   - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
@@ -59,9 +65,8 @@ icon: hugeicons:brain-02
 
 ### Annihilation Mode
 
-- MAA will only navigate through the Annihilation button at the top right corner of the terminal homepage. Please ensure that the current Annihilation has unlocked `Full Delegation` and that you possess a sufficient number of "PRTS Proxy Annihilation Cards".
-- After the current Annihilation refreshes or after reinstalling Arknights, returning from the Annihilation `Start Battle` page will automatically LSand `Intelligence Summary`. Please close this page in advance to prevent the task from getting stuck.
-- It is only recommended for players who have already achieved "400 kills" in the current Annihilation to use MAA for automatic Annihilation.
+- MAA navigates via the Annihilation button at the top-right of the terminal homepage. Ensure the selected Annihilation stage has unlocked `Full Delegation` and that you have enough "PRTS Proxy Annihilation Cards".
+- It is only recommended to use automatic Annihilation for stages where you have already achieved 400 kills.
 
 ## Advanced Settings
 
@@ -74,7 +79,7 @@ This is a function similar to a schedule and cannot be used as a backup stage wh
    - If `CE-6/5` is available on the day, it will proceed to `CE-6/5` and not to `1-7` or `LS-6/5`. If the player has not unlocked the `CE-6/5` mission node, the sanity farming task will fail.
    - If `CE-6/5` is not available on the day, it will proceed to `1-7` and not to `CE-6/5`. If the player has not unlocked the 1-7 mission node, the sanity farming task will fail.
    - Since `1-7` is a permanent stage before `LS-6/5`, MAA will never proceed to `LS-6/5` in this scenario.
-2. If the stage selection is `Annihilation`, then:
+2. If the stage selection is `Annihilation Mode`, then:
    - The selection logic of the remaining backup stages will not be affected by the result of the Annihilation, even if the Annihilation fails, the sanity farming task will not fail.
    - The remaining backup stages will only inherit the settings of `Use Sanity Potion` and `Series`, and will not be controlled by `Use Originium`, `Perform Battles`, or `Material`.
 
