@@ -131,7 +131,7 @@
         {
             "configName": "Compatible",
             "baseConfig": "General",
-            "uuid": "[Adb] -s [AdbSerial] shell echo 111111"
+            "uuid": "[Adb] -s [AdbSerial] shell echo 11111111"
         },
         {
             "configName": "SecondResolution",
