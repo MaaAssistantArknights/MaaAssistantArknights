@@ -7,7 +7,8 @@
         ]
     },
     "Mizuki@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Mizuki@Roguelike@EnterAfterRecruit.png"
+        "template": "Mizuki@Roguelike@EnterAfterRecruit.png",
+        "next": ["#self", "Mizuki@Roguelike@NextLevel"]
     },
     "Mizuki@StartExplore@Roguelike@RecruitOther": {
         "template": "Mizuki@Roguelike@Recruit.png"
