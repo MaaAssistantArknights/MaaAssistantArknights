@@ -1,3 +1,5 @@
+## v5.21.1
+
 ### 肉鸽剿灭，双管齐下 | Highlight
 
 本次更新带来了界园肉鸽的全面强化与剿灭模式的深度适配，同时优化了部分场景下的性能表现
@@ -44,7 +46,7 @@ You can now select and run Custom Annihilation stages. Much more convenient for 
 
 ### 修复 | Fix
 
-* 不知道为啥有人会开开局，修修看（nnd 专家会诊了一个小时都没看出是哪儿得的病） @ABA2396
+* 不知道为啥有人会卡开局，修修看（nnd 专家会诊了一个小时都没看出是哪儿得的病） @ABA2396
 * 奇妙的模拟器卡启动（怎么有模拟器应用都已经在前台了还说在后台） @ABA2396
 
 ### 其他 | Other
