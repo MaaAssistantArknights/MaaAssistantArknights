@@ -1,4 +1,4 @@
-## v5.21.0
+## v5.21.1
 
 ### 肉鸽剿灭，双管齐下 | Highlight
 
@@ -28,15 +28,32 @@ We’ve enhanced squad logic for Difficulty 3 and above, now enabling efficient 
 
 Additionally, entering the second floor before exiting the run can significantly increase score. This logic has been available, but was previously disabled due to Garden Roguelike incompatibility — it now works again, allowing for both score gain and store investment.
 
-The usability of EXP farming mode has also been improved. With new strategies added for more stages, MAA should now reach further in EXP runs.
+The usability of Gain Experience Points mode has also been improved. With new strategies added for more stages, MAA should now reach further in EXP runs.
 
 #### Long-Term Annihilation Support
 
-You can now select and run permanent Annihilation stages. Much more convenient for new players!
+You can now select and run Custom Annihilation stages. Much more convenient for new players!
 
 ----
 
 以下是详细更新内容：
+
+## v5.21.1
+
+### 新增 | New
+
+* 支持 mumu emulator-xxxx 格式地址关闭模拟器（怎么 mumu 又来点炒饭） @ABA2396
+
+### 修复 | Fix
+
+* 不知道为啥有人会卡开局，修修看（nnd 专家会诊了一个小时都没看出是哪儿得的病） @ABA2396
+* 奇妙的模拟器卡启动（怎么有模拟器应用都已经在前台了还说在后台） @ABA2396
+
+### 其他 | Other
+
+* macos uuid（macos 三年前的史炸了） @ABA2396
+
+## v5.21.0
 
 ### 新增 | New
 
