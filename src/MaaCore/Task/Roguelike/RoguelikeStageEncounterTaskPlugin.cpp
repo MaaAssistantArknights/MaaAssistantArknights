@@ -4,10 +4,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
-
-#include <opencv2/imgproc.hpp>
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
