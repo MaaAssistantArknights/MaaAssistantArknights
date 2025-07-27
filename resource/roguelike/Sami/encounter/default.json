@@ -468,7 +468,7 @@
                     ]
                 },
                 {
-                    "name": "选择仓库深处的货品",
+                    "name": "选择推车里刚到的新货品",
                     "option_num": 4,
                     "choose": 4,
                     "requirements": [
@@ -488,6 +488,18 @@
                             "name": "Vision",
                             "type": ">",
                             "value": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择他手中的货品",
+                    "option_num": 3,
+                    "choose": 1,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": "<",
+                            "value": "2"
                         }
                     ]
                 }
