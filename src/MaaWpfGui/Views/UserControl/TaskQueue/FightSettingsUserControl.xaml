@@ -440,7 +440,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning,
                                                      Source={x:Static helper:Instances.TaskQueueViewModel}}"
                         ItemsSource="{Binding AnnihilationModeList}"
-                        SelectedValue="{Binding AnnihilationMode}"
+                        SelectedValue="{Binding AnnihilationStage}"
                         SelectedValuePath="Value"/>
                 </StackPanel>
             </Grid>
