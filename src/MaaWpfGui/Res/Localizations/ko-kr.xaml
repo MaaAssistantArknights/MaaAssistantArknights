@@ -689,7 +689,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
-    <system:String x:Key="AnnihilationWarning">제거 모드를 사용할 경우 대체 스테이지 설정해 주십시오.</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>

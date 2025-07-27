@@ -690,7 +690,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">ステージ選択が殲滅作戦になっています。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅作戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません。</system:String>
-    <system:String x:Key="AnnihilationWarning">殲滅作戦を使用する場合は、代替ステージを設定してください。</system:String>
     <!--  !Logs  -->
     <!--  !動作不明  -->
     <system:String x:Key="Toolbox">ツールボックス</system:String>
