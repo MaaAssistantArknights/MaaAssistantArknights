@@ -1650,6 +1650,7 @@ namespace MaaWpfGui.ViewModels.UI
                         continue;
                     }
 
+                    AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
                     var task = mainParam.ToObject<AsstFightTask>();
                     if (task != null)
                     {
