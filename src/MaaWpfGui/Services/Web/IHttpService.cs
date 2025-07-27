@@ -29,8 +29,9 @@ namespace MaaWpfGui.Services.Web
         /// </summary>
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
+        /// <param name="uriPartial">Which parts of uri to log</param>
         /// <returns>Legacy in ms, -1 when response code not equal 200</returns>
-        Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null);
+        Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query);
 
         /// <summary>
         /// Send HTTP GET request and get a string response

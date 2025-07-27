@@ -28,7 +28,13 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@ChooseOper") {
+    if (task_view.ends_with("Roguelike@StartExplore")) {
+        m_initail_recruit = true;
+    }
+    if (task_view.ends_with("Roguelike@EnterAfterRecruit")) {
+        m_initail_recruit = false;
+    }
+    if (task_view.ends_with("Roguelike@ChooseOper")) {
         return true;
     }
     else {
@@ -76,6 +82,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::Investment &&
+        m_config->get_squad() == "指挥分队" && m_config->get_difficulty() >= 3) {
+        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
     if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
         m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
@@ -83,17 +95,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         return true;
     }
 
-    // 是否使用助战干员开局
-    if (m_config->get_use_support()) {
-        if (recruit_support_char()) {
-            m_starts_complete = true;
-            return true;
+    if (m_initail_recruit && m_recruit_count == 1) {
+        if (m_config->get_use_support()) { // 是否使用助战干员开局
+            if (recruit_support_char()) {
+                m_starts_complete = true;
+                return true;
+            }
         }
-    }
-    else {
-        if (recruit_own_char()) {
-            m_starts_complete = true;
-            return true;
+        else {
+            if (recruit_own_char()) {
+                m_starts_complete = true;
+                return true;
+            }
         }
     }
 
@@ -575,8 +588,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char()
     LogTraceFunction;
     const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
 
-    auto core_opt = m_config->get_core_char();
-    m_config->set_core_char("");
+    const auto& core_opt = m_config->get_core_char();
     if (!core_opt.empty()) {
         if (recruit_support_char(core_opt, MaxRefreshTimes)) {
             return true;
@@ -675,11 +687,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_config->get_core_char();
+    const auto& core_opt = m_config->get_core_char();
     if (core_opt.empty()) {
         return false;
     }
-    m_config->set_core_char("");
     return recruit_appointed_char(core_opt);
 }
 

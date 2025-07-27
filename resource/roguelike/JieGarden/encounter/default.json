@@ -19,7 +19,8 @@
         {
             "name": "护鸭金刚",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "来者不拒",
@@ -79,7 +80,7 @@
             "choose": 1
         },
         {
-            "name": "鼓上佩落",
+            "name": "鼓上佩洛",
             "option_num": 3,
             "choose": 3
         },
@@ -105,8 +106,8 @@
         },
         {
             "name": "烛堂",
-            "option_num": 3,
-            "choose": 3
+            "option_num": 4,
+            "choose": 4
         },
         {
             "name": "天险",
@@ -200,7 +201,19 @@
         {
             "name": "地镇",
             "option_num": 2,
-            "choose": 2
+            "choose": 1,
+            "fallback_choices": [[3, 1]],
+            "next_event": "地镇-2"
+        },
+        {
+            "name": "地镇-2",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "传讯",
+            "option_num": 3,
+            "choose": 3
         }
     ]
 }

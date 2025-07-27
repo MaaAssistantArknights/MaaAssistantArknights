@@ -55,6 +55,9 @@ public:
         int default_choose = 0;
         std::vector<ChoiceRequire> choice_require;
         std::string next_event;
+
+        std::vector<std::pair<int, int>>
+            fallback_choices; // 备用选项，格式为 (选项数量，选择的选项)，有些事件的选项数量可变
     };
 
 private:

@@ -6,6 +6,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
@@ -16,8 +17,8 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
 {
     const std::string& theme = m_config->get_theme();
 
-    // 本插件暂处于实验阶段，仅用于萨卡兹肉鸽
-    if (theme != RoguelikeTheme::Sarkaz) {
+    // 本插件暂处于实验阶段，仅用于萨卡兹和界园肉鸽的第一层
+    if (theme != RoguelikeTheme::Sarkaz && theme != RoguelikeTheme::JieGarden) {
         return false;
     }
 
@@ -36,8 +37,14 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
-    if (mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
-        m_routing_strategy = RoutingStrategy::FastInvestment;
+    if (theme == RoguelikeTheme::Sarkaz && mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
+        m_routing_strategy = RoutingStrategy::FastInvestment_Sarkaz;
+        return true;
+    }
+
+    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::Investment && squad == "指挥分队" &&
+        m_config->get_difficulty() >= 3) {
+        m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
         return true;
     }
 
@@ -82,7 +89,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     LogTraceFunction;
 
     switch (m_routing_strategy) {
-    case RoutingStrategy::FastInvestment:
+    case RoutingStrategy::FastInvestment_Sarkaz:
         if (m_need_generate_map) {
             // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
             ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
@@ -95,6 +102,63 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         }
         else {
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        }
+        break;
+    case RoutingStrategy::FastInvestment_JieGarden:
+        if (m_need_generate_map) {
+            cv::Mat image = ctrler()->get_image();
+            cv::Mat image_draw = image.clone();
+            update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
+#ifdef ASST_DEBUG
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
+            const auto relative_path = relative_dir / (utils::get_time_filestem() + "_draw.png");
+            Log.trace("Save image", relative_path);
+            asst::imwrite(relative_path, image_draw);
+#endif
+            m_need_generate_map = false;
+        }
+        if (m_map.get_curr_pos() == RoguelikeMap::INIT_INDEX) {
+            m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
+                if (node->type == RoguelikeNodeType::CombatOps || node->type == RoguelikeNodeType::EmergencyOps ||
+                    node->type == RoguelikeNodeType::DreadfulFoe) {
+                    return 1;
+                }
+                return 0;
+            });
+            m_map.update_node_costs();
+            const size_t next_node = m_map.get_next_node();
+
+            // 若无法避免超过两场战斗则重开
+            if (m_map.get_node_cost(next_node) >= 2) {
+                callback(
+                    AsstMsg::TaskChainExtraInfo,
+                    json::object {
+                        { "what", "RoutingRestart" },
+                        { "why", "TooManyBattlesAhead" },
+                        { "node_cost", m_map.get_node_cost(next_node) },
+                    });
+
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+                reset_in_run_variables();
+            }
+            else {
+                const int next_node_x = m_origin_x;
+                const int next_node_y = m_map.get_node_y(next_node);
+                Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
+                ctrler()->click(next_node_center);
+                sleep(200);
+
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                m_map.set_curr_pos(next_node);
+            }
+        }
+        else {
+            // 执行默认的避战策略
+            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
         }
         break;
     case RoutingStrategy::FastPass:
@@ -117,6 +181,61 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     return true;
 }
 
+bool asst::RoguelikeRoutingTaskPlugin::update_map(
+    const cv::Mat& image,
+    const size_t leftmost_column,
+    std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
+{
+    LogTraceFunction;
+
+    if (leftmost_column == 0) {
+        Log.error(__FUNCTION__, "| leftmost_column must be greater than zero");
+        return false;
+    }
+
+    const std::string& theme = m_config->get_theme();
+
+    size_t curr_col = leftmost_column - 1;
+    int curr_x = -m_node_width - 1; // 第一列节点将触发 rect.x >= curr_x + m_node_width 并更新 curr_col 与 curr_x
+
+    MultiMatcher node_analyzer(image);
+    node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
+    if (!node_analyzer.analyze()) {
+        Log.error(__FUNCTION__, "| no nodes are recognised");
+        return false;
+    }
+    MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
+    sort_by_vertical_(match_results); // 按照水平方向从左到右排序各列节点，同一列节点按照垂直方向从上到下排序
+
+    const size_t old_num_columns = m_map.get_num_columns();
+    for (const auto& [rect, score, templ_name] : match_results) {
+        const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(rect), cv::Scalar(255, 255, 255), 2);
+            cv::putText(
+                image_draw_opt.value().get(),
+                templ_name,
+                cv::Point(rect.x, rect.y - m_roi_margin),
+                cv::FONT_HERSHEY_DUPLEX,
+                0.5,
+                cv::Scalar(255, 255, 255));
+        }
+#endif
+        if (rect.x >= curr_x + m_node_width) { // 识别到下一列的节点
+            ++curr_col;
+            curr_x = rect.x;
+        }
+        if (curr_col >= old_num_columns) // 仅更新新列节点
+        {
+            const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();
+            generate_edges(node, image, rect.x, image_draw_opt);
+        }
+    }
+
+    return true;
+}
+
 void asst::RoguelikeRoutingTaskPlugin::generate_map()
 {
     LogTraceFunction;
@@ -124,7 +243,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     const std::string& theme = m_config->get_theme();
 
     m_map.reset();
-    size_t curr_col = m_map.init_index + 1;
+    size_t curr_col = RoguelikeMap::INIT_INDEX + 1;
     Rect roi = Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingNodeAnalyze")->roi;
 
     // 第一列节点
@@ -162,23 +281,25 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     }
 
     ProcessTask(*this, { theme + "@Roguelike@RoutingExitThenContinue" }).run(); // 通过退出重进回到初始位置
-
-    return;
 }
 
-void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const cv::Mat& image, const int& node_x)
+void asst::RoguelikeRoutingTaskPlugin::generate_edges(
+    const size_t& node,
+    const cv::Mat& image,
+    const int& node_x,
+    [[maybe_unused]] std::optional<std::reference_wrapper<cv::Mat>> image_draw_opt)
 {
     LogTraceFunction;
 
     const size_t node_column = m_map.get_node_column(node);
 
-    if (node_column == m_map.init_index) {
+    if (node_column == RoguelikeMap::INIT_INDEX) {
         Log.error(__FUNCTION__, "| cannot generate edges for init node");
         return;
     }
 
-    if (node_column == m_map.init_index + 1) {
-        m_map.add_edge(m_map.init_index, node); // 第一列节点直接与 init 连接
+    if (node_column == RoguelikeMap::INIT_INDEX + 1) {
+        m_map.add_edge(RoguelikeMap::INIT_INDEX, node); // 第一列节点直接与 init 连接
         return;
     }
 
@@ -197,6 +318,11 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
         const int center_y = (prev_y + node_y + m_node_height) / 2;
         roi.x = center_x - m_roi_margin;
         roi.y = center_y - m_roi_margin;
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(roi), cv::Scalar(255, 255, 255), 1);
+        }
+#endif
         analyzer.set_roi(roi);
 
         if (!analyzer.analyze()) { // 节点间没有连线
@@ -221,15 +347,21 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
             ranges::minmax(rightmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int rightmost_y = (rightmost_y_min_p.y + rightmost_y_max_p.y) / 2;
 
-        if (std::abs(prev_y - node_y) < m_direction_threshold &&
-            std::abs(leftmost_y - rightmost_y) < m_direction_threshold) {
+        if ((std::abs(prev_y - node_y) < m_direction_threshold &&
+             std::abs(leftmost_y - rightmost_y) < m_direction_threshold) ||
+            (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) ||
+            (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold)) {
             m_map.add_edge(prev, node);
-        }
-        else if (prev_y < node_y && leftmost_y < rightmost_y - m_direction_threshold) {
-            m_map.add_edge(prev, node);
-        }
-        else if (prev_y > node_y && leftmost_y > rightmost_y + m_direction_threshold) {
-            m_map.add_edge(prev, node);
+#ifdef ASST_DEBUG
+            if (image_draw_opt.has_value()) {
+                cv::line(
+                    image_draw_opt.value().get(),
+                    cv::Point(node_x - m_column_offset + m_node_width / 2, prev_y + m_node_height / 2),
+                    cv::Point(node_x + m_node_width / 2, node_y + m_node_height / 2),
+                    cv::Scalar(255, 255, 255),
+                    2);
+            }
+#endif
         }
     }
 
@@ -238,10 +370,25 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(const size_t& node, const 
         size_t prev = node - 1;
         roi.x = node_x + m_node_width / 2 - m_roi_margin;
         roi.y = (m_map.get_node_y(prev) + m_node_height + m_nameplate_offset + node_y) / 2 - m_roi_margin;
+#ifdef ASST_DEBUG
+        if (image_draw_opt.has_value()) {
+            cv::rectangle(image_draw_opt.value().get(), make_rect<cv::Rect>(roi), cv::Scalar(255, 255, 255), 1);
+        }
+#endif
         analyzer.set_roi(roi);
         if (analyzer.analyze()) {
             m_map.add_edge(prev, node);
             m_map.add_edge(node, prev);
+#ifdef ASST_DEBUG
+            if (image_draw_opt.has_value()) {
+                cv::line(
+                    image_draw_opt.value().get(),
+                    cv::Point(node_x + m_node_width / 2, m_map.get_node_y(prev) + m_node_height / 2),
+                    cv::Point(node_x + m_node_width / 2, node_y + m_node_height / 2),
+                    cv::Scalar(255, 255, 255),
+                    2);
+            }
+#endif
         }
     }
 }
@@ -292,7 +439,7 @@ void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes()
         node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
         node_analyzer.set_roi(next_node_rect);
         if (node_analyzer.analyze()) {
-            Matcher::Result match_results = node_analyzer.get_result();
+            const Matcher::Result& match_results = node_analyzer.get_result();
             m_map.set_node_type(next_node, RoguelikeMapInfo.templ2type(theme, match_results.templ_name));
         }
     }
@@ -302,14 +449,14 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
 {
     LogTraceFunction;
 
-    const size_t curr_column = m_map.get_node_column(m_map.get_curr_pos());
+    const size_t curr_col = m_map.get_node_column(m_map.get_curr_pos());
 
     m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
         if (node->visited) {
             return 1000;
         }
 
-        if (node->column == curr_column) {
+        if (node->column == curr_col) {
             return 1000;
         }
 
@@ -354,10 +501,10 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
 
 void asst::RoguelikeRoutingTaskPlugin::update_selected_x()
 {
-    if (m_selected_column == m_map.init_index) {
+    if (m_selected_column == RoguelikeMap::INIT_INDEX) {
         m_selected_x = m_origin_x - m_column_offset;
     }
-    else if (m_selected_column == m_map.init_index + 1) {
+    else if (m_selected_column == RoguelikeMap::INIT_INDEX + 1) {
         m_selected_x = m_origin_x;
     }
     else if (m_selected_column == m_map.get_num_columns() - 1) [[unlikely]] {

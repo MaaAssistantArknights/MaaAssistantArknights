@@ -194,12 +194,15 @@ namespace MaaWpfGui.Services
         private static Dictionary<string, StageInfo> InitializeDefaultStages()
         {
             // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
-            return new() {
+            return new()
+            {
                 // 「当前/上次」关卡导航
-                { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty }},
+                { string.Empty, new() { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
+
                 // 周一和周日的关卡提示
                 { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
-                { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },  };
+                { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
+            };
         }
 
         private static bool TryParseVersion(string? version, out SemVersion versionObj)
@@ -293,7 +296,7 @@ namespace MaaWpfGui.Services
                 { "SK-5", new("SK-5", "SKTip", [DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday], resourceCollection) },
 
                 // 剿灭模式
-                { "Annihilation", new() { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
+                { "Annihilation", new() { Display = LocalizationHelper.GetString("AnnihilationMode"), Value = "Annihilation" } },
 
                 // 芯片本
                 { "PR-A-1", new("PR-A-1", "PR-ATip", [DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday], resourceCollection) },

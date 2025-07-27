@@ -35,7 +35,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
     m_waiting_to_run = RoguelikeCustomType::None;
     for (const auto& [t_msg, t_task, t] : TaskMap) {
-        if (t_msg == msg && t_task == task_view) {
+        if (t_msg == msg && task_view.ends_with(t_task)) {
             m_waiting_to_run = t;
             break;
         }
@@ -54,7 +54,11 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         }
         return true;
     }
+    if (m_waiting_to_run == RoguelikeCustomType::CoreChar) {
+        return !m_config->get_core_char().empty();
+    }
 
+    // Roles CoreChar
     if (auto it = m_customs.find(m_waiting_to_run); it == m_customs.cend()) {
         return false;
     }
@@ -72,8 +76,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
     }
 
+    m_config->set_core_char(params.get("core_char", ""));                            // 开局干员名
     set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));                 // 开局职业组
-    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));          // 开局干员名
     m_config->set_use_support(params.get("use_support", false));                     // 开局干员是否为助战干员
     m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
 
@@ -201,13 +205,12 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
-    const std::string& char_name = m_customs[RoguelikeCustomType::CoreChar];
-
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {
         { battle::Role::Caster, "术师" }, { battle::Role::Medic, "医疗" },   { battle::Role::Pioneer, "先锋" },
         { battle::Role::Sniper, "狙击" }, { battle::Role::Special, "特种" }, { battle::Role::Support, "辅助" },
         { battle::Role::Tank, "重装" },   { battle::Role::Warrior, "近卫" }
     };
+    const std::string& char_name = m_config->get_core_char();
     const auto& role = BattleData.get_role(char_name);
     auto role_iter = RoleOcrNameMap.find(role);
     if (role_iter == RoleOcrNameMap.cend()) {
@@ -224,13 +227,22 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     if (!analyzer.analyze()) {
         return false;
     }
-    const auto& role_rect = analyzer.get_result().front().rect;
-    ctrler()->click(role_rect);
+    for (int retry = 0; retry < 3; ++retry) {
+        const auto& role_rect = analyzer.get_result().front().rect;
+        ctrler()->click(role_rect);
+        sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-    sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
-
-    m_config->set_core_char(char_name);
-    return true;
+        ProcessTask check(
+            *this,
+            { m_config->get_theme() + "@Roguelike@ChooseOperFlag",
+              m_config->get_theme() + "@Roguelike@RecruitCloseGuide" });
+        check.set_times_limit("Roguelike@ChooseOperFlag", 0);
+        check.set_retry_times(0);
+        if (check.run()) {
+            return true; // 进入选择干员界面
+        }
+    }
+    return false; // 进入选择干员界面失败
 }
 
 std::vector<std::string> asst::RoguelikeCustomStartTaskPlugin::get_select_list() const

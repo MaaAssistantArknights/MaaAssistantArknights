@@ -1,4 +1,19 @@
 {
+    "Sami@StartExplore@Roguelike@ChooseOper": {
+        "next": [
+            "Sami@StartExplore@Roguelike@ChooseOperConfirm",
+            "Sami@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sami@StartExplore@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Sami@StartExplore@Roguelike@EnterAfterRecruit": {
+        "template": "Sami@Roguelike@EnterAfterRecruit.png",
+        "next": ["#self", "Sami@Roguelike@NextLevel"]
+    },
+    "Sami@StartExplore@Roguelike@RecruitOther": {
+        "template": "Sami@Roguelike@Recruit.png"
+    },
+    "Sami@StartExplore@Roguelike@RecruitWithoutButton": {},
     "Sami@Roguelike@Abandon": {
         "template": ["Sami@Roguelike@Abandon.png", "Sami@Roguelike@AbandonPushDoor.png"],
         "crop_doc": {
@@ -75,21 +90,12 @@
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
     },
-    "Sami@Roguelike@ChooseDifficulty_Easiest": {
+    "Sami@Roguelike@ChooseDifficultyEnter": {
         "action": "ClickRect",
         "specificRect": [1119, 479, 80, 22],
         "postDelay": 800,
         "template": "Sami@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheUp*2"]
-    },
-    "Sami@Roguelike@ChooseDifficulty_Hardest": {
-        "action": "ClickRect",
-        "specificRect": [1119, 479, 80, 22],
-        "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
-        "roi": [958, 530, 322, 189],
-        "sub": ["SwipeToTheDown*2"]
+        "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@ChooseOper": {
         "next": [
@@ -558,8 +564,7 @@
         "template": "Sami@Roguelike@Recruit.png"
     },
     "Sami@Roguelike@RecruitOther": {
-        "template": "Sami@Roguelike@Recruit.png",
-        "templThreshold": 0.8
+        "template": "Sami@Roguelike@Recruit.png"
     },
     "Sami@Roguelike@RecruitWithoutButton": {
         "next": [

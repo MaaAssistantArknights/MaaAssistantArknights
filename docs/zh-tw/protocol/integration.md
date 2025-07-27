@@ -42,7 +42,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 // 對應的任務參數
 {
     "enable": bool,              // 是否啟用本任務，可選，預設為 true
-    "client_type": string,       // 用戶端版本，可選，預設為空
+    "client_type": string,       // 用戶端版本，必選
                                  // 選項："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
     "start_game_enabled": bool,  // 是否自動啟動用戶端，可選，預設不啟動
     "account_name": string       // 切換賬號，可選，預設不切換

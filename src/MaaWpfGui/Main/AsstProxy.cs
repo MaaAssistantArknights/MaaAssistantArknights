@@ -352,15 +352,15 @@ namespace MaaWpfGui.Main
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                MoveTasksJson(mainCache);
+                CopyTasksJson(mainCache);
                 loaded = LoadResIfExists(mainRes);
                 loaded &= LoadResIfExists(mainCache);
             }
             else
             {
                 // Read resources first, then read cache
-                MoveTasksJson(mainCache);
-                MoveTasksJson(globalCache);
+                CopyTasksJson(mainCache);
+                CopyTasksJson(globalCache);
                 loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
                 loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
             }
@@ -381,7 +381,7 @@ namespace MaaWpfGui.Main
             }
 
             // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
-            static void MoveTasksJson(string oldPath)
+            static void CopyTasksJson(string oldPath)
             {
                 try
                 {
@@ -400,7 +400,7 @@ namespace MaaWpfGui.Main
                         _logger.Information("Created directory: {TasksFolderPath}", tasksFolderPath);
                     }
 
-                    File.Move(tasksJsonPath, newTasksJsonPath, true);
+                    File.Copy(tasksJsonPath, newTasksJsonPath, true);
                     _logger.Information("Moved {TasksJsonPath} to {NewTasksJsonPath}", tasksJsonPath, newTasksJsonPath);
                 }
                 catch (Exception ex)
@@ -417,12 +417,20 @@ namespace MaaWpfGui.Main
         {
             if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
             {
-                if (x.IsDeprecated && !GpuOption.AllowDeprecatedGpu)
-                {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), x.GpuInfo?.Description), UiLogColor.Warning);
-                }
+                var info = x.GpuInfo;
+                var description = info?.Description;
+                var version = info?.DriverVersion;
+                var date = info?.DriverDate?.ToString("yyyy-MM-dd");
 
-                _logger.Information("Using GPU {0} (Driver {1} {2})", x.GpuInfo?.Description, x.GpuInfo?.DriverVersion, x.GpuInfo?.DriverDate?.ToString("yyyy-MM-dd"));
+                if (x.IsDeprecated)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), description), UiLogColor.Warning);
+                    _logger.Warning("Using deprecated GPU {0} (Driver {1} {2})", description, version, date);
+                }
+                else
+                {
+                    _logger.Information("Using GPU {0} (Driver {1} {2})", description, version, date);
+                }
 
                 AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
             }
@@ -572,8 +580,8 @@ namespace MaaWpfGui.Main
 
         public bool Connected { get; set; }
 
-        private string _connectedAdb;
-        private string _connectedAddress;
+        private string _connectedAdb = string.Empty;
+        private string _connectedAddress = string.Empty;
 
         private void ProcConnectInfo(JObject details)
         {
@@ -851,7 +859,7 @@ namespace MaaWpfGui.Main
                         _tasksStatus.TryGetValue(taskId, out var value);
                         if (value is { Type: TaskType.Fight } && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
@@ -945,7 +953,28 @@ namespace MaaWpfGui.Main
                     }
 
                 case AsstMsg.TaskChainExtraInfo:
-                    break;
+                    {
+                        var what = details["what"]?.ToString();
+                        var why = details["why"]?.ToString();
+
+                        switch (what)
+                        {
+                            case "RoutingRestart":
+                                string msgText = string.Empty;
+                                switch (why)
+                                {
+                                    case "TooManyBattlesAhead":
+                                        var cost = details["node_cost"]?.ToString() ?? "?";
+                                        msgText = string.Format(LocalizationHelper.GetString("RoutingRestartTooManyBattles"), cost);
+                                        break;
+                                }
+
+                                Instances.TaskQueueViewModel.AddLog(msgText, UiLogColor.Warning);
+                                break;
+                        }
+
+                        break;
+                    }
 
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = false;
@@ -1585,7 +1614,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
-                        var tooltip = $"{Instances.RecognizerViewModel.RecruitInfo}\n\n{Instances.RecognizerViewModel.RecruitResult}".CreateTooltip(PlacementMode.Center);
+                        var tooltip = Instances.RecognizerViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))

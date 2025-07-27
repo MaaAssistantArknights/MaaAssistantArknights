@@ -12,5 +12,8 @@
         "MaaDeps/vcpkg/buildtrees": true,
         "MaaDeps/vcpkg/packages": true
     },
+    "files.associations": {
+        "**/resource/tasks/**/*.json": "jsonc"
+    },
     "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
 }

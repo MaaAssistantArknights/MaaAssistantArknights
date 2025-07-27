@@ -4,7 +4,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -139,27 +141,45 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         sleep(300);
     }
 
-    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
+
+    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     image = ctrler()->get_image();
-    if (hp(image) <= 0) {
+    bool hp_disappeared = (hp(image) <= 0);
+    // fallback 可变选项，临时处理，之后还得改成更通用的方式
+    if (!hp_disappeared) {
+        for (const auto& [total, item] : event.fallback_choices) {
+            Log.info("Trying fallback choice", total, "-", item);
+            for (int j = 0; j < 2; ++j) {
+                ProcessTask(*this, { click_option_task_name(item, total) }).run();
+                sleep(300);
+            }
+            sleep(500);
+            image = ctrler()->get_image();
+            if (hp(image) <= 0) {
+                Log.info("Fallback choice success");
+                hp_disappeared = true;
+                break;
+            }
+        }
+    }
+
+    if (hp_disappeared) {
         if (!event.next_event.empty()) {
-            Log.debug("HP gone but next_event exists:", event.next_event);
-            // 多点几次，确保跳过剧情动画
             for (int i = 0; i < 3; ++i) {
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
                 image = ctrler()->get_image();
                 if (hp(image) > 0) {
-                    break;
+                    Log.debug("HP gone, going to next_event:", event.next_event);
+                    return event.next_event;
                 }
             }
-
-            return event.next_event;
         }
         return std::nullopt;
     }
 
+    // 兜底处理，从 option_num-option_num 点到 1-1
     int max_time = event.option_num;
     while (max_time > 0) {
         for (int i = max_time; i > 0; --i) {
@@ -243,13 +263,32 @@ int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::Roguelik
 
 int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
 {
-    int hp_val;
-    asst::OCRer analyzer(image);
-    analyzer.set_task_info("Roguelike@HpRecognition");
+    LogTraceFunction;
+
+    auto task = Task.get<OcrTaskInfo>("Roguelike@HpRecognition");
+    std::vector<std::pair<std::string, std::string>> merged_map;
+    merged_map.insert(merged_map.end(), task->replace_map.begin(), task->replace_map.end());
+    merged_map.emplace_back("(.*)/.*", "$1");
+
+    auto roi_image = make_roi(image, task->roi).clone();
+    cv::Mat r_channel;
+    cv::extractChannel(roi_image, r_channel, 2);
+    cv::Mat mask;
+    cv::threshold(r_channel, mask, 50, 255, cv::THRESH_BINARY);
+    cv::Mat inv_mask;
+    cv::bitwise_not(mask, inv_mask);
+    roi_image.setTo(cv::Scalar(0, 0, 0), mask);
+
+    RegionOCRer analyzer(roi_image);
+    analyzer.set_replace(merged_map);
+    analyzer.set_use_char_model(true);
+    analyzer.set_bin_threshold(60); // 血量没有红色通道，虽然它看着很明显，但实际上在灰度中只有 2/3
 
     auto res_vec_opt = analyzer.analyze();
     if (!res_vec_opt) {
         return -1;
     }
-    return utils::chars_to_number(res_vec_opt->front().text, hp_val) ? hp_val : 0;
+
+    int hp_val;
+    return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
 }

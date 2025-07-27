@@ -83,17 +83,17 @@ public class FightSettingsUserControlModel : TaskViewModel
                 return Stage1;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2 ??= string.Empty))
             {
                 return Stage2;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3 ??= string.Empty))
             {
                 return Stage3;
             }
 
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage4) ? Stage4 : Stage1;
+            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;
         }
     }
 
@@ -626,6 +626,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
         DropsList = [.. AllDrops];
+        DropsListDropDownClosed();
     }
 
     /// <summary>
@@ -706,6 +707,38 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     #endregion Drops
+
+    public static Dictionary<string, string> AnnihilationModeList { get; } = new()
+    {
+        { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
+        { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
+        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
+        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
+    };
+
+    private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
+
+    public bool UseCustomAnnihilation
+    {
+        get => _useCustomAnnihilation;
+        set
+        {
+            SetAndNotify(ref _useCustomAnnihilation, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
+        }
+    }
+
+    private string _annihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
+
+    public string AnnihilationStage
+    {
+        get => _annihilationStage;
+        set
+        {
+            SetAndNotify(ref _annihilationStage, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
+        }
+    }
 
     private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
 
@@ -866,6 +899,11 @@ public class FightSettingsUserControlModel : TaskViewModel
             ServerType = Instances.SettingsViewModel.ServerType,
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
+
+        if (Stage == "Annihilation" && UseCustomAnnihilation)
+        {
+            task.Stage = AnnihilationStage;
+        }
 
         if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
         {

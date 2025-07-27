@@ -76,6 +76,52 @@ namespace MaaWpfGui.Helper
             return tb.CreateTooltip(placementMode);
         }
 
+        public static ToolTip CreateTooltip(this IEnumerable<Inline> inlines, PlacementMode? placementMode = null, int maxWidth = 750)
+        {
+            var tb = new TextBlock
+            {
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new(4),
+                MaxWidth = maxWidth,
+            };
+
+            foreach (var inline in inlines)
+            {
+                tb.Inlines.Add(CloneInline(inline));
+            }
+
+            return tb.CreateTooltip(placementMode);
+
+            Inline CloneInline(Inline inline)
+            {
+                switch (inline)
+                {
+                    case Run run:
+                        var newRun = new Run(run.Text)
+                        {
+                            FontWeight = run.FontWeight,
+                            FontStyle = run.FontStyle,
+                        };
+
+                        if (run.Tag is string resourceKey)
+                        {
+                            newRun.SetResourceReference(TextElement.ForegroundProperty, resourceKey);
+                            newRun.Tag = resourceKey;
+                        }
+                        else
+                        {
+                            newRun.Foreground = run.Foreground;
+                        }
+
+                        return newRun;
+                    case LineBreak:
+                        return new LineBreak();
+                    default:
+                        return new Run();
+                }
+            }
+        }
+
         #region 创建日志 Tooltip 的辅助方法
 
         /// <summary>

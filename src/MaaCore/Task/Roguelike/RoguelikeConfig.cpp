@@ -54,7 +54,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
 
-        // 点刺成锭分队特殊策略
+        // 萨卡兹点刺成锭分队特殊策略
         if (m_theme == "Sarkaz") {
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
@@ -71,12 +71,20 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                     "Sarkaz@Roguelike@StageBurdenOperation-Start");
             }
         }
+        // 界园指挥分队特殊策略
+        if (m_theme == "JieGarden") {
+            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
+                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange-FastInvestment");
+                // 防止没进 StrategyChange 的情况
+                // Task.set_task_base("JieGarden@Roguelike@Stages", "JieGarden@Roguelike@Stages_fastInvestment");
+            }
+        }
     }
 
     if (m_mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
-        if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
-            investment_with_more_score = params.get("investment_enter_second_floor", true);
+        if (params.contains("investment_enter_second_floor")) {
             Log.warn("================  DEPRECATED  ================");
             LogWarn << "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
                        "'investment_with_more_score'";
@@ -99,7 +107,6 @@ void asst::RoguelikeConfig::clear()
     m_status.opers.reserve(m_status.formation_upper_limit);
 
     // ------------------ 通用参数 ------------------
-    m_core_char = std::string();
     m_squad = std::string();
 }
 

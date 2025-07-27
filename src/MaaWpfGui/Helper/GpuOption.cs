@@ -16,10 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using Microsoft.Win32;
@@ -42,16 +39,8 @@ namespace MaaWpfGui.Helper
 
         public static bool AllowDeprecatedGpu
         {
-            get
-            {
-                _ = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, "false"), out var allowUnsupported);
-                return allowUnsupported;
-            }
-
-            set
-            {
-                ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, value.ToString());
-            }
+            get => ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, false);
+            set => ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, value.ToString());
         }
 
         // use string literal to efficiently store uint16 array
@@ -425,12 +414,11 @@ namespace MaaWpfGui.Helper
 
         public static GpuOption GetCurrent()
         {
-            bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, "false"), out var useGpu);
             var preferredGpuInstancePath = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
             var preferredGpuDescription = ConfigurationHelper.GetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
 
             GpuOption result;
-            if (useGpu)
+            if (ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceUseGpu, false))
             {
                 var options = GetGpuOptions();
                 if (ReferenceEquals(options, _unavailableOptions))

@@ -34,6 +34,9 @@ bool asst::StartUpTask::set_params(const json::value& params)
     std::string account_name = params.get("account_name", std::string());
     std::string client_type = params.get("client_type", std::string());
 
+    if (!Config.get_package_name(client_type)) {
+        return false;
+    }
     m_start_game_task_ptr->set_client_type(client_type).set_enable(params.get("start_game_enabled", false));
     m_account_switch_task_ptr->set_enable(!account_name.empty());
     m_account_switch_task_ptr->set_account(std::move(account_name));

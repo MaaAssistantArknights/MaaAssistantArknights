@@ -160,7 +160,6 @@ namespace MaaWpfGui.Helper
                     continue;
                 }
 
-
                 dictionary[key] = GetFormattedString(key, culture);
             }
         }
@@ -217,12 +216,27 @@ namespace MaaWpfGui.Helper
         /// <returns>The formatted string.</returns>
         private static string GetFormattedString(string key, string? culture = null)
         {
-            var raw = GetString(key, culture);
-            return Regex.Replace(raw, @"\{key=(\w+)\}", match =>
+            return ResolveNestedKeys(key, GetString(key, culture), culture, new());
+        }
+
+        private static string ResolveNestedKeys(string currentKey, string input, string? culture, Stack<string> visited)
+        {
+            if (visited.Contains(currentKey))
+            {
+                throw new InvalidOperationException($"Circular reference: {string.Join(" -> ", visited.Reverse())} -> {currentKey}");
+            }
+
+            visited.Push(currentKey);
+
+            var result = Regex.Replace(input, @"\{key=(\w+)\}", match =>
             {
                 var innerKey = match.Groups[1].Value;
-                return GetString(innerKey, culture);
+                var innerValue = GetString(innerKey, culture);
+                return ResolveNestedKeys(innerKey, innerValue, culture, visited);
             });
+
+            visited.Pop();
+            return result;
         }
 
         private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];

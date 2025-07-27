@@ -12,7 +12,7 @@ BrightPointAnalyzer::ResultsVecOpt BrightPointAnalyzer::analyze()
     cv::Mat grayImage;
     cv::cvtColor(croppedImage, grayImage, cv::COLOR_BGR2GRAY);
     cv::Mat binaryImage;
-    cv::threshold(grayImage, binaryImage, 200, 255, cv::THRESH_BINARY);
+    cv::threshold(grayImage, binaryImage, 250, 255, cv::THRESH_BINARY);
     std::vector<cv::Point> brightPoints;
     cv::findNonZero(binaryImage, brightPoints);
 
