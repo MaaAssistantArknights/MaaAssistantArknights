@@ -5,9 +5,10 @@
 本次更新带来了界园肉鸽的全面强化与剿灭模式的深度适配，同时优化了部分场景下的性能表现
 
 #### 界园肉鸽适配
+
 我们添加了指挥分队在难度3及以上利用时光之末避战快速刷钱的逻辑，现在刷钱效率应该能够得到很大的提升。
 
-此外，由于一层进洞二层退出能够显著获取更多分数，我们也为刷钱模式添加了进入二层的开关，这样就能兼顾刷分和刷钱了。
+此外，进入二层再退出能够显著获取更多分数。该逻辑此前因不兼容界园肉鸽而未生效，现在已恢复使用，可兼顾刷分和刷钱。
 
 刷等级模式的可用性也进一步加强了。我们添加了不少关卡的战斗策略，现在 MAA 应该能在刷等级模式下走的更远
 
@@ -25,7 +26,7 @@ This update brings comprehensive support for JieGarden Roguelike and deeper adap
 
 We’ve enhanced squad logic for Difficulty 3 and above, now enabling efficient Roguelike store investment using “End of Times” to skip battles. This should greatly boost farming efficiency.
 
-Since entering the second floor before exiting can significantly increase score, we’ve also added a toggle in farming mode to enable second-floor entry — now you can farm both points and LMD!
+Additionally, entering the second floor before exiting the run can significantly increase score. This logic has been available, but was previously disabled due to Garden Roguelike incompatibility — it now works again, allowing for both score gain and store investment.
 
 The usability of EXP farming mode has also been improved. With new strategies added for more stages, MAA should now reach further in EXP runs.
 
