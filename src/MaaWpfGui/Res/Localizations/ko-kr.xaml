@@ -853,7 +853,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">MAA.exe 파일을 단독으로 옮기지 마세요. 소프트웨어 위치를 변경해야 하는 경우 전체 폴더를 이동하거나, MAA.exe의 바로 가기를 만든 다음 바로 가기를 옮기세요.</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
-    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 루트 디렉토리에 있는 업데이트 패키지를 수동으로 압축 해제해 보세요.</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 먼저 MAA.exe를 재시작해 보세요. 문제가 계속되면 컴퓨터를 재부팅한 후 다시 시도해 주세요. 필수 파일 삭제가 누락될 수 있으므로 수동으로 압축을 해제하지 마세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣ 으로 이동하여 기본 브라우저를 선택하세요.</system:String>
