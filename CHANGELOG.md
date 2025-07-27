@@ -6,14 +6,34 @@
 
 #### 界园肉鸽适配
 我们添加了指挥分队在难度3及以上利用时光之末避战快速刷钱的逻辑，现在刷钱效率应该能够得到很大的提升。
+
 此外，由于一层进洞二层退出能够显著获取更多分数，我们也为刷钱模式添加了进入二层的开关，这样就能兼顾刷分和刷钱了。
 
 刷等级模式的可用性也进一步加强了。我们添加了不少关卡的战斗策略，现在 MAA 应该能在刷等级模式下走的更远
 
 #### 长期剿灭适配
+
 现在，我们可以让 MAA 刷常驻的剿灭关卡了，更加方便萌新们的使用
 
----
+----
+
+### Dual Power: Roguelike & Annihilation | Highlight
+
+This update brings comprehensive support for Garden Roguelike and deeper adaptation for Annihilation mode, along with performance optimizations in specific scenarios.
+
+#### JieGarden Roguelike Adaptation
+
+We’ve enhanced squad logic for Difficulty 3 and above, now enabling efficient LMD farming using “End of Time” to skip battles. This should greatly boost farming efficiency.
+
+Since entering the second floor before exiting can significantly increase score, we’ve also added a toggle in farming mode to enable second-floor entry — now you can farm both points and LMD!
+
+The usability of EXP farming mode has also been improved. With new strategies added for more stages, MAA should now reach further in EXP runs.
+
+#### Long-Term Annihilation Support
+
+You can now select and run permanent Annihilation stages. Much more convenient for new players!
+
+----
 
 以下是详细更新内容：
 
