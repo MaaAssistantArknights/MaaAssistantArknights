@@ -83,8 +83,22 @@ bool asst::InfrastReceptionTask::get_friend_clue()
 
 bool asst::InfrastReceptionTask::get_self_clue()
 {
-    ProcessTask task_temp(*this, { "InfrastClueSelfNew", "InfrastClueSelfMaybeFull", "ReceptionFlag" });
-    return task_temp.set_retry_times(ProcessTask::RetryTimesDefault).run();
+    auto run_with_retries = [&](const std::vector<std::string>& tasks) {
+        ProcessTask task(*this, tasks);
+        task.set_retry_times(ProcessTask::RetryTimesDefault);
+        return task.run();
+    };
+    
+    run_with_retries({ "InfrastClueSelfNew", "InfrastClueSelfMaybeFull" , "ReceptionFlag"});
+    
+    if (!ProcessTask(*this, {"InfrastClueSelfFull"}).set_retry_times(0).run()) {
+        return run_with_retries({"CloseCluePage", "ReceptionFlag"});
+    }
+    if (m_enable_clue_exchange) {
+        return run_with_retries({"CloseCluePageThenSendClue"});
+    }
+    
+    return run_with_retries({"CloseCluePage", "ReceptionFlag"});
 }
 
 bool asst::InfrastReceptionTask::use_clue()
@@ -95,8 +109,12 @@ bool asst::InfrastReceptionTask::use_clue()
 
     proc_clue_vacancy();
     sleep(1000);
-    if (unlock_clue_exchange()) {
+    if (m_enable_clue_exchange && unlock_clue_exchange()) {
         proc_clue_vacancy();
+    }
+
+    if (!m_enable_clue_exchange) {
+        return true;
     }
 
     cv::Mat image = ctrler()->get_image();

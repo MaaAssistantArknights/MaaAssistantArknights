@@ -185,6 +185,9 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionMessageBoardReceive}">
                 <controls:TextBlock Text="{DynamicResource InfrastReceptionMessageBoardReceive}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding ReceptionClueExchange}">
+                <controls:TextBlock Text="{DynamicResource InfrastReceptionClueExchange}" TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
