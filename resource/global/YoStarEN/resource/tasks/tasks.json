@@ -885,13 +885,13 @@
         "text": ["Submitting feedback", "to the neural network"],
         "roi": [675, 605, 427, 115]
     },
-    "Chernobog": {
+    "Chernobog@AnnihilationStage": {
         "text": ["Chernobog"]
     },
-    "LungmenOutskirts": {
+    "LungmenOutskirts@AnnihilationStage": {
         "text": ["Lungmen Outskirts"]
     },
-    "LungmenDowntown": {
+    "LungmenDowntown@AnnihilationStage": {
         "text": ["Lungmen Downtown"]
     },
     "AnnihilationSwitchButton": {

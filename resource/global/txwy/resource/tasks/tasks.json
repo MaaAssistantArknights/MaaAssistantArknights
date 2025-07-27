@@ -580,13 +580,13 @@
     "LoadingText": {
         "text": ["正在提交", "反饋至神經"]
     },
-    "Chernobog": {
+    "Chernobog@AnnihilationStage": {
         "text": ["切爾諾伯格"]
     },
-    "LungmenOutskirts": {
+    "LungmenOutskirts@AnnihilationStage": {
         "text": ["龍門外環"]
     },
-    "LungmenDowntown": {
+    "LungmenDowntown@AnnihilationStage": {
         "text": ["龍門市區"]
     },
     "AnnihilationSwitchButton": {

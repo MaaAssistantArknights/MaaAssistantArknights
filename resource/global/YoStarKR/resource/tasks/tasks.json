@@ -940,13 +940,13 @@
         "text": ["피드백", "전달"],
         "roi": [700, 620, 400, 80]
     },
-    "Chernobog": {
+    "Chernobog@AnnihilationStage": {
         "text": ["체르노보그"]
     },
-    "LungmenOutskirts": {
+    "LungmenOutskirts@AnnihilationStage": {
         "text": ["용문외곽"]
     },
-    "LungmenDowntown": {
+    "LungmenDowntown@AnnihilationStage": {
         "text": ["용문시내"]
     },
     "AnnihilationSwitchButton": {

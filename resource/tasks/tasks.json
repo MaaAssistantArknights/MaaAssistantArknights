@@ -1150,26 +1150,37 @@
     "StartUp@ClickCorner": {
         "next": ["StartUp@ReturnButtons#next", "StartUp", "StartUp@CloseAnnos#next", "StartUp@OfflineConfirm"]
     },
-    "Chernobog": {
+    "Chernobog@Annihilation": {
+        "template": "StageAnnihilation.png",
+        "next": ["Chernobog@AnnihilationReturn"]
+    },
+    "LungmenOutskirts@Annihilation": {
+        "template": "StageAnnihilation.png",
+        "next": ["LungmenOutskirts@AnnihilationReturn"]
+    },
+    "LungmenDowntown@Annihilation": {
+        "template": "StageAnnihilation.png",
+        "next": ["LungmenDowntown@AnnihilationReturn"]
+    },
+    "AnnihilationStage": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "ClickSelf"
+    },
+    "Chernobog@AnnihilationStage": {
         "Doc": "切换剿灭关卡-切尔诺伯格",
-        "algorithm": "OcrDetect",
         "text": ["切尔诺伯格"],
-        "roi": [721, 22, 529, 693],
-        "action": "ClickSelf"
+        "roi": [721, 22, 529, 693]
     },
-    "LungmenOutskirts": {
+    "LungmenOutskirts@AnnihilationStage": {
         "Doc": "切换剿灭关卡-龙门外环",
-        "algorithm": "OcrDetect",
         "text": ["龙门外环"],
-        "roi": [721, 22, 529, 693],
-        "action": "ClickSelf"
+        "roi": [721, 22, 529, 693]
     },
-    "LungmenDowntown": {
+    "LungmenDowntown@AnnihilationStage": {
         "Doc": "切换剿灭关卡-龙门市区",
-        "algorithm": "OcrDetect",
         "text": ["龙门市区"],
-        "roi": [721, 22, 529, 693],
-        "action": "ClickSelf"
+        "roi": [721, 22, 529, 693]
     },
     "AnnihilationSwitchButton": {
         "Doc": "切换剿灭关卡（菜单按钮）",
@@ -1177,7 +1188,7 @@
         "text": ["切换"],
         "action": "ClickSelf",
         "roi": [966, 577, 315, 142],
-        "next": ["#back"]
+        "next": ["AnnihilationStage"]
     },
     "AnnihilationReturn": {
         "Doc": "从剿灭关卡界面退回到含有切换按钮的界面",
@@ -1195,8 +1206,7 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [900, 70, 380, 400],
-        "maskRange": [1, 255],
-        "next": ["#back"]
+        "maskRange": [1, 255]
     },
     "StageBegin": {
         "algorithm": "JustReturn",

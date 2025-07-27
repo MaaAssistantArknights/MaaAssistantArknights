@@ -710,9 +710,9 @@ public class FightSettingsUserControlModel : TaskViewModel
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
         { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
-        { LocalizationHelper.GetString("Chernobog"), "Chernobog@AnnihilationReturn@Annihilation" },
-        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@AnnihilationReturn@Annihilation" },
-        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@AnnihilationReturn@Annihilation" },
+        { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
+        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
+        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
     };
 
     private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
