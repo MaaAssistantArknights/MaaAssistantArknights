@@ -626,6 +626,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
         DropsList = [.. AllDrops];
+        DropsListDropDownClosed();
     }
 
     /// <summary>
