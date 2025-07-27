@@ -148,6 +148,13 @@ icon: material-symbols:task
         "withoutDet": false,                // 可选项，是否不使用检测模型
                                             // 不填写默认 false
 
+        "binThresholdLower": 140,           // 可选项，二值化灰度下阈值（默认 140）
+                                            // 灰度值小于该值的像素将被视为背景，排除在文字区域之外
+
+        "binThresholdUpper": 255,           // 可选项，二值化灰度上阈值（默认 255）
+                                            // 灰度值大于该值的像素将被视为背景，排除在文字区域之外
+                                            // 最终保留 [lower, upper] 区间的像素作为文字前景
+
         /* 以下字段仅当 algorithm 为 JustReturn，action 为 Input 时有效 */
 
         "inputText": "A string text.",      // 必选项，要输入的文字内容，以字符串的形式

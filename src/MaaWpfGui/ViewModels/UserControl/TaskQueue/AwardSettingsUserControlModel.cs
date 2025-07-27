@@ -14,11 +14,13 @@
 #nullable enable
 using System;
 using System.Windows;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -149,5 +151,31 @@ public class AwardSettingsUserControlModel : TaskViewModel
             SpecialAccess = ReceiveSpecialAccess,
         };
         return task.Serialize();
+    }
+
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
+    {
+        if (baseTask is not AwardTask award)
+        {
+            return null;
+        }
+
+        var task = new AsstAwardTask()
+        {
+            Award = award.Award,
+            Mail = award.Mail,
+            FreeGacha = award.FreeGacha,
+            Orundum = award.Orundum,
+            Mining = award.Mining,
+            SpecialAccess = award.SpecialAccess,
+        };
+        if (taskId is int id)
+        {
+            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
+        }
+        else
+        {
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task);
+        }
     }
 }

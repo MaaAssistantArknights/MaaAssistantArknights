@@ -47,7 +47,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 対応するタスクのパラメータ
 {
     "enable": bool,              // このタスクを有効にするかどうか、オプション、デフォルトは true
-    "client_type": string,       // クライアントバージョン、オプション、デフォルトは空白
+    "client_type": string,       // クライアントバージョン（必須）
                                  // オプション: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
     "start_game_enabled": bool,  // クライアントを自動的に起動するかどうか、オプション, デフォルトはfalse
     "account_name": string       // アカウントの切り替え、オプション、デフォルトで切り替えしません

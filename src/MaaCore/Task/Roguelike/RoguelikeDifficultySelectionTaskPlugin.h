@@ -15,6 +15,7 @@ protected:
     virtual bool _run() override;
 
 private:
+    int detect_current_difficulty() const;
     bool select_difficulty(const int difficulty = 0);
 
     int m_current_difficulty = -1;

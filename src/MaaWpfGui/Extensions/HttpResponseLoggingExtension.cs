@@ -22,7 +22,7 @@ namespace MaaWpfGui.Extensions
     {
         private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
 
-        public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query)
+        public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query, double? elapsedMs = null)
         {
             var method = response?.RequestMessage?.Method;
             var uri = response?.RequestMessage?.RequestUri;
@@ -32,15 +32,14 @@ namespace MaaWpfGui.Extensions
 
             if (response != null && (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotModified))
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
-                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
+                _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified}",
-                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified);
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
+                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
             }
         }
-
     }
 }

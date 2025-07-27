@@ -127,7 +127,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             // 战斗后奖励默认
             Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
+            if (theme == RoguelikeTheme::JieGarden) {
+                m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
+            }
+            else {
+                m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
+            }
         }
         else {
             // 战斗后奖励只拿钱

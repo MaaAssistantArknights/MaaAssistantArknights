@@ -57,6 +57,7 @@
             Grid.Column="1"
             Margin="10,5"
             Content="{DynamicResource GpuAllowDeprecated}"
-            IsChecked="{Binding AllowDeprecatedGpu}" />
+            IsChecked="{Binding AllowDeprecatedGpu}"
+            IsEnabled="{Binding AllowDeprecatedGpu}" />
     </Grid>
 </UserControl>

@@ -57,6 +57,36 @@ namespace MaaWpfGui.Constants
         public const string RobotOperator = "RobotOperatorLogBrush";
 
         /// <summary>
+        /// The recommended color for 1-star operators (also used for robot operators).
+        /// </summary>
+        public const string Star1Operator = "Star1OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 2-star operators.
+        /// </summary>
+        public const string Star2Operator = "Star2OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 3-star operators.
+        /// </summary>
+        public const string Star3Operator = "Star3OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 4-star operators.
+        /// </summary>
+        public const string Star4Operator = "Star4OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 5-star operators.
+        /// </summary>
+        public const string Star5Operator = "Star5OperatorLogBrush";
+
+        /// <summary>
+        /// The recommended color for 6-star operators.
+        /// </summary>
+        public const string Star6Operator = "Star6OperatorLogBrush";
+
+        /// <summary>
         /// The recommended color for file downloading or downloaded or download failed.
         /// </summary>
         public const string Download = "DownloadLogBrush";

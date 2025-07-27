@@ -83,17 +83,17 @@ public class FightSettingsUserControlModel : TaskViewModel
                 return Stage1;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage2 ??= string.Empty))
             {
                 return Stage2;
             }
 
-            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3))
+            if (Instances.TaskQueueViewModel.IsStageOpen(Stage3 ??= string.Empty))
             {
                 return Stage3;
             }
 
-            return Instances.TaskQueueViewModel.IsStageOpen(Stage4) ? Stage4 : Stage1;
+            return Instances.TaskQueueViewModel.IsStageOpen(Stage4 ??= string.Empty) ? Stage4 : Stage1;
         }
     }
 
@@ -706,6 +706,26 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     #endregion Drops
+
+    public static Dictionary<string, string> AnnihilationModeList { get; } = new()
+    {
+        { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
+        { LocalizationHelper.GetString("Chernobog"), "Chernobog@AnnihilationReturn@Annihilation" },
+        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@AnnihilationReturn@Annihilation" },
+        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@AnnihilationReturn@Annihilation" },
+    };
+
+    private string _annihilationMode = ConfigurationHelper.GetValue(ConfigurationKeys.Annihilation, "Annihilation");
+
+    public string AnnihilationMode
+    {
+        get => _annihilationMode;
+        set
+        {
+            SetAndNotify(ref _annihilationMode, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.Annihilation, value);
+        }
+    }
 
     private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
 

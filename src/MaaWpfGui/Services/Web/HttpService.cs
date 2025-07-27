@@ -56,7 +56,7 @@ namespace MaaWpfGui.Services.Web
         public HttpService()
         {
             string uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-            UserAgent = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76 MaaWpfGui/{uiVersion}";
+            UserAgent = $"MaaWpfGui/{uiVersion}";
 
             ConfigurationHelper.ConfigurationUpdateEvent += (key, old, value) =>
             {
@@ -82,7 +82,7 @@ namespace MaaWpfGui.Services.Web
             _client = BuildHttpClient();
         }
 
-        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null)
+        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace MaaWpfGui.Services.Web
                 var stopwatch = Stopwatch.StartNew();
                 var response = await _client.SendAsync(request).ConfigureAwait(false);
                 stopwatch.Stop();
-                response.Log();
+                response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
 
                 return response.IsSuccessStatusCode is false ? -1.0 : stopwatch.Elapsed.TotalMilliseconds;
             }
@@ -161,8 +161,10 @@ namespace MaaWpfGui.Services.Web
                 }
             }
 
+            var stopwatch = Stopwatch.StartNew();
             var response = await _client.SendAsync(request, httpCompletionOption);
-            response.Log(uriPartial);
+            stopwatch.Stop();
+            response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
             return response;
         }
 
@@ -207,8 +209,10 @@ namespace MaaWpfGui.Services.Web
 
             message.Headers.Accept.ParseAdd("application/json");
             message.Content = content;
+            var stopwatch = Stopwatch.StartNew();
             var response = await _client.SendAsync(message);
-            response.Log(uriPartial);
+            stopwatch.Stop();
+            response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
             return response;
         }
 

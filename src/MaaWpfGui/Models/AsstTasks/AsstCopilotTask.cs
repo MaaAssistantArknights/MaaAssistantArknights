@@ -43,6 +43,11 @@ public class AsstCopilotTask : AsstBaseTask
     public bool AddTrust { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 跳过未满足的干员属性要求
+    /// </summary>
+    public bool IgnoreRequirements { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 导航至关卡（启用自动战斗序列、取消代理）
     /// </summary>
     public bool NeedNavigate { get; set; }
@@ -79,6 +84,7 @@ public class AsstCopilotTask : AsstBaseTask
             ["filename"] = FileName,
             ["formation"] = Formation,
             ["add_trust"] = AddTrust,
+            ["ignore_requirements"] = IgnoreRequirements,
             ["need_navigate"] = NeedNavigate,
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,

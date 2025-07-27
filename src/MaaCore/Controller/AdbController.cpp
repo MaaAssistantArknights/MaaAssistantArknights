@@ -965,8 +965,21 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             return false;
         }
 
-        auto& uuid_str = uuid_ret.value();
+        std::string raw_output = std::move(uuid_ret.value());
+        std::string uuid_str = raw_output;
         std::erase_if(uuid_str, [](char c) { return !std::isdigit(c) && !std::isalpha(c); });
+
+        std::regex hex_regex("^[0-9a-fA-F]{8,}$");
+        if (uuid_str.empty() || !std::regex_match(uuid_str, hex_regex)) {
+            json::value info = get_info_json() | json::object {
+                { "what", "ConnectFailed" },
+                { "why", "Uuid invalid or shell command not available" },
+            };
+            info["details"]["raw_output"] = std::move(raw_output);
+            callback(AsstMsg::ConnectionInfo, info);
+            return false;
+        }
+
         m_uuid = std::move(uuid_str);
 
         json::value info = get_info_json() | json::object {
@@ -988,9 +1001,24 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
             return false;
         }
 
-        auto& version_str = version_ret.value();
-        convert_lf(version_str);
-        m_version = std::stoul(version_str);
+        std::string raw_output = version_ret.value();
+        convert_lf(raw_output);
+
+        std::erase_if(raw_output, [](char c) { return !std::isalnum(static_cast<unsigned char>(c)); });
+        bool all_digit = !raw_output.empty() &&
+                         ranges::all_of(raw_output, [](char c) { return std::isdigit(static_cast<unsigned char>(c)); });
+
+        if (!all_digit) {
+            json::value info = get_info_json() | json::object {
+                { "what", "ConnectFailed" },
+                { "why", "Android version invalid or shell command not available" },
+            };
+            info["details"]["raw_output"] = std::move(version_ret.value());
+            callback(AsstMsg::ConnectionInfo, info);
+            return false;
+        }
+
+        m_version = std::stoul(raw_output);
     }
 
     if (need_exit()) {

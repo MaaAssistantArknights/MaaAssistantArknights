@@ -8,7 +8,7 @@
 
 asst::RoguelikeMap::RoguelikeMap()
 {
-    m_curr_pos = create_and_insert_node(RoguelikeNodeType::Init, init_index, 0).value();
+    m_curr_pos = create_and_insert_node(RoguelikeNodeType::Init, INIT_INDEX, 0).value();
 }
 
 // ————————————————————————————————————————————————————————————————————————————————
@@ -64,7 +64,7 @@ void asst::RoguelikeMap::reset()
 {
     m_nodes.clear();
     m_column_indices.clear();
-    m_curr_pos = create_and_insert_node(RoguelikeNodeType::Init, init_index, 0).value();
+    m_curr_pos = create_and_insert_node(RoguelikeNodeType::Init, INIT_INDEX, 0).value();
 }
 
 // ————————————————————————————————————————————————————————————————————————————————
@@ -73,8 +73,8 @@ void asst::RoguelikeMap::reset()
 
 size_t asst::RoguelikeMap::get_column_begin(const size_t& column) const
 {
-    if (column == init_index) {
-        return init_index;
+    if (column == INIT_INDEX) {
+        return INIT_INDEX;
     }
     if (column >= m_column_indices.size()) {
         Log.warn(__FUNCTION__, "| column does not exist");
@@ -232,12 +232,12 @@ void asst::RoguelikeMap::set_node_refresh_times(const size_t& node_index, int re
 std::optional<size_t> asst::RoguelikeMap::insert_node(const RoguelikeNodePtr& node, const size_t& column)
 {
     // 第一个 node 必须为 init node
-    if (column != init_index && m_nodes.empty()) [[unlikely]] {
+    if (column != INIT_INDEX && m_nodes.empty()) [[unlikely]] {
         Log.error(__FUNCTION__, "| insert node to column", column, "before init node");
         return std::nullopt;
     }
     // 只允许有一个 init node
-    if (column == init_index && column < m_column_indices.size() && m_column_indices.at(column) > 0) [[unlikely]] {
+    if (column == INIT_INDEX && column < m_column_indices.size() && m_column_indices.at(column) > 0) [[unlikely]] {
         Log.error(__FUNCTION__, "| init node has already exist");
         return std::nullopt;
     }

@@ -28,7 +28,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@ChooseOper") {
+    if (task_view.ends_with("Roguelike@ChooseOper")) {
         return true;
     }
     else {
@@ -73,6 +73,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_mode() == RoguelikeMode::Investment &&
         m_config->get_squad() == "点刺成锭分队") {
         ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
+        return true;
+    }
+
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::Investment &&
+        m_config->get_squad() == "指挥分队" && m_config->get_difficulty() >= 3) {
+        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
         return true;
     }
 
@@ -575,8 +581,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char()
     LogTraceFunction;
     const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
 
-    auto core_opt = m_config->get_core_char();
-    m_config->set_core_char("");
+    const auto& core_opt = m_config->get_core_char();
     if (!core_opt.empty()) {
         if (recruit_support_char(core_opt, MaxRefreshTimes)) {
             return true;
@@ -675,11 +680,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
 {
     LogTraceFunction;
 
-    auto core_opt = m_config->get_core_char();
+    const auto& core_opt = m_config->get_core_char();
     if (core_opt.empty()) {
         return false;
     }
-    m_config->set_core_char("");
     return recruit_appointed_char(core_opt);
 }
 

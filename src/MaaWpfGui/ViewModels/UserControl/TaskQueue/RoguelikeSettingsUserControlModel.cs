@@ -58,7 +58,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
         if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
-        {
+        { // 外服暂未开放界园
             RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
         }
     }
@@ -131,8 +131,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         switch (RoguelikeTheme)
         {
             case Theme.JieGarden:
-                RoguelikeModeList =
-                [
+                RoguelikeModeList = [
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
                 ];
                 break;
@@ -163,7 +163,6 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         var roguelikeRoles = RoguelikeRoles;
         RoguelikeRolesList =
         [
-            new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
             new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
             new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
             new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
@@ -179,7 +178,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" });
 
-        RoguelikeRoles = RoguelikeRolesList.Any(x => x.Value == roguelikeRoles) ? roguelikeRoles : string.Empty;
+        RoguelikeRoles = RoguelikeRolesList.Any(x => x.Value == roguelikeRoles) ? roguelikeRoles : "稳扎稳打";
     }
 
     private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new()
@@ -256,10 +255,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     private void UpdateRoguelikeSquadList()
     {
         var roguelikeSquad = RoguelikeSquad;
-        RoguelikeSquadList =
-        [
-            new() { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty }
-        ];
+        RoguelikeSquadList = [];
 
         // 优先匹配 Theme_Mode，其次匹配 Theme_Default
         string themeKey = $"{RoguelikeTheme}_{RoguelikeMode}";
@@ -284,7 +280,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
 
         // 选择当前分队
-        RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+        RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : "指挥分队";
     }
 
     private void UpdateRoguelikeCoreCharList()

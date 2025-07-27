@@ -1,7 +1,5 @@
 name: Bug Report (in English)
-description: >-
-  Recognition errors, operation abnormalities,
-  connection errors, etc.
+description: Recognition errors, operation abnormalities, connection errors, etc.
 labels: ["bug"]
 body:
   - type: checkboxes
@@ -15,21 +13,11 @@ body:
           required: true
         - label: I filled in a short, clear title so that developers could quickly identify the general problem when going through the issue list. Instead of "Some suggestions", "Stuck", etc.
           required: true
-        - label: I am using the latest version of the current update version.
-          required: true
-        - label: I have reviewed both the [Unreleased changes](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) and there is no mention of the bug being fixed.
-          required: true
-        - label: I have reviewed the [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) and there is no mention of the bug being fixed.
+        - label: I am using the latest version of the current update version, and have reviewed the [update content](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev/) released to date, [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) unreleased update content and there is no mention of the bug being fixed.
           required: true
         - label: I have checked all the options without carefully reading the content and believe this will not affect issue resolution.
           required: false
-        - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html) to ensure that my issue/bug has not been mentioned.
-          required: true
-        - label: I have reviewed the [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732) to ensure that my issue/bug has not been mentioned.
-          required: true
-        - label: I have reviewed the [Open Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) to ensure that my issue/bug has not been mentioned.
-          required: true
-        - label: I have reviewed the [Closed Issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my issue/bug has not been mentioned.
+        - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my issue has not been mentioned.
           required: true
   - type: textarea
     id: describe
@@ -54,7 +42,7 @@ body:
     id: logs
     attributes:
       label: Log and config files
-      description: >-
+      description: |
         **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**
 
         **Please drag and drop the full file in, not your own cuttings or copies; compress it before uploading if too large.**
@@ -78,7 +66,7 @@ body:
     id: screenshots
     attributes:
       label: Screenshots or recordings
-      description: >-
+      description: |
         In the `debug` directory, within the functionally categorized folders, 
         there are some error images captured automatically.
         If related to this issue, please upload them together.
@@ -95,14 +83,13 @@ body:
         and their aspect ratio and resolution are inconsistent,
         which makes it harder for us to debug.
 
-        If the file siz is too large, you may compress it before uploading.
-
+        If the file size is too large, you may compress it before uploading.
     validations:
       required: false
   - type: textarea
     id: others
     attributes:
-      label: Anthing else?
+      label: Anything else?
       description: |
         Anything that will give us more insight into the problem you are having.
     validations:

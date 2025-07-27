@@ -137,7 +137,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         set
         {
             value = value
-                .Replace(" ", "")
+                .Replace(" ", string.Empty)
                 .Replace("：", ":")
                 .Replace(";", ":")
                 .Replace("；", ":")
@@ -448,8 +448,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         {
                             string[] possiblePaths =
                             [
-                                @"Software\mrfz\mrfz",        // 专版路径优先
-                                @"Software\leidian\ldplayer9" // 原版路径
+                                @"Software\leidian\ldplayer9", // 原版路径优先
+                                @"Software\mrfz\mrfz"
                             ];
 
                             const string InstallDirValueName = "InstallDir";
@@ -1058,11 +1058,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (!File.Exists(MaaUrls.GoogleAdbFilename))
         {
-            var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.GoogleAdbDownloadUrl), MaaUrls.GoogleAdbFilename);
+            string[] downloadUrls =
+            [
+                MaaUrls.GoogleAdbDownloadUrl,
+                MaaUrls.AdbMaaMirrorDownloadUrl,
+                MaaUrls.AdbMaaMirror2DownloadUrl
+            ];
 
-            if (!downloadResult)
+            bool downloadResult = false;
+            foreach (var url in downloadUrls)
             {
-                downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(MaaUrls.AdbMaaMirrorDownloadUrl), MaaUrls.GoogleAdbFilename);
+                downloadResult = await Instances.HttpService.DownloadFileAsync(new(url), MaaUrls.GoogleAdbFilename);
+                if (downloadResult)
+                {
+                    break;
+                }
             }
 
             if (!downloadResult)

@@ -41,23 +41,36 @@
                             VerticalAlignment="Top"
                             Focusable="True"
                             FontSize="14"
+                            ForceCursor="False"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding RecruitInfo}"
                             TextWrapping="Wrap" />
-                        <controls:TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            FontSize="14"
-                            Text="{Binding RecruitResult}"
-                            TextWrapping="Wrap" />
+                        <Border
+                            Padding="10"
+                            Background="{DynamicResource RegionBrushOpacity50}"
+                            CornerRadius="4"
+                            Visibility="{c:Binding 'RecruitResultInlines.Count > 0'}">
+                            <controls:TextBlock
+                                HorizontalAlignment="Left"
+                                BindableInlines="{Binding RecruitResultInlines}"
+                                FontSize="14"
+                                TextWrapping="Wrap" />
+                        </Border>
                     </StackPanel>
                 </hc:ScrollViewer>
-                <StackPanel
+                <Grid
                     Grid.Row="1"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Margin="10,0"
+                        VerticalAlignment="Center">
                         <CheckBox
                             Margin="5"
                             Content="{DynamicResource AutoSettingTime}"
@@ -68,13 +81,20 @@
                                 Margin="5,5,0,5"
                                 HorizontalAlignment="Left"
                                 IsChecked="{Binding RecruitmentShowPotential}">
-                                <controls:TextBlock Text="{DynamicResource RecruitmentShowPotential}" TextWrapping="Wrap" />
+                                <controls:TextBlock
+                                    Text="{DynamicResource RecruitmentShowPotential}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                             </CheckBox>
                             <controls:TooltipBlock TooltipText="{DynamicResource RecruitmentShowPotentialTips}" />
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel VerticalAlignment="Center">
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
                         <StackPanel Height="30" Orientation="Horizontal">
                             <CheckBox
                                 Margin="5"
@@ -173,15 +193,17 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
+
                     <Button
+                        Grid.Column="2"
                         Width="180"
                         Height="70"
-                        Margin="38,0,0,0"
+                        Margin="10,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
                         Content="{DynamicResource StartToRecruit}" />
-                </StackPanel>
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">

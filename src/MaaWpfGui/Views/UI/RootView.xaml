@@ -99,16 +99,23 @@
             </Grid>
             <Button
                 Grid.Column="1"
+                Width="46"
+                Height="29"
+                hc:BorderElement.CornerRadius="0"
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
                 Content="📌">
                 <Button.Style>
                     <Style BasedOn="{StaticResource ButtonBaseStyle}" TargetType="Button">
                         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                        <Setter Property="Background" Value="{Binding OtherButtonBackground, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsWindowTopMost}" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource TitleBrush}" />
                             </DataTrigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{Binding OtherButtonHoverBackground, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>

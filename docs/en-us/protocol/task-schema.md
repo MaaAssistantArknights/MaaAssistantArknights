@@ -143,6 +143,13 @@ Usage of `resource/tasks` and description of each field
         "withoutDet": false,                // Optional, whether to not use the detection model
                                             // default false if not filled
 
+        "binThresholdLower": 140,           // Optional. Lower threshold for grayscale binarization (default: 140)
+                                            // Pixels with grayscale values below this will be treated as background and excluded
+
+        "binThresholdUpper": 255,           // Optional. Upper threshold for grayscale binarization (default: 255)
+                                            // Pixels with grayscale values above this will be treated as background and excluded
+                                            // Only pixels within the [lower, upper] range are kept as text foreground
+
         /* The following fields are only valid when the algorithm is Hash */
         // The algorithm is not mature, and is only used in some special cases, so it is not recommended for now
         // Todo

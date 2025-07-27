@@ -146,6 +146,13 @@ icon: material-symbols:task
         "withoutDet": false,                // 可選項，是否不使用檢測模型
                                             // 不填寫預設 false
 
+        "binThresholdLower": 140,           // 可選項，灰階二值化下限閾值（預設為 140）
+                                            // 灰階值小於此值的像素會被視為背景，排除在文字區域之外
+
+        "binThresholdUpper": 255,           // 可選項，灰階二值化上限閾值（預設為 255）
+                                            // 灰階值大於此值的像素會被視為背景，排除在文字區域之外
+                                            // 最終僅保留 [lower, upper] 區間的像素作為文字前景
+
         /* 以下欄位僅當 algorithm 為 Hash 時有效 */
         // 演算法不成熟，僅部分特例情況中用到了，暫不推薦使用
         // Todo

@@ -606,6 +606,8 @@ struct OcrTaskInfo : public TaskInfo
     bool replace_full = false;     // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
     std::vector<std::pair<std::string, std::string>>
         replace_map;               // 部分文字容易识别错，字符串强制replace之后，再进行匹配
+    int bin_threshold_lower = 140;
+    int bin_threshold_upper = 255;
 };
 
 using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;
