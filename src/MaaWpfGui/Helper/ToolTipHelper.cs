@@ -94,17 +94,31 @@ namespace MaaWpfGui.Helper
 
             Inline CloneInline(Inline inline)
             {
-                return inline switch
+                switch (inline)
                 {
-                    Run run => new Run(run.Text)
-                    {
-                        Foreground = run.Foreground,
-                        FontWeight = run.FontWeight,
-                        FontStyle = run.FontStyle,
-                    },
-                    LineBreak => new LineBreak(),
-                    _ => new Run(),
-                };
+                    case Run run:
+                        var newRun = new Run(run.Text)
+                        {
+                            FontWeight = run.FontWeight,
+                            FontStyle = run.FontStyle,
+                        };
+
+                        if (run.Tag is string resourceKey)
+                        {
+                            newRun.SetResourceReference(TextElement.ForegroundProperty, resourceKey);
+                            newRun.Tag = resourceKey;
+                        }
+                        else
+                        {
+                            newRun.Foreground = run.Foreground;
+                        }
+
+                        return newRun;
+                    case LineBreak:
+                        return new LineBreak();
+                    default:
+                        return new Run();
+                }
             }
         }
 
