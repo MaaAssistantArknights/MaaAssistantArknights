@@ -707,6 +707,26 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     #endregion Drops
 
+    public static Dictionary<string, string> AnnihilationModeList { get; } = new()
+    {
+        { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
+        { LocalizationHelper.GetString("Chernobog"), "Chernobog@AnnihilationReturn@Annihilation" },
+        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@AnnihilationReturn@Annihilation" },
+        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@AnnihilationReturn@Annihilation" },
+    };
+
+    private string _annihilationMode = ConfigurationHelper.GetValue(ConfigurationKeys.Annihilation, "Annihilation");
+
+    public string AnnihilationMode
+    {
+        get => _annihilationMode;
+        set
+        {
+            SetAndNotify(ref _annihilationMode, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.Annihilation, value);
+        }
+    }
+
     private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
 
     /// <summary>

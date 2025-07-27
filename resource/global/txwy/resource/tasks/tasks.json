@@ -580,6 +580,18 @@
     "LoadingText": {
         "text": ["正在提交", "反饋至神經"]
     },
+    "Chernobog": {
+        "text": ["切爾諾伯格"]
+    },
+    "LungmenOutskirts": {
+        "text": ["龍門外環"]
+    },
+    "LungmenDowntown": {
+        "text": ["龍門市區"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["切換"]
+    },
     "StartButton1": {
         "text": ["開始行動"]
     },
