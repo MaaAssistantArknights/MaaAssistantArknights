@@ -4,35 +4,13 @@
 
 * 添加自定义剿灭关卡勾选框 @ABA2396
 * 适配长期剿灭 (#13241) @dikxingmengya @HX3N @Constrat @momomochi987 @Manicsteiner
-* 进出洞 @ABA2396
-* ocr 任务暴露灰度阈值接口 @ABA2396
-* 添加选项 fallback @ABA2396
-* ui 添加刷等级入口 @ABA2396
-* 界园屏蔽进二层 @ABA2396
-* 增加快速刷钱时路线全是战斗的回调 @ABA2396
-* 先复制一下之前的导航代码，能跑就行；以后再重构 @Alan-Charred
-* 补充相关任务链 @Alan-Charred
-* fast investment for JieGarden @Alan-Charred
-* update map @Alan-Charred
-* node templates @Alan-Charred
-* skip recruitment @Alan-Charred
-* add new routing strategy -- FastInvestment_JieGarden @Alan-Charred
 * 界园肉鸽开始探索CD任务ocr追加 @status102
 * 禁用弹出成就气泡 (#13345) @Sakurapainting @Constrat @status102 @ABA2396
-* 添加开机自启与系统通知相关注册表提示 @ABA2396
-* 调整更新提示 @ABA2396
-* 扩大公告宽度，更容易滑到底（了吗？） @ABA2396
 * 公招识别结果根据当前潜能排序 @ABA2396
 * 成就通知自动关闭选项 @Sakurapainting
-* 调整界面描述 @ABA2396
 * 公招结果支持彩色显示 @ABA2396
-* 标题栏显示版本改为 ui 版本 @ABA2396
-* 调整 gpu 提示 @ABA2396
-* 置顶按钮鼠标悬浮背景色 @ABA2396
 * 查看公告按钮添加检查时禁用 @ABA2396
-* 调整模拟器分辨率不支持的描述 @ABA2396
 * 移除肉鸽默认分队与默认职业组 @ABA2396
-* cdk 边框圆角 @ABA2396
 * 新增是否启动客户端勾选框 @ABA2396
 
 ### 改进 | Improved
@@ -47,12 +25,11 @@
 * wpf不再允许通过Gui直接启用`允许使用不推荐的GPU`选项 @status102
 * 优化客户端切换逻辑，官服B服切换无需重载 @ABA2396
 * 添加自动编队选项 忽略干员属性要求 (#13250) @travellerse @status102 @HX3N @Constrat
-* range::copy替换 @status102
-* MirrocCdk复制按钮接缝美化 @status102
 * 优化资源损坏弹窗描述，提供解决方案 @ABA2396
-* CN issue模板简化及Bot优化 (#13297) @status102
 * 雷电注册表优先使用原版路径 @ABA2396
-* 长草任务序列化重构已完成部分合并 (#13275) @status102
+* 繁中服「追跡日落以西」活動導航 (#13336) @momomochi987
+* 肉鸽局内外招募流程拆分 (#13342) @status102
+* 简中繁中截图耗时过长提示增加截图增强提醒 (#13309) @status102 @Manicsteiner @Constrat @HX3N
 
 ### 修复 | Fix
 
@@ -108,6 +85,32 @@
 
 ### 其他 | Other
 
+* 置顶按钮鼠标悬浮背景色 @ABA2396
+* 调整模拟器分辨率不支持的描述 @ABA2396
+* 添加开机自启与系统通知相关注册表提示 @ABA2396
+* 调整更新提示 @ABA2396
+* 扩大公告宽度，更容易滑到底（了吗？） @ABA2396
+* 调整界面描述 @ABA2396
+* 标题栏显示版本改为 ui 版本 @ABA2396
+* 调整 gpu 提示 @ABA2396
+* cdk 边框圆角 @ABA2396
+* range::copy替换 @status102
+* MirrocCdk复制按钮接缝美化 @status102
+* CN issue模板简化及Bot优化 (#13297) @status102
+* 长草任务序列化重构已完成部分合并 (#13275) @status102
+* 进出洞 @ABA2396
+* ocr 任务暴露灰度阈值接口 @ABA2396
+* 添加选项 fallback @ABA2396
+* ui 添加刷等级入口 @ABA2396
+* 界园屏蔽进二层 @ABA2396
+* 增加快速刷钱时路线全是战斗的回调 @ABA2396
+* 先复制一下之前的导航代码，能跑就行；以后再重构 @Alan-Charred
+* 补充相关任务链 @Alan-Charred
+* fast investment for JieGarden @Alan-Charred
+* update map @Alan-Charred
+* node templates @Alan-Charred
+* skip recruitment @Alan-Charred
+* add new routing strategy -- FastInvestment_JieGarden @Alan-Charred
 * 关闭自定义剿灭时默认当期剿灭 @ABA2396
 * import @status102
 * 替换 JieGarden StageEncounterOptionUnknown模板图 @ABA2396
@@ -116,16 +119,13 @@
 * 多余的 ocrReplace @ABA2396
 * 防止没进 StrategyChange 的情况 @ABA2396
 * polish code @Alan-Charred
-* 肉鸽局内外招募流程拆分 (#13342) @status102
 * 仓库识别全局缓存，去除开方运算 @ABA2396
 * SA1122 Use string.Empty for empty strings @status102
 * wpf`干员`统一使用指定字符串资源 (#13333) @status102 @Constrat @Manicsteiner @HX3N
-* 繁中服「追跡日落以西」活動導航 (#13336) @momomochi987
 * vs code jsonc @status102
 * make GUI UserAgent simple @MistEO
 * 替换表合并使用 insert，保证顺序并提升可读性 @ABA2396
 * 添加 gpu 日志 @ABA2396
 * 添加 Tencent EdgeOne 备用 CDN @ABA2396
 * 肉鸽加点注释 @status102
-* 简中繁中截图耗时过长提示增加截图增强提醒 (#13309) @status102 @Manicsteiner @Constrat @HX3N
 * 添加请求耗时记录 @ABA2396
