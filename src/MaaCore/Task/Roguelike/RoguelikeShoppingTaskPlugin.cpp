@@ -37,8 +37,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         // 界园可能没有免费刷新，先不进这里
         m_config->get_mode() == RoguelikeMode::Exp) {
         // 点击刷新
-        ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run();
-        buy_once();
+        sleep(500);
+        if (ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run()) {
+            buy_once();
+        }
     }
 
     return true;
