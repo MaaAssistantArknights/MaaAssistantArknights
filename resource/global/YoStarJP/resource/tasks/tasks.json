@@ -867,6 +867,18 @@
         "text": ["ニューラル", "コネクタ", "接続中"],
         "roi": [700, 600, 350, 120]
     },
+    "Chernobog": {
+        "text": ["チェルノボーグ"]
+    },
+    "LungmenOutskirts": {
+        "text": ["龍門郊外"]
+    },
+    "LungmenDowntown": {
+        "text": ["龍門市街"]
+    },
+    "AnnihilationSwitchButton": {
+        "text": ["切替"]
+    },
     "StartButton1": {
         "ocrReplace": [["行重動", "行動"]],
         "text": ["行動開始"]

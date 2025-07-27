@@ -647,7 +647,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PR-C-2">先/辅芯片组</system:String>
     <system:String x:Key="PR-D-1">近/特芯片</system:String>
     <system:String x:Key="PR-D-2">近/特芯片组</system:String>
+    <system:String x:Key="AnnihilationMode">剿灭模式</system:String>
     <system:String x:Key="Annihilation">当期剿灭</system:String>
+    <system:String x:Key="Chernobog">切尔诺伯格</system:String>
+    <system:String x:Key="LungmenOutskirts">龙门外环</system:String>
+    <system:String x:Key="LungmenDowntown">龙门市区</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日关卡小提示: </system:String>
     <system:String x:Key="CETip">CE（龙门币）</system:String>
     <system:String x:Key="APTip">AP（红票）</system:String>
@@ -683,6 +687,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
     <system:String x:Key="AnnihilationTaskTip">关卡选择为剿灭任务，任务结束后将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
+    <system:String x:Key="AnnihilationWarning">若使用剿灭模式，请配置备选关卡。</system:String>
     <!--  !日志  -->
     <!--  !一键长草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
