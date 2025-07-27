@@ -19,11 +19,11 @@
 
 ### Dual Power: Roguelike & Annihilation | Highlight
 
-This update brings comprehensive support for Garden Roguelike and deeper adaptation for Annihilation mode, along with performance optimizations in specific scenarios.
+This update brings comprehensive support for JieGarden Roguelike and deeper adaptation for Annihilation mode, along with performance optimizations in specific scenarios.
 
 #### JieGarden Roguelike Adaptation
 
-We’ve enhanced squad logic for Difficulty 3 and above, now enabling efficient LMD farming using “End of Time” to skip battles. This should greatly boost farming efficiency.
+We’ve enhanced squad logic for Difficulty 3 and above, now enabling efficient Roguelike store investment using “End of Times” to skip battles. This should greatly boost farming efficiency.
 
 Since entering the second floor before exiting can significantly increase score, we’ve also added a toggle in farming mode to enable second-floor entry — now you can farm both points and LMD!
 
