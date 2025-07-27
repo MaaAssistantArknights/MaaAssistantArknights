@@ -17,10 +17,11 @@
     Width="600"
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type ui:VersionUpdateViewModel}}"
+    Background="{DynamicResource MdXamlBackground}"
     Icon="../../newlogo.ico"
     mc:Ignorable="d">
     <hc:ScrollViewer Margin="10,5" IsInertiaEnabled="True">
-        <Grid Background="{DynamicResource MdXamlBackground}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
