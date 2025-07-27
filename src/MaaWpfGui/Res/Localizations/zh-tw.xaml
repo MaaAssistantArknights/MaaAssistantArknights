@@ -687,7 +687,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
-    <system:String x:Key="AnnihilationWarning">若使用剿滅模式，請配置備選關卡。</system:String>
 
     <!--  !設定失敗  -->
     <!--  !一鍵長草  -->

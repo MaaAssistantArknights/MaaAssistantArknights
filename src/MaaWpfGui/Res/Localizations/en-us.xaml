@@ -689,7 +689,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
-    <system:String x:Key="AnnihilationWarning">If you use the Annihilation Mode, please configure alternate stage.</system:String>
     <!--  !Logs  -->
     <!--  !Farming  -->
     <system:String x:Key="Toolbox">Toolbox</system:String>
