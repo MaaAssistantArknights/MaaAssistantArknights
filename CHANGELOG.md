@@ -2,7 +2,9 @@
 
 ### 新增 | New
 
+* 肉鸽快速刷钱、进二层、刷等级模式 @ABA2396 @status102 @Alan-Charred
 * 适配长期剿灭 (#13241) @dikxingmengya @HX3N @Constrat @momomochi987 @Manicsteiner @ABA2396 @status102
+* 优化主界面显示效果 @ABA2396
 * 界园肉鸽开始探索CD任务ocr追加 @status102
 * 成就通知自动关闭选项、禁用弹出 (#13345) @Sakurapainting @Constrat @status102 @ABA2396
 * 公招识别结果根据当前潜能排序 @ABA2396
@@ -14,6 +16,7 @@
 
 ### 改进 | Improved
 
+* 更新日志界面Background前置 @status102
 * 优化肉鸽难度选择逻辑 @ABA2396
 * 重构仓库识别逻辑，大幅提高识别速度 @ABA2396
 * PerformanceUseGpu 读取替换 @status102
@@ -28,6 +31,7 @@
 
 ### 修复 | Fix
 
+* 切换语言时选择材料更新 @ABA2396
 * 卡招募 卡电弧 @ABA2396
 * 无法连接主站时无法通过备站更新 @ABA2396
 * 肉鸽招募任务计数未能正确归0 @status102
@@ -49,6 +53,7 @@
 
 ### 文档 | Docs
 
+* 更新肉鸽 剿灭文档 @ABA2396
 * EN issue simplification @Constrat
 
 ### 其他 | Other
