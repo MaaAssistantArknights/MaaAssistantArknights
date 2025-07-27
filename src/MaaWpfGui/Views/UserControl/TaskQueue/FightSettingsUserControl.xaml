@@ -154,7 +154,7 @@
             </Grid>
             <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -190,7 +190,7 @@
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -385,7 +385,7 @@
                 Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
                                        Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
