@@ -645,9 +645,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="PR-C-2">先/輔晶片組</system:String>
     <system:String x:Key="PR-D-1">近/特晶片</system:String>
     <system:String x:Key="PR-D-2">近/特晶片組</system:String>
+    <system:String x:Key="AnnihilationStage">殲滅關卡</system:String>
+    <system:String x:Key="UseCustomAnnihilation">自訂{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">剿滅模式</system:String>
     <system:String x:Key="Annihilation">當期剿滅</system:String>
-	<system:String x:Key="Chernobog">切爾諾伯格</system:String>
+    <system:String x:Key="Chernobog">切爾諾伯格</system:String>
     <system:String x:Key="LungmenOutskirts">龍門外環</system:String>
     <system:String x:Key="LungmenDowntown">龍門市區</system:String>
     <system:String x:Key="TodaysStageTip" xml:space="preserve">今日關卡小提示: </system:String>

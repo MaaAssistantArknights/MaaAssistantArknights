@@ -648,6 +648,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-C-2">先鋒/補助SoC・中</system:String>
     <system:String x:Key="PR-D-1">前衛/特殊SoC・初</system:String>
     <system:String x:Key="PR-D-2">前衛/特殊SoC・中</system:String>
+    <system:String x:Key="AnnihilationStage">殲滅ステージ</system:String>
+    <system:String x:Key="UseCustomAnnihilation">カスタム{key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">殲滅作戦</system:String>
     <system:String x:Key="Annihilation">今期の殲滅作戦</system:String>
     <system:String x:Key="Chernobog">チェルノボーグ</system:String>
