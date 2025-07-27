@@ -647,10 +647,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="PR-C-2">PR-C-2 (뱅가드/서포터)</system:String>
     <system:String x:Key="PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
     <system:String x:Key="PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
-    <system:String x:Key="Annihilation">섬멸 작전</system:String>
     <system:String x:Key="AnnihilationStage">섬멸 작전</system:String>
     <system:String x:Key="UseCustomAnnihilation">사용자 지정 {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">섬멸 모드</system:String>
+    <system:String x:Key="Annihilation">이번 섬멸 작전</system:String>
     <system:String x:Key="Chernobog">체르노보그</system:String>
     <system:String x:Key="LungmenOutskirts">용문 외곽</system:String>
     <system:String x:Key="LungmenDowntown">용문 시내</system:String>

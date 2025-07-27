@@ -650,7 +650,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="AnnihilationStage">Annihilation Stage</system:String>
     <system:String x:Key="UseCustomAnnihilation">Custom {key=AnnihilationStage}</system:String>
     <system:String x:Key="AnnihilationMode">Annihilation Mode</system:String>
-    <system:String x:Key="Annihilation">Annihilation</system:String>
+    <system:String x:Key="Annihilation">Current Annihilation</system:String>
     <system:String x:Key="Chernobog">Chernobog</system:String>
     <system:String x:Key="LungmenOutskirts">Lungmen Outskirts</system:String>
     <system:String x:Key="LungmenDowntown">Lungmen Downtown</system:String>

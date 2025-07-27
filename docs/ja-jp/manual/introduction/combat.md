@@ -49,7 +49,13 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
   - 龙门币、作战记录的 5 / 6 关，但必须输入 `CE-6` / `LS-6`。MAA 会在第六关无法代理的情况下自动切换至第五关。
   - 技能书、采购凭证、碳本第 5 关，必须输入 `CA-5` / `AP-5` / `SK-5`。
   - 所有芯片本。必须输入完整关卡编号，如 `PR-A-1`。
-  - 剿灭作战。必须输入 `Annihilation`。
+  - 殲滅モードは以下の値をサポートします：
+
+    - 今期の殲滅作戦：Annihilation
+    - チェルノボーグ：Chernobog@Annihilation
+    - 龍門郊外：LungmenOutskirts@Annihilation
+    - 龍門市街：LungmenDowntown@Annihilation
+
   - 别传中的 `OF-1` / `OF-F3` / `GT-5`。
   - 当期 SS 活动 后三关。在自动访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下载更新后会在界面下方显示。
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
@@ -58,11 +64,10 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 ![画面例](/images/ja-jp/combat-start-interface-example.png)
 :::
 
-### 当期剿灭
+### 殲滅モード
 
-- MAA 只会通过终端首页右上角的剿灭按钮进行跳转，请确保当期剿灭已解锁 `全权委托` 并持有足够数量的 “PRTS 剿灭代理卡”。
-- 在当期剿灭刷新或重新安装明日方舟后，从剿灭 `开始战斗` 页面返回会自动展开 `情报汇总`，请提前关闭此页面以防止任务卡住。
-- 仅建议当期剿灭已“400 杀”的玩家使用 MAA 自动剿灭。
+- MAAは、ターミナルホーム画面右上の殲滅ボタンからのみ移動します。選択した殲滅作戦が `全権委任` を解放済みであり、十分な数の「PRTS殲滅代理カード」を所持していることを確認してください。
+- 自動殲滅の使用は、該当作戦で「400撃破」を達成済みの場合のみ推奨されます。
 
 ## 高级设置
 
@@ -74,7 +79,7 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
    - 如果当天开放 `龙门币-6/5`，就会前往 `龙门币-6/5`，不会前往 `1-7` 和 `经验-6/5`。如果玩家此时未解锁 `龙门币-6/5` 代理，则刷理智任务出错。
    - 如果当天未开放 `龙门币-6/5`，则会前往 `1-7`，不会前往 `龙门币-6/5`。如果玩家此时未解锁 1-7 代理，则刷理智任务出错。
    - 由于 `经验-6/5` 前存在常驻关卡 `1-7`，在这种情况下，MAA 永远也不会前往 `经验-6/5` 战斗。
-2. 如关卡选择为 `当期剿灭`，则不会因为剿灭的结果影响其余备选关卡的选择逻辑。即使剿灭出错，刷理智任务也不会出错。
+2. 如关卡选择为 `殲滅モード`，则不会因为剿灭的结果影响其余备选关卡的选择逻辑。即使剿灭出错，刷理智任务也不会出错。
 
 ### 剩余理智
 
