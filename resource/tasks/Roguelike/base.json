@@ -405,12 +405,12 @@
         "text": []
     },
     "Roguelike@CheckLevelMax": {
-        "Doc": "base_task 等级界面检查是否满级",
+        "Doc": "base_task 等级界面检查是否满级, 任务失败为满级",
         "algorithm": "OcrDetect",
-        "postDelay": 500,
         "roi": [1024, 20, 47, 27],
         "isAscii": true,
         "text": ["nope"],
+        "postDelay": 500,
         "ocrReplace": [["[0-9]", "nope"]]
     },
     "Roguelike@ChooseDifficulty": {
