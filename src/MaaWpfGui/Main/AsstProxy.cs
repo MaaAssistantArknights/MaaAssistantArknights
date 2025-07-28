@@ -38,7 +38,6 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -1749,7 +1748,7 @@ namespace MaaWpfGui.Main
                 case "BattleFormationOperUnavailable":
                     {
                         var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationOperUnavailable"), oper_name, subTaskDetails["requirement_type"]));
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationOperUnavailable"), oper_name, subTaskDetails["requirement_type"]), Instances.CopilotViewModel.IgnoreRequirements ? UiLogColor.Warning : UiLogColor.Error);
                         break;
                     }
 

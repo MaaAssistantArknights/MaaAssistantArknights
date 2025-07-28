@@ -81,6 +81,7 @@
                 Width="300"
                 Height="30"
                 Margin="10"
+                HorizontalContentAlignment="Stretch"
                 hc:TitleElement.Title="{DynamicResource ConnectionAddress}"
                 hc:TitleElement.TitlePlacement="Left"
                 IsEditable="True"
@@ -101,6 +102,8 @@
                                 Text="{Binding}" />
                             <Button
                                 Grid.Column="1"
+                                Width="30"
+                                Height="30"
                                 HorizontalAlignment="Right"
                                 Command="{s:Action RemoveAddressClick}"
                                 CommandParameter="{Binding}"

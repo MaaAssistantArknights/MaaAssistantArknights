@@ -878,9 +878,9 @@ public class VersionUpdateViewModel : Screen
 
         string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch
         {
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "version/beta.json",
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "version/alpha.json",
-            _ => "version/stable.json",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
+            _ => "stable",
         };
 
         var latestVersion = json[versionType]?["version"]?.ToString();
@@ -897,7 +897,7 @@ public class VersionUpdateViewModel : Screen
 
     private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
     {
-        var json = await Instances.MaaApiService.RequestMaaApiWithCache(versionType);
+        var json = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json");
         if (json is null)
         {
             return CheckUpdateRetT.FailedToGetInfo;

@@ -506,7 +506,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 強烈建議在開啟本功能後立刻運行一次截圖測試。
 MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe 或
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 則應填寫
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 注意：
@@ -852,7 +853,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolution">解決方法</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">請勿直接移動 MAA.exe 文件。若需更改軟件位置，請移動整個文件夾；或右鍵 MAA.exe 創建快捷方式，然後將快捷方式移動到其他位置。</system:String>
     <system:String x:Key="ErrorSolutionCrash">請參考文件: 常見問題 - 閃退 進行操作。</system:String>
-    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓更新包失敗，請嘗試手動解壓根目錄下更新包。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓更新包失敗。建議先嘗試重新啟動 MAA.exe，若仍無法解決，請重新啟動電腦後再試。請勿手動解壓更新包，以免漏刪必要的檔案。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重開電腦後，使用系統管理員身分執行 MAA 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重開電腦後重試。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往 ｢Windows 設置｣ 選擇默認瀏覽器。</system:String>

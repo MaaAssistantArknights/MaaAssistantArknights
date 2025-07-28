@@ -508,7 +508,8 @@ MuMu 12 V4.0.0 or later is required. Global version is not supported.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe or
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 then it should be filled in as
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
 Note:
@@ -854,8 +855,8 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionMoveMaaExeOutOfFolder">Do not move the MAA.exe file alone. If you need to change the software location, please move the entire folder, or create a shortcut for MAA.exe in this folder and then drag the shortcut to another location.</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: ｢FAQ - Crashes｣ to solve.</system:String>
-    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try to manually extract the update package in the root directory.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">Failed to extract the update package. Please try restarting MAA.exe first. If the issue persists, restart your computer and try again. Do not extract the update package manually, as this may skip necessary file deletions.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise, restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to ｢Windows Settings｣ and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>

@@ -45,8 +45,9 @@ namespace MaaWpfGui.Services.Web
         private async Task<JObject?> TryRequest(string api, string baseUrl)
         {
             var url = baseUrl + api;
+            var cache = CacheDir + api;
 
-            var response = await ETagCache.FetchResponseWithEtag(url);
+            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
             if (response == null ||
                 response.StatusCode == System.Net.HttpStatusCode.NotModified ||
                 response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -63,7 +64,6 @@ namespace MaaWpfGui.Services.Web
             try
             {
                 var json = (JObject?)JsonConvert.DeserializeObject(body);
-                var cache = CacheDir + api;
                 string? directoryPath = Path.GetDirectoryName(cache);
 
                 if (!Directory.Exists(directoryPath))
