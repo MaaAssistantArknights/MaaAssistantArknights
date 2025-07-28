@@ -20,7 +20,7 @@
     "JieGarden@StartExplore@Roguelike@EnterAfterRecruit": {
         "template": "JieGarden@Roguelike@EnterAfterRecruit.png",
         "roi": [1040, 240, 240, 179],
-        "next": ["#self", "JieGarden@Roguelike@NextLevel"]
+        "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
     "JieGarden@StartExplore@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
@@ -85,7 +85,8 @@
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",
             "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@NextLevel"
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next"
         ]
     },
     "JieGarden@Roguelike@ChooseOperFlag": {
@@ -165,7 +166,7 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [867, 406, 242, 160],
-        "next": ["JieGarden@Roguelike@NextLevel", "#self"]
+        "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
     "JieGarden@Roguelike@Continue": {},
     "JieGarden@Roguelike@DeepExploration": {
@@ -362,6 +363,7 @@
         "specificRect": [490, 530, 45, 55]
     },
     "JieGarden@Roguelike@NextLevel": {
+        "Doc": "截图时间过长可能会识别不到，所以其他地方用到了#next，跳过点击，感觉其他肉鸽也可以这样",
         "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
         "roi": [550, 545, 184, 64],
         "next": [
@@ -379,7 +381,8 @@
             "JieGarden@Roguelike@OperationFailed@NextAfterLoadingIcon",
             "JieGarden@Roguelike@OperationFailed@NextAfterLoadingText",
             "JieGarden@Roguelike@OperationFailed",
-            "JieGarden@Roguelike@NextLevel"
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next"
         ]
     },
     "JieGarden@Roguelike@RandomPick": {
@@ -630,6 +633,13 @@
     "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
     "JieGarden@Roguelike@StageEmergencyDps": {
         "templThreshold": 0.95,
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 31, 51],
+                [179, 233, 226]
+            ]
+        ],
         "postDelay": 600,
         "next": [
             "JieGarden@Roguelike@StageCombatDpsEnter",
@@ -793,6 +803,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -817,6 +828,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -841,6 +853,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -856,6 +869,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -879,6 +893,7 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",

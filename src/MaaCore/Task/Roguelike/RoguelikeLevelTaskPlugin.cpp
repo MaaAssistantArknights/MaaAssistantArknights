@@ -43,7 +43,7 @@ bool asst::RoguelikeLevelTaskPlugin::_run()
         if (ret) {
             ProcessTask(*this, { "Return" }).run();
         }
-        else {
+        else { // 任务失败为满级
             ProcessTask(*this, { "Return" }).run();
             m_task_ptr->set_enable(false);
         }

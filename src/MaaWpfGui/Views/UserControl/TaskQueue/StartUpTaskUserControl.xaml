@@ -131,6 +131,8 @@
                                     Text="{Binding}" />
                                 <Button
                                     Grid.Column="1"
+                                    Width="30"
+                                    Height="30"
                                     HorizontalAlignment="Right"
                                     Command="{s:Action RemoveAddressClick}"
                                     CommandParameter="{Binding}"

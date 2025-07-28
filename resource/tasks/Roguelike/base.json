@@ -386,6 +386,7 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
@@ -404,12 +405,16 @@
         "text": []
     },
     "Roguelike@CheckLevelMax": {
-        "Doc": "base_task 等级界面检查是否满级",
+        "Doc": "base_task 等级界面检查是否满级, 任务失败为满级",
         "algorithm": "OcrDetect",
-        "postDelay": 500,
         "roi": [1024, 20, 47, 27],
+        "isAscii": true,
         "text": ["nope"],
-        "ocrReplace": [["[0-9]", "nope"]]
+        "postDelay": 500,
+        "ocrReplace": [
+            ["[1/]", ""],
+            ["[0-9]", "nope"]
+        ]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
@@ -634,7 +639,7 @@
         "action": "ClickSelf",
         "roi": [1078, 234, 202, 239],
         "postDelay": 3000,
-        "next": ["#self", "Roguelike@NextLevel"]
+        "next": ["#self", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@Exit": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -1370,7 +1375,7 @@
         "template": "empty.png",
         "action": "ClickRect",
         "specificRect": [0, 405, 725, 225],
-        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@StageTrader": {
         "Doc": "base_task",
