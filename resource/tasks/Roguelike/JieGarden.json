@@ -364,8 +364,8 @@
     },
     "JieGarden@Roguelike@NextLevel": {
         "Doc": "截图时间过长可能会识别不到，所以其他地方用到了#next，跳过点击，感觉其他肉鸽也可以这样",
-        "text": [ "洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境" ],
-        "roi": [ 550, 545, 184, 64 ],
+        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
+        "roi": [550, 545, 184, 64],
         "next": [
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseInterview",
