@@ -803,7 +803,6 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -828,7 +827,6 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -853,7 +851,6 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -869,7 +866,6 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
@@ -893,7 +889,6 @@
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
