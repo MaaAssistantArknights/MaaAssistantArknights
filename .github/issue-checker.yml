@@ -552,7 +552,7 @@ comments:
       Your log did not upload successfully, please re-upload it."
     mode: add
   - name: Upload failed
-    regexes: "^[^`]*(`[^`]+`[^`]*)*\\[Uploading[^\\]]*…\\]\\(\\)"
+    regexes: "^[^`]*(`[^`]+`[^`]*)*(\\[Uploading[^\\]]*…\\]\\(\\)|<!-- Failed to upload|<!-- Uploading)"
     content: "你有一些文件没有上传成功，请重新上传。\n\n\
       You have some files that did not upload successfully, please re-upload them."
     mode: add
