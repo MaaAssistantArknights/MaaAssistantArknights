@@ -14,7 +14,7 @@
             "direction": "up"
         },
         {
-            "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
+            "groups": ["益达", "提丰"],
             "location": [4, 4],
             "direction": "up"
         },
@@ -24,7 +24,7 @@
             "direction": "left"
         },
         {
-            "groups": ["高台输出"],
+            "groups": ["焰苇", "水陈", "高台输出"],
             "location": [3, 4],
             "direction": "up"
         },
