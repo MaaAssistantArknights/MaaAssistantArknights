@@ -409,6 +409,7 @@
         "algorithm": "OcrDetect",
         "postDelay": 500,
         "roi": [1024, 20, 47, 27],
+        "isAscii": true,
         "text": ["nope"],
         "ocrReplace": [["[0-9]", "nope"]]
     },
