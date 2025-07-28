@@ -150,18 +150,20 @@ icon: material-symbols:task
         "withoutDet": false,                // 선택 사항, 탐지 모델을 사용하지 않을지 여부를 나타냅니다.
                                             // 기본값은 false입니다.
 
-        "binThresholdLower": 140,           // 선택 항목. 그레이스케일 이진화의 하한 임계값 (기본값: 140)
+        /* 다음 필드들은 algorithm이 OcrDetect이고 withoutDet가 true일 때만 유효합니다 */
+
+        "binThresholdLower": 140,           // 선택 사항. 그레이스케일 이진화의 하한 임계값 (기본값: 140)
                                             // 이 값보다 낮은 픽셀은 배경으로 간주되어 문자 영역에서 제외됩니다
 
-        "binThresholdUpper": 255,           // 선택 항목. 그레이스케일 이진화의 상한 임계값 (기본값: 255)
+        "binThresholdUpper": 255,           // 선택 사항. 그레이스케일 이진화의 상한 임계값 (기본값: 255)
                                             // 이 값보다 높은 픽셀은 배경으로 간주되어 문자 영역에서 제외됩니다
                                             // 최종적으로 [lower, upper] 범위의 픽셀만 문자 전경으로 유지됩니다
 
-        /* 다음 필드들은 algorithm이 Hash인 경우에만 유효합니다. */
-        // 이 알고리즘은 아직 미성숙하며, 특수한 경우에만 사용되므로 현재는 권장되지 않습니다.
-        // Todo
+        /* 다음 필드들은 algorithm이 JustReturn이고 action이 Input일 때만 유효합니다 */
 
-        /* 다음 필드는 알고리즘이 FeatureMatch인 경우에만 유효합니다. */
+        "inputText": "A string text.",      // 필수 사항. 입력할 문자열 내용, 문자열 형식
+
+        /* 다음 필드들은 FeatureMatch인 경우에만 유효합니다. */
 
         "template": "xxx.png",              // 선택 사항. 일치시킬 이미지 파일 이름. 문자열 또는 문자열 목록일 수 있습니다.
                                             // 기본값: "taskname.png"
