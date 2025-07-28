@@ -507,7 +507,8 @@ MuMu 12 V4.0.0 이상은 필요하며, MuMu 12 Global 에서는 지원되지 않
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 설치 디렉토리의 루트 디렉토리를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe 또는
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 라면
 C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
 주의:

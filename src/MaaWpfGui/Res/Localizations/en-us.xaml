@@ -508,7 +508,8 @@ MuMu 12 V4.0.0 or later is required. Global version is not supported.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe or
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 then it should be filled in as
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\n
 Note:
