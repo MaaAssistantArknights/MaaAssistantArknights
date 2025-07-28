@@ -12,25 +12,15 @@
     <SolidColorBrush x:Key="TextIconBrush" Color="#E6E6E6" />
 
     <!--  背景颜色  -->
-    <SolidColorBrush x:Key="RegionBrush" Color="#1c1c1c" />
-    <SolidColorBrush
-        x:Key="RegionBrushOpacity25"
-        Opacity="0.25"
-        Color="#1c1c1c" />
-    <SolidColorBrush
-        x:Key="RegionBrushOpacity50"
-        Opacity="0.50"
-        Color="#1c1c1c" />
-    <SolidColorBrush
-        x:Key="RegionBrushOpacity75"
-        Opacity="0.75"
-        Color="#1c1c1c" />
+    <SolidColorBrush x:Key="RegionBrush" Color="#1C1C1C" />
+    <SolidColorBrush x:Key="RegionBrushOpacity25" Color="#401C1C1C" />
+    <SolidColorBrush x:Key="RegionBrushOpacity50" Color="#7F1C1C1C" />
+    <SolidColorBrush x:Key="RegionBrushOpacity75" Color="#BF1C1C1C" />
 
-    <SolidColorBrush x:Key="MouseOverRegionBrush" Color="#2b2b30" />
-    <SolidColorBrush
-        x:Key="MouseOverRegionBrushOpacity75"
-        Opacity="0.75"
-        Color="#303036" />
+    <SolidColorBrush x:Key="MouseOverRegionBrush" Color="#2B2B30" />
+    <SolidColorBrush x:Key="MouseOverRegionBrushOpacity25" Color="#40303036" />
+    <SolidColorBrush x:Key="MouseOverRegionBrushOpacity50" Color="#7F303036" />
+    <SolidColorBrush x:Key="MouseOverRegionBrushOpacity75" Color="#BF303036" />
 
     <!--  背景颜色 没用到（建议和背景颜色一致）  -->
     <SolidColorBrush x:Key="MainContentBackgroundBrush" Color="#FF1C1C1C" />
