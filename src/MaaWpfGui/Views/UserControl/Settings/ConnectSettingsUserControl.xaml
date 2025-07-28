@@ -52,21 +52,23 @@
         </StackPanel>
         <StackPanel
             Grid.Row="1"
+            Margin="10"
             HorizontalAlignment="Center"
             IsEnabled="{c:Binding !AutoDetectConnection}"
             Orientation="Horizontal">
             <hc:TextBox
-                Width="420"
                 Height="30"
-                Margin="10"
+                Width="380"
+                hc:BorderElement.CornerRadius="4,0,0,4"
                 hc:TitleElement.Title="{DynamicResource AdbPath}"
                 hc:TitleElement.TitlePlacement="Left"
                 Text="{Binding AdbPath}" />
             <Button
                 Width="60"
                 Height="30"
-                Margin="10"
                 HorizontalAlignment="Right"
+                hc:BorderElement.CornerRadius="0,4,4,0"
+                BorderThickness="0,1,1,1"
                 Command="{s:Action SelectFile}"
                 Content="{DynamicResource Select}" />
         </StackPanel>
