@@ -506,7 +506,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 強烈建議在開啟本功能後立刻運行一次截圖測試。
 MAA 會自動通過註冊表獲取安裝路徑，若獲取失敗則請手動填寫。\n
 安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器進程文件路徑為
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe 或
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 則應填寫
 C:\\Program Files\\Netease\\MuMuPlayer-12.0。\n
 注意：

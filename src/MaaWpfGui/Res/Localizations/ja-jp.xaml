@@ -508,7 +508,8 @@ MuMu 12 V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global �
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが
-C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe または
+C:\\Program Files\\Netease\\MuMuPlayer-12.0\\nx_device\\12.0\\shell\\MuMuNxDevice.exe
 の場合、
 C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
 注意：
