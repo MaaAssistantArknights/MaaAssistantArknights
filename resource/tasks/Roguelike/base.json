@@ -386,6 +386,7 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
@@ -634,7 +635,7 @@
         "action": "ClickSelf",
         "roi": [1078, 234, 202, 239],
         "postDelay": 3000,
-        "next": ["#self", "Roguelike@NextLevel"]
+        "next": ["#self", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@Exit": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -1370,7 +1371,7 @@
         "template": "empty.png",
         "action": "ClickRect",
         "specificRect": [0, 405, 725, 225],
-        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel"]
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@StageTrader": {
         "Doc": "base_task",
