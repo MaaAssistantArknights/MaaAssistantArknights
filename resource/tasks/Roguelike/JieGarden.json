@@ -633,6 +633,13 @@
     "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
     "JieGarden@Roguelike@StageEmergencyDps": {
         "templThreshold": 0.95,
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 31, 51],
+                [179, 233, 226]
+            ]
+        ],
         "postDelay": 600,
         "next": [
             "JieGarden@Roguelike@StageCombatDpsEnter",
