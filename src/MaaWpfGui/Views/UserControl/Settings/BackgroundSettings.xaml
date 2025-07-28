@@ -18,14 +18,22 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Margin="10">
-            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImage}" />
+            <controls:TextBlock
+                Margin="0,0,0,5"
+                HorizontalAlignment="Center"
+                Text="{DynamicResource BackgroundImage}" />
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBox Width="350" Text="{Binding BackgroundImagePath}" />
+                <TextBox
+                    Width="350"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
+                    Text="{Binding BackgroundImagePath}" />
                 <Button
                     Width="50"
+                    hc:BorderElement.CornerRadius="0,4,4,0"
+                    BorderThickness="0,1,1,1"
                     Command="{s:Action SelectImagePath}"
                     Content="{DynamicResource Select}" />
             </StackPanel>
@@ -34,7 +42,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundOpacity}" />
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundOpacity}" Margin="0,0,0,5"/>
             <hc:PreviewSlider
                 Width="400"
                 d:Value="50"
@@ -51,7 +59,10 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundBlurRadius}" />
+            <controls:TextBlock
+                Margin="0,0,0,5"
+                HorizontalAlignment="Center"
+                Text="{DynamicResource BackgroundBlurRadius}" />
             <hc:PreviewSlider
                 Width="400"
                 d:Value="5"
@@ -68,10 +79,10 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImageStretchMode}" />
+            <controls:TextBlock HorizontalAlignment="Center" Text="{DynamicResource BackgroundImageStretchMode}" Margin="0,0,0,5"/>
             <hc:ComboBox
                 Width="200"
-                Margin="10"
+
                 HorizontalContentAlignment="Stretch"
                 DisplayMemberPath="Display"
                 IsEditable="True"
