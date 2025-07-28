@@ -217,7 +217,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
     return false;
 }
 
-
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 {
     static const std::unordered_map<battle::Role, std::string> RoleOcrNameMap = {
