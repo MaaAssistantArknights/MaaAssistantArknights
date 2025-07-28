@@ -878,9 +878,9 @@ public class VersionUpdateViewModel : Screen
 
         string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch
         {
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "version/beta.json",
-            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "version/alpha.json",
-            _ => "version/stable.json",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
+            VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
+            _ => "stable",
         };
 
         var latestVersion = json[versionType]?["version"]?.ToString();
@@ -892,7 +892,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        return await GetVersionDetailsByMaaApi(versionType);
+        return await GetVersionDetailsByMaaApi($"version/{versionType}.json");
     }
 
     private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
@@ -1211,7 +1211,7 @@ public class VersionUpdateViewModel : Screen
 
     public bool IsDebugVersion(string? version = null)
     {
-        // return false;
+        return false;
         version ??= _curVersion;
 
         // match case 1: DEBUG VERSION
