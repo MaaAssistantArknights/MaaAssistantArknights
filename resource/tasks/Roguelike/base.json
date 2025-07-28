@@ -411,7 +411,10 @@
         "isAscii": true,
         "text": ["nope"],
         "postDelay": 500,
-        "ocrReplace": [["[0-9]", "nope"]]
+        "ocrReplace": [
+            ["[1/]", ""],
+            ["[0-9]", "nope"]
+        ]
     },
     "Roguelike@ChooseDifficulty": {
         "Doc": "base_task",
