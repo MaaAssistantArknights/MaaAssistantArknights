@@ -892,12 +892,12 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        return await GetVersionDetailsByMaaApi($"version/{versionType}.json");
+        return await GetVersionDetailsByMaaApi(versionType);
     }
 
     private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
     {
-        var json = await Instances.MaaApiService.RequestMaaApiWithCache(versionType);
+        var json = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json");
         if (json is null)
         {
             return CheckUpdateRetT.FailedToGetInfo;
