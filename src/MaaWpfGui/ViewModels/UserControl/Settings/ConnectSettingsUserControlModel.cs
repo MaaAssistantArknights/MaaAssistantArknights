@@ -911,7 +911,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 break;
 
             case "LDPlayer":
-                if (LdPlayerExtras.Enable && ScreencapMethod != "LdExtras")
+                if (LdPlayerExtras.Enable && ScreencapMethod != "LDExtras")
                 {
                     TestLinkInfo = $"{LocalizationHelper.GetString("LdExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
                     return;
