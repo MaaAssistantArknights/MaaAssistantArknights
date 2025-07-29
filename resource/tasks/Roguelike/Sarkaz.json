@@ -6,9 +6,6 @@
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png"
-    },
     "Sarkaz@StartExplore@Roguelike@EnterAfterRecruit": {
         "template": "Sarkaz@Roguelike@EnterAfterRecruit.png",
         "next": ["#self", "Sarkaz@Roguelike@NextLevel"]
@@ -93,15 +90,6 @@
             "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
             "Sarkaz@Roguelike@Abandon",
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp": {
-        "baseTask": "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp",
-            "Sarkaz@Roguelike@RecruitOther",
-            "Sarkaz@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
         ]
     },
     "Sarkaz@Roguelike@ClickToDrops": {

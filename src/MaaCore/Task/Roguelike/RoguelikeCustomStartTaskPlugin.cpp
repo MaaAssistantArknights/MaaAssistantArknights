@@ -134,7 +134,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
             .run();
     }
 
-    constexpr size_t SwipeTimes = 2;
+    constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         if (need_exit()) {
             return false;
@@ -190,7 +190,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
 
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
-    constexpr size_t SwipeTimes = 2;
+    constexpr size_t SwipeTimes = 7;
     const std::string& required_role = m_customs[RoguelikeCustomType::Roles];
 
     for (size_t i = 0; i != SwipeTimes; ++i) {
