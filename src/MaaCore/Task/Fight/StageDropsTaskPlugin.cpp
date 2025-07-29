@@ -243,18 +243,6 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         stats_vec.emplace_back(std::move(info));
     }
 
-    // 先按新增数量降序，再按总数量降序
-    std::sort(stats_vec.begin(), stats_vec.end(), [](const json::value& lhs, const json::value& rhs) -> bool {
-        int lhs_add = lhs.get("addQuantity", 0);
-        int rhs_add = rhs.get("addQuantity", 0);
-        if (lhs_add != rhs_add) {
-            return lhs_add > rhs_add;
-        }
-        int lhs_total = lhs.get("quantity", 0);
-        int rhs_total = rhs.get("quantity", 0);
-        return lhs_total > rhs_total;
-    });
-
     json::value info = basic_info_with_what("StageDrops");
     json::value& details = info["details"];
     details["stars"] = m_stars;
