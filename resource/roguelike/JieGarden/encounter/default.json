@@ -137,8 +137,15 @@
         },
         {
             "name": "同心",
+            "option_num": 1,
+            "choose": 1,
+            "next_event": "同心-选择"
+        },
+        {
+            "name": "同心-选择",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [[5, 1],[4, 1]]
         },
         {
             "name": "柳儿",
