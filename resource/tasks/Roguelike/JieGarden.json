@@ -10,9 +10,6 @@
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
-    "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp": {
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png"
-    },
     "JieGarden@StartExplore@Roguelike@ChooseOperFlag": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
@@ -77,17 +74,6 @@
     "JieGarden@Roguelike@ChooseOperConfirm": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
-    },
-    "JieGarden@Roguelike@ChooseOperConfirmToGiveUp": {
-        "baseTask": "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
-        "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
-        "next": [
-            "JieGarden@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
-            "JieGarden@Roguelike@ChooseOperConfirmToGiveUp",
-            "JieGarden@Roguelike@RecruitOther",
-            "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@NextLevel#next"
-        ]
     },
     "JieGarden@Roguelike@ChooseOperFlag": {
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",

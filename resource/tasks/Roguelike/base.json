@@ -474,9 +474,9 @@
         "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
+            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "Roguelike@ChooseOperConfirmToGiveUp",
-            "Roguelike@RecruitOther",
-            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+            "Roguelike@RecruitSkip#next"
         ]
     },
     "Roguelike@ChooseOperFlag": {
@@ -1789,10 +1789,12 @@
         "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
-            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "StartExplore@Roguelike@RecruitOther",
             "StartExplore@Roguelike@EnterAfterRecruit",
-            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+            "Roguelike@NextLevel",
+            "Roguelike@NextLevel#Next",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp"
         ]
     },
     "StartExplore@Roguelike@RecruitOther": {
