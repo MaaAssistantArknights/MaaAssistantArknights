@@ -190,12 +190,6 @@ namespace MaaWpfGui.ViewModels.UI
             RecruitResultInlines = recruitResultInlines;
             return;
 
-            SolidColorBrush GetBrushWithOpacity(Color baseColor, double opacity)
-            {
-                byte alpha = (byte)(opacity * 255);
-                return new(Color.FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B));
-            }
-
             string GetBrushKeyByStar(int level, bool isMax)
             {
                 return (level, isMax) switch
