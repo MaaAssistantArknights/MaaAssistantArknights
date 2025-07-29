@@ -71,9 +71,14 @@
         },
         {
             "name": "“鲍老板连锁”",
+            "option_num": 2,
+            "choose": 1,
+            "fallback_choices": [[3, 2]]
+        },
+        {
+            "name": "催债鬼夜叉",
             "option_num": 3,
-            "choose": 3,
-            "fallback_choices": [[2, 2]]
+            "choose": 3
         },
         {
             "name": "火祀",
