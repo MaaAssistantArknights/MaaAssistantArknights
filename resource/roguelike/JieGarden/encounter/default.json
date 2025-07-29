@@ -128,7 +128,8 @@
         {
             "name": "滚圆财神",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "fallback_choices": [[4, 3]]
         },
         {
             "name": "饕餮廊",
@@ -145,10 +146,7 @@
             "name": "同心-选择",
             "option_num": 3,
             "choose": 1,
-            "fallback_choices": [
-                [5, 1],
-                [4, 1]
-            ]
+            "fallback_choices": [[5, 1],[4, 1]]
         },
         {
             "name": "柳儿",
@@ -168,7 +166,19 @@
         {
             "name": "集印",
             "option_num": 3,
-            "choose": 2
+            "choose": 2,
+            "next_event": "集印-2"
+        },
+        {
+            "name": "集印-2",
+            "option_num": 3,
+            "choose": 1,
+            "next_event": "集印-3"
+        },
+        {
+            "name": "集印-3",
+            "option_num": 2,
+            "choose": 1
         },
         {
             "name": "海中来客",
@@ -224,7 +234,7 @@
         {
             "name": "传讯",
             "option_num": 3,
-            "choose": 3
+            "choose": 1
         },
         {
             "name": "入暂亭",
