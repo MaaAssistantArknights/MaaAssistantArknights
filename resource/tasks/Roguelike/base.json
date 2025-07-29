@@ -1793,7 +1793,7 @@
             "StartExplore@Roguelike@RecruitOther",
             "StartExplore@Roguelike@EnterAfterRecruit",
             "Roguelike@NextLevel",
-            "Roguelike@NextLevel#Next",
+            "Roguelike@NextLevel#next",
             "StartExplore@Roguelike@ChooseOperConfirmToGiveUp"
         ]
     },
