@@ -71,8 +71,9 @@
         },
         {
             "name": "“鲍老板连锁”",
-            "option_num": 2,
-            "choose": 1
+            "option_num": 3,
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "火祀",
@@ -165,11 +166,6 @@
             "choose": 3
         },
         {
-            "name": "岔路",
-            "option_num": 4,
-            "choose": 1
-        },
-        {
             "name": "千古鸭帝",
             "option_num": 2,
             "choose": 1,
@@ -214,6 +210,21 @@
             "name": "传讯",
             "option_num": 3,
             "choose": 3
+        },
+        {
+            "name": "入暂亭",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "南武群英会",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "祠堂口",
+            "option_num": 2,
+            "choose": 2
         }
     ]
 }
