@@ -248,24 +248,30 @@
                 ToolTip="{DynamicResource RoguelikeCollapseListTip}"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.CLP_PDS',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding RoguelikeUseSupportUnit}"
-                Visibility="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeUseSupportUnit}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
-                Visibility="{c:Binding RoguelikeUseSupportUnit}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeUseNonFriendSupport}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+                        Margin="0,10"
+                        IsChecked="{Binding RoguelikeUseSupportUnit}"
+                        IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
+                        <TextBlock
+                            Block.TextAlignment="Left"
+                            Text="{DynamicResource RoguelikeUseSupportUnit}"
+                            TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
+                </StackPanel>
+                <CheckBox
+                    Margin="0,10"
+                    IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
+                    Visibility="{c:Binding 'RoguelikeUseSupportUnit and RoguelikeCoreChar != &quot;&quot;'}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeUseNonFriendSupport}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
