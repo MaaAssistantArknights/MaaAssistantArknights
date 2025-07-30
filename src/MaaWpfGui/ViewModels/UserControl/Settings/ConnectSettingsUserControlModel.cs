@@ -268,65 +268,66 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (value)
                 {
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
-
-                    // 读取mumu注册表地址 并填充GUI
-                    if (string.IsNullOrEmpty(EmulatorPath))
-                    {
-                        try
-                        {
-                            string[] possibleUninstallKeys =
-                            [
-                                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0",
-                                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer"
-                            ];
-
-                            const string UninstallExeName = @"\uninstall.exe";
-                            string? uninstallString = null;
-                            foreach (var keyPath in possibleUninstallKeys)
-                            {
-                                using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
-                                if (driverKey == null)
-                                {
-                                    continue;
-                                }
-
-                                uninstallString = driverKey.GetValue("UninstallString") as string;
-                                if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
-                                {
-                                    break;
-                                }
-                            }
-
-                            if (string.IsNullOrEmpty(uninstallString))
-                            {
-                                EmulatorPath = string.Empty;
-                                return;
-                            }
-
-                            if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
-                            {
-                                EmulatorPath = string.Empty;
-                                return;
-                            }
-
-                            var match = Regex.Match(uninstallString,
-                                $"""
-                                     ^"(.*?){Regex.Escape(UninstallExeName)}
-                                     """,
-                                RegexOptions.IgnoreCase);
-                            EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Warning("An error occurred: {EMessage}", e.Message);
-                            EmulatorPath = string.Empty;
-                        }
-                    }
+                    AutoDetectEmulatorPath();
                 }
 
                 Instances.AsstProxy.Connected = false;
                 ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
+            }
+        }
+
+        private void AutoDetectEmulatorPath()
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+
+            // 读取mumu注册表地址 并填充GUI
+            if (!string.IsNullOrEmpty(EmulatorPath))
+            {
+                return;
+            }
+
+            try
+            {
+                string[] possibleUninstallKeys =
+                [
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0",
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer"
+                ];
+
+                const string UninstallExeName = @"\uninstall.exe";
+                string? uninstallString = null;
+                foreach (var keyPath in possibleUninstallKeys)
+                {
+                    using var driverKey = Registry.LocalMachine.OpenSubKey(keyPath);
+                    if (driverKey == null)
+                    {
+                        continue;
+                    }
+
+                    uninstallString = driverKey.GetValue("UninstallString") as string;
+                    if (!string.IsNullOrEmpty(uninstallString) && uninstallString.Contains(UninstallExeName))
+                    {
+                        break;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(uninstallString) || string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
+                {
+                    EmulatorPath = string.Empty;
+                    return;
+                }
+
+                var match = Regex.Match(uninstallString,
+                    $"""
+                     ^"(.*?){Regex.Escape(UninstallExeName)}
+                     """,
+                    RegexOptions.IgnoreCase);
+                EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
+            }
+            catch (Exception e)
+            {
+                _logger.Warning("An error occurred: {EMessage}", e.Message);
+                EmulatorPath = string.Empty;
             }
         }
 
@@ -344,7 +345,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
                     MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
-                    value = string.Empty;
+                    AutoDetectEmulatorPath();
+                    return;
                 }
 
                 Instances.AsstProxy.Connected = false;
@@ -439,47 +441,54 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (value)
                 {
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
-
-                    // 读取 LD 注册表地址 并填充GUI
-                    if (string.IsNullOrEmpty(EmulatorPath))
-                    {
-                        try
-                        {
-                            string[] possiblePaths =
-                            [
-                                @"Software\leidian\ldplayer9", // 原版路径优先
-                                @"Software\mrfz\mrfz"
-                            ];
-
-                            const string InstallDirValueName = "InstallDir";
-
-                            foreach (var regPath in possiblePaths)
-                            {
-                                using var driverKey = Registry.CurrentUser.OpenSubKey(regPath);
-                                if (driverKey == null)
-                                {
-                                    continue;
-                                }
-
-                                var installDir = driverKey.GetValue(InstallDirValueName) as string;
-                                if (!string.IsNullOrEmpty(installDir))
-                                {
-                                    EmulatorPath = installDir;
-                                    break;
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Warning("An error occurred: {EMessage}", e.Message);
-                            EmulatorPath = string.Empty;
-                        }
-                    }
+                    AutoDetectEmulatorPath();
                 }
 
                 Instances.AsstProxy.Connected = false;
                 ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerExtrasEnabled, value.ToString());
+            }
+        }
+
+        private void AutoDetectEmulatorPath()
+        {
+            MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+
+            // 读取 LD 注册表地址 并填充GUI
+            if (!string.IsNullOrEmpty(EmulatorPath))
+            {
+                return;
+            }
+
+            try
+            {
+                string[] possiblePaths =
+                [
+                    @"Software\leidian\ldplayer9", // 原版路径优先
+                    @"Software\mrfz\mrfz"
+                ];
+
+                const string InstallDirValueName = "InstallDir";
+
+                foreach (var regPath in possiblePaths)
+                {
+                    using var driverKey = Registry.CurrentUser.OpenSubKey(regPath);
+                    if (driverKey == null)
+                    {
+                        continue;
+                    }
+
+                    var installDir = driverKey.GetValue(InstallDirValueName) as string;
+                    if (!string.IsNullOrEmpty(installDir))
+                    {
+                        EmulatorPath = installDir;
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Warning("An error occurred: {EMessage}", e.Message);
+                EmulatorPath = string.Empty;
             }
         }
 
@@ -497,7 +506,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
                     MessageBoxHelper.Show("LD Emulator Path Not Found");
-                    value = string.Empty;
+                    AutoDetectEmulatorPath();
+                    return;
                 }
 
                 Instances.AsstProxy.Connected = false;
@@ -550,7 +560,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             var emulatorPath = $@"{EmulatorPath}\ldconsole.exe";
             if (!File.Exists(emulatorPath))
             {
-                MessageBoxHelper.Show("LD Emulator Path Not Found");
                 return 0;
             }
 
