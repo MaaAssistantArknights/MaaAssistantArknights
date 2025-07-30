@@ -22,30 +22,30 @@ if __name__ == '__main__':
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageProphecy.png"))
+    image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
     mask_ranges = [
             [
-                [80, 0, 50],
-                [90, 255, 130]
+                [85, 0, 60],
+                [95, 240, 240]
             ]
         ]
 
-    show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'hsv', True), 'hsv')
+    show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'hsv', False), 'hsv')
     # mask_ranges = [[[93, 81, 130], [102, 97, 142]], [[128, 100, 164], [134, 110, 169]], [[95, 85, 145], [105, 95, 155]]]
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageEncounter.png"))
-    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
+    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
+    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageConfrontation.png"))
     mask_ranges = [
             [
-                [80, 0, 50],
-                [90, 255, 130]
+                [85, 0, 60],
+                [95, 240, 240]
             ]
         ]
 
-    # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
-    compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)
+    compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
+    # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)
     # mask_ranges = [[[93, 81, 125], [102, 97, 150]], [[95, 85, 145], [105, 95, 155]]]
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "luv")
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "luv", True)

@@ -536,6 +536,7 @@
     "JieGarden@Roguelike@StageBoons": {
         "Doc": "得偿所愿 绿色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [60, 0, 20],
@@ -557,6 +558,7 @@
         "Doc": "思维边界 粉色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [150, 120, 50],
@@ -572,6 +574,7 @@
     "JieGarden@Roguelike@StageCombatDps": {
         "Doc": "普通战斗 紫色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [130, 0, 30],
@@ -608,6 +611,7 @@
         "Doc": "狭路相逢 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [80, 0, 50],
@@ -639,6 +643,7 @@
     "JieGarden@Roguelike@StageEmergencyDps": {
         "Doc": "困难战斗 红色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [0, 150, 50],
@@ -661,6 +666,7 @@
         "Doc": "先行一步，拒绝可以获取2希望 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [80, 0, 50],
@@ -672,6 +678,7 @@
     "JieGarden@Roguelike@StageEncounter": {
         "Doc": "不期而遇 青色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [80, 0, 50],
@@ -728,6 +735,7 @@
         "Doc": "指点迷津 粉色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [150, 120, 50],
@@ -745,6 +753,7 @@
         "Doc": "命运所指 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [80, 0, 50],
@@ -756,6 +765,7 @@
     "JieGarden@Roguelike@StageSafeHouse": {
         "Doc": "安全屋 淡青色",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [90, 60, 90],
@@ -776,8 +786,9 @@
         "next": ["JieGarden@Roguelike@StageEncounterOption#next"]
     },
     "JieGarden@Roguelike@StageTrader": {
-        "method": "HSVCount",
         "Doc": "商店 绿色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [60, 0, 20],
@@ -819,6 +830,7 @@
         "Doc": "失与得 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [80, 0, 50],
