@@ -60,6 +60,12 @@ BattleQuickFormationFilter-PinActivated.png
 BattleQuickFormationFilter-PinUnactivated.png
 BattleQuickFormationFilter-Trust.png
 BattleQuickFormationFilter.png
+BattleQuickFormationModule-0.png
+BattleQuickFormationModule-1.png
+BattleQuickFormationModule-2-A.png
+BattleQuickFormationModule-2-B.png
+BattleQuickFormationModule-3.png
+BattleQuickFormationModule-4.png
 BattleQuickFormationRole-Caster.png
 BattleQuickFormationRole-Medic.png
 BattleQuickFormationRole-Pioneer.png
