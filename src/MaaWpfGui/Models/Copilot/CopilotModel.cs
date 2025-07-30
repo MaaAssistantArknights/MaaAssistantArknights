@@ -293,10 +293,10 @@ public class CopilotModel : CopilotBase
         public int SkillLevel { get; set; }
 
         /// <summary>
-        /// Gets or sets 模组编号。可选，默认为 0。
+        /// Gets or sets 模组编号。可选，默认为 -1。
         /// </summary>
         [JsonProperty("module")]
-        public int Module { get; set; }
+        public int Module { get; set; } = -1;
 
         /// <summary>
         /// Gets or sets 潜能要求。可选，默认为 0。
