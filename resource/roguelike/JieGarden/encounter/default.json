@@ -14,7 +14,8 @@
         {
             "name": "偏安",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "护鸭金刚",
