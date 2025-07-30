@@ -114,7 +114,8 @@
         {
             "name": "烛堂",
             "option_num": 4,
-            "choose": 4
+            "choose": 4,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "天险",
@@ -165,7 +166,8 @@
         {
             "name": "孤钓",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "集印",
