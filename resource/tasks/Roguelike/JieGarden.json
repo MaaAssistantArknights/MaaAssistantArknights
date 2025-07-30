@@ -538,11 +538,11 @@
         "method": "HSVCount",
         "colorScales": [
             [
-                [70, 50, 20],
-                [80, 140, 170]
+                [60, 0, 20],
+                [80, 150, 170]
             ],
             [
-                [70, 220, 20], 
+                [60, 220, 20], 
                 [80, 250, 170]
             ]
         ],
@@ -611,7 +611,7 @@
         "colorScales": [
             [
                 [80, 0, 50],
-                [90, 255, 130]
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -664,7 +664,7 @@
         "colorScales": [
             [
                 [80, 0, 50],
-                [90, 255, 130]
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -675,7 +675,7 @@
         "colorScales": [
             [
                 [80, 0, 50],
-                [90, 255, 130]
+                [90, 255, 180]
             ]
         ]
     },
@@ -748,7 +748,7 @@
         "colorScales": [
             [
                 [80, 0, 50],
-                [90, 255, 130]
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -780,11 +780,11 @@
         "Doc": "商店 绿色系",
         "colorScales": [
             [
-                [70, 50, 20],
-                [80, 140, 170]
+                [60, 0, 20],
+                [80, 150, 170]
             ],
             [
-                [70, 220, 20], 
+                [60, 220, 20], 
                 [80, 250, 170]
             ]
         ]
@@ -822,7 +822,7 @@
         "colorScales": [
             [
                 [80, 0, 50],
-                [90, 255, 130]
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
