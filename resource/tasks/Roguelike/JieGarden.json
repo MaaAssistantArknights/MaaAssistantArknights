@@ -539,12 +539,8 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [60, 0, 20],
-                [80, 150, 170]
-            ],
-            [
-                [60, 220, 20], 
-                [80, 250, 170]
+                [70, 0, 0], 
+                [80, 255, 170]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageBoonsEnter", "JieGarden@Roguelike@Stages#next"]
@@ -791,12 +787,8 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [60, 0, 20],
-                [80, 150, 170]
-            ],
-            [
-                [60, 220, 20], 
-                [80, 250, 170]
+                [70, 0, 0], 
+                [80, 255, 170]
             ]
         ]
     },
