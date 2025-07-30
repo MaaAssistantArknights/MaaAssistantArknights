@@ -1068,12 +1068,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task ReplaceAdb()
     {
-        if (string.IsNullOrEmpty(AdbPath))
-        {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
-            return;
-        }
-
         if (!File.Exists(MaaUrls.GoogleAdbFilename))
         {
             string[] downloadUrls =
@@ -1122,54 +1116,23 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             ZipFile.ExtractToDirectory(MaaUrls.GoogleAdbFilename, UnzipDir);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.Error(ex.ToString());
+            _logger.Error(e, "UnzipFailedMessage");
             ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
             return;
         }
 
-        var replaced = false;
-        if (AdbPath != NewAdb && File.Exists(AdbPath))
+        if (File.Exists(NewAdb))
         {
-            try
-            {
-                foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
-                {
-                    process.Kill();
-                    process.WaitForExit(5000);
-                }
-
-                var adbBack = AdbPath + ".bak";
-                if (!File.Exists(adbBack))
-                {
-                    File.Copy(AdbPath, adbBack, true);
-                }
-
-                File.Copy(NewAdb, AdbPath, true);
-                replaced = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-                replaced = false;
-            }
-        }
-
-        if (replaced)
-        {
+            AdbPath = NewAdb;
             AdbReplaced = true;
-
             ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, bool.TrueString);
-
             ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
         }
         else
         {
-            AdbPath = NewAdb;
-
-            using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
-            toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
         }
     }
 
