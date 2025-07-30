@@ -495,7 +495,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用。
 输入登录界面显示的内容，如 ｢123****4567｣，可输入 ｢123****4567｣ 或 ｢4567｣ 或 ｢23****45｣
 仅支持官服、B服，不支持登录账号。</system:String>
-    <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
+    <system:String x:Key="AdbPath">ADB 路径</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我会重新选择</system:String>

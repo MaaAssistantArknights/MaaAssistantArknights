@@ -495,7 +495,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
 Enter the content displayed on the login interface, such as ｢123****4567｣, you can enter ｢123****4567｣ or ｢4567｣ or ｢23****45｣
 Only supports Official(CN) and Bilibili server. Login account is not supported.</system:String>
-    <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
+    <system:String x:Key="AdbPath">ADB path</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have chosen the wrong file or mistakenly selected the emulator itself.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">Okay, I will choose again</system:String>

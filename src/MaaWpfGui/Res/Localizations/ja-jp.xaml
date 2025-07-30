@@ -495,7 +495,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します。
 ログインインターフェイスに表示される内容を入力します（｢123****4567｣ など）。｢123****4567｣ または ｢4567｣ または ｢23****45｣ を入力できます。
 公式(CN)とBilibiliサーバーのみをサポートします。 ログインアカウントはサポートされていません。</system:String>
-    <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
+    <system:String x:Key="AdbPath">ADBパス</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名にADBが含まれていません。誤ったファイルを選択していないか、エミュレータ自体を選択していないか確認してください。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
