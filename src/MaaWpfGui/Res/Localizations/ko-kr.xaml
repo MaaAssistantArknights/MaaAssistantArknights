@@ -124,6 +124,9 @@
     <system:String x:Key="InfrastModeNormal">표준 모드</system:String>
     <system:String x:Key="InfrastModeRotation">일괄 쉬프트</system:String>
     <system:String x:Key="InfrastModeRotationTip">일괄 쉬프트 사용 전에 게임 내에서 {key=Operator} 대열을 수동으로 설정해 주세요</system:String>
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣의 교대 로직은 게임 내 기지 우하단의 ｢원클릭 교대｣와 완전히 동일합니다.
+현재 근무조에 있는 오퍼레이터 중 한 명이라도 기분 수치가 0이 되면, 전체 조가 다음 근무조로 교체됩니다.
+교대 일정을 직접 설정하려면 ｢{key=InfrastModeCustom}｣을(를) 사용하세요.</system:String>
     <system:String x:Key="InfrastModeCustom">커스텀 기반시설</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
