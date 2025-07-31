@@ -143,8 +143,6 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <!--<maa:TextBlock  Text="{Binding ID}" />
-             <maa:TextBlock  Text=". " />-->
                                 <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
                             </StackPanel>
                         </DataTemplate>
