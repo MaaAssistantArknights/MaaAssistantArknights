@@ -534,8 +534,15 @@
     },
     "JieGarden@Roguelike@SquadDefault": {},
     "JieGarden@Roguelike@StageBoons": {
-        "Doc": "得偿所愿",
-        "templThreshold": 0.95,
+        "Doc": "得偿所愿 绿色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [70, 0, 0], 
+                [80, 255, 170]
+            ]
+        ],
         "next": ["JieGarden@Roguelike@StageBoonsEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageBoonsEnter": {
@@ -544,9 +551,10 @@
         "next": ["JieGarden@Roguelike@StageBoonsEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageBoskyPassage": {
-        "Doc": "思维边界",
+        "Doc": "思维边界 粉色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
                 [150, 120, 50],
@@ -560,11 +568,13 @@
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageCombatDps": {
+        "Doc": "普通战斗 紫色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
-                [127, 80, 50],
-                [136, 200, 180]
+                [130, 0, 30],
+                [140, 170, 150]
             ]
         ],
         "postDelay": 600,
@@ -594,9 +604,16 @@
         ]
     },
     "JieGarden@Roguelike@StageConfrontation": {
-        "Doc": "狭路相逢",
+        "Doc": "狭路相逢 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.95,
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ]
+        ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageDreadfulFoe": {
@@ -620,12 +637,17 @@
     },
     "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
     "JieGarden@Roguelike@StageEmergencyDps": {
-        "templThreshold": 0.95,
+        "Doc": "困难战斗 红色系",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
-                [0, 31, 51],
-                [179, 233, 226]
+                [0, 150, 50],
+                [10, 200, 210]
+            ],
+            [
+                [170, 150, 50],
+                [180, 200, 210]
             ]
         ],
         "postDelay": 600,
@@ -637,19 +659,28 @@
     },
     "JieGarden@Roguelike@StageEmergencyDpsEnter": {},
     "JieGarden@Roguelike@StageEmergencyTransportation": {
-        "Doc": "先行一步，拒绝可以获取2希望",
+        "Doc": "先行一步，拒绝可以获取2希望 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
-                [15, 1, 93],
-                [93, 129, 141]
+                [80, 0, 50],
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageEncounter": {
-        "templThreshold": 0.96
+        "Doc": "不期而遇 青色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ]
+        ]
     },
     "JieGarden@Roguelike@StageEncounterDrawCopperResult": {
         "Docs": "某些事件需要投钱来判断结果，这里要点一下投钱结果页面的对号",
@@ -697,9 +728,16 @@
         "specificRect": [1100, 558, 111, 50]
     },
     "JieGarden@Roguelike@StageGuidance": {
-        "Doc": "指点迷津",
+        "Doc": "指点迷津 粉色系",
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [150, 120, 50],
+                [180, 200, 200]
+            ]
+        ],
         "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageGuidanceEnter": {
@@ -708,19 +746,28 @@
         "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
     },
     "JieGarden@Roguelike@StageProphecy": {
-        "Doc": "命运所指",
+        "Doc": "命运所指 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
-                [18, 1, 94],
-                [93, 173, 109]
+                [80, 0, 50],
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageSafeHouse": {
-        "templThreshold": 0.95
+        "Doc": "安全屋 淡青色",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [90, 60, 90],
+                [95, 255, 180]
+            ]
+        ]
     },
     "JieGarden@Roguelike@StageSafeHouseEnter": {
         "next": ["JieGarden@Roguelike@StageSafeHouseEnter", "JieGarden@Roguelike@StageEncounterJudgeClick"]
@@ -735,7 +782,15 @@
         "next": ["JieGarden@Roguelike@StageEncounterOption#next"]
     },
     "JieGarden@Roguelike@StageTrader": {
-        "templThreshold": 0.95
+        "Doc": "商店 绿色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [70, 0, 0], 
+                [80, 255, 170]
+            ]
+        ]
     },
     "JieGarden@Roguelike@StageTraderEnter": {
         "next": [
@@ -764,21 +819,14 @@
         "exceededNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@StageWindAndRain": {
-        "Doc": "失与得",
+        "Doc": "失与得 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "colorWithClose": false,
         "colorScales": [
             [
-                [18, 130, 155],
-                [20, 180, 180]
-            ],
-            [
-                [15, 130, 160],
-                [16, 150, 220]
-            ],
-            [
-                [15, 40, 85],
-                [95, 120, 110]
+                [80, 0, 50],
+                [90, 255, 180]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
