@@ -4941,5 +4941,6 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeBoskyPassage": "c069f9fac23e81f25009e54dd670fb96f0d45bb15249f885c16f13fe08e9916c",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@DialogConfirmRed": "f8f3719b884993d5c3bf548b5e059d4aa89322cefa489383f96a4560fe226b49",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LeaveOperation": "5983e48c5b6fc78a3eafbe552a024e350f10b4018a9cb86675cb459617216bec",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeRogueTrader": "f8bd2c22e2f9abfce0d6fdc929c7d4e05ab5cce46070d6d0d4287b68150418f4"
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeRogueTrader": "f8bd2c22e2f9abfce0d6fdc929c7d4e05ab5cce46070d6d0d4287b68150418f4",
+    "resource/template/Roguelike/base/Roguelike@HpFlag": "f3b9940e7ee9bb11f309500ab882e24aa1a00bdff34afea54ef9dd777ab28475"
 }
