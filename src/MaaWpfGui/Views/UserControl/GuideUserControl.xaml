@@ -269,9 +269,6 @@
                                     BorderThickness="1"
                                     CornerRadius="4">
                                     <StackPanel Orientation="Horizontal">
-                                        <!--<maa:TextBlock
-                                        Text="{Binding ID}" />
-                            <maa:TextBlock  Text=". " />-->
                                         <CheckBox
                                             Width="180"
                                             Content="{DynamicResource Combat}"
