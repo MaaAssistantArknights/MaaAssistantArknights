@@ -35,28 +35,28 @@
         },
         {
             "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
-            "location": [6, 1],
+            "location": [7, 1],
             "direction": "down"
         },
         {
             "groups": ["梓兰"],
-            "location": [7, 1],
-            "direction": "left"
+            "location": [6, 1],
+            "direction": "down"
         },
         {
             "groups": ["地面单切", "情报官", "地面阻挡"],
             "location": [2, 5],
-            "direction": "right"
+            "direction": "left"
         },
         {
             "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
             "location": [3, 5],
-            "direction": "right"
+            "direction": "left"
         },
         {
             "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
             "location": [3, 4],
-            "direction": "left"
+            "direction": "right"
         }
     ]
 }
