@@ -4,6 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -37,6 +38,32 @@ Matcher::ResultOpt Matcher::analyze() const
         if (max_val < threshold) {
             continue;
         }
+
+#ifdef ASST_DEBUG
+        if (!m_params.methods.empty() && m_params.methods[0] == MatchMethod::HSVCount) {
+            const cv::Rect expanded_roi(
+                std::max(rect.x - 200, 0),
+                std::max(rect.y - 50, 0),
+                std::min(rect.width + 400, m_image.cols - std::max(rect.x - 200, 0)),
+                std::min(rect.height + 100, m_image.rows - std::max(rect.y - 50, 0)));
+            cv::Mat cropped = m_image(expanded_roi);
+            const cv::Rect roi_in_cropped(rect.x - expanded_roi.x, rect.y - expanded_roi.y, rect.width, rect.height);
+            cv::rectangle(cropped, roi_in_cropped, cv::Scalar(0, 0, 255), 2);
+            const std::string name = std::filesystem::path(templ_name).stem().string();
+            const std::string text = name + " " + std::to_string(max_val);
+            const cv::Size text_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, nullptr);
+            const cv::Point text_pos(
+                std::max(roi_in_cropped.x + roi_in_cropped.width / 2 - text_size.width / 2, 0),
+                std::max(roi_in_cropped.y - 5, text_size.height));
+            cv::putText(cropped, text, text_pos, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
+
+            const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+            asst::imwrite(
+                utils::path("debug/hsv/" + text + "_" + utils::get_time_filestem() + ".jpg"),
+                cropped,
+                jpeg_params);
+        }
+#endif
 
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
         m_result.rect = rect;
