@@ -68,10 +68,10 @@ namespace MaaWpfGui.Models
         public bool CanShow => !IsHidden || IsUnlocked;
 
         [JsonIgnore]
-        public bool IsProgressive => Target != default;
+        public bool IsProgressive => Target != 0;
 
         [JsonIgnore]
-        public int Target { get; set; } = default; // 可选目标值
+        public int Target { get; set; } = 0; // 可选目标值
 
         [JsonIgnore]
         public AchievementCategory Category { get; set; } // 分组
@@ -81,6 +81,9 @@ namespace MaaWpfGui.Models
 
         [JsonIgnore]
         public bool IsVisibleInSearch { get; set; } = true;
+
+        [JsonIgnore]
+        public string Group { get; set; } = string.Empty;
 
         [JsonIgnore]
         public string MedalBrushKey

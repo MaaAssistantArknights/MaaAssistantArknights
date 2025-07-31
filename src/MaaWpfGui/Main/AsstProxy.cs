@@ -945,7 +945,7 @@ namespace MaaWpfGui.Main
                             }
 
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
-                            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup, 1);
+                            AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
                         }
 
                         break;
@@ -1464,7 +1464,7 @@ namespace MaaWpfGui.Main
                                     case "EndOfActionThenStop":
                                         TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                                        AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.MosquitoLeg, 1);
+                                        AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
                                         break;
                                     case "VisitLimited" or "VisitNextBlack":
                                         TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
