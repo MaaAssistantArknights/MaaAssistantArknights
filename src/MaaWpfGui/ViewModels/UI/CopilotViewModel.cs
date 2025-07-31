@@ -595,9 +595,9 @@ namespace MaaWpfGui.ViewModels.UI
                     var str = await reader.ReadToEndAsync();
                     payload = JsonConvert.DeserializeObject<CopilotBase>(str, new CopilotContentConverter());
                 }
-                catch
+                catch (Exception e)
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
+                    AddLog(LocalizationHelper.GetString("CopilotFileReadError") + $"\n{e.Message}", UiLogColor.Error, showTime: false);
                     return;
                 }
             }
