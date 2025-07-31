@@ -274,6 +274,19 @@
                             "offset": -700
                         }
                     ]
+                },
+                {
+                    "name": "黑",
+                    "skill": 2,
+                    "recruit_priority": 450,
+                    "promote_priority": 510,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "高台输出"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
                 }
             ]
         },

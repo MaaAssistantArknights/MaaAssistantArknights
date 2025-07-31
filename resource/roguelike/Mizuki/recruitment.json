@@ -530,6 +530,19 @@
                             "offset": -700
                         }
                     ]
+                },
+                {
+                    "name": "黑",
+                    "skill": 2,
+                    "recruit_priority": 450,
+                    "promote_priority": 580,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
                 }
             ]
         },
