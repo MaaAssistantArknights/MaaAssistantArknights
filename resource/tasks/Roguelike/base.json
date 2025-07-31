@@ -803,9 +803,12 @@
         "Doc": "base_sharp_task",
         "algorithm": "JustReturn"
     },
+    "Roguelike@HpFlag": {
+        "roi": [70, 0, 250, 70]
+    },
     "Roguelike@HpRecognition": {
         "baseTask": "NumberOcrReplace",
-        "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
+        "Doc": "生命值识别",
         "text": [],
         "roi": [170, 30, 70, 30]
     },
