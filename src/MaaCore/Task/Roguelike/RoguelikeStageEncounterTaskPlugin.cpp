@@ -165,18 +165,25 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     }
 
     if (hp_disappeared) {
-        if (!event.next_event.empty()) {
-            for (int i = 0; i < 3; ++i) {
-                ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
-                ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
-                image = ctrler()->get_image();
-                if (hp(image) >= 0) {
-                    Log.debug("HP gone, going to next_event:", event.next_event);
-                    return event.next_event;
-                }
+        if (event.next_event.empty()) {
+            return std::nullopt;
+        }
+
+        const auto& task = Task.get("Roguelike@StageEncounterJudgeClick");
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                ctrler()->click(task->specific_rect);
+                sleep(500);
+            }
+            image = ctrler()->get_image();
+            if (hp(image) >= 0) {
+                Log.debug("HP restored, going to next_event:", event.next_event);
+                // 多点一次，确保选项恢复
+                ctrler()->click(task->specific_rect);
+                sleep(500);
+                return event.next_event;
             }
         }
-        return std::nullopt;
     }
 
     // 兜底处理，从 option_num-option_num 点到 1-1

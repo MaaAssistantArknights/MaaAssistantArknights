@@ -1231,14 +1231,14 @@
     "Roguelike@StageEncounterJudgeClick": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [640, 360, 0, 0],
+        "specificRect": [640, 360, 1, 1],
         "preDelay": 150,
         "next": ["Roguelike@StageEncounterJudgeClick2"]
     },
     "Roguelike@StageEncounterJudgeClick2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [640, 360, 0, 0],
+        "specificRect": [640, 360, 1, 1],
         "preDelay": 150,
         "next": ["Roguelike@StageEncounterJudgeOption"]
     },
