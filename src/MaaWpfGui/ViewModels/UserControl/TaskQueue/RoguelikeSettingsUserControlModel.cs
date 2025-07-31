@@ -1126,7 +1126,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             InvestmentEnabled = RoguelikeInvestmentEnabled,
             InvestmentCount = RoguelikeInvestsCount,
-            InvestmentStopWhenFull = RoguelikeStopWhenInvestmentFull,
+            InvestmentStopWhenFull = RoguelikeStopWhenInvestmentFull && RoguelikeMode != Mode.Collectible,
             InvestmentWithMoreScore = RoguelikeInvestmentWithMoreScore,
             RefreshTraderWithDice = RoguelikeTheme == Theme.Mizuki && RoguelikeRefreshTraderWithDice,
 
