@@ -1245,7 +1245,8 @@
     "Roguelike@StageEncounterJudgeOption": {
         "algorithm": "JustReturn",
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
-        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"]
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StageEncounterLeaveConfirm": {
         "Doc": "base_task",
