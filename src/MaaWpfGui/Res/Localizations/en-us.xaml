@@ -125,7 +125,7 @@
     <system:String x:Key="InfrastModeRotation">One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeRotationTip">Please manually set up {key=Operator} queues in game before using One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">The shift rotation logic of ｢{key=InfrastModeRotation}｣ is identical to the ｢{key=InfrastModeRotation}｣ in the base facility:
-if any operator in the current shift has 0 mood, the entire team will be replaced with the next shift.
+If any operator in the current shift has 0 mood, the entire team will be replaced with the next shift.
 To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</system:String>
     <system:String x:Key="InfrastModeCustom">Custom Base Mode</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
@@ -1191,7 +1191,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.PeekScreen.Title">Screen Peeker</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">Love staring at the screen, huh? .jpg</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">Use Peep function once</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">Use {key=Peep} once</system:String>
 
     <system:String x:Key="Achievement.CongratulationError.Title">Good News</system:String>
     <system:String x:Key="Achievement.CongratulationError.Description">Why isn't my MAA working anymore?</system:String>
@@ -1203,11 +1203,11 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.CustomizationMaster.Title">Customization Master</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Description">We're all about that 2D life!</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Conditions">Change background image once</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">Change {key=BackgroundImage} once</system:String>
 
     <system:String x:Key="Achievement.RealGacha.Title">Real Gacha</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">Isn't this supposed to be a gacha simulator? How did I actually pull???</system:String>
-    <system:String x:Key="Achievement.RealGacha.Conditions">Use Gacha function once</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">Use {key=Gacha} once</system:String>
 
     <system:String x:Key="Achievement.FirstLaunch.Title">First Timer</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Description">Welcome to MaaAssistantArknights.</system:String>
@@ -1227,43 +1227,43 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.SanitySaver1.Title">Penny Pincher</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">Every point of sanity used perfectly.</system:String>
-    <system:String x:Key="Achievement.SanitySaver1.Conditions">Use sanity recovery function 1 time</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">Use ｢{key=UseSanityPotion}｣ function to recover sanity 1 time</system:String>
 
     <system:String x:Key="Achievement.SanitySaver2.Title">Supply Master</system:String>
     <system:String x:Key="Achievement.SanitySaver2.Description">You've mastered the use of potions.</system:String>
-    <system:String x:Key="Achievement.SanitySaver2.Conditions">Use sanity recovery function 10 times</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">Use ｢{key=UseSanityPotion}｣ function to recover sanity 10 times</system:String>
 
     <system:String x:Key="Achievement.SanitySaver3.Title">Perpetual Motion Machine</system:String>
     <system:String x:Key="Achievement.SanitySaver3.Description">Your sanity seems to never run out.</system:String>
-    <system:String x:Key="Achievement.SanitySaver3.Conditions">Use sanity recovery function 50 times</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">Use ｢{key=UseSanityPotion}｣ function to recover sanity 50 times</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster1.Title">XX Management Master</system:String>
     <system:String x:Key="Achievement.ScheduleMaster1.Description">More efficient planning.</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">Execute scheduled task 1 time</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">Use {key=ScheduleSettings} 1 time</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster2.Title">Universal Automation Solution 0.3.2.9f2</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">You are familiar with PRTS's automated deployment.</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">Execute scheduled tasks 100 times</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">Use {key=ScheduleSettings} 100 times</system:String>
 
     <system:String x:Key="Achievement.SanityExpire.Title">About to Expire</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">Hurry up and use them!!!</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">Use "Unlimited expiring (&lt;48h) sanity potions", use more than 8 expiring potions in a single task</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">Use ｢{key=UseExpiringMedicine}｣, use 8 or more expiring sanity potions in a single task</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">Over-Limit Agent</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">You performed an agent task that could grind the great dao to dust.</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Conditions">Perform more than 100 auto-battle operations in a single task</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">Perform more than 100 auto-battle operations in a single ｢{key=Combat}｣ task</system:String>
 
     <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">It's MirrorChyan! We're saved!</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">Successfully use MirrorChyan for the first time</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">It's {key=MirrorChyan}! We're saved!</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">Successfully use {key=MirrorChyan} for the first time</system:String>
 
     <system:String x:Key="Achievement.MirrorChyanCdkError.Title">Is This... Right?</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Description">Who ate my alphabet cookies?</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Enter incorrect MirrorChyan CDK</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Enter incorrect {key=MirrorChyan} CDK</system:String>
 
     <system:String x:Key="Achievement.ProblemFeedback.Title">Risk Assessment</system:String>
     <system:String x:Key="Achievement.ProblemFeedback.Description">What must be eliminated are the risks from within.</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Conditions">Submit problem feedback once</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">Submit {key=IssueReport} once</system:String>
 
     <system:String x:Key="Achievement.MapOutdated.Title">Impatient King</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">I know you're in a hurry, but don't rush.</system:String>
@@ -1283,11 +1283,11 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">Superstition Invalid</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">Things have come to this, let's sleep first.</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">Accumulated 500 recruitments without 6★ tags appearing</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">｢{key=Recruiting}｣ accumulated 500 times without 6★ tags appearing</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">It Must Be MAA's Fault!</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE RAGE!</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">500 consecutive recruitments without 6★ tags appearing</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">｢{key=Recruiting}｣ 500 consecutive times without 6★ tags appearing</system:String>
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">Even Mosquito Legs Are Meat!</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">You deeply understand the principle of accumulating little by little.</system:String>
@@ -1295,11 +1295,11 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.Pioneer1.Title">Test Pioneer</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">You experienced the beta version ahead of others.</system:String>
-    <system:String x:Key="Achievement.Pioneer1.Conditions">Update MAA to beta version</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">Update MAA to {key=UpdateCheckBeta}</system:String>
 
     <system:String x:Key="Achievement.Pioneer2.Title">Super Test Pioneer</system:String>
-    <system:String x:Key="Achievement.Pioneer2.Description">You used the latest test version (please report any new issues!)</system:String>
-    <system:String x:Key="Achievement.Pioneer2.Conditions">Update MAA to alpha version</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">You used the latest test version (please report any new issues to {key=IssueReport}!)</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">Update MAA to {key=UpdateCheckNightly}</system:String>
 
     <system:String x:Key="Achievement.Pioneer3.Title">DEBUG Vanguard</system:String>
     <system:String x:Key="Achievement.Pioneer3.Description">Anyone who can get this version is no ordinary person.</system:String>
@@ -1351,19 +1351,19 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.RoguelikeGamePass1.Title">First Arrival at the End</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass1.Description">If only we could reach... that place...</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">Clear Integrated Strategies with MAA 1 time</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">Clear Integrated Strategies using ｢{key=AutoRoguelike}｣ 1 time</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGamePass2.Title">Return to the End</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass2.Description">I've walked this path many times.</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">Clear Integrated Strategies with MAA 5 times</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">Clear Integrated Strategies using ｢{key=AutoRoguelike}｣ 5 times</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGamePass3.Title">Regular at the End</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass3.Description">Could walk there with eyes closed.</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">Clear Integrated Strategies with MAA 10 times</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">Clear Integrated Strategies using ｢{key=AutoRoguelike}｣ 10 times</system:String>
 
     <system:String x:Key="Achievement.RoguelikeRetreat.Title">Failure Is the Mother of Success</system:String>
     <system:String x:Key="Achievement.RoguelikeRetreat.Description">One day, we'll reach the shore of success. Failure is the ladder to success.</system:String>
-    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">MAA abandons exploration 100 times</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">｢{key=AutoRoguelike}｣ abandon exploration 100 times</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGoldMax.Title">All Full</system:String>
     <system:String x:Key="Achievement.RoguelikeGoldMax.Description">Cannott, bring out your most expensive stuff!</system:String>
@@ -1387,7 +1387,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.CopilotError.Title">Oops</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">An accident happened...</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred during ｢{key=Copilot}｣</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">Error occurred in ｢{key=Copilot}｣</system:String>
 
     <system:String x:Key="Achievement.LongTaskTimeout.Title">Long Task</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Description">How about we wait a bit longer?</system:String>
@@ -1423,19 +1423,19 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">Simple and Easy</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">This difficulty can't stop me.</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">Clear any I.S. at N4 difficulty or above with MAA</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">Clear any I.S. at N4 difficulty or above using ｢{key=AutoRoguelike}｣</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">Challenge the Difficult</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">Brave MAA fears no difficulty.</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">Clear any I.S. at N8 difficulty or above with MAA</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">Clear any I.S. at N8 difficulty or above using ｢{key=AutoRoguelike}｣</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">Beyond Human</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">Playing better than most people.</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">Clear any I.S. at N12 difficulty or above with MAA</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">Clear any I.S. at N12 difficulty or above using ｢{key=AutoRoguelike}｣</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">Immortal Arts Cup Contestant</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">Immortal MAA truly immortal.</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">Clear any I.S. at N15 difficulty or above with MAA</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">Clear any I.S. at N15 difficulty or above using ｢{key=AutoRoguelike}｣</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
