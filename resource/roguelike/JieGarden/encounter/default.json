@@ -235,7 +235,8 @@
         {
             "name": "地镇-2",
             "option_num": 2,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [[1, 1]]
         },
         {
             "name": "传讯",
