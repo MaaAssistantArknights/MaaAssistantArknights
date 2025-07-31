@@ -145,7 +145,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     image = ctrler()->get_image();
-    bool hp_disappeared = (hp(image) <= 0);
+    bool hp_disappeared = (hp(image) < 0);
     // fallback 可变选项，临时处理，之后还得改成更通用的方式
     if (!hp_disappeared) {
         for (const auto& [total, item] : event.fallback_choices) {
@@ -156,7 +156,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             }
             sleep(500);
             image = ctrler()->get_image();
-            if (hp(image) <= 0) {
+            if (hp(image) < 0) {
                 Log.info("Fallback choice success");
                 hp_disappeared = true;
                 break;
@@ -170,7 +170,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
                 ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
                 image = ctrler()->get_image();
-                if (hp(image) > 0) {
+                if (hp(image) >= 0) {
                     Log.debug("HP gone, going to next_event:", event.next_event);
                     return event.next_event;
                 }
@@ -200,7 +200,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
             sleep(500);
             image = ctrler()->get_image();
-            if (hp(image) <= 0) {
+            if (hp(image) < 0) {
                 return std::nullopt;
             }
         }
@@ -261,9 +261,14 @@ int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::Roguelik
     return event.default_choose;
 }
 
-int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
+int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 {
     LogTraceFunction;
+
+    if (!ProcessTask(*this, { "Roguelike@HpFlag" }).run()) {
+        Log.info("Not found HpFlag");
+        return -1;
+    }
 
     auto task = Task.get<OcrTaskInfo>("Roguelike@HpRecognition");
     std::vector<std::pair<std::string, std::string>> merged_map;
@@ -286,7 +291,7 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
 
     auto res_vec_opt = analyzer.analyze();
     if (!res_vec_opt) {
-        return -1;
+        return 0;
     }
 
     int hp_val;
