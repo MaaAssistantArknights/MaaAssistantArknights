@@ -71,7 +71,7 @@
             "choose": 1
         },
         {
-            "name": "“鲍老板连锁”",
+            "name": "鲍老板连锁",
             "option_num": 2,
             "choose": 1,
             "fallback_choices": [[3, 2]]
