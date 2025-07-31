@@ -124,7 +124,7 @@
     <system:String x:Key="InfrastModeNormal">常规模式</system:String>
     <system:String x:Key="InfrastModeRotation">队列轮换</system:String>
     <system:String x:Key="InfrastModeRotationTip">使用队列轮换需提前在游戏中设置好队列</system:String>
-    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的「一键轮换」完全一致：
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的「{key=InfrastModeRotation}」完全一致：
 当当前班次中任意干员心情值为 0 时，会整队替换为下一班干员。
 若需自定义轮换班次，请使用「{key=InfrastModeCustom}」。</system:String>
     <system:String x:Key="InfrastModeCustom">自定义基建配置</system:String>

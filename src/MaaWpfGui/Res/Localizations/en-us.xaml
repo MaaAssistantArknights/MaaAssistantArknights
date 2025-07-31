@@ -124,7 +124,7 @@
     <system:String x:Key="InfrastModeNormal">Normal Mode</system:String>
     <system:String x:Key="InfrastModeRotation">One-click Rotation Mode</system:String>
     <system:String x:Key="InfrastModeRotationTip">Please manually set up {key=Operator} queues in game before using One-click Rotation Mode</system:String>
-    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">The shift rotation logic of ｢{key=InfrastModeRotation}｣ is identical to the ｢One-Tap Rotation｣ in the base facility:
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">The shift rotation logic of ｢{key=InfrastModeRotation}｣ is identical to the ｢{key=InfrastModeRotation}｣ in the base facility:
 if any operator in the current shift has 0 mood, the entire team will be replaced with the next shift.
 To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</system:String>
     <system:String x:Key="InfrastModeCustom">Custom Base Mode</system:String>
