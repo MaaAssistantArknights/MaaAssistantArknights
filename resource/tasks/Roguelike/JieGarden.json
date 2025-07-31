@@ -832,7 +832,8 @@
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@Stages": {
-        "baseTask": "JieGarden@Roguelike@Stages_default"
+        "baseTask": "JieGarden@Roguelike@Stages_default",
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
