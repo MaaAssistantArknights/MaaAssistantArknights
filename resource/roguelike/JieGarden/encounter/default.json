@@ -14,7 +14,8 @@
         {
             "name": "偏安",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "护鸭金刚",
@@ -72,7 +73,13 @@
         {
             "name": "“鲍老板连锁”",
             "option_num": 2,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [[3, 2]]
+        },
+        {
+            "name": "催债鬼夜叉",
+            "option_num": 3,
+            "choose": 3
         },
         {
             "name": "火祀",
@@ -107,7 +114,8 @@
         {
             "name": "烛堂",
             "option_num": 4,
-            "choose": 4
+            "choose": 4,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "天险",
@@ -122,7 +130,8 @@
         {
             "name": "滚圆财神",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "fallback_choices": [[4, 3]]
         },
         {
             "name": "饕餮廊",
@@ -131,8 +140,18 @@
         },
         {
             "name": "同心",
+            "option_num": 1,
+            "choose": 1,
+            "next_event": "同心-选择"
+        },
+        {
+            "name": "同心-选择",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [
+                [5, 1],
+                [4, 1]
+            ]
         },
         {
             "name": "柳儿",
@@ -147,12 +166,25 @@
         {
             "name": "孤钓",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "集印",
             "option_num": 3,
-            "choose": 2
+            "choose": 2,
+            "next_event": "集印-2"
+        },
+        {
+            "name": "集印-2",
+            "option_num": 3,
+            "choose": 1,
+            "next_event": "集印-3"
+        },
+        {
+            "name": "集印-3",
+            "option_num": 2,
+            "choose": 1
         },
         {
             "name": "海中来客",
@@ -163,11 +195,6 @@
             "name": "观者自在",
             "option_num": 3,
             "choose": 3
-        },
-        {
-            "name": "岔路",
-            "option_num": 4,
-            "choose": 1
         },
         {
             "name": "千古鸭帝",
@@ -213,7 +240,22 @@
         {
             "name": "传讯",
             "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "入暂亭",
+            "option_num": 3,
             "choose": 3
+        },
+        {
+            "name": "南武群英会",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "祠堂口",
+            "option_num": 2,
+            "choose": 2
         }
     ]
 }
