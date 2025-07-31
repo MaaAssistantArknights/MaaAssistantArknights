@@ -1515,12 +1515,12 @@ namespace MaaWpfGui.Main
                         var statistics = subTaskDetails!["stats"] ?? new JArray();
                         var stageInfo = subTaskDetails!["stage"] ?? new JObject();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
-                        var drops = new List<(string ItemId, int Total, int Add)>();
+                        var drops = new List<(string ItemId, string ItemName, int Total, int Add)>();
 
                         foreach (var item in statistics)
                         {
-                            var itemId = item["itemId"]?.ToString();
-                            var itemName = item["itemName"]?.ToString();
+                            var itemId = item["itemId"]?.ToString() ?? string.Empty;
+                            var itemName = item["itemName"]?.ToString() ?? string.Empty;
                             if (itemName == "furni")
                             {
                                 itemName = LocalizationHelper.GetString("FurnitureDrop");
@@ -1529,15 +1529,18 @@ namespace MaaWpfGui.Main
                             int totalQuantity = (int)(item["quantity"] ?? -1);
                             int addQuantity = (int)(item["addQuantity"] ?? -1);
 
+                            drops.Add((itemId, itemName, totalQuantity, addQuantity));
+                        }
+
+                        // 先按新增数量降序，再按总数量降序
+                        drops = [.. drops.OrderByDescending(x => x.Add).ThenByDescending(x => x.Total)];
+
+                        foreach (var (_, itemName, totalQuantity, addQuantity) in drops)
+                        {
                             allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
                             {
                                 allDrops += $" (+{addQuantity:#,#})";
-                            }
-
-                            if (!string.IsNullOrEmpty(itemId))
-                            {
-                                drops.Add((itemId, totalQuantity, addQuantity));
                             }
 
                             allDrops += "\n";
@@ -1545,12 +1548,15 @@ namespace MaaWpfGui.Main
 
                         var stageCode = stageInfo["stageCode"]?.ToString();
                         allDrops = allDrops.EndsWith('\n') ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
+
+                        var dropsForTooltip = drops.Where(x => !string.IsNullOrEmpty(x.ItemId)).ToList();
+
                         Instances.TaskQueueViewModel.AddLog(
                             $"{stageCode} {LocalizationHelper.GetString("TotalDrop")}\n" +
                             $"{allDrops}{(curTimes >= 0
                                 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}"
                                 : string.Empty)}",
-                            toolTip: drops.CreateMaterialDropTooltip());
+                            toolTip: dropsForTooltip.CreateMaterialDropTooltip());
 
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySpenderGroup, curTimes > 0 ? curTimes : 1);
 
