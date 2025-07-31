@@ -80,10 +80,13 @@
                 ItemsSource="{Binding RoguelikeRolesList}"
                 SelectedValue="{Binding RoguelikeRoles}"
                 SelectedValuePath="Value" />
-            <Grid Margin="0,5">
+            <StackPanel Margin="0,5">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource StartingCoreCharTip}" />
+                </StackPanel>
                 <hc:ComboBox
                     Name="StartingCoreCharComboBox"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
                     DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
@@ -98,12 +101,7 @@
                         </Binding>
                     </hc:ComboBox.Text>
                 </hc:ComboBox>
-                <controls:TooltipBlock
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    TooltipText="{DynamicResource StartingCoreCharTip}" />
-            </Grid>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
