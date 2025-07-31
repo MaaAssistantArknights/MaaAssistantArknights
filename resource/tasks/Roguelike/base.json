@@ -1323,7 +1323,8 @@
         "template": "empty.png"
     },
     "Roguelike@StageEncounterOptions": {
-        "algorithm": "JustReturn"
+        "algorithm": "JustReturn",
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StageEncounterSpecialClose": {
         "Doc": "base_task",
