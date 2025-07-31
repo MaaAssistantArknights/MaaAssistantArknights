@@ -281,6 +281,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         // 选择当前分队
         RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : "指挥分队";
+        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == RoguelikeCollectibleModeSquad) ? RoguelikeCollectibleModeSquad : RoguelikeSquad;
     }
 
     private void UpdateRoguelikeCoreCharList()
