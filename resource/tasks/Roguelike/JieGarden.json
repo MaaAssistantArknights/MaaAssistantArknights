@@ -541,6 +541,10 @@
             [
                 [70, 0, 0],
                 [80, 255, 170]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageBoonsEnter", "JieGarden@Roguelike@Stages#next"]
@@ -559,6 +563,10 @@
             [
                 [150, 120, 50],
                 [180, 200, 200]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageBoskyPassageEnter", "JieGarden@Roguelike@Stages#next"]
@@ -575,6 +583,10 @@
             [
                 [130, 0, 30],
                 [140, 170, 150]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "postDelay": 600,
@@ -612,6 +624,10 @@
             [
                 [80, 0, 50],
                 [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -648,6 +664,10 @@
             [
                 [170, 150, 50],
                 [180, 200, 210]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "postDelay": 600,
@@ -667,6 +687,10 @@
             [
                 [80, 0, 50],
                 [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -679,6 +703,10 @@
             [
                 [80, 0, 50],
                 [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
     },
@@ -736,6 +764,10 @@
             [
                 [150, 120, 50],
                 [180, 200, 200]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageGuidanceEnter", "JieGarden@Roguelike@Stages#next"]
@@ -754,6 +786,10 @@
             [
                 [80, 0, 50],
                 [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
@@ -766,6 +802,10 @@
             [
                 [90, 60, 90],
                 [95, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
     },
@@ -789,6 +829,10 @@
             [
                 [70, 0, 0],
                 [80, 255, 170]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
     },
@@ -827,6 +871,10 @@
             [
                 [80, 0, 50],
                 [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
