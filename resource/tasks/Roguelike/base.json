@@ -1615,7 +1615,9 @@
             "Roguelike@GamePassTheEndConfirm",
             "Roguelike@GamePass",
             "Roguelike@StartAction@LoadingText",
-            "Roguelike@StartAction@LoadingIcon"
+            "Roguelike@StartAction@LoadingIcon",
+            "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StartExplore": {
