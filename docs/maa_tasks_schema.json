@@ -205,6 +205,11 @@
                     "default": false,
                     "description": "可选项，文字识别是否需要全字匹配（不能多字），默认为 false\nfalse 时只要是子串即可：例如 text: [ \"开始\" ]，实际识别到了 \"开始行动\"，也算识别成功；\ntrue 时则必须识别到了 \"开始\"，多一个字都不行"
                 },
+                "useRaw": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "可选项，是否使用原图匹配\n不填写默认 true，false 时为灰度匹配"
+                },
                 "ocrReplace": {
                     "type": "array",
                     "items": {
@@ -216,6 +221,16 @@
                         }
                     },
                     "description": "可选项，针对常见识别错的文字进行替换（支持正则）"
+                },
+                "binThresholdLower": {
+                    "type": "integer",
+                    "default": 140,
+                    "description": "可选项，二值化灰度下阈值（默认 140）\n灰度值小于该值的像素将被视为背景，排除在文字区域之外"
+                },
+                "binThresholdUpper": {
+                    "type": "integer",
+                    "default": 255,
+                    "description": "可选项，二值化灰度上阈值（默认 255）\n灰度值大于该值的像素将被视为背景，排除在文字区域之外\n最终保留 [lower, upper] 区间的像素作为文字前景"
                 }
             },
             "description": "文字识别",

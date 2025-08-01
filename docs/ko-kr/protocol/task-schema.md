@@ -150,6 +150,9 @@ icon: material-symbols:task
         "withoutDet": false,                // 선택 사항, 탐지 모델을 사용하지 않을지 여부를 나타냅니다.
                                             // 기본값은 false입니다.
 
+        "useRaw": true,                     // 선택 사항, 원본 이미지를 사용하여 매칭할지 여부
+                                            // 기본값은 true이며, false이면 그레이스케일 매칭
+
         /* 다음 필드들은 algorithm이 OcrDetect이고 withoutDet가 true일 때만 유효합니다 */
 
         "binThresholdLower": 140,           // 선택 사항. 그레이스케일 이진화의 하한 임계값 (기본값: 140)
