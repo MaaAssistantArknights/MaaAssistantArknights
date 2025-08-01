@@ -143,10 +143,10 @@ Usage of `resource/tasks` and description of each field
         "withoutDet": false,                // Optional, whether to not use the detection model
                                             // default false if not filled
 
+        /* The following fields are only valid when algorithm is OcrDetect and withoutDet is true */
+
         "useRaw": true,                     // Optional, whether to use the original image for matching
                                             // default true if not filled; false means grayscale matching
-
-        /* The following fields are only valid when algorithm is OcrDetect and withoutDet is true */
 
         "binThresholdLower": 140,           // Optional. Lower threshold for grayscale binarization (default: 140)
                                             // Pixels with grayscale values below this will be treated as background and excluded
