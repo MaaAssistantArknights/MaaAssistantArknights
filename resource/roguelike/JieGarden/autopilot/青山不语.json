@@ -1,0 +1,78 @@
+{
+    "stage_name": "青山不语",
+    "replacement_home": [
+        {
+            "location": [10, 3],
+            "direction": "down"
+        },
+        {
+            "location": [1, 5],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [],
+    "deploy_plan": [
+        {
+            "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
+            "location": [9, 3],
+            "direction": "Left"
+        },
+        {
+            "groups": [
+                "奶盾",
+                "重装",
+                "地面远程",
+                "锏",
+                "地刺",
+                "玛恩纳",
+                "情报官",
+                "地面阻挡",
+                "处决者",
+                "回费",
+                "其他地面"
+            ],
+            "location": [10, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [10, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [7, 3],
+            "direction": "Left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [7, 4],
+            "direction": "Left"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [9, 5],
+            "direction": "Left"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [10, 3],
+            "direction": "Left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [6, 2],
+            "direction": "Left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [6, 5],
+            "direction": "Left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [2, 6],
+            "direction": "Right"
+        }
+    ]
+}
