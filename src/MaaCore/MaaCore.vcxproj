@@ -71,7 +71,6 @@
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\Stages\base.json" />
     <None Include="..\..\resource\global\YoStarKR\resource\tasks\tasks.json" />
     <None Include="..\..\resource\tasks\RA\base.json" />
-    <None Include="..\..\resource\tasks\RA\Fire.json" />
     <None Include="..\..\resource\tasks\RA\Reclamation2.json" />
     <None Include="..\..\resource\tasks\RA\Tales.json" />
     <None Include="..\..\resource\tasks\Roguelike\base.json" />
@@ -897,7 +896,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties _1_1_4_1_1_4resource_4tasks_4tasks_1json__JsonSchema="..\..\docs\maa_tasks_schema.json" />
+      <UserProperties _1_1_4_1_1_4resource_4tasks_4RA_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4RA_4Reclamation2_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4RA_4Tales_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4JieGarden_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Mizuki_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Phantom_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Sami_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Roguelike_4Sarkaz_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4Stages_4base_1json__JsonSchema="..\..\..\docs\maa_tasks_schema.json" _1_1_4_1_1_4resource_4tasks_4tasks_1json__JsonSchema="..\..\docs\maa_tasks_schema.json" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -148,6 +148,9 @@ icon: material-symbols:task
         "withoutDet": false,                // 可选项，是否不使用检测模型
                                             // 不填写默认 false
 
+        "useRaw": true,                     // 可选项，是否使用原图匹配
+                                            // 不填写默认 true，false 时为灰度匹配
+
         /* 以下字段仅当 algorithm 为 OcrDetect 且 withoutDet 为 true 时有效 */
 
         "binThresholdLower": 140,           // 可选项，二值化灰度下阈值（默认 140）
