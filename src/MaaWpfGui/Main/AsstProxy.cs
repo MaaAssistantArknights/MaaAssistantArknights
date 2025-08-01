@@ -1354,22 +1354,22 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"), UiLogColor.Error);
                                 break;
 
-                            case "StageTraderEnter":
+                            case "StageTrader":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"), UiLogColor.TraderIS);
                                 break;
 
-                            case "StageSafeHouseEnter":
+                            case "StageSafeHouse":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"), UiLogColor.SafehouseIS);
                                 break;
 
-                            case "StageFilterTruthEnter":
+                            case "StageFilterTruth":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"), UiLogColor.TruthIS);
                                 break;
 
                             // case "StageBoonsEnter":
                             //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                             //    break;
-                            case "StageCombatDpsEnter":
+                            case "StageCombatDps":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"), UiLogColor.CombatIS);
                                 break;
 
@@ -1378,7 +1378,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "StageDreadfulFoe":
-                            case "StageDreadfulFoe-5Enter":
+                            case "StageDreadfulFoe-5":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"), UiLogColor.BossIS);
                                 break;
 
