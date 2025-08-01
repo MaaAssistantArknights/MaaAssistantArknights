@@ -1208,6 +1208,20 @@
             "name": "群奶",
             "opers": [
                 {
+                    "name": "遥",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "白面鸮",
                     "skill": 2,
                     "is_key": true,
@@ -1872,6 +1886,20 @@
                     ]
                 },
                 {
+                    "name": "斩业星熊",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 620,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["重装"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "星熊",
                     "skill": 2,
                     "recruit_priority": 611,
@@ -2268,6 +2296,9 @@
                 },
                 {
                     "name": "号角"
+                },
+                {
+                    "name": "斩业星熊"
                 },
                 {
                     "name": "星熊"
@@ -2778,6 +2809,9 @@
                 },
                 {
                     "name": "纯烬艾雅法拉"
+                },
+                {
+                    "name": "遥"
                 },
                 {
                     "name": "焰影苇草"

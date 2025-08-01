@@ -1,0 +1,74 @@
+{
+    "stage_name": "山海必争",
+    "replacement_home": [
+        {
+            "location": [10, 5],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [],
+    "deploy_plan": [
+        {
+            "groups": [
+                "奶盾",
+                "重装",
+                "地面远程",
+                "锏",
+                "地刺",
+                "玛恩纳",
+                "情报官",
+                "地面阻挡",
+                "处决者",
+                "回费",
+                "其他地面"
+            ],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
+            "location": [5, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [6, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [3, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [5, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [7, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [2, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [4, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [9, 4],
+            "direction": "left"
+        }
+    ]
+}

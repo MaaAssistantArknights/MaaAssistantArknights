@@ -1,0 +1,67 @@
+{
+    "stage_name": "月华寒",
+    "replacement_home": [
+        {
+            "location": [1, 5],
+            "direction": "Right"
+        }
+    ],
+    "blacklist_location": [],
+    "deploy_plan": [
+        {
+            "groups": ["奶盾"],
+            "location": [3, 5],
+            "direction": "Right"
+        },
+        {
+            "groups": ["益达", "焰苇", "高台输出"],
+            "location": [4, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],
+            "location": [2, 5],
+            "direction": "Right"
+        },
+        {
+            "groups": ["水陈", "高台输出"],
+            "location": [2, 4],
+            "direction": "Up"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [8, 5],
+            "direction": "Up"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [1, 5],
+            "direction": "Up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [7, 2],
+            "direction": "Up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [5, 2],
+            "direction": "Up"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [5, 5],
+            "direction": "Right"
+        }
+    ]
+}
