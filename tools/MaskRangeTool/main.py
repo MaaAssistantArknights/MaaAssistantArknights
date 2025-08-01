@@ -25,8 +25,8 @@ if __name__ == '__main__':
     image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageBoons.png"))
     mask_ranges = [
             [
-                [70, 0, 0], 
-                [80, 255, 170]
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
 
@@ -35,16 +35,16 @@ if __name__ == '__main__':
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
+    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageBoons.png"))
     image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageConfrontation.png"))
     mask_ranges = [
             [
-                [85, 0, 60],
-                [95, 240, 240]
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
 
-    # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
+    compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)
     # mask_ranges = [[[93, 81, 125], [102, 97, 150]], [[95, 85, 145], [105, 95, 155]]]
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "luv")
