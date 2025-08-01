@@ -18,6 +18,7 @@ public:
         bool replace_full = false;
         bool without_det = false;
         bool use_char_model = false;
+        bool use_raw = false;
 
         int bin_threshold_lower = 140;
         int bin_threshold_upper = 255;

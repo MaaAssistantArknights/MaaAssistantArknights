@@ -801,6 +801,12 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
         "binThresholdUpper",
         ocr_task_info_ptr->bin_threshold_upper,
         default_ptr->bin_threshold_upper);
+    utils::get_and_check_value_or(
+        name,
+        task_json,
+        "useRaw",
+        ocr_task_info_ptr->use_raw,
+        default_ptr->use_raw);
     return ocr_task_info_ptr;
 }
 
@@ -1070,8 +1076,8 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
 
               // specific
               "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
-              "replaceFull",   "roi",         "text",            "withoutDet",   "binThresholdLower",
-              "binThresholdUpper",
+              "replaceFull",   "roi",         "text",            "withoutDet",   "useRaw",
+              "binThresholdLower", "binThresholdUpper",
           } },
         { AlgorithmType::FeatureMatch,
           {
