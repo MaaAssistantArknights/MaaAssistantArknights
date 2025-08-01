@@ -100,6 +100,7 @@ void OCRerConfig::_set_task_info(OcrTaskInfo task_info)
     m_params.without_det = task_info.without_det;
     m_params.bin_threshold_lower = task_info.bin_threshold_lower;
     m_params.bin_threshold_upper = task_info.bin_threshold_upper;
+    m_params.use_raw = task_info.use_raw;
 
     _set_roi(task_info.roi);
 }
