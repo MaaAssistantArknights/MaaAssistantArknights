@@ -89,7 +89,7 @@
         "specificRect": [600, 600, 25, 25]
     },
     "JieGarden@Roguelike@ClickToStartPoint": {
-        "specificRect": [600, 600, 25, 25]
+        "specificRect": [500, 600, 1, 1]
     },
     "JieGarden@Roguelike@ClickToStartPointAfterFailed": {
         "specificRect": [500, 600, 1, 1]
