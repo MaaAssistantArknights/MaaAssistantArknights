@@ -1707,7 +1707,7 @@
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
         "text": ["_SKIP_"],
-        "roi": [593, 0, 186, 129],
+        "roi": [570, 0, 180, 80],
         "next": ["Roguelike@Stages"]
     },
     "Roguelike@StrategyChange_mode0": {

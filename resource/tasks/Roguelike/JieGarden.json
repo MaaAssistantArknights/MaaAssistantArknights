@@ -350,7 +350,7 @@
     },
     "JieGarden@Roguelike@NextLevel": {
         "Doc": "截图时间过长可能会识别不到，所以其他地方用到了#next，跳过点击，感觉其他肉鸽也可以这样",
-        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
+        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾(门)?", "见字祠", "始末陵", "是非境"],
         "roi": [550, 545, 184, 64],
         "next": [
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
@@ -946,7 +946,7 @@
             ["洪陆楼", "_fastInvestment"],
             ["山水阁", "_restart"],
             ["云瓦亭", "_restart"],
-            ["汝吾门", "_restart"],
+            ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
@@ -958,7 +958,7 @@
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
             ["云瓦亭", "_default"],
-            ["汝吾门", "_default"],
+            ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_leaveBoskyPassage"]
@@ -971,7 +971,7 @@
             ["洪陆楼", "_aggressive"],
             ["山水阁", "_aggressive"],
             ["云瓦亭", "_pragmatic"],
-            ["汝吾门", "_pragmatic"],
+            ["汝吾(门)?", "_pragmatic"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_leaveBoskyPassage"]
@@ -983,7 +983,7 @@
             ["洪陆楼", "_default"],
             ["山水阁", "_restart"],
             ["云瓦亭", "_restart"],
-            ["汝吾门", "_restart"],
+            ["汝吾(门)?", "_restart"],
             ["见字祠", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
@@ -995,7 +995,7 @@
             ["洪陆楼", "_routing"],
             ["山水阁", "_exit"],
             ["云瓦亭", "_exit"],
-            ["汝吾门", "_exit"],
+            ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
@@ -1007,7 +1007,7 @@
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
             ["云瓦亭", "_exit"],
-            ["汝吾门", "_exit"],
+            ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
@@ -1019,7 +1019,7 @@
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
             ["云瓦亭", "_default"],
-            ["汝吾门", "_default"],
+            ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_leaveBoskyPassage"]
@@ -1031,7 +1031,7 @@
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
             ["云瓦亭", "_default"],
-            ["汝吾门", "_default"],
+            ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_leaveBoskyPassage"]
