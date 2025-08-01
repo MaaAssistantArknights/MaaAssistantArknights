@@ -44,7 +44,7 @@ Matcher::ResultOpt Matcher::analyze() const
                     rect.y - expanded_roi.y,
                     rect.width,
                     rect.height);
-                cv::rectangle(cropped, roi_in_cropped, cv::Scalar(0, 0, 255), 2);
+                cv::rectangle(cropped, roi_in_cropped, cv::Scalar(0, 0, 255), 1);
                 const std::string name = std::filesystem::path(templ_name).stem().string();
                 const std::string text = name + " " + std::to_string(max_val);
                 const cv::Size text_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, nullptr);
