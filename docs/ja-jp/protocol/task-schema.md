@@ -147,10 +147,10 @@ JSONファイルはコメントをサポートしていません。テキスト�
         "withoutDet": false,                // オプション、検出モデルを使用しない場合
                                             // 指定されていない場合、デフォルトは false
 
+        /* 以下のフィールドは、algorithm が OcrDetect かつ withoutDet が true の場合にのみ有効です */
+
         "useRaw": true,                     // オプション、原画像でマッチングを行うかどうか
                                             // 指定されていない場合、デフォルトは true、false の場合はグレースケールでマッチング
-
-        /* 以下のフィールドは、algorithm が OcrDetect かつ withoutDet が true の場合にのみ有効です */
 
         "binThresholdLower": 140,           // オプション項目。グレースケールの二値化下限（デフォルトは140）
                                             // この値より低い画素は背景とみなされ、文字領域から除外されます
