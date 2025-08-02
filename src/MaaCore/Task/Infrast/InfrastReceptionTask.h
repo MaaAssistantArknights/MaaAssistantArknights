@@ -13,6 +13,8 @@ public:
 
     void set_receive_message_board(bool value) noexcept { m_receive_message_board = value; }
 
+    void set_enable_clue_exchange(bool value) noexcept { m_enable_clue_exchange = value; }
+
 protected:
     virtual bool _run() override;
 
@@ -32,5 +34,6 @@ private:
     bool shift();
 
     bool m_receive_message_board = true;
+    bool m_enable_clue_exchange = true;
 };
 }
