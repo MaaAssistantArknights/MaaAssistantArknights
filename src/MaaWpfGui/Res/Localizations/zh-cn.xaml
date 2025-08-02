@@ -124,6 +124,9 @@
     <system:String x:Key="InfrastModeNormal">常规模式</system:String>
     <system:String x:Key="InfrastModeRotation">队列轮换</system:String>
     <system:String x:Key="InfrastModeRotationTip">使用队列轮换需提前在游戏中设置好队列</system:String>
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">｢{key=InfrastModeRotation}｣ 的换班逻辑与游戏内基建右下角的「{key=InfrastModeRotation}」完全一致：
+当当前班次中任意干员心情值为 0 时，会整队替换为下一班干员。
+若需自定义轮换班次，请使用「{key=InfrastModeCustom}」。</system:String>
     <system:String x:Key="InfrastModeCustom">自定义基建配置</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
@@ -171,6 +174,7 @@
     <system:String x:Key="RoguelikeCollapseList">坍缩范式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分号 ｢;｣ 隔开，留空将使用默认列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助战</system:String>
+    <system:String x:Key="RoguelikeRequireStartingCoreChar">需先填写 ｢{key=StartingCoreChar}｣</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自动肉鸽在战斗结束前延迟 ｢{key=Stop}｣ 动作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
@@ -494,7 +498,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用。
 输入登录界面显示的内容，如 ｢123****4567｣，可输入 ｢123****4567｣ 或 ｢4567｣ 或 ｢23****45｣
 仅支持官服、B服，不支持登录账号。</system:String>
-    <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
+    <system:String x:Key="AdbPath">ADB 路径</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我会重新选择</system:String>
@@ -1187,11 +1191,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.PeekScreen.Title">窥屏</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">喜欢盯着看是吧.jpg</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次牛牛监控</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次{key=Peep}</system:String>
 
     <system:String x:Key="Achievement.CongratulationError.Title">喜报</system:String>
-    <system:String x:Key="Achievement.CongratulationError.Description">我的MAA怎么用不了了？</system:String>
-    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过MAA的报错</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">我的 MMA 怎么用不了了？</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Conditions">触发过 MAA 的报错</system:String>
 
     <system:String x:Key="Achievement.UnexpectedCrash.Title">不速之客</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Description">你触发了未知的领域。</system:String>
@@ -1199,11 +1203,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.CustomizationMaster.Title">自定义达人</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次背景图片</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Conditions">更换一次{key=BackgroundImage}</system:String>
 
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">不是模拟抽卡吗？怎么真抽了？？？</system:String>
-    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次牛牛抽卡</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次{key=Gacha}</system:String>
 
     <system:String x:Key="Achievement.FirstLaunch.Title">初来乍到</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Description">欢迎使用 MaaAssistantArknights.</system:String>
@@ -1215,7 +1219,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.Rules.Title">严重错讠</system:String>
     <system:String x:Key="Achievement.Rules.Description">我会一直注视着你。</system:String>
-    <system:String x:Key="Achievement.Rules.Conditions">MAA员工守则</system:String>
+    <system:String x:Key="Achievement.Rules.Conditions">MAA 员工守则</system:String>
 
     <system:String x:Key="Achievement.VersionClick.Title">这也能点？</system:String>
     <system:String x:Key="Achievement.VersionClick.Description">这是什么？版本号，点一下。</system:String>
@@ -1223,43 +1227,43 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.SanitySaver1.Title">精打细算</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Description">每点理智都用得恰到好处。</system:String>
-    <system:String x:Key="Achievement.SanitySaver1.Conditions">使用理智回复功能 1 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Conditions">使用 ｢{key=UseSanityPotion}｣ 功能回复理智 1 次</system:String>
 
     <system:String x:Key="Achievement.SanitySaver2.Title">补给大师</system:String>
     <system:String x:Key="Achievement.SanitySaver2.Description">你对药剂的使用炉火纯青。</system:String>
-    <system:String x:Key="Achievement.SanitySaver2.Conditions">使用理智回复功能 10 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Conditions">使用 ｢{key=UseSanityPotion}｣ 功能回复理智 10 次</system:String>
 
     <system:String x:Key="Achievement.SanitySaver3.Title">永动机</system:String>
     <system:String x:Key="Achievement.SanitySaver3.Description">你的理智似乎永远用不完。</system:String>
-    <system:String x:Key="Achievement.SanitySaver3.Conditions">使用理智回复功能 50 次</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Conditions">使用 ｢{key=UseSanityPotion}｣ 功能回复理智 50 次</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster1.Title">××管理大师</system:String>
     <system:String x:Key="Achievement.ScheduleMaster1.Description">更有效的规划。</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">定时执行 1 次</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Conditions">{key=ScheduleSettings} 1 次</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自动化部署。</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">定时执行 100 次</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Conditions">{key=ScheduleSettings} 100 次</system:String>
 
     <system:String x:Key="Achievement.SanityExpire.Title">要过期了</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">赶紧冲哇！！！</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「无限吃 48 小时内过期的理智药」，单次任务使用 8 瓶及以上临期理智药</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用「{key=UseExpiringMedicine}」，单次任务使用 8 瓶及以上临期理智药</system:String>
 
     <system:String x:Key="Achievement.OverLimitAgent.Title">超限代理</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Description">你进行了一次能将大道磨灭的代理任务。</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次任务中，进行超过 100 次代理指挥作战</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Conditions">在单次 ｢{key=Combat}｣ 任务中，进行超过 100 次代理指挥作战</system:String>
 
     <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 Mirror酱！我们有救了！</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 Mirror酱</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 {key=MirrorChyan}！我们有救了！</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 {key=MirrorChyan}</system:String>
 
     <system:String x:Key="Achievement.MirrorChyanCdkError.Title">这……对吗？</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Description">谁偷吃了我的字母饼干？</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">Mirror酱 CDK 填写错误</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">{key=MirrorChyan} CDK 填写错误</system:String>
 
     <system:String x:Key="Achievement.ProblemFeedback.Title">隐患勘察</system:String>
     <system:String x:Key="Achievement.ProblemFeedback.Description">一定要杜绝的是，来自内部的风险。</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次问题反馈</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Conditions">进行一次{key=IssueReport}</system:String>
 
     <system:String x:Key="Achievement.MapOutdated.Title">急急国王</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先别急。</system:String>
@@ -1279,11 +1283,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RecruitNoSixStar.Title">玄学无效</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStar.Description">事已至此，先睡觉吧。</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">公招中累计 500 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">｢{key=Recruiting}｣ 中累计 500 次没出现六星 tag</system:String>
 
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">一定是 MAA 干的！</system:String>
     <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">乆乆乆乆乆乆乆乆乆乆！</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">公招中连续 500 次没出现六星 tag</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">｢{key=Recruiting}｣ 中连续 500 次没出现六星 tag</system:String>
 
     <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了积少成多的道理。</system:String>
@@ -1291,11 +1295,11 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.Pioneer1.Title">测试先锋</system:String>
     <system:String x:Key="Achievement.Pioneer1.Description">您率先体验了处于测试中的版本。</system:String>
-    <system:String x:Key="Achievement.Pioneer1.Conditions">将 MAA 更新至公测版</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Conditions">将 MAA 更新至{key=UpdateCheckBeta}</system:String>
 
     <system:String x:Key="Achievement.Pioneer2.Title">超级测试先锋</system:String>
-    <system:String x:Key="Achievement.Pioneer2.Description">您使用了最新的测试版本（出现任何新的问题请前往问题反馈！）</system:String>
-    <system:String x:Key="Achievement.Pioneer2.Conditions">将 MAA 更新至内测版</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">您使用了最新的测试版本（出现任何新的问题请前往{key=IssueReport}！）</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Conditions">将 MAA 更新至{key=UpdateCheckNightly}</system:String>
 
     <system:String x:Key="Achievement.Pioneer3.Title">DEBUG 急先锋</system:String>
     <system:String x:Key="Achievement.Pioneer3.Description">能下到这个版本的都不是一般人。</system:String>
@@ -1347,19 +1351,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RoguelikeGamePass1.Title">初抵终点</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass1.Description">只要能到达...那个地方...</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用牛牛通关肉鸽 1 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关肉鸽 1 次</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGamePass2.Title">再临终点</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass2.Description">这条道路我已走过多次。</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用牛牛通关肉鸽 5 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关肉鸽 5 次</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGamePass3.Title">终点常客</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass3.Description">闭着眼睛都能走到这。</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用牛牛通关肉鸽 10 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关肉鸽 10 次</system:String>
 
     <system:String x:Key="Achievement.RoguelikeRetreat.Title">失败是成功之母</system:String>
     <system:String x:Key="Achievement.RoguelikeRetreat.Description">终有一天，我们会到达成功的彼岸，失败是成功的阶梯。</system:String>
-    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">牛牛放弃探索 100 次</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">｢{key=AutoRoguelike}｣ 放弃探索 100 次</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGoldMax.Title">满了满了</system:String>
     <system:String x:Key="Achievement.RoguelikeGoldMax.Description">坎诺特，把你店里最贵的端出来！</system:String>
@@ -1391,7 +1395,7 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.ProxyOnline3Hours.Title">全勤先锋</system:String>
     <system:String x:Key="Achievement.ProxyOnline3Hours.Description">你，已经成为博士的替身了。</system:String>
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">开始任务能连续在线超过 3 小时</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">开始任务后连续在线超过 3 小时</system:String>
 
     <system:String x:Key="Achievement.UseDaily1.Title">天天打卡</system:String>
     <system:String x:Key="Achievement.UseDaily1.Description">连续签到七天，可惜没有奖励。</system:String>
@@ -1419,19 +1423,19 @@ C:\\leidian\\LDPlayer9。\n
 
     <system:String x:Key="Achievement.RoguelikeN04.Title">简简单单</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">这种难度难不倒我。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用牛牛通关任意肉鸽 N4 及以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N4 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑战困难</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困难。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用牛牛通关任意肉鸽 N8 及以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N8 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">超越人类</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">比一般人玩的都好。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用牛牛通关任意肉鸽 N12 及以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N12 及以上难度</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙术杯选手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙术牛牛真仙术。</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用牛牛通关任意肉鸽 N15 及以上难度</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用 ｢{key=AutoRoguelike}｣ 通关任意肉鸽 N15 及以上难度</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->

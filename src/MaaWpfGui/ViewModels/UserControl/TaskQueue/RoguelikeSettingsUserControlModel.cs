@@ -281,6 +281,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         // 选择当前分队
         RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : "指挥分队";
+        RoguelikeCollectibleModeSquad = RoguelikeSquadList.Any(x => x.Value == RoguelikeCollectibleModeSquad) ? RoguelikeCollectibleModeSquad : RoguelikeSquad;
     }
 
     private void UpdateRoguelikeCoreCharList()
@@ -1030,22 +1031,22 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
                     if (pass)
                     {
-                        if (difficulty > 4)
+                        if (difficulty >= 4)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN04);
                         }
 
-                        if (difficulty > 8)
+                        if (difficulty >= 8)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN08);
                         }
 
-                        if (difficulty > 12)
+                        if (difficulty >= 12)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN12);
                         }
 
-                        if (difficulty > 15)
+                        if (difficulty >= 15)
                         {
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.RoguelikeN15);
                         }
@@ -1126,7 +1127,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             InvestmentEnabled = RoguelikeInvestmentEnabled,
             InvestmentCount = RoguelikeInvestsCount,
-            InvestmentStopWhenFull = RoguelikeStopWhenInvestmentFull,
+            InvestmentStopWhenFull = RoguelikeStopWhenInvestmentFull && RoguelikeMode != Mode.Collectible,
             InvestmentWithMoreScore = RoguelikeInvestmentWithMoreScore,
             RefreshTraderWithDice = RoguelikeTheme == Theme.Mizuki && RoguelikeRefreshTraderWithDice,
 
@@ -1136,8 +1137,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             // 刷开局
             CollectibleModeSquad = RoguelikeCollectibleModeSquad,
             CollectibleModeShopping = RoguelikeCollectibleModeShopping,
-            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && (RoguelikeTheme == Theme.Mizuki || RoguelikeTheme == Theme.Sami),
-            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && (RoguelikeTheme == Theme.Mizuki || RoguelikeTheme == Theme.Sami),
+            StartWithEliteTwo = RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional && RoguelikeTheme is Theme.Mizuki or Theme.Sami,
+            StartWithEliteTwoNonBattle = RoguelikeOnlyStartWithEliteTwo && RoguelikeTheme is Theme.Mizuki or Theme.Sami,
 
             // 月度小队
             MonthlySquadAutoIterate = RoguelikeMonthlySquadAutoIterate,

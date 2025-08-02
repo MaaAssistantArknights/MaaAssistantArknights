@@ -80,10 +80,13 @@
                 ItemsSource="{Binding RoguelikeRolesList}"
                 SelectedValue="{Binding RoguelikeRoles}"
                 SelectedValuePath="Value" />
-            <Grid Margin="0,5">
+            <StackPanel Margin="0,5">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource StartingCoreCharTip}" />
+                </StackPanel>
                 <hc:ComboBox
                     Name="StartingCoreCharComboBox"
-                    hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
                     DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
@@ -98,12 +101,7 @@
                         </Binding>
                     </hc:ComboBox.Text>
                 </hc:ComboBox>
-                <controls:TooltipBlock
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    TooltipText="{DynamicResource StartingCoreCharTip}" />
-            </Grid>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
@@ -118,13 +116,22 @@
                 Minimum="0"
                 Value="{Binding RoguelikeStartsCount}" />
             <CheckBox
-                Name="InvestmentEnabled"
                 Margin="0,10"
                 d:IsEnabled="True"
                 Content="{DynamicResource InvestmentEnabled}"
                 IsChecked="{Binding RoguelikeInvestmentEnabled}"
                 IsEnabled="{c:Binding 'RoguelikeMode != task:RoguelikeMode.Investment',
                                       Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
+                Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode != task:RoguelikeMode.Collectible',
+                                       Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource StopOnGoldLimit}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
@@ -145,16 +152,6 @@
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeCollectibleModeShopping}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
-                Visibility="{c:Binding ElementName=InvestmentEnabled,
-                                       Path=IsChecked}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource StopOnGoldLimit}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <hc:NumericUpDown
@@ -248,24 +245,30 @@
                 ToolTip="{DynamicResource RoguelikeCollapseListTip}"
                 Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.CLP_PDS',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding RoguelikeUseSupportUnit}"
-                Visibility="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeUseSupportUnit}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
-                Visibility="{c:Binding RoguelikeUseSupportUnit}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource RoguelikeUseNonFriendSupport}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
+                        Margin="0,10"
+                        IsChecked="{Binding RoguelikeUseSupportUnit}"
+                        IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
+                        <TextBlock
+                            Block.TextAlignment="Left"
+                            Text="{DynamicResource RoguelikeUseSupportUnit}"
+                            TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
+                </StackPanel>
+                <CheckBox
+                    Margin="0,10"
+                    IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}"
+                    Visibility="{c:Binding 'RoguelikeUseSupportUnit and RoguelikeCoreChar != &quot;&quot;'}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeUseNonFriendSupport}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"

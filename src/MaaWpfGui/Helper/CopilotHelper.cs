@@ -17,8 +17,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models.Copilot;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Semver;
 using Serilog;
 
 namespace MaaWpfGui.Helper;
@@ -224,11 +226,49 @@ public static class CopilotHelper
                 // 根据 "type" 字段判断类型
                 if (obj.TryGetValue("type", StringComparison.OrdinalIgnoreCase, out var typeToken) && typeToken.ToString() == "SSS")
                 {
-                    return obj.ToObject<SSSCopilotModel>();
+                    var task = obj.ToObject<SSSCopilotModel>();
+                    if (!Instances.VersionUpdateViewModel.IsDebugVersion())
+                    {
+                        bool curParsed = SemVersion.TryParse(VersionUpdateSettingsUserControlModel.CoreVersion, SemVersionStyles.AllowLowerV, out var currentVer);
+                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV, out var requireVer);
+                        if (!curParsed)
+                        {
+                            throw new JsonSerializationException($"Unable to parse Maa version: {VersionUpdateSettingsUserControlModel.CoreVersion}");
+                        }
+                        else if (!require)
+                        {
+                            throw new JsonSerializationException($"Unable to parse required version: {task?.MinimumRequired}");
+                        }
+                        else if (currentVer!.CompareSortOrderTo(requireVer) < 0)
+                        {
+                            throw new JsonSerializationException($"Current Maa version is lower than required version, require: {require}");
+                        }
+                    }
+
+                    return task;
                 }
                 else
                 {
-                    return obj.ToObject<CopilotModel>();
+                    var task = obj.ToObject<CopilotModel>();
+                    if (!Instances.VersionUpdateViewModel.IsDebugVersion())
+                    {
+                        bool curParsed = SemVersion.TryParse(VersionUpdateSettingsUserControlModel.CoreVersion, SemVersionStyles.AllowLowerV, out var currentVer);
+                        bool require = SemVersion.TryParse(task?.MinimumRequired, SemVersionStyles.AllowLowerV, out var requireVer);
+                        if (!curParsed)
+                        {
+                            throw new JsonSerializationException($"Unable to parse Maa version: {VersionUpdateSettingsUserControlModel.CoreVersion}");
+                        }
+                        else if (!require)
+                        {
+                            throw new JsonSerializationException($"Unable to parse required version: {task?.MinimumRequired}");
+                        }
+                        else if (currentVer!.CompareSortOrderTo(requireVer) < 0)
+                        {
+                            throw new JsonSerializationException($"Current Maa version is lower than required version, require: {require}");
+                        }
+                    }
+
+                    return task;
                 }
             }
 

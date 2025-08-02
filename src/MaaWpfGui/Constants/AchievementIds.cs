@@ -31,8 +31,12 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeGamePass1 = "RoguelikeGamePass1";
         public const string RoguelikeGamePass2 = "RoguelikeGamePass2";
         public const string RoguelikeGamePass3 = "RoguelikeGamePass3";
+
+        public const string RoguelikeGroup = "Roguelike";
         public const string RoguelikeRetreat = "RoguelikeRetreat";
         public const string RoguelikeGoldMax = "RoguelikeGoldMax";
+
+        public const string RoguelikeNGroup = "RoguelikeN";
         public const string RoguelikeN04 = "RoguelikeN04";
         public const string RoguelikeN08 = "RoguelikeN08";
         public const string RoguelikeN12 = "RoguelikeN12";
@@ -50,11 +54,13 @@ namespace MaaWpfGui.Constants
         public const string ScheduleMaster1 = "ScheduleMaster1";
         public const string ScheduleMaster2 = "ScheduleMaster2";
 
+        public const string MirrorChyanGroup = "MirrorChyan";
         public const string MirrorChyanFirstUse = "MirrorChyanFirstUse";
         public const string MirrorChyanCdkError = "MirrorChyanCdkError";
 
         public const string MosquitoLeg = "MosquitoLeg";
 
+        public const string PioneerGroup = "Pioneer";
         public const string Pioneer1 = "Pioneer1";
         public const string Pioneer2 = "Pioneer2";
         public const string Pioneer3 = "Pioneer3";
@@ -89,9 +95,11 @@ namespace MaaWpfGui.Constants
         public const string TacticalRetreat = "TacticalRetreat";
         public const string Martian = "Martian";
 
+        public const string RecruitGroup = "Recruit";
         public const string RecruitNoSixStar = "RecruitNoSixStar";
         public const string RecruitNoSixStarStreak = "RecruitNoSixStarStreak";
 
+        public const string SnapshotChallengeGroup = "SnapshotChallenge"; // 累计型成就
         public const string SnapshotChallenge1 = "SnapshotChallenge1"; // 999
         public const string SnapshotChallenge2 = "SnapshotChallenge2"; // 800
         public const string SnapshotChallenge3 = "SnapshotChallenge3"; // 400
@@ -133,6 +141,7 @@ namespace MaaWpfGui.Constants
         public const string VersionClick = "VersionClick";
         public const string Lucky = "Lucky";
 
+        public const string LoginGroup = "Login";
         public const string AprilFools = "AprilFools";
         public const string MidnightLaunch = "MidnightLaunch";
         public const string LunarNewYear = "LunarNewYear";

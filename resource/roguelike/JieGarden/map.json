@@ -17,6 +17,10 @@
             "template": ["JieGarden@Roguelike@MapNodeEncounter.png", "JieGarden@Roguelike@MapNodeEncounterGrey.png"]
         },
         {
+            "type": "Boons",
+            "template": ["JieGarden@Roguelike@MapNodeBoonspng", "JieGarden@Roguelike@MapNodeBoonsGrey.png"]
+        },
+        {
             "type": "RogueTrader",
             "template": ["JieGarden@Roguelike@MapNodeRogueTrader.png", "JieGarden@Roguelike@MapNodeRogueTraderGrey.png"]
         },

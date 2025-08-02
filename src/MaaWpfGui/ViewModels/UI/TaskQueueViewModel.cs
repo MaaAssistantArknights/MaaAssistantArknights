@@ -1717,7 +1717,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Stage = FightTask.RemainingSanityStage ?? string.Empty,
                 MaxTimes = int.MaxValue,
-                Series = 1,
+                Series = 0,
                 IsDrGrandet = FightTask.IsDrGrandet,
                 ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
                 ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,

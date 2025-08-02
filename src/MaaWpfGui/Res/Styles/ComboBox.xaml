@@ -1,12 +1,14 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors">
+<ResourceDictionary x:Class="MaaWpfGui.Res.Styles.ComboBox" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors">
 
     <Style BasedOn="{StaticResource ComboBoxExtend}" TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
+        <EventSetter Event="Loaded" Handler="ComboBox_Loaded_SetCaretBrush" />
     </Style>
     <Style BasedOn="{StaticResource ComboBoxExtend}" TargetType="{x:Type hc:ComboBox}">
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="uiBehaviors:ClipboardInterceptor.EnableSafeClipboard" Value="True" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}" />
     </Style>
 
 </ResourceDictionary>
