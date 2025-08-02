@@ -1,0 +1,82 @@
+{
+    "MiniGame@AT@ConversationRoom": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@AT@OpenForBusiness", "MiniGame@AT@CanNotOpenForBusiness"]
+    },
+    "MiniGame@AT@OpenForBusiness": {
+        "action": "ClickSelf",
+        "roi": [858, 519, 245, 187],
+        "next": ["MiniGame@AT@StartForConversation", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@CanNotOpenForBusiness": {
+        "roi": [858, 521, 247, 186],
+        "next": ["Stop"]
+    },
+    "MiniGame@AT@StartForConversation": {
+        "action": "ClickSelf",
+        "roi": [672, 530, 450, 160],
+        "next": [
+            "MiniGame@AT@InterestPlus3",
+            "MiniGame@AT@InterestPlus2",
+            "MiniGame@AT@InterestPlus1",
+            "MiniGame@AT@ClickToContinue"
+        ]
+    },
+    "MiniGame@AT@InterestPlus1": {
+        "action": "ClickSelf",
+        "roi": [613, 184, 667, 410],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 0],
+                [60, 255, 220]
+            ]
+        ],
+        "templThreshold": 0.9,
+        "next": ["MiniGame@AT@Confirm", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@InterestPlus2": {
+        "baseTask": "MiniGame@AT@InterestPlus1"
+    },
+    "MiniGame@AT@InterestPlus3": {
+        "baseTask": "MiniGame@AT@InterestPlus1"
+    },
+    "MiniGame@AT@Confirm": {
+        "action": "ClickSelf",
+        "roi": [1036, 242, 225, 301],
+        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@EndTheConversation": {
+        "action": "ClickSelf",
+        "roi": [672, 530, 450, 160],
+        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@Boom": {
+        "action": "ClickSelf",
+        "roi": [672, 530, 450, 160],
+        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@NextRound": {
+        "action": "ClickSelf",
+        "roi": [672, 530, 450, 160],
+        "next": ["#self", "MiniGame@AT@ClickToContinue"]
+    },
+    "MiniGame@AT@ClickToContinue": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [600, 400, 10, 10],
+        "next": [
+            "MiniGame@AT@StartForConversation",
+            "MiniGame@AT@Confirm",
+            "MiniGame@AT@InterestPlus3",
+            "MiniGame@AT@InterestPlus2",
+            "MiniGame@AT@InterestPlus1",
+            "MiniGame@AT@Boom",
+            "MiniGame@AT@NextRound",
+            "MiniGame@AT@EndTheConversation",
+            "MiniGame@AT@OpenForBusiness",
+            "MiniGame@AT@CanNotOpenForBusiness",
+            "#self"
+        ]
+    }
+}
