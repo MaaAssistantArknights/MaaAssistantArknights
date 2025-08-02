@@ -760,7 +760,8 @@
             ["^钳铅$", "钼铅"],
             [".*NFESS-47$", "CONFESS-47"],
             ["^焰影苇.*", "焰影苇草"],
-            ["Miss\\.[Cc]hristine", "Miss.Christine"]
+            ["Miss\\.[Cc]hristine", "Miss.Christine"],
+            ["^野<$", "野鬃"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
