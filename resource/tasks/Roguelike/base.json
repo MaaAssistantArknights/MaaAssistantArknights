@@ -611,7 +611,8 @@
         "roi": [725, 409, 249, 169]
     },
     "Roguelike@DropsFlag": {
-        "roi": [875, 601, 152, 119]
+        "roi": [875, 601, 152, 119],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@DropsFlag_default": {
         "template": "Roguelike@DropsFlag.png",
@@ -1590,7 +1591,8 @@
     },
     "Roguelike@Stages": {
         "Doc": "base_task",
-        "algorithm": "JustReturn"
+        "algorithm": "JustReturn",
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@Stages_exit": {
         "Doc": "烧水和直升，在进入第三层之后直接退出",
