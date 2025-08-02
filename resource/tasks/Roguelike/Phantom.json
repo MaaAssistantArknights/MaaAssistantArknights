@@ -8,7 +8,7 @@
     },
     "Phantom@StartExplore@Roguelike@EnterAfterRecruit": {
         "template": "Phantom@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Phantom@Roguelike@NextLevel"]
+        "next": ["#self", "Phantom@Roguelike@NextLevel", "Phantom@Roguelike@NextLevel#next"]
     },
     "Phantom@StartExplore@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
