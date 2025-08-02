@@ -197,6 +197,11 @@
                     "default": false,
                     "description": "Optional, whether the text recognition needs to match all the words (can't match more than one word), the default is false\nfalse, as long as a substring can be found: for example, text: [\"Start\"], the actual recognition of \"Start action\" is also considered successful;\ntrue, it must recognise \"Start\", not one word more"
                 },
+                "useRaw": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional, whether to use the original image for matching.\nDefault is true. If false, grayscale image matching will be used."
+                },
                 "ocrReplace": {
                     "type": "array",
                     "items": {
@@ -208,6 +213,17 @@
                         }
                     },
                     "description": "Optional, replacement of commonly misrecognised text (supports regex)"
+                },
+                "binThresholdLower": {
+                    "type": "integer",
+                    "default": 140,
+                    "description": "Optional, lower threshold for grayscale binarisation (default 140).\nPixels with a grayscale value lower than this will be considered background and excluded from the text region."
+                },
+
+                "binThresholdUpper": {
+                    "type": "integer",
+                    "default": 255,
+                    "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground."
                 }
             },
             "description": "Text recognition",

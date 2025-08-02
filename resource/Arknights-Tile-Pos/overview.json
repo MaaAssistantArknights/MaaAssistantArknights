@@ -13895,6 +13895,267 @@
         "stageId": "act43side_tr01",
         "width": 9
     },
+    "act44side_01-activities/act44side/level_act44side_01": {
+        "code": "AT-1",
+        "filename": "act44side_01-activities-act44side-level_act44side_01.json",
+        "height": 7,
+        "levelId": "activities/act44side/level_act44side_01",
+        "name": "极道作风",
+        "stageId": "act44side_01",
+        "width": 10
+    },
+    "act44side_02-activities/act44side/level_act44side_02": {
+        "code": "AT-2",
+        "filename": "act44side_02-activities-act44side-level_act44side_02.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_02",
+        "name": "灵异特辑",
+        "stageId": "act44side_02",
+        "width": 9
+    },
+    "act44side_03-activities/act44side/level_act44side_03": {
+        "code": "AT-3",
+        "filename": "act44side_03-activities-act44side-level_act44side_03.json",
+        "height": 7,
+        "levelId": "activities/act44side/level_act44side_03",
+        "name": "夜逃通告",
+        "stageId": "act44side_03",
+        "width": 10
+    },
+    "act44side_04-activities/act44side/level_act44side_04": {
+        "code": "AT-4",
+        "filename": "act44side_04-activities-act44side-level_act44side_04.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_04",
+        "name": "百物语",
+        "stageId": "act44side_04",
+        "width": 10
+    },
+    "act44side_05-activities/act44side/level_act44side_05": {
+        "code": "AT-5",
+        "filename": "act44side_05-activities-act44side-level_act44side_05.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_05",
+        "name": "遗祸",
+        "stageId": "act44side_05",
+        "width": 10
+    },
+    "act44side_06-activities/act44side/level_act44side_06": {
+        "code": "AT-6",
+        "filename": "act44side_06-activities-act44side-level_act44side_06.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_06",
+        "name": "漩涡",
+        "stageId": "act44side_06",
+        "width": 11
+    },
+    "act44side_07-activities/act44side/level_act44side_07": {
+        "code": "AT-7",
+        "filename": "act44side_07-activities-act44side-level_act44side_07.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_07",
+        "name": "冷月",
+        "stageId": "act44side_07",
+        "width": 10
+    },
+    "act44side_08-activities/act44side/level_act44side_08": {
+        "code": "AT-8",
+        "filename": "act44side_08-activities-act44side-level_act44side_08.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_08",
+        "name": "逝川",
+        "stageId": "act44side_08",
+        "width": 12
+    },
+    "act44side_ex01#f#-activities/act44side/level_act44side_ex01": {
+        "code": "AT-EX-1",
+        "filename": "act44side_ex01#f#-activities-act44side-level_act44side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex01",
+        "name": "青叶撞球场",
+        "stageId": "act44side_ex01#f#",
+        "width": 12
+    },
+    "act44side_ex01-activities/act44side/level_act44side_ex01": {
+        "code": "AT-EX-1",
+        "filename": "act44side_ex01-activities-act44side-level_act44side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex01",
+        "name": "青叶撞球场",
+        "stageId": "act44side_ex01",
+        "width": 12
+    },
+    "act44side_ex02#f#-activities/act44side/level_act44side_ex02": {
+        "code": "AT-EX-2",
+        "filename": "act44side_ex02#f#-activities-act44side-level_act44side_ex02.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex02",
+        "name": "疾风速滑道",
+        "stageId": "act44side_ex02#f#",
+        "width": 11
+    },
+    "act44side_ex02-activities/act44side/level_act44side_ex02": {
+        "code": "AT-EX-2",
+        "filename": "act44side_ex02-activities-act44side-level_act44side_ex02.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex02",
+        "name": "疾风速滑道",
+        "stageId": "act44side_ex02",
+        "width": 11
+    },
+    "act44side_ex03#f#-activities/act44side/level_act44side_ex03": {
+        "code": "AT-EX-3",
+        "filename": "act44side_ex03#f#-activities-act44side-level_act44side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_ex03",
+        "name": "浪切浴场",
+        "stageId": "act44side_ex03#f#",
+        "width": 11
+    },
+    "act44side_ex03-activities/act44side/level_act44side_ex03": {
+        "code": "AT-EX-3",
+        "filename": "act44side_ex03-activities-act44side-level_act44side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_ex03",
+        "name": "浪切浴场",
+        "stageId": "act44side_ex03",
+        "width": 11
+    },
+    "act44side_ex04#f#-activities/act44side/level_act44side_ex04": {
+        "code": "AT-EX-4",
+        "filename": "act44side_ex04#f#-activities-act44side-level_act44side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_ex04",
+        "name": "鸣瓶坂保龄球馆",
+        "stageId": "act44side_ex04#f#",
+        "width": 11
+    },
+    "act44side_ex04-activities/act44side/level_act44side_ex04": {
+        "code": "AT-EX-4",
+        "filename": "act44side_ex04-activities-act44side-level_act44side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_ex04",
+        "name": "鸣瓶坂保龄球馆",
+        "stageId": "act44side_ex04",
+        "width": 11
+    },
+    "act44side_ex05#f#-activities/act44side/level_act44side_ex05": {
+        "code": "AT-EX-5",
+        "filename": "act44side_ex05#f#-activities-act44side-level_act44side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex05",
+        "name": "锻魂街机厅",
+        "stageId": "act44side_ex05#f#",
+        "width": 11
+    },
+    "act44side_ex05-activities/act44side/level_act44side_ex05": {
+        "code": "AT-EX-5",
+        "filename": "act44side_ex05-activities-act44side-level_act44side_ex05.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex05",
+        "name": "锻魂街机厅",
+        "stageId": "act44side_ex05",
+        "width": 11
+    },
+    "act44side_ex06#f#-activities/act44side/level_act44side_ex06": {
+        "code": "AT-EX-6",
+        "filename": "act44side_ex06#f#-activities-act44side-level_act44side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex06",
+        "name": "在你的时代之上",
+        "stageId": "act44side_ex06#f#",
+        "width": 12
+    },
+    "act44side_ex06-activities/act44side/level_act44side_ex06": {
+        "code": "AT-EX-6",
+        "filename": "act44side_ex06-activities-act44side-level_act44side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex06",
+        "name": "在你的时代之上",
+        "stageId": "act44side_ex06",
+        "width": 12
+    },
+    "act44side_ex07#f#-activities/act44side/level_act44side_ex07": {
+        "code": "AT-EX-7",
+        "filename": "act44side_ex07#f#-activities-act44side-level_act44side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex07",
+        "name": "盛放的泡沫",
+        "stageId": "act44side_ex07#f#",
+        "width": 12
+    },
+    "act44side_ex07-activities/act44side/level_act44side_ex07": {
+        "code": "AT-EX-7",
+        "filename": "act44side_ex07-activities-act44side-level_act44side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex07",
+        "name": "盛放的泡沫",
+        "stageId": "act44side_ex07",
+        "width": 12
+    },
+    "act44side_ex08#f#-activities/act44side/level_act44side_ex08": {
+        "code": "AT-EX-8",
+        "filename": "act44side_ex08#f#-activities-act44side-level_act44side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex08",
+        "name": "碎裂的梦",
+        "stageId": "act44side_ex08#f#",
+        "width": 13
+    },
+    "act44side_ex08-activities/act44side/level_act44side_ex08": {
+        "code": "AT-EX-8",
+        "filename": "act44side_ex08-activities-act44side-level_act44side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_ex08",
+        "name": "碎裂的梦",
+        "stageId": "act44side_ex08",
+        "width": 13
+    },
+    "act44side_sp01-activities/act44side/level_act44side_sp01": {
+        "code": "AT-P-1",
+        "filename": "act44side_sp01-activities-act44side-level_act44side_sp01.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_sp01",
+        "name": "起点",
+        "stageId": "act44side_sp01",
+        "width": 12
+    },
+    "act44side_sp02-activities/act44side/level_act44side_sp02": {
+        "code": "AT-P-2",
+        "filename": "act44side_sp02-activities-act44side-level_act44side_sp02.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sp02",
+        "name": "回弹角",
+        "stageId": "act44side_sp02",
+        "width": 13
+    },
+    "act44side_sp03-activities/act44side/level_act44side_sp03": {
+        "code": "AT-P-3",
+        "filename": "act44side_sp03-activities-act44side-level_act44side_sp03.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sp03",
+        "name": "满弧闭环",
+        "stageId": "act44side_sp03",
+        "width": 13
+    },
+    "act44side_tr01-activities/act44side/level_act44side_tr01": {
+        "code": "AT-TR-1",
+        "filename": "act44side_tr01-activities-act44side-level_act44side_tr01.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_tr01",
+        "name": "天命滚滚",
+        "stageId": "act44side_tr01",
+        "width": 8
+    },
+    "act44side_tr02-activities/act44side/level_act44side_tr02": {
+        "code": "AT-TR-2",
+        "filename": "act44side_tr02-activities-act44side-level_act44side_tr02.json",
+        "height": 7,
+        "levelId": "activities/act44side/level_act44side_tr02",
+        "name": "雪花屏",
+        "stageId": "act44side_tr02",
+        "width": 11
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
@@ -21392,6 +21653,15 @@
         "stageId": "mem_catap_1",
         "width": 11
     },
+    "mem_cathy_1-obt/memory/level_memory_cathy_1": {
+        "code": "mem_cathy_1",
+        "filename": "mem_cathy_1-obt-memory-level_memory_cathy_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_cathy_1",
+        "name": "后盾",
+        "stageId": "mem_cathy_1",
+        "width": 9
+    },
     "mem_ccheal_1-obt/memory/level_memory_ccheal_1": {
         "code": "mem_ccheal_1",
         "filename": "mem_ccheal_1-obt-memory-level_memory_ccheal_1.json",
@@ -21535,6 +21805,15 @@
         "name": "匿影藏形",
         "stageId": "mem_ctable_1",
         "width": 9
+    },
+    "mem_ctrail_1-obt/memory/level_memory_ctrail_1": {
+        "code": "mem_ctrail_1",
+        "filename": "mem_ctrail_1-obt-memory-level_memory_ctrail_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ctrail_1",
+        "name": "不要抬头",
+        "stageId": "mem_ctrail_1",
+        "width": 11
     },
     "mem_cutter_1-obt/memory/level_memory_cutter_1": {
         "code": "mem_cutter_1",
@@ -22040,6 +22319,15 @@
         "stageId": "mem_hpsts_1",
         "width": 11
     },
+    "mem_hsguma_1-obt/memory/level_memory_hsguma_1": {
+        "code": "mem_hsguma_1",
+        "filename": "mem_hsguma_1-obt-memory-level_memory_hsguma_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_hsguma_1",
+        "name": "无路可退",
+        "stageId": "mem_hsguma_1",
+        "width": 11
+    },
     "mem_huang_1-obt/memory/level_memory_huang_1": {
         "code": "mem_huang_1",
         "filename": "mem_huang_1-obt-memory-level_memory_huang_1.json",
@@ -22210,6 +22498,15 @@
         "name": "模拟场景1122K",
         "stageId": "mem_kroos_1",
         "width": 10
+    },
+    "mem_lasher_1-obt/memory/level_memory_lasher_1": {
+        "code": "mem_lasher_1",
+        "filename": "mem_lasher_1-obt-memory-level_memory_lasher_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_lasher_1",
+        "name": "次品处理",
+        "stageId": "mem_lasher_1",
+        "width": 11
     },
     "mem_lava_1-obt/memory/level_memory_lava_1": {
         "code": "mem_lava_1",
@@ -22588,6 +22885,15 @@
         "name": "拳风拂面",
         "stageId": "mem_panda_1",
         "width": 10
+    },
+    "mem_papyrs_1-obt/memory/level_memory_papyrs_1": {
+        "code": "mem_papyrs_1",
+        "filename": "mem_papyrs_1-obt-memory-level_memory_papyrs_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_papyrs_1",
+        "name": "忙中有序",
+        "stageId": "mem_papyrs_1",
+        "width": 11
     },
     "mem_peper_1-obt/memory/level_memory_peper_1": {
         "code": "mem_peper_1",

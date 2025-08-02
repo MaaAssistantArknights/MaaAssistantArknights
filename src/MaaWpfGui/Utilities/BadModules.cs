@@ -51,7 +51,7 @@ namespace MaaWpfGui.Utilities
             return result.ToArray();
         }
 
-        private class WpfWin32Window(System.Windows.Window w) : System.Windows.Forms.IWin32Window, System.Windows.Interop.IWin32Window
+        private class WpfWin32Window(System.Windows.Window w) : IWin32Window, System.Windows.Interop.IWin32Window
         {
             public IntPtr Handle => _helper.Handle;
 
@@ -72,46 +72,86 @@ namespace MaaWpfGui.Utilities
             var notSuppressedBadModules = allBadModules.Where(x => !suppressed.Contains(x, StringComparer.InvariantCultureIgnoreCase)).ToArray();
             ConfigFactory.Root.GUI.FoundBadModules = string.Join(";", [.. prevFound, .. newFoundBadModules]);
 
-            if (notSuppressedBadModules.Length > 0)
+            if (notSuppressedBadModules.Length <= 0)
             {
-                var sb = new StringBuilder();
-                sb.AppendLine(LocalizationHelper.GetString("BadModules.Warning.Prolog"));
-                sb.AppendLine();
-                foreach (var module in allBadModules)
+                return;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendLine(LocalizationHelper.GetString("BadModules.Warning.Prolog"));
+            sb.AppendLine();
+            foreach (var module in allBadModules)
+            {
+                sb.AppendLine(BreakLongPath(module, 70));
+            }
+
+            sb.AppendLine();
+            sb.Append(LocalizationHelper.GetString("BadModules.Warning.Epilog"));
+
+            var page = new TaskDialogPage
+            {
+                Caption = "MAA",
+                Heading = LocalizationHelper.GetString("BadModules.Warning.Heading"),
+                Text = sb.ToString(),
+                Icon = TaskDialogIcon.Warning,
+                Buttons = { TaskDialogButton.OK },
+                SizeToContent = true,
+            };
+
+            if (newFoundBadModules.Length == 0)
+            {
+                // only show the "Do not show again" checkbox on the second time
+                page.Verification = new()
                 {
-                    sb.AppendLine(module);
-                }
-
-                sb.AppendLine();
-
-                sb.Append(LocalizationHelper.GetString("BadModules.Warning.Epilog"));
-
-                var page = new TaskDialogPage
-                {
-                    Caption = "MAA",
-                    Heading = LocalizationHelper.GetString("BadModules.Warning.Heading"),
-                    Text = sb.ToString(),
-                    Icon = TaskDialogIcon.Warning,
-                    Buttons = { TaskDialogButton.OK },
-                    SizeToContent = true,
+                    Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
+                    Checked = false,
                 };
+            }
 
-                if (newFoundBadModules.Length == 0)
+            TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+
+            if (page.Verification?.Checked ?? false)
+            {
+                ConfigFactory.Root.GUI.SuppressedBadModules = string.Join(";", allBadModules);
+            }
+
+            return;
+
+            string BreakLongPath(string path, int maxLen)
+            {
+                if (path.Length <= maxLen)
                 {
-                    // only show the "Do not show again" checkbox on the second time
-                    page.Verification = new()
+                    return path;
+                }
+
+                var sb = new StringBuilder();
+                int start = 0;
+
+                while (start < path.Length)
+                {
+                    if (start + maxLen >= path.Length)
                     {
-                        Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
-                        Checked = false,
-                    };
+                        sb.AppendLine(path[start..]);
+                        break;
+                    }
+
+                    int breakPos = path.LastIndexOf('\\', start + maxLen);
+
+                    if (breakPos <= start)
+                    {
+                        breakPos = Math.Min(start + maxLen, path.Length);
+                        sb.AppendLine(path.Substring(start, breakPos - start));
+                        start = breakPos;
+                    }
+                    else
+                    {
+                        int length = breakPos - start + 1;
+                        sb.AppendLine(path.Substring(start, length));
+                        start = breakPos + 1;
+                    }
                 }
 
-                TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
-
-                if (page.Verification?.Checked ?? false)
-                {
-                    ConfigFactory.Root.GUI.SuppressedBadModules = string.Join(";", allBadModules);
-                }
+                return sb.ToString();
             }
         }
     }

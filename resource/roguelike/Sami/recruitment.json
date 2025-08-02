@@ -666,6 +666,20 @@
                     ]
                 },
                 {
+                    "name": "斩业星熊",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 620,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "重装"],
+                            "threshold": 2,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
                     "name": "星熊",
                     "skill": 2,
                     "recruit_priority": 611,
@@ -1608,6 +1622,20 @@
             "doc": "主要以攻击范围区分",
             "opers": [
                 {
+                    "name": "遥",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "夜莺",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2513,6 +2541,9 @@
                     "name": "年"
                 },
                 {
+                    "name": "斩业星熊"
+                },
+                {
                     "name": "星熊"
                 },
                 {
@@ -3006,6 +3037,9 @@
             "opers": [
                 {
                     "name": "Touch"
+                },
+                {
+                    "name": "遥"
                 },
                 {
                     "name": "夜莺"

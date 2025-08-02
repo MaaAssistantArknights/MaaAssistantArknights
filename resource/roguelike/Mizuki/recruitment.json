@@ -356,7 +356,7 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "is_key": true,
-                    "recruit_priority": 951,
+                    "recruit_priority": 739,
                     "promote_priority": 981,
                     "recruit_priority_offsets": [
                         {
@@ -367,26 +367,11 @@
                     ]
                 },
                 {
-                    "name": "鸿雪",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 850,
-                    "promote_priority": 980,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
                     "name": "新约能天使",
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 950,
+                    "recruit_priority": 951,
                     "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
@@ -401,7 +386,7 @@
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 900,
+                    "recruit_priority": 740,
                     "promote_priority": 900,
                     "recruit_priority_offsets": [
                         {
@@ -513,12 +498,12 @@
                     ]
                 },
                 {
-                    "name": "黑",
+                    "name": "鸿雪",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "is_key": true,
-                    "recruit_priority": 740,
-                    "promote_priority": 950,
+                    "recruit_priority": 650,
+                    "promote_priority": 980,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["高台C", "益达", "玛恩纳", "号角"],
@@ -531,7 +516,7 @@
                     "name": "菲亚梅塔",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 720,
+                    "recruit_priority": 620,
                     "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
@@ -543,6 +528,19 @@
                             "groups": ["单奶", "群奶"],
                             "is_less": true,
                             "offset": -700
+                        }
+                    ]
+                },
+                {
+                    "name": "黑",
+                    "skill": 2,
+                    "recruit_priority": 450,
+                    "promote_priority": 580,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
+                            "threshold": 2,
+                            "offset": -300
                         }
                     ]
                 }
@@ -1210,6 +1208,20 @@
             "name": "群奶",
             "opers": [
                 {
+                    "name": "遥",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 700,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "白面鸮",
                     "skill": 2,
                     "is_key": true,
@@ -1874,6 +1886,20 @@
                     ]
                 },
                 {
+                    "name": "斩业星熊",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 620,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["重装"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "星熊",
                     "skill": 2,
                     "recruit_priority": 611,
@@ -2270,6 +2296,9 @@
                 },
                 {
                     "name": "号角"
+                },
+                {
+                    "name": "斩业星熊"
                 },
                 {
                     "name": "星熊"
@@ -2780,6 +2809,9 @@
                 },
                 {
                     "name": "纯烬艾雅法拉"
+                },
+                {
+                    "name": "遥"
                 },
                 {
                     "name": "焰影苇草"

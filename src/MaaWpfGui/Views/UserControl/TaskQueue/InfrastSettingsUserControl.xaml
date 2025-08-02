@@ -21,14 +21,26 @@
     <StackPanel>
         <!--  常规设置  -->
         <StackPanel Visibility="{c:Binding '!TaskSettingVisibilities.EnableAdvancedSettings'}">
-            <ComboBox
-                Margin="0,4"
-                VerticalContentAlignment="Center"
-                hc:InfoElement.Title="{DynamicResource InfrastMode}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding InfrastModeList}"
-                SelectedValue="{Binding InfrastMode}"
-                SelectedValuePath="Value" />
+            <StackPanel Margin="0,4">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock
+                        Margin="8,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource InfrastMode}" />
+                    <controls:TooltipBlock
+                        VerticalAlignment="Center"
+                        TooltipText="{DynamicResource InfrastModeRotationToolTip}"
+                        Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Rotation',
+                                               Source={x:Static task:InfrastSettingsUserControlModel.Instance}}" />
+                </StackPanel>
+                <ComboBox
+                    VerticalContentAlignment="Center"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding InfrastModeList}"
+                    SelectedValue="{Binding InfrastMode}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom', Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
                 <hc:ComboBox
                     Margin="0,4"
@@ -116,8 +128,11 @@
                     Maximum="100"
                     Minimum="0"
                     Value="{Binding DormThreshold}" />
+            </StackPanel>
+            <StackPanel>
                 <ListBox
                     Margin="0,5"
+                    d:ItemsSource="{d:SampleData ItemCount=9}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
                     ItemsSource="{Binding Path=InfrastItemViewModels}"
@@ -128,8 +143,6 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <!--<maa:TextBlock  Text="{Binding ID}" />
-                            <maa:TextBlock  Text=". " />-->
                                 <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
                             </StackPanel>
                         </DataTemplate>

@@ -60,13 +60,14 @@
     "RoguelikeCustom-HijackRoles": {
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [54, 356, 1172, 183]
+        "roi": [54, 356, 1172, 183],
+        "postDelay": 1000
     },
     "RoguelikeCustom-HijackSquad": {
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 383, 1280, 142],
-        "postDelay": 800,
+        "postDelay": 1000,
         "ocrReplace": [["蓝图测绘分.*", "蓝图测绘分队"]]
     },
     "RoguelikeFoldartalSlowlySwipeToTheUp": {
@@ -473,9 +474,9 @@
         "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
+            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "Roguelike@ChooseOperConfirmToGiveUp",
-            "Roguelike@RecruitOther",
-            "Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+            "Roguelike@RecruitSkip#next"
         ]
     },
     "Roguelike@ChooseOperFlag": {
@@ -505,9 +506,10 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [600, 620, 50, 30],
-        "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
+        "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033；有时光之末可以继续",
         "postDelay": 800,
         "next": [
+            "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore",
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
@@ -609,7 +611,8 @@
         "roi": [725, 409, 249, 169]
     },
     "Roguelike@DropsFlag": {
-        "roi": [875, 601, 152, 119]
+        "roi": [875, 601, 152, 119],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@DropsFlag_default": {
         "template": "Roguelike@DropsFlag.png",
@@ -802,9 +805,12 @@
         "Doc": "base_sharp_task",
         "algorithm": "JustReturn"
     },
+    "Roguelike@HpFlag": {
+        "roi": [70, 0, 250, 70]
+    },
     "Roguelike@HpRecognition": {
         "baseTask": "NumberOcrReplace",
-        "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
+        "Doc": "生命值识别",
         "text": [],
         "roi": [170, 30, 70, 30]
     },
@@ -1037,7 +1043,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "templThreshold": 0.6,
         "roi": [80, 470, 410, 154],
         "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide", "#self"],
         "postDelay": 1000
@@ -1227,21 +1232,22 @@
     "Roguelike@StageEncounterJudgeClick": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [640, 360, 0, 0],
+        "specificRect": [640, 360, 1, 1],
         "preDelay": 150,
         "next": ["Roguelike@StageEncounterJudgeClick2"]
     },
     "Roguelike@StageEncounterJudgeClick2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [640, 360, 0, 0],
+        "specificRect": [640, 360, 1, 1],
         "preDelay": 150,
         "next": ["Roguelike@StageEncounterJudgeOption"]
     },
     "Roguelike@StageEncounterJudgeOption": {
         "algorithm": "JustReturn",
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
-        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"]
+        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@Stages#next"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StageEncounterLeaveConfirm": {
         "Doc": "base_task",
@@ -1264,9 +1270,13 @@
         "ocrReplace": [
             ["绝境(？|\\?)抉择(？|\\?)", "绝境？抉择？"],
             ["魂灵见闻.*以血还血", "魂灵见闻：以血还血"],
-            ["魂灵见闻.*善恶((同)|(向))道", "魂灵见闻：善恶同道"],
+            ["魂灵见闻.*善恶.*道", "魂灵见闻：善恶同道"],
             ["魂灵见闻.*石心双(子)?", "魂灵见闻：石心双子"],
-            [".*餮廊", "饕餮廊"]
+            [".*餮廊", "饕餮廊"],
+            ["掌灯与引.*", "掌灯与引烛"],
+            ["禧解", "禳解"],
+            ["祠堂(口)?", "祠堂口"],
+            ["见字祠立于际山之", "祠堂口"]
         ],
         "preDelay": 600,
         "roi": [0, 405, 725, 225]
@@ -1318,7 +1328,8 @@
         "template": "empty.png"
     },
     "Roguelike@StageEncounterOptions": {
-        "algorithm": "JustReturn"
+        "algorithm": "JustReturn",
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StageEncounterSpecialClose": {
         "Doc": "base_task",
@@ -1581,7 +1592,8 @@
     },
     "Roguelike@Stages": {
         "Doc": "base_task",
-        "algorithm": "JustReturn"
+        "algorithm": "JustReturn",
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@Stages_exit": {
         "Doc": "烧水和直升，在进入第三层之后直接退出",
@@ -1608,7 +1620,9 @@
             "Roguelike@GamePassTheEndConfirm",
             "Roguelike@GamePass",
             "Roguelike@StartAction@LoadingText",
-            "Roguelike@StartAction@LoadingIcon"
+            "Roguelike@StartAction@LoadingIcon",
+            "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next"
         ]
     },
     "Roguelike@StartExplore": {
@@ -1701,7 +1715,7 @@
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
         "text": ["_SKIP_"],
-        "roi": [593, 0, 186, 129],
+        "roi": [570, 0, 180, 80],
         "next": ["Roguelike@Stages"]
     },
     "Roguelike@StrategyChange_mode0": {
@@ -1788,10 +1802,12 @@
         "baseTask": "Roguelike@StageEncounterGiveUpRecruitConfirm",
         "template": "Roguelike@StageEncounterGiveUpRecruitConfirm.png",
         "next": [
-            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "StartExplore@Roguelike@RecruitOther",
             "StartExplore@Roguelike@EnterAfterRecruit",
-            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText"
+            "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next",
+            "StartExplore@Roguelike@ChooseOperConfirmToGiveUp"
         ]
     },
     "StartExplore@Roguelike@RecruitOther": {

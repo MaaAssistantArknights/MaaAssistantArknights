@@ -38,26 +38,30 @@
             TextWrapping="Wrap" />-->
 
         <StackPanel Grid.Row="1">
-            <StackPanel
-                Margin="5"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
-                <StackPanel>
-                    <controls:TextBlock Margin="0,0,0,5" Text="{DynamicResource ExternalNotificationEnabled}" />
-                    <hc:CheckComboBox
-                        Width="200"
-                        HorizontalContentAlignment="Center"
-                        hc:InfoElement.TitleWidth="0"
-                        hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
-                        ItemsSource="{Binding ExternalNotificationProvidersShow}" />
-                </StackPanel>
-                <Button
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Bottom"
-                    Command="{s:Action ExternalNotificationSendTest,
-                                       Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
-                    Content="{DynamicResource ExternalNotificationSendTest}"
-                    IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
+            <controls:TextBlock Margin="0,0,0,5" Text="{DynamicResource ExternalNotificationEnabled}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <hc:CheckComboBox
+                    Width="250"
+                    HorizontalContentAlignment="Center"
+                    hc:BorderElement.CornerRadius="4,0,0,4"
+                    hc:InfoElement.TitleWidth="0"
+                    hc:ListBoxAttach.SelectedItems="{Binding EnabledExternalNotificationProviders}"
+                    ItemsSource="{Binding ExternalNotificationProvidersShow}" />
+                <Grid>
+                    <Button
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Content="{DynamicResource ExternalNotificationSendTest}"
+                        Foreground="Transparent"
+                        Visibility="{c:Binding 'EnabledExternalNotificationProviderCount == 0'}" />
+                    <Button
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action ExternalNotificationSendTest,
+                                           Target={x:Type viewModels:ExternalNotificationSettingsUserControlModel}}"
+                        Content="{DynamicResource ExternalNotificationSendTest}"
+                        IsEnabled="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}" />
+                </Grid>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'EnabledExternalNotificationProviderCount > 0'}">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">

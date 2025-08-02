@@ -129,7 +129,7 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="drops">掉落物列表</param>
         /// <returns>ToolTip</returns>
-        public static ToolTip CreateMaterialDropTooltip(this IEnumerable<(string ItemId, int Total, int Add)> drops)
+        public static ToolTip CreateMaterialDropTooltip(this IEnumerable<(string ItemId, string ItemName, int Total, int Add)> drops)
         {
             var row = new WrapPanel
             {
@@ -140,9 +140,7 @@ namespace MaaWpfGui.Helper
                 MaxWidth = (64 * 5) + (4 * 10),
             };
 
-            foreach (var (itemId, total, add) in drops
-                         .OrderByDescending(x => x.Add)
-                         .ThenByDescending(x => x.Total))
+            foreach (var (itemId, _, total, add) in drops)
             {
                 var image = new Image
                 {

@@ -242,11 +242,6 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
         }
         stats_vec.emplace_back(std::move(info));
     }
-    //// 排个序，数量多的放前面
-    // std::sort(stats_vec.begin(), stats_vec.end(),
-    //     [](const json::value& lhs, const json::value& rhs) -> bool {
-    //         return lhs.at("count").as_integer() > rhs.at("count").as_integer();
-    //     });
 
     json::value info = basic_info_with_what("StageDrops");
     json::value& details = info["details"];

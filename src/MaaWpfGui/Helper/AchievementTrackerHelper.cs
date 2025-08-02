@@ -139,8 +139,9 @@ namespace MaaWpfGui.Helper
         {
             Achievements = _achievements
                 .OrderByDescending(kv => kv.Value.IsUnlocked) // 已解锁优先
-                .ThenBy(kv => !kv.Value.IsNewUnlock) // 新解锁的排前面
+                .ThenByDescending(kv => kv.Value.IsNewUnlock) // 新解锁的排前面
                 .ThenBy(kv => kv.Value.Category) // 按类别分组
+                .ThenBy(kv => kv.Value.Group)
                 .ThenBy(kv => kv.Value.Id) // 最后按 Id
                 .ToDictionary(kv => kv.Key, kv => kv.Value);
         }
@@ -306,7 +307,7 @@ namespace MaaWpfGui.Helper
 
         public void AddProgressToGroup(string groupPrefix, int amount = 1)
         {
-            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Id.StartsWith(groupPrefix)))
+            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == groupPrefix))
             {
                 AddProgress(achievement.Id, amount);
             }
@@ -326,7 +327,7 @@ namespace MaaWpfGui.Helper
 
         public void SetProgressToGroup(string groupPrefix, int progress)
         {
-            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Id.StartsWith(groupPrefix)))
+            foreach (var achievement in _achievements.Values.Where(achievement => achievement.Group == groupPrefix))
             {
                 SetProgress(achievement.Id, progress);
             }
@@ -371,26 +372,26 @@ namespace MaaWpfGui.Helper
 
         #region 工厂函数
 
-        private static Achievement BasicUsage(string id, int? target = null, bool isHidden = false, bool isRare = false)
-           => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
+        private static Achievement BasicUsage(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+           => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BasicUsage, IsRare = isRare };
 
-        private static Achievement FeatureExploration(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
+        private static Achievement FeatureExploration(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.FeatureExploration, IsRare = isRare };
 
-        private static Achievement AutoBattle(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
+        private static Achievement AutoBattle(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.AutoBattle, IsRare = isRare };
 
-        private static Achievement Humor(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
+        private static Achievement Humor(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Humor, IsRare = isRare };
 
-        private static Achievement BugRelated(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
+        private static Achievement BugRelated(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.BugRelated, IsRare = isRare };
 
-        private static Achievement Behavior(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
+        private static Achievement Behavior(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.Behavior, IsRare = isRare };
 
-        private static Achievement EasterEgg(string id, int? target = null, bool isHidden = false, bool isRare = false)
-            => new() { Id = id, Target = target ?? default, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
+        private static Achievement EasterEgg(string id, string group = "", int? target = null, bool isHidden = false, bool isRare = false)
+            => new() { Id = id, Group = group, Target = target ?? 0, IsHidden = isHidden, Category = AchievementCategory.EasterEgg, IsRare = isRare };
 
         #endregion
 
@@ -398,73 +399,76 @@ namespace MaaWpfGui.Helper
         [
 
             #region 基础使用类
-            BasicUsage(id: AchievementIds.SanitySpender1, target: 10), // 刷理智次数
-            BasicUsage(id: AchievementIds.SanitySpender2, target: 100),
-            BasicUsage(id: AchievementIds.SanitySpender3, target: 1000),
+            BasicUsage(id: AchievementIds.SanitySpender1, group: AchievementIds.SanitySpenderGroup, target: 10), // 刷理智次数
+            BasicUsage(id: AchievementIds.SanitySpender2, group: AchievementIds.SanitySpenderGroup, target: 100),
+            BasicUsage(id: AchievementIds.SanitySpender3, group: AchievementIds.SanitySpenderGroup, target: 1000),
 
-            BasicUsage(id: AchievementIds.SanitySaver1, target: 1), // 使用理智药数
-            BasicUsage(id: AchievementIds.SanitySaver2, target: 10),
-            BasicUsage(id: AchievementIds.SanitySaver3, target: 50),
+            BasicUsage(id: AchievementIds.SanitySaver1, group: AchievementIds.SanitySaverGroup, target: 1), // 使用理智药数
+            BasicUsage(id: AchievementIds.SanitySaver2, group: AchievementIds.SanitySaverGroup, target: 10),
+            BasicUsage(id: AchievementIds.SanitySaver3, group: AchievementIds.SanitySaverGroup, target: 50),
+
+            BasicUsage(id: AchievementIds.RoguelikeGamePass1, group: AchievementIds.RoguelikeGamePassGroup, target: 1), // 使用牛牛通关肉鸽
+            BasicUsage(id: AchievementIds.RoguelikeGamePass2, group: AchievementIds.RoguelikeGamePassGroup, target: 5),
+            BasicUsage(id: AchievementIds.RoguelikeGamePass3, group: AchievementIds.RoguelikeGamePassGroup, target: 10),
+
+            BasicUsage(id: AchievementIds.RoguelikeN04, group: AchievementIds.RoguelikeNGroup), // 肉鸽 难度 通关
+            BasicUsage(id: AchievementIds.RoguelikeN08, group: AchievementIds.RoguelikeNGroup),
+            BasicUsage(id: AchievementIds.RoguelikeN12, group: AchievementIds.RoguelikeNGroup),
+            BasicUsage(id: AchievementIds.RoguelikeN15, group: AchievementIds.RoguelikeNGroup, isRare: true),
+
+            BasicUsage(id: AchievementIds.RoguelikeRetreat, group: AchievementIds.RoguelikeGroup, target: 100), // 牛牛放弃探索 100 次
+            BasicUsage(id: AchievementIds.RoguelikeGoldMax, group: AchievementIds.RoguelikeGroup, target: 999), // 肉鸽源石锭到达 999
 
             BasicUsage(id: AchievementIds.FirstLaunch), // 首次启动
             BasicUsage(id: AchievementIds.SanityExpire, target: 8), // 单次消耗 8 瓶快过期的理智药
             BasicUsage(id: AchievementIds.OverLimitAgent, target: 100, isHidden: true), // 单次代理 100 关
-
-            BasicUsage(id: AchievementIds.RoguelikeGamePass1, target: 1), // 使用牛牛通关肉鸽
-            BasicUsage(id: AchievementIds.RoguelikeGamePass2, target: 5),
-            BasicUsage(id: AchievementIds.RoguelikeGamePass3, target: 10),
-            BasicUsage(id: AchievementIds.RoguelikeRetreat, target: 100), // 牛牛放弃探索 100 次
-            BasicUsage(id: AchievementIds.RoguelikeGoldMax, target: 999), // 肉鸽源石锭到达 999
-            BasicUsage(id: AchievementIds.RoguelikeN04), // 肉鸽 难度 通关
-            BasicUsage(id: AchievementIds.RoguelikeN08),
-            BasicUsage(id: AchievementIds.RoguelikeN12),
-            BasicUsage(id: AchievementIds.RoguelikeN15, isRare: true),
             #endregion
 
             #region 功能探索类
-            FeatureExploration(id: AchievementIds.ScheduleMaster1, target: 1), // 定时执行
-            FeatureExploration(id: AchievementIds.ScheduleMaster2, target: 100),
+            FeatureExploration(id: AchievementIds.ScheduleMaster1, group: AchievementIds.ScheduleMasterGroup, target: 1), // 定时执行
+            FeatureExploration(id: AchievementIds.ScheduleMaster2, group: AchievementIds.ScheduleMasterGroup, target: 100),
 
-            FeatureExploration(id: AchievementIds.MirrorChyanFirstUse, isHidden: true), // 第一次成功使用 MirrorChyan 下载
-            FeatureExploration(id: AchievementIds.MirrorChyanCdkError, isHidden: true), // MirrorChyan CDK 错误
+            FeatureExploration(id: AchievementIds.MirrorChyanFirstUse, group: AchievementIds.MirrorChyanGroup, isHidden: true), // 第一次成功使用 MirrorChyan 下载
+            FeatureExploration(id: AchievementIds.MirrorChyanCdkError, group: AchievementIds.MirrorChyanGroup, isHidden: true), // MirrorChyan CDK 错误
 
-            FeatureExploration(id: AchievementIds.Pioneer1), // 将 MAA 更新至公测版
-            FeatureExploration(id: AchievementIds.Pioneer2, isHidden: true), // 将 MAA 更新至内测版（隐藏）
-            FeatureExploration(id: AchievementIds.Pioneer3, isHidden: true), // 使用未发布版本的 MAA（隐藏）
+            FeatureExploration(id: AchievementIds.Pioneer1, group: AchievementIds.PioneerGroup), // 将 MAA 更新至公测版
+            FeatureExploration(id: AchievementIds.Pioneer2, group: AchievementIds.PioneerGroup, isHidden: true), // 将 MAA 更新至内测版（隐藏）
+            FeatureExploration(id: AchievementIds.Pioneer3, group: AchievementIds.PioneerGroup, isHidden: true), // 使用未发布版本的 MAA（隐藏）
 
             FeatureExploration(id: AchievementIds.MosquitoLeg, target: 5), // 使用「借助战打 OF-1」功能超过 5 次
-
             FeatureExploration(id: AchievementIds.RealGacha, isHidden: true), // 真正的抽卡
             FeatureExploration(id: AchievementIds.PeekScreen, isHidden: true), // 窥屏
             FeatureExploration(id: AchievementIds.CustomizationMaster, isHidden: true), // 自定义背景
             #endregion
 
             #region 自动战斗
-            AutoBattle(id: AchievementIds.UseCopilot1, target: 1), // 自动战斗
-            AutoBattle(id: AchievementIds.UseCopilot2, target: 10),
-            AutoBattle(id: AchievementIds.UseCopilot3, target: 100),
-            AutoBattle(id: AchievementIds.CopilotLikeGiven1, target: 1), // 点赞 1 次
-            AutoBattle(id: AchievementIds.CopilotLikeGiven2, target: 10), // 点赞 10 次
-            AutoBattle(id: AchievementIds.CopilotLikeGiven3, target: 50), // 点赞 50 次
-            AutoBattle(id: AchievementIds.CopilotError), // 代理作战出现失误
+            AutoBattle(id: AchievementIds.UseCopilot1, group: AchievementIds.UseCopilotGroup, target: 1), // 自动战斗
+            AutoBattle(id: AchievementIds.UseCopilot2, group: AchievementIds.UseCopilotGroup, target: 10),
+            AutoBattle(id: AchievementIds.UseCopilot3, group: AchievementIds.UseCopilotGroup, target: 100),
 
+            AutoBattle(id: AchievementIds.CopilotLikeGiven1, group: AchievementIds.CopilotLikeGroup, target: 1), // 点赞 1 次
+            AutoBattle(id: AchievementIds.CopilotLikeGiven2, group: AchievementIds.CopilotLikeGroup, target: 10), // 点赞 10 次
+            AutoBattle(id: AchievementIds.CopilotLikeGiven3, group: AchievementIds.CopilotLikeGroup, target: 50), // 点赞 50 次
+
+            AutoBattle(id: AchievementIds.CopilotError), // 代理作战出现失误
             AutoBattle(id: AchievementIds.MapOutdated, isHidden: true), // 提示需要更新地图资源
             AutoBattle(id: AchievementIds.Irreplaceable, isHidden: true), // 自动编队缺少至少两名干员
             #endregion
 
             #region 搞笑/梗类成就
-            Humor(id: AchievementIds.SnapshotChallenge1, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
-            Humor(id: AchievementIds.SnapshotChallenge2, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
-            Humor(id: AchievementIds.SnapshotChallenge3), // 平均截图用时小于 400ms（截图挑战 · Normal）
-            Humor(id: AchievementIds.SnapshotChallenge4), // 平均截图用时小于 100ms（截图挑战 · Fast）
-            Humor(id: AchievementIds.SnapshotChallenge5), // 平均截图用时小于 10ms（截图挑战 · Ultra）
-            Humor(id: AchievementIds.SnapshotChallenge6, isHidden: true, isRare: true), // 平均截图用时小于 5ms
+            Humor(id: AchievementIds.SnapshotChallenge1, group: AchievementIds.SnapshotChallengeGroup, isHidden: true), // 平均截图用时超过 800ms（高 ping 战士）
+            Humor(id: AchievementIds.SnapshotChallenge2, group: AchievementIds.SnapshotChallengeGroup, isHidden: true), // 平均截图用时在 400ms 到 800ms 之间（是不是有点太慢了）
+            Humor(id: AchievementIds.SnapshotChallenge3, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 400ms（截图挑战 · Normal）
+            Humor(id: AchievementIds.SnapshotChallenge4, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 100ms（截图挑战 · Fast）
+            Humor(id: AchievementIds.SnapshotChallenge5, group: AchievementIds.SnapshotChallengeGroup), // 平均截图用时小于 10ms（截图挑战 · Ultra）
+            Humor(id: AchievementIds.SnapshotChallenge6, group: AchievementIds.SnapshotChallengeGroup, isHidden: true, isRare: true), // 平均截图用时小于 5ms
 
             Humor(id: AchievementIds.QuickCloser, isHidden: true), // 快速关闭弹窗
             Humor(id: AchievementIds.TacticalRetreat), // 停止任务
             Humor(id: AchievementIds.Martian, isHidden: true), // 90 天没更新
-            Humor(id: AchievementIds.RecruitNoSixStar, target: 500), // 公招中累计 500 次没出现六星tag
-            Humor(id: AchievementIds.RecruitNoSixStarStreak, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
+
+            Humor(id: AchievementIds.RecruitNoSixStar, group: AchievementIds.RecruitGroup, target: 500), // 公招中累计 500 次没出现六星tag
+            Humor(id: AchievementIds.RecruitNoSixStarStreak, group: AchievementIds.RecruitGroup, target: 500, isHidden: true), // 公招中连续 500 次没出现六星tag
             #endregion
 
             #region BUG 相关
@@ -481,18 +485,18 @@ namespace MaaWpfGui.Helper
             Behavior(id: AchievementIds.TaskStartCancel, isHidden: true), // 在开始任务后马上又停止
             Behavior(id: AchievementIds.AfkWatcher), // 窗口尺寸最小化后长时间不操作
 
-            Behavior(id: AchievementIds.UseDaily1, target: 7), // 连续使用时间
-            Behavior(id: AchievementIds.UseDaily2, target: 30),
-            Behavior(id: AchievementIds.UseDaily3, target: 365, isRare: true),
+            Behavior(id: AchievementIds.UseDaily1, group: AchievementIds.UseDailyGroup, target: 7), // 连续使用时间
+            Behavior(id: AchievementIds.UseDaily2, group: AchievementIds.UseDailyGroup, target: 30),
+            Behavior(id: AchievementIds.UseDaily3, group: AchievementIds.UseDailyGroup, target: 365, isRare: true),
             #endregion
 
             #region 彩蛋类
             EasterEgg(id: AchievementIds.Rules, isHidden: true), // 我会一直注视着你
             EasterEgg(id: AchievementIds.VersionClick, isHidden: true), // 这也能点？
 
-            EasterEgg(id: AchievementIds.AprilFools, isHidden: true), // 愚人节
-            EasterEgg(id: AchievementIds.MidnightLaunch, isHidden: true), // 0~4 点
-            EasterEgg(id: AchievementIds.LunarNewYear, isHidden: true), // 春节
+            EasterEgg(id: AchievementIds.AprilFools, AchievementIds.LoginGroup, isHidden: true), // 愚人节
+            EasterEgg(id: AchievementIds.MidnightLaunch, AchievementIds.LoginGroup, isHidden: true), // 0~4 点
+            EasterEgg(id: AchievementIds.LunarNewYear, AchievementIds.LoginGroup, isHidden: true), // 春节
 
             EasterEgg(id: AchievementIds.Lucky, isHidden: true, isRare: true), // 启动 MAA 时有极小概率触发
             #endregion

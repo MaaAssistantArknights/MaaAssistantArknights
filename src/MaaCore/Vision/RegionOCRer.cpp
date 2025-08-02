@@ -40,8 +40,10 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
 #endif // ASST_DEBUG
     new_roi = correct_rect(new_roi, m_roi);
 
+    auto config = m_params;
+    auto use_raw = config.use_raw;
     OCRer ocr_analyzer;
-    if (m_use_raw) {
+    if (use_raw) {
         ocr_analyzer = OCRer(m_image, new_roi);
     }
     else {
@@ -51,7 +53,6 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         ocr_analyzer = OCRer(bin3, bounding_rect);
     }
 
-    auto config = m_params;
     config.without_det = true;
     ocr_analyzer.set_params(std::move(config));
 
@@ -60,7 +61,7 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         return std::nullopt;
     }
     m_result = result->front();
-    if (!m_use_raw) {
+    if (!use_raw) {
         m_result.rect.x += m_roi.x;
         m_result.rect.y += m_roi.y;
     }

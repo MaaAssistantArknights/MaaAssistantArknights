@@ -123,6 +123,9 @@
     <system:String x:Key="InfrastModeNormal">常規模式</system:String>
     <system:String x:Key="InfrastModeRotation">隊列輪換</system:String>
     <system:String x:Key="InfrastModeRotationTip">使用隊列輪換需提前在遊戲中設置好隊列</system:String>
+    <system:String x:Key="InfrastModeRotationToolTip" xml:space="preserve">「{key=InfrastModeRotation}」的換班邏輯與遊戲內基建右下角的「{key=InfrastModeRotation}」完全一致：
+當當前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
+若需自定義輪換班次，請使用「{key=InfrastModeCustom}」。</system:String>
     <system:String x:Key="InfrastModeCustom">自定義基建配置</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
@@ -170,6 +173,7 @@
     <system:String x:Key="RoguelikeCollapseList">坍縮範式列表</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">用英文分號 ｢;｣ 隔開，留白將使用默認列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 使用助戰</system:String>
+    <system:String x:Key="RoguelikeRequireStartingCoreChar">需先填寫 ｢{key=StartingCoreChar}｣</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=Stop}｣ 動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
@@ -492,7 +496,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。
 輸入登入介面顯示的內容，如 ｢123****4567｣，可輸入 ｢123****4567｣ 或 ｢4567｣ 或 ｢23****45｣
 僅支援官服、B服，不支援登入帳號。</system:String>
-    <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
+    <system:String x:Key="AdbPath">ADB 路徑</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>

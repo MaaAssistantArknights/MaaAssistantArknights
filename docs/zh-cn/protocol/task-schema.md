@@ -150,6 +150,9 @@ icon: material-symbols:task
 
         /* 以下字段仅当 algorithm 为 OcrDetect 且 withoutDet 为 true 时有效 */
 
+        "useRaw": true,                     // 可选项，是否使用原图匹配
+                                            // 不填写默认 true，false 时为灰度匹配
+
         "binThresholdLower": 140,           // 可选项，二值化灰度下阈值（默认 140）
                                             // 灰度值小于该值的像素将被视为背景，排除在文字区域之外
 

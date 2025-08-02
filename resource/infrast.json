@@ -403,6 +403,13 @@
                 "name": ["断金之交"],
                 "template": "Bskill_ctrl_train_spd2.png"
             },
+            "bskill_ctrl_train_spd3": {
+                "desc": [
+                    "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
+                ],
+                "name": ["下城人脉"],
+                "template": "Bskill_ctrl_train_spd3.png"
+            },
             "bskill_ctrl_ussg": {
                 "desc": [
                     "进驻控制中枢时，控制中枢内每个乌萨斯学生自治团干员可使控制中枢内所有干员的心情每小时恢复+0.05"
@@ -412,6 +419,11 @@
                 },
                 "name": ["学生会会长"],
                 "template": "Bskill_ctrl_ussg.png"
+            },
+            "bskill_token_prod_spd3_lungmenguard": {
+                "desc": ["当与龙门近卫局干员进驻控制中枢一起工作时，所有制造站生产力+3%（同种效果取最高）"],
+                "name": ["共事情谊"],
+                "template": "Bskill_token_prod_spd3_lungmenguard.png"
             }
         },
         "skillsGroup": []
@@ -486,9 +498,20 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"
                 ],
-                "name": ["小提琴独奏", "偶像", "沁人心脾", "领袖", "大锅饭·α", "乡野笛音", "静心仪式·α", "倾听者"],
+                "name": [
+                    "小提琴独奏",
+                    "偶像",
+                    "沁人心脾",
+                    "领袖",
+                    "大锅饭·α",
+                    "乡野笛音",
+                    "静心仪式·α",
+                    "倾听者",
+                    "明星效应"
+                ],
                 "template": "Bskill_dorm_all2.png"
             },
             "bskill_dorm_all3": {
@@ -1909,11 +1932,11 @@
                 "template": "Bskill_hire_spd4.png"
             },
             "bskill_hire_spd5": {
-                "desc": ["进驻人力办公室时，人脉资源的联络速度+45%"],
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+45%", "进驻人力办公室时，人脉资源的联络速度+45%"],
                 "efficient": {
                     "all": 45
                 },
-                "name": ["天灾信使·β"],
+                "name": ["天灾信使·β", "节目邀约"],
                 "template": "Bskill_hire_spd5.png"
             },
             "bskill_hire_spd_bd_n1_n1": {
@@ -2386,12 +2409,13 @@
             "bskill_meet_spdNotOwned1": {
                 "desc": [
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索",
+                    "进驻会客室时，更容易获得线索板上尚未拥有的线索",
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
                     "all": 1
                 },
-                "name": ["不容遗漏·α", "情报分析"],
+                "name": ["不容遗漏·α", "情报分析", "见微知著"],
                 "template": "Bskill_meet_spdNotOwned1.png"
             },
             "bskill_meet_spdNotOwned2": {
@@ -2649,6 +2673,16 @@
                 },
                 "name": ["代为说项"],
                 "template": "Bskill_tra_share1.png"
+            },
+            "bskill_tra_share2": {
+                "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+10%订单获取效率"],
+                "name": ["勤俭经营·α"],
+                "template": "Bskill_tra_share2.png"
+            },
+            "bskill_tra_share3": {
+                "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+20%订单获取效率"],
+                "name": ["勤俭经营·β"],
+                "template": "Bskill_tra_share3.png"
             },
             "bskill_tra_spd&cost": {
                 "desc": ["进驻贸易站时，订单获取效率+30%，心情每小时消耗-0.25"],
