@@ -482,11 +482,11 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 style={{ display: 'inline-flex' }}
               >
                 <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
-                不支持您当前的系统构架
+                不支持您当前的系统架构
               </motion.span>
             ) : (
               // 占位保持高度一致
-              <span className="opacity-0">不支持您当前的系统构架</span>
+              <span className="opacity-0">不支持您当前的系统架构</span>
             )}
           </div>
         </div>
