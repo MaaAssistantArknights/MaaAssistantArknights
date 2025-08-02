@@ -1,7 +1,7 @@
 {
     "MiniGame@AT@ConversationRoom":{
         "algorithm": "JustReturn",
-        "next": ["MiniGame@AT@OpenForBusiness"]
+        "next": ["MiniGame@AT@OpenForBusiness", "MiniGame@AT@CanNotOpenForBusiness"]
     },
     "MiniGame@AT@OpenForBusiness":{
         "action": "ClickSelf",
