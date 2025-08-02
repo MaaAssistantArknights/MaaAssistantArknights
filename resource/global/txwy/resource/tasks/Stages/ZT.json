@@ -1,10 +1,6 @@
 {
-    "ZT-OpenOpt": {
-        "algorithm": "JustReturn",
-        "next": ["ZT-OpenOcr", "ZT-Open"]
-    },
     "ZT-OpenOcr": {
-        "text": ["特爾", "梅之", "之金"]
+        "text": ["崔林", "之金", "恩典", "無情"]
     },
     "ZTChapterToZT": {
         "text": ["朝見", "雙塔"]
