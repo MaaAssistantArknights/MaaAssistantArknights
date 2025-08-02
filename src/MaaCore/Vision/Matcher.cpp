@@ -38,7 +38,7 @@ Matcher::ResultOpt Matcher::analyze() const
                     std::max(rect.y - 50, 0),
                     std::min(rect.width + 400, m_image.cols - std::max(rect.x - 200, 0)),
                     std::min(rect.height + 100, m_image.rows - std::max(rect.y - 50, 0)));
-                cv::Mat cropped = m_image(expanded_roi);
+                cv::Mat cropped = m_image(expanded_roi).clone();
                 const cv::Rect roi_in_cropped(
                     rect.x - expanded_roi.x,
                     rect.y - expanded_roi.y,

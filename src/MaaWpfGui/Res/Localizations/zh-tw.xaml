@@ -768,6 +768,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛監控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主界面（右下角有「開始營業」處）開始任務。</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">爭鋒頻道：青草城</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動跳過教程對話，然後可以直接退出。&#10;在活動主界面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
