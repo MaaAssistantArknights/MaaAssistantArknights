@@ -3,6 +3,7 @@
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include <format>
 
 // MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include <opencv2/features2d.hpp>
@@ -76,7 +77,7 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
         return std::nullopt;
     }
 
-    Log.trace("count:", results.size(), ", cost:", cost.count(), "ms");
+    LogTrace << std::format("count:{}, cost: {}ms", results.size(), cost.count());
     m_result = std::move(results);
     return m_result;
 }
