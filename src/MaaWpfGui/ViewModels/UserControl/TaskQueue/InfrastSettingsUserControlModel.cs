@@ -273,6 +273,18 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _receptionClueExchange = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionClueExchange, bool.TrueString));
+
+    public bool ReceptionClueExchange
+    {
+        get => _receptionClueExchange;
+        set
+        {
+            SetAndNotify(ref _receptionClueExchange, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionClueExchange, value.ToString());
+        }
+    }
+
     private bool _continueTraining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, bool.FalseString));
 
     /// <summary>
@@ -656,6 +668,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             DormTrustEnabled = DormTrustEnabled,
             OriginiumShardAutoReplenishment = OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
+            ReceptionClueExchange = ReceptionClueExchange,
             Filename = CustomInfrastFile,
             PlanIndex = CustomInfrastPlanIndex,
         }.Serialize();
