@@ -22,15 +22,11 @@ if __name__ == '__main__':
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
+    image = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus3.png"))
     mask_ranges = [
             [
-                [90, 60, 50],
-                [100, 255, 230]
-            ],
-            [
-                [0, 0, 230],
-                [180, 30, 255]
+                [0, 0, 0],
+                [60, 255, 220]
             ]
         ]
 
@@ -39,16 +35,12 @@ if __name__ == '__main__':
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageSafeHouse.png"))
-    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageProphecy.png"))
+    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus3.png"))
+    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus2.png"))
     mask_ranges = [
             [
-                [90, 60, 50],
-                [100, 255, 230]
-            ],
-            [
-                [0, 0, 230],
-                [180, 30, 255]
+                [0, 0, 0],
+                [60, 255, 220]
             ]
         ]
 

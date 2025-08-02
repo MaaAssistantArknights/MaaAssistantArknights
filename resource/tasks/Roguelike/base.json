@@ -945,7 +945,7 @@
         "text": [],
         "roi": [522, 431, 245, 144],
         "postDelay": 1000,
-        "next": ["Roguelike@CloseInterview", "Roguelike@StrategyChange"]
+        "next": ["Roguelike@CloseInterview", "Roguelike@StrategyChange", "Roguelike@NextLevel"]
     },
     "Roguelike@NoneSelected": {
         "algorithm": "OcrDetect",

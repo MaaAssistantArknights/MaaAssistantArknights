@@ -4950,5 +4950,15 @@
     "resource/template/infrast/Bskill_ctrl_train_spd3": "f78dd90de30881e940346bf9dcd2e0db2702b37020d1323094ec7394aaae2b9a",
     "resource/template/infrast/Bskill_token_prod_spd3_lungmenguard": "6ef103c42766b9dc2ed00d57511aedeb6ea431ed457baf33c82135bda0721c2f",
     "resource/template/infrast/Bskill_tra_share2": "336ec84419290d37fb269d753ac2aa94e3734454a05e9fc2fa4982c54bb8af93",
-    "resource/template/infrast/Bskill_tra_share3": "671c25147314b4ad0689e642568c4b3af15c84ad604d6903aae581c0e7d3cf1a"
+    "resource/template/infrast/Bskill_tra_share3": "671c25147314b4ad0689e642568c4b3af15c84ad604d6903aae581c0e7d3cf1a",
+    "resource/template/MiniGame/AT/MiniGame@AT@Confirm": "ce05f5d1491d3f602a2ea87c8c36867954c40d2b675ea1373485ae26febe0dae",
+    "resource/template/MiniGame/AT/MiniGame@AT@InterestPlus3": "b150589137f689a479a500eec6862709872e18989bf5395d85cc3b7e8852dc65",
+    "resource/template/MiniGame/AT/MiniGame@AT@InterestPlus1": "9514c1636a4eddbe127e9dcf7dc7e15982e755cc0c9968db174fd4d9d93d0ff2",
+    "resource/template/MiniGame/AT/MiniGame@AT@StartForConversation": "c1f6780f7e2dec0edcb2cb432b90c7ae70e1d4a16653ea59b80cb867adacf143",
+    "resource/template/MiniGame/AT/MiniGame@AT@CanNotOpenForBusiness": "21ad5fb58966a64d007ef932976158aabb89c1c928a74154fa4fbfcc7cfe7974",
+    "resource/template/MiniGame/AT/MiniGame@AT@Boom": "6e9246126dc36090d4f70141dbce5daee65c73281fecbe93c9d271df24f18598",
+    "resource/template/MiniGame/AT/MiniGame@AT@NextRound": "7aedc87caf35647c8ea103838a23efbc1a1c436af4f3e0efc57f90345534ba36",
+    "resource/template/MiniGame/AT/MiniGame@AT@EndTheConversation": "ed6d504273cdc76c876b10fcae204e55910086e0554e7e933d6119b56c331348",
+    "resource/template/MiniGame/AT/MiniGame@AT@OpenForBusiness": "51f0e20bf195f76328bfa086ffad0cefc51bb9ca62840e3ce48aa26638fd6484",
+    "resource/template/MiniGame/AT/MiniGame@AT@InterestPlus2": "0dea0cbd7b4fc0025efb5f5b3b1efd84846756da8e5a89e53523cb6b5245fe37"
 }

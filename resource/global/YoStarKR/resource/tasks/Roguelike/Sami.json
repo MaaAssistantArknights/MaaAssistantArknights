@@ -165,6 +165,7 @@
     },
     "Sami@Roguelike@NextLevel": {
         "ocrReplace": [
+            [" ", ""],
             [".+번", "이번"],
             ["붕.+", "붕괴"]
         ],
@@ -178,6 +179,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
+            [" ", ""],
             [".*은빛의호.+", "_aggressive"],
             [".*고요한숲", "_aggressive"],
             [".*여명의.+", "_pragmatic"],
@@ -189,6 +191,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
+            [" ", ""],
             [".*은빛의호.+", "_default"],
             [".*고요한숲", "_default"],
             [".*여명의.+", "_exit"],
@@ -200,6 +203,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode5": {
         "ocrReplace": [
+            [" ", ""],
             [".*은빛의호.+", "_collapsal_paradigms"],
             [".*고요한숲", "_collapsal_paradigms"],
             [".*여명의.+", "_SKIP_"],
@@ -211,6 +215,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
+            [" ", ""],
             [".*은빛의호.+", "_aggressive"],
             [".*고요한숲", "_aggressive"],
             [".*여명의.+", "_pragmatic"],
@@ -222,6 +227,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
+            [" ", ""],
             [".*은빛의호.+", "_aggressive"],
             [".*고요한숲", "_aggressive"],
             [".*여명의.+", "_pragmatic"],
