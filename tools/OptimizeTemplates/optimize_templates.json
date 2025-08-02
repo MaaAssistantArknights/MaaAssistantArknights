@@ -4942,5 +4942,13 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@DialogConfirmRed": "f8f3719b884993d5c3bf548b5e059d4aa89322cefa489383f96a4560fe226b49",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LeaveOperation": "5983e48c5b6fc78a3eafbe552a024e350f10b4018a9cb86675cb459617216bec",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeRogueTrader": "f8bd2c22e2f9abfce0d6fdc929c7d4e05ab5cce46070d6d0d4287b68150418f4",
-    "resource/template/Roguelike/base/Roguelike@HpFlag": "f3b9940e7ee9bb11f309500ab882e24aa1a00bdff34afea54ef9dd777ab28475"
+    "resource/template/Roguelike/base/Roguelike@HpFlag": "f3b9940e7ee9bb11f309500ab882e24aa1a00bdff34afea54ef9dd777ab28475",
+    "resource/template/items/act44side_token_information": "333a4e0fcc82ab92934ec191a29d1825e18a05e67e93bcb6300b8f47fa584c7a",
+    "resource/template/items/act44side_token_ticket": "8f823e8d5da6ecb6e07324dfb31a1921f1bfa46289caa04cb4c9ab5e944b0865",
+    "resource/template/items/itempack_gold_2": "e7e33b723e2a7bbeccaed08114aaba34c87483e95e84a6dbaca4887fb63ae799",
+    "resource/template/items/LMTGS_COIN_6401": "b413db7c757a7b726b48126559740e386dba5413e7a4fa9f1d01e331513e5742",
+    "resource/template/infrast/Bskill_ctrl_train_spd3": "f78dd90de30881e940346bf9dcd2e0db2702b37020d1323094ec7394aaae2b9a",
+    "resource/template/infrast/Bskill_token_prod_spd3_lungmenguard": "6ef103c42766b9dc2ed00d57511aedeb6ea431ed457baf33c82135bda0721c2f",
+    "resource/template/infrast/Bskill_tra_share2": "336ec84419290d37fb269d753ac2aa94e3734454a05e9fc2fa4982c54bb8af93",
+    "resource/template/infrast/Bskill_tra_share3": "671c25147314b4ad0689e642568c4b3af15c84ad604d6903aae581c0e7d3cf1a"
 }
