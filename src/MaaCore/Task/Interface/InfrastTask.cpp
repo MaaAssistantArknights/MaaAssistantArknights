@@ -167,6 +167,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool reception_message_board = params.get("reception_message_board", true);
     m_reception_task_ptr->set_receive_message_board(reception_message_board);
 
+    bool reception_clue_exchange = params.get("reception_clue_exchange", true);
+    m_reception_task_ptr->set_enable_clue_exchange(reception_clue_exchange);
+
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 

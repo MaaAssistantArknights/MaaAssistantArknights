@@ -81,6 +81,11 @@ public class AsstInfrastTask : AsstBaseTask
     public bool ReceptionMessageBoard { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 启用线索交流
+    /// </summary>
+    public bool ReceptionClueExchange { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets 自定义配置文件路径
     /// </summary>
     public string Filename { get; set; } = string.Empty;
@@ -102,6 +107,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["dorm_trust_enabled"] = DormTrustEnabled,
             ["replenish"] = OriginiumShardAutoReplenishment,
             ["reception_message_board"] = ReceptionMessageBoard,
+            ["reception_clue_exchange"] = ReceptionClueExchange,
             ["mode"] = (int)Mode,
         };
 

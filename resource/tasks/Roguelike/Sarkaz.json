@@ -8,7 +8,7 @@
     },
     "Sarkaz@StartExplore@Roguelike@EnterAfterRecruit": {
         "template": "Sarkaz@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Sarkaz@Roguelike@NextLevel"]
+        "next": ["#self", "Sarkaz@Roguelike@NextLevel", "Sarkaz@Roguelike@NextLevel#next"]
     },
     "Sarkaz@StartExplore@Roguelike@RecruitOther": {
         "template": "Sarkaz@Roguelike@Recruit.png"
