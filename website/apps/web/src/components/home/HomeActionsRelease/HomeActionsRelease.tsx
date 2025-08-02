@@ -466,36 +466,37 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     [release],
   )
 
+  const renderPlatformButton = useCallback((platform: ResolvedPlatform) => {
+    const isCurrentPlatform = platform.platform.id === envPlatformId
+    return (
+      <motion.div layout key={platform.platform.id}>
+        <div className="flex flex-col items-center gap-1">
+          <DownloadButton platform={platform} releaseName={release.name} />
+          <div className="min-h-[1.25rem] mt-1 text-xs">
+            {!isCurrentPlatform ? (
+              <motion.span
+                className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
+                style={{ display: 'inline-flex' }}
+              >
+                <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
+                不支持您当前的系统架构
+              </motion.span>
+            ) : (
+              // 占位保持高度一致
+              <span className="opacity-0">不支持您当前的系统架构</span>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    )
+  }, [envPlatformId, release.name])
+
   const allPlatformDownloadBtns = useMemo(
-    () =>
-      validPlatforms.map((platform) => {
-        const isCurrentPlatform = platform.platform.id === envPlatformId
-        return (
-          <motion.div layout key={platform.platform.id}>
-            <div className="flex flex-col items-center gap-1">
-              <DownloadButton platform={platform} releaseName={release.name} />
-              <div className="min-h-[1.25rem] mt-1 text-xs">
-                {!isCurrentPlatform ? (
-                  <motion.span
-                    className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
-                    style={{ display: 'inline-flex' }}
-                  >
-                    <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
-                    不支持您当前的系统构架
-                  </motion.span>
-                ) : (
-                  // 占位保持高度一致
-                  <span className="opacity-0">不支持您当前的系统构架</span>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )
-      }),
-    [validPlatforms, release.name, envPlatformId]
+    () => validPlatforms.map(renderPlatformButton),
+    [validPlatforms, renderPlatformButton]
   )
 
   const innerContent = useMemo(() => {
@@ -507,16 +508,9 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       )
       if (!platform) return allPlatformDownloadBtns
 
-      return [
-        <motion.div layout key={platform.platform.id}>
-          <DownloadButton
-            platform={platform}
-            releaseName={release.name}
-          />
-        </motion.div>,
-      ]
+      return [renderPlatformButton(platform)]
     }
-  }, [validPlatforms, viewAll, envPlatformId])
+  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton])
 
   const [os, arch] = useMemo(() => {
     if (!envPlatformId) return ['unknown', 'unknown']

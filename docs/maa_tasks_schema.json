@@ -236,7 +236,7 @@
             "description": "文字识别",
             "required": ["algorithm", "text"]
         },
-       "FeatureMatchTask": {
+        "FeatureMatchTask": {
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
@@ -274,6 +274,6 @@
             },
             "description": "使用特征点算法进行图像匹配",
             "required": ["algorithm"]
-       }
+        }
     }
 }
