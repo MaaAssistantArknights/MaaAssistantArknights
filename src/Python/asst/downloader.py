@@ -5,22 +5,26 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 import requests
 
-
 # 获取文件大小
 def length(url_list):
     def getlenhead(single_url):
         response = requests.head(single_url)
+        while 'Location' in response.headers:
+            response = requests.head(response.headers.get('Location'))
         file_size = response.headers.get('Content-Length')
         if file_size is not None:
             return int(file_size)
         else:
             return False
-
+    
     for url in url_list:
-        single_file_length = getlenhead(url)
-        if single_file_length:
-            return single_file_length
-
+        try:
+            single_file_length = getlenhead(url)
+            if single_file_length:
+                return single_file_length
+        except Exception as e:
+            print(f"{url} 无法连接")
+            print(e)
 
 # 定义Download类在初始化时保存几个参数
 class Downloader:
@@ -60,7 +64,7 @@ class Downloader:
                         self.failed_requests[url]['fail'] > 10:
                     # 如果某 URL 的失败率高于 50%，则跳过该 URL
                     return
-            except requests.RequestException as e:
+            except Exception as e:
                 if self.chunk_status[chunk_id] == 1:
                     self.chunk_status[chunk_id] = 0
 
@@ -72,10 +76,17 @@ class Downloader:
         except:
             pass
         os.makedirs(f'temp/{self.listhash}', exist_ok=True)
-        with ThreadPoolExecutor(max_workers=self.max_conn * len(self.urlist)) as executor:
-            for url in self.urlist:
-                for chunk_id in range(num_chunks):
-                    executor.submit(self.download_chunk, url, chunk_id, total_size)
+        max_retry = 3
+        while 0 in self.chunk_status:
+            if max_retry == 0:
+                print("下载出错。")
+                return
+            with ThreadPoolExecutor(max_workers=self.max_conn * len(self.urlist)) as executor:
+                for url in self.urlist:
+                    for chunk_id in range(num_chunks):
+                        executor.submit(self.download_chunk, url, chunk_id, total_size)
+            max_retry -= 1
+            
 
         # 合并所有临时文件到一个文件
         with open(file_path, 'wb') as outfile:
@@ -90,16 +101,21 @@ class Downloader:
         # 验证下载文件
         if os.path.getsize(file_path) != total_size:
             print("文件大小不一致，下载可能出错。")
+            
+        return True
 
 
 def file_download(download_url_list, download_path, request_proxies=None):
-    chunksize = 1024 * 1024     # 分片大小1MB
+    chunksize = 4 * 1024 * 1024     # 分片大小1MB
     max_conn = 4                # 最大连接数
     # 创建对象
     downloader = Downloader(download_url_list, chunksize, max_conn, use_proxies=request_proxies)
 
     # 下载文件
     total_size = length(download_url_list)
+    if not total_size:
+        print("无法连接所有的下载服务器，更新失败")
+        return
     print("文件大小已获取，开始下载")
     return downloader.download_file(total_size, download_path)
 
