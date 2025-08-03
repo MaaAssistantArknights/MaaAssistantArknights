@@ -60,10 +60,10 @@ double asst::DepotImageAnalyzer::color_diff(const cv::Scalar& a, const cv::Scala
     return d0 * d0 + d1 * d1 + d2 * d2;
 }
 
-cv::Rect asst::DepotImageAnalyzer::get_center_rect(const cv::Mat& img, int box_size)
+cv::Rect asst::DepotImageAnalyzer::get_center_rect(const cv::Mat& img, int width, int height)
 {
-    int width = std::min(box_size, img.cols);
-    int height = std::min(box_size, img.rows);
+    width = std::min(width, img.cols);
+    height = std::min(height, img.rows);
     int x = std::max(0, (img.cols - width) / 2);
     int y = std::max(0, (img.rows - height) / 2);
     return { x, y, width, height };
