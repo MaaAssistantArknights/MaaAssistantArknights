@@ -86,6 +86,7 @@
                     <controls:TooltipBlock TooltipText="{DynamicResource StartingCoreCharTip}" />
                 </StackPanel>
                 <hc:ComboBox
+                    Margin="0,0,0,15"
                     Name="StartingCoreCharComboBox"
                     DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
                     IsEditable="True"
