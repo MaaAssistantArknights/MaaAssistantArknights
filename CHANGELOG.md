@@ -95,6 +95,8 @@ Preliminary adaptation has been made for gaining Experience Points (efficiency m
 * clang style @Constrat
 * 无法选中 `坚不可摧` 与 `随心所欲` 分队 @ABA2396
 * 无法使用连战 @ABA2396
+* fix: 装置“斩”识别 (#13459) @AimOwO
+* fix: 催债鬼夜叉二次选择 @Saratoga-Official
 
 ### 文档 | Docs
 
@@ -149,3 +151,4 @@ Preliminary adaptation has been made for gaining Experience Points (efficiency m
 * update ignore templates @Constrat
 * 强制替换 adb 改为使用本地 adb @ABA2396
 * 删除无用函数 @ABA2396
+* i18n: zh-tw tweak translations (#13467) @momomochi987
