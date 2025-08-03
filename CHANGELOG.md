@@ -1,5 +1,51 @@
 ## v5.22.0
 
+### 博士五连冠（x | Highlight
+
+本次版本我们修复了大量 bug，为本次夏活提供了小游戏支持。
+
+#### SideStory「墟」
+
+在这个版本，我们为本次夏活的【相谈室】小游戏提供了支持，但请注意：
+
+牛牛**只会**选择增加最多“兴味”的选项，丝毫不考虑“信任”，也不会考虑客人类型所决定的最大回合数（即“情绪”），
+
+（牛牛有可能会选择导致“信任”归零的选项，到达最大回合数后依然选择营业而不是结算。）
+
+牛牛只会帮你解放双手，如果想要追求最大收益，请关注其他博士总结的攻略吧~
+
+#### 集成战略 #6「岁的界园志异」
+
+我们修复了大量界园肉鸽和其他肉鸽相关的 bug，并且优化了刷钱流程。
+
+现在你可以在 MAA 选择指挥分队开局，并选择难度 3（当然游戏内得先解锁难度 3），获得最大的刷钱效率。
+
+刷等级功能也作了初步适配（但尚未测算效率），不过刷热水壶开局还是需要再等等，牛牛在努力啦~
+
+----
+
+#### [CN ONLY] SideStory "Ato"
+
+In this version, we've added support for the [Conversation Room] minigame in this summer event. Please note:
+
+NiuNiu will **ONLY** select options that maximize "Interest", completely disregarding "Trust" and the maximum turn limit determined by guest types (i.e., "Mood").
+
+(E.g., NiuNiu may choose options that deplete "Trust" to zero, and continue operating instead of settling accounts after reaching maximum turns.)
+
+NiuNiu is designed to automate the process. For maximizing rewards, please refer to strategy guides curated by other Doctors.
+
+#### [CN ONLY] Integrated Strategies #6 "Sui's Garden of Grotesqueries"
+
+We've fixed numerous bugs related to this and other I.S., while optimizing the coin investing process.
+
+You may now select Leader Squad as your starting and choose Difficulty 3 (requires prior in-game unlock) in MAA for maximum coin investing efficiency.
+
+Preliminary adaptation has been made for gaining Experience Points (efficiency metrics pending). The "Grind to obtain Hot Water Kettle or Elite II Operators" strategy requires further development - NiuNiu is working hard!
+
+----
+
+以下是详细信息：
+
 ### 新增 | New
 
 * 相谈室 小游戏 (#13461) @ABA2396 @pre-commit-ci[bot]
