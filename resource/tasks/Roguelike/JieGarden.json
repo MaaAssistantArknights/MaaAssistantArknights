@@ -88,12 +88,6 @@
     "JieGarden@Roguelike@ClickToDrops": {
         "specificRect": [600, 600, 25, 25]
     },
-    "JieGarden@Roguelike@ClickToStartPoint": {
-        "specificRect": [500, 600, 1, 1]
-    },
-    "JieGarden@Roguelike@ClickToStartPointAfterFailed": {
-        "specificRect": [500, 600, 1, 1]
-    },
     "JieGarden@Roguelike@CloseCollection": {
         "Doc": "深入调查/月度小队会给个藏品，要先关掉",
         "method": "RGBCount",
