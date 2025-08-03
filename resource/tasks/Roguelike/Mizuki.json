@@ -277,7 +277,8 @@
         "next": [
             "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
             "Mizuki@Roguelike@CloseInterview",
-            "Mizuki@Roguelike@StrategyChange"
+            "Mizuki@Roguelike@StrategyChange",
+            "Mizuki@Roguelike@NextLevel"
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {

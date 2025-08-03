@@ -79,7 +79,13 @@
         {
             "name": "催债鬼夜叉",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "next_event": "催债鬼夜叉-选择"
+        },
+        {
+            "name": "催债鬼夜叉-选择",
+            "option_num": 1,
+            "choose": 1
         },
         {
             "name": "火祀",

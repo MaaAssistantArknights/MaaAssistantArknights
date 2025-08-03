@@ -1,0 +1,57 @@
+{
+    "AT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["AT-8@AT-OpenOpt"],
+        "next": ["AT-8@SideStoryStage", "AT-8@SwipeToStage"]
+    },
+    "AT-8@SideStoryStage": {
+        "text": ["AT-8"]
+    },
+    "AT-7": {
+        "algorithm": "JustReturn",
+        "sub": ["AT-7@AT-OpenOpt"],
+        "next": ["AT-7@SideStoryStage", "AT-7@SwipeToStage"]
+    },
+    "AT-7@SideStoryStage": {
+        "text": ["AT-7"]
+    },
+    "AT-6": {
+        "algorithm": "JustReturn",
+        "sub": ["AT-6@AT-OpenOpt"],
+        "next": ["AT-6@SideStoryStage", "AT-6@SwipeToStage"]
+    },
+    "AT-6@SideStoryStage": {
+        "text": ["AT-6"]
+    },
+    "AT-4": {
+        "algorithm": "JustReturn",
+        "sub": ["AT-4@AT-OpenOpt"],
+        "next": ["AT-4@SideStoryStage", "AT-4@SwipeToStage"]
+    },
+    "AT-4@SideStoryStage": {
+        "text": ["AT-4"]
+    },
+    "AT-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["AT-OpenOcr", "AT-Open"]
+    },
+    "AT-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["ATChapterToAT"]
+    },
+    "AT-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["墟", "锻冶旧迹", "绝缘石阶"],
+        "next": ["ATChapterToAT"]
+    },
+    "ATChapterToAT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["不夜街区"],
+        "preDelay": 3000,
+        "postDelay": 2000,
+        "roi": [1033, 414, 128, 40],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}
