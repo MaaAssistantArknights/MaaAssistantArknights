@@ -46,7 +46,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 {
     LogTraceFunction;
 
-    m_roguelike_task_ptr->set_ignore_error(true);
+    // m_roguelike_task_ptr->set_ignore_error(true);
     m_control_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_config_ptr);
 
     // ------------------ 通用插件 ------------------
