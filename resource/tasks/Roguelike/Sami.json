@@ -553,7 +553,7 @@
     "Sami@Roguelike@NextLevel": {
         "text": ["完成本层", "下一层级"],
         "roi": [268, 600, 197, 78],
-        "next": ["Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange"]
+        "next": ["Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange", "Sami@Roguelike@NextLevel"]
     },
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",

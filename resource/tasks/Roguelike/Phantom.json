@@ -157,7 +157,8 @@
         "next": [
             "Phantom@Roguelike@CloseInterview",
             "Phantom@Roguelike@StrategyChange",
-            "Phantom@Roguelike@DialogSkip"
+            "Phantom@Roguelike@DialogSkip",
+            "Phantom@Roguelike@NextLevel"
         ],
         "onErrorNext": ["Phantom@Roguelike@DialogTimeout", "Phantom@Roguelike@Stages#next"]
     },
