@@ -10,7 +10,7 @@
 
 牛牛**只会**选择增加最多“兴味”的选项，丝毫不考虑“信任”，也不会考虑客人类型所决定的最大回合数（即“情绪”），
 
-（牛牛有可能会选择导致“信任”归零的选项，到达最大回合数后依然选择营业而不是结算。）
+（牛牛有可能会选择导致“信任”归零的选项，或者到达最大回合数后依然选择营业而不是结算。）
 
 牛牛只会帮你解放双手，如果想要追求最大收益，请关注其他博士总结的攻略吧~
 
@@ -30,7 +30,7 @@ In this version, we've added support for the [Conversation Room] minigame in thi
 
 NiuNiu will **ONLY** select options that maximize "Interest", completely disregarding "Trust" and the maximum turn limit determined by guest types (i.e., "Mood").
 
-(E.g., NiuNiu may choose options that deplete "Trust" to zero, and continue operating instead of settling accounts after reaching maximum turns.)
+(E.g., NiuNiu may choose options that deplete "Trust" to zero, or continue operating instead of settling accounts after reaching maximum turns.)
 
 NiuNiu is designed to automate the process. For maximizing rewards, please refer to strategy guides curated by other Doctors.
 
