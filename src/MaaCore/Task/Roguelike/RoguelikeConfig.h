@@ -48,6 +48,7 @@ struct RoguelikeStatus
 public:
     RoguelikeStatus() = default;
     RoguelikeStatus(const RoguelikeStatus&) = delete;
+    RoguelikeStatus& operator=(const RoguelikeStatus&) = default;
 
 public:
     int hope = 0;                                         // 当前希望
