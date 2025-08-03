@@ -865,7 +865,7 @@ namespace MaaWpfGui.Main
                         }
                         else
                         {
-                            var log = LocalizationHelper.GetString("TaskError") + taskChain;
+                            var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
                             Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
                             ToastNotification.ShowDirect(log);
 
