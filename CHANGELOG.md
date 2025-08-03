@@ -5,29 +5,18 @@
 * 相谈室 小游戏 (#13461) @ABA2396 @pre-commit-ci[bot]
 * SideStory「墟」关卡导航 @SherkeyXD
 * 界园肉鸽补充战斗逻辑 (#13433) @Saratoga-Official @pre-commit-ci[bot]
-* PipelineAnalyzer 支持使用灰度图匹配文字 @ABA2396
-* 增加 hp 识别标志 @ABA2396
 * wpf支持作业版本限制 @status102
 * 界园肉鸽补充事件选择逻辑 (#13400) @Saratoga-Official @pre-commit-ci[bot]
-* 添加一键轮换说明 @ABA2396
-* 统一 TooltipBlock 位置 @ABA2396
 * 烧水分队不存在时自动替换为当前分队 @ABA2396
 * 刷开局模式禁用源石锭达到上限时停止 @ABA2396
-* 调整界面显示效果 @ABA2396
-* 完整显示注入 maa 的 dll 的路径 @ABA2396
 * 填写错误安装路径时重新弹窗提示 @ABA2396
 * 肉鸽使用助战新增需先填写开局干员的提示 @ABA2396
 * 新增是否进行线索交流选项 (#13368) @Lemon-miaow @pre-commit-ci[bot]
 
 ### 改进 | Improved
 
-* 优化界园层名识别 @ABA2396
-* 更新截图 @ABA2396
-* 优化多层事件逻辑 @ABA2396
 * 优化水月肉鸽招募&傀影战斗 (#13344) @ntgmc @Saratoga-Official
 * 肉鸽节点识别 (#13427) @ABA2396
-* 优化成就排序与描述 @ABA2396
-* 优化界面显示效果 @ABA2396
 * 更新繁中服「崔林特爾梅之金」活動導航 (#13450) @momomochi987 @pre-commit-ci[bot]
 
 ### 修复 | Fix
@@ -49,11 +38,7 @@
 * 战斗失败没进结算识别 @ABA2396
 * 汝吾门 识别 @ABA2396
 * YostarKR 黍 ocr edit @HX3N
-* 鲍老板连锁去掉引号 @Saratoga-Official
 * remove leading digits in IS encounters for YostarEN @Constrat
-* i18n english key @Constrat
-* 对掉落信息进行排序 与ToolTip保持一致 (#13404) @travellerse
-* ComboBox 的光标颜色不会随主题色变化 @ABA2396
 * wpf自动战斗干员模组选择默认值错误 @status102
 * 修复任务过程中修改剩余理智后导致关卡无法连续执行的问题 @ABA2396
 * 掌灯与引烛 事件识别 @ABA2396
@@ -63,25 +48,40 @@
 * 修复放弃招募任务链；避战识别不到得偿所愿 (#13395) @Alan-Charred @ABA2396
 * clang style @Constrat
 * 无法选中 `坚不可摧` 与 `随心所欲` 分队 @ABA2396
-* 死循环 @ABA2396
 * 无法使用连战 @ABA2396
-* 其他肉鸽的屎山爆炸了 @ABA2396
-* 野鬃识别 @ABA2396
-* 野鬃识别 @ABA2396
 
 ### 文档 | Docs
 
-* Auto Update Changelogs of v5.22.0-beta.1 (#13451) @github-actions[bot]
 * 文~档~大~更~新，开始失败喽—— (#13410) @Rbqwow @Saratoga-Official @pre-commit-ci[bot] @ABA2396
 * useRaw 仅当 withoutDet 为 true 时生效 @ABA2396
 * 更新文档与 maa_tasks_schema @ABA2396
+
+### 其他 | Other
+
+* 优化界园层名识别 @ABA2396
+* 更新截图 @ABA2396
+* 优化成就排序与描述 @ABA2396
+* 优化界面显示效果 @ABA2396
+* 优化多层事件逻辑 @ABA2396
+* 鲍老板连锁去掉引号 @Saratoga-Official
+* i18n english key @Constrat
+* 对掉落信息进行排序 与ToolTip保持一致 (#13404) @travellerse
+* ComboBox 的光标颜色不会随主题色变化 @ABA2396
+* 增加 hp 识别标志 @ABA2396
+* 死循环 @ABA2396
+* 其他肉鸽的屎山爆炸了 @ABA2396
+* 野鬃识别 @ABA2396
+* 野鬃识别 @ABA2396
+* Auto Update Changelogs of v5.22.0-beta.1 (#13451) @github-actions[bot]
 * Update CHANGELOG.md @ABA2396
 * update IS for EN @Constrat
 * Update CHANGELOG.md @ABA2396
 * Update CHANGELOG.md @ABA2396
-
-### 其他 | Other
-
+* 调整界面显示效果 @ABA2396
+* 完整显示注入 maa 的 dll 的路径 @ABA2396
+* PipelineAnalyzer 支持使用灰度图匹配文字 @ABA2396
+* 添加一键轮换说明 @ABA2396
+* 统一 TooltipBlock 位置 @ABA2396
 * JP edits (#13460) @Manicsteiner
 * Release v5.22.0-beta.2 (#13454) @ABA2396
 * Release v5.22.0-beta.1 (#13428) @ABA2396
