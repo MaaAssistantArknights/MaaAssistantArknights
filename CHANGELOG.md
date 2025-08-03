@@ -1,23 +1,9 @@
-## v5.22.0-beta.2
+## v5.22.0
 
 ### 新增 | New
 
-* 新增是否进行线索交流选项 (#13368) @Lemon-miaow
-
-### 改进 | Improved
-
-* 更新繁中服「崔林特爾梅之金」活動導航 (#13450) @momomochi987
-
-### 修复 | Fix
-
-* 无法使用连战 @ABA2396
-* 其他肉鸽的屎山爆炸了 @ABA2396
-* 野鬃识别 @ABA2396
-
-## v5.22.0-beta.1
-
-### 新增 | New
-
+* 相谈室 小游戏 (#13461) @ABA2396 @pre-commit-ci[bot]
+* SideStory「墟」关卡导航 @SherkeyXD
 * 界园肉鸽补充战斗逻辑 (#13433) @Saratoga-Official @pre-commit-ci[bot]
 * PipelineAnalyzer 支持使用灰度图匹配文字 @ABA2396
 * 增加 hp 识别标志 @ABA2396
@@ -31,6 +17,7 @@
 * 完整显示注入 maa 的 dll 的路径 @ABA2396
 * 填写错误安装路径时重新弹窗提示 @ABA2396
 * 肉鸽使用助战新增需先填写开局干员的提示 @ABA2396
+* 新增是否进行线索交流选项 (#13368) @Lemon-miaow @pre-commit-ci[bot]
 
 ### 改进 | Improved
 
@@ -41,9 +28,12 @@
 * 肉鸽节点识别 (#13427) @ABA2396
 * 优化成就排序与描述 @ABA2396
 * 优化界面显示效果 @ABA2396
+* 更新繁中服「崔林特爾梅之金」活動導航 (#13450) @momomochi987 @pre-commit-ci[bot]
 
 ### 修复 | Fix
 
+* YostarKR removes spaces in StrategyChange_mode and NextLevel @HX3N
+* 卡遇见板子 @ABA2396
 * 祠堂口事件识别失败 @Saratoga-Official
 * 调整飞来横祸EW站位 @Saratoga-Official
 * 调整往事暗哑离域检查EW站位 @Saratoga-Official
@@ -74,17 +64,27 @@
 * clang style @Constrat
 * 无法选中 `坚不可摧` 与 `随心所欲` 分队 @ABA2396
 * 死循环 @ABA2396
+* 无法使用连战 @ABA2396
+* 其他肉鸽的屎山爆炸了 @ABA2396
+* 野鬃识别 @ABA2396
+* 野鬃识别 @ABA2396
 
 ### 文档 | Docs
 
+* Auto Update Changelogs of v5.22.0-beta.1 (#13451) @github-actions[bot]
 * 文~档~大~更~新，开始失败喽—— (#13410) @Rbqwow @Saratoga-Official @pre-commit-ci[bot] @ABA2396
 * useRaw 仅当 withoutDet 为 true 时生效 @ABA2396
 * 更新文档与 maa_tasks_schema @ABA2396
 * Update CHANGELOG.md @ABA2396
 * update IS for EN @Constrat
+* Update CHANGELOG.md @ABA2396
+* Update CHANGELOG.md @ABA2396
 
 ### 其他 | Other
 
+* JP edits (#13460) @Manicsteiner
+* Release v5.22.0-beta.2 (#13454) @ABA2396
+* Release v5.22.0-beta.1 (#13428) @ABA2396
 * 调整安全屋颜色范围 @ABA2396
 * update YostarEN OR navigation @Constrat
 * 调整颜色阈值 @ABA2396
