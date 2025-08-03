@@ -1427,7 +1427,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN04.Title">簡簡單單</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Description">這種難度難不倒我。</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Conditions">使用 ｢{key=AutoRoguelike}｣ 通關任意肉鴿 N4 及以上難度</system:String>
-ㄋ
+
     <system:String x:Key="Achievement.RoguelikeN08.Title">挑戰困難</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Description">勇敢牛牛不怕困難。</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Conditions">使用 ｢{key=AutoRoguelike}｣ 通關任意肉鴿 N8 及以上難度</system:String>
