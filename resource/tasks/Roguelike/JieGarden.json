@@ -144,7 +144,7 @@
     },
     "JieGarden@Roguelike@ConfirmToLeaveBoskyPassage": {
         "action": "ClickSelf",
-        "postDelay": 500,
+        "postDelay": 2000,
         "roi": [867, 406, 242, 160],
         "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
