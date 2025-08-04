@@ -826,7 +826,8 @@
     "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
         "Doc": "合成出现藏品二选一",
         "baseTask": "Sarkaz@Roguelike@GetDrop3",
-        "template": "Sarkaz@Roguelike@GetDrop3.png",
+        "template": ["Sarkaz@Roguelike@GetDrop3.png", "Sarkaz@Roguelike@GetDrop4.png"],
+        "templThreshold": [0.85, 0.85],
         "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
