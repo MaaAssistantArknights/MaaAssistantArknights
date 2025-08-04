@@ -267,7 +267,7 @@ namespace MaaWpfGui.Helper
 
         #region 通知按钮变量
 
-        private List<NotificationAction> _actions = new List<NotificationAction>();
+        private List<NotificationAction> _actions = [];
 
         #endregion 通知按钮变量
 
@@ -345,8 +345,10 @@ namespace MaaWpfGui.Helper
                 // 显示通知
                 _notificationPoster.ShowNotification(content);
 
-                // 播放通知提示音
-                PlayNotificationSound(sound);
+                if (_notificationPoster is not NotificationImplWinRT)
+                {
+                    PlayNotificationSound(sound); // 播放通知提示音
+                }
 
                 // 任务栏闪烁
                 FlashWindowEx();
