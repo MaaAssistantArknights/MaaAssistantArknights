@@ -264,6 +264,7 @@
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">该选项右键选中时仅跳过一次</system:String>
     <system:String x:Key="SpecifiedDropsTip">该选项不会自动计算最优关卡</system:String>
+    <system:String x:Key="AutoUpdateProxyFromWlan">启动时自动从 WLAN 获取代理 IP</system:String>
     <system:String x:Key="StartupUpdateCheck">启动时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>

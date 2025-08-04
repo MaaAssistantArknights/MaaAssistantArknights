@@ -264,6 +264,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNullInvert">This option only skips once when right-clicked</system:String>
     <system:String x:Key="SpecifiedDropsTip">This feature would not automatically calculate the optimal stage</system:String>
+    <system:String x:Key="AutoUpdateProxyFromWlan">Auto-update proxy IP from WLAN on startup</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
