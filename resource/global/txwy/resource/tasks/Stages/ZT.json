@@ -1,8 +1,48 @@
 {
+    "ZT-9": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-9@ZT-OpenOpt"],
+        "next": ["ZT-9@SideStoryStage", "ZT-9@SwipeToStage"]
+    },
+    "ZT-9@SideStoryStage": {
+        "text": ["ZT-9"]
+    },
+    "ZT-8": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-8@ZT-OpenOpt"],
+        "next": ["ZT-8@SideStoryStage", "ZT-8@SwipeToStage"]
+    },
+    "ZT-8@SideStoryStage": {
+        "text": ["ZT-8"]
+    },
+    "ZT-7": {
+        "algorithm": "JustReturn",
+        "sub": ["ZT-7@ZT-OpenOpt"],
+        "next": ["ZT-7@SideStoryStage", "ZT-7@SwipeToStage"]
+    },
+    "ZT-7@SideStoryStage": {
+        "text": ["ZT-7"]
+    },
+    "ZT-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["ZT-OpenOcr", "ZT-Open"]
+    },
+    "ZT-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageActivity.png"],
+        "next": ["ZTChapterToZT"]
+    },
     "ZT-OpenOcr": {
-        "text": ["崔林", "之金", "恩典", "無情"]
+        "baseTask": "SS-OpenOcr",
+        "text": ["崔林", "之金", "恩典", "無情"],
+        "next": ["ZTChapterToZT"]
     },
     "ZTChapterToZT": {
-        "text": ["朝見", "雙塔"]
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["朝見", "雙塔"],
+        "preDelay": 1000,
+        "roi": [1059, 367, 206, 129],
+        "next": ["ChapterSwipeToTheRight"]
     }
 }
