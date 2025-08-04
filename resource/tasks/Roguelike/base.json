@@ -696,7 +696,7 @@
     "Roguelike@GamePassTheEndConfirm": {
         "action": "ClickSelf",
         "roi": [554, 512, 177, 161],
-        "next": ["Roguelike@GamePass"]
+        "next": ["Roguelike@GamePass", "#self"]
     },
     "Roguelike@GetDrop": {
         "Doc": "base_task",

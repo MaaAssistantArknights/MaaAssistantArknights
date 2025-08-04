@@ -227,7 +227,7 @@
     },
     "JieGarden@Roguelike@GamePassSkip2": {},
     "JieGarden@Roguelike@GamePassTheEndConfirm": {
-        "template": "JieGarden@Roguelike@Confirm.png"
+        "roi": [ 580, 550, 120, 90 ]
     },
     "JieGarden@Roguelike@GetDrop1": {},
     "JieGarden@Roguelike@GetDrop2": {},
