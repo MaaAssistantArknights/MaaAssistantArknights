@@ -565,7 +565,7 @@
         "postDelay": 300
     },
     "Sarkaz@Roguelike@RoutingRefreshNode": {
-        "roi": [796, 150, 50, 150],
+        "roi": [796, 130, 50, 170],
         "action": "ClickSelf",
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeConfirm"]
     },
