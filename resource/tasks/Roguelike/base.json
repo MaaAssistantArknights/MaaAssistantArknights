@@ -1710,6 +1710,7 @@
         "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
     },
     "Roguelike@StrategyChange": {
+        "Doc": "RoguelikeStrategyChangeTaskPlugin",
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_default": {
