@@ -405,6 +405,21 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private int _autoUpdateProxyPort = int.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoUpdateProxyPort, "8080"), out var port) ? port : 8080;
+
+    /// <summary>
+    /// Gets or sets the port for automatically updated proxy.
+    /// </summary>
+    public int AutoUpdateProxyPort
+    {
+        get => _autoUpdateProxyPort;
+        set
+        {
+            SetAndNotify(ref _autoUpdateProxyPort, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoUpdateProxyPort, value.ToString());
+        }
+    }
+
     private bool _isCheckingForUpdates;
 
     /// <summary>
@@ -564,11 +579,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             {
                 try
                 {
-                    var success = Helper.NetworkHelper.UpdateProxyFromWlanIp();
+                    var success = Helper.NetworkHelper.UpdateProxyFromWlanIp(instance.AutoUpdateProxyPort);
                     if (success)
                     {
                         var logger = Serilog.Log.ForContext<VersionUpdateSettingsUserControlModel>();
-                        logger.Information("Automatically updated proxy settings from WLAN IP on startup");
+                        logger.Information("Automatically updated proxy settings from WLAN IP on startup with port {Port}", instance.AutoUpdateProxyPort);
                     }
                 }
                 catch (Exception ex)

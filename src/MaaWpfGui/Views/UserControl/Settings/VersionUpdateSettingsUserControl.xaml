@@ -162,6 +162,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <ComboBox
@@ -189,7 +190,17 @@
                         VerticalAlignment="Center"
                         Content="{DynamicResource AutoUpdateProxyFromWlan}"
                         IsChecked="{Binding AutoUpdateProxyFromWlan}" />
-                    <StackPanel Grid.Row="3">
+                    <hc:NumericUpDown
+                        Grid.Row="3"
+                        Width="80"
+                        Margin="0,0,0,5"
+                        VerticalAlignment="Center"
+                        Increment="1"
+                        IsEnabled="{Binding AutoUpdateProxyFromWlan}"
+                        Maximum="65535"
+                        Minimum="1"
+                        Value="{Binding AutoUpdateProxyPort}" />
+                    <StackPanel Grid.Row="4">
                         <hc:Shield
                             Height="NaN"
                             Margin="0,5"
@@ -404,7 +415,7 @@
                         </Grid>
                     </StackPanel>
                     <StackPanel
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Margin="5"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
@@ -419,7 +430,7 @@
                             Content="{DynamicResource ShowChangelog}"
                             IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                     </StackPanel>
-                    <StackPanel Grid.Row="5">
+                    <StackPanel Grid.Row="6">
                         <Button
                             Margin="5"
                             Command="{s:Action ManualUpdateResource}"
