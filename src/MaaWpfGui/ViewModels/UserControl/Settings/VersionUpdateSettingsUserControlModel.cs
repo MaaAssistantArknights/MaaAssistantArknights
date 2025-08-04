@@ -390,6 +390,21 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _autoUpdateProxyFromWlan = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoUpdateProxyFromWlan, false.ToString()).ToLowerInvariant() == "true";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to automatically update proxy from WLAN IP on startup.
+    /// </summary>
+    public bool AutoUpdateProxyFromWlan
+    {
+        get => _autoUpdateProxyFromWlan;
+        set
+        {
+            SetAndNotify(ref _autoUpdateProxyFromWlan, value);
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoUpdateProxyFromWlan, value.ToString());
+        }
+    }
+
     private bool _isCheckingForUpdates;
 
     /// <summary>
@@ -530,5 +545,43 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public void ShowChangelog()
     {
         Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
+    }
+
+    /// <summary>
+    /// 在应用启动时自动更新代理设置（如果启用了该功能）
+    /// </summary>
+    public static void AutoUpdateProxyOnStartup()
+    {
+        try
+        {
+            var instance = Instance;
+            if (!instance.AutoUpdateProxyFromWlan)
+            {
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    var success = Helper.NetworkHelper.UpdateProxyFromWlanIp();
+                    if (success)
+                    {
+                        var logger = Serilog.Log.ForContext<VersionUpdateSettingsUserControlModel>();
+                        logger.Information("Automatically updated proxy settings from WLAN IP on startup");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var logger = Serilog.Log.ForContext<VersionUpdateSettingsUserControlModel>();
+                    logger.Error(ex, "Failed to automatically update proxy settings from WLAN IP on startup");
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            var logger = Serilog.Log.ForContext<VersionUpdateSettingsUserControlModel>();
+            logger.Error(ex, "Error in AutoUpdateProxyOnStartup");
+        }
     }
 }

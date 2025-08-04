@@ -209,6 +209,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string ProxyType = "VersionUpdate.ProxyType";
+        public const string AutoUpdateProxyFromWlan = "VersionUpdate.AutoUpdateProxyFromWlan";
         public const string VersionType = "VersionUpdate.VersionType";
 
         // MirrorChyanCdk 迁到新配置的话就直接叫 UpdateSource，现在本体更新也加上了 MirrorChyan

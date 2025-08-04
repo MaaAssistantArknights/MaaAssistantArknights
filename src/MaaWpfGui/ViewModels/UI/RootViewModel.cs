@@ -50,6 +50,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             _ = InitProxy();
+            
+            // 自动更新代理设置（如果启用）
+            VersionUpdateSettingsUserControlModel.AutoUpdateProxyOnStartup();
+            
             if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
