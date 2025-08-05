@@ -6,7 +6,7 @@
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
-#include "Utils/Codec.h"
+#include "Utils/Encoding.h"
 #include "Utils/Logger.hpp"
 
 using namespace asst;
