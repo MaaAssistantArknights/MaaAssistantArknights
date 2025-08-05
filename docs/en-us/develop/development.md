@@ -5,11 +5,15 @@ icon: iconoir:developer
 
 # Getting Started with Development
 
-## Introduction to GitHub Pull Request flow
+::: tip
+This page mainly describes the PR workflow and MAA's file formatting requirements. If you want to learn specifically how to make changes to MAA's operational logic, please refer to the [Protocol Documentation](../protocol/)
+:::
+
+## Introduction to GitHub Pull Request Flow
 
 ### I don't know programming but just want to modify some JSON files/documents, how can I do it?
 
-Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
+Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
 
 ### I can program, but I've never used GitHub/C++/..., how do I get started?
 
@@ -27,7 +31,7 @@ Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can 
 
 4. Download prebuilt third-party libraries  
    **Python environment required - search for Python installation tutorials if needed**  
-   _（maadeps-download.py is located in the project root）_
+   _(maadeps-download.py is located in the project root)_
 
     ```cmd
     python maadeps-download.py
@@ -41,11 +45,11 @@ Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can 
 7. Configure Visual Studio settings
 
     - Select `RelWithDebInfo` and `x64` in the top configuration bar (Skip for Release builds or ARM platforms)
-    - Right-click `MaaWpfGui` -> Properties -> Debug -> Enable native debugging (This enables breakpoints in C++ Core)
+    - Right-click `MaaWpfGui` → Properties → Debug → Enable native debugging (This enables breakpoints in C++ Core)
 
 8. Now you're ready to happily ~~mess around~~ start developing!
 9. Commit regularly with meaningful messages during development  
-   Beginners should create a new branch instead of committing directly to `dev`:
+   If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev`:
 
     ```bash
     git branch your_own_branch
@@ -75,16 +79,16 @@ Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can 
         git fetch upstream
         ```
 
-    3. Rebase or merge:
+    3. Rebase (recommended) or merge:
 
         ```bash
-        git rebase upstream/dev
+        git rebase upstream/dev # rebase
         ```
 
         or
 
         ```bash
-        git merge
+        git merge # merge
         ```
 
     4. Repeat steps 7, 8, 9, 10.
@@ -93,15 +97,15 @@ Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can 
 After opening Visual Studio, Git operations can be performed using VS's built-in "Git Changes" instead of command-line tools.
 :::
 
-## MAA file formatting requirements
+## MAA File Formatting Requirements
 
 MAA uses a series of formatting tools to ensure that the code and resource files in the repository are visually unified for easy maintenance and reading.
 
-Please ensure that it has been formatted before submission, or [enable Pre commit Hooks for automatic formatting](#use-pre-commit-hooks-to-automatically-format-code).
+Please ensure that it has been formatted before submission, or [enable Pre-commit Hooks for automatic formatting](#use-pre-commit-hooks-to-automatically-format-code).
 
 The currently enabled formatting tools are as follows:
 
-|File Type | Format Tool|
+| File Type | Format Tool |
 | --- | --- |
 | C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
 | Json/Yaml | [Prettier](https://prettier.io/) |

@@ -3,24 +3,27 @@ order: 2
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linux Compiling Tutorial
+# Linux Compilation Tutorial
 
-**The tutorial requires some basic knowledge about Linux OS!**
-If you just want to install MAA directly instead of compiling it yourself, please read [Emulator Support for Linux](../manual/device/linux.md).
+**This tutorial requires readers to have some Linux environment configuration ability and programming foundation!** If you only want to directly install MAA instead of compiling it yourself, please read [User Manual - Linux Emulators and Containers](../manual/device/linux.md).
 
 ::: info Note
-Linux build of MAA is still under discussion, some of the content might be outdated, please follow the script in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134), also reference [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+MAA's build method is still under discussion. The content of this tutorial may be outdated. Please refer to the scripts in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134). You can also refer to [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix).
 :::
 
-## Compiling MAA
+::: info
+Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's recommended to refer to the README.md of the [MaaAssistantArknights/MaaMacGui](https://github.com/MaaAssistantArknights/MaaMacGui) project.
+:::
 
-1. Download build depends
+## Compilation Process
+
+1. Download compilation dependencies
 
     - Ubuntu/Debian
 
-        ```bash
-        sudo apt install gcc-12 g++-12 cmake zlib1g-dev
-        ```
+    ```bash
+    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+    ```
 
     - Arch Linux
 
@@ -28,30 +31,30 @@ Linux build of MAA is still under discussion, some of the content might be outda
         sudo pacman -S --needed gcc cmake zlib
         ```
 
-2. Build or download third-party libraries
+2. Build third-party libraries
 
-   You may either download pre-built dependencies or build them from scratch
+    You can choose to download pre-built dependency libraries or compile from scratch
 
-    - Download pre-built libraries (recommended)
+    - Download pre-built third-party libraries (recommended)
 
         > **Note**
-        > It contains shared objects built on a relatively new linux distro (Ubuntu 22.04), which may cause ABI incompatibility if you are working on a system with older version of libstdc++.
+        > Contains dynamic libraries compiled on relatively new Linux distributions (Ubuntu 22.04). If your system's libstdc++ version is older, you may encounter ABI incompatibility issues.
 
         ```bash
         python maadeps-download.py
         ```
 
-    If this does not work for you due to ABI issue, and containerization is not an option, you may build them from scratch
+    If you find the libraries downloaded above cannot run on your system due to ABI version issues and you don't want to use container solutions, you can also try compiling from scratch
 
-    - Build from source
+    - Build third-party libraries from scratch (will take considerable time)
 
         ```bash
         git submodule update --init --recursive
         cd MaaDeps
-       python build.py
+        python build.py
         ```
 
-3. Build MAA
+3. Compile MAA
 
     ```bash
     CC=gcc-12 CXX=g++-12 cmake -B build \
@@ -61,24 +64,26 @@ Linux build of MAA is still under discussion, some of the content might be outda
     cmake --build build
     ```
 
-    To install MAA to the target location, note that MAA is recommended to run by specifying `LD_LIBRARY_PATH`, do not use administrator privileges to load MAA into `/`
+    To install MAA to target location, note that MAA is recommended to run by specifying `LD_LIBRARY_PATH`, don't use administrator privileges to install MAA into `/usr`
 
     ```bash
     cmake --install build --prefix <target_directory>
     ```
 
-## Integration
+## Integration Documentation
 
-[~~Maybe not a doc~~](../protocol/integration.md)
+[~~Perhaps not really documentation~~](../protocol/integration.md)
 
 ### Python
 
-Refer to the implementation of `__main__` in [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
+You can refer to the implementation of `__main__` in [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
 
-### C
+### C++
 
-Refer to the implementation of [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
+You can refer to the implementation in [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
 
 ### C Sharp
 
-Refer to the implementation of [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)
+<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
+
+You can refer to the implementation in [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)

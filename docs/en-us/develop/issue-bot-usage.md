@@ -7,7 +7,9 @@ icon: bxs:bot
 
 The action of Issue Bot is [issue-checker](https://github.com/zzyyyl/issue-checker), with configuration file [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml).
 
-**Note that your merge request will be marked as `ambiguous` when you are not committing with Commitizen specification.**
+::: warning
+Your pull request will be marked as `ambiguous` when you are not committing with Conventional Commits specification.
+:::
 
 ## Features
 
@@ -27,7 +29,7 @@ The action of Issue Bot is [issue-checker](https://github.com/zzyyyl/issue-check
 Issue Bot will check the title of your pull request. Unless the title starts with one of the following keywords, the pull request will be marked as `ambiguous`.
 
 - `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
-- `Merge` `merge` `Revert` `revert`
+- `Merge` `merge` `Revert` `revert` `Reapply` `reapply`
 
 ### Triggering Manually
 
@@ -52,7 +54,9 @@ It is better to trigger Issue Bot with keywords instead of commands listed below
 - `Duplicate of #{ISSUE_NUMBER}` will add `duplicate` label to the issue.
 - **You can add some `skip` operations if your comment may confuse Issue Bot.**
 
-_Note<sup>1</sup>: The `COMMIT_HASH` here is the full 40-character hash._
+::: info Note
+<sup>1</sup> The `COMMIT_HASH` here needs to be the full 40 characters
+:::
 
 #### Push
 
