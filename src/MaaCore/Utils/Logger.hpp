@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <io.h>
 #endif
+#include <csignal>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -766,6 +767,8 @@ private:
         m_buff(nullptr),
         m_of(&m_buff)
     {
+        initialize_exception_handlers();
+
         try {
             std::filesystem::create_directories(m_log_path.parent_path());
         }
@@ -854,6 +857,92 @@ private:
         trace("Built at", __DATE__, __TIME__);
         trace("User Dir", m_directory);
         trace("-----------------------------");
+    }
+
+    static void custom_terminate_handler() noexcept
+    {
+        static bool in_handler = false;
+        if (in_handler) {
+            std::_Exit(EXIT_FAILURE); // 避免递归
+        }
+        in_handler = true;
+
+        try {
+            auto& logger = Logger::get_instance();
+            std::string exception_info = "Unknown exception";
+
+            try {
+                if (auto eptr = std::current_exception()) {
+                    std::rethrow_exception(eptr);
+                }
+            }
+            catch (const std::exception& e) {
+                exception_info = std::string("std::exception: ") + e.what() + " (type: " + typeid(e).name() + ")";
+            }
+            catch (...) {
+                exception_info = "Unknown exception type";
+            }
+            logger.error("=== FATAL ERROR ===");
+            logger.error("Unhandled exception caught:", exception_info);
+            logger.error("Program terminating...");
+            logger.error("===================");
+            logger.flush();
+        }
+        catch (...) {
+            std::cerr << "=== FATAL ERROR ===" << std::endl;
+            std::cerr << "Failed to log exception details to file" << std::endl;
+            std::cerr << "Unhandled exception caught, program terminating..." << std::endl;
+            std::cerr << "===================" << std::endl;
+        }
+    }
+
+    static void signal_handler(int sig)
+    {
+        auto& logger = Logger::get_instance();
+
+        std::string sig_name;
+        switch (sig) {
+        case SIGSEGV:
+            sig_name = "SIGSEGV (Segmentation Fault)";
+            break;
+        case SIGABRT:
+            sig_name = "SIGABRT (Abort)";
+            break;
+        case SIGFPE:
+            sig_name = "SIGFPE (Floating Point Error)";
+            break;
+        case SIGILL:
+            sig_name = "SIGILL (Illegal Instruction)";
+            break;
+        default:
+            sig_name = "Signal " + std::to_string(sig);
+            break;
+        }
+
+        try {
+            logger.error("=== FATAL ERROR ===");
+            logger.error("Signal caught:", sig_name);
+            logger.error("Signal number:", std::to_string(sig));
+            logger.error("Program terminating...");
+            logger.error("===================");
+
+        }
+        catch (...) {
+            std::cerr << "=== FATAL ERROR ===" << std::endl;
+            std::cerr << "Signal caught: " << sig_name << " (" << sig << ")" << std::endl;
+            std::cerr << "===================" << std::endl;
+        }
+
+        custom_terminate_handler();
+        std::_Exit(EXIT_FAILURE);
+    }
+
+    static void initialize_exception_handlers()
+    {
+        std::signal(SIGSEGV, signal_handler);
+        std::signal(SIGABRT, signal_handler);
+        std::signal(SIGFPE, signal_handler);
+        std::signal(SIGILL, signal_handler);
     }
 
     template <typename... args_t>
