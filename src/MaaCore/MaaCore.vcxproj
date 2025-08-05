@@ -470,6 +470,7 @@
     <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
+    <ClCompile Include="Utils\Codec.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="meojson.natvis" />

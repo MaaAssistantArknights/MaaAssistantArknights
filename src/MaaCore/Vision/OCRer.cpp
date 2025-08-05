@@ -7,6 +7,7 @@
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Utils/Codec.h"
 
 using namespace asst;
 
@@ -72,14 +73,32 @@ void OCRer::postproc_replace_(Result& res) const
         return;
     }
 
-    for (const auto& [regex, new_str] : m_params.replace) {
-        if (m_params.replace_full) {
-            if (std::regex_search(res.text, std::regex(regex))) {
-                res.text = new_str;
+    if (m_params.u16_replace) {
+        std::wstring text_u16 = asst::utils::to_u16(res.text);
+        for (const auto& [regex, new_str] : m_params.replace) {
+            std::wstring regex_u16 = asst::utils::to_u16(regex);
+            std::wstring new_str_u16 = asst::utils::to_u16(new_str);
+            if (m_params.replace_full) {
+                if (std::regex_search(text_u16, std::wregex(regex_u16))) {
+                    text_u16 = new_str_u16;
+                }
+            }
+            else {
+                text_u16 = std::regex_replace(text_u16, std::wregex(regex_u16), new_str_u16);
             }
         }
-        else {
-            res.text = std::regex_replace(res.text, std::regex(regex), new_str);
+        res.text = asst::utils::from_u16(text_u16);
+    }
+    else {
+        for (const auto& [regex, new_str] : m_params.replace) {
+            if (m_params.replace_full) {
+                if (std::regex_search(res.text, std::regex(regex))) {
+                    res.text = new_str;
+                }
+            }
+            else {
+                res.text = std::regex_replace(res.text, std::regex(regex), new_str);
+            }
         }
     }
 }
