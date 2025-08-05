@@ -4348,7 +4348,13 @@
     },
     "OperBoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperBoxEnter", "OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab", "OperBoxEnter@ReturnButtons#next"]
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxSortTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnButtons#next"
+        ]
     },
     "OperBoxEnter": {
         "template": [
