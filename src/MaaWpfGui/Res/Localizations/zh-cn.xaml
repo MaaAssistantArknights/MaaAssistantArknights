@@ -447,8 +447,8 @@
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
-    <system:String x:Key="ReceiveFreeRecruit">进行限定池赠送的每日免费单抽</system:String>
-    <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
+    <system:String x:Key="ReceiveFreeGacha">进行限定池赠送的每日免费单抽</system:String>
+    <system:String x:Key="ReceiveFreeGachaTip">若不存在免费单抽，则不会抽取</system:String>
     <system:String x:Key="GachaWarning">该功能属于危险功能，可能会造成误抽\n按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险</system:String>
     <system:String x:Key="ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
     <system:String x:Key="ReceiveMining">领取限时开采许可的每日合成玉奖励</system:String>
