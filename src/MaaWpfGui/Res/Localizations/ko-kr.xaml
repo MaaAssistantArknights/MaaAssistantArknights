@@ -1114,7 +1114,7 @@ C:\\leidian\\LDPlayer9
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
-    <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지 업데이트 전까지 표시하지 않기</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

@@ -1115,7 +1115,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Announcement  -->
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
-    <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">下次公告更新前不再显示</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

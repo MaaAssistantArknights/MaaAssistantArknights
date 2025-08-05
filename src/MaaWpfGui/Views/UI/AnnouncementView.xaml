@@ -92,7 +92,7 @@
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="{DynamicResource ShowDisclaimerNoMore}"
+                    Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"
                     IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
                     IsEnabled="{Binding IsScrolledToBottom}" />
                 <Button
