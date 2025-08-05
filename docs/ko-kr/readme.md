@@ -34,7 +34,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 [문서](./manual/newbie.md) 를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 에서 다운로드하십시오. [초보자 가이드](./manual/newbie.md) 를 참고하여 설치하십시오.
 
-## 개요
+## 주요 기능
 
 - 이성을 사용하고, 아이템 드랍을 인식해 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/), [Yituliu](https://ark.yituliu.cn/)
 - 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스키마](./protocol/base-scheduling-schema.md)
@@ -47,7 +47,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 - 원클릭으로 친구 방문 및 크레딧 획득/구매를 하며, 임무 보상 수령 등의 모든 일과를 수행합니다.
 - 통합전략에서 자동으로 오퍼레이터 레벨을 인식하며, 오리지늄 각뿔 획득 및 노드 개방과 레벨을 올려줍니다.
 - Copliot 파일을 통한 자동 지휘가 가능합니다. [영상 설명](https://www.bilibili.com/video/BV1H841177Fk/)
-- C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 다음과 같은 다양한 환경에서 MAA를 사용할 수 있습니다!！
+- C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 다음과 같은 다양한 환경에서 MAA를 사용할 수 있습니다!
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
@@ -74,7 +74,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 해외 서버 지원
 
-현재 글로버 서버 EN/KR/JP/txwy 서버의 대부분의 기능이 지원됩니다.
+현재 글로벌 서버 EN/KR/JP/txwy 서버의 대부분의 기능이 지원됩니다.
 그러나, 해외 서버 사용자가 적고 프로젝트 인원이 부족하기 때문에 대부분의 기능이 자세하게 테스트를 거치지 않았습니다.
 그러니 직접 사용해서 어떠한지 확인하시기 바랍니다.
 만약 버그가 있거나, 특정 기능에 대한 강한 요구가 있다면 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 및 [토론](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 에서 요청하거나 참여해주세요!
@@ -88,7 +88,7 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 
 ### 주요 관련 프로젝트
 
-**현재 프로젝트 팀에 프론트엔드 전문가가 매우 부족합니다! 관련 경험이 있으시다면 우리와 함께 해주세요!**
+**현재 프로젝트 팀에 프론트엔드 전문가가 매우 부족합니다! 관련 경험이 있으시다면 함께 참여해 주세요!**
 
 - New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
 - [전략 파일 저장소](https://prts.plus): Frontend [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
@@ -98,7 +98,7 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 
 ### 다국어 지원 (i18n)
 
-MAA는 다국어를 지원하며, Weblate를 사용하여 로컬라이징을 관리합니다. 여러 언어를 알고 계시다면 [MAA Weblate](https://weblate.maa-org.net)로 이동하여 번역에 도음을 주세요.
+MAA는 다국어를 지원하며, Weblate를 사용하여 로컬라이징을 관리합니다. 여러 언어를 알고 계시다면 [MAA Weblate](https://weblate.maa-org.net)로 이동하여 번역에 도움을 주세요.
 
 MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(간체)를 기준으로 합니다.
 

@@ -105,7 +105,7 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
 
 사용자 정의 작업: [통합 문서](../../protocol/integration.md)를 참조하고, `sample.py`의 # 작업 및 매개 변수는 [예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54)를 참조해 줄을 수정하세요.
 
-## 모바일 시뮬레이터 지원
+## 모바일 에뮬레이터 지원
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
