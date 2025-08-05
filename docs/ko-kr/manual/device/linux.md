@@ -13,6 +13,47 @@ icon: teenyicons:linux-alt-solid
 
 [maa-cli](https://github.com/MaaAssistantArknights/maa-cli)는 Rust로 작성된 간단한 MAA 커맨드 라인 도구입니다. 관련 설치 및 사용 방법은 [CLI 가이드](../cli/)를 참조하세요.
 
+### Wine 사용
+
+MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다.
+
+#### 설치 단계
+
+1. [.NET 릴리스 페이지](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)에서 Windows용 .NET **데스크톱** 런타임을 다운로드하고 설치합니다.
+
+2. Windows용 MAA를 다운로드하고 압축을 푼 후 `wine MAA.exe`를 실행합니다.
+
+::: info 주의
+연결 설정에서 ADB 경로를 [Windows용 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)로 설정해야 합니다.
+
+ADB를 통해 USB 장치에 연결해야 하는 경우, 먼저 Wine 외부에서 `adb start-server`를 실행하여 네이티브 ADB 서버에 Wine을 통해 연결하세요.
+:::
+
+#### Linux 네이티브 MaaCore 사용 (실험적 기능)
+
+[MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) 소스 코드를 다운로드하고 빌드하여, 생성된 `MaaCore.dll`(ELF 파일)로 Windows 버전을 교체하고, Linux 네이티브 동적 라이브러리(`libMaaCore.so` 및 종속성)를 같은 디렉토리에 넣습니다.
+
+이때 Wine을 통해 `MAA.exe`를 실행하면 Linux 네이티브 동적 라이브러리가 로드됩니다.
+
+::: info 주의
+Linux 네이티브 MaaCore를 사용할 때는 연결 설정에서 ADB 경로를 Linux 네이티브 ADB로 설정해야 합니다.
+:::
+
+#### Linux 데스크톱 통합 (실험적 기능)
+
+데스크톱 통합은 네이티브 데스크톱 알림 지원과 fontconfig 글꼴 구성을 WPF에 매핑하는 기능을 제공합니다.
+
+MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같은 디렉토리에 넣으면 활성화됩니다.
+
+#### 알려진 문제
+
+- Wine DirectWrite는 강제로 힌팅을 활성화하고 DPI를 FreeType에 전달하지 않아 글꼴 표시 효과가 좋지 않습니다.
+- 네이티브 데스크톱 알림을 사용하지 않을 때, 팝업 알림이 전체 시스템의 마우스 포커스를 빼앗아 다른 창을 조작할 수 없게 됩니다. `winecfg`를 통해 가상 데스크톱 모드를 활성화하거나 데스크톱 알림을 비활성화하여 완화할 수 있습니다.
+- Wine-staging 사용자는 MAA가 Wine 환경을 올바르게 감지할 수 있도록 `winecfg`의 `Wine 버전 숨기기` 옵션을 비활성화해야 합니다.
+- Wine의 Light 테마는 WPF에서 일부 텍스트 색상 이상을 일으키므로, `winecfg`에서 테마 없음(Windows 클래식 테마)으로 전환하는 것을 권장합니다.
+- Wine은 구식 XEmbed 트레이 아이콘을 사용하므로 GNOME에서 정상적으로 작동하지 않을 수 있습니다.
+- Linux 네이티브 MaaCore를 사용할 때는 자동 업데이트가 지원되지 않습니다 (~~업데이트 프로그램: 내가 Windows 버전을 다운로드해야 한다고?~~)
+
 ### Python 사용
 
 #### 1. MAA 동적 라이브러리 설치
