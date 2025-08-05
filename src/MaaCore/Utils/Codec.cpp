@@ -27,7 +27,8 @@ static constexpr inline void char32_to_utf8(std::string& out, char32_t ch)
     }
 }
 
-static constexpr inline bool utf8_to_char32(std::string_view::iterator& cur, std::string_view::iterator end, char32_t& ch)
+static constexpr inline bool
+    utf8_to_char32(std::string_view::iterator& cur, std::string_view::iterator end, char32_t& ch)
 {
     char leading = *cur++;
     if ((leading & 0b10000000) == 0) {
@@ -55,7 +56,8 @@ static constexpr inline bool utf8_to_char32(std::string_view::iterator& cur, std
         char next1 = *cur++;
         char next2 = *cur++;
         char next3 = *cur++;
-        ch = ((leading & 0b00001111) << 18) | ((next1 & 0b00111111) << 12) | ((next2 & 0b00111111) << 6) | (next3 & 0b00111111);
+        ch = ((leading & 0b00001111) << 18) | ((next1 & 0b00111111) << 12) | ((next2 & 0b00111111) << 6) |
+             (next3 & 0b00111111);
     }
     else {
         // mainly for 0b10xxxxxx, skip corrupted data
@@ -81,7 +83,8 @@ static constexpr inline void char32_to_wchar(std::wstring& out, char32_t ch)
     }
 }
 
-static constexpr inline bool wchar_to_char32(std::wstring_view::iterator& cur, std::wstring_view::iterator end, char32_t& ch)
+static constexpr inline bool
+    wchar_to_char32(std::wstring_view::iterator& cur, std::wstring_view::iterator end, char32_t& ch)
 {
     if constexpr (sizeof(wchar_t) == 2) {
         auto leading = static_cast<uint32_t>(static_cast<uint16_t>(*cur++));
@@ -93,7 +96,8 @@ static constexpr inline bool wchar_to_char32(std::wstring_view::iterator& cur, s
             if ((next & 0b1111'1100'0000'0000) != 0xDC00) {
                 return false;
             }
-            ch = static_cast<char32_t>((((leading & 0b0000'0011'1111'1111) << 10) | (next & 0b0000'0011'1111'1111)) + 0x10000);
+            ch = static_cast<char32_t>(
+                (((leading & 0b0000'0011'1111'1111) << 10) | (next & 0b0000'0011'1111'1111)) + 0x10000);
         }
         else if ((leading & 0b1111'1100'0000'0000) == 0xDC00) {
             return false;
