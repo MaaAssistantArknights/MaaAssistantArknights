@@ -925,7 +925,6 @@ private:
             logger.error("Signal number:", std::to_string(sig));
             logger.error("Program terminating...");
             logger.error("===================");
-
         }
         catch (...) {
             std::cerr << "=== FATAL ERROR ===" << std::endl;
