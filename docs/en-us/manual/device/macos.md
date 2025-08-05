@@ -3,62 +3,62 @@ order: 2
 icon: basil:apple-solid
 ---
 
-# Mac Emulator
+# macOS Emulators
 
 ## Apple Silicon Chips
 
-### ✅ [PlayCover](https://playcover.io) (The software runs most fluently for its nativity 🚀)
+### ✅ [PlayCover](https://playcover.io) (Runs most fluently as it's native 🚀)
 
-Compatible in beta, plz submit issue marked with `MacOS` when encounter errors.
+Experimental support. Please submit issues if you encounter problems, and include `MacOS` in the title.
 
-P.S.: For the reason of `MacOS` mechanism itself, errors might occur when `PlayCover` is minimized and you switch to others windows. The errors of screenshot might crash `MAA`. Reference 👉🏻️[issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
+Note: Due to macOS system limitations, screenshot issues may occur when minimizing the game window, switching to other windows while in Stage Manager, or moving the window to other desktops/screens. Related issue: [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
-1. Requests: MAA version above v4.13.0-rc.1
+0. Requirements: MAA version v4.13.0-rc.1 or newer
 
-2. Download and install [fork version of PlayCover](https://github.com/hguandl/PlayCover/releases)
+1. Download and install the [forked version of PlayCover](https://github.com/hguandl/PlayCover/releases).
 
-3. Download [decrypted version of Arknights](https://decrypt.day/app/id1454663939), and then install in PlayCover.
+2. Download the [decrypted Arknights client package](https://decrypt.day/app/id1454663939) and install it in PlayCover.
 
-4. Right-click Arknights in PlayCover, choose `Setting` - `Jailbreak Bypass`, enable `Enable PlayChain`, `Enable Jailbreak Bypass (Alpha)`, `Insert Introspection Library`, `MaaTools`, then click `OK`.
+3. Right-click on Arknights in PlayCover, select `Settings` - `Bypasses`, check `Enable PlayChain`, `Enable Jailbreak Detection Bypass`, `Insert Introspection Libraries`, `MaaTools`, then click `OK`.
 
-5. Relaunch Arknights, `[localhost:${port number}]` will appear above, meaning launching is successful.
+4. Now launch Arknights, which should run normally. The title bar will end with `[localhost:port]`, indicating successful activation.
 
-6. In MAA, click `Settings` - `Connection Settings`, `Minitouch` choose `MacPlayTools`. `Connection Address` filling the content in `[]` .
+5. In MAA, go to `Settings` - `Connection Settings`, set `Touch Mode` to `MacPlayTools`. For `Connection Address`, enter the content inside the `[]` from the title bar.
 
-7. Finish, MAA is able to build connection. If errors occur in image recognition, you could try to set resolution to 1080P in PlayCover.
+6. Setup complete! MAA should now connect successfully. If you encounter image recognition errors, try setting the resolution to 1080P in PlayCover.
 
-8. 3-5 do not need to be repeated, you could just launch Arknights after that. While you have to repeat step 2 if Arknights is updated.
+7. Steps 3-5 only need to be done once. After that, just launch Arknights. After each Arknights client update, you'll need to repeat step 2.
+
+### ✅ [MuMu Emulator Pro](https://mumu.163.com/mac/)
+
+Supported, but less thoroughly tested. Requires using a touch mode other than `MacPlayTools`. Related issue: [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-Compatible
+Supported, but starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
 
 ### ✅ [BlueStacks Air](https://www.bluestacks.com/mac) (Free, optimized for Apple M-series chips)
 
-Supported, tested, and can be connected via maatouch at `127.0.0.1:5555`.
+Supported and tested. Can be connected using MaaTouch via `127.0.0.1:5555`.
 
-You need to enable **"Android Debugging (ADB)"** in the emulator's **`Settings`** - **`Advanced`** section.
+You need to enable `Android Debugging (ADB)` in the emulator's `Settings` - `Advanced` section.
 
 ## Intel Chips
 
 ::: tip
-Due to a lack of manpower for Mac version development, updates are relatively slower. It is recommended to use Mac's built-in multi-system feature to install Windows and use the Windows version of MAA.
+Due to limited development resources for the Mac version, updates are relatively slower. We recommend using Boot Camp to install Windows and using the Windows version of MAA instead.
 :::
 
-### ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
+### ✅ [BlueStacks](https://www.bluestacks.com/)
 
-Fully compatible. Need to turn on `Settings` - `Engine Settings` - `Allow ADB connection`.
+Fully compatible. You need to enable `Android Debug Bridge` in the emulator's `Settings` - `Advanced`.
 
-### ✅ [Bluestacks 5](https://www.bluestacks.com/tw/index.html)
-
-Fully compatible. Need to turn on `Settings` - `Advanced` - `Android Debug Bridge`.
-
-### ✅ [Nox](https://www.yeshen.com/)
+### ✅ [Nox Player](https://www.bignox.com/)
 
 Fully compatible.
 
-P.S.: Nox adb bin file path in Mac is `/Applications/NoxAppPlayer.app/Contents/MacOS/adb` , in parent path `MacOS` you are able to use `adb devices` command to get adb path.
+Note: On macOS, the Nox ADB binary is located at `/Applications/NoxAppPlayer.app/Contents/MacOS/adb`. In the `MacOS` parent directory, you can use the `adb devices` command to check the ADB port.
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-Compatible.
+Supported, but starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode. Please switch to other touch modes, or **temporarily** switch SELinux to `Permissive` mode.
