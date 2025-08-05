@@ -138,16 +138,4 @@ std::string from_u16(std::wstring_view u16str)
     }
     return output;
 }
-
-bool regex_valid(const std::wstring& regex)
-{
-    try {
-        std::wregex _(regex);
-    }
-    catch (const std::regex_error& e) {
-        LogError << e.what() << VAR(regex);
-        return false;
-    }
-    return true;
-}
 }
