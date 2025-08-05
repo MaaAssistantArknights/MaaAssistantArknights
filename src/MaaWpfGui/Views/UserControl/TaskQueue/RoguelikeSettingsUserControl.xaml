@@ -86,8 +86,8 @@
                     <controls:TooltipBlock TooltipText="{DynamicResource StartingCoreCharTip}" />
                 </StackPanel>
                 <hc:ComboBox
-                    Margin="0,0,0,15"
                     Name="StartingCoreCharComboBox"
+                    Margin="0,0,0,15"
                     DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
@@ -125,6 +125,7 @@
                                       Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
             <CheckBox
                 Margin="0,10"
+                d:Visibility="Visible"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
                 Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode != task:RoguelikeMode.Collectible',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}">
@@ -157,11 +158,11 @@
             </CheckBox>
             <hc:NumericUpDown
                 Margin="0,5"
+                d:Visibility="Visible"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 Maximum="999"
                 Minimum="0"
-                Visibility="{c:Binding ElementName=InvestmentEnabled,
-                                       Path=IsChecked}"
+                Visibility="{c:Binding RoguelikeInvestmentEnabled}"
                 Value="{Binding RoguelikeInvestsCount}" />
             <CheckBox
                 Margin="0,10"
