@@ -29,7 +29,7 @@ Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)
 Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 시작하지 않는 제목은 `ambiguous(애매모호한)`로 표시됩니다.
 
 - `build`, `chore`, `ci`, `doc`, `docs`, `feat`, `fix`, `perf`, `refactor`, `rfc`, `style`, `test`
-- `Merge`, `merge`, `Revert`, `revert`
+- `Merge`, `merge`, `Revert`, `revert`, `Reapply`, `reapply`
 
 ### 수동으로 트리거하기
 

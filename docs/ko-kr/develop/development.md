@@ -5,6 +5,10 @@ icon: iconoir:developer
 
 # 개발 환경 구축
 
+::: tip
+본 페이지는 주로 PR 과정 및 MAA의 파일 포맷 요구사항을 설명합니다. MAA의 실행 로직 변경에 대한 구체적인 내용은 [프로토콜 문서](../protocol/)를 참고하세요.
+:::
+
 ## Github Pull Request 진행 과정
 
 ### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
@@ -123,6 +127,8 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
     pip install pre-commit
     pre-commit install
     ```
+
+pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가 PATH에 추가되었는지 확인하세요.
 
 이제, 매번 커밋할 때마다 포매팅 도구가 자동으로 실행되어 코드 형식이 규칙에 맞는지 확인합니다.
 

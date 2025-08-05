@@ -5,12 +5,12 @@ icon: mingcute:git-pull-request-fill
 
 # 웹 기반 PR 가이드
 
+소소한 GitHUb Pull Request 사용 가이드 (\*´▽｀)ノノ
+
 ::: warning
 이 가이드는 많은 개념을 단순화하여 더 많은 사람들이 실제로 사용할 수 있도록 설계되었습니다. 때로는 꽤 불안불안한 ~~하지만 간단한~~ 조치들과 약간 부정확한 설명이 있을 수 있으므로 전문가 분들의 이해를 부탁드립니다.
 만약 Git 사용 경험이 있고 프로그래밍 기초를 가지고 계시다면 ~~그럼 당신은 왜 보고 있나요🔨~~, 약간 더 발전된 가이드인 [Github Pull Request 진행과정](./development.md#github-pull-request-진행-과정)을 확인해주세요.
 :::
-
-소소한 GitHUb Pull Request 사용 가이드 (\*´▽｀)ノノ
 
 ## 기본 개념 및 용어 설명
 
@@ -160,6 +160,8 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     }
     ```
 
+    우리는 간단한 커밋 제목 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)이 있으니 가능하면 지켜주세요. 물론 정말 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
+
     ```component Image1
     {
       "imageList": [
@@ -201,6 +203,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     ```
 
     그런 다음 제목, 수정한 내용 등을 작성하고 확인을 클릭합니다.
+    PR 제목도 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)을 지켜주세요. 물론 여전히 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
 
     ```component Image1
     {
@@ -242,14 +245,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     }
     ```
 
-13. 전문가들의 승인을 기다리면 모두 완료됩니다! **버전이 출시**되면 당신의 GitHub 프로필 사진이 자동으로 기여자 목록에 추가됩니다. 모든 분들의 자비로운 공헌에 감사드립니다!  
-    ~~왜 모든 사람들이 이중 인격이야, 오 나도 그렇지, 그럼 괜찮아~~
-
-    ::: tip 기여자
-    개발/테스트에 참여한 모든 친구들에게 감사드립니다. 여러분의 도움으로 MAA가 점점 더 좋아지고 있습니다! (\*´▽ ｀)ノノ
-
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
-    :::
+13. 전문가들의 승인을 기다리면 모두 완료됩니다! 수정한 내용이 이미 MAA 주 저장소에 들어갔습니다!
 
 14. 다음에 다른 PR을 제출하려면 먼저 dev 브랜치로 전환한 다음 아래 그림과 같이 진행하세요.
 
@@ -276,3 +272,12 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     ```
 
     그러면 3-14 단계를 반복하여 수정하고 PR을 제출하면 됩니다~
+
+**버전이 출시**되면 당신의 GitHub 프로필 사진이 자동으로 기여자 목록에 추가됩니다. 모든 분들의 자비로운 공헌에 감사드립니다!  
+~~왜 모든 사람들이 이중 인격이야, 아 나도 그렇지, 그럼 괜찮아~~
+
+::: tip 기여자
+개발/테스트에 참여한 모든 친구들에게 감사드립니다. 여러분의 도움으로 MAA가 점점 더 좋아지고 있습니다! (\*´▽ ｀)ノノ
+
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+:::
