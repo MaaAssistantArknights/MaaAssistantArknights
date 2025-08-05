@@ -4962,5 +4962,15 @@
     "resource/template/MiniGame/AT/MiniGame@AT@OpenForBusiness": "51f0e20bf195f76328bfa086ffad0cefc51bb9ca62840e3ce48aa26638fd6484",
     "resource/template/MiniGame/AT/MiniGame@AT@InterestPlus2": "0dea0cbd7b4fc0025efb5f5b3b1efd84846756da8e5a89e53523cb6b5245fe37",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePassTheEndConfirm": "fafb6265f54fc198be9d54a1c322d925188de194b50ec867c539a1f465841efa",
-    "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop4": "6789f6395665bf95366c47bc34efc640ee9014dc26b2bec908e291ff05165e57"
+    "resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop4": "6789f6395665bf95366c47bc34efc640ee9014dc26b2bec908e291ff05165e57",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/GachaEnter": "87032ac8d3c7b4c3497d9784bc73158de4237db2bc60f6b295abb055267f4cfa",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/DepotEnter": "00d6cb866c20b356751d5251aa679100de781555356460f042e461922433d088",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/Task": "401771b7136d2f565ec9f304e4aa03ae7d67bc87fc2df96b795ab4d774c7fd14",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/Recruit": "964274ee4a2de4a9f49013766d6f86fe3fd5c5d64299899fbb648621ff970dd8",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/Terminal": "061d8cb37770b3502d40a020ef64e3527881924b9e181f94c8b5ba55ab39502b",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/EnterInfrast": "c7d31e20302bf1b9adaf865a96b9c18f6d68eaa21565c34901bf5fe8eae394f6",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/OperBoxEnter": "7cd397f55e15b687ca6c6b3c272228e9982db3bf7e95a91a96f5ee8fe7561bef",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/Friends": "1b9808ba54312640c5fa771060bd8baeb360907ddb897e2f753cddc90c6179a6",
+    "resource/global/txwy/resource/template/UiTheme/Sarkaz/Mall": "e44698d888f04a22a45b65dd1e28d499e62e5658f37e215a75136ba8439c8d54",
+    "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop4": "534032938b21bf8f243588c51e731d78d980a51575df997c7e6a786ac955f295"
 }
