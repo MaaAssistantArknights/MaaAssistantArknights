@@ -5,15 +5,13 @@ icon: solar:shop-2-bold
 
 # Credit Store
 
-::: important This page may be outdated.
-:::
-
-- Automatically visit friends to obtain credit points and go to the credit store for shopping.
-- With the help of combat credit:
-  - Use a support operator to clear the `OF-1` stage in Heart of Surging Flame. If the stage is not unlocked, please do not select this option.
-  - It does not take effect when the stage selection is set to `Cur/Last`.
+- Automatically visits friends to obtain credit points and shops at the credit store.
+- Support for earning credits through combat:
+  - MAA will use a support operator to clear the `OF-1` stage from Heart of Surging Flame. Please ensure this stage is unlocked.
+  - This feature won't activate when the stage selection is set to `Current/Last`.
 
 ## Advanced Settings
 
-- Whitelist and Blacklist are keyword matches, for example, filling in `碳` (Carbon Stick) will match `碳` (Carbon Stick) and `碳素` (Carbon Brick). May still require only the original Chinese as input.
-- `Stop purchasing items when credits are below 300` will still purchase whitelist items even when below 300.
+- Both priority purchase items and blacklist use keyword matching. For example, entering `Carbon` will match both `Carbon Stick` and `Carbon Brick`.
+- You can use either English semicolons `;` or Chinese semicolons `；` as separators.
+- When `Stop purchasing items when credits are below 300` is enabled, priority purchase items will still be bought even when below 300 credits.

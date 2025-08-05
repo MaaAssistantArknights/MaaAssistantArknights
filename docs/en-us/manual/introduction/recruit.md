@@ -3,21 +3,18 @@ order: 2
 icon: fluent:people-24-filled
 ---
 
-# Recruit
+# Recruitment
 
-::: important This page may be outdated.
-:::
+Auto Recruitment and [Recruitment Recognition](./tools.md#recruitment-recognition) are two different features!
 
-The Recruit option in the 'Farming' tab and [recruitment recognition](./tools.md#recruitment-recognition) are two different features, though most options from the tool are in the recruit option as well.
+## Auto Recruitment
 
-## Auto-recruitment
+Supports automatic use of `Expedited Plans`, allows setting maximum recruitment times per task, and can be combined with `Auto use Expedited Plans` to quickly use up all recruitment permits.
 
-Auto-recruitment supports using `Expedited Plan` to make it fully automated. Please enable `Auto use Expedited Plan` and modify `Recruit max times` in `Recruit` - `General`.
+Pop-up notifications will appear when 1★, 5★, or 6★ tags are detected.
 
-Pop-up notification when 1★, 5★, 6★ operators are recruited.
-
-Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/) while auto-recruitment.
+Recruitment tag data is automatically uploaded to [Penguin Statistics](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/) when refreshing recruitment.
 
 ## Advanced Settings
 
-`Auto confirm` means MAA automatically selects tags and recruits, while `Manually confirm` means no automatic selection and recruitment.
+`Auto confirm` means MAA automatically selects tags and performs recruitment, while `Manual confirm` means no automatic tag selection or recruitment is performed.

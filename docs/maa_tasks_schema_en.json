@@ -13,6 +13,9 @@
                 },
                 {
                     "$ref": "#/definitions/OcrDetectTask"
+                },
+                {
+                    "$ref": "#/definitions/FeatureMatchTask"
                 }
             ]
         }
@@ -62,11 +65,11 @@
                 "subErrorIgnored": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Optional, whether or not to ignore errors from sub-tasks. Default is false\nWIf false, if a subtask fails, the execution of the subsequent tasks will not be continued (which is equivalent to an error in this task)\nIf true, it has no effect on whether a subtask has an error or not"
+                    "description": "Optional, whether or not to ignore errors from sub-tasks. Default is false\nIf false, if a subtask fails, the execution of subsequent tasks will not continue (equivalent to an error in this task)\nIf true, subtask errors have no effect on execution"
                 },
                 "next": {
                     "$ref": "#/definitions/TaskNameList",
-                    "description": "Optional, indicates the next task to be executed after the current task\nIt will be identified from front to back, and the first matching task will be executed\n If not filled in, the current task will be stopped by default"
+                    "description": "Optional, indicates the next task to be executed after the current task\nIt will be identified from front to back, and the first matching task will be executed\nIf not filled in, the current task will be stopped by default"
                 },
                 "maxTimes": {
                     "type": "number",
@@ -95,11 +98,11 @@
                 "cache": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Optional, indicates whether the task uses caching, default is true;\nAfter the first recognition, the subsequent recognition will always be carried out only in the location of the first recognition, enabling this can greatly save performance\nBut it is only appliable for tasks where the target position will not change at all, if the target position to be recognised will change, please set it to false"
+                    "description": "Optional, indicates whether the task uses caching, default is true;\nAfter the first recognition, the subsequent recognition will always be carried out only in the location of the first recognition, enabling this can greatly save performance\nBut it is only applicable for tasks where the target position will not change at all, if the target position to be recognised will change, please set it to false"
                 },
                 "rectMove": {
                     "$ref": "#/definitions/Rectangle",
-                    "description": "Optional, movethe target after recognition, this option is not recommended. Automatic scaling based on 1280 * 720\nFor example, if an A icon is recognised, but the actual location to be clicked is a position next to the A icon, then move it and click it. If possible, try to recognise the position to be clicked directly, this option is not recommended\nWhen the action is Swipe, it means the end of the swipe"
+                    "description": "Optional, move the target after recognition, this option is not recommended. Automatic scaling based on 1280 * 720\nFor example, if an A icon is recognised, but the actual location to be clicked is a position next to the A icon, then move it and click it. If possible, try to recognise the position to be clicked directly, this option is not recommended\nWhen the action is Swipe, it means the end of the swipe"
                 },
                 "reduceOtherTimes": {
                     "type": "array",
@@ -116,6 +119,11 @@
                 "specialParams": {
                     "$ref": "#/definitions/ParamsArray",
                     "description": "Special parameters used for certain tasks (mostly handwritten thresholds, etc.)"
+                },
+                "highResolutionSwipeFix": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether to enable high-resolution swipe fix, currently only needed for stage navigation which doesn't use unity swipe method, default is false"
                 }
             }
         },
@@ -131,7 +139,7 @@
                     "pattern": "JustReturn"
                 }
             },
-            "description": "Execute the action without identifying it",
+            "description": "Execute the action without recognition",
             "required": ["algorithm"]
         },
         "MatchTemplateTask": {
@@ -151,7 +159,7 @@
                         "type": "string"
                     },
                     "default": "",
-                    "description": "Optional, the file name of the image to be matched\nDefauts to \"task name.png\", If not filled"
+                    "description": "Optional, the file name of the image to be matched\nDefaults to \"task name.png\" if not filled"
                 },
                 "templThreshold": {
                     "type": ["array", "number"],
@@ -170,6 +178,29 @@
                     },
                     "default": [1, 255],
                     "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
+                },
+                "colorScales": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Required when method is HSVCount or RGBCount, color mask ranges\nStructure is [[lower1, upper1], [lower2, upper2], ...]\nInner layer is int for grayscale, or array<int, 3> for three-channel color (RGB or HSV based on method)\nMiddle layer is color (or grayscale) lower and upper limits\nOuter layer represents different color ranges, recognition area is their union on template image"
+                },
+                "colorWithClose": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional when method is HSVCount or RGBCount, default true\nWhether to use morphological closing on mask range for color counting\nClosing fills small black dots, generally improves color matching but set false for text"
+                },
+                "method": {
+                    "type": ["array", "string"],
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": "Ccoeff",
+                    "description": "Optional, template matching algorithm, can be list\nDefault is Ccoeff when not specified\n- Ccoeff: Color-insensitive template matching, corresponds to cv::TM_CCOEFF_NORMED\n- RGBCount: Color-sensitive template matching, binary thresholds target area and template using colorScales, calculates similarity using F1-score in RGB color space, then dot products result with Ccoeff result\n- HSVCount: Similar to RGBCount, but uses HSV color space"
                 }
             },
             "description": "Match image"
@@ -219,15 +250,63 @@
                     "default": 140,
                     "description": "Optional, lower threshold for grayscale binarisation (default 140).\nPixels with a grayscale value lower than this will be considered background and excluded from the text region."
                 },
-
                 "binThresholdUpper": {
                     "type": "integer",
                     "default": 255,
                     "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground."
+                },
+                "isAscii": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether text content is ASCII characters\nDefault false"
+                },
+                "withoutDet": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether to skip detection model\nDefault false"
                 }
             },
             "description": "Text recognition",
             "required": ["algorithm", "text"]
+        },
+        "FeatureMatchTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "FeatureMatch"
+                },
+                "template": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional, the file name of the image to be matched\nDefaults to \"task name.png\" if not filled"
+                },
+                "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 4,
+                    "description": "Required feature point count (threshold), default = 4"
+                },
+                "ratio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1.0,
+                    "default": 0.6,
+                    "description": "KNN matching algorithm distance ratio, [0 - 1.0], higher means looser matching, easier line connection. Default 0.6"
+                },
+                "detector": {
+                    "type": "string",
+                    "enum": ["SIFT", "ORB", "BRISK", "KAZE", "AKAZE", "SURF"],
+                    "default": "SIFT",
+                    "description": "Feature point detector type. Default is SIFT. Options: SIFT, ORB, BRISK, KAZE, AKAZE, SURF\nSIFT: High computational complexity, has scale and rotation invariance. Best effect.\nORB: Very fast computation, has rotation invariance but no scale invariance.\nBRISK: Very fast computation, has scale and rotation invariance.\nKAZE: Suitable for 2D and 3D images, has scale and rotation invariance.\nAKAZE: Fast computation, has scale and rotation invariance."
+                }
+            },
+            "description": "Use feature point algorithm for image matching",
+            "required": ["algorithm"]
         }
     }
 }
