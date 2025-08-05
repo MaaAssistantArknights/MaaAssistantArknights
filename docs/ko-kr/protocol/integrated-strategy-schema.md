@@ -12,16 +12,24 @@ icon: ri:game-fill
 ## 로그라이크 리소스 파일 위치
 
 - `resource/roguelike/`아래에 테마별 로그라이크 작업의 리소스를 저장합니다.
-  - 테마 폴더: `Phantom/` 팬텀 로그라이크, `Mizuki/` 미즈키 로그라이크,`Sami/` 사미 로그라이크.
+  - 테마 폴더: `Phantom/` 팬텀 로그라이크, `Mizuki/` 미즈키 로그라이크, `Sami/` 사미 로그라이크, `Sarkaz/` 살카즈 로그라이크, `JieGarden/` 쉐이 로그라이크
     - `autopilot/` 내에는 각 레벨의 작전 json이 있습니다.
       - `关卡名.json` 레벨의 작전 로직
-    - `encounter/` 우연한 만남의 로직
-      - `default.json` 기본 로직
-      - `deposit.json` 예금 로직
+    - `encounter/` 우연한 만남의 로직 (모든 비전투 및 상점이 아닌 노드)
+      - `default.json` 레벨링 모드
+      - `deposit.json` 오리지늄 주괴 모드
     - `recruitment.json` 오퍼레이터 모집 로직
-    - `shopping.json` 상점 구매 로직
+    - `shopping.json` 상점 구매 수집품 로직
 
-특별히, `Sami/` 아래의 `foldartal.json`은 사미 로그라이크의 예견 밀문판의 사용 로직을 나타냅니다.
+- 특별히, `Sami/` 아래의
+  - `foldartal.json`은 사미 로그라이크의 암호판의 사용 로직을 나타냅니다.
+  - `collapsal_paradigms.json`은 사미 로그라이크 붕괴 패러다임의 유형을 나타냅니다.
+  - `autopilot/关卡名_collapse.json` 레벨의 작전 로직 (붕괴 패러다임 모드)
+  - `encounter/collapse.json` 붕괴 패러다임 모드 우연한 만남 로직
+
+- `Sarkaz/` 아래의
+  - `fragments.json`은 살카즈 로그라이크 사념의 기본 정보를 저장합니다.
+  - `map.json`은 살카즈 로그라이크 청사진 통과용 템플릿 이미지 정보를 저장합니다.
 
 ## 로그라이크 첫 단계 - 오퍼레이터 모집
 

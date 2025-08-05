@@ -24,16 +24,16 @@ icon: material-symbols:task
                                             // - JustReturn: 인식 없이 작업을 직접 실행합니다.
                                             // - MatchTemplate: 이미지 매칭
                                             // - OcrDetect: 텍스트 인식
-                                            // - Hash: 해시 계산
+                                            // - FeatureMatch: 특징 매칭
 
         "action": "ClickSelf",              // 선택 사항, 인식 후 작업 유형을 나타냅니다.
                                             // 입력하지 않으면 기본값은 DoNothing입니다.
                                             // - ClickSelf: 인식된 위치를 클릭합니다 (인식된 대상 범위 내에서 무작위 점).
-                                            // - ClickRand: 화면 전체에서 무작위 위치를 클릭합니다.
                                             // - ClickRect: 지정된 영역을 클릭합니다. specificRect 필드에 해당합니다. 이 옵션은 권장하지 않습니다.
                                             // - DoNothing: 아무 작업도 수행하지 않습니다.
                                             // - Stop: 현재 작업을 중지합니다.
                                             // - Swipe: 슬라이드, specificRect 및 rectMove 필드와 관련이 있습니다.
+                                            // - Input: 텍스트 입력, algorithm이 JustReturn이어야 하며, inputText 필드에 해당합니다.
 
         "sub": [ "SubTaskName1", "SubTaskName2" ],
                                             // 선택 사항, 서브 작업 목록입니다. 현재 작업이 실행된 후에 각 서브 작업을 순차적으로 실행합니다.
@@ -48,12 +48,10 @@ icon: material-symbols:task
                                             // 입력하지 않으면 무한히 실행됩니다.
                                             // 최대 횟수에 도달하면 exceededNext 필드가 존재한다면 exceededNext 작업이 실행되며, 그렇지 않으면 현재 작업이 중지됩니다.
 
-        "next": [ "OtherTaskName1", "OtherTaskName2" ],
-                                            // 선택 사항, 현재 작업 및 서브 작업 실행 후에 실행될 다음 작업을 나타냅니다.
-                                            // 리스트의 맨 앞부터 순서대로 인식되며, 첫 번째로 일치하는 작업이 실행됩니다.
-                                            // 입력하지 않으면 현재 작업 실행 후에 중지됩니다.
-                                            // 동일한 작업에 대해 두 번째 인식부터는 첫 번째 인식 이후에 다시 인식되지 않습니다.
-                                            // JustReturn 유형의 작업은 마지막 아이템에 위치하지 않도록 주의하세요.
+        "next": ["OtherTaskName1", "OtherTaskName2"],
+                                            // 선택 사항, 현재 작업과 sub 작업을 완료한 후 다음에 실행할 작업을 나타냅니다.
+                                            // 앞에서부터 순차적으로 인식하여 첫 번째로 매칭되는 작업을 실행합니다.
+                                            // 입력하지 않으면 현재 작업 완료 후 바로 중지됩니다.
 
         "exceededNext": [ "OtherTaskName1", "OtherTaskName2" ],
                                             // 선택 사항, 최대 실행 횟수에 도달했을 때 실행할 작업을 나타냅니다.
