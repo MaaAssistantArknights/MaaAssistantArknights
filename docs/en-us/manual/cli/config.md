@@ -28,7 +28,7 @@ type = "StartUp" # The type of the task
 params = { client_type = "Official", start_game_enabled = true } # The parameters of the task
 ```
 
-The specific task types and parameters can be found in the [MAA Integration Document][task-types]. Note that maa-cli does not validate parameter names and values, and no error message will be generated even if an error occurs unless MaaCore` detects an error at runtime.
+The specific task types and parameters can be found in the [MAA Integration Document][task-types]. Note that maa-cli does not validate parameter names and values, and no error message will be generated even if an error occurs unless MaaCore detects an error at runtime.
 
 ### Task variants and conditions
 
@@ -61,9 +61,9 @@ params = { plan_index = 2 }
 The `condition` field is used to determine whether the variant should be used,
 and the `params` field of the matched variant will be merged into the parameters of the task.
 
-**Note**: If the `filename` field is a relative path, it will be relative to `$MAA_CONFIG_DIR/infrast`. Besides, the custom infrastructure plan file will not be read by `maa-cli` but MaaCore. So the format of the file must be `JSON` and the time period defined in the file will not be used to select the corresponding sub-plan. So you must specify the `plan_index` field in the parameters of the task to use the correct infrastructure plan in the corresponding time period. This will ensure that the correct infrastructure plan is used in the appropriate time period.
+**Note**: If the `filename` field is a relative path, it will be relative to `$MAA_CONFIG_DIR/infrast`. Additionally, the custom infrastructure plan file will not be read by `maa-cli` but by MaaCore. Therefore, the file format must be `JSON` and the time period defined in the file will not be used to select the corresponding sub-plan. You must specify the `plan_index` field in the task parameters to use the correct infrastructure plan in the corresponding time period. This ensures that the correct infrastructure plan is used at the appropriate time.
 
-Besides of `Time` condition, there are also `DateTime`, `Weekday`, `DayMod` conditions.
+Besides the `Time` condition, there are also `DateTime`, `Weekday`, and `DayMod` conditions.
 `DateTime` condition is used to specify a specific date-time period,
 `Weekday` condition is used to specify some days in a week,
 `DayMod` condition is similar to `Weekday`, but the period can be specified by `divisor` and `remainder`.
@@ -85,13 +85,13 @@ params = { stage = "CE-6" }
 params = { stage = "1-7" }
 ```
 
-All the above conditions related to time have a `timezone` field, which is used to specify the timezone of the condition. The value of `timezone` can be an offset of UTC, like `8` or `-7`, or a name of the client type of game, like `Official`. Note, even though the official server is in China, the timezone of the official server is `UTC+4` instead of `UTC+8`, because the start of the game day is `04:00:00` instead of `00:00:00`. When the `timezone` is omitted, the condition will be matched in the local timezone of the system.
-Besides of above conditions, there is a condition `OnSideStory` which depends on hot update resource to check if there is any opening side story. Thus, the condition of fight `SL-8` can be simplified as `{ type = "OnSideStory", client = "Official" }`, where the `client` is the client type of game.
+All the above conditions related to time have a `timezone` field, which can be an offset from UTC (e.g., `8` for UTC+8) or a client type (e.g., `"Official"`). Note that the official server timezone is UTC+4, not UTC+8, because the game day starts at 04:00:00 rather than 00:00:00. If timezone is omitted, your local system timezone is used.
 
-Beside of above basic condition, `{ type = "And", conditions = [...] }` `{ type = "Or", conditions = [...] }`, and `{ type = "Not", condition = ... }` can be used for logical combination of conditions.
+In addition to the above conditions, there's a `OnSideStory` condition that uses hot-update resources to check if there are any active events. For example, the condition to farm `SL-8` during a summer event can be simplified to `{ type = "OnSideStory", client = "Official" }`, where `client` is your game client type. Using this condition means you only need to update the stage to farm when an event changes, without manually editing event dates.
 
-By the combination of of above conditions, you can define an infrastructure plan for multiple days,
-here is an example of 6 plans for 2 days:
+Besides the basic conditions, you can use `{ type = "And", conditions = [...] }`, `{ type = "Or", conditions = [...] }`, and `{ type = "Not", condition = ... }` for logical combinations.
+
+By combining these conditions, you can define infrastructure plans spanning multiple days. Here's an example of 6 plans for 2 days:
 
 ```toml
 [[tasks]]
@@ -109,16 +109,14 @@ filename = "normal.json"
 condition = {
     type = "And",
     conditions = [
-        # The divisor use to specify the period, the remainder use to specify the offset
-        # The offset is equal to num_days_since_ce % divisor
-        # The num_days_since_ce is the number of days since the Common Era, 0001-01-01 is the first day
-        # The offset of current day can be got by `maa remainder <divisor>`
-        # for 2024-01-27, num_days_since_ce is 738,912,
-        # the offset of 2024-01-27 is 738,912 % 2 = 0
-        # so this condition will be matched on 2024-01-27
+        # The divisor specifies the period, the remainder specifies the offset
+        # The offset equals num_days_since_ce % divisor
+        # num_days_since_ce is the number of days since Common Era (0001-01-01 is day 1)
+        # You can get the current day's offset with `maa remainder <divisor>`
+        # For 2024-01-27, num_days_since_ce is 738,912
+        # The offset is 738,912 % 2 = 0, so this condition matches on 2024-01-27
         { type = "DayMod", divisor = 2, remainder = 0 },
         { type = "Time", start = "04:00:00", end = "12:00:00" },
-
     ]
 }
 params = { plan_index = 0 }
@@ -136,7 +134,7 @@ params = { plan_index = 1 }
 
 # The third shift, 20:00:00 (first day) - 04:00:00 (second day)
 [[tasks.variants]]
-# Note, we must use Or condition here, otherwise the second day 00:00:00 - 04:00:00 will not be matched
+# Note: we must use Or condition here to properly handle the time across midnight
 condition = {
    type = "Or",
    conditions = [
@@ -192,9 +190,9 @@ condition = {
 params = { plan_index = 5 }
 ```
 
-With the default strategy, if multiple variants are matched, only the first one will be used. If the condition is not given, the variant will always be matched. So you can put a variant without condition at the end of variants.
+With the default strategy, if multiple variants are matched, only the first one will be used. If no condition is given, the variant will always be matched. So you can put a variant without condition at the end as a default case.
 
-The strategy of matching variants can be changed by `strategy` field:
+The strategy for matching variants can be changed with the `strategy` field:
 
 ```toml
 [[tasks]]
@@ -226,11 +224,11 @@ params = { stage = "SL-8" }
 condition = { type = "DateTime", start = "2023-08-01T16:00:00", end = "2023-08-21T03:59:59" }
 ```
 
-The outcome stage of this example should be identical to the previous one, but expiring medicine will be used on Sunday night additionally.
-With the `merge` strategy, if multiple variants are matched, the parameters of all matched variants will be merged. If multiple variants have the same parameters, the last one will be used.
+This example will yield the same stage selection as the previous one, but will additionally use expiring medicine on Sunday night.
+With the `merge` strategy, if multiple variants are matched, the parameters of all matched variants will be merged. If multiple variants have the same parameter keys, the later ones will override earlier ones.
 
 If no variant is matched, the task will not be executed,
-which is useful when you want to only run a task in some conditions:
+which is useful when you want to only run a task under certain conditions:
 
 ```toml
 # Mall after 18:00
@@ -241,9 +239,9 @@ type = "Mall"
 condition = { type = "Time", start = "18:00:00" }
 ```
 
-### User input
+### User Input
 
-In some cases, you may want to input some value at runtime, instead of hard code it in the task file. Such as the stage to fight, the item to buy, etc. You can specify the value as `Input` or `Select` type:
+For some tasks, you might want to input values at runtime rather than hardcoding them in the task file. You can set parameters to `Input` or `Select` type:
 
 ```toml
 [[tasks]]
@@ -261,9 +259,9 @@ alternatives = [
     "SL-7", # will be displayed as "1. SL-7"
     { value = "SL-8", desc = "Manganese Ore" } # will be displayed as "2. SL-8 (Manganese Ore)"
 ]
-default_index = 1 # the index of default value, start from 1, if not given, empty value will be re-prompt
+default_index = 1 # the index of default value, start from 1, if not given, empty input will re-prompt
 description = "a stage to fight in summer event" # description of the input, optional
-allow_custom = true # whether allow input custom value, default to false, if allow, non-integer value will be treated as custom value
+allow_custom = true # whether to allow custom value input, default is false; if true, non-integer inputs are treated as custom values
 
 # Task without input
 [[tasks.variants]]
@@ -273,30 +271,29 @@ params = { stage = "CE-6" }
 # Input a stage to fight
 [[tasks.variants]]
 
-# Set the stage to a `Input` type with default value and description
+# Set the stage to an `Input` type with default value and description
 [tasks.variants.params.stage]
-default = "1-7" # default value of stage, optional (if not given, user can input empty value to re-prompt)
+default = "1-7" # default value of stage, optional (if not given, empty input will re-prompt)
 description = "a stage to fight" # description of the input, optional
 
 # query the medicine to use only when stage is 1-7
 [tasks.variants.params.medicine]
-# a parameter can be optional with `optional` field
-# if the condition is not matched, the parameter will be ignored
-# the `condition` field can be used to specify the condition of the parameter
-# where the condition can be a table, whose keys are name of other parameters and values are the expected value
+# a parameter can be conditional based on other parameter values
+# the condition uses a table where keys are other parameter names and values are the expected values
+# this condition means "only prompt for medicine when stage is 1-7"
 conditions = { stage = "1-7" }
 default = 1000
 description = "medicine to use"
 ```
 
-For an `Input` type, a prompt will be shown to ask the user to input a value. If the default value is given, it will be used if the user inputs an empty value, otherwise, it will re-prompt.
-For `Select` type, a prompt will be shown to ask the user to input an index or custom value (if `allow_custom` is `true`). If the default index is given, it will be used if the user inputs an empty value, otherwise, it will re-prompt.
+For an `Input` type, a prompt will be shown to ask the user to input a value. If a default value is given, it will be used when the user inputs an empty value; otherwise, it will re-prompt.
+For a `Select` type, a prompt will be shown to ask the user to input an index or custom value (if `allow_custom` is `true`). If a default index is given, it will be used when the user inputs an empty value; otherwise, it will re-prompt.
 
-`--batch` option can be used to run tasks in batch mode, which will use the default value for all inputs and panic if no default value is given.
+The `--batch` option can be used to run tasks in batch mode, which will use default values for all inputs and error if no default value is given.
 
-## MaaCore related configurations
+## MaaCore Related Configurations
 
-The related configuration files of MaaCore is called "Profile" and located in `$MAA_CONFIG_DIR/profiles` directory. Each files in this directory is a profile, while the default profile is `default.toml`. If you want to use a profile other than the default one, you can specify it by `-p` or `--profile` option.
+The MaaCore configuration files are called "Profiles" and located in the `$MAA_CONFIG_DIR/profiles` directory. Each file in this directory is a profile, with the default being `default.toml`. To use a different profile, specify it with the `-p` or `--profile` option.
 
 The currently available configurations are:
 
@@ -325,150 +322,157 @@ kill_adb_on_exit = false
 
 ### Connection
 
-The `connection` section is used to specify how to connect to the game:
+The `connection` section specifies how to connect to the game:
 
 ```toml
 [connection]
-adb_path = "adb" # the path of adb executable, default to "adb", which means use adb in PATH
-address = "emulator-5554" # the address of device, such as "emulator-5554" or "127.0.0.1:5555"
-config = "General" # the config of maa, should not be changed most of time
+adb_path = "adb" # path to adb executable, default is "adb" (uses PATH)
+address = "emulator-5554" # device address like "emulator-5554" or "127.0.0.1:5555"
+config = "General" # connection configuration, rarely needs changing
 ```
 
-`adb_path` is the path of `adb` executable, you can set it to the absolute path of `adb` or or leave it empty if it is in PATH. The `address` is the address of the device used by `adb`, like `emulator-5554` or `127.0.0.1:[port]`, the port of some common emulators can be found in the [MAA FAQ][emulator-ports]. If the `address` is absent, the cli will try to find the device automatically by `adb devices`, if there are multiple online devices, the first one will be used. If cli can not find any device, it will try to use the default address `emulator-5554`. The `config` is used to specify some configurations of the host and emulator, whose default value is `CompatMac` on macOS, `CompatPOSIXShell` on Linux and `General` on other platforms. More optional configs can be found in `config.json` in the resource directory.
+`adb_path` is the path to the `adb` executable - you can set its absolute path or leave it empty to use it from PATH. Most emulators include `adb`, so you can use their built-in version without installing separately. `address` is the address used by `adb`. For emulators, use `127.0.0.1:[port]` - common emulator ports are listed in the [FAQ][emulator-ports]. If no address is specified, maa-cli tries to find a device with `adb devices`, using the first one found or defaulting to `emulator-5554` if none are found. `config` specifies platform/emulator configurations - defaults to `CompatPOSIXShell` on Linux, `CompatMac` on macOS, and `General` on other platforms. More options are in the resource folder's `config.json`.
 
-For some common emulators, you can use `preset` to use predefined configurations:
+For common emulators, you can use `preset` for predefined configurations:
 
 ```toml
 [connection]
-preset = "MuMuPro"
-adb_path = "/path/to/other/adb" # override predefined adb executable path
-address = "127.0.0.1:7777" # override the predefined address
+preset = "MuMuPro" # Use MuMu Pro emulator preset
+adb_path = "/path/to/adb" # Override the preset's adb path if needed (optional)
+address = "127.0.0.1:7777" # Override the preset's address if needed (optional)
 ```
 
-Currently, there is only one preset `MuMuPro` for emulators. Issue and PR are welcome for the new preset.
+Currently only `MuMuPro` preset is available. Issues and PRs for more presets are welcome.
 
-There is a special preset `PlayCover`, used for the iOS app running on macOS by PlayCover. In this case, `adb_path` is ignored and `address` is used to specify the address of `MaaTools` set in `PlayCover`, more details can be found in the [PlayCover documentation][playcover-doc].
+#### Special Presets
+
+There are two special presets: `PlayCover (macOS)` and `Waydroid (Linux)`
+
+- `PlayCover` is for connecting to iOS apps running natively on macOS through PlayCover. In this case, `adb_path` is ignored and `address` is the address of `PlayTools`. See [PlayCover documentation][playcover-doc] for details.
+
+- `Waydroid` is for connecting to Android apps running natively on Linux through Waydroid. `adb_path` is still required. See [Waydroid documentation][waydroid-doc] for details.
 
 ### Resource
 
-The `resource` section is used to specify the resource to use:
+The `resource` section specifies which resources MaaCore should load:
 
 ```toml
 [resource]
-global_resource = "YoStarEN" # the global resource to use
-platform_diff_resource = "iOS" # the platform diff resource to use
-user_resource = true # whether use user resource
+global_resource = "YoStarEN" # Non-Chinese resources
+platform_diff_resource = "iOS" # Non-Android resources
+user_resource = true # Whether to load user-defined resources
 ```
 
-When your game is not in Simplified Chinese, you should set `global_resource` to non-Chinese resource. If you connect to the game with `PlayCover`, you should set `platform_diff_resource` to `iOS`.
-Leave those two fields empty if you don't want to use global resource or platform diff resource. Besides, those two fields will also be set up automatically by maa-cli based on your task and connection type.
-Lastly, if you want to use user resources, you should set `user_resource` to `true`. When `user_resource` is `true`, maa-cli will try to find user resources in `$MAA_CONFIG_DIR/resource` directory.
+When using a non-Simplified Chinese game client, set `global_resource` to load non-Chinese resources. When using an iOS client, set `platform_diff_resource` to `iOS`. Both are optional - leave empty to not load these resources. These are also auto-set based on your `startup` task's `client_type` and when using `PlayTools` connection. To load user-defined resources, set `user_resource` to `true`, which loads resources from `$MAA_CONFIG_DIR/resource`.
 
 ### Static options
 
-The `static_options` section is used to configure MAA static options:
+The `static_options` section configures MaaCore static options:
 
 ```toml
 [static_options]
-cpu_ocr = false # whether use CPU OCR, CPU OCR is enabled by default
-gpu_ocr = 1 # the ID of your GPU, leave it to empty if you don't want to use GPU OCR
+cpu_ocr = false # Whether to use CPU OCR (enabled by default)
+gpu_ocr = 1 # GPU ID for GPU OCR; leave empty to use CPU OCR
 ```
 
 ### Instance options
 
-The `instance_options` section is used to configure MAA instance options:
+The `instance_options` section configures MaaCore instance options:
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # touch mode to use, can be "ADB", "MiniTouch", "MaaTouch" or "MacPlayTools" (only for PlayCover)
-deployment_with_pause = false # whether pause the game when deployment
-adb_lite_enabled = false # whether use adb-lite
-kill_adb_on_exit = false # whether kill adb when exit
+touch_mode = "ADB" # Touch mode: "ADB", "MiniTouch", "MaaTouch", or "MacPlayTools"
+deployment_with_pause = false # Whether to pause game during deployment
+adb_lite_enabled = false # Whether to use adb-lite
+kill_adb_on_exit = false # Whether to kill adb on exit
 ```
 
-Note: If you connect to the game with `PlayCover`, the `touch_mode` will be ignored and `MacPlayTools` will be used.
+Note: When using `PlayTools` connection, `touch_mode` is forced to `MacPlayTools` regardless of setting.
 
-## CLI related configurations
+## CLI Related Configurations
 
-The CLI related configurations should be located in `$MAA_CONFIG_DIR/cli.toml`. Currently, it only contains one section: `core`:
+CLI-related configurations should be in `$MAA_CONFIG_DIR/cli.toml`. Current configurations include:
 
 ```toml
-# MaaCore install and update  configurations
+# MaaCore install and update configurations
 [core]
-channel = "Stable" # update channel, can be "Stable", "Beta" or "Alpha"
-test_time = 0 # the time to test download mirrors in seconds, 0 to skip
-# the url to query the latest version of MaaCore, leave it to empty to use default url
-apit_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
+channel = "Stable" # Update channel: "Alpha", "Beta", or "Stable" (default)
+test_time = 0 # Time to test mirror speeds in seconds; 0 to skip, default is 3
+# API URL to query latest MaaCore version; leave empty for default
+api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
+
+# Component installation config (not recommended to change)
 [core.components]
-library = true # whether install MaaCore library
-resource = false # whether install resource resource
+library = true # Whether to install MaaCore library
+resource = true # Whether to install MaaCore resources
 
 # CLI update configurations
 [cli]
-channel = "Stable" # update channel, can be "Stable", "Beta" or "Alpha"
-# the url to query the latest version of maa-cli, leave it to empty to use default url
+channel = "Stable" # Update channel: "Alpha", "Beta", or "Stable" (default)
+# API URL to query latest maa-cli version; leave empty for default
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
-# the url to download prebuilt binary, leave it to empty to use default url
+# URL to download prebuilt binaries; leave empty for default
 download_url = "https://github.com/MaaAssistantArknights/maa-cli/releases/download/"
 
 [cli.components]
-binary = true # whether install maa-cli binary
+binary = true # Whether to install maa-cli binary
 
-
-# hot update resource configurations
+# Resource hot update configurations
 [resource]
-auto_update = true # whether auto update resource before running task
-warn_on_update_failure = true # Whether to warn on update failure instead of panic
-backend = "libgit2" # the backend of resource, can be "libgit2" or "git"
+auto_update = true # Whether to auto-update resources before running tasks
+warn_on_update_failure = true # Whether to warn instead of error on update failure
+backend = "libgit2" # Hot update backend: "git" or "libgit2"
 
-# the remote of resource
+# Remote repository configuration
 [resource.remote]
-branch = "main" # Branch of remote resource repository
-# URL of remote resource repository, leave it empty to use the default URL
-url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# If you want to use ssh, a certificate is needed which can be "ssh-agent" or "ssh-key"
-# To use ssh-agent, set `use_ssh_agent` to true, and leave `ssh_key` and `passphrase` empty
-# use_ssh_agent = true # Use ssh-agent to authenticate
-# To use ssh-key, set `ssh_key` to path of ssh key,
-ssh_key = "~/.ssh/id_ed25519" # Path of ssh key
-# A Passphrase is needed if the ssh key is encrypted
-passphrase = "password" # Passphrase of ssh key
-# Store plain text password in configuration file is unsafe, so there are some ways to avoid it
-# 1. set `passphrase` to true, then maa-cli will prompt you to input passphrase each time
+branch = "main" # Branch of remote repository
+# Repository URL; leave empty for default
+# GitHub repositories support both HTTPS and SSH; HTTPS recommended
+url = "https://github.com/MaaAssistantArknights/MaaResource.git"
+# url = "git@github.com:MaaAssistantArknights/MaaResource.git"
+# If using SSH, you need to provide authentication:
+# 1. Using ssh-agent (recommended)
+# use_ssh_agent = true # Use ssh-agent for authentication
+# 2. Using SSH key file
+ssh_key = "~/.ssh/id_ed25519" # Path to SSH key
+# If your key is password-protected:
+passphrase = "password" # Passphrase for SSH key
+# Storing plaintext passwords is insecure. Alternatives:
+# 1. Set passphrase to true to be prompted each time
 # passphrase = true
-# 2. set `passphrase` to a environment variable, then maa-cli will use the environment variable as passphrase
+# 2. Use an environment variable
 # passphrase = { env = "MAA_SSH_PASSPHRASE" }
-# 3. set `passphrase` to a command, then maa-cli will execute the command to get passphrase
-# which is useful when you use a password manager to manage your passphrase
+# 3. Use a command output (useful with password managers)
 # passphrase = { cmd = ["pass", "show", "ssh/id_ed25519"] }
 ```
 
 **NOTE**:
 
-- The `Alpha` channel of MaaCore is only available on Windows;
-- The hot update resource can not work separately, it should be used with basic resources installed with MaaCore;
-- If you want to use `git` backend, `git` command is required;
-- If you want to fetch resources with ssh, the `ssh_key` is required;
-- The `resource.remote.url` only affects first-time installation, it will be ignored when updating resource. If you want to change the remote URL, you should change it manually or delete the resource directory and reinstall the resources. The directory of the repository can be located by `maa dir hot-update`.
+- The `Alpha` channel for MaaCore is only available on Windows
+- Hot update resources require the basic resources installed with MaaCore
+- Using the `git` backend requires the `git` command to be available
+- SSH authentication requires either `ssh_key` configuration or `ssh-agent`
+- The `resource.remote.url` only affects first installation; to change it later, modify it manually or delete and reinstall resources. Get the repository location with `maa dir hot-update`.
 
-## Example of config file
+## Example Configuration Files
 
-- [Example configuration][example-config];
-- [Configuration used by maintainer][wangl-cc-dotfiles].
+- [Example configurations][example-config]
+- [Maintainer's configuration][wangl-cc-dotfiles]
 
-## JSON schema
+## JSON Schema
 
-The JSON schema of configuration files can be found at [`schemas` directory][schema-dir]:
+JSON schemas for configuration files are in the [`schemas` directory][schema-dir]:
 
-- The schema of the task configuration is [`task.schema.json`][task-schema];
-- the schema of the MaaCore configuration file is [`asst.schema.json`][asst-schema];
-- the schema of the CLI configuration file is [`cli.schema.json`][cli-schema].
+- Task configuration schema: [`task.schema.json`][task-schema]
+- MaaCore configuration schema: [`asst.schema.json`][asst-schema]
+- CLI configuration schema: [`cli.schema.json`][cli-schema]
 
-With the help of JSON schema, you can get auto-completion and validation in some editors with plugins.
+With these schemas, you can get auto-completion and validation in supported editors with plugins.
 
 [task-types]: ../../protocol/integration.md#list-of-task-types
 [emulator-ports]: ../../manual/connection.md#obtain-port-number
 [playcover-doc]: ../../manual/device/macos.md#%E2%9C%85-playcover-the-software-runs-most-fluently-for-its-nativity-%F0%9F%9A%80
+[waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/
