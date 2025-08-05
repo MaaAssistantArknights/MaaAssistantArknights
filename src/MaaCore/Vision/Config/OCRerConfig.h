@@ -15,7 +15,6 @@ public:
         std::vector<std::pair<std::string, std::string>> required; // raw, equivalent
         bool full_match = false;
         std::vector<std::pair<std::string, std::string>> replace;
-        bool u16_replace = false;
         bool replace_full = false;
         bool without_det = false;
         bool use_char_model = false;

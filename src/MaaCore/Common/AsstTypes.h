@@ -516,7 +516,6 @@ inline std::optional<FeatureDetector> get_feature_detector(std::string method_st
     }
     return std::nullopt;
 }
-
 } // namespace asst
 
 namespace asst
@@ -607,7 +606,6 @@ struct OcrTaskInfo : public TaskInfo
     bool use_raw = true;           // 是否使用原始图片进行识别，false则使用灰度图
     std::vector<std::pair<std::string, std::string>>
         replace_map;               // 部分文字容易识别错，字符串强制replace之后，再进行匹配
-    bool u16_replace = false;
     int bin_threshold_lower = 140;
     int bin_threshold_upper = 255;
 };

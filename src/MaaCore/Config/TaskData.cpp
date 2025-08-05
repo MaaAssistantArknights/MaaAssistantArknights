@@ -792,12 +792,6 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(
     utils::get_and_check_value_or(
         name,
         task_json,
-        "u16Replace",
-        ocr_task_info_ptr->u16_replace,
-        default_ptr->u16_replace);
-    utils::get_and_check_value_or(
-        name,
-        task_json,
         "binThresholdLower",
         ocr_task_info_ptr->bin_threshold_lower,
         default_ptr->bin_threshold_lower);
