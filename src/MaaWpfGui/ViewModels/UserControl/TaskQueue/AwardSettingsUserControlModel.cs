@@ -63,14 +63,14 @@ public class AwardSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _receiveFreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
+    private bool _receiveFreeGacha = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeGacha, bool.FalseString));
 
     /// <summary>
     /// Gets or sets a value indicating whether receive mail is enabled.
     /// </summary>
-    public bool ReceiveFreeRecruit
+    public bool ReceiveFreeGacha
     {
-        get => _receiveFreeRecruit;
+        get => _receiveFreeGacha;
         set
         {
             if (value)
@@ -89,8 +89,8 @@ public class AwardSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            SetAndNotify(ref _receiveFreeRecruit, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+            SetAndNotify(ref _receiveFreeGacha, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeGacha, value.ToString());
         }
     }
 
@@ -145,7 +145,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
         {
             Award = ReceiveAward,
             Mail = ReceiveMail,
-            FreeGacha = ReceiveFreeRecruit,
+            FreeGacha = ReceiveFreeGacha,
             Orundum = ReceiveOrundum,
             Mining = ReceiveMining,
             SpecialAccess = ReceiveSpecialAccess,

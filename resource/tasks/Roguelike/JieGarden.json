@@ -88,12 +88,6 @@
     "JieGarden@Roguelike@ClickToDrops": {
         "specificRect": [600, 600, 25, 25]
     },
-    "JieGarden@Roguelike@ClickToStartPoint": {
-        "specificRect": [500, 600, 1, 1]
-    },
-    "JieGarden@Roguelike@ClickToStartPointAfterFailed": {
-        "specificRect": [500, 600, 1, 1]
-    },
     "JieGarden@Roguelike@CloseCollection": {
         "Doc": "深入调查/月度小队会给个藏品，要先关掉",
         "method": "RGBCount",
@@ -150,7 +144,7 @@
     },
     "JieGarden@Roguelike@ConfirmToLeaveBoskyPassage": {
         "action": "ClickSelf",
-        "postDelay": 500,
+        "postDelay": 2000,
         "roi": [867, 406, 242, 160],
         "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
@@ -233,7 +227,7 @@
     },
     "JieGarden@Roguelike@GamePassSkip2": {},
     "JieGarden@Roguelike@GamePassTheEndConfirm": {
-        "template": "JieGarden@Roguelike@Confirm.png"
+        "roi": [580, 550, 120, 90]
     },
     "JieGarden@Roguelike@GetDrop1": {},
     "JieGarden@Roguelike@GetDrop2": {},

@@ -113,10 +113,6 @@ bool asst::InfrastReceptionTask::use_clue()
         proc_clue_vacancy();
     }
 
-    if (!m_enable_clue_exchange) {
-        return true;
-    }
-
     cv::Mat image = ctrler()->get_image();
 
     // 所有的空位分析一次，看看还缺哪些线索

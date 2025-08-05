@@ -702,9 +702,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
                 await Execute.OnUIThreadAsync(() =>
                     Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             }
             finally
             {

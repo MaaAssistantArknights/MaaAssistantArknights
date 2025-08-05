@@ -447,8 +447,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がFPのオーバーフローを引き起こしました！ \nFPの浪費に注意してください！ \n残りのFP：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
-    <system:String x:Key="ReceiveFreeRecruit">リミテッドスカウトから毎日無料スカウトを行う</system:String>
-    <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトしない</system:String>
+    <system:String x:Key="ReceiveFreeGacha">リミテッドスカウトから毎日無料スカウトを行う</system:String>
+    <system:String x:Key="ReceiveFreeGachaTip">無料スカウトがない場合はスカウトしない</system:String>
     <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「{key=Confirm}」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>

@@ -93,10 +93,10 @@
         ]
     },
     "Sarkaz@Roguelike@ClickToDrops": {
-        "specificRect": [600, 600, 25, 25]
+        "specificRect": [600, 600, 1, 1]
     },
     "Sarkaz@Roguelike@ClickToStartPoint": {
-        "specificRect": [600, 600, 25, 25]
+        "specificRect": [600, 600, 1, 1]
     },
     "Sarkaz@Roguelike@CloseCollection": {
         "Doc": "深入调查/月度小队会给个藏品，要先关掉",
@@ -565,7 +565,7 @@
         "postDelay": 300
     },
     "Sarkaz@Roguelike@RoutingRefreshNode": {
-        "roi": [796, 150, 50, 150],
+        "roi": [796, 130, 50, 170],
         "action": "ClickSelf",
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeConfirm"]
     },
@@ -826,7 +826,8 @@
     "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
         "Doc": "合成出现藏品二选一",
         "baseTask": "Sarkaz@Roguelike@GetDrop3",
-        "template": "Sarkaz@Roguelike@GetDrop3.png",
+        "template": ["Sarkaz@Roguelike@GetDrop3.png", "Sarkaz@Roguelike@GetDrop4.png"],
+        "templThreshold": [0.85, 0.85],
         "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
@@ -1215,7 +1216,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
@@ -1227,7 +1228,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["熔魂之始", "_aggressive"],
@@ -1268,7 +1269,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
@@ -1280,7 +1281,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],

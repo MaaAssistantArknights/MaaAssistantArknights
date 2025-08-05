@@ -11,9 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MaaWpfGui.Helper;
+using Serilog;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MaaWpfGui.Extensions
 {
@@ -22,6 +26,7 @@ namespace MaaWpfGui.Extensions
     /// </summary>
     public static class ComboBoxExtensions
     {
+        private static readonly ILogger _logger = Log.ForContext("SourceContext", "ComboBoxExtensions");
         private const string InputTag = "TextInput";
         private const string SelectionTag = "Selection";
 
@@ -41,71 +46,81 @@ namespace MaaWpfGui.Extensions
             targetComboBox.IsEditable = true;
             targetComboBox.IsTextSearchEnabled = false;
 
-            // enter input mode by default
-            targetComboBox.Tag = InputTag;
+            targetComboBox.Tag = SelectionTag;
 
-            targetTextBox.PreviewKeyDown += (se, ev) =>
+            targetTextBox.PreviewKeyDown += (_, ev) =>
             {
                 if (ev.Key is Key.Enter or Key.Return or Key.Tab)
                 {
                     return;
                 }
 
-                // switch to input mode
-                targetComboBox.Tag = InputTag;
-
-                // reset selection
-                if (targetComboBox.SelectedItem != null)
+                if (targetComboBox.Tag is SelectionTag)
                 {
+                    var text = targetComboBox.SelectedItem?.ToString() ?? string.Empty;
+                    _logger.Debug("Switching to input mode with text: {Text}", text);
                     targetComboBox.SelectedItem = null;
-                    targetComboBox.Text = string.Empty;
+                    targetTextBox.Text = text;
+                    targetTextBox.Select(text.Length, 0);
                 }
 
+                // switch to input mode
+                targetComboBox.Tag = InputTag;
                 targetComboBox.IsDropDownOpen = true;
             };
 
-            targetTextBox.TextChanged += (o, args) =>
+            targetTextBox.TextChanged += (_, _) =>
             {
                 if (targetComboBox.Tag is SelectionTag)
                 {
-                    // text changed in selection mode, switch to input mode
-                    targetComboBox.Tag = InputTag;
+                    return;
+                }
+
+                var searchTerm = targetTextBox.Text;
+                _logger.Debug("Searching for: {SearchTerm}", searchTerm);
+
+                // 如果文字完全匹配某个选项，恢复完整列表
+                object exactMatchItem = targetComboBox.ItemsSource.Cast<object>().FirstOrDefault(obj => obj?.ToString() == searchTerm);
+
+                if (exactMatchItem != null)
+                {
+                    targetComboBox.Items.Filter = null;
+                    targetComboBox.SelectedItem = exactMatchItem;
+                    targetComboBox.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        targetComboBox.UpdateLayout();
+                        if (targetComboBox.ItemContainerGenerator.ContainerFromItem(exactMatchItem) is FrameworkElement element)
+                        {
+                            element.BringIntoView();
+                        }
+                    }), System.Windows.Threading.DispatcherPriority.Background);
                 }
                 else
                 {
-                    // input mode
-                    var searchTerm = targetTextBox.Text;
-
-                    // reset selection
-                    if (targetComboBox.SelectionBoxItem != null)
-                    {
-                        targetComboBox.SelectedItem = null;
-                        targetTextBox.Text = searchTerm;
-                        targetTextBox.SelectionStart = targetTextBox.Text.Length;
-                    }
-
-                    // filter items
-                    if (string.IsNullOrEmpty(searchTerm) || searchTerm == LocalizationHelper.GetString("NotSelected"))
-                    {
-                        targetComboBox.Items.Filter = item => true;
-                        targetComboBox.SelectedItem = null;
-                    }
-                    else
-                    {
-                        targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm) ?? false;
-                    }
-
-                    targetTextBox.SelectionStart = targetTextBox.Text.Length;
+                    targetComboBox.Items.Filter = item => item?.ToString()?.Contains(searchTerm) ?? false;
                 }
             };
 
-            targetComboBox.SelectionChanged += (o, args) =>
+            targetComboBox.SelectionChanged += (_, _) =>
             {
-                // selection changed, switch to selection mode
                 if (targetComboBox.SelectedItem != null)
                 {
                     targetComboBox.Tag = SelectionTag;
                 }
+
+                targetComboBox.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    targetTextBox.Select(targetTextBox.Text.Length, 0);
+                }), System.Windows.Threading.DispatcherPriority.Background);
+            };
+
+            targetComboBox.DropDownOpened += (_, _) =>
+            {
+                targetComboBox.Items.Filter = null;
+                targetComboBox.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    targetTextBox.Select(targetTextBox.Text.Length, 0);
+                }), System.Windows.Threading.DispatcherPriority.Background);
             };
         }
     }
