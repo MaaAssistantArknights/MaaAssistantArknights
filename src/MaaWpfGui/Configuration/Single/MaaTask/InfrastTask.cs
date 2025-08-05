@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -68,22 +69,4 @@ public class InfrastTask : BaseTask
     /// Gets or sets 自定义配置计划编号
     /// </summary>
     public int PlanIndex { get; set; }
-}
-
-public enum InfrastMode
-{
-    /// <summary>
-    /// 普通
-    /// </summary>
-    Normal,
-
-    /// <summary>
-    /// 自定义
-    /// </summary>
-    Custom = 10000,
-
-    /// <summary>
-    /// 轮换
-    /// </summary>
-    Rotation = 20000,
 }
