@@ -3,22 +3,19 @@ order: 8
 icon: solar:streets-map-point-linear
 ---
 
-# Reclamation Algorithm (R.A.)
+# Reclamation Algorithm
 
-::: important This page may be outdated and not yet implemented for Global.
-:::
-
-Currently, the support for Reclamation Algorithm is still in the early stages, and it is not recommended to run it unattended. Stability cannot be guaranteed at this stage.
+Currently, support for Reclamation Algorithm is still in early stages and unattended operation is not recommended, as stability cannot be guaranteed at this time.
 
 ## Default Mode
 
-1. You need to start the task on the main interface of R.A.. (navigation is not yet written)
-2. Cannot be used if there is already a save file. (just delete the existing save file)
-3. Cannot be used if there are operators in the R.A. squad. (just clear the current squad in R.A., especially after finishing a wave)
+1. You need to start the task from the Reclamation Algorithm main interface (navigation not yet implemented)
+2. Cannot be used when you already have an existing save file (delete the existing save to use)
+3. Cannot be used when operators are present in the Reclamation Algorithm squad (clear the current squad, especially after completing a wave)
 
-## Points farm through crafting
+## Manufacturing Points Farm
 
-1. You need to start on the page where you can see the base camp after entering R.A..
-2. If the item name is not filled in, the default is to craft Glow Sticks.
-3. Prerequisite: It is the first day after settlement, and no enemy raids are entering the base camp for the next three days.
-4. If the number that can be manufactured is exactly a multiple of 99, it will get stuck. You can use up a bit before saving, this will be fixed later.
+1. You need to start from the page where you can see the base camp after entering Reclamation Algorithm
+2. If no item name is specified, Glow Sticks will be crafted by default
+3. Prerequisite: It must be the first day after settlement, with no enemy raids entering the base camp for the next three days
+4. If the manufacturable quantity is exactly a multiple of 99, the process may get stuck. You can use up a small amount before saving; this issue will be fixed in the future
