@@ -5,65 +5,68 @@ icon: ri:guide-fill
 
 # Getting Started
 
-## Preparation
+Quick start guide!
+
+## Prerequisites
 
 1. Confirm system version
 
-    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md#SystemIssues).
+    MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
 
-    Non-Windows users, please refer to [Emulator and Device Supports](./device/).
+    Non-Windows users, please refer to [Emulator and Device Support](./device/).
 
 2. Download the correct version
 
-    [MAA official website](https://maa.plus/) will automatically select the correct version architecture, which for most users reading this article should be Windows x64.
+    The [MAA official website](https://maa.plus/) will automatically select the correct architecture for most users reading this article, which should be Windows x64.
 
-3. Unzip correctly
+3. Extract correctly
 
-    Verify that the extraction is complete and make sure to extract the MAA to a separate folder. Do not extract MAA to a path that requires UAC permissions such as `C:\`, `C:\Program Files\`, etc.
+    Ensure the extraction is complete, and make sure to extract MAA to a separate folder. Do not extract MAA to paths requiring UAC permissions such as `C:\` or `C:\Program Files\`.
 
-4. Install the runtime library
+4. Install runtime libraries
 
-    MAA requires VCRedist x64 and .NET 8. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install.
+    MAA requires VCRedist x64 and .NET 8. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install them.
 
-    Refer to [FAQ](faq.md#missing-runtime-libraries) for more information
+    For more information, please refer to the pinned section in [FAQ](./faq.md).
 
-5. Confirm simulator support
+5. Confirm emulator support
 
-    Check [Emulator Supports](./device/) to confirm the support of the emulator you are using.
+    Check [Emulator and Device Support](./device/) to verify the compatibility of your emulator.
 
-6. Correctly set the emulator resolution
+6. Set the correct emulator resolution
 
-    The emulator resolution should be `1280x720` or `1920x1080` in landscape mode; for YostarEN, the only supported resolution is `1920x1080`.
+    Emulator resolution should be landscape `1280x720` or `1920x1080`; for YostarEN players, it must be `1920x1080`.
 
-## Initial
+## Initial Configuration
 
-0. If you'd like to use automatic detection, run **one** emulator and make sure no other Android devices are connected to the computer.
+0. If you want to use automatic detection, run **one** emulator and ensure no other Android devices are connected to your computer.
 
-1. Follow the setup guide to configure, and MAA will automatically detect the running emulator. If the detection fails or you'd like to run multiple emulators, please check [Connection](./connection.md).
+1. Follow the setup guide for configuration. MAA will automatically detect the running emulator. If detection fails or you need multiple instances, refer to [Connection Settings](./connection.md).
 
-2. ~~A hot update will be performed when MAA is run for the first time. Please close MAA and restart after prompting in the log on the right.~~
+2. ~~When running MAA for the first time, it will perform a hot update. Please close and restart MAA when prompted in the log on the right.~~
 
-3. Drag the task list on the left to sort the tasks, and check or uncheck the checkboxes to select
-   the tasks to be run.
+3. Drag the task list on the left to reorder tasks, and check or uncheck the checkboxes to select tasks to run.
 
 4. Link Start!
 
-## Advanced configuration
+## Advanced Configuration
 
-Check out the documentation.
+Read the documentation!
 
-## Other
+## Other Notes
 
 ::: center
-**When encountering problems, read the documents please.**
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
 :::
 
-1. The log files are located in the folder under the MAA folder which is named `debug`. Logs are important. When asking others for help, be sure to take `asst.log` and `gui.log` with you.
+1. The logs are located in the `debug` folder inside the MAA directory. Logs are extremely important. When seeking help from others, always bring both `asst.log` and `gui.log` with you.
 
-2. To meet the various needs of all users as much as possible, MAA provides a large number of customization options. When you find that MAA lacks a certain function, it may be because it is not easily discoverable rather than non-existent, such as `Manual entry of stage names` and `Do not put stationed operators in Dormitory`.
+2. MAA provides many customization options to meet all users' various needs. If you think MAA is missing a feature, it might just be hard to find rather than non-existent, such as `Manual stage name input` and `Do not place stationed operators in dormitory`.
 
-3. Placing the mouse pointer on some options will give detailed instructions, such as `Do not put stationed operators in Dormitory`.
+3. Hovering your mouse pointer over certain options will display detailed explanations, such as `Do not place stationed operators in dormitory`.
 
-4. For some checkboxes, right-click on them to change them to a half-selected state. The checkboxes in this state will be automatically cleared the next time MAA is started, which can be understood as `only once`.
+4. For some checkboxes, right-clicking will change them to a half-selected state. Checkboxes in this state will automatically clear when MAA is next started, which can be understood as `one-time only`.
 
-5. ~~If you're uncertain about your needs, don't select the Nightly Release.~~
+5. ~~If you don't know what you need and can't easily resolve potential problems, do not use beta versions.~~
