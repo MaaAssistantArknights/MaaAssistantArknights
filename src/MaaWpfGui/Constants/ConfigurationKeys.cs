@@ -199,7 +199,7 @@ namespace MaaWpfGui.Constants
 
         public const string ReceiveAward = "Mission.ReceiveAward";
         public const string ReceiveMail = "Mission.ReceiveMail";
-        public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
+        public const string ReceiveFreeGacha = "Mission.ReceiveFreeRecruit";
         public const string ReceiveOrundum = "Mission.ReceiveOrundum";
         public const string ReceiveMining = "Mission.ReceiveMining";
         public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess";
