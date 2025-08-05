@@ -446,8 +446,8 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="CreditFullOnlyBuyDiscount">박사님!\n할인된 상품만 구매해 크레딧이 넘쳤습니다!\n낭비되는 크레딧을 주의하세요!\n남은 크레딧:</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 임무 보상 받기</system:String>
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
-    <system:String x:Key="ReceiveFreeRecruit">한정 가챠의 일일 무료 가챠 진행</system:String>
-    <system:String x:Key="ReceiveFreeRecruitTip">무료 가챠가 없는 경우 가챠를 하지 않습니다</system:String>
+    <system:String x:Key="ReceiveFreeGacha">한정 가챠의 일일 무료 가챠 진행</system:String>
+    <system:String x:Key="ReceiveFreeGachaTip">무료 가챠가 없는 경우 가챠를 하지 않습니다</system:String>
     <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢{key=Confirm}｣ 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방의 일일 합성옥 받기</system:String>
     <system:String x:Key="ReceiveMining">한정 채굴의 일일 합성옥 받기</system:String>

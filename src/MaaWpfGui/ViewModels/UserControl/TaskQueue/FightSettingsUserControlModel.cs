@@ -593,7 +593,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             "3253", "3263", "3273", "3283", // 双芯片
             "7001", "7002", "7003", "7004", // 许可
             "4004", "4005", // 凭证
-            "3105", "3131", "3132", "3233", // 龙骨/加固建材
+            "3105", "3131", "3132", "3133", // 龙骨/加固建材
             "6001", // 演习券
             "3141", "4002", // 源石
             "32001", // 芯片助剂
@@ -606,6 +606,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public void InitDrops()
     {
+        AllDrops.Add(new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty });
         foreach (var (val, value) in ItemListHelper.ArkItems)
         {
             // 不是数字的东西都是正常关卡不会掉的（大概吧）
@@ -621,7 +622,7 @@ public class FightSettingsUserControlModel : TaskViewModel
                 continue;
             }
 
-            AllDrops.Add(new CombinedData { Display = dis, Value = val });
+            AllDrops.Add(new() { Display = dis, Value = val });
         }
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
@@ -679,7 +680,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
             DropsItemId = item.Value;
 
-            if (DropsItemName != item.Display || DropsItemId != item.Value)
+            if (DropsItemName != item.Display)
             {
                 DropsItemName = LocalizationHelper.GetString("NotSelected");
             }

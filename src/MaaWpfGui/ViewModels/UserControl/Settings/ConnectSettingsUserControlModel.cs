@@ -322,7 +322,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                      ^"(.*?){Regex.Escape(UninstallExeName)}
                      """,
                     RegexOptions.IgnoreCase);
-                EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
+
+                if (match.Success && Directory.Exists(match.Groups[1].Value))
+                {
+                    EmulatorPath = match.Groups[1].Value;
+                }
             }
             catch (Exception e)
             {
@@ -478,7 +482,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     }
 
                     var installDir = driverKey.GetValue(InstallDirValueName) as string;
-                    if (!string.IsNullOrEmpty(installDir))
+                    if (!string.IsNullOrEmpty(installDir) && Directory.Exists(installDir))
                     {
                         EmulatorPath = installDir;
                         break;

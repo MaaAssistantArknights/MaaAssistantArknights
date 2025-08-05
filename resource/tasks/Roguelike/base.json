@@ -505,7 +505,7 @@
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 620, 50, 30],
+        "specificRect": [500, 600, 1, 1],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033；有时光之末可以继续",
         "postDelay": 800,
         "next": [
@@ -556,7 +556,7 @@
         "action": "ClickSelf",
         "templThreshold": 0.9,
         "roi": [572, 434, 144, 141],
-        "next": ["Roguelike@StrategyChange"]
+        "next": ["Roguelike@CloseEvent", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@CollectReward": {
         "Doc": "多点一下回收奖励",
@@ -696,7 +696,7 @@
     "Roguelike@GamePassTheEndConfirm": {
         "action": "ClickSelf",
         "roi": [554, 512, 177, 161],
-        "next": ["Roguelike@GamePass"]
+        "next": ["Roguelike@GamePass", "#self"]
     },
     "Roguelike@GetDrop": {
         "Doc": "base_task",
@@ -1710,6 +1710,7 @@
         "next": ["Roguelike@StartExploreWithSeed-BackToMainPage"]
     },
     "Roguelike@StrategyChange": {
+        "Doc": "RoguelikeStrategyChangeTaskPlugin",
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_default": {
@@ -1769,12 +1770,12 @@
         "template": "Roguelike@StageTraderInvestCancel.png",
         "action": "ClickSelf",
         "roi": [350, 350, 500, 250],
-        "next": ["Roguelike@StageTraderLeave"]
+        "next": ["Roguelike@StageTraderLeave", "#self"]
     },
     "Roguelike@TraderRandomShoppingConfirm": {
         "action": "ClickSelf",
         "roi": [872, 425, 221, 136],
-        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave"]
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave", "#self"]
     },
     "Roguelike@TutorialButton": {
         "doc": [

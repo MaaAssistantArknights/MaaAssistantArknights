@@ -10,10 +10,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:setting="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:task="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:task="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     d:Background="White"
-    d:DataContext="{d:DesignInstance {x:Type task:FightSettingsUserControlModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui:FightSettingsUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
@@ -382,8 +382,8 @@
             <Grid
                 Grid.Row="4"
                 d:Visibility="Visible"
-                Visibility="{c:Binding 'InfrastMode == task:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
-                                       Source={x:Static task:InfrastSettingsUserControlModel.Instance}}">
+                Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Custom and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings',
+                                       Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition />
@@ -407,8 +407,8 @@
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !InfrastTaskRunning,
                                                      Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                        ItemsSource="{Binding CustomInfrastPlanList, Source={x:Static task:InfrastSettingsUserControlModel.Instance}}"
-                        SelectedValue="{Binding CustomInfrastPlanIndex, Source={x:Static task:InfrastSettingsUserControlModel.Instance}}"
+                        ItemsSource="{Binding CustomInfrastPlanList, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
                         SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>

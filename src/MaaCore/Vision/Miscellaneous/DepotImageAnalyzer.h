@@ -41,7 +41,7 @@ private:
         const cv::Mat& roi,
         const std::unordered_map<std::string, cv::Scalar>& template_mean_colors,
         double max_diff = 400.0);
-    static cv::Rect get_center_rect(const cv::Mat& img, int box_size = 40);
+    static cv::Rect get_center_rect(const cv::Mat& img, int width = 80, int height = 40);
     bool analyze_base_rect();
     bool analyze_all_items();
 
