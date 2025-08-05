@@ -556,7 +556,7 @@
         "action": "ClickSelf",
         "templThreshold": 0.9,
         "roi": [572, 434, 144, 141],
-        "next": ["Roguelike@StrategyChange"]
+        "next": ["Roguelike@CloseEvent", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
     },
     "Roguelike@CollectReward": {
         "Doc": "多点一下回收奖励",
