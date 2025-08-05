@@ -8,9 +8,13 @@
     Title="{DynamicResource AchievementList}"
     Width="600"
     Height="400"
-    MinWidth="250">
+    MinWidth="250"
+    Background="{DynamicResource MdXamlBackground}">
     <Grid>
         <ListBox
+            Margin="0,0,10,0"
+            Background="{DynamicResource MdXamlBackground}"
+            BorderThickness="0"
             ItemsSource="{Binding VisibleAchievements.Values, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -25,7 +29,10 @@
                             Fill="{Binding MedalBrush}"
                             Stretch="Uniform" />
                         <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
-                            <VirtualizingStackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <VirtualizingStackPanel
+                                HorizontalAlignment="Left"
+                                Background="{DynamicResource MdXamlBackground}"
+                                Orientation="Horizontal">
                                 <TextBlock
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource MessageLogBrush}"
@@ -64,9 +71,25 @@
                     </VirtualizingStackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                            <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
         <hc:SearchBar
-            MinWidth="100"
+            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+            MinWidth="200"
+            Margin="25,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
