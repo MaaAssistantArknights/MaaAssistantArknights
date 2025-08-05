@@ -1770,12 +1770,12 @@
         "template": "Roguelike@StageTraderInvestCancel.png",
         "action": "ClickSelf",
         "roi": [350, 350, 500, 250],
-        "next": ["Roguelike@StageTraderLeave"]
+        "next": ["Roguelike@StageTraderLeave", "#self"]
     },
     "Roguelike@TraderRandomShoppingConfirm": {
         "action": "ClickSelf",
         "roi": [872, 425, 221, 136],
-        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave"]
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave", "#self"]
     },
     "Roguelike@TutorialButton": {
         "doc": [
