@@ -1216,7 +1216,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
@@ -1228,7 +1228,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["熔魂之始", "_aggressive"],
@@ -1269,7 +1269,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
@@ -1281,7 +1281,7 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
-        "text": ["_default"],
+        "text": ["_default", "_SKIP_"],
         "ocrReplace": [
             ["熔魂之始", "_default"],
             ["锻铁根须", "_default"],
