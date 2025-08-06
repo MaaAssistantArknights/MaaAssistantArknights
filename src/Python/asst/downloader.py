@@ -10,7 +10,10 @@ def length(url_list):
     def getlenhead(single_url):
         response = requests.head(single_url)
         while 'Location' in response.headers:
-            response = requests.head(response.headers.get('Location'))
+            location = response.headers.get('Location')
+            if not location:
+                break
+            response = requests.head(location)
         file_size = response.headers.get('Content-Length')
         if file_size is not None:
             return int(file_size)
