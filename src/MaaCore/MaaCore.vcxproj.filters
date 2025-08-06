@@ -950,6 +950,9 @@
     <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\Encoding.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1469,6 +1472,9 @@
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Encoding.cpp">
+      <Filter>Source\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
