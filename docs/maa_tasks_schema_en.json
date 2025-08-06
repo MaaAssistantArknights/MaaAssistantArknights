@@ -125,7 +125,51 @@
                     "default": false,
                     "description": "Optional, whether to enable high-resolution swipe fix, currently only needed for stage navigation which doesn't use unity swipe method, default is false"
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "required": [ "action" ],
+                        "properties": {
+                            "action": {
+                                "const": "ClickRect"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [ "specificRect" ]
+                    }
+                },
+                {
+                    "if": {
+                        "required": [ "action" ],
+                        "properties": {
+                            "action": {
+                                "const": "Swipe"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [ "specificRect", "rectMove" ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "algorithm": {
+                                "const": "JustReturn"
+                            },
+                            "action": {
+                                "const": "Input"
+                            }
+                        },
+                        "required": [ "algorithm", "action" ]
+                    },
+                    "then": {
+                        "required": [ "inputText" ]
+                    }
+                }
+            ]
         },
         "JustReturnTask": {
             "allOf": [
@@ -140,7 +184,7 @@
                 }
             },
             "description": "Execute the action without recognition",
-            "required": ["algorithm"]
+            "required": [ "algorithm" ]
         },
         "MatchTemplateTask": {
             "allOf": [
@@ -154,7 +198,7 @@
                     "pattern": "MatchTemplate"
                 },
                 "template": {
-                    "type": ["array", "string"],
+                    "type": [ "array", "string" ],
                     "items": {
                         "type": "string"
                     },
@@ -162,7 +206,7 @@
                     "description": "Optional, the file name of the image to be matched\nDefaults to \"task name.png\" if not filled"
                 },
                 "templThreshold": {
-                    "type": ["array", "number"],
+                    "type": [ "array", "number" ],
                     "items": {
                         "type": "number"
                     },
@@ -176,7 +220,7 @@
                     "items": {
                         "type": "number"
                     },
-                    "default": [1, 255],
+                    "default": [ 1, 255 ],
                     "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
                 },
                 "colorScales": {
@@ -195,7 +239,7 @@
                     "description": "Optional when method is HSVCount or RGBCount, default true\nWhether to use morphological closing on mask range for color counting\nClosing fills small black dots, generally improves color matching but set false for text"
                 },
                 "method": {
-                    "type": ["array", "string"],
+                    "type": [ "array", "string" ],
                     "items": {
                         "type": "string"
                     },
@@ -207,9 +251,7 @@
         },
         "OcrDetectTask": {
             "allOf": [
-                {
-                    "$ref": "#/definitions/BaseTask"
-                }
+                { "$ref": "#/definitions/BaseTask" }
             ],
             "properties": {
                 "algorithm": {
@@ -267,7 +309,7 @@
                 }
             },
             "description": "Text recognition",
-            "required": ["algorithm", "text"]
+            "required": [ "algorithm", "text" ]
         },
         "FeatureMatchTask": {
             "allOf": [
@@ -300,13 +342,13 @@
                 },
                 "detector": {
                     "type": "string",
-                    "enum": ["SIFT", "ORB", "BRISK", "KAZE", "AKAZE", "SURF"],
+                    "enum": [ "SIFT", "ORB", "BRISK", "KAZE", "AKAZE", "SURF" ],
                     "default": "SIFT",
                     "description": "Feature point detector type. Default is SIFT. Options: SIFT, ORB, BRISK, KAZE, AKAZE, SURF\nSIFT: High computational complexity, has scale and rotation invariance. Best effect.\nORB: Very fast computation, has rotation invariance but no scale invariance.\nBRISK: Very fast computation, has scale and rotation invariance.\nKAZE: Suitable for 2D and 3D images, has scale and rotation invariance.\nAKAZE: Fast computation, has scale and rotation invariance."
                 }
             },
             "description": "Use feature point algorithm for image matching",
-            "required": ["algorithm"]
+            "required": [ "algorithm" ]
         }
     }
 }
