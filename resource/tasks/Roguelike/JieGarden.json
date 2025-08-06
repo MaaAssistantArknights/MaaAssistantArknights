@@ -1008,6 +1008,10 @@
     "JieGarden@Roguelike@Stages_defaultBoskyPassage": {
         "algorithm": "JustReturn",
         "next": [
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
+            "JieGarden@Roguelike@CloseCollectionContinue",
+            "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@StageOmissions",
             "JieGarden@Roguelike@StageLegend",
             "JieGarden@Roguelike@ClickRemainingCandleFlame"
