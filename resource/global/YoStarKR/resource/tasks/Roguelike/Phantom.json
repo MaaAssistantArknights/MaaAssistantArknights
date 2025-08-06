@@ -4,7 +4,14 @@
         "text": ["고성", "노트"]
     },
     "Phantom@Roguelike@NextLevel": {
-        "ocrReplace": [[" ", ""]],
+        "ocrReplace": [
+            ["안개의.?기로", "안개의기로"],
+            ["석양의.?정원", "석양의정원"],
+            ["고향의.?잔.+", "고향의잔해"],
+            ["악몽의.?시작", "악몽의시작"],
+            ["붉은.?달.?회랑", "붉은달회랑"],
+            ["욕망의.?로비", "욕망의로비"]
+        ],
         "text": ["안개의기로", "석양의정원", "고향의잔해", "악몽의시작", "붉은달회랑", "욕망의로비"]
     },
     "Phantom@Roguelike@SelectTheme": {
@@ -15,46 +22,42 @@
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
-            [" ", ""],
-            ["안개의기로", "_aggressive"],
-            ["석양의정원", "_aggressive"],
-            ["고향의잔.+", "_aggressive"],
-            ["악몽의시작", "_pragmatic"],
-            ["붉은달회랑", "_pragmatic"],
-            ["욕망의로비", "_default"]
+            ["안개의.?기로", "_aggressive"],
+            ["석양의.?정원", "_aggressive"],
+            ["고향의.?잔.+", "_aggressive"],
+            ["악몽의.?시작", "_pragmatic"],
+            ["붉은.?달.?회랑", "_pragmatic"],
+            ["욕망의.?로비", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
-            [" ", ""],
-            ["안개의기로", "_default"],
-            ["석양의정원", "_default"],
-            ["고향의잔.+", "_exit"],
-            ["악몽의시작", "_exit"],
-            ["붉은달회랑", "_exit"],
-            ["욕망의로비", "_exit"]
+            ["안개의.?기로", "_default"],
+            ["석양의.?정원", "_default"],
+            ["고향의.?잔.+", "_exit"],
+            ["악몽의.?시작", "_exit"],
+            ["붉은.?달.?회랑", "_exit"],
+            ["욕망의.?로비", "_exit"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
-            [" ", ""],
-            ["안개의기로", "_aggressive"],
-            ["석양의정원", "_aggressive"],
-            ["고향의잔.+", "_aggressive"],
-            ["악몽의시작", "_pragmatic"],
-            ["붉은달회랑", "_pragmatic"],
-            ["욕망의로비", "_default"]
+            ["안개의.?기로", "_aggressive"],
+            ["석양의.?정원", "_aggressive"],
+            ["고향의.?잔.+", "_aggressive"],
+            ["악몽의.?시작", "_pragmatic"],
+            ["붉은.?달.?회랑", "_pragmatic"],
+            ["욕망의.?로비", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
-            [" ", ""],
-            ["안개의기로", "_aggressive"],
-            ["석양의정원", "_aggressive"],
-            ["고향의잔.+", "_aggressive"],
-            ["악몽의시작", "_pragmatic"],
-            ["붉은달회랑", "_pragmatic"],
-            ["욕망의로비", "_default"]
+            ["안개의.?기로", "_aggressive"],
+            ["석양의.?정원", "_aggressive"],
+            ["고향의.?잔.+", "_aggressive"],
+            ["악몽의.?시작", "_pragmatic"],
+            ["붉은.?달.?회랑", "_pragmatic"],
+            ["욕망의.?로비", "_default"]
         ]
     }
 }
