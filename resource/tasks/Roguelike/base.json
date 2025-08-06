@@ -1073,7 +1073,8 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "maxTimes": 10,
-        "specificRect": [1180, 15, 85, 60]
+        "specificRectDoc": "右上角会点到开始探索，所以点屏幕正上方",
+        "specificRect": [635, 0, 10, 10]
     },
     "Roguelike@ReturnToMap": {
         "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
@@ -1825,7 +1826,7 @@
         ]
     },
     "StartExplore@Roguelike@RecruitWithoutButton": {
-        "exceededNext": ["Roguelike@Abandon"],
+        "exceededNext": ["Roguelike@Abandon", "Roguelike@ExitThenAbandon"],
         "next": [
             "StartExplore@Roguelike@RecruitOther",
             "StartExplore@Roguelike@EnterAfterRecruit",
