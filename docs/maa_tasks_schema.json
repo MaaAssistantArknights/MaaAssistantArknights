@@ -135,6 +135,7 @@
             "allOf": [
                 {
                     "if": {
+                        "required": ["action"],
                         "properties": {"action": {"enum": ["ClickRect"]}}
                     },
                     "then": {
@@ -143,6 +144,7 @@
                 },
                 {
                     "if": {
+                        "required": ["action"],
                         "properties": {"action": {"enum": ["Swipe"]}}
                     },
                     "then": {
@@ -151,9 +153,10 @@
                 },
                 {
                     "if": {
+                        "required": ["algorithm", "action"],
                         "properties": {
-                            "algorithm": {"const": "JustReturn"},
-                            "action": {"const": "Input"}
+                            "algorithm": { "const": "JustReturn" },
+                            "action": { "const": "Input" }
                         }
                     },
                     "then": {
