@@ -44,9 +44,15 @@
         },
         "BaseTask": {
             "properties": {
+                "baseTask": {
+                    "type": "string",
+                    "description": "Optional, generates tasks based on other tasks as templates"
+                },
                 "algorithm": {
                     "type": "string",
-                    "description": "Algorithm type"
+                    "pattern": "JustReturn|MatchTemplate|OcrDetect|FeatureMatch",
+                    "default": "MatchTemplate",
+                    "description": "Optional, indicates the type of recognition algorithm, defaults to MatchTemplate"
                 },
                 "action": {
                     "type": "string",
@@ -56,6 +62,7 @@
                 },
                 "inputText": {
                     "type": "string",
+                    "default": "",
                     "description": "Optional, valid when action is Input, indicating the text to be entered"
                 },
                 "sub": {
@@ -132,7 +139,7 @@
                         "required": ["action"],
                         "properties": {
                             "action": {
-                                "const": "ClickRect"
+                                "enum": ["ClickRect"]
                             }
                         }
                     },
@@ -145,7 +152,7 @@
                         "required": ["action"],
                         "properties": {
                             "action": {
-                                "const": "Swipe"
+                                "enum": ["Swipe"]
                             }
                         }
                     },
@@ -175,34 +182,39 @@
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "JustReturn"
+                        }
+                    },
+                    "required": ["algorithm"]
                 }
             ],
-            "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "JustReturn"
-                }
-            },
-            "description": "Execute the action without recognition",
-            "required": ["algorithm"]
+            "description": "Execute the action without recognition"
         },
         "MatchTemplateTask": {
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "MatchTemplate"
+                        }
+                    }
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "MatchTemplate"
-                },
                 "template": {
                     "type": ["array", "string"],
                     "items": {
                         "type": "string"
                     },
-                    "default": "",
                     "description": "Optional, the file name of the image to be matched\nDefaults to \"task name.png\" if not filled"
                 },
                 "templThreshold": {
@@ -225,13 +237,12 @@
                 },
                 "colorScales": {
                     "type": "array",
+                    "description": "Required when method is HSVCount or RGBCount, color mask ranges\nStructure is [[lower1, upper1], [lower2, upper2], ...]\nInner layer is int for grayscale, or array<int, 3> for three-channel color (RGB or HSV based on method)\nMiddle layer is color (or grayscale) lower and upper limits\nOuter layer represents different color ranges, recognition area is their union on template image",
                     "items": {
                         "type": "array",
-                        "items": {
-                            "type": "array"
-                        }
-                    },
-                    "description": "Required when method is HSVCount or RGBCount, color mask ranges\nStructure is [[lower1, upper1], [lower2, upper2], ...]\nInner layer is int for grayscale, or array<int, 3> for three-channel color (RGB or HSV based on method)\nMiddle layer is color (or grayscale) lower and upper limits\nOuter layer represents different color ranges, recognition area is their union on template image"
+                        "minItems": 2,
+                        "maxItems": 2
+                    }
                 },
                 "colorWithClose": {
                     "type": "boolean",
@@ -244,6 +255,7 @@
                         "type": "string"
                     },
                     "default": "Ccoeff",
+                    "enum": ["Ccoeff", "RGBCount", "HSVCount"],
                     "description": "Optional, template matching algorithm, can be list\nDefault is Ccoeff when not specified\n- Ccoeff: Color-insensitive template matching, corresponds to cv::TM_CCOEFF_NORMED\n- RGBCount: Color-sensitive template matching, binary thresholds target area and template using colorScales, calculates similarity using F1-score in RGB color space, then dot products result with Ccoeff result\n- HSVCount: Similar to RGBCount, but uses HSV color space"
                 }
             },
@@ -253,13 +265,17 @@
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "OcrDetect"
+                        }
+                    }
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "OcrDetect"
-                },
                 "text": {
                     "type": "array",
                     "items": {
@@ -272,10 +288,10 @@
                     "default": false,
                     "description": "Optional, whether the text recognition needs to match all the words (can't match more than one word), the default is false\nfalse, as long as a substring can be found: for example, text: [\"Start\"], the actual recognition of \"Start action\" is also considered successful;\ntrue, it must recognise \"Start\", not one word more"
                 },
-                "useRaw": {
+                "isAscii": {
                     "type": "boolean",
-                    "default": true,
-                    "description": "Optional, whether to use the original image for matching.\nDefault is true. If false, grayscale image matching will be used."
+                    "default": false,
+                    "description": "Optional, whether text content is ASCII characters\nDefault false"
                 },
                 "ocrReplace": {
                     "type": "array",
@@ -289,25 +305,25 @@
                     },
                     "description": "Optional, replacement of commonly misrecognised text (supports regex)"
                 },
-                "binThresholdLower": {
-                    "type": "integer",
-                    "default": 140,
-                    "description": "Optional, lower threshold for grayscale binarisation (default 140).\nPixels with a grayscale value lower than this will be considered background and excluded from the text region."
-                },
-                "binThresholdUpper": {
-                    "type": "integer",
-                    "default": 255,
-                    "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground."
-                },
-                "isAscii": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Optional, whether text content is ASCII characters\nDefault false"
-                },
                 "withoutDet": {
                     "type": "boolean",
                     "default": false,
                     "description": "Optional, whether to skip detection model\nDefault false"
+                },
+                "useRaw": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional, whether to use the original image for matching.\nDefault is true. If false, grayscale image matching will be used.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
+                },
+                "binThresholdLower": {
+                    "type": "integer",
+                    "default": 140,
+                    "description": "Optional, lower threshold for grayscale binarisation (default 140).\nPixels with a grayscale value lower than this will be considered background and excluded from the text region.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
+                },
+                "binThresholdUpper": {
+                    "type": "integer",
+                    "default": 255,
+                    "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
                 }
             },
             "description": "Text recognition",
@@ -317,16 +333,20 @@
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "FeatureMatch"
+                        }
+                    },
+                    "required": ["algorithm"]
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "FeatureMatch"
-                },
                 "template": {
                     "type": "string",
-                    "default": "",
                     "description": "Optional, the file name of the image to be matched\nDefaults to \"task name.png\" if not filled"
                 },
                 "count": {
@@ -349,8 +369,7 @@
                     "description": "Feature point detector type. Default is SIFT. Options: SIFT, ORB, BRISK, KAZE, AKAZE, SURF\nSIFT: High computational complexity, has scale and rotation invariance. Best effect.\nORB: Very fast computation, has rotation invariance but no scale invariance.\nBRISK: Very fast computation, has scale and rotation invariance.\nKAZE: Suitable for 2D and 3D images, has scale and rotation invariance.\nAKAZE: Fast computation, has scale and rotation invariance."
                 }
             },
-            "description": "Use feature point algorithm for image matching",
-            "required": ["algorithm"]
+            "description": "Use feature point algorithm for image matching"
         }
     }
 }

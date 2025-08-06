@@ -50,6 +50,7 @@
                 },
                 "algorithm": {
                     "type": "string",
+                    "pattern": "JustReturn|MatchTemplate|OcrDetect|FeatureMatch",
                     "default": "MatchTemplate",
                     "description": "可选项，表示识别算法的类型, 默认为 MatchTemplate"
                 },
@@ -250,6 +251,11 @@
                 },
                 "method": {
                     "type": ["string", "array"],
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": "Ccoeff",
+                    "enum": ["Ccoeff", "RGBCount", "HSVCount"],
                     "description": "可选项，模板匹配算法，可以是列表\n不填写时默认为 Ccoeff\n - Ccoeff: 对颜色不敏感的模板匹配算法，对应 cv::TM_CCOEFF_NORMED\n - RGBCount: 对颜色敏感的模板匹配算法，先将待匹配区域和模板图片依据 colorScales 二值化，以 F1-score 为指标计算 RGB 颜色空间内的相似度，再将结果与 Ccoeff 的结果点积\n - HSVCount: 类似 RGBCount，颜色空间换为 HSV"
                 }
             },
@@ -259,13 +265,17 @@
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "OcrDetect"
+                        }
+                    }
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "OcrDetect"
-                },
                 "text": {
                     "type": "array",
                     "items": {
@@ -283,16 +293,6 @@
                     "default": false,
                     "description": "可选项，要识别的文字内容是否为 ASCII 码字符\n不填写默认 false"
                 },
-                "withoutDet": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "可选项，是否不使用检测模型\n不填写默认 false"
-                },
-                "useRaw": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "可选项，是否使用原图匹配\n不填写默认 true，false 时为灰度匹配"
-                },
                 "ocrReplace": {
                     "type": "array",
                     "items": {
@@ -305,15 +305,25 @@
                     },
                     "description": "可选项，针对常见识别错的文字进行替换（支持正则）"
                 },
+                "withoutDet": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，是否不使用检测模型\n不填写默认 false"
+                },
+                "useRaw": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "可选项，是否使用原图匹配\n不填写默认 true，false 时为灰度匹配\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。"
+                },
                 "binThresholdLower": {
                     "type": "integer",
                     "default": 140,
-                    "description": "可选项，二值化灰度下阈值（默认 140）\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。\n灰度值小于该值的像素将被视为背景，排除在文字区域之外"
+                    "description": "可选项，二值化灰度下阈值（默认 140）\n灰度值小于该值的像素将被视为背景，排除在文字区域之外\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。"
                 },
                 "binThresholdUpper": {
                     "type": "integer",
                     "default": 255,
-                    "description": "可选项，二值化灰度上阈值（默认 255）\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。\n灰度值大于该值的像素将被视为背景，排除在文字区域之外\n最终保留 [lower, upper] 区间的像素作为文字前景"
+                    "description": "可选项，二值化灰度上阈值（默认 255）\n灰度值大于该值的像素将被视为背景，排除在文字区域之外\n最终保留 [lower, upper] 区间的像素作为文字前景\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。"
                 }
             },
             "required": ["algorithm", "text"],
@@ -337,7 +347,6 @@
             "properties": {
                 "template": {
                     "type": "string",
-                    "default": "",
                     "description": "可选项，要匹配的图片文件名\n不填时默认为 \"任务名.png\""
                 },
                 "count": {
