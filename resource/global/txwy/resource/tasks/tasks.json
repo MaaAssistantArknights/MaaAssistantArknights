@@ -1054,6 +1054,9 @@
     "StageDrops-Stage12-TripleFlag": {
         "text": ["後勤", "急派"]
     },
+    "OperBoxSortTabSelect": {
+        "text": ["等級"]
+    },
     "SSSBegin": {
         "text": ["開始保全作戰"]
     },

@@ -1399,6 +1399,9 @@
         "baseTask": "BattleQuickFormationExpandRole",
         "action": "Stop"
     },
+    "OperBoxSortTabSelect": {
+        "text": ["Level"]
+    },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
         "rectMove": [0, 265, 128, 22],

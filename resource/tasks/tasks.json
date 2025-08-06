@@ -4348,7 +4348,13 @@
     },
     "OperBoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperBoxEnter", "OperBoxRoleTabSelect", "OperBoxRoleTab", "OperBoxEnter@ReturnButtons#next"]
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxSortTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnButtons#next"
+        ]
     },
     "OperBoxEnter": {
         "template": [
@@ -4365,7 +4371,7 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [935, 300, 265, 110],
-        "next": ["OperBoxRoleTabSelect", "OperBoxRoleTab"],
+        "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"],
         "crop_doc": {
             "roi": [945, 301, 85, 78],
             "mask": []
@@ -4375,6 +4381,13 @@
         "action": "ClickSelf",
         "template": "BattleQuickFormationCollapseRole.png",
         "roi": [1152, 0, 128, 138],
+        "next": ["OperBoxSortTabSelect", "OperBoxRoleTab"]
+    },
+    "OperBoxSortTabSelect": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["等级"],
+        "roi": [783, 0, 174, 136],
         "next": ["OperBoxRoleTab"]
     },
     "OperBoxRoleTab": {
