@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "maa task config",
     "patternProperties": {
         "^(?!\\$)": {
@@ -32,7 +32,7 @@
         "ParamsArray": {
             "type": "array",
             "items": {
-                "type": "number"
+                "type": "integer"
             }
         },
         "TaskNameList": {
@@ -44,9 +44,14 @@
         },
         "BaseTask": {
             "properties": {
+                "baseTask": {
+                    "type": "string",
+                    "description": "可选项，以其他任务为模板生成任务"
+                },
                 "algorithm": {
                     "type": "string",
-                    "description": "算法类型"
+                    "default": "MatchTemplate",
+                    "description": "可选项，表示识别算法的类型, 默认为 MatchTemplate"
                 },
                 "action": {
                     "type": "string",
@@ -56,6 +61,7 @@
                 },
                 "inputText": {
                     "type": "string",
+                    "default": "",
                     "description": "可选项，当 action 为 Input 时有效，表示要输入的文本"
                 },
                 "sub": {
@@ -114,70 +120,119 @@
                 },
                 "specificRect": {
                     "$ref": "#/definitions/Rectangle",
-                    "description": "当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点），以 1280 * 720 为基准自动缩放\n当 action 为 Swipe 时有效且必现，表示滑动起点"
+                    "description": "当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点），以 1280 * 720 为基准自动缩放\n当 action 为 Swipe 时有效且必选，表示滑动起点"
                 },
                 "specialParams": {
                     "$ref": "#/definitions/ParamsArray",
-                    "description": "某些任务使用的特殊参数（大部分是手写阈值等）"
+                    "description": "某些任务使用的特殊参数（大部分是手写阈值给插件用的）（std::vector<int>）"
                 },
                 "highResolutionSwipeFix": {
                     "type": "boolean",
                     "default": false,
                     "description": "可选项，是否启用高分辨率滑动修复，现阶段应该只有关卡导航未使用 unity 滑动方式所以需要开启，默认为 false"
                 }
-            }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {"action": {"enum": ["ClickRect"]}}
+                    },
+                    "then": {
+                        "required": ["specificRect"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {"action": {"enum": ["Swipe"]}}
+                    },
+                    "then": {
+                        "required": ["specificRect", "rectMove"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "algorithm": {"const": "JustReturn"},
+                            "action": {"const": "Input"}
+                        }
+                    },
+                    "then": {
+                        "required": ["inputText"]
+                    }
+                }
+            ]
         },
         "JustReturnTask": {
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "JustReturn"
+                        }
+                    },
+                    "required": ["algorithm"]
                 }
             ],
-            "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "JustReturn"
-                }
-            },
-            "description": "不进行识别，直接执行 action",
-            "required": ["algorithm"]
+            "description": "不进行识别，直接执行 action"
         },
         "MatchTemplateTask": {
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "MatchTemplate"
+                        }
+                    }
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "MatchTemplate"
-                },
                 "template": {
                     "type": ["array", "string"],
-                    "items": {
-                        "type": "string"
-                    },
+                    "items": {"type": "string"},
                     "default": "",
                     "description": "可选项，要匹配的图片文件名\n不填时写默认 \"任务名.png\""
                 },
                 "templThreshold": {
                     "type": ["array", "number"],
-                    "items": {
-                        "type": "number"
-                    },
+                    "items": {"type": "number"},
                     "default": 0.8,
-                    "description": "可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。\n默认 0.8, 可根据日志查看实际得分是多少"
+                    "description": "可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。\n默认 0.8, 可根据日志查看实际得分是多少\n多模板时，阈值数量需与模板数量一致"
                 },
                 "maskRange": {
                     "type": "array",
                     "maxItems": 2,
-                    "minimum": 2,
+                    "minItems": 2,
                     "items": {
-                        "type": "number"
+                        "type": "integer"
                     },
-                    "default": [1, 255],
+                    "default": [ 1, 255 ],
                     "description": "可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0），然后设置 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分"
+                },
+                "colorScales": {
+                    "type": "array",
+                    "description": "当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。",
+                    "items": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2
+                    }
+                },
+                "colorWithClose": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true\n数色时是否先用闭运算处理掩码范围。\n闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false"
+                },
+                "method": {
+                    "type": ["string", "array"],
+                    "description": "可选项，模板匹配算法，可以是列表\n不填写时默认为 Ccoeff\n - Ccoeff: 对颜色不敏感的模板匹配算法，对应 cv::TM_CCOEFF_NORMED\n - RGBCount: 对颜色敏感的模板匹配算法，先将待匹配区域和模板图片依据 colorScales 二值化，以 F1-score 为指标计算 RGB 颜色空间内的相似度，再将结果与 Ccoeff 的结果点积\n - HSVCount: 类似 RGBCount，颜色空间换为 HSV"
                 }
             },
             "description": "匹配图片"
@@ -203,7 +258,17 @@
                 "fullMatch": {
                     "type": "boolean",
                     "default": false,
-                    "description": "可选项，文字识别是否需要全字匹配（不能多字），默认为 false\nfalse 时只要是子串即可：例如 text: [ \"开始\" ]，实际识别到了 \"开始行动\"，也算识别成功；\ntrue 时则必须识别到了 \"开始\"，多一个字都不行"
+                    "description": "可选项，文字识别是否需要全字匹配（不能多字），默认为 false\nfalse 时只要是子串即可：例如 text: [ \"开始\"]，实际识别到了 \"开始行动\"，也算识别成功；\ntrue 时则必须识别到了 \"开始\"，多一个字都不行"
+                },
+                "isAscii": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，要识别的文字内容是否为 ASCII 码字符\n不填写默认 false"
+                },
+                "withoutDet": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，是否不使用检测模型\n不填写默认 false"
                 },
                 "useRaw": {
                     "type": "boolean",
@@ -225,28 +290,33 @@
                 "binThresholdLower": {
                     "type": "integer",
                     "default": 140,
-                    "description": "可选项，二值化灰度下阈值（默认 140）\n灰度值小于该值的像素将被视为背景，排除在文字区域之外"
+                    "description": "可选项，二值化灰度下阈值（默认 140）\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。\n灰度值小于该值的像素将被视为背景，排除在文字区域之外"
                 },
                 "binThresholdUpper": {
                     "type": "integer",
                     "default": 255,
-                    "description": "可选项，二值化灰度上阈值（默认 255）\n灰度值大于该值的像素将被视为背景，排除在文字区域之外\n最终保留 [lower, upper] 区间的像素作为文字前景"
+                    "description": "可选项，二值化灰度上阈值（默认 255）\n仅当 algorithm 为 OcrDetect 且 withoutDet 为 false 时生效。\n灰度值大于该值的像素将被视为背景，排除在文字区域之外\n最终保留 [lower, upper] 区间的像素作为文字前景"
                 }
             },
-            "description": "文字识别",
-            "required": ["algorithm", "text"]
+            "required": ["algorithm", "text"],
+            "description": "文字识别"
         },
         "FeatureMatchTask": {
             "allOf": [
                 {
                     "$ref": "#/definitions/BaseTask"
+                },
+                {
+                    "properties": {
+                        "algorithm": {
+                            "type": "string",
+                            "pattern": "FeatureMatch"
+                        }
+                    },
+                    "required": ["algorithm"]
                 }
             ],
             "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "FeatureMatch"
-                },
                 "template": {
                     "type": "string",
                     "default": "",
@@ -272,8 +342,7 @@
                     "description": "特征点检测器。默认值为 SIFT。可选：SIFT, ORB, BRISK, KAZE, AKAZE, SURF"
                 }
             },
-            "description": "使用特征点算法进行图像匹配",
-            "required": ["algorithm"]
+            "description": "使用特征点算法进行图像匹配"
         }
     }
 }
