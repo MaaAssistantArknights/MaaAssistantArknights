@@ -250,7 +250,11 @@
             "description": "Match image"
         },
         "OcrDetectTask": {
-            "allOf": [{ "$ref": "#/definitions/BaseTask" }],
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
             "properties": {
                 "algorithm": {
                     "type": "string",
