@@ -192,6 +192,9 @@ class Updater:
                 return
             # 将路径和文件名拼合成绝对路径
             # 默认在maa主程序/MaaCore.dll所在路径下
+            if not isinstance(filename, str):
+                self.custom_print("文件名无效")
+                return
             file = os.path.join(self.path, filename)
             # 下载，调用Downloader下载器，使用url_list（镜像url列表）和file（文件保存路径）两个参数
             # Proxy参数没加，因为可能有问题（也可能没问题反正我晚上Clash连不上）
@@ -210,26 +213,3 @@ class Updater:
             if not download_finished:
                 Updater.custom_print('下载异常，更新失败')
                 return
-            # 解压下载的文件，
-            Updater.custom_print('开始安装更新，请不要关闭')
-            file_extension = os.path.splitext(filename)[1]
-            unzip = False
-            # 根据拓展名选择解压算法
-            # .zip(Windows)/.tar.gz(Linux)
-            if file_extension == '.zip':
-                zfile = zipfile.ZipFile(file, 'r')
-                zfile.extractall(self.path)
-                zfile.close()
-                unzip = True
-            # .tar.gz拓展名的情况（按照这个方式得到的拓展名是.gz，但是解压的是tar.gz
-            elif file_extension == '.gz':
-                tfile = tarfile.open(file, 'r:gz')
-                tfile.extractall(self.path)
-                tfile.close()
-                unzip = True
-            # 删除压缩包
-            os.remove(file)
-            if unzip:
-                Updater.custom_print('更新完成')
-            else:
-                Updater.custom_print('更新未完成')
