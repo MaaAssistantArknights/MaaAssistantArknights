@@ -311,17 +311,19 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel()
         {
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
-            _runningState.TimeoutOccurred += RunningState_TimeOut;
-        }
-
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
-            if (!e)
+            _runningState.StateChanged += (s, e) =>
             {
-                Instances.Data.ClearCache();
-            }
+                Idle = e.Idle;
+                Inited = e.Inited;
+                Stopping = e.Stopping;
+
+                Instances.SettingsViewModel.Idle = e.Idle;
+                if (!e.Idle)
+                {
+                    Instances.Data.ClearCache();
+                }
+            };
+            _runningState.TimeoutOccurred += RunningState_TimeOut;
         }
 
         private void RunningState_TimeOut(object? sender, string message)
@@ -1062,7 +1064,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
 
-                if (Stopping)
+                if (_runningState.GetStopping())
                 {
                     SetStopped();
                     return false;
@@ -1077,7 +1079,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
                 await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
 
-                if (Stopping)
+                if (_runningState.GetStopping())
                 {
                     SetStopped();
                     return false;
@@ -1094,7 +1096,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 await Task.Run(() => SettingsViewModel.StartSettings.RestartAdb());
 
-                if (Stopping)
+                if (_runningState.GetStopping())
                 {
                     SetStopped();
                     return false;
@@ -1110,7 +1112,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 await Task.Run(() => SettingsViewModel.StartSettings.HardRestartAdb());
 
-                if (Stopping)
+                if (_runningState.GetStopping())
                 {
                     SetStopped();
                     return false;
@@ -1223,7 +1225,7 @@ namespace MaaWpfGui.ViewModels.UI
             */
 
             // 一般是点了“停止”按钮了
-            if (Stopping)
+            if (_runningState.GetStopping())
             {
                 SetStopped();
                 return;
@@ -1235,7 +1237,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 一般是点了“停止”按钮了
-            if (Stopping)
+            if (_runningState.GetStopping())
             {
                 SetStopped();
                 return;
@@ -1375,7 +1377,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </returns>
         public async Task<bool> Stop(int timeout = 60 * 1000)
         {
-            Stopping = true;
+            _runningState.SetStopping(true);
             AddLog(LocalizationHelper.GetString("Stopping"));
             await Task.Run(() =>
             {
@@ -1405,7 +1407,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 await WaitUntilRoguelikeCombatComplete();
 
-                if (Instances.AsstProxy.AsstRunning() && !Stopping)
+                if (Instances.AsstProxy.AsstRunning() && !_runningState.GetStopping())
                 {
                     await Stop();
                 }
@@ -1441,13 +1443,13 @@ namespace MaaWpfGui.ViewModels.UI
                 Task.Run(() => SettingsViewModel.GameSettings.RunScript("EndsWithScript"));
             }
 
-            if (!_runningState.GetIdle() || Stopping)
+            if (!_runningState.GetIdle() || _runningState.GetStopping())
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
             Waiting = false;
-            Stopping = false;
+            _runningState.SetStopping(false);
             _runningState.SetIdle(true);
         }
 
@@ -1479,7 +1481,7 @@ namespace MaaWpfGui.ViewModels.UI
             */
 
             // 一般是点了“停止”按钮了
-            if (Stopping)
+            if (_runningState.GetStopping())
             {
                 SetStopped();
                 return;
@@ -1491,7 +1493,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 一般是点了“停止”按钮了
-            if (Stopping)
+            if (_runningState.GetStopping())
             {
                 SetStopped();
                 return;
@@ -1626,18 +1628,12 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
         }
 
-        /// <summary>
-        /// Gets a value indicating whether it is initialized.
-        /// </summary>
-        public bool Inited { get; private set; }
+        private bool _inited = false;
 
-        /// <summary>
-        /// Sets it initialized.
-        /// </summary>
-        public void SetInited()
+        public bool Inited
         {
-            Inited = true;
-            NotifyOfPropertyChange(nameof(Inited));
+            get => _inited;
+            set => SetAndNotify(ref _inited, value);
         }
 
         private bool _idle;

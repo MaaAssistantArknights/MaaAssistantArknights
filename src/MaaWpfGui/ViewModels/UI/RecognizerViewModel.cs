@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,26 +58,23 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.StateChanged += (s, e) =>
+            {
+                Idle = e.Idle;
+                // Inited = e.Inited;
+                // Stopping = e.Stopping;
+
+                if (e.Stopping && Peeping && !IsPeepTransitioning)
+                {
+                    _ = Peep();
+                }
+            };
             _peepImageTimer.Elapsed += PeepImageTimerElapsed;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
             LoadOperBoxDetails();
             OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
-        }
-
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
-            if (!Idle)
-            {
-                return;
-            }
-
-            Peeping = false;
-            IsPeepInProgress = false;
-            IsGachaInProgress = false;
         }
 
         private bool _idle;

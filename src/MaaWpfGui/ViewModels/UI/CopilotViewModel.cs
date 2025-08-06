@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -92,7 +93,12 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Copilot");
             AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.StateChanged += (s, e) =>
+            {
+                Idle = e.Idle;
+                // Inited = e.Inited;
+                // Stopping = e.Stopping;
+            };
 
             var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
             if (string.IsNullOrEmpty(copilotTaskList))
@@ -108,11 +114,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             SaveCopilotTask();
-        }
-
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
         }
 
         #region UI绑定及操作
