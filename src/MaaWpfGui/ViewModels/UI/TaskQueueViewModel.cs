@@ -311,7 +311,7 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel()
         {
             _runningState = RunningState.Instance;
-            _runningState.StateChanged += (s, e) =>
+            _runningState.StateChanged += (_, e) =>
             {
                 Idle = e.Idle;
                 Inited = e.Inited;

@@ -58,11 +58,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
-            _runningState.StateChanged += (s, e) =>
+            _runningState.StateChanged += (__, e) =>
             {
                 Idle = e.Idle;
-                // Inited = e.Inited;
-                // Stopping = e.Stopping;
+                Inited = e.Inited;
+                Stopping = e.Stopping;
 
                 if (e.Stopping && Peeping && !IsPeepTransitioning)
                 {
@@ -86,6 +86,22 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _idle;
             set => SetAndNotify(ref _idle, value);
+        }
+
+        private bool _inited;
+
+        public bool Inited
+        {
+            get => _inited;
+            set => SetAndNotify(ref _inited, value);
+        }
+
+        private bool _stopping;
+
+        public bool Stopping
+        {
+            get => _stopping;
+            set => SetAndNotify(ref _stopping, value);
         }
 
         #region Recruit
