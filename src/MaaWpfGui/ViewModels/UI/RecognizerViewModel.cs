@@ -1267,13 +1267,24 @@ namespace MaaWpfGui.ViewModels.UI
             if (!Idle)
             {
                 await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
                 return;
             }
 
             _runningState.SetIdle(false);
             string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                _runningState.SetIdle(true);
+            }
+
+            if (_runningState.GetStopping())
+            {
+                Instances.TaskQueueViewModel.SetStopped();
+                return;
+            }
+
+            caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
             if (!caught)
             {
                 _runningState.SetIdle(true);

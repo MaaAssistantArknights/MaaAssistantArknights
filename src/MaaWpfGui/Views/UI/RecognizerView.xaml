@@ -647,7 +647,7 @@
                     Margin="10"
                     Command="{s:Action StartMiniGame}"
                     Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
-                    IsEnabled="{c:Binding Inited}" />
+                    IsEnabled="{c:Binding 'Inited and !Stopping'}" />
             </Grid>
         </TabItem>
     </TabControl>
