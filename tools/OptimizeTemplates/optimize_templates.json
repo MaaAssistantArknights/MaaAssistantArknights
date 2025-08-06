@@ -2533,8 +2533,8 @@
     "docs/en-us/readme/4-light": "48be338e646bfb05985ff590addea221421681e85171bf9b076a62fba283a889",
     "docs/ja-jp/readme/1-light": "d836c080b6be573bb498f080edcff81769ab40ad0a1fcdb24c32da1d8ec5de90",
     "docs/ja-jp/readme/2-light": "318f459b93508e4ccb25b1f0ccfd990dc4bf86fa55fac282678b1937689b1880",
-    "docs/ko-kr/readme/1-light": "28eca8f4abeeeb7d2a7e5a00198d711b0be8b74375c9e48a2a03bf5ac62ddca9",
-    "docs/ko-kr/readme/2-light": "cd9d46462c4fee891d529e1df574d6d29cf0db3f5e424d4005af8ffa9007c23c",
+    "docs/ko-kr/readme/1-light": "00163e668731e9efd8c07f0d9b7d6b2d479d01b4aad0bdf12568aa0592a1c41a",
+    "docs/ko-kr/readme/2-light": "e08b5f8a37adb3e3285bd04f08fd5a71881f3d5b1ad4b79b7b451934f3ab2327",
     "docs/zh-cn/readme/1-dark": "ff5cbaab4050bb10f22c39907ab1d84a90abd54611595c0501e3c94c40d072f5",
     "docs/zh-cn/readme/1-light": "27c8a9e0ad7a11ae7864e07b1dd0fdc39ae8c497c731d9b9194a247d15fe512c",
     "docs/zh-cn/readme/2-dark": "dbaa37765b54b0bc8fe0a9ba9765cffa625b1d48b95f49d1cfb8c1f7552f8766",
@@ -4972,5 +4972,11 @@
     "resource/global/txwy/resource/template/UiTheme/Sarkaz/OperBoxEnter": "7cd397f55e15b687ca6c6b3c272228e9982db3bf7e95a91a96f5ee8fe7561bef",
     "resource/global/txwy/resource/template/UiTheme/Sarkaz/Friends": "1b9808ba54312640c5fa771060bd8baeb360907ddb897e2f753cddc90c6179a6",
     "resource/global/txwy/resource/template/UiTheme/Sarkaz/Mall": "e44698d888f04a22a45b65dd1e28d499e62e5658f37e215a75136ba8439c8d54",
-    "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop4": "534032938b21bf8f243588c51e731d78d980a51575df997c7e6a786ac955f295"
+    "resource/global/YoStarEN/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@GetDrop4": "534032938b21bf8f243588c51e731d78d980a51575df997c7e6a786ac955f295",
+    "docs/ko-kr/readme/2-dark": "8633d63d442f05a89b9ee4409b1b2ee9916068691b1a295eb2fb5002d03ba6f1",
+    "docs/ko-kr/readme/4-light": "7c9594730da23c0fc888c80097e8ea154647baa6086b737c6e35a4a5b12e9ed8",
+    "docs/ko-kr/readme/4-dark": "953def133b131c6f6c7eb7167e1b8c597090bebffd55f0831980cff871220eb1",
+    "docs/ko-kr/readme/1-dark": "e3c5cc2067ff9fa6ad6ab20de89e6f6064a9b2bb6f8656b9086aa9f70c4aaa9b",
+    "docs/ko-kr/readme/3-dark": "7d62f210beb78acd90279df51ef00a7491b36f17aa93e49b7dcd06392fe5fc61",
+    "docs/ko-kr/readme/3-light": "da81d20300416b9f33de327441565fd29f75ca90cb021b623d5119903724ac6a"
 }
