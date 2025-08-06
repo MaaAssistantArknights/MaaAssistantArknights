@@ -24,6 +24,7 @@ class Message(Enum):
 
     请参考 docs/回调消息.md
     """
+
     InternalError = 0
 
     InitFailed = auto()
@@ -62,6 +63,7 @@ class Version(Enum):
     """
     目标版本
     """
+
     Nightly = auto()
 
     Beta = auto()
