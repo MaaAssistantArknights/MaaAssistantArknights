@@ -4385,7 +4385,8 @@
     },
     "OperBoxSortTabSelect": {
         "action": "ClickSelf",
-        "template": "BattleQuickFormation-NotLevelSorted.png",
+        "algorithm": "OcrDetect",
+        "text": ["等级"],
         "roi": [783, 0, 174, 136],
         "next": ["OperBoxRoleTab"]
     },

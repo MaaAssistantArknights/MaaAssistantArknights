@@ -1411,6 +1411,9 @@
         "templThreshold_Doc": "여기는 문자 간격 임계값으로 사용됩니다",
         "roi": [62, 90, 46, 22]
     },
+    "OperBoxSortTabSelect": {
+        "text": ["레벨"]
+    },
     "SSSBegin": {
         "ocrReplace": [["보안.*?작전.*?개.+", "보안작전개시"]],
         "text": ["보안작전개시"]
