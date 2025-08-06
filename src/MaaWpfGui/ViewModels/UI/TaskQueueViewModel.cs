@@ -323,7 +323,7 @@ namespace MaaWpfGui.ViewModels.UI
             _container = container;
             _stageManager = _container.Get<StageManager>();
             _runningState = RunningState.Instance;
-            _runningState.StateChanged += (s, e) =>
+            _runningState.StateChanged += (_, e) =>
             {
                 Idle = e.Idle;
                 Inited = e.Inited;
