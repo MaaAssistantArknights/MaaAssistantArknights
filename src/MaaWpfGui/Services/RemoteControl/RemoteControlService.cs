@@ -619,7 +619,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;
@@ -631,7 +631,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;

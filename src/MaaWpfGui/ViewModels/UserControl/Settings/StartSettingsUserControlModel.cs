@@ -294,7 +294,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
         for (var i = 0; i < delay; ++i)
         {
-            if (Instances.TaskQueueViewModel.Stopping)
+            if (_runningState.GetStopping())
             {
                 _logger.Information("Stop waiting for the emulator to start");
                 return;

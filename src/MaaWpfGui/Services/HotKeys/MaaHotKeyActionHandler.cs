@@ -52,7 +52,7 @@ namespace MaaWpfGui.Services.HotKeys
 
         protected virtual void HandleLinkStart()
         {
-            if (Instances.TaskQueueViewModel.Stopping)
+            if (_runningState.GetStopping())
             {
                 return;
             }
