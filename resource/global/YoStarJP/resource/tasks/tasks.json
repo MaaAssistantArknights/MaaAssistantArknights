@@ -1272,11 +1272,11 @@
     "SSSBattleOperName": {
         "roi": [0, 105, 300, 31]
     },
-    "OperBoxNameOCR": {
-        "specialParams": [160, 4, 0, 0, 3, 12]
-    },
     "OperBoxSortTabSelect": {
         "text": ["レベル"]
+    },
+    "OperBoxNameOCR": {
+        "specialParams": [160, 4, 0, 0, 3, 12]
     },
     "SSSBegin": {
         "text": ["保全作戦開始"]

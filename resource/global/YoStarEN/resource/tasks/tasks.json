@@ -1395,12 +1395,12 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
+    "OperBoxSortTabSelect": {
+        "text": ["Level"]
+    },
     "OperBoxRoleTab": {
         "baseTask": "BattleQuickFormationExpandRole",
         "action": "Stop"
-    },
-    "OperBoxSortTabSelect": {
-        "text": ["Level"]
     },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
