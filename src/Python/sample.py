@@ -11,7 +11,7 @@ from asst.emulator import Bluestacks
 @Asst.CallBackType
 def my_callback(msg, details, arg):
     m = Message(msg)
-    d = json.loads(details.decode('utf-8'))
+    d = json.loads(details.decode("utf-8"))
 
     print(m, d, arg)
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # 设置额外配置
     # 触控方案配置
-    asst.set_instance_option(InstanceOptionType.touch_type, 'maatouch')
+    asst.set_instance_option(InstanceOptionType.touch_type, "maatouch")
     # 暂停下干员
     # asst.set_instance_option(InstanceOptionType.deployment_with_pause, '1')
 
@@ -69,38 +69,49 @@ if __name__ == "__main__":
     # port = Bluestacks.get_hyperv_port(r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf", "Pie64_1")
 
     # 请自行配置 adb 环境变量，或修改为 adb 可执行程序的路径
-    if asst.connect('adb.exe', '127.0.0.1:5555'):
-        print('连接成功')
+    if asst.connect("adb.exe", "127.0.0.1:5555"):
+        print("连接成功")
     else:
-        print('连接失败')
+        print("连接失败")
         exit()
 
     # 任务及参数请参考 docs/zh-cn/protocol/integration.md
 
-    asst.append_task('StartUp')
-    asst.append_task('Fight', {
-        'stage': '',
-        'report_to_penguin': True,
-        # 'penguin_id': '1234567'
-    })
-    asst.append_task('Recruit', {
-        'select': [4],
-        'confirm': [3, 4],
-        'times': 4
-    })
-    asst.append_task('Infrast', {
-        'facility': [
-            "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm"
-        ],
-        'drones': "Money"
-    })
-    asst.append_task('Visit')
-    asst.append_task('Mall', {
-        'shopping': True,
-        'buy_first': ['招聘许可', '龙门币'],
-        'blacklist': ['家具', '碳'],
-    })
-    asst.append_task('Award')
+    asst.append_task("StartUp")
+    asst.append_task(
+        "Fight",
+        {
+            "stage": "",
+            "report_to_penguin": True,
+            # 'penguin_id': '1234567'
+        },
+    )
+    asst.append_task("Recruit", {"select": [4], "confirm": [3, 4], "times": 4})
+    asst.append_task(
+        "Infrast",
+        {
+            "facility": [
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
+            ],
+            "drones": "Money",
+        },
+    )
+    asst.append_task("Visit")
+    asst.append_task(
+        "Mall",
+        {
+            "shopping": True,
+            "buy_first": ["招聘许可", "龙门币"],
+            "blacklist": ["家具", "碳"],
+        },
+    )
+    asst.append_task("Award")
     # asst.append_task('Copilot', {
     #     'filename': './GA-EX8-raid.json',
     #     'formation': False
