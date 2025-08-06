@@ -183,57 +183,57 @@
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
-            [".*은빛의.?호.+", "_aggressive"],
-            [".*고요한.+", "_aggressive"],
-            [".*여명의.+", "_pragmatic"],
-            [".*얼어붙은.?바위", "_pragmatic"],
-            [".*무결점의.?정원", "_default"],
-            [".*예견의.?구상", "_default"],
-            [".*숨겨진.?비경", "_SKIP_"]
+            ["은빛의.?호.+", "_aggressive"],
+            ["고요한.+", "_aggressive"],
+            ["여명의.+", "_pragmatic"],
+            ["얼어붙은.?바위", "_pragmatic"],
+            ["무결점의.?정원", "_default"],
+            ["예견의.?구상", "_default"],
+            ["숨겨진.?비경", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
-            [".*은빛의.?호.+", "_default"],
-            [".*고요한.+", "_default"],
-            [".*여명의.+", "_exit"],
-            [".*얼어붙은.?바위", "_exit"],
-            [".*무결점의.?정원", "_exit"],
-            [".*예견의.?구상", "_exit"],
-            [".*숨겨진.?비경", "_exit"]
+            ["은빛의.?호.+", "_default"],
+            ["고요한.+", "_default"],
+            ["여명의.+", "_exit"],
+            ["얼어붙은.?바위", "_exit"],
+            ["무결점의.?정원", "_exit"],
+            ["예견의.?구상", "_exit"],
+            ["숨겨진.?비경", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
         "ocrReplace": [
-            [".*은빛의.?호.+", "_collapsal_paradigms"],
-            [".*고요한.+", "_collapsal_paradigms"],
-            [".*여명의.+", "_SKIP_"],
-            [".*얼어붙은.?바위", "_SKIP_"],
-            [".*무결점의.?정원", "_SKIP_"],
-            [".*예견의.?구상", "_SKIP_"],
-            [".*숨겨진.?비경", "_SKIP_"]
+            ["은빛의.?호.+", "_collapsal_paradigms"],
+            ["고요한.+", "_collapsal_paradigms"],
+            ["여명의.+", "_SKIP_"],
+            ["얼어붙은.?바위", "_SKIP_"],
+            ["무결점의.?정원", "_SKIP_"],
+            ["예견의.?구상", "_SKIP_"],
+            ["숨겨진.?비경", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
-            [".*은빛의.?호.+", "_aggressive"],
-            [".*고요한.+", "_aggressive"],
-            [".*여명의.+", "_pragmatic"],
-            [".*얼어붙은.?바위", "_pragmatic"],
-            [".*무결점의.?정원", "_default"],
-            [".*예견의.?구상", "_default"],
-            [".*숨겨진.?비경", "_SKIP_"]
+            ["은빛의.?호.+", "_aggressive"],
+            ["고요한.+", "_aggressive"],
+            ["여명의.+", "_pragmatic"],
+            ["얼어붙은.?바위", "_pragmatic"],
+            ["무결점의.?정원", "_default"],
+            ["예견의.?구상", "_default"],
+            ["숨겨진.?비경", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
-            [".*은빛의.?호.+", "_aggressive"],
-            [".*고요한.+", "_aggressive"],
-            [".*여명의.+", "_pragmatic"],
-            [".*얼어붙은.?바위", "_pragmatic"],
-            [".*무결점의.?정원", "_default"],
-            [".*예견의.?구상", "_default"],
-            [".*숨겨진.?비경", "_SKIP_"]
+            ["은빛의.?호.+", "_aggressive"],
+            ["고요한.+", "_aggressive"],
+            ["여명의.+", "_pragmatic"],
+            ["얼어붙은.?바위", "_pragmatic"],
+            ["무결점의.?정원", "_default"],
+            ["예견의.?구상", "_default"],
+            ["숨겨진.?비경", "_SKIP_"]
         ]
     }
 }
