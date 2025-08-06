@@ -131,7 +131,8 @@
         {
             "name": "烟火漫天",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "滚圆财神",
@@ -224,7 +225,8 @@
         {
             "name": "石山",
             "option_num": 3,
-            "choose": 3
+            "choose": 3,
+            "fallback_choices": [[4, 4]]
         },
         {
             "name": "禳解",
@@ -263,6 +265,46 @@
             "name": "祠堂口",
             "option_num": 2,
             "choose": 2
+        },
+        {
+            "name": "所见",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "百氏之乱",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "生机",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "榆蝶",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "珀",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "应“蕴”而生",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "点拨",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "不速之客",
+            "option_num": 3,
+            "choose": 3
         }
     ]
 }

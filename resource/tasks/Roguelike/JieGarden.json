@@ -900,6 +900,40 @@
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
+    "JieGarden@Roguelike@StageOmissions": {
+        "Doc": "树洞 拾遗 绿色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [70, 0, 0],
+                [80, 255, 170]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageLegend": {
+        "Doc": "树洞 传说 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
     "JieGarden@Roguelike@Stages": {
         "baseTask": "JieGarden@Roguelike@Stages_default",
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
@@ -971,6 +1005,14 @@
         "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
+    "JieGarden@Roguelike@Stages_defaultBoskyPassage": {
+        "algorithm": "JustReturn",
+        "next": [
+            "JieGarden@Roguelike@StageOmissions",
+            "JieGarden@Roguelike@StageLegend",
+            "JieGarden@Roguelike@ClickRemainingCandleFlame"
+        ]
+    },
     "JieGarden@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
@@ -1032,7 +1074,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_defaultBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1040,7 +1082,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_defaultBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1048,7 +1090,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
-        "text": ["_aggressive", "_pragmatic", "_default", "_leaveBoskyPassage"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_defaultBoskyPassage"],
         "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["洪陆楼", "_aggressive"],
@@ -1057,7 +1099,7 @@
             ["汝吾(门)?", "_pragmatic"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_defaultBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1130,7 +1172,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_defaultBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1138,7 +1180,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_defaultBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1146,7 +1188,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_defaultBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1154,7 +1196,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_defaultBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
