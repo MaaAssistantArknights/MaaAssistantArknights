@@ -188,7 +188,7 @@
     },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
         "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
-        "specialParams": [150, 0, 0.5]
+        "specialParams": [150, 0, 0, 0]
     },
     "RoguelikeRecruitSupportElite": {
         "Doc": "base_task",
@@ -1525,7 +1525,7 @@
     },
     "Roguelike@StageTraderRefreshWithDiceConfirm": {
         "action": "ClickSelf",
-        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshConfirmNew"],
+        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm.png", "Roguelike@StageTraderRefreshConfirmNew.png"],
         "roi": [580, 375, 700, 230],
         "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
     },
