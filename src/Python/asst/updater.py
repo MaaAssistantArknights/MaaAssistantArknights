@@ -196,16 +196,20 @@ class Updater:
             # 下载，调用Downloader下载器，使用url_list（镜像url列表）和file（文件保存路径）两个参数
             # Proxy参数没加，因为可能有问题（也可能没问题反正我晚上Clash连不上）
             # 重试3次
+            download_finished = False
             max_retry = 3
             for retry_frequency in range(max_retry):
                 try:
                     Updater.custom_print("开始下载" + (f"，第{retry_frequency}次尝试" if retry_frequency > 1 else ""))
                     # 调用downloader方法进行下载
-                    downloader.file_download(download_url_list=url_list, download_path=file)
+                    download_finished = downloader.file_download(download_url_list=url_list, download_path=file)
                     break           # RNM怎么会有这么蠢的人忘了写break啊淦
                 except(HTTPError, URLError) as e:
                     Updater.custom_print(e)
 
+            if not download_finished:
+                Updater.custom_print('下载异常，更新失败')
+                return
             # 解压下载的文件，
             Updater.custom_print('开始安装更新，请不要关闭')
             file_extension = os.path.splitext(filename)[1]
