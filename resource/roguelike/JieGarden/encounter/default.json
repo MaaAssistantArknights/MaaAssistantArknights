@@ -180,6 +180,7 @@
             "name": "集印",
             "option_num": 3,
             "choose": 2,
+            "fallback_choices": [[4, 2]],
             "next_event": "集印-2"
         },
         {
