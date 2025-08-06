@@ -1,0 +1,288 @@
+{
+    "plans": [
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
+                        "sort": true
+                    },
+                    {
+                        "product": "LMD",
+                        "operators": ["月见夜", "古米", "空爆"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Orundum",
+                        "operators": ["能天使", "伺夜", "石英"],
+                        "sort": true
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["砾", "夜烟", "斑点"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["香草", "杰西卡", "水月"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Originium Shard",
+                        "operators": ["艾雅法拉", "炎熔", "地灵"],
+                        "sort": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["阿米娅", "凯尔希", "灵知"],
+                        "autofill": true
+                    }
+                ],
+                "power": [
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "meeting": [
+                    {
+                        "autofill": true
+                    }
+                ]
+            },
+            "Fiammetta": {
+                "enable": true,
+                "target": "巫恋",
+                "order": "pre"
+            },
+            "drones": {
+                "enable": true,
+                "index": "3",
+                "room": "trading",
+                "order": "post"
+            },
+            "name": "A 组 6 H",
+            "description": "中效率组",
+            "description_post": "下次换班请在约6小时后进行"
+        },
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
+                        "sort": true
+                    },
+                    {
+                        "product": "LMD",
+                        "operators": ["月见夜", "古米", "空爆"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Orundum",
+                        "operators": ["能天使", "伺夜", "石英"],
+                        "sort": true
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["清流", "温蒂", "森蚺"],
+                        "sort": false
+                    },
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["香草", "杰西卡", "水月"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Originium Shard",
+                        "operators": ["泡泡", "火神", "褐果"],
+                        "sort": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["阿米娅", "灵知", "凯尔希"],
+                        "autofill": true
+                    }
+                ],
+                "power": [
+                    {
+                        "operators": ["承曦格雷伊"]
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "meeting": [
+                    {
+                        "autofill": true
+                    }
+                ]
+            },
+            "Fiammetta": {
+                "enable": true,
+                "target": "龙舌兰",
+                "order": "pre"
+            },
+            "drones": {
+                "enable": true,
+                "index": "3",
+                "room": "manufacture",
+                "order": "post"
+            },
+            "name": "B 组 6H",
+            "description": "中效率组",
+            "description_post": "下次换班请在约6小时后进行"
+        },
+        {
+            "rooms": {
+                "trading": [
+                    {
+                        "product": "LMD",
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
+                        "sort": true
+                    },
+                    {
+                        "product": "LMD",
+                        "operators": ["孑", "银灰", "但书"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Orundum",
+                        "operators": ["夜刀", "德克萨斯", "拉普兰德"],
+                        "sort": true
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["清流", "温蒂", "森蚺"],
+                        "sort": false
+                    },
+                    {
+                        "product": "Pure Gold",
+                        "operators": ["砾", "夜烟", "斑点"],
+                        "sort": true
+                    },
+                    {
+                        "product": "Originium Shard",
+                        "operators": ["泡泡", "火神", "褐果"],
+                        "sort": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "operators": ["阿米娅", "灵知", "凯尔希"],
+                        "autofill": true
+                    }
+                ],
+                "power": [
+                    {
+                        "operators": ["承曦格雷伊"]
+                    },
+                    {
+                        "autofill": true
+                    },
+                    {
+                        "autofill": true
+                    }
+                ],
+                "meeting": [
+                    {
+                        "autofill": true
+                    }
+                ]
+            },
+            "Fiammetta": {
+                "enable": true,
+                "target": "卡夫卡",
+                "order": "pre"
+            },
+            "drones": {
+                "enable": true,
+                "index": 3,
+                "room": "manufacture",
+                "order": "post"
+            },
+            "name": "C 组 12H",
+            "description": "高效率组",
+            "description_post": "下次换班请在约12小时后进行"
+        }
+    ],
+    "author": "面包猫南北",
+    "description": "长期搓玉333排班协议",
+    "id": 1664692636351064,
+    "title": "333长期搓玉，具体干员配置参考公孙长乐大佬，使用换班时间为6-6-12组，要求有菲亚\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）",
+    "buildingType": "333"
+}
