@@ -32,7 +32,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 다운로드 및 설치
 
-[문서](./manual/newbie.md) 를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 에서 다운로드하십시오. [초보자 가이드](./manual/newbie.md) 를 참고하여 설치하십시오.
+[문서](./manual/newbie.md) 를 읽은 후 [공식 웹사이트](https://maa.plus) 또는 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 에서 다운로드하세요. [초보자 가이드](./manual/newbie.md) 를 참고하여 설치하세요.
 
 ## 주요 기능
 
@@ -51,7 +51,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
-```component Image2
+```component Image4
 {
   "imageList": [
     {
@@ -61,6 +61,14 @@ MAA는 MAA Assistant Arknights의 약자입니다
     {
       "light": "images/ko-kr/readme/2-light.png",
       "dark": "images/ko-kr/readme/2-light.png"
+    },
+    {
+      "light": "images/ko-kr/readme/3-light.png",
+      "dark": "images/ko-kr/readme/3-light.png"
+    },
+    {
+      "light": "images/ko-kr/readme/4-light.png",
+      "dark": "images/ko-kr/readme/4-light.png"
     }
   ]
 }
@@ -70,7 +78,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 기능 소개
 
-[사용자 매뉴얼](./manual/)을 참조하십시오.
+[사용자 매뉴얼](./manual/)을 참조하세요.
 
 ### 해외 서버 지원
 
@@ -90,7 +98,7 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 
 **현재 프로젝트 팀에 프론트엔드 전문가가 매우 부족합니다! 관련 경험이 있으시다면 함께 참여해 주세요!**
 
-- New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - [전략 파일 저장소](https://prts.plus): Frontend [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [전략 파일 저장소](https://prts.plus): Backend [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [공식 웹사이트](https://maa.plus): [frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
@@ -104,18 +112,11 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 
 [![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
-### Windows
+### 개발 참여 및 기여
 
-1. 미리 빌드된 서드파티 라이브러리 다운로드
+#### Windows
 
-    ```cmd
-    python maadeps-download.py
-    ```
-
-2. Visual Studio 2022 로 `MAA.sln`파일을 열고, `MaaWpfGui`를 마우스 우클릭을 해 시작 프로젝트로 설정합니다.
-3. VS 상단에서 `RelWithDebInfo` `x64`을 선택합니다. (릴리즈 패키지 또는 ARM 플랫폼을 컴파일하는 경우 이 단계를 무시하세요)
-4. `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화（이렇게 하면 C++ Core에 중단점을 설정할 수 있습니다）
-5. （선택사항）PR을 제출하기전에, [clang-format 지원](./develop/development.md#visual-studio에서-clang-format-사용-설정)을 활성화하는 것이 좋습니다.
+[개발 전 필수 사항](./develop/development.md)을 참조하세요.
 
 ### Linux | macOS
 
@@ -156,7 +157,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - 이미지 인식: [opencv](https://github.com/opencv/opencv.git)
 - ~~글자 인식: [chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
 - 글자 인식: [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- ML Deployment: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 딥러닝 배포 라이브러리: [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
 - ML accelerator: [onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~아이템 드랍 인식: [Penguin Stats recognizer](https://github.com/penguin-statistics/recognizer)~~
 - 맵 타일 인식: [Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
@@ -168,9 +169,10 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - 안드로이드 터치 이벤트 구현: [Minitouch](https://github.com/DeviceFarmer/minitouch)
 - 안드로이드 터치 이벤트 구현: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 프레임워크: [Stylet](https://github.com/canton7/Stylet)
-- WPF 조작 라이브러리: [HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON 라이브러리: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- 다운로더: [aria2](https://github.com/aria2/aria2)
+- WPF 조작 라이브러리: [HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
+- C# 로그: [Serilog](https://github.com/serilog/serilog)
+- C# JSON 라이브러리: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- ~~다운로더: [aria2](https://github.com/aria2/aria2)~~
 
 ### 데이터 소스
 
@@ -198,10 +200,12 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 광고
 
-사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+사용자 그룹: [QQ 그룹](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 서버: [Discord 링크](https://discord.gg/23DfZ9uA4V)  
+사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 [전략 JSON 공유](https://prts.plus)  
 Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담  
+
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
