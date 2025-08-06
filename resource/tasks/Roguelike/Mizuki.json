@@ -106,8 +106,9 @@
     },
     "Mizuki@Roguelike@DiceConfirm": {
         "Doc": "骰子的确认按钮",
-        "action": "ClickSelf",
+        "action": "ClickRect",
         "roi": [551, 577, 174, 143],
+        "specificRect": [600, 600, 1, 1],
         "templThreshold": 0.95,
         "postDelay": 1000,
         "next": [
