@@ -37,7 +37,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
-                        IsChecked="{Binding UseMedicineWithNull}"
+                        IsChecked="{Binding UseMedicine}"
                         IsEnabled="{c:Binding !UseStoneDisplay}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
@@ -47,7 +47,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{c:Binding 'UseStoneString + (AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}"
-                        IsChecked="{Binding UseStoneWithNull}"
+                        IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
@@ -56,7 +56,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource PerformBattles}"
-                        IsChecked="{Binding HasTimesLimitedWithNull}"
+                        IsChecked="{Binding HasTimesLimited}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -106,7 +106,7 @@
                             Height="30"
                             VerticalContentAlignment="Center"
                             Content="{DynamicResource AssignedMaterial}"
-                            IsChecked="{Binding IsSpecifiedDropsWithNull}"
+                            IsChecked="{Binding IsSpecifiedDrops}"
                             MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                           Target={x:Type helper:CheckBoxHelper}}"
                             ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -116,7 +116,7 @@
                             NormalOpacity="0.25"
                             TooltipText="{DynamicResource SpecifiedDropsTip}" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
+                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
                         <controls:TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -148,7 +148,7 @@
                         VerticalContentAlignment="Center"
                         Maximum="1145141919"
                         Minimum="1"
-                        Visibility="{c:Binding IsSpecifiedDropsWithNull}"
+                        Visibility="{c:Binding IsSpecifiedDrops}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
