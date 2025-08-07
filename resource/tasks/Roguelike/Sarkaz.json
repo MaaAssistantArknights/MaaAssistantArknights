@@ -1205,7 +1205,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
@@ -1217,7 +1217,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -1230,7 +1230,7 @@
             ["或然歧域", "_pragmatic"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode1": {
@@ -1246,7 +1246,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
@@ -1258,7 +1258,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
@@ -1270,7 +1270,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
@@ -1282,7 +1282,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@TodoEnter": {},
