@@ -421,7 +421,7 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [1061, 373, 208, 71],
+        "roi": [1064, 294, 216, 170],
         "next": ["Roguelike@StartExplore"]
     },
     "Roguelike@ChooseDifficultyConfirm": {
