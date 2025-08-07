@@ -6,10 +6,6 @@
             "Sami@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sami@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Sami@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Sami@Roguelike@NextLevel", "Sami@Roguelike@NextLevel#next"]
-    },
     "Sami@StartExplore@Roguelike@RecruitOther": {
         "template": "Sami@Roguelike@Recruit.png"
     },
@@ -569,7 +565,6 @@
     "Sami@Roguelike@RecruitWithoutButton": {
         "next": [
             "Sami@Roguelike@RecruitOther",
-            "Sami@Roguelike@EnterAfterRecruit",
             "Sami@Roguelike@TraderRandomShopping",
             "Sami@Roguelike@StageTraderLeave",
             "Sami@Roguelike@DropsFlag",

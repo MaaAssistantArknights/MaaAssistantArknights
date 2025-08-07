@@ -6,10 +6,6 @@
             "Phantom@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Phantom@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Phantom@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Phantom@Roguelike@NextLevel", "Phantom@Roguelike@NextLevel#next"]
-    },
     "Phantom@StartExplore@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
@@ -171,7 +167,6 @@
     "Phantom@Roguelike@RecruitWithoutButton": {
         "next": [
             "Phantom@Roguelike@RecruitOther",
-            "Phantom@Roguelike@EnterAfterRecruit",
             "Phantom@Roguelike@TraderRandomShopping",
             "Phantom@Roguelike@StageTraderLeave",
             "Phantom@Roguelike@DropsFlag",

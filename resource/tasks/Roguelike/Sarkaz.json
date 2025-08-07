@@ -6,10 +6,6 @@
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Sarkaz@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Sarkaz@Roguelike@NextLevel", "Sarkaz@Roguelike@NextLevel#next"]
-    },
     "Sarkaz@StartExplore@Roguelike@RecruitOther": {
         "template": "Sarkaz@Roguelike@Recruit.png"
     },
@@ -305,7 +301,6 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@StageEncounterOptions#next",
             "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@RecruitOther"
@@ -320,7 +315,6 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@StageEncounterOptions#next",
             "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@RecruitOther"
@@ -450,7 +444,6 @@
     "Sarkaz@Roguelike@RecruitWithoutButton": {
         "next": [
             "Sarkaz@Roguelike@RecruitOther",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@TraderRandomShopping",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@DropsFlag",

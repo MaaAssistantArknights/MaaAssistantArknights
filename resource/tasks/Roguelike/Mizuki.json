@@ -6,10 +6,6 @@
             "Mizuki@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Mizuki@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Mizuki@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Mizuki@Roguelike@NextLevel", "Mizuki@Roguelike@NextLevel#next"]
-    },
     "Mizuki@StartExplore@Roguelike@RecruitOther": {
         "template": "Mizuki@Roguelike@Recruit.png"
     },
@@ -291,7 +287,6 @@
     "Mizuki@Roguelike@RecruitWithoutButton": {
         "next": [
             "Mizuki@Roguelike@RecruitOther",
-            "Mizuki@Roguelike@EnterAfterRecruit",
             "Mizuki@Roguelike@TraderRandomShopping",
             "Mizuki@Roguelike@StageTraderLeave",
             "Mizuki@Roguelike@DropsFlag",

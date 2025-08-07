@@ -625,7 +625,6 @@
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@EnterAfterRecruit",
             "Roguelike@CloseEvent",
             "Roguelike@DialogSkip",
             "Roguelike@RecruitOther"
@@ -1806,7 +1805,7 @@
         "next": [
             "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "StartExplore@Roguelike@RecruitOther",
-            "StartExplore@Roguelike@EnterAfterRecruit",
+            "Roguelike@EnterAfterRecruit",
             "Roguelike@NextLevel",
             "Roguelike@NextLevel#next",
             "StartExplore@Roguelike@ChooseOperConfirmToGiveUp"
@@ -1829,7 +1828,7 @@
         "exceededNext": ["Roguelike@Abandon", "Roguelike@ExitThenAbandon"],
         "next": [
             "StartExplore@Roguelike@RecruitOther",
-            "StartExplore@Roguelike@EnterAfterRecruit",
+            "Roguelike@EnterAfterRecruit",
             "StartExplore@Roguelike@RecruitWithoutButton"
         ]
     }
