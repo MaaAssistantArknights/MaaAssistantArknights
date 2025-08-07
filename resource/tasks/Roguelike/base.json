@@ -1040,7 +1040,7 @@
         "next": ["Roguelike@ChooseOperFlag"]
     },
     "Roguelike@RecruitMain": {
-        "Doc": "base_task",
+        "Doc": "肉鸽开始探索时, 招募第一个干员用, base_task",
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [80, 470, 410, 154],

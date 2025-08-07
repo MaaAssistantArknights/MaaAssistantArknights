@@ -416,7 +416,7 @@
     "Sarkaz@Roguelike@LastRewardRand": {},
     "Sarkaz@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
-        "next": ["Sarkaz@Roguelike@RecruitOther"]
+        "next": ["Sarkaz@StartExplore@Roguelike@RecruitOther"]
     },
     "Sarkaz@Roguelike@MissionFailedFlag": {
         "roi": [505, 342, 265, 154]

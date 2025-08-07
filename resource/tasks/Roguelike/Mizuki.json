@@ -254,7 +254,7 @@
     "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
-        "next": ["Mizuki@Roguelike@RecruitOther"]
+        "next": ["Mizuki@StartExplore@Roguelike@RecruitOther"]
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
