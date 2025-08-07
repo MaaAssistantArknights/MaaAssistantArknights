@@ -19,6 +19,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
@@ -169,30 +170,30 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
-            var errorCode = data["code"]?.ToObject<Enums.MirrorChyanErrorCode>() ?? Enums.MirrorChyanErrorCode.Undivided;
-            if (errorCode != Enums.MirrorChyanErrorCode.Success)
+            var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;
+            if (errorCode != MirrorChyanErrorCode.Success)
             {
                 switch (errorCode)
                 {
-                    case Enums.MirrorChyanErrorCode.KeyExpired:
+                    case MirrorChyanErrorCode.KeyExpired:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkExpired"));
                         break;
-                    case Enums.MirrorChyanErrorCode.KeyInvalid:
+                    case MirrorChyanErrorCode.KeyInvalid:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
                         AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
                         break;
-                    case Enums.MirrorChyanErrorCode.ResourceQuotaExhausted:
+                    case MirrorChyanErrorCode.ResourceQuotaExhausted:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkQuotaExhausted"));
                         break;
-                    case Enums.MirrorChyanErrorCode.KeyMismatched:
+                    case MirrorChyanErrorCode.KeyMismatched:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
                         break;
-                    case Enums.MirrorChyanErrorCode.InvalidParams:
-                    case Enums.MirrorChyanErrorCode.ResourceNotFound:
-                    case Enums.MirrorChyanErrorCode.InvalidOs:
-                    case Enums.MirrorChyanErrorCode.InvalidArch:
-                    case Enums.MirrorChyanErrorCode.InvalidChannel:
-                    case Enums.MirrorChyanErrorCode.Undivided:
+                    case MirrorChyanErrorCode.InvalidParams:
+                    case MirrorChyanErrorCode.ResourceNotFound:
+                    case MirrorChyanErrorCode.InvalidOs:
+                    case MirrorChyanErrorCode.InvalidArch:
+                    case MirrorChyanErrorCode.InvalidChannel:
+                    case MirrorChyanErrorCode.Undivided:
                         ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("GameResourceFailed"));
                         break;
                 }
