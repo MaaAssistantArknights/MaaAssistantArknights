@@ -390,6 +390,8 @@
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RecruitWithoutButton"
         ]
     },

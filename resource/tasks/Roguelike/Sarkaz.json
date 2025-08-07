@@ -449,6 +449,8 @@
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@ChooseOperFlag",
             "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@NextLevel#next",
             "Sarkaz@Roguelike@RecruitWithoutButton"
         ]
     },

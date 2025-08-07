@@ -172,6 +172,8 @@
             "Phantom@Roguelike@DropsFlag",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@NextLevel#next",
             "Phantom@Roguelike@RecruitWithoutButton"
         ]
     },
