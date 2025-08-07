@@ -23,13 +23,13 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Command;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
 using Stylet;
-using static MaaWpfGui.Constants.Enums;
 
 namespace MaaWpfGui.Helper
 {
@@ -171,7 +171,7 @@ namespace MaaWpfGui.Helper
         private static string GetGroupPrefix(string id)
         {
             // 例如 SanitySpender1 => SanitySpender
-            return new(id.TakeWhile(char.IsLetter).ToArray());
+            return new([.. id.TakeWhile(char.IsLetter)]);
         }
 
         public void Unlock(string id, bool staysOpen = true)
