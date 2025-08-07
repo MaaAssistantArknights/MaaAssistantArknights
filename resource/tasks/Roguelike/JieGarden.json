@@ -321,7 +321,7 @@
     },
     "JieGarden@Roguelike@MapObject": {
         "roi": [255, 491, 192, 119],
-        "next": ["JieGarden@Roguelike@RecruitOther"]
+        "next": ["JieGarden@StartExplore@Roguelike@RecruitOther"]
     },
     "JieGarden@Roguelike@MissionFailedFlag": {
         "roi": [437, 242, 403, 192]

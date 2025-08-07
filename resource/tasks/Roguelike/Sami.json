@@ -528,7 +528,7 @@
     "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
-        "next": ["Sami@Roguelike@RecruitOther"]
+        "next": ["Sami@StartExplore@Roguelike@RecruitOther"]
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
