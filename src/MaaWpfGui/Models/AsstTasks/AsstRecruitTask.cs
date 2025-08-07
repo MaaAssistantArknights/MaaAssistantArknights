@@ -92,7 +92,7 @@ public class AsstRecruitTask : AsstBaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 遇到小车词条时是否招募
     /// </summary>
-    public bool ChooseLevel1 { get; set; }
+    public bool NotChooseLevel1 { get; set; }
 
     /// <summary>
     /// Gets or sets 3 星招募时间
@@ -145,7 +145,7 @@ public class AsstRecruitTask : AsstBaseTask
             ["times"] = RecruitTimes,
             ["set_time"] = SetRecruitTime,
             ["expedite"] = UseExpedited,
-            ["skip_robot"] = !ChooseLevel1,
+            ["skip_robot"] = NotChooseLevel1,
             ["extra_tags_mode"] = SelectExtraTags,
             ["first_tags"] = JArray.FromObject(Level3FirstList),
             ["recruitment_time"] = new JObject
