@@ -984,6 +984,40 @@
             "JieGarden@Roguelike@Stages#next"
         ]
     },
+    "JieGarden@Roguelike@StageOldShop": {
+        "Doc": "树洞 故肆 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageScheme": {
+        "Doc": "树洞 筹谋 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
     "JieGarden@Roguelike@StageYiTraderEnter": {
         "baseTask": "Roguelike@StageEnter",
         "next": ["JieGarden@Roguelike@StageTraderLeave", "JieGarden@Roguelike@StageTraderLeaveConfirm"]
