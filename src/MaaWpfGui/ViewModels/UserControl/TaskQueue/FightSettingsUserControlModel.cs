@@ -241,7 +241,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
+    private bool _useRemainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
 
     public bool UseRemainingSanityStage
     {
@@ -253,7 +253,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
+    private bool _customStageCode = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom stage code.
@@ -322,7 +322,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         IsSpecifiedDropsWithNull ??= false;
     }
 
-    private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
+    private bool? _useMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use medicine with null.
@@ -366,8 +366,8 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
 
-    private bool? _useStoneWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString)) &&
-                                      Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, bool.FalseString));
+    private bool? _useStoneWithNull = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false) &&
+                                      ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use originiums with null.
@@ -433,7 +433,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool? _hasTimesLimitedWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, bool.FalseString));
+    private bool? _hasTimesLimited = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the number of times is limited with null.
@@ -516,7 +516,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     #region Drops
 
-    private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
+    private bool? _isSpecifiedDropsWithNull = ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drops are specified.
@@ -708,7 +708,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
+    private bool _isDrGrandet = ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use DrGrandet mode.
@@ -723,7 +723,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
+    private bool _useAlternateStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use alternate stage.
@@ -742,7 +742,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _allowUseStoneSave = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, bool.FalseString));
+    private bool _allowUseStoneSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
 
     public bool AllowUseStoneSave
     {
@@ -770,7 +770,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useExpiringMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, bool.FalseString));
+    private bool _useExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
 
     public bool UseExpiringMedicine
     {
@@ -805,7 +805,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
+    private bool _hideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide series.
@@ -883,7 +883,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     #region 双入口设置可见性
 
-    private bool _customInfrastPlanShowInFightSettings = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, bool.FalseString));
+    private bool _customInfrastPlanShowInFightSettings = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, false);
 
     public bool CustomInfrastPlanShowInFightSettings
     {
