@@ -32,7 +32,7 @@
         "ParamsArray": {
             "type": "array",
             "items": {
-                "type": "number"
+                "type": "integer"
             }
         },
         "TaskNameList": {
@@ -162,6 +162,7 @@
                 },
                 {
                     "if": {
+                        "required": ["algorithm", "action"],
                         "properties": {
                             "algorithm": {
                                 "const": "JustReturn"
@@ -169,8 +170,7 @@
                             "action": {
                                 "const": "Input"
                             }
-                        },
-                        "required": ["algorithm", "action"]
+                        }
                     },
                     "then": {
                         "required": ["inputText"]
@@ -228,9 +228,9 @@
                 "maskRange": {
                     "type": "array",
                     "maxItems": 2,
-                    "minimum": 2,
+                    "minItems": 2,
                     "items": {
-                        "type": "number"
+                        "type": "integer"
                     },
                     "default": [1, 255],
                     "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
@@ -250,7 +250,7 @@
                     "description": "Optional when method is HSVCount or RGBCount, default true\nWhether to use morphological closing on mask range for color counting\nClosing fills small black dots, generally improves color matching but set false for text"
                 },
                 "method": {
-                    "type": ["array", "string"],
+                    "type": ["string", "array"],
                     "items": {
                         "type": "string"
                     },
@@ -326,8 +326,8 @@
                     "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
                 }
             },
-            "description": "Text recognition",
-            "required": ["algorithm", "text"]
+            "required": ["algorithm", "text"],
+            "description": "Text recognition"
         },
         "FeatureMatchTask": {
             "allOf": [
