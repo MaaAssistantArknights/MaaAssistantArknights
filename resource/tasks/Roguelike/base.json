@@ -1627,6 +1627,7 @@
     },
     "Roguelike@StartExplore": {
         "Doc": "base_task",
+        "Doc2": "注册了 RoguelikeDifficultySelectionTaskPlugin 插件",
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [1026, 470, 254, 248],
@@ -1635,7 +1636,6 @@
         "next": [
             "Roguelike@Squad-EnterPoint",
             "Roguelike@InitialDrop",
-            "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore-EnterCheck"
         ]
     },
