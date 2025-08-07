@@ -44,7 +44,13 @@ class Updater:
 
         # 使用子线程获取当前版本后关闭，避免占用dll
         q = queues.Queue(1, ctx=multiprocessing)
-        p = Process(target=self._get_cur_version, args=(path, q,))
+        p = Process(
+            target=self._get_cur_version,
+            args=(
+                path,
+                q,
+            ),
+        )
         p.start()
         p.join()
         # MAA当前版本 self.cur_version
@@ -53,11 +59,11 @@ class Updater:
     @staticmethod
     def map_version_type(version):
         type_map = {
-            Version.Nightly: 'alpha',
-            Version.Beta: 'beta',
-            Version.Stable: 'stable'
+            Version.Nightly: "alpha",
+            Version.Beta: "beta",
+            Version.Stable: "stable",
         }
-        return type_map.get(version, 'stable')
+        return type_map.get(version, "stable")
 
     def get_latest_version(self):
         """
@@ -92,8 +98,8 @@ class Updater:
                 }
                 """
                 version_type = self.map_version_type(self.version)
-                latest_version = response_data[version_type]['version']
-                version_detail = response_data[version_type]['detail']
+                latest_version = response_data[version_type]["version"]
+                version_detail = response_data[version_type]["detail"]
                 return latest_version, version_detail
             except Exception as e:
                 self.custom_print(e)
@@ -115,17 +121,17 @@ class Updater:
         """
         system_platform = "win-x64"
         system = platform.system()
-        if system == 'Linux':
+        if system == "Linux":
             machine = platform.machine()
-            if machine == 'aarch64':
+            if machine == "aarch64":
                 # Linux aarch64
                 system_platform = "linux-aarch64"
             else:
                 # Linux x86
                 system_platform = "linux-x86_64"
-        elif system == 'Windows':
+        elif system == "Windows":
             machine = platform.machine()
-            if machine == 'AMD64' or machine == 'x86_64':
+            if machine == "AMD64" or machine == "x86_64":
                 # Windows x86-64
                 system_platform = "win-x64"
             else:
@@ -134,7 +140,7 @@ class Updater:
         # 请求的是https://api.maa.plus/MaaAssistantArknights/api/version/stable.json，或其他版本类型对应的url
         detail_json = request.urlopen(detail)
         detail_data = json.loads(detail_json.read().decode("utf-8"))
-        assets_list = detail_data["details"]["assets"]     # 列表，子元素为字典
+        assets_list = detail_data["details"]["assets"]  # 列表，子元素为字典
         # 找到对应系统和架构的版本
         for assets in assets_list:
             """
@@ -151,7 +157,7 @@ class Updater:
                 ]
             }
             """
-            assets_name = assets["name"]        # 示例值:MAA-v4.24.0-beta.1-win-arm64.zip
+            assets_name = assets["name"]  # 示例值:MAA-v4.24.0-beta.1-win-arm64.zip
             # 正则匹配（用于选择当前系统及架构的版本）
             # 在线等一个不这么蠢的方法
             pattern = r"^MAA-.*-" + re.escape(system_platform) + r"\.(zip|tar\.gz)$"
@@ -174,9 +180,11 @@ class Updater:
         # 从API获取最新版本
         # latest_version：版本号; version_detail：对应的json地址
         latest_version, version_detail = self.get_latest_version()
-        if not latest_version:                      # latest_version为False代表获取失败
+        if not latest_version:  # latest_version为False代表获取失败
             self.custom_print("获取版本信息失败")
-        elif current_version == latest_version:     # 通过比较二者是否一致判断是否需要更新（摆烂
+        elif (
+            current_version == latest_version
+        ):  # 通过比较二者是否一致判断是否需要更新（摆烂
             self.custom_print("当前为最新版本，无需更新")
         else:
             self.custom_print(f"检测到最新版本:{latest_version}，正在更新")
@@ -192,6 +200,9 @@ class Updater:
                 return
             # 将路径和文件名拼合成绝对路径
             # 默认在maa主程序/MaaCore.dll所在路径下
+            if not isinstance(filename, str):
+                self.custom_print("文件名无效")
+                return
             file = os.path.join(self.path, filename)
             # 下载，调用Downloader下载器，使用url_list（镜像url列表）和file（文件保存路径）两个参数
             # Proxy参数没加，因为可能有问题（也可能没问题反正我晚上Clash连不上）
@@ -200,36 +211,46 @@ class Updater:
             max_retry = 3
             for retry_frequency in range(max_retry):
                 try:
-                    Updater.custom_print("开始下载" + (f"，第{retry_frequency}次尝试" if retry_frequency > 1 else ""))
+                    Updater.custom_print(
+                        "开始下载"
+                        + (
+                            f"，第{retry_frequency}次尝试"
+                            if retry_frequency > 1
+                            else ""
+                        )
+                    )
                     # 调用downloader方法进行下载
-                    download_finished = downloader.file_download(download_url_list=url_list, download_path=file)
-                    break           # RNM怎么会有这么蠢的人忘了写break啊淦
-                except(HTTPError, URLError) as e:
+                    download_finished = downloader.file_download(
+                        download_url_list=url_list, download_path=file
+                    )
+                    break  # RNM怎么会有这么蠢的人忘了写break啊淦
+                except (HTTPError, URLError) as e:
                     Updater.custom_print(e)
 
             if not download_finished:
-                Updater.custom_print('下载异常，更新失败')
+                Updater.custom_print("下载异常，更新失败")
                 return
+
             # 解压下载的文件，
-            Updater.custom_print('开始安装更新，请不要关闭')
+            Updater.custom_print("开始安装更新，请不要关闭")
             file_extension = os.path.splitext(filename)[1]
             unzip = False
             # 根据拓展名选择解压算法
             # .zip(Windows)/.tar.gz(Linux)
-            if file_extension == '.zip':
-                zfile = zipfile.ZipFile(file, 'r')
+            if file_extension == ".zip":
+                zfile = zipfile.ZipFile(file, "r")
                 zfile.extractall(self.path)
                 zfile.close()
                 unzip = True
             # .tar.gz拓展名的情况（按照这个方式得到的拓展名是.gz，但是解压的是tar.gz
-            elif file_extension == '.gz':
-                tfile = tarfile.open(file, 'r:gz')
+            elif file_extension == ".gz":
+                tfile = tarfile.open(file, "r:gz")
                 tfile.extractall(self.path)
                 tfile.close()
                 unzip = True
             # 删除压缩包
             os.remove(file)
             if unzip:
-                Updater.custom_print('更新完成')
+                Updater.custom_print("更新完成")
             else:
-                Updater.custom_print('更新未完成')
+                Updater.custom_print("更新未完成")
