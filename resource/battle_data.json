@@ -2456,8 +2456,7 @@
         },
         "char_4010_etlchi": {
             "name": "隐德来希",
-            "name_en": "隐德来希",
-            "name_en_unavailable": true,
+            "name_en": "Entelechia",
             "name_jp": "エンテレケイア",
             "name_kr": "엔텔레키아",
             "name_tw": "隐德来希",
@@ -3538,8 +3537,7 @@
         },
         "char_4173_nowell": {
             "name": "诺威尔",
-            "name_en": "诺威尔",
-            "name_en_unavailable": true,
+            "name_en": "Nowell",
             "name_jp": "ノウエル",
             "name_kr": "노웰",
             "name_tw": "诺威尔",

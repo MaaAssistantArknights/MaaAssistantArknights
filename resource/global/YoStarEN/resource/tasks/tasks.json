@@ -866,7 +866,9 @@
             ["Surfer", "寻澜"],
             ["Xingzhu", "行箸"],
             ["Stove", "火灶"],
-            ["Derelict Stove", "废弃火灶"]
+            ["Derelict Stove", "废弃火灶"],
+            ["Entelechia", "隐德来希"],
+            ["Nowell", "诺威尔"]
         ]
     },
     "GameStartUpdateOCR": {
