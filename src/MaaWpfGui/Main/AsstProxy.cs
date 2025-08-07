@@ -1890,7 +1890,7 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTask.FightReport.TimesFinished);
                             }
 
-                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightTask.Instance.HasTimesLimited && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
+                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightTask.Instance.HasTimesLimitedWithNull != false && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
                             {
                                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTask.FightReport.TimesFinished, FightTask.FightReport.Series, FightTask.FightReport.TimesFinished + FightTask.FightReport.Series, FightTask.Instance.MaxTimes), UiLogColor.Error);
                             }

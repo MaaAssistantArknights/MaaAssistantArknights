@@ -316,25 +316,10 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public void ResetFightVariables()
     {
-        if (UseStoneWithNull == null)
-        {
-            UseStone = false;
-        }
-
-        if (UseMedicineWithNull == null)
-        {
-            UseMedicine = false;
-        }
-
-        if (HasTimesLimitedWithNull == null)
-        {
-            HasTimesLimited = false;
-        }
-
-        if (IsSpecifiedDropsWithNull == null)
-        {
-            IsSpecifiedDrops = false;
-        }
+        UseStoneWithNull ??= false;
+        UseMedicineWithNull ??= false;
+        HasTimesLimitedWithNull ??= false;
+        IsSpecifiedDropsWithNull ??= false;
     }
 
     private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
@@ -350,22 +335,13 @@ public class FightSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _useMedicineWithNull, value);
             if (value == false)
             {
-                UseStone = false;
+                UseStoneDisplay = false;
             }
 
             Instances.TaskQueueViewModel.SetFightParams();
             value ??= false;
             ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
         }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use medicine.
-    /// </summary>
-    public bool UseMedicine
-    {
-        get => UseMedicineWithNull != false;
-        set => UseMedicineWithNull = value;
     }
 
     private int _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
@@ -410,14 +386,14 @@ public class FightSettingsUserControlModel : TaskViewModel
             if (value != false)
             {
                 MedicineNumber = 999;
-                if (!UseMedicine)
+                if (UseMedicineWithNull == false)
                 {
                     UseMedicineWithNull = value;
                 }
             }
 
             // IsEnabled="{c:Binding UseStone}"
-            NotifyOfPropertyChange(nameof(UseStone));
+            NotifyOfPropertyChange(nameof(UseStoneDisplay));
 
             Instances.TaskQueueViewModel.SetFightParams();
             if (AllowUseStoneSave)
@@ -431,7 +407,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// Gets or sets a value indicating whether to use originiums.
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
-    public bool UseStone
+    public bool UseStoneDisplay
     {
         get => UseStoneWithNull != false;
         set => UseStoneWithNull = value;
@@ -472,15 +448,6 @@ public class FightSettingsUserControlModel : TaskViewModel
             value ??= false;
             ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimited, value.ToString());
         }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the number of times is limited.
-    /// </summary>
-    public bool HasTimesLimited
-    {
-        get => HasTimesLimitedWithNull != false;
-        set => HasTimesLimitedWithNull = value;
     }
 
     private int _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
@@ -887,10 +854,10 @@ public class FightSettingsUserControlModel : TaskViewModel
         var task = new AsstFightTask()
         {
             Stage = Stage,
-            Medicine = UseMedicine ? MedicineNumber : 0,
-            Stone = UseStone ? StoneNumber : 0,
+            Medicine = UseMedicineWithNull != false ? MedicineNumber : 0,
+            Stone = UseStoneDisplay ? StoneNumber : 0,
             Series = Series,
-            MaxTimes = HasTimesLimited ? MaxTimes : int.MaxValue,
+            MaxTimes = HasTimesLimitedWithNull != false ? MaxTimes : int.MaxValue,
             ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
             IsDrGrandet = IsDrGrandet,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -906,7 +873,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             task.Stage = AnnihilationStage;
         }
 
-        if (IsSpecifiedDrops && !string.IsNullOrEmpty(DropsItemId))
+        if (IsSpecifiedDropsWithNull != false && !string.IsNullOrEmpty(DropsItemId))
         {
             task.Drops.Add(DropsItemId, DropsQuantity);
         }

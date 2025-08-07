@@ -38,7 +38,7 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
-                        IsEnabled="{c:Binding !UseStone}"
+                        IsEnabled="{c:Binding !UseStoneDisplay}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -69,7 +69,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding !UseStone}"
+                        IsEnabled="{c:Binding !UseStoneDisplay}"
                         Maximum="999"
                         Minimum="0"
                         Value="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
