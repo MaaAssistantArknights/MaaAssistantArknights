@@ -89,15 +89,15 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::select_difficulty(const int d
 {
     LogTraceFunction;
 
-    const std::string theme = m_config->get_theme();
+    const std::string& theme = m_config->get_theme();
     static std::unordered_set<std::string> initialized_themes;
 
     if (!initialized_themes.contains(theme)) {
         ProcessTask(*this, { theme + "@Roguelike@ChooseDifficultyEnter" }).run();
 
         // 第一次运行肉鸽或者重装游戏后没有难度按钮，先判断下有没有 Confirm，没有就点一下 StartExplore
-        Matcher confirm_matcher(ctrler()->get_image());
-        confirm_matcher.set_task_info({ theme + "@Roguelike@ChooseDifficultyConfirm" });
+        OCRer confirm_matcher(ctrler()->get_image());
+        confirm_matcher.set_task_info(theme + "@Roguelike@ChooseDifficultyConfirm");
         if (!confirm_matcher.analyze()) {
             Log.warn("Failed to find difficulty selection UI. Try to click Roguelike@StartExplore.");
             Matcher start_explore_matcher(ctrler()->get_image());
