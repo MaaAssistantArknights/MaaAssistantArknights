@@ -799,7 +799,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, string> _serverMapping = new()
+        private static readonly Dictionary<string, string> _serverMapping = new()
         {
             { string.Empty, "CN" },
             { "Official", "CN" },
