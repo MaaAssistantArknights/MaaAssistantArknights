@@ -21,6 +21,7 @@ using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -139,16 +140,47 @@ public class ConfigConverter
                 fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
                 fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
                 fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
+                fightTask.TimesLimitEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
+                fightTask.MaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
+                fightTask.Series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicine);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicineQuantity);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStone);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseStoneQuantity);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.TimesLimited);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.TimesLimitedQuantity);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.SeriesQuantity);
+
+
                 fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty);
                 fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty);
                 fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage2);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage3);
+                fightTask.IsDrGrandet = ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, false);
+                fightTask.UseStoneAllowSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
+                fightTask.HideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
+                fightTask.UseExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
+                fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
+                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
+                fightTask.HideUnavailableStage = ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, true);
+                fightTask.IsStageManually = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
+                fightTask.UseOptionalStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.IsDrGrandet);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AllowUseStoneSave);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.HideSeries);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseExpiringMedicine);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.AnnihilationStage);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseCustomAnnihilation);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.HideUnavailableStage);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomStageCode);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.UseAlternateStage);
+
+                if (fightTask.Series > 6)
+                {
+                    fightTask.Series = 0;
+                }
 
                 fightTask2.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.RemainingSanityStage);
