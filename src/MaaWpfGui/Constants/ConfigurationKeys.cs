@@ -43,11 +43,11 @@ namespace MaaWpfGui.Constants
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
-        public const string UseAlternateStage = "GUI.UseAlternateStage";
-        public const string AllowUseStoneSave = "GUI.AllowUseStoneSave";
-        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
-        public const string HideSeries = "GUI.HideSeries";
-        public const string CustomStageCode = "GUI.CustomStageCode";
+        public const string UseAlternateStage = "GUI.UseAlternateStage"; // 已迁移
+        public const string AllowUseStoneSave = "GUI.AllowUseStoneSave"; // 已迁移
+        public const string HideUnavailableStage = "GUI.HideUnavailableStage"; // 已迁移
+        public const string HideSeries = "GUI.HideSeries"; // 已迁移
+        public const string CustomStageCode = "GUI.CustomStageCode"; // 已迁移
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
         public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
@@ -128,7 +128,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage"; // 已迁移
-        public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
+        public const string UseExpiringMedicine = "Fight.UseExpiringMedicine"; // 已迁移
         public const string RemainingSanityStage = "Fight.RemainingSanityStage"; // 已迁移
 
         public const string RoguelikeTheme = "Roguelike.RoguelikeTheme"; // 已迁移
@@ -229,7 +229,7 @@ namespace MaaWpfGui.Constants
         public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
-        public const string IsDrGrandet = "Penguin.IsDrGrandet";
+        public const string IsDrGrandet = "Penguin.IsDrGrandet"; // 已迁移
         public const string EnablePenguin = "Penguin.EnablePenguin";
 
         public const string EnableYituliu = "Yituliu.EnableYituliu";
@@ -247,15 +247,15 @@ namespace MaaWpfGui.Constants
         public const string Stage2 = "MainFunction.Stage2";
         public const string Stage3 = "MainFunction.Stage3";
         public const string Stage4 = "MainFunction.Stage4";
-        public const string UseCustomAnnihilation = "MainFunction.Annihilation.UseCustom";
-        public const string AnnihilationStage = "MainFunction.Annihilation.Stage";
-        public const string UseMedicine = "MainFunction.UseMedicine";
-        public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
-        public const string UseStone = "MainFunction.UseStone";
-        public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
-        public const string TimesLimited = "MainFunction.TimesLimited";
-        public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
-        public const string SeriesQuantity = "MainFunction.Series.Quantity";
+        public const string UseCustomAnnihilation = "MainFunction.Annihilation.UseCustom"; // 已迁移
+        public const string AnnihilationStage = "MainFunction.Annihilation.Stage"; // 已迁移
+        public const string UseMedicine = "MainFunction.UseMedicine"; // 已迁移
+        public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity"; // 已迁移
+        public const string UseStone = "MainFunction.UseStone"; // 已迁移
+        public const string UseStoneQuantity = "MainFunction.UseStone.Quantity"; // 已迁移
+        public const string TimesLimited = "MainFunction.TimesLimited"; // 已迁移
+        public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity"; // 已迁移
+        public const string SeriesQuantity = "MainFunction.Series.Quantity"; // 已迁移
         public const string DropsEnable = "MainFunction.Drops.Enable";
         public const string DropsItemId = "MainFunction.Drops.ItemId";
         public const string DropsItemName = "MainFunction.Drops.ItemName";

@@ -65,6 +65,8 @@ namespace MaaWpfGui.Models
         // 长草任务当前选中
         public int CurrentIndex { get; set; }
 
+        public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
+
         public void Set(int taskIndex, bool enable)
         {
             if (Guide && enable)
