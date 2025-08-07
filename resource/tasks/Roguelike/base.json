@@ -1633,11 +1633,7 @@
         "roi": [1026, 470, 254, 248],
         "postDelay": 2000,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
-        "next": [
-            "Roguelike@Squad-EnterPoint",
-            "Roguelike@InitialDrop",
-            "Roguelike@StartExplore-EnterCheck"
-        ]
+        "next": ["Roguelike@Squad-EnterPoint", "Roguelike@InitialDrop", "Roguelike@StartExplore-EnterCheck"]
     },
     "Roguelike@StartExplore-EnterCheck": {
         "baseTask": "Roguelike@StartExplore",
