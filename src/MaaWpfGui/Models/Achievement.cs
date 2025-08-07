@@ -17,10 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Constants.Enums;
 
 namespace MaaWpfGui.Models
 {

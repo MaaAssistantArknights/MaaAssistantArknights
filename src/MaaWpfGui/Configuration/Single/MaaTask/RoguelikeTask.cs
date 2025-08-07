@@ -12,7 +12,7 @@
 // </copyright>
 
 #nullable enable
-using System;
+using MaaWpfGui.Constants.Enums;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -224,53 +224,4 @@ public enum RoguelikeMode
     /// 深入调查，尽可能稳定地打更多层数，不期而遇采用激进策略
     /// </summary>
     Exploration = 7,
-}
-
-[Flags]
-public enum RoguelikeCollectibleAward
-{
-    /// <summary>
-    /// 热水壶, Roguelike@LastReward
-    /// </summary>
-    HotWater = 1 << 0,
-
-    /// <summary>
-    /// 护盾, Roguelike@LastReward2
-    /// </summary>
-    Shield = 1 << 1,
-
-    /// <summary>
-    /// 源石锭, Roguelike@LastReward3
-    /// </summary>
-    Ingot = 1 << 2,
-
-    /// <summary>
-    /// 2希望, Roguelike@LastReward4
-    /// </summary>
-    Hope = 1 << 3,
-
-    /// <summary>
-    /// 随机, Roguelike@LastRewardRand
-    /// </summary>
-    Random = 1 << 4,
-
-    /// <summary>
-    /// 钥匙, Mizuki@Roguelike@LastReward5
-    /// </summary>
-    Key = 1 << 5,
-
-    /// <summary>
-    /// 骰子, Mizuki@Roguelike@LastReward6
-    /// </summary>
-    Dice = 1 << 6,
-
-    /// <summary>
-    /// 构想, Sarkaz@Roguelike@LastReward5
-    /// </summary>
-    Idea = 1 << 7,
-
-    /// <summary>
-    /// 票券, JieGarden@Roguelike@LastReward5
-    /// </summary>
-    Ticket = 1 << 8,
 }
