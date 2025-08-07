@@ -22,6 +22,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -392,9 +393,6 @@ public class FightSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            // IsEnabled="{c:Binding UseStone}"
-            NotifyOfPropertyChange(nameof(UseStoneDisplay));
-
             Instances.TaskQueueViewModel.SetFightParams();
             if (AllowUseStoneSave)
             {
@@ -407,6 +405,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// Gets or sets a value indicating whether to use originiums.
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
+    [PropertyDependsOn(nameof(UseStone))]
     public bool UseStoneDisplay
     {
         get => UseStone != false;
