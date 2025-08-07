@@ -106,7 +106,7 @@ class Downloader:
 
 
 def file_download(download_url_list, download_path, request_proxies=None):
-    chunksize = 4 * 1024 * 1024     # 分片大小1MB
+    chunksize = 4 * 1024 * 1024     # 分片大小4MB
     max_conn = 4                # 最大连接数
     # 创建对象
     downloader = Downloader(download_url_list, chunksize, max_conn, use_proxies=request_proxies)
