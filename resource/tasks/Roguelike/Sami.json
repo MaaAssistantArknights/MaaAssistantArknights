@@ -570,6 +570,8 @@
             "Sami@Roguelike@DropsFlag",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next",
             "Sami@Roguelike@RecruitWithoutButton"
         ]
     },

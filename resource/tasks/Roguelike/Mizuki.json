@@ -293,6 +293,8 @@
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@NextLevel#next",
             "Mizuki@Roguelike@RecruitWithoutButton"
         ]
     },
