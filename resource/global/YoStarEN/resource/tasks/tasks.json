@@ -869,6 +869,9 @@
             ["Derelict Stove", "废弃火灶"]
         ]
     },
+    "GameStartCheckResourceOCR": {
+        "text": ["Checking", "resource", "integrity", "data"]
+    },
     "GameStartUpdateOCR": {
         "text": ["Releasing", "neurotransmitter"]
     },
