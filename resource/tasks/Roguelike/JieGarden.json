@@ -962,6 +962,28 @@
         ],
         "next": ["JieGarden@Roguelike@StageYiTraderEnter", "JieGarden@Roguelike@Stages#next"]
     },
+    "JieGarden@Roguelike@StageDisaster": {
+        "Doc": "树洞 祸乱 紫色系 目前无法自动编队",
+        "baseTask": "Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [130, 0, 30],
+                [140, 170, 150]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "postDelay": 600,
+        "next": [
+            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@Stages#next"
+        ]
+    },
     "JieGarden@Roguelike@StageYiTraderEnter": {
         "baseTask": "Roguelike@StageEnter",
         "next": ["JieGarden@Roguelike@StageTraderLeave", "JieGarden@Roguelike@StageTraderLeaveConfirm"]
