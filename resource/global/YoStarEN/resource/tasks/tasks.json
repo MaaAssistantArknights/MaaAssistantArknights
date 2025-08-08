@@ -871,6 +871,9 @@
             ["Nowell", "诺威尔"]
         ]
     },
+    "GameStartCheckResourceOCR": {
+        "text": ["Checking", "resource", "integrity", "data"]
+    },
     "GameStartUpdateOCR": {
         "text": ["Releasing", "neurotransmitter"]
     },

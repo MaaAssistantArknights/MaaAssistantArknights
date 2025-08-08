@@ -910,16 +910,22 @@
     },
     "StartUpThemes": {
         "next": [
-            "GameStart",
             "StartUpNotificationKR",
+            "LeidianGoogleFrameworkConfirm",
+            "GameStart",
             "StartToWakeUp",
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "GameStartCheckResourceOCR",
+            "GameStartUpdateOCR"
         ]
+    },
+    "GameStartCheckResourceOCR": {
+        "text": ["리소스", "무결성", "데이터"]
     },
     "GameStartUpdateOCR": {
         "text": ["신경", "전달물질", "MB"],

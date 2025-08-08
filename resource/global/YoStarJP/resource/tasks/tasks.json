@@ -854,6 +854,9 @@
             ["ノウエル", "诺威尔"]
         ]
     },
+    "GameStartCheckResourceOCR": {
+        "text": ["データチェック", "データ通信量", "消費しません"]
+    },
     "StartToWakeUp": {
         "Doc": "相较国服调大roi",
         "roi": [480, 480, 320, 60]
