@@ -241,7 +241,8 @@
         "exceededNext": ["Phantom@Roguelike@ExitThenAbandon"]
     },
     "Phantom@Roguelike@Stages": {
-        "baseTask": "Phantom@Roguelike@Stages_default"
+        "baseTask": "Phantom@Roguelike@Stages_default",
+        "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]
     },
     "Phantom@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-3层",
@@ -258,7 +259,8 @@
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageDreadfulFoe"
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]
     },
     "Phantom@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和6层策略",
@@ -275,7 +277,8 @@
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageDreadfulFoe"
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]
     },
     "Phantom@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,4-5层策略",
@@ -292,7 +295,8 @@
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageDreadfulFoe"
-        ]
+        ],
+        "onErrorNext": ["Phantom@Roguelike@ExitThenAbandon"]
     },
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@StartExplore-EnterCheck": {

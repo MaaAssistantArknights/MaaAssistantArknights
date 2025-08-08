@@ -1597,12 +1597,14 @@
     "Roguelike@Stages_exit": {
         "Doc": "烧水和直升，在进入第三层之后直接退出",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@ExitThenAbandon_ToHardest"]
+        "next": ["Roguelike@ExitThenAbandon_ToHardest"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@Stages_restart": {
         "doc": "保持当前难度重开，用于投资进入第二层后退出",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@ExitThenAbandon"]
+        "next": ["Roguelike@ExitThenAbandon"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StartAction": {
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",

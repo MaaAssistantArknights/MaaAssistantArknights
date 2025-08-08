@@ -1065,7 +1065,8 @@
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@Stages": {
-        "baseTask": "Sarkaz@Roguelike@Stages_default"
+        "baseTask": "Sarkaz@Roguelike@Stages_default",
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -1096,7 +1097,8 @@
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -1127,7 +1129,8 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_fastInvestment": {
         "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
@@ -1138,7 +1141,8 @@
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing-FastInvestment"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -1170,7 +1174,8 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
@@ -1182,7 +1187,8 @@
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]

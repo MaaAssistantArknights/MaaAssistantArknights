@@ -976,7 +976,8 @@
         "next": ["Sami@Roguelike@StageEncounterEnter", "Sami@Roguelike@Stages#next"]
     },
     "Sami@Roguelike@Stages": {
-        "baseTask": "Sami@Roguelike@Stages_default"
+        "baseTask": "Sami@Roguelike@Stages_default",
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@StagesChaosZero": {
         "algorithm": "OcrDetect",
@@ -1021,7 +1022,8 @@
             "Sami@Roguelike@DropsFlag",
             "Sami@Roguelike@StartUpThemes#next",
             "Sami@Roguelike@ClickToDrops"
-        ]
+        ],
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -1070,7 +1072,8 @@
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageMysteriousPresage",
             "Sami@Roguelike@CloseCollectionClose"
-        ]
+        ],
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@Stages_collapsal_paradigms": {
         "Doc": "为了刷隐藏坍缩而优先作战",
@@ -1115,7 +1118,8 @@
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@Abandon"
-        ]
+        ],
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -1168,7 +1172,8 @@
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@CloseCollectionClose"
-        ]
+        ],
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -1223,7 +1228,8 @@
             "Sami@Roguelike@StageVerticalEmergencyTransportation",
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
             "Sami@Roguelike@CloseCollectionClose"
-        ]
+        ],
+        "onErrorNext": ["Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@StartAction": {
         "Doc": "多一个Flag3",
