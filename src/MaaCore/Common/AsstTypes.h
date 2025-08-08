@@ -516,7 +516,6 @@ inline std::optional<FeatureDetector> get_feature_detector(std::string method_st
     }
     return std::nullopt;
 }
-
 } // namespace asst
 
 namespace asst

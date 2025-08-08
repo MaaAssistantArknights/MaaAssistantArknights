@@ -389,25 +389,6 @@
                     }
                 }
             ]
-        },
-        {
-            "name": "前行的林地",
-            "option_num": 2,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "树上就不能走吗？",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "0"
-                        }
-                    ]
-                }
-            ]
         }
     ]
 }

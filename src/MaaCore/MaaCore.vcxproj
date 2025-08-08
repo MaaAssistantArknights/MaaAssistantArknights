@@ -163,6 +163,7 @@
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Utils\Algorithm.hpp" />
+    <ClInclude Include="Utils\Encoding.h" />
     <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Vision\Config\FeatureMatcherConfig.h" />
     <ClInclude Include="Vision\FeatureMatcher.h" />
@@ -361,6 +362,7 @@
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Utils\Encoding.cpp" />
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp" />
     <ClCompile Include="Vision\Config\FeatureMatcherConfig.cpp" />
     <ClCompile Include="Vision\FeatureMatcher.cpp" />

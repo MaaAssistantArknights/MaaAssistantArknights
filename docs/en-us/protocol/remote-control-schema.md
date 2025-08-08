@@ -5,145 +5,156 @@ icon: mdi:remote-desktop
 
 # Remote Control Schema
 
-To achieve remote control of MAA, you need to provide a service that must be an HTTP(S) service and provide the following two anonymously accessible endpoints. These endpoints must be HTTP(S) web endpoints.
+To implement remote control of MAA, you need to provide a service that must be an HTTP(S) service and offer the following two anonymously accessible endpoints. These endpoints must be HTTP(S) web endpoints.
 
 ::: warning
-If the endpoint is an HTTP protocol, MAA will issue a security warning with each connection. **Deploying plaintext transmission services on the public network is highly discouraged and dangerous, for testing purposes only.**
+If the endpoint uses HTTP protocol, MAA will issue a security warning with each connection. **Deploying plaintext transmission services on public internet is highly discouraged and dangerous, for testing purposes only.**
 :::
 
 ::: tip
-Please note that JSON files do not support comments. The comments in the text are for demonstration purposes only and should NOT be copied directly.
+Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly.
 :::
 
 ## Task Retrieval Endpoint
 
-MAA will continuously poll this endpoint at 1-second intervals, attempting to retrieve tasks it needs to perform and execute them in the order they are retrieved.
+MAA continuously polls this endpoint at 1-second intervals, attempting to retrieve tasks to execute and executing them in the order received.
 
 The endpoint path is arbitrary but must be an HTTP(S) endpoint. For example: `https://your-control-host.net/maa/getTask`
 
-The controlled MAA needs to fill this endpoint into the `Task Retrieval Endpoint` text box in the MAA configuration.
+The controlled MAA must enter this endpoint in the `Task Retrieval Endpoint` text box in MAA's configuration.
 
-This endpoint must be able to accept a `Content-Type=application/json` POST request and must be able to accept the following JSON as the request content:
+This endpoint must accept a POST request with `Content-Type=application/json` and must accept the following JSON as request content:
 
 ```json
 {
-    "tasks":                            // A list of Tasks that need to be allowed to be executed by the MAA, the types supported currently are shown in the example, and the connection is considered invalid if the tasks do not exist.
-    [
-        // Sequential tasks: the following tasks are queued for execution in the order in which they are issued.
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //A unique uuid for the task, type : string, which will be used when reporting on the task.
-            "type": "CaptureImage",                         //A screenshot task that takes a screenshot of the current emulator and puts it in the payload of the reporting task as a Base64 string. If you need to issue this type of task, be sure to pay attention to the maximum request size that your endpoint can accept, as the screenshot size will lager than 10MB and exceed the default size limit of a typical gateway.
-        },
-        {
-            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   //A unique uuid for the task, type : string, which will be used when reporting on the task.
-            "type": "LinkStart",                            //LinkStart😄
-        },
-        {
-            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   // A unique uuid, used in the same way as above.
-            "type": "LinkStart-Recruiting",                 // Immediately executes the corresponding sub-function of "LinkStart" individually according to the current configuration, ignoring the tick box of this function on the GUI. The optional values for this type of Type are detailed below.
-        },
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Same as "id" above
-            "type": "Toolbox-GachaOnce",                    //The Gacha function in the toolbox, with optional values for this class Type:Toolbox-GachaOnce, Toolbox-GachaTenTimes
-        },
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
-            "type": "Settings-ConnectionAddress",           //The task of modifying a configuration item is equivalent to executing the ConfigurationHelper.SetValue("ConnectionAddress", params); For security reasons, not every configuration can be modified, and those that can are detailed below.
-            "params": "value"                               //The value you want to config
-        },
-        // Immediate Execution Tasks: these following tasks can be executed in a Sequential Execution Task run and the MAA guarantees that any of the following tasks will return results as soon as possible, and are typically used for control of the remote control function itself.
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
-            "type": "CaptureImageNow",                      //The Immediate Screenshot task is basically the same as the Screenshot task above, the only difference is that this task will be run immediately without waiting for other tasks.
-        },
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
-            "type": "StopTask",                             //The "Stop current task" task will attempt to end the currently running task. If there are other tasks in the task list it will continue with the next one. This task does not wait to confirm that the current task has stopped before returning, so use the "HeartBeat" task to confirm that the stop command has taken effect.
-        },
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
-            "type": "HeartBeat",                            // "Heartbeat" task, the task will immediately return the current "sequential task" queue in the task is executing as the Payload, if there is currently no task execution, return the empty string.
-        },
-    ],
-    ...     // If you have other uses for this endpoint, you can add other return values of your own, but MAA will only read tasks.
+    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // User identifier entered in MAA settings
+    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec"         // Device identifier automatically generated by MAA
+    ...     // If your endpoint has other uses, you can add optional parameters, but MAA only transmits user and device
 }
 ```
 
-This endpoint must return a JSON formatted Response and must at least meet the following format:
+This endpoint must return a JSON-formatted response that meets at least the following format:
+
+```json
+{
+    "tasks":                            // List of tasks for MAA to execute, currently supported types shown in example, if tasks doesn't exist connection is considered invalid
+    [
+        // Sequential execution tasks: these tasks are queued for execution in the order issued
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "CaptureImage",                         // Screenshot task, captures current emulator screen and includes as Base64 string in task report payload. If issuing this task type, note your endpoint's maximum request size limit, as screenshots can be tens of MB, exceeding typical gateway defaults
+        },
+        {
+            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   // Unique task ID, string type, used when reporting task status
+            "type": "LinkStart",                            // Start one-click farming
+        },
+        {
+            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   // Unique task ID, string type, used when reporting task status
+            "type": "LinkStart-Recruiting",                 // Immediately execute specific one-click farming sub-function based on current configuration, ignoring main interface checkbox. Optional values detailed below
+        },
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "Toolbox-GachaOnce",                    // Toolbox gacha task, optional values: Toolbox-GachaOnce, Toolbox-GachaTenTimes
+        },
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "Settings-ConnectionAddress",           // Configuration modification task, equivalent to ConfigurationHelper.SetValue("ConnectionAddress", params); For security, not all settings can be modified, see below for allowed settings
+            "params": "value"                               // Value to modify
+        },
+        // Immediate execution tasks: these tasks can execute during sequential tasks and MAA guarantees any of these will return results quickly, typically used for controlling the remote control function itself
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "CaptureImageNow",                      // Immediate screenshot task, similar to screenshot task above but executes immediately without waiting for other tasks
+        },
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "StopTask",                             // "Stop current task" task, attempts to end currently running task. If task list contains other tasks, continues with next task. This task doesn't wait to confirm current task has stopped before returning, use heartbeat task to confirm stop command effectiveness
+        },
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Unique task ID, string type, used when reporting task status
+            "type": "HeartBeat",                            // Heartbeat task, returns immediately with currently executing sequential task's ID as payload, or empty string if no task executing
+        }
+    ],
+    ...     // If your endpoint has other uses, you can add optional return values, but MAA only reads tasks
+}
+```
+
+These tasks execute in sequence, meaning if you first send a recruitment task followed by a screenshot task, the screenshot will execute after the recruitment task completes.
+The endpoint should be reentrant and repeatedly return tasks to execute, as MAA automatically tracks task IDs and won't re-execute tasks with the same ID.
 
 ::: note
 
-- The `LinkStart-[TaskName]` series of tasks have optinal `type` : `LinkStart-Base`，`LinkStart-WakeUp`，`LinkStart-Combat`，`LinkStart-Recruiting`，`LinkStart-Mall`，`LinkStart-Mission`，`LinkStart-AutoRoguelike`，`LinkStart-Reclamation`
-- The `Settings-[SettingsName]` series of tasks have optinal `type` : `Settings-ConnectionAddress`, `Settings-Stage1`
-- The Settings series of tasks are still meant to be executed sequentially, not immediately upon receipt, but after the previous task.
-- Multiple immediately executable tasks are also executed in the order in which they are issued, except that they are all executed so quickly that, in general, it is not necessary to be concerned about their order.
-    :::
+- LinkStart-[TaskName] task types include LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-Reclamation
+- Settings-[SettingsName] task types include Settings-ConnectionAddress, Settings-Stage1
+- Settings series tasks still execute sequentially rather than immediately, queuing behind previous tasks
+- Multiple immediate execution tasks also execute in issued order, though since these tasks execute quickly, their order generally doesn't matter
+:::
 
-## Report Status Endpoint
+## Task Reporting Endpoint
 
-When MAA completes a task, it will report the result to this endpoint.
+When MAA completes a task, it reports the execution result to the remote server through this endpoint.
 
 The endpoint path is arbitrary but must be an HTTP(S) endpoint. For example: `https://your-control-host.net/maa/reportStatus`
 
-The controlled MAA needs to fill this endpoint into the `Report Status Endpoint` text box in the MAA configuration.
+The controlled MAA must enter this endpoint in the `Task Reporting Endpoint` text box in MAA's configuration.
 
-This endpoint must be able to accept a `Content-Type=application/json` POST request and must be able to accept the following JSON as the request content:
+This endpoint must accept a POST request with `Content-Type=application/json` and must accept the following JSON as request content:
 
 ```json
 {
-    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // The "User Identifier" you filled in the MAA settings.
-    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec",        // The "Device Identifier" automatically generated in the MAA.
-    "task":"15be4725-5bd3-443d-8ae3-0a5ae789254c",          // The Id of the task to be reported on, corresponding to the Id when 'getTask'.
-    "status":"SUCCESS",                                     // The result of the task execution, SUCCESS or FAILED. generally, regardless of the success of the task execution will only return SUCCESS, only in special circumstances will return FAILED, will return FAILED situation, will be explicitly described in the above task introduction.
-    "payload":"",                                           //The data to carry when reporting, string type. Depends on the task type, for example, when reporting on a screenshot task, the Base64 string of the screenshot will be carried here.
-    ...     // If you have other uses for this endpoint, you can add other return values of your own, but MAA will only post upper value.
+    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // User identifier entered in MAA settings
+    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec",        // Device identifier automatically generated by MAA
+    "task":"15be4725-5bd3-443d-8ae3-0a5ae789254c",          // Task ID being reported, corresponding to ID from task retrieval
+    "status":"SUCCESS",                                     // Task execution result, SUCCESS or FAILED. Generally returns SUCCESS regardless of task execution success, FAILED only in special cases noted in task descriptions
+    "payload":"",                                           // Data included in report, string type. Depends on task type, e.g., screenshot task includes Base64 string of screenshot
+    ...     // If your endpoint has other uses, you can add optional parameters, but MAA only transmits user and device
 }
 ```
 
-The content returned by this endpoint is arbitrary, but if you do not return `200 OK`, a notification will pop up on the MAA side displaying `Upload failed`.
+This endpoint's response content is arbitrary, but if not returning 200 OK, a notification will appear in MAA displaying "Upload failed"
 
-## Example Workflow : Controlling MAA with QQBot
+## Example Workflow - Controlling MAA with QQ Bot
 
-A developer wants to control MAA with their QQBot (QQ is an instant messaging software,like WhatsApp or Telegram), so they develop a backend exposed on the public network, providing two endpoints:
+Developer A wants to control MAA with their QQ Bot, so they developed a backend exposed on public internet providing two endpoints:
 
 ```text
 https://myqqbot.com/maa/getTask
 https://myqqbot.com/maa/reportStatus
 ```
 
-To make it more convenient for users, their `getTask` interface always returns `200 OK` and an empty tasks list regardless of the parameters received.
-Each time they receive a request, they check the database for duplicate devices, and if none, they record the device and user in the database.
-In this workflow, this interface also serves as a user registration function.
+For user convenience, their getTask interface returns 200 OK and an empty tasks list regardless of received parameters.
+Each time they receive a request, they check the database for duplicate devices, and if none found, record the device and user in the database.
+In this workflow, this interface also serves as user registration.
 
-They provide a command on the QQBot for users to submit their deviceId.
+They provide a command on their QQ Bot for users to submit deviceId.
 
-In the QQBot's usage instructions, they tell users to fill in their QQ number in the `User Identifier` field of MAA and send the `Device Identifier` to the Bot via QQ chat.
+In the QQ Bot's usage instructions, they tell users to enter their QQ number in MAA's `User Identifier` field and send their `Device Identifier` to the Bot via QQ chat.
 
-Upon receiving the identifier, the QQBot checks the database for corresponding data based on the user's QQ number in the message. If none is found, it tells the user to configure MAA first.
+Upon receiving the identifier, the QQ Bot checks the database for corresponding data based on the message's QQ number, instructing the user to configure MAA if not found.
 
-Since MAA continuously sends requests once configured, if the user has configured MAA, there should be matching records in the database when they submit via QQ.
+Since MAA continuously sends requests once configured, if the user has properly configured MAA, matching records should exist in the database when they submit via QQ.
 
-At this point, the Bot marks the record in the database as verified, so future requests from getTask with this device and user will return the real task list.
+The Bot then marks the database record as verified, so future getTask requests with this device and user combination will return actual task lists.
 
-When the user submits a command via QQBot, the Bot writes a task into the database. Shortly after, getTask will return this task. Additionally, the QQBot thoughtfully adds a screenshot task each time the user submits a command.
+When users submit commands via QQ Bot, the Bot writes a task to the database, which getTask will return shortly. Additionally, the Bot thoughtfully adds a screenshot task after each user command.
 
-MAA will call reportStatus to report the result after completing the task. The Bot will send a message notifying the user and display the screenshot on QQ.
+After executing tasks, MAA calls reportStatus to report results, and the Bot sends QQ messages notifying users and displaying screenshots.
 
-## Example Workflow : Controlling MAA with a Website
+## Example Workflow - Controlling MAA with Website
 
-Developer B wrote a website to manage MAA in bulk through a website, so they have their own user management system. However, their backend is publicly accessible, providing two anonymously accessible endpoints:
+Developer B created a website for batch MAA management with their own user management system. Their backend is publicly accessible with two anonymously accessible endpoints:
 
 ```text
 https://mywebsite.com/maa/getTask
 https://mywebsite.com/maa/reportStatus
 ```
 
-On the website, there is an interface to connect MAA instances, will generate a random string called `User Key`, along with a text box for entering the `Device Identifier`.
+On the website, a MAA instance connection interface displays what Developer B calls a `User Key` (random string) and has a text box for entering device ID.
 
-The website requires users to fill in their `User Key` in the `User Identifier` field of MAA GUI and then enter the `Device Identifier` on the website.
+The website instructs users to enter their user key in MAA's `User Identifier` field and their `Device Identifier` on the website.
 
-Only after successfully creating a connection to MAA on the website, `getTask` will return `200 OK`. Otherwise, it returns `401 Unauthorized`.
+Only after successfully creating a MAA connection on the website will getTask return 200 OK; otherwise it returns 401 Unauthorized.
 
-If the user fills it incorrectly on MAA and presses the test connection button, they will get a test failure prompt.
+If users enter incorrect information in MAA and press the test connection button, they'll receive a connection test failure notification.
 
-Users can issue tasks on the website, queue tasks, view screenshots, and more. The implementation of these functions is similar to the QQBot example above, achieved through a combination of `getTask` and `reportStatus`.
+Users can issue tasks on the website, queue tasks, view screenshots, etc., with implementation similar to the QQ Bot example, using getTask and

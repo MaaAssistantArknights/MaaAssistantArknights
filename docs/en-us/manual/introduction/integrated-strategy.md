@@ -3,59 +3,59 @@ order: 7
 icon: ri:game-fill
 ---
 
-# Integrated Strategy (I.S.)
+# Auto Integrated Strategy
 
-::: important This page may be outdated.
-:::
-
-MAA selects the latest theme by default, and can be changed in `Auto I.S.` - `General`.
+MAA selects the latest theme by default, which can be changed in `Auto Integrated Strategy` - `Integrated Strategy Theme`.
 
 ::: warning
-All features involving auto-battle require a stable game frame rate of at least 60 frames, including but not limited to Copilot and Auto I.S..
+All features involving automatic combat require a stable game frame rate of at least 60 FPS, including but not limited to Auto Combat and Integrated Strategy.
 :::
 
-- Please pin the corresponding I.S. theme to the terminal of the game. Although automatic navigation is currently available, long-term usability is not guaranteed.
-- If there is an exploration of non-target themes (such as if you plan to use MAA to auto Mizuki, but there is still an unfinished exploration of Phantom), please end it manually.
-- MAA will not automatically select the difficulty. If the difficulty is not selected, it will get stuck/repeatedly enter and exit the difficulty selection interface.
-- In the settings, you can choose the team, starting operator (only one operator name), etc.
+- Please pin the corresponding Integrated Strategy theme at the terminal in-game. Although automatic navigation is currently possible, long-term functionality is not guaranteed.
+- Please manually end explorations of **non-target themes** in advance to ensure the target theme is ready to start exploration.
+- You can select theme, difficulty, squad, starting operator (single operator name only), and more in settings.
+- MAA can use support operators to start, by first entering the target operator name in `General Settings` → `Starting Operator` and then enabling `Advanced Settings` → `Use support unit for "Starting Operator"`.
+- When playing for the **first time** in a newly installed client:
+  - The difficulty selection button will not be displayed. Please manually select a difficulty once in-game, after which MAA can select it automatically.
+  - Tutorials will appear after entering the map screen. Please read and close them manually.
 
-## Recommended Starting Strategies
+## Recommended Starts
 
-MAA can start with a support operator, which need to enable the option `Auto I.S.` → `Advanced` → `Select "Starting Operator" from support unit list`.
+::: details _Last updated 2025/8/2_
 
-::: details
+| Theme   | Difficulty        | Squad                                   | Strategy            | Operator  |
+| ------- | ----------------- | --------------------------------------- | ------------------------- | --------- |
+| Phantom | Formal Investigation·3~7 | Leader Squad / Tactical Assault Squad | Overcoming Your Weaknesses | Thorns |
+| Mizuki  | Surging Waves·3~7 | People-Oriented Squad / Mind Over Matter Squad | Slow and Steady Wins the Race | Wiš'adel |
+| Sami    | Braving Nature·4~10 | Special Training Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
+| Sarkaz  | Face the Spirit·4~10 | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
+| Garden  | Enter the Garden·3~10 | Leader Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
 
-| Theme   | Difficulty           | Squad                                           | Strategy                      | Operators             |
-| ------- | -------------------- | ----------------------------------------------- | ----------------------------- | --------------------- |
-| Phantom | Formal Investigation | Leader Squad / Tactical Assault Squad           | Overcoming Your Weaknesses    | Thorns                |
-| Mizuki  | Surging Waves·3      | People-Oriented Squad / Mind Over Matter Squad  | Overcoming Your Weaknesses    | Gavial the Invincible |
-| Sami    | Braving Nature·4     | Special Training Squad / Tactical Ranged Squad  | Slow and Steady Wins the Race | Wiš'adel              |
-| Sarkaz  | Face the Spirit·4    | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel              |
+The recommended difficulties consider factors like `enemy difficulty`, `hope consumption`, and `score multiplier`, and have been tested to be stable with high-level operators. Feel free to adjust based on your situation and needs.
 
-The recommended difficulty level is the one without the `Enemy Difficulty` and `Hope Consumption` bonuses. It is relatively stable when tested at a high level and can be adjusted freely according to actual conditions and needs.
-
-| Theme   | Notes                                                                                                                                                                                                                                                                                                                                                                         |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Phantom | In the `Face the Disaster` difficulty, you may obtain a collection that will deduct your hopes, resulting in the inability to recruit six-star operators at the beginning of the game.                                                                                                                                                                                        |
-| Mizuki  | The cost of recruiting six-star operators in `Surging Waves·4` and higher difficulties is increased by 1. It may be impossible to recruit six-star operators when using `Mind over Matter Squad` at the beginning.<br>`People-Oriented Squad` is suitable for accounts with many high-level six-star operators; `Mind Over Matter Squad` requires luck.                                                |
-| Sami    | The cost of recruiting six-star operators in `Braving Nature·6` and higher difficulties is increased by 1. It may be impossible to recruit six-star operators when using `Special Training Squad` at the beginning.                                                                                                                                                           |
-| Sarkaz  | The cost of recruiting six-star operators in `Face the Spirit·15` and higher difficulties is increased by 1. It may be impossible to recruit six-star operators when using `Blueprint Mapping Squad` at the beginning.<br>Selecting the `Blueprint Mapping Squad` results in a completely stealth-oriented strategy, which basically cannot clear endings. |
+| Theme   | Notes |
+| ------- | ----- |
+| Phantom | `Formal Investigation·4` and higher difficulties may give hope-reducing collectibles at start, preventing recruitment of six-star operators. |
+| Mizuki  | `Surging Waves·4` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Mind Over Matter Squad`.<br>`People-Oriented Squad` is better for high-level accounts, while `Mind Over Matter Squad` requires luck. |
+| Sami    | `Braving Nature·6` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Special Training Squad`. |
+| Sarkaz  | `Face the Spirit·15` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Blueprint Mapping Squad`.<br>With `Blueprint Mapping Squad`, MAA will adopt an avoidance strategy to quickly obtain `Spirit Bookmarks`, but generally cannot complete endings.<br>When using the Originium Ingot farming strategy with `Point-Stab Ingot Squad`, MAA will use shop refreshing to speed up the process. |
+| Garden  | `Enter the Garden·15` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Leader Squad`.<br>When set to `Enter the Garden·3` difficulty with the Originium Ingot farming strategy and `Leader Squad`, MAA will use the `End of Time` stage-skip strategy to speed up the process. |
 
 :::
 
-## Battle Strategy
+## Combat Strategy
 
-All operations in automatic Integrated Strategy are pre-set strategies, and all stage battles use built-in job files. When the corresponding mission for the level does not exist, a general decision tree, which is not very smart, will be used for the battle.
+All MAA operations in Integrated Strategy use preset strategies, with all combat stages using built-in operation files. When no operation exists for a specific stage, a basic (not very intelligent) decision tree handles combat.
 
-For more details, please refer to the [Integrated Strategy Schema](../../protocol/integrated-strategy-schema.md).
+For details, see the [Integrated Strategy Protocol](../../protocol/integrated-strategy-schema.md).
 
-- It supports automatic recognition of operators and proficiency and automatically selects better operators and skills.
-- It supports identifying store items and prioritizes purchasing more powerful relics.
+- Automatically recognizes operators and their levels, selecting optimal operators and skills.
+- Recognizes shop items and prioritizes purchasing more powerful collectibles.
 
-## Abnormal Detection
+## Exception Handling
 
-- It supports reconnection after disconnection and supports continuation to auto after 4 a.m. server reset.
-- Encounters longer than 5 minutes will automatically retreat all ground units, and longer than 6 minutes will automatically abandon the operation to avoid wasting time/getting stuck.
-- If the exploration gets stuck, it will automatically abandon and retry.
+- Automatically reconnects and continues tasks after disconnections or the 4 AM server reset.
+- For battles exceeding 5 minutes, automatically retreats all ground units; after 6 minutes, abandons the battle to avoid time-consuming deadlocks.
+- If a task encounters problems, automatically abandons the current exploration and retries.
 
-However, if it often gets stuck in a certain place and then gives up, seriously affecting efficiency, please feel free to submit an issue for feedback.
+If the program repeatedly gets stuck at the same point, please submit an Issue with logs

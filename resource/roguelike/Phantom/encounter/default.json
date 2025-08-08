@@ -89,6 +89,12 @@
         {
             "name": "沉睡石像",
             "option_num": 2,
+            "choose": 1,
+            "next_event": "沉睡石像-战斗"
+        },
+        {
+            "name": "沉睡石像-战斗",
+            "option_num": 1,
             "choose": 1
         },
         {

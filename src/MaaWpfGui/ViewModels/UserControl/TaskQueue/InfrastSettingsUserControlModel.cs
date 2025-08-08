@@ -118,13 +118,13 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public List<CombinedData> UsesOfDronesList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
-                new() { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
-                new() { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
-                new() { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
-                new() { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
-                new() { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
-                new() { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
-            ];
+            new() { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
+            new() { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
+            new() { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
+            new() { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
+            new() { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
+            new() { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
+        ];
 
     /// <summary>
     /// Gets the list of uses of default infrast.
@@ -132,12 +132,12 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public List<CombinedData> DefaultInfrastList { get; } =
         [
             new() { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
-                new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("153Time4"), Value = "153_layout_4_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
-            ];
+            new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("153Time4"), Value = "153_layout_4_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+        ];
 
     private int _dormThreshold = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, "30"));
 

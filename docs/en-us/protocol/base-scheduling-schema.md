@@ -3,35 +3,34 @@ order: 6
 icon: material-symbols:view-quilt-rounded
 ---
 
-# Infrastructure Schedule Schema
+# Base Scheduling Protocol
 
-This document is primarily machine-translated. If you have the ability, please take a look at the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
-
-Usage and Field Description for `resource/custom_infrast/*.json` files
+Usage and field descriptions for `resource/custom_infrast/*.json`
 
 ::: tip
-As the JSON format does not support comments, please remove them when using the examples below.
+Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
 :::
 
-[Visual Schedule Generation Tool](https://ark.yituliu.cn/tools/schedule)
+[Visual Schedule Generator Tool](https://ark.yituliu.cn/tools/schedule)
 
-## Complete Field List
+## Complete Field Reference
 
 ```json
 {
-    "title": "小号的换班方案",       // Assignment name, optional
-    "description": "哈哈哈哈",       // Assignment description, optional
+    "title": "小号的换班方案", // Task name, optional ("小号的换班方案" = "Alt Account Shift Plan")
+    "description": "哈哈哈哈", // Task description, optional ("哈哈哈哈" = "Hahaha")
     "plans": [
         {
-            "name": "早班",         // Plan name, optional
-            "description": "lol",   // Plan description, optional
-            "description_post": "", // The description to display after executing the plan, optional
-            "period": [             // Shift change period, optional
-                                    // If the current time is within this interval, the plan will be automatically selected (there may be multiple plans in the entire JSON file)
-                                    // If this field does not exist, it will automatically switch to the next plan after each run.
-                                    // Core does not process this field. If you are using interface integration with MAA, please implement this logic on your own
+            "name": "早班", // Plan name, optional ("早班" = "Morning Shift")
+            "description": "lol", // Plan description, optional
+            "description_post": "", // Description displayed after plan execution, optional
+            "period": [
+                // Shift time period, optional
+                // If current time is within this range, this plan will be automatically selected (JSON file may contain multiple plans)
+                // If this field doesn't exist, automatically switches to the next plan after each shift ends
+                // Core doesn't process this field; if you're using MAA through integration, implement this logic yourself
                 [
-                    "22:00",        // In the hh:mm format, currently only simple numerical comparison is used. If it crosses midnight, please refer to the example in this file
+                    "22:00", // Format required: hh:mm, currently just compares number sizes, for cross-day periods follow this example
                     "23:59"
                 ],
                 [
@@ -39,108 +38,98 @@ As the JSON format does not support comments, please remove them when using the 
                     "06:00"
                 ]
             ],
-            "duration": 360,        // Work duration (in minutes), reserved field, currently unused. In the future, there may be reminders or automatic shift changes when the time comes
-            "Fiammetta": {          // Which operator is using "Fiammetta", optional, not required if not in use
-                "enable": true,     // Whether to use "Fiammetta", optional, default is true
-                "target": "巫恋",   // Target operator, which is obtained through OCR and needs to be passed in the name of the operator in the corresponding client language
-                "order": "pre",     // Whether to use it before or after the entire shift change, optional, with a value range of "pre" / "post", default is "pre"
+            "duration": 360, // Work duration (minutes), reserved field, currently not used. May be used for shift change reminders in the future
+            "Fiammetta": {
+                // Which operator to use "Fiammetta" on, optional, omit if not using
+                "enable": true, // Whether to use "Fiammetta", optional, default true
+                "target": "巫恋", // Target operator, uses OCR, requires operator name in client language ("巫恋" = "Shamare")
+                "order": "pre" // Use before entire shift change or after, optional, values "pre"/"post", default "pre"
             },
-            "drones": {              // For using drones. Optional. If not specified, drones won't be used.
-                "enable": true,      // Whether to use drones. Optional. The default is true.
-                "room": "trading",   // Which type of room to use drones for. Possible values: "trading" / "manufacture"
-                "index": 1,          // The index of the room to use drones for. Corresponds to the tab on the left. Possible values: [1, 5].
-                "rule": "all",       // Usage rules. Reserved field. Currently unused, but may be used in the future to support plug-ins and other operations.
-                "order": "pre"       // Whether to use drones before or after changing operators. Optional. Possible values: "pre" / "post". Default is "pre".
+            "drones": {
+                // Drone usage, optional, omit if not using drones
+                "enable": true, // Whether to use drones, optional, default true
+                "room": "trading", // Which room type to use drones on, values "trading"/"manufacture"
+                "index": 1, // Which instance of that room type to use drones on, corresponds to left tab number, range [1, 5]
+                "rule": "all", // Usage rule, reserved field, currently not used. May support plug/unplug operations in future
+                "order": "pre" // Use before operator changes or after, optional, values "pre"/"post", default "pre"
             },
-            "groups":[              // For "control" / "manufacture" / "trading", operator groups can be set
+            "groups": [
+                // For "control"/"manufacture"/"trading", you can set operator groups
                 {
-                    "name":"A",
-                    "operators":[
-                        "古米",
-                        "银灰",
-                        "梅"
+                    "name": "古+银", // ("古+银" = "Gummy+Silver")
+                    "operators": ["古米", "银灰", "梅"] // ("古米" = "Gummy", "银灰" = "SilverAsh", "梅" = "Plum")
+                },
+                {
+                    "name": "清流", // ("清流" = "Purestream")
+                    "operators": ["清流", "森蚺", "温蒂"] // ("清流" = "Purestream", "森蚺" = "Eunectes", "温蒂" = "Weedy")
+                }
+            ],
+            "rooms": {
+                // Room information, required
+                // Values: "control"/"manufacture"/"trading"/"power"/"meeting"/"hire"/"dormitory"/"processing"
+                // Missing rooms use default algorithm for shift change.
+                // To skip a room, use skip field or uncheck the facility in software Task Settings - Base Management - General Settings
+                "control": [
+                {
+                    "operators": [
+                        "夕", // Uses OCR, requires operator name in client language ("夕" = "Dusk")
+                        "令", // ("令" = "Ling")
+                        "凯尔希", // ("凯尔希" = "Kal'tsit")
+                        "阿米娅", // ("阿米娅" = "Amiya")
+                        "玛恩纳" // ("玛恩纳" = "Closure")
+                    ]
+                }
+                ],
+                "manufacture": [
+                {
+                    "operators": ["芬", "稀音", "克洛丝"], // ("芬" = "Fang", "稀音" = "Scene", "克洛丝" = "Kroos")
+                    "sort": false // Whether to sort (by operators order above), optional, default false
+                    // Example: When using Scene, Pallas, Shamare, etc. with "sort": false, operator order may be scrambled, losing warm-up effect.
+                    // Using "sort": true can avoid this issue
+                },
+                {
+                    "skip": true // Whether to skip current room (by array index), optional, default false
+                    // If true, other fields can be empty. Only skips operator change operation, other actions like drone usage, clue exchange still occur
+                },
+                {
+                    "operators": ["Castle-3"],
+                    "autofill": true, // Use original algorithm to auto-fill remaining positions, optional, default false
+                    // If operators is empty, room uses original algorithm completely
+                    // If operators not empty, considers only single operator efficiency, not combination efficiency
+                    // May conflict with custom operators defined later, e.g., using operators needed later, use cautiously or place autofill rooms last
+                    "product": "Battle Record" // Current manufacturing product, optional.
+                    // If detected facility product doesn't match task setting, UI will show red warning; may have more uses in future
+                    // Values: "Battle Record"|"Pure Gold"|"Dualchip"|"Originium Shard"|"LMD"|"Orundum"
+                },
+                {
+                    "operators": ["多萝西"], // ("多萝西" = "Dorothy")
+                    "candidates": [
+                        // Backup operators, optional. Uses whoever's available until positions filled
+                        // Incompatible with autofill=true, i.e., autofill must be false when this array not empty
+                        "星源", // ("星源" = "Astgenne")
+                        "白面鸮", // ("白面鸮" = "Ptilopsis")
+                        "赫默" // ("赫默" = "Silence")
                     ]
                 },
                 {
-                    "name":"B",
-                    "operators":[
-                        "清流",
-                        "森蚺",
-                        "温蒂"
+                    "use_operator_groups": true, // Set true to use operator groups from groups field, default false
+                    "operators": [
+                        // When enabled, names in operators are interpreted as group names
+                        "古+银", // Will select groups by mood threshold and setting order ("古+银" = "Gummy+Silver")
+                        "清流" // If Gummy+Silver group has operators below threshold, will use Purestream group ("清流" = "Purestream")
                     ]
                 }
-            ],
-            "rooms": {                 // Room information. Required.
-                           // Possible values: "control" / "manufacture" / "trading" / "power" / "meeting" / "hire" / "dormitory" / "processing".
-                           // If a room is not specified, the default algorithm will be used to change operators.
-                           // To avoid changing operators in a specific room, use the "skip" field, or uncheck the corresponding facility in the software's infrastructure settings.
-                "control": [
-                    {
-                        "operators": [  // The operators assigned to this room. Identified through OCR. Must be passed in the corresponding client language.
-                            "夕",
-                            "令",
-                            "凯尔希",
-                            "阿米娅",
-                            "玛恩纳"
-                        ]
-                    }
-                ],
-                "manufacture": [
-                    {
-                        "operators": [  // The operators assigned to this room.
-                            "芬",
-                            "稀音",
-                            "克洛丝"
-                        ],
-                        "sort": false,   // Whether to sort the operators according to the above order. Optional. Default is false.
-                                         // For example: if using operators like "稀音", "帕拉斯", "巫恋", etc. and "sort": false, the order of operators may be disrupted, leading to a loss of preheating effect.
-                                         // If "sort": true is used, this issue can be avoided.
-                    },
-                    {
-                        "skip": true    // Whether to skip this room (corresponding to the array index). Optional. Default is false.
-                                        // If true, all other fields can be empty. Only the operator change will be skipped. Other actions, such as drone usage and clue exchange, will proceed as usual.
-                    },
-                    {
-                        "operators": [
-                            "Castle-3"
-                        ],
-                        "autofill": true, // Use the original algorithm to automatically fill the remaining positions. Optional, default to false.
-                                          // If the operator's array is empty, the scheduling of the entire room will be based on the original algorithm.
-                                          // If the operator's array is not empty, only the efficiency of individual operators will be considered, not the efficiency of the entire combination.
-                                          // Be careful that conflicts may arise with the custom operators defined later, for example, if the operators needed later are used here; please use it with caution, or place the autofill room order at the end.
-                        "product": "Battle Record" // The current manufactured product, optional.
-                                                   // If the product recognized by the facility does not match the one set in the task, the interface will display a red warning message. More functions may be added in the future.
-                                                   // Possible values: "Battle Record" | "Pure Gold" | "Dualchip" | "Originium Shard" | "LMD" | "Orundum"
-                    },
-                    {
-                        "operators": [
-                            "多萝西"
-                        ],
-                        "candidates": [ // Optional backup operators. Use whoever is listed until all positions are filled.
-                                        // Not compatible with autofill=true. When this array is not empty, autofill should be set to false.
-                            "星源",
-                            "白面鸮",
-                            "赫默"
-                        ]
-                    },
-                    {
-                        "use_operator_groups":true,  // Set to true to use the grouping of operators in groups, default is false
-                        "operators":[                // When enabled, names in operators will be interpreted as group names
-                            "A",                     // Grouping will be selected according to mood threshold and setting order
-                            "B"                      // If any operator in group A whose mood is below the threshold, group B will be used
-                        ]
-                    }
                 ],
                 "meeting": [
                     {
-                        "autofill": true // Use autofill for the entire room.
+                        "autofill": true // Completely autofill this room
                     }
                 ]
             }
         },
         {
-            "name": "晚班"
-            // ...
+        "name": "晚班" // ("晚班" = "Night Shift")
+        // ...
         }
     ]
 }

@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single;
+using MaaWpfGui.Constants;
 using ObservableCollections;
 
 namespace MaaWpfGui.Configuration;
@@ -32,7 +33,7 @@ public class Root : INotifyPropertyChanged
     [JsonInclude]
     public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
 
-    public string Current { get; set; } = "Default";
+    public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
     [JsonInclude]
     public VersionUpdate VersionUpdate { get; private set; } = new();

@@ -14,11 +14,6 @@
         "template": "JieGarden@Roguelike@ChooseOperConfirm.png",
         "roi": [1031, 606, 249, 114]
     },
-    "JieGarden@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "JieGarden@Roguelike@EnterAfterRecruit.png",
-        "roi": [1040, 240, 240, 179],
-        "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
-    },
     "JieGarden@StartExplore@Roguelike@RecruitOther": {
         "template": "JieGarden@Roguelike@Recruit.png"
     },
@@ -321,7 +316,7 @@
     },
     "JieGarden@Roguelike@MapObject": {
         "roi": [255, 491, 192, 119],
-        "next": ["JieGarden@Roguelike@RecruitOther"]
+        "next": ["JieGarden@StartExplore@Roguelike@RecruitOther"]
     },
     "JieGarden@Roguelike@MissionFailedFlag": {
         "roi": [437, 242, 403, 192]
@@ -395,6 +390,8 @@
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@ChooseOperFlag",
             "JieGarden@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RecruitWithoutButton"
         ]
     },
@@ -555,8 +552,8 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [150, 120, 60],
-                [180, 200, 235]
+                [155, 60, 60],
+                [175, 200, 235]
             ],
             [
                 [0, 0, 230],
@@ -756,8 +753,8 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [150, 120, 60],
-                [180, 200, 235]
+                [155, 60, 60],
+                [175, 200, 235]
             ],
             [
                 [0, 0, 230],
@@ -874,7 +871,8 @@
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@Stages": {
-        "baseTask": "JieGarden@Roguelike@Stages_default"
+        "baseTask": "JieGarden@Roguelike@Stages_default",
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -898,7 +896,8 @@
             "JieGarden@Roguelike@StageEmergencyTransportation",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -922,7 +921,8 @@
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_fastInvestment": {
         "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
@@ -933,11 +933,13 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing-FastInvestment"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_leaveBoskyPassage": {
         "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -961,7 +963,8 @@
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
@@ -971,7 +974,8 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@StartExplore": {
         "roi": [1001, 524, 273, 196]

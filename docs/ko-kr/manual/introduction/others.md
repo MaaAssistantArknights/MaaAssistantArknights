@@ -5,11 +5,25 @@ icon: icon-park-solid:other
 
 # Others
 
+## GPU 가속 추론
+
+DirectML을 사용하여 GPU를 호출하여 인식 추론을 가속화합니다<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>. 적은 GPU 사용량으로 CPU 사용량을 크게 줄일 수 있으므로 활성화하는 것을 권장합니다.
+
+테스트 결과, 일부 그래픽 카드는 기능 부족이나 성능 저하로 인해 이 기능을 사용할 때 인식 문제가 발생할 수 있습니다. MAA에는 이미 일부 GPU 블랙리스트가 내장되어 있습니다<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>. 목록에 없는 그래픽 카드에서 이 기능을 활성화한 후 인식 문제가 발생하면 Issue를 제출해 주세요.
+
+## 한 번만
+
+메인 인터페이스와 설정의 구성 변경은 일반적으로 자동으로 저장되지만 다음은 MAA 재시작 후 재설정됩니다.
+
+- `*` 표시가 있는 옵션
+- `（한 번만）` 표시가 있는 옵션
+- 체크박스를 우클릭하여 얻은 반선택 상태
+
 ## 시작 시 자동으로 구성 변경
 
-MAA는 시작 매개변수를 통해 구성을 자동으로 전환할 수 있습니다. MAA 프로세스 이름 뒤에 `--config <구성 이름>`을 추가하면 됩니다. 예: `./MAA/MAA.exe --config 공식서버`
+MAA는 시작 매개변수를 통해 구성을 자동으로 전환할 수 있습니다. MAA 프로세스 이름 뒤에 `--config <구성 이름>`을 추가하면 됩니다. 예: `./MAA/MAA.exe --config Official`
 
-일부 기호는 이스케이프해야 합니다. `Json` 참조하세요. 예를 들어 구성 이름이 `"공식서버"`인 경우 매개변수는 --config `\"공식서버\"`가 되어야 합니다
+일부 기호는 이스케이프해야 합니다. `Json` 참조하세요. 예를 들어 구성 이름이 `"Official"`인 경우 매개변수는 --config `\"Official\"`가 되어야 합니다
 
 ## 시작 전/후 스크립트
 

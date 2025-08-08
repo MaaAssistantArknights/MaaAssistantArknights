@@ -188,7 +188,7 @@
     },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
         "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
-        "specialParams": [150, 0, 0.5]
+        "specialParams": [150, 0, 0, 0]
     },
     "RoguelikeRecruitSupportElite": {
         "Doc": "base_task",
@@ -421,7 +421,7 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [1061, 373, 208, 71],
+        "roi": [1064, 294, 216, 170],
         "next": ["Roguelike@StartExplore"]
     },
     "Roguelike@ChooseDifficultyConfirm": {
@@ -625,7 +625,6 @@
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@EnterAfterRecruit",
             "Roguelike@CloseEvent",
             "Roguelike@DialogSkip",
             "Roguelike@RecruitOther"
@@ -1040,7 +1039,7 @@
         "next": ["Roguelike@ChooseOperFlag"]
     },
     "Roguelike@RecruitMain": {
-        "Doc": "base_task",
+        "Doc": "肉鸽开始探索时, 招募第一个干员用, base_task",
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [80, 470, 410, 154],
@@ -1525,7 +1524,7 @@
     },
     "Roguelike@StageTraderRefreshWithDiceConfirm": {
         "action": "ClickSelf",
-        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshConfirmNew"],
+        "template": ["Roguelike@StageTraderRefreshWithDiceConfirm.png", "Roguelike@StageTraderRefreshConfirmNew.png"],
         "roi": [580, 375, 700, 230],
         "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
     },
@@ -1598,12 +1597,14 @@
     "Roguelike@Stages_exit": {
         "Doc": "烧水和直升，在进入第三层之后直接退出",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@ExitThenAbandon_ToHardest"]
+        "next": ["Roguelike@ExitThenAbandon_ToHardest"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@Stages_restart": {
         "doc": "保持当前难度重开，用于投资进入第二层后退出",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@ExitThenAbandon"]
+        "next": ["Roguelike@ExitThenAbandon"],
+        "onErrorNext": ["Roguelike@ExitThenAbandon"]
     },
     "Roguelike@StartAction": {
         "Doc": "本任务注册了插件 RoguelikeSkillSelectionTaskPlugin、RoguelikeBattleTaskPlugin",
@@ -1627,6 +1628,7 @@
     },
     "Roguelike@StartExplore": {
         "Doc": "base_task",
+        "Doc2": "注册了 RoguelikeDifficultySelectionTaskPlugin 插件",
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [1026, 470, 254, 248],
@@ -1805,7 +1807,7 @@
         "next": [
             "StartExplore@Roguelike@ChooseOperConfirmToGiveUp@NextAfterLoadingText",
             "StartExplore@Roguelike@RecruitOther",
-            "StartExplore@Roguelike@EnterAfterRecruit",
+            "Roguelike@EnterAfterRecruit",
             "Roguelike@NextLevel",
             "Roguelike@NextLevel#next",
             "StartExplore@Roguelike@ChooseOperConfirmToGiveUp"
@@ -1825,10 +1827,12 @@
         ]
     },
     "StartExplore@Roguelike@RecruitWithoutButton": {
-        "exceededNext": ["Roguelike@Abandon"],
+        "exceededNext": ["Roguelike@Abandon", "Roguelike@ExitThenAbandon"],
         "next": [
             "StartExplore@Roguelike@RecruitOther",
-            "StartExplore@Roguelike@EnterAfterRecruit",
+            "Roguelike@EnterAfterRecruit",
+            "Roguelike@NextLevel",
+            "Roguelike@NextLevel#next",
             "StartExplore@Roguelike@RecruitWithoutButton"
         ]
     }

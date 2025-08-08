@@ -5,6 +5,20 @@ icon: mdi:plug
 
 # 연결 설정
 
+## 자동 감지
+
+MAA는 현재 **실행 중인 단일 에뮬레이터**를 통해 ADB 경로, 연결 주소 및 연결 구성을 자동으로 감지하고 채울 수 있습니다.
+
+MAA v5.7.0까지 지원하는 감지 가능한 에뮬레이터 및 연결 주소는 다음과 같습니다:
+
+- BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
+- MuMu 에뮬레이터 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
+- 逍遥(Xiaoyao): `127.0.0.1:62001/59865`
+- 夜神(Yeshen): `127.0.0.1:21503`
+
+감지에 실패하면 UAC 관리자 권한으로 MAA를 시작하여 다시 감지해보세요. 여전히 실패한다면 아래 수동 설정을 참고하고, 에뮬레이터와 연결 주소가 위 목록에 포함되어 있는지 확인하세요.
+
 ## ADB 경로
 
 :::info 기술적 정보
@@ -41,12 +55,13 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
 - [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
+- [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [逍遥(Xiaoyao)](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神(Yeshen)](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
 기타 에뮬레이터는 [赵青青의 블로그](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)를 참고하세요.
 
-#### 멀티 인스턴스에 관하여
+#### 멀티 인스턴스 포트 확인
 
 - MuMu 12 의 멀티 인스턴스 관리자 오른쪽 상단에서 실행 중인 인스턴스의 포트를 확인할 수 있습니다.
 - Bluestacks 5 에뮬레이터 설정 내에서 현재 멀티 인스턴스 포트를 확인할 수 있습니다.
@@ -56,34 +71,34 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 - 방법 1: adb 명령어로 에뮬레이터 포트 확인
 
-    1. **하나의 에뮬레이터**를 실행하고, 다른 안드로이드 장치가 이 컴퓨터에 연결되어 있지 않은지 확인합니다.
-    2. adb 실행 파일이 있는 폴더에서 명령어 창을 엽니다.
-    3. 다음 명령어를 실행합니다.
+  1. **하나의 에뮬레이터**를 실행하고, 다른 안드로이드 장치가 이 컴퓨터에 연결되어 있지 않은지 확인합니다.
+  2. adb 실행 파일이 있는 폴더에서 명령어 창을 엽니다.
+  3. 다음 명령어를 실행합니다.
 
-    ```sh
-    # Windows 명령 프롬프트
-    adb devices
-    # Windows PowerShell
-    .\adb devices
-    ```
+  ```sh
+  # Windows 명령 프롬프트
+  adb devices
+  # Windows PowerShell
+  .\adb devices
+  ```
 
-    다음은 출력 예시입니다:
+  다음은 출력 예시입니다:
 
-    ```text
-    List of devices attached
-    127.0.0.1:<포트 번호>   device
-    emulator-<네 자리 숫자>  device
-    ```
+  ```text
+  List of devices attached
+  127.0.0.1:<포트 번호>   device
+  emulator-<네 자리 숫자>  device
+  ```
 
-    `127.0.0.1:<포트>` 또는 `emulator-<네 자리 숫자>`를 연결 주소로 사용합니다.
+  `127.0.0.1:<포트>` 또는 `emulator-<네 자리 숫자>`를 연결 주소로 사용합니다.
 
 - 방법 2: 기존 adb 연결 찾기
 
-    1. 방법 1을 시도합니다.
-    2. `윈도우 키 + S`를 눌러 검색 창을 열고, `리소스 모니터`를 입력한 후 실행합니다.
-    3. `네트워크` 탭으로 전환하고, 수신 대기 포트의 이름 열에서 에뮬레이터 프로세스명을 찾습니다. 예: `HD-Player.exe`.
-    4. 에뮬레이터 프로세스의 모든 수신 대기 포트를 기록합니다.
-    5. `TCP 연결`의 목록에서 `adb.exe`를 찾아, 원격 포트 열에서 에뮬레이터 수신 대기 포트와 일치하는 포트를 에뮬레이터 디버깅 포트로 사용합니다.
+  1. 방법 1을 시도합니다.
+  2. `윈도우 키 + S`를 눌러 검색 창을 열고, `리소스 모니터`를 입력한 후 실행합니다.
+  3. `네트워크` 탭으로 전환하고, 수신 대기 포트의 이름 열에서 에뮬레이터 프로세스명을 찾습니다. 예: `HD-Player.exe`.
+  4. 에뮬레이터 프로세스의 모든 수신 대기 포트를 기록합니다.
+  5. `TCP 연결`의 목록에서 `adb.exe`를 찾아, 원격 포트 열에서 에뮬레이터 수신 대기 포트와 일치하는 포트를 에뮬레이터 디버깅 포트로 사용합니다.
 
 :::
 
@@ -124,8 +139,8 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 1. 블루스택 데이터 디렉토리에서 `bluestacks.conf` 파일을 찾습니다.
 
-    - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+   - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
 2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
 
@@ -136,12 +151,12 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 ```json
 {
-    "Configurations": {
-        "Default": {
-            "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-            // 다른 구성 필드, 수동으로 입력하지 마세요.
-        }
+  "Configurations": {
+    "Default": {
+      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+      // 다른 구성 필드, 수동으로 입력하지 마세요.
     }
+  }
 }
 ```
 

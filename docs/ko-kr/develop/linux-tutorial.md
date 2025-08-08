@@ -11,6 +11,10 @@ icon: teenyicons:linux-alt-solid
 MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내용은 오래되었을 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134)의 스크립트를 참고하세요. 또한 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 및 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)을 참고할 수 있습니다.
 :::
 
+::: info
+Mac은 `tools/build_macos_universal.zsh` 스크립트를 사용하여 컴파일할 수 있습니다. [MaaAssistantArknights/MaaMacGui](https://github.com/MaaAssistantArknights/MaaMacGui) 프로젝트의 README.md를 참고하는 것을 권장합니다.
+:::
+
 ## 컴파일 과정
 
 1. 컴파일에 필요한 종속성 다운로드
@@ -68,10 +72,12 @@ MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내�
 
 [Python demo](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)에서 `__main__`의 구현을 참조하세요.
 
-### C
+### C++
 
 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)의 구현을 참조하세요.
 
-### C\#
+### C Sharp
+
+<!-- Do not use C#, MD003/heading-style: Heading style [Expected: atx; Actual: atx_closed] -->
 
 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)의 구현을 참조하세요.

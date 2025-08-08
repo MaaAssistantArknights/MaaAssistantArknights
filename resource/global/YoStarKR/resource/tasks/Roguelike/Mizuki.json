@@ -19,49 +19,49 @@
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             [" ", ""],
-            ["하늘빛해안", "_aggressive"],
-            ["연안외딴섬", "_aggressive"],
-            ["맹렬한파도", "_pragmatic"],
-            ["은밀한온상", "_pragmatic"],
-            ["신성한동굴", "_default"],
-            ["심해의숲", "_default"],
-            ["짙푸른요람", "_SKIP_"]
+            ["하늘", "_aggressive"],
+            ["연안", "_aggressive"],
+            ["맹렬한", "_pragmatic"],
+            ["은밀한", "_pragmatic"],
+            ["신성한", "_default"],
+            ["심해의", "_default"],
+            ["짙푸른", "_SKIP_"]
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             [" ", ""],
-            ["하늘빛해안", "_default"],
-            ["연안외딴섬", "_default"],
-            ["맹렬한파도", "_exit"],
-            ["은밀한온상", "_exit"],
-            ["신성한동굴", "_exit"],
-            ["심해의숲", "_exit"],
-            ["짙푸른요람", "_exit"]
+            ["하늘", "_default"],
+            ["연안", "_default"],
+            ["맹렬한", "_exit"],
+            ["은밀한", "_exit"],
+            ["신성한", "_exit"],
+            ["심해의", "_exit"],
+            ["짙푸른", "_exit"]
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
             [" ", ""],
-            ["하늘빛해안", "_aggressive"],
-            ["연안외딴섬", "_aggressive"],
-            ["맹렬한파도", "_pragmatic"],
-            ["은밀한온상", "_pragmatic"],
-            ["신성한동굴", "_default"],
-            ["심해의숲", "_default"],
-            ["짙푸른요람", "_SKIP_"]
+            ["하늘", "_aggressive"],
+            ["연안", "_aggressive"],
+            ["맹렬한", "_pragmatic"],
+            ["은밀한", "_pragmatic"],
+            ["신성한", "_default"],
+            ["심해의", "_default"],
+            ["짙푸른", "_SKIP_"]
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
             [" ", ""],
-            ["하늘빛해안", "_aggressive"],
-            ["연안외딴섬", "_aggressive"],
-            ["맹렬한파도", "_pragmatic"],
-            ["은밀한온상", "_pragmatic"],
-            ["신성한동굴", "_default"],
-            ["심해의숲", "_default"],
-            ["짙푸른요람", "_SKIP_"]
+            ["하늘", "_aggressive"],
+            ["연안", "_aggressive"],
+            ["맹렬한", "_pragmatic"],
+            ["은밀한", "_pragmatic"],
+            ["신성한", "_default"],
+            ["심해의", "_default"],
+            ["짙푸른", "_SKIP_"]
         ]
     }
 }
