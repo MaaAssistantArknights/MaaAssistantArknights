@@ -37,8 +37,11 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
+    if (task_view.ends_with("Roguelike@GamePass")) {
+        m_has_changed = false;
+    }
     if (task_view == "Roguelike@StartExplore") {
-        return true;
+        return !m_has_changed;
     }
     else {
         return false;
@@ -59,6 +62,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
     select_difficulty(difficulty);
 
+    m_has_changed = true;
     return true;
 }
 
