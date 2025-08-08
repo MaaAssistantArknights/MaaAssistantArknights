@@ -958,6 +958,7 @@
         "Doc": "树洞 故肆 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "templThreshold": 0.65,
         "colorWithClose": false,
         "colorScales": [
             [
@@ -975,6 +976,7 @@
         "Doc": "树洞 筹谋 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "templThreshold": 0.65,
         "colorWithClose": false,
         "colorScales": [
             [
@@ -992,6 +994,7 @@
         "Doc": "树洞 常乐 青色系",
         "baseTask": "JieGarden@Roguelike@Stage",
         "method": "HSVCount",
+        "templThreshold": 0.65,
         "colorWithClose": false,
         "colorScales": [
             [
