@@ -871,7 +871,8 @@
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@Stages": {
-        "baseTask": "JieGarden@Roguelike@Stages_default"
+        "baseTask": "JieGarden@Roguelike@Stages_default",
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -895,7 +896,8 @@
             "JieGarden@Roguelike@StageEmergencyTransportation",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -919,7 +921,8 @@
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_fastInvestment": {
         "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
@@ -930,11 +933,13 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing-FastInvestment"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_leaveBoskyPassage": {
         "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -958,7 +963,8 @@
             "JieGarden@Roguelike@StageEmergencyDps",
             "JieGarden@Roguelike@StageDreadfulFoe",
             "JieGarden@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
@@ -968,7 +974,8 @@
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
             "JieGarden@Roguelike@Routing"
-        ]
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
     "JieGarden@Roguelike@StartExplore": {
         "roi": [1001, 524, 273, 196]

@@ -421,7 +421,8 @@
         "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
     },
     "Mizuki@Roguelike@Stages": {
-        "baseTask": "Mizuki@Roguelike@Stages_default"
+        "baseTask": "Mizuki@Roguelike@Stages_default",
+        "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]
     },
     "Mizuki@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -444,7 +445,8 @@
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]
     },
     "Mizuki@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -467,7 +469,8 @@
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose"
-        ]
+        ],
+        "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]
     },
     "Mizuki@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -490,7 +493,8 @@
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose"
-        ]
+        ],
+        "onErrorNext": ["Mizuki@Roguelike@ExitThenAbandon"]
     },
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@StartExplore-EnterCheck": {
