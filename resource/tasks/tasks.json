@@ -924,6 +924,7 @@
             "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm",
+            "GameStartCheckResourceOCR",
             "GameStartUpdateOCR"
         ]
     },
@@ -951,6 +952,14 @@
         "maskRange": [1, 255],
         "reduceOtherTimes": ["StartButton1", "StartButton2"],
         "next": ["StartUpThemes#next", "GameStart@LoadingIcon"]
+    },
+    "GameStartCheckResourceOCR": {
+        "doc": "开始唤醒时最开始的完整性检测",
+        "algorithm": "OcrDetect",
+        "text": ["资源完整性", "不消耗流量"],
+        "roi": [340, 620, 600, 80],
+        "postDelay": 5000,
+        "next": ["#self", "StartUpThemes#next"]
     },
     "GameStartUpdateOCR": {
         "doc": "开始唤醒时遇到更新下载",
