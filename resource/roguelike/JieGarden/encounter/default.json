@@ -326,6 +326,21 @@
             "name": "掷地有声",
             "option_num": 2,
             "choose": 2
+        },
+        {
+            "name": "天圆地方",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "存形失意",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "执棋",
+            "option_num": 4,
+            "choose": 4
         }
     ]
 }
