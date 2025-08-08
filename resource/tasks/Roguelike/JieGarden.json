@@ -552,7 +552,7 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [155, 10, 60],
+                [155, 60, 60],
                 [175, 200, 235]
             ],
             [
@@ -753,7 +753,7 @@
         "colorWithClose": false,
         "colorScales": [
             [
-                [155, 10, 60],
+                [155, 60, 60],
                 [175, 200, 235]
             ],
             [
