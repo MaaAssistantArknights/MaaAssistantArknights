@@ -250,7 +250,8 @@
         {
             "name": "传讯",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [[4, 1]]
         },
         {
             "name": "入暂亭",
