@@ -1018,6 +1018,23 @@
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
+    "JieGarden@Roguelike@StagePlaytime": {
+        "Doc": "树洞 常乐 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
     "JieGarden@Roguelike@StageYiTraderEnter": {
         "baseTask": "Roguelike@StageEnter",
         "next": ["JieGarden@Roguelike@StageTraderLeave", "JieGarden@Roguelike@StageTraderLeaveConfirm"]

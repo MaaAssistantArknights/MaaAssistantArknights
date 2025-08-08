@@ -306,6 +306,26 @@
             "name": "不速之客",
             "option_num": 3,
             "choose": 3
+        },
+        {
+            "name": "点睛",
+            "option_num": 4,
+            "choose": 4
+        },
+        {
+            "name": "种因得果",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "三缺一",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "掷地有声",
+            "option_num": 2,
+            "choose": 2
         }
     ]
 }
