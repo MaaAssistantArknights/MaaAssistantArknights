@@ -5,45 +5,38 @@ icon: icon-park-solid:other
 
 # Others
 
-::: important This page may be outdated.
-:::
+## GPU-Accelerated Inference
 
-## GPU-accelerated inference
+Uses DirectML to call the GPU for recognition inference acceleration<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>, reducing CPU usage significantly with minimal GPU usage. Recommended to enable.
 
-Use DirectML to call the GPU for recognition and inference acceleration.<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>It can reduce a significant amount of CPU usage with minimal GPU usage, and it's recommended to enable it.
+Testing has shown that some graphics cards may experience recognition issues when using this feature due to missing functionality or lower performance. MAA has built-in a blacklist for certain GPUs<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>. If you encounter recognition issues with GPUs not on the blacklist after enabling this feature, please submit an Issue.
 
-Testing has shown that some graphics cards may encounter recognition issues when using this feature due to lacking certain functions or having lower performance. MAA has already built-in a blacklist for some GPUs.<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)</sup>If graphics cards not on the list also encounter recognition issues after enabling this feature, please submit an issue.
+## One-Time Only
 
-## Only Once
+Configuration changes in the main interface and settings are usually saved automatically, but the following will reset after MAA restarts:
 
-Configuration changes in the main interface and settings are usually saved automatically, but the following types will reset after MAA is restarted.
+- Options marked with an `*`
+- Options marked with `(One-time only)`
+- Half-selected checkboxes obtained by right-clicking
 
-- Options marked with a `*`
-- Options marked with `(Only Once)`
-- Semi-selected switches obtained by right-clicking the checkbox
+## Auto-Switch Configuration at Startup
 
-## Automatically switch configurations on startup
+MAA supports automatically switching configurations via launch parameters by adding `--config <configuration name>` after the MAA process name. Example: `./MAA/MAA.exe --config Official`.
 
-MAA supports automatic configuration switching through launch parameters by appending `--config <configuration name>` after the MAA process name.
-Example: `./MAA/MAA.exe --config Official`.
+Some characters need to be escaped according to JSON conventions. Example: when the configuration name is `"Official"`, the parameter should be `--config \"Official\"`.
 
-Some symbols need to be escaped, following Json conventions.
-Example: when the configuration name is `"Official"`, the parameter should be `--config \"Official\"`.
+## Start/End Scripts
 
-## Pre/Post-Script
-
-Starting from v4.13.0, it is possible to set pre/post-script that automatically executes batch files before and after the task.
-
-You need to provide the absolute or relative path to the batch file, which should have a `.bat` extension.
+Since v4.13.0, MAA supports setting scripts to run before starting and after finishing tasks. Enter the absolute or relative path to a batch file (`.bat`) in the input field.
 
 ## Configuration Migration
 
-In the Windows version, all MAA configurations are stored in the `gui.json` file within the `config` folder. Migrating this folder will transfer all MAA settings.
+In the Windows version, all MAA configurations are stored in `gui.json` inside the `config` folder. Migrating this folder transfers all MAA settings.
 
-## Note
+## Additional Notes
 
-- Tasks order can be changed on the UI. So can the shifting order in the infrastructure.
-- All clicking event is randomized within a region, following Poisson distribution (higher probability at the center, lower probability around).
-- Developed in C++, the core algorithm supports multi-level cache, to reduce CPU and memory usage as much as possible.
-- Our software supports auto-update ✿✿ ヽ(°▽°)ノ ✿ Beta-testers can try beta versions, which update faster and less buggy (maybe).
-- If auto-update fails, you can download the OTA package manually and put the ZIP file under the same directory. The update will start automatically.
+- Tasks on the left side of the main page can be dragged to change their order, as can facilities in the base management settings.
+- All click operations target random positions within buttons, following a Poisson distribution (higher probability at the center, decreasing with distance from center).
+- The core algorithms are developed in C++ with multi-level caching to minimize CPU and memory usage.
+- The software supports automatic updates ✿✿ ヽ(°▽°)ノ ✿. We recommend non-critical users try the beta version, which typically updates faster and has fewer bugs. (What MIUI? (╯‵□′)╯︵┻━┻)
+- If automatic downloads fail for new versions, you can manually download the OTA package and place it in the MAA directory for automatic updating.

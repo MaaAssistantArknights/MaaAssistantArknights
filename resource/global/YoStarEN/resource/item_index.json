@@ -1487,6 +1487,14 @@
         "sortId": -10000,
         "usage": "Records already ravaged beyond playability. Can be exchanged with the long-time residents of the ruins for goods."
     },
+    "act18mini_token_petals": {
+        "classifyType": "NONE",
+        "description": "A shattered yet still brilliant crystal shaped like a petal, often seen among death-blackened scorched earth. They are ripples left behind by traveling Canoes, engraved with the final memories and emotions of those who passed away.",
+        "icon": "act18mini_token_petals.png",
+        "name": "Broken Petals",
+        "sortId": -10000,
+        "usage": "A crystal of blood left behind in the battlefield ruins. It is said that if you place it in a deserted nook where roses bloom, when the twin moons are at their brightest, the fortunate will find some unexpected presents waiting for them come daybreak."
+    },
     "act18side_token_pieces": {
         "classifyType": "NONE",
         "description": "The notes scribbled on the staff are jumbled and disorderly. Only the composer himself can, at a glance, make out the soul hidden therein.",

@@ -3,128 +3,125 @@ order: 3
 icon: hugeicons:brain-02
 ---
 
-# Combat
-
-::: important This page may be outdated.
-:::
+# Sanity Farming
 
 ## General Settings
 
-- Combat options include `Use Sanity Potion + Use Originium`, `Perform Battles` and `Material`, you can specify any of them. The combat task stops once one of the specifications is met.
+- The `Use Sanity Potion` + `Use Originium` and `Perform Battles`+ `Material` options work as OR conditions - the task will stop when any of these conditions is met.
 
-  - `Use Sanity Potion` specifies the maximum used amount of sanity potions. Multiple potions may be used at a time.
-  - `Use Originium` specifies the maximum used amount of Originium. It is used one at a time. The Originium will not be used when there are Sanity Potions in the depot.
-  - `Perform Battles` specifies the number of battles to perform at most.
-  - `Material` specifies the number of materials to collect.
+  - `Use Sanity Potion` specifies how many times to replenish sanity (may use multiple potions at once).
+  - `Use Originium` specifies how many Originium to use (one at a time). Originium won't be used if sanity potions are available.
+  - `Perform Battles` specifies the number of battles to complete (e.g., "stop after 15 runs").
+  - `Material` specifies how many of a specific material to obtain (e.g., "stop after getting 5 Orirock").
 
-- `Material` and `Stage` are independent options. `Material` is not going to automatically navigate to the stage for the specified material. You still need to manually configure the stage option.
-- `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after checking `Use Originium`, MAA will lock the number of `Use Sanity Potion` to 999, making sure to consume all the Sanity Potions to avoid skipping the `Use Originium` judgment.
+- `Material` and `Stage Selection` are independent options. `Material` only uses the material count as a stopping condition and doesn't automatically navigate to stages that drop that material.
+- `Use Originium` is only checked after `Use Sanity Potion`. Since MAA only uses Originium when no sanity potions remain, checking `Use Originium` will automatically set `Use Sanity Potion` to 999, ensuring all potions are used first.
 
-::: details Example
+::: details Examples
 
 | Use Sanity Potion | Use Originium | Perform Battles | Material | Result |
-| :------: | :----: | :------: | :------: | -------------------------------------------------------------------------------------------------------------------------------------- |
-| | | | | Ends after using up the existing Sanity. |
-| 2 | | | | Uses up the existing Sanity first, then consumes a Sanity Potion once, totalling `2` times. Ends after using up the Sanity. |
-| _999_ | 2 | | | Uses up the existing Sanity and all Sanity Potions, then uses Originium, totalling `2` times. Ends after using up the Sanity. |
-| | | 2 | | Ends after performing the selected stage `2` times. |
-| | | | 2 | Ends after farming and obtaining `2` of the specified materials. |
-| 2 | | 4 | | Ends after performing the selected stage `4` times, using up to `2` Sanity Potions. |
-| 2 | | | 4 | Ends after farming and obtaining `4` of the specified materials, using up to `2` Sanity Potions. |
-| 2 | | 4 | 8 | Ends after performing the selected stage `4` times, using up to `2` Sanity Potions. However, if `8` of the specified materials are obtained before completing `4` times, it will end early. |
-| _999_ | 4 | 8 | 16 | Ends after performing the selected stage `8` times, using up all Sanity Potions and `4` Originium. However, if `16` of the specified materials are obtained before completing `8` times, it will end early. |
-| | 2 | | | Uses up the existing Sanity first. If there are Sanity Potions in storage, it ends; if there are no Sanity Potions, it uses `2` Originium and ends after using up the Sanity. _Not a MAA GUI behavior_ |
-| 2 | 4 | | | Uses up the existing Sanity first. If there are still some left after consuming `2` Sanity Potions, it ends; if there are no Sanity Potions after consuming ≤`2` Sanity Potions, it continues to use `4` Originium and ends after using up the Sanity. _Not a MAA GUI behavior_ |
+| :---------------: | :-----------: | :-------------: | :------: | ------ |
+|                   |               |                 |          | Uses current sanity and stops. |
+| 2                 |               |                 |          | Uses current sanity, then uses sanity potions up to 2 times, then stops. |
+| _999_             | 2             |                 |          | Uses current sanity, then all sanity potions, then Originium up to 2 times, then stops. |
+|                   |               | 2               |          | Runs the selected stage 2 times, then stops. |
+|                   |               |                 | 2        | Farms until 2 of the specified material are obtained, then stops. |
+| 2                 |               | 4               |          | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed, then stops. |
+| 2                 |               |                 | 4        | Farms until 4 of the specified material are obtained, using up to 2 sanity potions if needed, then stops. |
+| 2                 |               | 4               | 8        | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed. Stops early if 8 of the specified material are obtained before reaching 4 runs. |
+| _999_             | 4             | 8               | 16       | Runs the selected stage up to 8 times, using all sanity potions and up to 4 Originium if needed. Stops early if 16 of the specified material are obtained before reaching 8 runs. |
+|                   | 2             |                 |          | Uses current sanity, then stops if any sanity potions are available. If no potions, uses up to 2 Originium. _Not MAA GUI behavior_ |
+| 2                 | 4             |                 |          | Uses current sanity, then up to 2 sanity potions. If potions remain, stops; if no potions remain after using ≤2 potions, uses up to 4 Originium. _Not MAA GUI behavior_ |
 
 :::
 
-### Operations
+### Stage Selection
 
-- If the stage you need is unavailable in the selection, please choose `Cur/Last` in MAA and manually locate the stage in the game.
-  Ensure the screen stays on the stage detail page with the **Start** and **Auto-Deploy** buttons available.
-- If you are not on this page, `Cur/Last` will automatically navigate to the last stage played according to the record in the lower right corner of the terminal homepage.
-- You can also enable `Manual entry of stage names` in `Combat` - `Advanced` and enter the stage number manually. Currently supported stages include:
-  - All main theme stages, where `-NORMAL` or `-HARD` can be added at the end to switch between standard and challenge modes.
-  - LMD stages and Battle Record stages 5/6. The input must be `CE-6` or `LS-6` even if you have not unlocked it yet. In that case, the program will automatically switch to the corresponding stage 5.
-  - Skill Summary, Shop Voucher, and Carbon Stages 5. The input also must be `CA-5`, `AP-5`, and `SK-5` respectively.
-  - Chip stages. The input must be complete with stage number, such as `PR-A-1`.
-  - The Annihilation mode supports the following values:
-
-    - Current Annihilation: Annihilation
+- If your desired stage isn't in the selection menu, choose `Current/Last` in MAA, then manually navigate to the stage in-game.
+  Ensure you're on the stage details screen with the stage name and remaining sanity in the upper right and auto-deploy/start buttons in the lower right.
+- If you're not on this screen, `Current/Last` will automatically enter the "last operation" stage shown on the bottom right of the terminal home screen.
+- You can also enable `Manual entry of stage names` in `Task Settings` - `Sanity Farming` - `Advanced Settings` to manually input stage codes. Currently supported stages include:
+  - All main story stages. You can add `-NORMAL` or `-HARD` at the end to switch between normal and challenge modes.
+  - Resource stages like CE-6/LS-6 (LMD/EXP). Enter the exact code like `CE-6` or `LS-6`. MAA will automatically switch to level 5 if level 6 isn't available.
+  - Skill summary, voucher, and carbon stages (level 5 only). Enter exact codes like `CA-5`, `AP-5`, or `SK-5`.
+  - All chip stages. Enter complete stage codes like `PR-A-1`.
+  - For Annihilation mode, use these specific values:
+  
+    - Current annihilation: Annihilation
     - Chernobog: Chernobog@Annihilation
     - Lungmen Outskirts: LungmenOutskirts@Annihilation
     - Lungmen Downtown: LungmenDowntown@Annihilation
 
-  - Some side story stages, now contains `OF-1`, `OF-F3` and `GT-5`.
-  - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. The prompt will be shown on the main page when this is available.
-  - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
+  - Side story stages like `OF-1`, `OF-F3`, and `GT-5`.
+  - The last three stages of the current Side Story event. These will be shown at the bottom of the interface after automatically downloading updates from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json).
+  - Rerun Side Story events: Enter `SSReopen-<stage prefix>` to farm all stages XX-1 through XX-9 in sequence, like `SSReopen-IC`.
 
-::: details Example
-![Example](/images/en-us/combat-start-interface-example.png)
+::: details Example Screen
+![Example Screen](/images/zh-cn/combat-start-interface-example.png)
 :::
 
 ### Annihilation Mode
 
-- MAA navigates via the Annihilation button at the top-right of the terminal homepage. Ensure the selected Annihilation stage has unlocked `Full Delegation` and that you have enough "PRTS Proxy Annihilation Cards".
-- It is only recommended to use automatic Annihilation for stages where you have already achieved 400 kills.
+- MAA navigates to Annihilation using the button at the top-right of the terminal home screen. Ensure your selected Annihilation stage has unlocked `Full Delegation` and that you have enough `PRTS Annihilation Delegation Cards`.
+- This feature is only recommended for stages where you've already achieved the 400-kill milestone.
 
 ## Advanced Settings
 
-### Alternative Stage
+### Alternative Stages
 
-The alternative stage is determined based on the availability of stages on the given day, i.e., the first available stage will be selected for battle.
-This is a function similar to a schedule and cannot be used as a backup stage when the stage selection task fails.
+Alternative stages are selected based on daily stage availability - MAA will choose the first available stage in the list.
+This functions like a schedule, not as a fallback if the primary stage selection fails.
 
-1. Example: Stage selection `CE-6/5`, alternatives `1-7` and `LS-6/5`:
-   - If `CE-6/5` is available on the day, it will proceed to `CE-6/5` and not to `1-7` or `LS-6/5`. If the player has not unlocked the `CE-6/5` mission node, the sanity farming task will fail.
-   - If `CE-6/5` is not available on the day, it will proceed to `1-7` and not to `CE-6/5`. If the player has not unlocked the 1-7 mission node, the sanity farming task will fail.
-   - Since `1-7` is a permanent stage before `LS-6/5`, MAA will never proceed to `LS-6/5` in this scenario.
-2. If the stage selection is `Annihilation Mode`, then:
-   - The selection logic of the remaining backup stages will not be affected by the result of the Annihilation, even if the Annihilation fails, the sanity farming task will not fail.
-   - The remaining backup stages will only inherit the settings of `Use Sanity Potion` and `Series`, and will not be controlled by `Use Originium`, `Perform Battles`, or `Material`.
+1. Example: If primary stage is `CE-6/5` with alternatives `1-7` and `LS-6/5`:
+   - If `CE-6/5` is open today, MAA will run it and ignore the alternatives. If you haven't unlocked auto-deploy for CE-6/5, the task will fail.
+   - If `CE-6/5` is closed today, MAA will run `1-7` instead. If you haven't unlocked auto-deploy for 1-7, the task will fail.
+   - Since `1-7` is a permanent stage that appears before `LS-6/5` in the list, MAA will never run `LS-6/5` in this scenario.
+2. If the primary stage is `Annihilation Mode`:
+   - Annihilation results won't affect the alternative stage logic - even if Annihilation fails, the task will continue.
+   - Alternative stages will only inherit the `Use Sanity Potion` and `Multiplier` settings, ignoring `Use Originium`, `Perform Battles`, and `Material` settings.
 
 ### Remaining Sanity
 
-It starts after the `Combat` task ends and is not controlled by `Use Sanity Potion`, `Use Originium`, `Perform Battles`, `Material`, or `Series`. It ends when the current remaining sanity is exhausted.
+This option activates after the main `Sanity Farming` task ends, ignoring all `Use Sanity Potion`, `Use Originium`, `Perform Battles`, `Material`, and `Multiplier` settings. It simply uses up any remaining sanity and stops.
 
-- Suitable for clearing the remaining "corner" sanity (e.g., going to 1-7) after sanity is insufficient in the `Stage Selection` stage.
-- Also suitable for automatically using single battles to use up sanity when the set number of consecutive battles is too high and sanity is insufficient (e.g., setting 1-7 to battle 6 times, but only having 30 sanity, thus automatically switching to 5 single battles of 1-7).
-- If the remaining sanity is still insufficient, the task will end (e.g., less than 6 sanity).
-- If the selected stage for remaining sanity is unopened, the sanity farming task will fail.
+- Useful for farming a low-cost stage (like 1-7) with leftover sanity after your main stage becomes unaffordable.
+- Also useful for automatically switching to single runs when you have insufficient sanity for your configured multiplier (e.g., if you set 1-7 for 6x runs but only have 30 sanity, it will automatically run five single 1-7 runs instead).
+- The task will end if remaining sanity is insufficient (e.g., less than 6 sanity).
+- If the selected remaining sanity stage is closed or unavailable, the task will fail.
 
-### Series
+### Multiplier
 
-MAA will fight according to the number of consecutive battles set by the user:
+MAA will use the specified battle multiplier setting:
 
 - **AUTO mode** (0):
-  - Automatically identify the maximum number of consecutive battles in the level, maintain the maximum number of consecutive battles and do not overflow sanity
-  - Enter the `Remaining Sanity` process after completion (if set)
+  - Automatically identifies and uses the maximum possible multiplier without wasting sanity
+  - Proceeds to the `Remaining Sanity` option afterward (if enabled)
 
-- **Numerical mode** (1~6):
-  - Perform consecutive battles according to the set number of times
-  - If the current sanity is not enough to complete the set number of times (such as only 5 times but set to 6 times), it will directly end the task and enter the `Remaining Sanity` process (if set)
+- **Fixed value mode** (1-6):
+  - Uses exactly the specified multiplier
+  - If current sanity is insufficient for the set multiplier (e.g., only enough for 5× but set to 6×), ends the task and proceeds to `Remaining Sanity` (if enabled)
 
-- **Disable mode** (-1):
-  - Do not adjust the number of consecutive battles in the game
-  - If the sanity is not enough to complete the current set number of times in the game, directly end the task and enter the `Remaining Sanity` process (if set)
+- **Disabled mode** (-1):
+  - Doesn't change the in-game multiplier setting
+  - If sanity is insufficient for the current in-game multiplier setting, ends the task and proceeds to `Remaining Sanity` (if enabled)
 
 ### Perform Battles
 
-MAA will execute a maximum of the specified number of battles
+MAA will run up to the specified number of battles.
 
-Example: Assuming the current sanity is 100, and the level consumes 6 sanity
+Example: Assuming you have 100 sanity and the stage costs 6 sanity:
 
-- Set the `Perform Battles` to 10, and the proxy multiplier to 4: 2 (start actions) x 4 (multiple proxy) = 8 operations will be executed (2 x floor(10 / 4) = 8), consuming 8 x 6 = 48 sanity. At this time, if another 4x proxy is performed, it will reach 12 operations, which exceeds the set 10 times, so it will not be performed again, and the mission will end with 8 operations
-
-- Set the `Perform Battles` to 10, and the proxy multiplier to AUTO: 1 6x proxy + 1 4x proxy = 10 operations will be executed (6 * floor(10 / 6) + (10 % 6) = 10), consuming 10 x 6 = 60 sanity
+- If `Perform Battles` is 10 and multiplier is 4: MAA will do 2 runs × 4× multiplier = 8 battles (floor(10/4) × 4 = 8), using 48 sanity. It won't do another 4× run since that would be 12 battles, exceeding the set limit of 10.
+- If `Perform Battles` is 10 and multiplier is AUTO: MAA will do one 6× run plus one 4× run = 10 battles (6 + 4 = 10), using 60 sanity.
 
 ### Drop Recognition
 
-- Material drops are automatically recognized and printed to the program log. The data also gets uploaded to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/).
-- You can manually set your Penguin Stats user ID in the settings.
+- Automatically recognizes and counts material drops, uploading data to both [Penguin Statistics](https://penguin-stats.cn/) and [Yituliu](https://ark.yituliu.cn/).
+- You can set a custom Penguin Statistics user ID if desired.
 
-## Abnormal Detection
+## Error Handling
 
-- `Auto-Deploy` will be automatically selected if not already in case you forget to do so.
-- After disconnection or forced server reset at 4 am, it will automatically reconnect and continue to play the last stage selected in the game. If you need to cross the day, please check the last stage selection.
-- An account level-up situation can be automatically handled as well as a failed operation in which case the operation will be abandoned and the battle will be retried.
+- Automatically checks `Auto Deploy` if it's available.
+- Automatically reconnects and continues tasks after disconnections or the daily 4 AM server reset.
+- Continues tasks after level-ups.
+- If auto-deploy fails, abandons the current operation and retries the battle.

@@ -5,53 +5,46 @@ icon: octicon:tools-16
 
 # Tools
 
-::: important This page may be outdated.
-:::
-
 ## Recruitment Recognition
 
-Open the Recruit tag interface and click Start Recognition to initiate.
+Open the Recruitment tag interface and click Start Recognition to initiate.
 
-If you have previously run Operator recognition, potential data will be displayed after the recognized Operator's name.
+If you have previously run Operator Recognition, potential data will be displayed after the recognized operator's name.
 
 ## Operator Recognition (Beta)
 
-Can recognize the list of owned and unowned Operators, and recognize and save potential data for display in Recruitment recognition.
+Can recognize lists of both owned and unowned operators, and identify potential levels to provide data for Recruitment Recognition.
 
 ## Depot Recognition (Beta)
 
-Support automatically entering the depot from the main page. If the automatic jump fails, please manually switch to the `Upgrade materials` screen and slide to the far left to start the function.
+Supports automatically entering the depot from the main page. If automatic navigation fails, please manually switch to the `Upgrade Materials` screen and **scroll all the way to the left** before starting the function.
 
-Currently, exporting is supported to [Penguin-Stats](https://penguin-stats.cn/planner), [Arknights Toolbox](https://arkntools.app/#/material), and [Arknights | Planner](https://ark-nights.com/settings).
+Currently supports exporting to [Penguin Statistics Planner](https://penguin-stats.io/planner), [Arknights Toolbox](https://arkntools.app/#/material), and [Arknights | Planner](https://ark-nights.com/settings).
 
-Please feel free to contact us if you hope to integrate with our JSON schema.
+If you are the administrator of a data site, we welcome you to contact us to adapt your site's material JSON protocol!
 
-More useful features **may** be added in the future.
+More useful features may be added in the future. (Teaser)
 
 ## Task Video Recognition (Alpha)
 
-It can recognize strategy videos and automatically generate job files. Drag the video files into the `Copilot` tab page to start.
+Can recognize strategy videos and automatically generate operation files. Simply drag video files into the Auto Combat page to start.
 
-Only 16:9 aspect ratio videos with a resolution of 720p or higher are supported. The video content must not contain any black borders, distortion correction, emulator borders or other elements.
+Requires 16:9 aspect ratio with 720p or higher resolution, with no black borders, emulator frames, notched screen adaptations, or other interfering elements.
 
 ## Gacha
 
-**It really uses your account to draw your cards! It really uses your account to draw your cards!**
-**It really uses your account to draw your cards! It really uses your account to draw your cards!**
-**It really uses your account to draw your cards! It really uses your account to draw your cards!**
+::: center
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
+:::
 
-Didn't get a spot in [NiuNiu Airlines](https://www.bilibili.com/opus/926129394412421126)? No problem! Now everyone has their own NiuNiu Airlines! And it will take screenshots and display them in the center of the interface during the draw!
-
-<!-- markdownlint-disable -->
-
-_(WTF is NiuNiu Airlines)_
-
-<!-- markdownlint-restore -->
+Couldn't join the MAA Gacha Party livestreams? No problem! Now you can have your own personal gacha assistant! Screenshots will be taken during the pulling process and displayed in the center of the interface!
 
 ## Peep
 
-Want to see the world through MAA's eyes? It's here now!
+Want to see the world through MAA's eyes? Now you can!
 
-MAA will attempt to take screenshots of the emulator at the target frame rate and display the screenshots in real time in the window.
+MAA will attempt to take screenshots of the emulator at the target frame rate and display them in real-time in the window.
 
-When the screenshot speed is significantly slower than the target frame rate, MAA will actively lower the target frame rate to match the screenshot speed. ~~Can be used as a stress test~~
+When the screenshot speed is significantly slower than the target frame rate, MAA will automatically reduce the target frame rate to match the screenshot speed. ~~Can be used as a stress test~~

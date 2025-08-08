@@ -35,7 +35,7 @@
     "CharsNameOcrReplace": {
         "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
-            ["(\\$|\\(|\\)|\\.|\"|/|'| | |—|_|-|=|,|《|》|■|~|シ)", ""],
+            ["(\\$|\\(|\\)|\\.|\"|/|'| |—|_|-|=|,|《|》|■|~|シ)", ""],
             ["드래곤플라이L", "드래곤플라이엘"],
             ["드래곤플라이F", "드래곤플라이에프"],
             ["드래곤플라이A", "드래곤플라이에이"],
@@ -903,21 +903,29 @@
             ["^서퍼$", "寻澜"],
             ["^싱주$", "行箸"],
             ["^화로$", "火灶"],
-            ["버려진화로", "废弃火灶"]
+            ["버려진화로", "废弃火灶"],
+            ["엔텔레키아", "隐德来希"],
+            ["노웰", "诺威尔"]
         ]
     },
     "StartUpThemes": {
         "next": [
-            "GameStart",
             "StartUpNotificationKR",
+            "LeidianGoogleFrameworkConfirm",
+            "GameStart",
             "StartToWakeUp",
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
             "MainThemes#next",
             "CloseAnnos#next",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "GameStartCheckResourceOCR",
+            "GameStartUpdateOCR"
         ]
+    },
+    "GameStartCheckResourceOCR": {
+        "text": ["리소스", "무결성", "데이터"]
     },
     "GameStartUpdateOCR": {
         "text": ["신경", "전달물질", "MB"],
@@ -1067,7 +1075,7 @@
     },
     "RecruitTags": {
         "ocrReplace": [
-            ["(\\s|\\$|\\(|\\)|\\.|\"|/|'| | |—|_|-|=|,|^4)", ""],
+            ["(\\s|\\$|\\(|\\)|\\.|\"|/|'| |—|_|-|=|,|^4)", ""],
             ["고급특별채용", "고급 특별 채용"],
             ["^특별채용$", "특별 채용"],
             ["^가(드|도|든)$", "가드"],
@@ -1121,7 +1129,7 @@
     "BattleStageName": {
         "Doc": "이 작업의 'ocrReplace'는 로그라이크 스테이지 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
-            ["(\\s| | )", ""],
+            ["(\\s| )", ""],
             ["원석충과함께", "与虫为伴"],
             ["사육장", "驯兽小屋"],
             ["예포소대.*", "礼炮小队"],
@@ -1410,6 +1418,10 @@
         "templThreshold": 3,
         "templThreshold_Doc": "여기는 문자 간격 임계값으로 사용됩니다",
         "roi": [62, 90, 46, 22]
+    },
+    "OperBoxSortTabSelect": {
+        "ocrReplace": [["레.?", "레벨"]],
+        "text": ["레벨"]
     },
     "SSSBegin": {
         "ocrReplace": [["보안.*?작전.*?개.+", "보안작전개시"]],

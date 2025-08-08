@@ -678,8 +678,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
     auto& satisfied_char = satisfied_chars.front();
     select_oper(satisfied_char.oper_info);
 
+    sleep(500);
+
     // 确认选择
-    ProcessTask(*this, { "Roguelike@RecruitSupportConfirm" }).run();
+    ProcessTask(*this, { "Roguelike@RecruitSupportConfirm" }).set_retry_times(20).run();
     return true;
 }
 

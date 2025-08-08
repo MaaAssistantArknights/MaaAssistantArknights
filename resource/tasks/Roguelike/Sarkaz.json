@@ -6,10 +6,6 @@
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@StartExplore@Roguelike@EnterAfterRecruit": {
-        "template": "Sarkaz@Roguelike@EnterAfterRecruit.png",
-        "next": ["#self", "Sarkaz@Roguelike@NextLevel", "Sarkaz@Roguelike@NextLevel#next"]
-    },
     "Sarkaz@StartExplore@Roguelike@RecruitOther": {
         "template": "Sarkaz@Roguelike@Recruit.png"
     },
@@ -305,7 +301,6 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@StageEncounterOptions#next",
             "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@RecruitOther"
@@ -320,7 +315,6 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@StageEncounterOptions#next",
             "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@RecruitOther"
@@ -416,7 +410,7 @@
     "Sarkaz@Roguelike@LastRewardRand": {},
     "Sarkaz@Roguelike@MapObject": {
         "roi": [257, 488, 189, 123],
-        "next": ["Sarkaz@Roguelike@RecruitOther"]
+        "next": ["Sarkaz@StartExplore@Roguelike@RecruitOther"]
     },
     "Sarkaz@Roguelike@MissionFailedFlag": {
         "roi": [505, 342, 265, 154]
@@ -450,12 +444,13 @@
     "Sarkaz@Roguelike@RecruitWithoutButton": {
         "next": [
             "Sarkaz@Roguelike@RecruitOther",
-            "Sarkaz@Roguelike@EnterAfterRecruit",
             "Sarkaz@Roguelike@TraderRandomShopping",
             "Sarkaz@Roguelike@StageTraderLeave",
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@ChooseOperFlag",
             "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@NextLevel#next",
             "Sarkaz@Roguelike@RecruitWithoutButton"
         ]
     },
@@ -1070,7 +1065,8 @@
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@Stages": {
-        "baseTask": "Sarkaz@Roguelike@Stages_default"
+        "baseTask": "Sarkaz@Roguelike@Stages_default",
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
@@ -1101,7 +1097,8 @@
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
@@ -1132,7 +1129,8 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_fastInvestment": {
         "doc": "点刺成锭分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
@@ -1143,7 +1141,8 @@
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing-FastInvestment"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
@@ -1175,7 +1174,8 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@Stages_routing": {
         "algorithm": "JustReturn",
@@ -1187,7 +1187,8 @@
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@Routing"
-        ]
+        ],
+        "onErrorNext": ["Sarkaz@Roguelike@ExitThenAbandon"]
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
@@ -1212,7 +1213,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
@@ -1224,7 +1225,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -1237,7 +1238,7 @@
             ["或然歧域", "_pragmatic"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode1": {
@@ -1253,7 +1254,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
@@ -1265,7 +1266,7 @@
             ["或然歧域", "_exit"],
             ["虚实疆界", "_exit"],
             ["辉光天顶", "_exit"],
-            ["诡谲断章", "_exit"]
+            ["诡.*断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
@@ -1277,7 +1278,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode7": {
@@ -1289,7 +1290,7 @@
             ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
-            ["诡谲断章", "_SKIP_"]
+            ["诡.*断章", "_SKIP_"]
         ]
     },
     "Sarkaz@Roguelike@TodoEnter": {},

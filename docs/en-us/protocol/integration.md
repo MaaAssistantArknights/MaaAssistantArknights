@@ -45,7 +45,11 @@ Appends a task.
     "enable": bool,              // Whether to enable this task, optional, true by default
     "client_type": string,       // Client version, required
                                  // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
-    "start_game_enabled": bool   // Whether to launch client automatically, optional, false by default
+    "start_game_enabled": bool,  // Whether to launch client automatically, optional, false by default
+    "account_name": string       // Switch account, optional, don't switch by default
+                                 // Only supports switching to already logged-in accounts, using login name for identification
+                                 // Official server: 123****4567, can input 123****4567, 4567, 123, or 3****4567
+                                 // Bilibili server: Zhang San, can input Zhang San, Zhang, or San
 }
 ```
 
@@ -68,13 +72,13 @@ Appends a task.
 // Corresponding task parameters
 {
     "enable": bool,             // Whether to enable this task, optional, true by default
-    "stage": string,            // Stage name, optional, by default crrent / last stage. Editing in run-time is not supported.
+    "stage": string,            // Stage name, optional, by default current/last stage. Editing in run-time is not supported.
                                 // Supports all mainline stages, such as "1-7", "S3-2", etc.
                                 // At the end of the level, enter Normal/Hard to switch between Normal and Tough difficulty
                                 // Annihilation. The input should be `Annihilation`.
-                                // Certain side story stages. The input should be complete with stage number.
-    "medicine": int,            // Maximum number Sanity Potion used, optional, by default 0
-    "expiring_medicine": int,   // Maximum number of expired Sanity Potion within 48 hours, optional, by default 0
+                                // For current SS event last three stages, must input complete stage code.
+    "medicine": int,            // Maximum number of Sanity Potions used, optional, by default 0
+    "expiring_medicine": int,   // Maximum number of expired Sanity Potions within 48 hours, optional, by default 0
     "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
     "times": int,               // Fight times, optional, by int32.max
     "series": int,              // Number of series, optional, -1~6
@@ -87,18 +91,18 @@ Appends a task.
     },
     /* Items are combined with OR operators, i.e. the task stops when any condition meets. */
 
-    "report_to_penguin": bool,  // Whether to upload data to Pengiun Stats, optional, by default false
-    "penguin_id": string,       // Penguin Stats ID, optional, by default empty. Available only when `report_to_penguin` is `true`.
+    "report_to_penguin": bool,  // Whether to upload data to Penguin Statistics, optional, by default false
+    "penguin_id": string,       // Penguin Statistics ID, optional, by default empty. Available only when `report_to_penguin` is `true`.
     "server": string,           // Server, optional, by default "CN", will affect the drop recognition and upload
                                 // Options："CN" | "US" | "JP" | "KR"
-    "client_type": string,      // Client versino, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
+    "client_type": string,      // Client version, optional, empty by default. Used to reconnect after the game crashed. Empty means to disable this feature
                                 // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
-    "DrGrandet": bool,          // Save sanity by using Originites, Optional, false by default. effective only when Originites may be used
+    "DrGrandet": bool,          // Save sanity by using Originites, optional, false by default. effective only when Originites may be used
                                 // Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.
 }
 ```
 
-Supports some of the special stages,Please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
+Supports some of the special stages, please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
 
 - `Recruit`  
     Recruitment
@@ -120,10 +124,10 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
         string,                 // When Tag is level-3, as many Tags here as possible (if any) will be selected.
         ...                     // It's a forced selection, i.e. it ignores all "unselect 3★ Tags" settings.
     ],
-    "extra_tags_mode": int,     // Select more tags, optional
-                                // 0 - default
-                                // 1 - click 3 tags anyway, even if they are in conflict
-                                // 2 - select more combinations if possible, even if their tags are in conflict
+    "extra_tags_mode": int,     // Select more tags, optional, default is 0
+                                // 0 - default behavior
+                                // 1 - select 3 tags even if they may conflict
+                                // 2 - select more high star tag combinations if possible, even if they might conflict
     "times": int,               // The times of recruitment, optional, by default 0. Can be set to 0 for calculation only.
     "set_time": bool,           // Whether to set time to 9 hours, available only when `times` is 0, optional, by default true
     "expedite": bool,           // Whether to use expedited plans, optional, by default false
@@ -135,11 +139,12 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
         "4": int,
         ...
     },
-    "report_to_penguin": bool,  // Whether to report to Penguin Stats, optional, by default false.
-    "penguin_id": string,       // Penguin Stats user id, optional, by default empty. Valid only if report_to_penguin is true.
+    "report_to_penguin": bool,  // Whether to report to Penguin Statistics, optional, by default false.
+    "penguin_id": string,       // Penguin Statistics user id, optional, by default empty. Valid only if report_to_penguin is true.
     "report_to_yituliu": bool,  // Whether to report to YITULIU, optional, by default false.
     "yituliu_id": string,       // YITULIU user id, optional, by default empty. Valid only if report_to_yituliu is true.
     "server": string,           // Server, optional, by default "CN", will affect upload
+                                // Options: "CN" | "US" | "JP" | "KR"
 }
 ```
 
@@ -148,30 +153,36 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 
 ```json5
 {
-    "enable": bool,             // Whether to enable this task, optional, by default true
+    "enable": bool,         // Whether to enable this task, optional, by default true
     "mode": int,            // Shift mode, optional. Editing in run-time is not supported.
-                            // 0     - By Default, auto shift
-                            // 10000 - Custom Mode, please refer 3.6-INFRASTRUCTURE_SCHEDULING_SCHEMA
+                            // 0     - Default: Default shift mode, single facility optimal solution
+                            // 10000 - Custom: Custom shift mode, reads user configuration, see protocol/base-scheduling-schema.md
                             // 20000 - Rotation: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic)
-    "facility": [           // Facilities for shifting, required. Editing in run-time is not supported.
+    "facility": [           // Facilities for shifting (ordered), required. Editing in run-time is not supported.
         string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
         ...
     ],
     "drones": string,       // Usage of drones, optional, by default "_NotUse"
-                            // "_NotUse"、"Money"、"SyntheticJade"、"CombatRecord"、"PureGold"、"OriginStone"、"Chip"
+                            // This field is ignored when mode = 10000
+                            // "_NotUse" | "Money" | "SyntheticJade" | "CombatRecord" | "PureGold" | "OriginStone" | "Chip"
     "threshold": float,     // Morale threshold with range [0, 1.0], optional, by default 0.3
-    "replenish": bool,      // Whether to replenish Originium Shard, optional, by default false
-    "dorm_notstationed_enabled": bool, // Whether to enbale Not Stationed in Dorm, by default false
-    "dorm_trust_enabled": bool, // Whether to fill operators in dorm by trust, by default false
+                            // When mode = 10000, this field is only effective for "autofill"
+                            // This field is ignored when mode = 20000
+    "replenish": bool,      // Whether to replenish Originium Shard in trading post, optional, by default false
 
-    /* The following is only valid when mode == 10000 */
-    "filename": string,     // Custom config json file path
-    "plan_index": int,      // custom config plan index
+    "dorm_notstationed_enabled": bool, // Whether to enable "Not Stationed in Dorm" option, optional, by default false
+    "dorm_trust_enabled": bool, // Whether to fill dormitory with operators not at max trust, optional, by default false
+    "reception_message_board": bool, // Whether to collect credits from reception room message board, optional, by default true
+    "reception_clue_exchange": bool, // Whether to perform clue exchange, optional, by default true
+
+    /* The following parameters are only effective when mode = 10000, otherwise they are ignored */
+    "filename": string,     // Custom config path, required. Editing in run-time is not supported.
+    "plan_index": int,      // Plan index number in the configuration, required. Editing in run-time is not supported.
 }
 ```
 
 - `Mall`  
-    Collecting Credits and auto-purchasing
+    Collecting Credits and auto-purchasing.  
     Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
 ```json5
@@ -187,19 +198,25 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
         string,             // Item name, e.g. "加急许可" (Expedited Plan), "家具零件" (Furniture Part), etc.
         ...
     ],
-    "force_shopping_if_credit_full": bool // Whether to ignore the Blacklist if credit overflows, by default true
-    "only_buy_discount": bool // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false.
-    "reserve_max_credit": boll // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false.
+    "force_shopping_if_credit_full": bool, // Whether to ignore the Blacklist if credit overflows, by default true
+    "only_buy_discount": bool, // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false
+    "reserve_max_credit": bool // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false
 }
 ```
 
 - `Award`  
-    Collecting daily awards.  
+    Collecting various rewards
 
 ```json5
 // Corresponding task parameters
 {
-    "enable": bool          // Whether to enable this task, optional, by default true
+    "enable": bool,            // Whether to enable this task, optional, by default true
+    "award": bool,             // Collect daily/weekly task rewards, default true
+    "mail": bool,              // Collect all mail rewards, default false
+    "recruit": bool,           // Collect daily free pulls from limited banners, default false
+    "orundum": bool,           // Collect Originium from lucky drop wall, default false
+    "mining": bool,            // Collect Originium from limited mining licenses, default false
+    "specialaccess": bool      // Collect monthly card rewards from 5th anniversary, default false
 }
 ```
 
@@ -214,8 +231,8 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
                      //   Phantom   - Phantom & Crimson Solitaire
                      //   Mizuki    - Mizuki & Caerula Arbor
                      //   Sami      - Expeditioner's Jǫklumarkar
-                     //   Sarkaz    - 萨卡兹的无终奇语
-                     //   JieGarden - 界园
+                     //   Sarkaz    - 萨卡兹的无终奇语 (Sarkaz Endless Tale)
+                     //   JieGarden - 界园 (Boundary Garden)
     "mode": int,     // Mode, optional, default is 0
                      //   0 - Score farming/reward points, aiming to consistently reach higher levels
                      //   1 - Source stone farming, exit after investing in the first layer
@@ -225,8 +242,10 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
                      //       the opening reward. If not a specific item, restart at difficulty 0; in the Phantom theme, retry only in the current difficulty
                      //   5 - Collapsal Paradigm farming; only for the Sami theme; accelerates collapsal buildup via missed enemies;
                      //       if the first collapsal paradigm encountered is in the `expected_collapsal_paradigms` list, stops the task; otherwise, restarts
-    "squad": string,                // Starting squad name, optional, default is "Command Squad";
-    "roles": string,                // Starting role group, optional, default is "Complementary Strength";
+                     //   6 - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations
+                     //   7 - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations
+    "squad": string,                // Starting squad name, optional, default is "指挥分队" (Command Squad);
+    "roles": string,                // Starting role group, optional, default is "取长补短" (Complementary Strength);
     "core_char": string,            // Starting operator name, optional; supports only single operator **in Chinese**, regardless of server; 
                                     // leave empty or set to "" to auto-select based on level
     "use_support": bool,            // Whether the starting operator is a support operator, optional, default is false
@@ -239,7 +258,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
     "investment_enabled": bool,         // Whether to invest source stones, optional, default is true
     "investments_count": int,           // Number of source stone investments, optional, default is INT_MAX; stops automatically upon reaching limit
     "stop_when_investment_full": bool,  // Whether to stop automatically when investment limit is reached, optional, default is false
-    "investment_with_more_score": bool, // Whether to try shopping after investment, optional, default if false; only applicable to mode 1
+    "investment_with_more_score": bool, // Whether to try shopping after investment, optional, default is false; only applicable to mode 1
     "start_with_elite_two": bool,       // Whether to start with an Elite 2 operator reset, optional, default is false; only applicable to mode 4
     "only_start_with_elite_two": bool,  // Whether to reset only for Elite 2 operator while ignoring other starting conditions, optional, default is false;
                                         // only effective when mode is 4 and `start_with_elite_two` is true
@@ -247,8 +266,8 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
     "first_floor_foldartal": string,    // Desired Foldartal to acquire in the first floor foresight phase, optional; only applicable to the Sami theme, any mode;
                                         // task stops once obtained successfully
     "start_foldartal_list": [           // Desired Foldartals for the starting reward phase during opening reset, optional, default is []; effective only for Sami theme and mode 4;
-        string,                         // Reset is successful only when all Foldartals in the list are present in the opening rewards;
-        ...                             // Note: This parameter must be used with the "Life-Sustaining Squad" as other squads do not obtain Foldartals in the opening reward phase;
+      string,                           // Reset is successful only when all Foldartals in the list are present in the opening rewards;
+      ...                               // Note: This parameter must be used with the "生活至上分队" (Life-Sustaining Squad) as other squads do not obtain Foldartals in the opening reward phase;
     ],
     "collectible_mode_start_list": {    // Desired starting rewards (optional), all false by default; only valid in mode 4
         "hot_water": bool,              // Hot Water reward, typically used to trigger boiling mechanism (universal)
@@ -264,15 +283,29 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
     "check_collapsal_paradigms": bool,        // Whether to check obtained Collapsal Paradigms, default is true in mode 5 and false in other modes
     "double_check_collapsal_paradigms": bool, // Whether to perform additional checks to prevent missed Collapsal Paradigms, default is true in mode 5 and false in other modes;
                                               // only effective when theme is Sami and `check_collapsal_paradigms` is true
-    "expected_collapsal_paradigms": [         // Desired Collapsal Paradigms to trigger, default is ["Blank Somewhat", "Blind Eye", "Image Distortion", "Pitch Black"];
+    "expected_collapsal_paradigms": [         // Desired Collapsal Paradigms to trigger, default is ["目空一些" (Blank Somewhat), "睁眼瞎" (Blind Eye), "图像损坏" (Image Distortion), "一抹黑" (Pitch Black)];
         string,                               // only effective when theme is Sami and mode is 5
         ...
-    ]
+    ],
+    "monthly_squad_auto_iterate": bool,    // Whether to enable automatic monthly squad rotation
+    "monthly_squad_check_comms": bool,     // Whether to also check monthly squad communications as rotation criteria
+    "deep_exploration_auto_iterate": bool, // Whether to enable automatic deep exploration rotation
+    "collectible_mode_shopping": bool,  // Whether to enable shopping in hot water mode, default false
+    "collectible_mode_squad": string,   // Squad to use in hot water mode, default synced with squad, when squad is empty and collectible_mode_squad not specified, uses Command Squad
+    "collectible_mode_start_list": {    // Desired rewards for hot water mode, all false by default, key options:
+        "hot_water": bool,              // [hot_water: Hot water, shield: Shield, ingot: Originium Ingot, hope: Hope, random: Random reward, key: Key, dice: Dice, ideas: Ideas]
+        ...
+    },
+    "start_with_seed": bool,        // Use seed for money farming, effective when true
+                                    // Only possible to be true in Sarkaz theme, Investment mode, with "点刺成锭分队" (Point-Stab Ingot Squad) or "后勤分队" (Logistics Squad)
+                                    // Uses fixed seed
 }
 ```
 
+For specific information about the Collapsal Paradigm farming feature, please refer to [Integrated Strategy Schema](./integrated-strategy-schema.md#sami-integrated-strategy-collapsal-paradigms)
+
 - `Copilot`  
-    Copilot auto-combat feature
+    Auto combat feature
 
 ```json5
 {
@@ -282,20 +315,20 @@ Supports some of the special stages,Please refer to [autoLocalization example](h
 }
 ```
 
-For more details about auto-copilot JSON, please refer to [Copilot Schema](./copilot-schema.md)
+For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
 
 - `SSSCopilot`  
-    Copilot auto-combat feature for STATIONARY SECURITY SERVICE
+    Auto combat feature for Stationary Security Service
 
 ```json5
 {
     "enable": bool,             // Whether to enable this task, optional, by default true
     "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
-    "loop_times": int
+    "loop_times": int           // Number of times to loop execution
 }
 ```
 
-For more details about auto-copilot JSON, please refer to [Copilot Schema](./copilot-schema.md)
+For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
 
 - `Depot`
     Depot recognition
@@ -318,12 +351,12 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 ```
 
 - `Reclamation`  
-    ReclamationAlgorithm
+    Reclamation Algorithm
 
 ```json5
 {
     "enable": bool,
-    "theme": string,            // Theme, optional, 1 by default
+    "theme": string,            // Theme, optional, Fire by default
                                 // Fire  - *Fire Within the Sand*
                                 // Tales - *Tales Within the Sand*
     "mode": int,                // Mode, optional, 0 by default
@@ -334,7 +367,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
         string,                 // Automatically crafted items, optional, glow stick by default
         ...
     ] 
-                                // Suggested fill in the substring
+                                // Suggested to fill in the substring
     "increment_mode": int,      // Click type, optional. 0 by default
                                 // 0 - Rapid Click
                                 // 1 - Long Press
@@ -367,7 +400,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
                         // "stage" to set stage name, eg: "details": { "stage": "xxxx" }
                         // "start" to start mission, without details
                         // "action": single battle action, details is single action in Copilot,
-                        //           eg: "details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }，详情参考 3.3-战斗流程协议.md
+                        //           eg: "details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }, see protocol/copilot-schema.md for details
     "details": {
         ...
     }
@@ -380,7 +413,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
 ```json5
 {
     "enable": bool,
-    "filename": string,
+    "filename": string, // Video file path, supporting absolute/relative paths. Editing in run-time is not supported.
 }
 ```
 
@@ -437,7 +470,7 @@ Set process-level parameters
 
 ##### List of Key and value
 
-None
+None currently
 
 ### `AsstSetInstanceOption`
 
@@ -476,9 +509,9 @@ Set instance-level parameters
                                 // "1" - on, "0" - off
         TouchMode = 2,          // Touch mode, minitouch by default
                                 // minitouch | maatouch | adb
-        DeploymentWithPause = 3,    // Deployment with Pause (Works for IS, Copilot and 保全派驻)
+        DeploymentWithPause = 3,    // Deployment with Pause (Works for IS, Copilot and Stationary Security Service)
                                     // "1" | "0"
         AdbLiteEnabled = 4,     // Enable AdbLite or not, "0" | "1"
-        KillAdbOnExit = 5,       // Release Adb on exit, "0" | "1"
+        KillAdbOnExit = 5,      // Release Adb on exit, "0" | "1"
     };
 ```

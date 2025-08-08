@@ -3,24 +3,24 @@ order: 3
 icon: mingcute:git-pull-request-fill
 ---
 
-# GitHub Pull Request User Guide
+# Web-based PR Tutorial
 
-This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
+A GitHub Pull Request guide that even beginners can understand (\*´▽ ｀)ノノ
 
 ::: warning
-Many concepts in this tutorial have been simplified in order to make it more accessible to a wider audience, even at the expense of some elegance and accuracy.
-For those who have experience using Git and programming knowledge, you may refer to the more advanced tutorial in [Development](./development.md)
+This tutorial simplifies many concepts to make them accessible to more people. It includes some ~~inelegant but simple~~ operations and not entirely accurate explanations. Please go easy on us, experts.  
+If you have some git experience and programming background, ~~then why are you reading this~~, you can check out the more advanced tutorial [GitHub Pull Request Process Overview](./development.md)
 :::
 
-## Basic concepts and terminology
+## Basic Concepts and Terminology
 
-This chapter contains slightly dry content. If you're not interested, you can skip directly to the practical section below. If there is anything you don't understand, you can come back to read this chapter later.
+This section might be a bit dry. Feel free to skip to the practical section below and come back here if you need clarification.
 
 ### Repository
 
-"Repo" is short for "repository", which is the place where we store our code and other resource files.
+Abbreviated as "repo", the place where we store our code and other resource files.
 
-👇 You can think of the current web page and all of its contents as the repository for MAA (we usually refer to it as MAA's main repository).
+👇 You can simply understand this webpage and all its contents as MAA's repository (we generally call it MAA's main repository)
 
 ```component Image1
 {
@@ -35,11 +35,12 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 
 ### Fork
 
-To fork,  literally meaning to make a copy of MAA's code, and then perform subsequent modifications and operations to avoid damaging the original repository.
+Literally means to copy. Fork a copy of MAA's code so you can make subsequent modifications without breaking the original.  
+Although "copy" in Chinese might first remind us of the "copy" operation, "fork" doesn't have a clear translation, so we usually use the English term directly, like "fork a copy of the code."
 
-Since it's a copy, let's assume it's called `MAA (1)`.  
-To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository" or "upstream".  
-Since everyone can make a copy of their own, the copied repository is called a "personal repository" or "origin".
+Since it's a copy, it becomes `MAA (1)` (just kidding)  
+To distinguish from the original repository, we generally call the original MAA repository the "main repository" or "upstream repository."  
+Since everyone can fork their own copy, the copied version is called a "personal repository" or "origin repository."
 
 ```component Image1
 {
@@ -54,11 +55,12 @@ Since everyone can make a copy of their own, the copied repository is called a "
 
 ### Pull Request
 
-Continuing from the previous section, after you have made changes to your forked personal repository, how do you provide the changes to the main repository? This is when you can open a pull request (PR) to request that your modified content be added to the main repository.
+Abbreviated as PR. "Pull request" sounds strange when literally translated, ~~and it's too many characters to type~~, so everyone usually just says "make a PR."  
+Following the above, after you fork your personal repository and make modifications, how do you contribute your changes to the main repository? This is when you can open a PR to request that your modifications be added to the main repository.
 
-Of course, since it's a "request", it naturally requires approval. MAA Team may provide feedback on your modifications, but our feedback may not necessarily be entirely correct. Let's have a reasonable discussion together~
+Of course, since it's a "request," it naturally needs approval. MAA Team members might provide feedback on your modifications, though our opinions aren't necessarily always correct - let's discuss reasonably~
 
-👇 The following are the PRs currently submitted by contributors and awaiting approval from MAA Team.
+👇 Below are PRs currently submitted by contributors, waiting for approval
 
 ```component Image1
 {
@@ -73,12 +75,14 @@ Of course, since it's a "request", it naturally requires approval. MAA Team may 
 
 ### Conflict
 
-Assuming that there is a file called A in the main repository with the content 111. You forked a copy and changed its content to 222. However, just as you were about to submit the PR, another person named Zhangsan forked a copy and submitted a PR with changes to the A file, changing it to 333.
-Now we have a conflict, as both of you have modified the A file but in different ways. This conflict can be difficult to resolve, and here we are only explaining the concept to help you understand what has happened when you encounter it, without going into the details of the solution.
+Imagine there's a file A in the main repository with content "111."  
+You fork a copy and change its content to "222," but just as you're about to submit a PR, someone else also forks a copy, submits a PR, and changes file A to "333."  
+Now we see that both of you modified file A differently. Whose version should we listen to? This is a Conflict.  
+Conflicts are somewhat troublesome to resolve. This section only explains the concept to help you understand what's happening when you encounter one.
 
-## Full Process of Pure Web-based PR Operation
+## Complete Web-based PR Process
 
-1. First, go to the MAA main repository and click the button in the top right corner to fork a copy of the code.
+1. First, enter MAA's main repository and click the Fork button in the upper right corner to fork a copy of the code
 
     ```component Image1
     {
@@ -91,7 +95,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-2. Then, click on 'Create Fork' directly.
+2. Then directly click "Create Fork"
 
     ```component Image1
     {
@@ -104,170 +108,49 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-3. You will be taken to your personal repository, which will have a title of "your_name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
+3. You'll arrive at your personal repository. You can see the title is "YourName/MaaAssistantArknights" with small text below saying "forked from MaaAssistantArknights/MaaAssistantArknights"
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-3-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-3-dark.png"
-        }
-      ]
-    }
-    ```
+4. Find the file you want to modify. You can click "Go to file" for global search, or browse through the folders below if you know where the file is
 
-4. Find the file you want to edit. You can click 'Go to file' to search globally, or you can browse through the folders below if you know where the file is located.
+5. After opening the file, directly click the ✏️ in the upper right corner of the file to edit
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-4-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-4-dark.png"
-        }
-      ]
-    }
-    ```
+6. Start editing! (For resource files, we recommend testing modifications in your local MAA folder first, confirming they work before pasting into the webpage to avoid errors)
 
-5. After opening the file, click on the ✏️ icon on the top right corner of the file to start editing.
+7. After editing, click the button in the upper right corner to open the commit page and write what you changed
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-5-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-5-dark.png"
-        }
-      ]
-    }
-    ```
+    We have a simple commit title [naming format](https://www.conventionalcommits.org/en/v1.0.0/). It's best to follow it, but if you really can't understand it, you can write something simple first.
 
-6. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
-7. Once you've finished editing, click the button 👇 in the top right corner to open the commit page and write a brief description of what you changed.
+8. Have a second file to modify? Discovered an error after finishing? No problem! Just repeat steps 4-7!
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-7-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-7-1-dark.png"
-        }
-      ]
-    }
-    ```
+9. After all modifications are complete, make a PR! Click "Code" to return to your **personal repository's** homepage  
+    If there's a "Compare & Pull Request" button, that's great - click it directly!  
+    If not, don't worry - click the "Contribute" button below, then "Open Pull Request" - it's the same thing.
 
-    We have a simple commit title [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/), which you should try to follow. However, if you find it difficult to understand, you can just write something for now.
+10. You'll arrive at the main repository's PR page. Please verify that what you want to PR is what you intend to submit.  
+    As shown in the image, there's a leftward arrow in the middle, requesting to merge the right side's PersonalName/MAA dev branch into the main repository/MAA dev branch.  
+    Scrolling down shows the differences between these two branches - what you've changed.
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-7-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-7-2-dark.png"
-        }
-      ]
-    }
-    ```
+    Then write a title and specific content of your modifications, then click confirm.  
+    PR titles also need to follow the [naming format](https://www.conventionalcommits.org/en/v1.0.0/). If you still can't understand it, you can write something simple first.
 
-8. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 4-7 for the other file.
-9. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
-    If there is a "Compare & Pull Request" button, that's great, just click it!
-    If not, don't worry, clicking "Open Pull Request" below is also the same.
+11. Wait for MAA Team members to review! They might also provide feedback  
+    👇 For example (purely for entertainment, don't take it seriously)
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-9-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-9-dark.png"
-        }
-      ]
-    }
-    ```
+12. If team members say to modify some small issues, return to **your personal repository** and repeat steps 4-7!  
+    Note: you don't need to repeat steps 1-2 (re-fork) and steps 9-10 (re-Pull Request). Your current Pull Request is still pending review, and subsequent modifications will directly enter this Pull Request.  
+    👇 For example, you can see an additional modification entry at the bottom
 
-10. Now you are in the main repository, please double-check the changes you want to PR.
-    As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "your_name/MAA" to the dev branch of the main repository "MAA".
-    Scrolling down shows the differences between these two branches, indicating what changes you have made.
+13. Once team members approve, everything is complete! Your modifications have entered MAA's main repository!
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-10-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-10-1-dark.png"
-        }
-      ]
-    }
-    ```
+14. Next time you want to submit another PR, first return to your personal repository's homepage and click "Sync fork" to synchronize your repository with the main repository.  
+    Note here: if there's a red "Discard 1 commit," click the red one; if not, then click the green "Update branch."  
+    You can then repeat steps 4-10 to make modifications again.
 
-    Then, write a title and description of your changes, and click "Create Pull Request".
-    The PR title should also follow the [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/). However, if you still don't understand it, you can also just write something for now.
+**After version release**, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless contributions!  
+~~Why are they all anime characters? Oh wait, I am too, never mind then~~
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-10-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-10-2-dark.png"
-        }
-      ]
-    }
-    ```
-
-11. Just wait for the MAA Team members to review it! Of course, they may also provide some comments,
-    👇 for example (for entertainment purposes only, do not take it seriously):
-
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-11-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-11-dark.png"
-        }
-      ]
-    }
-    ```
-
-12. If they request further changes, go back to **your personal repository** and repeat steps 4-7!
-    Note that you do not need to redo step 1-2 (re-fork) or step 9-10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
-    👇 For example, you can see that "revised demo" has been added at the bottom.
-
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-12-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-12-dark.png"
-        }
-      ]
-    }
-    ```
-
-13. Once the experts approve the PR, you're all set! Your changes have been merged into the main MAA repository!
-
-14. If you want to submit another PR next time, please first go back to the homepage of your personal repository and click 'Sync fork' to synchronize your repository with the main repository.
-    Note here: If there is a red 'Discard 1 commit', click the red one. If there isn't, then click the green 'Update branch'.
-    Next, you can repeat steps 4-10 to make further modifications.
-
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-14-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-14-1-dark.png"
-        },
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-14-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-14-2-dark.png"
-        }
-      ]
-    }
-    ```
-
-**After the version is released**, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
-::: tip Contributors/Participators
-Thank you to everyone involved in development and testing. Your help is going to ~~Make MAA Great Again~~! (\*´▽ ｀)ノノ
+::: tip Contributors
+Thanks to all friends who participated in development/testing. Everyone's help makes MAA better and better! (\*´▽ ｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 :::

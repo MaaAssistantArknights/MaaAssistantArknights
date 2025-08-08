@@ -769,18 +769,18 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoom">AT - 상담실</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면(오른쪽 아래에 ｢영업 시작｣ 표시 있음)에서 임무를 시작하세요.</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoom">ATO (허) - 상담실 (비공식)</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢영업 시작｣)</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있습니다.&#10;이벤트 메인 화면(오른쪽 아래에 ｢이벤트 참가｣ 표시 있음)에서 임무를 시작하세요.&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요.</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStore">녹색 티켓 상점</system:String>
-    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1층은 전부 구매.&#10;2층은 방문 증서와 모집 허가를 구매.</system:String>
-    <system:String x:Key="MiniGameNameYellowTicketStore">황색 티켓 상점</system:String>
-    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소한 258장의 노란색 티켓을 가지고 있는지 확인하세요.</system:String>
+    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢이벤트 참가｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
+    <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
+    <system:String x:Key="MiniGameNameYellowTicketStoreTip" xml:space="preserve">최소 258장의 고급증명서를 가지고 있는지 확인해주세요</system:String>
     <system:String x:Key="MiniGameNameSsStore">이벤트 상점</system:String>
-    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.&#10;구매 수량이 무제한인 아이템은 구매하지 마세요.</system:String>
-    <system:String x:Key="MiniGameNameRAStore">생존연산 상점</system:String>
-    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">이벤트 상점 페이지에서만 시작하세요.</system:String>
+    <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">이벤트 상점 페이지에서 시작하세요&#10;구매 수량이 무제한인 아이템은 구매하지 않아요</system:String>
+    <system:String x:Key="MiniGameNameRAStore">생존 연산 상점</system:String>
+    <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">생존 연산 상점 페이지에서 시작하세요</system:String>
     <!--  !미니게임  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">인식 중……</system:String>
@@ -1114,7 +1114,7 @@ C:\\leidian\\LDPlayer9
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
-    <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지 업데이트 전까지 표시하지 않기</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

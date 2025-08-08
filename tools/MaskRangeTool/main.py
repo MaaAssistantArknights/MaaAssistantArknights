@@ -16,17 +16,21 @@ if __name__ == '__main__':
     rgb_base_mask_range_ignore_dark = [[[20, 20, 20], [255, 255, 255]]] # 忽略暗色背景
 
     # 自动判断图片的合适 mask_ranges
-    # image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageConfrontation.png"))
+    # image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageWindAndRain.png"))
     # generate_mask_ranges(image, 'luv', luv_base_mask_range_ignore_light_dark)
     # generate_mask_ranges(image, 'hsv', hsv_base_mask_range_ignore_dark)
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus3.png"))
+    image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageBoskyPassage.png"))
     mask_ranges = [
             [
-                [0, 0, 0],
-                [60, 255, 220]
+                [155, 10, 60],
+                [175, 200, 235]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
 
@@ -35,12 +39,16 @@ if __name__ == '__main__':
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus3.png"))
-    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "MiniGame" / "AT" / "MiniGame@AT@InterestPlus2.png"))
+    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageBoskyPassage.png"))
+    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageGuidance.png"))
     mask_ranges = [
             [
-                [0, 0, 0],
-                [60, 255, 220]
+                [155, 10, 60],
+                [175, 200, 235]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
             ]
         ]
 

@@ -45,7 +45,9 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "enable": bool,              // 이 작업을 활성화할지 여부, 선택 사항, 기본값은 true
     "client_type": string,       // 클라이언트 타입이 필요합니다.
                                  // 옵션: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
-    "start_game_enabled": bool   // 클라이언트를 자동으로 실행할지 여부, 선택 사항, 기본값은 false
+    "start_game_enabled": bool,  // 클라이언트를 자동으로 실행할지 여부, 선택 사항, 기본값은 false
+    "account_name": string       // 계정 전환, 선택 사항, 기본값은 전환하지 않음
+                                 // 이미 로그인된 계정으로만 전환 가능, 로그인 이름으로 검색, 모든 로그인된 계정에서 고유한 입력 내용 보장 필요
 }
 ```
 
@@ -119,7 +121,10 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,                 // 태그 레벨이 3이면 여기에 있는 태그(있는 경우)가 최대한 많이 선택됩니다.
         ...                     // 또한 강제 선택이므로 '3등급 태그 선택 해제' 설정은 모두 무시됩니다.
     ],
-    "extra_tags_mode": int,
+    "extra_tags_mode": int,     // 더 많은 태그 선택, 선택 사항, 기본값은 0
+                                // 0 - 기본 동작
+                                // 1 - 태그 3개 선택, 충돌 가능
+                                // 2 - 가능한 경우 더 많은 고성급 태그 조합을 동시에 선택, 충돌 가능
     "times": int,               // 고용 횟수, 선택 사항, 기본값은 0입니다. 계산용으로만 0으로 설정할 수 있습니다.
     "set_time": bool,           // 시간을 9시간으로 설정할지 여부, `times`가 0인 경우에만 사용 가능한 옵션입니다, 선택 사항, 기본값은 true입니다.
     "expedite": bool,           // 즉시 완료 허가증을 사용할지 여부, 선택 사항, 기본값은 false입니다.

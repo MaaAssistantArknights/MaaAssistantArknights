@@ -404,7 +404,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
             ExpeditedTimes = RecruitMaxTimes,
             SelectExtraTags = SelectExtraTags,
             Level3FirstList = AutoRecruitFirstList.Cast<CombinedData>().Select(i => i.Value).ToList(),
-            ChooseLevel1 = !NotChooseLevel1,
+            NotChooseLevel1 = NotChooseLevel1,
             ChooseLevel3Time = ChooseLevel3Time,
             ChooseLevel4Time = ChooseLevel4Time,
             ChooseLevel5Time = ChooseLevel5Time,
@@ -415,7 +415,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
             ServerType = Instances.SettingsViewModel.ServerType,
         };
 
-        if (task.ChooseLevel1)
+        if (!task.NotChooseLevel1)
         {
             task.ConfirmList.Add(1);
         }

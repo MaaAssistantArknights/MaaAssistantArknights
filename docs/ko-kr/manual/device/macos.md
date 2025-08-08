@@ -5,10 +5,6 @@ icon: basil:apple-solid
 
 # Mac 지원
 
-::: tip
-문제가 발생하면 [FAQ](../faq.md)를 먼저 참조하세요.
-:::
-
 ## Apple Silicon 칩셋
 
 ### ✅ [PlayCover](https://playcover.io)（제일 부드럽습니다! 🚀）
