@@ -631,6 +631,9 @@
             ["補給駁船", "补给驳船"]
         ]
     },
+    "GameStartCheckResourceOCR": {
+        "text": ["驗證", "資源完整性", "行動網路", "數據"]
+    },
     "StartToWakeUpOCR": {
         "text": ["開始喚醒", "登錄", "登", "錄"]
     },
