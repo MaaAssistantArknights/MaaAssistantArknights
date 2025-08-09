@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -14,8 +15,6 @@ namespace MaaWpfGui.Services.Web
     public class GameDataReportService
     {
         private static readonly ILogger _logger = Log.ForContext<GameDataReportService>();
-        private static readonly string _penguinIoDomain = "https://penguin-stats.io";
-        private static readonly string[] _backupDomains = { /*"https://penguin-stats.alvorna.com",*/ "https://penguin-stats.cn" };
         private const int MaxRetryPerDomain = 3;
         private const int InitialBackoffMs = 3000;
 
@@ -35,15 +34,15 @@ namespace MaaWpfGui.Services.Web
 
             _logger.Warning("Initial request failed, status code: {StatusCode}", originalResponse?.StatusCode);
 
-            if (subtask != "ReportToPenguinStats" || !url.Contains(_penguinIoDomain))
+            if (subtask != "ReportToPenguinStats" || !url.Contains(MaaUrls.PenguinIoDomain))
             {
                 // 一图流的上报失败不提示
                 return true;
             }
 
-            foreach (var backupDomain in _backupDomains)
+            foreach (var backupDomain in MaaUrls.PenguinBackupDomains)
             {
-                var newUrl = url.Replace(_penguinIoDomain, backupDomain);
+                var newUrl = url.Replace(MaaUrls.PenguinIoDomain, backupDomain);
                 _logger.Information("Trying backup domain {BackupDomain}, url: {NewUrl}", backupDomain, newUrl);
                 var resp = await TryPostAsync(newUrl, content, headers);
                 if (resp != null && (int)resp.StatusCode == 200)
