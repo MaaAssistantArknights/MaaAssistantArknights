@@ -377,7 +377,7 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
 
     version.erase(ranges::remove(version, ' ').begin(), version.end());
 
-    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 
     std::shared_ptr<ReportDataTask> report_task_ptr;
     if (report_type == ReportType::PenguinStats) {

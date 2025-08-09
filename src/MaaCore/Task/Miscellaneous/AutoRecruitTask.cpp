@@ -1000,7 +1000,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
 
     version.erase(ranges::remove(version, ' ').begin(), version.end());
 
-    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 
     if (!m_report_penguin_task_ptr) {
         m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
