@@ -79,6 +79,7 @@ struct AdbCfg
     std::string release;
     std::string start;
     std::string stop;
+    std::string get_activities;
     std::string abilist;
     std::string version;
     std::string orientation;
