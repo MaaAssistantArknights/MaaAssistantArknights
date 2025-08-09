@@ -33,6 +33,8 @@ public class Root : INotifyPropertyChanged
     [JsonInclude]
     public ObservableDictionary<int, Timer> Timers { get; private set; } = [];
 
+    public int ConfigVersion { get; set; } = 1;
+
     public string Current { get; set; } = ConfigurationKeys.DefaultConfiguration;
 
     [JsonInclude]
