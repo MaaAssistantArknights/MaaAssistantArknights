@@ -44,6 +44,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       SubTaskCompleted  = 20002,       // 原子任务完成
       SubTaskExtraInfo  = 20003,       // 原子任务额外信息
       SubTaskStopped    = 20004,       // 原子任务手动停止
+
+      /* Web Request */
+      ReportRequest     = 30000,       // 上报请求
   };
   ```
 
@@ -606,3 +609,19 @@ Todo
 
 - `UnsupportedLevel`  
   自动抄作业，不支持的关卡名
+
+### ReportRequest
+
+该字段主要用于核心模块向 UI 层传递网络请求信息，UI 负责执行具体的 HTTP 上报操作。
+
+```json
+{
+  "url": "string",            // 请求的完整URL，比如：https://penguin-stats.io/PenguinStats/api/v2/report
+  "headers": {                // 请求头键值对（不包含 Content-Type，UI 层自行添加）
+    "authorization": "PenguinID 1234567890",
+    "User-Agent": "MaaAssistantArknights/1.2.3 cpr/4.5.6"
+  },
+  "body": "string",           // 请求体内容（通常是 JSON 格式的字符串）
+  "subtask": "string"         // 子任务名称，标识具体上报任务，如 "ReportToPenguinStats"、"ReportToYituliu"
+}
+```

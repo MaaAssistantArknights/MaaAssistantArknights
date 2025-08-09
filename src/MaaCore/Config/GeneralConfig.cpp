@@ -43,24 +43,10 @@ bool asst::GeneralConfig::parse(const json::value& json)
 
         if (auto penguin_opt = options_json.find<json::object>("penguinReport")) {
             m_options.penguin_report.url = penguin_opt->get("url", std::string());
-            m_options.penguin_report.timeout = penguin_opt->get("timeout", 10000);
-            if (auto headers_opt = penguin_opt->find<json::object>("headers")) {
-                m_options.penguin_report.headers.clear();
-                for (const auto& [key, value] : *headers_opt) {
-                    m_options.penguin_report.headers.emplace(key, value.as_string());
-                }
-            }
         }
         if (auto yituliu_opt = options_json.find<json::object>("yituliuReport")) {
             m_options.yituliu_report.drop_url = yituliu_opt->get("dropUrl", std::string());
             m_options.yituliu_report.recruit_url = yituliu_opt->get("recruitUrl", std::string());
-            m_options.yituliu_report.timeout = yituliu_opt->get("timeout", 5000);
-            if (auto headers_opt = yituliu_opt->find<json::object>("headers")) {
-                m_options.yituliu_report.headers.clear();
-                for (const auto& [key, value] : *headers_opt) {
-                    m_options.yituliu_report.headers.emplace(key, value.as_string());
-                }
-            }
         }
         m_options.depot_export_template.ark_planner =
             options_json.get("depotExportTemplate", "arkPlanner", std::string());

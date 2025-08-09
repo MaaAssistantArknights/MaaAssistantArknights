@@ -35,25 +35,19 @@ public:
     ReportDataTask& set_extra_headers(std::unordered_map<std::string, std::string> headers);
 
 protected:
-    using HttpResponsePred = std::function<bool(const cpr::Response&)>;
+    struct ReportRequest
+    {
+        std::string url;
+        std::unordered_map<std::string, std::string> extra_headers;
+        std::string body;
+        std::string subtask_name;
+    };
 
     virtual bool _run() override;
     virtual void callback(AsstMsg msg, const json::value& detail) override;
 
     void report_to_penguin();
     void report_to_yituliu(ReportType reportType);
-    cpr::Response report(
-        std::string_view subtask,
-        const std::string& url,
-        const cpr::Header& headers,
-        const int timeout,
-        HttpResponsePred success_cond = [](const cpr::Response& response) -> bool {
-            return response.status_code == 200;
-        },
-        HttpResponsePred retry_cond = [](const cpr::Response& response) -> bool {
-            return !response.status_code || (response.status_code >= 500 && response.status_code < 600);
-        },
-        bool callback_on_failure = true);
 
     ReportType m_report_type = ReportType::Invalid;
     std::string m_body;
