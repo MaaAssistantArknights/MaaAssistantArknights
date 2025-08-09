@@ -45,6 +45,6 @@ function(detect_host_triplet outvar)
 endfunction()
 
 if (APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET 13.3)
   get_osx_architecture()
 endif (APPLE)
