@@ -1725,14 +1725,6 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
                     break;
 
-                case "PenguinId":
-                    {
-                        string id = subTaskDetails!["id"]?.ToString() ?? string.Empty;
-                        SettingsViewModel.GameSettings.PenguinId = id;
-
-                        break;
-                    }
-
                 case "BattleFormation":
                     Instances.CopilotViewModel.AddLog(
                         LocalizationHelper.GetString("BattleFormation") +
@@ -2009,11 +2001,15 @@ namespace MaaWpfGui.Main
             bool success = false;
             try
             {
-                success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask);
+                success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId =>
+                {
+                    SettingsViewModel.GameSettings.PenguinId = penguinId;
+                    _logger.Information("New PenguinId got: {PenguinId}", penguinId);
+                });
             }
             catch (Exception ex)
             {
-                _logger.Warning(ex, "Failed to report.");
+                _logger.Warning(ex, "Failed to report: {Url}", url);
             }
 
             if (!success)

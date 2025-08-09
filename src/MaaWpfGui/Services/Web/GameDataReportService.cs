@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.Services.Web
@@ -18,12 +19,17 @@ namespace MaaWpfGui.Services.Web
         private const int MaxRetryPerDomain = 3;
         private const int InitialBackoffMs = 3000;
 
-        public static async Task<bool> PostWithRetryAsync(string url, HttpContent content, Dictionary<string, string> headers, string subtask)
+        public static async Task<bool> PostWithRetryAsync(string url, HttpContent content, Dictionary<string, string> headers, string subtask, Action<string>? callback = null)
         {
             _logger.Information("Start PostWithRetryAsync, url: {Url}", url);
+            _logger.Information("Request headers: {@Headers}", headers);
+            var body = await content.ReadAsStringAsync();
+            _logger.Information("Request body: {Body}", body);
+
             var originalResponse = await TryPostAsync(url, content, headers);
             if (originalResponse != null && (int)originalResponse.StatusCode == 200)
             {
+                await ProcessResponseIdAsync(originalResponse, callback);
                 return true;
             }
 
@@ -42,6 +48,7 @@ namespace MaaWpfGui.Services.Web
                 var resp = await TryPostAsync(newUrl, content, headers);
                 if (resp != null && (int)resp.StatusCode == 200)
                 {
+                    await ProcessResponseIdAsync(resp, callback);
                     return true;
                 }
 
@@ -73,6 +80,22 @@ namespace MaaWpfGui.Services.Web
             }
 
             return null;
+        }
+
+        private static Task ProcessResponseIdAsync(HttpResponseMessage response, Action<string>? callback)
+        {
+            if (callback is null || !response.Headers.TryGetValues("x-penguin-set-penguinid", out var values))
+            {
+                return Task.CompletedTask;
+            }
+
+            var penguinId = values.FirstOrDefault();
+            if (!string.IsNullOrEmpty(penguinId))
+            {
+                callback.Invoke(penguinId);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
