@@ -25,6 +25,11 @@
         },
         "roi": [1060, 250, 156, 152]
     },
+    "JieGarden@Roguelike@AbandonSwitchFlag": {
+        "template": "JieGarden@Roguelike@AbandonSwitchFlag.png",
+        "roi": [1031, 606, 249, 114],
+        "next": ["JieGarden@Roguelike@AbandonSwitch"]
+    },
     "JieGarden@Roguelike@AbandonSwitch": {
         "Doc": "放弃交换通宝",
         "template": "JieGarden@Roguelike@AbandonSwitch.png",
@@ -41,7 +46,11 @@
         "roi": [832, 406, 311, 160],
         "postDelay": 1000,
         "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@DropsFlag", "JieGarden@Roguelike@AbandonSwitchConfirm"]
+        "next": [
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "JieGarden@Roguelike@AbandonSwitchConfirm"
+        ]
     },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
@@ -736,6 +745,7 @@
             "JieGarden@Roguelike@StageEncounterOptionWonderland",
             "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
+            "JieGarden@Roguelike@AbandonSwitchFlag",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@StageCombatDpsEnter",
             "JieGarden@Roguelike@CloseEvent",
@@ -870,6 +880,155 @@
         ],
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
+    "JieGarden@Roguelike@StageOmissions": {
+        "Doc": "树洞 拾遗 绿色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [70, 0, 0],
+                [80, 255, 170]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageLegend": {
+        "Doc": "树洞 传说 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageYiTrader": {
+        "Doc": "树洞 易与 绿色系 阈值先设一个比较低的值，之后再改",
+        "baseTask": "Roguelike@Stage",
+        "method": "HSVCount",
+        "templThreshold": 0.65,
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [70, 0, 0],
+                [80, 255, 170]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageYiTraderEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageDisaster": {
+        "Doc": "树洞 祸乱 紫色系 目前无法自动编队",
+        "baseTask": "Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [130, 0, 30],
+                [140, 170, 150]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "postDelay": 600,
+        "next": [
+            "JieGarden@Roguelike@StageCombatDpsEnter",
+            "JieGarden@Roguelike@StageEmergencyDpsEnter",
+            "JieGarden@Roguelike@Stages#next"
+        ]
+    },
+    "JieGarden@Roguelike@StageOldShop": {
+        "Doc": "树洞 故肆 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "templThreshold": 0.65,
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageScheme": {
+        "Doc": "树洞 筹谋 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "templThreshold": 0.65,
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StagePlaytime": {
+        "Doc": "树洞 常乐 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "templThreshold": 0.65,
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageDoubts": {
+        "Doc": "树洞 杂疑 青色系",
+        "baseTask": "JieGarden@Roguelike@Stage",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [80, 0, 50],
+                [90, 255, 180]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
+    },
+    "JieGarden@Roguelike@StageYiTraderEnter": {
+        "baseTask": "Roguelike@StageEnter",
+        "next": ["JieGarden@Roguelike@StageTraderLeave", "JieGarden@Roguelike@StageTraderLeaveConfirm"]
+    },
     "JieGarden@Roguelike@Stages": {
         "baseTask": "JieGarden@Roguelike@Stages_default",
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
@@ -941,6 +1100,23 @@
         "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
+    "JieGarden@Roguelike@Stages_boskyPassageDefault": {
+        "algorithm": "JustReturn",
+        "next": [
+            "JieGarden@Roguelike@NextLevel",
+            "JieGarden@Roguelike@RandomPickAfterNextLevel",
+            "JieGarden@Roguelike@CloseCollectionContinue",
+            "JieGarden@Roguelike@CloseCollectionClose",
+            "JieGarden@Roguelike@StageOmissions",
+            "JieGarden@Roguelike@StageLegend",
+            "JieGarden@Roguelike@StageYiTrader",
+            "JieGarden@Roguelike@StageOldShop",
+            "JieGarden@Roguelike@StageScheme",
+            "JieGarden@Roguelike@StagePlaytime",
+            "JieGarden@Roguelike@StageDoubts",
+            "JieGarden@Roguelike@ClickRemainingCandleFlame"
+        ]
+    },
     "JieGarden@Roguelike@Stages_pragmatic": {
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
@@ -1002,7 +1178,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1010,7 +1186,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1018,7 +1194,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
-        "text": ["_aggressive", "_pragmatic", "_default", "_leaveBoskyPassage"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_boskyPassageDefault"],
         "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["洪陆楼", "_aggressive"],
@@ -1027,7 +1203,7 @@
             ["汝吾(门)?", "_pragmatic"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1083,7 +1259,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1091,7 +1267,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1099,7 +1275,7 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
-        "text": ["_default", "_leaveBoskyPassage"],
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
             ["山水阁", "_default"],
@@ -1107,7 +1283,7 @@
             ["汝吾(门)?", "_default"],
             ["见字祠", "_default"],
             ["始末陵", "_default"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
