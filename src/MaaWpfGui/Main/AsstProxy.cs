@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -37,6 +38,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -570,6 +572,10 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.SubTaskStopped:
+                    break;
+
+                case AsstMsg.ReportRequest:
+                    _ = ProcReportRequest(details);
                     break;
 
                 default:
@@ -1970,6 +1976,52 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private static async Task ProcReportRequest(JObject details)
+        {
+            string? url = (string?)details["url"];
+            if (string.IsNullOrEmpty(url))
+            {
+                _logger.Error("Report request received with empty URL.");
+                return;
+            }
+
+            var headersToken = details["headers"];
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            if (headersToken is JObject headersObj)
+            {
+                foreach (var prop in headersObj.Properties())
+                {
+                    headers[prop.Name] = prop.Value.ToString();
+                }
+            }
+
+            string? body = (string?)details["body"];
+            if (string.IsNullOrEmpty(body))
+            {
+                _logger.Error("Report request received with empty body.");
+                return;
+            }
+
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
+
+            bool success = false;
+            try
+            {
+                success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask);
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning(ex, "Failed to report.");
+            }
+
+            if (!success)
+            {
+                Instances.TaskQueueViewModel.AddLog("Failed to report, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Warning);
+            }
+        }
+
         public bool AsstSetInstanceOption(InstanceOptionKey key, string value)
         {
             return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
@@ -2529,6 +2581,11 @@ namespace MaaWpfGui.Main
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+
+        /// <summary>
+        /// 上报请求
+        /// </summary>
+        ReportRequest = 30000,
     }
 
     /// <summary>
