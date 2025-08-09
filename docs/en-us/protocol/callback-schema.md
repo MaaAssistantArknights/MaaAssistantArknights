@@ -44,6 +44,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       SubTaskCompleted  = 20002,       // Atomic task completed
       SubTaskExtraInfo  = 20003,       // Atomic task extra information
       SubTaskStopped    = 20004,       // Atomic task manually stopped
+
+      /* Web Request */
+      ReportRequest     = 30000,       // Report request
   };
   ```
 
@@ -606,3 +609,19 @@ Todo
 
 - `UnsupportedLevel`  
   Auto combat, unsupported stage name
+
+### ReportRequest
+
+This field is mainly used by the core module to pass network request information to the UI layer, which is responsible for performing the actual HTTP reporting operations.
+
+```json
+{
+  "url": "string",            // The full request URL, e.g., https://penguin-stats.io/PenguinStats/api/v2/report
+  "headers": {                // Request headers key-value pairs (excluding Content-Type, which is added by the UI)
+    "authorization": "PenguinID 1234567890",
+    "User-Agent": "MaaAssistantArknights/1.2.3 cpr/4.5.6"
+  },
+  "body": "string",           // Request body content (usually a JSON-formatted string)
+  "subtask": "string"         // Subtask name identifying the specific reporting task, e.g., "ReportToPenguinStats", "ReportToYituliu"
+}
+```
