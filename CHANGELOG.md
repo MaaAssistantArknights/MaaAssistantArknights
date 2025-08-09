@@ -1,4 +1,4 @@
-## v5.22.2
+## v5.22.3
 
 ### 博士五连冠（x | Highlight
 
@@ -41,6 +41,18 @@ Preliminary adaptation has been made for gaining Experience Points (efficiency m
 ----
 
 以下是详细信息：
+
+## v5.22.3
+
+### 修复 | Fix
+
+* Mirror酱增量更新 @hguandl
+* 肉鸽烧水无法调整难度 @status102
+* 免费单抽剩余不足一小时无法使用 @ABA2396
+
+### 新增 | New
+
+* 增加企鹅物流 .cn 备用域名，迁移上报逻辑到 UI 层 (#13602) @ABA2396
 
 ## v5.22.2
 
