@@ -112,48 +112,58 @@ void asst::ReportDataTask::report_to_penguin()
     for (const auto& [header_key, value] : Config.get_options().penguin_report.headers) {
         headers.emplace(header_key, value);
     }
-
     for (const auto& field : m_extra_headers) {
         headers.emplace(field);
     }
-
     headers.emplace("X-Penguin-Idempotency-Key", std::move(key));
 
-    constexpr std::string_view PenguinSubtaskName = "ReportToPenguinStats";
+    constexpr std::string_view penguin_subtask_name = "ReportToPenguinStats";
+    Log.info("Report to Penguin Stats url:", url);
     cpr::Response response =
-        report(PenguinSubtaskName, url, headers, timeout, penguin_success_cond, penguin_retry_cond, false);
+        report(penguin_subtask_name, url, headers, timeout, penguin_success_cond, penguin_retry_cond, false);
 
-    auto proc_response_id = [&]() {
-        if (response.header.contains("x-penguin-set-penguinid")) [[unlikely]] {
+    auto proc_response_id = [&](const cpr::Response& resp) {
+        if (resp.header.contains("x-penguin-set-penguinid")) [[unlikely]] {
             json::value id_info = basic_info_with_what("PenguinId");
-            id_info["details"]["id"] = response.header["x-penguin-set-penguinid"];
+            id_info["details"]["id"] = resp.header.at("x-penguin-set-penguinid");
             callback(AsstMsg::SubTaskExtraInfo, id_info);
         }
     };
 
     if (response.status_code == 200) {
-        proc_response_id();
+        proc_response_id(response);
         return;
     }
 
     // 重新向企鹅物流统计的 CN 域名发送数据
-    constexpr std::string_view Penguin_IO = "https://penguin-stats.io";
-    // https://penguin-stats.alvorna.com: G找朋友开的代理，仅可以代理 API 请求。
-    // 实际的网站访问请前往 https://penguin-stats.cn
-    // constexpr std::string_view Penguin_CN = "https://penguin-stats.cn";
-    constexpr std::string_view Penguin_CN_PROXY = "https://penguin-stats.alvorna.com";
-    if (url.find(Penguin_IO) == std::string::npos) {
-        return;
-    }
-    Log.info("Re-report to penguin-stats.alvorna.com", Penguin_CN_PROXY);
-    std::string new_url = utils::string_replace_all(url, Penguin_IO, Penguin_CN_PROXY);
+    constexpr std::string_view penguin_io = "https://penguin-stats.io";
+    // 要尝试的域名顺序
+    constexpr std::string_view penguin_domains[] = {
+        /*"https://penguin-stats.alvorna.com",*/ "https://penguin-stats.cn"
+    };
 
-    backoff = DefaultBackoff;
-    response = report(PenguinSubtaskName, new_url, headers, timeout, penguin_success_cond, penguin_retry_cond);
+    size_t last_index = std::size(penguin_domains) - 1;
+    for (size_t i = 0; i < std::size(penguin_domains); ++i) {
+        std::string try_url = utils::string_replace_all(url, penguin_io, penguin_domains[i]);
 
-    if (response.status_code == 200) {
-        proc_response_id();
-        return;
+        backoff = DefaultBackoff;
+        Log.info("Report to", try_url);
+
+        bool callback_on_failure = (i == last_index);
+
+        response = report(
+            penguin_subtask_name,
+            try_url,
+            headers,
+            timeout,
+            penguin_success_cond,
+            penguin_retry_cond,
+            callback_on_failure);
+
+        if (response.status_code == 200) {
+            proc_response_id(response);
+            return;
+        }
     }
 }
 
