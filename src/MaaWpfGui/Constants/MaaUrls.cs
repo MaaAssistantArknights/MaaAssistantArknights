@@ -85,10 +85,19 @@ namespace MaaWpfGui.Constants
         // 资源更新更新源
         public const string GithubResourceUpdate = "https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip";
 
+        // MirrorChyan
         public const string MirrorChyanDomain = "https://mirrorchyan.com";
         public const string MirrorChyanWebsite = $"{MirrorChyanDomain}?source=maawpfgui-settings";
         public const string MirrorChyanAppUpdate = $"{MirrorChyanDomain}/api/resources/MAA/latest";
         public const string MirrorChyanResourceUpdate = $"{MirrorChyanDomain}/api/resources/MaaResource/latest";
         public const string MirrorChyanManualUpdate = $"{MirrorChyanDomain}/zh/projects?rid=MAA&source=maawpfgui-manualupdate";
+
+        // 企鹅物流
+        public const string PenguinIoDomain = "https://penguin-stats.io";
+        public static readonly string[] PenguinBackupDomains =
+        [
+            /*"https://penguin-stats.alvorna.com",*/
+            "https://penguin-stats.cn"
+        ];
     }
 }

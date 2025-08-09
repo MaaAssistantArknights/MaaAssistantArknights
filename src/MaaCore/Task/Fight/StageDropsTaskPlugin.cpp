@@ -377,7 +377,7 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
 
     version.erase(ranges::remove(version, ' ').begin(), version.end());
 
-    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 
     std::shared_ptr<ReportDataTask> report_task_ptr;
     if (report_type == ReportType::PenguinStats) {
@@ -417,11 +417,6 @@ void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json
     auto p_this = dynamic_cast<StageDropsTaskPlugin*>(task_ptr);
     if (!p_this) {
         return;
-    }
-
-    if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", std::string()) == "PenguinId") {
-        std::string id = detail.get("details", "id", std::string());
-        p_this->m_penguin_id = id;
     }
 
     p_this->callback(msg, detail);

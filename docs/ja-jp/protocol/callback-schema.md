@@ -47,6 +47,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
         SubTaskCompleted = 20002,   // サブタスク 完了
         SubTaskExtraInfo = 20003,   // サブタスクの追加情報
         SubTaskStopped   = 20004,   // サブタスク 手動停止
+
+        /* Web Request */
+        ReportRequest    = 30000,   // レポートリクエスト
     };
     ```
 
@@ -619,3 +622,19 @@ Todo
 
 - `UnsupportedLevel`  
     自動作戦で、サポートされていないレベル名
+
+### ReportRequest
+
+このフィールドは、コアモジュールがネットワークリクエスト情報をUI層に渡すために主に使用され、UIは実際のHTTP報告処理を担当します。
+
+```json
+{
+  "url": "string",            // リクエストの完全なURL、例：https://penguin-stats.io/PenguinStats/api/v2/report
+  "headers": {                // リクエストヘッダーのキーと値のペア（Content-Typeは含まず、UIが追加します）
+    "authorization": "PenguinID 1234567890",
+    "User-Agent": "MaaAssistantArknights/1.2.3 cpr/4.5.6"
+  },
+  "body": "string",           // リクエストボディの内容（通常はJSON形式の文字列）
+  "subtask": "string"         // サブタスク名、具体的な報告タスクを識別します。例："ReportToPenguinStats"、"ReportToYituliu"
+}
+```

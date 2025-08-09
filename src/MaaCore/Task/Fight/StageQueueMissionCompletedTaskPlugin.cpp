@@ -221,7 +221,7 @@ void asst::StageQueueMissionCompletedTaskPlugin::upload_to_penguin(std::string s
 
     version.erase(ranges::remove(version, ' ').begin(), version.end());
 
-    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version + " cpr/" + CPR_VERSION });
+    extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 
     if (!m_report_penguin_task_ptr) {
         m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
@@ -244,11 +244,6 @@ void asst::StageQueueMissionCompletedTaskPlugin::report_penguin_callback(
     auto p_this = dynamic_cast<StageQueueMissionCompletedTaskPlugin*>(task_ptr);
     if (!p_this) {
         return;
-    }
-
-    if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", std::string()) == "PenguinId") {
-        std::string id = detail.get("details", "id", std::string());
-        p_this->m_penguin_id = id;
     }
 
     p_this->callback(msg, detail);
