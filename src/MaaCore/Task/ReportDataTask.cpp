@@ -141,7 +141,9 @@ void asst::ReportDataTask::report_to_penguin()
     // https://penguin-stats.alvorna.com: G找朋友开的代理，仅可以代理 API 请求。
     // 实际的网站访问请前往 https://penguin-stats.cn
     // constexpr std::string_view Penguin_CN = "https://penguin-stats.cn";
-    constexpr std::string_view Penguin_CN_PROXY = "https://penguin-stats.alvorna.com";
+    // constexpr std::string_view Penguin_CN_PROXY = "https://penguin-stats.alvorna.com";
+    constexpr std::string_view Penguin_CN_PROXY = "https://penguin-stats.io";
+    // 这个网站 SSL 证书过期，临时跳过一下
     if (url.find(Penguin_IO) == std::string::npos) {
         return;
     }
