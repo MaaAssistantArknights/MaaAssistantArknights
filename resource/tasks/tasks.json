@@ -1917,7 +1917,7 @@
     },
     "RecruitingActivitiesConfirm": {
         "algorithm": "OcrDetect",
-        "text": ["赠送", "次", "小时"],
+        "text": ["赠送", "次", "小时", "分钟"],
         "roi": [729, 515, 303, 135],
         "next": ["RecruitingActivitiesRecruit", "RecruitingActivitiesConfirm"],
         "maxTimes": 3
