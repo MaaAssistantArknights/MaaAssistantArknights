@@ -88,20 +88,16 @@ void asst::ReportDataTask::report_to_penguin()
     }
     headers.emplace("X-Penguin-Idempotency-Key", std::move(idempotency_key));
 
-    ReportRequest req{
-        .url = std::move(url),
-        .extra_headers = std::move(headers),
-        .body = m_body,
-        .subtask_name = "ReportToPenguinStats"
-    };
+    ReportRequest req { .url = std::move(url),
+                        .extra_headers = std::move(headers),
+                        .body = m_body,
+                        .subtask_name = "ReportToPenguinStats" };
 
-    json::value req_json = json::object {
-        {"url", req.url},
-        {"headers", json::object{}},
-        {"body", req.body},
-        {"subtask", req.subtask_name}
-    };
-    for (auto& [k,v] : req.extra_headers) {
+    json::value req_json = json::object { { "url", req.url },
+                                          { "headers", json::object {} },
+                                          { "body", req.body },
+                                          { "subtask", req.subtask_name } };
+    for (auto& [k, v] : req.extra_headers) {
         req_json["headers"][k] = v;
     }
     callback(AsstMsg::ReportRequest, req_json);
@@ -129,20 +125,16 @@ void asst::ReportDataTask::report_to_yituliu(ReportType reportType)
         headers.emplace(field);
     }
 
-    ReportRequest req{
-        .url = std::move(url),
-        .extra_headers = std::move(headers),
-        .body = m_body,
-        .subtask_name = "ReportToYituliu"
-    };
+    ReportRequest req { .url = std::move(url),
+                        .extra_headers = std::move(headers),
+                        .body = m_body,
+                        .subtask_name = "ReportToYituliu" };
 
-    json::value req_json = json::object {
-        {"url", req.url},
-        {"headers", json::object{}},
-        {"body", req.body},
-        {"subtask", req.subtask_name}
-    };
-    for (auto& [k,v] : req.extra_headers) {
+    json::value req_json = json::object { { "url", req.url },
+                                          { "headers", json::object {} },
+                                          { "body", req.body },
+                                          { "subtask", req.subtask_name } };
+    for (auto& [k, v] : req.extra_headers) {
         req_json["headers"][k] = v;
     }
     callback(AsstMsg::ReportRequest, req_json);
