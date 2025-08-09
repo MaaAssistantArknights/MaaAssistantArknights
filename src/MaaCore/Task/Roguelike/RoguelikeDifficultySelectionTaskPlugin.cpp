@@ -40,8 +40,8 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
     if (task_view.ends_with("Roguelike@GamePass")) {
         m_has_changed = false;
     }
-    if (task_view == "Roguelike@StartExplore") {
-        return !m_has_changed;
+    if (task_view == "Roguelike@StartExplore") { // 烧水时候调来调去的干脆不走
+        return m_config->get_mode() == RoguelikeMode::Collectible || !m_has_changed;
     }
     else {
         return false;
