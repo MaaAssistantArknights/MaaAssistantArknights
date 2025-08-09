@@ -29,6 +29,8 @@ enum class AsstMsg
     SubTaskCompleted,     // 原子任务完成
     SubTaskExtraInfo,     // 原子任务额外信息
     SubTaskStopped,       // 原子任务停止（手动停止）
+    /* Web Request */
+    ReportRequest = 30000, // 上报请求
 };
 
 inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
@@ -53,6 +55,8 @@ inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
         { AsstMsg::SubTaskCompleted, "SubTaskCompleted" },
         { AsstMsg::SubTaskExtraInfo, "SubTaskExtraInfo" },
         { AsstMsg::SubTaskStopped, "SubTaskStopped" },
+        /* Web Request */
+        { AsstMsg::ReportRequest, "ReportRequest" },
     };
     return os << _type_name.at(type);
 }
