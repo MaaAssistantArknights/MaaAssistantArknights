@@ -624,7 +624,7 @@ C:\\leidian\\LDPlayer9
 または
 バトル回数が設定された乗数を満たしていない場合（例えば、5回分しか残っていないのに6回に設定している場合）、バトルに参加できません。
 
-• 選択しない場合:
+• {key=NotSwitch}:
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>

@@ -624,7 +624,7 @@ If the current sanity is not enough to complete the set multiplier (such as only
 Or
 If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
 
-• Not Switch:
+• {key=NotSwitch}:
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>

@@ -624,7 +624,7 @@ C:\\leidian\\LDPlayer9。\n
  或者
 战斗次数不足完成设定倍率 (如仅够 5 次但设为 6 倍), 也将无法进入战斗
 
-• 不切换:
+• {key=NotSwitch}:
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
