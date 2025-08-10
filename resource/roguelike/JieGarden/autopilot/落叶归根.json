@@ -66,6 +66,11 @@
             "direction": "right"
         },
         {
+            "groups": ["赛柯"],
+            "location": [5, 1],
+            "direction": "right"
+        },
+        {
             "groups": ["新约能天使"],
             "location": [3, 3],
             "direction": "down"

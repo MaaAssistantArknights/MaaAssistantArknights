@@ -30,13 +30,9 @@
         },
         {
             "groups": ["赛柯"],
-            "location": [8, 1],
-            "direction": "left"
-        },
-        {
-            "groups": ["赛柯"],
-            "location": [7, 5],
-            "direction": "left" 
+            "location": [3, 3],
+            "direction": "Right",
+            "condition": [0, 20]
         },
         {
             "groups": ["赛柯"],
@@ -46,9 +42,13 @@
         },
         {
             "groups": ["赛柯"],
-            "location": [3, 3],
-            "direction": "Right",
-            "condition": [0, 20]
+            "location": [8, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 5],
+            "direction": "left" 
         },
         {
             "groups": ["赛柯"],

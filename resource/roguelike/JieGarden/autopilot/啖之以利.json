@@ -67,7 +67,7 @@
         {
             "groups": ["赛柯"],
             "location": [1, 6],
-            "direction": "up"
+            "direction": "right"
         },
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
