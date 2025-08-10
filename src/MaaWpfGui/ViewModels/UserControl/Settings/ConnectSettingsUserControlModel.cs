@@ -895,6 +895,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        Instances.AsstProxy.Connected = false;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
