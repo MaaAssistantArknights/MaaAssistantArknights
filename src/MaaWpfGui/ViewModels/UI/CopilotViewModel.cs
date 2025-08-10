@@ -33,6 +33,7 @@ using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Models.Copilot;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
@@ -265,6 +266,27 @@ namespace MaaWpfGui.ViewModels.UI
                 value = value.Replace("，", ",").Replace("；", ";").Trim();
                 SetAndNotify(ref _userAdditional, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
+            }
+        }
+
+        public List<GenericCombinedData<int>> FormationSelectList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
+            new() { Display = "1", Value = 1 },
+            new() { Display = "2", Value = 2 },
+            new() { Display = "3", Value = 3 },
+            new() { Display = "4", Value = 4 },
+        ];
+
+        private int _selectFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 0);
+
+        public int SelectFormation
+        {
+            get => _selectFormation;
+            set
+            {
+                SetAndNotify(ref _selectFormation, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
             }
         }
 
@@ -1212,6 +1234,7 @@ namespace MaaWpfGui.ViewModels.UI
                          IsRaid = model.IsRaid,
                          LoopTimes = Loop ? LoopTimes : 1,
                          UseSanityPotion = _useSanityPotion,
+                         SelectFormation = _selectFormation,
                      };
                      var (type, param) = task.Serialize();
                      return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
@@ -1253,6 +1276,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
+                    SelectFormation = _selectFormation,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret &= Instances.AsstProxy.AsstStart();

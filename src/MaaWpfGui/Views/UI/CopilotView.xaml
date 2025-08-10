@@ -115,33 +115,41 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                <StackPanel
+                    <StackPanel
                         Margin="5"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
                         <StackPanel
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
                             <CheckBox Content="{DynamicResource AutoSquad}" IsChecked="{Binding Form}" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox
+                            <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="5,0,0,0"
                             HorizontalAlignment="Center"
-                            Content="{DynamicResource UseCopilotList}"
-                            IsChecked="{Binding UseCopilotList}"
-                            IsEnabled="{Binding Idle}" />
-                        <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding Form}">
+                            <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource UseFormation}" />
+                            <ComboBox
+                                Width="100"
+                                Margin="6,0,0,0"
+                                HorizontalContentAlignment="Center"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding FormationSelectList}"
+                                SelectedValue="{Binding SelectFormation}"
+                                SelectedValuePath="Value" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
                     <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding Form}">
-                <StackPanel
+                        <StackPanel
                             Margin="5"
-                    HorizontalAlignment="Center"
+                            HorizontalAlignment="Center"
                             Orientation="Horizontal">
-                    <CheckBox
+                            <CheckBox
                                 HorizontalAlignment="Center"
                                 Content="{DynamicResource Copilot.IgnoreRequirements}"
                                 IsChecked="{Binding IgnoreRequirements}" />
@@ -158,34 +166,32 @@
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
                             <CheckBox Content="{DynamicResource AddUserAdditional}" IsChecked="{Binding AddUserAdditional}" />
-                    <TextBox
+                            <TextBox
                                 MinWidth="120"
                                 MaxWidth="140"
                                 Margin="6,0,0,0"
-                        VerticalContentAlignment="Center"
-                        Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
-                        ToolTip="{DynamicResource AddUserAdditionalTip}"
-                        ToolTipService.InitialShowDelay="0"
-                        Visibility="{c:Binding AddUserAdditional}" />
-                </StackPanel>
-                </StackPanel>
+                                VerticalContentAlignment="Center"
+                                Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
+                                ToolTip="{DynamicResource AddUserAdditionalTip}"
+                                ToolTipService.InitialShowDelay="0"
+                                Visibility="{c:Binding AddUserAdditional}" />
+                        </StackPanel>
+                    </StackPanel>
 
-                <StackPanel
+                    <StackPanel
                         Margin="5"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}"
-                    Orientation="Horizontal">
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
                         <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                             <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
-                    <CheckBox
+                        <CheckBox
                             Margin="5,0,0,0"
-                        Content="{DynamicResource UseSanityPotion}"
-                        IsChecked="{Binding UseSanityPotion}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{c:Binding UseCopilotList}" />
-                </StackPanel>
+                            Content="{DynamicResource UseSanityPotion}"
+                            IsChecked="{Binding UseSanityPotion}"
+                            Visibility="{c:Binding UseCopilotList}" />
+                    </StackPanel>
                 </StackPanel>
                 <StackPanel
                     Margin="5"
