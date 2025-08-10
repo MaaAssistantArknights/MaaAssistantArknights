@@ -229,6 +229,7 @@
     <system:String x:Key="AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造點數</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">鍛造赤金</system:String>
+    <system:String x:Key="NotSwitch">不切換</system:String>
     <system:String x:Key="NotSelected">不選擇</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili 服</system:String>
@@ -621,7 +622,7 @@ C:\\leidian\\LDPlayer9。\n
  或者
 戰鬥次數不足完成設定倍率 (如僅夠 5 次但設為 6 倍), 也將無法進入戰鬥
 
-• 不選擇:
+• {key=NotSwitch}:
 不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>

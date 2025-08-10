@@ -230,6 +230,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
+    <system:String x:Key="NotSwitch">Don't Switch</system:String>
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -623,7 +624,7 @@ If the current sanity is not enough to complete the set multiplier (such as only
 Or
 If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
 
-• Not selected:
+• {key=NotSwitch}:
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>

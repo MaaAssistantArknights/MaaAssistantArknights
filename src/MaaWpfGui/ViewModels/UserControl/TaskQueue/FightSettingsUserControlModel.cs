@@ -478,7 +478,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         { "3", 3 },
         { "2", 2 },
         { "1", 1 },
-        { LocalizationHelper.GetString("NotSelected"), -1 },
+        { LocalizationHelper.GetString("NotSwitch"), -1 },
     };
 
     private int _series = InitFightSeries();
