@@ -801,8 +801,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
-    <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 모듈 요구 사항 무시</system:String>
+    <system:String x:Key="AddTrust">저신뢰 {key=Operator} 추가</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 요구 무시</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>

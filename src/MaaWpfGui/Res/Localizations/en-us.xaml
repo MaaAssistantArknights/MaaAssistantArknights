@@ -803,7 +803,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} Module requirements</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
