@@ -30,7 +30,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Margin="0,20,0,0">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -99,17 +99,31 @@
             <StackPanel
                 Grid.Row="1"
                 HorizontalAlignment="Center"
-                Orientation="Vertical">
+                IsEnabled="{Binding Idle}">
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Orientation" Value="Vertical" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Form}" Value="False" />
+                                        <Condition Binding="{Binding UseCopilotList}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                 <StackPanel
-                    Height="30"
+                        Margin="5"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-                    <StackPanel Margin="0,0,10,0" Orientation="Horizontal">
-                        <CheckBox
+                        <StackPanel
                             HorizontalAlignment="Center"
-                            Content="{DynamicResource AutoSquad}"
-                            IsChecked="{Binding Form}"
-                            IsEnabled="{Binding Idle}" />
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <CheckBox Content="{DynamicResource AutoSquad}" IsChecked="{Binding Form}" />
                         <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -121,80 +135,72 @@
                         <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                     </StackPanel>
                 </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding Form}">
                 <StackPanel
-                    Height="30"
+                            Margin="5"
                     HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Visibility="{c:Binding Form}">
+                            Orientation="Horizontal">
                     <CheckBox
-                        Content="{DynamicResource AddUserAdditional}"
-                        IsChecked="{Binding AddUserAdditional}"
-                        IsEnabled="{Binding Idle}" />
+                                HorizontalAlignment="Center"
+                                Content="{DynamicResource Copilot.IgnoreRequirements}"
+                                IsChecked="{Binding IgnoreRequirements}" />
+                            <CheckBox
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Center"
+                                Content="{DynamicResource AddTrust}"
+                                IsChecked="{Binding AddTrust}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <CheckBox Content="{DynamicResource AddUserAdditional}" IsChecked="{Binding AddUserAdditional}" />
                     <TextBox
-                        MinWidth="140"
-                        MaxWidth="200"
-                        Margin="10,0,0,0"
+                                MinWidth="120"
+                                MaxWidth="140"
+                                Margin="6,0,0,0"
                         VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding '(Form) and (Idle)'}"
-                        IsHitTestVisible="{Binding AddUserAdditional}"
-                        MaxLines="1"
                         Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}"
                         ToolTipService.InitialShowDelay="0"
                         Visibility="{c:Binding AddUserAdditional}" />
                 </StackPanel>
-
-                <StackPanel
-                    Height="30"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Visibility="{c:Binding Form}">
-                    <CheckBox
-                        Height="30"
-                        Margin="10,0"
-                        HorizontalAlignment="Center"
-                        Content="{DynamicResource Copilot.IgnoreRequirements}"
-                        IsChecked="{Binding IgnoreRequirements}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{c:Binding Form}" />
                 </StackPanel>
 
                 <StackPanel
+                        Margin="5"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}"
                     Orientation="Horizontal">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
+                        </StackPanel>
                     <CheckBox
-                        Height="30"
-                        Margin="10,0"
-                        HorizontalAlignment="Center"
-                        Content="{DynamicResource AddTrust}"
-                        IsChecked="{Binding AddTrust}"
-                        IsEnabled="{Binding Idle}"
-                        Visibility="{c:Binding Form}" />
-                    <CheckBox
-                        Height="30"
-                        Margin="10,0"
-                        HorizontalAlignment="Center"
+                            Margin="5,0,0,0"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseSanityPotion}"
                         IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding UseCopilotList}" />
                 </StackPanel>
+                </StackPanel>
                 <StackPanel
-                    Height="30"
-                    Margin="0,7"
+                    Margin="5"
                     HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}"
+                    VerticalAlignment="Center"
                     Orientation="Horizontal"
                     Visibility="{c:Binding !UseCopilotList}">
                     <CheckBox
-                        Margin="0,0,20,0"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource LoopTimes}"
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
                         Height="30"
                         MinWidth="70"
+                        Margin="6,0,0,0"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
@@ -377,10 +383,7 @@
                     Visibility="{c:Binding !Idle}" />
             </Grid>
 
-            <controls:TextBlock
-                Grid.Row="4"
-                Margin="0,10,0,0"
-                Block.TextAlignment="Center">
+            <controls:TextBlock Grid.Row="4" Block.TextAlignment="Center">
                 <Hyperlink
                     Cursor="Hand"
                     NavigateUri="{Binding CopilotUrl}"
@@ -398,7 +401,6 @@
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Width="360"
-                Margin="0,10"
                 properties:AutoScroll.AutoScroll="True"
                 HorizontalScrollBarVisibility="Disabled"
                 IsInertiaEnabled="True"
