@@ -10,8 +10,82 @@
             "direction": "left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [3, 2],
+            "condition": [5, 6]
+        },
+        {
+            "location": [3, 5],
+            "condition": [5, 6]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 2],
+            "direction": "left",
+            "condition": [0, 4]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 5],
+            "direction": "left",
+            "condition": [0, 4]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 3],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 4],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 3],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 4],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 4],
+            "direction": "up",
+            "condition": [6, 8]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "up",
+            "condition": [6, 8]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 1],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 2],
+            "direction": "left" 
+        },
         {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [9, 3],

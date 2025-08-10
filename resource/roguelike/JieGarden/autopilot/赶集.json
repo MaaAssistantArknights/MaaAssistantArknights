@@ -6,8 +6,95 @@
             "direction": "left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [2, 3],
+            "condition": [10, 40]
+        },
+        {
+            "location": [4, 3],
+            "condition": [16, 40]
+        },
+        {
+            "location": [3, 3],
+            "condition": [28, 40]
+        },
+        {
+            "location": [2, 1],
+            "condition": [28, 40]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [2, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [2, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 4],
+            "direction": "up",
+            "condition": [0, 10]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 1],
+            "direction": "right",
+            "condition": [0, 27]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 3],
+            "direction": "right",
+            "condition": [0, 10]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 5],
+            "direction": "left",
+            "condition": [10, 14]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 5],
+            "direction": "left",
+            "condition": [10, 30]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 3],
+            "direction": "up",
+            "condition": [15, 20]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 3],
+            "direction": "up",
+            "condition": [16, 20]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 5],
+            "direction": "left",
+            "condition": [27, 30]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 5],
+            "direction": "left",
+            "condition": [27, 30]
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [3, 4],
+            "direction": "right"
+        },
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],
             "location": [1, 5],

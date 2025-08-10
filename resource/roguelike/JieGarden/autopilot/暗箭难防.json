@@ -18,9 +18,44 @@
             "direction": "down"
         },
         {
+            "groups": ["投锋"],
+            "location": [1, 1],
+            "direction": "right"
+        },
+        {
             "groups": ["高台输出"],
             "location": [7, 3],
             "direction": "right"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [9, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [9, 4],
+            "direction": "left"
         },
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],

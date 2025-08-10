@@ -9,6 +9,11 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
+            "groups": ["投锋"],
+            "location": [10, 5],
+            "direction": "left" 
+        },
+        {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [9, 3],
             "direction": "left"
@@ -17,6 +22,36 @@
             "groups": ["单奶", "群奶"],
             "location": [6, 4],
             "direction": "right"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [9, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 1],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 5],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 4],
+            "direction": "up" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 1],
+            "direction": "right" 
         },
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],

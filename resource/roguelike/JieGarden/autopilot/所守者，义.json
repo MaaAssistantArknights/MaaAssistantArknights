@@ -6,8 +6,68 @@
             "direction": "left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [8, 3],
+            "condition": [15, 20]
+        },
+        {
+            "location": [2, 5],
+            "condition": [15, 20]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["回费"],
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [8, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 2],
+            "direction": "right",
+            "condition": [0, 7]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 4],
+            "direction": "left",
+            "condition": [0, 14]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["荒芜拉普兰德", "新约能天使"],
+            "location": [7, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 5],
+            "direction": "left",
+            "condition": [0, 13]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 3],
+            "direction": "left",
+            "condition": [9, 21]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 3],
+            "direction": "left",
+            "condition": [12, 20]
+        },
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
             "location": [5, 5],

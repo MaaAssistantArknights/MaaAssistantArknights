@@ -6,8 +6,85 @@
             "direction": "right"
         }
     ],
+    "retreat_plan": [
+        {
+        "location": [3, 2],
+        "condition": [19, 40]
+        },
+        {
+        "location": [6, 6],
+        "condition": [17, 18]    
+        },
+        {
+        "location": [6, 6],
+        "condition": [27, 40]    
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [6, 6],
+            "direction": "up",
+            "condition": [0, 17]
+        },
+        {
+            "groups": ["电弧"],
+            "location": [3, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["新约能天使", "高台输出"],
+            "location": [3, 2],
+            "direction": "left",
+            "condition": [0, 19]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 6],
+            "direction": "right",
+            "condition": [0, 19]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 3],
+            "direction": "down",
+            "condition": [27, 40]
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [6, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 6],
+            "direction": "up",
+            "condition": [19, 27]
+        },
+        {
+            "groups": ["地面阻挡"],
+            "location": [3, 6],
+            "direction": "right",
+            "condition": [30, 40]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 6],
+            "direction": "right",
+            "condition": [30, 40]
+        },
+        {
+            "groups": ["新约能天使", "高台输出"],
+            "location": [7, 3],
+            "direction": "left",
+            "condition": [30, 40]
+        },
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
             "location": [2, 3],

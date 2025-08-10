@@ -6,12 +6,50 @@
             "direction": "left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [5, 2],
+            "condition": [10, 12]
+        },
+        {
+            "location": [5, 5],
+            "condition": [6, 7]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["挡人先锋", "回费"],
-            "location": [6, 1],
+            "location": [5, 2],
+            "direction": "left",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["电弧"],
+            "location": [5, 1],
             "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 5],
+            "direction": "left",
+            "condition": [0, 5]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 5],
+            "direction": "up",
+            "condition": [8, 15]
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [6, 3],
+            "direction": "left"
         },
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],

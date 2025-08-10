@@ -10,6 +10,16 @@
             "direction": "Left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [9, 4],
+            "condition": [8, 8]
+        },
+        {
+            "location": [8, 4],
+            "condition": [8, 8]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
         {
@@ -18,9 +28,52 @@
             "direction": "up"
         },
         {
+            "groups": ["新约能天使"],
+            "location": [9, 4],
+            "direction": "down",
+            "condition": [0, 8]
+        },
+        {
+            "groups": ["回费"],
+            "location": [8, 4],
+            "direction": "down",
+            "condition": [0, 8]
+        },
+        {
             "groups": ["高台输出"],
             "location": [1, 4],
             "direction": "down"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [9, 4],
+            "direction": "left",
+            "condition": [8, 35]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾","重装","地面阻挡","其他地面"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 3],
+            "direction": "left"
         },
         {
             "groups": [

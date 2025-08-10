@@ -6,8 +6,44 @@
             "direction": "down"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [3, 2],
+            "condition": [17, 19]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["回费"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 2],
+            "direction": "up"
+        },
+        {
+            "groups": ["新约能天使", "高台输出"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 4],
+            "direction": "left"
+        },
         {
             "groups": ["益达", "焰苇", "水陈", "高台输出"],
             "location": [6, 3],

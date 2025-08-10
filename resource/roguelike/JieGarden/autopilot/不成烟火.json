@@ -6,8 +6,45 @@
             "direction": "up"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [5, 1],
+            "condition": [0, 12]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["新约能天使"],
+            "location": [2, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["投锋"],
+            "location": [5, 1],
+            "direction": "left",
+            "condition": [0, 12]
+        },
+        {
+            "groups": ["电弧"],
+            "location": [7, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾"],
+            "location": [2, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 6],
+            "direction": "left"
+        },
         {
             "groups": [
                 "奶盾",
@@ -36,6 +73,11 @@
             "direction": "Left"
         },
         {
+            "groups": ["高台输出","单奶", "群奶"],
+            "location": [3, 2],
+            "direction": "Left"
+        },
+        {
             "groups": ["高台输出"],
             "location": [8, 5],
             "direction": "Left"
@@ -44,6 +86,16 @@
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
             "location": [7, 6],
             "direction": "Left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [9, 6],
+            "direction": "left"
         },
         {
             "groups": ["高台输出"],

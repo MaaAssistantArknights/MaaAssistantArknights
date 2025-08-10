@@ -10,8 +10,45 @@
             "direction": "right"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [8, 4],
+            "condition": [18,20]
+        },
+        {
+            "location": [8, 6],
+            "condition": [18,20]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [1, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [1, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 4],
+            "direction": "up",
+            "condition": [0,16]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 6],
+            "direction": "down",
+            "condition": [0,16]
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [5, 6],
+            "direction": "left"
+        },
         {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [4, 6],
@@ -53,6 +90,11 @@
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
             "location": [2, 5],
             "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 5],
+            "direction": "up"
         },
         {
             "groups": ["高台输出"],

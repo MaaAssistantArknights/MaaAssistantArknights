@@ -6,17 +6,62 @@
             "direction": "Right"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [4, 5],
+            "condition": [12, 12]
+        },
+        {
+            "location": [3, 3],
+            "condition": [12, 12]
+        },
+        {
+            "location": [4, 5],
+            "condition": [29, 31]
+        },
+        {
+            "location": [7, 5],
+            "condition": [29, 31]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [4, 5],
+            "direction": "right",
+            "condition": [0, 5]
+        },
         {
             "groups": ["奶盾"],
             "location": [3, 5],
             "direction": "Right"
         },
         {
+            "groups": ["电弧"],
+            "location": [4, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 5],
+            "direction": "right",
+            "condition": [0, 28]
+        },
+        {
             "groups": ["益达", "焰苇", "高台输出"],
             "location": [4, 4],
             "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [2, 4],
+            "direction": "right"
         },
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],
@@ -42,6 +87,22 @@
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
             "location": [1, 5],
             "direction": "Up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 5],
+            "direction": "Up",
+            "condition": [29, 31]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 4],
+            "direction": "Up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 5],
+            "direction": "right"
         },
         {
             "groups": ["处决者"],

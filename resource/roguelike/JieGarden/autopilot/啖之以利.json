@@ -11,7 +11,64 @@
         [4, 6],
         [5, 6]
     ],
+    "retreat_plan": [
+        {
+            "location": [2, 6],
+            "condition": [15, 18]
+        },
+        {
+            "location": [2, 1],
+            "condition": [34, 46]
+        }
+    ],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [2, 6],
+            "direction": "right",
+            "condition": [0, 13]
+        },
+        {
+            "groups": ["电弧"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [2, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["地面阻挡"],
+            "location": [2, 1],
+            "direction": "right",
+            "condition": [0, 31]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 1],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 6],
+            "direction": "up"
+        },
         {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
             "location": [2, 5],

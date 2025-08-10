@@ -13,6 +13,46 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
+            "groups": ["回费"],
+            "location": [9, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [9, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [10, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 6],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [8, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 6],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [10, 5],
+            "direction": "left"
+        },
+        {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [9, 3],
             "direction": "Left"
@@ -38,6 +78,11 @@
             "groups": ["单奶", "群奶"],
             "location": [10, 1],
             "direction": "down"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [7, 4],
+            "direction": "right"
         },
         {
             "groups": ["高台输出"],

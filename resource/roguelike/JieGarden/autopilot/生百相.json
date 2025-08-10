@@ -6,8 +6,85 @@
             "direction": "left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [4, 2],
+            "condition": [11, 12]
+        },
+        {
+            "location": [4, 4],
+            "condition": [11, 12]
+        },
+        {
+            "location": [2, 4],
+            "condition": [11, 12]
+        },
+        {
+            "location": [6, 2],
+            "condition": [11, 12]
+        },
+        {
+            "location": [6, 4],
+            "condition": [9, 9]
+        },
+        {
+            "location": [2, 2],
+            "condition": [25, 26]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [6, 4],
+            "direction": "down",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [7, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 2],
+            "direction": "up",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 2],
+            "direction": "up",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "down",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 4],
+            "direction": "down",
+            "condition": [0, 9]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 2],
+            "direction": "up",
+            "condition": [0, 25]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 4],
+            "direction": "down"
+        },
         {
             "groups": ["益达", "焰苇", "水陈", "高台输出"],
             "location": [7, 2],
@@ -16,6 +93,21 @@
         {
             "groups": ["地面远程", "锏", "地刺", "重装", "玛恩纳", "情报官", "地面阻挡", "处决者", "回费", "其他地面"],
             "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 3],
             "direction": "left"
         },
         {

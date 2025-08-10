@@ -13,6 +13,26 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
+            "groups": ["投锋"],
+            "location": [8, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [3, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [6, 3],
+            "direction": "left"
+        },
+        {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [9, 6],
             "direction": "up"
@@ -55,9 +75,30 @@
             "direction": "down"
         },
         {
+            "groups": ["单奶", "群奶"],
+            "location": [6, 2],
+            "direction": "down"
+        },
+        {
             "groups": ["补给站"],
             "location": [5, 5],
             "direction": "Right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [9, 1],
+            "direction": "right",
+            "condition": [0, 18]
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 6],
+            "direction": "left"
         },
         {
             "groups": ["处决者"],

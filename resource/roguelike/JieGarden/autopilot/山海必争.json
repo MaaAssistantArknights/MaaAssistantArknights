@@ -26,6 +26,31 @@
             "direction": "left"
         },
         {
+            "groups": ["电弧"],
+            "location": [5, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 2],
+            "direction": "right" 
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [5, 5],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 1],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [2, 4],
+            "direction": "up" 
+        },
+        {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [5, 5],
             "direction": "left"
@@ -44,6 +69,11 @@
             "groups": ["单奶", "群奶"],
             "location": [5, 3],
             "direction": "right"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [4, 5],
+            "direction": "up"
         },
         {
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],

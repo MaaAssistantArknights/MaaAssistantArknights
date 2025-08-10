@@ -6,8 +6,19 @@
             "direction": "Left"
         }
     ],
+    "retreat_plan": [
+        {
+            "location": [1, 6],
+            "condition": [13, 15]
+        }
+    ],
     "blacklist_location": [],
     "deploy_plan": [
+        {
+            "groups": ["投锋"],
+            "location": [1, 6],
+            "direction": "up"
+        },
         {
             "groups": [
                 "奶盾",
@@ -26,9 +37,64 @@
             "direction": "Left"
         },
         {
+            "groups": ["新约能天使"],
+            "location": [4, 4],
+            "direction": "Right"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [3, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["辅助","其他高台"],
+            "location": [2, 4],
+            "direction": "right"
+        },
+        {
             "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
             "location": [4, 6],
             "direction": "up"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [4, 5],
+            "direction": "Left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [2, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["奶盾"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [5, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [1, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [7, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [6, 5],
+            "direction": "right"
         },
         {
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
@@ -39,6 +105,11 @@
             "groups": ["单奶", "群奶"],
             "location": [8, 5],
             "direction": "Left"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [4, 6],
+            "direction": "up"
         },
         {
             "groups": ["高台输出"],

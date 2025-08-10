@@ -9,9 +9,44 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
-            "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
+            "groups": ["投锋"],
+            "location": [6, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["电弧"],
+            "location": [4, 6],
+            "direction": "up"
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 5],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 4],
+            "direction": "left" 
+        },
+        {
+            "groups": ["赛柯"],
+            "location": [4, 3],
+            "direction": "left" 
+        },
+        {
+            "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出", "酒神"],
             "location": [4, 2],
             "direction": "right"
+        },
+        {
+            "groups": ["新约能天使"],
+            "location": [5, 3],
+            "direction": "right" 
+        },
+        {
+            "groups": ["益达", "提丰", "水陈", "焰苇", "高台输出"],
+            "location": [5, 3],
+            "direction": "right" 
         },
         {
             "groups": [
