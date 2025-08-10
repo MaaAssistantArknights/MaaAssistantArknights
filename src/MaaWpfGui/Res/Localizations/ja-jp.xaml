@@ -230,6 +230,7 @@
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">鍛造レッドゴールド</system:String>
+    <system:String x:Key="NotSwitch">ノットスイッチ</system:String>
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>

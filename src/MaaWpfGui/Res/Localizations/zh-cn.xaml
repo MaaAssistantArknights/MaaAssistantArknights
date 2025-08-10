@@ -230,6 +230,7 @@
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
+    <system:String x:Key="NotSwitch">不切换</system:String>
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili服</system:String>
@@ -623,12 +624,12 @@ C:\\leidian\\LDPlayer9。\n
  或者
 战斗次数不足完成设定倍率 (如仅够 5 次但设为 6 倍), 也将无法进入战斗
 
-• 不选择:
+• 不切换:
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
     <system:String x:Key="StageSelect2">备选</system:String>
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
-    <system:String x:Key="NoUse">不选择</system:String>
+    <system:String x:Key="NoUse">不使用</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->

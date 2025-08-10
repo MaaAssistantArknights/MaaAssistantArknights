@@ -230,6 +230,7 @@
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">단조 레드 골드</system:String>
+    <system:String x:Key="NotSwitch">낫스위치</system:String>
     <system:String x:Key="NotSelected">미선택</system:String>
     <system:String x:Key="Official">공식 서버</system:String>
     <system:String x:Key="Bilibili">빌리빌리</system:String>
