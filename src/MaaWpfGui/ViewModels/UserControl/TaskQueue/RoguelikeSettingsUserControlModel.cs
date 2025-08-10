@@ -405,8 +405,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             }
 
             // 确保在更新列表之前先更新相关属性
-            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeRolesList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeStartWithAllDict();
