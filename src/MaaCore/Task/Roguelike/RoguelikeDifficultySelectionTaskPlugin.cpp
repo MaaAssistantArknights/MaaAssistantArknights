@@ -56,7 +56,9 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
         Log.info(__FUNCTION__, "| Running for collectible");
     }
 
-    const int difficulty = m_config->get_run_for_collectible() ? 0 : m_config->get_difficulty();
+    // 不会记录初始时游戏内难度，ban一下烧水的`当前难`
+    const int difficulty =
+        (m_config->get_run_for_collectible() && m_config->get_difficulty() != -1) ? 0 : m_config->get_difficulty();
     Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
 
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
