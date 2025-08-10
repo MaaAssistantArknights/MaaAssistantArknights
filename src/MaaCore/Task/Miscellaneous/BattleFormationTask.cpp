@@ -129,6 +129,7 @@ bool asst::BattleFormationTask::_run()
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
             m_user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
         }
+        click_role_table(battle::Role::Unknown);
         for (auto& [role, oper_groups] : m_user_formation) {
             add_formation(role, oper_groups, missing_operators);
         }
