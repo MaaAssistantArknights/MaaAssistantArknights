@@ -891,6 +891,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
+        if (!_runningState.GetIdle())
+        {
+            return;
+        }
+
         _runningState.SetIdle(false);
 
         var errMsg = string.Empty;
