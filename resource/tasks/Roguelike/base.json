@@ -1777,7 +1777,9 @@
     "Roguelike@TraderRandomShoppingConfirm": {
         "action": "ClickSelf",
         "roi": [872, 425, 221, 136],
-        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave", "#self"]
+        "Doc": "点完有个动画，要是在动画中识别到了再点可能会点到其他商品里去，加个延迟再加个取消",
+        "postDelay": 1000,
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave", "#self", "Roguelike@TraderRandomShoppingCancel"]
     },
     "Roguelike@TutorialButton": {
         "doc": [
