@@ -1,6 +1,6 @@
 // <copyright file="ConfigConverter.cs" company="MaaAssistantArknights">
-// MaaWpfGui - A part of the MaaCoreArknights project
-// Copyright (C) 2021 MistEO and Contributors
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License v3.0 only as published by
@@ -23,6 +23,7 @@ using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -205,6 +206,30 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.OriginiumShardAutoReplenishment);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastFile);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanIndex);
+
+                var roomTypes = Enum.GetNames(typeof(InfrastRoomType));
+                var list = new List<KeyValuePair<string, int>>();
+                var roomList = new List<DragItemViewModel>(roomTypes.Length);
+                foreach (var item in roomTypes)
+                {
+                    var index = ConfigurationHelper.GetValue("Infrast.Order." + item, -1);
+                    list.Add(new KeyValuePair<string, int>(item, index));
+                }
+
+                list.Sort((x, y) => x.Value.CompareTo(y.Value));
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    var item = list[i];
+                    if (item.Value != i)
+                    {
+                        ConfigurationHelper.SetValue("Infrast.Order." + item.Key, i.ToString());
+                    }
+
+                    roomList.Add(new DragItemViewModel(LocalizationHelper.GetString(item.Key), item.Key, "Infrast."));
+                }
+
+                infrastTask.RoomList = [];
+
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
                 recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];

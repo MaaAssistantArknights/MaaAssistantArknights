@@ -15,7 +15,6 @@
 
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
