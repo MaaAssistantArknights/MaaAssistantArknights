@@ -22,11 +22,11 @@ std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, in
         Log.warn("RoguelikeBoskyPassageMap::create_and_insert_node", "| reach MAX_NODES limit");
     }
     const auto idx = static_cast<size_t>(y * WIDTH + x);
-    Node& n = m_nodes[idx];
-    if (!n.exists) {
+    if (Node& n = m_nodes[idx]; !n.exists) {
         n.exists = true;
         n.is_open = true;
         n.passed = false;
+        n.visited = false;
         ++m_existing_count;
 
         if (type != RoguelikeNodeType::Unknown) {
@@ -87,6 +87,7 @@ void RoguelikeBoskyPassageMap::reset()
 std::vector<size_t> RoguelikeBoskyPassageMap::get_open_unpassed_nodes() const
 {
     std::vector<size_t> res;
+    res.reserve(m_existing_count);
     for (size_t i = 0; i < m_nodes.size(); ++i) {
         const Node& n = m_nodes[i];
         if (n.exists && n.is_open && !n.passed) {
@@ -99,6 +100,7 @@ std::vector<size_t> RoguelikeBoskyPassageMap::get_open_unpassed_nodes() const
 std::vector<size_t> RoguelikeBoskyPassageMap::get_open_nodes() const
 {
     std::vector<size_t> res;
+    res.reserve(m_existing_count);
     for (size_t i = 0; i < m_nodes.size(); ++i) {
         const Node& n = m_nodes[i];
         if (n.exists && n.is_open) {
@@ -197,6 +199,19 @@ std::optional<size_t> RoguelikeBoskyPassageMap::coord_to_index(int x, int y) con
     return idx;
 }
 
+namespace
+{
+// 像素坐标到网格坐标的转换辅助函数
+std::pair<int, int> pixel_to_grid_coords(int px, int py, int origin_x, int origin_y, int column_offset, int row_offset)
+{
+    const double dx = static_cast<double>(px - origin_x) / column_offset;
+    const double dy = static_cast<double>(py - origin_y) / row_offset;
+    const int gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
+    const int gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
+    return { gx, gy };
+}
+}
+
 std::optional<size_t> RoguelikeBoskyPassageMap::pixel_to_index(
     int px,
     int py,
@@ -210,11 +225,8 @@ std::optional<size_t> RoguelikeBoskyPassageMap::pixel_to_index(
     if (node_width <= 0 || node_height <= 0 || column_offset <= 0 || row_offset <= 0) {
         return std::nullopt;
     }
-    // 允许行列独立间距：gx 由列偏移，gy 由行偏移；均做四舍五入
-    const double dx = static_cast<double>(px - origin_x) / column_offset;
-    const double dy = static_cast<double>(py - origin_y) / row_offset;
-    const int gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
-    const int gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
+
+    auto [gx, gy] = pixel_to_grid_coords(px, py, origin_x, origin_y, column_offset, row_offset);
     return coord_to_index(gx, gy);
 }
 
@@ -233,17 +245,17 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     if (node_width <= 0 || node_height <= 0 || column_offset <= 0 || row_offset <= 0) {
         return std::nullopt;
     }
-    const double dx = static_cast<double>(px - origin_x) / column_offset;
-    const double dy = static_cast<double>(py - origin_y) / row_offset;
-    const auto gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
-    const auto gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
+
+    auto [gx, gy] = pixel_to_grid_coords(px, py, origin_x, origin_y, column_offset, row_offset);
     Log.info(
         __FUNCTION__,
         "| analyzing node (" + std::to_string(px) + ", " + std::to_string(py) + ") -> (" + std::to_string(gx) + ", " +
             std::to_string(gy) + ")");
+
     if (!in_bounds(gx, gy)) {
         return std::nullopt;
     }
+
     if (auto idx = coord_to_index(gx, gy); idx.has_value()) {
         m_nodes[idx.value()].is_open = is_open;
         return idx;
