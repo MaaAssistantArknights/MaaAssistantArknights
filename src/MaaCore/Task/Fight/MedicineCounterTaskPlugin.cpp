@@ -184,6 +184,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         using_count_ocr.set_task_info(using_count_task);
         using_count_ocr.set_bin_threshold(using_count_task->special_params[0], using_count_task->special_params[1]);
         using_count_ocr.set_roi(using_rect);
+        using_count_ocr.set_use_raw(false);
         if (!using_count_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
             return std::nullopt;
