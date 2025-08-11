@@ -485,7 +485,7 @@ public class EmulatorHelper
         };
         foreach (string i in windowName)
         {
-            var hwnd = FindWindow(null, i);
+            var hwnd = FindWindow(null!, i);
             if (hwnd == IntPtr.Zero)
             {
                 continue;

@@ -205,7 +205,7 @@ namespace MaaWpfGui.Services
             };
         }
 
-        private static bool TryParseVersion(string? version, out SemVersion versionObj)
+        private static bool TryParseVersion(string? version, out SemVersion? versionObj)
         {
             return SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out versionObj);
         }
