@@ -151,11 +151,8 @@ icon: material-symbols:task
         "useRaw": true,                     // 可選項，是否使用原圖匹配
                                             // 不填寫預設 true，false 時為灰階匹配
 
-        "binThresholdLower": 140,           // 可選項，灰階二值化下限閾值（預設為 140）
-                                            // 灰階值小於此值的像素會被視為背景，排除在文字區域之外
-
-        "binThresholdUpper": 255,           // 可選項，灰階二值化上限閾值（預設為 255）
-                                            // 灰階值大於此值的像素會被視為背景，排除在文字區域之外
+        "binThreshold": [140, 255],         // 可選項，灰階二值化閾值（預設為 [140, 255]）
+                                            // 灰階值不在範圍的像素會被視為背景，排除在文字區域之外
                                             // 最終僅保留 [lower, upper] 區間的像素作為文字前景
 
         /* 以下欄位僅當 algorithm 為 JustReturn 且 action 為 Input 時有效 */

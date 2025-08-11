@@ -998,7 +998,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
@@ -1014,7 +1014,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -1031,7 +1031,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 210,
+        "binThreshold": [210, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
@@ -1047,7 +1047,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
@@ -1063,7 +1063,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
@@ -1079,7 +1079,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
@@ -1095,7 +1095,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
@@ -1111,7 +1111,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@TodoEnter": {},

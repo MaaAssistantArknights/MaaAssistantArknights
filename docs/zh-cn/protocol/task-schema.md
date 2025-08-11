@@ -153,11 +153,8 @@ icon: material-symbols:task
         "useRaw": true,                     // 可选项，是否使用原图匹配
                                             // 不填写默认 true，false 时为灰度匹配
 
-        "binThresholdLower": 140,           // 可选项，二值化灰度下阈值（默认 140）
-                                            // 灰度值小于该值的像素将被视为背景，排除在文字区域之外
-
-        "binThresholdUpper": 255,           // 可选项，二值化灰度上阈值（默认 255）
-                                            // 灰度值大于该值的像素将被视为背景，排除在文字区域之外
+        "binThreshold": [140, 255],         // 可选项，二值化灰度阈值（默认 [140, 255]）
+                                            // 灰度值不处于范围的像素将被视为背景，排除在文字区域之外
                                             // 最终保留 [lower, upper] 区间的像素作为文字前景
 
         /* 以下字段仅当 algorithm 为 JustReturn，action 为 Input 时有效 */

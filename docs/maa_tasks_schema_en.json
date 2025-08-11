@@ -315,15 +315,15 @@
                     "default": true,
                     "description": "Optional, whether to use the original image for matching.\nDefault is true. If false, grayscale image matching will be used.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
                 },
-                "binThresholdLower": {
-                    "type": "integer",
-                    "default": 140,
-                    "description": "Optional, lower threshold for grayscale binarisation (default 140).\nPixels with a grayscale value lower than this will be considered background and excluded from the text region.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
-                },
-                "binThresholdUpper": {
-                    "type": "integer",
-                    "default": 255,
-                    "description": "Optional, upper threshold for grayscale binarisation (default 255).\nPixels with a grayscale value higher than this will be considered background and excluded from the text region.\nOnly pixels within the [lower, upper] range will be kept as text foreground.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
+                "binThreshold": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                        "type": "integer"
+                    },
+                    "default": [140, 255],
+                    "description": "Optional, threshold for grayscale binarisation (default [140, 255]).\nPixels with a grayscale value out of range will be considered background and excluded from the text region.\nThis is only effective when algorithm is OcrDetect and withoutDet is false."
                 }
             },
             "required": ["algorithm", "text"],
