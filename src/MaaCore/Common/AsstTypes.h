@@ -598,16 +598,15 @@ struct OcrTaskInfo : public TaskInfo
     constexpr OcrTaskInfo(OcrTaskInfo&&) noexcept = default;
     constexpr OcrTaskInfo& operator=(const OcrTaskInfo&) = default;
     constexpr OcrTaskInfo& operator=(OcrTaskInfo&&) noexcept = default;
-    std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
-    bool full_match = false;       // 是否需要全匹配，否则搜索到子串就算匹配上了
-    bool is_ascii = false;         // 是否启用字符数字模型
-    bool without_det = false;      // 是否不使用检测模型
-    bool replace_full = false;     // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
-    bool use_raw = true;           // 是否使用原始图片进行识别，false则使用灰度图
+    std::vector<std::string> text;                   // 文字的容器，匹配到这里面任一个，就算匹配上了
+    bool full_match = false;                         // 是否需要全匹配，否则搜索到子串就算匹配上了
+    bool is_ascii = false;                           // 是否启用字符数字模型
+    bool without_det = false;                        // 是否不使用检测模型
+    bool replace_full = false;                       // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
+    bool use_raw = true;                             // 是否使用原始图片进行识别，false则使用灰度图
     std::vector<std::pair<std::string, std::string>>
-        replace_map;               // 部分文字容易识别错，字符串强制replace之后，再进行匹配
-    int bin_threshold_lower = 140;
-    int bin_threshold_upper = 255;
+        replace_map;                                 // 部分文字容易识别错，字符串强制replace之后，再进行匹配
+    std::array<int, 2> bin_threshold = { 140, 255 }; // 二值化灰度上阈值
 };
 
 using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;
