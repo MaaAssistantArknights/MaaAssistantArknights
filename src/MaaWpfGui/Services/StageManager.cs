@@ -181,7 +181,7 @@ namespace MaaWpfGui.Services
             //    SemVersionStyles.AllowLowerV, out var curResourceVersionObj);
             var resourceCollection = InitializeResourceCollection(activity?[clientType]?["resourceCollection"]);
 
-            if (activity?[clientType] != null)
+            if (activity?[clientType] != null && curVerParsed && curVersionObj != null)
             {
                 ParseActivityStages(activity[clientType], tempStage, curVerParsed, curVersionObj, isDebugVersion);
             }
