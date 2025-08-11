@@ -13,17 +13,24 @@ RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
 
 std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type)
 {
+    if (!in_bounds(x, y)) {
+        Log.warn(__FUNCTION__, "| Coordinates ({}, {}) out of bounds", x, y);
+        return std::nullopt;
+    }
+
     const auto idx = static_cast<size_t>(y * WIDTH + x);
-    if (Node* n = get_valid_node(idx); !n->exists) {
-        n->exists = true;
-        n->is_open = true;
-        n->visited = false;
-        n->type = type;
+    Node& n = m_nodes[idx]; // 直接获取节点引用，而不是通过 get_valid_node
+
+    if (!n.exists) {
+        n.exists = true;
+        n.is_open = true;
+        n.visited = false;
+        n.type = type;
         ++m_existing_count;
 
         // 临时措施，先关闭祸乱节点
         if (type == RoguelikeNodeType::Disaster) {
-            n->is_open = false;
+            n.is_open = false;
         }
         return idx;
     }
@@ -39,16 +46,13 @@ RoguelikeBoskyPassageMap::Node* RoguelikeBoskyPassageMap::get_valid_node(size_t 
         return nullptr;
     }
     Node& n = m_nodes[index];
-    if (!n.exists) {
-        return nullptr;
-    }
     return &n;
 }
 
 void RoguelikeBoskyPassageMap::set_visited(size_t index)
 {
     Node* n = get_valid_node(index);
-    if (!n) {
+    if (!n || !n->exists) {
         return;
     }
     n->visited = true;
@@ -57,7 +61,7 @@ void RoguelikeBoskyPassageMap::set_visited(size_t index)
 void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType type)
 {
     Node* n = get_valid_node(index);
-    if (!n) {
+    if (!n || !n->exists) {
         return;
     }
     n->type = type;
@@ -68,6 +72,7 @@ void RoguelikeBoskyPassageMap::reset()
     for (auto& n : m_nodes) {
         n = Node {}; // reset
     }
+
     // 创建中心节点
     if (auto center = create_and_insert_node(CENTER_X, CENTER_Y, RoguelikeNodeType::Init); center.has_value()) {
         Node& c = m_nodes[center.value()];
@@ -142,7 +147,8 @@ std::pair<int, int> RoguelikeBoskyPassageMap::get_node_pixel(
     int column_offset,
     int row_offset) const
 {
-    if (index >= m_nodes.size()) {
+    if (index >= m_nodes.size() || !m_nodes[index].exists) {
+        Log.warn(__FUNCTION__, "| Invalid node index: {}", index);
         return { -1, -1 };
     }
     const int x = get_node_x(index);
@@ -230,23 +236,33 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     RoguelikeNodeType type)
 {
     if (node_width <= 0 || node_height <= 0 || column_offset <= 0 || row_offset <= 0) {
+        Log.warn(
+            __FUNCTION__,
+            "| Invalid parameters: node_width={}, node_height={}, column_offset={}, row_offset={}",
+            node_width,
+            node_height,
+            column_offset,
+            row_offset);
         return std::nullopt;
     }
 
     auto [gx, gy] = pixel_to_grid_coords(px, py, origin_x, origin_y, column_offset, row_offset);
-    Log.info(
-        __FUNCTION__,
-        "| analyzing node (" + std::to_string(px) + ", " + std::to_string(py) + ") -> (" + std::to_string(gx) + ", " +
-            std::to_string(gy) + ")");
+    Log.info(__FUNCTION__, "| analyzing node ({}, {}) -> ({}, {})", px, py, gx, gy);
 
     if (!in_bounds(gx, gy)) {
+        Log.warn(__FUNCTION__, "| Grid coordinates ({}, {}) out of bounds", gx, gy);
         return std::nullopt;
     }
 
     if (auto idx = coord_to_index(gx, gy); idx.has_value()) {
-        m_nodes[idx.value()].is_open = is_open;
+        // 节点已存在，只更新状态
+        if (Node* n = get_valid_node(idx.value())) {
+            n->is_open = is_open;
+            n->type = type;
+        }
         return idx;
     }
+    // 节点不存在，创建新节点
     return create_and_insert_node(gx, gy, type);
 }
 } // namespace asst

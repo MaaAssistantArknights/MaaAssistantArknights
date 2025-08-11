@@ -229,6 +229,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
     Log.info(__FUNCTION__, "| updating bosky map");
 
     cv::Mat image = ctrler()->get_image();
+    if (image.empty()) {
+        Log.error(__FUNCTION__, "| Failed to get image from controller");
+        return;
+    }
+
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info("JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze");
     if (!node_analyzer.analyze()) {
@@ -335,6 +340,9 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
             chosen = idx;
             break;
         }
+        if (t == RoguelikeNodeType::Disaster) {
+            continue;
+        }
     }
     int gx = m_bosky_map.get_node_x(chosen);
     int gy = m_bosky_map.get_node_y(chosen);
@@ -349,6 +357,12 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
     auto [px, py] =
         m_bosky_map
             .get_node_pixel(chosen, m_bosky_origin_x, m_bosky_origin_y, m_bosky_column_offset, m_bosky_row_offset);
+
+    if (px == -1 || py == -1) {
+        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node {}: ({}, {})", chosen, px, py);
+        return;
+    }
+
     Point click_point(px + m_bosky_node_width / 2, py + m_bosky_node_height / 2);
     ctrler()->click(click_point);
     m_bosky_map.set_visited(chosen);
