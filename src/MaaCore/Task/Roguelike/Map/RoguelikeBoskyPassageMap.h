@@ -34,9 +34,10 @@ public:
     [[nodiscard]] static constexpr int height() { return HEIGHT; }
 
     // 开放但未访问的节点集合
-    [[nodiscard]] std::vector<size_t> get_open_unvisited_nodes() const;
+    [[nodiscard]] std::vector<size_t>
+        get_open_unvisited_nodes(std::optional<RoguelikeNodeType> type_filter = std::nullopt) const;
     // 全部开放节点（包含已通关）
-    [[nodiscard]] std::vector<size_t> get_open_nodes() const;
+    [[nodiscard]] std::vector<size_t> get_open_nodes(std::optional<RoguelikeNodeType> type_filter = std::nullopt) const;
 
     [[nodiscard]] RoguelikeNodeType get_node_type(size_t index) const;
     [[nodiscard]] bool get_node_exists(size_t index) const;

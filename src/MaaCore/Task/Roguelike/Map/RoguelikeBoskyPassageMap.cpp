@@ -81,27 +81,32 @@ void RoguelikeBoskyPassageMap::reset()
     m_existing_count = 0;
 }
 
-std::vector<size_t> RoguelikeBoskyPassageMap::get_open_unvisited_nodes() const
+std::vector<size_t>
+    RoguelikeBoskyPassageMap::get_open_unvisited_nodes(std::optional<RoguelikeNodeType> type_filter) const
 {
     std::vector<size_t> res;
     res.reserve(m_existing_count);
     for (size_t i = 0; i < m_nodes.size(); ++i) {
         const Node& n = m_nodes[i];
         if (n.exists && n.is_open && !n.visited) {
-            res.push_back(i);
+            if (!type_filter.has_value() || n.type == type_filter.value()) {
+                res.push_back(i);
+            }
         }
     }
     return res;
 }
 
-std::vector<size_t> RoguelikeBoskyPassageMap::get_open_nodes() const
+std::vector<size_t> RoguelikeBoskyPassageMap::get_open_nodes(std::optional<RoguelikeNodeType> type_filter) const
 {
     std::vector<size_t> res;
     res.reserve(m_existing_count);
     for (size_t i = 0; i < m_nodes.size(); ++i) {
         const Node& n = m_nodes[i];
         if (n.exists && n.is_open) {
-            res.push_back(i);
+            if (!type_filter.has_value() || n.type == type_filter.value()) {
+                res.push_back(i);
+            }
         }
     }
     return res;

@@ -326,23 +326,35 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
 
     Log.info(__FUNCTION__, "| deciding and clicking a bosky passage node");
 
-    auto open_nodes = m_bosky_map.get_open_unvisited_nodes();
-    Log.debug(__FUNCTION__, "| open nodes: " + std::to_string(open_nodes.size()));
-    if (open_nodes.empty()) {
-        Log.warn(__FUNCTION__, "| no open nodes available");
-        return;
-    }
-    size_t chosen = open_nodes.front();
-    Log.debug(__FUNCTION__, "| initially chosen node: " + std::to_string(chosen));
-    for (size_t idx : open_nodes) {
-        auto t = m_bosky_map.get_node_type(idx);
-        if (t == RoguelikeNodeType::Legend || t == RoguelikeNodeType::Omissions) {
-            chosen = idx;
+    // 定义节点类型的优先级顺序
+    const std::vector<RoguelikeNodeType> priority_order = {
+        RoguelikeNodeType::Omissions, // 拾遗 - 最高优先级
+        RoguelikeNodeType::Legend,    // 传说
+        RoguelikeNodeType::YiTrader,  // 易与
+        RoguelikeNodeType::OldShop,   // 故肆
+        RoguelikeNodeType::Scheme,    // 筹谋
+        RoguelikeNodeType::Playtime,  // 常乐
+        RoguelikeNodeType::Doubts,    // 杂疑
+        // RoguelikeNodeType::Disaster   // 祸乱 - 最低优先级
+    };
+
+    size_t chosen = 0;
+    bool found = false;
+
+    // 按优先级顺序查找可用的节点
+    for (const auto& node_type : priority_order) {
+        auto nodes_of_type = m_bosky_map.get_open_unvisited_nodes(node_type);
+        if (!nodes_of_type.empty()) {
+            chosen = nodes_of_type.front();
+            found = true;
+            Log.debug(__FUNCTION__, "| found node of type {} with index {}", static_cast<int>(node_type), chosen);
             break;
         }
-        if (t == RoguelikeNodeType::Disaster) {
-            continue;
-        }
+    }
+
+    if (!found) {
+        Log.warn(__FUNCTION__, "| no open unvisited nodes available");
+        return;
     }
     int gx = m_bosky_map.get_node_x(chosen);
     int gy = m_bosky_map.get_node_y(chosen);
