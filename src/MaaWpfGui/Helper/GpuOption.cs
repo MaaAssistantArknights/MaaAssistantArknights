@@ -208,7 +208,7 @@ namespace MaaWpfGui.Helper
             return hr == HRESULT.S_FALSE;
 
             [DllImport("d3d12.dll", ExactSpelling = true)]
-            static extern HRESULT D3D12CreateDevice([MarshalAs(UnmanagedType.IUnknown)] object pAdapter, D3D_FEATURE_LEVEL MinimumFeatureLevel, in Guid riid, nint ppDevice);
+            static extern HRESULT D3D12CreateDevice([MarshalAs(UnmanagedType.IUnknown)] object pAdapter, D3D_FEATURE_LEVEL minimumFeatureLevel, in Guid riid, nint ppDevice);
         }
 
         private static unsafe string? GetAdapterInstancePath(LUID luid)
