@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="8.1.2" />
+    <PackageReference Include="Nuke.Common" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,15 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
+    <None Remove="..\..\.github\workflows\dev-build-win.yml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="..\..\.github\workflows\release-maa-core.yml" />
+    <None Remove="..\..\.github\workflows\release-maa-win.yml" />
   </ItemGroup>
 
   <ItemGroup>

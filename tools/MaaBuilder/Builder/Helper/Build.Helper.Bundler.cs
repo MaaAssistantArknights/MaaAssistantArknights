@@ -76,7 +76,8 @@ public partial class Build
             var relative = file.Replace(source, string.Empty);
             var targetPath = target / relative;
             
-            FileSystemTasks.CopyFile(file, targetPath, FileExistsPolicy.Overwrite);
+            targetPath.Parent.CreateDirectory();
+            File.Copy(file, targetPath, true);
         }
     }
     
