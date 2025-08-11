@@ -1269,8 +1269,16 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
-        "baseTask": "Sami@Roguelike@StrategyChange_mode4",
-        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["初霜湖泽", "_default"],
+            ["密静林地", "_exit"],
+            ["昧明冻土", "_exit"],
+            ["积冰岩骸", "_exit"],
+            ["无瑕花园", "_exit"],
+            ["远见之构", "_exit"],
+            ["深埋迷境", "_exit"]
+        ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],
