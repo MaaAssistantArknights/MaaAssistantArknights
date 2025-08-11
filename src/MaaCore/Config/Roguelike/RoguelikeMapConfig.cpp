@@ -25,7 +25,15 @@ bool asst::RoguelikeMapConfig::parse(const json::value& json)
         { "MysteriousPresage", RoguelikeNodeType::MysteriousPresage },
         { "FerociousPresage", RoguelikeNodeType::FerociousPresage },
         { "IdeaFilter", RoguelikeNodeType::IdeaFilter },
-        { "FaceOff", RoguelikeNodeType::FaceOff }
+        { "FaceOff", RoguelikeNodeType::FaceOff },
+        { "Legend", RoguelikeNodeType::Legend },
+        { "Omissions", RoguelikeNodeType::Omissions },
+        { "Doubts", RoguelikeNodeType::Doubts },
+        { "Disaster", RoguelikeNodeType::Disaster },
+        { "Playtime", RoguelikeNodeType::Playtime },
+        { "OldShop", RoguelikeNodeType::OldShop },
+        { "YiTrader", RoguelikeNodeType::YiTrader },
+        { "Scheme", RoguelikeNodeType::Scheme }
     };
 
     const std::string theme = json.at("theme").as_string();

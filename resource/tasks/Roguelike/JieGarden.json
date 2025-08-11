@@ -437,6 +437,19 @@
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
+    "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeOldShop.png",
+            "JieGarden@Roguelike@MapNodeScheme.png",
+            "JieGarden@Roguelike@MapNodeYiTrader.png",
+            "JieGarden@Roguelike@MapNodePlaytime.png",
+            "JieGarden@Roguelike@MapNodeOmissions.png",
+            "JieGarden@Roguelike@MapNodeLegend.png",
+            "JieGarden@Roguelike@MapNodeDoubts.png",
+            "JieGarden@Roguelike@MapNodeDisaster.png"
+        ],
+        "next": ["JieGarden@Roguelike@RoutingAction"]
+    },
     "JieGarden@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
@@ -454,6 +467,21 @@
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageTraderEnter"]
     },
+    "JieGarden@Roguelike@RoutingAction-StageYiTraderEnter": {
+        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
+    },
+    "JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter": {
+        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageCombatDpsEnter"]
+    },
+    "JieGarden@Roguelike@RoutingAction-StageEncounterEnter": {
+        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
     "JieGarden@Roguelike@RoutingConfig": {
         "doc": [
             "RoguelikeRoutingTaskPlugin用参数",
@@ -469,6 +497,26 @@
         ],
         "template": "empty.png",
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+    },
+    "JieGarden@Roguelike@RoutingBoskyPassageConfig": {
+        "doc": [
+            "RoguelikeRoutingTaskPlugin用参数",
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 第一行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[2]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 中间行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[4]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[5]: 最后行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[6]: 节点 Rect.width",
+            "| specialParams[7]: 节点 Rect.height",
+            "| specialParams[8]: 两列节点之间的距离",
+            "| specialParams[9]: 两行节点之间的距离",
+            "| specialParams[10]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "| specialParams[11]: roi 的 margin offset",
+            "| specialParams[12]: 节点间连线方向判定的阈值"
+        ],
+        "template": "empty.png",
+        "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 23, 15, 7]
     },
     "JieGarden@Roguelike@RoutingContinue": {
         "template": "JieGarden@Roguelike@Continue.png",
@@ -503,6 +551,22 @@
             "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
             "JieGarden@Roguelike@MapNodeBoskyPassage.png",
             "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
+        ],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 300
+    },
+    "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeOldShop.png",
+            "JieGarden@Roguelike@MapNodeScheme.png",
+            "JieGarden@Roguelike@MapNodeYiTrader.png",
+            "JieGarden@Roguelike@MapNodePlaytime.png",
+            "JieGarden@Roguelike@MapNodeOmissions.png",
+            "JieGarden@Roguelike@MapNodeOmissionsGrey.png",
+            "JieGarden@Roguelike@MapNodeLegend.png",
+            "JieGarden@Roguelike@MapNodeLegendGrey.png",
+            "JieGarden@Roguelike@MapNodeDoubts.png",
+            "JieGarden@Roguelike@MapNodeDisaster.png"
         ],
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
@@ -1137,13 +1201,7 @@
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@StageOmissions",
-            "JieGarden@Roguelike@StageLegend",
-            "JieGarden@Roguelike@StageYiTrader",
-            "JieGarden@Roguelike@StageOldShop",
-            "JieGarden@Roguelike@StageScheme",
-            "JieGarden@Roguelike@StagePlaytime",
-            "JieGarden@Roguelike@StageDoubts",
+            "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden",
             "JieGarden@Roguelike@ClickRemainingCandleFlame"
         ]
     },

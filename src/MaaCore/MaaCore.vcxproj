@@ -157,8 +157,11 @@
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h" />
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyRoutingTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
@@ -351,6 +354,7 @@
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" />
     <ClCompile Include="Task\Roguelike\Map\RoguelikeMap.cpp" />
     <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />

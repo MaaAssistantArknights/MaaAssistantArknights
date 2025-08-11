@@ -2,6 +2,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/RoguelikeMapConfig.h"
+#include "RoguelikeBoskyPassageMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 #include "Utils/NoWarningCVMat.h"
 
@@ -21,7 +22,8 @@ public:
         None,
         FastInvestment_Sarkaz,
         FastInvestment_JieGarden,
-        FastPass
+        FastPass,
+        BoskyPassage_JieGarden
     };
 
 protected:
@@ -60,6 +62,8 @@ private:
     // ———————— constants and variables ———————————————————————————————————————————————
     RoutingStrategy m_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
+    // 界园树洞平面地图
+    RoguelikeBoskyPassageMap m_bosky_map;
     bool m_need_generate_map = true;
     size_t m_selected_column = 0;  // 当前选中节点所在列
     int m_selected_x = 0;          // 当前选中节点的横坐标 (Rect.x)
@@ -73,5 +77,23 @@ private:
     int m_nameplate_offset = 0;    // 节点 Rect 下边缘到节点铭牌下边缘的距离
     int m_roi_margin = 0;          // roi 的 margin offset
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
+
+    // ==================== BoskyPassage (JieGarden) 专用 ====================
+    void bosky_update_map();             // 从当前截图识别所有可见节点并更新/创建
+    void bosky_decide_and_click();       // 策略
+
+    int m_bosky_origin_x = 0;            // BoskyPassage 第一列节点的默认横坐标 (Rect.x)
+    int m_bosky_origin_y = 0;            // BoskyPassage 第一列节点的默认纵坐标 (Rect.y)
+    int m_bosky_middle_x = 0;            // BoskyPassage 中间列节点的默认横坐标 (Rect.x)
+    int m_bosky_middle_y = 0;            // BoskyPassage 中间列节点的默认纵坐标 (Rect.y)
+    int m_bosky_last_x = 0;              // BoskyPassage 最后列节点的默认横坐标 (Rect.x)
+    int m_bosky_last_y = 0;              // BoskyPassage 最后列节点的默认纵坐标 (Rect.y)
+    int m_bosky_node_width = 0;          // BoskyPassage 节点 Rect.width
+    int m_bosky_node_height = 0;         // BoskyPassage 节点 Rect.height
+    int m_bosky_column_offset = 0;       // BoskyPassage 两列节点之间的距离
+    int m_bosky_row_offset = 0;          // BoskyPassage 两行节点之间的距离
+    int m_bosky_nameplate_offset = 0;    // BoskyPassage 节点 Rect 下边缘到节点铭牌下边缘的距离
+    int m_bosky_roi_margin = 0;          // BoskyPassage roi 的 margin offset
+    int m_bosky_direction_threshold = 0; // BoskyPassage 节点间连线方向判定的阈值
 };
 }
