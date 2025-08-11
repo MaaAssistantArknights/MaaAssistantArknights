@@ -228,7 +228,7 @@
     "Tales@RA@PIS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
-        "template": "Tales@RA@Max",
+        "template": "Tales@RA@Max.png",
         "next": [
             "Tales@RA@PIS-ProsperityReachLimit-StartToday",
             "Tales@RA@PIS-ProsperityReachLimit@NextAfterMerelyWaiting"
@@ -514,7 +514,7 @@
     },
     "Tales@RA@PNS-OpeningDialogue": {
         "doc": "点击右下角对话选项位置，跳过引导对话",
-        "template": "DialogueLog",
+        "template": "DialogueLog.png",
         "roi": [27, 14, 64, 51],
         "sub": ["Tales@RA@PNS-OpeningDialogueClick*10"],
         "next": ["Tales@RA@PNS-OpeningDialogue", "Tales@RA@PNS-LeaveBaseCamp"]
@@ -575,7 +575,7 @@
     "Tales@RA@PNS-ProsperityReachLimit": {
         "doc": "已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
         "baseTask": "Tales@RA@ProsperityReachLimit",
-        "template": "Tales@RA@Max",
+        "template": "Tales@RA@Max.png",
         "next": [
             "Tales@RA@PNS-ProsperityReachLimit-StartToday",
             "Tales@RA@PNS-ProsperityReachLimit@NextAfterMerelyWaiting"
@@ -694,7 +694,7 @@
     },
     "Tales@RA@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
-        "template": "Tales@RA@Max",
+        "template": "Tales@RA@Max.png",
         "roi": [836, 516, 59, 40],
         "action": "ClickSelf"
     },
