@@ -8,11 +8,15 @@
     },
     "Phantom@Roguelike@NextLevel": {
         "text": [
-            "Mist-stricken Missteps",
+            "Mist-stricken",
+            "Missteps",
             "Sunset Courtyard",
-            "Homeland Remnants",
-            "Nightmare's Prelude",
-            "Blood-soaked Corridor",
+            "Homeland",
+            "Remnants",
+            "Nightmare's",
+            "Prelude",
+            "Blood-soaked",
+            "Corridor",
             "Hall of Desires"
         ]
     },
@@ -25,44 +29,44 @@
     "Phantom@Roguelike@StrategyChange_mode0": {
         "roi": [541, 5, 241, 71],
         "ocrReplace": [
-            ["Mist-stricken Missteps", "_aggressive"],
+            ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
-            ["Homeland Remnants", "_aggressive"],
-            ["Nightmare's Prelude", "_pragmatic"],
-            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Homeland|Remnants", "_aggressive"],
+            ["Nightmare's|Prelude", "_pragmatic"],
+            ["Blood-soaked|Corridor", "_pragmatic"],
             ["Hall of Desires", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "roi": [541, 5, 241, 71],
         "ocrReplace": [
-            ["Mist-stricken Missteps", "_default"],
+            ["Mist-stricken|Missteps", "_default"],
             ["Sunset Courtyard", "_default"],
-            ["Homeland Remnants", "_exit"],
-            ["Nightmare's Prelude", "_exit"],
-            ["Blood-soaked Corridor", "_exit"],
+            ["Homeland|Remnants", "_exit"],
+            ["Nightmare's|Prelude", "_exit"],
+            ["Blood-soaked|Corridor", "_exit"],
             ["Hall of Desires", "_exit"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
         "roi": [541, 5, 241, 71],
         "ocrReplace": [
-            ["Mist-stricken Missteps", "_aggressive"],
+            ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
-            ["Homeland Remnants", "_aggressive"],
-            ["Nightmare's Prelude", "_pragmatic"],
-            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Homeland|Remnants", "_aggressive"],
+            ["Nightmare's|Prelude", "_pragmatic"],
+            ["Blood-soaked|Corridor", "_pragmatic"],
             ["Hall of Desires", "_default"]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
         "roi": [541, 5, 241, 71],
         "ocrReplace": [
-            ["Mist-stricken Missteps", "_aggressive"],
+            ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
-            ["Homeland Remnants", "_aggressive"],
-            ["Nightmare's Prelude", "_pragmatic"],
-            ["Blood-soaked Corridor", "_pragmatic"],
+            ["Homeland|Remnants", "_aggressive"],
+            ["Nightmare's|Prelude", "_pragmatic"],
+            ["Blood-soaked|Corridor", "_pragmatic"],
             ["Hall of Desires", "_default"]
         ]
     }
