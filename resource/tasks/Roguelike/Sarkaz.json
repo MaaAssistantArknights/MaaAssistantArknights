@@ -1242,8 +1242,16 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode1": {
-        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode4",
-        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡.*断章", "_exit"]
+        ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
         "text": ["_routing", "_exit"],
