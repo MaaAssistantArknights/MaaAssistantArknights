@@ -34,19 +34,19 @@ public class AwardSettingsUserControlModel : TaskViewModel
 
     public bool ReceiveAward
     {
-        get => GetTaskConfig<AwardTask>()?.Award ?? default;
+        get => GetTaskConfig<AwardTask>().Award;
         set => SetTaskConfig<AwardTask>(t => t.Award == value, t => t.Award = value);
     }
 
     public bool ReceiveMail
     {
-        get => GetTaskConfig<AwardTask>()?.Mail ?? default;
+        get => GetTaskConfig<AwardTask>().Mail;
         set => SetTaskConfig<AwardTask>(t => t.Mail == value, t => t.Mail = value);
     }
 
     public bool ReceiveFreeGacha
     {
-        get => GetTaskConfig<AwardTask>()?.FreeGacha ?? default;
+        get => GetTaskConfig<AwardTask>().FreeGacha;
         set
         {
             if (value)
@@ -71,19 +71,19 @@ public class AwardSettingsUserControlModel : TaskViewModel
 
     public bool ReceiveOrundum
     {
-        get => GetTaskConfig<AwardTask>()?.Orundum ?? default;
+        get => GetTaskConfig<AwardTask>().Orundum;
         set => SetTaskConfig<AwardTask>(t => t.Orundum == value, t => t.Orundum = value);
     }
 
     public bool ReceiveMining
     {
-        get => GetTaskConfig<AwardTask>()?.Mining ?? default;
+        get => GetTaskConfig<AwardTask>().Mining;
         set => SetTaskConfig<AwardTask>(t => t.Mining == value, t => t.Mining = value);
     }
 
     public bool ReceiveSpecialAccess
     {
-        get => GetTaskConfig<AwardTask>()?.SpecialAccess ?? default;
+        get => GetTaskConfig<AwardTask>().SpecialAccess;
         set => SetTaskConfig<AwardTask>(t => t.SpecialAccess == value, t => t.SpecialAccess = value);
     }
 

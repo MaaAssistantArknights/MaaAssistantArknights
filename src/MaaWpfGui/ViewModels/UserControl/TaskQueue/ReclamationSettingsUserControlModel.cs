@@ -51,7 +51,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// </summary>
     public Theme ReclamationTheme
     {
-        get => GetTaskConfig<ReclamationTask>()?.Theme ?? default;
+        get => GetTaskConfig<ReclamationTask>().Theme;
         set => SetTaskConfig<ReclamationTask>(t => t.Theme == value, t => t.Theme = value);
     }
 
@@ -69,13 +69,13 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// </summary>
     public Mode ReclamationMode
     {
-        get => GetTaskConfig<ReclamationTask>()?.Mode ?? default;
+        get => GetTaskConfig<ReclamationTask>().Mode;
         set => SetTaskConfig<ReclamationTask>(t => t.Mode == value, t => t.Mode = value);
     }
 
     public string ReclamationToolToCraft
     {
-        get => GetTaskConfig<ReclamationTask>()?.ToolToCraft ?? string.Empty;
+        get => GetTaskConfig<ReclamationTask>().ToolToCraft;
         set
         {
             value = value.Replace('；', ';').Trim();
@@ -94,13 +94,13 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
 
     public int ReclamationIncrementMode
     {
-        get => GetTaskConfig<ReclamationTask>()?.IncrementMode ?? default;
+        get => GetTaskConfig<ReclamationTask>().IncrementMode;
         set => SetTaskConfig<ReclamationTask>(t => t.IncrementMode == value, t => t.IncrementMode = value);
     }
 
     public int ReclamationMaxCraftCountPerRound
     {
-        get => GetTaskConfig<ReclamationTask>()?.MaxCraftCountPerRound ?? default;
+        get => GetTaskConfig<ReclamationTask>().MaxCraftCountPerRound;
         set => SetTaskConfig<ReclamationTask>(t => t.MaxCraftCountPerRound == value, t => t.MaxCraftCountPerRound = value);
     }
 
@@ -114,7 +114,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
 
     public bool ReclamationClearStore
     {
-        get => GetTaskConfig<ReclamationTask>()?.ClearStore ?? default;
+        get => GetTaskConfig<ReclamationTask>().ClearStore;
         set => SetTaskConfig<ReclamationTask>(t => t.ClearStore == value, t => t.ClearStore = value);
     }
 

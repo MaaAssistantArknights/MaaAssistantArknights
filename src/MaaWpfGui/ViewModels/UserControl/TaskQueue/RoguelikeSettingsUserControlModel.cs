@@ -370,7 +370,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public Theme RoguelikeTheme
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Theme ?? default;
+        get => GetTaskConfig<RoguelikeTask>().Theme;
         set
         {
             SetTaskConfig<RoguelikeTask>(t => t.Theme == value, t => t.Theme = value);
@@ -415,7 +415,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     public int RoguelikeDifficulty
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Difficulty ?? default;
+        get => GetTaskConfig<RoguelikeTask>().Difficulty;
         set => SetTaskConfig<RoguelikeTask>(t => t.Difficulty == value, t => t.Difficulty = value);
     }
 
@@ -426,7 +426,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public Mode RoguelikeMode
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Mode ?? default;
+        get => GetTaskConfig<RoguelikeTask>().Mode;
         set
         {
             if (value == Mode.Investment)
@@ -444,7 +444,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string RoguelikeSquad
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Squad ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().Squad;
         set => SetTaskConfig<RoguelikeTask>(t => t.Squad == value, t => t.Squad = value);
     }
 
@@ -453,7 +453,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string RoguelikeCollectibleModeSquad
     {
-        get => GetTaskConfig<RoguelikeTask>()?.SquadCollectible ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().SquadCollectible;
         set => SetTaskConfig<RoguelikeTask>(t => t.SquadCollectible == value, t => t.SquadCollectible = value);
     }
 
@@ -468,7 +468,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string RoguelikeRoles
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Roles ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().Roles;
         set => SetTaskConfig<RoguelikeTask>(t => t.Roles == value, t => t.Roles = value);
     }
 
@@ -477,7 +477,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string RoguelikeCoreChar
     {
-        get => GetTaskConfig<RoguelikeTask>()?.CoreChar ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().CoreChar;
         set
         {
             if (!SetTaskConfig<RoguelikeTask>(t => t.CoreChar == value, t => t.CoreChar = value))
@@ -513,7 +513,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeStartWithEliteTwo
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StartWithEliteTwo ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StartWithEliteTwo;
         set
         {
             switch (value)
@@ -536,7 +536,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeOnlyStartWithEliteTwoRaw
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StartWithEliteTwoOnly ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StartWithEliteTwoOnly;
         set => SetTaskConfig<RoguelikeTask>(t => t.StartWithEliteTwoOnly == value, t => t.StartWithEliteTwoOnly = value);
     }
 
@@ -552,7 +552,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     private void UpdateRoguelikeStartWithAllDict()
     {
-        var config = GetTaskConfig<RoguelikeTask>()?.CollectibleStartAwards ?? default;
+        var config = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
         var list = new List<GenericCombinedData<RoguelikeCollectibleAward>>()
         {
            new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKettle"), Value = RoguelikeCollectibleAward.HotWater },
@@ -587,7 +587,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     {
         get
         {
-            var value = GetTaskConfig<RoguelikeTask>()?.CollectibleStartAwards ?? default;
+            var value = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
             return RoguelikeStartAwards.Where(v => value.HasFlag(v.Value)).ToArray();
         }
 
@@ -603,13 +603,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool Roguelike3FirstFloorFoldartal
     {
-        get => GetTaskConfig<RoguelikeTask>()?.SamiFirstFloorFoldartal ?? default;
+        get => GetTaskConfig<RoguelikeTask>().SamiFirstFloorFoldartal;
         set => SetTaskConfig<RoguelikeTask>(t => t.SamiFirstFloorFoldartal == value, t => t.SamiFirstFloorFoldartal = value);
     }
 
     public string Roguelike3FirstFloorFoldartals
     {
-        get => GetTaskConfig<RoguelikeTask>()?.SamiFirstFloorFoldartals ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().SamiFirstFloorFoldartals;
         set
         {
             value = value.Trim();
@@ -622,13 +622,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool Roguelike3NewSquad2StartingFoldartal
     {
-        get => GetTaskConfig<RoguelikeTask>()?.SamiNewSquad2StartingFoldartal ?? default;
+        get => GetTaskConfig<RoguelikeTask>().SamiNewSquad2StartingFoldartal;
         set => SetTaskConfig<RoguelikeTask>(t => t.SamiNewSquad2StartingFoldartal == value, t => t.SamiNewSquad2StartingFoldartal = value);
     }
 
     public string Roguelike3NewSquad2StartingFoldartals
     {
-        get => GetTaskConfig<RoguelikeTask>()?.SamiNewSquad2StartingFoldartals ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().SamiNewSquad2StartingFoldartals;
         set
         {
             value = value.Replace('；', ';').Trim();
@@ -642,7 +642,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string RoguelikeExpectedCollapsalParadigms
     {
-        get => GetTaskConfig<RoguelikeTask>()?.ExpectedCollapsalParadigms ?? string.Empty;
+        get => GetTaskConfig<RoguelikeTask>().ExpectedCollapsalParadigms;
         set
         {
             value = value.Replace('；', ';').Trim();
@@ -655,7 +655,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeUseSupportUnit
     {
-        get => GetTaskConfig<RoguelikeTask>()?.UseSupport ?? default;
+        get => GetTaskConfig<RoguelikeTask>().UseSupport;
         set
         {
             if (value && RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional)
@@ -672,7 +672,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeEnableNonfriendSupport
     {
-        get => GetTaskConfig<RoguelikeTask>()?.UseSupportNonFriend ?? default;
+        get => GetTaskConfig<RoguelikeTask>().UseSupportNonFriend;
         set => SetTaskConfig<RoguelikeTask>(t => t.UseSupportNonFriend == value, t => t.UseSupportNonFriend = value);
     }
 
@@ -681,7 +681,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int RoguelikeStartsCount
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StartCount ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StartCount;
         set => SetTaskConfig<RoguelikeTask>(t => t.StartCount == value, t => t.StartCount = value);
     }
 
@@ -690,7 +690,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeInvestmentEnabled
     {
-        get => GetTaskConfig<RoguelikeTask>()?.Investment ?? default;
+        get => GetTaskConfig<RoguelikeTask>().Investment;
         set => SetTaskConfig<RoguelikeTask>(t => t.Investment == value, t => t.Investment = value);
     }
 
@@ -699,27 +699,27 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeInvestmentWithMoreScoreRaw
     {
-        get => GetTaskConfig<RoguelikeTask>()?.InvestWithMoreScore ?? default;
+        get => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore;
         set => SetTaskConfig<RoguelikeTask>(t => t.InvestWithMoreScore == value, t => t.InvestWithMoreScore = value);
     }
 
     /// <summary>
     /// Gets a value indicating whether investment is enabled.
     /// </summary>
-    public bool RoguelikeInvestmentWithMoreScore => (GetTaskConfig<RoguelikeTask>()?.InvestWithMoreScore ?? default) && RoguelikeMode == Mode.Investment;
+    public bool RoguelikeInvestmentWithMoreScore => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore && RoguelikeMode == Mode.Investment;
 
     /// <summary>
     /// Gets or sets a value indicating whether shopping is enabled in LastReward Mode.
     /// </summary>
     public bool RoguelikeCollectibleModeShopping
     {
-        get => GetTaskConfig<RoguelikeTask>()?.CollectibleShopping ?? default;
+        get => GetTaskConfig<RoguelikeTask>().CollectibleShopping;
         set => SetTaskConfig<RoguelikeTask>(t => t.CollectibleShopping == value, t => t.CollectibleShopping = value);
     }
 
     public bool RoguelikeRefreshTraderWithDiceRaw
     {
-        get => GetTaskConfig<RoguelikeTask>()?.RefreshTraderWithDice ?? default;
+        get => GetTaskConfig<RoguelikeTask>().RefreshTraderWithDice;
         set => SetTaskConfig<RoguelikeTask>(t => t.RefreshTraderWithDice == value, t => t.RefreshTraderWithDice = value);
     }
 
@@ -728,7 +728,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int RoguelikeInvestsCount
     {
-        get => GetTaskConfig<RoguelikeTask>()?.InvestCount ?? default;
+        get => GetTaskConfig<RoguelikeTask>().InvestCount;
         set => SetTaskConfig<RoguelikeTask>(t => t.InvestCount == value, t => t.InvestCount = value);
     }
 
@@ -737,7 +737,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeStopWhenInvestmentFull
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StopWhenDepositFull ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StopWhenDepositFull;
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenDepositFull == value, t => t.StopWhenDepositFull = value);
     }
 
@@ -746,7 +746,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeStopAtFinalBoss
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StopAtFinalBoss ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StopAtFinalBoss;
         set => SetTaskConfig<RoguelikeTask>(t => t.StopAtFinalBoss == value, t => t.StopAtFinalBoss = value);
     }
 
@@ -755,13 +755,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeMonthlySquadAutoIterate
     {
-        get => GetTaskConfig<RoguelikeTask>()?.MonthlySquadAutoIterate ?? default;
+        get => GetTaskConfig<RoguelikeTask>().MonthlySquadAutoIterate;
         set => SetTaskConfig<RoguelikeTask>(t => t.MonthlySquadAutoIterate == value, t => t.MonthlySquadAutoIterate = value);
     }
 
     public bool RoguelikeMonthlySquadCheckComms
     {
-        get => GetTaskConfig<RoguelikeTask>()?.MonthlySquadCheckComms ?? default;
+        get => GetTaskConfig<RoguelikeTask>().MonthlySquadCheckComms;
         set => SetTaskConfig<RoguelikeTask>(t => t.MonthlySquadCheckComms == value, t => t.MonthlySquadCheckComms = value);
     }
 
@@ -770,7 +770,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeDeepExplorationAutoIterate
     {
-        get => GetTaskConfig<RoguelikeTask>()?.DeepExplorationAutoIterate ?? default;
+        get => GetTaskConfig<RoguelikeTask>().DeepExplorationAutoIterate;
         set => SetTaskConfig<RoguelikeTask>(t => t.DeepExplorationAutoIterate == value, t => t.DeepExplorationAutoIterate = value);
     }
 
@@ -779,7 +779,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RoguelikeStopAtMaxLevel
     {
-        get => GetTaskConfig<RoguelikeTask>()?.StopWhenLevelMax ?? default;
+        get => GetTaskConfig<RoguelikeTask>().StopWhenLevelMax;
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
