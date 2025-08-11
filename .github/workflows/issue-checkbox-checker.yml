@@ -16,8 +16,21 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
+          // 找不到###就算了
+          if (!/###([^#]+)###/.test(context.payload.issue.body)) {
+            return false;
+          }
+          var checkList = /###([^#]+)###/.exec(context.payload.issue.body)[1];
+          const UnreadRegexCn = /- \[x\]\s*.*?我.*未仔细阅读/i;
+          const UnreadRegexCn_ = /- \[ \]\s*.*?我.*未仔细阅读/i;
+          if (/- \[(x| )\]\s*.*?[\u4e00-\u9fa5]+/i.test(checkList)) { // 中英区分
+            if (UnreadRegexCn.test(checkList)) {
+              return true;
+            }
+            checkList = checkList.replace(UnreadRegexCn_, "");
+            return /- \[ \]\s*.*?[\u4e00-\u9fa5]+/i.test(checkList);
+          }
           const texts = [
-          '我.*未仔细阅读',
           'I have checked all the options without carefully reading the content and believe this will not affect issue resolution.'];
           return texts.some(text => new RegExp(`- \\[x\\]\\s*${text}`).test(context.payload.issue.body));
 
@@ -26,14 +39,6 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          await github.rest.issues.update({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-            state: 'closed',
-            state_reason: 'not_planned'
-          });
-          
           await github.rest.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
