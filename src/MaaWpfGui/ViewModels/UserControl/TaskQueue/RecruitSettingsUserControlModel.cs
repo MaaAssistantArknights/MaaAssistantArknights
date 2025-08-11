@@ -57,7 +57,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     {
         get
         {
-            var value = GetTaskConfig<RecruitTask>()?.Level3PreferTags ?? [];
+            var value = GetTaskConfig<RecruitTask>().Level3PreferTags;
             return value.Select(tag => _autoRecruitTagShowList.Value.FirstOrDefault(i => i.Value == tag)).Where(v => v is not null).Cast<CombinedData>().ToArray();
         }
 
@@ -73,7 +73,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int RecruitMaxTimes
     {
-        get => GetTaskConfig<RecruitTask>()?.MaxTimes ?? default;
+        get => GetTaskConfig<RecruitTask>().MaxTimes;
         set => SetTaskConfig<RecruitTask>(t => t.MaxTimes == value, t => t.MaxTimes = value);
     }
 
@@ -82,7 +82,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool RefreshLevel3
     {
-        get => GetTaskConfig<RecruitTask>()?.RefreshLevel3 ?? default;
+        get => GetTaskConfig<RecruitTask>().RefreshLevel3;
         set => SetTaskConfig<RecruitTask>(t => t.RefreshLevel3 == value, t => t.RefreshLevel3 = value);
     }
 
@@ -91,7 +91,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool ForceRefresh
     {
-        get => GetTaskConfig<RecruitTask>()?.ForceRefresh ?? default;
+        get => GetTaskConfig<RecruitTask>().ForceRefresh;
         set => SetTaskConfig<RecruitTask>(t => t.ForceRefresh == value, t => t.ForceRefresh = value);
     }
 
@@ -143,7 +143,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int SelectExtraTags
     {
-        get => GetTaskConfig<RecruitTask>()?.ExtraTagMode ?? default;
+        get => GetTaskConfig<RecruitTask>().ExtraTagMode;
         set => SetTaskConfig<RecruitTask>(t => t.ExtraTagMode == value, t => t.ExtraTagMode = value);
     }
 
@@ -152,7 +152,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool NotChooseLevel1
     {
-        get => GetTaskConfig<RecruitTask>()?.Level1NotChoose ?? default;
+        get => GetTaskConfig<RecruitTask>().Level1NotChoose;
         set => SetTaskConfig<RecruitTask>(t => t.Level1NotChoose == value, t => t.Level1NotChoose = value);
     }
 
@@ -161,7 +161,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool ChooseLevel3
     {
-        get => GetTaskConfig<RecruitTask>()?.Level3Choose ?? default;
+        get => GetTaskConfig<RecruitTask>().Level3Choose;
         set => SetTaskConfig<RecruitTask>(t => t.Level3Choose == value, t => t.Level3Choose = value);
     }
 
@@ -170,7 +170,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool ChooseLevel4
     {
-        get => GetTaskConfig<RecruitTask>()?.Level4Choose ?? default;
+        get => GetTaskConfig<RecruitTask>().Level4Choose;
         set => SetTaskConfig<RecruitTask>(t => t.Level4Choose == value, t => t.Level4Choose = value);
     }
 
@@ -179,7 +179,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool ChooseLevel5
     {
-        get => GetTaskConfig<RecruitTask>()?.Level5Choose ?? default;
+        get => GetTaskConfig<RecruitTask>().Level5Choose;
         set => SetTaskConfig<RecruitTask>(t => t.Level5Choose == value, t => t.Level5Choose = value);
     }
 
@@ -197,7 +197,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
 
     public int ChooseLevel3Time
     {
-        get => GetTaskConfig<RecruitTask>()?.Level3Time ?? default;
+        get => GetTaskConfig<RecruitTask>().Level3Time;
         set
         {
             value = value switch
@@ -224,7 +224,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
 
     public int ChooseLevel4Time
     {
-        get => GetTaskConfig<RecruitTask>()?.Level4Time ?? default;
+        get => GetTaskConfig<RecruitTask>().Level4Time;
         set
         {
             value = value switch
@@ -251,7 +251,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
 
     public int ChooseLevel5Time
     {
-        get => GetTaskConfig<RecruitTask>()?.Level5Time ?? default;
+        get => GetTaskConfig<RecruitTask>().Level5Time;
         set
         {
             value = value switch
