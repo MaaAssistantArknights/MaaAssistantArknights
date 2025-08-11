@@ -28,7 +28,7 @@ using Theme = MaaWpfGui.Configuration.Single.MaaTask.ReclamationTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class ReclamationSettingsUserControlModel : TaskViewModel
+public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
 {
     static ReclamationSettingsUserControlModel()
     {

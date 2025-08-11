@@ -34,7 +34,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 信用购物
 /// </summary>
-public class MallSettingsUserControlModel : TaskViewModel
+public class MallSettingsUserControlModel : TaskSettingsViewModel
 {
     static MallSettingsUserControlModel()
     {

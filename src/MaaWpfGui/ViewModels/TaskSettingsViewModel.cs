@@ -1,4 +1,4 @@
-// <copyright file="TaskViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="TaskSettingsViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -28,11 +28,11 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-public abstract class TaskViewModel : PropertyChangedBase
+public abstract class TaskSettingsViewModel : PropertyChangedBase
 {
     private readonly Dictionary<string, List<string>> _propertyDependencies = []; // 属性依赖关系, key为被订阅的属性名, value为依赖于该属性的属性名列表
 
-    protected TaskViewModel()
+    protected TaskSettingsViewModel()
     {
         InitializePropertyDependencies();
     }

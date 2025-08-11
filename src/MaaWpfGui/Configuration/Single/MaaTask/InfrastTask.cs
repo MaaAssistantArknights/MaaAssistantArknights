@@ -58,6 +58,11 @@ public class InfrastTask : BaseTask
     public bool ReceptionMessageBoard { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 会客室线索交换
+    /// </summary>
+    public bool ReceptionClueExchange { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 继续专精
     /// </summary>
     public bool ContinueTraining { get; set; } = false;

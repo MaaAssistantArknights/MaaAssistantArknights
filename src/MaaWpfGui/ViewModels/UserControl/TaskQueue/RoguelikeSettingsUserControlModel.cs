@@ -33,7 +33,7 @@ using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-public class RoguelikeSettingsUserControlModel : TaskViewModel
+public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
 {
     static RoguelikeSettingsUserControlModel()
     {

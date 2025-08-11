@@ -26,7 +26,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class CustomSettingsUserControlModel : TaskViewModel
+public class CustomSettingsUserControlModel : TaskSettingsViewModel
 {
     static CustomSettingsUserControlModel()
     {

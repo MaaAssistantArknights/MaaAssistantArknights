@@ -38,7 +38,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 刷理智
 /// </summary>
-public class FightSettingsUserControlModel : TaskViewModel
+public class FightSettingsUserControlModel : TaskSettingsViewModel
 {
     public static FightTimes? FightReport { get; set; }
 
