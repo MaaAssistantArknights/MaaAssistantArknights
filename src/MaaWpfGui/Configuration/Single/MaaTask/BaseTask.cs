@@ -90,8 +90,4 @@ public class OperBoxTask : BaseTask
 {
 }
 
-public class CustomTask : BaseTask
-{
-}
-
 #pragma warning restore SA1402 // File may only contain a single type
