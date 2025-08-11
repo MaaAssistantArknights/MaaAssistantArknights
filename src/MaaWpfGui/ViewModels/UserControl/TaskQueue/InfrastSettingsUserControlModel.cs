@@ -59,37 +59,30 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
 
-    public void InitInfrast()
+    public void InitInfrastRoomList()
     {
-        var roomTypes = Enum.GetNames(typeof(InfrastRoomType));
-        var list = new List<KeyValuePair<string, int>>();
-        var roomList = new List<DragItemViewModel>(roomTypes.Length);
-        foreach (var item in roomTypes)
+        var roomList = new List<InfrastRoomItemViewModel>();
+        foreach (var (room, isEnabled) in GetTaskConfig<InfrastTask>().RoomList)
         {
-            var index = ConfigurationHelper.GetValue("Infrast.Order." + item, -1);
-            list.Add(new KeyValuePair<string, int>(item, index));
-        }
-
-        list.Sort((x, y) => x.Value.CompareTo(y.Value));
-        for (int i = 0; i < list.Count; ++i)
-        {
-            var item = list[i];
-            if (item.Value != i)
+            var item = new InfrastRoomItemViewModel(room, isEnabled);
+            item.PropertyChanged += (sender, args) =>
             {
-                ConfigurationHelper.SetValue("Infrast.Order." + item.Key, i.ToString());
-            }
-
-            roomList.Add(new DragItemViewModel(LocalizationHelper.GetString(item.Key), item.Key, "Infrast."));
+                if (args.PropertyName == nameof(InfrastRoomItemViewModel.IsEnabled))
+                {
+                    InfrastOrderSelectionChanged(sender, null);
+                }
+            };
+            roomList.Add(item);
         }
 
-        InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(roomList);
-        InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
+        InfrastRoomModels = new ObservableCollection<InfrastRoomItemViewModel>(roomList);
+        InfrastRoomModels.CollectionChanged += InfrastOrderSelectionChanged;
     }
 
     /// <summary>
     /// Gets or sets the infrast item view models.
     /// </summary>
-    public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; } = [];
+    public ObservableCollection<InfrastRoomItemViewModel> InfrastRoomModels { get; set; } = [];
 
     /// <summary>
     /// Gets the list of uses of drones.
@@ -131,18 +124,15 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// Gets infrast order list.
     /// </summary>
     /// <returns>The infrast order list.</returns>
-    public List<string> GetInfrastOrderList()
-    {
-        return InfrastItemViewModels.Where(i => InfrastMode == Mode.Rotation || i.IsChecked).Select(i => i.OriginalName).ToList();
-    }
+    public List<string> GetInfrastOrderList() => [.. InfrastRoomModels.Where(i => InfrastMode == Mode.Rotation || i.IsEnabled).Select(i => i.Name)];
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void InfrastItemSelectedAll()
     {
-        foreach (var item in InfrastItemViewModels)
+        foreach (var item in InfrastRoomModels)
         {
-            item.IsChecked = true;
+            item.IsEnabled = true;
         }
     }
 
@@ -150,9 +140,9 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     [UsedImplicitly]
     public void InfrastItemUnselectedAll()
     {
-        foreach (var item in InfrastItemViewModels)
+        foreach (var item in InfrastRoomModels)
         {
-            item.IsChecked = false;
+            item.IsEnabled = false;
         }
     }
 
@@ -161,15 +151,10 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     /// <param name="sender">ignored object</param>
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
-    public void InfrastOrderSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
+    public void InfrastOrderSelectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
-        _ = (sender, e);
-        int index = 0;
-        foreach (var item in InfrastItemViewModels)
-        {
-            ConfigurationHelper.SetValue("Infrast.Order." + item.OriginalName, index.ToString());
-            ++index;
-        }
+        var list = InfrastRoomModels.Select<InfrastRoomItemViewModel, (InfrastRoomType Room, bool IsEnabled)>(i => new(i.RoomType, i.IsEnabled)).ToList();
+        SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }
 
     /// <summary>
@@ -568,6 +553,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         if (baseTask is InfrastTask)
         {
             Refresh();
+            InitInfrastRoomList();
         }
     }
 
