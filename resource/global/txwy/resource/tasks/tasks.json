@@ -755,36 +755,6 @@
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
     },
-    "InfrastDormMini": {
-        "roi": [620, 240, 360, 480]
-    },
-    "InfrastOffice": {
-        "roi": [880, 330, 400, 160]
-    },
-    "InfrastOfficeMini": {
-        "roi": [980, 320, 300, 160]
-    },
-    "InfrastProcessing": {
-        "roi": [880, 200, 400, 200]
-    },
-    "InfrastProcessingMini": {
-        "roi": [980, 240, 300, 160]
-    },
-    "InfrastReception": {
-        "roi": [880, 120, 400, 160]
-    },
-    "InfrastReceptionMini": {
-        "roi": [980, 180, 300, 140]
-    },
-    "InfrastTraining": {
-        "roi": [880, 420, 400, 160]
-    },
-    "InfrastTrainingMini": {
-        "roi": [980, 400, 300, 140]
-    },
-    "InfrastControlMini": {
-        "roi": [620, 80, 360, 230]
-    },
     "InfrastStationedInfo": {
         "text": ["進駐資訊", "焦駐資訊"]
     },
