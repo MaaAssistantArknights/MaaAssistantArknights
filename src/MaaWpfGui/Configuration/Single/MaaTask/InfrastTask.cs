@@ -13,6 +13,7 @@
 
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
@@ -77,5 +78,6 @@ public class InfrastTask : BaseTask
     /// </summary>
     public int PlanIndex { get; set; }
 
-    public List<(InfrastRoomType Room, bool IsEnabled)> RoomList { get; set; } = [];
+    public List<(InfrastRoomType Room, bool IsEnabled)> RoomList { get; set; } =
+       [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, (InfrastRoomType, bool)>(i => new(i, true))];
 }
