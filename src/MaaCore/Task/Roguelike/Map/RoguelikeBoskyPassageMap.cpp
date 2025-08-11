@@ -72,12 +72,6 @@ void RoguelikeBoskyPassageMap::reset()
     for (auto& n : m_nodes) {
         n = Node {}; // reset
     }
-
-    // 创建中心节点
-    if (auto center = create_and_insert_node(CENTER_X, CENTER_Y, RoguelikeNodeType::Init); center.has_value()) {
-        Node& c = m_nodes[center.value()];
-        c.is_open = false;
-    }
     m_existing_count = 0;
 }
 
