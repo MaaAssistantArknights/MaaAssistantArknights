@@ -586,6 +586,7 @@ namespace MaaWpfGui.Helper
                 {
                     Instance.Unlock(AchievementIds.Pioneer1);
                 }
+
                 // 内测版要传入 SemVersion 判断，这里就取反判断了
                 else if (!Instances.VersionUpdateViewModel.IsStdVersion())
                 {
