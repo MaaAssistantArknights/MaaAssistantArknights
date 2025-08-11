@@ -2078,7 +2078,7 @@
     },
     "DailyTask": {
         "baseTask": "WeeklyTask",
-        "template": "WeeklyTask",
+        "template": "WeeklyTask.png",
         "rectMove": [-150, 0, 100, 30],
         "next": ["ReceiveAward", "WeeklyTask"]
     },
@@ -2381,7 +2381,7 @@
     },
     "SupportListAnalyzer-Elite": {
         "doc": "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英化等级识别用 roi 为 [r.x + roi.x, r.y - roi,y, roi.w, roi.h]",
-        "template": ["SupportListAnalyzer-Elite-2", "SupportListAnalyzer-Elite-1"],
+        "template": ["SupportListAnalyzer-Elite-2.png", "SupportListAnalyzer-Elite-1.png"],
         "roi": [35, -187, 60, 50],
         "templThreshold": 0.7,
         "method": ["RGBCount", "RGBCount"],
@@ -5251,7 +5251,7 @@
     },
     "UseSupportUnit-InSupportList": {
         "doc": "通过识别右上角 <更新助战列表> 文字左边的 Icon 或者 冷却倒计时左边的 Icon 判断是否已进入助战列表",
-        "template": ["UseSupportUnit-Refresh", "UseSupportUnit-RefreshCooldown"],
+        "template": ["UseSupportUnit-Refresh.png", "UseSupportUnit-RefreshCooldown.png"],
         "roi": [1096, 12, 61, 52]
     },
     "UseSupportUnit-LeaveSupportList": {
@@ -5261,7 +5261,7 @@
     },
     "UseSupportUnit-LeaveSupportList-InSupportList": {
         "baseTask": "UseSupportUnit-InSupportList",
-        "template": ["UseSupportUnit-Refresh", "UseSupportUnit-RefreshCooldown"],
+        "template": ["UseSupportUnit-Refresh.png", "UseSupportUnit-RefreshCooldown.png"],
         "next": ["UseSupportUnit-ReturnButton"]
     },
     "UseSupportUnit-MaxSpecLvl-1": {

@@ -460,27 +460,27 @@
     "Sarkaz@Roguelike@RolesDefault": {},
     "Sarkaz@Roguelike@Routing": {
         "template": [
-            "Sarkaz@Roguelike@StageCombatDps",
-            "Sarkaz@Roguelike@StageEmergencyDps",
-            "Sarkaz@Roguelike@StageDreadfulFoe",
-            "Sarkaz@Roguelike@StageDreadfulFoe-5",
-            "Sarkaz@Roguelike@StageEncounter",
-            "Sarkaz@Roguelike@StageBoons",
-            "Sarkaz@Roguelike@StageSafeHouse",
-            "Sarkaz@Roguelike@StageSafeHouseCR",
-            "Sarkaz@Roguelike@StageSafeHouseHD",
-            "Sarkaz@Roguelike@StageGambling",
-            "Sarkaz@Roguelike@StageTrader",
-            "Sarkaz@Roguelike@StageTraderCR",
-            "Sarkaz@Roguelike@StageTraderHD",
-            "Sarkaz@Roguelike@StageWindAndRain",
-            "Sarkaz@Roguelike@StageEmergencyTransportation",
-            "Sarkaz@Roguelike@StageBoskyPassage",
-            "Sarkaz@Roguelike@StageProphecy",
-            "Sarkaz@Roguelike@StageFilterTruth",
-            "Sarkaz@Roguelike@StageFilterTruthCR",
-            "Sarkaz@Roguelike@StageFilterTruthHD",
-            "Sarkaz@Roguelike@StageConfrontation"
+            "Sarkaz@Roguelike@StageCombatDps.png",
+            "Sarkaz@Roguelike@StageEmergencyDps.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
+            "Sarkaz@Roguelike@StageEncounter.png",
+            "Sarkaz@Roguelike@StageBoons.png",
+            "Sarkaz@Roguelike@StageSafeHouse.png",
+            "Sarkaz@Roguelike@StageSafeHouseCR.png",
+            "Sarkaz@Roguelike@StageSafeHouseHD.png",
+            "Sarkaz@Roguelike@StageGambling.png",
+            "Sarkaz@Roguelike@StageTrader.png",
+            "Sarkaz@Roguelike@StageTraderCR.png",
+            "Sarkaz@Roguelike@StageTraderHD.png",
+            "Sarkaz@Roguelike@StageWindAndRain.png",
+            "Sarkaz@Roguelike@StageEmergencyTransportation.png",
+            "Sarkaz@Roguelike@StageBoskyPassage.png",
+            "Sarkaz@Roguelike@StageProphecy.png",
+            "Sarkaz@Roguelike@StageFilterTruth.png",
+            "Sarkaz@Roguelike@StageFilterTruthCR.png",
+            "Sarkaz@Roguelike@StageFilterTruthHD.png",
+            "Sarkaz@Roguelike@StageConfrontation.png"
         ],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
@@ -491,7 +491,7 @@
         "next": []
     },
     "Sarkaz@Roguelike@Routing-FastInvestment": {
-        "template": ["Sarkaz@Roguelike@StageCombatDps"],
+        "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
     "Sarkaz@Roguelike@RoutingAction": {

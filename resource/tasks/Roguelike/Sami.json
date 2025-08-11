@@ -58,14 +58,14 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnStage": {
         "template": [
-            "Sami@Roguelike@OnStage_1",
-            "Sami@Roguelike@OnStage_2",
-            "Sami@Roguelike@OnStage_3",
-            "Sami@Roguelike@OnStage_4",
-            "Sami@Roguelike@OnStage_5",
-            "Sami@Roguelike@OnStage_6",
-            "Sami@Roguelike@OnStage_7",
-            "Sami@Roguelike@OnStage_0"
+            "Sami@Roguelike@OnStage_1.png",
+            "Sami@Roguelike@OnStage_2.png",
+            "Sami@Roguelike@OnStage_3.png",
+            "Sami@Roguelike@OnStage_4.png",
+            "Sami@Roguelike@OnStage_5.png",
+            "Sami@Roguelike@OnStage_6.png",
+            "Sami@Roguelike@OnStage_7.png",
+            "Sami@Roguelike@OnStage_0.png"
         ],
         "templThreshold": 0.96,
         "roi": [590, 45, 45, 35]
