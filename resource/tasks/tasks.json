@@ -2461,7 +2461,7 @@
         "next": [
             "Infrast",
             "InfrastNotification",
-            "InfrastEnteredFlag",
+            "InfrastPreEnteredFlag",
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
@@ -2491,12 +2491,17 @@
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
         "action": "ClickSelf",
-        "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"],
+        "next": ["InfrastPreEnteredDelay", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"],
         "postDelay": 5000,
         "crop_doc": {
             "roi": [935, 570, 85, 75],
             "mask": []
         }
+    },
+    "InfrastPreEnteredDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["InfrastEnteredFlag"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
