@@ -133,7 +133,7 @@ public partial class Build
             MaaChangelogFile = RootDirectory / "CHANGELOG.md";
 
             // 项目
-            var maaSolution = ProjectModelTasks.ParseSolution(RootDirectory / "MAA.sln");
+            var maaSolution = SolutionModelTasks.ParseSolution(RootDirectory / "MAA.sln");
             Assert.True(maaSolution is not null, "无法载入 MAA.sln");
             MaaCoreProject = maaSolution.GetProject("MaaCore");
             MaaWpfProject = maaSolution.GetProject("MaaWpfGui");
