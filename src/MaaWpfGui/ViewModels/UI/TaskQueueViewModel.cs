@@ -125,7 +125,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion 长草任务Model
 
-        private static readonly IEnumerable<TaskViewModel> _taskViewModelTypes = InitTaskViewModelList();
+        private static readonly IEnumerable<TaskSettingsViewModel> _taskViewModelTypes = InitTaskViewModelList();
 
         /// <summary>
         /// 实时更新任务顺序
@@ -1585,11 +1585,11 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private static IEnumerable<TaskViewModel> InitTaskViewModelList()
+        private static IEnumerable<TaskSettingsViewModel> InitTaskViewModelList()
         {
             var types = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .Where(t => t is { Namespace: "MaaWpfGui.ViewModels.UserControl.TaskQueue", IsClass: true, IsAbstract: false } && t.IsSubclassOf(typeof(TaskViewModel)));
+                .Where(t => t is { Namespace: "MaaWpfGui.ViewModels.UserControl.TaskQueue", IsClass: true, IsAbstract: false } && t.IsSubclassOf(typeof(TaskSettingsViewModel)));
             foreach (var type in types)
             {
                 // 获取 Instance 字段
@@ -1599,7 +1599,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // 获取实例
-                if (property.GetValue(null) is TaskViewModel instance)
+                if (property.GetValue(null) is TaskSettingsViewModel instance)
                 {
                     yield return instance;
                 }

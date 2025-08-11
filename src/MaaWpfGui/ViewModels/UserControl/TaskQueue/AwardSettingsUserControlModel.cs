@@ -23,7 +23,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class AwardSettingsUserControlModel : TaskViewModel
+public class AwardSettingsUserControlModel : TaskSettingsViewModel
 {
     static AwardSettingsUserControlModel()
     {

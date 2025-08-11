@@ -43,7 +43,7 @@ using Mode = InfrastMode;
 /// <summary>
 /// 基建任务
 /// </summary>
-public class InfrastSettingsUserControlModel : TaskViewModel
+public class InfrastSettingsUserControlModel : TaskSettingsViewModel
 {
     static InfrastSettingsUserControlModel()
     {
@@ -215,16 +215,10 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         set => SetTaskConfig<InfrastTask>(t => t.ReceptionMessageBoard == value, t => t.ReceptionMessageBoard = value);
     }
 
-    private bool _receptionClueExchange = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionClueExchange, bool.TrueString));
-
     public bool ReceptionClueExchange
     {
-        get => _receptionClueExchange;
-        set
-        {
-            SetAndNotify(ref _receptionClueExchange, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionClueExchange, value.ToString());
-        }
+        get => GetTaskConfig<InfrastTask>().ReceptionClueExchange;
+        set => SetTaskConfig<InfrastTask>(t => t.ReceptionClueExchange == value, t => t.ReceptionClueExchange = value);
     }
 
     /// <summary>
@@ -233,7 +227,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool ContinueTraining
     {
         get => GetTaskConfig<InfrastTask>().ContinueTraining;
-        set => SetTaskConfig<InfrastTask>(t => t.ReceptionMessageBoard == value, t => t.ReceptionMessageBoard = value);
+        set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
     private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
@@ -614,6 +608,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             DormTrustEnabled = infrast.DormTrustEnabled,
             OriginiumShardAutoReplenishment = infrast.OriginiumShardAutoReplenishment,
             ReceptionMessageBoard = infrast.ReceptionMessageBoard,
+            ReceptionClueExchange = infrast.ReceptionClueExchange,
             Filename = infrast.Filename,
             PlanIndex = infrast.PlanIndex,
         };

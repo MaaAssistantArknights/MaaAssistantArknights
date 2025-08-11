@@ -188,6 +188,7 @@ public class ConfigConverter
                 infrastTask.Mode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, InfrastMode.Normal);
                 infrastTask.UsesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
                 infrastTask.ReceptionMessageBoard = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, true);
+                infrastTask.ReceptionClueExchange = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastReceptionClueExchange, true);
                 infrastTask.ContinueTraining = ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false);
                 infrastTask.DormThreshold = ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, 30);
                 infrastTask.DormFilterNotStationed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true));
@@ -198,6 +199,7 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastMode);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UsesOfDrones);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.InfrastReceptionClueExchange);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ContinueTraining);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormThreshold);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.DormFilterNotStationedEnabled);

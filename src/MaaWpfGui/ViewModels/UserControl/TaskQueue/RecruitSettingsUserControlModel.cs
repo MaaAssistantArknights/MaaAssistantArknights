@@ -30,7 +30,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 /// <summary>
 /// 自动公招model
 /// </summary>
-public class RecruitSettingsUserControlModel : TaskViewModel
+public class RecruitSettingsUserControlModel : TaskSettingsViewModel
 {
     static RecruitSettingsUserControlModel()
     {
