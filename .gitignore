@@ -470,3 +470,7 @@ Thumbs.db
 
 # MaaSupportExtension config
 /config/maa_pi_config.json
+
+# MaaBuilder
+.github/workflows/release-maa-win.yml
+.github/workflows/dev-build-win.yml
