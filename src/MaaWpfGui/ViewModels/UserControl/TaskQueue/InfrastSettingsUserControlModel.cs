@@ -605,7 +605,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var task = new AsstInfrastTask
         {
             Mode = infrast.Mode,
-            Facilitys = GetInfrastOrderList(),
+            Facilitys = [.. infrast.RoomList.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
             UsesOfDrones = infrast.UsesOfDrones,
             ContinueTraining = infrast.ContinueTraining,
             DormThreshold = infrast.DormThreshold / 100.0,

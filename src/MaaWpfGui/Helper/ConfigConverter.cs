@@ -23,7 +23,6 @@ using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
@@ -207,29 +206,29 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastFile);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastPlanIndex);
 
+                infrastTask.RoomList = [];
                 var roomTypes = Enum.GetNames(typeof(InfrastRoomType));
                 var list = new List<KeyValuePair<string, int>>();
-                var roomList = new List<DragItemViewModel>(roomTypes.Length);
                 foreach (var item in roomTypes)
                 {
                     var index = ConfigurationHelper.GetValue("Infrast.Order." + item, -1);
-                    list.Add(new KeyValuePair<string, int>(item, index));
+                    list.Add(new(item, index));
+                    ConfigurationHelper.DeleteValue("Infrast.Order." + item);
                 }
 
                 list.Sort((x, y) => x.Value.CompareTo(y.Value));
-                for (int i = 0; i < list.Count; ++i)
+                foreach (var (room, isEnable) in list)
                 {
-                    var item = list[i];
-                    if (item.Value != i)
+                    if (Enum.TryParse<InfrastRoomType>(room, out var result))
                     {
-                        ConfigurationHelper.SetValue("Infrast.Order." + item.Key, i.ToString());
+                        infrastTask.RoomList.Add(new(result, ConfigurationHelper.GetValue("Infrast." + room + ".IsChecked", true)));
+                        ConfigurationHelper.DeleteValue("Infrast." + room + ".IsChecked");
                     }
-
-                    roomList.Add(new DragItemViewModel(LocalizationHelper.GetString(item.Key), item.Key, "Infrast."));
+                    else
+                    {
+                        Log.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
+                    }
                 }
-
-                infrastTask.RoomList = [];
-
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
                 recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];
