@@ -18,8 +18,7 @@ bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, b
             }
         }
 
-        int delay = std::min(1500, 300 + i * 50);
-        sleep(delay);
+        sleep(1500);
     }
 
     return false;
