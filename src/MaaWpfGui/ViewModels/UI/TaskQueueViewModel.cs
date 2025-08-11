@@ -1161,8 +1161,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             // TaskItemSelectionChanged();
-            InfrastTask.InfrastOrderSelectionChanged();
-
+            // InfrastTask.InfrastOrderSelectionChanged();
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
@@ -1355,8 +1354,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             // TaskItemSelectionChanged();
-            InfrastTask.InfrastOrderSelectionChanged();
-
+            // InfrastTask.InfrastOrderSelectionChanged();
             ClearLog();
 
             await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
