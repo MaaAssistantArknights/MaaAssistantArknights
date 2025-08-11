@@ -122,7 +122,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public int DormThreshold
     {
-        get => GetTaskConfig<InfrastTask>()?.DormThreshold ?? 30;
+        get => GetTaskConfig<InfrastTask>().DormThreshold;
         set => SetTaskConfig<InfrastTask>(t => t.DormThreshold == value, t => t.DormThreshold = value);
     }
 
@@ -186,7 +186,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public Mode InfrastMode
     {
-        get => GetTaskConfig<InfrastTask>()?.Mode ?? default;
+        get => GetTaskConfig<InfrastTask>().Mode;
         set
         {
             if (!SetTaskConfig<InfrastTask>(t => t.Mode == value, t => t.Mode = value))
@@ -204,13 +204,13 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string UsesOfDrones
     {
-        get => GetTaskConfig<InfrastTask>()?.UsesOfDrones ?? string.Empty;
+        get => GetTaskConfig<InfrastTask>().UsesOfDrones;
         set => SetTaskConfig<InfrastTask>(t => t.UsesOfDrones == value, t => t.UsesOfDrones = value);
     }
 
     public bool ReceptionMessageBoardReceive
     {
-        get => GetTaskConfig<InfrastTask>()?.ReceptionMessageBoard ?? true;
+        get => GetTaskConfig<InfrastTask>().ReceptionMessageBoard;
         set => SetTaskConfig<InfrastTask>(t => t.ReceptionMessageBoard == value, t => t.ReceptionMessageBoard = value);
     }
 
@@ -231,7 +231,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool ContinueTraining
     {
-        get => GetTaskConfig<InfrastTask>()?.ContinueTraining ?? true;
+        get => GetTaskConfig<InfrastTask>().ContinueTraining;
         set => SetTaskConfig<InfrastTask>(t => t.ReceptionMessageBoard == value, t => t.ReceptionMessageBoard = value);
     }
 
@@ -265,7 +265,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool DormFilterNotStationedEnabled
     {
-        get => GetTaskConfig<InfrastTask>()?.DormFilterNotStationed ?? true;
+        get => GetTaskConfig<InfrastTask>().DormFilterNotStationed;
         set => SetTaskConfig<InfrastTask>(t => t.DormFilterNotStationed == value, t => t.DormFilterNotStationed = value);
     }
 
@@ -274,7 +274,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool DormTrustEnabled
     {
-        get => GetTaskConfig<InfrastTask>()?.DormTrustEnabled ?? true;
+        get => GetTaskConfig<InfrastTask>().DormTrustEnabled;
         set => SetTaskConfig<InfrastTask>(t => t.DormTrustEnabled == value, t => t.DormTrustEnabled = value);
     }
 
@@ -283,7 +283,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool OriginiumShardAutoReplenishment
     {
-        get => GetTaskConfig<InfrastTask>()?.OriginiumShardAutoReplenishment ?? true;
+        get => GetTaskConfig<InfrastTask>().OriginiumShardAutoReplenishment;
         set => SetTaskConfig<InfrastTask>(t => t.OriginiumShardAutoReplenishment == value, t => t.OriginiumShardAutoReplenishment = value);
     }
 
@@ -309,7 +309,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public string CustomInfrastFile
     {
-        get => GetTaskConfig<InfrastTask>()?.Filename ?? string.Empty;
+        get => GetTaskConfig<InfrastTask>().Filename;
         set
         {
             SetTaskConfig<InfrastTask>(t => t.Filename == value, t => t.Filename = value);
@@ -333,13 +333,13 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 return 0;
             }
 
-            var value = GetTaskConfig<InfrastTask>()?.PlanIndex ?? 0;
+            var value = GetTaskConfig<InfrastTask>().PlanIndex;
             if (value >= CustomInfrastPlanInfoList.Count || value < 0)
             {
                 CustomInfrastPlanIndex = value;
             }
 
-            return GetTaskConfig<InfrastTask>()?.PlanIndex ?? 0;
+            return GetTaskConfig<InfrastTask>().PlanIndex;
         }
 
         set
@@ -356,7 +356,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 _logger.Warning("CustomInfrastPlanIndex out of range, reset to Index % Count: {Value}", value);
             }
 
-            var index = GetTaskConfig<InfrastTask>()?.PlanIndex ?? 0;
+            var index = GetTaskConfig<InfrastTask>().PlanIndex;
             if (value != index && NeedAddCustomInfrastPlanInfo)
             {
                 var plan = CustomInfrastPlanInfoList[value];
