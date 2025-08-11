@@ -98,7 +98,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
 
         var task = new AsstCustomTask()
         {
-           // CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+           CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
         };
         if (taskId is int id)
         {
