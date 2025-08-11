@@ -1430,24 +1430,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
-            {
-                var task = new AsstFightTask()
-                {
-                    Stage = FightTask.RemainingSanityStage,
-                    MaxTimes = int.MaxValue,
-                    Series = 0,
-                    IsDrGrandet = FightTask.IsDrGrandet,
-                    ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                    ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                    PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                    YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                    ServerType = Instances.SettingsViewModel.ServerType,
-                    ClientType = SettingsViewModel.GameSettings.ClientType,
-                };
-                return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightRemainingSanity, type, task.Serialize().Params);
-            }
-
             return mainFightRet;
         }
 
@@ -1466,33 +1448,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var taskParams = FightTask.Serialize().Params;
-            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-        }
-
-        public static void SetFightRemainingSanityParams()
-        {
-            var type = TaskType.FightRemainingSanity;
-            var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-            if (id == 0)
-            {
-                return;
-            }
-
-            var task = new AsstFightTask()
-            {
-                Stage = FightTask.RemainingSanityStage ?? string.Empty,
-                MaxTimes = int.MaxValue,
-                Series = 0,
-                IsDrGrandet = FightTask.IsDrGrandet,
-                ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
-                ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
-                PenguinId = SettingsViewModel.GameSettings.PenguinId,
-                YituliuId = SettingsViewModel.GameSettings.PenguinId,
-                ServerType = Instances.SettingsViewModel.ServerType,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
-
-            var taskParams = task.Serialize().Params;
             Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 
