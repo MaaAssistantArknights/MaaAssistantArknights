@@ -114,5 +114,10 @@
       }
     }
   },
-  "$ref": "#/definitions/NukeBuild"
+  "allOf": [
+    {},
+    {
+      "$ref": "#/definitions/NukeBuild"
+    }
+  ]
 }
