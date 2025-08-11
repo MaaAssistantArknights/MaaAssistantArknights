@@ -2491,14 +2491,14 @@
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
         "action": "ClickSelf",
-        "next": ["InfrastPreEnteredDelay", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"],
+        "next": ["InfrastPreEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"],
         "postDelay": 5000,
         "crop_doc": {
             "roi": [935, 570, 85, 75],
             "mask": []
         }
     },
-    "InfrastPreEnteredDelay": {
+    "InfrastPreEnteredFlag": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
         "next": ["InfrastEnteredFlag"]
