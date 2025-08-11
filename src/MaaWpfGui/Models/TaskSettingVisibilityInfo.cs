@@ -26,34 +26,34 @@ namespace MaaWpfGui.Models
     {
         public const string DefaultVisibleTaskSetting = "Combat";
 
-        private bool _wakeUp;
-        private bool _recruiting;
-        private bool _base;
+        private bool _startUp;
+        private bool _recruit;
+        private bool _infrast;
         private bool _combat;
         private bool _mall;
-        private bool _mission;
-        private bool _autoRoguelike;
+        private bool _award;
+        private bool _roguelike;
         private bool _reclamation;
-        private bool _afterAction;
+        private bool _postAction;
         private bool _custom;
 
-        public bool WakeUp { get => _wakeUp; set => SetAndNotify(ref _wakeUp, value); }
+        public bool WakeUp { get => _startUp; set => SetAndNotify(ref _startUp, value); }
 
-        public bool Recruiting { get => _recruiting; set => SetAndNotify(ref _recruiting, value); }
+        public bool Recruiting { get => _recruit; set => SetAndNotify(ref _recruit, value); }
 
-        public bool Base { get => _base; set => SetAndNotify(ref _base, value); }
+        public bool Base { get => _infrast; set => SetAndNotify(ref _infrast, value); }
 
         public bool Combat { get => _combat; set => SetAndNotify(ref _combat, value); }
 
         public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
 
-        public bool Mission { get => _mission; set => SetAndNotify(ref _mission, value); }
+        public bool Mission { get => _award; set => SetAndNotify(ref _award, value); }
 
-        public bool AutoRoguelike { get => _autoRoguelike; set => SetAndNotify(ref _autoRoguelike, value); }
+        public bool AutoRoguelike { get => _roguelike; set => SetAndNotify(ref _roguelike, value); }
 
         public bool Reclamation { get => _reclamation; set => SetAndNotify(ref _reclamation, value); }
 
-        public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
+        public bool AfterAction { get => _postAction; set => SetAndNotify(ref _postAction, value); }
 
         public bool Custom { get => _custom; set => SetAndNotify(ref _custom, value); }
 
