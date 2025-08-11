@@ -277,7 +277,8 @@
     "Sami@Roguelike@Foldartal": {
         "action": "ClickSelf",
         "roi": [639, 599, 299, 121],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": ["#self", "Stop"]
     },
     "Sami@Roguelike@FoldartalBack": {
         "action": "ClickSelf",
