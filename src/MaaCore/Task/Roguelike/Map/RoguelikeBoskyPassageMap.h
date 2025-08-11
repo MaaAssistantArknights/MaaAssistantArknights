@@ -20,7 +20,7 @@ public:
     [[nodiscard]] std::optional<size_t>
         create_and_insert_node(int x, int y, RoguelikeNodeType type = RoguelikeNodeType::Unknown);
 
-    void set_passed(size_t index);
+    void set_visited(size_t index);
 
     void set_node_type(size_t index, RoguelikeNodeType type);
 
@@ -33,15 +33,14 @@ public:
 
     [[nodiscard]] static constexpr int height() { return HEIGHT; }
 
-    // 开放但未通关的节点集合
-    [[nodiscard]] std::vector<size_t> get_open_unpassed_nodes() const;
+    // 开放但未访问的节点集合
+    [[nodiscard]] std::vector<size_t> get_open_unvisited_nodes() const;
     // 全部开放节点（包含已通关）
     [[nodiscard]] std::vector<size_t> get_open_nodes() const;
 
     [[nodiscard]] RoguelikeNodeType get_node_type(size_t index) const;
     [[nodiscard]] bool get_node_exists(size_t index) const;
     [[nodiscard]] bool get_node_open(size_t index) const;
-    [[nodiscard]] bool get_node_passed(size_t index) const;
     [[nodiscard]] bool get_node_visited(size_t index) const;
 
     [[nodiscard]] int get_node_x(size_t index) const;
@@ -95,14 +94,16 @@ private:
     struct Node
     {
         RoguelikeNodeType type = RoguelikeNodeType::Unknown;
-        bool exists = false;  // 是否已创建（被识别 or 逻辑生成）
+        bool exists = false;  // 是否已创建
         bool is_open = false; // 是否开放可探索
-        bool passed = false;  // 是否已完成
         bool visited = false; // 是否已访问
     };
 
     std::array<Node, WIDTH * HEIGHT> m_nodes {}; // 直接按 y*WIDTH + x 索引
     size_t m_existing_count = 0;
+
+    // 辅助函数：获取有效的节点引用，如果索引无效或节点不存在则返回 nullptr
+    [[nodiscard]] Node* get_valid_node(size_t index);
 
     [[nodiscard]] static constexpr bool in_bounds(int x, int y) { return 0 <= x && x < WIDTH && 0 <= y && y < HEIGHT; }
 };

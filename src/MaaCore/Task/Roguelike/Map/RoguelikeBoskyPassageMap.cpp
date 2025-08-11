@@ -1,7 +1,6 @@
 #include "RoguelikeBoskyPassageMap.h"
 #include "Utils/Logger.hpp"
 
-#include <algorithm>
 #include <array>
 
 namespace asst
@@ -14,61 +13,54 @@ RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
 
 std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type)
 {
-    if (!in_bounds(x, y)) {
-        Log.error("RoguelikeBoskyPassageMap::create_and_insert_node", "| out of bounds", x, y);
-        return std::nullopt;
-    }
-    if (m_existing_count >= MAX_NODES) {
-        Log.warn("RoguelikeBoskyPassageMap::create_and_insert_node", "| reach MAX_NODES limit");
-    }
     const auto idx = static_cast<size_t>(y * WIDTH + x);
-    if (Node& n = m_nodes[idx]; !n.exists) {
-        n.exists = true;
-        n.is_open = true;
-        n.passed = false;
-        n.visited = false;
+    if (Node* n = get_valid_node(idx); !n->exists) {
+        n->exists = true;
+        n->is_open = true;
+        n->visited = false;
+        n->type = type;
         ++m_existing_count;
 
-        if (type != RoguelikeNodeType::Unknown) {
-            n.type = type;
-        }
         // 临时措施，先关闭祸乱节点
         if (type == RoguelikeNodeType::Disaster) {
-            n.is_open = false;
+            n->is_open = false;
         }
+        return idx;
     }
-    return idx;
+    else {
+        Log.warn(__FUNCTION__, "| Node already exists at ({}, {})", x, y);
+        return std::nullopt;
+    }
 }
 
-void RoguelikeBoskyPassageMap::set_passed(size_t index)
+RoguelikeBoskyPassageMap::Node* RoguelikeBoskyPassageMap::get_valid_node(size_t index)
 {
     if (index >= m_nodes.size()) {
-        return;
+        return nullptr;
     }
     Node& n = m_nodes[index];
     if (!n.exists) {
+        return nullptr;
+    }
+    return &n;
+}
+
+void RoguelikeBoskyPassageMap::set_visited(size_t index)
+{
+    Node* n = get_valid_node(index);
+    if (!n) {
         return;
     }
-    n.passed = true;
-    auto becomes_grey_when_passed = [](RoguelikeNodeType t) {
-        using enum RoguelikeNodeType;
-        return t == Legend || t == Omissions || t == Disaster || t == Doubts;
-    };
-    if (becomes_grey_when_passed(n.type)) {
-        n.is_open = false;
-    }
+    n->visited = true;
 }
 
 void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType type)
 {
-    if (index >= m_nodes.size()) {
+    Node* n = get_valid_node(index);
+    if (!n) {
         return;
     }
-    Node& n = m_nodes[index];
-    if (!n.exists) {
-        return;
-    }
-    n.type = type;
+    n->type = type;
 }
 
 void RoguelikeBoskyPassageMap::reset()
@@ -84,13 +76,13 @@ void RoguelikeBoskyPassageMap::reset()
     m_existing_count = 0;
 }
 
-std::vector<size_t> RoguelikeBoskyPassageMap::get_open_unpassed_nodes() const
+std::vector<size_t> RoguelikeBoskyPassageMap::get_open_unvisited_nodes() const
 {
     std::vector<size_t> res;
     res.reserve(m_existing_count);
     for (size_t i = 0; i < m_nodes.size(); ++i) {
         const Node& n = m_nodes[i];
-        if (n.exists && n.is_open && !n.passed) {
+        if (n.exists && n.is_open && !n.visited) {
             res.push_back(i);
         }
     }
@@ -126,11 +118,6 @@ bool RoguelikeBoskyPassageMap::get_node_exists(size_t index) const
 bool RoguelikeBoskyPassageMap::get_node_open(size_t index) const
 {
     return index < m_nodes.size() && m_nodes[index].exists && m_nodes[index].is_open;
-}
-
-bool RoguelikeBoskyPassageMap::get_node_passed(size_t index) const
-{
-    return index < m_nodes.size() && m_nodes[index].exists && m_nodes[index].passed;
 }
 
 bool RoguelikeBoskyPassageMap::get_node_visited(size_t index) const

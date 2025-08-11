@@ -146,7 +146,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
             const auto relative_path = relative_dir / (utils::get_time_filestem() + "_draw.png");
-            Log.trace("Save image", relative_path);
+            Log.debug(__FUNCTION__, "| Saving image to {}", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
             m_need_generate_map = false;
@@ -260,7 +260,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
             continue;
         }
 
-        // 检查是否为灰色（已通过）节点
+        // 检查是否为灰色节点
         const bool is_open = templ_name.find("Grey") == std::string::npos;
 
         auto idx = m_bosky_map.ensure_node_from_pixel(
@@ -308,7 +308,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
 #ifdef ASST_DEBUG
     const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
     const auto relative_path = relative_dir / (utils::get_time_filestem() + "_bosky_draw.png");
-    Log.trace(__FUNCTION__, "| saving debug image: " + relative_path.string());
+    Log.debug(__FUNCTION__, "| Saving bosky map image to {}", relative_path);
     asst::imwrite(relative_path, image_draw);
 #endif
 
@@ -321,7 +321,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
 
     Log.info(__FUNCTION__, "| deciding and clicking a bosky passage node");
 
-    auto open_nodes = m_bosky_map.get_open_unpassed_nodes();
+    auto open_nodes = m_bosky_map.get_open_unvisited_nodes();
     Log.debug(__FUNCTION__, "| open nodes: " + std::to_string(open_nodes.size()));
     if (open_nodes.empty()) {
         Log.warn(__FUNCTION__, "| no open nodes available");
@@ -351,10 +351,12 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
             .get_node_pixel(chosen, m_bosky_origin_x, m_bosky_origin_y, m_bosky_column_offset, m_bosky_row_offset);
     Point click_point(px + m_bosky_node_width / 2, py + m_bosky_node_height / 2);
     ctrler()->click(click_point);
+    m_bosky_map.set_visited(chosen);
 
     // 根据节点类型判断 Task.set_task_base base_task_name
     switch (m_bosky_map.get_node_type(chosen)) {
     case RoguelikeNodeType::YiTrader:
+
         Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@RoutingAction-StageYiTraderEnter");
         break;
     case RoguelikeNodeType::Disaster:
