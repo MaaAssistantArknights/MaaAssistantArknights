@@ -17,7 +17,7 @@ jobs:
       with:
         script: |
           const texts = [
-          '我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理',
+          '我.+未仔细阅读',
           'I have checked all the options without carefully reading the content and believe this will not affect issue resolution.'];
           return texts.some(text => new RegExp(`- \\[x\\]\\s*${text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(context.payload.issue.body));
 
