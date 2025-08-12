@@ -81,7 +81,18 @@ public class EmulatorHelper
             string portStr = address.Split(':')[1];
             if (int.TryParse(portStr, out int port))
             {
-                emuIndex = (port - 16384) / 32;
+                switch (port)
+                {
+                    case >= 16384:
+                        emuIndex = (port - 16384) / 32;
+                        break;
+                    case >= 5555:
+                        emuIndex = (port - 5555) / 2;
+                        break;
+                    default:
+                        _logger.Error("Port {Port} is not valid for MuMuEmulator12", port);
+                        return false;
+                }
             }
             else
             {
