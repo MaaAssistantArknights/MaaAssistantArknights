@@ -38,26 +38,28 @@ jobs:
                    issueCreatedAt < currentIssueCreatedAt;
           });
           
-          // 给当前 issue 添加标签
-          await github.rest.issues.addLabels({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-            labels: ['rapid-submission']
-          });
-          
-          // 给1小时内的其他 issues 也添加标签
-          for (const issue of recentIssues) {
-            try {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                labels: ['rapid-submission']
-              });
-              console.log(`Added rapid-submission label to issue #${issue.number}`);
-            } catch (error) {
-              console.log(`Failed to add label to issue #${issue.number}: ${error.message}`);
+          if (recentIssues.length > 0) {
+            // 给当前 issue 添加标签
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['rapid-submission']
+            });
+            
+            // 给1小时内的其他 issues 也添加标签
+            for (const issue of recentIssues) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['rapid-submission']
+                });
+                console.log(`Added rapid-submission label to issue #${issue.number}`);
+              } catch (error) {
+                console.log(`Failed to add label to issue #${issue.number}: ${error.message}`);
+              }
             }
           }
           
