@@ -1,5 +1,5 @@
 import type { VNode } from "vue";
-import { defineComponent, h } from "vue";
+import { defineComponent, h, computed } from "vue";
 
 import NavbarDropdown from "@theme-hope/modules/navbar/components/NavbarDropdown";
 import { I18nIcon } from "@theme-hope/modules/navbar/components/icons/index";
@@ -11,17 +11,20 @@ export default defineComponent({
   setup() {
     const dropdown = useNavbarLanguageDropdown();
 
-    const filteredDropdown = () => {
+    const filteredDropdown = computed(() => {
       if (!dropdown.value) return null;
 
       const filteredConfig = { ...dropdown.value };
 
       if (filteredConfig.children) {
-        filteredConfig.children = filteredConfig.children.filter(item => item.link !== '/');
+        filteredConfig.children = filteredConfig.children.filter(item => {
+          // 过滤掉跳转到根目录的项目
+          return item.link !== '/' && item.link !== '/docs/' && !item.link?.endsWith('/docs/');
+        });
       }
 
       return filteredConfig;
-    };
+    });
 
     //console.log("OldLanguageDropdown", dropdown.value);
     //console.log("NewLanguageDropdown", filteredDropdown());
@@ -33,11 +36,11 @@ export default defineComponent({
           { class: "vp-nav-item" },
           h(
             NavbarDropdown,
-            { config: filteredDropdown() },
+            { config: filteredDropdown.value },
             {
               title: () =>
                 h(I18nIcon, {
-                  "aria-label": filteredDropdown()?.ariaLabel,
+                  "aria-label": filteredDropdown.value?.ariaLabel,
                   style: {
                     width: "1rem",
                     height: "1rem",
