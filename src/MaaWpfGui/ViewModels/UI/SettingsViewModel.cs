@@ -187,12 +187,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public SettingItem GetSettingItemByKey(string key)
         {
-            return Settings.FirstOrDefault(s => s.Key == key);
-        }
-
-        public SettingItem getSettingItemByValue(int value)
-        {
-            return Settings.FirstOrDefault(s => s.Value == value);
+            return Settings.First(s => s.Key == key);
         }
 
         public SettingItem SwitchConfigurationSetting => GetSettingItemByKey("SwitchConfiguration");
@@ -289,14 +284,16 @@ namespace MaaWpfGui.ViewModels.UI
                     ConfigurationHelper.SetSettingOrder(item.Key, i);
                 }
 
-                _ = OnSettingItemValueChanged();
+                OnSettingItemValueChanged();
             });
         }
 
-        private async Task OnSettingItemValueChanged()
+        private void OnSettingItemValueChanged()
         {
-            await Task.Delay(500);
-            RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+            }, System.Windows.Threading.DispatcherPriority.Loaded);
         }
 
         public event EventHandler? RefreshDividerOffsetsRequested;
