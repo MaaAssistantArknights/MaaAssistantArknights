@@ -10,6 +10,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:StartSettingsUserControlModel}}"
@@ -66,6 +67,19 @@
                 Block.TextAlignment="Center"
                 Content="{DynamicResource OpenEmulatorAfterLaunch}"
                 IsChecked="{Binding OpenEmulatorAfterLaunch}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox
+                    Grid.Column="0"
+                    Margin="10,10,0,10"
+                    IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui:SettingsViewModel.ConnectSettings}}">
+                    <controls:TextBlock Text="{DynamicResource RetryOnDisconnected}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource RetryOnDisconnectedTip}" />
+            </Grid>
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
