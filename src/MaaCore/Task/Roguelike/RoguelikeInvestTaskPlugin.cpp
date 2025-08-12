@@ -78,7 +78,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             m_invset_error = true;
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
-            sleep(300); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
+            sleep(500); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
             auto ocr = get_deposit_when_error(ctrler()->get_image());
             if (ocr) {
                 // 可继续投资 / 到达投资上限999
