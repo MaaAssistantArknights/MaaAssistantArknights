@@ -61,13 +61,18 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             if (auto wallet = get_wallet(image); *wallet && *wallet == 0) { // 手头没钱了
                 Log.info(__FUNCTION__, "手头没钱了, 退出投资");
                 retry = 0;
-                while (!need_exit() && retry++ < 20) {
+                while (!need_exit()) {
                     if (auto ocr = get_deposit(image); ocr) {
                         if (*ocr >= 0 && *ocr <= 999 && *ocr >= *deposit) {
                             count += *ocr - *deposit;
                             deposit = *ocr;
                             break;
                         }
+                    }
+                    if (retry++ > 5) {
+                        Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
+                        save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                        break;
                     }
                     sleep(500);
                     image = ctrler()->get_image();
