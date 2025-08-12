@@ -9,21 +9,22 @@ icon: mdi:plug
 
 MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 ADB 路径、连接地址和连接配置。
 
-截止至 MAA v5.7.0 支持检测的模拟器及连接地址如下：
+截止至 MAA v5.22.3 支持自动检测的模拟器及连接地址如下：
 
 - BlueStacks 5：`127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
 - MuMu 模拟器：`127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
-- 雷电模拟器 9：`emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
+- 雷电模拟器 9：`emulator-5554/5556/5558/5560`、`127.0.0.1:5555/5557/5559/5561`
 - 夜神模拟器：`127.0.0.1:62001/59865`
 - 逍遥模拟器：`127.0.0.1:21503`
 
-若检测失败，请尝试使用 UAC 管理员权限启动 MAA 并再次检测。若仍失败，则请参考下文手动设置，并确认模拟器和连接地址是否包含在上述列表中。
+若检测失败，请尝试使用 UAC 管理员权限启动 MAA 并再次检测。若仍失败，则请阅读下文手动设置，并参考上述列表进行反馈。
 
 ## ADB 路径
 
 :::info 技术细节
-自动检测使用的是模拟器的 ADB，但有时自动检测会出现问题，此时就需要手动设置。
-`强制替换 ADB` 是下载谷歌提供的 ADB 后再进行替换，如果自己设置谷歌的 ADB 即可一劳永逸。
+自动检测使用的是模拟器的 ADB，当自动检测出现问题时才需要手动设置。
+`强制替换 ADB` 会自动下载谷歌提供的 ADB 后自动填写路径。
+当环境变量中存在可用的 ADB 时，可直接填写 `adb`。
 :::
 
 ### 使用模拟器提供的 ADB
@@ -48,22 +49,16 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 运行在本机的模拟器连接地址应该是 `127.0.0.1:<端口号>` 或 `emulator-<四位数字>`。
 :::
 
-### 模拟器相关文档及参考地址
+### 模拟器端口相关文档
 
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
-- [MuMu 模拟器 Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
-- [MuMu 模拟器](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
-- [雷电模拟器 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
-- [夜神模拟器](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
-- [逍遥模拟器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
+- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D)：模拟器设置→高级中可查看当前多开的连接地址。
+- [MuMu 模拟器](https://mumu.163.com/help/20240807/40912_1073151.html?maa)：主窗口（多开器）右上角菜单按钮→设置中心→底部 `ADB 端口` 可查看正在运行的多开端口。
+- [MuMu 模拟器 Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html)
+- [雷电模拟器 9](https://help.ldmnq.com/docs/LD9adbserver#edc3863750608062bcb3feea256413dc)
+- [夜神模拟器](https://support.yeshen.com/zh-CN/qt/ml)
+- [逍遥模拟器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537)
 
 其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
-
-### 获取多开端口
-
-- MuMu 多开器右上角可查看正在运行的多开端口。
-- Bluestacks 5 模拟器设置内可查看当前的多开端口。
-- _待补充_
 
 ::: details 备选方案
 
