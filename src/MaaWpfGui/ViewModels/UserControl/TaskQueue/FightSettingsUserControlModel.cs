@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
