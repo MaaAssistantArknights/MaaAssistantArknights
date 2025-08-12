@@ -584,7 +584,17 @@ public class FightSettingsUserControlModel : TaskViewModel
 
         AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
         DropsList = [.. AllDrops];
-        DropsListDropDownClosed();
+        if (AllDrops.FirstOrDefault(i => i.Value == DropsItemId) is { } item)
+        {
+            DropsItemName = item.Display;
+            NotifyOfPropertyChange(nameof(DropsItemName));
+        }
+        else
+        {
+            DropsItemId = string.Empty;
+            DropsItemName = string.Empty;
+            NotifyOfPropertyChange(nameof(DropsItemName));
+        }
     }
 
     /// <summary>
@@ -608,44 +618,25 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private string _dropsItemName = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemName, LocalizationHelper.GetString("NotSelected"));
-
     /// <summary>
     /// Gets or sets the item Name of drops.
     /// </summary>
-    public string DropsItemName
-    {
-        get => _dropsItemName;
-        set
-        {
-            SetAndNotify(ref _dropsItemName, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemName, DropsItemName);
-        }
-    }
+    public string DropsItemName { get; set; } = string.Empty;
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void DropsListDropDownClosed()
     {
-        foreach (var item in DropsList)
+        if (DropsList.FirstOrDefault(i => i.Display == DropsItemName) is { } item)
         {
-            if (DropsItemName != item.Display)
-            {
-                continue;
-            }
-
             DropsItemId = item.Value;
-
-            if (DropsItemName != item.Display)
-            {
-                DropsItemName = LocalizationHelper.GetString("NotSelected");
-            }
-
-            return;
         }
-
-        DropsItemName = LocalizationHelper.GetString("NotSelected");
+        else
+        {
+            DropsItemId = string.Empty;
+            DropsItemName = LocalizationHelper.GetString("NotSelected");
+            NotifyOfPropertyChange(nameof(DropsItemName));
+        }
     }
 
     private int _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
