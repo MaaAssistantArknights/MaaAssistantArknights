@@ -1530,6 +1530,7 @@ namespace MaaWpfGui.Main
                             if (itemName == "furni")
                             {
                                 itemName = LocalizationHelper.GetString("FurnitureDrop");
+                                itemId = "3401";
                             }
 
                             int totalQuantity = (int)(item["quantity"] ?? -1);
