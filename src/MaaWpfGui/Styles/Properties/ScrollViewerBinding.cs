@@ -357,8 +357,8 @@ namespace MaaWpfGui.Styles.Properties
             var point = new Point(10, scrollViewer.VerticalOffset);
 
             var dividerOffsetList = (
-                from child in rootGrid.Children.OfType<Grid>().OrderBy(Grid.GetRow).ToList()
-                where child != null
+                from child in rootGrid.Children.OfType<Grid>()
+                orderby Grid.GetRow(child)
                 let divider = FindFirstDivider(child)
                 where divider != null
                 let pos = divider.TransformToVisual(scrollViewer).Transform(point)
