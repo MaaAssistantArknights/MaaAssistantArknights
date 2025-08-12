@@ -11,11 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using HandyControl.Controls;
+using System.Windows.Media;
 using JetBrains.Annotations;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
@@ -286,6 +287,23 @@ namespace MaaWpfGui.Styles.Properties
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
         }
 
+        private static readonly DependencyProperty _lastHeightProperty =
+            DependencyProperty.RegisterAttached(
+                "_lastHeight",
+                typeof(double),
+                typeof(ScrollViewerBinding),
+                new PropertyMetadata(0.0));
+
+        private static double GetLastHeight(DependencyObject obj)
+        {
+            return (double)obj.GetValue(_lastHeightProperty);
+        }
+
+        private static void SetLastHeight(DependencyObject obj, double value)
+        {
+            obj.SetValue(_lastHeightProperty, value);
+        }
+
         /// <summary>
         /// Sets divider vertical offset property.
         /// </summary>
@@ -293,7 +311,7 @@ namespace MaaWpfGui.Styles.Properties
         /// <param name="value">The new property value.</param>
         public static void SetDividerVerticalOffsetList(DependencyObject depObj, List<double> value)
         {
-            if (!(depObj is ScrollViewer))
+            if (depObj is not ScrollViewer)
             {
                 return;
             }
@@ -303,7 +321,7 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void OnDividerVerticalOffsetListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is ScrollViewer scrollViewer))
+            if (d is not ScrollViewer scrollViewer)
             {
                 return;
             }
@@ -320,27 +338,54 @@ namespace MaaWpfGui.Styles.Properties
 
             scrollViewer.SetValue(_dividerVerticalOffsetListBindingProperty, true);
 
-            // 当滚动条载入时，遍历 StackPanel 中的所有 Divider 子元素对应位置
-            scrollViewer.Loaded += (s, se) =>
+            if (scrollViewer.Content is FrameworkElement content)
             {
-                if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel stackPanel))
+                content.SizeChanged += (s, e) =>
                 {
-                    return;
+                    RefreshDividerOffsets(scrollViewer);
+                };
+            }
+        }
+
+        public static void RefreshDividerOffsets(ScrollViewer scrollViewer)
+        {
+            if (scrollViewer.Content is not Grid rootGrid)
+            {
+                return;
+            }
+
+            var point = new Point(10, scrollViewer.VerticalOffset);
+
+            var dividerOffsetList = (
+                from child in rootGrid.Children.OfType<Grid>().OrderBy(Grid.GetRow).ToList()
+                where child != null
+                let divider = FindFirstDivider(child)
+                where divider != null
+                let pos = divider.TransformToVisual(scrollViewer).Transform(point)
+                select pos.Y).ToList();
+
+            SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
+        }
+
+        private static FrameworkElement FindFirstDivider(DependencyObject root)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(root);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                if (child is HandyControl.Controls.Divider divider)
+                {
+                    return divider;
                 }
 
-                var point = new Point(10, scrollViewer.VerticalOffset);
-
-                var dividerOffsetList = stackPanel.Children.OfType<Divider>()
-                    .Select(child => child.TransformToVisual(scrollViewer)
-                        .Transform(point))
-                    .Select(targetPosition => targetPosition.Y)
-                    .ToList();
-
-                if (dividerOffsetList.Count > 0)
+                var found = FindFirstDivider(child);
+                if (found != null)
                 {
-                    SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
+                    return found;
                 }
-            };
+            }
+
+            return null;
         }
 
         #endregion DividerVerticalOffsetList attached property

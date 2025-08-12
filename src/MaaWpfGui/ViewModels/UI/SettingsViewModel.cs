@@ -16,6 +16,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -134,34 +136,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Init
 
-        private List<string> _listTitle =
-        [
-            LocalizationHelper.GetString("SwitchConfiguration"),
-            LocalizationHelper.GetString("ScheduleSettings"),
-            LocalizationHelper.GetString("PerformanceSettings"),
-            LocalizationHelper.GetString("GameSettings"),
-            LocalizationHelper.GetString("ConnectionSettings"),
-            LocalizationHelper.GetString("StartupSettings"),
-            LocalizationHelper.GetString("RemoteControlSettings"),
-            LocalizationHelper.GetString("UiSettings"),
-            LocalizationHelper.GetString("BackgroundSettings"),
-            LocalizationHelper.GetString("ExternalNotificationSettings"),
-            LocalizationHelper.GetString("HotKeySettings"),
-            LocalizationHelper.GetString("AchievementSettings"),
-            LocalizationHelper.GetString("UpdateSettings"),
-            LocalizationHelper.GetString("IssueReport"),
-            LocalizationHelper.GetString("AboutUs"),
-        ];
-
-        /// <summary>
-        /// Gets or sets the list title.
-        /// </summary>
-        public List<string> ListTitle
-        {
-            get => _listTitle;
-            set => SetAndNotify(ref _listTitle, value);
-        }
-
         private bool _idle;
 
         /// <summary>
@@ -175,12 +149,164 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void Init()
         {
+            InitSettings();
             TaskQueueViewModel.InfrastTask.InitInfrast();
             TaskQueueViewModel.RoguelikeTask.InitRoguelike();
             InitConfiguration();
             InitUiSettings();
             InitConnectConfig();
             InitVersionUpdate();
+        }
+
+        public class SettingItem(string key, string display, int value) : PropertyChangedBase
+        {
+            private string _key = key;
+
+            public string Key
+            {
+                get => _key;
+                set => SetAndNotify(ref _key, value);
+            }
+
+            private string _display = display;
+
+            public string Display
+            {
+                get => _display;
+                set => SetAndNotify(ref _display, value);
+            }
+
+            private int _value = value;
+
+            public int Value
+            {
+                get => _value;
+                set => SetAndNotify(ref _value, value);
+            }
+        }
+
+        public SettingItem GetSettingItemByKey(string key)
+        {
+            return Settings.FirstOrDefault(s => s.Key == key);
+        }
+
+        public SettingItem getSettingItemByValue(int value)
+        {
+            return Settings.FirstOrDefault(s => s.Value == value);
+        }
+
+        public SettingItem SwitchConfigurationSetting => GetSettingItemByKey("SwitchConfiguration");
+        public SettingItem ScheduleSettingsSetting => GetSettingItemByKey("ScheduleSettings");
+        public SettingItem PerformanceSettingsSetting => GetSettingItemByKey("PerformanceSettings");
+        public SettingItem GameSettingsSetting => GetSettingItemByKey("GameSettings");
+        public SettingItem ConnectionSettingsSetting => GetSettingItemByKey("ConnectionSettings");
+        public SettingItem StartupSettingsSetting => GetSettingItemByKey("StartupSettings");
+        public SettingItem RemoteControlSettingsSetting => GetSettingItemByKey("RemoteControlSettings");
+        public SettingItem UiSettingsSetting => GetSettingItemByKey("UiSettings");
+        public SettingItem BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
+        public SettingItem ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
+        public SettingItem HotKeySettingsSetting => GetSettingItemByKey("HotKeySettings");
+        public SettingItem AchievementSettingsSetting => GetSettingItemByKey("AchievementSettings");
+        public SettingItem UpdateSettingsSetting => GetSettingItemByKey("UpdateSettings");
+        public SettingItem IssueReportSetting => GetSettingItemByKey("IssueReport");
+        public SettingItem AboutUsSetting => GetSettingItemByKey("AboutUs");
+
+        private void InitSettings()
+        {
+            List<string> keyList =
+            [
+                "SwitchConfiguration",
+                "ScheduleSettings",
+                "PerformanceSettings",
+                "GameSettings",
+                "ConnectionSettings",
+                "StartupSettings",
+                "RemoteControlSettings",
+                "UiSettings",
+                "BackgroundSettings",
+                "ExternalNotificationSettings",
+                "HotKeySettings",
+                "AchievementSettings",
+                "UpdateSettings",
+                "IssueReport",
+                "AboutUs",
+            ];
+
+            var tempOrderList = new List<SettingItem?>(new SettingItem[keyList.Count]);
+            var nonOrderList = new List<SettingItem?>();
+
+            foreach (var key in keyList)
+            {
+                int order = ConfigurationHelper.GetSettingOrder(key, -1);
+
+                var item = new SettingItem(key, LocalizationHelper.GetString(key), -1);
+
+                if (order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
+                {
+                    nonOrderList.Add(item);
+                }
+                else
+                {
+                    item.Value = order;
+                    tempOrderList[order] = item;
+                }
+            }
+
+            int fillIndex = 0;
+            foreach (var item in nonOrderList.OfType<SettingItem>())
+            {
+                while (fillIndex < tempOrderList.Count && tempOrderList[fillIndex] != null)
+                {
+                    fillIndex++;
+                }
+
+                if (fillIndex < tempOrderList.Count)
+                {
+                    item.Value = fillIndex;
+                    tempOrderList[fillIndex] = item;
+                    ConfigurationHelper.SetSettingOrder(item.Key, fillIndex);
+                }
+            }
+
+            Settings = [.. tempOrderList.OfType<SettingItem>()];
+
+            Settings.CollectionChanged += Settings_CollectionChanged;
+        }
+
+        private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
+        {
+            Execute.OnUIThread(() =>
+            {
+                for (int i = 0; i < Settings.Count; i++)
+                {
+                    var item = Settings[i];
+                    if (item.Value == i)
+                    {
+                        continue;
+                    }
+
+                    item.Value = i;
+                    ConfigurationHelper.SetSettingOrder(item.Key, i);
+                }
+
+                _ = OnSettingItemValueChanged();
+            });
+        }
+
+        private async Task OnSettingItemValueChanged()
+        {
+            await Task.Delay(500);
+            RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler? RefreshDividerOffsetsRequested;
+
+        private ObservableCollection<SettingItem> _settings = [];
+
+        public ObservableCollection<SettingItem> Settings
+        {
+            get => _settings;
+            set => SetAndNotify(ref _settings, value);
         }
 
         private void InitConfiguration()
@@ -543,10 +669,25 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public double ScrollExtentHeight { get; set; }
 
+        private List<double> _dividerVerticalOffsetList = new();
+
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> DividerVerticalOffsetList { get; set; } = new();
+        public List<double> DividerVerticalOffsetList
+        {
+            get => _dividerVerticalOffsetList;
+            set
+            {
+                if (_dividerVerticalOffsetList == value)
+                {
+                    return;
+                }
+
+                _dividerVerticalOffsetList = value;
+                SetAndNotify(ref _dividerVerticalOffsetList, value);
+            }
+        }
 
         private int _selectedIndex;
 
@@ -558,16 +699,23 @@ namespace MaaWpfGui.ViewModels.UI
             get => _selectedIndex;
             set
             {
+                if (_selectedIndex == value)
+                {
+                    return;
+                }
+
+                if (value < 0 || value > DividerVerticalOffsetList.Count)
+                {
+                    return;
+                }
+
                 switch (_notifySource)
                 {
                     case NotifyType.None:
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        if (DividerVerticalOffsetList?.Count > 0 && value < DividerVerticalOffsetList.Count)
-                        {
-                            ScrollOffset = DividerVerticalOffsetList[value];
-                        }
+                        ScrollOffset = DividerVerticalOffsetList[value];
 
                         ResetNotifySource();
                         break;

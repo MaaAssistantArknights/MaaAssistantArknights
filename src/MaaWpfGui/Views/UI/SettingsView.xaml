@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui"
@@ -29,13 +30,17 @@
             x:Name="MasterListBox"
             Grid.Column="0"
             Margin="10"
+            dd:DragDrop.IsDragSource="{Binding Idle}"
+            dd:DragDrop.IsDropTarget="{Binding Idle}"
+            DisplayMemberPath="Display"
             IsSynchronizedWithCurrentItem="true"
-            ItemsSource="{Binding ListTitle}"
+            ItemsSource="{Binding Settings}"
             SelectedIndex="{Binding SelectedIndex}" />
 
         <hc:ScrollViewer
             Grid.Column="1"
             Margin="20,10"
+            x:Name="SettingsScrollViewer"
             HorizontalAlignment="Stretch"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
@@ -43,93 +48,139 @@
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
             IsInertiaEnabled="True"
             PanningMode="Both">
-            <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                <hc:Divider Content="{Binding ListTitle[0]}" />
-                <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid Grid.Row="{c:Binding SwitchConfigurationSetting.Value}" d:Grid.Row="0">
+                    <hc:Divider Content="{Binding SwitchConfigurationSetting.Display}" />
+                    <userControl:ConfigurationMgrUserControl Margin="0,20" HorizontalAlignment="Center" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[1]}" />
-                <settingsViews:TimerSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding TimerSettings}" />
+                <Grid Grid.Row="{c:Binding ScheduleSettingsSetting.Value}" d:Grid.Row="1">
+                    <hc:Divider Content="{Binding ScheduleSettingsSetting.Display}" />
+                    <settingsViews:TimerSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding TimerSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[2]}" />
-                <settingsViews:PerformanceUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding PerformanceSettings}"
-                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                <Grid Grid.Row="{Binding PerformanceSettingsSetting.Value}" d:Grid.Row="2">
+                    <hc:Divider Content="{Binding PerformanceSettingsSetting.Display}" />
+                    <settingsViews:PerformanceUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding PerformanceSettings}"
+                        IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[3]}" />
-                <settingsViews:GameSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding GameSettings}" />
+                <Grid Grid.Row="{Binding GameSettingsSetting.Value}" d:Grid.Row="3">
+                    <hc:Divider Content="{Binding GameSettingsSetting.Display}" />
+                    <settingsViews:GameSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding GameSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[4]}" />
-                <settingsViews:ConnectSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding ConnectSettings}"
-                    IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                <Grid Grid.Row="{Binding ConnectionSettingsSetting.Value}" d:Grid.Row="4">
+                    <hc:Divider Content="{Binding ConnectionSettingsSetting.Display}" />
+                    <settingsViews:ConnectSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding ConnectSettings}"
+                        IsEnabled="{Binding DataContext.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[5]}" />
-                <settingsViews:StartSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding StartSettings}" />
+                <Grid Grid.Row="{Binding StartupSettingsSetting.Value}" d:Grid.Row="5">
+                    <hc:Divider Content="{Binding StartupSettingsSetting.Display}" />
+                    <settingsViews:StartSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding StartSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[6]}" />
-                <settingsViews:RemoteControlUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding RemoteControlSettings}" />
+                <Grid Grid.Row="{Binding RemoteControlSettingsSetting.Value}" d:Grid.Row="6">
+                    <hc:Divider Content="{Binding RemoteControlSettingsSetting.Display}" />
+                    <settingsViews:RemoteControlUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding RemoteControlSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[7]}" />
-                <settingsViews:GuiSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding GuiSettings}" />
+                <Grid Grid.Row="{Binding UiSettingsSetting.Value}" d:Grid.Row="7">
+                    <hc:Divider Content="{Binding UiSettingsSetting.Display}" />
+                    <settingsViews:GuiSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding GuiSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[8]}" />
-                <settingsViews:BackgroundSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding BackgroundSettings}" />
+                <Grid Grid.Row="{Binding BackgroundSettingsSetting.Value}" d:Grid.Row="8">
+                    <hc:Divider Content="{Binding BackgroundSettingsSetting.Display}" />
+                    <settingsViews:BackgroundSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding BackgroundSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[9]}" />
-                <settingsViews:ExternalNotificationSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding ExternalNotificationSettings}" />
+                <Grid Grid.Row="{Binding ExternalNotificationSettingsSetting.Value}" d:Grid.Row="9">
+                    <hc:Divider Content="{Binding ExternalNotificationSettingsSetting.Display}" />
+                    <settingsViews:ExternalNotificationSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding ExternalNotificationSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[10]}" />
-                <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid Grid.Row="{Binding HotKeySettingsSetting.Value}" d:Grid.Row="10">
+                    <hc:Divider Content="{Binding HotKeySettingsSetting.Display}" />
+                    <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                </Grid>
 
+                <Grid Grid.Row="{Binding AchievementSettingsSetting.Value}" d:Grid.Row="11">
+                    <hc:Divider Content="{Binding AchievementSettingsSetting.Display}" />
+                    <settingsViews:AchievementSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding AchievementSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[11]}" />
-                <settingsViews:AchievementSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding AchievementSettings}" />
+                <Grid Grid.Row="{Binding UpdateSettingsSetting.Value}" d:Grid.Row="12">
+                    <hc:Divider Content="{Binding UpdateSettingsSetting.Display}" />
+                    <settingsViews:VersionUpdateSettingsUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding VersionUpdateSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[12]}" />
-                <settingsViews:VersionUpdateSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding VersionUpdateSettings}" />
+                <Grid Grid.Row="{Binding IssueReportSetting.Value}" d:Grid.Row="13">
+                    <hc:Divider Content="{Binding IssueReportSetting.Display}" />
+                    <settingsViews:IssueReportUserControl
+                        Margin="0,20"
+                        HorizontalAlignment="Center"
+                        DataContext="{Binding IssueReportSettings}" />
+                </Grid>
 
-                <hc:Divider Content="{Binding ListTitle[13]}" />
-                <settingsViews:IssueReportUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    DataContext="{Binding IssueReportSettings}" />
-
-                <hc:Divider Content="{Binding ListTitle[14]}" />
-                <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <Grid Grid.Row="{Binding AboutUsSetting.Value}" d:Grid.Row="14">
+                    <hc:Divider Content="{Binding AboutUsSetting.Display}" />
+                    <settingsViews:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
+                </Grid>
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
-            </StackPanel>
+            </Grid>
         </hc:ScrollViewer>
     </Grid>
 </UserControl>
