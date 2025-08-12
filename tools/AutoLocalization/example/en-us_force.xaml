@@ -89,7 +89,7 @@
             <s:String x:Key="General">通用模式</s:String>
             <s:String x:Key="BlueStacks">蓝叠模拟器</s:String>
             <s:String x:Key="MuMuEmulator">MuMu 模拟器</s:String>
-            <s:String x:Key="MuMuEmulator12">MuMu 模拟器 12</s:String>
+            <s:String x:Key="MuMuEmulator12">MuMu 模拟器</s:String>
             <s:String x:Key="LDPlayer">雷电模拟器</s:String>
             <s:String x:Key="Nox">夜神模拟器</s:String>
             <s:String x:Key="XYAZ">逍遥模拟器</s:String>

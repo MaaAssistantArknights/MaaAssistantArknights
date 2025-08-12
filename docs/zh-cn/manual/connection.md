@@ -12,7 +12,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 截止至 MAA v5.7.0 支持检测的模拟器及连接地址如下：
 
 - BlueStacks 5：`127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
-- MuMu 模拟器 12：`127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- MuMu 模拟器：`127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
 - 雷电模拟器 9：`emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - 夜神模拟器：`127.0.0.1:62001/59865`
 - 逍遥模拟器：`127.0.0.1:21503`
@@ -52,7 +52,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
 - [MuMu 模拟器 Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
-- [MuMu 模拟器 12](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
+- [MuMu 模拟器](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
 - [雷电模拟器 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [夜神模拟器](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
 - [逍遥模拟器](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
@@ -61,7 +61,7 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 ### 获取多开端口
 
-- MuMu 12 多开器右上角可查看正在运行的多开端口。
+- MuMu 多开器右上角可查看正在运行的多开端口。
 - Bluestacks 5 模拟器设置内可查看当前的多开端口。
 - _待补充_
 
@@ -168,11 +168,11 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ### MuMu 截图增强模式
 
-需使用官版或方舟专版 MuMu 12 V4.1.26 及更新版本。<!-- 官版 V3.8.13 支持初版截图增强 -->
+需使用官版或方舟专版 MuMu V4.1.26 及更新版本。<!-- 官版 V3.8.13 支持初版截图增强 -->
 
 1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强模式`，MAA 会在勾选开关时自动尝试通过注册表获取安装路径。
 
-2. `MuMu 安装路径` 填写 `MuMu Player 12` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMu Player 12`。
+2. `MuMu 安装路径` 填写 `MuMu Player` 或 `MuMuPlayerGlobal-12.0` 或 `YXArkNights-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMu Player`。
 
 3. 若正在使用 MuMu 网络桥接，则需勾选 `MuMu 网络桥接模式` 后手动填写 MuMu 多开器内对应模拟器的序号，如主多开为 `0`。
 

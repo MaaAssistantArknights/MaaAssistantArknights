@@ -144,7 +144,7 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 커스텀 기능을 끄세요.</system:String>
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
-    <system:String x:Key="MuMuEmulator12">MuMu Player 12</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -509,7 +509,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 향상 모드 활성화</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu 12 V4.0.0 이상은 필요하며, MuMu 12 Global 에서는 지원되지 않습니다.
+MuMu V4.0.0 이상은 필요하며, MuMu 12 Global 에서는 지원되지 않습니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
 MAA는 레지스트리를 통해 설치 경로를 자동으로 가져옵니다. 가져오지 못한 경우 수동으로 입력해 주세요.\n
 설치 경로는 에뮬레이터 설치 디렉토리의 루트 디렉토리를 입력해야 합니다. 예를 들어, 에뮬레이터 프로세스 파일 경로가

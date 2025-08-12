@@ -12,7 +12,7 @@ MAA는 현재 **실행 중인 단일 에뮬레이터**를 통해 ADB 경로, 연
 MAA v5.7.0까지 지원하는 감지 가능한 에뮬레이터 및 연결 주소는 다음과 같습니다:
 
 - BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
-- MuMu 에뮬레이터 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- MuMu 에뮬레이터: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
 - LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - 逍遥(Xiaoyao): `127.0.0.1:62001/59865`
 - 夜神(Yeshen): `127.0.0.1:21503`
@@ -54,7 +54,7 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
+- [MuMu](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
 - [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [逍遥(Xiaoyao)](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神(Yeshen)](https://support.yeshen.com/zh-CN/qt/ml) `62001`
@@ -63,7 +63,7 @@ MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경�
 
 #### 멀티 인스턴스 포트 확인
 
-- MuMu 12 의 멀티 인스턴스 관리자 오른쪽 상단에서 실행 중인 인스턴스의 포트를 확인할 수 있습니다.
+- MuMu 의 멀티 인스턴스 관리자 오른쪽 상단에서 실행 중인 인스턴스의 포트를 확인할 수 있습니다.
 - Bluestacks 5 에뮬레이터 설정 내에서 현재 멀티 인스턴스 포트를 확인할 수 있습니다.
 - _추가 예정_
 
@@ -170,11 +170,11 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 
 ### MuMu 스크린샷 강화 모드
 
-공식 또는 Arknights Edition MuMu 12 V4.1.26 이상 버전이 지원됩니다. <!-- V3.8.13 -->
+공식 또는 Arknights Edition MuMu V4.1.26 이상 버전이 지원됩니다. <!-- V3.8.13 -->
 
 1. 설정 → 연결 설정에서 `MuMu 스크린샷 향상 모드 활성화`를 체크합니다. 체크할 경우 MAA는 레지스트리를 통해 설치 경로를 자동으로 입력하려고 시도합니다.
 
-2. MuMu 에뮬레이터 경로에 `MuMu Player 12` 또는 `MuMuPlayerGlobal-12.0` 또는 `YXArkNights-12.0` 폴더의 경로를 입력합니다. 예: `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`.
+2. MuMu 에뮬레이터 경로에 `MuMu Player` 또는 `MuMuPlayerGlobal-12.0` 또는 `YXArkNights-12.0` 폴더의 경로를 입력합니다. 예: `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`.
 
 3. MuMu 네트워크 브리징을 사용 중인 경우 `MuMu 네트워크 브리징 모드`를 선택한 후 MuMu 멀티 인스턴스 관리자에서 해당 에뮬레이터의 일련 번호를 수동으로 입력해야 합니다. 예를 들어, 주 인스턴스는 `0`입니다.
 

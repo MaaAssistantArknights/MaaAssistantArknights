@@ -144,7 +144,7 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</system:String>
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
-    <system:String x:Key="MuMuEmulator12">MuMu Player 12</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Player</system:String>
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="Nox">NoxPlayer</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -510,7 +510,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu 12 V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。
+MuMu V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
 MAA はレジストリからインストールパスを自動的に取得しますが、失敗した場合は手動で入力してください。\n
 インストールパスには、エミュレーターのインストールディレクトリのルートディレクトリを入力する必要があります。例えば、エミュレーターのプロセスファイルパスが

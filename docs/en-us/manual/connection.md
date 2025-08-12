@@ -12,7 +12,7 @@ MAA can automatically detect and fill in the ADB path, connection address, and c
 As of MAA v5.7.0, the following emulators and connection addresses are supported for detection:
 
 - BlueStacks 5: `127.0.0.1:5555/5556/5565/5575/5585/5595/5554`
-- MuMu Player 12: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
+- MuMu Player: `127.0.0.1:16384/16416/16448/16480/16512/16544/16576`
 - LDPlayer 9: `emulator-5554/5556/5558/5560`, `127.0.0.1:5555/5557/5559/5561`
 - NoxPlayer: `127.0.0.1:62001/59865`
 - MEmu Play: `127.0.0.1:21503`
@@ -52,7 +52,7 @@ Emulators running on your local machine should use addresses like `127.0.0.1:<po
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `127.0.0.1:5555`
 - [MuMu Player Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
-- [MuMu Player 12](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
+- [MuMu Player](https://mumu.163.com/help/20230214/35047_1073151.html) `127.0.0.1:16384`
 - [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
 - [NoxPlayer](https://support.yeshen.com/zh-CN/qt/ml) `127.0.0.1:62001`
 - [MEmu Play](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `127.0.0.1:21503`
@@ -61,7 +61,7 @@ For other emulators, refer to [Zhao Qingqing's blog](https://www.cnblogs.com/zha
 
 ### Getting multi-instance ports
 
-- MuMu 12 multi-instance manager shows running ports in the top-right corner.
+- MuMu multi-instance manager shows running ports in the top-right corner.
 - BlueStacks 5 emulator settings show current multi-instance ports.
 - _To be added_
 
@@ -168,11 +168,11 @@ For specific differences, see the [source code](https://github.com/MaaAssistantA
 
 ### MuMu Screenshot Enhanced Mode
 
-Requires official or Arknights-specific MuMu 12 V4.1.26 or newer. <!-- Official V3.8.13 supports initial enhanced screenshots -->
+Requires official or Arknights-specific MuMu V4.1.26 or newer. <!-- Official V3.8.13 supports initial enhanced screenshots -->
 
 1. In `Settings` - `Connection Settings`, check `Enable MuMu Screenshot Enhanced Mode`. MAA will automatically try to get the installation path from the registry when you check this option.
 
-2. Enter the path to the `MuMu Player 12` or `MuMuPlayerGlobal-12.0` or `YXArkNights-12.0` folder in `MuMu Installation Path`, e.g., `C:\Program Files\Netease\MuMu Player 12`.
+2. Enter the path to the `MuMu Player` or `MuMuPlayerGlobal-12.0` or `YXArkNights-12.0` folder in `MuMu Installation Path`, e.g., `C:\Program Files\Netease\MuMu Player`.
 
 3. If using MuMu Network Bridge, check `MuMu Network Bridge Mode` and manually enter the number of the corresponding emulator in the MuMu multi-instance manager, such as `0` for the main instance.
 
