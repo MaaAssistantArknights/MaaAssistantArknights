@@ -79,21 +79,9 @@ private:
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
 
     // ==================== BoskyPassage (JieGarden) 专用 ====================
-    void bosky_update_map();             // 从当前截图识别所有可见节点并更新/创建
-    void bosky_decide_and_click();       // 策略
+    void bosky_update_map();       // 从当前截图识别所有可见节点并更新/创建
+    void bosky_decide_and_click(); // 策略
 
-    int m_bosky_origin_x = 0;            // BoskyPassage 第一列节点的默认横坐标 (Rect.x)
-    int m_bosky_origin_y = 0;            // BoskyPassage 第一列节点的默认纵坐标 (Rect.y)
-    int m_bosky_middle_x = 0;            // BoskyPassage 中间列节点的默认横坐标 (Rect.x)
-    int m_bosky_middle_y = 0;            // BoskyPassage 中间列节点的默认纵坐标 (Rect.y)
-    int m_bosky_last_x = 0;              // BoskyPassage 最后列节点的默认横坐标 (Rect.x)
-    int m_bosky_last_y = 0;              // BoskyPassage 最后列节点的默认纵坐标 (Rect.y)
-    int m_bosky_node_width = 0;          // BoskyPassage 节点 Rect.width
-    int m_bosky_node_height = 0;         // BoskyPassage 节点 Rect.height
-    int m_bosky_column_offset = 0;       // BoskyPassage 两列节点之间的距离
-    int m_bosky_row_offset = 0;          // BoskyPassage 两行节点之间的距离
-    int m_bosky_nameplate_offset = 0;    // BoskyPassage 节点 Rect 下边缘到节点铭牌下边缘的距离
-    int m_bosky_roi_margin = 0;          // BoskyPassage roi 的 margin offset
-    int m_bosky_direction_threshold = 0; // BoskyPassage 节点间连线方向判定的阈值
+    RoguelikeBoskyPassageMap::BoskyPassageMapConfig m_bosky_config;
 };
 }

@@ -19,7 +19,7 @@ std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, in
     }
 
     const auto idx = static_cast<size_t>(y * WIDTH + x);
-    Node& n = m_nodes[idx]; // 直接获取节点引用，而不是通过 get_valid_node
+    Node& n = m_nodes[idx];
 
     if (!n.exists) {
         n.exists = true;
@@ -198,54 +198,44 @@ std::pair<int, int> pixel_to_grid_coords(int px, int py, int origin_x, int origi
 {
     const double dx = static_cast<double>(px - origin_x) / column_offset;
     const double dy = static_cast<double>(py - origin_y) / row_offset;
-    const int gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
-    const int gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
+    const auto gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
+    const auto gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
     return { gx, gy };
 }
 }
 
-std::optional<size_t> RoguelikeBoskyPassageMap::pixel_to_index(
-    int px,
-    int py,
-    int origin_x,
-    int origin_y,
-    int column_offset,
-    int row_offset,
-    int node_width,
-    int node_height) const
+std::optional<size_t>
+    RoguelikeBoskyPassageMap::pixel_to_index(int px, int py, const BoskyPassageMapConfig& config) const
 {
-    if (node_width <= 0 || node_height <= 0 || column_offset <= 0 || row_offset <= 0) {
+    if (config.node_width <= 0 || config.node_height <= 0 || config.column_offset <= 0 || config.row_offset <= 0) {
         return std::nullopt;
     }
 
-    auto [gx, gy] = pixel_to_grid_coords(px, py, origin_x, origin_y, column_offset, row_offset);
+    auto [gx, gy] =
+        pixel_to_grid_coords(px, py, config.origin_x, config.origin_y, config.column_offset, config.row_offset);
     return coord_to_index(gx, gy);
 }
 
 std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     int px,
     int py,
-    int origin_x,
-    int origin_y,
-    int column_offset,
-    int row_offset,
-    int node_width,
-    int node_height,
+    const BoskyPassageMapConfig& config,
     bool is_open,
     RoguelikeNodeType type)
 {
-    if (node_width <= 0 || node_height <= 0 || column_offset <= 0 || row_offset <= 0) {
+    if (config.node_width <= 0 || config.node_height <= 0 || config.column_offset <= 0 || config.row_offset <= 0) {
         Log.warn(
             __FUNCTION__,
             "| Invalid parameters: node_width={}, node_height={}, column_offset={}, row_offset={}",
-            node_width,
-            node_height,
-            column_offset,
-            row_offset);
+            config.node_width,
+            config.node_height,
+            config.column_offset,
+            config.row_offset);
         return std::nullopt;
     }
 
-    auto [gx, gy] = pixel_to_grid_coords(px, py, origin_x, origin_y, column_offset, row_offset);
+    auto [gx, gy] =
+        pixel_to_grid_coords(px, py, config.origin_x, config.origin_y, config.column_offset, config.row_offset);
     Log.info(__FUNCTION__, "| analyzing node ({}, {}) -> ({}, {})", px, py, gx, gy);
 
     if (!in_bounds(gx, gy)) {

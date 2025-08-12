@@ -40,24 +40,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         const std::shared_ptr<MatchTaskInfo> bosky_config =
             Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingBoskyPassageConfig");
 
-        if (bosky_config && bosky_config->special_params.size() >= 13) {
-            m_bosky_origin_x = bosky_config->special_params.at(0);
-            m_bosky_origin_y = bosky_config->special_params.at(1);
-            m_bosky_middle_x = bosky_config->special_params.at(2);
-            m_bosky_middle_y = bosky_config->special_params.at(3);
-            m_bosky_last_x = bosky_config->special_params.at(4);
-            m_bosky_last_y = bosky_config->special_params.at(5);
-            m_bosky_node_width = bosky_config->special_params.at(6);
-            m_bosky_node_height = bosky_config->special_params.at(7);
-            m_bosky_column_offset = bosky_config->special_params.at(8);
-            m_bosky_row_offset = bosky_config->special_params.at(9);
-            m_bosky_nameplate_offset = bosky_config->special_params.at(10);
-            m_bosky_roi_margin = bosky_config->special_params.at(11);
-            m_bosky_direction_threshold = bosky_config->special_params.at(12);
-        }
-        else {
-            Log.warn(__FUNCTION__, "| BoskyPassage config not found or invalid");
-        }
+        m_bosky_config = bosky_config->special_params;
     }
 
     const RoguelikeMode& mode = m_config->get_mode();
@@ -268,17 +251,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
         // 检查是否为灰色节点
         const bool is_open = templ_name.find("Grey") == std::string::npos;
 
-        auto idx = m_bosky_map.ensure_node_from_pixel(
-            rect.x,
-            rect.y,
-            m_bosky_origin_x,
-            m_bosky_origin_y,
-            m_bosky_column_offset,
-            m_bosky_row_offset,
-            m_bosky_node_width,
-            m_bosky_node_height,
-            is_open,
-            type);
+        auto idx = m_bosky_map.ensure_node_from_pixel(rect.x, rect.y, m_bosky_config, is_open, type);
 
         if (idx.has_value()) {
             // 更新节点类型（防止类型不一致）
@@ -366,16 +339,19 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
             ") type: " + std::to_string(static_cast<int>(node_type)));
 
     // 点击节点中心
-    auto [px, py] =
-        m_bosky_map
-            .get_node_pixel(chosen, m_bosky_origin_x, m_bosky_origin_y, m_bosky_column_offset, m_bosky_row_offset);
+    auto [px, py] = m_bosky_map.get_node_pixel(
+        chosen,
+        m_bosky_config.origin_x,
+        m_bosky_config.origin_y,
+        m_bosky_config.column_offset,
+        m_bosky_config.row_offset);
 
     if (px == -1 || py == -1) {
         Log.error(__FUNCTION__, "| Invalid pixel coordinates for node {}: ({}, {})", chosen, px, py);
         return;
     }
 
-    Point click_point(px + m_bosky_node_width / 2, py + m_bosky_node_height / 2);
+    Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
     ctrler()->click(click_point);
     m_bosky_map.set_visited(chosen);
 

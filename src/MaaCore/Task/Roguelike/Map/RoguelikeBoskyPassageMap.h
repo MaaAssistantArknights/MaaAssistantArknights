@@ -56,27 +56,53 @@ public:
     // 按 (x,y) 访问节点
     [[nodiscard]] std::optional<size_t> coord_to_index(int x, int y) const;
 
+    // 地图配置参数结构体
+    struct BoskyPassageMapConfig
+    {
+        int origin_x = 0;
+        int origin_y = 0;
+        int middle_x = 0;
+        int middle_y = 0;
+        int last_x = 0;
+        int last_y = 0;
+        int node_width = 0;
+        int node_height = 0;
+        int column_offset = 0;
+        int row_offset = 0;
+        int nameplate_offset = 0;
+        int roi_margin = 0;
+        int direction_threshold = 0;
+
+        BoskyPassageMapConfig() = default;
+
+        BoskyPassageMapConfig(std::vector<int> special_params)
+        {
+            if (special_params.size() >= 13) {
+                origin_x = special_params.at(0);
+                origin_y = special_params.at(1);
+                middle_x = special_params.at(2);
+                middle_y = special_params.at(3);
+                last_x = special_params.at(4);
+                last_y = special_params.at(5);
+                node_width = special_params.at(6);
+                node_height = special_params.at(7);
+                column_offset = special_params.at(8);
+                row_offset = special_params.at(9);
+                nameplate_offset = special_params.at(10);
+                roi_margin = special_params.at(11);
+                direction_threshold = special_params.at(12);
+            }
+        }
+    };
+
     // 像素 -> 节点；若节点不存在则返回 std::nullopt。
-    [[nodiscard]] std::optional<size_t> pixel_to_index(
-        int px,
-        int py,
-        int origin_x,
-        int origin_y,
-        int column_offset,
-        int row_offset,
-        int node_width,
-        int node_height) const;
+    [[nodiscard]] std::optional<size_t> pixel_to_index(int px, int py, const BoskyPassageMapConfig& config) const;
 
     // 像素 -> 节点；若节点不存在则按给定 type 创建
     [[nodiscard]] std::optional<size_t> ensure_node_from_pixel(
         int px,
         int py,
-        int origin_x,
-        int origin_y,
-        int column_offset,
-        int row_offset,
-        int node_width,
-        int node_height,
+        const BoskyPassageMapConfig& config,
         bool is_open,
         RoguelikeNodeType type = RoguelikeNodeType::Unknown);
 
