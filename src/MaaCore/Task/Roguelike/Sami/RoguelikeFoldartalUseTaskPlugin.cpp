@@ -5,6 +5,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
 #include <set>
@@ -185,16 +186,22 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
 {
     LogTraceFunction;
 
-    auto result = UseBoardResult::ClickFoldartalError;
-
     Log.trace("Try to use the board pair", up_board, down_board);
 
     if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@Foldartal" }).run()) {
-        return result;
+        return UseBoardResult::ClickFoldartalError;
+    }
+
+    Matcher matcher(ctrler()->get_image());
+    matcher.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalBack");
+    if (!matcher.analyze()) {
+        Log.error("Matcher Back failed");
+        return UseBoardResult::ClickFoldartalError;
     }
 
     swipe_to_top();
     // todo:插入一个滑动时顺便更新密文板overview,因为有的板子可以用两次
+    auto result = UseBoardResult::CanNotUseConfirm;
     if (!search_and_click_board(up_board)) {
         result = UseBoardResult::UpBoardNotFound;
     }
@@ -206,9 +213,6 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
     }
     else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
         return UseBoardResult::UseBoardResultSuccess;
-    }
-    else {
-        result = UseBoardResult::CanNotUseConfirm;
     }
 
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalBack" }).run();
