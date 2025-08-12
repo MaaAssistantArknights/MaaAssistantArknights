@@ -1411,30 +1411,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
-            {
-                foreach (var stage in FightTask.Stages)
-                {
-                    if (stage is null || !IsStageOpen(stage) || (stage == curStage))
-                    {
-                        continue;
-                    }
-
-                    AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
-                    var task = mainParam.ToObject<AsstFightTask>();
-                    if (task != null)
-                    {
-                        task.Stage = stage;
-                        task.Stone = 0;
-                        task.MaxTimes = int.MaxValue;
-                        task.Drops = [];
-                        mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
-                    }
-
-                    break;
-                }
-            }
-
             return mainFightRet;
         }
 
