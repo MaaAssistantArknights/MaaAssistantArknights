@@ -41,11 +41,11 @@
         },
         {
             "type": "Doubts",
-            "template": ["JieGarden@Roguelike@MapNodeDoubts.png"]
+            "template": ["JieGarden@Roguelike@MapNodeDoubts.png", "JieGarden@Roguelike@MapNodeDoubtsGrey.png"]
         },
         {
             "type": "Disaster",
-            "template": ["JieGarden@Roguelike@MapNodeDisaster.png"]
+            "template": ["JieGarden@Roguelike@MapNodeDisaster.png", "JieGarden@Roguelike@MapNodeDisasterGrey.png"]
         },
         {
             "type": "Playtime",
