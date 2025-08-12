@@ -46,7 +46,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
     LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数" << count_limit;
-    while (!need_exit() && deposit && *deposit < 999 && count_limit - count > 0 && retry < 3) {
+    while (!need_exit() && deposit && *deposit < 999 && count_limit - count > 0) {
         int times = std::min(15, count_limit - count);
         while (!need_exit() && times > 0) {
             ctrler()->click(click_rect);
@@ -57,25 +57,21 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             sleep(500);
         }
         image = ctrler()->get_image();
-        if (is_investment_available(image)) { // 检查是否处于可投资状态
-            if (auto ocr = get_deposit(image); ocr) {
-                if (*ocr >= 0 && *ocr <= 999 && *ocr != *deposit) {
-                    count += *ocr - *deposit;
-                    deposit = *ocr;
-                    retry = 0;
+        if (is_investment_available(image)) {                               // 检查是否处于可投资状态
+            if (auto wallet = get_wallet(image); *wallet && *wallet == 0) { // 手头没钱了
+                Log.info(__FUNCTION__, "手头没钱了, 退出投资");
+                retry = 0;
+                while (!need_exit() && retry++ < 20) {
+                    if (auto ocr = get_deposit(image); ocr) {
+                        if (*ocr >= 0 && *ocr <= 999 && *ocr >= *deposit) {
+                            count += *ocr - *deposit;
+                            deposit = *ocr;
+                            break;
+                        }
+                    }
+                    sleep(500);
+                    image = ctrler()->get_image();
                 }
-                else if (auto wallet = get_wallet(image); *wallet && *wallet == 0) {
-                    Log.info(__FUNCTION__, "钱包为0, 退出投资");
-                    break;
-                }
-                else {
-                    retry++; // 可能是出错了，重试三次放弃
-                }
-            }
-            else {
-                Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
-                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
-                retry++;
             }
         }
         else if (is_investment_error(image)) {
