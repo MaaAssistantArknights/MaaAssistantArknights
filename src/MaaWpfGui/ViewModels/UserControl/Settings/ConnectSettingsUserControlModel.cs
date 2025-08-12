@@ -373,8 +373,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (value)
                 {
-                    var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
-                    if (result != MessageBoxResult.OK)
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("MuMuBridgeConnectionTip"),
+                        icon: MessageBoxImage.Warning,
+                        buttons: MessageBoxButton.YesNo,
+                        no: LocalizationHelper.GetString("Confirm"),
+                        yes: LocalizationHelper.GetString("Cancel"));
+                    if (result != MessageBoxResult.No)
                     {
                         return;
                     }
