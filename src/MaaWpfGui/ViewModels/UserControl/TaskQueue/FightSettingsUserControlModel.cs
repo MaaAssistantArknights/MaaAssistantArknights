@@ -69,7 +69,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     {
         get
         {
-            Stage1 ??= _stage1Fallback;
+            Stage1 ??= Stage1Fallback;
 
             if (!UseAlternateStage)
             {
@@ -116,19 +116,17 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
 
     // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
-    private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
-
-    private string? _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
+    public string Stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage1.
     /// </summary>
-    public string? Stage1
+    public string Stage1
     {
-        get => _stage1;
+        get => GetTaskConfig<FightTask>().Stage1;
         set
         {
-            if (_stage1 == value)
+            if (GetTaskConfig<FightTask>().Stage1 == value)
             {
                 return;
             }
@@ -136,75 +134,68 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (CustomStageCode)
             {
                 // 从后往前删
-                if (_stage1?.Length != 3 && value != null)
+                if (GetTaskConfig<FightTask>().Stage1.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage1, value);
+            SetTaskConfig<FightTask>(t => t.Stage1 == value, t => t.Stage1 = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage1, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
-
-    private string? _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage2.
     /// </summary>
-    public string? Stage2
+    public string Stage2
     {
-        get => _stage2;
+        get => GetTaskConfig<FightTask>().Stage2;
         set
         {
-            if (_stage2 == value)
+            if (GetTaskConfig<FightTask>().Stage2 == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage2?.Length != 3 && value != null)
+                if (GetTaskConfig<FightTask>().Stage2.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage2, value);
+            SetTaskConfig<FightTask>(t => t.Stage2 == value, t => t.Stage2 = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage2, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
 
-    private string? _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
-
     /// <summary>
     /// Gets or sets the stage3.
     /// </summary>
-    public string? Stage3
+    public string Stage3
     {
-        get => _stage3;
+        get => GetTaskConfig<FightTask>().Stage3;
         set
         {
-            if (_stage3 == value)
+            if (GetTaskConfig<FightTask>().Stage3 == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage3?.Length != 3 && value != null)
+                if (GetTaskConfig<FightTask>().Stage3.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage3, value);
+            SetTaskConfig<FightTask>(t => t.Stage3 == value, t => t.Stage3 = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage3, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
