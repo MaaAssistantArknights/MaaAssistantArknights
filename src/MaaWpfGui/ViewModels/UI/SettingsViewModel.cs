@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,6 +131,12 @@ namespace MaaWpfGui.ViewModels.UI
             HangoverEnd();
 
             _runningState = RunningState.Instance;
+            _runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object? sender, bool e)
+        {
+            Idle = e;
         }
 
         #region Init
@@ -158,53 +163,40 @@ namespace MaaWpfGui.ViewModels.UI
             InitVersionUpdate();
         }
 
-        public class SettingItem(string key, string display, int value) : PropertyChangedBase
-        {
-            private string _key = key;
-
-            public string Key
-            {
-                get => _key;
-                set => SetAndNotify(ref _key, value);
-            }
-
-            private string _display = display;
-
-            public string Display
-            {
-                get => _display;
-                set => SetAndNotify(ref _display, value);
-            }
-
-            private int _value = value;
-
-            public int Value
-            {
-                get => _value;
-                set => SetAndNotify(ref _value, value);
-            }
-        }
-
-        public SettingItem GetSettingItemByKey(string key)
+        public SettingItemViewModel GetSettingItemByKey(string key)
         {
             return Settings.First(s => s.Key == key);
         }
 
-        public SettingItem SwitchConfigurationSetting => GetSettingItemByKey("SwitchConfiguration");
-        public SettingItem ScheduleSettingsSetting => GetSettingItemByKey("ScheduleSettings");
-        public SettingItem PerformanceSettingsSetting => GetSettingItemByKey("PerformanceSettings");
-        public SettingItem GameSettingsSetting => GetSettingItemByKey("GameSettings");
-        public SettingItem ConnectionSettingsSetting => GetSettingItemByKey("ConnectionSettings");
-        public SettingItem StartupSettingsSetting => GetSettingItemByKey("StartupSettings");
-        public SettingItem RemoteControlSettingsSetting => GetSettingItemByKey("RemoteControlSettings");
-        public SettingItem UiSettingsSetting => GetSettingItemByKey("UiSettings");
-        public SettingItem BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
-        public SettingItem ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
-        public SettingItem HotKeySettingsSetting => GetSettingItemByKey("HotKeySettings");
-        public SettingItem AchievementSettingsSetting => GetSettingItemByKey("AchievementSettings");
-        public SettingItem UpdateSettingsSetting => GetSettingItemByKey("UpdateSettings");
-        public SettingItem IssueReportSetting => GetSettingItemByKey("IssueReport");
-        public SettingItem AboutUsSetting => GetSettingItemByKey("AboutUs");
+        public SettingItemViewModel SwitchConfigurationSetting => GetSettingItemByKey("SwitchConfiguration");
+
+        public SettingItemViewModel ScheduleSettingsSetting => GetSettingItemByKey("ScheduleSettings");
+
+        public SettingItemViewModel PerformanceSettingsSetting => GetSettingItemByKey("PerformanceSettings");
+
+        public SettingItemViewModel GameSettingsSetting => GetSettingItemByKey("GameSettings");
+
+        public SettingItemViewModel ConnectionSettingsSetting => GetSettingItemByKey("ConnectionSettings");
+
+        public SettingItemViewModel StartupSettingsSetting => GetSettingItemByKey("StartupSettings");
+
+        public SettingItemViewModel RemoteControlSettingsSetting => GetSettingItemByKey("RemoteControlSettings");
+
+        public SettingItemViewModel UiSettingsSetting => GetSettingItemByKey("UiSettings");
+
+        public SettingItemViewModel BackgroundSettingsSetting => GetSettingItemByKey("BackgroundSettings");
+
+        public SettingItemViewModel ExternalNotificationSettingsSetting => GetSettingItemByKey("ExternalNotificationSettings");
+
+        public SettingItemViewModel HotKeySettingsSetting => GetSettingItemByKey("HotKeySettings");
+
+        public SettingItemViewModel AchievementSettingsSetting => GetSettingItemByKey("AchievementSettings");
+
+        public SettingItemViewModel UpdateSettingsSetting => GetSettingItemByKey("UpdateSettings");
+
+        public SettingItemViewModel IssueReportSetting => GetSettingItemByKey("IssueReport");
+
+        public SettingItemViewModel AboutUsSetting => GetSettingItemByKey("AboutUs");
 
         private void InitSettings()
         {
@@ -227,14 +219,14 @@ namespace MaaWpfGui.ViewModels.UI
                 "AboutUs",
             ];
 
-            var tempOrderList = new List<SettingItem?>(new SettingItem[keyList.Count]);
-            var nonOrderList = new List<SettingItem?>();
+            var tempOrderList = new List<SettingItemViewModel?>(new SettingItemViewModel[keyList.Count]);
+            var nonOrderList = new List<SettingItemViewModel?>();
 
             foreach (var key in keyList)
             {
                 int order = ConfigurationHelper.GetSettingOrder(key, -1);
 
-                var item = new SettingItem(key, LocalizationHelper.GetString(key), -1);
+                var item = new SettingItemViewModel(key, LocalizationHelper.GetString(key), -1);
 
                 if (order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
                 {
@@ -248,7 +240,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             int fillIndex = 0;
-            foreach (var item in nonOrderList.OfType<SettingItem>())
+            foreach (var item in nonOrderList.OfType<SettingItemViewModel>())
             {
                 while (fillIndex < tempOrderList.Count && tempOrderList[fillIndex] != null)
                 {
@@ -263,7 +255,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            Settings = [.. tempOrderList.OfType<SettingItem>()];
+            Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
 
             Settings.CollectionChanged += Settings_CollectionChanged;
         }
@@ -298,9 +290,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public event EventHandler? RefreshDividerOffsetsRequested;
 
-        private ObservableCollection<SettingItem> _settings = [];
+        private ObservableCollection<SettingItemViewModel> _settings = [];
 
-        public ObservableCollection<SettingItem> Settings
+        public ObservableCollection<SettingItemViewModel> Settings
         {
             get => _settings;
             set => SetAndNotify(ref _settings, value);
@@ -339,7 +331,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitVersionUpdate()
         {
-            if (VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly && !VersionUpdateSettings.AllowNightlyUpdates)
+            if (VersionUpdateSettings is { VersionType: VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly, AllowNightlyUpdates: false })
             {
                 VersionUpdateSettings.VersionType = VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta;
             }
@@ -472,7 +464,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: ShowGui.
         /// </summary>
-        public static MaaHotKey HotKeyShowGui
+        public static MaaHotKey? HotKeyShowGui
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
             set => SetHotKey(MaaHotKeyAction.ShowGui, value);
@@ -481,13 +473,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: LinkStart.
         /// </summary>
-        public static MaaHotKey HotKeyLinkStart
+        public static MaaHotKey? HotKeyLinkStart
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
             set => SetHotKey(MaaHotKeyAction.LinkStart, value);
         }
 
-        private static void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
+        private static void SetHotKey(MaaHotKeyAction action, MaaHotKey? value)
         {
             if (value != null)
             {
@@ -666,7 +658,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public double ScrollExtentHeight { get; set; }
 
-        private List<double> _dividerVerticalOffsetList = new();
+        private List<double> _dividerVerticalOffsetList = [];
 
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
@@ -752,7 +744,7 @@ namespace MaaWpfGui.ViewModels.UI
                         SetAndNotify(ref _scrollOffset, value);
 
                         // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        if (DividerVerticalOffsetList?.Count > 0)
+                        if (DividerVerticalOffsetList.Count > 0)
                         {
                             // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)

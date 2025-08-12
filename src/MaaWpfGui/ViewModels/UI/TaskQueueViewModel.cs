@@ -330,7 +330,6 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
-            Instances.SettingsViewModel.Idle = e;
             if (!e)
             {
                 Instances.Data.ClearCache();
