@@ -64,14 +64,19 @@ public class FightTask : BaseTask
     public string Stage1 { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 备选关卡
+    /// Gets or sets 备选关卡1
     /// </summary>
     public string Stage2 { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets 备选关卡
+    /// Gets or sets 备选关卡2
     /// </summary>
     public string Stage3 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 备选3
+    /// </summary>
+    public string Stage4 { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether 博朗台模式
