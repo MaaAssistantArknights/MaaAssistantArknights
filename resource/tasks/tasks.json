@@ -516,14 +516,14 @@
     "ChapterSwipeToTheLeft": {
         "Doc": "滑动到最左",
         "baseTask": "ChapterSlowlySwipeToTheLeft",
-        "specialParams": [150, 0, 0.5],
+        "specialParams": [150, 0, 0],
         "next": ["#self"],
         "maxTimes": 5
     },
     "ChapterSwipeToTheRight": {
         "Doc": "滑动到最右",
         "baseTask": "ChapterSlowlySwipeToTheRight",
-        "specialParams": [150, 0, 0.5],
+        "specialParams": [150, 0, 0],
         "next": ["#self"],
         "maxTimes": 10
     },
