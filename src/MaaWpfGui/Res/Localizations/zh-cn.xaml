@@ -144,7 +144,7 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
-    <system:String x:Key="MuMuEmulator12">MuMu 模拟器 12</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu 模拟器</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
@@ -510,7 +510,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-需使用官版或方舟专版 MuMu 12 V4.0.0 或更新版本，国际版暂不支持。
+需使用官版或方舟专版 MuMu V4.0.0 或更新版本，国际版暂不支持。
 强烈建议在开启本功能后立刻运行一次截图测试。
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。\n
 安装路径应填写模拟器安装目录的根目录，例如模拟器进程文件路径为
