@@ -50,7 +50,6 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
 {
     RegionOCRer analyzer;
     auto name_task_ptr = Task.get<OcrTaskInfo>("RoguelikeSkillSelectionName");
-    analyzer.set_bin_threshold(name_task_ptr->specific_rect.x);
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
