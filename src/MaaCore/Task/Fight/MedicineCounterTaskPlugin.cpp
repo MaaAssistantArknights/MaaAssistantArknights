@@ -270,8 +270,8 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
     ranges::copy(ocr_replace, std::back_inserter(merged_replace));
 
     RegionOCRer ocr(image);
-    ocr.set_bin_threshold(100, 255);
     ocr.set_task_info(ocr_task);
+    ocr.set_bin_threshold(100, 255);
     ocr.set_replace(merged_replace);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
@@ -294,8 +294,8 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
     ranges::copy(task_replace, std::back_inserter(merge_map));
 
     RegionOCRer ocr(image);
-    ocr.set_bin_threshold(100, 255);
     ocr.set_task_info(ocr_task);
+    ocr.set_bin_threshold(100, 255);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
