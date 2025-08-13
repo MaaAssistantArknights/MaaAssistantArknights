@@ -154,7 +154,7 @@ namespace MaaWpfGui.Helper
 
                 var text = new TextBlock
                 {
-                    Text = total.FormatNumber(),
+                    Text = total.FormatNumber(false),
                     FontSize = 12,
                     FontWeight = FontWeights.Bold,
                     TextAlignment = TextAlignment.Center,
@@ -184,7 +184,7 @@ namespace MaaWpfGui.Helper
                         HorizontalAlignment = HorizontalAlignment.Center,
                         MaxWidth = 64,
                     };
-                    textAdd.Inlines.Add(new Run($"(+{add.FormatNumber()})"));
+                    textAdd.Inlines.Add(new Run($"(+{add.FormatNumber(false)})"));
                     itemStack.Children.Add(textAdd);
                 }
 

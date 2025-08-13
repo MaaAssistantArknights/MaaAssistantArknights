@@ -495,7 +495,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Name = ItemListHelper.GetItemName(id),
                     Image = ItemListHelper.GetItemImage(id),
                     Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
-                        ? haveValue.FormatNumber()
+                        ? haveValue.FormatNumber(false)
                         : "-1",
                 };
 

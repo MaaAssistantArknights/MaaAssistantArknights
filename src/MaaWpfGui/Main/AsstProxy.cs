@@ -1544,10 +1544,10 @@ namespace MaaWpfGui.Main
 
                         foreach (var (_, itemName, totalQuantity, addQuantity) in drops)
                         {
-                            allDrops += $"{itemName} : {totalQuantity.FormatNumber()}";
+                            allDrops += $"{itemName} : {totalQuantity.FormatNumber(false)}";
                             if (addQuantity > 0)
                             {
-                                allDrops += $" (+{addQuantity.FormatNumber()})";
+                                allDrops += $" (+{addQuantity.FormatNumber(false)})";
                             }
 
                             allDrops += "\n";
