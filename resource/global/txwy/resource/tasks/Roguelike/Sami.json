@@ -49,6 +49,9 @@
     "Sami@Roguelike@ContinueClick": {
         "text": ["初霜湖澤", "密靜林地", "昧明凍土", "積冰巖骸", "無瑕花園", "遠見之構", "深埋迷境"]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "text": ["完成本", "完成本層", "下一層級"]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             ["捕獵", "捕猎"],
@@ -124,9 +127,6 @@
     },
     "Sami@Roguelike@NextLevel": {
         "text": ["初霜湖澤", "密靜林地", "昧明凍土", "積冰巖骸", "無瑕花園", "遠見之構", "深埋迷境"]
-    },
-    "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["完成本", "完成本層", "下一層級"]
     },
     "Sami@Roguelike@SelectTheme": {
         "text": ["科考記錄", "科考", "記錄"]

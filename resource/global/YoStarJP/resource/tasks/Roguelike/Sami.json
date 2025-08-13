@@ -50,6 +50,9 @@
     "Sami@Roguelike@ContinueClick": {
         "text": ["初霜の湖沼", "静謐な.*", "夜明けの凍.*", "凍てつく岩骸", "汚れなき花園", "遠見の巨構", "深埋の迷境"]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "text": ["本エリア", "通過後", "次段階", "パラダイム"]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             ["狩猟", "捕猎"],
@@ -143,9 +146,6 @@
     },
     "Sami@Roguelike@NextLevel": {
         "text": ["初霜の湖沼", "静謐な.*", "夜明けの凍.*", "凍てつく岩骸", "汚れなき花園", "遠見の巨構", "深埋の迷境"]
-    },
-    "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["本エリア", "通過後", "次段階", "パラダイム"]
     },
     "Sami@Roguelike@SelectTheme": {
         "text": ["科学考察記録"]
