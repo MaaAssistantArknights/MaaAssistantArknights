@@ -1375,14 +1375,14 @@
         ]
     },
     "Roguelike@StageSafeHouseSkipText": {
-        "template": "empty.png",
+        "algorithm": "JustReturn",
         "action": "ClickRect",
         "preDelay": 250,
         "specificRect": [0, 405, 725, 225],
         "next": ["Roguelike@StageSafeHouseSkipTextRewards"]
     },
     "Roguelike@StageSafeHouseSkipTextRewards": {
-        "template": "empty.png",
+        "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 405, 725, 225],
         "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
