@@ -86,7 +86,7 @@ When ADB versions differ, newly started processes will close older ones. If you 
 
 Some accelerators require restarting MAA, ADB, and the emulator after enabling or disabling acceleration.
 
-For using UU Accelerator with MuMu 12, refer to the [official documentation](https://mumu.163.com/help/20240321/35047_1144608.html).
+For using UU Accelerator with MuMu, refer to the [official documentation](https://mumu.163.com/help/20240321/35047_1144608.html).
 
 ### Restart your computer
 

@@ -39,8 +39,8 @@ icon: mdi:plug
 #### エミュレータ関連ドキュメントおよび参考ポート
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
+- [MuMu](https://mumu.163.com/help/20240807/40912_1073151.html?maa) `16384`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
 - [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
@@ -48,7 +48,7 @@ icon: mdi:plug
 
 #### 多重起動について
 
-- MuMu 12 の多重起動マネージャーでは、実行中のポートを確認できます。
+- MuMu の多重起動マネージャーでは、実行中のポートを確認できます。
 - Bluestacks 5 の設定内で現在の多重ポートを確認できます。
 - _追加予定_
 
@@ -207,11 +207,11 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
 
 ### MuMu スクリーンショット強化モード
 
-公式版 または Arknights Edition MuMu 12 V4.1.26 以降のバージョンに対応しています。<!-- V3.8.13 -->
+公式版 または Arknights Edition MuMu V4.1.26 以降のバージョンに対応しています。<!-- V3.8.13 -->
 
 1. `設定` - `接続設定` で `MuMu のスクリーンショット拡張モードを有効にする` をチェックします。MAAは、スイッチをチェックすると、レジストリを通じてインストールパスを自動的に入力しようとします。
 
-2. `MuMu12 エミュレーターパス` には `MuMu Player 12` または `MuMuPlayerGlobal-12.0` または `YXArkNights-12.0` フォルダのパスを入力してください。例: `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`。
+2. `MuMu12 エミュレーターパス` には `MuMu Player` または `MuMuPlayerGlobal-12.0` または `YXArkNights-12.0` フォルダのパスを入力してください。例: `C:\Program Files\Netease\MuMuPlayerGlobal-12.0`。
 
 3. MuMu ネットワークブリッジを使用している場合は、`MuMu ネットワークブリッジモード` を選択し、MuMu マルチインスタンスマネージャ内の対応するエミュレータのシリアル番号を手動で入力する必要があります。例えば、メインインスタンスは `0` です。
 
