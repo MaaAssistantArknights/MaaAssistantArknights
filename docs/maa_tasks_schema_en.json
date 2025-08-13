@@ -250,12 +250,20 @@
                     "description": "Optional when method is HSVCount or RGBCount, default true\nWhether to use morphological closing on mask range for color counting\nClosing fills small black dots, generally improves color matching but set false for text"
                 },
                 "method": {
-                    "type": ["string", "array"],
-                    "items": {
-                        "type": "string"
-                    },
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "enum": ["Ccoeff", "RGBCount", "HSVCount"]
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["Ccoeff", "RGBCount", "HSVCount"]
+                            }
+                        }
+                    ],
                     "default": "Ccoeff",
-                    "enum": ["Ccoeff", "RGBCount", "HSVCount"],
                     "description": "Optional, template matching algorithm, can be list\nDefault is Ccoeff when not specified\n- Ccoeff: Color-insensitive template matching, corresponds to cv::TM_CCOEFF_NORMED\n- RGBCount: Color-sensitive template matching, binary thresholds target area and template using colorScales, calculates similarity using F1-score in RGB color space, then dot products result with Ccoeff result\n- HSVCount: Similar to RGBCount, but uses HSV color space"
                 }
             },
