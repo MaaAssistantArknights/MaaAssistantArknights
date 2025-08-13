@@ -155,30 +155,6 @@ std::pair<int, int> RoguelikeBoskyPassageMap::get_node_pixel(
     return { origin_x + x * column_offset, origin_y + y * row_offset };
 }
 
-std::vector<size_t> RoguelikeBoskyPassageMap::get_adjacent_existing_nodes(size_t index) const
-{
-    std::vector<size_t> res;
-    if (index >= m_nodes.size()) {
-        return res;
-    }
-    const int x = get_node_x(index);
-    const int y = get_node_y(index);
-    const std::array<int, 4> dx { 1, -1, 0, 0 };
-    const std::array<int, 4> dy { 0, 0, 1, -1 };
-    for (auto k = 0; k < 4; ++k) {
-        int nx = x + dx[k];
-        int ny = y + dy[k];
-        if (!in_bounds(nx, ny)) {
-            continue;
-        }
-        const auto nidx = static_cast<size_t>(ny * WIDTH + nx);
-        if (m_nodes[nidx].exists) {
-            res.push_back(nidx);
-        }
-    }
-    return res;
-}
-
 std::optional<size_t> RoguelikeBoskyPassageMap::coord_to_index(int x, int y) const
 {
     if (!in_bounds(x, y)) {

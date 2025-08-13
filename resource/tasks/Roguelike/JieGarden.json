@@ -511,12 +511,10 @@
             "| specialParams[7]: 节点 Rect.height",
             "| specialParams[8]: 两列节点之间的距离",
             "| specialParams[9]: 两行节点之间的距离",
-            "| specialParams[10]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "| specialParams[11]: roi 的 margin offset",
-            "| specialParams[12]: 节点间连线方向判定的阈值"
+            "| specialParams[10]: roi 的 margin offset"
         ],
         "template": "empty.png",
-        "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 23, 15, 7]
+        "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 15]
     },
     "JieGarden@Roguelike@RoutingContinue": {
         "template": "JieGarden@Roguelike@Continue.png",

@@ -50,9 +50,6 @@ public:
     [[nodiscard]] std::pair<int, int>
         get_node_pixel(size_t index, int origin_x, int origin_y, int column_offset, int row_offset) const;
 
-    // 返回邻接已存在节点的 index（不存在或未创建的节点不返回）
-    [[nodiscard]] std::vector<size_t> get_adjacent_existing_nodes(size_t index) const;
-
     // 按 (x,y) 访问节点
     [[nodiscard]] std::optional<size_t> coord_to_index(int x, int y) const;
 
@@ -69,15 +66,13 @@ public:
         int node_height = 0;
         int column_offset = 0;
         int row_offset = 0;
-        int nameplate_offset = 0;
         int roi_margin = 0;
-        int direction_threshold = 0;
 
         BoskyPassageMapConfig() = default;
 
         BoskyPassageMapConfig(std::vector<int> special_params)
         {
-            if (special_params.size() >= 13) {
+            if (special_params.size() >= 11) {
                 origin_x = special_params.at(0);
                 origin_y = special_params.at(1);
                 middle_x = special_params.at(2);
@@ -88,9 +83,7 @@ public:
                 node_height = special_params.at(7);
                 column_offset = special_params.at(8);
                 row_offset = special_params.at(9);
-                nameplate_offset = special_params.at(10);
-                roi_margin = special_params.at(11);
-                direction_threshold = special_params.at(12);
+                roi_margin = special_params.at(10);
             }
         }
     };
