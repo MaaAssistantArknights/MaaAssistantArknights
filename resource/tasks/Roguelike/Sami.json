@@ -361,6 +361,11 @@
         "baseTask": "Sami@Roguelike@FoldartalGainOcr",
         "roi": [44, 309, 1195, 124]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "baseTask": "Sami@Roguelike@NextLevel",
+        "text": ["完成本层", "下一层级"],
+        "roi": [268, 600, 197, 78]
+    },
     "Sami@Roguelike@FoldartalGainOcrNextLevel": {
         "baseTask": "Sami@Roguelike@FoldartalGainOcr",
         "roi": [290, 640, 151, 34]
@@ -548,9 +553,9 @@
         "specificRect": [490, 530, 45, 55]
     },
     "Sami@Roguelike@NextLevel": {
-        "text": ["完成本层", "下一层级"],
-        "roi": [268, 600, 197, 78],
-        "next": ["Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange", "Sami@Roguelike@NextLevel"]
+        "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
+        "roi": [522, 525, 245, 81],
+        "next": ["Sami@Roguelike@FoldartalGainNextLevel", "Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange", "Sami@Roguelike@NextLevel"]
     },
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
