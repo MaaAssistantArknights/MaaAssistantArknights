@@ -929,9 +929,6 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="LDExtras.h">
-      <Filter>Source\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h">
       <Filter>Source\Vision\Battle</Filter>
     </ClInclude>
@@ -952,6 +949,9 @@
     </ClInclude>
     <ClInclude Include="Utils\Encoding.h">
       <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\LDExtras.h">
+      <Filter>Source\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1452,9 +1452,6 @@
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="LDExtras.cpp">
-      <Filter>Source\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
       <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
@@ -1475,6 +1472,9 @@
     </ClCompile>
     <ClCompile Include="Utils\Encoding.cpp">
       <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\LDExtras.cpp">
+      <Filter>Source\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -105,6 +105,7 @@
     <ClInclude Include="Controller\ControllerAPI.h" />
     <ClInclude Include="Controller\ControllerFactory.h" />
     <ClInclude Include="Controller\ControlScaleProxy.h" />
+    <ClInclude Include="Controller\LDExtras.h" />
     <ClInclude Include="Controller\MaaThriftController.h" />
     <ClInclude Include="Controller\MaatouchController.h" />
     <ClInclude Include="Controller\MinitouchController.h" />
@@ -117,7 +118,6 @@
     <ClInclude Include="Controller\Platform\PlatformIO.h" />
     <ClInclude Include="Controller\Platform\PlatformFactory.h" />
     <ClInclude Include="InstHelper.h" />
-    <ClInclude Include="LDExtras.h" />
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h" />
@@ -309,6 +309,7 @@
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
     <ClCompile Include="Controller\ControlScaleProxy.cpp" />
+    <ClCompile Include="Controller\LDExtras.cpp" />
     <ClCompile Include="Controller\MaaThriftController.cpp" />
     <ClCompile Include="Controller\MinitouchController.cpp" />
     <ClCompile Include="Controller\MumuExtras.cpp" />
@@ -318,7 +319,6 @@
     <ClCompile Include="Controller\Platform\PosixIO.cpp" />
     <ClCompile Include="Controller\Platform\Win32IO.cpp" />
     <ClCompile Include="InstHelper.cpp" />
-    <ClCompile Include="LDExtras.cpp" />
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp" />
