@@ -161,7 +161,6 @@
     <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h" />
     <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyRoutingTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
