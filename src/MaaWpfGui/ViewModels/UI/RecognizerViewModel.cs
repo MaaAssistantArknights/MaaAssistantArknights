@@ -27,6 +27,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -494,9 +495,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Name = ItemListHelper.GetItemName(id),
                     Image = ItemListHelper.GetItemImage(id),
                     Count = item["have"] != null && int.TryParse(item["have"]?.ToString() ?? "-1", out int haveValue)
-                        ? (haveValue > 10000
-                            ? $"{haveValue / 10000.0:F1}w"
-                            : haveValue.ToString())
+                        ? haveValue.FormatNumber(false)
                         : "-1",
                 };
 
