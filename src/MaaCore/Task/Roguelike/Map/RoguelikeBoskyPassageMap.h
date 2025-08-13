@@ -88,6 +88,9 @@ public:
         }
     };
 
+    // 像素 -> 网格；返回 (x, y) 坐标
+    [[nodiscard]] std::pair<int, int> pixel_to_grid_coords(int px, int py, const BoskyPassageMapConfig& config) const;
+
     // 像素 -> 节点；若节点不存在则返回 std::nullopt。
     [[nodiscard]] std::optional<size_t> pixel_to_index(int px, int py, const BoskyPassageMapConfig& config) const;
 

@@ -167,17 +167,15 @@ std::optional<size_t> RoguelikeBoskyPassageMap::coord_to_index(int x, int y) con
     return idx;
 }
 
-namespace
-{
 // 像素坐标到网格坐标的转换辅助函数
-std::pair<int, int> pixel_to_grid_coords(int px, int py, int origin_x, int origin_y, int column_offset, int row_offset)
+std::pair<int, int>
+    RoguelikeBoskyPassageMap::pixel_to_grid_coords(int px, int py, const BoskyPassageMapConfig& config) const
 {
-    const double dx = static_cast<double>(px - origin_x) / column_offset;
-    const double dy = static_cast<double>(py - origin_y) / row_offset;
+    const double dx = static_cast<double>(px - config.origin_x) / config.column_offset;
+    const double dy = static_cast<double>(py - config.origin_y) / config.row_offset;
     const auto gx = static_cast<int>(dx + (dx >= 0 ? 0.5 : -0.5));
     const auto gy = static_cast<int>(dy + (dy >= 0 ? 0.5 : -0.5));
     return { gx, gy };
-}
 }
 
 std::optional<size_t>
@@ -187,8 +185,7 @@ std::optional<size_t>
         return std::nullopt;
     }
 
-    auto [gx, gy] =
-        pixel_to_grid_coords(px, py, config.origin_x, config.origin_y, config.column_offset, config.row_offset);
+    const auto [gx, gy] = pixel_to_grid_coords(px, py, config);
     return coord_to_index(gx, gy);
 }
 
@@ -210,8 +207,7 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
         return std::nullopt;
     }
 
-    auto [gx, gy] =
-        pixel_to_grid_coords(px, py, config.origin_x, config.origin_y, config.column_offset, config.row_offset);
+    auto [gx, gy] = pixel_to_grid_coords(px, py, config);
     Log.info(__FUNCTION__, "| analyzing node ({}, {}) -> ({}, {})", px, py, gx, gy);
 
     if (!in_bounds(gx, gy)) {
