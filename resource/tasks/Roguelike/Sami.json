@@ -294,6 +294,11 @@
         "maskRange": [1, 255],
         "next": ["Sami@Roguelike@FoldartalGain", "Sami@Roguelike@LastRewardChoose", "Sami@Roguelike@SquadConfirm#next"]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "baseTask": "Sami@Roguelike@NextLevel",
+        "text": ["完成本层", "下一层级"],
+        "roi": [268, 600, 197, 78]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "doc": "深入调查调查装备也在这里",
         "algorithm": "OcrDetect",
@@ -360,11 +365,6 @@
     "Sami@Roguelike@FoldartalGainOcrAfterCombat": {
         "baseTask": "Sami@Roguelike@FoldartalGainOcr",
         "roi": [44, 309, 1195, 124]
-    },
-    "Sami@Roguelike@FoldartalGainNextLevel": {
-        "baseTask": "Sami@Roguelike@NextLevel",
-        "text": ["完成本层", "下一层级"],
-        "roi": [268, 600, 197, 78]
     },
     "Sami@Roguelike@FoldartalGainOcrNextLevel": {
         "baseTask": "Sami@Roguelike@FoldartalGainOcr",

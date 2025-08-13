@@ -61,6 +61,9 @@
         ],
         "roi": [467, 531, 357, 72]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             ["Hunt", "捕猎"],
@@ -178,9 +181,6 @@
             "Clayrovant Carcass"
         ],
         "roi": [467, 531, 357, 72]
-    },
-    "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"]
     },
     "Sami@Roguelike@RecruitOther": {
         "templThreshold": 0.75
