@@ -1,5 +1,6 @@
 {
     "EP-OpenOcr": {
+        "ocrReplace": [["出蒼百海", "出蒼白海"]],
         "text": ["出蒼白海", "穿越", "骸礁"]
     },
     "EPChapterToEP": {
