@@ -555,7 +555,12 @@
     "Sami@Roguelike@NextLevel": {
         "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
         "roi": [522, 525, 245, 81],
-        "next": ["Sami@Roguelike@FoldartalGainNextLevel", "Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange", "Sami@Roguelike@NextLevel"]
+        "next": [
+            "Sami@Roguelike@FoldartalGainNextLevel",
+            "Sami@Roguelike@CloseInterview",
+            "Sami@Roguelike@StrategyChange",
+            "Sami@Roguelike@NextLevel"
+        ]
     },
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
