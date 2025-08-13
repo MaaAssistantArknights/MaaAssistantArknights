@@ -20,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using MaaWpfGui.Extensions;
 
 namespace MaaWpfGui.Helper
 {
@@ -153,7 +154,7 @@ namespace MaaWpfGui.Helper
 
                 var text = new TextBlock
                 {
-                    Text = FormatNumber(total),
+                    Text = total.FormatNumber(),
                     FontSize = 12,
                     FontWeight = FontWeights.Bold,
                     TextAlignment = TextAlignment.Center,
@@ -183,20 +184,11 @@ namespace MaaWpfGui.Helper
                         HorizontalAlignment = HorizontalAlignment.Center,
                         MaxWidth = 64,
                     };
-                    textAdd.Inlines.Add(new Run($"(+{FormatNumber(add)})"));
+                    textAdd.Inlines.Add(new Run($"(+{add.FormatNumber()})"));
                     itemStack.Children.Add(textAdd);
                 }
 
                 row.Children.Add(itemStack);
-                continue;
-
-                static string FormatNumber(int n) => n switch
-                {
-                    >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
-                    >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
-                    >= 1_000 => $"{n / 1_000.0:#.#}k",
-                    _ => $"{n}",
-                };
             }
 
             return row.CreateTooltip(PlacementMode.Center);
