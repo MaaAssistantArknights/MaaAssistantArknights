@@ -164,7 +164,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     }
 
     // 新增：如果最高得分低于阈值，则保存
-    if (score < 0.9f) {
+    if (score < 0.75f) {
         Log.trace("Low score", score);
         need_save = true;
     }
