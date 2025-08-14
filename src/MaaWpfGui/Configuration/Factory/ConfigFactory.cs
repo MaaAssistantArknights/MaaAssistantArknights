@@ -161,7 +161,6 @@ public static class ConfigFactory
                 var key = "Root.Configurations." + name + ".";
                 config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                 config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
-                config.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
                 config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
                 {
                     switch (args.Action)
@@ -180,10 +179,12 @@ public static class ConfigFactory
                                 }
                             }
 
+                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
                             break;
                         case NotifyCollectionChangedAction.Remove:
                         case NotifyCollectionChangedAction.Move:
                         case NotifyCollectionChangedAction.Reset:
+                            OnPropertyChanged(parsed.Current + ".TaskQueue", null, null);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
