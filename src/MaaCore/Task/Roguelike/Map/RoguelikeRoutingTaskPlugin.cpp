@@ -42,10 +42,13 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         return true;
     }
 
-    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::Investment && squad == "指挥分队" &&
-        m_config->get_difficulty() >= 3) {
-        m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
-        return true;
+    if (theme == RoguelikeTheme::JieGarden) {
+        if (((mode == RoguelikeMode::Investment && squad == "指挥分队") ||
+             (mode == RoguelikeMode::Collectible && params.get("collectible_mode_squad", squad) == "指挥分队")) &&
+            m_config->get_difficulty() >= 3) {
+            m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
+            return true;
+        }
     }
 
     if (mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {

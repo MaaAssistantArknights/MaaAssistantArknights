@@ -56,9 +56,19 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
         Log.info(__FUNCTION__, "| Running for collectible");
     }
 
+    static const std::unordered_map<std::string_view, int> CollectibleDifficultyMap = {
+        { RoguelikeTheme::Phantom, 0 },
+        { RoguelikeTheme::Mizuki, 0 },
+        { RoguelikeTheme::Sami, 0 },
+        { RoguelikeTheme::Sarkaz, 0 },
+        { RoguelikeTheme::JieGarden, 3 }
+    };
+
     // 不会记录初始时游戏内难度，ban一下烧水的`当前难`
     const int difficulty =
-        (m_config->get_run_for_collectible() && m_config->get_difficulty() != -1) ? 0 : m_config->get_difficulty();
+        (m_config->get_run_for_collectible() && m_config->get_difficulty() != -1)
+            ? std::min(CollectibleDifficultyMap.at(m_config->get_theme()), m_config->get_difficulty())
+            : m_config->get_difficulty();
     Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
 
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
