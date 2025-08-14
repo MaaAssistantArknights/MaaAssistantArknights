@@ -14111,6 +14111,78 @@
         "stageId": "act44side_ex08",
         "width": 13
     },
+    "act44side_s01#f#-activities/act44side/level_act44side_sub-1-1": {
+        "code": "AT-S-1",
+        "filename": "act44side_s01#f#-activities-act44side-level_act44side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-1",
+        "name": "神签",
+        "stageId": "act44side_s01#f#",
+        "width": 13
+    },
+    "act44side_s01-activities/act44side/level_act44side_sub-1-1": {
+        "code": "AT-S-1",
+        "filename": "act44side_s01-activities-act44side-level_act44side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-1",
+        "name": "神签",
+        "stageId": "act44side_s01",
+        "width": 13
+    },
+    "act44side_s02#f#-activities/act44side/level_act44side_sub-1-2": {
+        "code": "AT-S-2",
+        "filename": "act44side_s02#f#-activities-act44side-level_act44side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_sub-1-2",
+        "name": "祓雨",
+        "stageId": "act44side_s02#f#",
+        "width": 11
+    },
+    "act44side_s02-activities/act44side/level_act44side_sub-1-2": {
+        "code": "AT-S-2",
+        "filename": "act44side_s02-activities-act44side-level_act44side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act44side/level_act44side_sub-1-2",
+        "name": "祓雨",
+        "stageId": "act44side_s02",
+        "width": 11
+    },
+    "act44side_s03#f#-activities/act44side/level_act44side_sub-1-3": {
+        "code": "AT-S-3",
+        "filename": "act44side_s03#f#-activities-act44side-level_act44side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-3",
+        "name": "逢魔",
+        "stageId": "act44side_s03#f#",
+        "width": 12
+    },
+    "act44side_s03-activities/act44side/level_act44side_sub-1-3": {
+        "code": "AT-S-3",
+        "filename": "act44side_s03-activities-act44side-level_act44side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-3",
+        "name": "逢魔",
+        "stageId": "act44side_s03",
+        "width": 12
+    },
+    "act44side_s04#f#-activities/act44side/level_act44side_sub-1-4": {
+        "code": "AT-S-4",
+        "filename": "act44side_s04#f#-activities-act44side-level_act44side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-4",
+        "name": "罪业",
+        "stageId": "act44side_s04#f#",
+        "width": 12
+    },
+    "act44side_s04-activities/act44side/level_act44side_sub-1-4": {
+        "code": "AT-S-4",
+        "filename": "act44side_s04-activities-act44side-level_act44side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act44side/level_act44side_sub-1-4",
+        "name": "罪业",
+        "stageId": "act44side_s04",
+        "width": 12
+    },
     "act44side_sp01-activities/act44side/level_act44side_sp01": {
         "code": "AT-P-1",
         "filename": "act44side_sp01-activities-act44side-level_act44side_sp01.json",
@@ -16559,6 +16631,33 @@
         "stageId": "level_crisis_v2_03-03",
         "width": 11
     },
+    "level_crisis_v2_04-01-obt/crisis/v2/level_crisis_v2_04-01": {
+        "code": "level_crisis_v2_04-01",
+        "filename": "level_crisis_v2_04-01-obt-crisis-v2-level_crisis_v2_04-01.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_04-01",
+        "name": "level_crisis_v2_04-01",
+        "stageId": "level_crisis_v2_04-01",
+        "width": 12
+    },
+    "level_crisis_v2_04-03-obt/crisis/v2/level_crisis_v2_04-03": {
+        "code": "level_crisis_v2_04-03",
+        "filename": "level_crisis_v2_04-03-obt-crisis-v2-level_crisis_v2_04-03.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_04-03",
+        "name": "level_crisis_v2_04-03",
+        "stageId": "level_crisis_v2_04-03",
+        "width": 11
+    },
+    "level_crisis_v2_04-05-obt/crisis/v2/level_crisis_v2_04-05": {
+        "code": "level_crisis_v2_04-05",
+        "filename": "level_crisis_v2_04-05-obt-crisis-v2-level_crisis_v2_04-05.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_04-05",
+        "name": "level_crisis_v2_04-05",
+        "stageId": "level_crisis_v2_04-05",
+        "width": 12
+    },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
         "filename": "level_rune_01-01-obt-rune-level_rune_01-01.json",
@@ -17872,6 +17971,60 @@
         "name": "天地间",
         "stageId": "lt_18_06",
         "width": 12
+    },
+    "lt_19_01-obt/legion/lt19/level_lt19_01": {
+        "code": "LT-1",
+        "filename": "lt_19_01-obt-legion-lt19-level_lt19_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt19/level_lt19_01",
+        "name": "子弹烈酒",
+        "stageId": "lt_19_01",
+        "width": 9
+    },
+    "lt_19_02-obt/legion/lt19/level_lt19_02": {
+        "code": "LT-2",
+        "filename": "lt_19_02-obt-legion-lt19-level_lt19_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt19/level_lt19_02",
+        "name": "加工后厨",
+        "stageId": "lt_19_02",
+        "width": 9
+    },
+    "lt_19_03-obt/legion/lt19/level_lt19_03": {
+        "code": "LT-3",
+        "filename": "lt_19_03-obt-legion-lt19-level_lt19_03.json",
+        "height": 8,
+        "levelId": "obt/legion/lt19/level_lt19_03",
+        "name": "控温锅炉",
+        "stageId": "lt_19_03",
+        "width": 12
+    },
+    "lt_19_04-obt/legion/lt19/level_lt19_04": {
+        "code": "LT-4",
+        "filename": "lt_19_04-obt-legion-lt19-level_lt19_04.json",
+        "height": 8,
+        "levelId": "obt/legion/lt19/level_lt19_04",
+        "name": "冷鲜货柜",
+        "stageId": "lt_19_04",
+        "width": 10
+    },
+    "lt_19_05-obt/legion/lt19/level_lt19_05": {
+        "code": "LT-5",
+        "filename": "lt_19_05-obt-legion-lt19-level_lt19_05.json",
+        "height": 8,
+        "levelId": "obt/legion/lt19/level_lt19_05",
+        "name": "滋滋烤架",
+        "stageId": "lt_19_05",
+        "width": 11
+    },
+    "lt_19_06-obt/legion/lt19/level_lt19_06": {
+        "code": "LT-6",
+        "filename": "lt_19_06-obt-legion-lt19-level_lt19_06.json",
+        "height": 8,
+        "levelId": "obt/legion/lt19/level_lt19_06",
+        "name": "特别顾客",
+        "stageId": "lt_19_06",
+        "width": 13
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
         "code": "TR-1",
