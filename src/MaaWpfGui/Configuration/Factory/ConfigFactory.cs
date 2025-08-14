@@ -24,6 +24,7 @@ using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration.Single;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
@@ -169,7 +170,6 @@ public static class ConfigFactory
                 config.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
                 config.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
                 config.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
-                /*
                 config.TaskQueue.CollectionChanged += (in NotifyCollectionChangedEventArgs<BaseTask> args) =>
                 {
                     switch (args.Action)
@@ -201,7 +201,7 @@ public static class ConfigFactory
                 {
                     // TODO 改名
                     task.PropertyChanged += OnPropertyChangedFactory(key + ".zdjd.");
-                }*/
+                }
             }
         }
     });
