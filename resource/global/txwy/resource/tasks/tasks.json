@@ -628,7 +628,11 @@
             ["駁船操作員", "驳船操作员"],
             ["補給留存器", "补给留存器"],
             ["敵人入口", "敌人入口"],
-            ["補給駁船", "补给驳船"]
+            ["補給駁船", "补给驳船"],
+            ["鹽坨子炮", "盐坨子炮"],
+            ["特克諾", "特克诺"],
+            ["瑰鹽", "瑰盐"],
+            ["“留聲機”底座", "“留声机”底座"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -707,7 +711,7 @@
         "text": ["贈送", "次"]
     },
     "RecruitingActivitiesConfirm": {
-        "text": ["贈送", "次", "小時"]
+        "text": ["贈送", "次", "小時", "分鐘"]
     },
     "RecruitingActivitiesRecruit": {
         "text": ["尋訪一次", "尋訪"]
@@ -750,36 +754,6 @@
     },
     "InfrastReward": {
         "text": ["可收穫", "訂單交付", "幹員信賴"]
-    },
-    "InfrastDormMini": {
-        "roi": [620, 240, 360, 480]
-    },
-    "InfrastOffice": {
-        "roi": [880, 330, 400, 160]
-    },
-    "InfrastOfficeMini": {
-        "roi": [980, 320, 300, 160]
-    },
-    "InfrastProcessing": {
-        "roi": [880, 200, 400, 200]
-    },
-    "InfrastProcessingMini": {
-        "roi": [980, 240, 300, 160]
-    },
-    "InfrastReception": {
-        "roi": [880, 120, 400, 160]
-    },
-    "InfrastReceptionMini": {
-        "roi": [980, 180, 300, 140]
-    },
-    "InfrastTraining": {
-        "roi": [880, 420, 400, 160]
-    },
-    "InfrastTrainingMini": {
-        "roi": [980, 400, 300, 140]
-    },
-    "InfrastControlMini": {
-        "roi": [620, 80, 360, 230]
     },
     "InfrastStationedInfo": {
         "text": ["進駐資訊", "焦駐資訊"]
@@ -1085,7 +1059,8 @@
             ["法術調和能量場", "法术调和能量场"],
             ["保全人才合作協議", "保全人才合作协议"],
             ["皇家科學院.*遠鏡", "皇家科学院望远镜"],
-            ["攀雲機", "攀云机"]
+            ["攀雲機", "攀云机"],
+            ["輕型瞄準測距儀", "轻型瞄准测距仪"]
         ]
     },
     "SSSBuffChooseConfirm": {

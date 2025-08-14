@@ -33,55 +33,71 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <controls:TextBlock
+                <Grid.Resources>
+                    <Storyboard x:Key="SmoothColorCycle" RepeatBehavior="Forever">
+                        <ColorAnimation
+                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                            From="#FF4285F4"
+                            To="#FFEA4335"
+                            Duration="0:0:1" />
+                        <ColorAnimation
+                            BeginTime="0:0:1"
+                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                            From="#FFEA4335"
+                            To="#FFFBBC05"
+                            Duration="0:0:1" />
+                        <ColorAnimation
+                            BeginTime="0:0:2"
+                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                            From="#FFFBBC05"
+                            To="#FF34A853"
+                            Duration="0:0:1" />
+                        <ColorAnimation
+                            BeginTime="0:0:3"
+                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                            From="#FF34A853"
+                            To="#FF4285F4"
+                            Duration="0:0:1" />
+                    </Storyboard>
+
+                    <Style x:Key="RainbowTextBlockStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="Red" />
+                        <Setter Property="IsHitTestVisible" Value="False" />
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource SmoothColorCycle}" />
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+
+                <Grid
                     Grid.Column="0"
-                    Margin="10,0,-5,0"
                     HorizontalAlignment="Left"
-                    IsHitTestVisible="False"
-                    Text="{Binding WindowUpdateInfo}">
-                    <controls:TextBlock.Foreground>
-                        <SolidColorBrush Color="Red" />
-                    </controls:TextBlock.Foreground>
-                    <controls:TextBlock.Resources>
-                        <Storyboard x:Key="SmoothColorCycle" RepeatBehavior="Forever">
-                            <ColorAnimation
-                                AutoReverse="False"
-                                Storyboard.TargetProperty="Foreground.Color"
-                                From="#FF4285F4"
-                                To="#FFEA4335"
-                                Duration="0:0:1" />
-                            <ColorAnimation
-                                AutoReverse="False"
-                                BeginTime="0:0:1"
-                                Storyboard.TargetProperty="Foreground.Color"
-                                From="#FFEA4335"
-                                To="#FFFBBC05"
-                                Duration="0:0:1" />
-                            <ColorAnimation
-                                AutoReverse="False"
-                                BeginTime="0:0:2"
-                                Storyboard.TargetProperty="Foreground.Color"
-                                From="#FFFBBC05"
-                                To="#FF34A853"
-                                Duration="0:0:1" />
-                            <ColorAnimation
-                                AutoReverse="False"
-                                BeginTime="0:0:3"
-                                Storyboard.TargetProperty="Foreground.Color"
-                                From="#FF34A853"
-                                To="#FF4285F4"
-                                Duration="0:0:1" />
-                        </Storyboard>
-                    </controls:TextBlock.Resources>
-                    <controls:TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource SmoothColorCycle}" />
-                        </EventTrigger>
-                    </controls:TextBlock.Triggers>
-                </controls:TextBlock>
+                    VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <controls:TextBlock
+                        Grid.Row="0"
+                        Margin="10,0,-5,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource RainbowTextBlockStyle}"
+                        Text="{Binding WindowVersionUpdateInfo}"
+                        Visibility="{c:Binding 'WindowVersionUpdateInfo.Length > 0'}" />
+                    <controls:TextBlock
+                        Grid.Row="1"
+                        Margin="10,0,-5,0"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource RainbowTextBlockStyle}"
+                        Text="{Binding WindowResourceUpdateInfo}"
+                        Visibility="{c:Binding 'WindowResourceUpdateInfo.Length > 0'}" />
+                </Grid>
+
                 <hc:RunningBlock
                     Grid.Column="1"
-                    Margin="10,0"
+                    Margin="10,-2.5"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
                     Content="{Binding WindowTitle}"
@@ -95,12 +111,14 @@
                     HorizontalAlignment="Left"
                     IsHitTestVisible="False"
                     Text="{Binding WindowTitle}"
+                    TextWrapping="Wrap"
                     Visibility="{c:Binding !WindowTitleScrollable}" />
             </Grid>
             <Button
                 Grid.Column="1"
                 Width="46"
                 Height="29"
+                VerticalAlignment="Top"
                 hc:BorderElement.CornerRadius="0"
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
@@ -168,6 +186,8 @@
                     Padding="0,-2,0,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
+                    d:Height="200"
+                    d:Width="100"
                     VerticalScrollBarVisibility="Hidden">
                     <StackPanel Margin="0,0,0,5" hc:Growl.GrowlParent="True" />
                 </ScrollViewer>

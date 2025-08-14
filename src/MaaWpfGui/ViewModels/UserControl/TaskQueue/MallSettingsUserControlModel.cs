@@ -116,13 +116,13 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
-            new() { Display = "1", Value = 1 },
-            new() { Display = "2", Value = 2 },
-            new() { Display = "3", Value = 3 },
-            new() { Display = "4", Value = 4 },
-        ];
+    [
+        new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
+        new() { Display = "1", Value = 1 },
+        new() { Display = "2", Value = 2 },
+        new() { Display = "3", Value = 3 },
+        new() { Display = "4", Value = 4 },
+    ];
 
     private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
@@ -306,7 +306,7 @@ public class MallSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.Where(x => x.OriginalName == "Combat").FirstOrDefault()?.IsCheckedWithNull is not false;
+        var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(x => x.OriginalName == "Combat")?.IsCheckedWithNull is not false;
         var task = new AsstMallTask()
         {
             CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
@@ -329,7 +329,8 @@ public class MallSettingsUserControlModel : TaskViewModel
             return null;
         }
 
-        var fightStage = ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).FirstOrDefault()?.IsEnable is not false && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.Stage1 == string.Empty;
+        var fightStage = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false
+                         && ConfigFactory.CurrentConfig.TaskQueue.Where(x => x is FightTask).Cast<FightTask>().FirstOrDefault()?.Stage1 == string.Empty;
         if (fightStage)
         {
             Log.Warning("刷理智 当前/上次导致无法OF-1");
@@ -371,7 +372,7 @@ public class MallSettingsUserControlModel : TaskViewModel
             ReserveMaxCredit = mall.ReserveMaxCredit,
         };
 
-        if (taskId is int id)
+        if (taskId is { } id)
         {
             return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
         }

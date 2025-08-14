@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -56,54 +57,28 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void InitInfrast()
     {
-        var facilityList = new[]
+        var roomTypes = Enum.GetNames(typeof(InfrastRoomType));
+        var list = new List<KeyValuePair<string, int>>();
+        var roomList = new List<DragItemViewModel>(roomTypes.Length);
+        foreach (var item in roomTypes)
         {
-            "Mfg",
-            "Trade",
-            "Control",
-            "Power",
-            "Reception",
-            "Office",
-            "Dorm",
-            "Processing",
-            "Training",
-        };
-
-        var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[facilityList.Length]);
-        var nonOrderList = new List<DragItemViewModel>();
-        for (int i = 0; i != facilityList.Length; ++i)
-        {
-            var facility = facilityList[i];
-            bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
-
-            DragItemViewModel vm = new DragItemViewModel(
-                LocalizationHelper.GetString(facility),
-                facility,
-                "Infrast.");
-
-            if (!parsed || order < 0 || order >= tempOrderList.Count || tempOrderList[order] != null)
-            {
-                nonOrderList.Add(vm);
-            }
-            else
-            {
-                tempOrderList[order] = vm;
-            }
+            var index = ConfigurationHelper.GetValue("Infrast.Order." + item, -1);
+            list.Add(new KeyValuePair<string, int>(item, index));
         }
 
-        foreach (var newVm in nonOrderList)
+        list.Sort((x, y) => x.Value.CompareTo(y.Value));
+        for (int i = 0; i < list.Count; ++i)
         {
-            int i = 0;
-            while (i < tempOrderList.Count && tempOrderList[i] != null)
+            var item = list[i];
+            if (item.Value != i)
             {
-                ++i;
+                ConfigurationHelper.SetValue("Infrast.Order." + item.Key, i.ToString());
             }
 
-            tempOrderList[i] = newVm;
-            ConfigurationHelper.SetFacilityOrder(newVm.OriginalName, i.ToString());
+            roomList.Add(new DragItemViewModel(LocalizationHelper.GetString(item.Key), item.Key, "Infrast."));
         }
 
-        InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList!);
+        InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(roomList);
         InfrastItemViewModels.CollectionChanged += InfrastOrderSelectionChanged;
     }
 
@@ -160,9 +135,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <returns>The infrast order list.</returns>
     public List<string> GetInfrastOrderList()
     {
-        return InfrastMode == Mode.Rotation
-            ? (from item in InfrastItemViewModels select item.OriginalName).ToList()
-            : (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
+        return InfrastItemViewModels.Where(i => InfrastMode == Mode.Rotation || i.IsChecked).Select(i => i.OriginalName).ToList();
     }
 
     // UI 绑定的方法
@@ -196,7 +169,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         int index = 0;
         foreach (var item in InfrastItemViewModels)
         {
-            ConfigurationHelper.SetFacilityOrder(item.OriginalName, index.ToString());
+            ConfigurationHelper.SetValue("Infrast.Order." + item.OriginalName, index.ToString());
             ++index;
         }
     }

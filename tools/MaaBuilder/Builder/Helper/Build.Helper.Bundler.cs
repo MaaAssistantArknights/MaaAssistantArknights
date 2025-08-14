@@ -35,7 +35,7 @@ public partial class Build
         var sourceDirectory = new DirectoryInfo(input);
         var allFiles = sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories);
         var allHashes = allFiles
-            .Select(x => FileSystemTasks.GetFileHash(x.FullName).ToUpperInvariant() +
+            .Select(x => ((AbsolutePath)x.FullName).GetFileHash().ToUpperInvariant() +
                          ((AbsolutePath)x.FullName).GetUnixRelativePathTo(input))
             .Select(GetStringMd5)
             .OrderBy(x => x);
@@ -47,7 +47,7 @@ public partial class Build
         var combinedHashString = hashCombinedBuilder.ToString();
         var hash = GetStringMd5(combinedHashString);
 
-        var bundleHash = FileSystemTasks.GetFileHash(bundle).ToUpperInvariant();
+        var bundleHash = ((AbsolutePath)bundle).GetFileHash().ToUpperInvariant();
         
         ArtifactChecksums.Add(new Checksum
         {
@@ -76,7 +76,8 @@ public partial class Build
             var relative = file.Replace(source, string.Empty);
             var targetPath = target / relative;
             
-            FileSystemTasks.CopyFile(file, targetPath, FileExistsPolicy.Overwrite);
+            targetPath.Parent.CreateDirectory();
+            File.Copy(file, targetPath, true);
         }
     }
     
@@ -86,14 +87,14 @@ public partial class Build
 
         foreach (var file in files)
         {
-            FileSystemTasks.DeleteFile(file);
+            file.DeleteFile();
         }
     }
 
     void BundleMaaBundle(AbsolutePath buildOutput, string bundleName, Package package)
     {
         var tempDir = buildOutput.Parent / package.PackageType;
-        FileSystemTasks.EnsureExistingDirectory(tempDir);
+        tempDir.CreateOrCleanDirectory();
         
         var include = package.Configuration.Include;
         var exclude = package.Configuration.Exclude;

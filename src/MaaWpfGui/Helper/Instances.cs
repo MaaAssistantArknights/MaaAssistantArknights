@@ -15,6 +15,7 @@
 
 using GlobalHotKey;
 using MaaWpfGui.Main;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
@@ -67,6 +68,8 @@ namespace MaaWpfGui.Helper
 
         public static AsstProxy AsstProxy { get; private set; }
 
+        public static StageManager StageManager { get; private set; }
+
         public static HotKeyManager HotKeyManager { get; private set; }
 
         public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
@@ -101,6 +104,7 @@ namespace MaaWpfGui.Helper
 
             RemoteControlService = container.Get<RemoteControlService>();
 
+            StageManager = container.Get<StageManager>();
             HotKeyManager = container.Get<HotKeyManager>();
             MaaHotKeyManager = container.Get<MaaHotKeyManager>();
             MaaHotKeyActionHandler = container.Get<MaaHotKeyActionHandler>();

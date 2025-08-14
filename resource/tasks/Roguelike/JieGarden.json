@@ -401,20 +401,20 @@
     "JieGarden@Roguelike@RolesDefault": {},
     "JieGarden@Roguelike@Routing": {
         "template": [
-            "JieGarden@Roguelike@StageCombatDps",
-            "JieGarden@Roguelike@StageEmergencyDps",
-            "JieGarden@Roguelike@StageDreadfulFoe",
-            "JieGarden@Roguelike@StageDreadfulFoe-5",
-            "JieGarden@Roguelike@StageEncounter",
-            "JieGarden@Roguelike@StageBoons",
-            "JieGarden@Roguelike@StageGuidance",
-            "JieGarden@Roguelike@StageSafeHouse",
-            "JieGarden@Roguelike@StageTrader",
-            "JieGarden@Roguelike@StageWindAndRain",
-            "JieGarden@Roguelike@StageEmergencyTransportation",
-            "JieGarden@Roguelike@StageBoskyPassage",
-            "JieGarden@Roguelike@StageProphecy",
-            "JieGarden@Roguelike@StageConfrontation"
+            "JieGarden@Roguelike@StageCombatDps.png",
+            "JieGarden@Roguelike@StageEmergencyDps.png",
+            "JieGarden@Roguelike@StageDreadfulFoe.png",
+            "JieGarden@Roguelike@StageDreadfulFoe-5.png",
+            "JieGarden@Roguelike@StageEncounter.png",
+            "JieGarden@Roguelike@StageBoons.png",
+            "JieGarden@Roguelike@StageGuidance.png",
+            "JieGarden@Roguelike@StageSafeHouse.png",
+            "JieGarden@Roguelike@StageTrader.png",
+            "JieGarden@Roguelike@StageWindAndRain.png",
+            "JieGarden@Roguelike@StageEmergencyTransportation.png",
+            "JieGarden@Roguelike@StageBoskyPassage.png",
+            "JieGarden@Roguelike@StageProphecy.png",
+            "JieGarden@Roguelike@StageConfrontation.png"
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
@@ -628,7 +628,23 @@
     },
     "JieGarden@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.85,
+        "Doc": "boss战 红色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [10, 255, 210]
+            ],
+            [
+                [170, 0, 50],
+                [180, 255, 210]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
             "JieGarden@Roguelike@StageDreadfulFoe-5Enter",
@@ -642,7 +658,21 @@
         "baseTask": "JieGarden@Roguelike@StageEnterBattle",
         "roi": [977, 415, 303, 262]
     },
-    "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
+    "JieGarden@Roguelike@StageDreadfulFoeEnter": {
+        "Doc": "boss战 紫色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [100, 0, 40],
+                [140, 220, 255]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ]
+    },
     "JieGarden@Roguelike@StageEmergencyDps": {
         "Doc": "困难战斗 红色系",
         "method": "HSVCount",
@@ -998,7 +1028,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
@@ -1014,7 +1044,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
@@ -1031,7 +1061,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 210,
+        "binThreshold": [210, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
@@ -1047,7 +1077,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
@@ -1063,14 +1093,14 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
-            ["山水阁", "_default"],
+            ["山水阁", "_exit"],
             ["云(瓦)?(亭|亨)", "_exit"],
             ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
@@ -1079,7 +1109,24 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
+        "useRaw": false
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastInvestment", "_exit", "_leaveBoskyPassage"],
+        "ocrReplace": [
+            ["洪陆楼", "_fastInvestment"],
+            ["山水阁", "_exit"],
+            ["云(瓦)?(亭|亨)", "_exit"],
+            ["汝吾(门)?", "_exit"],
+            ["见字祠", "_exit"],
+            ["始末陵", "_exit"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28],
+        "withoutDet": true,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
@@ -1095,7 +1142,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
@@ -1111,7 +1158,7 @@
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
-        "binThresholdLower": 200,
+        "binThreshold": [200, 255],
         "useRaw": false
     },
     "JieGarden@Roguelike@TodoEnter": {},

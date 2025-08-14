@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch MaaRelease
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -94,10 +94,10 @@ jobs:
           - x64
     steps:
       - name: Download release config
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
 
       - name: Fetch MaaRelease
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -106,7 +106,7 @@ jobs:
           token: ${{ secrets.MAARELEASE_RELEASE }}
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
           path: MaaAssistantArknights

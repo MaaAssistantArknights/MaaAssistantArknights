@@ -98,8 +98,8 @@ void OCRerConfig::_set_task_info(OcrTaskInfo task_info)
     set_replace(task_info.replace_map, task_info.replace_full);
     m_params.use_char_model = task_info.is_ascii;
     m_params.without_det = task_info.without_det;
-    m_params.bin_threshold_lower = task_info.bin_threshold_lower;
-    m_params.bin_threshold_upper = task_info.bin_threshold_upper;
+    m_params.bin_threshold_lower = task_info.bin_threshold[0];
+    m_params.bin_threshold_upper = task_info.bin_threshold[1];
     m_params.use_raw = task_info.use_raw;
 
     _set_roi(task_info.roi);

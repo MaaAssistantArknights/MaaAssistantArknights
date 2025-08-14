@@ -42,7 +42,7 @@
     },
     "AT-OpenOcr": {
         "baseTask": "SS-OpenOcr",
-        "text": ["墟", "锻冶旧迹", "绝缘石阶"],
+        "text": ["墟", "锻冶旧迹", "旧迹", "绝缘石阶"],
         "next": ["ATChapterToAT"]
     },
     "ATChapterToAT": {

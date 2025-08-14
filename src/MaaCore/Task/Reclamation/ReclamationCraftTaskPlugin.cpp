@@ -160,7 +160,6 @@ bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(int& value)
     const std::string& theme = m_config->get_theme();
 
     RegionOCRer craft_amount_analyzer(ctrler()->get_image());
-    craft_amount_analyzer.set_bin_threshold(200, 255);
     craft_amount_analyzer.set_task_info(theme + "@RA@PIS-CraftAmountOcr");
 
     std::string value_str;

@@ -11,15 +11,80 @@ jobs:
       issues: write
 
     steps:
+    - name: Check for duplicate issues in last hour
+      id: duplicate-check
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+          const currentIssueCreatedAt = new Date(context.payload.issue.created_at);
+          const issueAuthor = context.payload.issue.user.login;
+          
+          // 重新获取该用户最近的 issues
+          const { data: userIssues } = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            creator: issueAuthor,
+            state: 'all',
+            since: oneHourAgo.toISOString(),
+            per_page: 30
+          });
+          
+          // 过滤出1小时内创建的其他 issues（排除当前 issue）
+          const recentIssues = userIssues.filter(issue => {
+            const issueCreatedAt = new Date(issue.created_at);
+            return issue.number !== context.issue.number && 
+                   issueCreatedAt >= oneHourAgo &&
+                   issueCreatedAt < currentIssueCreatedAt;
+          });
+          
+          if (recentIssues.length > 0) {
+            // 给当前 issue 添加标签
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['rapid-submission']
+            });
+            
+            // 给1小时内的其他 issues 也添加标签
+            for (const issue of recentIssues) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['rapid-submission']
+                });
+                console.log(`Added rapid-submission label to issue #${issue.number}`);
+              } catch (error) {
+                console.log(`Failed to add label to issue #${issue.number}: ${error.message}`);
+              }
+            }
+          }
+          
     - name: Check checkbox status
       id: unread-checkbox-check
       uses: actions/github-script@v7
       with:
         script: |
+          // 找不到###就算了
+          if (!/###([^#]+)###/.test(context.payload.issue.body)) {
+            return false;
+          }
+          var checkList = /###([^#]+)###/.exec(context.payload.issue.body)[1];
+          const UnreadRegexCn = /- \[x\]\s*.*?我.*未仔细阅读/i;
+          const UnreadRegexCn_ = /- \[ \]\s*.*?我.*未仔细阅读/i;
+          if (/- \[(x| )\]\s*.*?[\u4e00-\u9fa5]+/i.test(checkList)) { // 中英区分
+            if (UnreadRegexCn.test(checkList)) {
+              return true;
+            }
+            checkList = checkList.replace(UnreadRegexCn_, "");
+            return /- \[ \]\s*.*?[\u4e00-\u9fa5]+/i.test(checkList);
+          }
           const texts = [
-          '我已在未仔细阅读这些内容的情况下勾选所有选项，并相信这不会影响问题的处理',
           'I have checked all the options without carefully reading the content and believe this will not affect issue resolution.'];
-          return texts.some(text => new RegExp(`- \\[x\\]\\s*${text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(context.payload.issue.body));
+          return texts.some(text => new RegExp(`- \\[x\\]\\s*${text}`).test(context.payload.issue.body));
 
     - name: Close and lock issue
       if: steps.unread-checkbox-check.outputs.result == 'true'
@@ -39,6 +104,13 @@ jobs:
             repo: context.repo.repo,
             issue_number: context.issue.number,
             labels: ['low-quality-report']
+          });
+
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: '因为未阅读模板提示并正确提交，触发了自动关闭规则\n\nBecause the template prompt was not read and submitted correctly, the automatic closing rule was triggered'
           });
 
     - name: Fold checkboxes

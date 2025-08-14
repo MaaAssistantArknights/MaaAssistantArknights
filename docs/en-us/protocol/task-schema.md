@@ -154,11 +154,8 @@ Please note that JSON files do not support comments. The comments in this docume
         "useRaw": true,                     // Optional, whether to use original image for matching
                                             // Default true, false for grayscale matching
 
-        "binThresholdLower": 140,           // Optional, lower threshold for grayscale binarization (default 140)
-                                            // Pixels with grayscale below this value considered background, excluded from text area
-
-        "binThresholdUpper": 255,           // Optional, upper threshold for grayscale binarization (default 255)
-                                            // Pixels with grayscale above this value considered background, excluded from text area
+        "binThreshold": [140, 255],         // Optional, threshold for grayscale binarization (default [140, 255])
+                                            // Pixels with grayscale out of range are considered background, excluded from text area
                                             // Final text foreground includes pixels in [lower, upper] range
 
         /* Fields below only valid when algorithm is JustReturn and action is Input */

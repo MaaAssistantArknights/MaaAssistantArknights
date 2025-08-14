@@ -66,63 +66,39 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     private void UpdateRoguelikeDifficultyList()
     {
         int maxThemeDifficulty = GetMaxDifficultyForTheme(RoguelikeTheme);
+        var difficulty = RoguelikeDifficulty;
 
-        var baseList = new List<GenericCombinedData<int>>
-        {
-            new() { Display = "MAX", Value = int.MaxValue },
-        };
-
-        for (int i = 20; i >= -1; --i)
-        {
-            baseList.Add(new() { Display = i.ToString(), Value = i });
-        }
-
-        // 基于当前主题的最大难度过滤并排序
-        var sortedItems = baseList
-            .Where(item => item.Value == -1 || item.Value == int.MaxValue || item.Value <= maxThemeDifficulty)
-            .OrderBy(item => item.Value switch
-            {
-                -1 => 0,
-                int.MaxValue => 1,
-                _ => 2 + (maxThemeDifficulty - item.Value),
-            })
-            .ToList();
-
+        // 0 = min, -1 = current, int.MaxValue = max
+        var list = Enumerable.Range(0, maxThemeDifficulty + 1).OrderDescending().ToList();
+        list.Insert(0, -1);
+        list.Insert(1, int.MaxValue);
         RoguelikeDifficultyList.Clear();
-        foreach (var item in sortedItems)
+        foreach (var i in list)
         {
-            int value = item.Value;
-            item.Display = value switch
+            int value = i;
+            var display = value switch
             {
-                -1 => LocalizationHelper.GetString("Current"),
+                -1 => LocalizationHelper.GetString("NotSwitch"),
                 int.MaxValue => "MAX",
                 0 => "MIN",
                 _ => value.ToString(),
             };
-            RoguelikeDifficultyList.Add(item);
+            RoguelikeDifficultyList.Add(new() { Display = display, Value = value });
         }
 
         // 验证当前选中的难度是否在新列表中
-        bool currentDifficultyValid = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty);
-        if (!currentDifficultyValid)
-        {
-            // 如果当前难度不在有效列表中，设置为默认值
-            RoguelikeDifficulty = -1;
-        }
+        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
     }
 
-    private static int GetMaxDifficultyForTheme(Theme theme)
+    private static int GetMaxDifficultyForTheme(Theme theme) => theme switch
     {
-        return theme switch
-        {
-            Theme.Phantom => SettingsViewModel.GameSettings.ClientType is "" or "Official" or "Bilibili" ? 15 : 0,
-            Theme.Mizuki => 18,
-            Theme.Sami => 15,
-            Theme.Sarkaz => 18,
-            Theme.JieGarden => 15,
-            _ => 20,
-        };
-    }
+        Theme.Phantom => SettingsViewModel.GameSettings.ClientType is "" or "Official" or "Bilibili" ? 15 : 0,
+        Theme.Mizuki => 18,
+        Theme.Sami => 15,
+        Theme.Sarkaz => 18,
+        Theme.JieGarden => 15,
+        _ => 20,
+    };
 
     private void UpdateRoguelikeModeList()
     {
@@ -133,7 +109,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             case Theme.JieGarden:
                 RoguelikeModeList = [
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
                 ];
                 break;
 
@@ -405,8 +382,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             }
 
             // 确保在更新列表之前先更新相关属性
-            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeModeList();
+            UpdateRoguelikeDifficultyList();
             UpdateRoguelikeRolesList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeStartWithAllDict();

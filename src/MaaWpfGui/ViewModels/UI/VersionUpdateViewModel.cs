@@ -1094,7 +1094,7 @@ public class VersionUpdateViewModel : Screen
 
         bool curParsed = SemVersion.TryParse(_curVersion, SemVersionStyles.AllowLowerV, out var curVersionObj);
         bool latestPared = SemVersion.TryParse(latestVersion, SemVersionStyles.AllowLowerV, out var latestVersionObj);
-        if (curParsed && latestPared)
+        if (curParsed && latestPared && curVersionObj != null && latestVersionObj != null)
         {
             return curVersionObj.CompareSortOrderTo(latestVersionObj) < 0;
         }

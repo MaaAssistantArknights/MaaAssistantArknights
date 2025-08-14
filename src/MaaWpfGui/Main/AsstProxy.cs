@@ -864,7 +864,7 @@ namespace MaaWpfGui.Main
                         _tasksStatus.TryGetValue(taskId, out var value);
                         if (value is { Type: TaskType.Fight } && (TaskQueueViewModel.FightTask.Stage == "Annihilation"))
                         {
-                            if (TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) && (stage != "Annihilation")))
+                            if (TaskQueueViewModel.FightTask.UseAlternateStage && TaskQueueViewModel.FightTask.Stages.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) && (stage != "Annihilation")))
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                             }
@@ -1530,6 +1530,7 @@ namespace MaaWpfGui.Main
                             if (itemName == "furni")
                             {
                                 itemName = LocalizationHelper.GetString("FurnitureDrop");
+                                itemId = "3401";
                             }
 
                             int totalQuantity = (int)(item["quantity"] ?? -1);
@@ -1543,10 +1544,10 @@ namespace MaaWpfGui.Main
 
                         foreach (var (_, itemName, totalQuantity, addQuantity) in drops)
                         {
-                            allDrops += $"{itemName} : {totalQuantity:#,#}";
+                            allDrops += $"{itemName} : {totalQuantity.FormatNumber(false)}";
                             if (addQuantity > 0)
                             {
-                                allDrops += $" (+{addQuantity:#,#})";
+                                allDrops += $" (+{addQuantity.FormatNumber(false)})";
                             }
 
                             allDrops += "\n";

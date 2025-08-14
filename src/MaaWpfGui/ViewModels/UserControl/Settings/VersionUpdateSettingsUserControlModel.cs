@@ -211,7 +211,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
         typeof(UpdateVersionType),
-        ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+        ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, nameof(UpdateVersionType.Stable)));
 
     /// <summary>
     /// Gets or sets the type of version to update.

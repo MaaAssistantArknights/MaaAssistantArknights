@@ -230,6 +230,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
+    <system:String x:Key="NotSwitch">Don't Switch</system:String>
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -509,7 +510,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu 12 V4.0.0 or later is required. Global version is not supported.
+MuMu V4.0.0 or later is required. Global version is not supported.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
@@ -623,7 +624,7 @@ If the current sanity is not enough to complete the set multiplier (such as only
 Or
 If the number of battles is not enough to complete the set multiplier (such as only enough for 5 times but set to 6 times), you will not be able to enter the battle
 
-• Not selected:
+• {key=NotSwitch}:
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
@@ -803,7 +804,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} Module requirements</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
