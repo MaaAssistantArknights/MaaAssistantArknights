@@ -44,14 +44,29 @@ public class FightTask : BaseTask
     public int StoneCount { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 是否启用指定掉落
+    /// </summary>
+    public bool? EnableTargetDrop { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets 掉落物品id
+    /// </summary>
+    public string DropId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 掉落数量
+    /// </summary>
+    public int DropCount { get; set; }
+
+    /// <summary>
     /// Gets or sets 是否启用次数限制
     /// </summary>
-    public bool? TimesLimitEnabled { get; set; } = false;
+    public bool? EnableTimesLimit { get; set; } = false;
 
     /// <summary>
     /// Gets or sets 最大战斗次数
     /// </summary>
-    public int MaxTimes { get; set; } = int.MaxValue;
+    public int TimesLimit { get; set; } = int.MaxValue;
 
     /// <summary>
     /// Gets or sets 代理倍率

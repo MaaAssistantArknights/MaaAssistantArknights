@@ -375,10 +375,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public bool? HasTimesLimited
     {
-        get => GetTaskConfig<FightTask>().TimesLimitEnabled;
+        get => GetTaskConfig<FightTask>().EnableTimesLimit;
         set
         {
-            if (!SetTaskConfig<FightTask>(t => t.TimesLimitEnabled == value, t => t.TimesLimitEnabled = value))
+            if (!SetTaskConfig<FightTask>(t => t.EnableTimesLimit == value, t => t.EnableTimesLimit = value))
             {
                 return;
             }
@@ -392,10 +392,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public int MaxTimes
     {
-        get => GetTaskConfig<FightTask>().MaxTimes;
+        get => GetTaskConfig<FightTask>().TimesLimit;
         set
         {
-            if (!SetTaskConfig<FightTask>(t => t.MaxTimes == value, t => t.MaxTimes = value))
+            if (!SetTaskConfig<FightTask>(t => t.TimesLimit == value, t => t.TimesLimit = value))
             {
                 return;
             }
@@ -435,24 +435,20 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     #region Drops
 
-    private bool? _isSpecifiedDrops = ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether the drops are specified.
     /// </summary>
     public bool? IsSpecifiedDrops
     {
-        get => _isSpecifiedDrops;
+        get => GetTaskConfig<FightTask>().EnableTargetDrop;
         set
         {
-            if (!SetAndNotify(ref _isSpecifiedDrops, value))
+            if (!SetTaskConfig<FightTask>(t => t.EnableTargetDrop == value, t => t.EnableTargetDrop = value))
             {
                 return;
             }
 
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
         }
     }
 
@@ -522,18 +518,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
-    private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty) ?? string.Empty;
-
     /// <summary>
     /// Gets or sets the item ID of drops.
     /// </summary>
     public string DropsItemId
     {
-        get => _dropsItemId;
+        get => GetTaskConfig<FightTask>().DropId;
         set
         {
-            SetAndNotify(ref _dropsItemId, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemId, DropsItemId);
+            SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
@@ -559,18 +552,15 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private int _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
-
     /// <summary>
     /// Gets or sets the quantity of drops.
     /// </summary>
     public int DropsQuantity
     {
-        get => _dropsQuantity;
+        get => GetTaskConfig<FightTask>().DropCount;
         set
         {
-            SetAndNotify(ref _dropsQuantity, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
+            SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
@@ -774,11 +764,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
         var task = new AsstFightTask()
         {
-            //Stage = fight.Stage,
+            // Stage = fight.Stage,
             Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
             Stone = fight.UseStone != false ? fight.StoneCount : 0,
             Series = fight.Series,
-            MaxTimes = fight.TimesLimitEnabled != false ? fight.MaxTimes : int.MaxValue,
+            MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
             ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
             IsDrGrandet = fight.IsDrGrandet,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
@@ -794,9 +784,9 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             task.Stage = fight.AnnihilationStage;
         }
 
-        if (IsSpecifiedDrops != false && !string.IsNullOrEmpty(DropsItemId))
+        if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
         {
-            task.Drops.Add(DropsItemId, DropsQuantity);
+            task.Drops.Add(fight.DropId, fight.DropCount);
         }
 
         if (taskId is int id)
