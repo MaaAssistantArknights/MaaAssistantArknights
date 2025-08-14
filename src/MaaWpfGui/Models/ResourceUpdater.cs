@@ -216,7 +216,7 @@ namespace MaaWpfGui.Models
             var releaseNote = data["data"]?["release_note"]?.ToString();
             _logger.Information("New version found: {DateTime:yyyy-MM-dd+HH:mm:ss.fff}, {ReleaseNote}", version, releaseNote);
 
-            releaseNote = LocalizationHelper.FormatResourceVersion(releaseNote, version);
+            releaseNote = LocalizationHelper.FormatVersion(releaseNote, version);
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateShortTip"), releaseNote);
 

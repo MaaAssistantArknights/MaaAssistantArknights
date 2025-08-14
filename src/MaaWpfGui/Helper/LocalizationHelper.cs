@@ -254,15 +254,15 @@ namespace MaaWpfGui.Helper
             return cheersBuilder.ToString();
         }
 
-        public static string FormatResourceVersion(string? resourceVersion, DateTime resourceDateTime)
+        public static string FormatVersion(string? version, DateTime dateTime)
         {
-            resourceDateTime = resourceDateTime.ToLocalTime();
+            dateTime = dateTime.ToLocalTime();
             return CustomCultureInfo.Name.ToLowerInvariant() switch
             {
-                "zh-cn" => $"{resourceVersion}{resourceDateTime:#MMdd}",
-                "zh-tw" => $"{resourceVersion}{resourceDateTime:#MMdd}",
-                "en-us" => $"{resourceDateTime:dd/MM} {resourceVersion}",
-                _ => $"{resourceDateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {resourceVersion}",
+                "zh-cn" => $"{version}{dateTime:#MMdd}",
+                "zh-tw" => $"{version}{dateTime:#MMdd}",
+                "en-us" => $"{dateTime:dd/MM} {version}",
+                _ => $"{dateTime.ToString(CustomCultureInfo.DateTimeFormat.ShortDatePattern.Replace("yyyy", string.Empty).Trim('/', '.'))} {version}",
             };
         }
 
