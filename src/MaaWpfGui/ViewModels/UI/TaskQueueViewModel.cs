@@ -32,7 +32,6 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -137,6 +136,8 @@ namespace MaaWpfGui.ViewModels.UI
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
+                TaskItemViewModels[e.OldStartingIndex].Index = e.OldStartingIndex;
+                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
             });
         }
 
