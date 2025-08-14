@@ -140,8 +140,8 @@ public class ConfigConverter
                 fightTask.MedicineCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
                 fightTask.UseStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
                 fightTask.StoneCount = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 999);
-                fightTask.TimesLimitEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
-                fightTask.MaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
+                fightTask.EnableTimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
+                fightTask.TimesLimit = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
                 fightTask.Series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicine);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.UseMedicineQuantity);
@@ -151,13 +151,21 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.TimesLimitedQuantity);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.SeriesQuantity);
 
+                fightTask.EnableTargetDrop = ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, false);
+                fightTask.DropId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty);
+                fightTask.DropCount = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.DropsEnable);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.DropsItemId);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.DropsQuantity);
 
-                fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty);
-                fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty);
-                fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty);
+                fightTask.Stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
+                fightTask.Stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
+                fightTask.Stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
+                fightTask.Stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage1);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage2);
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage3);
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.Stage4);
                 fightTask.IsDrGrandet = ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, false);
                 fightTask.UseStoneAllowSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
                 fightTask.HideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);

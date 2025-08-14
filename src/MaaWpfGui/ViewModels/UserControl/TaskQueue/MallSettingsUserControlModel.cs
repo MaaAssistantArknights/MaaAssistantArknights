@@ -209,7 +209,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
 
         var task = new AsstMallTask()
         {
-            CreditFight = creditFight && (!fightEnable || !string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage)),
+            // CreditFight = creditFight && (!fightEnable || !string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage)),
             SelectFormation = CreditFightSelectFormation,
             VisitFriends = visitFriends,
             WithShopping = CreditShopping,
