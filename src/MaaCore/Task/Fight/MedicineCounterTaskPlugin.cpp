@@ -182,9 +182,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
 
         RegionOCRer using_count_ocr(image);
         using_count_ocr.set_task_info(using_count_task);
-        using_count_ocr.set_bin_threshold(using_count_task->special_params[0], using_count_task->special_params[1]);
         using_count_ocr.set_roi(using_rect);
-        using_count_ocr.set_use_raw(false);
         if (!using_count_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
             return std::nullopt;
@@ -192,7 +190,6 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
 
         RegionOCRer inventory_ocr(image);
         inventory_ocr.set_task_info(inventory_task);
-        inventory_ocr.set_bin_threshold(inventory_task->special_params[0], inventory_task->special_params[1]);
         inventory_ocr.set_roi(inventory_rect);
         if (!inventory_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
@@ -271,7 +268,6 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);
-    ocr.set_bin_threshold(100, 255);
     ocr.set_replace(merged_replace);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
@@ -295,7 +291,6 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);
-    ocr.set_bin_threshold(100, 255);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, "unable to ocr");
