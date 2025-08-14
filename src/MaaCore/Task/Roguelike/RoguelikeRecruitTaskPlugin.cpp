@@ -76,29 +76,29 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     ++m_recruit_count;
 
-    if (m_config->get_theme() == RoguelikeTheme::Sarkaz && m_config->get_mode() == RoguelikeMode::Investment &&
-        m_config->get_squad() == "点刺成锭分队") {
-        ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
-        return true;
+    auto& theme = m_config->get_theme();
+    auto mode = m_config->get_mode();
+    auto& squad = m_config->get_squad();
+    auto difficulty = m_config->get_difficulty();
+
+    if (theme == RoguelikeTheme::Sarkaz && mode == RoguelikeMode::Investment) {
+        if (squad == "点刺成锭分队") {
+            ProcessTask(*this, { "Sarkaz@RoguelikeRecruit-GiveUp" }).run();
+            return true;
+        }
+        if (squad == "蓝图测绘分队" && m_recruit_count > 1) {
+            lazy_recruit();
+            return true;
+        }
     }
 
-    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::Investment &&
-        m_config->get_squad() == "指挥分队" && m_config->get_difficulty() >= 3) {
-        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
-        return true;
-    }
-
-    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::Collectible &&
-        m_config->get_squad() == "指挥分队" && m_config->get_difficulty() >= 3 && m_config->get_run_for_collectible()) {
-        ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
-        return true;
-    }
-
-    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
-        m_config->get_squad() == "蓝图测绘分队") {
-        // 如果是投资模式，直接招募第一个干员
-        lazy_recruit();
-        return true;
+    // 时光之末的特殊用法
+    if (theme == RoguelikeTheme::JieGarden && squad == "指挥分队" && difficulty >= 3) {
+        if (mode == RoguelikeMode::Investment ||
+            (mode == RoguelikeMode::Collectible && m_config->get_run_for_collectible())) {
+            ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+            return true;
+        }
     }
 
     if (m_initail_recruit && m_recruit_count == 1) {
