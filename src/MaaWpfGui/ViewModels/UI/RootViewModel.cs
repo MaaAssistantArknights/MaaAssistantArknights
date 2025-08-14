@@ -111,15 +111,26 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
-        private string _windowUpdateInfo = string.Empty;
+        private string _windowVersionUpdateInfo = string.Empty;
 
         /// <summary>
-        /// Gets or sets the window title.
+        /// Gets or sets the version update info.
         /// </summary>
-        public string WindowUpdateInfo
+        public string WindowVersionUpdateInfo
         {
-            get => _windowUpdateInfo;
-            set => SetAndNotify(ref _windowUpdateInfo, value);
+            get => _windowVersionUpdateInfo;
+            set => SetAndNotify(ref _windowVersionUpdateInfo, value);
+        }
+
+        private string _windowResourceUpdateInfo = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the resource update info.
+        /// </summary>
+        public string WindowResourceUpdateInfo
+        {
+            get => _windowResourceUpdateInfo;
+            set => SetAndNotify(ref _windowResourceUpdateInfo, value);
         }
 
         private (int Current, int Max)? _taskProgress;
