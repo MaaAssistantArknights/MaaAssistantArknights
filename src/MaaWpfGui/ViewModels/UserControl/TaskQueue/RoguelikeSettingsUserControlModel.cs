@@ -109,7 +109,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             case Theme.JieGarden:
                 RoguelikeModeList = [
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment }
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
                 ];
                 break;
 
