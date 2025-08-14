@@ -9,19 +9,23 @@
 
 bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
+    const RoguelikeMode mode = m_config->get_mode();
+
     // 深入调查和月度小队模式不需要选择难度
-    if (m_config->get_mode() == RoguelikeMode::Exploration || m_config->get_mode() == RoguelikeMode::Squad) {
+    if (mode == RoguelikeMode::Exploration || mode == RoguelikeMode::Squad) {
         return false;
     }
 
-    if (m_config->get_mode() == RoguelikeMode::Collectible) {
+    // 为刷开局模式设置专用难度
+    if (mode == RoguelikeMode::Collectible) {
         if (m_config->get_difficulty() != -1) {
             m_collectible_difficulty = -1; // 当前难度只能用当前难度烧水
         }
         else {
+            const std::string& theme = m_config->get_theme();
             const std::string& squad = params.get("squad", "");
             const std::string& collectible_mode_squad = params.get("collectible_mode_squad", squad);
-            if (m_config->get_theme() == RoguelikeTheme::JieGarden && collectible_mode_squad == "指挥分队" &&
+            if (theme == RoguelikeTheme::JieGarden && collectible_mode_squad == "指挥分队" &&
                 // 界园指挥分队可用 3 难快速烧水
                 m_config->get_difficulty() >= 3) {
                 m_collectible_difficulty = 3;
