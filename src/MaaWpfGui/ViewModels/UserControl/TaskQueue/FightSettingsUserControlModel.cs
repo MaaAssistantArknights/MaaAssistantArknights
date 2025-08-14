@@ -822,7 +822,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             var stage2 = Stage2 ?? string.Empty;
             var stage3 = Stage3 ?? string.Empty;
             var stage4 = Stage4 ?? string.Empty;
-            var rss = RemainingSanityStage ?? string.Empty;
 
             var tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
@@ -859,9 +858,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
 
-            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
-            rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
-
             if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
             {
                 var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
@@ -871,14 +867,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
 
             UpdateObservableCollection(StageList, tempStageList);
-            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
 
-            _stage1Fallback = stage1;
             Stage1 = stage1;
             Stage2 = stage2;
             Stage3 = stage3;
             Stage4 = stage4;
-            RemainingSanityStage = rss;
             if (!CustomStageCode)
             {
                 RemoveNonExistStage();
