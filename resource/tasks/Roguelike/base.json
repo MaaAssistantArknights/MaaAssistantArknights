@@ -9,7 +9,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],

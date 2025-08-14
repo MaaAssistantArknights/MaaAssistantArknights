@@ -587,7 +587,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -784,7 +786,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -1003,7 +1007,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -1029,7 +1035,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -1666,7 +1674,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -1701,7 +1711,9 @@
             "Sarkaz/Recruit.png",
             "Delicious/Recruit.png",
             "Gaming/Recruit.png",
-            "DahuangCity/Recruit.png"
+            "DahuangCity/Recruit.png",
+            "Dreamland/DreamlandDefault/Recruit.png",
+            "Dreamland/DreamlandDark/Recruit.png"
         ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
@@ -1782,7 +1794,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -1826,7 +1840,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -1908,7 +1924,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -1989,7 +2007,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -2044,7 +2064,9 @@
             "Sarkaz/Task.png",
             "Delicious/Task.png",
             "Gaming/Task.png",
-            "DahuangCity/Task.png"
+            "DahuangCity/Task.png",
+            "Dreamland/DreamlandDefault/Task.png",
+            "Dreamland/DreamlandDark/Task.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -2107,7 +2129,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -2164,7 +2188,9 @@
             "Sarkaz/Friends.png",
             "Delicious/Friends.png",
             "Gaming/Friends.png",
-            "DahuangCity/Friends.png"
+            "DahuangCity/Friends.png",
+            "Dreamland/DreamlandDefault/Friends.png",
+            "Dreamland/DreamlandDark/Friends.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -2223,7 +2249,9 @@
             "Sarkaz/Mall.png",
             "Delicious/Mall.png",
             "Gaming/Mall.png",
-            "DahuangCity/Mall.png"
+            "DahuangCity/Mall.png",
+            "Dreamland/DreamlandDefault/Mall.png",
+            "Dreamland/DreamlandDark/Mall.png"
         ],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
@@ -2282,7 +2310,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -2492,7 +2522,9 @@
             "Sarkaz/EnterInfrast.png",
             "Delicious/EnterInfrast.png",
             "Gaming/EnterInfrast.png",
-            "DahuangCity/EnterInfrast.png"
+            "DahuangCity/EnterInfrast.png",
+            "Dreamland/DreamlandDefault/EnterInfrast.png",
+            "Dreamland/DreamlandDark/EnterInfrast.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -4293,7 +4325,9 @@
             "Sarkaz/DepotEnter.png",
             "Delicious/DepotEnter.png",
             "Gaming/DepotEnter.png",
-            "DahuangCity/DepotEnter.png"
+            "DahuangCity/DepotEnter.png",
+            "Dreamland/DreamlandDefault/DepotEnter.png",
+            "Dreamland/DreamlandDark/DepotEnter.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -4383,7 +4417,9 @@
             "Sarkaz/OperBoxEnter.png",
             "Delicious/OperBoxEnter.png",
             "Gaming/OperBoxEnter.png",
-            "DahuangCity/OperBoxEnter.png"
+            "DahuangCity/OperBoxEnter.png",
+            "Dreamland/DreamlandDefault/OperBoxEnter.png",
+            "Dreamland/DreamlandDark/OperBoxEnter.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -4876,7 +4912,9 @@
             "Sarkaz/GachaEnter.png",
             "Delicious/GachaEnter.png",
             "Gaming/GachaEnter.png",
-            "DahuangCity/GachaEnter.png"
+            "DahuangCity/GachaEnter.png",
+            "Dreamland/DreamlandDefault/GachaEnter.png",
+            "Dreamland/DreamlandDark/GachaEnter.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -5046,7 +5084,9 @@
             "Sarkaz/Mall.png",
             "Delicious/Mall.png",
             "Gaming/Mall.png",
-            "DahuangCity/Mall.png"
+            "DahuangCity/Mall.png",
+            "Dreamland/DreamlandDefault/Mall.png",
+            "Dreamland/DreamlandDark/Mall.png"
         ],
         "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },
