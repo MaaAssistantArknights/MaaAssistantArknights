@@ -287,23 +287,6 @@ namespace MaaWpfGui.Styles.Properties
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
         }
 
-        private static readonly DependencyProperty _lastHeightProperty =
-            DependencyProperty.RegisterAttached(
-                "_lastHeight",
-                typeof(double),
-                typeof(ScrollViewerBinding),
-                new PropertyMetadata(0.0));
-
-        private static double GetLastHeight(DependencyObject obj)
-        {
-            return (double)obj.GetValue(_lastHeightProperty);
-        }
-
-        private static void SetLastHeight(DependencyObject obj, double value)
-        {
-            obj.SetValue(_lastHeightProperty, value);
-        }
-
         /// <summary>
         /// Sets divider vertical offset property.
         /// </summary>
