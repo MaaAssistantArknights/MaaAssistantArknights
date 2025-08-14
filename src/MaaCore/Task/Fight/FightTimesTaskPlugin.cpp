@@ -278,7 +278,6 @@ std::optional<asst::SanityResult> asst::FightTimesTaskPlugin::analyze_sanity_rem
 {
     RegionOCRer analyzer(image);
     analyzer.set_task_info("SanityMatch");
-    analyzer.set_bin_threshold(0, 255);
     auto res_opt = analyzer.analyze();
 
     if (!res_opt) [[unlikely]] {
@@ -367,7 +366,6 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat
     RegionOCRer analyzer(image);
     analyzer.set_task_info(ocr_task);
     analyzer.set_roi(match.get_result().rect.move(ocr_task->roi));
-    analyzer.set_bin_threshold(0, 255);
     analyzer.set_replace(merge_map);
 
     if (!analyzer.analyze()) [[unlikely]] {

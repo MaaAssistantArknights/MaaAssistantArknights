@@ -161,7 +161,6 @@ bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(int& value)
 
     RegionOCRer craft_amount_analyzer(ctrler()->get_image());
     craft_amount_analyzer.set_task_info(theme + "@RA@PIS-CraftAmountOcr");
-    craft_amount_analyzer.set_bin_threshold(200, 255);
 
     std::string value_str;
     if (craft_amount_analyzer.analyze()) {

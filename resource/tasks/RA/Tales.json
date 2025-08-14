@@ -155,7 +155,8 @@
     },
     "Tales@RA@PIS-CraftAmountOcr": {
         "baseTask": "NumberOcrReplace",
-        "roi": [745, 494, 125, 63]
+        "roi": [745, 494, 125, 63],
+        "binThreshold": [200, 255]
     },
     "Tales@RA@PIS-CraftTool": {
         "doc": "调用 ReclamationCraftTaskPlugin 组装支援道具",
