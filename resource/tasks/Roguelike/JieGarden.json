@@ -628,7 +628,23 @@
     },
     "JieGarden@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "JieGarden@Roguelike@Stage",
-        "templThreshold": 0.85,
+        "Doc": "boss战 红色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [10, 255, 210]
+            ],
+            [
+                [170, 0, 50],
+                [180, 255, 210]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
             "JieGarden@Roguelike@StageDreadfulFoe-5Enter",
@@ -642,7 +658,21 @@
         "baseTask": "JieGarden@Roguelike@StageEnterBattle",
         "roi": [977, 415, 303, 262]
     },
-    "JieGarden@Roguelike@StageDreadfulFoeEnter": {},
+    "JieGarden@Roguelike@StageDreadfulFoeEnter": {
+        "Doc": "boss战 紫色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [100, 0, 40],
+                [140, 220, 255]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ]
+    },
     "JieGarden@Roguelike@StageEmergencyDps": {
         "Doc": "困难战斗 红色系",
         "method": "HSVCount",
