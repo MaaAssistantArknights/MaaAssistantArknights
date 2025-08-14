@@ -14,6 +14,24 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] 
         return false;
     }
 
+    if (m_config->get_mode() == RoguelikeMode::Collectible) {
+        if (m_config->get_difficulty() != -1) {
+            m_collectible_difficulty = -1; // 当前难度只能用当前难度烧水
+        }
+        else {
+            const std::string& squad = params.get("squad", "");
+            const std::string& collectible_mode_squad = params.get("collectible_mode_squad", squad);
+            if (m_config->get_theme() == RoguelikeTheme::JieGarden && collectible_mode_squad == "指挥分队" &&
+                // 界园指挥分队可用 3 难快速烧水
+                m_config->get_difficulty() >= 3) {
+                m_collectible_difficulty = 3;
+            }
+            else {
+                m_collectible_difficulty = 0;
+            }
+        }
+    }
+
     /*auto opt = params.find<int>("difficulty");
     return opt && *opt != -1;*/
     return true;
@@ -56,18 +74,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
         Log.info(__FUNCTION__, "| Running for collectible");
     }
 
-    static const std::unordered_map<std::string_view, int> CollectibleDifficultyMap = { { RoguelikeTheme::Phantom, 0 },
-                                                                                        { RoguelikeTheme::Mizuki, 0 },
-                                                                                        { RoguelikeTheme::Sami, 0 },
-                                                                                        { RoguelikeTheme::Sarkaz, 0 },
-                                                                                        { RoguelikeTheme::JieGarden,
-                                                                                          3 } };
-
-    // 不会记录初始时游戏内难度，ban一下烧水的`当前难`
-    const int difficulty =
-        (m_config->get_run_for_collectible() && m_config->get_difficulty() != -1)
-            ? std::min(CollectibleDifficultyMap.at(m_config->get_theme()), m_config->get_difficulty())
-            : m_config->get_difficulty();
+    const int difficulty = m_config->get_run_for_collectible() ? m_collectible_difficulty : m_config->get_difficulty();
     Log.info(__FUNCTION__, "| current_difficulty:", m_current_difficulty, "next difficulty:", difficulty);
 
     // 仅在插件记录的当前难度与目标难度不一致时重新选择难度
