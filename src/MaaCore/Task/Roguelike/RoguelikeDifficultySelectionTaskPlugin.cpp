@@ -56,13 +56,12 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
         Log.info(__FUNCTION__, "| Running for collectible");
     }
 
-    static const std::unordered_map<std::string_view, int> CollectibleDifficultyMap = {
-        { RoguelikeTheme::Phantom, 0 },
-        { RoguelikeTheme::Mizuki, 0 },
-        { RoguelikeTheme::Sami, 0 },
-        { RoguelikeTheme::Sarkaz, 0 },
-        { RoguelikeTheme::JieGarden, 3 }
-    };
+    static const std::unordered_map<std::string_view, int> CollectibleDifficultyMap = { { RoguelikeTheme::Phantom, 0 },
+                                                                                        { RoguelikeTheme::Mizuki, 0 },
+                                                                                        { RoguelikeTheme::Sami, 0 },
+                                                                                        { RoguelikeTheme::Sarkaz, 0 },
+                                                                                        { RoguelikeTheme::JieGarden,
+                                                                                          3 } };
 
     // 不会记录初始时游戏内难度，ban一下烧水的`当前难`
     const int difficulty =
