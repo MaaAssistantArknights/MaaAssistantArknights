@@ -49,21 +49,25 @@
                 <controls:TooltipBlock x:Name="CreditFightTipTooltipBlock" TooltipText="{DynamicResource CreditFightTip}" />
             </StackPanel>
 
-            <ComboBox
+            <StackPanel
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource UseFormation}"
-                hc:InfoElement.TitlePlacement="Left"
-                hc:InfoElement.TitleWidth="120"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding FormationSelectList}"
-                SelectedValue="{Binding CreditFightSelectFormation}"
-                SelectedValuePath="Value"
-                Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
+                Orientation="Horizontal"
+                Visibility="{c:Binding CreditFightTaskEnabledDisplay}">
+                <controls:TextBlock Text="{DynamicResource UseFormation}" />
+                <ComboBox
+                    Width="100"
+                    Margin="6,0,0,0"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding FormationSelectList}"
+                    SelectedValue="{Binding CreditFightSelectFormation}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-
             <TextBox
                 Margin="0,10"
                 hc:InfoElement.Title="{DynamicResource HighPriority}"
@@ -95,7 +99,7 @@
                     <TextBlock
                         Block.TextAlignment="Left"
                         Text="{DynamicResource OnlyBuyDiscount}"
-                        TextWrapping="Wrap"/>
+                        TextWrapping="Wrap" />
                 </CheckBox>
                 <controls:TooltipBlock x:Name="OnlyBuyDiscountTipsTooltipBlock" TooltipText="{DynamicResource OnlyBuyDiscountTips}" />
             </StackPanel>

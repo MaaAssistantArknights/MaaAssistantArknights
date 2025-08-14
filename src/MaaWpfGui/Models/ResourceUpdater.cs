@@ -201,22 +201,22 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
-            if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var version))
+            if (!DateTime.TryParse(data["data"]?["version_name"]?.ToString(), out var versionTime))
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
-            if (DateTime.Compare(currentVersionDateTime, version) >= 0)
+            if (DateTime.Compare(currentVersionDateTime, versionTime) >= 0)
             {
                 return (CheckUpdateRetT.AlreadyLatest, null, null);
             }
 
             // 到这里已经确定有新版本了
             var releaseNote = data["data"]?["release_note"]?.ToString();
-            _logger.Information("New version found: {DateTime:yyyy-MM-dd+HH:mm:ss.fff}, {ReleaseNote}", version, releaseNote);
+            _logger.Information("New version found: {DateTime:yyyy-MM-dd+HH:mm:ss.fff}, {ReleaseNote}", versionTime, releaseNote);
 
-            releaseNote = LocalizationHelper.FormatResourceVersion(releaseNote, version);
+            releaseNote = LocalizationHelper.FormatVersion(releaseNote, versionTime);
 
             SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Format(LocalizationHelper.GetString("MirrorChyanResourceUpdateShortTip"), releaseNote);
 

@@ -58,14 +58,14 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnStage": {
         "template": [
-            "Sami@Roguelike@OnStage_1",
-            "Sami@Roguelike@OnStage_2",
-            "Sami@Roguelike@OnStage_3",
-            "Sami@Roguelike@OnStage_4",
-            "Sami@Roguelike@OnStage_5",
-            "Sami@Roguelike@OnStage_6",
-            "Sami@Roguelike@OnStage_7",
-            "Sami@Roguelike@OnStage_0"
+            "Sami@Roguelike@OnStage_1.png",
+            "Sami@Roguelike@OnStage_2.png",
+            "Sami@Roguelike@OnStage_3.png",
+            "Sami@Roguelike@OnStage_4.png",
+            "Sami@Roguelike@OnStage_5.png",
+            "Sami@Roguelike@OnStage_6.png",
+            "Sami@Roguelike@OnStage_7.png",
+            "Sami@Roguelike@OnStage_0.png"
         ],
         "templThreshold": 0.96,
         "roi": [590, 45, 45, 35]
@@ -277,7 +277,8 @@
     "Sami@Roguelike@Foldartal": {
         "action": "ClickSelf",
         "roi": [639, 599, 299, 121],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "next": ["#self", "Stop"]
     },
     "Sami@Roguelike@FoldartalBack": {
         "action": "ClickSelf",
@@ -292,6 +293,11 @@
         "roi": [333, 201, 676, 307],
         "maskRange": [1, 255],
         "next": ["Sami@Roguelike@FoldartalGain", "Sami@Roguelike@LastRewardChoose", "Sami@Roguelike@SquadConfirm#next"]
+    },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "baseTask": "Sami@Roguelike@NextLevel",
+        "text": ["完成本层", "下一层级"],
+        "roi": [268, 600, 197, 78]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "doc": "深入调查调查装备也在这里",
@@ -547,9 +553,14 @@
         "specificRect": [490, 530, 45, 55]
     },
     "Sami@Roguelike@NextLevel": {
-        "text": ["完成本层", "下一层级"],
-        "roi": [268, 600, 197, 78],
-        "next": ["Sami@Roguelike@CloseInterview", "Sami@Roguelike@StrategyChange", "Sami@Roguelike@NextLevel"]
+        "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
+        "roi": [522, 525, 245, 81],
+        "next": [
+            "Sami@Roguelike@FoldartalGainNextLevel",
+            "Sami@Roguelike@CloseInterview",
+            "Sami@Roguelike@StrategyChange",
+            "Sami@Roguelike@NextLevel"
+        ]
     },
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
@@ -1269,8 +1280,16 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
-        "baseTask": "Sami@Roguelike@StrategyChange_mode4",
-        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["初霜湖泽", "_default"],
+            ["密静林地", "_exit"],
+            ["昧明冻土", "_exit"],
+            ["积冰岩骸", "_exit"],
+            ["无瑕花园", "_exit"],
+            ["远见之构", "_exit"],
+            ["深埋迷境", "_exit"]
+        ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],

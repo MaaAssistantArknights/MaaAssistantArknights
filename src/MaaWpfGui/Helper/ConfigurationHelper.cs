@@ -379,16 +379,6 @@ namespace MaaWpfGui.Helper
             return SetValue(storageKey + name + ".IsChecked", value);
         }
 
-        public static string GetFacilityOrder(string facility, string defaultValue)
-        {
-            return GetValue("Infrast.Order." + facility, defaultValue);
-        }
-
-        public static bool SetFacilityOrder(string facility, string value)
-        {
-            return SetValue("Infrast.Order." + facility, value);
-        }
-
         public static string GetTimer(int i, string defaultValue)
         {
             return GetGlobalValue($"Timer.Timer{i + 1}", defaultValue);

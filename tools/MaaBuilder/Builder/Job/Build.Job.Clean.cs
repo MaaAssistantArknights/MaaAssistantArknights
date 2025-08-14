@@ -8,12 +8,12 @@ public partial class Build
     Target UseClean => _ => _
         .Executes(() =>
         {
-            FileSystemTasks.EnsureCleanDirectory(Parameters.ArtifactOutput);
-            FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / BuildConfiguration.Release);
+            Parameters.ArtifactOutput.CreateOrCleanDirectory();
+            (Parameters.BuildOutput / BuildConfiguration.Release).CreateOrCleanDirectory();
 
             foreach (var package in Parameters.Packages)
             {
-                FileSystemTasks.EnsureCleanDirectory(Parameters.BuildOutput / package.PackageType);
+                (Parameters.BuildOutput / package.PackageType).CreateOrCleanDirectory();
             }
         });
 }

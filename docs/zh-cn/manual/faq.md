@@ -86,7 +86,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 部分加速器在启动加速和停止加速之后，都需要重启 MAA、ADB 和模拟器再连接。
 
-同时使用 UU 加速器 和 MuMu 12 可以参考[官方文档](https://mumu.163.com/help/20240321/35047_1144608.html)。
+同时使用 UU 加速器 和 MuMu 可以参考[官方文档](https://mumu.163.com/help/20240321/35047_1144608.html)。
 
 ### 重启电脑
 

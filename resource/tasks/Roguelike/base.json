@@ -9,7 +9,9 @@
             "Sarkaz/Terminal.png",
             "Delicious/Terminal.png",
             "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png"
+            "DahuangCity/Terminal.png",
+            "Dreamland/DreamlandDefault/Terminal.png",
+            "Dreamland/DreamlandDark/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -334,8 +336,8 @@
         "fullMatch": true,
         "text": [],
         "roi": [210, 8, 120, 20],
-        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
-        "specificRect": [95, 0, 0, 0]
+        "binThresholdDoc": "代码中使用，所以忽略 binThreshold 的使用条件",
+        "binThreshold": [95, 255]
     },
     "RoguelikeSkillSelectionTeamFull": {
         "roi": [135, 22, 1032, 668],
@@ -1375,14 +1377,14 @@
         ]
     },
     "Roguelike@StageSafeHouseSkipText": {
-        "template": "empty.png",
+        "algorithm": "JustReturn",
         "action": "ClickRect",
         "preDelay": 250,
         "specificRect": [0, 405, 725, 225],
         "next": ["Roguelike@StageSafeHouseSkipTextRewards"]
     },
     "Roguelike@StageSafeHouseSkipTextRewards": {
-        "template": "empty.png",
+        "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 405, 725, 225],
         "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
@@ -1777,7 +1779,15 @@
     "Roguelike@TraderRandomShoppingConfirm": {
         "action": "ClickSelf",
         "roi": [872, 425, 221, 136],
-        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave", "#self"]
+        "Doc": "点完有个动画，要是在动画中识别到了再点可能会点到其他商品里去，加个延迟再加个取消",
+        "postDelay": 1000,
+        "next": [
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@ChooseOperFlag",
+            "Roguelike@StageTraderLeave",
+            "#self",
+            "Roguelike@TraderRandomShoppingCancel"
+        ]
     },
     "Roguelike@TutorialButton": {
         "doc": [

@@ -373,8 +373,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (value)
                 {
-                    var result = MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuBridgeConnectionTip"), icon: MessageBoxImage.Information, buttons: MessageBoxButton.OKCancel);
-                    if (result != MessageBoxResult.OK)
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("MuMuBridgeConnectionTip"),
+                        icon: MessageBoxImage.Warning,
+                        buttons: MessageBoxButton.YesNo,
+                        no: LocalizationHelper.GetString("Confirm"),
+                        yes: LocalizationHelper.GetString("Cancel"));
+                    if (result != MessageBoxResult.No)
                     {
                         return;
                     }
@@ -891,10 +896,16 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
+        if (!_runningState.GetIdle())
+        {
+            return;
+        }
+
         _runningState.SetIdle(false);
 
         var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        Instances.AsstProxy.Connected = false;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {

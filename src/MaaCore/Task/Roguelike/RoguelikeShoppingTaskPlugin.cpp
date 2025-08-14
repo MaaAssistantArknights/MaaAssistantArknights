@@ -43,7 +43,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
     }
 
-    sleep(500);
+    sleep(1000);
 
     return true;
 }

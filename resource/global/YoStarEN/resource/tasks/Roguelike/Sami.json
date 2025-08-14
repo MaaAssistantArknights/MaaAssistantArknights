@@ -61,6 +61,9 @@
         ],
         "roi": [467, 531, 357, 72]
     },
+    "Sami@Roguelike@FoldartalGainNextLevel": {
+        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             ["Hunt", "捕猎"],
@@ -169,8 +172,15 @@
         "template": "Sami@Roguelike@GetDropSelectRecruit.png"
     },
     "Sami@Roguelike@NextLevel": {
-        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"],
-        "roi": [218, 600, 247, 78]
+        "text": [
+            "Brisk Marshalands",
+            "Placid Forests",
+            "Dawning Frostbounds",
+            "Gelid Rockshelves",
+            "Immaculate Garden",
+            "Clayrovant Carcass"
+        ],
+        "roi": [467, 531, 357, 72]
     },
     "Sami@Roguelike@RecruitOther": {
         "templThreshold": 0.75

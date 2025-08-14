@@ -45,7 +45,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
         m_ocr_after_combat = true;
         return true;
     }
-    if (task_view == "Roguelike@NextLevel") {
+    if (task_view == "Roguelike@FoldartalGainNextLevel") {
         m_ocr_next_level = true;
         return true;
     }

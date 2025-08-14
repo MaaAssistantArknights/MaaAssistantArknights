@@ -86,7 +86,7 @@
             <s:String x:Key="General">일반 모드</s:String>
             <s:String x:Key="BlueStacks">BlueStacks</s:String>
             <s:String x:Key="MuMuEmulator">MuMu Player</s:String>
-            <s:String x:Key="MuMuEmulator12">MuMu Player 12</s:String>
+            <s:String x:Key="MuMuEmulator12">MuMu Player</s:String>
             <s:String x:Key="LDPlayer">LD Player</s:String>
             <s:String x:Key="Nox">Nox</s:String>
             <s:String x:Key="XYAZ">MEmu</s:String>

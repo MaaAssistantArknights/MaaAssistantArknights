@@ -211,7 +211,13 @@ int asst::AdbController::get_mumu_index(const std::string& address)
         return 0;
     }
     int port = std::stoi(port_str);
-    int mumu_index = (port - 16384) / 32; // must be int
+    int mumu_index = 0;
+    if (port >= 16384) {
+        mumu_index = (port - 16384) / 32;
+    }
+    else if (port >= 5555) {
+        mumu_index = (port - 5555) / 2;
+    }
     LogInfo << VAR(port_str) << VAR(port) << VAR(mumu_index);
     return mumu_index;
 }
