@@ -30,17 +30,17 @@
             x:Name="MasterListBox"
             Grid.Column="0"
             Margin="10"
-            dd:DragDrop.IsDragSource="{Binding Idle}"
-            dd:DragDrop.IsDropTarget="{Binding Idle}"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
             DisplayMemberPath="Display"
             IsSynchronizedWithCurrentItem="true"
             ItemsSource="{Binding Settings}"
             SelectedIndex="{Binding SelectedIndex}" />
 
         <hc:ScrollViewer
+            x:Name="SettingsScrollViewer"
             Grid.Column="1"
             Margin="20,10"
-            x:Name="SettingsScrollViewer"
             HorizontalAlignment="Stretch"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
