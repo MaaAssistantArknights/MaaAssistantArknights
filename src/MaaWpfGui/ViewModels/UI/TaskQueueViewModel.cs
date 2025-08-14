@@ -781,7 +781,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void UpdateDatePromptAndStagesLocally()
         {
             UpdateDatePrompt();
-            UpdateStageList();
+            FightTask.UpdateStageList();
         }
 
         /// <summary>
@@ -873,113 +873,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             StagesOfToday = prompt;
-        }
-
-        /// <summary>
-        /// Updates stage list.
-        /// 使用手动输入时，只更新关卡列表，不更新关卡选择
-        /// 使用隐藏当日不开放时，更新关卡列表，关卡选择为未开放的关卡时清空
-        /// 使用备选关卡时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
-        /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
-        /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
-        /// </summary>
-        // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
-        // 这个函数被列为public可见，意味着他注入对象前被调用
-        public void UpdateStageList()
-        {
-            Execute.OnUIThread(() =>
-            {
-                var hideUnavailableStage = FightTask.HideUnavailableStage;
-
-                Instances.TaskQueueViewModel.EnableSetFightParams = false;
-
-                var stage1 = FightTask.Stage1 ?? string.Empty;
-                var stage2 = FightTask.Stage2 ?? string.Empty;
-                var stage3 = FightTask.Stage3 ?? string.Empty;
-                var stage4 = FightTask.Stage4 ?? string.Empty;
-                var rss = FightTask.RemainingSanityStage ?? string.Empty;
-
-                var tempStageList = hideUnavailableStage
-                    ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
-                    : Instances.StageManager.GetStageList().ToList();
-
-                var tempRemainingSanityStageList = Instances.StageManager.GetStageList().ToList();
-
-                if (FightTask.CustomStageCode)
-                {
-                    // 7%
-                    // 使用自定义的时候不做处理
-                }
-                else if (hideUnavailableStage)
-                {
-                    // 15%
-                    stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
-                    stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                    stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                    stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
-                }
-                else if (FightTask.UseAlternateStage)
-                {
-                    // 11%
-                    AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
-                }
-                else
-                {
-                    // 啥都没选
-                    AddStageIfNotExist(stage1, tempStageList);
-
-                    // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                    stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                    stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                    stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
-                }
-
-                // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
-                rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
-
-                if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
-                {
-                    var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
-                    tempRemainingSanityStageList.Remove(itemToRemove);
-                }
-
-                tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
-
-                UpdateObservableCollection(FightTask.StageList, tempStageList);
-                UpdateObservableCollection(FightTask.RemainingSanityStageList, tempRemainingSanityStageList);
-
-                FightTask._stage1Fallback = stage1;
-                FightTask.Stage1 = stage1;
-                FightTask.Stage2 = stage2;
-                FightTask.Stage3 = stage3;
-                FightTask.Stage4 = stage4;
-                FightTask.RemainingSanityStage = rss;
-                if (!FightTask.CustomStageCode)
-                {
-                    FightTask.RemoveNonExistStage();
-                }
-
-                Instances.TaskQueueViewModel.EnableSetFightParams = true;
-            });
-        }
-
-        private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
-        {
-            foreach (var stage in stages)
-            {
-                AddStageIfNotExist(stage, stageList);
-            }
-        }
-
-        private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
-        {
-            if (stageList.Any(x => x.Value == stage))
-            {
-                return;
-            }
-
-            var stageInfo = Instances.StageManager.GetStageInfo(stage);
-            stageList.Add(stageInfo);
         }
 
         private string _stagesOfToday = string.Empty;

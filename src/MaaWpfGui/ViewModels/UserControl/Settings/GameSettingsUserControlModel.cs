@@ -22,6 +22,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Serilog;
 using Stylet;
 
@@ -95,7 +96,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
             VersionUpdateSettings.ResourceInfoUpdate();
-            Instances.TaskQueueViewModel.UpdateStageList();
+            FightSettingsUserControlModel.Instance.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
 
             if (!NeedRestartAfterClientTypeChange(oldValue, value))
