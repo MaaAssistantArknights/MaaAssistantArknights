@@ -18,7 +18,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::load_params([[maybe_unused]] 
 
     // 为刷开局模式设置专用难度
     if (mode == RoguelikeMode::Collectible) {
-        if (m_config->get_difficulty() != -1) {
+        if (m_config->get_difficulty() == -1) {
             m_collectible_difficulty = -1; // 当前难度只能用当前难度烧水
         }
         else {
