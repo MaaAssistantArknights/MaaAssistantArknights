@@ -1070,7 +1070,7 @@
         "text": ["_default", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
-            ["山水阁", "_default"],
+            ["山水阁", "_exit"],
             ["云(瓦)?(亭|亨)", "_exit"],
             ["汝吾(门)?", "_exit"],
             ["见字祠", "_exit"],
