@@ -776,11 +776,12 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            string resourceVersion = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
-                ? $" - {LocalizationHelper.FormatResourceVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
+            string resourceVersionDisplay = !string.IsNullOrEmpty(VersionUpdateSettings.ResourceVersion)
+                ? $" - {LocalizationHelper.FormatVersion(VersionUpdateSettings.ResourceVersion, VersionUpdateSettings.ResourceDateTime)}"
                 : string.Empty;
+            string uiVersionDisplay = LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
             rvm.WindowUpdateInfo = updateTip.Trim();
-            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {uiVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}";
         }
 
         /// <summary>
