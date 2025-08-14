@@ -199,32 +199,29 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private string? _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
-
     /// <summary>
     /// Gets or sets the stage4.
     /// </summary>
-    public string? Stage4
+    public string Stage4
     {
-        get => _stage4;
+        get => GetTaskConfig<FightTask>().Stage4;
         set
         {
-            if (_stage4 == value)
+            if (GetTaskConfig<FightTask>().Stage4 == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage4?.Length != 3 && value != null)
+                if (GetTaskConfig<FightTask>().Stage4.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage4, value);
+            SetTaskConfig<FightTask>(t => t.Stage4 == value, t => t.Stage4 = value);
             SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage4, value);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
@@ -750,9 +747,11 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             return null;
         }
 
+        var list = new List<string>() { fight.Stage1, fight.Stage2, fight.Stage3, fight.Stage4 };
+        string stage = !fight.UseOptionalStage ? list.First() : (list.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen) ?? list.First());
         var task = new AsstFightTask()
         {
-            // Stage = fight.Stage,
+            Stage = stage,
             Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
             Stone = fight.UseStone != false ? fight.StoneCount : 0,
             Series = fight.Series,
