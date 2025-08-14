@@ -23,9 +23,6 @@ public class SpecificConfig
     public ObservableDictionary<string, int> InfrastOrder { get; private set; } = [];
 
     [JsonInclude]
-    public ObservableDictionary<string, int> TaskQueueOrder { get; private set; } = [];
-
-    [JsonInclude]
     public ObservableList<BaseTask> TaskQueue { get; private set; } = [];
 
     [JsonInclude]
