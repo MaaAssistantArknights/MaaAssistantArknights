@@ -27,6 +27,7 @@ using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -782,7 +783,7 @@ public class FightSettingsUserControlModel : TaskViewModel
                 UseAlternateStage = false;
             }
 
-            Instances.TaskQueueViewModel.UpdateStageList();
+            UpdateStageList();
         }
     }
 
@@ -877,6 +878,132 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     #endregion
+
+    #region 关卡列表更新
+
+    /// <summary>
+    /// Updates stage list.
+    /// 使用手动输入时，只更新关卡列表，不更新关卡选择
+    /// 使用隐藏当日不开放时，更新关卡列表，关卡选择为未开放的关卡时清空
+    /// 使用备选关卡时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+    /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
+    /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
+    /// </summary>
+    // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
+    // 这个函数被列为public可见，意味着他注入对象前被调用
+    public void UpdateStageList()
+    {
+        Execute.PostToUIThreadAsync(() =>
+        {
+            var hideUnavailableStage = HideUnavailableStage;
+
+            Instances.TaskQueueViewModel.EnableSetFightParams = false;
+
+            var stage1 = Stage1 ?? string.Empty;
+            var stage2 = Stage2 ?? string.Empty;
+            var stage3 = Stage3 ?? string.Empty;
+            var stage4 = Stage4 ?? string.Empty;
+            var rss = RemainingSanityStage ?? string.Empty;
+
+            var tempStageList = hideUnavailableStage
+                ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
+                : Instances.StageManager.GetStageList().ToList();
+
+            var tempRemainingSanityStageList = Instances.StageManager.GetStageList().ToList();
+
+            if (CustomStageCode)
+            {
+                // 7%
+                // 使用自定义的时候不做处理
+            }
+            else if (hideUnavailableStage)
+            {
+                // 15%
+                stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
+                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
+                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
+                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+            }
+            else if (UseAlternateStage)
+            {
+                // 11%
+                AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
+            }
+            else
+            {
+                // 啥都没选
+                AddStageIfNotExist(stage1, tempStageList);
+
+                // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
+                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
+                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
+                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+            }
+
+            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
+            rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
+
+            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
+            {
+                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
+                tempRemainingSanityStageList.Remove(itemToRemove);
+            }
+
+            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
+
+            UpdateObservableCollection(StageList, tempStageList);
+            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
+
+            _stage1Fallback = stage1;
+            Stage1 = stage1;
+            Stage2 = stage2;
+            Stage3 = stage3;
+            Stage4 = stage4;
+            RemainingSanityStage = rss;
+            if (!CustomStageCode)
+            {
+                RemoveNonExistStage();
+            }
+
+            Instances.TaskQueueViewModel.EnableSetFightParams = true;
+        });
+    }
+
+    private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
+    {
+        foreach (var stage in stages)
+        {
+            AddStageIfNotExist(stage, stageList);
+        }
+    }
+
+    private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
+    {
+        if (stageList.Any(x => x.Value == stage))
+        {
+            return;
+        }
+
+        var stageInfo = Instances.StageManager.GetStageInfo(stage);
+        stageList.Add(stageInfo);
+    }
+
+    /// <summary>
+    /// 更新 ObservableCollection，确保不替换原集合，而是增删项
+    /// </summary>
+    /// <param name="originalCollection">原始 ObservableCollection</param>
+    /// <param name="newList">新的列表</param>
+    public static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
+    {
+        originalCollection.Clear();
+
+        foreach (var item in newList)
+        {
+            originalCollection.Add(item);
+        }
+    }
+
+    #endregion 关卡列表更新
 
     public class SanityInfo
     {
