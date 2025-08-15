@@ -44,13 +44,13 @@ icon: hugeicons:brain-02
   - すべてのメインステージ。末尾に `-NORMAL` または `-HARD` を付けて標準／磨難を切り替え可能。
   - 龍門幣・作戦記録の 5 / 6 ステージ。ただし `CE-6` / `LS-6` を入力してください。6 が連戦不可の場合、自動で 5 に切り替えます。
   - アーツ学・購買資格証・炭素材の第 5 ステージ。`CA-5` / `AP-5` / `SK-5` を入力してください。
-　- すべてのSoCステージ。`PR-A-1` のように完全な番号を入力してください。
+  - すべてのSoCステージ。`PR-A-1` のように完全な番号を入力してください。
   - 殲滅作戦は以下の入力値に対応し、対応する Value を使用してください：
 
     - 当期殲滅作戦：Annihilation
-    - チェルノボーグ：Chernobog\@Annihilation
-    - 龍門郊外：LungmenOutskirts\@Annihilation
-    - 龍門市街：LungmenDowntown\@Annihilation
+    - チェルノボーグ：Chernobog@Annihilation
+    - 龍門郊外：LungmenOutskirts@Annihilation
+    - 龍門市街：LungmenDowntown@Annihilation
 
   - サイドストーリー内の `OF-1` / `OF-F3` / `GT-5`。
   - 当期 SS イベントの後半 3 ステージ。自動で [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) から更新を取得後、画面下部に表示されます。
