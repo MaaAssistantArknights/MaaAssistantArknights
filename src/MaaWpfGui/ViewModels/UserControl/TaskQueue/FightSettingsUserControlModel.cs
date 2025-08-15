@@ -815,8 +815,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
 
-            var tempRemainingSanityStageList = Instances.StageManager.GetStageList().ToList();
-
             if (CustomStageCode)
             {
                 // 7%
@@ -845,14 +843,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
                 stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
             }
-
-            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
-            {
-                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
-                tempRemainingSanityStageList.Remove(itemToRemove);
-            }
-
-            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
 
             UpdateObservableCollection(StageList, tempStageList);
 
