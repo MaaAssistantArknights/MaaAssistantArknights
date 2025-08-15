@@ -45,7 +45,7 @@ jobs:
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           path: temp
           show-progress: false
@@ -119,7 +119,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
 
@@ -221,7 +221,7 @@ jobs:
       actions: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
 
@@ -343,7 +343,7 @@ jobs:
         arch: [arm64, x86_64]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
 
@@ -384,7 +384,7 @@ jobs:
     runs-on: macos-14
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
 
@@ -399,13 +399,13 @@ jobs:
           git submodule update --init --depth 1 src/MaaMacGui
 
       - name: Download Arm64 MAA from Github
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
       - name: Download x64 MAA from Github
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
@@ -547,7 +547,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from Github
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           path: assets
 

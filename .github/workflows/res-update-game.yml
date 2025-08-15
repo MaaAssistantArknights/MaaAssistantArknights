@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone ArknightsGameResource for Official
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
           repository: yuanyan3060/ArknightsGameResource
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone ArknightsGameResource_Yostar for Overseas
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
           repository: ArknightsAssets/ArknightsGamedata
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone arknights-toolbox-update for Taiwan
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           show-progress: false
           repository: arkntools/arknights-toolbox-update
@@ -132,7 +132,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout MAA
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
           # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
@@ -185,7 +185,7 @@ jobs:
 
       - name: Download txwy
         id: download-txwy
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         continue-on-error: true
         with:
           name: txwy
@@ -198,14 +198,14 @@ jobs:
 
       - name: Re-download txwy
         if: steps.download-txwy.outcome == 'failure'
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
           path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
         id: download-overseas
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         continue-on-error: true
         with:
           name: overseas
@@ -218,14 +218,14 @@ jobs:
 
       - name: Re-download Overseas
         if: steps.download-overseas.outcome == 'failure'
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         with:
           name: overseas
           path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download Official
         id: download-official
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         continue-on-error: true
         with:
           name: official
@@ -238,7 +238,7 @@ jobs:
 
       - name: Re-download Official
         if: steps.download-official.outcome == 'failure'
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4.1.8
         with:
           name: official
           path: ./tools/ResourceUpdater/x64/Release/Official
