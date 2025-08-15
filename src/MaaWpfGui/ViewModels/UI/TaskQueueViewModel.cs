@@ -704,19 +704,12 @@ namespace MaaWpfGui.ViewModels.UI
         public bool IsStageOpen(string name) => Instances.StageManager.IsStageOpen(name, CurDayOfWeek);
 
         /// <summary>
-        /// Returns the valid stage if it is open, otherwise returns an empty string.
-        /// </summary>
-        /// <param name="stage">The stage to check.</param>
-        /// <returns>The valid stage or an empty string.</returns>
-        public string GetValidStage(string stage) => IsStageOpen(stage) ? stage : string.Empty;
-
-        /// <summary>
         /// 更新日期提示和关卡列表
         /// </summary>
         public void UpdateDatePromptAndStagesLocally()
         {
             UpdateDatePrompt();
-            FightTask.UpdateStageList();
+            ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList().ForEach(FightTask.UpdateStageList);
         }
 
         /// <summary>

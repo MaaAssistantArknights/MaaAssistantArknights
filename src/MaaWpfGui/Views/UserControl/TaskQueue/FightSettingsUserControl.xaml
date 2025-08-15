@@ -317,7 +317,7 @@
                             hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                             IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                          Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                            Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding Stage1}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
                         <StackPanel
                             IsEnabled="{c:Binding UseAlternateStage}"
@@ -331,7 +331,7 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage2}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
@@ -341,7 +341,7 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage3}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
@@ -351,7 +351,7 @@
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
                                 IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                              Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                                Text="{Binding Stage4, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Stage4}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                         </StackPanel>
                     </StackPanel>
