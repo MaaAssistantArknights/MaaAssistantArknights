@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
+using MaaWpfGui.Utilities.ValueType;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
@@ -72,6 +74,8 @@ public class FightTask : BaseTask
     /// Gets or sets 代理倍率
     /// </summary>
     public int Series { get; set; }
+
+    public List<CombinedData> StageList { get; set; } = [];
 
     /// <summary>
     /// Gets or sets 首选关卡

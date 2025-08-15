@@ -50,16 +50,10 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
 
     public static FightSettingsUserControlModel Instance { get; }
 
-    private ObservableCollection<CombinedData> _stageList = [];
-
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<CombinedData> StageList
-    {
-        get => _stageList;
-        private set => SetAndNotify(ref _stageList, value);
-    }
+    public ObservableCollection<CombinedData> StageList => new(GetTaskConfig<FightTask>().StageList);
 
     /// <summary>
     /// Gets the stage.
@@ -236,22 +230,14 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         {
             if (!value)
             {
-                RemoveNonExistStage();
+                Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+                Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+                Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
             }
 
             SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
         }
-    }
-
-    /// <summary>
-    /// 移除不在关卡列表中的关卡，关闭自定义和刷新关卡列表时调用
-    /// </summary>
-    public void RemoveNonExistStage()
-    {
-        Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
-        Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
-        Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
-        Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
     }
 
     /// <summary>
@@ -658,7 +644,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 UseAlternateStage = false;
             }
 
-            UpdateStageList();
+            UpdateStageList(GetTaskConfig<FightTask>());
         }
     }
 
@@ -796,26 +782,25 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
     /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
     /// </summary>
+    /// <param name="fight">修改stageList的task</param>
     // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
     // 这个函数被列为public可见，意味着他注入对象前被调用
-    public void UpdateStageList()
+    public void UpdateStageList(FightTask fight)
     {
         Execute.PostToUIThreadAsync(() =>
         {
-            var hideUnavailableStage = HideUnavailableStage;
+            var hideUnavailableStage = fight.HideUnavailableStage;
 
-            Instances.TaskQueueViewModel.EnableSetFightParams = false;
-
-            var stage1 = Stage1 ?? string.Empty;
-            var stage2 = Stage2 ?? string.Empty;
-            var stage3 = Stage3 ?? string.Empty;
-            var stage4 = Stage4 ?? string.Empty;
+            var stage1 = fight.Stage1 ?? string.Empty;
+            var stage2 = fight.Stage2 ?? string.Empty;
+            var stage3 = fight.Stage3 ?? string.Empty;
+            var stage4 = fight.Stage4 ?? string.Empty;
 
             var tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
 
-            if (CustomStageCode)
+            if (fight.IsStageManually)
             {
                 // 7%
                 // 使用自定义的时候不做处理
@@ -823,59 +808,59 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             else if (hideUnavailableStage)
             {
                 // 15%
-                stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                stage1 = Instances.TaskQueueViewModel.IsStageOpen(stage1) ? stage1 : string.Empty;
+                stage2 = Instances.TaskQueueViewModel.IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = Instances.TaskQueueViewModel.IsStageOpen(stage3) ? stage3 : string.Empty;
+                stage4 = Instances.TaskQueueViewModel.IsStageOpen(stage4) ? stage4 : string.Empty;
             }
-            else if (UseAlternateStage)
+            else if (fight.UseOptionalStage)
             {
                 // 11%
-                AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
+                AddStagesIfNotExist(tempStageList, stage1, stage2, stage3, stage4);
             }
             else
             {
                 // 啥都没选
-                AddStageIfNotExist(stage1, tempStageList);
+                AddStagesIfNotExist(tempStageList, stage1);
 
                 // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                stage2 = Instances.TaskQueueViewModel.IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = Instances.TaskQueueViewModel.IsStageOpen(stage3) ? stage3 : string.Empty;
+                stage4 = Instances.TaskQueueViewModel.IsStageOpen(stage4) ? stage4 : string.Empty;
             }
 
-            UpdateObservableCollection(StageList, tempStageList);
-
-            Stage1 = stage1;
-            Stage2 = stage2;
-            Stage3 = stage3;
-            Stage4 = stage4;
-            if (!CustomStageCode)
+            fight.StageList = tempStageList;
+            if (fight == TaskSettingVisibilityInfo.CurrentTask)
             {
-                RemoveNonExistStage();
+                NotifyOfPropertyChange(nameof(StageList));
             }
 
-            Instances.TaskQueueViewModel.EnableSetFightParams = true;
+            fight.Stage1 = stage1;
+            fight.Stage2 = stage2;
+            fight.Stage3 = stage3;
+            fight.Stage4 = stage4;
+            if (!fight.IsStageManually)
+            {
+                Stage1 = fight.StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage2 = fight.StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+                Stage3 = fight.StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+                Stage4 = fight.StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
+            }
         });
     }
 
-    private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
+    private void AddStagesIfNotExist(List<CombinedData> stageList, params string[] stages)
     {
         foreach (var stage in stages)
         {
-            AddStageIfNotExist(stage, stageList);
-        }
-    }
+            if (stageList.Any(x => x.Value == stage))
+            {
+                return;
+            }
 
-    private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
-    {
-        if (stageList.Any(x => x.Value == stage))
-        {
-            return;
+            var stageInfo = Instances.StageManager.GetStageInfo(stage);
+            stageList.Add(stageInfo);
         }
-
-        var stageInfo = Instances.StageManager.GetStageInfo(stage);
-        stageList.Add(stageInfo);
     }
 
     /// <summary>
