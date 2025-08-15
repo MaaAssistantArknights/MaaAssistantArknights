@@ -134,9 +134,7 @@
                             Visibility="{c:Binding Form}">
                             <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource UseFormation}" />
                             <ComboBox
-                                Width="100"
                                 Margin="6,0,0,0"
-                                HorizontalContentAlignment="Center"
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding FormationSelectList}"
                                 SelectedValue="{Binding SelectFormation}"
@@ -205,7 +203,6 @@
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
                         Height="30"
-                        MinWidth="70"
                         Margin="6,0,0,0"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
