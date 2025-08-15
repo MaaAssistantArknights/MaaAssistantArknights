@@ -3,7 +3,7 @@ order: 4
 icon: material-symbols:view-quilt-rounded
 ---
 
-# 基建换班
+# 基地仕事
 
 ## 通常モード
 
