@@ -166,11 +166,22 @@
                             Visibility="{c:Binding ShowInverse}">
                             <hc:SplitButton.DropDownContent>
                                 <Menu>
-                                    <MenuItem
-                                        Width="90"
-                                        Padding="19,5,0,5"
-                                        Command="{s:Action ChangeInverseMode}"
-                                        Header="{Binding InverseMenuText}" />
+                                    <Menu.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </Menu.ItemsPanel>
+                                    <MenuItem Command="{s:Action ChangeInverseMode}">
+                                        <MenuItem.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    Padding="10,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Text="{Binding DataContext.InverseMenuText, RelativeSource={RelativeSource AncestorType=hc:SplitButton}}"
+                                                    TextAlignment="Center" />
+                                            </DataTemplate>
+                                        </MenuItem.HeaderTemplate>
+                                    </MenuItem>
                                 </Menu>
                             </hc:SplitButton.DropDownContent>
                         </hc:SplitButton>
