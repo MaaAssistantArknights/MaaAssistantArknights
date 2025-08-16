@@ -23,7 +23,6 @@ using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -119,7 +118,7 @@ public class ConfigConverter
         {
             ConfigurationHelper.SwitchConfiguration(configName);
             ConfigFactory.SwitchConfig(configName);
-            var local = GuiSettingsUserControlModel.Instance.Language;
+            var local = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
             // TaskQueue部分
             {
