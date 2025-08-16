@@ -73,22 +73,29 @@ namespace MaaWpfGui.Services.Web
 
         private static async Task<HttpResponseMessage?> TryPostAsync(string targetUrl, HttpContent content, Dictionary<string, string> headers)
         {
-            int currentBackoff = InitialBackoffMs;
-            for (int attempt = 1; attempt <= MaxRetryPerDomain; attempt++)
+            try
             {
-                var response = await Instances.HttpService.PostAsync(new(targetUrl), content, headers);
-
-                switch ((int)response.StatusCode)
+                int currentBackoff = InitialBackoffMs;
+                for (int attempt = 1; attempt <= MaxRetryPerDomain; attempt++)
                 {
-                    case 200:
-                        return response;
-                    case >= 500 and < 600:
-                        await Task.Delay(currentBackoff);
-                        currentBackoff = (int)(currentBackoff * 1.5);
-                        continue;
-                    default:
-                        return response;
+                    var response = await Instances.HttpService.PostAsync(new(targetUrl), content, headers);
+
+                    switch ((int)response.StatusCode)
+                    {
+                        case 200:
+                            return response;
+                        case >= 500 and < 600:
+                            await Task.Delay(currentBackoff);
+                            currentBackoff = (int)(currentBackoff * 1.5);
+                            continue;
+                        default:
+                            return response;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error during HTTP POST request to {TargetUrl}", targetUrl);
             }
 
             return null;
