@@ -686,8 +686,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             TaskItemViewModels = [.. taskqueue];
             TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
+            var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
+            taskItem ??= TaskItemViewModels.FirstOrDefault(i => ConfigFactory.CurrentConfig.TaskQueue[i.Index] is FightTask);
+            taskItem ??= TaskItemViewModels.FirstOrDefault();
+            if (taskItem is { })
+            {
+                taskItem.EnableSetting = true;
+            }
 
-            FightTask.InitDrops();
+            FightTask.InitDrops(); // todo 需要改
             NeedToUpdateDatePrompt();
             UpdateDatePromptAndStagesLocally();
             InfrastTask.RefreshCustomInfrastPlan();
