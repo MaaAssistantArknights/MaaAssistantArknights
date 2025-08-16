@@ -324,21 +324,5 @@ namespace MaaWpfGui.Models
                 }
             }
         }
-
-        #region 双入口设置可见性
-
-        private bool _customInfrastPlanShowInFightSettings = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, bool.FalseString));
-
-        public bool CustomInfrastPlanShowInFightSettings
-        {
-            get => _customInfrastPlanShowInFightSettings;
-            set
-            {
-                SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
-            }
-        }
-
-        #endregion
     }
 }
