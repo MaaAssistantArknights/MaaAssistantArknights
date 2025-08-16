@@ -240,14 +240,6 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
-                        <controls:TooltipBlock
-                            Margin="0,5,6,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            NormalOpacity="0.25"
-                            TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
-                    </Grid>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <StackPanel
@@ -378,10 +370,6 @@
                 Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource UseRemainingSanityStage}" IsChecked="{Binding UseRemainingSanityStage}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource UseRemainingSanityStageTip}" />
-            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource AllowUseStoneSave}"
