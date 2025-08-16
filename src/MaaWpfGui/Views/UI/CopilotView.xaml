@@ -118,7 +118,7 @@
                     </StackPanel.Style>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel
-                            Margin="5"
+                            Margin="2.5,5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
@@ -126,14 +126,15 @@
                             <controls:TooltipBlock TooltipText="{DynamicResource AutoSquadTip}" />
                         </StackPanel>
                         <StackPanel
-                            Margin="5,0,0,0"
+                            Margin="2.5,5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
                             Visibility="{c:Binding Form}">
                             <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource UseFormation}" />
                             <ComboBox
-                                Margin="0,-1,0,0"
+                                Margin="0,-10"
+                                VerticalAlignment="Center"
                                 BorderThickness="0"
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding FormationSelectList}"
@@ -144,7 +145,7 @@
 
                     <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding Form}">
                         <CheckBox
-                            Margin="5"
+                            Margin="2.5,5"
                             HorizontalAlignment="Center"
                             Content="{DynamicResource Copilot.IgnoreRequirements}"
                             IsChecked="{Binding IgnoreRequirements}" />
@@ -160,20 +161,24 @@
                                 </Style>
                             </StackPanel.Style>
                             <CheckBox
-                                Margin="5"
+                                Margin="2.5,5"
                                 HorizontalAlignment="Center"
                                 Content="{DynamicResource AddTrust}"
                                 IsChecked="{Binding AddTrust}" />
                             <StackPanel
-                                Margin="5"
+                                Margin="2.5,5"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
-                                <CheckBox Content="{DynamicResource AddUserAdditional}" IsChecked="{Binding AddUserAdditional}" />
+                                <CheckBox
+                                    Margin="2.5,5"
+                                    Content="{DynamicResource AddUserAdditional}"
+                                    IsChecked="{Binding AddUserAdditional}" />
                                 <TextBox
+                                    Height="20"
                                     MinWidth="100"
                                     MaxWidth="140"
-                                    Margin="6,0,0,0"
+                                    Margin="2.5,-10"
                                     VerticalContentAlignment="Center"
                                     Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
                                     ToolTip="{DynamicResource AddUserAdditionalTip}"
@@ -185,21 +190,21 @@
 
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel
-                            Margin="5"
+                            Margin="2.5,5"
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
                             <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
                         <CheckBox
-                            Margin="5"
+                            Margin="2.5,5"
                             Content="{DynamicResource UseSanityPotion}"
                             IsChecked="{Binding UseSanityPotion}"
                             Visibility="{c:Binding UseCopilotList}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel
-                    Margin="5"
+                    Margin="2.5,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
@@ -209,8 +214,7 @@
                         Content="{DynamicResource LoopTimes}"
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
-                        Height="30"
-                        Margin="6,0,0,0"
+                        Margin="5,0,0,0"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
