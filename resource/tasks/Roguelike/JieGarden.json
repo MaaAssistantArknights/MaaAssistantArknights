@@ -453,6 +453,11 @@
     "JieGarden@Roguelike@RoutingAction": {
         "algorithm": "JustReturn"
     },
+    "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame": {
+        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+    },
     "JieGarden@Roguelike@RoutingAction-ExitThenAbandon": {
         "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
         "algorithm": "JustReturn",
@@ -481,11 +486,6 @@
         "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
-    },
-    "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
     },
     "JieGarden@Roguelike@RoutingBoskyPassageConfig": {
         "doc": [
