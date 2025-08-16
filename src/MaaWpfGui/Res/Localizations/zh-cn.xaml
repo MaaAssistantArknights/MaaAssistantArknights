@@ -284,6 +284,8 @@
 
 您可通过点击 ｢{key=Settings} - {key=IssueReport}｣ 链接来取消该弹窗，感谢您的理解与配合！</system:String>
     <system:String x:Key="UpdateCheck">更新渠道</system:String>
+    <system:String x:Key="UpdateCheckTip" xml:space="preserve">• {key=UpdateCheckBeta}: 可能存在少量 Bug，新功能新主题支持更快
+• {key=UpdateCheckStable}: Bug 更少, 新功能新主题支持更慢。新功能可能需要数周后才会支持</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">软件更新</system:String>
     <system:String x:Key="ShowChangelog">更新日志</system:String>
