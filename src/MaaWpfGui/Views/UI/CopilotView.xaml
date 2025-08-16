@@ -134,7 +134,8 @@
                             Visibility="{c:Binding Form}">
                             <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource UseFormation}" />
                             <ComboBox
-                                Margin="6,0,0,0"
+                                Margin="0,-1,0,0"
+                                BorderThickness="0,0,0,0"
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding FormationSelectList}"
                                 SelectedValue="{Binding SelectFormation}"
