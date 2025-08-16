@@ -75,7 +75,7 @@ public class FightTask : BaseTask
     /// </summary>
     public int Series { get; set; }
 
-    public List<CombinedData> StageList { get; set; } = [];
+    public List<Stage> StageList { get; set; } = [];
 
     /// <summary>
     /// Gets or sets 首选关卡
@@ -141,4 +141,6 @@ public class FightTask : BaseTask
     /// Gets or sets a value indicating whether 隐藏代理倍率
     /// </summary>
     public bool HideSeries { get; set; }
+
+    public record Stage(string Display, string Value);
 }
