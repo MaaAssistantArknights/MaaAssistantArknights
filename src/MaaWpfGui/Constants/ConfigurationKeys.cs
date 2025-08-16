@@ -125,7 +125,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled"; // 已废弃
         public const string CustomInfrastFile = "Infrast.CustomInfrastFile"; // 已迁移
         public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex"; // 已迁移
-        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
+        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings"; // 已废弃
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage"; // 已迁移
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine"; // 已迁移
