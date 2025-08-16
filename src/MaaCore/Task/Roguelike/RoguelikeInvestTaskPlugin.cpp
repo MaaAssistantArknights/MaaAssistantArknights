@@ -39,10 +39,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     LogTraceFunction;
 
     auto image = ctrler()->get_image();
-    int count = 0;                                // 当次已投资的个数
-    int retry = 0;                                // 重试次数
-    auto deposit = get_deposit(image);            // 当前的存款
-    auto wallet = get_wallet(image);              // 当前的钱包余额
+    int count = 0;                     // 当次已投资的个数
+    int retry = 0;                     // 重试次数
+    auto deposit = get_deposit(image); // 当前的存款
+    // auto wallet = get_wallet(image); // 当前的钱包余额
     int count_limit = m_maximum - m_invest_count; // 可用投资次数
     const auto& settlement = [&](auto& image) {
         int retry = 0;
