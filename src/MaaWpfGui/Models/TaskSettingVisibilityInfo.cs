@@ -63,7 +63,15 @@ namespace MaaWpfGui.Models
         public static TaskSettingVisibilityInfo Instance { get; } = new();
 
         // 长草任务当前选中
-        public int CurrentIndex { get; set; }
+        public int CurrentIndex
+        {
+            get => ConfigFactory.CurrentConfig.TaskSelectedIndex;
+            set
+            {
+                ConfigFactory.CurrentConfig.TaskSelectedIndex = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
         public void Set(string taskName, bool enable)
