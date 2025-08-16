@@ -482,6 +482,11 @@
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
     },
+    "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame": {
+        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+    },
     "JieGarden@Roguelike@RoutingBoskyPassageConfig": {
         "doc": [
             "RoguelikeRoutingTaskPlugin用参数",
