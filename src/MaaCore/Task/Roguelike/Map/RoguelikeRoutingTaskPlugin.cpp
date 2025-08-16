@@ -3,6 +3,7 @@
 #include <limits>
 #include <numeric>
 
+#include "AbstractRoguelikeMap.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -34,6 +35,14 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     m_roi_margin = config->special_params.at(7);
     m_direction_threshold = config->special_params.at(8);
 
+    // 只有在界园主题时才加载 BoskyPassage 配置
+    if (theme == RoguelikeTheme::JieGarden) {
+        const std::shared_ptr<MatchTaskInfo> bosky_config =
+            Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingBoskyPassageConfig");
+
+        m_bosky_config = bosky_config->special_params;
+    }
+
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
@@ -49,6 +58,10 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
             m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
             return true;
         }
+        else {
+            m_routing_strategy = RoutingStrategy::BoskyPassage_JieGarden;
+            return true;
+        }
     }
 
     if (mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {
@@ -62,6 +75,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
 void asst::RoguelikeRoutingTaskPlugin::reset_in_run_variables()
 {
     m_map.reset();
+    m_bosky_map.reset();
     m_need_generate_map = true;
     m_selected_column = 0;
     m_selected_x = 0;
@@ -115,7 +129,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
             const auto relative_path = relative_dir / (utils::get_time_filestem() + "_draw.png");
-            Log.trace("Save image", relative_path);
+            Log.debug(__FUNCTION__, "| Saving image to {}", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
             m_need_generate_map = false;
@@ -177,11 +191,195 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         navigate_route();
         break;
 
+    case RoutingStrategy::BoskyPassage_JieGarden: {
+        bosky_update_map();
+        bosky_decide_and_click();
+        break;
+    }
+
     default:
         break;
     }
 
     return true;
+}
+
+// ==================== JieGarden BoskyPassage 平面地图逻辑 ====================
+void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
+{
+    LogTraceFunction;
+
+    Log.info(__FUNCTION__, "| updating bosky map");
+
+    cv::Mat image = ctrler()->get_image();
+    if (image.empty()) {
+        Log.error(__FUNCTION__, "| Failed to get image from controller");
+        return;
+    }
+
+    MultiMatcher node_analyzer(image);
+    node_analyzer.set_task_info("JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze");
+    if (!node_analyzer.analyze()) {
+        Log.error(__FUNCTION__, "| no nodes are recognised");
+        return;
+    }
+
+    MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
+    Log.info(__FUNCTION__, "| found " + std::to_string(match_results.size()) + " nodes");
+
+    // 排序 靠左上优先
+    sort_by_vertical_(match_results);
+
+    const std::string& theme = m_config->get_theme();
+
+#ifdef ASST_DEBUG
+    cv::Mat image_draw = image.clone();
+#endif
+
+    // 处理每个识别到的节点
+    for (const auto& [rect, score, templ_name] : match_results) {
+        Log.debug(
+            __FUNCTION__,
+            "| analyzing node " + templ_name + " at (" + std::to_string(rect.x) + ", " + std::to_string(rect.y) + ")");
+
+        const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
+        if (type == RoguelikeNodeType::Unknown) {
+            Log.warn(__FUNCTION__, "| unknown template: " + templ_name);
+            continue;
+        }
+
+        // 检查是否为灰色节点
+        const bool is_open = templ_name.find("Grey") == std::string::npos;
+
+        auto idx = m_bosky_map.ensure_node_from_pixel(rect.x, rect.y, m_bosky_config, is_open, type);
+
+        if (idx.has_value()) {
+            // 更新节点类型（防止类型不一致）
+            m_bosky_map.set_node_type(idx.value(), type);
+            Log.debug(
+                __FUNCTION__,
+                "| updated node " + std::to_string(idx.value()) + " type: " + std::to_string(static_cast<int>(type)));
+        }
+        else {
+            Log.warn(
+                __FUNCTION__,
+                "| failed to create/update node from pixel (" + std::to_string(rect.x) + ", " + std::to_string(rect.y) +
+                    ")");
+        }
+
+#ifdef ASST_DEBUG
+        if (idx.has_value()) {
+            cv::rectangle(image_draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 0, 255), 2);
+            cv::putText(
+                image_draw,
+                std::to_string(static_cast<int>(type)) + " (" + std::to_string(m_bosky_map.get_node_x(idx.value())) +
+                    ", " + std::to_string(m_bosky_map.get_node_y(idx.value())) + ")",
+                cv::Point(rect.x, rect.y - 5),
+                cv::FONT_HERSHEY_SIMPLEX,
+                0.5,
+                cv::Scalar(0, 0, 255),
+                1);
+        }
+#endif
+    }
+
+#ifdef ASST_DEBUG
+    const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
+    const auto relative_path = relative_dir / (utils::get_time_filestem() + "_bosky_draw.png");
+    Log.debug(__FUNCTION__, "| Saving bosky map image to {}", relative_path);
+    asst::imwrite(relative_path, image_draw);
+#endif
+
+    Log.info(__FUNCTION__, "| map updated with " + std::to_string(m_bosky_map.size()) + " nodes");
+}
+
+void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
+{
+    LogTraceFunction;
+
+    Log.info(__FUNCTION__, "| deciding and clicking a bosky passage node");
+
+    // 定义节点类型的优先级顺序
+    const std::vector<RoguelikeNodeType> priority_order = {
+        RoguelikeNodeType::Omissions, // 拾遗 - 最高优先级
+        RoguelikeNodeType::Legend,    // 传说
+        RoguelikeNodeType::YiTrader,  // 易与
+        RoguelikeNodeType::OldShop,   // 故肆
+        RoguelikeNodeType::Scheme,    // 筹谋
+        RoguelikeNodeType::Playtime,  // 常乐
+        RoguelikeNodeType::Doubts,    // 杂疑
+        // RoguelikeNodeType::Disaster   // 祸乱 - 最低优先级
+    };
+
+    size_t chosen = 0;
+    bool found = false;
+
+    // 按优先级顺序查找可用的节点
+    for (const auto& node_type : priority_order) {
+        auto nodes_of_type = m_bosky_map.get_open_unvisited_nodes(node_type);
+        if (!nodes_of_type.empty()) {
+            chosen = nodes_of_type.front();
+            found = true;
+            Log.debug(__FUNCTION__, "| found node of type {} with index {}", static_cast<int>(node_type), chosen);
+            break;
+        }
+    }
+
+    if (!found) {
+        Log.warn(__FUNCTION__, "| no open unvisited nodes available");
+        return;
+    }
+    int gx = m_bosky_map.get_node_x(chosen);
+    int gy = m_bosky_map.get_node_y(chosen);
+    RoguelikeNodeType node_type = m_bosky_map.get_node_type(chosen);
+
+    Log.info(
+        __FUNCTION__,
+        "| chosen node: " + std::to_string(chosen) + " (" + std::to_string(gx) + ", " + std::to_string(gy) +
+            ") type: " + std::to_string(static_cast<int>(node_type)));
+
+    // 点击节点中心
+    auto [px, py] = m_bosky_map.get_node_pixel(
+        chosen,
+        m_bosky_config.origin_x,
+        m_bosky_config.origin_y,
+        m_bosky_config.column_offset,
+        m_bosky_config.row_offset);
+
+    if (px == -1 || py == -1) {
+        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node {}: ({}, {})", chosen, px, py);
+        return;
+    }
+
+    Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
+    ctrler()->click(click_point);
+    m_bosky_map.set_visited(chosen);
+
+    // 根据节点类型判断 Task.set_task_base base_task_name
+    switch (m_bosky_map.get_node_type(chosen)) {
+    case RoguelikeNodeType::YiTrader:
+
+        Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@RoutingAction-StageYiTraderEnter");
+        break;
+    case RoguelikeNodeType::Disaster:
+        Task.set_task_base(
+            "JieGarden@Roguelike@RoutingAction",
+            "JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter");
+        break;
+    case RoguelikeNodeType::Omissions:
+    case RoguelikeNodeType::Legend:
+    case RoguelikeNodeType::OldShop:
+    case RoguelikeNodeType::Scheme:
+    case RoguelikeNodeType::Playtime:
+    case RoguelikeNodeType::Doubts:
+        Task.set_task_base(
+            "JieGarden@Roguelike@RoutingAction",
+            "JieGarden@Roguelike@RoutingAction-StageEncounterEnter");
+        break;
+    default:
+        Log.warn(__FUNCTION__, "| unknown node type: " + std::to_string(static_cast<int>(node_type)));
+        break;
+    }
 }
 
 bool asst::RoguelikeRoutingTaskPlugin::update_map(

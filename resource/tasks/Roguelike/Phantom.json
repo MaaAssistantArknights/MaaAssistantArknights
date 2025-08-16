@@ -189,7 +189,9 @@
         "next": [
             "Phantom@Roguelike@LastReward-EnterPoint",
             "Phantom@Roguelike@RolesDefault",
-            "Phantom@Roguelike@CloseCollection"
+            "Phantom@Roguelike@CloseCollection",
+            "Phantom@Roguelike@NextLevel",
+            "Phantom@Roguelike@NextLevel#next"
         ]
     },
     "Phantom@Roguelike@SquadDefault": {},

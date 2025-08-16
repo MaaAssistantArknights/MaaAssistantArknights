@@ -429,6 +429,17 @@ namespace MaaWpfGui.Helper
             return SetValue("TaskQueue.Order." + task, value);
         }
 
+        public static int GetSettingOrder(string setting, int defaultValue)
+        {
+            var value = GetGlobalValue("Settings.Order." + setting, defaultValue.ToString());
+            return int.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static bool SetSettingOrder(string setting, int value)
+        {
+            return SetGlobalValue("Settings.Order." + setting, value.ToString());
+        }
+
         public static void Release()
         {
             lock (_lock)

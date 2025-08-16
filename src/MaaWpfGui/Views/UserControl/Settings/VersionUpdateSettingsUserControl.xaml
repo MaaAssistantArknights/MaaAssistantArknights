@@ -78,10 +78,13 @@
                         <controls:TooltipBlock TooltipText="{DynamicResource ForceGithubGlobalSourceTip}" />
                     </StackPanel>
                     <StackPanel Margin="8">
-                        <controls:TextBlock
-                            Margin="8,0,0,5"
-                            HorizontalAlignment="Left"
-                            Text="{DynamicResource UpdateCheck}" />
+                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                            <controls:TextBlock
+                                Margin="8,0,0,0"
+                                HorizontalAlignment="Left"
+                                Text="{DynamicResource UpdateCheck}" />
+                            <controls:TooltipBlock TooltipMaxWidth="350" TooltipText="{DynamicResource UpdateCheckTip}" />
+                        </StackPanel>
                         <hc:ComboBox
                             Width="150"
                             HorizontalAlignment="Left"

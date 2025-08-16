@@ -615,10 +615,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public class Operator(string id, string name, int rarity)
         {
+            [JsonProperty("id")]
             public string Id { get; } = id;
 
+            [JsonProperty("name")]
             public string Name { get; } = name;
 
+            [JsonProperty("rarity")]
             public int Rarity { get; } = rarity;
 
             public bool Equals(Operator? other) => other != null && Name == other.Name && Rarity == other.Rarity;
@@ -785,7 +788,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             System.Windows.Forms.Clipboard.Clear();
-            System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxHaveList.Concat(OperBoxNotHaveList), Formatting.Indented));
+            System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxDataArray, Formatting.Indented));
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
