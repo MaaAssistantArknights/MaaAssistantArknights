@@ -55,10 +55,8 @@
                 Visibility="{c:Binding CreditFightTaskEnabledDisplay}">
                 <controls:TextBlock Text="{DynamicResource UseFormation}" />
                 <ComboBox
-                    Width="100"
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
-                    HorizontalContentAlignment="Center"
                     DisplayMemberPath="Display"
                     IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                     ItemsSource="{Binding FormationSelectList}"

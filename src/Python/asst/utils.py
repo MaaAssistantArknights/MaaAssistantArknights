@@ -56,6 +56,8 @@ class Message(Enum):
 
     SubTaskStopped = auto()
 
+    ReportRequest = 30000
+
 
 @unique
 class Version(Enum):
