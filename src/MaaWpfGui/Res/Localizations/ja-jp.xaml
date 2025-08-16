@@ -284,6 +284,8 @@
 
 「{key=Settings} - {key=IssueReport}」のリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">更新チャネル</system:String>
+    <system:String x:Key="UpdateCheckTip" xml:space="preserve">• {key=UpdateCheckBeta}: いくつかのバグがあるかもしれませんが、新しい機能と新しいテーマはより早くサポートされるでしょう。
+• {key=UpdateCheckStable}: バグは少なくなりますが、新機能や新しいテーマのサポートは遅くなります。新機能のサポートには数週間かかる場合があります。</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>

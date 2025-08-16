@@ -284,6 +284,8 @@ Please note:
 
 You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}｣ Report link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="UpdateCheck">Update Channel</system:String>
+    <system:String x:Key="UpdateCheckTip" xml:space="preserve">• {key=UpdateCheckBeta}: There may be a few bugs, and new features and new themes will be supported faster.
+• {key=UpdateCheckStable}: There are fewer bugs, and new features and new themes are supported more slowly. New features may take several weeks to be supported.</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Software update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
