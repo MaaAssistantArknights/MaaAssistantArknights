@@ -53,7 +53,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<CombinedData> StageList => new(GetTaskConfig<FightTask>().StageList);
+    public ObservableCollection<CombinedData> StageList =>
+        new(GetTaskConfig<FightTask>().StageList.Select<FightTask.Stage, CombinedData>(t => new() { Display = t.Display, Value = t.Value }));
 
     /// <summary>
     /// Gets the stage.
@@ -808,7 +809,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             var stage3 = fight.Stage3 ?? string.Empty;
             var stage4 = fight.Stage4 ?? string.Empty;
 
-            var tempStageList = hideUnavailableStage
+            List<CombinedData> tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
 
@@ -841,7 +842,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
                 stage4 = Instances.TaskQueueViewModel.IsStageOpen(stage4) ? stage4 : string.Empty;
             }
 
-            fight.StageList = tempStageList;
+            fight.StageList = tempStageList.Select<CombinedData, FightTask.Stage>(t => new(t.Display, t.Value)).ToList();
             if (fight == TaskSettingVisibilityInfo.CurrentTask)
             {
                 NotifyOfPropertyChange(nameof(StageList));
