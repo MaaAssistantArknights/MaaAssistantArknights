@@ -1,5 +1,41 @@
 ## v5.23.0
 
+### 夏活第二弹 | Highlight
+
+本次更新带来了大家期盼已久的多项适配，一起来看看吧：
+
+#### 集成战略 #6「岁的界园志异」
+
+本次更新我们对界园肉鸽做了多项适配：
+
+1. 现在牛牛支持刷开局策略了，博士可以用来自动刷热水壶等等~
+2. 刷等级策略下，牛牛支持进入道中的树洞层，而不是直接跳过。
+
+#### 其他方面
+
+本次更新，牛牛支持对新的动态主题「梦乡」进行识别，博士们可以尽情享受两年前的那个夏天啦~
+
+以及~~虽然不知道有什么作用，但~~支持对设置的各个小节进行手动排序，拖动设置页左侧目录即可。
+
+----
+
+#### [CN ONLY] Integrated Strategies #6 "Sui's Garden of Grotesqueries"
+
+In this update, we've made several adaptations for the Garden I.S.:
+
+1. MAA now supports auto-start strategies, allowing Doctors to automatically obtain Hot Water Kettle~
+2. Under Gaining Experience Points strategies, MAA can now enter the internal stage (误入奇境) during the run instead of skipping them directly.
+
+#### Other Aspects
+
+In this update, MAA now supports recognition of the new dynamic theme "Dreamland", allowing Doctors to fully relive that summer from two years ago~
+
+Additionally~~though NiuNiu're not sure what purpose it serves, but~~ manual sorting of various sections in the settings is now supported. Simply drag the directory on the left side of the settings page.
+
+----
+
+以下是详细内容：
+
 ### 新增 | New
 
 * 新保全作业 (#13754) @Saratoga-Official
