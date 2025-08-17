@@ -2239,8 +2239,6 @@ namespace MaaWpfGui.Main
             StartUp,
             CloseDown,
             Fight,
-            FightAnnihilationAlternate,
-            FightRemainingSanity,
             Recruit,
             Infrast,
             Mall,
@@ -2261,8 +2259,6 @@ namespace MaaWpfGui.Main
         [
             TaskType.StartUp,
             TaskType.Fight,
-            TaskType.FightAnnihilationAlternate,
-            TaskType.FightRemainingSanity,
             TaskType.Recruit,
             TaskType.Infrast,
             TaskType.Mall,
