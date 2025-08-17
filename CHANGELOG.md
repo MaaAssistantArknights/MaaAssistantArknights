@@ -23,14 +23,14 @@
 
 In this update, we've made several adaptations for the Garden I.S.:
 
-1. MAA now supports auto-start strategies, allowing Doctors to automatically obtain Hot Water Kettle~
-2. Under Gaining Experience Points strategies, MAA can now enter the internal stage (误入奇境) during the run instead of skipping them directly.
+1. MAA now supports "Grind to obtain Hot Water Kettle or Elite II Operators" strategies, allowing Doctors to automatically obtain Hot Water Kettle~
+2. Under Gaining Experience Points strategies, MAA can now enter the Wonderland Encounter(误入奇境) during the run instead of skipping them directly.
 
 #### Other Aspects
 
 In this update, MAA now supports recognition of the new dynamic theme "Dreamland", allowing Doctors to fully relive that summer from two years ago~
 
-Additionally~~though NiuNiu're not sure what purpose it serves, but~~ manual sorting of various sections in the settings is now supported. Simply drag the directory on the left side of the settings page.
+Additionally~~though NiuNiu isn’t quite sure what purpose it serves, but~~ manual sorting of various sections in the settings is now supported. Simply drag the directory on the left side of the settings page.
 
 ----
 
