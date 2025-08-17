@@ -1500,7 +1500,7 @@
     "Roguelike@StageTraderLeaveConfirm": {
         "action": "ClickSelf",
         "roi": [985, 447, 295, 203],
-        "next": ["Roguelike@Stages#next"]
+        "next": ["#self", "Roguelike@Stages#next"]
     },
     "Roguelike@StageTraderRefreshConfirm": {
         "template": ["Roguelike@StageTraderRefreshConfirmNew.png", "Roguelike@StageTraderRefreshConfirm.png"],
