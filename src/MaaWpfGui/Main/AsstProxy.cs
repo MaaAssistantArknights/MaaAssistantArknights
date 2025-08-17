@@ -2246,12 +2246,6 @@ namespace MaaWpfGui.Main
             /// <summary>刷理智</summary>
             Fight,
 
-            /// <summary>关卡选择为剿灭时的备选刷理智</summary>
-            FightAnnihilationAlternate,
-
-            /// <summary>剩余理智</summary>
-            FightRemainingSanity,
-
             /// <summary>自动公招</summary>
             Recruit,
 
@@ -2299,8 +2293,6 @@ namespace MaaWpfGui.Main
         [
             TaskType.StartUp,
             TaskType.Fight,
-            TaskType.FightAnnihilationAlternate,
-            TaskType.FightRemainingSanity,
             TaskType.Recruit,
             TaskType.Infrast,
             TaskType.Mall,
