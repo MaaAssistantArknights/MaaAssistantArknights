@@ -11,7 +11,8 @@ RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
     reset();
 }
 
-std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type)
+std::optional<size_t>
+    RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
     if (!in_bounds(x, y)) {
         Log.warn(__FUNCTION__, "| Coordinates (", x, ", ", y, ") out of bounds");
@@ -23,7 +24,7 @@ std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, in
 
     if (!n.exists) {
         n.exists = true;
-        n.is_open = true;
+        n.is_open = is_open;
         n.visited = false;
         n.type = type;
         ++m_existing_count;
@@ -228,6 +229,6 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
         return idx;
     }
     // 节点不存在，创建新节点
-    return create_and_insert_node(gx, gy, type);
+    return create_and_insert_node(gx, gy, type, is_open);
 }
 } // namespace asst

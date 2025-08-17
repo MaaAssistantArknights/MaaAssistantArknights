@@ -18,7 +18,7 @@ public:
     // 创建一个坐标 (x, y) 上的节点（若不存在）。返回其 index。
     // x ∈ [0, WIDTH), y ∈ [0, HEIGHT)
     [[nodiscard]] std::optional<size_t>
-        create_and_insert_node(int x, int y, RoguelikeNodeType type = RoguelikeNodeType::Unknown);
+        create_and_insert_node(int x, int y, RoguelikeNodeType type = RoguelikeNodeType::Unknown, bool is_open = true);
 
     void set_visited(size_t index);
 
