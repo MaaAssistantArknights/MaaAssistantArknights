@@ -1,4 +1,4 @@
-## v5.23.0
+## v5.23.1
 
 ### 夏活第二弹 | Highlight
 
@@ -35,6 +35,14 @@ Additionally~~though NiuNiu isn’t quite sure what purpose it serves, but~~ man
 ----
 
 以下是详细内容：
+
+## v5.23.1
+
+### 修复 | Fix
+
+* 商店没钱了不会停止投资 @ABA2396
+
+## v5.23.0
 
 ### 新增 | New
 
