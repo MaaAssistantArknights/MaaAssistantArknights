@@ -2500,8 +2500,7 @@
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
-        ],
-        "postDelay": 1000
+        ]
     },
     "Infrast@MainThemes": {
         "next": ["InfrastBegin#next"]
