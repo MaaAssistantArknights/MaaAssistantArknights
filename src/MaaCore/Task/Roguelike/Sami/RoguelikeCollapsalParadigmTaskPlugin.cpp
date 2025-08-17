@@ -377,7 +377,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
     if (!matcher.analyze()) {
         return false;
     }
-    std::string zone = m_zone_dict.at(matcher.get_result().templ_name);
+    auto& name = matcher.get_result().templ_name;
+    std::string zone = m_zone_dict.at(name);
     if (zone != m_zone) {
         m_zone = zone;
 #ifdef ASST_DEBUG
