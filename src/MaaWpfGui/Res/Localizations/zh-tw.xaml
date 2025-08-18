@@ -954,6 +954,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DeepExplorationCompleted">深入調查清完啦！</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">深入調查未解鎖</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
+    <system:String x:Key="CurrentStage">目前關卡: {0}</system:String>
     <system:String x:Key="Trader">節點: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
     <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
@@ -1005,6 +1006,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">目前步驟: {0} {1}</system:String>
+    <system:String x:Key="Deploy">部署</system:String>
+    <system:String x:Key="UseSkill">使用技能</system:String>
+    <system:String x:Key="Retreat">撤退</system:String>
+    <system:String x:Key="SkillDaemon">開始掛機</system:String>
+    <system:String x:Key="SwitchSpeed">切換二倍速</system:String>
+    <system:String x:Key="SkillUsage">切換技能用法</system:String>
+    <system:String x:Key="BulletTime">進入子彈時間</system:String>
+    <system:String x:Key="Output">打印描述內容</system:String>
+    <system:String x:Key="MoveCamera">移動相機</system:String>
+    <system:String x:Key="DrawCard">調配幹員</system:String>
+    <system:String x:Key="CheckIfStartOver">檢查是否重開</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>

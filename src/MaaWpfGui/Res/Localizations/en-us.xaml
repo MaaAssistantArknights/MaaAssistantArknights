@@ -956,6 +956,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="DeepExplorationCompleted">Deep Investigation all clear! Congratulations!</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">Deep Investigation not unlocked yet</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
+    <system:String x:Key="CurrentStage">Current Stage: {0}</system:String>
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>
     <system:String x:Key="FilterTruth">Node: Idea Filter</system:String>
@@ -1007,6 +1008,17 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">Oper unavailable: {0}, Restriction: {1}</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
+    <system:String x:Key="Deploy">Deploy</system:String>
+    <system:String x:Key="UseSkill">Use Skill</system:String>
+    <system:String x:Key="Retreat">Retreat</system:String>
+    <system:String x:Key="SkillDaemon">Start Auto</system:String>
+    <system:String x:Key="SwitchSpeed">Switch to 2x Speed</system:String>
+    <system:String x:Key="SkillUsage">Switch Skill Usage</system:String>
+    <system:String x:Key="BulletTime">Enter Bullet Time</system:String>
+    <system:String x:Key="Output">Print Description</system:String>
+    <system:String x:Key="MoveCamera">Move Camera</system:String>
+    <system:String x:Key="DrawCard">Deploy Operator</system:String>
+    <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
