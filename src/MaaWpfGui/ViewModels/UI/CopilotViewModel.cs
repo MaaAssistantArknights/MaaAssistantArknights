@@ -269,9 +269,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _useFormation;
+
+        public bool UseFormation
+        {
+            get => _useFormation;
+            set => SetAndNotify(ref _useFormation, value);
+        }
+
         public List<GenericCombinedData<int>> FormationSelectList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
             new() { Display = "1", Value = 1 },
             new() { Display = "2", Value = 2 },
             new() { Display = "3", Value = 3 },
@@ -1276,7 +1283,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
-                    SelectFormation = _selectFormation,
+                    SelectFormation = UseFormation ? _selectFormation : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret &= Instances.AsstProxy.AsstStart();
