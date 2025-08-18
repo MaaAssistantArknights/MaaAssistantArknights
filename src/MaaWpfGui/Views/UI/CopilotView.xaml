@@ -134,6 +134,7 @@
                             <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource UseFormation}" />
                             <ComboBox
                                 Margin="0,-10"
+                                Padding="0,-1,8,0"
                                 VerticalAlignment="Center"
                                 BorderThickness="0"
                                 DisplayMemberPath="Display"
