@@ -1267,7 +1267,7 @@
         "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
@@ -1304,7 +1304,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
-        "text": ["_collapsal_paradigms"],
+        "text": ["_collapsal_paradigms", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_collapsal_paradigms"],
             ["密静林地", "_collapsal_paradigms"],
@@ -1316,7 +1316,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
@@ -1329,7 +1329,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
