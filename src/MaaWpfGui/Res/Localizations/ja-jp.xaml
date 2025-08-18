@@ -828,6 +828,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalOperatorsCount">合計 {0} 名の{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">拡張式戦術ユニット：</system:String>
     <system:String x:Key="OtherOperators">その他の{key=Operator}：</system:String>
+    <system:String x:Key="Warrior">前衛</system:String>
+    <system:String x:Key="Pioneer">先鋒</system:String>
+    <system:String x:Key="Medic">医療</system:String>
+    <system:String x:Key="Tank">重装</system:String>
+    <system:String x:Key="Sniper">狙撃</system:String>
+    <system:String x:Key="Caster">術師</system:String>
+    <system:String x:Key="Support">補助</system:String>
+    <system:String x:Key="Special">特殊</system:String>
+    <system:String x:Key="Drone">ドローン/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">初期戦術装備（横）：</system:String>
     <system:String x:Key="InitialStrategy">初期戦略：</system:String>
     <!--  Logs  -->

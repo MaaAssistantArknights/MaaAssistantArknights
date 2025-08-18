@@ -828,6 +828,15 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} {key=Operator}(s)</system:String>
     <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
     <system:String x:Key="OtherOperators">Other {key=Operator}s:&#160;</system:String>
+    <system:String x:Key="Warrior">Guard</system:String>
+    <system:String x:Key="Pioneer">Vanguard</system:String>
+    <system:String x:Key="Medic">Medic</system:String>
+    <system:String x:Key="Tank">Defender</system:String>
+    <system:String x:Key="Sniper">Sniper</system:String>
+    <system:String x:Key="Caster">Caster</system:String>
+    <system:String x:Key="Support">Supporter</system:String>
+    <system:String x:Key="Special">Specialist</system:String>
+    <system:String x:Key="Drone">Drone/Summon</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):&#160;</system:String>
     <system:String x:Key="InitialStrategy">Initial Strategy:&#160;</system:String>
     <!--  Logs  -->

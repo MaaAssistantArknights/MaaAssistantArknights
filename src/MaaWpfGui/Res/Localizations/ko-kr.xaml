@@ -827,6 +827,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalOperatorsCount">총 {0}명의 {key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="OtherOperators">기타 {key=Operator}:</system:String>
+    <system:String x:Key="Warrior">근위</system:String>
+    <system:String x:Key="Pioneer">선봉</system:String>
+    <system:String x:Key="Medic">의료</system:String>
+    <system:String x:Key="Tank">중장</system:String>
+    <system:String x:Key="Sniper">저격</system:String>
+    <system:String x:Key="Caster">술사</system:String>
+    <system:String x:Key="Support">보조</system:String>
+    <system:String x:Key="Special">특수</system:String>
+    <system:String x:Key="Drone">드론/소환물</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
     <!--  Logs  -->

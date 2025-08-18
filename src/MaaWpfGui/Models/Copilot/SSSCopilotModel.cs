@@ -81,6 +81,115 @@ public class SSSCopilotModel : CopilotBase
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
 
+    /// <summary>
+    /// 干员职业类型枚举。
+    /// </summary>
+    private enum Role
+    {
+        /// <summary>
+        /// 近卫/Guard
+        /// </summary>
+        Warrior,
+
+        /// <summary>
+        /// 先锋/Vanguard
+        /// </summary>
+        Pioneer,
+
+        /// <summary>
+        /// 医疗/Medic
+        /// </summary>
+        Medic,
+
+        /// <summary>
+        /// 重装/Defender/坦克
+        /// </summary>
+        Tank,
+
+        /// <summary>
+        /// 狙击/Sniper
+        /// </summary>
+        Sniper,
+
+        /// <summary>
+        /// 术师/术士/法师/Caster
+        /// </summary>
+        Caster,
+
+        /// <summary>
+        /// 辅助/支援/Supporter
+        /// </summary>
+        Support,
+
+        /// <summary>
+        /// 特种/Specialist
+        /// </summary>
+        Special,
+
+        /// <summary>
+        /// 无人机/召唤物/Drone/Summon
+        /// </summary>
+        Drone,
+    }
+
+    // 在 SSSCopilotModel 类中嵌入 NameToRole 映射
+    private static readonly Dictionary<string, Role> NameToRole = new()
+    {
+        // Warrior/Guard/近卫
+        { "WARRIOR", Role.Warrior },    { "Warrior", Role.Warrior },    { "warrior", Role.Warrior },
+        { "GUARD", Role.Warrior },      { "Guard", Role.Warrior },      { "guard", Role.Warrior },
+        { "近卫", Role.Warrior },
+
+        // Pioneer/Vanguard/先锋
+        { "PIONEER", Role.Pioneer },    { "Pioneer", Role.Pioneer },    { "pioneer", Role.Pioneer },
+        { "VANGUARD", Role.Pioneer },   { "Vanguard", Role.Pioneer },   { "vanguard", Role.Pioneer },
+        { "先锋", Role.Pioneer },
+
+        // Medic/医疗
+        { "MEDIC", Role.Medic },        { "Medic", Role.Medic },        { "medic", Role.Medic },
+        { "医疗", Role.Medic },
+
+        // Tank/Defender/重装/坦克
+        { "TANK", Role.Tank },          { "Tank", Role.Tank },          { "tank", Role.Tank },
+        { "DEFENDER", Role.Tank },      { "Defender", Role.Tank },      { "defender", Role.Tank },
+        { "重装", Role.Tank },          { "坦克", Role.Tank },
+
+        // Sniper/狙击
+        { "SNIPER", Role.Sniper },      { "Sniper", Role.Sniper },      { "sniper", Role.Sniper },
+        { "狙击", Role.Sniper },
+
+        // Caster/术师/术士/法师
+        { "CASTER", Role.Caster },      { "Caster", Role.Caster },      { "caster", Role.Caster },
+        { "术师", Role.Caster },        { "术士", Role.Caster },        { "法师", Role.Caster },
+
+        // Support/Supporter/辅助/支援
+        { "SUPPORT", Role.Support },    { "Support", Role.Support },    { "support", Role.Support },
+        { "SUPPORTER", Role.Support },  { "Supporter", Role.Support },  { "supporter", Role.Support },
+        { "辅助", Role.Support },       { "支援", Role.Support },
+
+        // Special/Specialist/特种
+        { "SPECIAL", Role.Special },    { "Special", Role.Special },    { "special", Role.Special },
+        { "SPECIALIST", Role.Special }, { "Specialist", Role.Special }, { "specialist", Role.Special },
+        { "特种", Role.Special },
+
+        // Drone/Summon/无人机/召唤物
+        { "DRONE", Role.Drone },        { "Drone", Role.Drone },        { "drone", Role.Drone },
+        { "SUMMON", Role.Drone },       { "Summon", Role.Drone },       { "summon", Role.Drone },
+        { "无人机", Role.Drone },       { "召唤物", Role.Drone },
+    };
+
+    private static string GetLocalizedToolmenName(string key)
+    {
+        if (NameToRole.TryGetValue(key, out var role))
+        {
+            // 枚举转字符串后用于本地化查找
+            return LocalizationHelper.GetString(role.ToString());
+        }
+
+        // 未匹配到时返回原始 key
+        return key;
+    }
+
     public List<(string Output, string? Color)> Output()
     {
         var output = new List<(string, string?)>();
@@ -117,7 +226,7 @@ public class SSSCopilotModel : CopilotBase
         if (ToolMen is not null)
         {
             var toolMenLog = LocalizationHelper.GetString("OtherOperators");
-            var toolMenString = string.Join("\n", ToolMen.Select(kv => $"{char.ToUpper(kv.Key[0]) + kv.Key[1..].ToLower()}: {kv.Value}"));
+            var toolMenString = string.Join("\n", ToolMen.Where(kv => kv.Value > 0).Select(kv => $"{GetLocalizedToolmenName(kv.Key)}: {kv.Value}"));
             output.Add((toolMenLog + "\n" + toolMenString, null));
         }
 

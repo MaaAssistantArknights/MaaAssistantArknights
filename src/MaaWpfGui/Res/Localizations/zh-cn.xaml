@@ -828,6 +828,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TotalOperatorsCount">共 {0} 名{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">导能原件：</system:String>
     <system:String x:Key="OtherOperators">编队工具人：</system:String>
+    <system:String x:Key="Warrior">近卫</system:String>
+    <system:String x:Key="Pioneer">先锋</system:String>
+    <system:String x:Key="Medic">医疗</system:String>
+    <system:String x:Key="Tank">重装</system:String>
+    <system:String x:Key="Sniper">狙击</system:String>
+    <system:String x:Key="Caster">术师</system:String>
+    <system:String x:Key="Support">辅助</system:String>
+    <system:String x:Key="Special">特种</system:String>
+    <system:String x:Key="Drone">无人机/召唤物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">开局装备（横向）：</system:String>
     <system:String x:Key="InitialStrategy">开局策略：</system:String>
     <!--  日志  -->
