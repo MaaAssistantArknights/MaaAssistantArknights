@@ -82,6 +82,18 @@
             ["괴이한", "_SKIP_"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            [" ", ""],
+            ["영혼융합", "_default"],
+            ["단조된철", "_default"],
+            ["먼지투성이", "_exit"],
+            ["개연성", "_exit"],
+            ["허와실", "_exit"],
+            ["휘.+찬란", "_exit"],
+            ["괴이한", "_exit"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
         "ocrReplace": [
             [" ", ""],

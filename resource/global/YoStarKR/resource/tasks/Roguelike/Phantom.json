@@ -27,6 +27,17 @@
             ["욕망의", "_default"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            [" ", ""],
+            ["안개의", "_default"],
+            ["석양의", "_exit"],
+            ["고향의", "_exit"],
+            ["악몽의", "_exit"],
+            ["붉은달", "_exit"],
+            ["욕망의", "_exit"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             [" ", ""],
