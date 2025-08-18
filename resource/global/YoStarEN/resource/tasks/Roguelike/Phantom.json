@@ -27,7 +27,7 @@
         "templThreshold": 0.95
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
-        "roi": [541, 5, 241, 71],
+        "roi": [541, 5, 241, 90],
         "ocrReplace": [
             ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -38,7 +38,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
-        "roi": [541, 5, 241, 71],
+        "roi": [541, 5, 241, 90],
         "ocrReplace": [
             ["Mist-stricken|Missteps", "_default"],
             ["Sunset Courtyard", "_default"],
@@ -49,7 +49,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode6": {
-        "roi": [541, 5, 241, 71],
+        "roi": [541, 5, 241, 90],
         "ocrReplace": [
             ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -60,7 +60,7 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode7": {
-        "roi": [541, 5, 241, 71],
+        "roi": [541, 5, 241, 90],
         "ocrReplace": [
             ["Mist-stricken|Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
