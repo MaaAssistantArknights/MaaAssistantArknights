@@ -209,6 +209,22 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [593, 48, 135, 27],
+        "ocrReplace": [
+            [".*Brisk ?M?arshlands", "_default"],
+            [".*Placid ?Forests", "_exit"],
+            [".*Dawning ?Frostbounds", "_exit"],
+            [".*12.*", "_exit"],
+            [".*Gelid ?Rockshelves", "_exit"],
+            [".*Immaculate ?Garden", "_exit"],
+            [".*Garden", "_exit"],
+            [".*Clairvoyant ?Carcass", "_exit"],
+            [".*Secluded ?Passage", "_exit"]
+        ]
+    },
+
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
