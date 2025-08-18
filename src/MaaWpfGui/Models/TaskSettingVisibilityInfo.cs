@@ -11,11 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
@@ -72,6 +73,9 @@ namespace MaaWpfGui.Models
                 NotifyOfPropertyChange();
             }
         }
+
+        [PropertyDependsOn(nameof(CurrentIndex))]
+        public bool IsTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
 
         public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
         public void Set(string taskName, bool enable)
