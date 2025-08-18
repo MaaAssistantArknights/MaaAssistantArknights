@@ -862,6 +862,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
     <system:String x:Key="NotCopilotJson">攻略ファイルではありません</system:String>
     <system:String x:Key="CheckTheFile">ファイルの内容を確認してください！</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">未対応のタイプ: SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">ステージ名が無効なため、ナビゲートできません</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} が見つからず、ステージ名も指定されていません</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">ステージ名とナビゲート名が一致しません。ナビゲート名を使用します</system:String>
+    <system:String x:Key="CopilotEmptyError">作業が空です</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">バトルリストを使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <!--  !Logs  -->

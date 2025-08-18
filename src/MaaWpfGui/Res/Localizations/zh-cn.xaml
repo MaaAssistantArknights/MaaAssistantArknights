@@ -862,6 +862,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>
     <system:String x:Key="NotCopilotJson">非作业文件</system:String>
     <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">不支持的类型：SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">关卡名无效，无法导航</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} 未找到，且未指定关卡名</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">关卡名与导航名不一致，已使用导航名</system:String>
+    <system:String x:Key="CopilotEmptyError">作业为空</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">存在关卡名为空的作业</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">无法保存作业文件到: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用战斗列表执行单个作业, 不推荐此行为. 单个作业请直接运行</system:String>
     <!--  !日志  -->

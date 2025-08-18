@@ -862,6 +862,12 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
     <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">Unsupported type: SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">Invalid stage name for navigation</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} not found, and also no stage name specified</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">stageName NOT equal with navigateName, using navigateName</system:String>
+    <system:String x:Key="CopilotEmptyError">copilot is empty</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">copilot tasks with empty name</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">A single job is being executed using the Copilot List. It is not recommended. Please run the single job directly.</system:String>
     <!--  !Logs  -->
