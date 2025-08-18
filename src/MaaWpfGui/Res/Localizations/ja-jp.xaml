@@ -612,6 +612,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
     <system:String x:Key="UseOriginitePrime">割る源石の数</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
+    <system:String x:Key="ParadoxMode">一键悖论模拟</system:String>
+    <system:String x:Key="ParadoxModeTip">一键悖论模拟功能，开启后战斗列表仅可以放入悖论模拟关卡，启动时请确保在主页</system:String>
     <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
