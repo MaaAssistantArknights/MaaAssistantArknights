@@ -4530,7 +4530,7 @@
     "OperOpenParadoxChooseSkill": {
         "action": "ClickSelf",
         "template": "OperParadoxBegin.png",
-        "roi": [989, 581, 291, 139],
+        "roi": [1009, 603, 260, 114],
         "postDelay": 1000
     },
     "ParadoxChooseSkill1": {
