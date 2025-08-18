@@ -753,7 +753,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (Stage == "Annihilation" && fight.UseCustomAnnihilation)
+        if (stage == "Annihilation" && fight.UseCustomAnnihilation)
         {
             task.Stage = fight.AnnihilationStage;
         }
