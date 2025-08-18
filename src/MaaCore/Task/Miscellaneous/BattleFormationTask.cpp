@@ -495,6 +495,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                             << " not satisfied, skip module selection";
                 }
                 else {
+                    m_opers_in_formation->erase(name);
+                    m_size_of_operators_in_formation--;
                     ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
                     sleep(delay);
                     // 继续检查同组其他干员
