@@ -34,6 +34,17 @@
             ["紺碧の揺籃", "_SKIP_"]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["陽の.*海岸", "_default"],
+            ["離れの孤島", "_exit"],
+            ["迫.*来る波濤", "_exit"],
+            ["秘密の温床", "_exit"],
+            ["不可侵の洞窟", "_exit"],
+            ["深海の密林", "_exit"],
+            ["紺碧の揺籃", "_exit"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["陽の.*海岸", "_default"],
