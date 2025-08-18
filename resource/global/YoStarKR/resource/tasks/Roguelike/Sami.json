@@ -196,6 +196,18 @@
             ["숨겨진", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            [" ", ""],
+            ["은빛의", "_default"],
+            ["고요한", "_default"],
+            ["여명의", "_exit"],
+            ["얼어.+은", "_exit"],
+            ["무결점", "_exit"],
+            ["예견의", "_exit"],
+            ["숨겨진", "_exit"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             [" ", ""],
