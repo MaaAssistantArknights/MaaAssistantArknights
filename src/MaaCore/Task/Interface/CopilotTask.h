@@ -26,8 +26,8 @@ public:
 
 private:
     std::shared_ptr<TaskFileReloadTask> m_task_file_reload_task_ptr = nullptr;
-    std::shared_ptr<ParadoxRecognitionTask> m_paradox_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_navigate_task_ptr = nullptr;
+    std::shared_ptr<ParadoxRecognitionTask> m_paradox_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_not_use_prts_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_change_difficulty_task_ptr = nullptr;

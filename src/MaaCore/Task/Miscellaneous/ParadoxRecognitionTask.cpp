@@ -66,12 +66,6 @@ void asst::ParadoxRecognitionTask::set_navigate_name(std::string navigate_name)
     m_navigate_name = standardize_name(navigate_name);
 }
 
-void asst::ParadoxRecognitionTask::set_opers_in_formation(
-    std::shared_ptr<std::unordered_map<std::string, std::string>> opers_in_formation)
-{
-    m_opers_in_formation = opers_in_formation;
-}
-
 void asst::ParadoxRecognitionTask::swipe_page()
 {
     ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();

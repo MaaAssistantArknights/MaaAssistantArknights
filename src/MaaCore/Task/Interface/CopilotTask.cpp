@@ -144,7 +144,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
         else {
             m_paradox_task_ptr->set_retry_times(0);
             m_paradox_task_ptr->set_navigate_name(navigate_name);
-            m_paradox_task_ptr->set_opers_in_formation(m_formation_task_ptr->get_opers_in_formation());
         }
     }
     else {
