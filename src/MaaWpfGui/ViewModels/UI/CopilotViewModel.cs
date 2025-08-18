@@ -346,6 +346,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _paradox_mode;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether 启用悖论模拟模式.
+        /// </summary>
+        public bool ParadoxMode
+        {
+            get => _paradox_mode;
+            set => SetAndNotify(ref _paradox_mode, value);
+        }
+
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -1241,7 +1252,7 @@ namespace MaaWpfGui.ViewModels.UI
                          IsRaid = model.IsRaid,
                          LoopTimes = Loop ? LoopTimes : 1,
                          UseSanityPotion = _useSanityPotion,
-                         FormationIndex = _formationIndex,
+                         ParadoxMode = ParadoxMode,
                      };
                      var (type, param) = task.Serialize();
                      return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);

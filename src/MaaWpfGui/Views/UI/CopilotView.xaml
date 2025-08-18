@@ -227,6 +227,20 @@
                         Minimum="0"
                         Value="{Binding LoopTimes}" />
                 </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding UseCopilotList}">
+                    <CheckBox
+                        Height="30"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        Content="{DynamicResource ParadoxMode}"
+                        IsChecked="{Binding ParadoxMode}"
+                        IsEnabled="{Binding Idle}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource ParadoxModeTip}" />
+                </StackPanel>
             </StackPanel>
 
             <Grid

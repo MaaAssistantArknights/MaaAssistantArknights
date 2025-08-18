@@ -1,0 +1,33 @@
+#pragma once
+#include "Common/AsstBattleDef.h"
+#include "Task/AbstractTask.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
+#include "Config/Miscellaneous/CopilotConfig.h"
+
+namespace asst
+{
+class ParadoxRecognitionTask : public AbstractTask
+{
+public:
+    using AbstractTask::AbstractTask;
+    virtual ~ParadoxRecognitionTask() override = default;
+    void set_navigate_name(std::string navigate_name);
+    void set_opers_in_formation(std::shared_ptr<std::unordered_map<std::string, std::string>> opers_in_formation);
+
+private:
+    virtual bool _run() override;
+    void swipe_page(); // 翻页
+    void return_index(); // 翻页
+    void enter_opers(); // 翻页
+    bool swipe_and_analyze(); // 找干员
+    bool match_oper(const std::string& oper_name); // oper_name 和 m_navigate_name 匹配
+    std::string standardize_name(const std::string& navigate_name);
+    void enter_paradox(int skill_num); // 进悖论模拟
+
+    json::object m_oper_name;
+    std::string m_navigate_name;
+    asst::Rect m_navigate_rect;
+    std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation;
+    int m_skill_num;
+};
+}
