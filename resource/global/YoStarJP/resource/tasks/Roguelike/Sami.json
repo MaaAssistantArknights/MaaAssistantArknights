@@ -164,6 +164,17 @@
             ["深埋の迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["初霜の湖沼", "_default"],
+            ["静謐な.*", "_exit"],
+            ["夜明けの凍.*", "_exit"],
+            ["凍てつく岩骸", "_exit"],
+            ["汚れなき花園", "_exit"],
+            ["遠見の巨構", "_exit"],
+            ["深埋の迷境", "_exit"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["初霜の湖沼", "_default"],
