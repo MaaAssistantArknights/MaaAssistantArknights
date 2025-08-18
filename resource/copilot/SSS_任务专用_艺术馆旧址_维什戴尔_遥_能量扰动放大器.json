@@ -3,8 +3,8 @@
   "stage_name": "艺术馆旧址",
   "actions": [],
   "doc": {
-    "title": "保全派驻-艺术馆旧址-维什戴尔-斩业星熊-遥-反制装甲套组",
-    "details": "应急一命通关视频已上传，求三连\n═══════════════════════════════════\n作业代码：maa://65329\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【反制装甲套组】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 艺术馆旧址 维什戴尔 斩业星熊 遥 应急一命通关】 https://www.bilibili.com/video/BV1DTbtzpE1t/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋3（选有不需要接敌就能回费的技能，不要选接敌回费的，也不要选档一的先锋，容易漏怪，最好选尖兵）\n重装6（优先选自回血的奶盾，例如塞雷娅黍临光，和其他费用在20费左右的重装，例如星熊余年）\n术士4（尽量选20费左右的术士，如果选群法要带减费模组，推荐带技能群攻的干员，例如逻各斯3小羊3澄闪3拉狗3，凑天有四时带夕）\n狙击4（优先选速狙）\n═══════════════════════════════════\n有问题反馈进群216314927，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，例如老熊可替新熊，但不可发上作业站，用此作业默认同意",
+    "title": "*任务专用*-保全派驻-艺术馆旧址-维什戴尔-遥-能量扰动放大器",
+    "details": "作业视频已上传，求三连\n做任务用，别在应急难度开始\n本作业可完成能量扰动放大器的两个任务\n═══════════════════════════════════\n作业代码：maa://65571\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【能量扰动放大器】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 艺术馆旧址 能量扰动放大器任务】 https://www.bilibili.com/video/BV1rJYxz3E3o/?share_source=copy_web\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋3（选有不需要接敌就能回费的技能，不要选接敌回费的，也不要选档一的先锋，容易漏怪，最好选尖兵）\n重装6（优先选自回血的奶盾，例如塞雷娅黍临光，和其他费用在20费左右的重装，例如星熊余年）\n术士8或9（尽量选20费左右的术士，如果选群法要带减费模组，推荐带技能群攻的干员，例如逻各斯3小羊3澄闪3拉狗3，凑天有四时带夕）\n辅助0或1（低费辅助即可，可以带令凑天有四时）\n═══════════════════════════════════\n有问题反馈进群216314927，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，例如老熊可替新熊，但不可发上作业站，用此作业默认同意",
     "title_color": "dark",
     "details_color": "dark"
   },
@@ -16,18 +16,13 @@
       "skill_usage": 1
     },
     {
-      "name": "斩业星熊",
-      "skill": 1,
-      "skill_usage": 0
-    },
-    {
       "name": "遥",
       "skill": 2,
       "skill_usage": 1
     }
   ],
   "type": "SSS",
-  "buff": "反制装甲套组",
+  "buff": "能量扰动放大器",
   "equipment": [
     "A",
     "A",
@@ -42,18 +37,19 @@
   "tool_men": {
     "vanguard": 3,
     "guard": 0,
-    "defender": 6,
-    "sniper": 4,
-    "caster": 4,
+    "defender": 7,
+    "sniper": 0,
+    "caster": 9,
     "medic": 0,
     "supporter": 0,
     "specialist": 0
   },
   "drops": [
     "无需增调干员",
-    "辅助",
     "重装",
-    "微型尖刺配件"
+    "先锋",
+    "术师",
+    "信号阻断插件"
   ],
   "blacklist": [
     "CONFESS-47",
@@ -284,7 +280,7 @@
           "direction": "Down"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             6,
@@ -294,8 +290,7 @@
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 2
           },
           "location": [
             6,
@@ -314,13 +309,13 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
-            3,
-            2
+            2,
+            5
           ],
-          "direction": "down"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -333,17 +328,17 @@
           "direction": "Down"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
-            3,
-            2
+            2,
+            5
           ],
-          "direction": "down"
+          "direction": "none"
         },
         {
           "tool_men": {
-            "sniper": 1
+            "caster": 2
           },
           "location": [
             6,
@@ -352,35 +347,6 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "core": "斩业星熊",
           "tool_men": {
             "defender": 2
           },
@@ -391,28 +357,9 @@
           "direction": "Down"
         },
         {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            3,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
           "core": "维什戴尔",
           "tool_men": {
-            "sniper": 1,
-            "caster": 1
+            "caster": 2
           },
           "location": [
             6,
@@ -444,10 +391,10 @@
             "defender": 99
           },
           "location": [
-            4,
-            2
+            3,
+            1
           ],
-          "direction": "Left"
+          "direction": "Down"
         },
         {
           "tool_men": {
@@ -462,8 +409,7 @@
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
             7,
@@ -524,7 +470,7 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             0,
@@ -534,8 +480,7 @@
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 2
           },
           "location": [
             0,
@@ -554,13 +499,13 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             3,
-            5
+            4
           ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -573,51 +518,23 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             3,
-            5
+            4
           ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
-            "sniper": 1
+            "caster": 2
           },
           "location": [
             4,
             2
           ],
           "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
         },
         {
           "tool_men": {
@@ -630,15 +547,6 @@
           "direction": "Left"
         },
         {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
             "defender": 1
           },
@@ -649,19 +557,9 @@
           "direction": "Left"
         },
         {
-          "core": "斩业星熊",
           "tool_men": {
-            "defender": 2
+            "defender": 1
           },
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
           "location": [
             4,
             3
@@ -671,8 +569,7 @@
         {
           "core": "维什戴尔",
           "tool_men": {
-            "sniper": 1,
-            "caster": 1
+            "caster": 2
           },
           "location": [
             4,
@@ -692,8 +589,7 @@
         {
           "core": "遥",
           "tool_men": {
-            "caster": 2,
-            "sniper": 2
+            "caster": 4
           },
           "location": [
             6,
@@ -794,7 +690,7 @@
           "direction": "Right"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             2,
@@ -804,8 +700,7 @@
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 2
           },
           "location": [
             2,
@@ -824,13 +719,13 @@
           "direction": "Right"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             5,
             2
           ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -843,13 +738,13 @@
           "direction": "Right"
         },
         {
-          "core": "反制装甲套组",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             5,
             2
           ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -862,17 +757,8 @@
           "direction": "Right"
         },
         {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
-            "sniper": 1
+            "caster": 2
           },
           "location": [
             4,
@@ -881,35 +767,6 @@
           "direction": "Up"
         },
         {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
           "tool_men": {
             "defender": 2
           },
@@ -920,27 +777,8 @@
           "direction": "Right"
         },
         {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
           "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
+            "caster": 2
           },
           "location": [
             3,
@@ -951,8 +789,7 @@
         {
           "core": "遥",
           "tool_men": {
-            "caster": 1,
-            "sniper": 1
+            "caster": 2
           },
           "location": [
             3,
@@ -972,8 +809,7 @@
         {
           "core": "维什戴尔",
           "tool_men": {
-            "sniper": 1,
-            "caster": 1
+            "caster": 2
           },
           "location": [
             4,
@@ -997,6 +833,16 @@
           "location": [
             3,
             3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            5
           ],
           "direction": "Right"
         },
@@ -1033,8 +879,7 @@
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
             1,
@@ -1095,7 +940,7 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             1,
@@ -1105,8 +950,7 @@
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 2
           },
           "location": [
             1,
@@ -1125,7 +969,7 @@
           "direction": "Down"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             3,
@@ -1144,7 +988,7 @@
           "direction": "Down"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             3,
@@ -1163,34 +1007,6 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
             "caster": 1
           },
@@ -1201,16 +1017,16 @@
           "direction": "Right"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
+          "tool_men": {
+            "caster": 1
+          },
           "location": [
             3,
-            4
+            5
           ],
-          "direction": "Left"
+          "direction": "Right"
         },
         {
-          "core": "斩业星熊",
           "tool_men": {
             "defender": 2
           },
@@ -1221,21 +1037,12 @@
           "direction": "Up"
         },
         {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
           "tool_men": {
-            "sniper": 1
+            "caster": 1
           },
           "location": [
             3,
-            5
+            2
           ],
           "direction": "Right"
         },
@@ -1252,8 +1059,7 @@
         {
           "core": "维什戴尔",
           "tool_men": {
-            "sniper": 1,
-            "caster": 1
+            "caster": 2
           },
           "location": [
             3,
@@ -1273,8 +1079,7 @@
         {
           "core": "遥",
           "tool_men": {
-            "caster": 1,
-            "sniper": 1
+            "caster": 2
           },
           "location": [
             3,
@@ -1300,6 +1105,16 @@
             1
           ],
           "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            6
+          ],
+          "direction": "Up"
         },
         {
           "tool_men": {
@@ -1334,8 +1149,7 @@
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
             4,
@@ -1396,7 +1210,7 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             3,
@@ -1406,8 +1220,8 @@
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 1,
+            "defender": 1
           },
           "location": [
             3,
@@ -1416,13 +1230,13 @@
           "direction": "none"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
-            7,
+            6,
             3
           ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -1435,73 +1249,65 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
           "location": [
             6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
             3
           ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
             "caster": 1
           },
           "location": [
+            4,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
             6,
-            6
+            4
           ],
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
+          "tool_men": {
+            "caster": 1
+          },
           "location": [
-            7,
-            3
+            4,
+            5
           ],
-          "direction": "Left"
+          "direction": "Right"
         },
         {
-          "core": "斩业星熊",
+          "core": "遥",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            4,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "遥",
+          "tool_men": {},
+          "location": [
+            4,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
           "tool_men": {
             "defender": 2
           },
@@ -1512,19 +1318,9 @@
           "direction": "Up"
         },
         {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
           "core": "维什戴尔",
           "tool_men": {
-            "sniper": 1,
-            "caster": 1
+            "caster": 4
           },
           "location": [
             6,
@@ -1540,47 +1336,6 @@
             6
           ],
           "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
         },
         {
           "tool_men": {
@@ -1635,8 +1390,7 @@
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
             4,
@@ -1697,7 +1451,7 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
             6,
@@ -1708,7 +1462,7 @@
         {
           "tool_men": {
             "vanguard": 1,
-            "sniper": 1
+            "caster": 1
           },
           "location": [
             6,
@@ -1717,32 +1471,13 @@
           "direction": "none"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
-            2,
+            8,
             3
           ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            2,
-            3
-          ],
-          "direction": "Left"
+          "direction": "none"
         },
         {
           "tool_men": {
@@ -1755,13 +1490,23 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "core": "能量扰动放大器",
           "tool_men": {},
           "location": [
-            2,
+            8,
             3
           ],
-          "direction": "Left"
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
         },
         {
           "tool_men": {
@@ -1774,15 +1519,6 @@
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            2,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
             "defender": 1
           },
@@ -1793,16 +1529,6 @@
           "direction": "Down"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            2,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
           "tool_men": {
             "defender": 2
           },
@@ -1813,8 +1539,89 @@
           "direction": "Up"
         },
         {
-          "core": "斩业星熊",
+          "core": "遥",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "遥",
           "tool_men": {},
+          "location": [
+            7,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            5
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {
+            "caster": 4
+          },
+          "location": [
+            7,
+            6
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "维什戴尔",
+          "tool_men": {},
+          "location": [
+            7,
+            6
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            5
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
           "location": [
             8,
             4
@@ -1822,27 +1629,6 @@
           "direction": "Up"
         },
         {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
           "tool_men": {
             "defender": 1
           },
@@ -1854,47 +1640,6 @@
         },
         {
           "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
             "defender": 1
           },
           "location": [
@@ -1902,6 +1647,16 @@
             3
           ],
           "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            8,
+            4
+          ],
+          "direction": "Up"
         },
         {
           "tool_men": {
@@ -1928,20 +1683,10 @@
             "defender": 1
           },
           "location": [
-            6,
-            5
+            8,
+            4
           ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Left"
+          "direction": "Up"
         },
         {
           "tool_men": {
@@ -1955,26 +1700,7 @@
         },
         {
           "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            5
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
+            "vanguard": 99,
             "defender": 99
           },
           "location": [
@@ -1996,8 +1722,7 @@
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
             7,

@@ -1,59 +1,65 @@
 {
   "minimum_required": "v5.23.0",
-  "stage_name": "艺术馆旧址",
+  "stage_name": "约翰老妈新建地块",
   "actions": [],
   "doc": {
-    "title": "保全派驻-艺术馆旧址-维什戴尔-斩业星熊-遥-反制装甲套组",
-    "details": "应急一命通关视频已上传，求三连\n═══════════════════════════════════\n作业代码：maa://65329\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【反制装甲套组】、战术装备全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 艺术馆旧址 维什戴尔 斩业星熊 遥 应急一命通关】 https://www.bilibili.com/video/BV1DTbtzpE1t/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋3（选有不需要接敌就能回费的技能，不要选接敌回费的，也不要选档一的先锋，容易漏怪，最好选尖兵）\n重装6（优先选自回血的奶盾，例如塞雷娅黍临光，和其他费用在20费左右的重装，例如星熊余年）\n术士4（尽量选20费左右的术士，如果选群法要带减费模组，推荐带技能群攻的干员，例如逻各斯3小羊3澄闪3拉狗3，凑天有四时带夕）\n狙击4（优先选速狙）\n═══════════════════════════════════\n有问题反馈进群216314927，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，例如老熊可替新熊，但不可发上作业站，用此作业默认同意",
+    "title": "*任务专用*-保全派驻-约翰老妈新建地块-逻各斯-荒芜拉普兰德-黍-浊心斯卡蒂-战术装备整理箱",
+    "details": "作业视频已上传，求三连\n做任务用，别在应急难度开始\n本作业可完成战术装备整理箱的任务，有条件的带天有四时（余年夕）更稳\n═══════════════════════════════════\n作业代码：maa://65528\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n所有工具人技能不要选只能开一次的技能（类似山2技能那种）和接敌才能放的技能（类似锏3技能那种），否则MAA会一直放技能，也不要选攻击范围太奇怪的（类似黑3技能那种）\n请在确认导能原件选择【战术装备整理箱】、战术装备术师B其余全选A、手动编队并阵容确认后，再点击开始\n作业作者：萨拉托加\n作业视频：【MAA保全派驻 约翰老妈新建地块 战术装备补给箱任务】 https://www.bilibili.com/video/BV14kYyzMEJf/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON作者：萨拉托加\n═══════════════════════════════════\n不包括核心选择的额外干员：\n先锋4（选有不需要接敌就能回费的技能，不要选接敌回费的，也不要选档一的先锋，容易漏怪，最好选尖兵）\n重装6（优先选自回血的奶盾，例如塞雷娅黍临光，和其他费用在20费左右的重装，例如星熊余年）\n术士6（尽量选20费左右的术士，如果选群法要带减费模组，推荐带技能群攻的干员，例如逻各斯3小羊3澄闪3拉狗3，凑天有四时带夕）\n═══════════════════════════════════\n有问题反馈进群216314927，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，但不可发上作业站，用此作业默认同意",
     "title_color": "dark",
     "details_color": "dark"
   },
   "groups": [],
   "opers": [
     {
-      "name": "维什戴尔",
+      "name": "荒芜拉普兰德",
       "skill": 3,
       "skill_usage": 1
     },
     {
-      "name": "斩业星熊",
+      "name": "逻各斯",
       "skill": 1,
       "skill_usage": 0
     },
     {
-      "name": "遥",
+      "name": "黍",
+      "skill": 1,
+      "skill_usage": 0
+    },
+    {
+      "name": "浊心斯卡蒂",
       "skill": 2,
-      "skill_usage": 1
+      "skill_usage": 0
     }
   ],
   "type": "SSS",
-  "buff": "反制装甲套组",
+  "buff": "战术装备整理箱",
   "equipment": [
     "A",
     "A",
+    "B",
     "A",
     "A",
     "A",
     "A",
-    "A",
-    "A"
+    "B"
   ],
   "strategy": "优选策略",
   "tool_men": {
-    "vanguard": 3,
+    "vanguard": 4,
     "guard": 0,
     "defender": 6,
-    "sniper": 4,
-    "caster": 4,
+    "sniper": 0,
+    "caster": 6,
     "medic": 0,
     "supporter": 0,
     "specialist": 0
   },
   "drops": [
     "无需增调干员",
-    "辅助",
     "重装",
-    "微型尖刺配件"
+    "术师",
+    "先锋",
+    "装备扩充箱"
   ],
   "blacklist": [
     "CONFESS-47",
@@ -271,1326 +277,67 @@
   ],
   "stages": [
     {
-      "stage_name": "子弹烈酒",
+      "stage_name": "知难而进",
       "strategies": [
         {
           "tool_men": {
             "vanguard": 1
           },
           "location": [
-            3,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            6,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            3,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            3,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            3,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "down"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            6,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
             7,
             2
           ],
           "direction": "Left"
         },
         {
-          "core": "战备激活阀",
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            7,
-            2
-          ],
-          "direction": "Left"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            2
-          ],
-          "direction": "none",
-          "costs": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            3
-          ],
-          "direction": "none",
-          "costs": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            1,
-            4
-          ],
-          "direction": "none",
-          "costs": 50
-        }
-      ],
-      "retry_times": 99
-    },
-    {
-      "stage_name": "加工后厨",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            0,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
-          },
-          "location": [
-            0,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            4,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            4,
-            2
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 2,
-            "sniper": 2
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            4,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "战备激活阀",
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Left"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            4,
-            1
-          ],
-          "direction": "none",
-          "costs": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            7,
-            3
-          ],
-          "direction": "none",
-          "costs": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            5,
-            4
-          ],
-          "direction": "none",
-          "costs": 50
-        }
-      ],
-      "retry_times": 99
-    },
-    {
-      "stage_name": "控温锅炉",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            2,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
-          },
-          "location": [
-            2,
-            3
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "反制装甲套组",
+          "core": "战术装备整理箱",
           "tool_men": {},
           "location": [
             5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "反制装甲套组",
-          "tool_men": {},
-          "location": [
-            5,
-            2
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            5,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            3,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
-            1,
-            3
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "战备激活阀",
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            1,
-            3
-          ],
-          "direction": "Right"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            7,
-            1
-          ],
-          "direction": "none",
-          "costs": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            8,
-            1
-          ],
-          "direction": "none",
-          "costs": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            9,
-            1
-          ],
-          "direction": "none",
-          "costs": 50
-        }
-      ],
-      "retry_times": 99
-    },
-    {
-      "stage_name": "冷鲜货柜",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            1,
-            1
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
-          },
-          "location": [
-            1,
-            1
-          ],
-          "direction": "none"
-        },
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            5,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
-            4
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            3,
-            2
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            3,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "vanguard": 99
-          },
-          "location": [
-            2,
-            1
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "defender": 99
-          },
-          "location": [
-            5,
-            1
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "supporter": 99
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "战备激活阀",
-          "tool_men": {
-            "caster": 99,
-            "sniper": 99
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        }
-      ],
-      "draw_as_possible": true,
-      "actions": [
-        {
-          "type": "二倍速"
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            7,
-            1
-          ],
-          "direction": "none",
-          "costs": 48
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            7,
-            6
-          ],
-          "direction": "none",
-          "costs": 49
-        },
-        {
-          "type": "Deploy",
-          "name": "超重绝缘水泥",
-          "location": [
-            2,
-            6
-          ],
-          "direction": "none",
-          "costs": 50
-        }
-      ],
-      "retry_times": 99
-    },
-    {
-      "stage_name": "滋滋烤架",
-      "strategies": [
-        {
-          "tool_men": {
-            "vanguard": 1
-          },
-          "location": [
-            5,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            3,
             0
           ],
           "direction": "none"
         },
         {
           "tool_men": {
-            "sniper": 1,
-            "vanguard": 1
+            "vanguard": 1,
+            "defender": 1
           },
           "location": [
-            3,
+            5,
             0
           ],
           "direction": "none"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
             "defender": 1
           },
           "location": [
-            6,
+            5,
             4
           ],
           "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            7,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {},
-          "location": [
-            6,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            6,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            4,
-            5
-          ],
-          "direction": "Right"
         },
         {
           "tool_men": {
             "vanguard": 1
           },
           "location": [
-            5,
-            6
+            7,
+            3
           ],
-          "direction": "Up"
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
         },
         {
           "tool_men": {
@@ -1598,6 +345,46 @@
           },
           "location": [
             5,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            7,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            7,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {},
+          "location": [
+            7,
             3
           ],
           "direction": "Left"
@@ -1608,7 +395,7 @@
           },
           "location": [
             5,
-            6
+            5
           ],
           "direction": "Up"
         },
@@ -1618,29 +405,28 @@
           },
           "location": [
             5,
-            3
+            4
           ],
-          "direction": "Left"
+          "direction": "Up"
         },
         {
           "tool_men": {
             "supporter": 99
           },
           "location": [
-            4,
-            6
+            5,
+            5
           ],
           "direction": "Up"
         },
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
           },
           "location": [
-            4,
-            6
+            5,
+            5
           ],
           "direction": "Up"
         }
@@ -1654,8 +440,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            9,
-            2
+            1,
+            5
           ],
           "direction": "none",
           "costs": 48
@@ -1664,8 +450,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            9,
-            3
+            2,
+            5
           ],
           "direction": "none",
           "costs": 49
@@ -1674,8 +460,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            9,
-            4
+            3,
+            5
           ],
           "direction": "none",
           "costs": 50
@@ -1684,23 +470,257 @@
       "retry_times": 99
     },
     {
-      "stage_name": "特别顾客",
+      "stage_name": "荒地的手段",
       "strategies": [
         {
           "tool_men": {
             "vanguard": 1
           },
           "location": [
-            8,
-            4
+            2,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战术装备整理箱",
+          "tool_men": {},
+          "location": [
+            1,
+            2
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1,
+            "defender": 1
+          },
+          "location": [
+            1,
+            2
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            4,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            3,
+            5
           ],
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
           "tool_men": {},
           "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 1,
+            "vanguard": 1
+          },
+          "location": [
+            4,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            4,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            3,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {},
+          "location": [
+            3,
+            5
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 99
+          },
+          "location": [
+            2,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            2,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            2,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战备激活阀",
+          "tool_men": {
+            "caster": 99
+          },
+          "location": [
+            2,
+            2
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
             6,
+            5
+          ],
+          "direction": "none",
+          "costs": 48
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            7,
+            5
+          ],
+          "direction": "none",
+          "costs": 49
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            8,
+            5
+          ],
+          "direction": "none",
+          "costs": 50
+        }
+      ],
+      "retry_times": 99
+    },
+    {
+      "stage_name": "麻木前行",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "战术装备整理箱",
+          "tool_men": {},
+          "location": [
+            7,
             4
           ],
           "direction": "none"
@@ -1708,58 +728,21 @@
         {
           "tool_men": {
             "vanguard": 1,
-            "sniper": 1
+            "defender": 1
           },
           "location": [
-            6,
+            7,
             4
           ],
           "direction": "none"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            2,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
           "tool_men": {
-            "sniper": 1
+            "defender": 1
           },
           "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
             2,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
-          "location": [
-            2,
-            3
+            2
           ],
           "direction": "Left"
         },
@@ -1768,148 +751,78 @@
             "defender": 1
           },
           "location": [
-            8,
+            2,
             4
           ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            1,
+            3
+          ],
           "direction": "Up"
         },
         {
-          "core": "微型尖刺配件",
-          "tool_men": {},
+          "tool_men": {
+            "defender": 1
+          },
           "location": [
             2,
-            3
+            2
           ],
           "direction": "Left"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            1,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            1,
+            3
+          ],
+          "direction": "Right"
         },
         {
           "tool_men": {
             "defender": 1
           },
-          "location": [
-            6,
-            5
-          ],
-          "direction": "Down"
-        },
-        {
-          "core": "微型尖刺配件",
-          "tool_men": {},
           "location": [
             2,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "core": "斩业星熊",
-          "tool_men": {
-            "defender": 2
-          },
-          "location": [
-            8,
             4
           ],
-          "direction": "Up"
+          "direction": "Right"
         },
         {
-          "core": "斩业星熊",
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "荒芜拉普兰德",
           "tool_men": {},
           "location": [
-            8,
-            4
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "遥",
-          "tool_men": {
-            "caster": 1,
-            "sniper": 1
-          },
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "遥",
-          "tool_men": {},
-          "location": [
-            7,
-            5
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            5
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "sniper": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "caster": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {
-            "sniper": 1,
-            "caster": 1
-          },
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "core": "维什戴尔",
-          "tool_men": {},
-          "location": [
-            7,
-            6
-          ],
-          "direction": "Up"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            5
+            3,
+            2
           ],
           "direction": "Down"
         },
@@ -1918,58 +831,18 @@
             "defender": 1
           },
           "location": [
-            5,
-            3
+            2,
+            2
           ],
           "direction": "Left"
         },
         {
           "tool_men": {
-            "defender": 1
+            "vanguard": 99
           },
           "location": [
-            6,
-            5
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            5
-          ],
-          "direction": "Down"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            5,
-            3
-          ],
-          "direction": "Left"
-        },
-        {
-          "tool_men": {
-            "defender": 1
-          },
-          "location": [
-            6,
-            5
+            4,
+            2
           ],
           "direction": "Down"
         },
@@ -1978,6 +851,354 @@
             "defender": 99
           },
           "location": [
+            2,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战备激活阀",
+          "tool_men": {
+            "caster": 99
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            3,
+            6
+          ],
+          "direction": "none",
+          "costs": 48
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            4,
+            6
+          ],
+          "direction": "none",
+          "costs": 49
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            5,
+            6
+          ],
+          "direction": "none",
+          "costs": 50
+        }
+      ],
+      "retry_times": 99
+    },
+    {
+      "stage_name": "混乱“派对”",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战术装备整理箱",
+          "tool_men": {},
+          "location": [
+            6,
+            3
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1,
+            "defender": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            1,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
+          "tool_men": {},
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            1,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            1,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 2,
+            "vanguard": 1
+          },
+          "location": [
+            3,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {},
+          "location": [
+            3,
+            1
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 2,
+            "vanguard": 1
+          },
+          "location": [
+            2,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {},
+          "location": [
+            2,
+            2
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 99
+          },
+          "location": [
+            1,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            2,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "supporter": 99
+          },
+          "location": [
+            1,
+            3
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战备激活阀",
+          "tool_men": {
+            "caster": 99
+          },
+          "location": [
+            1,
+            3
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            5,
+            1
+          ],
+          "direction": "none",
+          "costs": 48
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            6,
+            1
+          ],
+          "direction": "none",
+          "costs": 49
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            7,
+            1
+          ],
+          "direction": "none",
+          "costs": 50
+        }
+      ],
+      "retry_times": 99
+    },
+    {
+      "stage_name": "消息传递",
+      "strategies": [
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "战术装备整理箱",
+          "tool_men": {},
+          "location": [
+            1,
+            3
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1,
+            "defender": 1
+          },
+          "location": [
+            1,
+            3
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
             5,
             3
           ],
@@ -1985,22 +1206,466 @@
         },
         {
           "tool_men": {
-            "supporter": 99
+            "defender": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "黍",
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "黍",
+          "tool_men": {},
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 1,
+            "vanguard": 1
+          },
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            4,
+            4
+          ],
+          "direction": "Up"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 2,
+            "vanguard": 1
           },
           "location": [
             7,
             3
           ],
+          "direction": "Left"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {},
+          "location": [
+            7,
+            3
+          ],
+          "direction": "Left"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 1,
+            "vanguard": 1
+          },
+          "location": [
+            4,
+            2
+          ],
           "direction": "Down"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {},
+          "location": [
+            4,
+            2
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            6,
+            3
+          ],
+          "direction": "Left"
         },
         {
           "core": "战备激活阀",
           "tool_men": {
-            "caster": 99,
-            "sniper": 99
+            "caster": 99
+          },
+          "location": [
+            3,
+            2
+          ],
+          "direction": "Right"
+        }
+      ],
+      "draw_as_possible": true,
+      "actions": [
+        {
+          "type": "二倍速"
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            9,
+            2
+          ],
+          "direction": "none",
+          "costs": 48
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            9,
+            3
+          ],
+          "direction": "none",
+          "costs": 49
+        },
+        {
+          "type": "Deploy",
+          "name": "超重绝缘水泥",
+          "location": [
+            9,
+            4
+          ],
+          "direction": "none",
+          "costs": 50
+        }
+      ],
+      "retry_times": 99
+    },
+    {
+      "stage_name": "力量的炫耀",
+      "strategies": [
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战术装备整理箱",
+          "tool_men": {},
+          "location": [
+            7,
+            5
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
           },
           "location": [
             7,
+            5
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            1,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            7,
+            5
+          ],
+          "direction": "none"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            1,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            1,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            1,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            2,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "黍",
+          "tool_men": {},
+          "location": [
+            2,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 1
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            1,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "浊心斯卡蒂",
+          "tool_men": {},
+          "location": [
+            1,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {
+            "caster": 1
+          },
+          "location": [
+            1,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "逻各斯",
+          "tool_men": {},
+          "location": [
+            1,
+            5
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {
+            "caster": 2
+          },
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Down"
+        },
+        {
+          "core": "荒芜拉普兰德",
+          "tool_men": {},
+          "location": [
+            3,
+            3
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            3,
+            6
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "defender": 1
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "tool_men": {
+            "vanguard": 99
+          },
+          "location": [
+            5,
+            3
+          ],
+          "direction": "Down"
+        },
+        {
+          "tool_men": {
+            "defender": 99
+          },
+          "location": [
+            1,
+            4
+          ],
+          "direction": "Right"
+        },
+        {
+          "core": "战备激活阀",
+          "tool_men": {
+            "caster": 99
+          },
+          "location": [
+            5,
             3
           ],
           "direction": "Down"
@@ -2015,8 +1680,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            1,
-            3
+            6,
+            2
           ],
           "direction": "none",
           "costs": 48
@@ -2025,8 +1690,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            1,
-            4
+            7,
+            2
           ],
           "direction": "none",
           "costs": 49
@@ -2035,8 +1700,8 @@
           "type": "Deploy",
           "name": "超重绝缘水泥",
           "location": [
-            1,
-            5
+            8,
+            2
           ],
           "direction": "none",
           "costs": 50
