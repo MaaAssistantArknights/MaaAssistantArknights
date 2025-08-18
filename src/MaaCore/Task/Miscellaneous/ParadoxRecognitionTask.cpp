@@ -31,14 +31,14 @@ bool asst::ParadoxRecognitionTask::_run()
         }
         for (const auto& oper : opers_vec) {
             if (match_oper(oper.name)) {
-                m_skill_num =  oper.skill;
+                m_skill_num = oper.skill;
             }
         }
     }
 
     return_index(); // 每次打完之后先回主页
 
-    enter_opers(); // 进入角色管理
+    enter_opers();  // 进入角色管理
 
     bool result = swipe_and_analyze();
     if (result) {
@@ -48,7 +48,8 @@ bool asst::ParadoxRecognitionTask::_run()
     return true;
 }
 
-std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& navigate_name) {
+std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& navigate_name)
+{
     size_t length = navigate_name.length();
     return navigate_name.substr(4, length - 6);
 }
@@ -65,7 +66,8 @@ void asst::ParadoxRecognitionTask::set_navigate_name(std::string navigate_name)
     m_navigate_name = standardize_name(navigate_name);
 }
 
-void asst::ParadoxRecognitionTask::set_opers_in_formation(std::shared_ptr<std::unordered_map<std::string, std::string>> opers_in_formation)
+void asst::ParadoxRecognitionTask::set_opers_in_formation(
+    std::shared_ptr<std::unordered_map<std::string, std::string>> opers_in_formation)
 {
     m_opers_in_formation = opers_in_formation;
 }
@@ -77,7 +79,8 @@ void asst::ParadoxRecognitionTask::swipe_page()
 
 void asst::ParadoxRecognitionTask::return_index()
 {
-    while (ProcessTask(*this, { "ParadoxReturn" }).run()); // 回到主页面为止
+    while (ProcessTask(*this, { "ParadoxReturn" }).run())
+        ; // 回到主页面为止
 }
 
 void asst::ParadoxRecognitionTask::enter_opers()
@@ -116,14 +119,17 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
             }
         }
 
-        if (find_oper) 
+        if (find_oper) {
             break;
+        }
 
         swipe_page();
     }
     return find_oper;
 }
 
-bool asst::ParadoxRecognitionTask::match_oper(const std::string& name) {
-    return m_oper_name["name"] == name || m_oper_name["name_en"] == name || m_oper_name["name_jp"] == name || m_oper_name["name_kr"] == name || m_oper_name["name_tw"] == name; 
+bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)
+{
+    return m_oper_name["name"] == name || m_oper_name["name_en"] == name || m_oper_name["name_jp"] == name ||
+           m_oper_name["name_kr"] == name || m_oper_name["name_tw"] == name;
 }

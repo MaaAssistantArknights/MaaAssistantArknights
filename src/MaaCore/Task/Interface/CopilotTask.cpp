@@ -7,8 +7,8 @@
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
-#include "Task/Miscellaneous/TaskFileReloadTask.h"
 #include "Task/Miscellaneous/ParadoxRecognitionTask.h"
+#include "Task/Miscellaneous/TaskFileReloadTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -75,7 +75,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
-    bool is_paradox = params.get("is_paradox", false); // 是否是悖论模拟模式
+    bool is_paradox = params.get("is_paradox", false);       // 是否是悖论模拟模式
     std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
     bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
     bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
@@ -141,7 +141,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
                                                                                             replace_navigate_name };
             m_navigate_task_ptr->set_tasks({ navigate_name + "@Copilot@StageNavigationBegin" });
         }
-        else { 
+        else {
             m_paradox_task_ptr->set_retry_times(0);
             m_paradox_task_ptr->set_navigate_name(navigate_name);
             m_paradox_task_ptr->set_opers_in_formation(m_formation_task_ptr->get_opers_in_formation());
@@ -188,7 +188,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         }
         else {
             // 由于角色练度/概率性问题，悖论模拟可以允许非三星，反正奖励早晚能拿到也不消耗理智
-            m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" }); 
+            m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" });
         }
         m_stop_task_ptr->set_enable(true);
     }
