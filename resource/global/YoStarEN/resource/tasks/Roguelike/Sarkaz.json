@@ -80,7 +80,7 @@
             ["Bizarre Fragment", "_SKIP_"]
         ]
     },
-        "Sarkaz@Roguelike@StrategyChange_mode1": {
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
         "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],

@@ -224,7 +224,6 @@
             [".*Secluded ?Passage", "_exit"]
         ]
     },
-
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [593, 48, 135, 27],
