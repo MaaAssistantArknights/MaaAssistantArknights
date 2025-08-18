@@ -1011,7 +1011,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseSkill">스킬 사용</system:String>
     <system:String x:Key="Retreat">철수</system:String>
     <system:String x:Key="SkillDaemon">자동 진행 시작</system:String>
-    <system:String x:Key="SwitchSpeed">2배속 전환</system:String>
+    <system:String x:Key="SwitchSpeed">배속 전환</system:String>
     <system:String x:Key="SkillUsage">스킬 사용법 전환</system:String>
     <system:String x:Key="BulletTime">슬로우 모션 진입</system:String>
     <system:String x:Key="Output">설명 출력</system:String>

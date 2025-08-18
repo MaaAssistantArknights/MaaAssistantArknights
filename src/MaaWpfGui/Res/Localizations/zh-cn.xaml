@@ -1012,7 +1012,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UseSkill">使用技能</system:String>
     <system:String x:Key="Retreat">撤退</system:String>
     <system:String x:Key="SkillDaemon">开始挂机</system:String>
-    <system:String x:Key="SwitchSpeed">切换二倍速</system:String>
+    <system:String x:Key="SwitchSpeed">切换倍速</system:String>
     <system:String x:Key="SkillUsage">切换技能用法</system:String>
     <system:String x:Key="BulletTime">进入子弹时间</system:String>
     <system:String x:Key="Output">打印描述内容</system:String>
