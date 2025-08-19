@@ -1,0 +1,72 @@
+name: "CodeQL Website and Workflows Analysis"
+
+on:
+  pull_request:
+    branches: ["dev"]
+    paths:
+      - "website/**"
+      - ".github/workflows/*.yml"
+      - ".github/*.yml"
+      - "!**/*.md"
+  schedule:
+    - cron: "00 12 * * *" # Runs daily at 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+  security-events: write
+
+jobs:
+  analyze-website:
+    name: Analyze Website (JavaScript/TypeScript)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Setup CodeQL for JavaScript/TypeScript
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:multi-none"
+
+  analyze-workflows:
+    name: Analyze GitHub Workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Setup CodeQL for GitHub Actions
+        uses: github/codeql-action/init@v3
+        with:
+          languages: actions
+          build-mode: none
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:multi-none"
+
+      - name: Delete old caches
+        shell: pwsh
+        run: |
+          $oldCaches = gh cache list --key codeql --order asc --json key | ConvertFrom-Json | Select-Object -SkipLast 1
+            foreach ($cache in $oldCaches) {
+              if ($cache.key) {
+                Write-Host "Deleting cache: $($cache.key)"
+                gh cache delete $cache.key
+              }
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
