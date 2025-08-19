@@ -76,19 +76,7 @@ public class CopilotModel : CopilotBase
             var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}";
             if (oper.Requirements is not null)
             {
-                if (oper.Requirements.Module >= 0)
-                {
-                    // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
-                    log += oper.Requirements.Module switch
-                    {
-                        0 => $" {LocalizationHelper.GetString("CopilotWithoutModule")}",
-                        1 => $" {LocalizationHelper.GetString("CopilotModule")} Χ",
-                        2 => $" {LocalizationHelper.GetString("CopilotModule")} Y",
-                        3 => $" {LocalizationHelper.GetString("CopilotModule")} α",
-                        4 => $" {LocalizationHelper.GetString("CopilotModule")} Δ",
-                        _ => string.Empty,
-                    };
-                }
+                log += GetModuleInfo(oper.Requirements.Module);
             }
 
             output.Add((log, UiLogColor.Message));
@@ -98,13 +86,30 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var groupName = group.Name + ": ";
-            var operInfos = group.Opers.Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}").ToList();
+            var operInfos = group.Opers.Select(oper => oper.Requirements is null
+                ? $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}"
+                : $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill} {GetModuleInfo(oper.Requirements.Module)}").ToList();
 
             output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
         }
 
         output.Add((string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), UiLogColor.Message));
         return output;
+    }
+
+    private static string GetModuleInfo(int moduleNumber)
+    {
+        // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
+        return moduleNumber switch
+        {
+            < 0 => string.Empty, // -1 or any negative value
+            0 => $" {LocalizationHelper.GetString("CopilotWithoutModule")}",
+            1 => $" {LocalizationHelper.GetString("CopilotModule")} Χ",
+            2 => $" {LocalizationHelper.GetString("CopilotModule")} Y",
+            3 => $" {LocalizationHelper.GetString("CopilotModule")} α",
+            4 => $" {LocalizationHelper.GetString("CopilotModule")} Δ",
+            _ => string.Empty,
+        };
     }
 
     public class Oper
