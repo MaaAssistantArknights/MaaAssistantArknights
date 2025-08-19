@@ -22,6 +22,17 @@
             ["紺碧搖籃", "_SKIP_"]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["天光海岸", "_default"],
+            ["離岸孤島", "_exit"],
+            ["波濤略地", "_exit"],
+            ["隱秘溫床", "_exit"],
+            ["失塵岩洞", "_exit"],
+            ["幽海叢林", "_exit"],
+            ["紺碧搖籃", "_exit"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["天光海岸", "_default"],
