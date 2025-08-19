@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants.Enums;
@@ -82,62 +83,28 @@ public class SSSCopilotModel : CopilotBase
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
 
-    // 在 SSSCopilotModel 类中嵌入 NameToRole 映射
-    private static readonly Dictionary<string, Role> NameToRole = new()
+    private static readonly Dictionary<Role, string[]> _roleAliases = new()
     {
-        // Warrior/Guard/近卫
-        { "WARRIOR", Role.Warrior },    { "Warrior", Role.Warrior },    { "warrior", Role.Warrior },
-        { "GUARD", Role.Warrior },      { "Guard", Role.Warrior },      { "guard", Role.Warrior },
-        { "近卫", Role.Warrior },
-
-        // Pioneer/Vanguard/先锋
-        { "PIONEER", Role.Pioneer },    { "Pioneer", Role.Pioneer },    { "pioneer", Role.Pioneer },
-        { "VANGUARD", Role.Pioneer },   { "Vanguard", Role.Pioneer },   { "vanguard", Role.Pioneer },
-        { "先锋", Role.Pioneer },
-
-        // Medic/医疗
-        { "MEDIC", Role.Medic },        { "Medic", Role.Medic },        { "medic", Role.Medic },
-        { "医疗", Role.Medic },
-
-        // Tank/Defender/重装/坦克
-        { "TANK", Role.Tank },          { "Tank", Role.Tank },          { "tank", Role.Tank },
-        { "DEFENDER", Role.Tank },      { "Defender", Role.Tank },      { "defender", Role.Tank },
-        { "重装", Role.Tank },          { "坦克", Role.Tank },
-
-        // Sniper/狙击
-        { "SNIPER", Role.Sniper },      { "Sniper", Role.Sniper },      { "sniper", Role.Sniper },
-        { "狙击", Role.Sniper },
-
-        // Caster/术师/术士/法师
-        { "CASTER", Role.Caster },      { "Caster", Role.Caster },      { "caster", Role.Caster },
-        { "术师", Role.Caster },        { "术士", Role.Caster },        { "法师", Role.Caster },
-
-        // Support/Supporter/辅助/支援
-        { "SUPPORT", Role.Support },    { "Support", Role.Support },    { "support", Role.Support },
-        { "SUPPORTER", Role.Support },  { "Supporter", Role.Support },  { "supporter", Role.Support },
-        { "辅助", Role.Support },       { "支援", Role.Support },
-
-        // Special/Specialist/特种
-        { "SPECIAL", Role.Special },    { "Special", Role.Special },    { "special", Role.Special },
-        { "SPECIALIST", Role.Special }, { "Specialist", Role.Special }, { "specialist", Role.Special },
-        { "特种", Role.Special },
-
-        // Drone/Summon/无人机/召唤物
-        { "DRONE", Role.Drone },        { "Drone", Role.Drone },        { "drone", Role.Drone },
-        { "SUMMON", Role.Drone },       { "Summon", Role.Drone },       { "summon", Role.Drone },
-        { "无人机", Role.Drone },       { "召唤物", Role.Drone },
+        { Role.Warrior, ["Warrior", "Guard", "近卫"] },
+        { Role.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
+        { Role.Medic, ["Medic", "医疗"] },
+        { Role.Tank, ["Tank", "Defender", "重装", "坦克"] },
+        { Role.Sniper, ["Sniper", "狙击"] },
+        { Role.Caster, ["Caster", "术师", "术士", "法师"] },
+        { Role.Support, ["Support", "Supporter", "辅助", "支援"] },
+        { Role.Special, ["Special", "Specialist", "特种"] },
+        { Role.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
     };
+
+    private static readonly Dictionary<string, Role> _nameToRole =
+        _roleAliases.SelectMany(kv => kv.Value.Select(v => new { v, kv.Key }))
+            .ToDictionary(x => x.v, x => x.Key, StringComparer.OrdinalIgnoreCase);
 
     private static string GetLocalizedToolmenName(string key)
     {
-        if (NameToRole.TryGetValue(key, out var role))
-        {
-            // 枚举转字符串后用于本地化查找
-            return LocalizationHelper.GetString(role.ToString());
-        }
-
-        // 未匹配到时返回原始 key
-        return key;
+        return _nameToRole.TryGetValue(key, out var role)
+            ? LocalizationHelper.GetString(role.ToString())
+            : key;
     }
 
     public List<(string Output, string? Color)> Output()
