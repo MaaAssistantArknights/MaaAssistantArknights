@@ -33,13 +33,39 @@ jobs:
         with:
           show-progress: false
 
-      - name: Setup build environments
+      - name: Update submodules
+        run: git submodule update --init --depth 1 3rdparty/EmulatorExtras
+
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-codeql-core-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-codeql-core-
+
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-x64-windows-maadeps-${{ hashFiles('./maadeps-download.py') }}
+          restore-keys: |
+            ${{ runner.os }}-x64-windows-maadeps-
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
-          dotnet restore
-          python3 maadeps-download.py x64-windows
+        run: python3 maadeps-download.py x64-windows
 
       - name: Create fake event file
         shell: bash
