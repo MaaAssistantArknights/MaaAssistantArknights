@@ -1012,7 +1012,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Current">現在</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}を利用不可: {0}、制限: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">モジュールが使用できません</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="Deploy">配置</system:String>
     <system:String x:Key="UseSkill">スキル使用</system:String>

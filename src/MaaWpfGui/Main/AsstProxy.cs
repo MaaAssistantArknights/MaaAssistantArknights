@@ -1755,7 +1755,11 @@ namespace MaaWpfGui.Main
                 case "BattleFormationOperUnavailable":
                     {
                         var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["oper_name"]?.ToString());
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationOperUnavailable"), oper_name, subTaskDetails["requirement_type"]), Instances.CopilotViewModel.IgnoreRequirements ? UiLogColor.Warning : UiLogColor.Error);
+                        var requirement_type = subTaskDetails["requirement_type"]?.ToString() == "module"
+                            ? LocalizationHelper.GetString("BattleFormationModuleUnavailable")
+                            : subTaskDetails["requirement_type"]?.ToString() ?? "UnknownRequirementType";
+
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("BattleFormationOperUnavailable"), oper_name, requirement_type), Instances.CopilotViewModel.IgnoreRequirements ? UiLogColor.Warning : UiLogColor.Error);
                         break;
                     }
 

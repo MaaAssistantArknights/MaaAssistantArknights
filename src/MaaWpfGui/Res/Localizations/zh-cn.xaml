@@ -1012,7 +1012,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Current">当前</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择{key=Operator}: </system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 限制: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 原因: {1}</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">模组不可用</system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="Deploy">部署</system:String>
     <system:String x:Key="UseSkill">使用技能</system:String>
