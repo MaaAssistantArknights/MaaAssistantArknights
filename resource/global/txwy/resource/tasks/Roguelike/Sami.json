@@ -142,6 +142,17 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["初霜湖澤", "_default"],
+            ["密靜林地", "_exit"],
+            [".*明凍(土|士)", "_exit"],
+            ["積冰巖骸", "_exit"],
+            ["無瑕花園", "_exit"],
+            ["遠見之構", "_exit"],
+            ["深埋迷境", "_exit"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["初霜湖澤", "_default"],
