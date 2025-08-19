@@ -826,6 +826,15 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TotalOperatorsCount">共 {0} 名{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">導能組件：</system:String>
     <system:String x:Key="OtherOperators">其他{key=Operator}：</system:String>
+    <system:String x:Key="Warrior">近衛</system:String>
+    <system:String x:Key="Pioneer">先鋒</system:String>
+    <system:String x:Key="Medic">醫療</system:String>
+    <system:String x:Key="Tank">重裝</system:String>
+    <system:String x:Key="Sniper">狙擊</system:String>
+    <system:String x:Key="Caster">術師</system:String>
+    <system:String x:Key="Support">輔助</system:String>
+    <system:String x:Key="Special">特種</system:String>
+    <system:String x:Key="Drone">無人機/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">開局裝備（橫向）：</system:String>
     <system:String x:Key="InitialStrategy">開局策略：</system:String>
     <!--  日誌  -->
@@ -851,6 +860,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
     <system:String x:Key="NotCopilotJson">非作業檔案</system:String>
     <system:String x:Key="CheckTheFile">請檢查檔案內容！</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">不支援的類型：SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">關卡名稱無效，無法導航</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} 未找到，且未指定關卡名稱</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">關卡名稱與導航名稱不一致，已使用導航名稱</system:String>
+    <system:String x:Key="CopilotEmptyError">作業為空</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用戰鬥清單執行單一作業, 不建議此行為。單一作業請直接執行</system:String>
     <!--  !日誌  -->
@@ -945,6 +960,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DeepExplorationCompleted">深入調查清完啦！</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">深入調查未解鎖</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
+    <system:String x:Key="CurrentStage">目前關卡: {0}</system:String>
     <system:String x:Key="Trader">節點: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
     <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
@@ -996,6 +1012,17 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 限制: {1}</system:String>
     <system:String x:Key="CurrentSteps">目前步驟: {0} {1}</system:String>
+    <system:String x:Key="Deploy">部署</system:String>
+    <system:String x:Key="UseSkill">使用技能</system:String>
+    <system:String x:Key="Retreat">撤退</system:String>
+    <system:String x:Key="SkillDaemon">開始掛機</system:String>
+    <system:String x:Key="SwitchSpeed">切換倍速</system:String>
+    <system:String x:Key="SkillUsage">切換技能用法</system:String>
+    <system:String x:Key="BulletTime">進入子彈時間</system:String>
+    <system:String x:Key="Output">打印描述內容</system:String>
+    <system:String x:Key="MoveCamera">移動相機</system:String>
+    <system:String x:Key="DrawCard">調配幹員</system:String>
+    <system:String x:Key="CheckIfStartOver">檢查是否重開</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>

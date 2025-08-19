@@ -497,7 +497,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                     else if (payload is SSSCopilotModel)
                     {
-                        AddLog("Unsupported type: SSS", UiLogColor.Error, showTime: false);
+                        AddLog(LocalizationHelper.GetString("CopilotSSSNotSupport"), UiLogColor.Error, showTime: false);
                     }
                 }
                 catch
@@ -1001,7 +1001,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (string.IsNullOrEmpty(stageName) || InvalidStageNameRegex().IsMatch(stageName))
             {
-                AddLog("Invalid stage name for navigation", UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotInvalidStageNameForNavigation"), UiLogColor.Error, showTime: false);
                 return;
             }
 
@@ -1049,7 +1049,7 @@ namespace MaaWpfGui.ViewModels.UI
             var stageName = DataHelper.FindMap(copilot.StageName)?.Code;
             if (navigateName is null && stageName is null)
             {
-                AddLog(stageName + " not found, and also no stage name specified", UiLogColor.Error, showTime: false);
+                AddLog(string.Format(LocalizationHelper.GetString("CopilotStageNameNotFound"), stageName), UiLogColor.Error, showTime: false);
                 return false;
             }
 
@@ -1057,7 +1057,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (stageName != navigateName)
             {
                 stageName = navigateName;
-                AddLog("stageName NOT equal with navigateName, using navigateName", UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotStageNameNotEqualWithNavigateName"), UiLogColor.Warning, showTime: false);
             }
 
             var fileName = !string.IsNullOrEmpty(stageName!) ? stageName : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
@@ -1189,7 +1189,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (_taskType == AsstTaskType.Copilot && !UseCopilotList && _copilotCache is null)
             {
-                AddLog("copilot is empty", UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
                 _runningState.SetIdle(true);
                 return;
             }
@@ -1380,7 +1380,7 @@ namespace MaaWpfGui.ViewModels.UI
             var list = CopilotItemViewModels.Where(i => i.IsChecked);
             if (list.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
             {
-                AddLog("copilot tasks with empty name", UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
                 return false;
             }
 

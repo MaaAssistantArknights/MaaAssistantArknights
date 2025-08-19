@@ -12,8 +12,10 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 
@@ -81,6 +83,30 @@ public class SSSCopilotModel : CopilotBase
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
 
+    private static readonly Dictionary<Role, string[]> _roleAliases = new()
+    {
+        { Role.Warrior, ["Warrior", "Guard", "近卫"] },
+        { Role.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
+        { Role.Medic, ["Medic", "医疗"] },
+        { Role.Tank, ["Tank", "Defender", "重装", "坦克"] },
+        { Role.Sniper, ["Sniper", "狙击"] },
+        { Role.Caster, ["Caster", "术师", "术士", "法师"] },
+        { Role.Support, ["Support", "Supporter", "辅助", "支援"] },
+        { Role.Special, ["Special", "Specialist", "特种"] },
+        { Role.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
+    };
+
+    private static readonly Dictionary<string, Role> _nameToRole =
+        _roleAliases.SelectMany(kv => kv.Value.Select(v => new { v, kv.Key }))
+            .ToDictionary(x => x.v, x => x.Key, StringComparer.OrdinalIgnoreCase);
+
+    private static string GetLocalizedToolmenName(string key)
+    {
+        return _nameToRole.TryGetValue(key, out var role)
+            ? LocalizationHelper.GetString(role.ToString())
+            : key;
+    }
+
     public List<(string Output, string? Color)> Output()
     {
         var output = new List<(string, string?)>();
@@ -117,7 +143,7 @@ public class SSSCopilotModel : CopilotBase
         if (ToolMen is not null)
         {
             var toolMenLog = LocalizationHelper.GetString("OtherOperators");
-            var toolMenString = string.Join("\n", ToolMen.Select(kv => $"{char.ToUpper(kv.Key[0]) + kv.Key[1..].ToLower()}: {kv.Value}"));
+            var toolMenString = string.Join("\n", ToolMen.Where(kv => kv.Value > 0).Select(kv => $"{GetLocalizedToolmenName(kv.Key)}: {kv.Value}"));
             output.Add((toolMenLog + "\n" + toolMenString, null));
         }
 

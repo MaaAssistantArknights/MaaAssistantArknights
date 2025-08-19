@@ -1769,10 +1769,12 @@ namespace MaaWpfGui.Main
                         }
 
                         var target = subTaskDetails["target"]?.ToString();
+                        var actionToken = subTaskDetails?["action"];
+                        var actionString = actionToken?.ToString() ?? "UnknownAction";
                         Instances.CopilotViewModel.AddLog(
                             string.Format(
                                 LocalizationHelper.GetString("CurrentSteps"),
-                                subTaskDetails["action"],
+                                LocalizationHelper.GetString(actionString),
                                 DataHelper.GetLocalizedCharacterName(target) ?? target));
 
                         break;
@@ -1783,7 +1785,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "SSSStage":
-                    Instances.CopilotViewModel.AddLog("CurrentStage: " + subTaskDetails!["stage"], UiLogColor.Info);
+                    Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("CurrentStage"), subTaskDetails!["stage"]), UiLogColor.Info);
                     break;
 
                 case "SSSSettlement":
