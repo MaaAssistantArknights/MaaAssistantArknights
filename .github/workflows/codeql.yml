@@ -3,6 +3,15 @@ name: "CodeQL Advanced"
 on:
   pull_request:
     branches: ["dev"]
+    paths:
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - ".github/workflows/ci.yml"
+      - "!**/*.md"
   schedule:
     - cron: "45 11 * * *"
   workflow_dispatch:
