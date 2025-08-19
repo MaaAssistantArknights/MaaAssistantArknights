@@ -264,7 +264,7 @@
         "baseTask": "Sami@Roguelike@DropsFlag_default"
     },
     "Sami@Roguelike@EnterAfterRecruit": {
-        "next": ["Sami@Roguelike@NextLevel"]
+        "next": ["Sami@Roguelike@NextLevel", "Sami@Roguelike@FoldartalGainNextLevel"]
     },
     "Sami@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -809,6 +809,7 @@
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "postDelay": 1000,
+        "next": ["#self", "Sami@Roguelike@Stages#next"],
         "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
     },
     "Sami@Roguelike@StageTraderRefresh": {
@@ -998,6 +999,7 @@
         "ocrReplace": [["O", "0"]],
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageTrader",
@@ -1041,6 +1043,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
@@ -1091,6 +1094,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageVerticalCombatDps",
@@ -1137,6 +1141,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
@@ -1191,6 +1196,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
