@@ -14,7 +14,7 @@ on:
       - "!**/*.md"
       - "!**/*.xaml"
   schedule:
-    - cron: "45 11 * * *"
+    - cron: "45 11 * * *" # Runs daily at 11:45 UTC
   workflow_dispatch:
 
 permissions:
@@ -43,9 +43,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-codeql-core-${{ hashFiles('**/global.json', '**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-codeql-core-
+          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
@@ -57,15 +55,14 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-windows-maadeps-${{ hashFiles('./maadeps-download.py') }}
-          restore-keys: |
-            ${{ runner.os }}-x64-windows-maadeps-
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 maadeps-download.py x64-windows
+        run: |
+          python3 maadeps-download.py x64-windows
 
       - name: Create fake event file
         shell: bash
