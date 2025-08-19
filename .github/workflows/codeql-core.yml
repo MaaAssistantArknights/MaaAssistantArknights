@@ -10,7 +10,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "MAA.sln"
-      - ".github/workflows/codeql.yml"
+      - ".github/workflows/codeql-core.yml"
       - "!**/*.md"
       - "!**/*.xaml"
   schedule:
