@@ -20,7 +20,7 @@ permissions:
 jobs:
   analyze-website:
     name: Analyze Website (JavaScript/TypeScript)
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,6 +37,19 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:multi-none"
+
+      - name: Delete old caches
+        shell: bash
+        run: |
+          oldCaches=$(gh cache list --key codeql --order asc --json key | jq -r '.[] | .key' | head -n -1)
+          for cache in $oldCaches; do
+            if [ -n "$cache" ]; then
+              echo "Deleting cache: $cache"
+              gh cache delete "$cache" --confirm
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   analyze-workflows:
     name: Analyze GitHub Workflows
@@ -57,16 +70,3 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:multi-none"
-
-      - name: Delete old caches
-        shell: pwsh
-        run: |
-          $oldCaches = gh cache list --key codeql --order asc --json key | ConvertFrom-Json | Select-Object -SkipLast 1
-            foreach ($cache in $oldCaches) {
-              if ($cache.key) {
-                Write-Host "Deleting cache: $($cache.key)"
-                gh cache delete $cache.key
-              }
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
