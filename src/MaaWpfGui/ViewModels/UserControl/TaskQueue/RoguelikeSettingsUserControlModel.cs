@@ -78,9 +78,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             int value = i;
             var display = value switch
             {
-                -1 => LocalizationHelper.GetString("NotSwitch"),
-                int.MaxValue => "MAX",
-                0 => "MIN",
+                -1 => LocalizationHelper.GetString("NotSwitch") + " (-1)",
+                int.MaxValue => $"MAX ({maxThemeDifficulty})",
+                0 => "MIN (0)",
                 _ => value.ToString(),
             };
             RoguelikeDifficultyList.Add(new() { Display = display, Value = value });

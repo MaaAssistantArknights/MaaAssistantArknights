@@ -44,6 +44,17 @@
             ["Indigo Cradle", "_SKIP_"]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_default"],
+            ["Offshore Island", "_exit"],
+            ["Raging Billows", "_exit"],
+            ["Secret Hotbed", "_exit"],
+            ["Sacrosant Cave", "_exit"],
+            ["Deep Sea Woodland", "_exit"],
+            ["Indigo Cradle", "_exit"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["Sunshine Coast", "_default"],

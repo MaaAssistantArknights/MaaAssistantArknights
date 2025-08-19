@@ -264,7 +264,7 @@
         "baseTask": "Sami@Roguelike@DropsFlag_default"
     },
     "Sami@Roguelike@EnterAfterRecruit": {
-        "next": ["Sami@Roguelike@NextLevel"]
+        "next": ["Sami@Roguelike@NextLevel", "Sami@Roguelike@FoldartalGainNextLevel"]
     },
     "Sami@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -998,6 +998,7 @@
         "ocrReplace": [["O", "0"]],
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageTrader",
@@ -1041,6 +1042,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
@@ -1091,6 +1093,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageVerticalCombatDps",
@@ -1137,6 +1140,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
@@ -1191,6 +1195,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@FoldartalGainNextLevel",
             "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
@@ -1267,7 +1272,7 @@
         "roi": [958, 530, 322, 189]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
@@ -1304,7 +1309,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
-        "text": ["_collapsal_paradigms"],
+        "text": ["_collapsal_paradigms", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_collapsal_paradigms"],
             ["密静林地", "_collapsal_paradigms"],
@@ -1316,7 +1321,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],
@@ -1329,7 +1334,7 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
-        "text": ["_aggressive", "_pragmatic", "_default"],
+        "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [
             ["初霜湖泽", "_aggressive"],
             ["密静林地", "_aggressive"],

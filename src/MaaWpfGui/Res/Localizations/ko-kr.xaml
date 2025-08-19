@@ -827,6 +827,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalOperatorsCount">총 {0}명의 {key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="OtherOperators">기타 {key=Operator}:</system:String>
+    <system:String x:Key="Warrior">근위</system:String>
+    <system:String x:Key="Pioneer">선봉</system:String>
+    <system:String x:Key="Medic">의료</system:String>
+    <system:String x:Key="Tank">중장</system:String>
+    <system:String x:Key="Sniper">저격</system:String>
+    <system:String x:Key="Caster">술사</system:String>
+    <system:String x:Key="Support">보조</system:String>
+    <system:String x:Key="Special">특수</system:String>
+    <system:String x:Key="Drone">드론/소환물</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
     <!--  Logs  -->
@@ -852,6 +861,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">Copilot 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">지원하지 않는 유형: SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">스테이지 이름이 잘못되어 탐색할 수 없습니다</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0}을(를) 찾을 수 없으며, 스테이지 이름도 지정되지 않았습니다</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">스테이지 이름과 탐색 이름이 일치하지 않아 탐색 이름을 사용합니다</system:String>
+    <system:String x:Key="CopilotEmptyError">작업이 비어 있습니다</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">전투 목록을 사용하여 단일 작업을 실행하고 있습니다. 권장하지 않습니다. 단일 작업을 직접 실행하세요.</system:String>
     <!--  !로그  -->
@@ -946,6 +961,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DeepExplorationCompleted">모든 심층 조사 클리어! 축하합니다!</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 아직 잠금 해제되지 않았습니다</system:String>
     <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
+    <system:String x:Key="CurrentStage">현재 스테이지: {0}</system:String>
     <system:String x:Key="Trader">노드: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">노드: 안전가옥</system:String>
     <system:String x:Key="FilterTruth">노드: 거짓과 진실</system:String>
@@ -997,6 +1013,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용할 수 없는 운영자: {0}, 제한: {1}</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
+    <system:String x:Key="Deploy">배치</system:String>
+    <system:String x:Key="UseSkill">스킬 사용</system:String>
+    <system:String x:Key="Retreat">철수</system:String>
+    <system:String x:Key="SkillDaemon">자동 진행 시작</system:String>
+    <system:String x:Key="SwitchSpeed">배속 전환</system:String>
+    <system:String x:Key="SkillUsage">스킬 사용법 전환</system:String>
+    <system:String x:Key="BulletTime">슬로우 모션 진입</system:String>
+    <system:String x:Key="Output">설명 출력</system:String>
+    <system:String x:Key="MoveCamera">카메라 이동</system:String>
+    <system:String x:Key="DrawCard">오퍼레이터 배치</system:String>
+    <system:String x:Key="CheckIfStartOver">재시작 여부 확인</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 스테이지입니다. 스테이지 이름을 확인하거나 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 리소스 버전을 업데이트해 보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
