@@ -129,7 +129,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
             const auto relative_path = relative_dir / (utils::get_time_filestem() + "_draw.png");
-            Log.debug(__FUNCTION__, "| Saving image to {}", relative_path);
+            Log.debug(__FUNCTION__, "| Saving image to ", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
             m_need_generate_map = false;
@@ -225,7 +225,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
     }
 
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
-    Log.info(__FUNCTION__, "| found " + std::to_string(match_results.size()) + " nodes");
+    Log.info(__FUNCTION__, "| found ", match_results.size(), " nodes");
 
     // 排序 靠左上优先
     sort_by_vertical_(match_results);
@@ -238,13 +238,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
 
     // 处理每个识别到的节点
     for (const auto& [rect, score, templ_name] : match_results) {
-        Log.debug(
-            __FUNCTION__,
-            "| analyzing node " + templ_name + " at (" + std::to_string(rect.x) + ", " + std::to_string(rect.y) + ")");
+        Log.debug(__FUNCTION__, "| analyzing node ", templ_name, " at (", rect.x, ", ", rect.y, ")");
 
         const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
         if (type == RoguelikeNodeType::Unknown) {
-            Log.warn(__FUNCTION__, "| unknown template: " + templ_name);
+            Log.warn(__FUNCTION__, "| unknown template: ", templ_name);
             continue;
         }
 
@@ -256,15 +254,10 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
         if (idx.has_value()) {
             // 更新节点类型（防止类型不一致）
             m_bosky_map.set_node_type(idx.value(), type);
-            Log.debug(
-                __FUNCTION__,
-                "| updated node " + std::to_string(idx.value()) + " type: " + std::to_string(static_cast<int>(type)));
+            Log.debug(__FUNCTION__, "| updated node (", idx.value(), ") type: (", static_cast<int>(type), ")");
         }
         else {
-            Log.warn(
-                __FUNCTION__,
-                "| failed to create/update node from pixel (" + std::to_string(rect.x) + ", " + std::to_string(rect.y) +
-                    ")");
+            Log.warn(__FUNCTION__, "| failed to create/update node from pixel (", rect.x, ", ", rect.y, ")");
         }
 
 #ifdef ASST_DEBUG
@@ -286,11 +279,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
 #ifdef ASST_DEBUG
     const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
     const auto relative_path = relative_dir / (utils::get_time_filestem() + "_bosky_draw.png");
-    Log.debug(__FUNCTION__, "| Saving bosky map image to {}", relative_path);
+    Log.debug(__FUNCTION__, "| Saving bosky map image to ", relative_path);
     asst::imwrite(relative_path, image_draw);
 #endif
 
-    Log.info(__FUNCTION__, "| map updated with " + std::to_string(m_bosky_map.size()) + " nodes");
+    Log.info(__FUNCTION__, "| map updated with ", m_bosky_map.size(), " nodes");
 }
 
 void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
@@ -320,7 +313,13 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
         if (!nodes_of_type.empty()) {
             chosen = nodes_of_type.front();
             found = true;
-            Log.debug(__FUNCTION__, "| found node of type {} with index {}", static_cast<int>(node_type), chosen);
+            Log.debug(
+                __FUNCTION__,
+                "| found node of type (",
+                static_cast<int>(node_type),
+                ") with index (",
+                chosen,
+                ")");
             break;
         }
     }
@@ -336,10 +335,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
     int gy = m_bosky_map.get_node_y(chosen);
     RoguelikeNodeType node_type = m_bosky_map.get_node_type(chosen);
 
-    Log.info(
-        __FUNCTION__,
-        "| chosen node: " + std::to_string(chosen) + " (" + std::to_string(gx) + ", " + std::to_string(gy) +
-            ") type: " + std::to_string(static_cast<int>(node_type)));
+    Log.info(__FUNCTION__, "| chosen node: ", chosen, " (", gx, ", ", gy, ") type: ", static_cast<int>(node_type));
 
     // 点击节点中心
     auto [px, py] = m_bosky_map.get_node_pixel(
@@ -350,7 +346,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
         m_bosky_config.row_offset);
 
     if (px == -1 || py == -1) {
-        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node {}: ({}, {})", chosen, px, py);
+        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node ", chosen, ": (", px, ", ", py, ")");
         return;
     }
 
@@ -379,7 +375,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
             "JieGarden@Roguelike@RoutingAction-StageEncounterEnter");
         break;
     default:
-        Log.warn(__FUNCTION__, "| unknown node type: " + std::to_string(static_cast<int>(node_type)));
+        Log.warn(__FUNCTION__, "| unknown node type: ", static_cast<int>(node_type));
         break;
     }
 }

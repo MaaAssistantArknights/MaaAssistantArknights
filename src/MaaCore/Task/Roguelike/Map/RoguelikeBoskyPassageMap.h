@@ -18,7 +18,7 @@ public:
     // 创建一个坐标 (x, y) 上的节点（若不存在）。返回其 index。
     // x ∈ [0, WIDTH), y ∈ [0, HEIGHT)
     [[nodiscard]] std::optional<size_t>
-        create_and_insert_node(int x, int y, RoguelikeNodeType type = RoguelikeNodeType::Unknown);
+        create_and_insert_node(int x, int y, RoguelikeNodeType type = RoguelikeNodeType::Unknown, bool is_open = true);
 
     void set_visited(size_t index);
 
@@ -103,15 +103,15 @@ public:
         RoguelikeNodeType type = RoguelikeNodeType::Unknown);
 
     // 中心节点 index
-    static constexpr int CENTER_X = 2;
-    static constexpr int CENTER_Y = 3;
+    static constexpr int CENTER_X = 3;
+    static constexpr int CENTER_Y = 2;
 
     [[nodiscard]] constexpr size_t center_index() const { return static_cast<size_t>(CENTER_Y * WIDTH + CENTER_X); }
 
 private:
     // 固定 5x7 网格；节点总数 ≤ 31
-    static constexpr int WIDTH = 5;
-    static constexpr int HEIGHT = 7;
+    static constexpr int WIDTH = 7;
+    static constexpr int HEIGHT = 5;
     static constexpr size_t MAX_NODES = 31;
 
     struct Node
