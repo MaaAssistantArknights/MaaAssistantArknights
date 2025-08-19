@@ -73,12 +73,7 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name);
-            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}";
-            if (oper.Requirements is not null)
-            {
-                log += GetModuleInfo(oper.Requirements.Module);
-            }
-
+            var log = $"{localizedName} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill} {GetModuleInfo(oper.Requirements)}".Trim();
             output.Add((log, UiLogColor.Message));
         }
 
@@ -86,9 +81,9 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var groupName = group.Name + ": ";
-            var operInfos = group.Opers.Select(oper => oper.Requirements is null
-                ? $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill}"
-                : $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill} {GetModuleInfo(oper.Requirements.Module)}").ToList();
+            var operInfos = group.Opers
+                .Select(oper => $"{DataHelper.GetLocalizedCharacterName(oper.Name)} {oper.Skill} {GetModuleInfo(oper.Requirements)}".Trim())
+                .ToList();
 
             output.Add((groupName + string.Join(" / ", operInfos), UiLogColor.Message));
         }
@@ -97,17 +92,21 @@ public class CopilotModel : CopilotBase
         return output;
     }
 
-    private static string GetModuleInfo(int moduleNumber)
+    private static string GetModuleInfo(Requirements? req)
     {
-        // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
-        return moduleNumber switch
+        if (req is null || req.Module < 0)
         {
-            < 0 => string.Empty, // -1 or any negative value
-            0 => $" {LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 => $" {LocalizationHelper.GetString("CopilotModule")} Χ",
-            2 => $" {LocalizationHelper.GetString("CopilotModule")} Y",
-            3 => $" {LocalizationHelper.GetString("CopilotModule")} α",
-            4 => $" {LocalizationHelper.GetString("CopilotModule")} Δ",
+            return string.Empty;
+        }
+
+        // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组Χ, 2: 模组Y, 3: 模组α, 4: 模组Δ
+        return req.Module switch
+        {
+            0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
+            1 => $"{LocalizationHelper.GetString("CopilotModule")} Χ",
+            2 => $"{LocalizationHelper.GetString("CopilotModule")} Y",
+            3 => $"{LocalizationHelper.GetString("CopilotModule")} α",
+            4 => $"{LocalizationHelper.GetString("CopilotModule")} Δ",
             _ => string.Empty,
         };
     }
