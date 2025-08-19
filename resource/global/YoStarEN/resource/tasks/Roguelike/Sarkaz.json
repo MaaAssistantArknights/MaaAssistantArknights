@@ -80,6 +80,18 @@
             ["Bizarre Fragment", "_SKIP_"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
+        "text": ["_default", "_exit"],
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_exit"],
+            ["Ashforged Ruins", "_exit"],
+            ["Probable Divergence", "_exit"],
+            ["Border of Truth", "_exit"],
+            ["Radiant Zenith", "_exit"],
+            ["Bizarre Fragment", "_exit"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
         "ocrReplace": [
             ["Furnace Origin", "_routing"],

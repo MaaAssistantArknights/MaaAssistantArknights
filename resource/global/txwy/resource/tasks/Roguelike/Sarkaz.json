@@ -66,6 +66,17 @@
             ["詭譎斷章", "_SKIP_"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_exit"],
+            ["灰鑄迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虛實疆界", "_exit"],
+            ["輝光天頂", "_exit"],
+            ["詭譎斷章", "_exit"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode10001": {
         "ocrReplace": [
             ["熔魂之始", "_routing"],

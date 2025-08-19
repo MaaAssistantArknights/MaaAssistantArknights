@@ -11,10 +11,11 @@ RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
     reset();
 }
 
-std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type)
+std::optional<size_t>
+    RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
     if (!in_bounds(x, y)) {
-        Log.warn(__FUNCTION__, "| Coordinates ({}, {}) out of bounds", x, y);
+        Log.warn(__FUNCTION__, "| Coordinates (", x, ", ", y, ") out of bounds");
         return std::nullopt;
     }
 
@@ -23,7 +24,7 @@ std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, in
 
     if (!n.exists) {
         n.exists = true;
-        n.is_open = true;
+        n.is_open = is_open;
         n.visited = false;
         n.type = type;
         ++m_existing_count;
@@ -35,7 +36,7 @@ std::optional<size_t> RoguelikeBoskyPassageMap::create_and_insert_node(int x, in
         return idx;
     }
     else {
-        Log.warn(__FUNCTION__, "| Node already exists at ({}, {})", x, y);
+        Log.warn(__FUNCTION__, "| Node already exists at (", x, ", ", y, ")");
         return std::nullopt;
     }
 }
@@ -147,7 +148,7 @@ std::pair<int, int> RoguelikeBoskyPassageMap::get_node_pixel(
     int row_offset) const
 {
     if (index >= m_nodes.size() || !m_nodes[index].exists) {
-        Log.warn(__FUNCTION__, "| Invalid node index: {}", index);
+        Log.warn(__FUNCTION__, "| Invalid node index: (", index, ")");
         return { -1, -1 };
     }
     const int x = get_node_x(index);
@@ -199,19 +200,23 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     if (config.node_width <= 0 || config.node_height <= 0 || config.column_offset <= 0 || config.row_offset <= 0) {
         Log.warn(
             __FUNCTION__,
-            "| Invalid parameters: node_width={}, node_height={}, column_offset={}, row_offset={}",
+            "| Invalid parameters: node_width=(",
             config.node_width,
+            "), node_height=(",
             config.node_height,
+            "), column_offset=(",
             config.column_offset,
-            config.row_offset);
+            "), row_offset=(",
+            config.row_offset,
+            ")");
         return std::nullopt;
     }
 
     auto [gx, gy] = pixel_to_grid_coords(px, py, config);
-    Log.info(__FUNCTION__, "| analyzing node ({}, {}) -> ({}, {})", px, py, gx, gy);
+    Log.info(__FUNCTION__, "| analyzing node (", px, ", ", py, ") -> (", gx, ", ", gy, ")");
 
     if (!in_bounds(gx, gy)) {
-        Log.warn(__FUNCTION__, "| Grid coordinates ({}, {}) out of bounds", gx, gy);
+        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ", ", gy, ") out of bounds");
         return std::nullopt;
     }
 
@@ -224,6 +229,6 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
         return idx;
     }
     // 节点不存在，创建新节点
-    return create_and_insert_node(gx, gy, type);
+    return create_and_insert_node(gx, gy, type, is_open);
 }
 } // namespace asst
