@@ -828,6 +828,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalOperatorsCount">合計 {0} 名の{key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">拡張式戦術ユニット：</system:String>
     <system:String x:Key="OtherOperators">その他の{key=Operator}：</system:String>
+    <system:String x:Key="Warrior">前衛</system:String>
+    <system:String x:Key="Pioneer">先鋒</system:String>
+    <system:String x:Key="Medic">医療</system:String>
+    <system:String x:Key="Tank">重装</system:String>
+    <system:String x:Key="Sniper">狙撃</system:String>
+    <system:String x:Key="Caster">術師</system:String>
+    <system:String x:Key="Support">補助</system:String>
+    <system:String x:Key="Special">特殊</system:String>
+    <system:String x:Key="Drone">ドローン/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">初期戦術装備（横）：</system:String>
     <system:String x:Key="InitialStrategy">初期戦略：</system:String>
     <!--  Logs  -->
@@ -853,6 +862,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
     <system:String x:Key="NotCopilotJson">攻略ファイルではありません</system:String>
     <system:String x:Key="CheckTheFile">ファイルの内容を確認してください！</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">未対応のタイプ: SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">ステージ名が無効なため、ナビゲートできません</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} が見つからず、ステージ名も指定されていません</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">ステージ名とナビゲート名が一致しません。ナビゲート名を使用します</system:String>
+    <system:String x:Key="CopilotEmptyError">作業が空です</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">バトルリストを使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <!--  !Logs  -->
@@ -947,6 +962,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DeepExplorationCompleted">深部探索全てクリアしました！おめでとうございます！</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">深部探索はまだアンロックされていません</system:String>
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
+    <system:String x:Key="CurrentStage">現在のステージ: {0}</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
     <system:String x:Key="FilterTruth">ステージ: 真実の選別</system:String>
@@ -998,6 +1014,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}を利用不可: {0}、制限: {1}</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
+    <system:String x:Key="Deploy">配置</system:String>
+    <system:String x:Key="UseSkill">スキル使用</system:String>
+    <system:String x:Key="Retreat">撤退</system:String>
+    <system:String x:Key="SkillDaemon">自動進行開始</system:String>
+    <system:String x:Key="SwitchSpeed">倍速切替</system:String>
+    <system:String x:Key="SkillUsage">スキル使用法切替</system:String>
+    <system:String x:Key="BulletTime">バレットタイム突入</system:String>
+    <system:String x:Key="Output">説明内容出力</system:String>
+    <system:String x:Key="MoveCamera">カメラ移動</system:String>
+    <system:String x:Key="DrawCard">オペレーター配分</system:String>
+    <system:String x:Key="CheckIfStartOver">再開確認</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、「{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}」に移動してリソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>

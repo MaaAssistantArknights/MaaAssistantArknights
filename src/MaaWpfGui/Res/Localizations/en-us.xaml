@@ -828,6 +828,15 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="TotalOperatorsCount">Total {0} {key=Operator}(s)</system:String>
     <system:String x:Key="DirectiveECTerm">Directive EC unit:&#160;</system:String>
     <system:String x:Key="OtherOperators">Other {key=Operator}s:&#160;</system:String>
+    <system:String x:Key="Warrior">Guard</system:String>
+    <system:String x:Key="Pioneer">Vanguard</system:String>
+    <system:String x:Key="Medic">Medic</system:String>
+    <system:String x:Key="Tank">Defender</system:String>
+    <system:String x:Key="Sniper">Sniper</system:String>
+    <system:String x:Key="Caster">Caster</system:String>
+    <system:String x:Key="Support">Supporter</system:String>
+    <system:String x:Key="Special">Specialist</system:String>
+    <system:String x:Key="Drone">Drone/Summon</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):&#160;</system:String>
     <system:String x:Key="InitialStrategy">Initial Strategy:&#160;</system:String>
     <!--  Logs  -->
@@ -853,6 +862,12 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
     <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">Unsupported type: SSS</system:String>
+    <system:String x:Key="CopilotInvalidStageNameForNavigation">Invalid stage name for navigation</system:String>
+    <system:String x:Key="CopilotStageNameNotFound">{0} not found, and also no stage name specified</system:String>
+    <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">stageName NOT equal with navigateName, using navigateName</system:String>
+    <system:String x:Key="CopilotEmptyError">copilot is empty</system:String>
+    <system:String x:Key="CopilotTasksWithEmptyName">copilot tasks with empty name</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
     <system:String x:Key="CopilotSingleTaskWarning">A single job is being executed using the Copilot List. It is not recommended. Please run the single job directly.</system:String>
     <!--  !Logs  -->
@@ -947,6 +962,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="DeepExplorationCompleted">Deep Investigation all clear! Congratulations!</system:String>
     <system:String x:Key="DeepExplorationNotUnlockedComplain">Deep Investigation not unlocked yet</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
+    <system:String x:Key="CurrentStage">Current Stage: {0}</system:String>
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>
     <system:String x:Key="FilterTruth">Node: Idea Filter</system:String>
@@ -998,6 +1014,17 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">Oper unavailable: {0}, Restriction: {1}</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
+    <system:String x:Key="Deploy">Deploy</system:String>
+    <system:String x:Key="UseSkill">Use Skill</system:String>
+    <system:String x:Key="Retreat">Retreat</system:String>
+    <system:String x:Key="SkillDaemon">Start Auto</system:String>
+    <system:String x:Key="SwitchSpeed">Switch Speed</system:String>
+    <system:String x:Key="SkillUsage">Switch Skill Usage</system:String>
+    <system:String x:Key="BulletTime">Enter Bullet Time</system:String>
+    <system:String x:Key="Output">Print Description</system:String>
+    <system:String x:Key="MoveCamera">Move Camera</system:String>
+    <system:String x:Key="DrawCard">Deploy Operator</system:String>
+    <system:String x:Key="CheckIfStartOver">Check If Restart</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results:&#160;</system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
