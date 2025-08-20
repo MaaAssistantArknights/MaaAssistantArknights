@@ -834,7 +834,7 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "roi": [346, 560, 684, 66],
-        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"]
+        "next": ["#self", "Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"]
     },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
