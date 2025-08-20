@@ -362,6 +362,8 @@ void asst::BattleFormationTask::report_missing_operators()
             for (const auto& oper : opers_in_group) {
                 json::object json { { "name", oper.name } };
                 switch (oper.status) {
+                case battle::OperStatus::Selected: // 理论上这里就不该进这case
+                    break;
                 case battle::OperStatus::Unchecked:
                     json["reason"] = "Unchecked";
                     opers_array.emplace_back(std::move(json));
