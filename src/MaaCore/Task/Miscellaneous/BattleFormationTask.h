@@ -94,18 +94,22 @@ protected:
     bool enter_selection_page(const cv::Mat& img = cv::Mat());
     // 进入快捷编队清空选择后执行，快速选择非干员组的干员
     void formation_with_last_opers();
-    bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
+    bool add_formation(battle::Role role, std::vector<OperGroup>& oper_group);
     // 追加附加干员（按部署费用等小分类）
     bool add_additional();
     // 补充刷信赖的干员，从最小的开始
     bool add_trust_operators();
+    // 选择当前页中的干员, return 是否继续翻页
     bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
     void swipe_page();
     void swipe_to_the_left(int times = 2);
     bool confirm_selection();
     bool click_role_table(battle::Role role);
     bool select_random_support_unit();
-    void report_missing_operators(std::vector<OperGroup>& groups);
+    void report_missing_operators();
+    // 干员组中有干员已被选中
+    bool has_oper_selected(const std::vector<asst::battle::OperUsage>& opers) const;
+    bool has_unchecked_opers(const std::vector<asst::battle::OperUsage>& opers) const;
 
     std::vector<QuickFormationOper> analyzer_opers(const cv::Mat& image);
 
@@ -114,10 +118,10 @@ protected:
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_user_formation; // 解析后用户自定编队
     int m_size_of_operators_in_formation = 0;                                  // 编队中干员个数
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
-        std::make_shared<std::unordered_map<std::string, std::string>>(); // 编队中的干员名称-所属组名
-    bool m_add_trust = false;                                             // 是否需要追加信赖干员
-    bool m_ignore_requirements = false;                                   // 是否跳过未满足的干员属性要求
-    std::vector<std::pair<std::string, int>> m_user_additional;           // 追加干员表，从头往后加
+        std::make_shared<std::unordered_map<std::string, std::string>>();      // 编队中的干员名称-所属组名
+    bool m_add_trust = false;                                                  // 是否需要追加信赖干员
+    bool m_ignore_requirements = false;                                        // 是否跳过未满足的干员属性要求
+    std::vector<std::pair<std::string, int>> m_user_additional;                // 追加干员表，从头往后加
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;

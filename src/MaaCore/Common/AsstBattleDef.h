@@ -36,21 +36,21 @@ struct OperatorRequirements
 // 干员编队状态
 enum class OperStatus
 {
-    Unchecked,   // 未检查
+    Unchecked,   // 未检查, 默认值; 理论上仅group中有干员选中后, 其余干员才会保留该状态
     Selected,    // 已编入
     Missing,     // 缺失
-    Unavailable, // 不可用
+    Unavailable, // 不可用, 要求不达标
     // Unknown,     // 未知状态
 };
 
 struct OperUsage // 干员用法
 {
     std::string name;
-    int skill = 0;       // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
+    int skill = 0;                                // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
     SkillUsage skill_usage = SkillUsage::NotUse;
-    int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
-    asst::battle::OperatorRequirements requirements = {}; // 练度需求
-    OperStatus status = OperStatus::Unchecked;       // 编队状态
+    int skill_times = 1;                          // 使用技能的次数，默认为 1，兼容曾经的作业
+    battle::OperatorRequirements requirements {}; // 练度需求
+    OperStatus status = OperStatus::Unchecked;    // 编队状态
 };
 
 enum class DeployDirection

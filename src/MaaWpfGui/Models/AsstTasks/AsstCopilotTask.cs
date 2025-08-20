@@ -80,7 +80,7 @@ public class AsstCopilotTask : AsstBaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 信用战斗选择编队
     /// </summary>
-    public int SelectFormation { get; set; }
+    public int FormationIndex { get; set; }
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -94,8 +94,12 @@ public class AsstCopilotTask : AsstBaseTask
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
-            ["select_formation"] = SelectFormation,
         };
+
+        if (FormationIndex > 0)
+        {
+            taskParams["formation_index"] = FormationIndex;
+        }
 
         if (UserAdditionals?.Count > 0)
         {

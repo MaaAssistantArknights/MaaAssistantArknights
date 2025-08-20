@@ -67,15 +67,15 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-    formation_with_last_opers();
-    std::vector<OperGroup> missing_operators;
+    // formation_with_last_opers();
     for (auto& [role, oper_groups] : m_formation) {
         if (oper_groups.empty()) {
             continue; // 干员已编入, 跳过
         }
-        add_formation(role, oper_groups, missing_operators);
+        add_formation(role, oper_groups);
     }
 
+    /*
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
     if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_used_support_unit) {
         // 之后再重构数据结构，先凑合用
@@ -106,10 +106,18 @@ bool asst::BattleFormationTask::_run()
         }
         Log.info(__FUNCTION__, "| Returned to quick formation scene");
     }
+    */
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
-    if (!missing_operators.empty()) {
-        report_missing_operators(missing_operators);
+    bool has_missing = ranges::any_of(m_formation, [](const auto& pair) {
+        return ranges::any_of(pair.second /* role,group */, [](const OperGroup& group) {
+            return !ranges::any_of(group.second, [](const battle::OperUsage& oper) {
+                return oper.status == battle::OperStatus::Selected;
+            });
+        });
+    });
+    if (has_missing) {
+        report_missing_operators();
         return false;
     }
 
@@ -131,7 +139,7 @@ bool asst::BattleFormationTask::_run()
         }
         click_role_table(battle::Role::Unknown);
         for (auto& [role, oper_groups] : m_user_formation) {
-            add_formation(role, oper_groups, missing_operators);
+            add_formation(role, oper_groups);
         }
     }
 
@@ -184,10 +192,7 @@ void asst::BattleFormationTask::formation_with_last_opers()
     }
 }
 
-bool asst::BattleFormationTask::add_formation(
-    battle::Role role,
-    std::vector<OperGroup> oper_group,
-    std::vector<OperGroup>& missing)
+bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup>& oper_group)
 {
     LogTraceFunction;
 
@@ -198,7 +203,10 @@ bool asst::BattleFormationTask::add_formation(
     while (!need_exit()) {
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
-            if (oper_group.empty()) {
+            bool exit = ranges::all_of(oper_group, [&](const OperGroup& group) {
+                return has_oper_selected(group.second) || !has_unchecked_opers(group.second);
+            });
+            if (exit) {
                 break;
             }
             swipe_page();
@@ -215,7 +223,16 @@ bool asst::BattleFormationTask::add_formation(
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                for (auto& group : oper_group) {
+                    if (has_oper_selected(group.second)) {
+                        continue;
+                    }
+                    for (auto& oper : group.second) {
+                        if (oper.status == battle::OperStatus::Unchecked) {
+                            oper.status = battle::OperStatus::Missing;
+                        }
+                    }
+                }
                 return true;
             }
 
@@ -334,23 +351,42 @@ bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>& groups)
+void asst::BattleFormationTask::report_missing_operators()
 {
     auto info = basic_info();
 
-    std::vector<std::vector<std::string>> oper_names;
-    for (auto& group : groups) {
-        std::vector<std::string> names;
-        for (const auto& oper : group.second) {
-            names.push_back(oper.name);
+    std::map<std::string, std::vector<std::string>> oper_names;
+    for (const auto& [_, group] : m_formation) {
+        for (const auto& [name, opers] : group) {
+            if (has_oper_selected(opers)) {
+                continue; // 该干员组中有干员已被选中
+            }
+            std::vector<std::string> names;
+            for (const auto& oper : opers) {
+                if (oper.status == battle::OperStatus::Unavailable || oper.status == battle::OperStatus::Missing) {
+                    names.emplace_back(oper.name);
+                }
+            }
+            oper_names.emplace(name, std::move(names));
         }
-        oper_names.push_back(names);
     }
 
     info["why"] = "OperatorMissing";
 
-    info["details"] = json::object { { "opers", json::array(oper_names) } };
+    info["details"] = json::object { { "opers", json::object(oper_names) } };
     callback(AsstMsg::SubTaskError, info);
+}
+
+bool asst::BattleFormationTask::has_oper_selected(const std::vector<asst::battle::OperUsage>& opers) const
+{
+    return ranges::any_of(opers, [](const battle::OperUsage& op) { return op.status == battle::OperStatus::Selected; });
+}
+
+bool asst::BattleFormationTask::has_unchecked_opers(const std::vector<asst::battle::OperUsage>& opers) const
+{
+    return !has_oper_selected(opers) && ranges::any_of(opers, [](const battle::OperUsage& op) {
+        return op.status == battle::OperStatus::Unchecked;
+    });
 }
 
 std::vector<asst::BattleFormationTask::QuickFormationOper>
@@ -423,7 +459,7 @@ bool asst::BattleFormationTask::enter_selection_page(const cv::Mat& img)
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
 {
-    auto opers_result = analyzer_opers(ctrler()->get_image());
+    const auto& opers_result = analyzer_opers(ctrler()->get_image());
 
     static const std::array<Rect, 3> SkillRectArray = {
         Task.get("BattleQuickFormationSkill1")->specific_rect,
@@ -440,79 +476,81 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
     }
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-    int skill = 0;
-    int module = -1;
+    battle::OperUsage* oper = nullptr;
     bool ret = true;
-    for (const auto& res :
-         opers_result | views::filter([](const QuickFormationOper& oper) { return !oper.is_selected; })) {
-        const std::string& name = res.text;
-        bool found = false;
-        auto iter = groups.begin();
-        for (; iter != groups.end(); ++iter) {
-            for (const auto& oper : iter->second) {
-                if (oper.name == name) {
-                    found = true;
-                    skill = oper.skill;
-                    module = oper.requirements.module;
-
-                    m_opers_in_formation->emplace(name, iter->first);
-                    ++m_size_of_operators_in_formation;
-                    break;
-                }
+    for (const auto& res : opers_result | views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
+        const auto& iter = ranges::find_if(groups, [&](OperGroup& group) {
+            if (has_oper_selected(group.second)) {
+                return false; // 该干员组中有干员已被选中
             }
-            if (found) {
-                break;
+            if (ranges::all_of(group.second, [&](const battle::OperUsage& op) {
+                    return op.status == battle::OperStatus::Unavailable || op.status == battle::OperStatus::Missing;
+                })) {
+                return false; // 该干员组所有干员均不可用
             }
-        }
+            auto it = ranges::find_if(group.second, [&](const battle::OperUsage& op) {
+                return op.name == res.text && op.status != battle::OperStatus::Unavailable;
+            });
+            if (it != group.second.cend()) {
+                oper = &(*it);
+                return true; // 找到干员
+            }
+            return false;
+        });
 
         if (iter == groups.end()) {
             continue;
         }
+        else if (!oper) {
+            Log.error(__FUNCTION__, "| Oper was founded, but pointer is null");
+        }
 
+        ++m_size_of_operators_in_formation;
         ctrler()->click(res.flag_rect);
         sleep(delay);
-        if (1 <= skill && skill <= 3) {
-            if (skill == 3) {
+        if (1 <= oper->skill && oper->skill <= 3) {
+            if (oper->skill == 3) {
                 ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
             }
-            ctrler()->click(SkillRectArray.at(skill - 1ULL));
+            ctrler()->click(SkillRectArray.at(oper->skill - 1ULL));
             sleep(delay);
         }
-        if (module >= 0 && module <= 4) {
+        if (oper->requirements.module >= 0 && oper->requirements.module <= 4) {
             ret = ProcessTask(*this, { "BattleQuickFormationModulePage" }).run();
-            ret = ret && ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(module) }).run();
+            ret =
+                ret &&
+                ProcessTask(*this, { "BattleQuickFormationModule-" + std::to_string(oper->requirements.module) }).run();
             if (!ret) {
-                LogWarn << __FUNCTION__ << "| Module " << std::to_string(module)
+                LogWarn << __FUNCTION__ << "| Module " << oper->requirements.module
                         << "not found, please check the module number";
 
                 json::value info = basic_info_with_what("BattleFormationOperUnavailable");
-                info["details"]["oper_name"] = name;
+                info["details"]["oper_name"] = res.text;
                 info["details"]["requirement_type"] = "module";
                 callback(AsstMsg::SubTaskExtraInfo, info);
                 if (m_ignore_requirements) {
                     // 模组不满足时选择默认模组
-                    LogInfo << __FUNCTION__ << "| Module " << std::to_string(module)
+                    LogInfo << __FUNCTION__ << "| Module " << oper->requirements.module
                             << " not satisfied, skip module selection";
                 }
                 else {
-                    m_opers_in_formation->erase(name);
-                    m_size_of_operators_in_formation--;
                     ctrler()->click(res.flag_rect); // 选择模组失败时反选干员
                     sleep(delay);
                     // 继续检查同组其他干员
+                    oper->status = battle::OperStatus::Unavailable;
                     continue;
                 }
             }
             sleep(delay);
         }
-        auto group_name = iter->first;
-        groups.erase(iter);
-
+        oper->status = battle::OperStatus::Selected;
+        m_opers_in_formation->emplace(res.text, iter->first);
         json::value info = basic_info_with_what("BattleFormationSelected");
         auto& details = info["details"];
-        details["selected"] = name;
-        details["group_name"] = std::move(group_name);
+        details["selected"] = res.text;
+        details["group_name"] = iter->first;
         callback(AsstMsg::SubTaskExtraInfo, info);
+        oper = nullptr; // reset oper pointer
     }
 
     return true;
