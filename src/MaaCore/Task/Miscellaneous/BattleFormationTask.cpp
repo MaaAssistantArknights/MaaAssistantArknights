@@ -68,7 +68,7 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
     formation_with_last_opers();
-    for (const auto& [role, oper_groups] : m_formation) {
+    for (auto& [role, oper_groups] : m_formation) {
         bool need_check =
             ranges::any_of(oper_groups, [&](const OperGroup& group) { return has_oper_unchecked(group.second); });
         if (!need_check) {
@@ -130,7 +130,7 @@ bool asst::BattleFormationTask::_run()
     // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
     if (!m_user_additional.empty()) {
         std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
-        auto limit = 12 - m_opers_in_formation->size();
+        auto limit = 12 - (int)m_opers_in_formation->size();
         for (const auto& [name, skill] : m_user_additional) {
             if (m_opers_in_formation->contains(name)) {
                 continue;
@@ -145,7 +145,7 @@ bool asst::BattleFormationTask::_run()
             user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
         }
         click_role_table(battle::Role::Unknown);
-        for (const auto& [role, oper_groups] : user_formation) {
+        for (auto& [role, oper_groups] : user_formation) {
             std::vector<OperGroup*> groups;
             for (auto& oper_group : oper_groups) {
                 if (has_oper_unchecked(oper_group.second)) {
@@ -175,8 +175,8 @@ bool asst::BattleFormationTask::_run()
 void asst::BattleFormationTask::formation_with_last_opers()
 {
     std::vector<OperGroup*> opers;
-    for (const auto& [role, oper_groups] : m_formation) {
-        for (const auto& oper_group : oper_groups) {
+    for (auto& [role, oper_groups] : m_formation) {
+        for (auto& oper_group : oper_groups) {
             if (oper_group.second.size() != 1) {
                 continue;
             }
@@ -220,7 +220,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                for (auto group : oper_group) {
+                for (auto& group : oper_group) {
                     if (has_oper_selected(group->second)) {
                         continue;
                     }
@@ -298,7 +298,7 @@ bool asst::BattleFormationTask::add_trust_operators()
     }
 
     // 需要追加的信赖干员数量
-    int append_count = 12 - m_opers_in_formation->size();
+    int append_count = 12 - (int)m_opers_in_formation->size();
     if (append_count == 0) {
         return true;
     }
@@ -352,19 +352,31 @@ void asst::BattleFormationTask::report_missing_operators()
 {
     auto info = basic_info();
 
-    std::map<std::string, std::vector<std::string>> oper_names;
-    for (const auto& [_, group] : m_formation) {
-        for (const auto& [name, opers] : group) {
-            if (has_oper_selected(opers)) {
+    std::map<std::string, json::array> oper_names;
+    for (const auto& [_, groups] : m_formation) {
+        for (const auto& [name, opers_in_group] : groups) {
+            if (has_oper_selected(opers_in_group)) {
                 continue; // 该干员组中有干员已被选中
             }
-            std::vector<std::string> names;
-            for (const auto& oper : opers) {
-                if (oper.status == battle::OperStatus::Unavailable || oper.status == battle::OperStatus::Missing) {
-                    names.emplace_back(oper.name);
+            json::array opers_array;
+            for (const auto& oper : opers_in_group) {
+                json::object json { { "name", oper.name } };
+                switch (oper.status) {
+                case battle::OperStatus::Unchecked:
+                    json["reason"] = "Unchecked";
+                    opers_array.emplace_back(std::move(json));
+                    break;
+                case battle::OperStatus::Unavailable:
+                    json["reason"] = "Unavailable";
+                    opers_array.emplace_back(std::move(json));
+                    break;
+                case battle::OperStatus::Missing:
+                    json["reason"] = "Missing";
+                    opers_array.emplace_back(std::move(json));
+                    break;
                 }
             }
-            oper_names.emplace(name, std::move(names));
+            oper_names.emplace(name, std::move(opers_array));
         }
     }
 
