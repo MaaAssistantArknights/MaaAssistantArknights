@@ -565,7 +565,12 @@
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
         "baseTask": "Sami@Roguelike@NextLevel",
-        "next": ["Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@ExitThenAbandon"]
+        "next": ["#self", "Sami@Roguelike@ExitThenAbandon"]
+    },
+    "Sami@Roguelike@FoldartalGainNextLevelThenExit": {
+        "Doc": "点进下一层后执行退出",
+        "baseTask": "Sami@Roguelike@FoldartalGainNextLevel",
+        "next": ["#self", "Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@RecruitMain": {
         "template": "Sami@Roguelike@Recruit.png"
@@ -809,7 +814,7 @@
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "postDelay": 1000,
-        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@FoldartalGainNextLevelThenExit"]
     },
     "Sami@Roguelike@StageTraderRefresh": {
         "template": "Roguelike@StageTraderRefresh.png",
@@ -857,7 +862,7 @@
     },
     "Sami@Roguelike@StageVerticalConfirm": {
         "next": ["#back"],
-        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"]
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@FoldartalGainNextLevelThenExit"]
     },
     "Sami@Roguelike@StageVerticalConfirmBoons": {
         "template": "Sami@Roguelike@StageVerticalConfirm.png",
