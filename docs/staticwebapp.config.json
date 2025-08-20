@@ -1,7 +1,7 @@
 {
     "responseOverrides": {
         "404": {
-            "rewrite": "/docs/404.html"
+            "rewrite": "/404.html"
         }
     },
     "routes": [
