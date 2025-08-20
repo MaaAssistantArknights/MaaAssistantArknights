@@ -1044,7 +1044,7 @@
         "Doc": "肉鸽开始探索时, 招募第一个干员用, base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [80, 470, 410, 154],
+        "roi": [80, 470, 540, 154],
         "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide", "#self"],
         "postDelay": 1000
     },
