@@ -24,9 +24,6 @@ export default defineThemeConfig({
 
 
   locales: {
-    "/": {
-      footer: false,
-    },
     "/zh-cn/": {
       navbar: zhcnNavbar,
       notes: zhcnNotes,
