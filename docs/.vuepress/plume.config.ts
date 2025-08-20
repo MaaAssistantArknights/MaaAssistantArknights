@@ -24,25 +24,33 @@ export default defineThemeConfig({
 
 
   locales: {
+    "/": {
+      footer: false,
+    },
     "/zh-cn/": {
       navbar: zhcnNavbar,
       notes: zhcnNotes,
+      footer: false,
     },
     "/zh-tw/": {
       navbar: zhtwNavbar,
       notes: zhtwNotes,
+      footer: false,
     },
     "/en-us/": {
       navbar: enusNavbar,
       notes: enusNotes,
+      footer: false,
     },
     "/ja-jp/": {
       navbar: jajpNavbar,
       notes: jajpNotes,
+      footer: false,
     },
     "/ko-kr/": {
       navbar: kokrNavbar,
       notes: kokrNotes,
+      footer: false,
     },
   },
 
@@ -65,7 +73,7 @@ export default defineThemeConfig({
   //  tasklist: true,
   //  vPre: true,
   //  component: true,
-//
+  //
   //  highlighter: {
   //    'type': 'shiki',
   //    themes: {
@@ -77,7 +85,7 @@ export default defineThemeConfig({
 
   //plugins: {
   //  activeHeaderLinks: false,
-//
+  //
   //  comment: {
   //    provider: "Giscus",
   //    repo: "MaaAssistantArknights/maa-website",
@@ -87,14 +95,14 @@ export default defineThemeConfig({
   //    mapping: "pathname",
   //    strict: true,
   //  },
-//
+  //
   //  icon: {
   //    assets: "iconify",
   //  },
-//
+  //
   //  sitemap: true,
   //  seo: true,
-//
+  //
   //  notice: [
   //    {
   //      path: "/zh-tw/",
