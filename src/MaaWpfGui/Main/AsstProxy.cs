@@ -1254,22 +1254,37 @@ namespace MaaWpfGui.Main
                         var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
                         if (why == "OperatorMissing")
                         {
-                            var missingOpers = details["details"]?["opers"]?.ToObject<List<List<string>>>();
-                            if (missingOpers is not null)
+                            var missingOpers = details["details"]?["opers"]?.ToObject<Dictionary<string, JArray>>();
+                            if (missingOpers is not null && missingOpers.Count > 0)
                             {
-                                var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers =>
-                                    string.Join(", ", opers.Select(oper => DataHelper.GetLocalizedCharacterName(oper))))) + "]";
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + missingOpersStr, UiLogColor.Error);
+                                var str = new StringBuilder();
+                                str.AppendLine();
+                                foreach (var (groupName, opers) in missingOpers)
+                                {
+                                    if (opers.Count == 1)
+                                    {
+                                        str.AppendLine($"{groupName}");
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        var operList = opers.Cast<dynamic>().ToList(); // 确保 opers 是动态类型
+                                        str.AppendLine($"{groupName}=> {string.Join(" / ", operList.Select(i => i.name).ToList())}");
+                                    }
+                                }
+
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd('\n'), UiLogColor.Error);
                             }
                             else
                             {
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators"), UiLogColor.Error);
                             }
 
+                            /*
                             if (missingOpers is not null && missingOpers.Count >= 2)
                             {
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Irreplaceable);
-                            }
+                            }*/
                         }
 
                         break;

@@ -285,14 +285,14 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = "4", Value = 4 },
         ];
 
-        private int _selectFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 0);
+        private int _formationIndex = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
 
         public int SelectFormation
         {
-            get => _selectFormation;
+            get => _formationIndex;
             set
             {
-                SetAndNotify(ref _selectFormation, value);
+                SetAndNotify(ref _formationIndex, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
             }
         }
@@ -1241,7 +1241,7 @@ namespace MaaWpfGui.ViewModels.UI
                          IsRaid = model.IsRaid,
                          LoopTimes = Loop ? LoopTimes : 1,
                          UseSanityPotion = _useSanityPotion,
-                         SelectFormation = _selectFormation,
+                         FormationIndex = _formationIndex,
                      };
                      var (type, param) = task.Serialize();
                      return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
@@ -1283,7 +1283,7 @@ namespace MaaWpfGui.ViewModels.UI
                     NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
-                    SelectFormation = UseFormation ? _selectFormation : 0,
+                    FormationIndex = UseFormation ? _formationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret &= Instances.AsstProxy.AsstStart();

@@ -74,15 +74,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
     std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
     bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
-    if (params.contains("is_adverse")) {
+    bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
+    bool with_formation = params.get("formation", false);                   // 是否使用自动编队
+    int formation_index = params.get("formation_index", 0);                 // 选择第几个编队，0为不选择
+    if (!params.contains("formation_index") && params.contains("select_formation")) {
         Log.warn("================  DEPRECATED  ================");
-        Log.warn("`is_adverse` has been deprecated since v5.0.0-beta.3; Please use 'is_raid'");
+        Log.warn("`select_formation` has been deprecated since v5.23.3; Please use 'select_formation'");
         Log.warn("================  DEPRECATED  ================");
-        return false;
+        formation_index = params.get("select_formation", 0);
     }
-    bool use_sanity_potion = params.get("use_sanity_potion", false);                 // 是否吃理智药
-    bool with_formation = params.get("formation", false);                            // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);                        // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                                 // 是否自动补信赖
     bool ignore_requirements = params.get("ignore_requirements", false);             // 跳过未满足的干员属性要求
     bool add_user_additional = params.contains("user_additional");                   // 是否自动补用户自定义干员
@@ -146,7 +146,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_medicine_task_ptr->set_enable(use_sanity_potion);
 
     m_formation_task_ptr->set_enable(with_formation);
-    m_formation_task_ptr->set_select_formation(select_formation);
+    m_formation_task_ptr->set_select_formation(formation_index);
     m_formation_task_ptr->set_add_trust(add_trust);
     m_formation_task_ptr->set_ignore_requirements(ignore_requirements);
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
