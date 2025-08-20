@@ -953,8 +953,6 @@
     <ClInclude Include="Controller\LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" />
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
     <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -1481,7 +1479,6 @@
     <ClCompile Include="Controller\LDExtras.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" />
     <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
