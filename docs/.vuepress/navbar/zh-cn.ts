@@ -1,6 +1,6 @@
-import { navbar } from "vuepress-theme-hope";
+import { defineNavbarConfig } from "vuepress-theme-plume";
 
-export const zhcnNavbar = navbar([
+export const zhcnNavbar = defineNavbarConfig([
   {
     text: "主页",
     icon: "ic:round-home",
@@ -20,10 +20,5 @@ export const zhcnNavbar = navbar([
     text: "协议文档",
     icon: "basil:document-solid",
     link: "/zh-cn/protocol/",
-  },
-  {
-    text: "MAA 官网",
-    icon: "mdi:cow",
-    link: "https://maa.plus",
   },
 ]);
