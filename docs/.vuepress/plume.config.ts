@@ -46,6 +46,8 @@ export default defineThemeConfig({
     },
   },
 
+  autoFrontmatter: false,
+
   //markdown: {
   //  align: true,
   //  codeTabs: true,
