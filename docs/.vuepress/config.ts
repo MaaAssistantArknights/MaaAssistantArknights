@@ -16,23 +16,23 @@ export default defineUserConfig({
 
   locales: {
     "/zh-cn/": {
-      lang: "zh-cn",
+      lang: "zh-CN",
       description: "文档",
     },
     "/zh-tw/": {
-      lang: "zh-tw",
+      lang: "zh-TW",
       description: "文件",
     },
     "/en-us/": {
-      lang: "en-us",
+      lang: "en-US",
       description: "Documentation",
     },
     "/ja-jp/": {
-      lang: "ja-jp",
+      lang: "ja-JP",
       description: "ドキュメンテーション",
     },
     "/ko-kr/": {
-      lang: "ko-kr",
+      lang: "ko-KR",
       description: "선적 서류 비치",
     },
   },
