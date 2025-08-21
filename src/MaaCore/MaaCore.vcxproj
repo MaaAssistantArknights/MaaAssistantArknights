@@ -223,6 +223,7 @@
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
     <ClInclude Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.h" />
     <ClInclude Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.h" />
+    <ClInclude Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.h" />
     <ClInclude Include="Config\TaskData.h" />
     <ClInclude Include="Config\TemplResource.h" />
     <ClInclude Include="Status.h" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.h" />
     <ClInclude Include="Utils\Demangle.hpp" />
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
@@ -419,6 +421,7 @@
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp" />
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.cpp" />
     <ClCompile Include="Config\TaskData.cpp" />
     <ClCompile Include="Config\TemplResource.cpp" />
     <ClCompile Include="Status.cpp" />
@@ -472,6 +475,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.cpp" />
     <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
