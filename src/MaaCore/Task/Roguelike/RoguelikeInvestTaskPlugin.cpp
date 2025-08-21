@@ -80,12 +80,15 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         if (is_investment_available(image)) {          // 检查是否处于可投资状态
             const auto& wallet_ = get_wallet(image);   // 获取当前钱包余额
             const auto& deposit_ = get_deposit(image); // 获取当前存款
-            if (wallet_ && *wallet_ == 0) {            // 手头没钱了
+            if (!wallet_) {
+                Log.error(__FUNCTION__, "无法获取钱包余额");
+            }
+            if (wallet_ && *wallet_ == 0) { // 手头没钱了
                 Log.info(__FUNCTION__, "手头没钱了, 退出投资");
                 settlement(image);
                 break;
             }
-            else if (!deposit_ || *deposit_ < 0 || *deposit_ > 999) {
+            else if (!deposit_ || *deposit_ < 0 || *deposit_ > 999 || deposit.value_or(-1) == *deposit_) {
                 Log.warn(__FUNCTION__, "存款异常, 重试:", ++retry);
             }
             else if (deposit_) {
