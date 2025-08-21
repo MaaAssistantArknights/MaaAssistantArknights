@@ -49,9 +49,11 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
 
     if (details.get("details", "task", "").ends_with("Roguelike@CoppersTakeFlag")) {
         m_run_mode = CoppersTaskRunMode::SWITCH;
+        Log.info(__FUNCTION__, "| plugin activated for SWITCH mode");
     }
     else if (details.get("details", "task", "").ends_with("Roguelike@GetDropSwitch")) {
         m_run_mode = CoppersTaskRunMode::CHOOSE;
+        Log.info(__FUNCTION__, "| plugin activated for CHOOSE mode");
     }
     else {
         return false;
@@ -121,6 +123,17 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
                 return a.first.pickup_priority < b.first.pickup_priority;
             });
 
+        if (max_pickup_it == m_pending_copper.end()) {
+            Log.error(__FUNCTION__, "| no valid copper found for pickup");
+            return false;
+        }
+
+        Log.info(
+            __FUNCTION__,
+            "| selecting copper: ",
+            max_pickup_it->first.name,
+            " with priority: ",
+            max_pickup_it->first.pickup_priority);
         ctrler()->click(max_pickup_it->second);
     } break;
 
@@ -188,12 +201,12 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
                 }
             }
 
-            if (col != 0) {
+            if (col != 0 && col != m_col) {
                 slowly_swipe_to_the_right_of_copperlist(1);
             }
         }
 
-        swipe_to_the_left_of_copperlist(m_col + 2);
+        swipe_to_the_left_of_copperlist(m_col);
 
         // 寻找 m_copper_list 中 discard_priority 最大的
         auto max_discard_it = std::max_element(
@@ -201,17 +214,33 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
             m_copper_list.end(),
             [](const RoguelikeCopper& a, const RoguelikeCopper& b) { return a.discard_priority < b.discard_priority; });
 
+        if (max_discard_it == m_copper_list.end()) {
+            Log.error(__FUNCTION__, "| no coppers found in the list for comparison");
+            return false;
+        }
+
         if (max_discard_it->discard_priority < m_new_copper.discard_priority) { // 盒里最差的通宝都比新捡的好
-            Log.info(__FUNCTION__, "| new copper is worse than all existing coppers, skipping");
+            Log.info(
+                __FUNCTION__,
+                "| new copper (",
+                m_new_copper.name,
+                ") is worse than all existing coppers, skipping exchange");
+            // 不进行交换，设置为放弃交换的流程
+            Log.info(__FUNCTION__, "| set baseTask to abandon exchange");
+            ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonSwitch" }).run();
+
             return true;
         }
 
+        Log.info(__FUNCTION__, "| exchanging copper: ", max_discard_it->name, " -> ", m_new_copper.name);
         swipe_to_the_right_of_copperlist(max_discard_it->col - 1);
 
         Point click_point(m_origin_x, m_origin_y + (max_discard_it->index - 1) * m_row_offset);
         ctrler()->click(click_point);
 
-        Task.set_task_base("JieGarden@Roguelike@CoppersAbandonSwitch", "JieGarden@Roguelike@CoppersTakeConfirm");
+        // 完成交换操作后，设置为确认交换的流程
+        Log.info(__FUNCTION__, "| set baseTask to confirm exchange");
+        ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
     } break;
     }
 
