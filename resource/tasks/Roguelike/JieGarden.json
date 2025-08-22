@@ -200,12 +200,11 @@
         ]
     },
     "JieGarden@Roguelike@CoppersSwitchFinishFlag": {
-        "Doc": "没想到最后真用假山作为判别标志了 不过准确度不高，基本在0.79左右",
         "action": "ClickSelf",
-        "template": "JieGarden@Roguelike@CoppersSwitchFinishFlag.png",
+        "algorithm": "OcrDetect",
+        "text": ["交换"],
         "preDelay": 1000,
-        "templThreshold": 0.75,
-        "roi": [761, 434, 376, 253]
+        "roi": [575, 558, 127, 50]
     },
     "JieGarden@Roguelike@CoppersTypeAnalyzer": {
         "template": [
