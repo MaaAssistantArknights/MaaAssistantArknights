@@ -31,7 +31,7 @@ struct RoguelikeCopper
     CopperRarity rarity;
     CopperType type;
     int pickup_priority = 0;     // 拾取优先级
-    int discard_priority = 2000; // 丢弃优先级
+    int discard_priority = 1000; // 丢弃优先级
 
     int col = 0;
     int index = 0;
