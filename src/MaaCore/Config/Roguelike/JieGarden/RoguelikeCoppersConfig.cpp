@@ -17,16 +17,16 @@ asst::RoguelikeCopper::RoguelikeCopper(
 {
     LogTraceFunction;
 
-    // 从 m_coppers 中查找并设置优先级
     const auto& all_coppers = RoguelikeCoppers.get_coppers(theme);
 
     if (auto it = ranges::find_if(
             all_coppers,
             [&](const RoguelikeCopper& copper) {
-                // 返回 copper.name 是否是 name 的字串
+                // 返回 copper.name 是否是 name 的子串
                 return name.find(copper.name) != std::string::npos;
             });
         it != all_coppers.end()) {
+        name = it->name;
         rarity = it->rarity;
         type = it->type;
         pickup_priority = it->pickup_priority;
@@ -65,7 +65,7 @@ bool asst::RoguelikeCoppersConfig::parse(const json::value& json)
         if (name.starts_with("厉-")) {
             type = CopperType::Li;
         }
-        else if (name.starts_with("花-") == 0) {
+        else if (name.starts_with("花-")) {
             type = CopperType::Hua;
         }
 

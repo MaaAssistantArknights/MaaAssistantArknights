@@ -1,4 +1,3 @@
-
 #include "RoguelikeCoppersTaskPlugin.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Config/TaskData.h"
