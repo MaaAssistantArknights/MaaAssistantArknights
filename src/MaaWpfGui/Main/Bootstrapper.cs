@@ -81,7 +81,7 @@ namespace MaaWpfGui.Main
             try
             {
                 // 属于 MAA 的 DLL 列表
-                // 因为经常有人把 MAA 和别的东西解压到一起然后发生 DLL 劫持报错，遂检测
+                // 因为经常有人把 MAA 和别的东西解压到一起然后发生 DLL 劫持然后报错，遂检测
                 var maaDlls = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 {
                     "DirectML.dll",
@@ -238,10 +238,10 @@ namespace MaaWpfGui.Main
 
             if (UnknownDLLDetected())
             {
-                var ret = MessageBox.Show(LocalizationHelper.GetString("UnknownDLLDetected"), "MAA", MessageBoxButton.OKCancel);
+                var ret = MessageBox.Show(LocalizationHelper.GetString("UnknownDLLDetected"), "MAA", MessageBoxButton.OK, MessageBoxImage.Error);
                 if (ret == MessageBoxResult.OK)
                 {
-                    _logger.Warning("Unknown DLL was detected.");
+                    _logger.Fatal("Unknown DLL was detected.");
                 }
 
                 Shutdown();
