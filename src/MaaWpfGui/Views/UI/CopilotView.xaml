@@ -42,11 +42,17 @@
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 Orientation="Vertical">
-                <controls:TextBlock
-                    Margin="10,0"
-                    Block.TextAlignment="Center"
-                    Text="{DynamicResource CopilotLocation}" />
-                <Grid Width="300" Margin="10">
+                <TabControl
+                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+                    BorderThickness="0"
+                    SelectedIndex="{Binding ActiveTabIndex}"
+                    Style="{StaticResource TabControlSliding}">
+                    <TabItem Header="主线/故事集/SS" />
+                    <TabItem Header="保全派驻" />
+                    <TabItem Header="悖论模拟" />
+                    <TabItem Header="其他活动" />
+                </TabControl>
+                <Grid Width="300" Margin="10,0,10,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
@@ -56,6 +62,7 @@
                         Grid.Column="0"
                         Height="30"
                         hc:BorderElement.CornerRadius="4,0,0,4"
+                        hc:InfoElement.Placeholder="{DynamicResource CopilotLocation}"
                         DropDownOpened="{s:Action OnDropDownOpened}"
                         IsEditable="True"
                         IsReadOnly="{c:Binding Path=!Idle}"
@@ -101,7 +108,7 @@
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 IsEnabled="{Binding Idle}">
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Setter Property="Orientation" Value="Vertical" />
@@ -116,7 +123,10 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Visibility="{c:Binding 'ActiveTabIndex == 0 or ActiveTabIndex == 3'}">
                         <StackPanel
                             Margin="2.5,5"
                             HorizontalAlignment="Center"
@@ -148,7 +158,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding Form}">
+                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'Form and (ActiveTabIndex == 0 or ActiveTabIndex == 3)'}">
                         <CheckBox
                             Margin="2.5,5"
                             HorizontalAlignment="Center"
@@ -175,10 +185,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
-                                <CheckBox
-                                    Margin="2.5,5"
-                                    Content="{DynamicResource AddUserAdditional}"
-                                    IsChecked="{Binding AddUserAdditional}" />
+                                <CheckBox Content="{DynamicResource AddUserAdditional}" IsChecked="{Binding AddUserAdditional}" />
                                 <TextBox
                                     Height="20"
                                     MinWidth="100"
@@ -186,9 +193,8 @@
                                     Margin="2.5,-10"
                                     VerticalContentAlignment="Center"
                                     Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
-                                    ToolTip="{DynamicResource AddUserAdditionalTip}"
-                                    ToolTipService.InitialShowDelay="0"
                                     Visibility="{c:Binding AddUserAdditional}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" Visibility="{c:Binding AddUserAdditional}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -197,7 +203,8 @@
                         <StackPanel
                             Margin="2.5,5"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding 'ActiveTabIndex == 0 or ActiveTabIndex == 2'}">
                             <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
@@ -205,7 +212,7 @@
                             Margin="2.5,5"
                             Content="{DynamicResource UseSanityPotion}"
                             IsChecked="{Binding UseSanityPotion}"
-                            Visibility="{c:Binding UseCopilotList}" />
+                            Visibility="{c:Binding 'UseCopilotList and ActiveTabIndex == 0'}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel
@@ -213,13 +220,14 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding !UseCopilotList}">
+                    Visibility="{c:Binding '!UseCopilotList and ActiveTabIndex != 2'}">
                     <CheckBox
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource LoopTimes}"
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
-                        Margin="5,0,0,0"
+                        Margin="5,-10,0,-10"
+                        Height="20"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
@@ -231,10 +239,9 @@
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding UseCopilotList}">
+                    Visibility="Collapsed">
                     <CheckBox
                         Height="30"
-                        Margin="10,0"
                         HorizontalAlignment="Center"
                         Content="{DynamicResource ParadoxMode}"
                         IsChecked="{Binding ParadoxMode}"
@@ -247,7 +254,7 @@
                 Grid.Row="2"
                 Width="200"
                 Margin="0,7,0,0"
-                Visibility="{c:Binding UseCopilotList}">
+                Visibility="{c:Binding 'UseCopilotList and (ActiveTabIndex == 0 or ActiveTabIndex == 2)'}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
