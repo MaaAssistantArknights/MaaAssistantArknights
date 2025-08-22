@@ -144,7 +144,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         sleep(300);
     }
 
-    sleep(500);
+    sleep(1500);
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     image = ctrler()->get_image();
