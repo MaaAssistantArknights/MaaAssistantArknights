@@ -47,10 +47,10 @@
                     BorderThickness="0"
                     SelectedIndex="{Binding ActiveTabIndex}"
                     Style="{StaticResource TabControlSliding}">
-                    <TabItem Header="主线/故事集/SS" />
-                    <TabItem Header="保全派驻" />
-                    <TabItem Header="悖论模拟" />
-                    <TabItem Header="其他活动" />
+                    <TabItem Header="{DynamicResource MainStageStoryCollectionSideStory}" />
+                    <TabItem Header="{DynamicResource SSS}" />
+                    <TabItem Header="{DynamicResource ParadoxSimulation}" />
+                    <TabItem Header="{DynamicResource OtherActivityStage}" />
                 </TabControl>
                 <Grid Width="300" Margin="10,0,10,10">
                     <Grid.ColumnDefinitions>
@@ -226,27 +226,14 @@
                         Content="{DynamicResource LoopTimes}"
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
-                        Margin="5,-10,0,-10"
                         Height="20"
+                        Margin="5,-10,0,-10"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         Maximum="9999"
                         Minimum="0"
                         Value="{Binding LoopTimes}" />
-                </StackPanel>
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}"
-                    Orientation="Horizontal"
-                    Visibility="Collapsed">
-                    <CheckBox
-                        Height="30"
-                        HorizontalAlignment="Center"
-                        Content="{DynamicResource ParadoxMode}"
-                        IsChecked="{Binding ParadoxMode}"
-                        IsEnabled="{Binding Idle}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource ParadoxModeTip}" />
                 </StackPanel>
             </StackPanel>
 

@@ -366,16 +366,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _paradox_mode;
-
         /// <summary>
-        /// Gets or sets a value indicating whether 启用悖论模拟模式.
+        /// Gets a value indicating whether 启用悖论模拟模式.
         /// </summary>
-        public bool ParadoxMode
-        {
-            get => _paradox_mode;
-            set => SetAndNotify(ref _paradox_mode, value);
-        }
+        public bool ParadoxMode => ActiveTabIndex == 2 && UseCopilotList;
 
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
