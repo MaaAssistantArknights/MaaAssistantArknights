@@ -45,6 +45,8 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    update_cost_regeneration(ctrler()->get_image());
+
     to_group();
 
     size_t action_size = get_combat_data().actions.size();
@@ -300,12 +302,12 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
     };
 
     json::value info = basic_info_with_what("CopilotAction");
-    info["details"] |= json::object {
-        { "action", ActionNames.at(action.type) },
-        { "target", action.name },
-        { "doc", action.doc },
-        { "doc_color", action.doc_color },
-    };
+    info["details"] |= json::object { { "action", ActionNames.at(action.type) },
+                                      { "target", action.name },
+                                      { "doc", action.doc },
+                                      { "doc_color", action.doc_color },
+                                      { "cost_regenerated", m_cost_regenerated },
+                                      { "cost_regeneration", m_cost_regeneration } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
@@ -317,6 +319,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             image_prev = cv::Mat();
             image = ctrler()->get_image();
             check_in_battle(image);
+            update_cost_regeneration(image);
         }
     };
     auto do_strategy_and_update_image = [&]() {
@@ -384,6 +387,17 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             size_t cooling_count =
                 ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == static_cast<size_t>(action.cooling)) {
+                break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regenerated > 0 || action.cost_regeneration > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regenerated > action.cost_regenerated ||
+                (m_cost_regenerated == action.cost_regenerated && m_cost_regeneration >= action.cost_regeneration)) {
                 break;
             }
             do_strategy_and_update_image();

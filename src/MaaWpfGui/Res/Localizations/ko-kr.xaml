@@ -1013,6 +1013,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용할 수 없는 운영자: {0}, 제한: {1}</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
+    <system:String x:Key="CostRegeneration">当前费用回复: {0} ({1}/120)</system:String>
     <system:String x:Key="Deploy">배치</system:String>
     <system:String x:Key="UseSkill">스킬 사용</system:String>
     <system:String x:Key="Retreat">철수</system:String>

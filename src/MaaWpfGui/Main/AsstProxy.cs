@@ -1776,6 +1776,16 @@ namespace MaaWpfGui.Main
 
                 case "CopilotAction":
                     {
+                        var cost_regenerated = subTaskDetails!["cost_regenerated"]?.ToString();
+                        var cost_regeneration = subTaskDetails!["cost_regeneration"]?.ToString();
+                        Instances.CopilotViewModel.AddLog(
+                            string.Format(
+                                LocalizationHelper.GetString("CostRegeneration"),
+                                cost_regenerated,
+                                cost_regeneration
+                            ),
+                            UiLogColor.Message);
+
                         var doc = subTaskDetails!["doc"]?.ToString();
                         if (!string.IsNullOrEmpty(doc))
                         {

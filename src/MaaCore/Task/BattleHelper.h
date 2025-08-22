@@ -55,6 +55,7 @@ protected:
         bool stop_on_unknown);
     bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
+    bool update_cost_regeneration(const cv::Mat& reusable = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
 
@@ -122,6 +123,8 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    int m_cost_regenerated = 0;
+    int m_cost_regeneration = 0;
     bool m_paused = false;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;

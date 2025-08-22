@@ -363,6 +363,23 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
     return true;
 }
 
+bool asst::BattleHelper::update_cost_regeneration(const cv::Mat& reusable)
+{
+    const int cost_bar_size = Task.get<MatchTaskInfo>("CostRegenerationBar")->special_params[0];
+
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .cost_regeneration = true });
+    auto result_opt = analyzer.analyze();
+    int cost_regeneration = result_opt->cost_regeneration.value;
+    if (m_cost_regeneration >= cost_bar_size * 0.75 && cost_regeneration <= cost_bar_size * 0.25) {
+        ++m_cost_regenerated;
+    }
+    m_cost_regeneration = cost_regeneration;
+
+    return true;
+}
+
 bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     LogTraceFunction;
@@ -640,6 +657,7 @@ bool asst::BattleHelper::wait_until_end(bool weak)
 bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    update_cost_regeneration(image);
     return use_all_ready_skill(image);
 }
 
