@@ -12,8 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -90,7 +90,6 @@ public class AsstCopilotTask : AsstBaseTask
             ["formation"] = Formation,
             ["add_trust"] = AddTrust,
             ["ignore_requirements"] = IgnoreRequirements,
-            ["need_navigate"] = NeedNavigate,
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
@@ -106,9 +105,17 @@ public class AsstCopilotTask : AsstBaseTask
             taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
         }
 
-        if (NeedNavigate)
+        if (NeedNavigate && !string.IsNullOrEmpty(StageName))
         {
             taskParams["navigate_name"] = StageName;
+        }
+        else if (NeedNavigate)
+        {
+            throw new ArgumentException("导航至关卡时，StageName不能为空");
+        }
+        else if (!string.IsNullOrEmpty(StageName))
+        {
+            throw new ArgumentException("StageName不为空, 但是未启用关卡导航");
         }
 
         return (TaskType, taskParams);
