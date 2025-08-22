@@ -958,6 +958,10 @@
         "baseTask": "JieGarden@Roguelike@CloseCollectionContinue",
         "next": ["JieGarden@Roguelike@StageTraderEnter#next"]
     },
+    "JieGarden@Roguelike@StageTraderInvest-Wallet": {
+        "doc": "商店投资界面的右上角的单局余额",
+        "roi": [1060, 20, 80, 25]
+    },
     "JieGarden@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": ["JieGarden@Roguelike@ExitThenAbandon"]
