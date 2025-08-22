@@ -232,9 +232,6 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         }
     }
 
-    // 滑动回到最左边
-    swipe_copper_list(true, m_col);
-
     if (m_copper_list.empty()) {
         Log.error(__FUNCTION__, "| no coppers found in list for comparison");
         return false;
@@ -258,9 +255,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
     Log.info(__FUNCTION__, "| exchanging copper:", worst_it->name, "->", m_new_copper.name);
 
     // 点击通宝后执行确认交换任务
-    sleep(300);
+
     click_copper_at_position(worst_it->index);
-    sleep(300);
+
     ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
 
     return true;
@@ -287,10 +284,16 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
 {
     int col = index / m_row;
     int row = index % m_row;
+    Point click_point(m_origin_x, m_origin_y + (row - 1) * m_row_offset);
 
-    Point click_point(m_origin_x + col * m_column_offset, m_origin_y + row * m_row_offset);
+    // 滑动回到最左边
+    swipe_copper_list(true, m_col);
+    sleep(300);
+
+    swipe_copper_list(false, col - 1);
 
     ctrler()->click(click_point);
+    sleep(300);
 }
 
 asst::RoguelikeCopper
