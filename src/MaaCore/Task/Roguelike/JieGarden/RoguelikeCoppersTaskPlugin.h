@@ -25,17 +25,16 @@ public:
 
 protected:
     virtual bool _run() override;
-    // 向左缓慢滑动
-    void slowly_swipe_to_the_left_of_copperlist(int loop_times = 1) const;
-    // 向右缓慢滑动
-    void slowly_swipe_to_the_right_of_copperlist(int loop_times = 1) const;
-    void swipe_to_the_left_of_copperlist(int loop_times = 1) const;
-    void swipe_to_the_right_of_copperlist(int loop_times = 1) const;
 
 private:
-    void clear();
+    bool handle_choose_mode();
+    bool handle_switch_mode();
 
-    // 记录当前插件运行模式
+    void swipe_copper_list(bool to_left, int times, bool slowly = false) const;
+    void click_copper_at_position(int index) const;
+
+    RoguelikeCopper create_copper_from_name(const std::string& name, int col = 0, int index = 0) const;
+
     mutable asst::CoppersTaskRunMode m_run_mode;
     // 记录当前通宝列表的状态
     std::vector<RoguelikeCopper> m_copper_list;
@@ -53,4 +52,5 @@ private:
     int m_row_offset = 0;       // 两行节点之间的距离
     int m_ocr_roi_offset_y = 0; // 通宝掉落选择时从交换按钮到名称的y偏移量
 };
+
 }
