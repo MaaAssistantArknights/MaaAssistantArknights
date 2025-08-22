@@ -3,6 +3,7 @@
 #include "Config/AbstractConfig.h"
 #include "Utils/SingletonHolder.hpp"
 
+#include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -28,17 +29,12 @@ enum class CopperType
 struct RoguelikeCopper
 {
     std::string name;
-    CopperRarity rarity;
-    CopperType type;
+    CopperRarity rarity = CopperRarity::Low;
+    CopperType type = CopperType::Unknown;
     int pickup_priority = 0;     // 拾取优先级
     int discard_priority = 1000; // 丢弃优先级
-
     int col = 0;
     int index = 0;
-
-    RoguelikeCopper() = default;
-
-    RoguelikeCopper(std::string _name, CopperType _type, int col, int index, const std::string& theme);
 };
 
 class RoguelikeCoppersConfig final : public SingletonHolder<RoguelikeCoppersConfig>, public AbstractConfig
@@ -46,25 +42,57 @@ class RoguelikeCoppersConfig final : public SingletonHolder<RoguelikeCoppersConf
 public:
     ~RoguelikeCoppersConfig() override = default;
 
-    const auto& get_coppers(const std::string& theme) const noexcept { return m_coppers.at(theme); }
-
-    static CopperType templ2type(const std::string_view templ_name) noexcept
+    const std::vector<RoguelikeCopper>& get_coppers(const std::string& theme) const
     {
+        static const std::vector<RoguelikeCopper> empty;
+        auto it = m_coppers.find(theme);
+        return it != m_coppers.end() ? it->second : empty;
+    }
+
+    static CopperType get_type_from_template(std::string_view templ_name)
+    {
+        using enum CopperType;
         if (templ_name == "JieGarden@Roguelike@CoppersTypeLi.png") {
-            return CopperType::Li;
+            return Li;
         }
         if (templ_name == "JieGarden@Roguelike@CoppersTypeHeng.png") {
-            return CopperType::Heng;
+            return Heng;
         }
         if (templ_name == "JieGarden@Roguelike@CoppersTypeHua.png") {
-            return CopperType::Hua;
+            return Hua;
         }
-        return CopperType::Heng; // default
+        return Heng;
+    }
+
+    static CopperType get_type_from_name(std::string_view name)
+    {
+        using enum CopperType;
+        if (name.starts_with("厉-")) {
+            return Li;
+        }
+        if (name.starts_with("衡-") || name.find("大炎通宝") != std::string::npos) {
+            return Heng;
+        }
+        if (name.starts_with("花-")) {
+            return Hua;
+        }
+        return Unknown;
+    }
+
+    // 根据名称查找通宝信息
+    std::optional<RoguelikeCopper> find_copper(std::string_view theme, std::string_view name) const
+    {
+        const auto& coppers = get_coppers(std::string(theme));
+        for (const auto& copper : coppers) {
+            if (std::string(name).find(copper.name) != std::string::npos) {
+                return copper;
+            }
+        }
+        return std::nullopt;
     }
 
 private:
     bool parse(const json::value& json) override;
-
     void clear();
 
     std::unordered_map<std::string, std::vector<RoguelikeCopper>> m_coppers;
