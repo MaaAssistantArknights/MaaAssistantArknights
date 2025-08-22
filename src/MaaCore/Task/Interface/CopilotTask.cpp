@@ -71,7 +71,14 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
+    bool need_navigate = params.contains("navigate_name"); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
+    if (auto nav_opt = params.find<bool>("need_navigate")) {
+        Log.warn("================  DEPRECATED  ================");
+        LogWarn << "`need_navigate` has been deprecated since v5.23.3;"
+                << "Use existence of `navigate_name` substitute `need_navigate`";
+        Log.warn("================  DEPRECATED  ================");
+        need_navigate = *nav_opt;
+    }
     std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
     bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
     bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
