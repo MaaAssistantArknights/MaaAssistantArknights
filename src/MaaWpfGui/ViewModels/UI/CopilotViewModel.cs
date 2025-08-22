@@ -144,7 +144,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
-            Execute.OnUIThread(() => LogItemViewModels.Clear());
+            Execute.OnUIThread(() =>
+            {
+                LogItemViewModels.Clear();
+                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+            });
         }
 
         #endregion Log
@@ -207,7 +211,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ClearLog();
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
                     CopilotUrl = CopilotUiUrl;
                 }
                 else
@@ -675,21 +678,18 @@ namespace MaaWpfGui.ViewModels.UI
                 payload = null;
             }
 
-            if (payload is CopilotModel copilot)
+            switch (payload)
             {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
-                return;
+                case CopilotModel copilot:
+                    await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
+                    return;
+                case SSSCopilotModel sss:
+                    await ParseSSSCopilot(sss, writeToCache);
+                    return;
+                default:
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+                    return;
             }
-            else if (payload is SSSCopilotModel sss)
-            {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseSSSCopilot(sss, writeToCache);
-                return;
-            }
-
-            AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
-            return;
         }
 
         /// <summary>
