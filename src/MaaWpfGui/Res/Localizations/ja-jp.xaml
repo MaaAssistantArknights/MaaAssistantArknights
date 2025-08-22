@@ -1167,6 +1167,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
+    <system:String x:Key="UnknownDLLDetected" xml:space="preserve">
+MAA の実行ディレクトリに不明な DLL ファイルが検出されました。DLL ハイジャックが発生し、予期しない結果を招く可能性があります。
+MAA を新しい独立したフォルダーに解凍するか、MAA に属さない DLL ファイルを削除してください。
+    </system:String>
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
 Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
 「OK」をクリックするとインストールスクリプトが実行され、MAA が終了します。「キャンセル」をクリックすると MAA が直接終了します。

@@ -1164,6 +1164,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
+    <system:String x:Key="UnknownDLLDetected" xml:space="preserve">
+MAA 실행 디렉터리에서 알 수 없는 DLL 파일이 감지되었습니다. 이는 DLL 하이재킹을 일으켜 예상치 못한 결과를 초래할 수 있습니다.
+MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 DLL 파일을 제거해 주십시오.
+    </system:String>
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">
 Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
 "확인"을 클릭하여 설치 스크립트를 실행하고 MAA를 종료하세요. "취소"를 클릭하여 MAA를 바로 종료하세요.
