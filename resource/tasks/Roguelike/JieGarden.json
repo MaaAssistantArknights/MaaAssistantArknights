@@ -151,13 +151,10 @@
             "| specialParams[4]: 最后行节点的默认纵坐标 (Rect.y)",
             "| specialParams[5]: 两列节点之间的距离",
             "| specialParams[6]: 两行节点之间的距离",
-            "| specialParams[7]: OCR区域相对于通宝图标的横坐标偏移",
-            "| specialParams[8]: OCR区域相对于通宝图标的纵坐标偏移",
-            "| specialParams[9]: OCR区域宽度",
-            "| specialParams[10]: OCR区域高度"
+            "| specialParams[7]: 通宝掉落选择时从交换按钮到名称的y偏移量"
         ],
         "template": "empty.png",
-        "specialParams": [4, 3, 586, 187, 527, 460, 182, 32, -5, 160, 40]
+        "specialParams": [4, 3, 586, 187, 527, 460, 182, -209]
     },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
@@ -206,7 +203,23 @@
         "text": ["交换"],
         "roi": [575, 558, 127, 50]
     },
-    "JieGarden@Roguelike@CoppersTypeAnalyzer": {
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "Doc": "该任务的 ocrReplace 用于通宝名称识别，中文被拆成3字节处理，需要包括号",
+        "fullMatch": true,
+        "ocrReplace": [
+            ["^(?:[<4~]|《|。)+", ""],
+            ["^c(?!ast)", ""],
+            ["^\\^一", ""],
+            ["^_(?=.)", ""],
+            ["^_$", ""],
+            ["衡-雾凇[._]", "衡-雾凇"],
+            ["衡-匪风[._]", "衡-匪风"],
+            ["衡-苦寒[._]", "衡-苦寒"]
+        ]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-Type": {
         "template": [
             "JieGarden@Roguelike@CoppersTypeLi.png",
             "JieGarden@Roguelike@CoppersTypeHeng.png",
@@ -214,7 +227,7 @@
         ],
         "roi": [436, 109, 312, 498]
     },
-    "JieGarden@Roguelike@CoppersTypeRightAnalyzer": {
+    "JieGarden@Roguelike@CoppersAnalyzer-RightType": {
         "Doc": "右侧区域识别",
         "template": [
             "JieGarden@Roguelike@CoppersTypeLi.png",
@@ -223,7 +236,7 @@
         ],
         "roi": [867, 109, 312, 498]
     },
-    "JieGarden@Roguelike@CoppersTypeLeftAnalyzer": {
+    "JieGarden@Roguelike@CoppersAnalyzer-LeftType": {
         "Doc": "左侧拾取的通宝区域识别",
         "template": [
             "JieGarden@Roguelike@CoppersTypeLi.png",
@@ -231,6 +244,11 @@
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
         "roi": [0, 396, 353, 235]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-NameOCR": {
+        "Doc": "通宝名称识别 - 若通宝类型 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [32, -5, 160, 40]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
         "algorithm": "OcrDetect",

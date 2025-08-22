@@ -26,10 +26,7 @@ bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::
     m_last_y = config->special_params.at(4);
     m_column_offset = config->special_params.at(5);
     m_row_offset = config->special_params.at(6);
-    m_ocr_roi_offset_x = config->special_params.at(7);
-    m_ocr_roi_offset_y = config->special_params.at(8);
-    m_ocr_roi_width = config->special_params.at(9);
-    m_ocr_roi_height = config->special_params.at(10);
+    m_ocr_roi_offset_y = config->special_params.at(7);
 
     return true;
 }
@@ -79,6 +76,8 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
 {
     LogTraceFunction;
 
+    const auto& name_task_ptr = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+
     switch (m_run_mode) {
     case CoppersTaskRunMode::CHOOSE: {
         MultiMatcher matcher_analyzer_choose;
@@ -92,17 +91,19 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
         auto choose_match_results = matcher_analyzer_choose.get_result();
         sort_by_horizontal_(choose_match_results);
 
+        RegionOCRer ocr_analyzer(choose_image);
+
         int choose_index = 0;
         for (const auto& [rect, score, templ_name] : choose_match_results) {
-            Rect roi(rect.x, rect.y - 209, rect.width, rect.height);
-            auto roi_image = make_roi(choose_image, roi).clone();
-            RegionOCRer analyzer(roi_image);
-            if (!analyzer.analyze()) {
+            Rect roi(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height);
+            ocr_analyzer.set_roi(roi);
+            ocr_analyzer.set_replace(name_task_ptr->replace_map, name_task_ptr->replace_full);
+            if (!ocr_analyzer.analyze()) {
                 Log.error(__FUNCTION__, "| no copper name is recognised at position (", choose_index, ")");
                 continue;
             }
 
-            const auto& copper_name = analyzer.get_result().text;
+            const auto& copper_name = ocr_analyzer.get_result().text;
             if (copper_name.empty()) {
                 Log.error(__FUNCTION__, "| copper name is empty at position (", choose_index, ")");
                 continue;
@@ -145,13 +146,13 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
             int switch_index = 0;
             if (col == 0) {
                 matcher_analyzer.set_task_info(
-                    "JieGarden@Roguelike@CoppersTypeLeftAnalyzer"); // 第一次识别左侧拾取的通宝
+                    "JieGarden@Roguelike@CoppersAnalyzer-LeftType"); // 第一次识别左侧拾取的通宝
             }
             else if (col == m_col) {
-                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersTypeRightAnalyzer"); // 最后一列对右侧识别
+                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType"); // 最后一列对右侧识别
             }
             else {
-                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersTypeAnalyzer");
+                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
             }
 
             auto switch_image = ctrler()->get_image();
@@ -162,6 +163,8 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
                 return false;
             }
 
+            RegionOCRer ocr_analyzer(switch_image);
+
             auto switch_match_results = matcher_analyzer.get_result();
             sort_by_vertical_(switch_match_results); // 按照垂直方向排序（从上到下）
 
@@ -170,10 +173,10 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
                 auto copper_type = RoguelikeCoppersConfig::templ2type(templ_name);
 
                 // 识别完通宝类型后将roi偏移进行通宝名称OCR
-                Rect roi(rect.x + m_ocr_roi_offset_x, rect.y + m_ocr_roi_offset_y, m_ocr_roi_width, m_ocr_roi_height);
-                auto roi_image = make_roi(switch_image, roi).clone();
-                RegionOCRer analyzer(roi_image);
-                if (!analyzer.analyze()) {
+                const Rect roi = rect.move(name_task_ptr->roi);
+                ocr_analyzer.set_roi(roi);
+                ocr_analyzer.set_replace(name_task_ptr->replace_map, name_task_ptr->replace_full);
+                if (!ocr_analyzer.analyze()) {
                     Log.error(
                         __FUNCTION__,
                         "| no copper name is recognised at position (",
@@ -184,7 +187,7 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
                     continue;
                 }
 
-                const auto& copper_name = analyzer.get_result().text;
+                const auto& copper_name = ocr_analyzer.get_result().text;
                 if (copper_name.empty()) {
                     Log.error(__FUNCTION__, "| copper name is empty at position (", col, ",", switch_index, ")");
                     continue;
