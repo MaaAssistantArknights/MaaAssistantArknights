@@ -851,6 +851,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainStopped:
                     Instances.TaskQueueViewModel.SetStopped();
                     TaskStatusUpdate(taskId, TaskStatus.Completed);
+                    _tasksStatus.Clear();
                     if (isCopilotTaskChain)
                     {
                         _runningState.SetIdle(true);
@@ -888,7 +889,7 @@ namespace MaaWpfGui.Main
                             // 如果启用战斗列表，需要中止掉剩余的任务
                             if (Instances.CopilotViewModel.UseCopilotList)
                             {
-                                if (!AsstStop(false))
+                                if (!AsstStop())
                                 {
                                     _logger.Warning("Failed to stop Asst");
                                 }
@@ -900,6 +901,7 @@ namespace MaaWpfGui.Main
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
+                        _tasksStatus.Clear();
                         break;
                     }
 
@@ -956,6 +958,7 @@ namespace MaaWpfGui.Main
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
                         }
 
+                        _tasksStatus.Clear();
                         break;
                     }
 
@@ -2484,17 +2487,10 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 停止。
         /// </summary>
-        /// <param name="clearTask">是否清理_latestTaskId</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStop(bool clearTask = true)
+        public bool AsstStop()
         {
-            bool ret = MaaService.AsstStop(_handle);
-            if (clearTask)
-            {
-                _tasksStatus.Clear();
-            }
-
-            return ret;
+            return MaaService.AsstStop(_handle);
         }
 
         /// <summary>
