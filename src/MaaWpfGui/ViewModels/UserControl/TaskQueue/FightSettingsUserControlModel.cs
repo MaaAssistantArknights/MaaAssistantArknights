@@ -853,7 +853,11 @@ public class FightSettingsUserControlModel : TaskViewModel
             Stone = UseStoneDisplay ? StoneNumber : 0,
             Series = Series,
             MaxTimes = HasTimesLimited != false ? MaxTimes : int.MaxValue,
+
+            // TODO: 删除ExpiringMedicine 改用 MedicineExpiringInDays
             ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
+            MedicineExpiringInDays = 0,
+
             IsDrGrandet = IsDrGrandet,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
             ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
