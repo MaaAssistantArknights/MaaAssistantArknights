@@ -51,9 +51,6 @@ private:
     int m_last_y = 0;           // 最后行节点的默认纵坐标 (Rect.y)
     int m_column_offset = 0;    // 两列节点之间的距离
     int m_row_offset = 0;       // 两行节点之间的距离
-    int m_ocr_roi_offset_x = 0; // OCR区域相对于通宝图标的横坐标偏移
-    int m_ocr_roi_offset_y = 0; // OCR区域相对于通宝图标的纵坐标偏移
-    int m_ocr_roi_width = 0;    // OCR区域宽度
-    int m_ocr_roi_height = 0;   // OCR区域高度
+    int m_ocr_roi_offset_y = 0; // 通宝掉落选择时从交换按钮到名称的y偏移量
 };
 }
