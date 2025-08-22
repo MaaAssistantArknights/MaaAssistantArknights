@@ -1092,10 +1092,10 @@
         "roi": [1144, 545, 135, 32]
     },
     "MedicineExpiringTime": {
-        "text": ["min", "hr", "1days"],
         "ocrReplace": [
-            [".+hrs?", "hr"],
-            [".+mins?", "min"],
+            ["(\\d+)days", "${1}"],
+            [".+hrs?", "0"],
+            [".+mins?", "0"],
             [" ", ""]
         ]
     },

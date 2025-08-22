@@ -35,9 +35,10 @@ bool asst::MedicineCounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (m_used_count >= m_max_count && !m_use_expiring) {
+    if (m_used_count >= m_max_count && !m_expiring_day) {
         LogTrace << __FUNCTION__ << "Needn't to use medicines"
-                 << ",used:" << m_used_count << ",max:" << m_max_count << "use_expiring:" << m_use_expiring;
+                 << ",used:" << m_used_count << ",max:" << m_max_count
+                 << "medicine_expiring_in_days:" << m_expiring_day;
         return true;
     }
 
@@ -82,7 +83,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
             return false;
         }
     }
-    else if (m_used_count >= m_max_count && m_use_expiring) {
+    else if (m_used_count >= m_max_count && m_expiring_day) {
         bool changed = false;
         for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {

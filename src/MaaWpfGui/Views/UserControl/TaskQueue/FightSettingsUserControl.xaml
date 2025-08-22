@@ -264,7 +264,7 @@
                                     Grid.Column="0"
                                     Height="30"
                                     Margin="-10,0,0,0">
-                                    <!--  å½“ CustomStageCode ä¸º false æ—¶æ˜¾ç¤º ComboBox  -->
+                                    <!--  µ± CustomStageCode Îª false Ê±ÏÔÊ¾ ComboBox  -->
                                     <ComboBox
                                         ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         ScrollViewer.CanContentScroll="False"
@@ -306,7 +306,7 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
 
-                                    <!--  å½“ CustomStageCode ä¸º true æ—¶æ˜¾ç¤º TextBox  -->
+                                    <!--  µ± CustomStageCode Îª true Ê±ÏÔÊ¾ TextBox  -->
                                     <TextBox
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
@@ -339,7 +339,7 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <!--  æ‹–åŠ¨æ‰‹æŸ„  -->
+                                        <!--  ÍÏ¶¯ÊÖ±ú  -->
                                         <Button
                                             Margin="0"
                                             Padding="2"
@@ -353,7 +353,7 @@
                                             Cursor="Hand"
                                             PreviewMouseLeftButtonDown="DragHandle_PreviewMouseLeftButtonDown"
                                             PreviewMouseLeftButtonUp="DragHandle_PreviewMouseLeftButtonUp" />
-                                        <!--  åˆ é™¤æŒ‰é’®  -->
+                                        <!--  É¾³ý°´Å¥  -->
                                         <Button
                                             Grid.Column="1"
                                             Padding="2"
@@ -406,6 +406,12 @@
                     Text="{DynamicResource UseExpiringMedicine}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <hc:NumericUpDown
+                Margin="0,5"
+                Visibility="{c:Binding UseExpiringMedicineInDaysEnabled}"
+                Maximum="999"
+                Minimum="0"
+                Value="{Binding UseExpiringMedicineInDays}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource HideSeries}"

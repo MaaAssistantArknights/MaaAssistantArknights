@@ -591,7 +591,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="AllowUseStoneSave">允许使用源石保存状态</system:String>
     <system:String x:Key="AllowUseStoneSaveWarning">该功能属于危险功能。按下 ｢{key=Confirm}｣ 键即视为你了解并愿意承担可能出现的风险。</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
+    <system:String x:Key="UseExpiringMedicineInDays">无限吃 N 天内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">下拉框中隐藏当日不开放关卡</system:String>
     <system:String x:Key="FightStageResetMode">过期关卡重置为</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>
@@ -1142,7 +1142,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 {0} 天内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
