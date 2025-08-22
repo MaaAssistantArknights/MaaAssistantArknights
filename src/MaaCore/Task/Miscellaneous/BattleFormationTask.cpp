@@ -83,12 +83,22 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, groups);
     }
 
-    /*
+    // 记录缺失干员组的数量
+    int missing_numbers = (int)ranges::count_if(
+        m_formation | views::transform([&](const auto& pair) { return pair.second; }) | views::join,
+        [&](const OperGroup& group) { return !has_oper_selected(group.second); });
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
-    if (use_suppprt_unit_when_needed() && missing_operators.size() == 1 && !m_used_support_unit) {
+    if (use_suppprt_unit_when_needed() && missing_numbers == 1 && !m_used_support_unit) {
         // 之后再重构数据结构，先凑合用
         std::vector<battle::RequiredOper> required_opers;
-        for (const battle::OperUsage& oper : missing_operators.front().second) {
+        for (const battle::OperUsage& oper :
+             m_formation | views::transform([&](const auto& pair) { return pair.second; }) /* 剔除职业 */ |
+                 views::join | /* 拿到缺干员的组 */ views::filter([&](const OperGroup& group) {
+                     return ranges::any_of(group.second, [&](const battle::OperUsage& oper) {
+                         return oper.status == battle::OperStatus::Missing;
+                     });
+                 }) |
+                 views::transform([&](const OperGroup& pair) { return pair.second; }) | views::join) {
             // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
             // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
             if (oper.name == m_specific_support_unit.name) {
@@ -105,7 +115,6 @@ bool asst::BattleFormationTask::_run()
         Log.info(__FUNCTION__, "| Left quick formation scene");
         if (m_use_support_unit_task_ptr->try_add_support_unit(required_opers, 5, true)) {
             m_used_support_unit = true;
-            missing_operators.clear();
         }
         // 再到快速编队页面
         if (!enter_selection_page()) {
@@ -114,7 +123,6 @@ bool asst::BattleFormationTask::_run()
         }
         Log.info(__FUNCTION__, "| Returned to quick formation scene");
     }
-    */
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
     bool has_missing = ranges::any_of(m_formation, [&](const auto& pair) {
