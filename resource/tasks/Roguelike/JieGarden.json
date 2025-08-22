@@ -193,6 +193,7 @@
         "action": "ClickSelf",
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
         "roi": [1031, 606, 249, 114],
+        "postDelay": 500,
         "next": [
             "JieGarden@Roguelike@CoppersSwitchFinishFlag",
             "JieGarden@Roguelike@CoppersAbandonOrSwitchConfirm",
@@ -203,7 +204,6 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["交换"],
-        "preDelay": 1000,
         "roi": [575, 558, 127, 50]
     },
     "JieGarden@Roguelike@CoppersTypeAnalyzer": {
