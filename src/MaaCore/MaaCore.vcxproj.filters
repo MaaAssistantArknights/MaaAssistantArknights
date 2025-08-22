@@ -1308,6 +1308,9 @@
     <ClCompile Include="Controller\MaaThriftController.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Controller\MaatouchController.cpp">
+      <Filter>Source\Controller</Filter>
+    </ClCompile>
     <ClCompile Include="Controller\MinitouchController.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>

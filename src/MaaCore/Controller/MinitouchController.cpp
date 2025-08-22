@@ -188,7 +188,6 @@ bool asst::MinitouchController::swipe(
     }; // TODO: move this to math.hpp
 
     const auto& opt = Config.get_options();
-    std::future<void> pause_future;
     if (with_pause && use_swipe_with_pause()) {
         // 计算划出位置 (x3, y3)
         // 滑动顺序: (x1, y1) -> (x3, y3) -> (x2, y2)
@@ -211,21 +210,10 @@ bool asst::MinitouchController::swipe(
         y1 = x3;
         y1 = y3;
         // 按下 Esc 暂停键
-        if (m_use_maa_touch) {
-            constexpr int EscKeyCode = 111;
-            if (!m_minitoucher->key_down(EscKeyCode, 0)) {
-                return false;
-            }
-            if (!m_minitoucher->key_up(EscKeyCode, 0)) {
-                return false;
-            }
+        if (!m_use_maa_touch) {
+            sleep(opt.minitouch_swipe_with_pause_post_delay); // 我也不知道为什么一定要等一会儿，疑似 Esc 按得太快了
         }
-        else {
-            // 我也不知道为什么一定要等一会儿，疑似 Esc 按得太快了
-            sleep(opt.minitouch_swipe_with_pause_post_delay);
-            pause_future = std::async(std::launch::async, [&]() { press_esc(); });
-            pause_future.wait();
-        }
+        press_esc();
     }
     auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
         for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
@@ -266,6 +254,13 @@ bool asst::MinitouchController::swipe(
     return true;
 }
 
+bool asst::MinitouchController::press_esc()
+{
+    std::future<void> pause_future = std::async(std::launch::async, [&]() { AdbController::press_esc(); });
+    pause_future.wait();
+    return true;
+}
+
 bool asst::MinitouchController::inject_input_event(const InputEvent& event)
 {
     LogTraceFunction;
@@ -277,9 +272,9 @@ bool asst::MinitouchController::inject_input_event(const InputEvent& event)
 
     switch (event.type) {
     case InputEvent::Type::KEY_DOWN:
-        return m_minitoucher->key_down(event.keycode, 0, false);
+        return false;
     case InputEvent::Type::KEY_UP:
-        return m_minitoucher->key_up(event.keycode, 0, false);
+        return false;
     case InputEvent::Type::TOUCH_DOWN:
         return m_minitoucher->down(event.point.x, event.point.y, 0, false, event.pointerId);
     case InputEvent::Type::TOUCH_UP:
