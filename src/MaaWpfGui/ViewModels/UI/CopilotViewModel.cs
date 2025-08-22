@@ -1011,6 +1011,10 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await AddCopilotTaskToList(copilot, !isRaid ? CopilotModel.DifficultyFlags.Normal : CopilotModel.DifficultyFlags.Raid, stageName, CopilotId);
                 }
+                else
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotSSSNotSupport"), UiLogColor.Error, showTime: false);
+                }
             }
             catch (Exception ex)
             {
@@ -1386,7 +1390,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (CopilotItemViewModels.Count == 1)
             {
-                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
+                return false;
             }
 
             var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>
