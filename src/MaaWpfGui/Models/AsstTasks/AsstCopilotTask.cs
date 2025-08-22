@@ -73,6 +73,11 @@ public class AsstCopilotTask : AsstBaseTask
     public bool UseSanityPotion { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 启用悖论模拟模式
+    /// </summary>
+    public bool ParadoxMode { get; set; }
+
+    /// <summary>
     /// Gets or sets 自定干员列表
     /// </summary>
     public List<UserAdditional>? UserAdditionals { get; set; }
@@ -94,6 +99,7 @@ public class AsstCopilotTask : AsstBaseTask
             ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
+            ["is_paradox"] = ParadoxMode,
         };
 
         if (FormationIndex > 0)

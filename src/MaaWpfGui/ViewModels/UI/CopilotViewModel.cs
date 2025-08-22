@@ -173,6 +173,26 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _startEnabled, value);
         }
 
+        private int _activeTabIndex = 0;
+
+        /// <summary>
+        /// 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
+        /// </summary>
+        public int ActiveTabIndex
+        {
+            get => _activeTabIndex;
+            set
+            {
+                if (!SetAndNotify(ref _activeTabIndex, value))
+                {
+                    return;
+                }
+
+                Form = false;
+                UseCopilotList = false;
+            }
+        }
+
         private string _filename = string.Empty;
 
         /// <summary>
@@ -346,6 +366,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether 启用悖论模拟模式.
+        /// </summary>
+        public bool ParadoxMode => ActiveTabIndex == 2 && UseCopilotList;
+
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -439,6 +464,11 @@ namespace MaaWpfGui.ViewModels.UI
         [UsedImplicitly]
         public async Task PasteClipboardCopilotSet()
         {
+            if (ActiveTabIndex is 1 or 3)
+            {
+                return;
+            }
+
             StartEnabled = false;
             UseCopilotList = true;
             ClearLog();
@@ -1245,7 +1275,7 @@ namespace MaaWpfGui.ViewModels.UI
                          IsRaid = model.IsRaid,
                          LoopTimes = Loop ? LoopTimes : 1,
                          UseSanityPotion = _useSanityPotion,
-                         FormationIndex = _formationIndex,
+                         ParadoxMode = ParadoxMode,
                      };
                      var (type, param) = task.Serialize();
                      return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);

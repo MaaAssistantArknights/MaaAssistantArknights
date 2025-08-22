@@ -953,6 +953,9 @@
     <ClInclude Include="Controller\LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1475,6 +1478,9 @@
     </ClCompile>
     <ClCompile Include="Controller\LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

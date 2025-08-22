@@ -129,6 +129,7 @@
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
@@ -331,6 +332,7 @@
     <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
