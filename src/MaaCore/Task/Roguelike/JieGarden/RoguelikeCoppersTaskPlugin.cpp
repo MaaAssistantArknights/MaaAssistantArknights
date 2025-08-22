@@ -38,16 +38,16 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     const std::string& theme = m_config->get_theme();
-
     if (theme != RoguelikeTheme::JieGarden) {
         return false;
     }
 
-    if (details.get("details", "task", "").ends_with("Roguelike@CoppersTakeFlag")) {
+    const std::string task_name = details.get("details", "task", "");
+    if (task_name.ends_with("Roguelike@CoppersTakeFlag")) {
         m_run_mode = CoppersTaskRunMode::SWITCH;
         Log.info(__FUNCTION__, "| plugin activated for SWITCH mode");
     }
-    else if (details.get("details", "task", "").ends_with("Roguelike@GetDropSwitch")) {
+    else if (task_name.ends_with("Roguelike@GetDropSwitch")) {
         m_run_mode = CoppersTaskRunMode::CHOOSE;
         Log.info(__FUNCTION__, "| plugin activated for CHOOSE mode");
     }
@@ -70,220 +70,250 @@ void asst::RoguelikeCoppersTaskPlugin::reset_in_run_variables()
 {
     m_copper_list.clear();
     m_new_copper = RoguelikeCopper();
+    m_pending_copper.clear();
 }
 
 bool asst::RoguelikeCoppersTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    const auto& name_task_ptr = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
-
+    bool success = false;
     switch (m_run_mode) {
-    case CoppersTaskRunMode::CHOOSE: {
-        MultiMatcher matcher_analyzer_choose;
-        matcher_analyzer_choose.set_task_info("JieGarden@Roguelike@GetDropSwitch");
-        auto choose_image = ctrler()->get_image();
-        matcher_analyzer_choose.set_image(choose_image);
-        if (!matcher_analyzer_choose.analyze()) {
-            Log.error(__FUNCTION__, "| failed to analyze JieGarden@Roguelike@GetDropSwitch");
-            return false;
-        }
-        auto choose_match_results = matcher_analyzer_choose.get_result();
-        sort_by_horizontal_(choose_match_results);
-
-        RegionOCRer ocr_analyzer(choose_image);
-
-        int choose_index = 0;
-        for (const auto& [rect, score, templ_name] : choose_match_results) {
-            Rect roi(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height);
-            ocr_analyzer.set_roi(roi);
-            ocr_analyzer.set_replace(name_task_ptr->replace_map, name_task_ptr->replace_full);
-            if (!ocr_analyzer.analyze()) {
-                Log.error(__FUNCTION__, "| no copper name is recognised at position (", choose_index, ")");
-                continue;
-            }
-
-            const auto& copper_name = ocr_analyzer.get_result().text;
-            if (copper_name.empty()) {
-                Log.error(__FUNCTION__, "| copper name is empty at position (", choose_index, ")");
-                continue;
-            }
-            Log.info(__FUNCTION__, "| found copper:", copper_name, "(", choose_index, ")");
-
-            const auto& theme = m_config->get_theme();
-            m_pending_copper.emplace_back(
-                RoguelikeCopper(copper_name, CopperType::Unknown, 1, choose_index, theme),
-                Point(rect.x + rect.width / 2, rect.y + rect.height / 2));
-            choose_index++;
-        }
-
-        // 寻找 m_pending_copper 中 pickup_priority 最大的
-        auto max_pickup_it =
-            std::max_element(m_pending_copper.begin(), m_pending_copper.end(), [](const auto& a, const auto& b) {
-                return a.first.pickup_priority < b.first.pickup_priority;
-            });
-
-        if (max_pickup_it == m_pending_copper.end()) {
-            Log.error(__FUNCTION__, "| no valid copper found for pickup");
-            return false;
-        }
-
-        Log.info(
-            __FUNCTION__,
-            "| selecting copper: ",
-            max_pickup_it->first.name,
-            " with priority: ",
-            max_pickup_it->first.pickup_priority);
-        ctrler()->click(max_pickup_it->second);
-    } break;
-
-    case CoppersTaskRunMode::SWITCH: {
-        swipe_to_the_left_of_copperlist(2); // 有时候进去不在最左边
-
-        MultiMatcher matcher_analyzer;
-
-        for (int col = 0; col <= m_col; col++) { // 已知列表固定4列？ 10-12个通宝  每列3个
-            int switch_index = 0;
-            if (col == 0) {
-                matcher_analyzer.set_task_info(
-                    "JieGarden@Roguelike@CoppersAnalyzer-LeftType"); // 第一次识别左侧拾取的通宝
-            }
-            else if (col == m_col) {
-                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType"); // 最后一列对右侧识别
-            }
-            else {
-                matcher_analyzer.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
-            }
-
-            auto switch_image = ctrler()->get_image();
-            matcher_analyzer.set_image(switch_image);
-
-            if (!matcher_analyzer.analyze()) {
-                Log.error(__FUNCTION__, "| no coppers are recognised in column", col);
-                return false;
-            }
-
-            RegionOCRer ocr_analyzer(switch_image);
-
-            auto switch_match_results = matcher_analyzer.get_result();
-            sort_by_vertical_(switch_match_results); // 按照垂直方向排序（从上到下）
-
-            for (const auto& [rect, score, templ_name] : switch_match_results) {
-                switch_index++;
-                auto copper_type = RoguelikeCoppersConfig::templ2type(templ_name);
-
-                // 识别完通宝类型后将roi偏移进行通宝名称OCR
-                const Rect roi = rect.move(name_task_ptr->roi);
-                ocr_analyzer.set_roi(roi);
-                ocr_analyzer.set_replace(name_task_ptr->replace_map, name_task_ptr->replace_full);
-                if (!ocr_analyzer.analyze()) {
-                    Log.error(
-                        __FUNCTION__,
-                        "| no copper name is recognised at position (",
-                        col,
-                        ",",
-                        switch_index,
-                        ")");
-                    continue;
-                }
-
-                const auto& copper_name = ocr_analyzer.get_result().text;
-                if (copper_name.empty()) {
-                    Log.error(__FUNCTION__, "| copper name is empty at position (", col, ",", switch_index, ")");
-                    continue;
-                }
-                Log.info(__FUNCTION__, "| found copper:", copper_name, "(", col, ",", switch_index, ")");
-
-                const auto& theme = m_config->get_theme();
-                if (col != 0) {
-                    m_copper_list.emplace_back(copper_name, copper_type, col, switch_index, theme);
-                }
-                else {
-                    m_new_copper = RoguelikeCopper(copper_name, copper_type, col, switch_index, theme);
-                }
-            }
-
-            if (col != 0 && col != m_col) {
-                slowly_swipe_to_the_right_of_copperlist(1);
-            }
-        }
-
-        swipe_to_the_left_of_copperlist(m_col);
-
-        // 寻找 m_copper_list 中 discard_priority 最大的
-        auto max_discard_it = std::max_element(
-            m_copper_list.begin(),
-            m_copper_list.end(),
-            [](const RoguelikeCopper& a, const RoguelikeCopper& b) { return a.discard_priority < b.discard_priority; });
-
-        if (max_discard_it == m_copper_list.end()) {
-            Log.error(__FUNCTION__, "| no coppers found in the list for comparison");
-            return false;
-        }
-
-        if (max_discard_it->discard_priority < m_new_copper.discard_priority) { // 盒里最差的通宝都比新捡的好
-            Log.info(
-                __FUNCTION__,
-                "| new copper (",
-                m_new_copper.name,
-                ") is worse than all existing coppers, skipping exchange");
-            // 不进行交换，设置为放弃交换的流程
-            Log.info(__FUNCTION__, "| set baseTask to abandon exchange");
-            ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonSwitch" }).run();
-
-            return true;
-        }
-
-        Log.info(__FUNCTION__, "| exchanging copper: ", max_discard_it->name, " -> ", m_new_copper.name);
-        swipe_to_the_right_of_copperlist(max_discard_it->col - 1);
-
-        Point click_point(m_origin_x, m_origin_y + (max_discard_it->index - 1) * m_row_offset);
-        ctrler()->click(click_point);
-
-        // 完成交换操作后，设置为确认交换的流程
-        Log.info(__FUNCTION__, "| set baseTask to confirm exchange");
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
-    } break;
+    case CoppersTaskRunMode::CHOOSE:
+        success = handle_choose_mode();
+        break;
+    case CoppersTaskRunMode::SWITCH:
+        success = handle_switch_mode();
+        break;
     }
 
-    clear();
+    reset_in_run_variables();
+    return success;
+}
+
+bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
+{
+    MultiMatcher matcher;
+    matcher.set_task_info("JieGarden@Roguelike@GetDropSwitch");
+    auto image = ctrler()->get_image();
+    matcher.set_image(image);
+
+    if (!matcher.analyze()) {
+        Log.error(__FUNCTION__, "| failed to analyze GetDropSwitch");
+        return false;
+    }
+
+    auto match_results = matcher.get_result();
+    sort_by_horizontal_(match_results);
+
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+    RegionOCRer ocr(image);
+
+    for (size_t i = 0; i < match_results.size(); ++i) {
+        const auto& [rect, score, templ_name] = match_results[i];
+
+        Rect roi(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height);
+        ocr.set_roi(roi);
+        ocr.set_replace(name_task->replace_map, name_task->replace_full);
+
+        if (!ocr.analyze()) {
+            Log.error(__FUNCTION__, "| failed to recognize copper name at position", i);
+            continue;
+        }
+
+        const std::string copper_name = ocr.get_result().text;
+        if (copper_name.empty()) {
+            Log.error(__FUNCTION__, "| empty copper name at position", i);
+            continue;
+        }
+
+        Log.info(__FUNCTION__, "| found copper:", copper_name, "at position", i);
+
+        auto copper = create_copper_from_name(copper_name, 1, static_cast<int>(i));
+        Point click_point(rect.x + rect.width / 2, rect.y + rect.height / 2);
+        m_pending_copper.emplace_back(std::move(copper), click_point);
+    }
+
+    if (m_pending_copper.empty()) {
+        Log.error(__FUNCTION__, "| no valid coppers found for pickup");
+        return false;
+    }
+
+    // 寻找 m_pending_copper 中 pickup_priority 最大的
+    auto max_pickup_it =
+        std::max_element(m_pending_copper.begin(), m_pending_copper.end(), [](const auto& a, const auto& b) {
+            return a.first.pickup_priority < b.first.pickup_priority;
+        });
+
+    Log.info(
+        __FUNCTION__,
+        "| selecting copper:",
+        max_pickup_it->first.name,
+        "with priority:",
+        max_pickup_it->first.pickup_priority);
+    ctrler()->click(max_pickup_it->second);
 
     return true;
 }
 
-void asst::RoguelikeCoppersTaskPlugin::clear()
+bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 {
-    m_copper_list.clear();
-    m_new_copper = RoguelikeCopper();
-    m_pending_copper.clear();
+    swipe_copper_list(true, 2); // 有时候进去不在最左边
+
+    MultiMatcher matcher;
+    RegionOCRer ocr(ctrler()->get_image());
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+
+    // 扫描所有列的通宝
+    for (int col = 0; col <= m_col; ++col) {
+        // 根据列位置设置匹配任务
+        if (col == 0) {
+            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-LeftType");
+        }
+        else if (col == m_col) {
+            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType");
+        }
+        else {
+            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
+        }
+
+        auto image = ctrler()->get_image();
+        matcher.set_image(image);
+        ocr.set_image(image);
+
+        if (!matcher.analyze()) {
+            Log.error(__FUNCTION__, "| no coppers recognized in column", col);
+            if (col == 0) {
+                return false;
+            }
+            continue;
+        }
+
+        auto match_results = matcher.get_result();
+        sort_by_vertical_(match_results);
+
+        // 处理当前列的匹配结果
+        for (size_t row = 0; row < match_results.size(); ++row) {
+            const auto& match_result = match_results[row];
+
+            Rect roi = match_result.rect.move(name_task->roi);
+            ocr.set_roi(roi);
+            ocr.set_replace(name_task->replace_map, name_task->replace_full);
+
+            if (!ocr.analyze()) {
+                Log.error(__FUNCTION__, "| failed to recognize copper name at (", col, ",", row, ")");
+                continue;
+            }
+
+            const std::string copper_name = ocr.get_result().text;
+            if (copper_name.empty()) {
+                Log.error(__FUNCTION__, "| empty copper name at (", col, ",", row, ")");
+                continue;
+            }
+
+            Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")");
+
+            auto copper = create_copper_from_name(copper_name, col, static_cast<int>(row + 1));
+            copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
+
+            if (col == 0) {
+                m_new_copper = std::move(copper);
+            }
+            else {
+                m_copper_list.emplace_back(std::move(copper));
+            }
+        }
+
+        // 在中间列之间滑动
+        if (col != 0 && col != m_col) {
+            // col = 0 在识别左边新拾取的通宝
+            // col = m_col 在识别最右边一列的通宝
+            swipe_copper_list(false, 1, true);
+        }
+    }
+
+    // 滑动回到最左边
+    swipe_copper_list(true, m_col);
+
+    if (m_copper_list.empty()) {
+        Log.error(__FUNCTION__, "| no coppers found in list for comparison");
+        return false;
+    }
+
+    // 决定是否交换并执行
+    auto worst_it = std::max_element(m_copper_list.begin(), m_copper_list.end(), [](const auto& a, const auto& b) {
+        return a.discard_priority < b.discard_priority;
+    });
+
+    if (worst_it->discard_priority < m_new_copper.discard_priority) {
+        Log.info(
+            "handle_switch_mode",
+            "new copper (",
+            m_new_copper.name,
+            ") is worse than all existing coppers, abandoning exchange");
+        ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonSwitch" }).run();
+        return true;
+    }
+
+    Log.info(__FUNCTION__, "| exchanging copper:", worst_it->name, "->", m_new_copper.name);
+
+    // 点击通宝后执行确认交换任务
+    sleep(300);
+    click_copper_at_position(worst_it->index);
+    sleep(300);
+    ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
+
+    return true;
 }
 
-void asst::RoguelikeCoppersTaskPlugin::slowly_swipe_to_the_left_of_copperlist(int loop_times) const
+void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(bool to_left, int times, bool slowly) const
 {
-    for (int i = 0; i < loop_times; ++i) {
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft" }).run();
+    for (int i = 0; i < times; ++i) {
+        std::string task_name;
+        if (to_left) {
+            task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
+                               : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
+        }
+        else {
+            task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
+                               : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
+        }
+
+        ProcessTask(*this, { task_name }).run();
     }
 }
 
-void asst::RoguelikeCoppersTaskPlugin::slowly_swipe_to_the_right_of_copperlist(int loop_times) const
+void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
 {
-    for (int i = 0; i < loop_times; ++i) {
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight" }).run();
-    }
+    int col = index / m_row;
+    int row = index % m_row;
+
+    Point click_point(m_origin_x + col * m_column_offset, m_origin_y + row * m_row_offset);
+
+    ctrler()->click(click_point);
 }
 
-void asst::RoguelikeCoppersTaskPlugin::swipe_to_the_left_of_copperlist(int loop_times) const
+asst::RoguelikeCopper
+    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int index) const
 {
-    for (int i = 0; i < loop_times; ++i) {
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeToTheLeft" }).run();
-    }
-    ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
-}
+    RoguelikeCopper copper;
 
-void asst::RoguelikeCoppersTaskPlugin::swipe_to_the_right_of_copperlist(int loop_times) const
-{
-    for (int i = 0; i < loop_times; ++i) {
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeToTheRight" }).run();
+    if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
+        copper = *found_copper;
+        copper.col = col;
+        copper.index = index;
+        Log.info(
+            __FUNCTION__,
+            "| created copper:",
+            name,
+            "priority:",
+            copper.pickup_priority,
+            "/",
+            copper.discard_priority);
     }
-    ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
+    else {
+        Log.error(__FUNCTION__, "| copper not found in config:", name, "type:", static_cast<int>(copper.type));
+    }
+
+    return copper;
 }
