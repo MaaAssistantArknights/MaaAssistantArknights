@@ -34,6 +34,12 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.minitouch_swipe_default_duration = options_json.get("minitouchSwipeDefaultDuration", 200);
         m_options.minitouch_swipe_extra_end_delay = options_json.get("minitouchSwipeExtraEndDelay", 150);
         m_options.swipe_with_pause_required_distance = options_json.get("swipeWithPauseRequiredDistance", 50);
+        m_options.pause_button_x = options_json.at("pauseButton")[0].as_integer();
+        m_options.pause_button_y = options_json.at("pauseButton")[1].as_integer();
+        m_options.swipe_with_pause_pre_delay = options_json.at("swipeWithPausePreDelay").as_integer();
+        m_options.minitouch_swipe_with_pause_post_delay =
+            options_json.at("minitouchSwipeWithPausePostDelay").as_integer();
+
         if (auto order = options_json.find<json::array>("minitouchProgramsOrder")) {
             m_options.minitouch_programs_order.clear();
             for (const auto& type : *order) {

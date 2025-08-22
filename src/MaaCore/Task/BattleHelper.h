@@ -122,6 +122,7 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    bool m_paused = false;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

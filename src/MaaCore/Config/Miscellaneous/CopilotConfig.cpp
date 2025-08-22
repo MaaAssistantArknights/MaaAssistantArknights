@@ -188,6 +188,12 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "Pause", ActionType::Pause },
+            { "PAUSE", ActionType::Pause },
+            { "pause", ActionType::Pause },
+            { "暂停", ActionType::Pause },
+            { "取消暂停", ActionType::Pause },
+
             { "MoveCamera", ActionType::MoveCamera },
             { "movecamera", ActionType::MoveCamera },
             { "MOVECAMERA", ActionType::MoveCamera },

@@ -395,6 +395,12 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
+    if (deploy_with_pause) {
+        if (!m_paused) {
+            ProcessTask(this_task(), { "BattlePause" }).run();
+        }
+        m_inst_helper.ctrler()->click(oper_point);
+    }
     m_inst_helper.ctrler()->swipe(
         oper_point,
         target_point,
@@ -434,7 +440,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
     }
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         // m_inst_helper.ctrler()->press_esc();
         ProcessTask(this_task(), { "BattlePauseCancel" }).run();
     }
