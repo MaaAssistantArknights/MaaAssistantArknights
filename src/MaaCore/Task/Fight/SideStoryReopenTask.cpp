@@ -22,9 +22,9 @@ void asst::SideStoryReopenTask::set_medicine(int medicine)
     m_medicine = medicine;
 }
 
-void asst::SideStoryReopenTask::set_expiring_medicine(int expiring_medicine)
+void asst::SideStoryReopenTask::set_medicine_expiring_in_days(int medicine_expiring_in_days)
 {
-    m_expiring_medicine = expiring_medicine;
+    m_medicine_expiring_in_days = medicine_expiring_in_days;
 }
 
 void asst::SideStoryReopenTask::set_stone(int stone)
@@ -207,7 +207,7 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
 
     auto medicine_plugin = fight_task.register_plugin<MedicineCounterTaskPlugin>();
     medicine_plugin->set_count(use_medicine ? 1 : 0);
-    medicine_plugin->set_use_expiring(m_expiring_medicine);
+    medicine_plugin->set_medicine_expiring_in_days(m_medicine_expiring_in_days);
 
     auto plugin = fight_task.register_plugin<StageQueueMissionCompletedTaskPlugin>();
     plugin->set_drop_stats(std::move(m_drop_stats));
