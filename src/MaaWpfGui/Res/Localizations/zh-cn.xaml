@@ -1167,8 +1167,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="UnknownDllDetected" xml:space="preserve">检测到 MAA 运行目录下存在未知 DLL 文件，可能导致 DLL 劫持并产生意外后果。
-请将 MAA 解压到一个独立的新文件夹中，或移除不属于 MAA 的 DLL 文件。
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">检测到 MAA 运行目录下存在未知 dll 文件，可能导致 dll 劫持并产生意外后果。
+请将 MAA 解压到一个独立的新文件夹中，或移除不属于 MAA 的 dll 文件。
     </system:String>
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">检测到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安装或版本过低,
 点击 "确定" 执行安装脚本并退出 MAA, 点击 "取消" 将直接退出.

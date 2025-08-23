@@ -67,7 +67,7 @@ namespace MaaWpfGui.Main
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        private static bool UnknownDllDetected()
+        private static List<string> UnknownDllDetected()
         {
             try
             {
@@ -85,11 +85,14 @@ namespace MaaWpfGui.Main
                 var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-                return dllFiles.Select(Path.GetFileName).Any(fileName => !maaDlls.Contains(fileName));
+                return dllFiles
+                    .Select(Path.GetFileName)
+                    .Where(fileName => !maaDlls.Contains(fileName))
+                    .ToList();
             }
             catch (Exception)
             {
-                return true;
+                return [];
             }
         }
 
@@ -221,14 +224,15 @@ namespace MaaWpfGui.Main
             // debug 模式下 dll 是未打包的
             if (maaEnv != "Debug")
             {
-                if (UnknownDllDetected())
+                var unknownDlls = UnknownDllDetected();
+                if (unknownDlls.Count > 0)
                 {
-                    var ret = MessageBoxHelper.Show(LocalizationHelper.GetString("UnknownDllDetected"), "MAA", MessageBoxButton.OK, MessageBoxImage.Error);
-                    if (ret == MessageBoxResult.OK)
-                    {
-                        _logger.Fatal("Unknown DLL was detected.");
-                    }
-
+                    MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
+                        "MAA",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    _logger.Fatal("Unknown dll was detected: {UnknownDlls}", string.Join(", ", unknownDlls));
                     Shutdown();
                     return;
                 }
@@ -274,7 +278,7 @@ namespace MaaWpfGui.Main
 
             if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
             {
-                return;
+                // return;
             }
         }
 
