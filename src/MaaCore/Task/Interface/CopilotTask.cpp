@@ -177,7 +177,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     size_t loop_times = params.get("loop_times", 1);
     if (need_navigate) {
         // 如果没三星就中止
-        Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(navigate_name);
         m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
         m_stop_task_ptr->set_enable(true);
     }

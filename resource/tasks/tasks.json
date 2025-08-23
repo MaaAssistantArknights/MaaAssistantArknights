@@ -4716,11 +4716,23 @@
         "next": ["Copilot@ClickCornerUntilEndOfAction"]
     },
     "Copilot@ClickCornerUntilStartButton": {
-        "Doc": "三星之后"
+        "Doc": "三星之后",
+        "next": [
+            "Copilot@BattleStartPreFlag",
+            "Copilot@BattleStartPreFlag-Return",
+            "Copilot@ClickCornerUntilStartButton"
+        ]
     },
     "Copilot@BattleStartPreFlag": {
-        "baseTask": "BattleStartPreFlag",
-        "roi": [0, 0, 1280, 720]
+        "baseTask": "BattleStartPreFlag"
+    },
+    "Copilot@BattleStartPreFlag-Return": {
+        "doc": "使用左上角的黑色返回按钮作为flag",
+        "baseTask": "Return",
+        "template": "Return.png",
+        "action": "DoNothing",
+        "preDelay": 500,
+        "postDelay": 1000
     },
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",
