@@ -158,7 +158,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
 
 bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 {
-    swipe_copper_list(true, 2); // 有时候进去不在最左边
+    swipe_copper_list_left(2); // 有时候进去不在最左边
 
     MultiMatcher matcher;
     RegionOCRer ocr(ctrler()->get_image());
@@ -228,7 +228,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         if (col != 0 && col != m_col) {
             // col = 0 在识别左边新拾取的通宝
             // col = m_col 在识别最右边一列的通宝
-            swipe_copper_list(false, 1, true);
+            // 将列表向右滑动一列
+            swipe_copper_list_right(1, true);
         }
     }
 
@@ -263,18 +264,21 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
     return true;
 }
 
-void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(bool to_left, int times, bool slowly) const
+void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool slowly) const
 {
     for (int i = 0; i < times; ++i) {
-        std::string task_name;
-        if (to_left) {
-            task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
-                               : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
-        }
-        else {
-            task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
-                               : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
-        }
+        std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
+                                       : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
+
+        ProcessTask(*this, { task_name }).run();
+    }
+}
+
+void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool slowly) const
+{
+    for (int i = 0; i < times; ++i) {
+        std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
+                                       : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
 
         ProcessTask(*this, { task_name }).run();
     }
@@ -287,10 +291,10 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
     Point click_point(m_origin_x, m_origin_y + (row - 1) * m_row_offset);
 
     // 滑动回到最左边
-    swipe_copper_list(true, m_col);
+    swipe_copper_list_left(m_col);
     sleep(300);
 
-    swipe_copper_list(false, col - 1);
+    swipe_copper_list_right(col - 1);
 
     ctrler()->click(click_point);
     sleep(300);

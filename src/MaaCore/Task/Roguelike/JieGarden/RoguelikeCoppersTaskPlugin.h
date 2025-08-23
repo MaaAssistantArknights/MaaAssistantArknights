@@ -30,7 +30,8 @@ private:
     bool handle_choose_mode();
     bool handle_switch_mode();
 
-    void swipe_copper_list(bool to_left, int times, bool slowly = false) const;
+    void swipe_copper_list_left(int times, bool slowly = false) const;
+    void swipe_copper_list_right(int times, bool slowly = false) const;
     void click_copper_at_position(int index) const;
 
     RoguelikeCopper create_copper_from_name(const std::string& name, int col = 0, int index = 0) const;
