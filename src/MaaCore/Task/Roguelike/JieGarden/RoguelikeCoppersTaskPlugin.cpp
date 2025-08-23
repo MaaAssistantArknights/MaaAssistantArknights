@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
@@ -99,6 +100,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     auto image = ctrler()->get_image();
     matcher.set_image(image);
 
+#ifdef ASST_DEBUG
+    cv::Mat image_draw = image.clone();
+#endif
+
     if (!matcher.analyze()) {
         Log.error(__FUNCTION__, "| failed to analyze GetDropSwitch");
         return false;
@@ -110,6 +115,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
     RegionOCRer ocr(image);
 
+    // 通过识别到的每个通宝类型来识别通宝名称
     for (size_t i = 0; i < match_results.size(); ++i) {
         const auto& [rect, score, templ_name] = match_results[i];
 
@@ -133,6 +139,23 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
         auto copper = create_copper_from_name(copper_name, 1, static_cast<int>(i));
         Point click_point(rect.x + rect.width / 2, rect.y + rect.height / 2);
         m_pending_copper.emplace_back(std::move(copper), click_point);
+
+#ifdef ASST_DEBUG
+        // 绘制识别出的通宝名称 - 不支持中文，所以只绘制score
+        cv::rectangle(
+            image_draw,
+            cv::Rect(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height),
+            cv::Scalar(0, 255, 0),
+            2);
+        cv::putText(
+            image_draw,
+            "score: " + std::to_string(ocr.get_result().score),
+            cv::Point(rect.x, std::max(0, rect.y + m_ocr_roi_offset_y - 6)),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 255, 0),
+            1);
+#endif
     }
 
     if (m_pending_copper.empty()) {
@@ -154,6 +177,18 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
         max_pickup_it->first.pickup_priority);
     ctrler()->click(max_pickup_it->second);
 
+#ifdef ASST_DEBUG
+    try {
+        const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+        const auto relative_path = relative_dir / (utils::get_time_filestem() + "_choose_draw.png");
+        Log.debug(__FUNCTION__, "| Saving choose mode debug image to ", relative_path);
+        asst::imwrite(relative_path, image_draw);
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
+    }
+#endif
+
     return true;
 }
 
@@ -166,6 +201,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
     RegionOCRer ocr(ctrler()->get_image());
     const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
     const auto cast_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-CastOCR");
+
+#ifdef ASST_DEBUG
+    cv::Mat image_draw;
+#endif
 
     // 扫描所有列的通宝
     for (int col = 0; col <= m_col; ++col) {
@@ -181,6 +220,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         }
 
         auto image = ctrler()->get_image();
+#ifdef ASST_DEBUG
+        image_draw = image.clone();
+#endif
         matcher.set_image(image);
         ocr.set_image(image);
 
@@ -236,6 +278,27 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
             else {
                 m_copper_list.emplace_back(std::move(copper));
             }
+
+#ifdef ASST_DEBUG
+            cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
+            // cv::putText(
+            //     image_draw,
+            //     copper_name,
+            //     cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
+            //     cv::FONT_HERSHEY_SIMPLEX,
+            //     0.45,
+            //     cv::Scalar(0, 0, 255),
+            //     1);
+            try {
+                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+                const auto relative_path = relative_dir / (utils::get_time_filestem() + "_switch_draw.png");
+                Log.debug(__FUNCTION__, "| Saving switch mode debug image to ", relative_path);
+                asst::imwrite(relative_path, image_draw);
+            }
+            catch (const std::exception& e) {
+                Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
+            }
+#endif
         }
 
         // 在中间列之间滑动
@@ -348,6 +411,29 @@ asst::RoguelikeCopper
     }
     else {
         Log.error(__FUNCTION__, "| copper not found in config:", name, "type:", static_cast<int>(copper.type));
+
+        try {
+            cv::Mat screen = ctrler()->get_image();
+            if (!screen.empty()) {
+                cv::Mat screen_draw = screen.clone();
+                // const std::string label = "Unknown copper: " + name;
+                // cv::putText(
+                //     screen_draw,
+                //     label,
+                //     cv::Point(10, 30),
+                //     cv::FONT_HERSHEY_SIMPLEX,
+                //     0.8,
+                //     cv::Scalar(0, 0, 255),
+                //     2);
+                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+                const auto relative_path = relative_dir / (utils::get_time_filestem() + "_unknown_copper.png");
+                Log.debug(__FUNCTION__, "| Saving unknown copper debug image to ", relative_path);
+                asst::imwrite(relative_path, screen_draw);
+            }
+        }
+        catch (const std::exception& e) {
+            Log.error(__FUNCTION__, "| failed to save unknown copper debug image:", e.what());
+        }
     }
 
     return copper;
