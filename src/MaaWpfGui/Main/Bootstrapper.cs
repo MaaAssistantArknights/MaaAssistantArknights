@@ -221,7 +221,7 @@ namespace MaaWpfGui.Main
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
 
-            // debug 模式下 dll 是未打包的
+            // Debug 模式下 DLL 是未打包的
             if (maaEnv != "Debug")
             {
                 var unknownDlls = UnknownDllDetected();
@@ -232,7 +232,7 @@ namespace MaaWpfGui.Main
                         "MAA",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
-                    _logger.Fatal("Unknown dll was detected: {UnknownDlls}", string.Join(", ", unknownDlls));
+                    _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
                     Shutdown();
                     return;
                 }
