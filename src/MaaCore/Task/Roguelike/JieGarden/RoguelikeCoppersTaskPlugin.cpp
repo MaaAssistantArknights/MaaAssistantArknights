@@ -277,7 +277,15 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                     is_cast = true;
                 }
 #ifdef ASST_DEBUG
-                cv::rectangle(image_draw, match_result.rect, cv::Scalar(0, 0, 255), 2);
+                cv::rectangle(
+                    image_draw,
+                    cv::Rect(
+                        match_result.rect.x,
+                        match_result.rect.y,
+                        match_result.rect.width,
+                        match_result.rect.height),
+                    cv::Scalar(0, 0, 255),
+                    2);
                 cv::putText(
                     image_draw,
                     "score: " + std::to_string(ocr.get_result().score),
