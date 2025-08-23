@@ -91,6 +91,7 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
     return success;
 }
 
+// 处理掉落通宝的拾取 识别交换按钮，roi偏移来识别通宝名称
 bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
 {
     MultiMatcher matcher;
@@ -156,6 +157,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     return true;
 }
 
+// 交换通宝 先识别通宝类型，然后roi偏移来OCR通宝名称和是否已投出
 bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 {
     swipe_copper_list_left(2); // 有时候进去不在最左边
@@ -265,7 +267,17 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         return true;
     }
 
-    Log.info(__FUNCTION__, "| exchanging copper:", worst_it->name, "->", m_new_copper.name);
+    Log.info(
+        __FUNCTION__,
+        "| exchanging copper:",
+        worst_it->name,
+        "(",
+        worst_it->col,
+        ",",
+        worst_it->index,
+        ")",
+        "->",
+        m_new_copper.name);
 
     // 点击通宝后执行确认交换任务
 
@@ -330,7 +342,9 @@ asst::RoguelikeCopper
             "priority:",
             copper.pickup_priority,
             "/",
-            copper.discard_priority);
+            copper.discard_priority,
+            "/",
+            copper.cast_discard_priority);
     }
     else {
         Log.error(__FUNCTION__, "| copper not found in config:", name, "type:", static_cast<int>(copper.type));
