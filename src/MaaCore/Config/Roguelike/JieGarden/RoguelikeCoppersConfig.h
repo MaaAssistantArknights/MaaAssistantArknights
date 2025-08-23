@@ -35,7 +35,7 @@ struct RoguelikeCopper
     int discard_priority = 1000;    // 丢弃优先级
     int cast_discard_priority = -1; // 可选，已投出时的丢弃优先级，优先级>=0且is_cast=true时替代discard_priority
     int col = 0;
-    int index = 0;
+    int row = 0;
     bool is_cast = false;
 
     int get_copper_discard_priority() const
