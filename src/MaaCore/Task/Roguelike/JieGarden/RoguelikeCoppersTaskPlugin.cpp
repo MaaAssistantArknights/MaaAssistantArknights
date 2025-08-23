@@ -163,6 +163,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
     MultiMatcher matcher;
     RegionOCRer ocr(ctrler()->get_image());
     const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+    const auto cast_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-CastOCR");
 
     // 扫描所有列的通宝
     for (int col = 0; col <= m_col; ++col) {
@@ -194,6 +195,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
         // 处理当前列的匹配结果
         for (size_t row = 0; row < match_results.size(); ++row) {
+            bool is_cast = false;
+
             const auto& match_result = match_results[row];
 
             Rect roi = match_result.rect.move(name_task->roi);
@@ -211,7 +214,16 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                 continue;
             }
 
-            Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")");
+            if (col != 0) {
+                // 识别是否已投出
+                Rect cast_roi = match_result.rect.move(cast_task->roi);
+                ocr.set_roi(cast_roi);
+                if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
+                    is_cast = true;
+                }
+            }
+
+            Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
 
             auto copper = create_copper_from_name(copper_name, col, static_cast<int>(row + 1));
             copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
@@ -240,10 +252,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
     // 决定是否交换并执行
     auto worst_it = std::max_element(m_copper_list.begin(), m_copper_list.end(), [](const auto& a, const auto& b) {
-        return a.discard_priority < b.discard_priority;
+        return a.get_copper_discard_priority() < b.get_copper_discard_priority();
     });
 
-    if (worst_it->discard_priority < m_new_copper.discard_priority) {
+    if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         Log.info(
             "handle_switch_mode",
             "new copper (",
@@ -301,7 +313,8 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
 }
 
 asst::RoguelikeCopper
-    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int index) const
+    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int index, bool is_cast)
+        const
 {
     RoguelikeCopper copper;
 
@@ -309,6 +322,7 @@ asst::RoguelikeCopper
         copper = *found_copper;
         copper.col = col;
         copper.index = index;
+        copper.is_cast = is_cast;
         Log.info(
             __FUNCTION__,
             "| created copper:",
