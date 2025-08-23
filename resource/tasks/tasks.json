@@ -1561,7 +1561,7 @@
     "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
-        "text": [],
+        "text": ["分钟", "小时", "天"],
         "doc": "在MedicineCounterTaskPlugin动态修改",
         "ocrReplace": [
             [".+小时", "小时"],
