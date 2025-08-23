@@ -49,7 +49,6 @@ private:
     int m_row = 0;              // 行数 (row)
     int m_origin_x = 0;         // 第一列节点的默认横坐标 (Rect.x)
     int m_origin_y = 0;         // 第一行节点的默认纵坐标 (Rect.y)
-    int m_last_y = 0;           // 最后行节点的默认纵坐标 (Rect.y)
     int m_column_offset = 0;    // 两列节点之间的距离
     int m_row_offset = 0;       // 两行节点之间的距离
     int m_ocr_roi_offset_y = 0; // 通宝掉落选择时从交换按钮到名称的y偏移量
