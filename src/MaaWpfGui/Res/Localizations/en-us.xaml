@@ -1167,16 +1167,13 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="UnknownDLLDetected" xml:space="preserve">
-An unknown DLL file has been detected in the MAA runtime directory, which may cause DLL hijacking and unexpected consequences.
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">An unknown DLL file has been detected in the MAA runtime directory, which may cause DLL hijacking and unexpected consequences.
 Please extract MAA into a separate new folder, or remove any DLL files that do not belong to MAA.
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
 Click "OK" to execute the installation script and exit MAA. Click "Cancel" to exit MAA directly.
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-Only one instance can be launched under the same path!
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">The current software location cannot save data, which may cause settings loss or runtime errors. Please move the software to a writable directory. Do not place it in system-protected directories (e.g., Program Files, System32, or Windows directories).</system:String>

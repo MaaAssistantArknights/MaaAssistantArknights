@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -66,18 +67,8 @@ namespace MaaWpfGui.Main
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        private static bool UnknownDLLDetected()
+        private static bool UnknownDllDetected()
         {
-            var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
-                ? "Debug"
-                : "Production";
-            var withDebugFile = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
-
-            if (maaEnv == "Debug" || withDebugFile)
-            {
-                return false;
-            }
-
             try
             {
                 // 属于 MAA 的 DLL 列表
@@ -94,16 +85,7 @@ namespace MaaWpfGui.Main
                 var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-                foreach (var dllFile in dllFiles)
-                {
-                    var fileName = Path.GetFileName(dllFile);
-                    if (!maaDlls.Contains(fileName))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return dllFiles.Select(Path.GetFileName).Any(fileName => !maaDlls.Contains(fileName));
             }
             catch (Exception)
             {
@@ -236,16 +218,20 @@ namespace MaaWpfGui.Main
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
 
-            if (UnknownDLLDetected())
+            // debug 模式下 dll 是未打包的
+            if (maaEnv != "Debug")
             {
-                var ret = MessageBox.Show(LocalizationHelper.GetString("UnknownDLLDetected"), "MAA", MessageBoxButton.OK, MessageBoxImage.Error);
-                if (ret == MessageBoxResult.OK)
+                if (UnknownDllDetected())
                 {
-                    _logger.Fatal("Unknown DLL was detected.");
-                }
+                    var ret = MessageBoxHelper.Show(LocalizationHelper.GetString("UnknownDllDetected"), "MAA", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (ret == MessageBoxResult.OK)
+                    {
+                        _logger.Fatal("Unknown DLL was detected.");
+                    }
 
-                Shutdown();
-                return;
+                    Shutdown();
+                    return;
+                }
             }
 
             if (!IsVCppInstalled())

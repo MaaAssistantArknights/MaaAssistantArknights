@@ -1167,16 +1167,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="UnknownDLLDetected" xml:space="preserve">
-檢測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">檢測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
 請將 MAA 解壓縮到一個獨立的新資料夾中，或移除不屬於 MAA 的 DLL 檔案。
     </system:String>
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
 點擊 "確定" 將執行安裝腳本並退出 MAA，點擊 "取消" 將直接退出 MAA。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-同一路徑下只能啟動一個實例！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個實例！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
