@@ -257,6 +257,18 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                 continue;
             }
 
+#ifdef ASST_DEBUG
+            cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
+            cv::putText(
+                image_draw,
+                "score: " + std::to_string(ocr.get_result().score),
+                cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
+                cv::FONT_HERSHEY_SIMPLEX,
+                0.45,
+                cv::Scalar(0, 0, 255),
+                1);
+#endif
+
             if (col != 0) {
                 // 识别是否已投出
                 Rect cast_roi = match_result.rect.move(cast_task->roi);
@@ -264,6 +276,17 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                 if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
                     is_cast = true;
                 }
+#ifdef ASST_DEBUG
+                cv::rectangle(image_draw, match_result.rect, cv::Scalar(0, 0, 255), 2);
+                cv::putText(
+                    image_draw,
+                    "score: " + std::to_string(ocr.get_result().score),
+                    cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
+                    cv::FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    cv::Scalar(0, 255, 0),
+                    1);
+#endif
             }
 
             Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
@@ -277,27 +300,6 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
             else {
                 m_copper_list.emplace_back(std::move(copper));
             }
-
-#ifdef ASST_DEBUG
-            cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
-            // cv::putText(
-            //     image_draw,
-            //     copper_name,
-            //     cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
-            //     cv::FONT_HERSHEY_SIMPLEX,
-            //     0.45,
-            //     cv::Scalar(0, 0, 255),
-            //     1);
-            try {
-                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-                const auto relative_path = relative_dir / (utils::get_time_filestem() + "_switch_draw.png");
-                Log.debug(__FUNCTION__, "| Saving switch mode debug image to ", relative_path);
-                asst::imwrite(relative_path, image_draw);
-            }
-            catch (const std::exception& e) {
-                Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
-            }
-#endif
         }
 
         // 在中间列之间滑动
@@ -307,6 +309,18 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
             // 将列表向右滑动一列
             swipe_copper_list_right(1, true);
         }
+
+#ifdef ASST_DEBUG
+        try {
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+            const auto relative_path = relative_dir / (utils::get_time_filestem() + "_switch_draw.png");
+            Log.debug(__FUNCTION__, "| Saving switch mode debug image to ", relative_path);
+            asst::imwrite(relative_path, image_draw);
+        }
+        catch (const std::exception& e) {
+            Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
+        }
+#endif
     }
 
     if (m_copper_list.empty()) {
