@@ -155,7 +155,8 @@ bool asst::MinitouchController::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    const Point& pause_button)
 {
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
@@ -197,7 +198,7 @@ bool asst::MinitouchController::swipe(
         int x3 = x1 + static_cast<int>(opt.swipe_with_pause_required_distance * dx / len);
         int y3 = y1 + static_cast<int>(opt.swipe_with_pause_required_distance * dy / len);
         // 按下右上角暂停按钮
-        if (!m_minitoucher->down(opt.pause_button_x, opt.pause_button_y, Minitoucher::DefaultClickDelay, true, 1)) {
+        if (!m_minitoucher->down(pause_button.x, pause_button.y, Minitoucher::DefaultClickDelay, true, 1)) {
             return false;
         }
         if (!m_minitoucher->up(opt.swipe_with_pause_pre_delay, true, 1)) {

@@ -52,8 +52,6 @@ struct Options
     int minitouch_swipe_default_duration = 0;
     int minitouch_swipe_extra_end_delay = 0;
     int swipe_with_pause_required_distance = 0;
-    int pause_button_x = 0;
-    int pause_button_y = 0;
     int swipe_with_pause_pre_delay = 0;
     int minitouch_swipe_with_pause_post_delay = 0;
     std::vector<std::string> minitouch_programs_order;

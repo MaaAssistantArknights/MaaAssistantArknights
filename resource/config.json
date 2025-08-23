@@ -28,8 +28,6 @@
         "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
         "swipeWithPausePreDelay": 20,
         "swipeWithPausePreDelay_Doc": "按下右下角暂停按钮后多久开始划出干员",
-        "pauseButton": [1200, 50],
-        "pauseButton_Doc": "右上角暂停按钮坐标",
         "minitouchSwipeWithPausePostDelay": 50,
         "minitouchSwipeWithPausePostDelay_Doc": "划出干员后等多久开始按暂停",
         "penguinReport": {

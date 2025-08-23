@@ -37,6 +37,7 @@ public:
         double slope_in = 1,
         double slope_out = 1,
         bool with_pause = false,
+        const Point& pause_button = Point(),
         bool high_resolution_swipe_fix = false);
     bool swipe(
         const Rect& r1,
@@ -46,6 +47,7 @@ public:
         double slope_in = 1,
         double slope_out = 1,
         bool with_pause = false,
+        const Point& pause_button = Point(),
         bool high_resolution_swipe_fix = false);
 
     bool inject_input_event(InputEvent event);
