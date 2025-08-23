@@ -354,14 +354,14 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         "(",
         worst_it->col,
         ",",
-        worst_it->index,
+        worst_it->row,
         ")",
         "->",
         m_new_copper.name);
 
     // 点击通宝后执行确认交换任务
 
-    click_copper_at_position(worst_it->index);
+    click_copper_at_position(worst_it->col, worst_it->row);
 
     ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
 
@@ -388,10 +388,8 @@ void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
     }
 }
 
-void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
+void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row) const
 {
-    int col = index / m_row;
-    int row = index % m_row;
     Point click_point(m_origin_x, m_origin_y + (row - 1) * m_row_offset);
 
     // 滑动回到最左边
@@ -405,7 +403,7 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int index) const
 }
 
 asst::RoguelikeCopper
-    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int index, bool is_cast)
+    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int row, bool is_cast)
         const
 {
     RoguelikeCopper copper;
@@ -413,7 +411,7 @@ asst::RoguelikeCopper
     if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
         copper = *found_copper;
         copper.col = col;
-        copper.index = index;
+        copper.row = row;
         copper.is_cast = is_cast;
         Log.info(
             __FUNCTION__,

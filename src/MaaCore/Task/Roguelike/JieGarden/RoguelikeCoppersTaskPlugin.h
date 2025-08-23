@@ -32,10 +32,10 @@ private:
 
     void swipe_copper_list_left(int times, bool slowly = false) const;
     void swipe_copper_list_right(int times, bool slowly = false) const;
-    void click_copper_at_position(int index) const;
+    void click_copper_at_position(int col, int row) const;
 
     RoguelikeCopper
-        create_copper_from_name(const std::string& name, int col = 0, int index = 0, bool is_cast = false) const;
+        create_copper_from_name(const std::string& name, int col = 0, int row = 0, bool is_cast = false) const;
 
     mutable asst::CoppersTaskRunMode m_run_mode;
     // 记录当前通宝列表的状态
