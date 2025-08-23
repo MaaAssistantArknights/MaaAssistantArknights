@@ -219,6 +219,12 @@
             ["衡-苦寒[._]", "衡-苦寒"]
         ]
     },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "algorithm": "OcrDetect",
+        "text": ["已投出"],
+        "Doc": "通宝已投出识别 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "roi": [-115, 90, 69, 24]
+    },
     "JieGarden@Roguelike@CoppersAnalyzer-Type": {
         "template": [
             "JieGarden@Roguelike@CoppersTypeLi.png",
@@ -246,7 +252,7 @@
         "roi": [0, 396, 353, 235]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-NameOCR": {
-        "Doc": "通宝名称识别 - 若通宝类型 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "Doc": "通宝名称识别 - 若通宝类型 的 Rect 为 r, 则通宝名称识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
         "roi": [32, -5, 160, 40]
     },

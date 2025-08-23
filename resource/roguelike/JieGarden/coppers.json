@@ -48,28 +48,32 @@
             "desc": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
             "pickup_priority": 200,
-            "discard_priority": 800
+            "discard_priority": 800,
+            "cast_discard_priority": 1000
         },
         {
             "name": "衡-水生木护",
             "desc": "投出时，立即获得护盾值+2（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
             "pickup_priority": 200,
-            "discard_priority": 800
+            "discard_priority": 800,
+            "cast_discard_priority": 1000
         },
         {
             "name": "衡-金寒水衍",
             "desc": "投出时，立即获得希望+1（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
             "pickup_priority": 200,
-            "discard_priority": 800
+            "discard_priority": 800,
+            "cast_discard_priority": 1000
         },
         {
             "name": "花-火灼土沃",
             "desc": "投出时，立即获得目标生命上限+1（下次投钱前变化为-大炎通宝）",
             "rarity": "NORMAL",
             "pickup_priority": 200,
-            "discard_priority": 800
+            "discard_priority": 800,
+            "cast_discard_priority": 1000
         },
         {
             "name": "衡-投木炎延",
@@ -367,7 +371,8 @@
             "desc": "位于钱盒内时，战斗后获得的指挥经验+30%；投出时，所有敌人的移动速度+30%，攻击力+30%。（下次投钱前变化为-大炎通宝）",
             "rarity": "RARE",
             "pickup_priority": 300,
-            "discard_priority": 500
+            "discard_priority": 500,
+            "cast_discard_priority": 800
         },
         {
             "name": "花-平沙之盾",
@@ -478,7 +483,8 @@
             "desc": "在界园投出时，立即获得4张票券。在岁兽残识投出时，剩余烛火+2。（下次投钱前变化为-大炎通宝）",
             "rarity": "SUPER_RARE",
             "pickup_priority": 200,
-            "discard_priority": 600
+            "discard_priority": 600,
+            "cast_discard_priority": 1000
         },
         {
             "name": "花-己任重",
