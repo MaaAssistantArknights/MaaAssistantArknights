@@ -235,7 +235,7 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [436, 109, 312, 498]
+        "roi": [436, 109, 400, 498]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-RightType": {
         "Doc": "右侧区域识别",
