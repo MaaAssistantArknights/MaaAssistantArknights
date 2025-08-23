@@ -201,10 +201,10 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         auto is_expiring = ExpiringStatus::UnSure;
         if (m_used_count >= m_max_count) {
             if (m_medicine_expiring_in_days) {
-                expiring_task->text.emplace_back("分钟");
-                expiring_task->text.emplace_back("小时");
+                const auto day_format_str = expiring_task->text.back();
+                expiring_task->text.pop_back();
                 for (int i = 1; i < m_medicine_expiring_in_days; i++) {
-                    expiring_task->text.emplace_back(std::format("{}天", i));
+                    expiring_task->text.emplace_back(std::to_string(i) + day_format_str);
                 }
             }
             RegionOCRer expiring_ocr(image);
