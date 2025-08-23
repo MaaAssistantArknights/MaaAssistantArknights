@@ -24,10 +24,9 @@ bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::
     m_row = config->special_params.at(1);
     m_origin_x = config->special_params.at(2);
     m_origin_y = config->special_params.at(3);
-    m_last_y = config->special_params.at(4);
-    m_column_offset = config->special_params.at(5);
-    m_row_offset = config->special_params.at(6);
-    m_ocr_roi_offset_y = config->special_params.at(7);
+    m_column_offset = config->special_params.at(4);
+    m_row_offset = config->special_params.at(5);
+    m_ocr_roi_offset_y = config->special_params.at(6);
 
     return true;
 }
