@@ -240,7 +240,7 @@ namespace MaaWpfGui.Main
 
             if (!IsVCppInstalled())
             {
-                var ret = MessageBox.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel);
+                var ret = MessageBox.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel, MessageBoxImage.Information);
                 if (ret == MessageBoxResult.OK)
                 {
                     var startInfo = new ProcessStartInfo
@@ -265,7 +265,7 @@ namespace MaaWpfGui.Main
 
             if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
             {
-                Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Warning"), MessageBoxButton.OK, MessageBoxImage.Error));
+                Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
 
             base.OnStart();
@@ -300,7 +300,7 @@ namespace MaaWpfGui.Main
                     return true;
                 }
 
-                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
+                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"), "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             catch (AbandonedMutexException)
@@ -311,7 +311,7 @@ namespace MaaWpfGui.Main
             }
             catch (Exception e)
             {
-                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message);
+                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
         }
