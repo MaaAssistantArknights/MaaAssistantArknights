@@ -901,7 +901,6 @@ namespace MaaWpfGui.Main
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
-                        _tasksStatus.Clear();
                         break;
                     }
 
@@ -958,7 +957,6 @@ namespace MaaWpfGui.Main
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
                         }
 
-                        _tasksStatus.Clear();
                         break;
                     }
 
