@@ -283,7 +283,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                     cv::putText(
                         image_draw,
                         "score: " + std::to_string(ocr.get_result().score),
-                        cv::Point(cast_roi.x, std::max(0, cast_roi.y + 6)),
+                        cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 6)),
                         cv::FONT_HERSHEY_SIMPLEX,
                         0.45,
                         cv::Scalar(0, 0, 255),
