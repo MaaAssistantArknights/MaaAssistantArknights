@@ -174,7 +174,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     if (m_multi_copilot_plugin_ptr->get_enable()) {
         // 如果没三星就中止
         m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
-        m_stop_task_ptr->set_enable(true);        
+        m_stop_task_ptr->set_enable(true);
     }
     else if (loop_times > 1) {
         m_stop_task_ptr->set_tasks({ "ClickCornerUntilStartButton" });
