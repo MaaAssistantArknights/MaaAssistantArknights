@@ -148,13 +148,12 @@
             "| specialParams[1]: 行数 (row)",
             "| specialParams[2]: 第一列节点的默认横坐标 (Rect.x)",
             "| specialParams[3]: 第一行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[4]: 最后行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[5]: 两列节点之间的距离",
-            "| specialParams[6]: 两行节点之间的距离",
-            "| specialParams[7]: 通宝掉落选择时从交换按钮到名称的y偏移量"
+            "| specialParams[4]: 两列节点之间的距离",
+            "| specialParams[5]: 两行节点之间的距离",
+            "| specialParams[6]: 通宝掉落选择时从交换按钮到名称的y偏移量"
         ],
         "template": "empty.png",
-        "specialParams": [4, 3, 586, 187, 527, 460, 182, -209]
+        "specialParams": [4, 3, 586, 187, 460, 182, -209]
     },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
