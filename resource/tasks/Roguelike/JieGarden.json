@@ -182,7 +182,12 @@
         "Doc": "本任务注册了插件 RoguelikeCoppersTaskPlugin",
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
         "roi": [1031, 606, 249, 114],
-        "next": ["JieGarden@Roguelike@DropsFlag", "JieGarden@Roguelike@CloseEvent", "#self"]
+        "next": [
+            "JieGarden@Roguelike@CoppersAbandonSwitch",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "#self"
+        ]
     },
     "JieGarden@Roguelike@CoppersTakeConfirm": {
         "Doc": "用于替换插件 RoguelikeCoppersTaskPlugin 的 baseTask",
