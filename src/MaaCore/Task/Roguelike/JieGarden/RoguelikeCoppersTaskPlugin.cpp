@@ -134,8 +134,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
         }
 
         Log.info(__FUNCTION__, "| found copper:", copper_name, "at position", i);
-
-        auto copper = create_copper_from_name(copper_name, 1, static_cast<int>(i));
+        auto copper = create_copper_from_name(copper_name, 1, static_cast<int>(i), false, roi);
         Point click_point(rect.x + rect.width / 2, rect.y + rect.height / 2);
         m_pending_copper.emplace_back(std::move(copper), click_point);
 
@@ -295,7 +294,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
             Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
 
-            auto copper = create_copper_from_name(copper_name, col, static_cast<int>(row + 1));
+            auto copper = create_copper_from_name(copper_name, col, static_cast<int>(row + 1), is_cast, roi);
             copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
 
             if (col == 0) {
@@ -402,9 +401,12 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
     sleep(300);
 }
 
-asst::RoguelikeCopper
-    asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(const std::string& name, int col, int row, bool is_cast)
-        const
+asst::RoguelikeCopper asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
+    const std::string& name,
+    int col,
+    int row,
+    bool is_cast,
+    const Rect& pos) const
 {
     RoguelikeCopper copper;
 
@@ -431,6 +433,7 @@ asst::RoguelikeCopper
             cv::Mat screen = ctrler()->get_image();
             if (!screen.empty()) {
                 cv::Mat screen_draw = screen.clone();
+                cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
                 // const std::string label = "Unknown copper: " + name;
                 // cv::putText(
                 //     screen_draw,
@@ -440,7 +443,7 @@ asst::RoguelikeCopper
                 //     0.8,
                 //     cv::Scalar(0, 0, 255),
                 //     2);
-                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
                 const auto relative_path = relative_dir / (utils::get_time_filestem() + "_unknown_copper.png");
                 Log.debug(__FUNCTION__, "| Saving unknown copper debug image to ", relative_path);
                 asst::imwrite(relative_path, screen_draw);
