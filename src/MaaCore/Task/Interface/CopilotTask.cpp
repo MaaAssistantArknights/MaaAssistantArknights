@@ -21,6 +21,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
 {
     LogTraceFunction;
 
+    m_multi_copilot_plugin_ptr->set_retry_times(0);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
