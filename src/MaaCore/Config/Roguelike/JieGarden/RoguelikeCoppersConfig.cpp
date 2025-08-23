@@ -29,7 +29,8 @@ bool asst::RoguelikeCoppersConfig::parse(const json::value& json)
 
         copper.type = get_type_from_name(copper.name);
         copper.pickup_priority = copper_json.get("pickup_priority", 0);
-        copper.discard_priority = copper_json.get("discard_priority", 2000);
+        copper.discard_priority = copper_json.get("discard_priority", 1000);
+        copper.cast_discard_priority = copper_json.get("cast_discard_priority", -1);
 
         m_coppers[theme].emplace_back(std::move(copper));
     }
