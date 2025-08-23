@@ -210,6 +210,6 @@ std::variant<int, std::filesystem::path> asst::CopilotTask::parse_copilot_filena
             Log.error("CopilotConfig parse failed");
             return -1;
         }
-        return std::move(path);
+        return path;
     }
 }
