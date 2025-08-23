@@ -1230,36 +1230,24 @@ namespace MaaWpfGui.ViewModels.UI
             if (UseCopilotList)
             {
                 _copilotIdList.Clear();
-                var tasks = CopilotItemViewModels.Where(i => i.IsChecked).Select(model =>
-                 {
-                     _copilotIdList.Add(model.CopilotId);
-                     var task = new AsstCopilotTask()
-                     {
-                         FileName = model.FilePath,
-                         Formation = _form,
-                         AddTrust = _addTrust,
-                         IgnoreRequirements = _ignoreRequirements,
-                         UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                         NeedNavigate = UseCopilotList,
-                         StageName = model.Name,
-                         IsRaid = model.IsRaid,
-                         LoopTimes = Loop ? LoopTimes : 1,
-                         UseSanityPotion = _useSanityPotion,
-                         FormationIndex = _formationIndex,
-                     };
-                     var (type, param) = task.Serialize();
-                     return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
-                 }).ToList();
 
-                if (tasks.Count > 0)
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
-                    ret = tasks.All(t => t) && Instances.AsstProxy.AsstStart();
-                }
-                else
-                {// 一个都没启动，怎会有如此无聊之人
-                    _runningState.SetIdle(true);
-                    return;
-                }
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name };
+                });
+                var task = new AsstCopilotTask()
+                {
+                    MultiTasks = t.ToList(),
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                    FormationIndex = _formationIndex,
+                };
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
             else
             {
@@ -1284,13 +1272,12 @@ namespace MaaWpfGui.ViewModels.UI
                     AddTrust = _addTrust,
                     IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
                     FormationIndex = UseFormation ? _formationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
-                ret &= Instances.AsstProxy.AsstStart();
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
 
             if (ret)
