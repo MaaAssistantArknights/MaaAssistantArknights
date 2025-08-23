@@ -90,6 +90,10 @@ bool asst::FightTask::set_params(const json::value& params)
         m_fight_times_prt->set_series(series);
     }
 
+    if (expiring_medicine != 0) {
+        Log.warn("expiring_medicine is deprecated, use medicine_expiring_in_days instead");
+    }
+
     bool enable_penguin = params.get("report_to_penguin", false);
     bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
