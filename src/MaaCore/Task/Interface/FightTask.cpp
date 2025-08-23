@@ -68,8 +68,11 @@ bool asst::FightTask::set_params(const json::value& params)
     // DEPRECATED IN FUTURE
     const int expiring_medicine = params.get("expiring_medicine", 0);
     // 吃几天之内的过期理智药
-    // 暂时做兼容性处理 如果上面的值不为0，则默认为2天
-    const int medicine_expiring_in_days = params.get("medicine_expiring_in_days", expiring_medicine == 0 ? 0 : 2);
+    // 暂时做兼容性处理 如果上面的值不为0，则默认吃2天内的药
+    int medicine_expiring_in_days = params.get("medicine_expiring_in_days", 0);
+    if (expiring_medicine != 0) {
+        medicine_expiring_in_days = 2;
+    }
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     const int series = params.get("series", 1);
