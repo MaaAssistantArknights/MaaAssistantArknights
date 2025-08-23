@@ -31,10 +31,20 @@ struct RoguelikeCopper
     std::string name;
     CopperRarity rarity = CopperRarity::Low;
     CopperType type = CopperType::Unknown;
-    int pickup_priority = 0;     // 拾取优先级
-    int discard_priority = 1000; // 丢弃优先级
+    int pickup_priority = 0;        // 拾取优先级
+    int discard_priority = 1000;    // 丢弃优先级
+    int cast_discard_priority = -1; // 可选，已投出时的丢弃优先级，优先级>=0且is_cast=true时替代discard_priority
     int col = 0;
     int index = 0;
+    bool is_cast = false;
+
+    int get_copper_discard_priority() const
+    {
+        if (is_cast && cast_discard_priority >= 0) {
+            return cast_discard_priority;
+        }
+        return discard_priority;
+    }
 };
 
 class RoguelikeCoppersConfig final : public SingletonHolder<RoguelikeCoppersConfig>, public AbstractConfig
