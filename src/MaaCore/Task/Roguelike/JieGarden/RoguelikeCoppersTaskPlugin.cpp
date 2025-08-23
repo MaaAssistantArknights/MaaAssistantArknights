@@ -262,7 +262,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
             cv::putText(
                 image_draw,
                 "score: " + std::to_string(ocr.get_result().score),
-                cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
+                cv::Point(roi.x, std::max(0, roi.y - 6)),
                 cv::FONT_HERSHEY_SIMPLEX,
                 0.45,
                 cv::Scalar(0, 0, 255),
@@ -275,26 +275,22 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                 ocr.set_roi(cast_roi);
                 if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
                     is_cast = true;
-                }
 #ifdef ASST_DEBUG
-                cv::rectangle(
-                    image_draw,
-                    cv::Rect(
-                        match_result.rect.x,
-                        match_result.rect.y,
-                        match_result.rect.width,
-                        match_result.rect.height),
-                    cv::Scalar(0, 0, 255),
-                    2);
-                cv::putText(
-                    image_draw,
-                    "score: " + std::to_string(ocr.get_result().score),
-                    cv::Point(match_result.rect.x, std::max(0, match_result.rect.y - 6)),
-                    cv::FONT_HERSHEY_SIMPLEX,
-                    0.45,
-                    cv::Scalar(0, 255, 0),
-                    1);
+                    cv::rectangle(
+                        image_draw,
+                        cv::Rect(cast_roi.x, cast_roi.y, cast_roi.width, cast_roi.height),
+                        cv::Scalar(0, 0, 255),
+                        2);
+                    cv::putText(
+                        image_draw,
+                        "score: " + std::to_string(ocr.get_result().score),
+                        cv::Point(cast_roi.x, std::max(0, cast_roi.y - 6)),
+                        cv::FONT_HERSHEY_SIMPLEX,
+                        0.45,
+                        cv::Scalar(0, 0, 255),
+                        1);
 #endif
+                }
             }
 
             Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
