@@ -165,11 +165,15 @@ void asst::MedicineCounterTaskPlugin::set_medicine_expiring_in_days(int medicine
     static const auto& expiring_task = Task.get<OcrTaskInfo>("MedicineExpiringTime");
     m_expiring_task = std::make_shared<OcrTaskInfo>(*expiring_task);
     if (m_medicine_expiring_in_days) {
+        // 最后一个是“天”
         const auto day_format_str = m_expiring_task->text.back();
         m_expiring_task->text.pop_back();
+        // 在text插入“1天”、“2天”...“N天”
         for (int i = 1; i < m_medicine_expiring_in_days; i++) {
             m_expiring_task->text.emplace_back(std::to_string(i) + day_format_str);
         }
+        LogTrace << __FUNCTION__ << "set medicine expiring in days to" << m_medicine_expiring_in_days
+                 << ", expiring ocr text size:" << m_expiring_task->text.size();
     }
 }
 
