@@ -11,11 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Models
 {
@@ -29,7 +33,7 @@ namespace MaaWpfGui.Models
         private bool _startUp;
         private bool _recruit;
         private bool _infrast;
-        private bool _combat;
+        private bool _fight;
         private bool _mall;
         private bool _award;
         private bool _roguelike;
@@ -43,7 +47,7 @@ namespace MaaWpfGui.Models
 
         public bool Base { get => _infrast; set => SetAndNotify(ref _infrast, value); }
 
-        public bool Combat { get => _combat; set => SetAndNotify(ref _combat, value); }
+        public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
 
         public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
 
@@ -60,52 +64,74 @@ namespace MaaWpfGui.Models
         public static TaskSettingVisibilityInfo Instance { get; } = new();
 
         // 长草任务当前选中
-        public int CurrentIndex { get; set; }
+        public int CurrentIndex
+        {
+            get => ConfigFactory.CurrentConfig.TaskSelectedIndex;
+            set
+            {
+                ConfigFactory.CurrentConfig.TaskSelectedIndex = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public void Set(string taskName, bool enable)
+        [PropertyDependsOn(nameof(CurrentIndex))]
+        public bool IsTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
+
+        public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
+
+        public void Set(int taskIndex, bool enable)
         {
             if (Guide && enable)
             {
-                _currentEnableSetting = taskName;
+                // TODO Config修复引导
+                // _currentEnableSetting = taskName;
                 enable = false;
             }
 
-            switch (taskName)
+            if (enable)
             {
-                case "WakeUp":
+                CurrentIndex = taskIndex;
+            }
+
+            if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
+            {
+                var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
+                if (task is StartUpTask)
+                {
                     WakeUp = enable;
-                    break;
-                case "Recruiting":
+                }
+                else if (task is RecruitTask)
+                {
                     Recruiting = enable;
-                    break;
-                case "Base":
+                }
+                else if (task is InfrastTask)
+                {
                     Base = enable;
-                    break;
-                case "Combat":
+                }
+                else if (task is FightTask)
+                {
                     Combat = enable;
-                    break;
-                case "Mall":
+                }
+                else if (task is MallTask)
+                {
                     Mall = enable;
-                    break;
-                case "Mission":
+                }
+                else if (task is AwardTask)
+                {
                     Mission = enable;
-                    break;
-                case "AutoRoguelike":
+                }
+                else if (task is RoguelikeTask)
+                {
                     AutoRoguelike = enable;
-                    break;
-                case "Reclamation":
+                }
+                else if (task is ReclamationTask)
+                {
                     Reclamation = enable;
-                    break;
-                case "AfterAction":
-                    AfterAction = enable;
-                    break;
-                case "Custom":
-                    Custom = enable;
-                    break;
+                }
             }
 
             EnableAdvancedSettings = false;
-            if (Mission || WakeUp || AfterAction)
+            if (Mission || WakeUp)
             {
                 AdvancedSettingsVisibility = false;
             }
@@ -113,6 +139,25 @@ namespace MaaWpfGui.Models
             {
                 AdvancedSettingsVisibility = true;
             }
+
+            if (enable)
+            {
+                Instances.TaskQueueViewModel.RefreshTaskModel(ConfigFactory.CurrentConfig.TaskQueue[taskIndex]);
+            }
+        }
+
+        public void SetPostAction(bool value)
+        {
+            /*WakeUp = false;
+            Recruiting = false;
+            Base = false;
+            Combat = false;
+            Mall = false;
+            Mission = false;
+            AutoRoguelike = false;
+            Reclamation = false;
+            Custom = false;*/
+            AfterAction = value;
         }
 
         private bool _enableAdvancedSettings;
@@ -131,9 +176,7 @@ namespace MaaWpfGui.Models
             set => SetAndNotify(ref _advancedSettingsVisibility, value);
         }
 
-        private string _currentEnableSetting;
-
-        private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
+        private bool _guide = ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, 0) < SettingsViewModel.GuideMaxStep;
 
         public bool Guide
         {
@@ -141,24 +184,23 @@ namespace MaaWpfGui.Models
             set
             {
                 SetAndNotify(ref _guide, value);
-                Set(_currentEnableSetting, !value);
+                if (!value)
+                {
+                    var index = 0;
+                    foreach (var task in ConfigFactory.CurrentConfig.TaskQueue)
+                    {
+                        if (task.TaskType == TaskType.Fight)
+                        {
+                            Set(index, true);
+                            return;
+                        }
+
+                        index++;
+                    }
+
+                    Set(0, true);
+                }
             }
         }
-
-        #region 双入口设置可见性
-
-        private bool _customInfrastPlanShowInFightSettings = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, bool.FalseString));
-
-        public bool CustomInfrastPlanShowInFightSettings
-        {
-            get => _customInfrastPlanShowInFightSettings;
-            set
-            {
-                SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
-            }
-        }
-
-        #endregion
     }
 }

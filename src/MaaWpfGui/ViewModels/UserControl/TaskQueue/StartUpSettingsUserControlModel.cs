@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -25,7 +26,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpSettingsUserControlModel : TaskViewModel
+public class StartUpSettingsUserControlModel : TaskSettingsViewModel
 {
     static StartUpSettingsUserControlModel()
     {
@@ -34,16 +35,13 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
-
     public string AccountName
     {
-        get => _accountName;
+        get => GetTaskConfig<StartUpTask>().AccountName;
         set
         {
             value = value.Trim();
-            SetAndNotify(ref _accountName, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+            SetTaskConfig<StartUpTask>(t => t.AccountName == value, t => t.AccountName = value);
         }
     }
 
@@ -59,6 +57,14 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         if (msg == AsstMsg.SubTaskExtraInfo && details["what"]?.ToString() == "AccountSwitch")
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" -->> {details["details"]!["account_name"]}", UiLogColor.Info); // subTaskDetails!["current_account"]
+        }
+    }
+
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is StartUpTask)
+        {
+            Refresh();
         }
     }
 
