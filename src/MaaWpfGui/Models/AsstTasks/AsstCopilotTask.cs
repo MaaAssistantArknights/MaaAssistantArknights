@@ -28,9 +28,14 @@ public class AsstCopilotTask : AsstBaseTask
     public override AsstTaskType TaskType => AsstTaskType.Copilot;
 
     /// <summary>
-    /// Gets or sets 作业 JSON 的文件路径，绝对、相对路径均可
+    /// Gets or sets 作业 JSON 的文件路径，绝对、相对路径均可，不得与MultiTasks同时使用
     /// </summary>
     public string FileName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 多作业列表, 导航至关卡 (启用自动战斗序列、取消代理), 不得与FileName同时使用
+    /// </summary>
+    public List<MultiTask> MultiTasks { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a value indicating whether 自动编队
@@ -48,24 +53,9 @@ public class AsstCopilotTask : AsstBaseTask
     public bool IgnoreRequirements { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 导航至关卡（启用自动战斗序列、取消代理）
-    /// </summary>
-    public bool NeedNavigate { get; set; }
-
-    /// <summary>
-    /// Gets or sets 关卡名，仅导航用，Wpf会自动读取地图对应的关卡名
-    /// </summary>
-    public string? StageName { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether 突袭难度
-    /// </summary>
-    public bool IsRaid { get; set; }
-
-    /// <summary>
     /// Gets or sets 重复次数
     /// </summary>
-    public int LoopTimes { get; set; }
+    public int LoopTimes { get; set; } = 1;
 
     /// <summary>
     /// Gets or sets a value indicating whether 使用理智药
@@ -86,14 +76,29 @@ public class AsstCopilotTask : AsstBaseTask
     {
         var taskParams = new JObject
         {
-            ["filename"] = FileName,
             ["formation"] = Formation,
             ["add_trust"] = AddTrust,
             ["ignore_requirements"] = IgnoreRequirements,
-            ["is_raid"] = IsRaid,
             ["loop_times"] = LoopTimes,
             ["use_sanity_potion"] = UseSanityPotion,
         };
+
+        if (!string.IsNullOrEmpty(FileName) && MultiTasks.Count > 0)
+        {
+            throw new ArgumentException("FileName和MultiTasks不能同时使用");
+        }
+        else if (MultiTasks.Count > 0)
+        {
+            taskParams["copilot_list"] = JArray.FromObject(MultiTasks);
+        }
+        else if (!string.IsNullOrEmpty(FileName))
+        {
+            taskParams["filename"] = FileName;
+        }
+        else
+        {
+            throw new ArgumentException("FileName和MultiTasks必须使用其一");
+        }
 
         if (FormationIndex > 0)
         {
@@ -103,19 +108,6 @@ public class AsstCopilotTask : AsstBaseTask
         if (UserAdditionals?.Count > 0)
         {
             taskParams["user_additional"] = JArray.FromObject(UserAdditionals);
-        }
-
-        if (NeedNavigate && !string.IsNullOrEmpty(StageName))
-        {
-            taskParams["navigate_name"] = StageName;
-        }
-        else if (NeedNavigate)
-        {
-            throw new ArgumentException("导航至关卡时，StageName不能为空");
-        }
-        else if (!string.IsNullOrEmpty(StageName))
-        {
-            throw new ArgumentException("StageName不为空, 但是未启用关卡导航");
         }
 
         return (TaskType, taskParams);
@@ -131,5 +123,23 @@ public class AsstCopilotTask : AsstBaseTask
 
         [JsonProperty("skill")]
         public int Skill { get; set; }
+    }
+
+    public class MultiTask
+    {
+        [JsonProperty("filename")]
+        public string FileName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets 关卡名，仅导航用，Wpf会自动读取地图对应的关卡名
+        /// </summary>
+        [JsonProperty("stage_name")]
+        public string StageName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether 突袭难度
+        /// </summary>
+        [JsonProperty("is_raid")]
+        public bool IsRaid { get; set; }
     }
 }

@@ -7,32 +7,22 @@
 #include "Task/Fight/MedicineCounterTaskPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
-#include "Task/Miscellaneous/TaskFileReloadTask.h"
+#include "Task/Miscellaneous/MultiCopilotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
-    m_task_file_reload_task_ptr(std::make_shared<TaskFileReloadTask>(callback, inst, TaskType)),
-    m_navigate_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
-    m_not_use_prts_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
-    m_change_difficulty_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_multi_copilot_plugin_ptr(std::make_shared<MultiCopilotTaskPlugin>(callback, inst, TaskType)),
     m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
     m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType)),
     m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
 
-    m_subtasks.emplace_back(m_task_file_reload_task_ptr);
-    m_subtasks.emplace_back(m_navigate_task_ptr);
-
-    m_not_use_prts_task_ptr->set_tasks({ "NotUsePrts" }).set_ignore_error(true).set_retry_times(0);
-    m_subtasks.emplace_back(m_not_use_prts_task_ptr);
-
-    // 选择突袭模式
-    m_change_difficulty_task_ptr->set_tasks({ "RaidConfirm", "ChangeToRaidDifficulty" });
-    m_subtasks.emplace_back(m_change_difficulty_task_ptr);
+    m_multi_copilot_plugin_ptr->set_retry_times(0);
+    m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(3).set_ignore_error(true);
@@ -67,23 +57,14 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     using SupportUnitUsage = BattleFormationTask::SupportUnitUsage;
 
-    if (m_running) {
+    if (m_has_set_params) {
+        Log.error(__FUNCTION__, "CopilotTask set_params failed, already set params");
         return false;
     }
 
-    bool need_navigate = params.contains("navigate_name"); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
-    if (auto nav_opt = params.find<bool>("need_navigate")) {
-        Log.warn("================  DEPRECATED  ================");
-        LogWarn << "`need_navigate` has been deprecated since v5.23.3;"
-                << "Use existence of `navigate_name` substitute `need_navigate`";
-        Log.warn("================  DEPRECATED  ================");
-        need_navigate = *nav_opt;
-    }
-    std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
-    bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
-    bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
-    bool with_formation = params.get("formation", false);                   // 是否使用自动编队
-    int formation_index = params.get("formation_index", 0);                 // 选择第几个编队，0为不选择
+    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
+    bool with_formation = params.get("formation", false);            // 是否使用自动编队
+    int formation_index = params.get("formation_index", 0);          // 选择第几个编队，0为不选择
     if (!params.contains("formation_index") && params.contains("select_formation")) {
         Log.warn("================  DEPRECATED  ================");
         Log.warn("`select_formation` has been deprecated since v5.23.3; Please use 'select_formation'");
@@ -104,52 +85,69 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
+    // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
+    auto nav_opt1 = params.find<bool>("need_navigate");
+    auto nav_opt2 = params.find<bool>("navigate_name");
+    if (nav_opt1 || nav_opt2) {
+        Log.warn("================  DEPRECATED  ================");
+        LogWarn << "`need_navigate`, `navigate_name` and `is_raid` has been deprecated since v5.23.3;";
+        Log.warn("================  DEPRECATED  ================");
+        if (nav_opt1.value_or(false) || nav_opt2.value_or(false)) // 不启用导航时仅警告
+        {
+            return false;
+        }
+    }
+
     auto filename_opt = params.find<std::string>("filename");
-    if (!filename_opt) {
+    auto multi_tasks_opt = params.find<json::value>("copilot_list"); // 多任务列表
+    if (!filename_opt && !multi_tasks_opt) {
         Log.error("CopilotTask set_params failed, stage_name or filename not found");
         return false;
     }
 
-    static const std::regex maa_regex(R"(^maa://(\d+)$)");
-    std::smatch match;
-
-    m_task_file_reload_task_ptr->set_enable(need_navigate);
-    if (std::regex_match(*filename_opt, match, maa_regex)) {
-        if (!Copilot.parse_magic_code(match[1].str())) {
-            Log.error("CopilotConfig parse failed");
+    if (filename_opt) {
+        m_multi_copilot_plugin_ptr->set_enable(false);
+        m_battle_task_ptr->set_wait_until_end(false);
+        auto copilot_opt = parse_copilot_filename(*filename_opt);
+        m_stage_name = Copilot.get_stage_name();
+        if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
+            Log.error("Not support stage");
             return false;
         }
-        m_task_file_reload_task_ptr->set_magic_code(match[1].str());
     }
-    else {
-        if (!Copilot.load(utils::path(*filename_opt))) {
-            Log.error("CopilotConfig parse failed");
-            return false;
+    else if (multi_tasks_opt) {
+        m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置
+        m_battle_task_ptr->set_wait_until_end(true);
+        std::vector<MultiCopilotConfig> configs = (std::vector<MultiCopilotConfig>)(*multi_tasks_opt);
+        std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
+
+        for (const auto& config : configs) {
+            MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
+            auto copilot_opt = parse_copilot_filename(config.filename);
+            if (std::holds_alternative<int>(copilot_opt) && std::get<int>(copilot_opt) == -1) {
+                return false;
+            }
+            m_stage_name = Copilot.get_stage_name();
+            if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
+                Log.error("Not support stage");
+                return false;
+            }
+            config_cvt.copilot_file = std::move(copilot_opt);
+            config_cvt.nav_name = config.stage_name;
+            config_cvt.is_raid = config.is_raid;
+            configs_cvt.emplace_back(std::move(config_cvt));
         }
-        m_task_file_reload_task_ptr->set_path(std::move(*filename_opt));
+
+        size_t count = configs_cvt.size();
+        // 追加任务
+        m_subtasks.reserve(m_subtasks.size() * count);
+        auto raw_end = m_subtasks.end();
+        for (size_t i = 1; i < count; ++i) {
+            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
+        }
+        m_multi_copilot_plugin_ptr->set_multi_copilot_config(std::move(configs_cvt));
     }
 
-    m_stage_name = Copilot.get_stage_name();
-    if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-        Log.error("Not support stage");
-        return false;
-    }
-
-    if (!navigate_name.empty()) {
-        Task.get<OcrTaskInfo>(navigate_name + "@Copilot@ClickStageName")->text = { navigate_name };
-        std::string replace_navigate_name = navigate_name;
-        utils::string_replace_all_in_place(replace_navigate_name, { { "-", "" } });
-        Task.get<OcrTaskInfo>(navigate_name + "@Copilot@ClickedCorrectStage")->text = { navigate_name,
-                                                                                        replace_navigate_name };
-        m_navigate_task_ptr->set_tasks({ navigate_name + "@Copilot@StageNavigationBegin" });
-    }
-    else {
-        m_navigate_task_ptr->set_tasks({});
-    }
-
-    m_navigate_task_ptr->set_enable(need_navigate);
-    m_change_difficulty_task_ptr->set_enable(need_navigate && is_raid);
-    m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
     m_medicine_task_ptr->set_enable(use_sanity_potion);
 
     m_formation_task_ptr->set_enable(with_formation);
@@ -171,11 +169,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_formation_task_ptr->set_user_additional(std::move(user_additional));
     }
 
-    m_battle_task_ptr->set_wait_until_end(need_navigate);
     m_battle_task_ptr->set_formation_task_ptr(m_formation_task_ptr->get_opers_in_formation());
 
     size_t loop_times = params.get("loop_times", 1);
-    if (need_navigate) {
+    if (m_multi_copilot_plugin_ptr->get_enable()) {
         // 如果没三星就中止
         m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
         m_stop_task_ptr->set_enable(true);
@@ -188,10 +185,32 @@ bool asst::CopilotTask::set_params(const json::value& params)
         m_subtasks.reserve(m_subtasks.size() * loop_times);
         auto raw_end = m_subtasks.end();
         for (size_t i = 1; i < loop_times; ++i) {
-            // FIXME: 如果多次调用 set_params，这里复制的会有问题
             m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
         }
     }
-
+    m_has_set_params = true;
     return true;
+}
+
+std::variant<int, std::filesystem::path> asst::CopilotTask::parse_copilot_filename(const std::string& name)
+{
+    static const std::regex maa_regex(R"(^maa://(\d+)$)");
+    std::smatch match;
+    if (std::regex_match(name, match, maa_regex)) {
+        if (!Copilot.parse_magic_code(match[1].str())) {
+            Log.error("CopilotConfig parse failed");
+            return -1;
+        }
+        int num = -1;
+        utils::chars_to_number(name, num);
+        return num;
+    }
+    else {
+        auto path = utils::path(name);
+        if (!Copilot.load(path)) {
+            Log.error("CopilotConfig parse failed");
+            return -1;
+        }
+        return path;
+    }
 }
