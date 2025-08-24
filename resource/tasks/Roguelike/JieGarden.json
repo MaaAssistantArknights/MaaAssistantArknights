@@ -141,20 +141,6 @@
         "templThreshold": 0.85,
         "next": ["JieGarden@Roguelike@CoppersSwitchFinishFlag", "#self"]
     },
-    "JieGarden@Roguelike@CoppersConfig": {
-        "doc": [
-            "RoguelikeCoppersTaskPlugin用参数",
-            "| specialParams[0]: 列数 (col)",
-            "| specialParams[1]: 行数 (row)",
-            "| specialParams[2]: 第一列节点的默认横坐标 (Rect.x)",
-            "| specialParams[3]: 第一行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[4]: 两列节点之间的距离",
-            "| specialParams[5]: 两行节点之间的距离",
-            "| specialParams[6]: 通宝掉落选择时从交换按钮到名称的y偏移量"
-        ],
-        "template": "empty.png",
-        "specialParams": [4, 3, 586, 187, 460, 182, -209]
-    },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft": {
         "baseTask": "SlowlySwipeToTheLeft",
         "Doc": "为了保证每次滑动至少多出一列 且 不能跳过一列，通宝每一列间距460。",
@@ -251,10 +237,15 @@
         ],
         "roi": [0, 396, 353, 235]
     },
-    "JieGarden@Roguelike@CoppersAnalyzer-NameOCR": {
+    "JieGarden@Roguelike@CoppersAnalyzer-SwitchNameOCR": {
         "Doc": "通宝名称识别 - 若通宝类型 的 Rect 为 r, 则通宝名称识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
         "roi": [32, -5, 160, 40]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-ChooseNameOCR": {
+        "Doc": "通宝掉落选择界面名称识别 - 若`交换`按钮 的 Rect 为 r, 则名称识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [0, -209, 167, 37]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
         "algorithm": "OcrDetect",

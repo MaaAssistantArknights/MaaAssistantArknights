@@ -18,16 +18,6 @@ bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::
         return false;
     }
 
-    const std::shared_ptr<MatchTaskInfo> config = Task.get<MatchTaskInfo>(theme + "@Roguelike@CoppersConfig");
-
-    m_col = config->special_params.at(0);
-    m_row = config->special_params.at(1);
-    m_origin_x = config->special_params.at(2);
-    m_origin_y = config->special_params.at(3);
-    m_column_offset = config->special_params.at(4);
-    m_row_offset = config->special_params.at(5);
-    m_ocr_roi_offset_y = config->special_params.at(6);
-
     return true;
 }
 
@@ -111,14 +101,14 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     auto match_results = matcher.get_result();
     sort_by_horizontal_(match_results);
 
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-ChooseNameOCR");
     RegionOCRer ocr(image);
 
     // 通过识别到的每个通宝类型来识别通宝名称
     for (size_t i = 0; i < match_results.size(); ++i) {
         const auto& [rect, score, templ_name] = match_results[i];
 
-        Rect roi(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height);
+        Rect roi = rect.move(name_task->roi);
         ocr.set_roi(roi);
         ocr.set_replace(name_task->replace_map, name_task->replace_full);
 
@@ -140,15 +130,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
 
 #ifdef ASST_DEBUG
         // 绘制识别出的通宝名称 - 不支持中文，所以只绘制score
-        cv::rectangle(
-            image_draw,
-            cv::Rect(rect.x, rect.y + m_ocr_roi_offset_y, rect.width, rect.height),
-            cv::Scalar(0, 255, 0),
-            2);
+        cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 255, 0), 2);
         cv::putText(
             image_draw,
             "score: " + std::to_string(ocr.get_result().score),
-            cv::Point(rect.x, std::max(0, rect.y + m_ocr_roi_offset_y - 6)),
+            cv::Point(roi.x, std::max(0, roi.y - 6)),
             cv::FONT_HERSHEY_SIMPLEX,
             0.5,
             cv::Scalar(0, 255, 0),
@@ -197,7 +183,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
     MultiMatcher matcher;
     RegionOCRer ocr(ctrler()->get_image());
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-NameOCR");
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-SwitchNameOCR");
     const auto cast_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-CastOCR");
 
 #ifdef ASST_DEBUG
@@ -233,7 +219,24 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         }
 
         auto match_results = matcher.get_result();
+        if (match_results.empty()) {
+            Log.error(__FUNCTION__, "| no coppers recognized in column", col);
+            if (col == 0) {
+                return false;
+            }
+            continue;
+        }
         sort_by_vertical_(match_results);
+
+        if (col > 0 && col < m_col) {
+            m_origin_x = match_results.front().rect.x;
+        }
+        else if (col == m_col) {
+            m_last_x = match_results.front().rect.x;
+        }
+        m_origin_y = match_results.front().rect.y;
+
+        m_row_offset = match_results.size() > 1 ? match_results[1].rect.y - match_results[0].rect.y : 0;
 
         // 处理当前列的匹配结果
         for (size_t row = 0; row < match_results.size(); ++row) {
@@ -283,7 +286,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
                     cv::putText(
                         image_draw,
                         "score: " + std::to_string(ocr.get_result().score),
-                        cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 6)),
+                        cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 16)),
                         cv::FONT_HERSHEY_SIMPLEX,
                         0.45,
                         cv::Scalar(0, 0, 255),
@@ -389,7 +392,8 @@ void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
 
 void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row) const
 {
-    Point click_point(m_origin_x, m_origin_y + (row - 1) * m_row_offset);
+    int x = col == m_col ? m_last_x : m_origin_x;
+    Point click_point(x, m_origin_y + (row - 1) * m_row_offset);
 
     // 滑动回到最左边
     swipe_copper_list_left(m_col);
