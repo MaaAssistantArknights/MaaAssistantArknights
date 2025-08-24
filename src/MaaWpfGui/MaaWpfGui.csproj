@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Project -->
   <PropertyGroup>
@@ -62,7 +62,7 @@
   <PropertyGroup>
     <Authors>MAA Team</Authors>
     <PackageLicenseUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</PackageLicenseUrl>
-    <Copyright>Copyright (c) 2021-2024 MAA Team</Copyright>
+    <Copyright>Copyright (c) 2021-2025 MAA Team</Copyright>
     <Description>https://maa.plus/docs/</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
