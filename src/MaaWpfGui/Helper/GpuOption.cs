@@ -210,7 +210,7 @@ namespace MaaWpfGui.Helper
             static extern HRESULT D3D12CreateDevice([MarshalAs(UnmanagedType.IUnknown)] object pAdapter, D3D_FEATURE_LEVEL minimumFeatureLevel, in Guid riid, nint ppDevice);
         }
 
-        private static unsafe string? GetAdapterInstancePath(LUID lUid)
+        private static unsafe string? GetAdapterInstancePath(LUID luid)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace MaaWpfGui.Helper
                     header = new DISPLAYCONFIG_DEVICE_INFO_HEADER
                     {
                         size = (uint)sizeof(DISPLAYCONFIG_ADAPTER_NAME),
-                        adapterId = lUid,
+                        adapterId = luid,
                         id = 0,
                         type = DISPLAYCONFIG_DEVICE_INFO_TYPE.DISPLAYCONFIG_DEVICE_INFO_GET_ADAPTER_NAME,
                     },
