@@ -303,7 +303,7 @@ namespace MaaWpfGui.Helper
         /// 显示通知
         /// </summary>
         /// <param name="lifeTime">通知显示时间 (s)</param>
-        /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
+        /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double,uint,NotificationSounds,NotificationHint[])"/></param>
         /// <param name="sound">播放提示音</param>
         /// <param name="hints">通知额外元数据，可能影响通知展示方式</param>
         ///
@@ -361,16 +361,17 @@ namespace MaaWpfGui.Helper
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，只用于预览一部分通知，多出内容会放在附加按钮的窗口中</param>
         /// <param name="sound">播放提示音，不设置就没有声音</param>
+        /// <param name="hints">通知提示</param>
         public void ShowMore(double lifeTime = 12d, uint row = 2,
             NotificationSounds sound = NotificationSounds.None, params NotificationHint[] hints)
         {
-            var morehints = new NotificationHint[hints.Length + 1];
-            hints.CopyTo(morehints, 0);
-            morehints[hints.Length] = NotificationHint.Expandable;
+            var moreHints = new NotificationHint[hints.Length + 1];
+            hints.CopyTo(moreHints, 0);
+            moreHints[hints.Length] = NotificationHint.Expandable;
             Show(lifeTime: lifeTime,
                 row: row,
                 sound: sound,
-                hints: morehints);
+                hints: moreHints);
         }
 
         /// <summary>
