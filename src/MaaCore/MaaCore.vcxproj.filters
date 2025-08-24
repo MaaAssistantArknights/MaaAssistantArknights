@@ -863,9 +863,6 @@
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -952,6 +949,11 @@
     </ClInclude>
     <ClInclude Include="Controller\LDExtras.h">
       <Filter>Source\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
+    <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1392,9 +1394,6 @@
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
@@ -1475,6 +1474,10 @@
     </ClCompile>
     <ClCompile Include="Controller\LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" />
+    <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -852,16 +852,12 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.SetStopped();
                     TaskStatusUpdate(taskId, TaskStatus.Completed);
                     _tasksStatus.Clear();
-                    if (isCopilotTaskChain)
-                    {
-                        _runningState.SetIdle(true);
-                    }
-
                     break;
 
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
+                        TaskStatusUpdate(taskId, TaskStatus.Completed);
                         _tasksStatus.TryGetValue(taskId, out var value);
                         if (value is { Type: TaskType.Fight } &&
                             TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
@@ -871,6 +867,11 @@ namespace MaaWpfGui.Main
                                 stage != "Annihilation"))
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        }
+                        else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
+                        {
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
                         else
                         {
@@ -882,23 +883,6 @@ namespace MaaWpfGui.Main
                             {
                                 ExternalNotificationService.Send(log, log);
                             }
-                        }
-
-                        if (isCopilotTaskChain)
-                        {
-                            // 如果启用战斗列表，需要中止掉剩余的任务
-                            if (Instances.CopilotViewModel.UseCopilotList)
-                            {
-                                if (!AsstStop())
-                                {
-                                    _logger.Warning("Failed to stop Asst");
-                                }
-                            }
-
-                            _runningState.SetIdle(true);
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                            TaskStatusUpdate(taskId, TaskStatus.Completed);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
                         break;
@@ -943,17 +927,6 @@ namespace MaaWpfGui.Main
 
                         if (isCopilotTaskChain)
                         {
-                            if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
-                            {
-                                _runningState.SetIdle(true);
-                            }
-
-                            if (Instances.CopilotViewModel.UseCopilotList)
-                            {
-                                Instances.CopilotViewModel.CopilotTaskSuccess();
-                            }
-
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
                         }
 
@@ -1432,6 +1405,14 @@ namespace MaaWpfGui.Main
                             case "BattleStartAll":
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
                                 break;
+
+                            case "StageDrops-Stars-3":
+                            case "StageDrops-Stars-Adverse":
+                                {
+                                    Instances.CopilotViewModel.CopilotTaskSuccess();
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                                    break;
+                                }
 
                             case "StageTraderSpecialShoppingAfterRefresh":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
