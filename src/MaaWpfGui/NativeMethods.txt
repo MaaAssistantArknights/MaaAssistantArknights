@@ -31,3 +31,6 @@ GetModuleFileName
 
 //ToastNotification
 FlashWindowEx
+
+// PowerManagement
+SetSuspendState
