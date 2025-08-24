@@ -86,8 +86,19 @@ public class GUI : INotifyPropertyChanged
 
     public enum InverseClearType
     {
+        /// <summary>
+        /// 清空
+        /// </summary>
         Clear = 0,
+
+        /// <summary>
+        /// 反转
+        /// </summary>
         Inverse,
+
+        /// <summary>
+        /// 下拉框，可选清空/反转
+        /// </summary>
         ClearInverse,
     }
 }
