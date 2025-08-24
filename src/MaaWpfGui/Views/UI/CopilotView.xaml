@@ -43,10 +43,35 @@
                 HorizontalAlignment="Center"
                 Orientation="Vertical">
                 <TabControl
-                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Center"
                     BorderThickness="0"
                     SelectedIndex="{Binding ActiveTabIndex}"
                     Style="{StaticResource TabControlSliding}">
+                    <TabControl.Template>
+                        <ControlTemplate TargetType="{x:Type TabControl}">
+                            <Border
+                                Padding="2"
+                                Background="{DynamicResource MouseOverRegionBrushOpacity75}"
+                                CornerRadius="4">
+                                <ItemsPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </TabControl.Template>
+                    <TabControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </TabControl.ItemsPanel>
+                    <TabControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource TabItemSliding}" TargetType="{x:Type TabItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabControl.ItemContainerStyle>
                     <TabItem Header="{DynamicResource MainStageStoryCollectionSideStory}" />
                     <TabItem Header="{DynamicResource SSS}" />
                     <TabItem Header="{DynamicResource ParadoxSimulation}" />
