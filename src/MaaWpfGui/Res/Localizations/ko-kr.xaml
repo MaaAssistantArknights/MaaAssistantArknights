@@ -811,7 +811,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원 사항:
   1. {key=MainStage}: 동일 챕터 내 네비게이션
-  2. {key=SideStory}: 현재 페이지 내 네비게이션（일반/EX/S 서로 이동 불가）
+  2. {key=SideStory}: 현재 페이지 내 네비게이션 (일반/EX/S 서로 이동 불가)
 시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
@@ -837,13 +837,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Drone">드론/소환물</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
-    <system:String x:Key="MainStage">메인 테마</system:String>
+    <system:String x:Key="MainStage">메인</system:String>
     <system:String x:Key="StoryCollection">에피소드</system:String>
-    <system:String x:Key="SideStory">사이드 스토리</system:String>
+    <system:String x:Key="SideStory">사이드</system:String>
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
-    <system:String x:Key="SSS">보안 파견</system:String>
-    <system:String x:Key="ParadoxSimulation">패러독스 시뮬레이션</system:String>
-    <system:String x:Key="OtherActivityStage">기타 이벤트</system:String>
+    <system:String x:Key="SSS">보안파견</system:String>
+    <system:String x:Key="ParadoxSimulation">패러독스</system:String>
+    <system:String x:Key="OtherActivityStage">기타</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         팁: \n\n
@@ -867,7 +867,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">Copilot 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
-    <system:String x:Key="CopilotSSSNotSupport">지원하지 않는 유형: SSS</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">지원하지 않는 유형: {key=SSS}</system:String>
     <system:String x:Key="CopilotInvalidStageNameForNavigation">스테이지 이름이 잘못되어 탐색할 수 없습니다</system:String>
     <system:String x:Key="CopilotStageNameNotFound">{0}을(를) 찾을 수 없으며, 스테이지 이름도 지정되지 않았습니다</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">스테이지 이름과 탐색 이름이 일치하지 않아 탐색 이름을 사용합니다</system:String>
