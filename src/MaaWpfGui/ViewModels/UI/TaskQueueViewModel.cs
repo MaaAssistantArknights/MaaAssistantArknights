@@ -31,11 +31,9 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
@@ -43,7 +41,6 @@ using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
 using Application = System.Windows.Application;
-using IContainer = StyletIoC.IContainer;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
 
@@ -56,8 +53,6 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class TaskQueueViewModel : Screen
     {
-        private readonly IContainer _container;
-
         private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
@@ -315,10 +310,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskQueueViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public TaskQueueViewModel(IContainer container)
+        public TaskQueueViewModel()
         {
-            _container = container;
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
             _runningState.TimeoutOccurred += RunningState_TimeOut;
@@ -793,21 +786,6 @@ namespace MaaWpfGui.ViewModels.UI
             UpdateDatePromptAndStagesLocally();
         }
 
-        /// <summary>
-        /// 更新 ObservableCollection，确保不替换原集合，而是增删项
-        /// </summary>
-        /// <param name="originalCollection">原始 ObservableCollection</param>
-        /// <param name="newList">新的列表</param>
-        public static void UpdateObservableCollection(ObservableCollection<CombinedData> originalCollection, List<CombinedData> newList)
-        {
-            originalCollection.Clear();
-
-            foreach (var item in newList)
-            {
-                originalCollection.Add(item);
-            }
-        }
-
         private DateOnly _lastPromptDate;
 
         private bool NeedToUpdateDatePrompt()
@@ -1182,7 +1160,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private DateTime? _taskStartTime = null;
+        private DateTime? _taskStartTime;
 
         /// <summary>
         /// Starts.
