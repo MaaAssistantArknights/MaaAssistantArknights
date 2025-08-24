@@ -28,3 +28,6 @@ SHGetStockIconInfo
 //BadInjectedDllChecker
 GetModuleHandle
 GetModuleFileName
+
+//ToastNotification
+FlashWindowEx
