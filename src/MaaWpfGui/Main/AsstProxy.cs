@@ -2264,27 +2264,63 @@ namespace MaaWpfGui.Main
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
-        [SuppressMessage("ReSharper", "UnusedMember.Local")]
         public enum TaskType
         {
+            /// <summary>开始唤醒</summary>
             StartUp,
+
+            /// <summary>关闭游戏</summary>
             CloseDown,
+
+            /// <summary>刷理智</summary>
             Fight,
+
+            /// <summary>关卡选择为剿灭时的备选刷理智</summary>
             FightAnnihilationAlternate,
+
+            /// <summary>剩余理智</summary>
             FightRemainingSanity,
+
+            /// <summary>自动公招</summary>
             Recruit,
+
+            /// <summary>基建</summary>
             Infrast,
+
+            /// <summary>获取信用点/访问好友/信用商店</summary>
             Mall,
+
+            /// <summary>领奖励/邮箱/幸运墙等</summary>
             Award,
+
+            /// <summary>自动肉鸽</summary>
             Roguelike,
+
+            /// <summary>公招识别</summary>
             RecruitCalc,
+
+            /// <summary>自动战斗</summary>
             Copilot,
+
+            /// <summary>视频识别（真有人用吗）</summary>
             VideoRec,
+
+            /// <summary>仓库识别</summary>
             Depot,
+
+            /// <summary>干员识别</summary>
             OperBox,
+
+            /// <summary>抽卡</summary>
             Gacha,
+
+            /// <summary>生息演算</summary>
             Reclamation,
+
+            /// <summary>小游戏</summary>
             MiniGame,
+
+            /// <summary>自定义任务s</summary>
             Custom,
         }
 
