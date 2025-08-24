@@ -86,6 +86,10 @@ public class EmulatorHelper
                     case >= 16384:
                         emuIndex = (port - 16384) / 32;
                         break;
+                    case 7555:
+                        emuIndex = 0;
+                        _logger.Warning("Port 7555 is deprecated for MuMu6, please use 16384 or above.");
+                        break;
                     case >= 5555:
                         emuIndex = (port - 5555) / 2;
                         break;
