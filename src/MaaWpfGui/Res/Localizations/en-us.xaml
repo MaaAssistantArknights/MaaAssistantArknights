@@ -841,7 +841,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="StoryCollection">Intermezzi</system:String>
     <system:String x:Key="SideStory">Side Story</system:String>
     <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
-    <system:String x:Key="SSS">Stationary Security Service</system:String>
+    <system:String x:Key="SSS">SSS</system:String>
     <system:String x:Key="ParadoxSimulation">Paradox Simulation</system:String>
     <system:String x:Key="OtherActivityStage">Other Activities</system:String>
     <!--  Logs  -->
