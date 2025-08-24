@@ -28,6 +28,7 @@
 
         <controls:TextBlock Margin="24,0,0,0" Text="{DynamicResource UseGpuForInference}" />
         <hc:ComboBox
+            Grid.Row="0"
             Grid.Column="1"
             Width="240"
             Margin="10,5"
