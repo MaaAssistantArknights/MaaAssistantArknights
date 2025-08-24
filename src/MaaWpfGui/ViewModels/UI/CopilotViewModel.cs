@@ -398,8 +398,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Selects file.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void SelectFile()
         {
@@ -416,8 +416,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Paste clipboard contents.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void PasteClipboard()
         {
@@ -433,9 +433,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Paste clipboard contents.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task PasteClipboardCopilotSet()
         {
@@ -452,9 +452,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// 批量导入作业
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task ImportFiles()
         {
@@ -1166,9 +1166,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Starts copilot.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task Start()
         {
@@ -1316,8 +1316,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Stops copilot.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         public void Stop()
         {
             if (SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript)

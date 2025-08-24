@@ -917,8 +917,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Selects all.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void SelectedAll()
         {
@@ -1009,8 +1009,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Changes inversion mode.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void ChangeInverseMode()
         {
@@ -1019,8 +1019,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Selects inversely.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void InverseSelected()
         {

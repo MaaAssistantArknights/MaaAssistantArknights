@@ -289,9 +289,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Starts calculation.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task RecruitStartCalc()
         {
@@ -519,8 +519,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Export depot info to ArkPlanner.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void ExportToArkplanner()
         {
@@ -531,8 +531,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Export depot info to Lolicon.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void ExportToLolicon()
         {
@@ -550,9 +550,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Starts depot recognition.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task StartDepot()
         {
@@ -750,10 +750,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// 开始识别干员
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// xaml 中用到了
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task StartOperBox()
         {
