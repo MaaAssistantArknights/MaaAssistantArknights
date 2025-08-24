@@ -35,15 +35,17 @@ namespace MaaWpfGui.Utilities
             foreach (var name in _names)
             {
                 var hmod = PInvoke.GetModuleHandle(name);
-                if (!hmod.IsInvalid)
+                if (hmod.IsInvalid)
                 {
-                    buffer ??= new char[65536];
-                    fixed (char* ptr = buffer)
+                    continue;
+                }
+
+                buffer ??= new char[65536];
+                fixed (char* ptr = buffer)
+                {
+                    if (PInvoke.GetModuleFileName(new(hmod.DangerousGetHandle()), ptr, 65536) > 0)
                     {
-                        if (PInvoke.GetModuleFileName(hmod, ptr, 65536) > 0)
-                        {
-                            result.Add(new string(ptr));
-                        }
+                        result.Add(new string(ptr));
                     }
                 }
             }
