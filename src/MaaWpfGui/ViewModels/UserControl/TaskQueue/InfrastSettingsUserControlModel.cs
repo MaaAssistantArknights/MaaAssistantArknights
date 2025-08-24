@@ -345,8 +345,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     /// <summary>
     /// Selects infrast config file.
-    /// </summary>
     /// UI 绑定的方法
+    /// </summary>
     [UsedImplicitly]
     public void SelectCustomInfrastFile()
     {

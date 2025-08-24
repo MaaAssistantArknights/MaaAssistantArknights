@@ -869,8 +869,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// Selects ADB program file.
-    /// </summary>
     /// UI 绑定的方法
+    /// </summary>
     [UsedImplicitly]
     public void SelectFile()
     {
@@ -890,9 +890,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// Test Link And Get Image.
+    /// UI 绑定的方法
     /// </summary>
     /// <returns>Task</returns>
-    /// UI 绑定的方法
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
