@@ -835,22 +835,29 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Drone">無人機/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">開局裝備（橫向）：</system:String>
     <system:String x:Key="InitialStrategy">開局策略：</system:String>
+    <system:String x:Key="MainStage">主線</system:String>
+    <system:String x:Key="StoryCollection">故事集</system:String>
+    <system:String x:Key="SideStory">SideStory</system:String>
+    <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
+    <system:String x:Key="SSS">保全派駐</system:String>
+    <system:String x:Key="ParadoxSimulation">悖論模擬</system:String>
+    <system:String x:Key="OtherActivityStage">其他活動</system:String>
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">
-        小提示: \n\n
-        1. 主線、故事集、SideStory 請在有 ｢開始行動｣ 按鈕的介面再使用本功能。\n\n
-        2. 悖論模擬需要關閉 ｢{key=AutoSquad}｣，選好技能後在｢開始模擬｣按鈕的介面再開始。\n\n
-        3. 保全派駐 在 resource/copilot 資料夾下內建了多份作業。\n
-        請手動編隊後在 ｢開始部署｣ 介面開始（可配合 ｢{key=LoopTimes} 使用）。\n\n
-        4. 使用好友助戰可以關閉｢{key=AutoSquad}｣，手動選擇{key=Operator}後開始。\n\n
-        5. 將{key=Operator}標為 ｢特別關注｣ 可能會影響 ｢{key=AutoSquad}｣ 時的辨識與選擇。建議在使用 ｢{key=AutoSquad}｣ 時考慮移除 ｢特別注意｣ 標記，或手動補充缺少的{key=Operator}以確保編隊完整。\n\n
-        6. Copilot 作業站的神秘代碼可點擊輸入框右側的貼上按鈕貼上。左鍵單擊可貼上單個作業，右鍵單擊則可貼上整個作業集。\n\n
-        7. 戰鬥列表:\n
-        選擇作業後，檢查列表下方的關卡名是否正確 (如: CV-EX-1)。\n
-        加入: 左鍵加入正常難度，右鍵加入突襲難度。\n
-        清除: 左鍵清空列表，右鍵僅移除未啟用的任務。\n
-        開始前，需要切換至對應關卡的選擇介面，不支援跨章節導航。\n
-        遇到 理智不足、戰鬥失敗、未能以三星結算 時將會中止執行。
+        小提示:\n\n
+        1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
+        2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 請在關卡介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
+        3. {key=SSS}: resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角存在 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
+        4. {key=ParadoxSimulation}: 選好技能後，在技能選擇介面存在 ｢開始模擬｣ 按鈕的介面啟動，1/2 星{key=Operator}（無技能）在右下角存在 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從首頁啟動。\n\n
+        5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
+        6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除關注，或在報錯後關閉 ｢{key=AutoSquad}｣，依據提示手動補充缺少的{key=Operator}。\n\n
+        7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：左鍵單擊=加入作業，右鍵單擊=加入作業集。\n\n
+        8. {key=UseCopilotList}:\n
+        - 選擇作業後，檢查下方關卡名是否正確 (例: CV-EX-1)。\n
+        - 加入: 左鍵=普通難度，右鍵=突襲難度。\n
+        - 清除: 左鍵=全部清空，右鍵=僅移除未啟用任務。\n
+        - 請在能看到目標關卡名的介面啟動，不支援跨章節導航。\n
+        - 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
@@ -865,7 +872,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
-    <system:String x:Key="CopilotSingleTaskWarning">正在使用戰鬥清單執行單一作業, 不建議此行為。單一作業請直接執行</system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
