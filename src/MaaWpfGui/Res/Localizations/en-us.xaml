@@ -837,22 +837,29 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="Drone">Drone/Summon</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):&#160;</system:String>
     <system:String x:Key="InitialStrategy">Initial Strategy:&#160;</system:String>
+    <system:String x:Key="MainStage">Main Theme</system:String>
+    <system:String x:Key="StoryCollection">Intermezzi</system:String>
+    <system:String x:Key="SideStory">Side Story</system:String>
+    <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
+    <system:String x:Key="SSS">Stationary Security Service</system:String>
+    <system:String x:Key="ParadoxSimulation">Paradox Simulation</system:String>
+    <system:String x:Key="OtherActivityStage">Other Activities</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
-        1. Please use this function only when the ｢Mission Start｣ button is visible in the main stage, story collection, or SideStory.\n\n
-        2. For Paradox Simulation, you need to turn off ｢{key=AutoSquad}｣ and select the skill before, then start in game ｢Start｣ screen.\n\n
-        3. For SSS, there are multiple built-in files under the ｢resource/copilot｣ folder.\n
-        Please start on the ｢Start Deployment｣ screen after manual formation (can be used with ｢{key=LoopTimes} )\n\n
-        4. You need turn off the ｢{key=AutoSquad}｣ when using a friendly support unit, then start with your support unit selected.\n\n
-        5. Marking an {key=Operator} as｢Favourite｣ may affect the {key=Operator} selection in ｢{key=AutoSquad}｣ . It is recommended to turn off ｢Favourite｣ when using ｢{key=AutoSquad}｣ , or manually supplement missing {key=Operator}s to ensure the formation is complete.\n\n
-        6. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box. Left-click to paste a single job, and right-click to paste the entire job set.\n\n
-        7. Battle list:\n
-        After selecting the job, check that the stage name below the list is correct (e.g.: CV-EX-1). \n
-        Add: Left click to add normal difficulty, right click to add challenge difficulty. \n
-        Clear: Left click to clear the list, right click to remove only inactive tasks. \n
-        Before starting, you need to switch to the stage selection interface. Cross-chapter navigation is not supported. \n
-        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars.
+        1. Before using, please confirm the task file matches your selected stage type.\n\n
+        2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: Please start from the screen where the blue "Start" button appears in the bottom right corner.\n\n
+        3. {key=SSS}: Multiple built-in files are in the resource/copilot folder. First create your squad manually, then start from the screen where the "Start Deployment" button appears in the bottom right. Can be used with ｢{key=LoopTimes}｣.\n\n
+        4. {key=ParadoxSimulation}: After selecting skills, start from the skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the main page.\n\n
+        5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
+        6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
+        7. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box: left-click to add a single job, right-click to add the entire job set.\n\n
+        8. {key=UseCopilotList}:\n
+        - After selecting a task, check that the stage name below is correct (e.g.: CV-EX-1).\n
+        - Add: Left-click for normal difficulty, right-click for challenge mode.\n
+        - Clear: Left-click to clear all, right-click to remove only inactive tasks.\n
+        - Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
+        - Operation will stop automatically when encountering insufficient sanity, battle failure, or failure to achieve 3-star clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -867,7 +874,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotEmptyError">copilot is empty</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">copilot tasks with empty name</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
-    <system:String x:Key="CopilotSingleTaskWarning">A single job is being executed using the Copilot List. It is not recommended. Please run the single job directly.</system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">You're using ｢{key=UseCopilotList}｣ to execute a single task, which is not recommended. For single tasks, please run them directly instead.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
