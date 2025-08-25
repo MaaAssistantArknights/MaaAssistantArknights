@@ -95,7 +95,9 @@ export default defineUserConfig({
       themes: { light: 'one-light', dark: 'one-dark-pro' },
     },
 
-    // markdown: todo
+    markdown: {
+      
+    },
 
     watermark: false,
 
