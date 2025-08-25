@@ -655,12 +655,12 @@ bool asst::BattleHelper::wait_until_start(bool weak)
         pause_button_analyzer.set_task_info("BattlePauseCheck");
         while (!m_inst_helper.need_exit() && !pause_button_analyzer.analyze()) {
             m_inst_helper.ctrler()->press_esc();
+            m_inst_helper.sleep(100);
             if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
                 Log.warn("Timeout reached while waiting to start the battle.");
                 return false;
             }
 
-            m_inst_helper.sleep(100);
             pause_button_analyzer.set_image(m_inst_helper.ctrler()->get_image());
         }
         m_paused = true;
@@ -866,6 +866,7 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     m_inst_helper.ctrler()->click(target_point);
     if (m_paused) {
         m_inst_helper.ctrler()->press_esc();
+        m_inst_helper.sleep(200);
     }
     m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
