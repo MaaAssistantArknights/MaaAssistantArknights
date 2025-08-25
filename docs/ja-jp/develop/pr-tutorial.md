@@ -24,16 +24,12 @@ repo、コードやその他のリソースファイルを保存する場所で�
 
 👇 これはMAAのリポジトリです（一般的にMAAのメインリポジトリと呼ばれます）。
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/repository-light.png",
-      "dark": "images/zh-cn/pr-tutorial/repository-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/repository-light.png',
+    dark: 'images/zh-cn/pr-tutorial/repository-dark.png'
+  }
+]" />
 
 ### Fork（複製）
 
@@ -44,16 +40,12 @@ repo、コードやその他のリソースファイルを保存する場所で�
 区別するために、元のMAAリポジトリは「主リポジトリ」「upstream（上流リポジトリ）」「origin（元のリポジトリ）」と呼ばれます。  
 それぞれの人がコピーできるので、コピーしたものを「個人リポジトリ」と呼びます。
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/fork-light.png",
-      "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/fork-light.png',
+    dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+  }
+]" />
 
 ### Pull Request（プルリクエスト、マージリクエスト）
 
@@ -65,16 +57,12 @@ repo、コードやその他のリソースファイルを保存する場所で�
 
 👇 以下は、現在承認待ちの提出されたPRの例です。
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/pull-request-light.png",
-      "dark": "images/zh-cn/pr-tutorial/pull-request-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/pull-request-light.png',
+    dark: 'images/zh-cn/pr-tutorial/pull-request-dark.png'
+  }
+]" />
 
 ### Conflict（コンフリクト）
 
@@ -87,164 +75,116 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 1. まず、MAAのメインリポジトリにアクセスして、コードをforkします。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/fork-light.png",
-          "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/fork-light.png',
+        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+      }
+    ]" />
 
 2. 「Copy the master branch only」オプションを外して、Create Forkをクリックします。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-2-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+      }
+    ]" />
 
 3. 次に、あなたの個人リポジトリに移動し、「あなたの名前/ MaaAssistantArknights」というタイトルが表示され、下に「MAAメインリポジトリから複製されたMaaAssistantArknights/MaaAssistantArknights」という文言が表示されます。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-3-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-3-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
+      }
+    ]" />
 
 4. 変更するファイルを探します。 "Go to file" をクリックしてグローバル検索を行うか、下のフォルダーから直接検索することもできます（ファイルの場所を知っている場合）。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-4-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-4-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
+      }
+    ]" />
 
 5. ファイルを開いたら、ファイルの右上隅にある✏️をクリックして編集を開始します。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-5-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-5-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
+      }
+    ]" />
 
 6. 変更を加えます！（もちろん、リソースファイルなどの場合は、まずMAAフォルダー内で変更をテストし、問題がないことを確認してから、ウェブページに貼り付けて変更を行ってください）
 7. 変更が完了したら、一番下までスクロールして、変更内容を記述します。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-7-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-7-1-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
+      }
+    ]" />
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-7-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-7-2-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
+      }
+    ]" />
 
 8. 変更するもう1つのファイルがある場合は、5-8を繰り返してください。
 9. 変更が完了したら、PRを行います！個人リポジトリのPull Requestタブをクリックします。  
     「Compare & Pull Request」ボタンがある場合は、それをクリックしてください。ない場合は、「New Pull Request」をクリックしてください。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-9-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-9-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
+      }
+    ]" />
 
 10. これでメインリポジトリに移動します。PRする内容を確認してください。  
     スクリーンショットのように、真ん中に左向きの矢印があり、右側の「個人名/MAA」のdevブランチを「メインリポジトリ/MAA」のdevブランチにマージすることを申請しています。  
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-10-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-10-1-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-10-1-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-10-1-dark.png'
+      }
+    ]" />
 
     次に、タイトルや変更内容などを記述して、承認をリクエストします。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-10-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-10-2-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-10-2-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-10-2-dark.png'
+      }
+    ]" />
 
 11. MAAチームの大佬たちに承認していただきましょう！もちろん、意見を提供してくださることもあるかもしれません  
   👇例えば（純粋に娯楽のために、本気にしないでください）
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-11-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-11-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
+      }
+    ]" />
 
 12. 大佬たちがさらに小さな問題を修正するように言った場合、あなたの個人のリポジトリに戻って、以前のdevブランチに切り替え、手順3-9を繰り返すだけで大丈夫です！  
   手順2（再度フォークする）を実行する必要はなく、手順10（再度プルリクエストする）を実行する必要もありません。現在のプルリクエストはまだ承認待ちの状態にあり、後続の変更はこのプルリクエストに直接反映されます。  
   👇 以下は例です。最下部に「再度変更デモを変更」というメッセージが追加されたことがわかります。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-12-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-12-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
+      }
+    ]" />
 
 13. 大佬たちの承認を得たら、すべて完了です！ バージョンがリリースされた後、あなたのGitHubプロフィールアイコンは自動的に貢献者リストに追加されます。皆様のご奉仕に深く感謝申し上げます！  
     ~~なんで全部二次元キャラなんだろう、あ、私も二次元好きだったわ。ま、いいか~~
@@ -263,19 +203,15 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
     私が言ったことが何を意味するのか分からない/関係ない場合は、左側のボタンをクリックしてください。
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-14-1-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-14-1-dark.png"
-        },
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-14-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-14-2-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-14-1-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-14-1-dark.png'
+      },
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-14-2-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-14-2-dark.png'
+      }
+    ]" />
 
     その後、ステップ3-14を繰り返し、変更を加え、PRを提出することができます。
