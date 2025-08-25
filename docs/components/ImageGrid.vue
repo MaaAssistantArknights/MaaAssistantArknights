@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from "vue";
+import { PropType, defineComponent, computed, ref, onMounted, onUnmounted } from "vue";
 import { withBase } from "vuepress/client";
 
 export default defineComponent({
@@ -20,18 +20,61 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {
-    displayImageList() {
-      return this.imageList.map((item) => {
+  setup(props) {
+    const isDarkMode = ref(false);
+    let observer: MutationObserver | null = null;
+    let mediaQuery: MediaQueryList | null = null;
+
+    const updateDarkMode = () => {
+      if (typeof window !== 'undefined') {
+        const html = document.documentElement;
+        isDarkMode.value = html.classList.contains('dark') || 
+                          html.getAttribute('data-theme') === 'dark' ||
+                          window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+    };
+
+    onMounted(() => {
+      updateDarkMode();
+      
+      if (typeof window !== 'undefined') {
+        // 监听DOM变化（主题切换通常会改变class或data-theme属性）
+        observer = new MutationObserver(updateDarkMode);
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class', 'data-theme']
+        });
+
+        // 监听系统主题变化
+        mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', updateDarkMode);
+      }
+    });
+
+    onUnmounted(() => {
+      if (observer) {
+        observer.disconnect();
+      }
+      if (mediaQuery) {
+        mediaQuery.removeEventListener('change', updateDarkMode);
+      }
+    });
+    
+    const displayImageList = computed(() => {
+      return props.imageList.map((item) => {
         const src =
           typeof item === "string"
             ? item
-            : this.$isDarkmode
+            : isDarkMode.value
             ? item.dark
             : item.light;
         return withBase(src);
       });
-    },
+    });
+
+    return {
+      displayImageList,
+    };
   },
 });
 </script>
