@@ -962,7 +962,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}일 이내에 만료되는 이성 회복약을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>

@@ -962,7 +962,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0},{1}(期限切れ)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}日以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
