@@ -54,6 +54,8 @@ void asst::BattleHelper::clear()
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
+    m_cost_regenerated = 0;
+    m_cost_regeneration = 0;
     m_paused = false;
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
