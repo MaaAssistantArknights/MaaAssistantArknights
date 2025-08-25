@@ -88,6 +88,21 @@ bool asst::BattleHelper::pause()
     return ProcessTask(this_task(), { "BattlePause" }).run();
 }
 
+bool asst::BattleHelper::advance_while_paused()
+{
+    LogTraceFunction;
+
+    if (!m_paused) {
+        return false;
+    }
+
+    m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
+    m_inst_helper.ctrler()->press_esc();
+    m_inst_helper.sleep(100);
+
+    return true;
+}
+
 bool asst::BattleHelper::speed_up()
 {
     LogTraceFunction;
@@ -846,7 +861,13 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     }
     const Point& target_point = target_iter->second.pos;
 
+    if (m_paused) {
+        m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
+    }
     m_inst_helper.ctrler()->click(target_point);
+    if (m_paused) {
+        m_inst_helper.ctrler()->press_esc();
+    }
     m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
     return true;
@@ -877,7 +898,7 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
     bool pausing = false;
-    if (!keep_waiting && deploy_with_pause) {
+    if (!keep_waiting && deploy_with_pause && !m_paused) {
         pausing = ProcessTask(this_task(), { "BattlePause" }).run();
     }
 
@@ -902,7 +923,12 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
             }
             return true;
         }
-        m_inst_helper.sleep(Config.get_options().task_delay);
+        if (m_paused) {
+            advance_while_paused();
+        }
+        else {
+            m_inst_helper.sleep(Config.get_options().task_delay);
+        }
     }
 
     // this means false positive in skill ready detection

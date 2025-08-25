@@ -44,6 +44,7 @@ protected:
     bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
 
     bool pause();
+    bool advance_while_paused();
     bool speed_up();
     bool abandon();
 

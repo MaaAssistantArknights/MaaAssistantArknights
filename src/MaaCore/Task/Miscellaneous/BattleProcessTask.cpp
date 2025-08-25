@@ -255,7 +255,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::Pause:
-        ProcessTask(*this, { "BattlePause" }).run();
+        ctrler()->click(Task.get("BattlePause")->specific_rect);
         m_paused = !m_paused;
         ret = true;
         break;
@@ -351,6 +351,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     break;
                 }
             }
+            if (m_paused) {
+                advance_while_paused();
+            }
             if (!check_in_battle(image)) {
                 return false;
             }
@@ -364,6 +367,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             update_kills(image, image_prev);
             if (m_kills >= action.kills) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             if (!check_in_battle(image)) {
                 return false;
@@ -379,6 +385,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             update_cost(image, image_prev);
             if (m_cost >= action.costs) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             if (!check_in_battle(image)) {
                 return false;
@@ -399,6 +408,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
+            if (m_paused) {
+                advance_while_paused();
+            }
             do_strategy_and_update_image();
         }
     }
@@ -409,6 +421,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (m_cost_regenerated > action.cost_regenerated ||
                 (m_cost_regenerated == action.cost_regenerated && m_cost_regeneration >= action.cost_regeneration)) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             do_strategy_and_update_image();
         }
@@ -426,6 +441,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                     ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
                 iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
+            }
+            if (m_paused) {
+                advance_while_paused();
             }
             do_strategy_and_update_image();
         }
