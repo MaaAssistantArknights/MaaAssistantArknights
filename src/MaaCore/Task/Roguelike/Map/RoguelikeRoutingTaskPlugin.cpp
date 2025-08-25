@@ -353,6 +353,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
     Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
     ctrler()->click(click_point);
     m_bosky_map.set_visited(chosen);
+    m_bosky_map.set_curr_pos(chosen);
 
     // 根据节点类型判断 Task.set_task_base base_task_name
     switch (m_bosky_map.get_node_type(chosen)) {
