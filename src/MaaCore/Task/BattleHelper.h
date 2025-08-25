@@ -126,6 +126,7 @@ protected:
     int m_cost_regenerated = 0;
     int m_cost_regeneration = 0;
     bool m_paused = false;
+    bool m_need_pause_on_start = false;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

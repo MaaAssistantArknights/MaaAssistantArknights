@@ -40,6 +40,17 @@ bool asst::BattleProcessTask::_run()
         return false;
     }
 
+    // 若第一个行动是暂停，则设置 m_need_pause_on_start
+    size_t action_size = get_combat_data().actions.size();
+    if (action_size > 0) {
+        const auto& init_action = get_combat_data().actions.at(0);
+        if (init_action.type == ActionType::Pause && init_action.kills == 0 && init_action.costs == 0 &&
+            init_action.cost_changes == 0 && init_action.cooling == -1 && init_action.cost_regenerated == 0 &&
+            init_action.cost_regeneration == 0) {
+            m_need_pause_on_start = true;
+        }
+    }
+
     if (!update_deployment(true)) {
         Log.error("update deployment failed");
         return false;
@@ -49,8 +60,7 @@ bool asst::BattleProcessTask::_run()
 
     to_group();
 
-    size_t action_size = get_combat_data().actions.size();
-    for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
+    for (size_t i = m_need_pause_on_start ? 1 : 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
         do_action(action, i);
     }

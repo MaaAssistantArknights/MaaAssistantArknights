@@ -3906,6 +3906,7 @@
         "roi": [0, 102, 190, 37]
     },
     "BattleOfficiallyBegin": {
+        "template": ["BattleOfficiallyBegin", "BattlePauseCheck"],
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255],
         "templThreshold": 0.7
@@ -3935,6 +3936,10 @@
     },
     "BattlePauseCancelCheck": {
         "template": "BattleOfficiallyBegin.png",
+        "roi": [1165, 20, 65, 65],
+        "maskRange": [100, 255]
+    },
+    "BattlePauseCheck": {
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255]
     },
