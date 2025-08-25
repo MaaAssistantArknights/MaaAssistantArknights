@@ -648,7 +648,6 @@ bool asst::BattleHelper::wait_until_start(bool weak)
             m_inst_helper.sleep(100);
             pause_button_analyzer.set_image(m_inst_helper.ctrler()->get_image());
         }
-        m_need_pause_on_start = false;
         m_paused = true;
     }
     cv::Mat image = m_inst_helper.ctrler()->get_image();
