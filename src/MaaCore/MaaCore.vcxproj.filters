@@ -152,6 +152,9 @@
     <Filter Include="Resource\tasks\YoStarKR\Stages">
       <UniqueIdentifier>{9bf2dc29-0395-4f89-a017-1b3941c13bc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Task\Roguelike\JieGarden">
+      <UniqueIdentifier>{543a44b2-ae6b-40ac-8b8e-1e6fa82b5375}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -950,10 +953,20 @@
     <ClInclude Include="Controller\LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" />
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" />
     <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\JieGarden</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1475,9 +1488,17 @@
     <ClCompile Include="Controller\LDExtras.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" />
     <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike\JieGarden</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
