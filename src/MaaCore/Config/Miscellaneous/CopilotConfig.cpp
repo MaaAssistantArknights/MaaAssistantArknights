@@ -191,6 +191,9 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "Pause", ActionType::Pause },
             { "PAUSE", ActionType::Pause },
             { "pause", ActionType::Pause },
+            { "CancelPause", ActionType::Pause },
+            { "CANCELPAUSE", ActionType::Pause },
+            { "cancelpause", ActionType::Pause },
             { "暂停", ActionType::Pause },
             { "取消暂停", ActionType::Pause },
 
