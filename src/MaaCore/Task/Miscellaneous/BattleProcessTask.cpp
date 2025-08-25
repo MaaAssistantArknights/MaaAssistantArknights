@@ -339,6 +339,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         do_strategic_action(image);
         image_prev = std::move(image);
         image = ctrler()->get_image();
+        update_cost_regeneration(image);
     };
 
     if (action.cost_changes != 0) {
@@ -488,7 +489,9 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
     const auto delay = millisecond * 1ms;
 
     while (!need_exit() && std::chrono::steady_clock::now() - start < delay) {
-        do_strategic_action();
+        cv::Mat image = ctrler()->get_image();
+        update_cost_regeneration(image);
+        do_strategic_action(image);
         std::this_thread::yield();
     }
 }
