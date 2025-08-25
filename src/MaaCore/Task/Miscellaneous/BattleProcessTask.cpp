@@ -418,11 +418,23 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         }
     }
 
-    if (action.cost_regenerated > 0 || action.cost_regeneration > 0) {
+    if (action.cost_regenerated > 0) {
         update_image_if_empty();
         while (!need_exit()) {
-            if (m_cost_regenerated > action.cost_regenerated ||
-                (m_cost_regenerated == action.cost_regenerated && m_cost_regeneration >= action.cost_regeneration)) {
+            if (m_cost_regenerated >= action.cost_regenerated) {
+                break;
+            }
+            if (m_paused) {
+                advance_while_paused();
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    if (action.cost_regeneration > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (m_cost_regeneration >= action.cost_regeneration) {
                 break;
             }
             if (m_paused) {
