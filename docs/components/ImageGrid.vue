@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <img v-for="src of displayImageList" class="image" :src="src" alt="" />
-  </div>
+  <CardGrid>
+    <ImageCard 
+      v-for="(item, index) of displayImageList" 
+      :key="index"
+      :image="item" 
+    />
+  </CardGrid>
 </template>
 
 <script lang="ts">
@@ -9,10 +13,12 @@ import { PropType, defineComponent } from "vue";
 import { withBase } from "vuepress/client";
 
 export default defineComponent({
+  name: "ImageCardGrid",
   props: {
-    imageList: Array as PropType<
-      Array<{ light: string; dark: string } | string>
-    >,
+    imageList: {
+      type: Array as PropType<Array<{ light: string; dark: string } | string>>,
+      required: true,
+    },
   },
   computed: {
     displayImageList() {
@@ -29,24 +35,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.image {
-  box-sizing: border-box;
-  width: 25%;
-  padding: 9px;
-  border-radius: 16px;
-}
-
-@media (max-width: 719px) {
-  .image {
-    width: 50%;
-  }
-}
-
-@media (max-width: 419px) {
-  .image {
-    width: auto;
-  }
-}
-</style>
