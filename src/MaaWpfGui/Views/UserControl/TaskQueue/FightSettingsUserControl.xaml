@@ -471,6 +471,16 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource UseExpiringMedicineInDays}"
+                IsChecked="{Binding UseExpiringMedicineInDaysEnabled}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                Visibility="{c:Binding UseExpiringMedicineInDaysEnabled}"
+                Maximum="999"
+                Minimum="0"
+                Value="{Binding UseExpiringMedicineInDays}" />
+            <CheckBox
+                Margin="0,10"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}" />
             <CheckBox
