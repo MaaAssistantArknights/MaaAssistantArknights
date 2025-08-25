@@ -100,22 +100,22 @@ public class FightSettingsUserControlModel : TaskViewModel
     }
 
     private readonly Dictionary<string, string> _stageDictionary = new()
-    {
-        { "AN", "Annihilation" },
-        { "剿灭", "Annihilation" },
-        { "CE", "CE-6" },
-        { "龙门币", "CE-6" },
-        { "LS", "LS-6" },
-        { "经验", "LS-6" },
-        { "狗粮", "LS-6" },
-        { "CA", "CA-5" },
-        { "技能", "CA-5" },
-        { "AP", "AP-5" },
-        { "红票", "AP-5" },
-        { "SK", "SK-5" },
-        { "碳", "SK-5" },
-        { "炭", "SK-5" },
-    };
+        {
+            { "AN", "Annihilation" },
+            { "剿灭", "Annihilation" },
+            { "CE", "CE-6" },
+            { "龙门币", "CE-6" },
+            { "LS", "LS-6" },
+            { "经验", "LS-6" },
+            { "狗粮", "LS-6" },
+            { "CA", "CA-5" },
+            { "技能", "CA-5" },
+            { "AP", "AP-5" },
+            { "红票", "AP-5" },
+            { "SK", "SK-5" },
+            { "碳", "SK-5" },
+            { "炭", "SK-5" },
+        };
 
     public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
 
@@ -661,7 +661,10 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public static Dictionary<string, string> AnnihilationModeList { get; } = new()
     {
-        { LocalizationHelper.GetString("Annihilation"), "Annihilation" }, { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" }, { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" }, { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
+        { LocalizationHelper.GetString("Annihilation"), "Annihilation" },
+        { LocalizationHelper.GetString("Chernobog"), "Chernobog@Annihilation" },
+        { LocalizationHelper.GetString("LungmenOutskirts"), "LungmenOutskirts@Annihilation" },
+        { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
     };
 
     private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
@@ -1030,19 +1033,25 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public class SanityInfo
     {
-        [JsonProperty("current_sanity")] public int SanityCurrent { get; set; }
+        [JsonProperty("current_sanity")]
+        public int SanityCurrent { get; set; }
 
-        [JsonProperty("max_sanity")] public int SanityMax { get; set; }
+        [JsonProperty("max_sanity")]
+        public int SanityMax { get; set; }
 
-        [JsonProperty("report_time")] public DateTimeOffset ReportTime { get; set; }
+        [JsonProperty("report_time")]
+        public DateTimeOffset ReportTime { get; set; }
     }
 
     public class FightTimes
     {
-        [JsonProperty("sanity_cost")] public int SanityCost { get; set; }
+        [JsonProperty("sanity_cost")]
+        public int SanityCost { get; set; }
 
-        [JsonProperty("series")] public int Series { get; set; }
+        [JsonProperty("series")]
+        public int Series { get; set; }
 
-        [JsonProperty("times_finished")] public int TimesFinished { get; set; }
+        [JsonProperty("times_finished")]
+        public int TimesFinished { get; set; }
     }
 }
