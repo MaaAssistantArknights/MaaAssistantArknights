@@ -98,7 +98,7 @@ bool asst::BattleHelper::advance_while_paused()
 
     m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
     m_inst_helper.ctrler()->press_esc();
-    m_inst_helper.sleep(100);
+    m_inst_helper.sleep(200);
 
     return true;
 }
