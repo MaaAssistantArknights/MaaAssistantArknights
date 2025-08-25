@@ -216,6 +216,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             update_deployment(); // 等待之后画面可能会变化, 更新下干员信息, 但若为非部署动作, 则无需更新
         }
     }
+    if (action.type == ActionType::BulletTime) {
+        update_deployment();
+    }
 
     bool ret = false;
     const std::string& name = get_name_from_group(action.name);
