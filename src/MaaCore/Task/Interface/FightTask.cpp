@@ -65,7 +65,14 @@ bool asst::FightTask::set_params(const json::value& params)
 
     const std::string stage = params.get("stage", "");
     const int medicine = params.get("medicine", 0);
+    // DEPRECATED IN FUTURE
     const int expiring_medicine = params.get("expiring_medicine", 0);
+    // 吃几天之内的过期理智药
+    // 暂时做兼容性处理 如果上面的值不为0，则默认吃2天内的药
+    int medicine_expiring_in_days = params.get("medicine_expiring_in_days", 0);
+    if (expiring_medicine != 0) {
+        medicine_expiring_in_days = 2;
+    }
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     const int series = params.get("series", 1);
@@ -84,6 +91,10 @@ bool asst::FightTask::set_params(const json::value& params)
     else {
         m_medicine_plugin->set_reduce_when_exceed(series == 0);
         m_fight_times_prt->set_series(series);
+    }
+
+    if (expiring_medicine != 0) {
+        Log.warn("expiring_medicine is deprecated, use medicine_expiring_in_days instead");
     }
 
     bool enable_penguin = params.get("report_to_penguin", false);
@@ -139,7 +150,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
     m_medicine_plugin->set_count(medicine);
-    m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
+    m_medicine_plugin->set_medicine_expiring_in_days(medicine_expiring_in_days);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);
     m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
     m_stage_drops_plugin_ptr->set_enable_penguin(enable_penguin);
@@ -147,7 +158,7 @@ bool asst::FightTask::set_params(const json::value& params)
     m_stage_drops_plugin_ptr->set_enable_yituliu(enable_yituliu);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
-    m_sidestory_reopen_task_ptr->set_expiring_medicine(expiring_medicine);
+    m_sidestory_reopen_task_ptr->set_medicine_expiring_in_days(medicine_expiring_in_days);
     m_sidestory_reopen_task_ptr->set_stone(stone);
     m_sidestory_reopen_task_ptr->set_enable_penguin(enable_penguin);
     m_sidestory_reopen_task_ptr->set_penguin_id(std::move(penguin_id));
