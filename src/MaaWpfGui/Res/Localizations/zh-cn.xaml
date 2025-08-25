@@ -489,7 +489,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
-    <system:String x:Key="UseExpiringMedicine">无限吃 48 小时内过期的理智药</system:String>
     <system:String x:Key="UseExpiringMedicineInDays">无限吃 N 天内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
     <system:String x:Key="HideSeries">隐藏代理倍率</system:String>

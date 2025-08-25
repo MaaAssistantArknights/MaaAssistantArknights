@@ -750,19 +750,6 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
-
-    public bool UseExpiringMedicine
-    {
-        get => _useExpiringMedicine;
-        set
-        {
-            SetAndNotify(ref _useExpiringMedicine, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
-            Instances.TaskQueueViewModel.SetFightParams();
-        }
-    }
-
     private bool _useExpiringMedicineInDaysEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicineInDaysEnabled, true);
 
     public bool UseExpiringMedicineInDaysEnabled
@@ -876,9 +863,6 @@ public class FightSettingsUserControlModel : TaskViewModel
             Stone = UseStoneDisplay ? StoneNumber : 0,
             Series = Series,
             MaxTimes = HasTimesLimited != false ? MaxTimes : int.MaxValue,
-
-            // TODO: 删除ExpiringMedicine 改用 MedicineExpiringInDays
-            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
             MedicineExpiringInDays = UseExpiringMedicineInDaysEnabled ? UseExpiringMedicineInDays : 0,
             IsDrGrandet = IsDrGrandet,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
