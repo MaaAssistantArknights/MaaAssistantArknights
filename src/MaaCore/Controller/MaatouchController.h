@@ -22,12 +22,16 @@ public:
     virtual bool press_esc() override;
 
 protected:
-    class Maatoucher;
-    std::unique_ptr<Maatoucher> m_minitoucher = nullptr;
+    virtual bool call_and_hup_minitouch() override;
 
-    class Maatoucher : public MinitouchController::Minitoucher
+    class Maatoucher : public Minitoucher
     {
     public:
+        Maatoucher(InputFunc func, const MinitouchProps& props) :
+            Minitoucher(func, props)
+        {
+        }
+
         [[nodiscard]] bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
         {
             return m_input_func(key_down_cmd(key_code, wait_ms, with_commit));
@@ -38,7 +42,7 @@ protected:
             return m_input_func(key_up_cmd(key_code, wait_ms, with_commit));
         }
 
-    private:
+    protected:
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4996)

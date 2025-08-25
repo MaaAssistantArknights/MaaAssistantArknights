@@ -50,7 +50,7 @@ public:
 protected:
     virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket) override;
 
-    bool call_and_hup_minitouch();
+    virtual bool call_and_hup_minitouch();
 
     bool probe_minitouch(const AdbCfg& adb_cfg, std::function<std::string(const std::string&)> cmd_replace);
 
@@ -98,7 +98,7 @@ protected:
         {
         }
 
-        ~Minitoucher() = default;
+        virtual ~Minitoucher() = default;
 
         // nodiscard! for false return value may indicating *this got replaced in m_input_func
         [[nodiscard]] bool reset() { return m_input_func(reset_cmd()); }
