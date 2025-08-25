@@ -51,28 +51,24 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
-```component Image4
-{
-  "imageList": [
-    {
-      "light": "images/ko-kr/readme/1-light.png",
-      "dark": "images/ko-kr/readme/1-dark.png"
-    },
-    {
-      "light": "images/ko-kr/readme/2-light.png",
-      "dark": "images/ko-kr/readme/2-dark.png"
-    },
-    {
-      "light": "images/ko-kr/readme/3-light.png",
-      "dark": "images/ko-kr/readme/3-dark.png"
-    },
-    {
-      "light": "images/ko-kr/readme/4-light.png",
-      "dark": "images/ko-kr/readme/4-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/ko-kr/readme/1-light.png',
+    dark: 'images/ko-kr/readme/1-dark.png'
+  },
+  {
+    light: 'images/ko-kr/readme/2-light.png',
+    dark: 'images/ko-kr/readme/2-dark.png'
+  },
+  {
+    light: 'images/ko-kr/readme/3-light.png',
+    dark: 'images/ko-kr/readme/3-dark.png'
+  },
+  {
+    light: 'images/ko-kr/readme/4-light.png',
+    dark: 'images/ko-kr/readme/4-dark.png'
+  }
+]" />
 
 ## 사용 방법
 

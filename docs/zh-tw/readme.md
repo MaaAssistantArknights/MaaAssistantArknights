@@ -50,28 +50,24 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-```component Image4
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/readme/1-light.png",
-      "dark": "images/zh-cn/readme/1-dark.png"
-    },
-    {
-      "light": "images/zh-cn/readme/2-light.png",
-      "dark": "images/zh-cn/readme/2-dark.png"
-    },
-    {
-      "light": "images/zh-cn/readme/3-light.png",
-      "dark": "images/zh-cn/readme/3-dark.png"
-    },
-    {
-      "light": "images/zh-cn/readme/4-light.png",
-      "dark": "images/zh-cn/readme/4-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/readme/1-light.png',
+    dark: 'images/zh-cn/readme/1-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/2-light.png',
+    dark: 'images/zh-cn/readme/2-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/3-light.png',
+    dark: 'images/zh-cn/readme/3-dark.png'
+  },
+  {
+    light: 'images/zh-cn/readme/4-light.png',
+    dark: 'images/zh-cn/readme/4-dark.png'
+  }
+]" />
 
 ## 使用說明
 
