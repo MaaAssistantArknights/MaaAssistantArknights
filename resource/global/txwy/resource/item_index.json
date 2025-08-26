@@ -1479,6 +1479,14 @@
         "sortId": -10000,
         "usage": "已經不能再被播放的唱片。能拿來和長久生活在城市廢墟裡的人交換物資。"
     },
+    "act18mini_token_petals": {
+        "classifyType": "NONE",
+        "description": "破碎卻又光彩奪目的花瓣狀結晶，在充斥著死亡的黑色焦土中通常一眼就能辨認出來。它們是航船行駛過後留下的漣漪，銘記著逝去之人在生命最後時刻的情感與記憶。",
+        "icon": "act18mini_token_petals.png",
+        "name": "碎花瓣",
+        "sortId": -10000,
+        "usage": "遺落在戰場廢墟中的鮮血結晶。據說在雙月的光芒最耀眼的時刻，將其放在一處盛開著薔薇的無人之地，幸運的人總能在天亮返回時收穫一些意外的饋贈。"
+    },
     "act18side_token_pieces": {
         "classifyType": "NONE",
         "description": "五線譜上的手寫音符雜亂不堪，只有作者自己才能一眼發現棲身其中的靈感。",
@@ -1494,6 +1502,14 @@
         "name": "神秘試劑",
         "sortId": -10000,
         "usage": "萊茵生命能量科的最新研究成果。收集一定數量可以從危險物品回收處領取必要物資。"
+    },
+    "act1arcade_milestone_point": {
+        "classifyType": "NONE",
+        "description": "小小一張卡券，但累積起來後能兌換不少大獎呢！",
+        "icon": "act1arcade_milestone_point.png",
+        "name": "積點卡券",
+        "sortId": -10000,
+        "usage": "關卡首通獎勵，用於在博物館兌換台換取獎勵，首通後重複通關無法再次獲得。"
     },
     "act1bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2025,7 +2041,7 @@
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
-        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
+        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請藉此消耗掉多餘的卡路里。",
         "icon": "ap_supply_lt_60.png",
         "name": "緊急理智試劑",
         "sortId": 30003,
@@ -2033,7 +2049,7 @@
     },
     "ap_supply_lt_80": {
         "classifyType": "CONSUME",
-        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
+        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請藉此消耗掉多餘的卡路里。",
         "icon": "ap_supply_lt_80.png",
         "name": "緊急理智加強劑",
         "sortId": 30003,
@@ -2403,7 +2419,7 @@
         "classifyType": "CONSUME",
         "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
         "icon": "randomMaterial_5d5.png",
-        "name": "2024感謝慶典物資補給",
+        "name": "2025感謝慶典物資補給",
         "sortId": 60111,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
