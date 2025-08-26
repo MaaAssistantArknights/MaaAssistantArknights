@@ -64,7 +64,9 @@ public:
     bool screencap(bool allow_reconnect = false);
 
     bool start_game(const std::string& client_type);
+    bool start_activity(const std::string& activity_name);
     bool stop_game(const std::string& client_type);
+    bool stop_activity(const std::string& activity_name);
 
     bool click(const Point& p);
     bool click(const Rect& rect);
@@ -99,6 +101,7 @@ public:
     Controller& operator=(Controller&&) = delete;
 
     bool back_to_home();
+    std::optional<std::string> get_activities();
 
 private:
     cv::Mat get_resized_image_cache() const;
