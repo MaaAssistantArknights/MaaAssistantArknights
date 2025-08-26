@@ -1,6 +1,6 @@
 import { defineClientConfig } from "vuepress/client";
 
-import ImageGrid from "../components/ImageGrid.vue";
+import ImageGrid from "./components/ImageGrid.vue";
 
 import './styles/index.scss'
 
