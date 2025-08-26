@@ -154,12 +154,12 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _idle;
 
         /// <summary>
-        /// Gets or sets a value indicating whether it is idle.
+        /// Gets a value indicating whether it is idle.
         /// </summary>
         public bool Idle
         {
             get => _idle;
-            set => SetAndNotify(ref _idle, value);
+            private set => SetAndNotify(ref _idle, value);
         }
 
         private bool _startEnabled = true;
