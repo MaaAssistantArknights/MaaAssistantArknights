@@ -202,23 +202,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
 std::variant<int, std::filesystem::path> asst::CopilotTask::parse_copilot_filename(const std::string& name)
 {
-    static const std::regex maa_regex(R"(^maa://(\d+)$)");
-    std::smatch match;
-    if (std::regex_match(name, match, maa_regex)) {
-        if (!Copilot.parse_magic_code(match[1].str())) {
-            Log.error("CopilotConfig parse failed");
-            return -1;
-        }
-        int num = -1;
-        utils::chars_to_number(name, num);
-        return num;
+    auto path = utils::path(name);
+    if (!Copilot.load(path)) {
+        Log.error("CopilotConfig parse failed");
+        return -1;
     }
-    else {
-        auto path = utils::path(name);
-        if (!Copilot.load(path)) {
-            Log.error("CopilotConfig parse failed");
-            return -1;
-        }
-        return path;
-    }
+    return path;
 }
