@@ -879,13 +879,13 @@ bool asst::BattleHelper::click_retreat()
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         ProcessTask(this_task(), { "BattlePause" }).run();
     }
     // return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
     bool ret = m_inst_helper.ctrler()->click(m_retreat_button_pos);
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         ProcessTask(this_task(), { "BattlePauseCancel" }).run();
     }
     return ret;
