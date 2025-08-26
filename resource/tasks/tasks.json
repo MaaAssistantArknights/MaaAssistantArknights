@@ -2288,7 +2288,8 @@
     "CrisisPopup": {
         "action": "ClickRect",
         "roi": [450, 130, 400, 100],
-        "specificRect": [20, 20, 135, 35]
+        "specificRect": [20, 20, 135, 35],
+        "next": ["#self", "Stop"]
     },
     "VisitLimited": {
         "algorithm": "OcrDetect",
