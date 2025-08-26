@@ -4548,6 +4548,16 @@
         "template": "ParadoxChooseSkill.png",
         "roi": [928, 523, 139, 145]
     },
+    "ParadoxReturnUntilOperList": {
+        "baseTask": "ParadoxReturn",
+        "template": "Return.png",
+        "next": ["ParadoxReturnOperListFlag", "ParadoxReturnUntilOperList"]
+    },
+    "ParadoxReturnOperListFlag": {
+        "action": "Stop",
+        "roi": [1152, 0, 128, 138],
+        "template": ["BattleQuickFormationExpandRole.png", "BattleQuickFormationCollapseRole.png"]
+    },
     "ParadoxReturn": {
         "action": "ClickSelf",
         "template": "Return.png",

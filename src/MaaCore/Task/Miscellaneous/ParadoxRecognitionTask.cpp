@@ -36,9 +36,7 @@ bool asst::ParadoxRecognitionTask::_run()
         }
     }
 
-    return_index(); // 每次打完之后先回主页
-
-    enter_opers();  // 进入角色管理
+    return_initial_oper(); // 回干员列表（默认在最左侧），折叠filter，切换sort
 
     bool result = swipe_and_analyze();
     if (result) {
@@ -71,15 +69,10 @@ void asst::ParadoxRecognitionTask::swipe_page()
     ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();
 }
 
-void asst::ParadoxRecognitionTask::return_index()
+void asst::ParadoxRecognitionTask::return_initial_oper()
 {
-    while (ProcessTask(*this, { "ParadoxReturn" }).run())
-        ; // 回到主页面为止
-}
-
-void asst::ParadoxRecognitionTask::enter_opers()
-{
-    ProcessTask(*this, { "OperBoxBegin" }).set_ignore_error(true).run();
+    ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();                  // 回到干员列表
+    ProcessTask(*this, { "OperBoxRoleTabSelect" }).set_ignore_error(true).run(); // 折叠filter，切换sort
 }
 
 bool asst::ParadoxRecognitionTask::swipe_and_analyze()
