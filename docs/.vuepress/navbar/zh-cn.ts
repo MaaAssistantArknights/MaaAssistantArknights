@@ -2,11 +2,6 @@ import { defineNavbarConfig } from "vuepress-theme-plume";
 
 export const zhcnNavbar = defineNavbarConfig([
   {
-    text: "主页",
-    icon: "ic:round-home",
-    link: "/zh-cn/",
-  },
-  {
     text: "用户手册",
     icon: "mdi:user",
     link: "/zh-cn/manual/",
