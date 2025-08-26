@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -14,7 +15,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
         return false;
     }
 
-    const auto& config = m_copilot_configs[m_index_current];
+    const auto& config = m_copilot_configs[m_index_current++];
 
     std::string file_name;
     if (std::holds_alternative<int>(config.copilot_file)) {
@@ -32,6 +33,12 @@ bool asst::MultiCopilotTaskPlugin::_run()
         file_name = utils::path_to_utf8_string(std::get<std::filesystem::path>(config.copilot_file));
     }
     else {
+        return false;
+    }
+
+    const auto& stage_name = Copilot.get_stage_name();
+    if (!m_battle_task_ptr->set_stage_name(stage_name)) {
+        Log.error("Not support stage");
         return false;
     }
 
@@ -54,6 +61,5 @@ bool asst::MultiCopilotTaskPlugin::_run()
         ret = ret && ProcessTask(*this, { "RaidConfirm", "ChangeToRaidDifficulty" }).run();
     }
 
-    m_index_current++;
     return ret;
 }
