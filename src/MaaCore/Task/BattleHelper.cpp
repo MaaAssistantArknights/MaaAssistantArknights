@@ -1109,7 +1109,7 @@ std::optional<asst::BestMatcher::Result>
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)
 {
-    if (!oper.cooling) {
+    if (!oper.cooling && oper.role == Role::Drone) {
         return;
     }
     auto iter = m_battlefield_opers.find(oper.name);
