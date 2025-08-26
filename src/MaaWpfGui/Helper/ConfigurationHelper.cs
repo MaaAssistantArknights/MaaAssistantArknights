@@ -294,6 +294,14 @@ namespace MaaWpfGui.Helper
             }
 
             SetKvOrMigrate(parsed);
+            if (Save(_configurationBakFile))
+            {
+                _logger.Information("{File} saved", _configurationBakFile);
+            }
+            else
+            {
+                _logger.Warning("{File} save failed", _configurationBakFile);
+            }
 
             return true;
         }
@@ -456,15 +464,6 @@ namespace MaaWpfGui.Helper
                 else
                 {
                     _logger.Warning("{File} save failed", _configurationFile);
-                }
-
-                if (Save(_configurationBakFile))
-                {
-                    _logger.Information("{File} saved", _configurationBakFile);
-                }
-                else
-                {
-                    _logger.Warning("{File} save failed", _configurationBakFile);
                 }
             }
 

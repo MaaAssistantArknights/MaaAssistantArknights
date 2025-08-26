@@ -770,7 +770,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoom">ATO (허) - 상담실 (비공식)</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoom">AT (허) - 상담실 (비공식)</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢영업 시작｣)</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢이벤트 참가｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>
@@ -850,7 +850,7 @@ C:\\leidian\\LDPlayer9
         1. 사용하기 전에, 작업 파일이 선택한 스테이지 유형과 일치하는지 확인하세요.\n\n
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: 우측 하단에 파란색 "작전 개시" 버튼이 나타나는 화면에서 시작하세요.\n\n
         3. {key=SSS}: resource/copilot 폴더에 여러 파일이 있습니다. 먼저 수동으로 분대를 편성한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 화면에서 시작하세요. ｢{key=LoopTimes}｣와 함께 사용할 수 있습니다.\n\n
-        4. {key=ParadoxSimulation}: 스킬 선택 후, "시뮬레이션 시작" 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 "시뮬레이션 시작" 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, 메인 화면에서 시작하세요.\n\n
+        4. {key=ParadoxSimulation}: 스킬 선택 후, "시뮬레이션 시작" 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 "시뮬레이션 시작" 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록에서 시작하세요.\n\n
         5. 지원 유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
         6. "선호"로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다: 좌클릭으로 단일 작업 추가, 우클릭으로 전체 작업 세트 추가.\n\n

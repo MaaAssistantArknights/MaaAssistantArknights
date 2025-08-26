@@ -851,16 +851,13 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainStopped:
                     Instances.TaskQueueViewModel.SetStopped();
                     TaskStatusUpdate(taskId, TaskStatus.Completed);
-                    if (isCopilotTaskChain)
-                    {
-                        _runningState.SetIdle(true);
-                    }
-
+                    _tasksStatus.Clear();
                     break;
 
                 case AsstMsg.TaskChainError:
                     {
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
+                        TaskStatusUpdate(taskId, TaskStatus.Completed);
                         _tasksStatus.TryGetValue(taskId, out var value);
                         if (value is { Type: TaskType.Fight } &&
                             TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
@@ -870,6 +867,11 @@ namespace MaaWpfGui.Main
                                 stage != "Annihilation"))
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        }
+                        else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
+                        {
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
                         else
                         {
@@ -881,23 +883,6 @@ namespace MaaWpfGui.Main
                             {
                                 ExternalNotificationService.Send(log, log);
                             }
-                        }
-
-                        if (isCopilotTaskChain)
-                        {
-                            // 如果启用战斗列表，需要中止掉剩余的任务
-                            if (Instances.CopilotViewModel.UseCopilotList)
-                            {
-                                if (!AsstStop(false))
-                                {
-                                    _logger.Warning("Failed to stop Asst");
-                                }
-                            }
-
-                            _runningState.SetIdle(true);
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                            TaskStatusUpdate(taskId, TaskStatus.Completed);
-                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
                         }
 
                         break;
@@ -942,17 +927,6 @@ namespace MaaWpfGui.Main
 
                         if (isCopilotTaskChain)
                         {
-                            if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
-                            {
-                                _runningState.SetIdle(true);
-                            }
-
-                            if (Instances.CopilotViewModel.UseCopilotList)
-                            {
-                                Instances.CopilotViewModel.CopilotTaskSuccess();
-                            }
-
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                             AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.UseCopilotGroup);
                         }
 
@@ -1431,6 +1405,14 @@ namespace MaaWpfGui.Main
                             case "BattleStartAll":
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
                                 break;
+
+                            case "StageDrops-Stars-3":
+                            case "StageDrops-Stars-Adverse":
+                                {
+                                    Instances.CopilotViewModel.CopilotTaskSuccess();
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                                    break;
+                                }
 
                             case "StageTraderSpecialShoppingAfterRefresh":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
@@ -2263,27 +2245,63 @@ namespace MaaWpfGui.Main
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
-        [SuppressMessage("ReSharper", "UnusedMember.Local")]
         public enum TaskType
         {
+            /// <summary>开始唤醒</summary>
             StartUp,
+
+            /// <summary>关闭游戏</summary>
             CloseDown,
+
+            /// <summary>刷理智</summary>
             Fight,
+
+            /// <summary>关卡选择为剿灭时的备选刷理智</summary>
             FightAnnihilationAlternate,
+
+            /// <summary>剩余理智</summary>
             FightRemainingSanity,
+
+            /// <summary>自动公招</summary>
             Recruit,
+
+            /// <summary>基建</summary>
             Infrast,
+
+            /// <summary>获取信用点/访问好友/信用商店</summary>
             Mall,
+
+            /// <summary>领奖励/邮箱/幸运墙等</summary>
             Award,
+
+            /// <summary>自动肉鸽</summary>
             Roguelike,
+
+            /// <summary>公招识别</summary>
             RecruitCalc,
+
+            /// <summary>自动战斗</summary>
             Copilot,
+
+            /// <summary>视频识别（真有人用吗）</summary>
             VideoRec,
+
+            /// <summary>仓库识别</summary>
             Depot,
+
+            /// <summary>干员识别</summary>
             OperBox,
+
+            /// <summary>抽卡</summary>
             Gacha,
+
+            /// <summary>生息演算</summary>
             Reclamation,
+
+            /// <summary>小游戏</summary>
             MiniGame,
+
+            /// <summary>自定义任务s</summary>
             Custom,
         }
 
@@ -2484,17 +2502,10 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 停止。
         /// </summary>
-        /// <param name="clearTask">是否清理_latestTaskId</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStop(bool clearTask = true)
+        public bool AsstStop()
         {
-            bool ret = MaaService.AsstStop(_handle);
-            if (clearTask)
-            {
-                _tasksStatus.Clear();
-            }
-
-            return ret;
+            return MaaService.AsstStop(_handle);
         }
 
         /// <summary>

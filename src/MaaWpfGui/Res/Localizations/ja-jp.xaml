@@ -850,7 +850,7 @@ C:\\leidian\\LDPlayer9
         1. この機能を使用前に、攻略ファイルと選択したステージタイプが一致していることを確認してください。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 右下の「行動開始」ボタン画面で開始してください。\n\n
         3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の「配置開始」ボタン画面で開始してください。「{key=LoopTimes}」と連携することもできます。\n\n
-        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、ホームページから開始してください。\n\n
+        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、{key=Operator}リストから開始してください。\n\n
         5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
         6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n

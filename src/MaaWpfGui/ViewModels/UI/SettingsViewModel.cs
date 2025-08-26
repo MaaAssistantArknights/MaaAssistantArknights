@@ -805,10 +805,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Make comboBox searchable
+        /// UI 绑定的方法
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public static void MakeComboBoxSearchable(object sender, EventArgs e)
         {

@@ -307,10 +307,12 @@
                                     IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     ToolTip="{c:Binding CopilotId}" />
-                                <controls:TextBlock
+                                <TextBlock
                                     Grid.Column="1"
                                     MinWidth="35"
                                     VerticalAlignment="Center"
+                                    Opacity="{c:Binding 'DataContext.Idle ? 1 : 0.5',
+                                                        RelativeSource={RelativeSource AncestorType=ListBox}}"
                                     Text="{DynamicResource CopilotTaskRaidStage}"
                                     Visibility="{c:Binding IsRaid}" />
                                 <Button

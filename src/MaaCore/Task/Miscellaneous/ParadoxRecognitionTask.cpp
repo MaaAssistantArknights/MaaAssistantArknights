@@ -23,7 +23,7 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     // 设置技能
-    m_skill_num = 0;
+    m_skill_num = 1;
     auto* groups = &Copilot.get_data().groups;
     for (const auto& [name, opers_vec] : *groups) {
         if (opers_vec.empty()) {
@@ -71,8 +71,12 @@ void asst::ParadoxRecognitionTask::swipe_page()
 
 void asst::ParadoxRecognitionTask::return_initial_oper()
 {
+    if (ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_ignore_error(true).set_retry_times(0).run()) {
+        return;
+    }
+
     ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();                  // 回到干员列表
-    ProcessTask(*this, { "OperBoxRoleTabSelect" }).set_ignore_error(true).run(); // 折叠filter，切换sort
+    ProcessTask(*this, { "OperBoxRoleTabSelect" }).set_ignore_error(true).set_retry_times(0).run(); // 折叠filter，切换sort
 }
 
 bool asst::ParadoxRecognitionTask::swipe_and_analyze()
