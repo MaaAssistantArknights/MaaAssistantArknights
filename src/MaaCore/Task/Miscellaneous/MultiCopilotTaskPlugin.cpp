@@ -40,6 +40,12 @@ bool asst::MultiCopilotTaskPlugin::_run()
     info["details"]["file_name"] = std::move(file_name);
     callback(AsstMsg::SubTaskExtraInfo, info);
 
+    if (config.is_paradox) {
+        // 悖论模拟走自己的导航逻辑
+        m_index_current++;
+        return true;
+    }
+
     bool ret = true;
     Task.get<OcrTaskInfo>(config.nav_name + "@Copilot@ClickStageName")->text = { config.nav_name };
     std::string replace_navigate_name = config.nav_name;

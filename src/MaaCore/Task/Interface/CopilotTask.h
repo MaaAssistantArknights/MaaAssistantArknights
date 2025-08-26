@@ -10,6 +10,7 @@ class MultiCopilotTaskPlugin;
 class BattleProcessTask;
 class BattleFormationTask;
 class ProcessTask;
+class ParadoxRecognitionTask;
 
 // 抄作业任务
 class CopilotTask final : public InterfaceTask
@@ -19,9 +20,10 @@ public:
     {
         std::string filename;   // 文件名
         std::string stage_name; // 关卡名
-        bool is_raid = false;   // 是否需要导航
+        bool is_raid = false;   // 是否是突袭
+        bool is_paradox = false; // 是否是悖论模拟
 
-        MEO_JSONIZATION(filename, stage_name, is_raid);
+        MEO_JSONIZATION(filename, stage_name, is_raid, is_paradox);
     };
 
 public:
@@ -37,6 +39,7 @@ public:
 private:
     std::variant<int, std::filesystem::path> parse_copilot_filename(const std::string& name);
 
+    std::shared_ptr<ParadoxRecognitionTask> m_paradox_task_ptr = nullptr;
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_medicine_task_ptr = nullptr;
     std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
