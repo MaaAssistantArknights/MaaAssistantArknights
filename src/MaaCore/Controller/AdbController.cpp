@@ -215,6 +215,10 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     if (port >= 16384) {
         mumu_index = (port - 16384) / 32;
     }
+    else if (port == 7555) {
+        mumu_index = 0;
+        LogWarn << "Port 7555 is deprecated for MuMu6, please use 16384 or above.";
+    }
     else if (port >= 5555) {
         mumu_index = (port - 5555) / 2;
     }

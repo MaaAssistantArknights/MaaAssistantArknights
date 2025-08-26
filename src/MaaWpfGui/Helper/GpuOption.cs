@@ -45,7 +45,7 @@ namespace MaaWpfGui.Helper
 
         // use string literal to efficiently store uint16 array
         // https://github.com/torvalds/linux/blob/v6.10/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c#L1756
-        private static ReadOnlySpan<ushort> _amd_blacklist => MemoryMarshal.Cast<char, ushort>(
+        private static ReadOnlySpan<ushort> AmdBlacklist => MemoryMarshal.Cast<char, ushort>(
             /* CHIP_TAHITI   */ "\u6780\u6784\u6788\u678A\u6790\u6791\u6792\u6798\u6799\u679A\u679B\u679E\u679F" +
             /* CHIP_PITCAIRN */ "\u6800\u6801\u6802\u6806\u6808\u6809\u6810\u6811\u6816\u6817\u6818\u6819" +
             /* CHIP_OLAND    */ "\u6600\u6601\u6602\u6603\u6604\u6605\u6606\u6607\u6608" +
@@ -68,7 +68,7 @@ namespace MaaWpfGui.Helper
             /* CHIP_STONEY   */ "\u98E4");
 
         // https://dgpu-docs.intel.com/devices/hardware-table.html#gpus-with-unsupported-drivers
-        private static ReadOnlySpan<ushort> _intel_blacklist => MemoryMarshal.Cast<char, ushort>(
+        private static ReadOnlySpan<ushort> IntelBlacklist => MemoryMarshal.Cast<char, ushort>(
             /* Xe (Tiger Lake, Elkhart Lake, Jasper Lake, Rocket Lake, Alder Lake, Raptor Lake)    */ "\uA780\uA781" +
             "\uA788\uA789\uA78A\uA782\uA78B\uA783\uA7A0\uA7A1\uA7A8\uA7AA\uA7AB\uA7AC\uA7AD\uA7A9\uA721\u4905\u4907" +
             "\u4908\u4909\u4680\u4690\u4688\u468A\u468B\u4682\u4692\u4693\u46D3\u46D4\u46D0\u46D1\u46D2\u4626\u4628" +
@@ -85,7 +85,7 @@ namespace MaaWpfGui.Helper
             "\u191B\u1913\u1915\u1917\u191A\u1916\u1921\u191D\u191E\u1902\u1906\u190B\u190A\u190E");
 
         // https://download.nvidia.com/XFree86/Linux-x86_64/555.58/README/supportedchips.html
-        private static ReadOnlySpan<ushort> _nvidia_blacklist => MemoryMarshal.Cast<char, ushort>(
+        private static ReadOnlySpan<ushort> NvidiaBlacklist => MemoryMarshal.Cast<char, ushort>(
             /* Kepler */ "\u0FC6\u0FC8\u0FC9\u0FCD\u0FCE\u0FD1\u0FD2\u0FD3\u0FD4\u0FD5\u0FD8\u0FD9\u0FDF\u0FE0\u0FE1" +
             "\u0FE2\u0FE3\u0FE4\u0FE9\u0FEA\u0FEC\u0FED\u0FEE\u0FF6\u0FF8\u0FF9\u0FFA\u0FFB\u0FFC\u0FFD\u0FFE\u0FFF" +
             "\u1001\u1004\u1005\u1007\u1008\u100A\u100C\u1021\u1022\u1023\u1024\u1026\u1027\u1028\u1029\u102A\u102D" +
@@ -123,13 +123,13 @@ namespace MaaWpfGui.Helper
                 }
             }
 
-            var hr = PInvoke.CreateDXGIFactory2(0, typeof(IDXGIFactory4).GUID, out var comobj);
+            var hr = PInvoke.CreateDXGIFactory2(0, typeof(IDXGIFactory4).GUID, out var comObj);
             if (hr.Failed)
             {
                 return null;
             }
 
-            _factory = (IDXGIFactory4)comobj;
+            _factory = (IDXGIFactory4)comObj;
             return _factory;
         }
 
@@ -148,8 +148,7 @@ namespace MaaWpfGui.Helper
 
             while (true)
             {
-                IDXGIAdapter1 adapter;
-                var hr = factory.EnumAdapters1(i, out adapter);
+                var hr = factory.EnumAdapters1(i, out var adapter);
                 if (hr == HRESULT.DXGI_ERROR_NOT_FOUND)
                 {
                     break;
@@ -159,10 +158,10 @@ namespace MaaWpfGui.Helper
                 i++;
 
                 var desc = adapter.GetDesc1();
-                var instance_path = GetAdapterInstancePath(desc.AdapterLuid);
-                var driverInfo = GetGpuDriverInformation(desc.Description.ToString(), instance_path);
+                var instancePath = GetAdapterInstancePath(desc.AdapterLuid);
+                var driverInfo = GetGpuDriverInformation(desc.Description.ToString(), instancePath);
 
-                if (!CheckGpu(adapter, ref desc, instance_path, driverInfo, out var deprecated))
+                if (!CheckGpu(adapter, ref desc, instancePath, driverInfo, out var deprecated))
                 {
                     continue;
                 }
@@ -172,7 +171,7 @@ namespace MaaWpfGui.Helper
                     options.Add(new SystemDefaultOption(driverInfo) { IsDeprecated = deprecated });
                 }
 
-                var opt = new SpecificGpuOption(index, desc, instance_path ?? string.Empty, driverInfo) { IsDeprecated = deprecated };
+                var opt = new SpecificGpuOption(index, desc, instancePath ?? string.Empty, driverInfo) { IsDeprecated = deprecated };
 
                 options.Add(opt);
             }
@@ -200,10 +199,10 @@ namespace MaaWpfGui.Helper
             return options;
         }
 
-        private static bool CheckD3D12Support(IDXGIAdapter1 adapter, bool requireFL12 = false)
+        private static bool CheckD3D12Support(IDXGIAdapter1 adapter, bool requireFl12 = false)
         {
             // using the same feature level as onnxruntime does
-            var hr = D3D12CreateDevice(adapter, requireFL12 ? D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_12_0 : D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0, typeof(ID3D12Device).GUID, 0);
+            var hr = D3D12CreateDevice(adapter, requireFl12 ? D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_12_0 : D3D_FEATURE_LEVEL.D3D_FEATURE_LEVEL_11_0, typeof(ID3D12Device).GUID, 0);
 
             return hr == HRESULT.S_FALSE;
 
@@ -225,11 +224,13 @@ namespace MaaWpfGui.Helper
                         type = DISPLAYCONFIG_DEVICE_INFO_TYPE.DISPLAYCONFIG_DEVICE_INFO_GET_ADAPTER_NAME,
                     },
                 };
-                var adpname = PInvoke.DisplayConfigGetDeviceInfo(ref req.header);
 
-                var interface_path = req.adapterDevicePath.ToString();
+                // var adpName =
+                PInvoke.DisplayConfigGetDeviceInfo(ref req.header);
+
+                var interfacePath = req.adapterDevicePath.ToString();
                 uint size = 0;
-                var err = PInvoke.CM_Get_Device_Interface_Property(interface_path, PInvoke.DEVPKEY_Device_InstanceId, out var type, null, ref size, 0);
+                var err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out var type, null, ref size, 0);
 
                 if (err != CONFIGRET.CR_BUFFER_SMALL)
                 {
@@ -242,11 +243,11 @@ namespace MaaWpfGui.Helper
                 }
 
                 var buf = ArrayPool<byte>.Shared.Rent((int)size);
-                string? result = null;
+                string? result;
 
                 fixed (byte* ptr = buf)
                 {
-                    err = PInvoke.CM_Get_Device_Interface_Property(interface_path, PInvoke.DEVPKEY_Device_InstanceId, out _, ptr, ref size, 0);
+                    err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out _, ptr, ref size, 0);
                     if (err != CONFIGRET.CR_SUCCESS)
                     {
                         return null;
@@ -264,27 +265,20 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static bool IsIndirectDisplayAdapter(string instance_path)
+        private static bool IsIndirectDisplayAdapter(string instancePath)
         {
             try
             {
-                using var regkey = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Enum\\" + instance_path, false);
+                using var registryKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Enum\" + instancePath, false);
 
-                if (regkey == null)
+                var upperFilters = registryKey?.GetValue("UpperFilters");
+
+                switch (upperFilters)
                 {
-                    return false;
-                }
-
-                var upperfilters = regkey.GetValue("UpperFilters");
-
-                if (upperfilters == null)
-                {
-                    return false;
-                }
-
-                if (upperfilters is string[] sa)
-                {
-                    return sa.Any(s => s.Equals("IndirectKmd", StringComparison.InvariantCultureIgnoreCase));
+                    case null:
+                        return false;
+                    case string[] sa:
+                        return sa.Any(s => s.Equals("IndirectKmd", StringComparison.InvariantCultureIgnoreCase));
                 }
             }
             catch
@@ -295,18 +289,18 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        private static unsafe GpuDriverInformation GetGpuDriverInformation(string description, string? instance_path)
+        private static unsafe GpuDriverInformation GetGpuDriverInformation(string description, string? instancePath)
         {
-            if (instance_path == null)
+            if (instancePath == null)
             {
                 return new(description, null, null);
             }
 
-            uint devinst;
+            uint devInst;
 
-            fixed (char* ptr = instance_path)
+            fixed (char* ptr = instancePath)
             {
-                var err2 = PInvoke.CM_Locate_DevNode(out devinst, ptr, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_NORMAL);
+                var err2 = PInvoke.CM_Locate_DevNode(out devInst, ptr, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_NORMAL);
 
                 if (err2 != CONFIGRET.CR_SUCCESS)
                 {
@@ -317,7 +311,7 @@ namespace MaaWpfGui.Helper
             System.Runtime.InteropServices.ComTypes.FILETIME ft;
             uint size = (uint)sizeof(System.Runtime.InteropServices.ComTypes.FILETIME);
 
-            var err = PInvoke.CM_Get_DevNode_Property(devinst, PInvoke.DEVPKEY_Device_DriverDate, out _, (byte*)(&ft), ref size, 0);
+            var err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverDate, out _, (byte*)(&ft), ref size, 0);
 
             if (err != CONFIGRET.CR_SUCCESS)
             {
@@ -327,7 +321,7 @@ namespace MaaWpfGui.Helper
             var driverDate = ft.ToDateTime().Date;
 
             size = 0;
-            err = PInvoke.CM_Get_DevNode_Property(devinst, PInvoke.DEVPKEY_Device_DriverVersion, out _, null, ref size, 0);
+            err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, null, ref size, 0);
 
             if (err != CONFIGRET.CR_BUFFER_SMALL)
             {
@@ -335,17 +329,18 @@ namespace MaaWpfGui.Helper
             }
 
             var buf = new byte[size];
-            string? driverVersion = null;
+            string? driverVersion;
             fixed (byte* ptr = buf)
             {
-                err = PInvoke.CM_Get_DevNode_Property(devinst, PInvoke.DEVPKEY_Device_DriverVersion, out _, ptr, ref size, 0);
+                // err =
+                PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, ptr, ref size, 0);
                 driverVersion = Marshal.PtrToStringUni((nint)ptr);
             }
 
             return new(description, driverVersion, driverDate);
         }
 
-        private static bool CheckGpu(IDXGIAdapter1 adapter, ref DXGI_ADAPTER_DESC1 desc, string? instance_path, GpuDriverInformation driverInfo, out bool deprecated)
+        private static bool CheckGpu(IDXGIAdapter1 adapter, ref DXGI_ADAPTER_DESC1 desc, string? instancePath, GpuDriverInformation driverInfo, out bool deprecated)
         {
             deprecated = false;
             if (((uint)desc.Flags & (uint)DXGI_ADAPTER_FLAG.DXGI_ADAPTER_FLAG_SOFTWARE) != 0)
@@ -354,14 +349,14 @@ namespace MaaWpfGui.Helper
                 return false;
             }
 
-            if (!CheckD3D12Support(adapter, requireFL12: false))
+            if (!CheckD3D12Support(adapter, requireFl12: false))
             {
                 // skip adapters without D3D12 support
                 // onnxruntime uses FL 11_0 for device creation
                 return false;
             }
 
-            if (instance_path != null && IsIndirectDisplayAdapter(instance_path))
+            if (instancePath != null && IsIndirectDisplayAdapter(instancePath))
             {
                 // skip virtual adapters (streaming/RDP)
                 return false;
@@ -371,16 +366,16 @@ namespace MaaWpfGui.Helper
             bool IsGpuDeprecated(ref DXGI_ADAPTER_DESC1 desc)
             {
                 // reject GPUs without native D3D12 support (FL 12_0)
-                if (!CheckD3D12Support(adapter, requireFL12: true))
+                if (!CheckD3D12Support(adapter, requireFl12: true))
                 {
                     return true;
                 }
 
                 // reject drivers that predates DirectML (released alongside with Windows 10 1903, i.e. 2019-05-21)
-                if (instance_path != null)
+                if (instancePath != null)
                 {
-                    var devdate = driverInfo.DriverDate;
-                    if (devdate.HasValue && devdate.Value < new DateTime(2019, 5, 21))
+                    var devDate = driverInfo.DriverDate;
+                    if (devDate.HasValue && devDate.Value < new DateTime(2019, 5, 21))
                     {
                         return true;
                     }
@@ -391,20 +386,15 @@ namespace MaaWpfGui.Helper
                 // Intel: pre-Xe (Gen9, Gen11)
                 // AMD: pre-Polaris (Sea Islands, Volcanic Islands, Arctic Islands)
                 // NVIDIA: maybe pre-Pascal? (Kepler, Maxwell)
-                ReadOnlySpan<ushort> devid_blacklist = desc.VendorId switch
+                ReadOnlySpan<ushort> deVidBlacklist = desc.VendorId switch
                 {
-                    0x8086 => _intel_blacklist,
-                    0x1002 => _amd_blacklist,
-                    0x10de => _nvidia_blacklist,
+                    0x8086 => IntelBlacklist,
+                    0x1002 => AmdBlacklist,
+                    0x10de => NvidiaBlacklist,
                     _ => default,
                 };
 
-                if (devid_blacklist.Contains((ushort)desc.DeviceId))
-                {
-                    return true;
-                }
-
-                return false;
+                return deVidBlacklist.Contains((ushort)desc.DeviceId);
             }
 
             deprecated = IsGpuDeprecated(ref desc);
@@ -423,7 +413,7 @@ namespace MaaWpfGui.Helper
                 var options = GetGpuOptions();
                 if (ReferenceEquals(options, _unavailableOptions))
                 {
-                    result = Disable;
+                    return Disable;
                 }
 
                 result = options.OfType<SystemDefaultOption>().FirstOrDefault(Disable);
@@ -450,10 +440,10 @@ namespace MaaWpfGui.Helper
         {
             switch (option)
             {
-                case DisableOption _:
+                case DisableOption:
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "false");
                     break;
-                case SystemDefaultOption _:
+                case SystemDefaultOption:
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, string.Empty);
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, string.Empty);
@@ -463,23 +453,20 @@ namespace MaaWpfGui.Helper
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, x.GpuInfo.Description);
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, x.InstancePath);
                     break;
-                default:
-                    break;
             }
         }
 
         public record GpuDriverInformation(string Description, string? DriverVersion, DateTime? DriverDate);
 
+        public bool IsDeprecated { get; set; }
+
         public class DisableOption : GpuOption
         {
-            public static DisableOption Instance { get; } = new DisableOption();
+            public static DisableOption Instance { get; } = new();
 
             private DisableOption()
             {
             }
-
-            // make WPF happy
-            public bool IsDeprecated => false;
 
             public override bool Equals(object? obj)
             {
@@ -495,21 +482,14 @@ namespace MaaWpfGui.Helper
         {
             public abstract uint Index { get; }
 
-            public bool IsDeprecated { get; set; }
-
             public abstract GpuDriverInformation GpuInfo { get; }
         }
 
-        public class SystemDefaultOption : EnableOption
+        public class SystemDefaultOption(GpuDriverInformation info) : EnableOption
         {
             public override uint Index => 0;
 
-            public override GpuDriverInformation GpuInfo { get; }
-
-            public SystemDefaultOption(GpuDriverInformation info)
-            {
-                GpuInfo = info;
-            }
+            public override GpuDriverInformation GpuInfo { get; } = info;
 
             public override bool Equals(object? obj)
             {
@@ -518,30 +498,30 @@ namespace MaaWpfGui.Helper
 
             public override int GetHashCode() => typeof(SystemDefaultOption).GetHashCode();
 
-            public override string ToString() => LocalizationHelper.GetString("GpuOptionSystemDefault") + (GpuInfo.Description == null ? string.Empty : $" ({GpuInfo.Description})");
+            public override string ToString() => LocalizationHelper.GetString("GpuOptionSystemDefault") + $" ({GpuInfo.Description})";
         }
 
         public class SpecificGpuOption : EnableOption
         {
-            private DXGI_ADAPTER_DESC1 _description;
-            private uint _index;
-            private string _instance_path;
+            private readonly DXGI_ADAPTER_DESC1 _description;
+            private readonly uint _index;
+            private readonly string _instancePath;
 
             public override GpuDriverInformation GpuInfo { get; }
 
             public bool ShowIndex { get; set; }
 
-            internal SpecificGpuOption(uint index, DXGI_ADAPTER_DESC1 description, string instance_path, GpuDriverInformation info)
+            internal SpecificGpuOption(uint index, DXGI_ADAPTER_DESC1 description, string instancePath, GpuDriverInformation info)
             {
                 _index = index;
                 _description = description;
-                _instance_path = instance_path;
+                _instancePath = instancePath;
                 GpuInfo = info;
             }
 
             public override uint Index => _index;
 
-            public string InstancePath => _instance_path;
+            public string InstancePath => _instancePath;
 
             public override bool Equals(object? obj)
             {
@@ -553,7 +533,8 @@ namespace MaaWpfGui.Helper
                 return false;
             }
 
-            public override int GetHashCode() => (typeof(SpecificGpuOption), _description, _index, _instance_path).GetHashCode();
+            // ReSharper disable once UsageOfDefaultStructEquality
+            public override int GetHashCode() => HashCode.Combine(typeof(SpecificGpuOption), _description, _index, _instancePath);
 
             public override string ToString() => ShowIndex ? _description + $" (GPU {_index})" : _description.Description.ToString();
         }

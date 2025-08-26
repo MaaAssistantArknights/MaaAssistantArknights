@@ -55,12 +55,10 @@ bool asst::InfrastReceptionTask::_run()
     }
 
     if (!m_skip_shift) {
-        shift();
-    }
-    else {
-        Log.info("skip shift in rotation mode");
+        return shift();
     }
 
+    Log.info("skip shift in rotation mode");
     return true;
 }
 
@@ -234,20 +232,18 @@ bool asst::InfrastReceptionTask::shift()
 
     close_quick_formation_expand_role();
 
-    for (int i = 0; i <= OperSelectRetryTimes; ++i) {
+    int retry_times;
+    for (retry_times = 0; retry_times <= OperSelectRetryTimes; ++retry_times) {
         if (need_exit()) {
             return false;
         }
 
         if (is_use_custom_opers()) {
-            bool name_select_ret = swipe_and_select_custom_opers();
-            if (name_select_ret) {
+            if (swipe_and_select_custom_opers()) {
                 break;
             }
-            else {
-                swipe_to_the_left_of_operlist();
-                continue;
-            }
+            swipe_to_the_left_of_operlist();
+            continue;
         }
 
         if (!opers_detect_with_swipe()) {
@@ -267,6 +263,11 @@ bool asst::InfrastReceptionTask::shift()
         }
         break;
     }
+
+    if (retry_times > OperSelectRetryTimes) {
+        return false;
+    }
+
     click_confirm_button();
     return true;
 }

@@ -147,10 +147,18 @@ public static class ConfigFactory
             parsed.AnnouncementInfo.PropertyChanged += OnPropertyChangedFactory();
             parsed.GUI.PropertyChanged += OnPropertyChangedFactory();
 
-            parsed.CurrentConfig ??= new SpecificConfig();
             foreach (var keyValue in parsed.Configurations)
             {
                 SpecificConfigBind(keyValue.Key, keyValue.Value);
+            }
+
+            if (Save(_configurationBakFile, parsed))
+            {
+                _logger.Information("{File} saved", _configurationBakFile);
+            }
+            else
+            {
+                _logger.Warning("{File} save failed", _configurationBakFile);
             }
 
             return parsed;
@@ -260,13 +268,13 @@ public static class ConfigFactory
         }
     }
 
-    private static bool Save(string? file = null)
+    private static bool Save(string? file = null, Root? root = null)
     {
         lock (_lock)
         {
             try
             {
-                File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
+                File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(root ?? Root, _options));
             }
             catch (Exception e)
             {
@@ -310,15 +318,6 @@ public static class ConfigFactory
             else
             {
                 _logger.Warning("{File} save failed", _configurationFile);
-            }
-
-            if (Save(_configurationBakFile))
-            {
-                _logger.Information("{File} saved", _configurationBakFile);
-            }
-            else
-            {
-                _logger.Warning("{File} save failed", _configurationBakFile);
             }
         }
     }

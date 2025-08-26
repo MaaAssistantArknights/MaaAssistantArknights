@@ -314,8 +314,6 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="ForceGithubGlobalSource">Force using GitHub</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">When updates are detected, force download update packages from Github</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder">Fill after switching source</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder2">Please enter CDK</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">Please go to ｢{key=Settings} - {key=UpdateSettings}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">Resource update {0} detected. Please go to ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ to update manually, or fill in MirrorChayn CDK to update automatically.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">Resource update {0} detected</system:String>
@@ -772,7 +770,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoom">ATO - Mikage Consultation Office - Mini Game</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>

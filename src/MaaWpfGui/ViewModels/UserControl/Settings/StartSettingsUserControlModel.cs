@@ -505,8 +505,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     /// <summary>
     /// Selects the emulator to execute.
-    /// </summary>
     /// UI 绑定的方法
+    /// </summary>
     [UsedImplicitly]
     public void SelectEmulatorExec()
     {

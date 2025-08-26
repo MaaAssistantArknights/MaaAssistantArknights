@@ -11,9 +11,19 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+namespace MaaWpfGui.WineCompat;
+
+/// <summary>
+/// Availability status of the Wine compatibility layer bridge.
+/// </summary>
 public enum WineBridgeAvailability
 {
+    /// <summary>Wine bridge is fully operational and functioning correctly.</summary>
     Operational,
+
+    /// <summary>Wine bridge has encountered errors or configuration issues.</summary>
     Faulted,
+
+    /// <summary>Wine bridge is not available or cannot be initialized.</summary>
     NotAvailable,
 }

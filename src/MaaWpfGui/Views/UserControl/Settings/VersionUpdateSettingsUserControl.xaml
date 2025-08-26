@@ -113,7 +113,7 @@
                                 SelectedValue="{Binding UpdateSource}"
                                 SelectedValuePath="Value" />
                         </StackPanel>
-                        <StackPanel Margin="8">
+                        <StackPanel Margin="8" Visibility="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}">
                             <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Left">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} CDK">
@@ -128,8 +128,6 @@
                                 </Grid.ColumnDefinitions>
                                 <hc:PasswordBox
                                     hc:BorderElement.CornerRadius="4,0,0,4"
-                                    hc:InfoElement.Placeholder="{Binding MirrorChyanCdkPlaceholder}"
-                                    IsEnabled="{c:Binding 'UpdateSource == &quot;MirrorChyan&quot;'}"
                                     IsSafeEnabled="False"
                                     ShowEyeButton="True"
                                     UnsafePassword="{Binding MirrorChyanCdk}" />

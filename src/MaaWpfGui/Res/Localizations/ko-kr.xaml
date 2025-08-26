@@ -313,8 +313,6 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub 강제 사용</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">업데이트 감지 후, Github에서 강제로 업데이트 패키지 다운로드</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder">소스 전환 후 입력</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder2">CDK를 입력해 주세요</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">｢{key=Settings} - {key=UpdateSettings}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">리소스 업데이트 {0}이 감지되었습니다</system:String>
@@ -772,7 +770,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
-    <system:String x:Key="MiniGame@AT@ConversationRoom">ATO (허) - 상담실 (비공식)</system:String>
+    <system:String x:Key="MiniGame@AT@ConversationRoom">AT (허) - 상담실 (비공식)</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢영업 시작｣)</system:String>
     <system:String x:Key="MiniGameNameGreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
     <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢이벤트 참가｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>

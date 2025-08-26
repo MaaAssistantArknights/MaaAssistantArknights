@@ -28,3 +28,9 @@ SHGetStockIconInfo
 //BadInjectedDllChecker
 GetModuleHandle
 GetModuleFileName
+
+//ToastNotification
+FlashWindowEx
+
+// PowerManagement
+SetSuspendState

@@ -24,16 +24,9 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification
 {
-    public class QmsgNotificationProvider : IExternalNotificationProvider
+    public class QmsgNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
     {
-        private readonly IHttpService _httpService;
-
         private readonly ILogger _logger = Log.ForContext<QmsgNotificationProvider>();
-
-        public QmsgNotificationProvider(IHttpService httpService)
-        {
-            _httpService = httpService;
-        }
 
         public async Task<bool> SendAsync(string title, string content)
         {
@@ -44,7 +37,7 @@ namespace MaaWpfGui.Services.Notification
 
             var uri = $"{server}/jsend/{key}";
 
-            var response = await _httpService.PostAsJsonAsync(
+            var response = await httpService.PostAsJsonAsync(
                 new Uri(uri),
                 new QmsgContent { Msg = content, Qq = receiveUser, Bot = sendBot, });
 

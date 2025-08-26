@@ -1,10 +1,20 @@
-name: "CodeQL Advanced"
+name: "CodeQL MaaCore and MaaWpfGui Analysis"
 
 on:
   pull_request:
     branches: ["dev"]
+    paths:
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - ".github/workflows/codeql-core.yml"
+      - "!**/*.md"
+      - "!**/*.xaml"
   schedule:
-    - cron: "45 11 * * *"
+    - cron: "45 11 * * *" # Runs daily at 11:45 UTC
   workflow_dispatch:
 
 permissions:
@@ -14,26 +24,6 @@ permissions:
   security-events: write
 
 jobs:
-  analyze-none:
-    name: Analyze CI and MaaWebsite
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-
-      - name: Setup CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript-typescript,actions
-          build-mode: none
-
-      - name: Run CodeQL
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:multi-none"
-
   analyze-manual:
     name: Analyze MaaCore and MaaWpfGui
     runs-on: windows-latest
@@ -43,12 +33,35 @@ jobs:
         with:
           show-progress: false
 
-      - name: Setup build environments
+      - name: Update submodules
+        run: git submodule update --init --depth 1 3rdparty/EmulatorExtras
+
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
+
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
-          dotnet restore
           python3 maadeps-download.py x64-windows
 
       - name: Create fake event file

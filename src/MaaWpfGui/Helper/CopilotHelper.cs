@@ -264,7 +264,7 @@ public static class CopilotHelper
                         }
                         else if (currentVer!.CompareSortOrderTo(requireVer) < 0)
                         {
-                            throw new JsonSerializationException($"Current Maa version is lower than required version, require: {require}");
+                            throw new JsonSerializationException($"Current Maa version is lower than required version, require: {requireVer}");
                         }
                     }
 

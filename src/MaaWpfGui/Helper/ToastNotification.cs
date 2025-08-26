@@ -11,13 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-#pragma warning disable SA1307
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Media;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -31,6 +28,8 @@ using Microsoft.Win32;
 using Notification.Wpf.Constants;
 using Serilog;
 using Stylet;
+using Windows.Win32;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace MaaWpfGui.Helper
 {
@@ -39,27 +38,7 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class ToastNotification : IDisposable
     {
-        private unsafe struct OSVERSIONINFOEXW
-        {
-            public int dwOSVersionInfoSize;
-            public int dwMajorVersion;
-            public int dwMinorVersion;
-            public int dwBuildNumber;
-            public int dwPlatformId;
-            private fixed char _szCSDVersion[128];
-            public short wServicePackMajor;
-            public short wServicePackMinor;
-            public short wSuiteMask;
-            public byte wProductType;
-            public byte wReserved;
-
-            public Span<char> szCSDVersion => MemoryMarshal.CreateSpan(ref _szCSDVersion[0], 128);
-        }
-
-        [DllImport("ntdll.dll", ExactSpelling = true)]
-        private static extern int RtlGetVersion(ref OSVERSIONINFOEXW versionInfo);
-
-        private static INotificationPoster _notificationPoster;
+        private static readonly INotificationPoster _notificationPoster;
 
         private static readonly string _openUrlPrefix;
 
@@ -71,15 +50,6 @@ namespace MaaWpfGui.Helper
         }
 
         private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
-
-        private static unsafe bool IsWindows10OrGreater()
-        {
-            var osVersionInfo = default(OSVERSIONINFOEXW);
-            osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
-            RtlGetVersion(ref osVersionInfo);
-            var version = new Version(osVersionInfo.dwMajorVersion, osVersionInfo.dwMinorVersion, osVersionInfo.dwBuildNumber);
-            return version > new Version(10, 0, 10240);
-        }
 
         /// <summary>
         /// Checks toast system.
@@ -94,7 +64,7 @@ namespace MaaWpfGui.Helper
                     return new NotificationImplLibNotify();
                 }
             }
-            else if (IsWindows10OrGreater())
+            else if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 10240))
             {
                 return new NotificationImplWinRT();
             }
@@ -110,12 +80,12 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 通知标题
         /// </summary>
-        private string _notificationTitle = string.Empty;
+        private readonly string _notificationTitle = string.Empty;
 
         /// <summary>
         /// 通知文本内容
         /// </summary>
-        private StringBuilder _contentCollection = new StringBuilder();
+        private readonly StringBuilder _contentCollection = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ToastNotification"/> class.
@@ -267,7 +237,7 @@ namespace MaaWpfGui.Helper
 
         #region 通知按钮变量
 
-        private List<NotificationAction> _actions = [];
+        private readonly List<NotificationAction> _actions = [];
 
         #endregion 通知按钮变量
 
@@ -303,7 +273,7 @@ namespace MaaWpfGui.Helper
         /// 显示通知
         /// </summary>
         /// <param name="lifeTime">通知显示时间 (s)</param>
-        /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
+        /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double,uint,NotificationSounds,NotificationHint[])"/></param>
         /// <param name="sound">播放提示音</param>
         /// <param name="hints">通知额外元数据，可能影响通知展示方式</param>
         ///
@@ -361,16 +331,17 @@ namespace MaaWpfGui.Helper
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，只用于预览一部分通知，多出内容会放在附加按钮的窗口中</param>
         /// <param name="sound">播放提示音，不设置就没有声音</param>
+        /// <param name="hints">通知提示</param>
         public void ShowMore(double lifeTime = 12d, uint row = 2,
             NotificationSounds sound = NotificationSounds.None, params NotificationHint[] hints)
         {
-            var morehints = new NotificationHint[hints.Length + 1];
-            hints.CopyTo(morehints, 0);
-            morehints[hints.Length] = NotificationHint.Expandable;
+            var moreHints = new NotificationHint[hints.Length + 1];
+            hints.CopyTo(moreHints, 0);
+            moreHints[hints.Length] = NotificationHint.Expandable;
             Show(lifeTime: lifeTime,
                 row: row,
                 sound: sound,
-                hints: morehints);
+                hints: moreHints);
         }
 
         /// <summary>
@@ -423,116 +394,23 @@ namespace MaaWpfGui.Helper
         #region 任务栏闪烁
 
         /// <summary>
-        /// 闪烁信息
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-        private struct FLASHWINFO
-        {
-            /// <summary>
-            /// 结构大小
-            /// </summary>
-            public uint cbSize;
-
-            /// <summary>
-            /// 要闪烁或停止的窗口句柄
-            /// </summary>
-            public IntPtr hwnd;
-
-            /// <summary>
-            /// 闪烁的类型
-            /// </summary>
-            public uint dwFlags;
-
-            /// <summary>
-            /// 闪烁窗口的次数
-            /// </summary>
-            public uint uCount;
-
-            /// <summary>
-            /// 窗口闪烁的频率（毫秒）
-            /// </summary>
-            public uint dwTimeout;
-        }
-
-#pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
-
-        /// <summary>
-        /// 闪烁类型。
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        [SuppressMessage("ReSharper", "IdentifierTypo")]
-        [SuppressMessage("ReSharper", "UnusedMember.Global")]
-        public enum FlashType : uint
-        {
-            /// <summary>
-            /// 停止闪烁。
-            /// </summary>
-            [Description("停止闪烁")]
-            FLASHW_STOP = 0,
-
-            /// <summary>
-            /// 只闪烁标题。
-            /// </summary>
-            [Description("只闪烁标题")]
-            FALSHW_CAPTION = 1,
-
-            /// <summary>
-            /// 只闪烁任务栏。
-            /// </summary>
-            [Description("只闪烁任务栏")]
-            FLASHW_TRAY = 2,
-
-            /// <summary>
-            /// 标题和任务栏同时闪烁。
-            /// </summary>
-            [Description("标题和任务栏同时闪烁")]
-            FLASHW_ALL = 3,
-
-            /// <summary>
-            /// 与 <see cref="FLASHW_TRAY"/> 配合使用。
-            /// </summary>
-            FLASHW_PARAM1 = 4,
-
-            /// <summary>
-            /// 与 <see cref="FLASHW_TRAY"/> 配合使用。
-            /// </summary>
-            FLASHW_PARAM2 = 12,
-
-            /// <summary>
-            /// 闪烁直到达到次数或收到停止。
-            /// </summary>
-            [Description("闪烁直到达到次数或收到停止")]
-            FLASHW_TIMER = FLASHW_TRAY | FLASHW_PARAM1,
-
-            /// <summary>
-            /// 未激活时闪烁直到窗口被激活或收到停止。
-            /// </summary>
-            [Description("未激活时闪烁直到窗口被激活或收到停止")]
-            FLASHW_TIMERNOFG = FLASHW_TRAY | FLASHW_PARAM2,
-        }
-
-        [DllImport("user32.dll")]
-        private static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
-
-        /// <summary>
         /// 闪烁窗口任务栏
         /// </summary>
         /// <param name="hWnd">窗口句柄</param>
         /// <param name="type">闪烁类型</param>
         /// <param name="count">闪烁次数</param>
         /// <returns>是否成功</returns>
-        public static bool FlashWindowEx(IntPtr hWnd = default, FlashType type = FlashType.FLASHW_TIMERNOFG, uint count = 5)
+        internal static bool FlashWindowEx(IntPtr hWnd = 0, FLASHWINFO_FLAGS type = FLASHWINFO_FLAGS.FLASHW_TRAY | FLASHWINFO_FLAGS.FLASHW_TIMERNOFG, uint count = 5)
         {
             try
             {
                 var fInfo = default(FLASHWINFO);
                 fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-                fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle;
-                fInfo.dwFlags = (uint)type;
+                fInfo.hwnd = new(hWnd != 0 ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle);
+                fInfo.dwFlags = type;
                 fInfo.uCount = count;
                 fInfo.dwTimeout = 0;
-                return FlashWindowEx(ref fInfo);
+                return PInvoke.FlashWindowEx(in fInfo);
             }
             catch
             {
