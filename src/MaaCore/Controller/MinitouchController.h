@@ -33,9 +33,12 @@ public:
         bool extra_swipe = false,
         double slope_in = 1,
         double slope_out = 1,
-        bool with_pause = false) override;
+        bool with_pause = false,
+        const Point& pause_button = Point()) override;
 
     virtual bool inject_input_event(const InputEvent& event) override;
+
+    virtual bool press_esc() override;
 
     virtual ControlFeat::Feat support_features() const noexcept override;
 
@@ -47,7 +50,7 @@ public:
 protected:
     virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket) override;
 
-    bool call_and_hup_minitouch();
+    virtual bool call_and_hup_minitouch();
 
     bool probe_minitouch(const AdbCfg& adb_cfg, std::function<std::string(const std::string&)> cmd_replace);
 
@@ -95,7 +98,7 @@ protected:
         {
         }
 
-        ~Minitoucher() = default;
+        virtual ~Minitoucher() = default;
 
         // nodiscard! for false return value may indicating *this got replaced in m_input_func
         [[nodiscard]] bool reset() { return m_input_func(reset_cmd()); }
@@ -117,23 +120,13 @@ protected:
             return m_input_func(up_cmd(wait_ms, with_commit, contact));
         }
 
-        [[nodiscard]] bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
-        {
-            return m_input_func(key_down_cmd(key_code, wait_ms, with_commit));
-        }
-
-        [[nodiscard]] bool key_up(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
-        {
-            return m_input_func(key_up_cmd(key_code, wait_ms, with_commit));
-        }
-
         [[nodiscard]] bool wait(int ms) { return m_input_func(wait_cmd(ms)); }
 
         void clear() noexcept { m_wait_ms_count = 0; }
 
         void extra_sleep() { sleep(); }
 
-    private:
+    protected:
         [[nodiscard]] std::string reset_cmd() const noexcept { return "r\n"; }
 
         [[nodiscard]] std::string commit_cmd() const noexcept { return "c\n"; }
@@ -193,36 +186,6 @@ protected:
             return str;
         }
 
-        [[nodiscard]] std::string key_down_cmd(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
-        {
-            char buff[64] = { 0 };
-            sprintf(buff, "k %d d\n", key_code);
-            std::string str = buff;
-
-            if (with_commit) {
-                str += commit_cmd();
-            }
-            if (wait_ms) {
-                str += wait_cmd(wait_ms);
-            }
-            return str;
-        }
-
-        [[nodiscard]] std::string key_up_cmd(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
-        {
-            char buff[64] = { 0 };
-            sprintf(buff, "k %d u\n", key_code);
-            std::string str = buff;
-
-            if (with_commit) {
-                str += commit_cmd();
-            }
-            if (wait_ms) {
-                str += wait_cmd(wait_ms);
-            }
-            return str;
-        }
-
         [[nodiscard]] std::string wait_cmd(int ms)
         {
             m_wait_ms_count += ms;
@@ -240,7 +203,7 @@ protected:
             m_wait_ms_count = 0;
         }
 
-    private:
+    protected:
         Point scale(int x, int y) const noexcept
         {
             switch (m_props.orientation) {

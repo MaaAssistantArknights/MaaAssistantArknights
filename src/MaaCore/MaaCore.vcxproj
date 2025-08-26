@@ -313,6 +313,7 @@
     <ClCompile Include="Controller\ControlScaleProxy.cpp" />
     <ClCompile Include="Controller\LDExtras.cpp" />
     <ClCompile Include="Controller\MaaThriftController.cpp" />
+    <ClCompile Include="Controller\MaatouchController.cpp" />
     <ClCompile Include="Controller\MinitouchController.cpp" />
     <ClCompile Include="Controller\MumuExtras.cpp" />
     <ClCompile Include="Controller\PlayToolsController.cpp" />

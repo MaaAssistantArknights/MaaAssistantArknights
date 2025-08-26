@@ -26,6 +26,10 @@
         "minitouchProgramsOrder": ["x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi"],
         "swipeWithPauseRequiredDistance": 20,
         "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
+        "swipeWithPausePreDelay": 20,
+        "swipeWithPausePreDelay_Doc": "按下右下角暂停按钮后多久开始划出干员",
+        "minitouchSwipeWithPausePostDelay": 50,
+        "minitouchSwipeWithPausePostDelay_Doc": "划出干员后等多久开始按暂停",
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
             "url": "https://penguin-stats.io/PenguinStats/api/v2/report",

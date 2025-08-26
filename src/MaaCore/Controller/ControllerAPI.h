@@ -51,7 +51,8 @@ public:
         bool extra_swipe = false,
         double slope_in = 1,
         double slope_out = 1,
-        bool with_pause = false) = 0;
+        bool with_pause = false,
+        const Point& pause_button = Point()) = 0;
     // TODO: 抽象出gesture类
 
     virtual bool inject_input_event(const InputEvent& event) = 0;

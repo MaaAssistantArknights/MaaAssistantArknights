@@ -330,7 +330,8 @@ bool asst::MaaThriftController::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    [[maybe_unused]] const Point& pause_button)
 {
     if (!client_ || !transport_ || !transport_->isOpen()) {
         Log.error("client_ is not created or transport_ is not open");
