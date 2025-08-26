@@ -12,6 +12,8 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
+#include "Arknights-Tile-Pos/TileCalc2.hpp"
+
 asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),
     m_multi_copilot_plugin_ptr(std::make_shared<MultiCopilotTaskPlugin>(callback, inst, TaskType)),
@@ -22,6 +24,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     m_multi_copilot_plugin_ptr->set_retry_times(0);
+    m_multi_copilot_plugin_ptr->set_battle_task_ptr(m_battle_task_ptr);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
@@ -128,8 +131,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
                 return false;
             }
             m_stage_name = Copilot.get_stage_name();
-            if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-                Log.error("Not support stage");
+            if (auto result = Tile.find(m_stage_name); !result || !json::open(result->second)) {
                 return false;
             }
             config_cvt.copilot_file = std::move(copilot_opt);
