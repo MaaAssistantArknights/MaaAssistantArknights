@@ -75,8 +75,11 @@ void asst::ParadoxRecognitionTask::return_initial_oper()
         return;
     }
 
-    ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();                  // 回到干员列表
-    ProcessTask(*this, { "OperBoxRoleTabSelect" }).set_ignore_error(true).set_retry_times(0).run(); // 折叠filter，切换sort
+    ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run(); // 回到干员列表
+    ProcessTask(*this, { "OperBoxRoleTabSelect" })
+        .set_ignore_error(true)
+        .set_retry_times(0)
+        .run(); // 折叠filter，切换sort
 }
 
 bool asst::ParadoxRecognitionTask::swipe_and_analyze()
