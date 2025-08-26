@@ -2,11 +2,6 @@ import { defineNavbarConfig } from "vuepress-theme-plume";
 
 export const enusNavbar = defineNavbarConfig([
   {
-    text: "Home",
-    icon: "ic:round-home",
-    link: "/en-us/",
-  },
-  {
     text: "User Manual",
     icon: "mdi:user",
     link: "/en-us/manual/",

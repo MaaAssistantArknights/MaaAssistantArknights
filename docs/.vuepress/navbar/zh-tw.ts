@@ -2,11 +2,6 @@ import { defineNavbarConfig } from "vuepress-theme-plume";
 
 export const zhtwNavbar = defineNavbarConfig([
   {
-    text: "首頁",
-    icon: "ic:round-home",
-    link: "/zh-tw/",
-  },
-  {
     text: "用戶說明書",
     icon: "mdi:user",
     link: "/zh-tw/manual/",
