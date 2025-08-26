@@ -16,7 +16,7 @@
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies"],
-        "postDelay": 1000
+        "postDelay": 3000
     },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
