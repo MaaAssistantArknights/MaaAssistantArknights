@@ -5,12 +5,6 @@
 
 namespace asst
 {
-
-RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
-{
-    reset();
-}
-
 std::optional<size_t>
     RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
@@ -66,6 +60,17 @@ void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType typ
         return;
     }
     n->type = type;
+}
+
+void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubNodeType sub_type)
+{
+    Node* n = get_valid_node(index);
+    if (!n || !n->exists) {
+        Log.warn(__FUNCTION__, "| Invalid index or node doesn't exist: ", index);
+        return;
+    }
+    n->sub_type = sub_type;
+    Log.info(__FUNCTION__, "| Set node ", index, " subtype to ", static_cast<int>(sub_type));
 }
 
 void RoguelikeBoskyPassageMap::reset()
