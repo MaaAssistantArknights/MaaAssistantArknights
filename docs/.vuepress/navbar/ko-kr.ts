@@ -2,11 +2,6 @@ import { defineNavbarConfig } from "vuepress-theme-plume";
 
 export const kokrNavbar = defineNavbarConfig([
   {
-    text: "홈페이지",
-    icon: "ic:round-home",
-    link: "/ko-kr/",
-  },
-  {
     text: "사용자 설명서",
     icon: "mdi:user",
     link: "/ko-kr/manual/",
