@@ -11,7 +11,7 @@ class ParadoxRecognitionTask : public AbstractTask
 public:
     using AbstractTask::AbstractTask;
     virtual ~ParadoxRecognitionTask() override = default;
-    void set_navigate_name(std::string navigate_name);
+    void set_navigate_name(const std::string& navigate_name);
 
 private:
     virtual bool _run() override;

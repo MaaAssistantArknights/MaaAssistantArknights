@@ -27,6 +27,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
 
     m_multi_copilot_plugin_ptr->set_retry_times(0);
     m_multi_copilot_plugin_ptr->set_battle_task_ptr(m_battle_task_ptr);
+    m_multi_copilot_plugin_ptr->set_paradox_task_ptr(m_paradox_task_ptr);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
@@ -144,7 +145,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             config_cvt.is_raid = is_raid;
             config_cvt.is_paradox = is_paradox;
             m_paradox_task_ptr->set_enable(is_paradox);
-            m_paradox_task_ptr->set_navigate_name(stage_name);
             configs_cvt.emplace_back(std::move(config_cvt));
         }
 
@@ -184,7 +184,13 @@ bool asst::CopilotTask::set_params(const json::value& params)
     size_t loop_times = params.get("loop_times", 1);
     if (m_multi_copilot_plugin_ptr->get_enable()) {
         // 如果没三星就中止
-        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+        if (m_paradox_task_ptr->get_enable()) {
+            // 悖论模拟不需要强制三星，因为练度等关系有概率不过，反正不消耗理智，走单独的退出逻辑
+            m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" });
+        }
+        else {
+            m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+        }
         m_stop_task_ptr->set_enable(true);
     }
     else if (loop_times > 1) {
