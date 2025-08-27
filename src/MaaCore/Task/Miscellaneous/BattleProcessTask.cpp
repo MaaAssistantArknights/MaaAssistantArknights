@@ -62,6 +62,9 @@ bool asst::BattleProcessTask::_run()
 
     for (size_t i = m_need_pause_on_start ? 1 : 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
+        if (m_paused) {
+            sleep(500);
+        }
         do_action(action, i);
     }
 

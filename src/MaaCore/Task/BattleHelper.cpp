@@ -156,7 +156,7 @@ bool asst::BattleHelper::update_deployment_(
                     return std::make_pair(temp_oper.name, temp_oper.avatar);
                 });
             const auto& result = analyze_oper_with_cache(oper, avatar);
-            if (result) {
+            if (result && !result->templ_info.name.empty()) {
                 set_oper_name(oper, result->templ_info.name);
                 remove_cooling_from_battlefield(oper);
                 is_analyzed = true;
@@ -440,10 +440,12 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
     if (deploy_with_pause) {
+        m_inst_helper.sleep(500);
         if (!m_paused) {
             ProcessTask(this_task(), { "BattlePause" }).run();
         }
         m_inst_helper.ctrler()->click(oper_point);
+        m_inst_helper.sleep(500);
     }
     const Rect& pause_button_rect = Task.get("BattlePause")->specific_rect;
     Point pause_button(
