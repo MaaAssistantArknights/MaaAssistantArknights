@@ -863,6 +863,7 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     const Point& target_point = target_iter->second.pos;
 
     if (m_paused) {
+        m_inst_helper.sleep(m_pause_esc_post_delay);
         m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
     }
     m_inst_helper.ctrler()->click(target_point);

@@ -3928,7 +3928,7 @@
     },
     "BattlePauseEsc": {
         "algorithm": "JustReturn",
-        "specialParams": [50, 200]
+        "specialParams": [30, 200]
     },
     "BattlePauseCancel": {
         "algorithm": "JustReturn",
