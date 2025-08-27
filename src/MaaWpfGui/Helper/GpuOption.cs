@@ -386,7 +386,7 @@ namespace MaaWpfGui.Helper
                 // Intel: pre-Xe (Gen9, Gen11)
                 // AMD: pre-Polaris (Sea Islands, Volcanic Islands, Arctic Islands)
                 // NVIDIA: maybe pre-Pascal? (Kepler, Maxwell)
-                ReadOnlySpan<ushort> deVidBlacklist = desc.VendorId switch
+                ReadOnlySpan<ushort> devIdBlacklist = desc.VendorId switch
                 {
                     0x8086 => IntelBlacklist,
                     0x1002 => AmdBlacklist,
@@ -394,7 +394,7 @@ namespace MaaWpfGui.Helper
                     _ => default,
                 };
 
-                return deVidBlacklist.Contains((ushort)desc.DeviceId);
+                return devIdBlacklist.Contains((ushort)desc.DeviceId);
             }
 
             deprecated = IsGpuDeprecated(ref desc);
