@@ -120,6 +120,8 @@ protected:
     std::pair<double, double> m_camera_shift = { 0., 0. };
     int m_pause_on_start_delay = 0;
     int m_pause_esc_post_delay = 0;
+    int m_pause_pre_delay = 0;
+    int m_pause_post_delay = 0;
 
     /* 实时更新的数据 */
     bool m_in_battle = false;

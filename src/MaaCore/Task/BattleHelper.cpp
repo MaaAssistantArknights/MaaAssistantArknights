@@ -52,6 +52,8 @@ void asst::BattleHelper::clear()
     m_camera_shift = { 0., 0. };
     m_pause_on_start_delay = Task.get("BattlePauseEsc")->special_params[0];
     m_pause_esc_post_delay = Task.get("BattlePauseEsc")->special_params[1];
+    m_pause_pre_delay = Task.get("BattlePause")->special_params[0];
+    m_pause_post_delay = Task.get("BattlePause")->special_params[1];
 
     m_in_battle = false;
     m_kills = 0;
@@ -863,8 +865,9 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     const Point& target_point = target_iter->second.pos;
 
     if (m_paused) {
-        m_inst_helper.sleep(m_pause_esc_post_delay);
-        pause();
+        m_inst_helper.sleep(m_pause_pre_delay);
+        m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
+        m_inst_helper.sleep(m_pause_post_delay);
     }
     m_inst_helper.ctrler()->click(target_point);
     if (m_paused) {

@@ -3924,7 +3924,8 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1170, 20, 60, 60],
-        "postDelay": 200
+        "postDelay": 200,
+        "specialParams": [100, 100]
     },
     "BattlePauseEsc": {
         "algorithm": "JustReturn",
