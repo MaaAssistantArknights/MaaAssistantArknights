@@ -204,7 +204,7 @@ bool asst::MinitouchController::swipe(
             return false;
         }
         // 滑出干员
-        if (!m_minitoucher->move(x3, y3)) {
+        if (!m_minitoucher->move(x3, y3, 0)) {
             return false;
         }
         y1 = x3;
