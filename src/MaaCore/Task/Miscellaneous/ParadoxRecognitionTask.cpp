@@ -59,7 +59,7 @@ void asst::ParadoxRecognitionTask::enter_paradox(int skill_num)
     ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
 }
 
-void asst::ParadoxRecognitionTask::set_navigate_name(std::string navigate_name)
+void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate_name)
 {
     m_navigate_name = standardize_name(navigate_name);
 }

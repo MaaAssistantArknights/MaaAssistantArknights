@@ -3,6 +3,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
+#include "Task/Miscellaneous/ParadoxRecognitionTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -42,7 +43,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
 
     if (config.is_paradox) {
         // 悖论模拟走自己的导航逻辑
-        m_index_current++;
+        m_paradox_task_ptr->set_navigate_name(stage_name); // 要调用一下以解析干员名
         return true;
     }
 
