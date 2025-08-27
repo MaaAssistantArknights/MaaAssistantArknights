@@ -258,8 +258,14 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::Pause:
+        if (m_paused) {
+            sleep(m_pause_esc_post_delay);
+        }
         ctrler()->click(Task.get("BattlePause")->specific_rect);
         m_paused = !m_paused;
+        if (m_paused) {
+            sleep(m_pause_esc_post_delay);
+        }
         ret = true;
         break;
 

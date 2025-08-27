@@ -118,6 +118,8 @@ protected:
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_last_use_skill_time;
     int m_camera_count = 0;
     std::pair<double, double> m_camera_shift = { 0., 0. };
+    int m_pause_on_start_delay = 0;
+    int m_pause_esc_post_delay = 0;
 
     /* 实时更新的数据 */
     bool m_in_battle = false;

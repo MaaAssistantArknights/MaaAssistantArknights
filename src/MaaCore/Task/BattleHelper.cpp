@@ -50,6 +50,8 @@ void asst::BattleHelper::clear()
     m_last_use_skill_time.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
+    m_pause_on_start_delay = Task.get("BattlePauseEsc")->special_params[0];
+    m_pause_esc_post_delay = Task.get("BattlePauseEsc")->special_params[1];
 
     m_in_battle = false;
     m_kills = 0;
@@ -98,7 +100,7 @@ bool asst::BattleHelper::advance_while_paused()
 
     m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
     m_inst_helper.ctrler()->press_esc();
-    m_inst_helper.sleep(200);
+    m_inst_helper.sleep(m_pause_esc_post_delay);
 
     return true;
 }
@@ -655,7 +657,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
         pause_button_analyzer.set_task_info("BattlePauseCheck");
         while (!m_inst_helper.need_exit() && !pause_button_analyzer.analyze()) {
             m_inst_helper.ctrler()->press_esc();
-            m_inst_helper.sleep(100);
+            m_inst_helper.sleep(m_pause_on_start_delay);
             if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
                 Log.warn("Timeout reached while waiting to start the battle.");
                 return false;
@@ -866,7 +868,7 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     m_inst_helper.ctrler()->click(target_point);
     if (m_paused) {
         m_inst_helper.ctrler()->press_esc();
-        m_inst_helper.sleep(200);
+        m_inst_helper.sleep(m_pause_esc_post_delay);
     }
     m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
