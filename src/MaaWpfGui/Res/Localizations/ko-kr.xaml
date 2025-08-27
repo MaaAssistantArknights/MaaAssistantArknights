@@ -790,6 +790,7 @@ C:\\leidian\\LDPlayer9
     <!--  Copilot  -->
     <system:String x:Key="Operator">오퍼레이터</system:String>
     <system:String x:Key="Copilot">자동지휘</system:String>
+    <system:String x:Key="SSSCopilot">{key=SSS} {key=Copilot}</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="CopilotTaskName">스테이지 코드</system:String>
     <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예시: 1-7</system:String>
@@ -806,17 +807,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 요구 사항 무시</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원:
-  1. 메인 스토리: 동일 챕터 내 네비게이션
-  2. SideStory: 현재 페이지 내 네비게이션（일반/EX/S 서로 이동 불가）
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원 사항:
+  1. {key=MainStage}: 동일 챕터 내 네비게이션
+  2. {key=SideStory}: 현재 페이지 내 네비게이션 (일반/EX/S 서로 이동 불가)
 시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">좌클릭으로 모든 작업 지우기
 우클릭으로 비활성 작업 지우기</system:String>
-    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <system:String x:Key="CopilotSkill">스킬</system:String>
@@ -825,33 +826,40 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="TotalOperatorsCount">총 {0}명의 {key=Operator}</system:String>
     <system:String x:Key="DirectiveECTerm">에너지 기어:</system:String>
     <system:String x:Key="OtherOperators">기타 {key=Operator}:</system:String>
-    <system:String x:Key="Warrior">근위</system:String>
-    <system:String x:Key="Pioneer">선봉</system:String>
-    <system:String x:Key="Medic">의료</system:String>
-    <system:String x:Key="Tank">중장</system:String>
-    <system:String x:Key="Sniper">저격</system:String>
-    <system:String x:Key="Caster">술사</system:String>
-    <system:String x:Key="Support">보조</system:String>
-    <system:String x:Key="Special">특수</system:String>
+    <system:String x:Key="Warrior">가드</system:String>
+    <system:String x:Key="Pioneer">뱅가드</system:String>
+    <system:String x:Key="Medic">메딕</system:String>
+    <system:String x:Key="Tank">디펜더</system:String>
+    <system:String x:Key="Sniper">스나이퍼</system:String>
+    <system:String x:Key="Caster">캐스터</system:String>
+    <system:String x:Key="Support">서포터</system:String>
+    <system:String x:Key="Special">스페셜리스트</system:String>
     <system:String x:Key="Drone">드론/소환물</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">전술 장비 (가로):</system:String>
     <system:String x:Key="InitialStrategy">초기 전략:</system:String>
+    <system:String x:Key="MainStage">메인</system:String>
+    <system:String x:Key="StoryCollection">에피소드</system:String>
+    <system:String x:Key="SideStory">사이드</system:String>
+    <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage} / {key=StoryCollection} / {key=SideStory}</system:String>
+    <system:String x:Key="SSS">보안파견</system:String>
+    <system:String x:Key="ParadoxSimulation">패러독스</system:String>
+    <system:String x:Key="OtherActivityStage">기타</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
-        팁:\n\n
-        1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 ｢작전 개시｣ 버튼이 표시될 때에만 사용해주세요 \n\n
-        2. 패러독스 시뮬레이션의 경우 ｢{key=AutoSquad}｣ 을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
-        3. 보안파견의 Copilot 파일의 경우 MAA 내의 ｢resource/copilot｣ 폴더에 있습니다 \n
-        수동 편성 후 ｢작전 개시｣ 버튼이 있는 화면에서 시작하세요. (｢{key=LoopTimes} 와 함께 사용 가능)\n\n
-        4. 지원 유닛을 사용할 때에는 반드시 ｢{key=AutoSquad}｣ 을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
-        5. ｢선호｣ 기능을 활성화하면 ｢{key=AutoSquad}｣ 의 {key=Operator} 선택에 영향을 미칠 수 있습니다. ｢{key=AutoSquad}｣ 을 사용할 때 ｢선호｣ 을 끄거나, 누락된 {key=Operator}를 수동으로 추가하여 편성을 완료하는 것을 권장합니다.\n\n
-        6. Copilot 작업 스테이션에서 입력란 오른쪽의 붙여넣기 버튼을 클릭하여 신비한 코드를 붙여넣을 수 있습니다. 왼쪽 클릭으로 단일 작업을 붙여넣고, 오른쪽 클릭으로 작업 세트 전체를 붙여넣습니다.\n\n
-        7. 전투 목록:\n
-        작업을 선택한 후 목록 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
-        추가: 왼쪽 클릭으로 일반 난이도를 추가하고, 오른쪽 클릭으로 하드모드 난이도를 추가하세요.\n
-        지우기: 목록을 지우려면 왼쪽 클릭, 비활성화된 작업만 제거하려면 오른쪽 클릭을 하세요.\n
-        시작하기 전에 스테이지 선택 화면으로 진입해야 합니다. 목표 지점으로의 이동은 지원되지 않습니다.\n
-        이성이 부족하거나, 전투가 실패하거나, 3성 클리어를 해결할 수 없는 경우 동작이 종료됩니다.
+        팁: \n\n
+        1. 사용하기 전에, 작업 파일이 선택한 스테이지 유형과 일치하는지 확인하세요.\n\n
+        2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: 우측 하단에 파란색 "작전 개시" 버튼이 나타나는 화면에서 시작하세요.\n\n
+        3. {key=SSS}: resource/copilot 폴더에 여러 파일이 있습니다. 먼저 수동으로 분대를 편성한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 화면에서 시작하세요. ｢{key=LoopTimes}｣와 함께 사용할 수 있습니다.\n\n
+        4. {key=ParadoxSimulation}: 스킬 선택 후, "시뮬레이션 시작" 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 "시뮬레이션 시작" 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록에서 시작하세요.\n\n
+        5. 지원 유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
+        6. "선호"로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
+        7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다: 좌클릭으로 단일 작업 추가, 우클릭으로 전체 작업 세트 추가.\n\n
+        8. {key=UseCopilotList}:\n
+        - 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
+        - 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
+        - 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
+        - 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
+        - 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
@@ -859,15 +867,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotJsonError">Copilot 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">Copilot 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
-    <system:String x:Key="CopilotSSSNotSupport">지원하지 않는 유형: SSS</system:String>
+    <system:String x:Key="CopilotSSSNotSupport">지원하지 않는 유형: {key=SSS}</system:String>
     <system:String x:Key="CopilotInvalidStageNameForNavigation">스테이지 이름이 잘못되어 탐색할 수 없습니다</system:String>
     <system:String x:Key="CopilotStageNameNotFound">{0}을(를) 찾을 수 없으며, 스테이지 이름도 지정되지 않았습니다</system:String>
     <system:String x:Key="CopilotStageNameNotEqualWithNavigateName">스테이지 이름과 탐색 이름이 일치하지 않아 탐색 이름을 사용합니다</system:String>
     <system:String x:Key="CopilotEmptyError">작업이 비어 있습니다</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
-    <system:String x:Key="CopilotSingleTaskWarning">전투 목록을 사용하여 단일 작업을 실행하고 있습니다. 권장하지 않습니다. 단일 작업을 직접 실행하세요.</system:String>
-    <!--  !로그  -->
+    <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
+    <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>

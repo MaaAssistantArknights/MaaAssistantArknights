@@ -767,7 +767,9 @@ private:
         m_buff(nullptr),
         m_of(&m_buff)
     {
+#ifndef ASST_DEBUG
         initialize_exception_handlers();
+#endif
 
         try {
             std::filesystem::create_directories(m_log_path.parent_path());
@@ -859,6 +861,7 @@ private:
         trace("-----------------------------");
     }
 
+#ifndef ASST_DEBUG
     static void custom_terminate_handler() noexcept
     {
         static bool in_handler = false;
@@ -943,6 +946,7 @@ private:
         std::signal(SIGFPE, signal_handler);
         std::signal(SIGILL, signal_handler);
     }
+#endif
 
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)

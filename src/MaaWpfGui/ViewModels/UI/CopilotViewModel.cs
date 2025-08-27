@@ -144,7 +144,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
-            Execute.OnUIThread(() => LogItemViewModels.Clear());
+            Execute.OnUIThread(() =>
+            {
+                LogItemViewModels.Clear();
+                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+            });
         }
 
         #endregion Log
@@ -173,6 +177,26 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _startEnabled, value);
         }
 
+        private int _activeTabIndex = 0;
+
+        /// <summary>
+        /// 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
+        /// </summary>
+        public int ActiveTabIndex
+        {
+            get => _activeTabIndex;
+            set
+            {
+                if (!SetAndNotify(ref _activeTabIndex, value))
+                {
+                    return;
+                }
+
+                Form = false;
+                UseCopilotList = false;
+            }
+        }
+
         private string _filename = string.Empty;
 
         /// <summary>
@@ -187,7 +211,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ClearLog();
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
                     CopilotUrl = CopilotUiUrl;
                 }
                 else
@@ -346,6 +369,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether 启用悖论模拟模式.
+        /// </summary>
+        public bool ParadoxMode => ActiveTabIndex == 2 && UseCopilotList;
+
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -439,6 +467,11 @@ namespace MaaWpfGui.ViewModels.UI
         [UsedImplicitly]
         public async Task PasteClipboardCopilotSet()
         {
+            if (ActiveTabIndex is 1 or 3)
+            {
+                return;
+            }
+
             StartEnabled = false;
             UseCopilotList = true;
             ClearLog();
@@ -645,21 +678,18 @@ namespace MaaWpfGui.ViewModels.UI
                 payload = null;
             }
 
-            if (payload is CopilotModel copilot)
+            switch (payload)
             {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
-                return;
+                case CopilotModel copilot:
+                    await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
+                    return;
+                case SSSCopilotModel sss:
+                    await ParseSSSCopilot(sss, writeToCache);
+                    return;
+                default:
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+                    return;
             }
-            else if (payload is SSSCopilotModel sss)
-            {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseSSSCopilot(sss, writeToCache);
-                return;
-            }
-
-            AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
-            return;
         }
 
         /// <summary>
@@ -1234,7 +1264,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
                     _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name };
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ParadoxMode };
                 });
                 var task = new AsstCopilotTask()
                 {
@@ -1244,7 +1274,6 @@ namespace MaaWpfGui.ViewModels.UI
                     IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                     UseSanityPotion = _useSanityPotion,
-                    FormationIndex = _formationIndex,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
                 ret = ret && Instances.AsstProxy.AsstStart();
