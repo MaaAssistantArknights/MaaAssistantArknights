@@ -1256,6 +1256,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.Martian.Title">화성인</system:String>
     <system:String x:Key="Achievement.Martian.Description">혹시 과거에 살고 계신가요?</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">리소스 또는 버전이 현재로부터 {0}개월 초과</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">규정</system:String>
     <system:String x:Key="Achievement.Rules.Description">제가 계속 지켜보고 있을게요</system:String>

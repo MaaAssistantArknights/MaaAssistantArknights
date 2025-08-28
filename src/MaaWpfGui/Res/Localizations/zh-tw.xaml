@@ -1258,6 +1258,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
     <system:String x:Key="Achievement.Martian.Description">遠古版本好用嗎？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">資源時間或版本時間距今超過 3 個月</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">資源時間或版本時間距今超過 {0} 個月</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">嚴重錯訁</system:String>
     <system:String x:Key="Achievement.Rules.Description">我會一直注視著你。</system:String>

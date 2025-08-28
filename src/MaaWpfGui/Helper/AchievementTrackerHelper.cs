@@ -572,8 +572,10 @@ namespace MaaWpfGui.Helper
             public static void Startup()
             {
                 Instance.Unlock(AchievementIds.FirstLaunch);
-                if ((DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays > 90 ||
-                    (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays > 90)
+                var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+                var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+                var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
+                if (maxTimeInterval > 90)
                 {
                     Instance.Unlock(AchievementIds.Martian);
                 }
