@@ -3,6 +3,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
+#include "Task/Miscellaneous/ParadoxRecognitionTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
@@ -18,14 +19,7 @@ bool asst::MultiCopilotTaskPlugin::_run()
     const auto& config = m_copilot_configs[m_index_current++];
 
     std::string file_name;
-    if (std::holds_alternative<int>(config.copilot_file)) {
-        if (!Copilot.parse_magic_code(std::to_string(std::get<int>(config.copilot_file)))) {
-            Log.error("CopilotConfig parse failed");
-            return false;
-        }
-        file_name = std::to_string(std::get<int>(config.copilot_file));
-    }
-    else if (std::holds_alternative<std::filesystem::path>(config.copilot_file)) {
+    if (std::holds_alternative<std::filesystem::path>(config.copilot_file)) {
         if (!Copilot.load(std::get<std::filesystem::path>(config.copilot_file))) {
             Log.error("CopilotConfig parse failed");
             return false;
@@ -46,6 +40,12 @@ bool asst::MultiCopilotTaskPlugin::_run()
     info["details"]["stage_name"] = Copilot.get_stage_name();
     info["details"]["file_name"] = std::move(file_name);
     callback(AsstMsg::SubTaskExtraInfo, info);
+
+    if (config.is_paradox) {
+        // 悖论模拟走自己的导航逻辑
+        m_paradox_task_ptr->set_navigate_name(stage_name); // 要调用一下以解析干员名
+        return true;
+    }
 
     bool ret = true;
     Task.get<OcrTaskInfo>(config.nav_name + "@Copilot@ClickStageName")->text = { config.nav_name };

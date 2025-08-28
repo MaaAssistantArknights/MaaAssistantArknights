@@ -131,7 +131,7 @@ public class AsstCopilotTask : AsstBaseTask
         public string FileName { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets 关卡名，仅导航用，Wpf会自动读取地图对应的关卡名
+        /// Gets or sets 关卡名，仅导航用，Wpf 会自动读取地图对应的关卡名
         /// </summary>
         [JsonProperty("stage_name")]
         public string StageName { get; set; } = string.Empty;
@@ -141,5 +141,11 @@ public class AsstCopilotTask : AsstBaseTask
         /// </summary>
         [JsonProperty("is_raid")]
         public bool IsRaid { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether 悖论模拟
+        /// </summary>
+        [JsonProperty("is_paradox")]
+        public bool IsParadox { get; set; }
     }
 }

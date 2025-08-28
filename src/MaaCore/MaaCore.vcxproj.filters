@@ -959,6 +959,9 @@
     <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1483,6 +1486,9 @@
       <Filter>Source\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
