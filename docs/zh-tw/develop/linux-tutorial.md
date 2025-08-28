@@ -28,7 +28,7 @@ MAA 的構建方法仍在討論中, 本教程的內容可能過時, 請以 [GitH
         > 包含在相對較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的動態庫，如果您系統中的 libstdc++ 版本較老，可能遇到 ABI 不兼容的問題。
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     - 自行構建第三方庫

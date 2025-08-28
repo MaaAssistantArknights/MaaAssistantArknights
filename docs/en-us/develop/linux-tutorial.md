@@ -41,7 +41,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
         > Contains dynamic libraries compiled on relatively new Linux distributions (Ubuntu 22.04). If your system's libstdc++ version is older, you may encounter ABI incompatibility issues.
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     If you find the libraries downloaded above cannot run on your system due to ABI version issues and you don't want to use container solutions, you can also try compiling from scratch

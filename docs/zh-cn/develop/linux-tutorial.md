@@ -35,7 +35,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
         > 包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题.
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     如果您发现上面的方法下载的库由于 ABI 版本等原因无法在您的系统上运行且不希望使用容器等方案, 也可以尝试从头编译
