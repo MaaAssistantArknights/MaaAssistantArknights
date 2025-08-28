@@ -12,7 +12,7 @@ import shutil
 import http.client
 
 TARGET_TAG = "v2.9.1"
-basedir = Path(__file__).parent
+basedir = Path(__file__).parent.parent
 
 
 def detect_host_triplet():

@@ -147,24 +147,19 @@ bool asst::OcrPack::check_and_load()
     fastdeploy::RuntimeOption option;
     option.UseOrtBackend();
     if (m_gpu_id) {
-        option.UseGpu(*m_gpu_id);
+        option.UseDirectML(*m_gpu_id);
     }
 
-    auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
-    option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-        "dummy.onnx",
+        platform::path_to_utf8_string(m_det_model_path),
         std::string(),
         option,
         fastdeploy::ModelFormat::ONNX);
 
-    auto rec_model = asst::utils::read_file<std::string>(m_rec_model_path);
-    std::string rec_label = asst::utils::read_file<std::string>(m_rec_label_path);
-    option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
     m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        "dummy.onnx",
+        platform::path_to_utf8_string(m_rec_model_path),
         std::string(),
-        rec_label,
+        platform::path_to_utf8_string(m_rec_label_path),
         option,
         fastdeploy::ModelFormat::ONNX);
 
