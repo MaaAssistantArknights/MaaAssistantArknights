@@ -269,7 +269,7 @@
     "YoStarEN/AnnihilationConfirm": "8bd27316c2bd080a99b9b2efbdc5113334ed3bc803f268a89583a545f71146ce",
     "YoStarEN/AnnihilationReturnFlag": "e4206691f79cf69c370e90cbbda75fb8b795399c3cf6fb4da1163150d3aa1067",
     "YoStarEN/AwardFinished": "37636d4eb115c1cf0401262ec59c7fa1e2be17a0d75afc013fc82ad2ad51da7f",
-    "YoStarEN/BattleQuickFormationClear": "dcbcd6674d259b742431c509cfb95d6f728c8cecc194842749b8d97d61e0d0d8",
+    "YoStarEN/BattleQuickFormationClear": "824cc84cb79b397dc316087e35d61005b85403c4ee195862faa7cfece18aca9a",
     "YoStarEN/BattleQuickFormationCollapseRole": "41d8fea9a3c820546a7634b7678980eda2c550e1fd666f554928c2c62f5c6247",
     "YoStarEN/BattleQuickFormationConfirm": "0395e32dc293112cde931fb1fd5aebd25f3c6d5af68acdf8456563356e9387c7",
     "YoStarEN/BattleQuickFormationExpandRole": "b2b196340c229c40c6e2668d5ac07ac2707fe4bfc7d5a85c488bec46bd75be16",
@@ -3510,7 +3510,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderRefresh": "a1de45d0a557f6a79f4cd20bbcdbcc0cb30e9195078931e37434ec65efe9e284",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DropsFlag": "b21923f540251c130df7aeeacc7f6938ecaef9f0a75869fe668865bcd9bd3de2",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderLeave": "7e7dbcf4db640d9585bf1e6b1878c1e64698ad9b245c773c82e7f207e515f430",
-    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "6cbf62aec3d5de534f44bd64aaff3ca26c23c76596116f32de0ae4ab1ad09f76",
+    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "009c830251fa241e59b29e5ebd9ce77699afa5f404f577966ff3b3b3ae2259bf",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@FormationConfirm": "764ebf6a76be78cc6bf0d57f6a2d71f0387ab0d03ac4a27a3e4ef3dd8e63d60b",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderInvestSystem": "07f7243d192668a085d06a2c176210b90e0e03991f801fe2403c02d423106fcf",
     "resource/global/YoStarEN/resource/template/Roguelike/Mizuki/Mizuki@Roguelike@Recruit": "532ef13c3f91314c646a68204a8e879db8896276756076459805bb9784650861",
@@ -5018,5 +5018,13 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageYiTraderEnter": "c3c83b56af7faadc574d756aa9ace865b976280fd63604883792c28d64a615ff",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeScheme": "5e1652b841d08628aae72116b648f1820ac58b85b26e0aa94ecb7e961af42911",
     "resource/template/items/act2enemyduel_milestone_point": "5782db16520036bf43fc9429115036e23f29695ec93bf356d432105fd89f4108",
-    "resource/template/MiniGame/ALL/MiniGame@ALL@GreenGrass@DuelChannel@duck": "9edf371202d6373616470d093b4cc3cfc698adfd6732e0ed02ff772b7df8d654"
+    "resource/template/MiniGame/ALL/MiniGame@ALL@GreenGrass@DuelChannel@duck": "9edf371202d6373616470d093b4cc3cfc698adfd6732e0ed02ff772b7df8d654",
+    "YoStarKR/OperParadoxBegin": "f28aaf7b36ba81d5bc7e25f5f64fc61e0c3ba9c716755af2609bbbaade8696c7",
+    "txwy/OperParadoxBegin": "8a87eeab0b6c31113fc84f76f3a61cfcef45e46aba6785ba2c9b5b6ab56a0995",
+    "YoStarJP/OperParadoxBegin": "e5b8e1f148d2b49a0b1e92da07cf3677f44975e1950201148ce2636725fe2ead",
+    "YoStarEN/OperParadoxBegin": "eefe962dad8c8f4ead267ea2e6b1e74611b23bd279d438fb455495ad1f709d3f",
+    "official/ParadoxChooseSkill": "624d1fc551f447e3741d295c68ba2cbf74265bf812b2cb205fb821cc7f27c282",
+    "official/OperInformationMenu": "42f705c3a75182a61c7ea07844d70e3f9b1f8baa425085a08aea06527ad09d3b",
+    "official/OperParadoxBegin": "f98992b13867c9d0796c4a9dab3999bddbb4f41792efe3ac457582edf4d3b48f",
+    "official/OperParadox": "c8e2dafa53bd15a01fb1a6d7b3e657dff93b67217f6a9ab8d7c896f01c986258"
 }
