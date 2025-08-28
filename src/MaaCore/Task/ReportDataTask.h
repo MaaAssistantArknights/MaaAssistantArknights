@@ -2,11 +2,7 @@
 
 #include "AbstractTask.h"
 
-#include <cctype>
 #include <future>
-#include <unordered_set>
-
-#include "Utils/NoWarningCPR.h"
 
 namespace asst
 {

@@ -537,9 +537,6 @@
     <ClInclude Include="Utils\NoWarningCVMat.h">
       <Filter>Source\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\NoWarningCPR.h">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Platform.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
@@ -941,10 +938,10 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h" >
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h" >
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
@@ -1473,8 +1470,8 @@
     <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp" >
-        <Filter>Source\Task\Roguelike</Filter>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
