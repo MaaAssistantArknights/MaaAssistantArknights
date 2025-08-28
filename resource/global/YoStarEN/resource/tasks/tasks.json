@@ -8,6 +8,18 @@
     "ClickChapter3": {
         "text": ["Shadow of A Dying Sun", "Shadow of A"]
     },
+    "ClickChapterNew": {
+        "text": ["乐章收录"]
+    },
+    "ClickChapterNewOpenTime": {
+        "text": ["开启时间"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "text": ["默认进度"]
+    },
+    "ClickChapterNewOverview": {
+        "text": ["乐章"]
+    },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
     },
@@ -270,7 +282,6 @@
             ["Phantom in the Mirror", "镜中虚影"],
             ["Static Roadblock", "道路障碍物"],
             ["Tentacle", "触手"],
-            ["'Clip'", "\"夹子\""],
             ["Metal Crab Guard Team", "磐蟹护卫队"],
             ["Gas Tank P.", "便携气罐"],
             ["Mieszko Coil", "梅什科线圈"],
