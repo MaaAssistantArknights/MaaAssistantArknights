@@ -8,6 +8,7 @@
     <!--  Latest Doc https://ghost1372.github.io/handycontrol/basic_xaml/brushes/  -->
     <!--  文字颜色  -->
     <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="ThirdlyTextBrush" Color="#7FE6E6E6" />
     <!--  文字颜色  -->
     <SolidColorBrush x:Key="TextIconBrush" Color="#E6E6E6" />
 
