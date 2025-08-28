@@ -193,7 +193,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 Form = false;
-                UseCopilotList = false;
+                UseCopilotList = value switch
+                {
+                    1 => false,
+                    _ => UseCopilotList,
+                };
             }
         }
 
@@ -1252,14 +1256,34 @@ namespace MaaWpfGui.ViewModels.UI
             });
 
             bool ret = true;
-            if (UseCopilotList)
+            if (ActiveTabIndex == 2)
             {
                 _copilotIdList.Clear();
 
                 var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
                     _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2 && UseCopilotList };
+                    var task = new AsstCopilotTask()
+                    {
+                        MultiTasks = [new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = UseCopilotList }],
+                        Formation = _form,
+                        AddTrust = _addTrust,
+                        IgnoreRequirements = _ignoreRequirements,
+                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                        UseSanityPotion = _useSanityPotion,
+                    };
+                    return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                });
+                ret = t.All(t => t is true) && Instances.AsstProxy.AsstStart();
+            }
+            else if (UseCopilotList)
+            {
+                _copilotIdList.Clear();
+
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
+                {
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
                 });
                 var task = new AsstCopilotTask()
                 {
