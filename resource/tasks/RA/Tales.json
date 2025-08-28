@@ -47,7 +47,7 @@
         "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
         "algorithm": "OcrDetect",
         "text": ["丰饶灌木林"],
-        "ocrReplace": [["灌木林", "丰饶灌木林"]],
+        "ocrReplace": [[".*灌木.*", "丰饶灌木林"]],
         "roi": [223, 129, 114, 48],
         "action": "ClickSelf"
     },

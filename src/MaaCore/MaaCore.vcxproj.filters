@@ -537,9 +537,6 @@
     <ClInclude Include="Utils\NoWarningCVMat.h">
       <Filter>Source\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\NoWarningCPR.h">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Platform.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
@@ -863,9 +860,6 @@
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -944,6 +938,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Map\AbstractRoguelikeMap.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Vision\Miscellaneous\OperNameAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
@@ -952,6 +952,12 @@
     </ClInclude>
     <ClInclude Include="Controller\LDExtras.h">
       <Filter>Source\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1392,9 +1398,6 @@
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
@@ -1467,6 +1470,9 @@
     <ClCompile Include="Task\Roguelike\RoguelikeInputSeedTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeBoskyPassageMap.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperNameAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClCompile>
@@ -1475,6 +1481,12 @@
     </ClCompile>
     <ClCompile Include="Controller\LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

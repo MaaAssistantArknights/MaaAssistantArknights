@@ -9836,6 +9836,15 @@
         "stageId": "act2bossrush_tm04",
         "width": 21
     },
+    "act2enemyduel_01a-activities/act2enemyduel/level_act2enemyduel_01a": {
+        "code": "VS-1",
+        "filename": "act2enemyduel_01a-activities-act2enemyduel-level_act2enemyduel_01a.json",
+        "height": 11,
+        "levelId": "activities/act2enemyduel/level_act2enemyduel_01a",
+        "name": "争锋对决！",
+        "stageId": "act2enemyduel_01a",
+        "width": 15
+    },
     "act2vmulti-01-activities/act2vmulti/level_act2vmulti_01": {
         "code": "IG-1",
         "filename": "act2vmulti-01-activities-act2vmulti-level_act2vmulti_01.json",

@@ -6,10 +6,6 @@
         "next": ["StartUpThemes#next"],
         "text": ["알겠습니다"]
     },
-    "StageTheme": {
-        "doc": "Delete when the UI is updated (#12266)",
-        "roi": [200, 640, 300, 60]
-    },
     "ClickChapter1": {
         "text": ["각성"]
     },
@@ -19,6 +15,18 @@
     "ClickChapter3": {
         "text": ["석양"]
     },
+    "ClickChapterNew": {
+        "text": ["서사수록"]
+    },
+    "ClickChapterNewOpenTime": {
+        "text": ["시간대"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "text": ["기본"]
+    },
+    "ClickChapterNewOverview": {
+        "text": ["서사"]
+    },
     "LevelOfDifficulty": {
         "text": ["환경", "PRTS"]
     },
@@ -27,10 +35,6 @@
     },
     "EnterChapterDifficultyNormal": {
         "text": ["노멀모드", "노멀", "작전진입"]
-    },
-    "StageResource": {
-        "doc": "Delete when the UI is updated (#12266)",
-        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
@@ -902,7 +906,16 @@
             ["^화로$", "火灶"],
             ["버려진화로", "废弃火灶"],
             ["엔텔레키아", "隐德来希"],
-            ["노[웰월]", "诺威尔"]
+            ["노[웰월]", "诺威尔"],
+            ["광석.?킬러.?", "矿石“杀手”"],
+            ["브리지드", "水灯心"],
+            ["빈껍데기", "空壳"],
+            ["울페나이트", "钼铅"],
+            ["비탄의하인", "悲叹的仆役"],
+            ["네크라스", "死芒"],
+            ["과거의불.?", "旧日之火"],
+            ["^수풀$", "树丛"],
+            ["방패와벽", "盾与墙"]
         ]
     },
     "StartUpThemes": {

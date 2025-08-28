@@ -5016,5 +5016,7 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@AbandonSwitchFlag": "92e870ad5262e3cb698b0f6a44776d552fcf649e9332f68c3cd8765959129857",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeOmissions": "06cd886c217b6f4bf6a0a6fc4f43a988bea67cdf4a253801c8b0cfeab6eb9ebc",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageYiTraderEnter": "c3c83b56af7faadc574d756aa9ace865b976280fd63604883792c28d64a615ff",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeScheme": "5e1652b841d08628aae72116b648f1820ac58b85b26e0aa94ecb7e961af42911"
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeScheme": "5e1652b841d08628aae72116b648f1820ac58b85b26e0aa94ecb7e961af42911",
+    "resource/template/items/act2enemyduel_milestone_point": "5782db16520036bf43fc9429115036e23f29695ec93bf356d432105fd89f4108",
+    "resource/template/MiniGame/ALL/MiniGame@ALL@GreenGrass@DuelChannel@duck": "9edf371202d6373616470d093b4cc3cfc698adfd6732e0ed02ff772b7df8d654"
 }

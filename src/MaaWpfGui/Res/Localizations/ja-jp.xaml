@@ -314,8 +314,6 @@
     <system:String x:Key="ForceGithubGlobalSource">GitHub を強制使用</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder">更新ソース切替後入力</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder2">CDKを入力してください</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">「{key=Settings} - {key=UpdateSettings}」に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">リソース更新 {0} が検出されました。「{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}」に移動して手動で更新するか、MirrorChayn CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">リソース更新 {0} が検出されました</system:String>
@@ -462,10 +460,10 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="SystemNotificationInfo" xml:space="preserve">
-MAA は非インストール型のポータブルソフトウェアで、通知機能は Microsoft.Toolkit.Uwp.Notifications ライブラリを使用しています。このライブラリはデフォルトで実行ファイルのパスを登録識別子として使用します。  
-複数の場所から MAA を起動すると、Windows は各パスごとに別々の通知アイコン（タスクバーのトーストなど）を作成します。これはライブラリのデフォルト動作であり、MAA は制御または自動削除できません。  
+MAA は非インストール型のポータブルソフトウェアで、通知機能は Microsoft.Toolkit.Uwp.Notifications ライブラリを使用しています。このライブラリはデフォルトで実行ファイルのパスを登録識別子として使用します。
+複数の場所から MAA を起動すると、Windows は各パスごとに別々の通知アイコン（タスクバーのトーストなど）を作成します。これはライブラリのデフォルト動作であり、MAA は制御または自動削除できません。
 削除したい場合は、レジストリエディターを開き、以下の場所に移動してください：
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings  
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
 該当するパスのキーを削除してください。
 </system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
@@ -774,8 +772,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - 相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
-    <system:String x:Key="MiniGameNameGreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に「イベントに参加」ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動でチュートリアルの会話をスキップし、直接退出することができます。&#10;イベント画面（右下角に「イベントに参加」ボタンがあります）でタスクを開始します。&#10;&#10;ダック卿の選択をフォローする。</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">対決チャンネル：（非公式）</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">緑チケット商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1階は全部購入。&#10;2階はスカウト券と求人票を購入のみ。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黄チケット商店</system:String>
@@ -809,17 +809,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator}要件を無視</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
+    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません。サポートのみです:
-  1. メインストーリー：同一章内でのナビゲーション
-  2. SideStory：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
+  1. {key=MainStage}：同一章内でのナビゲーション
+  2. {key=SideStory}：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
 開始前にステージ選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
     <system:String x:Key="CopilotClearTask" xml:space="preserve">左クリックですべてのタスクをクリア
 右クリックで非アクティブなタスクをクリア</system:String>
-    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotSkill">スキル</system:String>
@@ -839,22 +839,29 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Drone">ドローン/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">初期戦術装備（横）：</system:String>
     <system:String x:Key="InitialStrategy">初期戦略：</system:String>
+    <system:String x:Key="MainStage">メインテーマ</system:String>
+    <system:String x:Key="StoryCollection">オムニバスストーリー</system:String>
+    <system:String x:Key="SideStory">サイドストーリー</system:String>
+    <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
+    <system:String x:Key="SSS">保全駐在</system:String>
+    <system:String x:Key="ParadoxSimulation">逆理演算</system:String>
+    <system:String x:Key="OtherActivityStage">別のイベント</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
-        1. この機能を使用する際には、メインストーリー、ストーリーコレクション、またはサイドストーリーに「行動開始」ボタンが表示されている場合に限ります。\n\n
-        2. 逆理演算の場合は、「{key=AutoSquad}」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
-        3. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
-        手動形成後、「開始デプロイメント」画面から開始してください（「{key=LoopTimes} で使用可能）。\n\n
-        4. サポートを使うときは、「{key=AutoSquad}」をオフにし、手動で{key=Operator}を選択してから始めましょう；\n\n
-        5. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
-        6. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n
-        7. バトルリスト:\n
-        ジョブを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
-        追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
-        クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
-        開始する前に、ステージ選択画面に切り替える必要があります。章間のナビゲーションはサポートされていません。\n
-        理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
+        1. この機能を使用前に、攻略ファイルと選択したステージタイプが一致していることを確認してください。\n\n
+        2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 右下の「行動開始」ボタン画面で開始してください。\n\n
+        3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の「配置開始」ボタン画面で開始してください。「{key=LoopTimes}」と連携することもできます。\n\n
+        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、{key=Operator}リストから開始してください。\n\n
+        5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
+        6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
+        7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n
+        8. {key=UseCopilotList}:\n
+        - 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
+        - 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
+        - クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        - ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
+        - 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -869,7 +876,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotEmptyError">作業が空です</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
-    <system:String x:Key="CopilotSingleTaskWarning">バトルリストを使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">「{key=UseCopilotList}」を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -1012,7 +1019,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Current">現在</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}を利用不可: {0}、制限: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">モジュールが使用できません</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="Deploy">配置</system:String>
     <system:String x:Key="UseSkill">スキル使用</system:String>
@@ -1169,12 +1177,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">MAA の実行ディレクトリに不明な DLL ファイルが検出されました。DLL ハイジャックが発生し、予期しない結果を招く可能性があります。
+MAA を新しい独立したフォルダーに解凍するか、MAA に属さない DLL ファイルを削除してください。
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
 「OK」をクリックするとインストールスクリプトが実行され、MAA が終了します。「キャンセル」をクリックすると MAA が直接終了します。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-同じパスの下で起動できるのは1つのインスタンスのみ！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同じパスの下で起動できるのは1つのインスタンスのみ！
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">現在のソフトウェアの場所ではデータを保存できません。設定が失われるか、実行時に問題が発生する可能性があります。書き込み可能なディレクトリに移動してください。システム保護ディレクトリ（Program Files、System32、Windows ディレクトリなど）には配置しないでください。</system:String>
