@@ -357,7 +357,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Loop { get; set; }
 
-        private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
+        private int _loopTimes = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, 1);
 
         public int LoopTimes
         {
@@ -368,11 +368,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.CopilotLoopTimes, value.ToString());
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether 启用悖论模拟模式.
-        /// </summary>
-        public bool ParadoxMode => ActiveTabIndex == 2 && UseCopilotList;
 
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
@@ -1264,7 +1259,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
                     _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ParadoxMode };
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2 && UseCopilotList };
                 });
                 var task = new AsstCopilotTask()
                 {
