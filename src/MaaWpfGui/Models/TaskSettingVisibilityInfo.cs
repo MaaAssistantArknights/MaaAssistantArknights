@@ -66,7 +66,16 @@ namespace MaaWpfGui.Models
         // 长草任务当前选中
         public int CurrentIndex
         {
-            get => ConfigFactory.CurrentConfig.TaskSelectedIndex;
+            get
+            {
+                if (ConfigFactory.CurrentConfig.TaskSelectedIndex < 0 || ConfigFactory.CurrentConfig.TaskSelectedIndex >= ConfigFactory.CurrentConfig.TaskQueue.Count)
+                {
+                    ConfigFactory.CurrentConfig.TaskSelectedIndex = 0;
+                }
+
+                return ConfigFactory.CurrentConfig.TaskSelectedIndex;
+            }
+
             set
             {
                 ConfigFactory.CurrentConfig.TaskSelectedIndex = value;

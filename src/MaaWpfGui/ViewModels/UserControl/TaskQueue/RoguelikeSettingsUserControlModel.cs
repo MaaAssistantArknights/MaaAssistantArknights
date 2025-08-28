@@ -593,7 +593,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
 
         set
         {
-            var v = value.Cast<GenericCombinedData<RoguelikeCollectibleAward>>().Select(k => k.Value).Aggregate((a, b) => a | b);
+            var v = value.Cast<GenericCombinedData<RoguelikeCollectibleAward>>().Select(k => k.Value).DefaultIfEmpty((RoguelikeCollectibleAward)0).Aggregate((a, b) => a | b);
             SetTaskConfig<RoguelikeTask>(t => t.CollectibleStartAwards == v, t => t.CollectibleStartAwards = v);
         }
     }
