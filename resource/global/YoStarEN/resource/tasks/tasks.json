@@ -15,12 +15,12 @@
         "text": ["Unlock Time"]
     },
     "ClickChapterNewDefaultProgress": {
-        "text": ["Default"],
-        "roi": [747, 27, 58, 26]
+        "roi": [747, 27, 58, 26],
+        "text": ["Default"]
     },
     "ClickChapterNewOverview": {
-        "text": ["Movements"],
-        "roi": [1163, 27, 84, 28]
+        "roi": [1163, 27, 84, 28],
+        "text": ["Movements"]
     },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
