@@ -1,7 +1,4 @@
 {
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -19,9 +16,6 @@
     },
     "EnterChapterDifficultyNormal": {
         "text": ["Start Operation"]
-    },
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
