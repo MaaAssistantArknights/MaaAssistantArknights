@@ -87,7 +87,7 @@ namespace MaaWpfGui.Main
 
                 return dllFiles
                     .Select(Path.GetFileName)
-                    .Where(fileName => !maaDlls.Contains(fileName))
+                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
             catch (Exception)
