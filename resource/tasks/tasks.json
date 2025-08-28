@@ -4506,6 +4506,65 @@
         "text": [],
         "roi": [5, 230, 37, 23]
     },
+    "OperParadoxBegin": {
+        "algorithm": "JustReturn",
+        "next": ["OperOpenInformationMenu", "OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "preDelay": 500,
+        "postDelay": 500
+    },
+    "OperOpenInformationMenu": {
+        "action": "ClickSelf",
+        "template": "OperInformationMenu.png",
+        "roi": [447, 0, 158, 135],
+        "next": ["OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "preDelay": 500,
+        "postDelay": 500
+    },
+    "OperOpenParadox": {
+        "action": "ClickSelf",
+        "template": "OperParadox.png",
+        "roi": [904, 526, 249, 172],
+        "next": ["OperOpenParadoxChooseSkill"],
+        "preDelay": 500,
+        "postDelay": 500
+    },
+    "OperOpenParadoxChooseSkill": {
+        "action": "ClickSelf",
+        "template": "OperParadoxBegin.png",
+        "roi": [1009, 603, 260, 114],
+        "postDelay": 1000
+    },
+    "ParadoxChooseSkill1": {
+        "action": "ClickSelf",
+        "template": "ParadoxChooseSkill.png",
+        "roi": [928, 103, 146, 156]
+    },
+    "ParadoxChooseSkill2": {
+        "action": "ClickSelf",
+        "template": "ParadoxChooseSkill.png",
+        "roi": [931, 315, 140, 149]
+    },
+    "ParadoxChooseSkill3": {
+        "action": "ClickSelf",
+        "template": "ParadoxChooseSkill.png",
+        "roi": [928, 523, 139, 145]
+    },
+    "ParadoxReturnUntilOperList": {
+        "baseTask": "ParadoxReturn",
+        "template": "Return.png",
+        "next": ["ParadoxReturnOperListFlag", "ParadoxReturnUntilOperList"]
+    },
+    "ParadoxReturnOperListFlag": {
+        "action": "Stop",
+        "roi": [1152, 0, 128, 138],
+        "template": ["BattleQuickFormationExpandRole.png", "BattleQuickFormationCollapseRole.png"]
+    },
+    "ParadoxReturn": {
+        "action": "ClickSelf",
+        "template": "Return.png",
+        "roi": [0, 0, 180, 80],
+        "postDelay": 1000
+    },
     "SSSBegin": {
         "Doc": "保全派驻",
         "action": "ClickSelf",
@@ -4740,6 +4799,17 @@
         "action": "ClickRect",
         "specificRect": [1000, 120, 270, 10],
         "next": ["BattleStartPreFlag", "ClickCornerUntilStartButton"]
+    },
+    "ClickCornerUntilReturnButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1000, 120, 270, 10],
+        "next": ["ParadoxReturnFlag", "ClickCornerUntilReturnButton"]
+    },
+    "ParadoxReturnFlag": {
+        "baseTask": "ParadoxReturn",
+        "template": "Return.png",
+        "action": "DoNothing"
     },
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
