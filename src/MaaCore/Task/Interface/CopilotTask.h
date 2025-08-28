@@ -37,7 +37,7 @@ public:
     std::string get_stage_name() const { return m_stage_name; }
 
 private:
-    std::variant<int, std::filesystem::path> parse_copilot_filename(const std::string& name);
+    std::optional<std::filesystem::path> parse_copilot_filename(const std::string& name);
 
     std::shared_ptr<MultiCopilotTaskPlugin> m_multi_copilot_plugin_ptr = nullptr;
     std::shared_ptr<ParadoxRecognitionTask> m_paradox_task_ptr = nullptr;

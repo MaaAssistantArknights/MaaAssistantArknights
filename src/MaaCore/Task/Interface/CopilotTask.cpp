@@ -133,7 +133,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         for (const auto& [filename, stage_name, is_raid, is_paradox] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
-            if (std::holds_alternative<int>(copilot_opt) && std::get<int>(copilot_opt) == -1) {
+            if (!copilot_opt) {
                 return false;
             }
             m_stage_name = Copilot.get_stage_name();
@@ -208,12 +208,12 @@ bool asst::CopilotTask::set_params(const json::value& params)
     return true;
 }
 
-std::variant<int, std::filesystem::path> asst::CopilotTask::parse_copilot_filename(const std::string& name)
+std::optional<std::filesystem::path> asst::CopilotTask::parse_copilot_filename(const std::string& name)
 {
     auto path = utils::path(name);
     if (!Copilot.load(path)) {
         Log.error("CopilotConfig parse failed");
-        return -1;
+        return std::nullopt;
     }
     return path;
 }
