@@ -1258,6 +1258,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.Martian.Title">Martian</system:String>
     <system:String x:Key="Achievement.Martian.Description">How's that ancient version working for you?</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">Resource or version date is more than 3 months old</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">Resource or version date is more than {0} months old</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">Serious Erro-</system:String>
     <system:String x:Key="Achievement.Rules.Description">I'll be watching you.</system:String>
