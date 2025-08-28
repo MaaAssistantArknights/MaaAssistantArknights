@@ -19,16 +19,11 @@ bool asst::MultiCopilotTaskPlugin::_run()
     const auto& config = m_copilot_configs[m_index_current++];
 
     std::string file_name;
-    if (std::holds_alternative<std::filesystem::path>(config.copilot_file)) {
-        if (!Copilot.load(std::get<std::filesystem::path>(config.copilot_file))) {
-            Log.error("CopilotConfig parse failed");
-            return false;
-        }
-        file_name = utils::path_to_utf8_string(std::get<std::filesystem::path>(config.copilot_file));
-    }
-    else {
+    if (!Copilot.load(config.copilot_file)) {
+        Log.error("CopilotConfig parse failed");
         return false;
     }
+    file_name = utils::path_to_utf8_string(config.copilot_file);
 
     const auto& stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(stage_name)) {
