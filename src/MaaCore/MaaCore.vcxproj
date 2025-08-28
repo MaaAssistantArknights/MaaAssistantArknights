@@ -129,10 +129,11 @@
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\MultiCopilotTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\ParadoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
-    <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h" />
     <!-- 生息演算 .h Begin -->
     <ClInclude Include="Task\Interface\ReclamationTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConfig.h" />
@@ -286,7 +287,6 @@
     <ClInclude Include="Utils\Meta.hpp" />
     <ClInclude Include="Utils\NoWarningCV.h" />
     <ClInclude Include="Utils\NoWarningCVMat.h" />
-    <ClInclude Include="Utils\NoWarningCPR.h" />
     <ClInclude Include="Utils\Platform.hpp" />
     <ClInclude Include="Utils\Platform\Platform.h" />
     <ClInclude Include="Utils\Platform\PlatformPosix.h" />
@@ -331,10 +331,11 @@
     <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\MultiCopilotTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ParadoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp" />
     <!-- 生息演算 .cpp Begin -->
     <ClCompile Include="Task\Interface\ReclamationTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConfig.cpp" />

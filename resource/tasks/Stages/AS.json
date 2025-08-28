@@ -21,11 +21,12 @@
     },
     "AS-OpenOpt": {
         "algorithm": "JustReturn",
-        "next": ["AS-OpenOcr"]
+        "next": ["AS-OpenOcr", "AS-Open"]
     },
     "AS-Open": {
-        "baseTask": "AS-OpenOcr",
-        "Doc": "先不写"
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["ASChapterToAS"]
     },
     "AS-OpenOcr": {
         "baseTask": "SS-OpenOcr",

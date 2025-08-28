@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Project -->
   <PropertyGroup>
@@ -62,7 +62,7 @@
   <PropertyGroup>
     <Authors>MAA Team</Authors>
     <PackageLicenseUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</PackageLicenseUrl>
-    <Copyright>Copyright (c) 2021-2024 MAA Team</Copyright>
+    <Copyright>Copyright (c) 2021-2025 MAA Team</Copyright>
     <Description>https://maa.plus/docs/</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
@@ -115,7 +115,7 @@
     <PackageReference Include="MdXaml.Html" Version="1.22.0" />
     <PackageReference Include="MdXaml.Plugins" Version="1.22.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106">
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

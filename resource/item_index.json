@@ -1823,6 +1823,14 @@
         "sortId": -10000,
         "usage": "用于兑换相应的阶段性活动奖励。"
     },
+    "act2enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "听说使用它之后可以在整个争锋频道发送一条带有全屏烟花特效的文字。但终日使用它们对骂的有钱人或许并不知道，网站设置内能够一键屏蔽这些特效。",
+        "icon": "act2enemyduel_milestone_point.png",
+        "name": "争锋大礼花",
+        "sortId": -10000,
+        "usage": "争锋频道礼物中比较昂贵的类型，可以在网站内兑换一些实物奖励，包邮，送货上门。"
+    },
     "act2mainss_token": {
         "classifyType": "NONE",
         "description": "为了安慰那些因即将离舰而惶恐不安的孩子，Raidian制作了大批具有寻呼和留言功能的胸章，鼓励他们保持微笑，也保持联系。不少干员听说后也向Raidian求取了胸章，他们录下了祝福与鼓励的话语，撤离前将胸章藏在了各个角落。",

@@ -144,7 +144,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void ClearLog()
         {
-            Execute.OnUIThread(() => LogItemViewModels.Clear());
+            Execute.OnUIThread(() =>
+            {
+                LogItemViewModels.Clear();
+                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
+            });
         }
 
         #endregion Log
@@ -154,12 +158,12 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _idle;
 
         /// <summary>
-        /// Gets or sets a value indicating whether it is idle.
+        /// Gets a value indicating whether it is idle.
         /// </summary>
         public bool Idle
         {
             get => _idle;
-            set => SetAndNotify(ref _idle, value);
+            private set => SetAndNotify(ref _idle, value);
         }
 
         private bool _startEnabled = true;
@@ -171,6 +175,30 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _startEnabled;
             set => SetAndNotify(ref _startEnabled, value);
+        }
+
+        private int _activeTabIndex = 0;
+
+        /// <summary>
+        /// Gets or sets 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
+        /// </summary>
+        public int ActiveTabIndex
+        {
+            get => _activeTabIndex;
+            set
+            {
+                if (!SetAndNotify(ref _activeTabIndex, value))
+                {
+                    return;
+                }
+
+                Form = false;
+                UseCopilotList = value switch
+                {
+                    1 => false,
+                    _ => UseCopilotList,
+                };
+            }
         }
 
         private string _filename = string.Empty;
@@ -187,7 +215,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ClearLog();
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
                     CopilotUrl = CopilotUiUrl;
                 }
                 else
@@ -285,14 +312,14 @@ namespace MaaWpfGui.ViewModels.UI
             new() { Display = "4", Value = 4 },
         ];
 
-        private int _selectFormation = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 0);
+        private int _formationIndex = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
 
         public int SelectFormation
         {
-            get => _selectFormation;
+            get => _formationIndex;
             set
             {
-                SetAndNotify(ref _selectFormation, value);
+                SetAndNotify(ref _formationIndex, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
             }
         }
@@ -334,7 +361,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Loop { get; set; }
 
-        private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
+        private int _loopTimes = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, 1);
 
         public int LoopTimes
         {
@@ -398,8 +425,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Selects file.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void SelectFile()
         {
@@ -416,8 +443,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Paste clipboard contents.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         [UsedImplicitly]
         public void PasteClipboard()
         {
@@ -433,12 +460,17 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Paste clipboard contents.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task PasteClipboardCopilotSet()
         {
+            if (ActiveTabIndex is 1 or 3)
+            {
+                return;
+            }
+
             StartEnabled = false;
             UseCopilotList = true;
             ClearLog();
@@ -452,9 +484,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// 批量导入作业
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task ImportFiles()
         {
@@ -645,21 +677,18 @@ namespace MaaWpfGui.ViewModels.UI
                 payload = null;
             }
 
-            if (payload is CopilotModel copilot)
+            switch (payload)
             {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
-                return;
+                case CopilotModel copilot:
+                    await ParseCopilotAsync(copilot, writeToCache, UseCopilotList, copilotId);
+                    return;
+                case SSSCopilotModel sss:
+                    await ParseSSSCopilot(sss, writeToCache);
+                    return;
+                default:
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+                    return;
             }
-            else if (payload is SSSCopilotModel sss)
-            {
-                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
-                await ParseSSSCopilot(sss, writeToCache);
-                return;
-            }
-
-            AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
-            return;
         }
 
         /// <summary>
@@ -1011,6 +1040,10 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await AddCopilotTaskToList(copilot, !isRaid ? CopilotModel.DifficultyFlags.Normal : CopilotModel.DifficultyFlags.Raid, stageName, CopilotId);
                 }
+                else
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotSSSNotSupport"), UiLogColor.Error, showTime: false);
+                }
             }
             catch (Exception ex)
             {
@@ -1144,9 +1177,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// 更新任务顺序
+        /// UI 绑定的方法
         /// </summary>
-        // UI 绑定的方法
-        // ReSharper disable once MemberCanBePrivate.Global
+        [UsedImplicitly]
         public void CopilotItemIndexChanged()
         {
             Execute.OnUIThread(() =>
@@ -1162,9 +1195,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Starts copilot.
+        /// UI 绑定的方法
         /// </summary>
         /// <returns>Task</returns>
-        /// UI 绑定的方法
         [UsedImplicitly]
         public async Task Start()
         {
@@ -1223,39 +1256,46 @@ namespace MaaWpfGui.ViewModels.UI
             });
 
             bool ret = true;
-            if (UseCopilotList)
+            if (ActiveTabIndex == 2)
             {
                 _copilotIdList.Clear();
-                var tasks = CopilotItemViewModels.Where(i => i.IsChecked).Select(model =>
-                 {
-                     _copilotIdList.Add(model.CopilotId);
-                     var task = new AsstCopilotTask()
-                     {
-                         FileName = model.FilePath,
-                         Formation = _form,
-                         AddTrust = _addTrust,
-                         IgnoreRequirements = _ignoreRequirements,
-                         UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                         NeedNavigate = UseCopilotList,
-                         StageName = model.Name,
-                         IsRaid = model.IsRaid,
-                         LoopTimes = Loop ? LoopTimes : 1,
-                         UseSanityPotion = _useSanityPotion,
-                         SelectFormation = _selectFormation,
-                     };
-                     var (type, param) = task.Serialize();
-                     return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, type, param);
-                 }).ToList();
 
-                if (tasks.Count > 0)
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
-                    ret = tasks.All(t => t) && Instances.AsstProxy.AsstStart();
-                }
-                else
-                {// 一个都没启动，怎会有如此无聊之人
-                    _runningState.SetIdle(true);
-                    return;
-                }
+                    _copilotIdList.Add(i.CopilotId);
+                    var task = new AsstCopilotTask()
+                    {
+                        MultiTasks = [new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = UseCopilotList }],
+                        Formation = _form,
+                        AddTrust = _addTrust,
+                        IgnoreRequirements = _ignoreRequirements,
+                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                        UseSanityPotion = _useSanityPotion,
+                    };
+                    return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                });
+                ret = t.All(t => t is true) && Instances.AsstProxy.AsstStart();
+            }
+            else if (UseCopilotList)
+            {
+                _copilotIdList.Clear();
+
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
+                {
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
+                });
+                var task = new AsstCopilotTask()
+                {
+                    MultiTasks = t.ToList(),
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                };
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
             else
             {
@@ -1280,13 +1320,12 @@ namespace MaaWpfGui.ViewModels.UI
                     AddTrust = _addTrust,
                     IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    NeedNavigate = false,
                     LoopTimes = Loop ? LoopTimes : 1,
                     UseSanityPotion = _useSanityPotion,
-                    SelectFormation = UseFormation ? _selectFormation : 0,
+                    FormationIndex = UseFormation ? _formationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
-                ret &= Instances.AsstProxy.AsstStart();
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
 
             if (ret)
@@ -1312,8 +1351,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /// <summary>
         /// Stops copilot.
-        /// </summary>
         /// UI 绑定的方法
+        /// </summary>
         public void Stop()
         {
             if (SettingsViewModel.GameSettings.CopilotWithScript && SettingsViewModel.GameSettings.ManualStopWithScript)
@@ -1386,7 +1425,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (CopilotItemViewModels.Count == 1)
             {
-                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
+                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
+                return false;
             }
 
             var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>

@@ -12,109 +12,46 @@
 // </copyright>
 
 using System;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
 using Serilog;
+using Windows.Win32;
 
-#pragma warning disable SA1310 // Field names should not contain underscore
-#pragma warning disable SA1313 // Parameter should begin with lower-case letter
 namespace MaaWpfGui.Utilities
 {
     public class PowerManagement
     {
         private static readonly ILogger _logger = Log.ForContext<PowerManagement>();
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
-
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool AdjustTokenPrivileges(IntPtr tokenHandle, bool disableAllPrivileges, ref TOKEN_PRIVILEGES newState, uint bufferLengthInBytes, IntPtr PreviousState, IntPtr ReturnLengthInBytes);
-
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool OpenProcessToken(IntPtr processHandle, uint desiredAccess, out IntPtr tokenHandle);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GetCurrentProcess();
-
-        [DllImport("advapi32.dll", CharSet = CharSet.Auto)]
-        private static extern bool LookupPrivilegeValue(string lpSystemName, string lpName, out LUID lpLuid);
-
-        [DllImport("powrprof.dll", SetLastError = true, ExactSpelling = true)]
-        private static extern bool SetSuspendState(bool hibernate, bool forceCritical, bool disableWakeEvent);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool CloseHandle(IntPtr hObject);
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        private struct TOKEN_PRIVILEGES
+        /// <summary>
+        /// 关机，使用 shutdown.exe
+        /// </summary>
+        /// <param name="delaySeconds">等待关机时间</param>
+        public static void Shutdown(int delaySeconds = 70)
         {
-            public int PrivilegeCount;
-            public LUID Luid;
-            public int Attributes;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct LUID
-        {
-            public uint LowPart;
-            public int HighPart;
-        }
-
-        private const int SE_PRIVILEGE_ENABLED = 0x00000002;
-        private const string SE_SHUTDOWN_NAME = "SeShutdownPrivilege";
-        private const int TOKEN_ADJUST_PRIVILEGES = 0x0020;
-        private const int TOKEN_QUERY = 0x0008;
-        private const int EWX_SHUTDOWN = 0x00000001;
-        private const int EWX_FORCE = 0x00000004;
-        private const int EWX_FORCEIFHUNG = 0x00000010;
-
-        public static bool Shutdown()
-        {
-            IntPtr hToken = IntPtr.Zero;
-            TOKEN_PRIVILEGES tkp;
-
             try
             {
-                if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, out hToken))
-                {
-                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
-                }
-
-                if (!LookupPrivilegeValue(null, SE_SHUTDOWN_NAME, out tkp.Luid))
-                {
-                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
-                }
-
-                tkp.PrivilegeCount = 1;
-                tkp.Attributes = SE_PRIVILEGE_ENABLED;
-
-                if (!AdjustTokenPrivileges(hToken, false, ref tkp, 0, IntPtr.Zero, IntPtr.Zero))
-                {
-                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
-                }
-
-                if (Marshal.GetLastWin32Error() != 0)
-                {
-                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
-                }
-
-                if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCEIFHUNG, 0))
-                {
-                    throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
-                }
-
-                return true;
+                _logger.Information("Scheduling shutdown in {DelaySeconds} seconds.", delaySeconds);
+                Process.Start("shutdown.exe", $"-s -t {delaySeconds}");
             }
             catch (Exception ex)
             {
-                _logger.Error("Shutdown error: {ExMessage}", ex.Message);
-                return false;
+                _logger.Error("Shutdown failed: {ExMessage}", ex.Message);
             }
-            finally
+        }
+
+        /// <summary>
+        /// 取消正在进行的 shutdown.exe
+        /// </summary>
+        public static void AbortShutdown()
+        {
+            try
             {
-                if (hToken != IntPtr.Zero)
-                {
-                    CloseHandle(hToken);
-                }
+                _logger.Information("Aborting shutdown.");
+                Process.Start("shutdown.exe", "-a");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Abort shutdown failed: {ExMessage}", ex.Message);
             }
         }
 
@@ -122,7 +59,7 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                return SetSuspendState(true, true, true);
+                return PInvoke.SetSuspendState(true, true, true);
             }
             catch (Exception ex)
             {
@@ -135,7 +72,7 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                return SetSuspendState(false, true, true);
+                return PInvoke.SetSuspendState(false, true, true);
             }
             catch (Exception ex)
             {

@@ -16,7 +16,7 @@
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies"],
-        "postDelay": 1000
+        "postDelay": 3000
     },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
@@ -1044,7 +1044,7 @@
         "Doc": "肉鸽开始探索时, 招募第一个干员用, base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "roi": [80, 470, 410, 154],
+        "roi": [80, 470, 540, 154],
         "next": ["StartExplore@Roguelike@ChooseOperFlag", "StartExplore@Roguelike@RecruitCloseGuide", "#self"],
         "postDelay": 1000
     },
@@ -1655,7 +1655,7 @@
     },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
-        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园林"],
+        "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
         "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]

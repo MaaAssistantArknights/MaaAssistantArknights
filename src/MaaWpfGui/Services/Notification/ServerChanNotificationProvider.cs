@@ -24,15 +24,9 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification
 {
-    public class ServerChanNotificationProvider : IExternalNotificationProvider
+    public class ServerChanNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
     {
-        private readonly IHttpService _httpService;
         private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
-
-        public ServerChanNotificationProvider(IHttpService httpService)
-        {
-            _httpService = httpService;
-        }
 
         public async Task<bool> SendAsync(string title, string content)
         {
@@ -52,13 +46,7 @@ namespace MaaWpfGui.Services.Notification
                 var url = ConstructUrl(sendKey);
                 var postData = $"text={Uri.EscapeDataString(title)}&desp={Uri.EscapeDataString(content)}";
 
-                using var httpClient = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, url)
-                {
-                    Content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"),
-                };
-
-                var response = await httpClient.SendAsync(request);
+                var response = await httpService.PostAsync(new(url), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 var responseRoot = JsonDocument.Parse(responseContent).RootElement;

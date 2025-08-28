@@ -19,12 +19,16 @@ using MaaWpfGui.Services.HotKeys;
 
 namespace MaaWpfGui.Views.UserControl
 {
+    /// <summary>
+    /// Represents a user control for editing and configuring hotkey settings.
+    /// Provides a UI interface for users to view and modify keyboard shortcut combinations.
+    /// </summary>
     public partial class HotKeyEditorUserControl : System.Windows.Controls.UserControl
     {
         public static readonly DependencyProperty HotKeyProperty =
             DependencyProperty.Register(nameof(HotKey), typeof(MaaHotKey),
                 typeof(HotKeyEditorUserControl),
-                new FrameworkPropertyMetadata(default(MaaHotKey),
+                new FrameworkPropertyMetadata(null,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public MaaHotKey? HotKey
@@ -64,17 +68,18 @@ namespace MaaWpfGui.Views.UserControl
             }
 
             // If no actual key was pressed - return
-            if (key == Key.LeftCtrl ||
-                key == Key.RightCtrl ||
-                key == Key.LeftAlt ||
-                key == Key.RightAlt ||
-                key == Key.LeftShift ||
-                key == Key.RightShift ||
-                key == Key.LWin ||
-                key == Key.RWin ||
-                key == Key.Clear ||
-                key == Key.OemClear ||
-                key == Key.Apps)
+            if (key is
+                Key.LeftCtrl or
+                Key.RightCtrl or
+                Key.LeftAlt or
+                Key.RightAlt or
+                Key.LeftShift or
+                Key.RightShift or
+                Key.LWin or
+                Key.RWin or
+                Key.Clear or
+                Key.OemClear or
+                Key.Apps)
             {
                 return;
             }

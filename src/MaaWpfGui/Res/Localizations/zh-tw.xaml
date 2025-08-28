@@ -312,8 +312,6 @@
     <system:String x:Key="ForceGithubGlobalSource">強制使用 GitHub</system:String>
     <system:String x:Key="ForceGithubGlobalSourceTip">檢測到更新後，強制從 Github 下載更新包</system:String>
     <system:String x:Key="MirrorChyan">MirrorChyan</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder">切換更新源後填寫</system:String>
-    <system:String x:Key="MirrorChyanCdkPlaceholder2">請輸入 CDK</system:String>
     <system:String x:Key="MirrorChyanSelectedButNoCdk">請前往 ｢{key=Settings} - {key=UpdateSettings}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateTip">偵測到資源更新: {0}。請前往 ｢{key=Settings} - {key=UpdateSettings} - {key=ResourceUpdate}｣ 手動更新，或設定 MirrorChayn CDK 以自動更新。</system:String>
     <system:String x:Key="MirrorChyanResourceUpdateShortTip">偵測到資源更新: {0}</system:String>
@@ -773,8 +771,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主介面（右下角有「開始營業」處）開始任務。</system:String>
-    <system:String x:Key="MiniGameNameGreenGrass">爭鋒頻道：青草城</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrass">爭鋒頻道：青草城</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1 層全買。&#10;2 層買尋訪憑證和招聘許可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
@@ -837,22 +837,29 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Drone">無人機/召喚物</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">開局裝備（橫向）：</system:String>
     <system:String x:Key="InitialStrategy">開局策略：</system:String>
+    <system:String x:Key="MainStage">主線</system:String>
+    <system:String x:Key="StoryCollection">故事集</system:String>
+    <system:String x:Key="SideStory">SideStory</system:String>
+    <system:String x:Key="MainStageStoryCollectionSideStory">{key=MainStage}/{key=StoryCollection}/{key=SideStory}</system:String>
+    <system:String x:Key="SSS">保全派駐</system:String>
+    <system:String x:Key="ParadoxSimulation">悖論模擬</system:String>
+    <system:String x:Key="OtherActivityStage">其他活動</system:String>
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">
-        小提示: \n\n
-        1. 主線、故事集、SideStory 請在有 ｢開始行動｣ 按鈕的介面再使用本功能。\n\n
-        2. 悖論模擬需要關閉 ｢{key=AutoSquad}｣，選好技能後在｢開始模擬｣按鈕的介面再開始。\n\n
-        3. 保全派駐 在 resource/copilot 資料夾下內建了多份作業。\n
-        請手動編隊後在 ｢開始部署｣ 介面開始（可配合 ｢{key=LoopTimes} 使用）。\n\n
-        4. 使用好友助戰可以關閉｢{key=AutoSquad}｣，手動選擇{key=Operator}後開始。\n\n
-        5. 將{key=Operator}標為 ｢特別關注｣ 可能會影響 ｢{key=AutoSquad}｣ 時的辨識與選擇。建議在使用 ｢{key=AutoSquad}｣ 時考慮移除 ｢特別注意｣ 標記，或手動補充缺少的{key=Operator}以確保編隊完整。\n\n
-        6. Copilot 作業站的神秘代碼可點擊輸入框右側的貼上按鈕貼上。左鍵單擊可貼上單個作業，右鍵單擊則可貼上整個作業集。\n\n
-        7. 戰鬥列表:\n
-        選擇作業後，檢查列表下方的關卡名是否正確 (如: CV-EX-1)。\n
-        加入: 左鍵加入正常難度，右鍵加入突襲難度。\n
-        清除: 左鍵清空列表，右鍵僅移除未啟用的任務。\n
-        開始前，需要切換至對應關卡的選擇介面，不支援跨章節導航。\n
-        遇到 理智不足、戰鬥失敗、未能以三星結算 時將會中止執行。
+        小提示:\n\n
+        1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
+        2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 請在關卡介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
+        3. {key=SSS}: resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角存在 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
+        4. {key=ParadoxSimulation}: 選好技能後，在技能選擇介面存在 ｢開始模擬｣ 按鈕的介面啟動，1/2 星{key=Operator}（無技能）在右下角存在 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表啟動。\n\n
+        5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
+        6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除關注，或在報錯後關閉 ｢{key=AutoSquad}｣，依據提示手動補充缺少的{key=Operator}。\n\n
+        7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：左鍵單擊=加入作業，右鍵單擊=加入作業集。\n\n
+        8. {key=UseCopilotList}:\n
+        - 選擇作業後，檢查下方關卡名是否正確 (例: CV-EX-1)。\n
+        - 加入: 左鍵=普通難度，右鍵=突襲難度。\n
+        - 清除: 左鍵=全部清空，右鍵=僅移除未啟用任務。\n
+        - 請在能看到目標關卡名的介面啟動，不支援跨章節導航。\n
+        - 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
@@ -867,7 +874,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
-    <system:String x:Key="CopilotSingleTaskWarning">正在使用戰鬥清單執行單一作業, 不建議此行為。單一作業請直接執行</system:String>
+    <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
     <!--  ErrorView  -->
@@ -1010,7 +1017,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Current">目前</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
-    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 限制: {1}</system:String>
+    <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 原因: {1}</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">模組不可用</system:String>
     <system:String x:Key="CurrentSteps">目前步驟: {0} {1}</system:String>
     <system:String x:Key="Deploy">部署</system:String>
     <system:String x:Key="UseSkill">使用技能</system:String>
@@ -1169,12 +1177,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">檢測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
+請將 MAA 解壓縮到一個獨立的新資料夾中，或移除不屬於 MAA 的 DLL 檔案。
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
 點擊 "確定" 將執行安裝腳本並退出 MAA，點擊 "取消" 將直接退出 MAA。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-同一路徑下只能啟動一個實例！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個實例！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
