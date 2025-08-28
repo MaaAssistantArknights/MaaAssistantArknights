@@ -561,7 +561,7 @@
     <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
-    <ExternalIncludePath>E:\Code\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(ProjectDir)..\..\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LinkIncremental>false</LinkIncremental>
@@ -574,14 +574,14 @@
     <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
-    <ExternalIncludePath>E:\Code\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(ProjectDir)..\..\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
-    <ExternalIncludePath>E:\Code\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(ProjectDir)..\..\MaaDeps\vcpkg\installed\maa-x64-windows\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
     <LinkIncremental>false</LinkIncremental>
@@ -664,7 +664,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -820,7 +820,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -873,7 +873,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>
       </Profile>

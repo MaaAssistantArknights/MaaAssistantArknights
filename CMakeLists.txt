@@ -84,9 +84,8 @@ endif (BUILD_TEST)
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio features2d)
 find_package(OpenCV QUIET COMPONENTS xfeatures2d)
 find_package(ZLIB REQUIRED)
-find_package(cpr CONFIG REQUIRED)
 
-list(APPEND maa_libs ${OpenCV_LIBS} ZLIB::ZLIB cpr::cpr header_only_libraries)
+list(APPEND maa_libs ${OpenCV_LIBS} ZLIB::ZLIB header_only_libraries)
 
 if(USE_MAADEPS)
     find_package(asio REQUIRED)
