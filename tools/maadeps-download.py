@@ -11,10 +11,7 @@ from pathlib import Path
 import shutil
 import http.client
 
-TARGET_TAG = "2024-08-17"
-# FIXME: update DirectML to 1.15.2 for Windows
-if platform.system() == "Windows":
-    TARGET_TAG = "2024-10-16"
+TARGET_TAG = "v2.9.1"
 basedir = Path(__file__).parent
 
 
@@ -157,7 +154,7 @@ def main():
         return
 
     req = urllib.request.Request(
-        "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
+        "https://api.github.com/repos/MaaXYZ/MaaDeps/releases"
     )
     token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
     if token:
