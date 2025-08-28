@@ -4560,9 +4560,8 @@
         "template": ["BattleQuickFormationExpandRole.png", "BattleQuickFormationCollapseRole.png"]
     },
     "ParadoxReturn": {
-        "action": "ClickSelf",
+        "baseTask": "Return",
         "template": "Return.png",
-        "roi": [0, 0, 180, 80],
         "postDelay": 1000
     },
     "SSSBegin": {
