@@ -180,7 +180,7 @@ namespace MaaWpfGui.ViewModels.UI
         private int _activeTabIndex = 0;
 
         /// <summary>
-        /// 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
+        /// Gets or sets 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
         /// </summary>
         public int ActiveTabIndex
         {
