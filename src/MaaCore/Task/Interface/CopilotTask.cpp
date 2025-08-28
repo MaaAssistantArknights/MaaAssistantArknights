@@ -140,7 +140,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
             if (auto result = Tile.find(m_stage_name); !result || !json::open(result->second)) {
                 return false;
             }
-            config_cvt.copilot_file = std::move(copilot_opt);
+            config_cvt.copilot_file = *copilot_opt;
             config_cvt.nav_name = stage_name;
             config_cvt.is_raid = is_raid;
             config_cvt.is_paradox = is_paradox;
