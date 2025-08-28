@@ -4,6 +4,9 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
 
     <!--  HandyControl Brush  -->
+    <!--  文字颜色  -->
+    <SolidColorBrush x:Key="ThirdlyTextBrush" Color="#7F000000" />
+
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
     <SolidColorBrush x:Key="RegionBrushOpacity25" Color="#40FFFFFF" />
     <SolidColorBrush x:Key="RegionBrushOpacity50" Color="#7FFFFFFF" />
