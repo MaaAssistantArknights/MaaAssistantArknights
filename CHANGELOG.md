@@ -5,26 +5,17 @@
 * 在启动时检测额外的DLL文件 (#13850) @Rbqwow @ABA2396
 * 支持一键悖论模拟 (#13893) @status102 @Constrat @pre-commit-ci[bot] @momomochi987 @HX3N @Manicsteiner @ABA2396
 * 争锋频道：蜜果城 @ABA2396
-* 自动战斗关卡结束后增加识别使用黑色返回按钮的检测 @status102
 * 更新源为海外源时隐藏 Mirror酱 CDK 输入框 @ABA2396
 
 ### 改进 | Improved
 
-* 任务baseTask @status102
 * 重构自动战斗战斗列表 (#13852) @status102 @pre-commit-ci[bot]
-* 更新 CsWin32 @ABA2396
-* ToastNotification 重构 @ABA2396
 * 向战斗队列中添加SSS作业时追加错误输出 @status102
-* limit codeql run only to source code (#13802) @Constrat
 
 ### 修复 | Fix
 
-* var type @status102
 * YostarKR EA navigation @HX3N
-* 勾八导航乱写 @ABA2396
-* 自动战斗界面Idle setter限制 @status102
 * 自动战斗-战斗列表使用错误的作业战斗 @status102
-* filters @ABA2396
 * 信用购物有时候点不掉危机合约支援界面 @ABA2396
 * ServerChan 未使用通用 httpService @ABA2396
 * 错误清除 _tasksStatus 的时机 @ABA2396
@@ -34,7 +25,6 @@
 * 不再点击停止任务时移除存储的TaskId @status102
 * 繁中服薩米肉鴿第四層名稱 (#13846) @momomochi987
 * 肉鸽投资存款不变重试20次退出 @status102
-* required version 显示错误 @ABA2396
 * 会客室换班失败（如选人过程中弹出线索交流完成）时重开任务 @ABA2396
 * 肉鸽开局招募在无开局干员时, 无法识别两招募的左侧位 @status102
 * 千古鸭帝进战斗 @Saratoga-Official
@@ -47,6 +37,16 @@
 
 ### 其他 | Other
 
+* required version 显示错误 @ABA2396
+* filters @ABA2396
+* 勾八导航乱写 @ABA2396
+* var type @status102
+* 自动战斗界面Idle setter限制 @status102
+* 更新 CsWin32 @ABA2396
+* 任务baseTask @status102
+* 自动战斗关卡结束后增加识别使用黑色返回按钮的检测 @status102
+* ToastNotification 重构 @ABA2396
+* limit codeql run only to source code (#13802) @Constrat
 * YostarJP new main stage navigation and ocr fix (#13902) @Manicsteiner
 * 悖论模拟使用多任务流程 @status102
 * remove ParadoxMode var @status102
