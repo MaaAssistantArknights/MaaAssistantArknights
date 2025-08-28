@@ -820,7 +820,7 @@
         },
         "char_1502_crosly": {
             "name": "弑君者",
-            "name_en": "CrownSlayer",
+            "name_en": "Crownslayer",
             "name_jp": "クラウンスレイヤー",
             "name_kr": "크라운슬레이어",
             "name_tw": "弒君者",
@@ -3506,8 +3506,7 @@
         },
         "char_4171_wulfen": {
             "name": "钼铅",
-            "name_en": "钼铅",
-            "name_en_unavailable": true,
+            "name_en": "Wulfenite",
             "name_jp": "ウルフェナイト",
             "name_kr": "울페나이트",
             "name_tw": "钼铅",
@@ -3542,8 +3541,7 @@
         },
         "char_4177_brigid": {
             "name": "水灯心",
-            "name_en": "水灯心",
-            "name_en_unavailable": true,
+            "name_en": "Brigid",
             "name_jp": "ブリギッド",
             "name_kr": "브리지드",
             "name_tw": "水灯心",
@@ -3920,8 +3918,7 @@
         },
         "char_450_necras": {
             "name": "死芒",
-            "name_en": "死芒",
-            "name_en_unavailable": true,
+            "name_en": "Necrass",
             "name_jp": "ネクラス",
             "name_kr": "네크라스",
             "name_tw": "死芒",
@@ -5143,8 +5140,7 @@
         },
         "token_10043_necras_skeltn": {
             "name": "悲叹的仆役",
-            "name_en": "悲叹的仆役",
-            "name_en_unavailable": true,
+            "name_en": "Servant of Lamentation",
             "name_jp": "悲嘆する下僕",
             "name_kr": "비탄의 하인",
             "name_tw": "悲叹的仆役",
@@ -5156,8 +5152,7 @@
         },
         "token_10044_wulfen_mine": {
             "name": "矿石“杀手”",
-            "name_en": "矿石“杀手”",
-            "name_en_unavailable": true,
+            "name_en": "Ore 'Killer'",
             "name_jp": "鉱石「キラー」",
             "name_kr": "광석 '킬러'",
             "name_tw": "矿石“杀手”",
@@ -7709,7 +7704,7 @@
         },
         "trap_166_muwork": {
             "name": "设施建筑工",
-            "name_en": "Foldable Facility Maintainer",
+            "name_en": "Facility Builder",
             "name_jp": "施設建設作業員",
             "name_kr": "시설 건축공",
             "name_tw": "折疊設施維護員",
@@ -8303,8 +8298,7 @@
         },
         "trap_218_fttree": {
             "name": "树丛",
-            "name_en": "树丛",
-            "name_en_unavailable": true,
+            "name_en": "Thicket",
             "name_jp": "茂み",
             "name_kr": "수풀",
             "name_tw": "树丛",
@@ -8316,8 +8310,7 @@
         },
         "trap_219_fttreant": {
             "name": "盾与墙",
-            "name_en": "盾与墙",
-            "name_en_unavailable": true,
+            "name_en": "Shield and Wall",
             "name_jp": "盾と壁",
             "name_kr": "방패와 벽",
             "name_tw": "盾与墙",
@@ -8329,8 +8322,7 @@
         },
         "trap_220_ftbone": {
             "name": "旧日之火",
-            "name_en": "旧日之火",
-            "name_en_unavailable": true,
+            "name_en": "Fires of Days Past",
             "name_jp": "昔日の火",
             "name_kr": "과거의 불꽃",
             "name_tw": "旧日之火",
@@ -8342,8 +8334,7 @@
         },
         "trap_221_ftshad": {
             "name": "空壳",
-            "name_en": "空壳",
-            "name_en_unavailable": true,
+            "name_en": "Empty Shell",
             "name_jp": "抜け殻",
             "name_kr": "빈 껍데기",
             "name_tw": "空壳",

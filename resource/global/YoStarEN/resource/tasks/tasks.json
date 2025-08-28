@@ -868,7 +868,16 @@
             ["Stove", "火灶"],
             ["Derelict Stove", "废弃火灶"],
             ["Entelechia", "隐德来希"],
-            ["Nowell", "诺威尔"]
+            ["Nowell", "诺威尔"],
+            ["Ore 'Killer'", "矿石“杀手”"],
+            ["Brigid", "水灯心"],
+            ["Empty Shell", "空壳"],
+            ["Wulfenite", "钼铅"],
+            ["Servant of Lamentation", "悲叹的仆役"],
+            ["Necrass", "死芒"],
+            ["Fires of Days Past", "旧日之火"],
+            ["Thicket", "树丛"],
+            ["Shield and Wall", "盾与墙"]
         ]
     },
     "GameStartCheckResourceOCR": {
