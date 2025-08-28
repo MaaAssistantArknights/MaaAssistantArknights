@@ -771,8 +771,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主介面（右下角有「開始營業」處）開始任務。</system:String>
-    <system:String x:Key="MiniGameNameGreenGrass">爭鋒頻道：青草城</system:String>
-    <system:String x:Key="MiniGameNameGreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrass">爭鋒頻道：青草城</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1 層全買。&#10;2 層買尋訪憑證和招聘許可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
