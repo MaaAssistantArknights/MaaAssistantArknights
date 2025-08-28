@@ -35,6 +35,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json.Linq;
@@ -135,9 +136,21 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
-                TaskItemViewModels[e.OldStartingIndex].Index = e.OldStartingIndex;
-                TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
+                if (e.Action == NotifyCollectionChangedAction.Move)
+                {
+                    ConfigFactory.CurrentConfig.TaskQueue.Move(e.OldStartingIndex, e.NewStartingIndex);
+                    TaskItemViewModels[e.OldStartingIndex].Index = e.OldStartingIndex;
+                    TaskItemViewModels[e.NewStartingIndex].Index = e.NewStartingIndex;
+                }
+                else if (e.Action == NotifyCollectionChangedAction.Add)
+                {
+                    TaskItemViewModels[e.NewStartingIndex].EnableSetting = true; // 请勿变动顺序, 先设true后false
+                    var task = TaskItemViewModels.FirstOrDefault(i => i.EnableSetting);
+                    if (task is { })
+                    {
+                        task.EnableSetting = false;
+                    }
+                }
             });
         }
 
@@ -935,6 +948,33 @@ namespace MaaWpfGui.ViewModels.UI
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
+        }
+
+        public static ReadOnlyCollection<GenericCombinedData<Type>> TaskTypeList { get; } = Array.AsReadOnly(
+            [
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("StartUp"), Value = typeof(StartUpTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Fight"), Value = typeof(FightTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Infrast"), Value = typeof(InfrastTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Recruit"), Value = typeof(RecruitTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Mall"), Value = typeof(MallTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Award"), Value = typeof(AwardTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Roguelike"), Value = typeof(RoguelikeTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Reclamation"), Value = typeof(ReclamationTask) },
+                new GenericCombinedData<Type> { Display = LocalizationHelper.GetString("Custom"), Value = typeof(CustomTask) },
+            ]);
+
+        public void AddTaskQueueTask(Type taskName)
+        {
+            if (Activator.CreateInstance(taskName) is BaseTask task)
+            {
+                task.Name = TaskTypeList.FirstOrDefault(t => t.Value == taskName)?.Display ?? taskName.Name;
+                ConfigFactory.CurrentConfig.TaskQueue.Add(task);
+                TaskItemViewModels.Add(new TaskItemViewModel(TaskItemViewModels.Count, task.Name, task.IsEnable));
+            }
+            else
+            {
+                AddLog("could NOT create instance of " + taskName, UiLogColor.Error);
+            }
         }
 
         /// <summary>
