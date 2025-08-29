@@ -217,6 +217,15 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
         }
 
+        // ————————————————————————————————————————————————————————————————
+        // 实验性功能
+        // ————————————————————————————————————————————————————————————————
+        // 跳过使用未准备好的技能，主要用于关闭技能的场景
+        if (action.type == ActionType::UseSkill) {
+            action.skip_if_not_ready = action_info.get("skip_if_not_ready", false);
+        }
+        // ————————————————————————————————————————————————————————————————
+
         actions_list.emplace_back(std::move(action));
     }
 

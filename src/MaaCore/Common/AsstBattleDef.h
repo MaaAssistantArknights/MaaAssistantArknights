@@ -253,6 +253,7 @@ struct Action
     std::string doc_color;
     RoleCounts role_counts;
     std::pair<double, double> distance;
+    bool skip_if_not_ready = false; // 跳过使用未准备好的技能，主要用于关闭技能的场景 (试验性功能)
 };
 
 struct BasicInfo
