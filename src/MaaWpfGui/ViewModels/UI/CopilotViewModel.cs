@@ -1101,7 +1101,7 @@ namespace MaaWpfGui.ViewModels.UI
                 cachePath = $"{CopilotJsonDir}/{fileName}_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.json";
                 if (CopilotItemViewModels.Any(i => i.FilePath == cachePath))
                 {
-                    _logger.Error("Could not add copilot task with duplicate stage name: " + copilot.StageName);
+                    _logger.Error("Could not add copilot task with duplicate stage name: {StageName}", copilot.StageName);
                     _semaphore.Release();
                     return false;
                 }
@@ -1118,22 +1118,27 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
+            if (ActiveTabIndex == 2)
             {
-                var item = new CopilotItemViewModel(stageName, cachePath, false, copilotId)
-                {
-                    Index = CopilotItemViewModels.Count,
-                };
+                var codeName = stageName![4..^2];
+                var characterInfo = DataHelper.GetCharacterByCodeName(codeName);
+                var name = DataHelper.GetLocalizedCharacterName(characterInfo);
+                var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
-
-            if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
+            else
             {
-                var item = new CopilotItemViewModel(stageName, cachePath, true, copilotId)
+                if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
                 {
-                    Index = CopilotItemViewModels.Count,
-                };
-                CopilotItemViewModels.Add(item);
+                    var item = new CopilotItemViewModel(stageName, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+                    CopilotItemViewModels.Add(item);
+                }
+
+                if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
+                {
+                    var item = new CopilotItemViewModel(stageName, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                    CopilotItemViewModels.Add(item);
+                }
             }
 
             _semaphore.Release();
