@@ -1777,6 +1777,9 @@ namespace MaaWpfGui.Main
                                 LocalizationHelper.GetString("CurrentSteps"),
                                 LocalizationHelper.GetString(actionString),
                                 DataHelper.GetLocalizedCharacterName(target) ?? target));
+                        var elapsed_time = subTaskDetails!["elapsed_time"]?.ToString();
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("ElapsedTime"), elapsed_time),UiLogColor.Message);
+
 
                         break;
                     }
