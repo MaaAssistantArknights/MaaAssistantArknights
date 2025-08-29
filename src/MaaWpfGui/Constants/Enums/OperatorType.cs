@@ -16,8 +16,13 @@ namespace MaaWpfGui.Constants.Enums;
 /// <summary>
 /// 干员职业类型枚举。
 /// </summary>
-public enum Role
+public enum OperatorType
 {
+    /// <summary>
+    /// 未知, 默认值
+    /// </summary>
+    Unknown,
+
     /// <summary>
     /// 近卫/Guard
     /// </summary>
