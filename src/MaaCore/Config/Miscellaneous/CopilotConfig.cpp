@@ -177,9 +177,7 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "checkifstartover", ActionType::CheckIfStartOver },
             { "检查重开", ActionType::CheckIfStartOver },
 
-            {
-                "ResetTimer", ActionType::ResetTimer
-            }
+            { "ResetTimer", ActionType::ResetTimer }
         };
 
         std::string type_str = action_info.get("type", "Deploy");

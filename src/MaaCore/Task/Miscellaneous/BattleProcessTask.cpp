@@ -309,13 +309,11 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
     };
 
     json::value info = basic_info_with_what("CopilotAction");
-    info["details"] |= json::object {
-        { "action", ActionNames.at(action.type) },
-        { "target", action.name },
-        { "doc", action.doc },
-        { "doc_color", action.doc_color },
-        { "elapsed_time", elapsed_time()}
-    };
+    info["details"] |= json::object { { "action", ActionNames.at(action.type) },
+                                      { "target", action.name },
+                                      { "doc", action.doc },
+                                      { "doc_color", action.doc_color },
+                                      { "elapsed_time", elapsed_time() } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
