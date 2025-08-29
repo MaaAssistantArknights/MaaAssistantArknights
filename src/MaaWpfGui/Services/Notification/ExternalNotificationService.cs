@@ -74,7 +74,7 @@ namespace MaaWpfGui.Services.Notification
         /// <param name="isTest">Indicate if it is a test or not.</param>
         public static void Send(string title, string content, bool isTest = false)
         {
-            var task = SendAsync(title, content, isTest);
+            var task = SendAsync("[MAA] " + title, content, isTest);
             _taskContainers.RemoveAll(x => x.Status != TaskStatus.Running);
             _taskContainers.Add(task);
         }
