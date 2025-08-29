@@ -4,7 +4,7 @@
 
 namespace asst
 {
-class BrightPointAnalyzer : public VisionHelper
+class PixelAnalyzer : public VisionHelper
 {
 public:
     enum class Filter
@@ -19,7 +19,7 @@ public:
     using ResultsVecOpt = std::optional<ResultsVec>;
 
     using VisionHelper::VisionHelper;
-    virtual ~BrightPointAnalyzer() override = default;
+    virtual ~PixelAnalyzer() override = default;
 
     ResultsVecOpt analyze();
 

@@ -1,4 +1,4 @@
-#include "BrightPointAnalyzer.h"
+#include "PixelAnalyzer.h"
 
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
@@ -6,7 +6,7 @@
 
 using namespace asst;
 
-BrightPointAnalyzer::ResultsVecOpt BrightPointAnalyzer::analyze()
+PixelAnalyzer::ResultsVecOpt PixelAnalyzer::analyze()
 {
     const cv::Mat croppedImage = make_roi(m_image, m_roi);
     cv::Mat tempImage;
@@ -25,14 +25,14 @@ BrightPointAnalyzer::ResultsVecOpt BrightPointAnalyzer::analyze()
         cv::inRange(tempImage, m_lb, m_ub, binaryImage);
         break;
     }
-    std::vector<cv::Point> brightPoints;
-    cv::findNonZero(binaryImage, brightPoints);
+    std::vector<cv::Point> pixelPoints;
+    cv::findNonZero(binaryImage, pixelPoints);
 
-    if (brightPoints.empty()) {
+    if (pixelPoints.empty()) {
         return std::nullopt;
     }
 
-    auto transform_view = brightPoints | views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
+    auto transform_view = pixelPoints | views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
     ResultsVec results(ranges::begin(transform_view), ranges::end(transform_view));
 
     if (m_log_tracing) {
