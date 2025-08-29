@@ -5026,5 +5026,6 @@
     "official/ParadoxChooseSkill": "624d1fc551f447e3741d295c68ba2cbf74265bf812b2cb205fb821cc7f27c282",
     "official/OperInformationMenu": "42f705c3a75182a61c7ea07844d70e3f9b1f8baa425085a08aea06527ad09d3b",
     "official/OperParadoxBegin": "f98992b13867c9d0796c4a9dab3999bddbb4f41792efe3ac457582edf4d3b48f",
-    "official/OperParadox": "c8e2dafa53bd15a01fb1a6d7b3e657dff93b67217f6a9ab8d7c896f01c986258"
+    "official/OperParadox": "c8e2dafa53bd15a01fb1a6d7b3e657dff93b67217f6a9ab8d7c896f01c986258",
+    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DialogSkip": "6ce2ed39031d20a21b0fdf7eab6285cbe383aeb4deabf76b9d3d89669b061ab3"
 }
