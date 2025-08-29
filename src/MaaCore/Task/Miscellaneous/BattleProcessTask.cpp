@@ -266,6 +266,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::ResetTimer:
         m_baseline_time = std::chrono::steady_clock::now();
+        m_timer_enabled = true;
         break;
 
     case ActionType::SkillDaemon:
@@ -400,15 +401,20 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     // 等待全局计时器
     if (action.elapsed_time > 0) {
-        update_image_if_empty();
-        while (!need_exit()) {
-            if (elapsed_time() >= action.elapsed_time) {
-                break;
+        if (m_timer_enabled) {
+            update_image_if_empty();
+            while (!need_exit()) {
+                if (elapsed_time() >= action.elapsed_time) {
+                    break;
+                }
+                if (!check_in_battle(image)) {
+                    return false;
+                }
+                do_strategy_and_update_image();
             }
-            if (!check_in_battle(image)) {
-                return false;
-            }
-            do_strategy_and_update_image();
+        }
+        else {
+            Log.warn(__FUNCTION__, "| Timer not enabled. Reset required before use.");
         }
     }
 

@@ -54,6 +54,7 @@ void asst::BattleHelper::clear()
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
+    m_timer_enabled = false;
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
     m_used_tiles.clear();
@@ -644,7 +645,6 @@ bool asst::BattleHelper::wait_until_start(bool weak)
         std::this_thread::yield();
         image = m_inst_helper.ctrler()->get_image();
     }
-    m_baseline_time = std::chrono::steady_clock::now();
     return true;
 }
 
@@ -1035,6 +1035,9 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 
 int asst::BattleHelper::elapsed_time()
 {
+    if (!m_timer_enabled) {
+        return -1;
+    }
     auto now = std::chrono::steady_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_baseline_time).count();
     if (elapsed_ms > std::numeric_limits<int>::max()) {
