@@ -1353,7 +1353,7 @@
     },
     "BattleQuickFormationExpandRole": {
         "algorithm": "OcrDetect",
-        "text": ["Job", "Class"],
+        "text": ["JOD", "Job", "Class"],
         "roi": [1207, 25, 42, 32]
     },
     "BattleQuickFormationFilter-Cost": {
