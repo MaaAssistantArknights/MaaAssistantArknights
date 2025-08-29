@@ -302,11 +302,12 @@
                                 </Grid.ColumnDefinitions>
                                 <CheckBox
                                     Grid.Column="0"
-                                    Content="{c:Binding Name}"
                                     IsChecked="{Binding IsChecked}"
                                     IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
-                                    ToolTip="{c:Binding CopilotId}" />
+                                    ToolTip="{c:Binding CopilotId}">
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}"/>
+                                </CheckBox>
                                 <TextBlock
                                     Grid.Column="1"
                                     MinWidth="35"
