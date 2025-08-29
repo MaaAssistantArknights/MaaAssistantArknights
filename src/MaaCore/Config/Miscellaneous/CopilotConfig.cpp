@@ -176,6 +176,10 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
             { "checkifstartover", ActionType::CheckIfStartOver },
             { "检查重开", ActionType::CheckIfStartOver },
+
+            {
+                "ResetTimer", ActionType::ResetTimer
+            }
         };
 
         std::string type_str = action_info.get("type", "Deploy");
@@ -224,6 +228,9 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         if (action.type == ActionType::UseSkill) {
             action.skip_if_not_ready = action_info.get("skip_if_not_ready", false);
         }
+
+        // 计时器
+        action.elapsed_time = action_info.get("elapsed_time", 0);
         // ————————————————————————————————————————————————————————————————
 
         actions_list.emplace_back(std::move(action));

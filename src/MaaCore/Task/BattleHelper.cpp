@@ -644,6 +644,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
         std::this_thread::yield();
         image = m_inst_helper.ctrler()->get_image();
     }
+    m_baseline_time = std::chrono::steady_clock::now();
     return true;
 }
 
@@ -1030,6 +1031,17 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->rect;
+}
+
+int asst::BattleHelper::elapsed_time()
+{
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_baseline_time).count();
+    if (elapsed_ms > std::numeric_limits<int>::max()) {
+        Log.error(__FUNCTION__, "| elapsed time exceeds int maximum");
+        return std::numeric_limits<int>::max();
+    }
+    return static_cast<int>(elapsed_ms);
 }
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)
