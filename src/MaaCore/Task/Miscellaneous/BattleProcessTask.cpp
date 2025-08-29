@@ -228,7 +228,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::UseSkill:
-        ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(name) : use_skill(location));
+        ret = m_in_bullet_time ? click_skill(!action.skip_if_not_ready)
+                               : (location.empty() ? use_skill(name, !action.skip_if_not_ready)
+                                                   : use_skill(location, !action.skip_if_not_ready));
         if (ret) {
             m_in_bullet_time = false;
         }
