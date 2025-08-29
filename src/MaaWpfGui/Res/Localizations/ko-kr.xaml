@@ -811,10 +811,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원 사항:
-  1. {key=MainStage}: 동일 챕터 내 네비게이션
-  2. {key=SideStory}: 현재 페이지 내 네비게이션 (일반/EX/S 서로 이동 불가)
-시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">다음 모드에서만 지원됩니다:
+  1. {key=MainStage}: 동일 챕터 내에서 이동
+  2. {key=SideStory}: 현재 페이지 내에서 이동 (일반/EX/S 간 이동 불가)
+  3. {key=StoryCollection}: 현재 페이지 내에서 이동
+  4. {key=ParadoxSimulation}: {key=Operator} 목록에서 시작
+해당 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
