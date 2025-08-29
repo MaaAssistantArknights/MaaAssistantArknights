@@ -261,6 +261,10 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         ret = move_camera(action.distance);
         break;
 
+    case ActionType::ResetTimer:
+        m_baseline_time = std::chrono::steady_clock::now();
+        break;
+
     case ActionType::SkillDaemon:
         ret = wait_until_end();
         break;
@@ -298,6 +302,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::Deploy, "ResetTimer" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
@@ -306,6 +311,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { "target", action.name },
         { "doc", action.doc },
         { "doc_color", action.doc_color },
+        { "elapsed_time", elapsed_time()}
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
@@ -386,6 +392,20 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    // 等待全局计时器
+    if (action.elapsed_time > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            if (elapsed_time() >= action.elapsed_time) {
+                break;
+            }
+            if (!check_in_battle(image)) {
+                return false;
             }
             do_strategy_and_update_image();
         }
