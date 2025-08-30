@@ -4,44 +4,34 @@
 
 * 悖论模拟战斗列表通过职业找人 @ABA2396
 * 悖论模拟战斗列表支持跳过未拥有的干员 @ABA2396
-* mac 支持蜜果城 @ABA2396
-* 远程通知添加 `[MAA]` 前缀 @ABA2396
 * 战斗列表悖论模拟关卡名转为干员名 @ABA2396
-* 调整战斗列表提示描述 @ABA2396
-* 加个启动提醒 @ABA2396
-* 在启动时检测额外的DLL文件 (#13850) @Rbqwow @ABA2396
-* 支持一键悖论模拟 (#13893) @status102 @Constrat @pre-commit-ci[bot] @momomochi987 @HX3N @Manicsteiner @ABA2396
+* 支持一键悖论模拟 (#13893) @status102 @Constrat @Burnside999 @momomochi987 @HX3N @Manicsteiner @ABA2396
 * 争锋频道：蜜果城 @ABA2396
+* mac 支持蜜果城 @ABA2396
+* 调整战斗列表提示描述 @ABA2396
+* 远程通知添加 `[MAA]` 前缀 @ABA2396
+* 加个启动提醒 @ABA2396
+* 在启动时检测额外的 DLL 文件 (#13850) @Rbqwow @ABA2396
 * 自动战斗关卡结束后增加识别使用黑色返回按钮的检测 @status102
 * 更新源为海外源时隐藏 Mirror酱 CDK 输入框 @ABA2396
 
 ### 改进 | Improved
 
 * 覆盖 ThirdlyTextBrush，优化深色模式下的显示效果 @ABA2396
-* 任务baseTask @status102
-* 重构自动战斗战斗列表 (#13852) @status102 @pre-commit-ci[bot]
+* 任务 baseTask @status102
+* 重构自动战斗战斗列表 (#13852) @status102
 * 更新 CsWin32 @ABA2396
 * ToastNotification 重构 @ABA2396
-* 向战斗队列中添加SSS作业时追加错误输出 @status102
+* 向战斗队列中添加 SSS 作业时追加错误输出 @status102
 * limit codeql run only to source code (#13802) @Constrat
 
 ### 修复 | Fix
 
 * 悖论模拟单文件无法使用 @ABA2396
-* CrownSlayer -> Crownslayer for EN @Constrat
-* RoguelikeDialogSkip for EN @Constrat
 * 关卡名下划线被解释成 CheckBox 访问键 @ABA2396
-* BattleQuickFormationExpandRole text ocr @Constrat
-* OfficeMini template for EN @Constrat
-* OfficeMini template for EN @Constrat
-* ROI and text for EA YostarEN @Constrat
-* YostarEN text render template changes @Constrat
-* var type @status102
-* YostarKR EA navigation @HX3N
 * 勾八导航乱写 @ABA2396
 * 自动战斗界面Idle setter限制 @status102
 * 自动战斗-战斗列表使用错误的作业战斗 @status102
-* filters @ABA2396
 * 信用购物有时候点不掉危机合约支援界面 @ABA2396
 * ServerChan 未使用通用 httpService @ABA2396
 * 错误清除 _tasksStatus 的时机 @ABA2396
@@ -61,29 +51,25 @@
 * 资源更新文件处理 @hguandl
 * 萨卡兹肉鸽因动画延时偶发无法领取去伪存真合成物品 @ABA2396
 * 萨米投资进二层会卡在预见密文板 @ABA2396
-
-### 文档 | Docs
-
-* Auto Update Changelogs of v5.24.0-beta.1 (#13901) @github-actions[bot] @status102
+* CrownSlayer -> Crownslayer for EN @Constrat
+* RoguelikeDialogSkip for EN @Constrat
+* BattleQuickFormationExpandRole text ocr @Constrat
+* OfficeMini template for EN @Constrat
+* OfficeMini template for EN @Constrat
+* ROI and text for EA YostarEN @Constrat
+* YostarEN text render template changes @Constrat
+* var type @status102
+* YostarKR EA navigation @HX3N
+* filters @ABA2396
 
 ### 其他 | Other
 
 * 整合枚举类 OperProfession 和 Role (#13914) @soundofautumn
-* YostarEN updated main stage navigation (#13906) @Constrat
-* Give new line for English downloading from @Constrat
-* YostarJP remove old navigation (#13905) @Manicsteiner
-* Release v5.24.0-beta.1 (#13866) @ABA2396
-* YostarKR new main stage navigation and ocr fix (#13903) @HX3N
-* YostarJP new main stage navigation and ocr fix (#13902) @Manicsteiner
 * 悖论模拟使用多任务流程 @status102
-* remove ParadoxMode var @status102
 * 移除MaaCore不再支持的自动战斗作业代码解析 @status102
 * 删掉 core 的联网功能 @ABA2396
-* dll 检测排除带 maa 的 dll @ABA2396
 * core 删除 cpr @ABA2396
-* YostarJP EA navigation @Manicsteiner
-* YostarEN EA navigation @Constrat
-* YostarKR EA navigation (#13888) @HX3N
+* dll 检测排除带 maa 的 dll @ABA2396
 * 自动战斗模组错误本地化 & 移除多余的行末空格 (#13800) @soundofautumn @Constrat @HX3N
 * 调整小游戏内容顺序 @ABA2396
 * 修改 RA 和肉鸽的进入终端等待时间 @ABA2396
@@ -91,17 +77,20 @@
 * 修改备份文件写入时间 @ABA2396
 * 关机/休眠/睡眠 统一调用 PowerManagement @ABA2396
 * 调整 GetModuleFileName 判断 @ABA2396
-* luid @ABA2396
 * 移除未使用的 container @ABA2396
+* mumu 使用 7555 端口时禁用 Index 检测，添加日志警告 @ABA2396
+* file header @status102
+* 自动编队助战的确实干员读取 @status102
+* 加点肉鸽事件 fallback 前延迟，可能减轻点网络波动影响 @ABA2396
+* 自动战斗不再使用 `need_navigate` 字段作为导航启用开关, 而是直接使用 `navigate_name` 字段 @status102
+* 调整技能截图判断 @ABA2396
+* YostarEN updated main stage navigation (#13906) @Constrat
+* Give new line for English downloading from @Constrat
+* YostarJP remove old navigation (#13905) @Manicsteiner
+* YostarJP/KR new main stage navigation and ocr fix @Manicsteiner @HX3N
 * A single-line comment within C# code is not preceded by a blank line. @ABA2396
 * A C# partial element is missing a documentation header. @ABA2396
 * An item within a C# enumeration is missing an Xml documentation header. @ABA2396
 * A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters. @ABA2396
 * The XML header documentation for a C# element is missing a tag. @ABA2396
 * Copyright 2025 @ABA2396
-* mumu 使用 7555 端口时禁用 Index 检测，添加日志警告 @ABA2396
-* file header @status102
-* 自动编队助战的确实干员读取 @status102
-* 加点肉鸽事件 fallback 前延迟，可能减轻点网络波动影响 @ABA2396
-* 自动战斗不再使用`need_navigate`字段作为导航启用开关, 而是直接使用`navigate_name`字段 @status102
-* 调整技能截图判断 @ABA2396
