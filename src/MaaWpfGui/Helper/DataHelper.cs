@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
@@ -372,7 +373,7 @@ namespace MaaWpfGui.Helper
             public string? Position { get; set; }
 
             [JsonProperty("profession")]
-            public OperProfession Profession { get; set; } = OperProfession.Unknown;
+            public OperatorType Type { get; set; } = OperatorType.Unknown;
 
             [JsonProperty("rangeId")]
             public List<string>? RangeId { get; set; }
@@ -380,73 +381,15 @@ namespace MaaWpfGui.Helper
             [JsonProperty("rarity")]
             public int Rarity { get; set; }
 
-            public bool IsOperator => Profession is
-                OperProfession.Caster or
-                OperProfession.Medic or
-                OperProfession.Pioneer or
-                OperProfession.Sniper or
-                OperProfession.Special or
-                OperProfession.Support or
-                OperProfession.Tank or
-                OperProfession.Warrior;
-
-            public enum OperProfession
-            {
-                /// <summary>
-                /// 未知, 默认值
-                /// </summary>
-                Unknown,
-
-                /// <summary>
-                /// 术士
-                /// </summary>
-                Caster,
-
-                /// <summary>
-                /// 医疗
-                /// </summary>
-                Medic,
-
-                /// <summary>
-                /// 先锋
-                /// </summary>
-                Pioneer,
-
-                /// <summary>
-                /// 狙击
-                /// </summary>
-                Sniper,
-
-                /// <summary>
-                /// 特种
-                /// </summary>
-                Special,
-
-                /// <summary>
-                /// 辅助
-                /// </summary>
-                Support,
-
-                /// <summary>
-                /// 重装
-                /// </summary>
-                Tank,
-
-                /// <summary>
-                /// 近卫
-                /// </summary>
-                Warrior,
-
-                /// <summary>
-                /// 召唤物 (from asst::BattleDataConfig, MAA内部分类使用Drone
-                /// </summary>
-                Token,
-
-                /// <summary>
-                /// 未知?
-                /// </summary>
-                Trap,
-            }
+            public bool IsOperator => Type is
+                OperatorType.Caster or
+                OperatorType.Medic or
+                OperatorType.Pioneer or
+                OperatorType.Sniper or
+                OperatorType.Special or
+                OperatorType.Support or
+                OperatorType.Tank or
+                OperatorType.Warrior;
 
             [JsonIgnore]
             public string CodeName => ExtractCodeName(Id);
