@@ -16,7 +16,7 @@ public:
 private:
     virtual bool _run() override;
     void swipe_page();                             // 翻页
-    void return_initial_oper() const;                    // 回到最左侧的干员
+    void return_initial_oper() const;              // 回到最左侧的干员
     bool swipe_and_analyze();                      // 找干员
     bool match_oper(const std::string& oper_name); // oper_name 和 m_navigate_name 匹配
     std::string standardize_name(const std::string& navigate_name);
