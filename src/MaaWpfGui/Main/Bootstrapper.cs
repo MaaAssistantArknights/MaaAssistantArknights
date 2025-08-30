@@ -297,8 +297,7 @@ namespace MaaWpfGui.Main
                 }
 
                 var sourceContext = sourceContextValue.ToString().Trim('"');
-                var lastDotIndex = sourceContext.LastIndexOf('.');
-                var className = lastDotIndex >= 0 ? sourceContext[(lastDotIndex + 1)..] : sourceContext;
+                var className = sourceContext.Split('.').Last();
 
                 logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty("ClassName", className));
             }
