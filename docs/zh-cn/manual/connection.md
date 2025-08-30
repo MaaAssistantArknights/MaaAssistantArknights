@@ -134,6 +134,8 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
    - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+  
+   注：`C:\ProgramData`为隐藏目录，必要时请在文件资源管理器的地址栏中直接粘贴该地址，以便进入目录并进行寻找。
 
 2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
 
