@@ -4,7 +4,16 @@
 
 本次更新继续扩展自动化能力，一起来看看吧
 
-#### 一键悖论模拟
+#### 自动战斗优化
+
+这个版本我们优化了自动战斗功能，现在你可以在更多的场景下使用自动战斗功能。目前 MAA 支持以下场景：
+
+* `主线/故事里/SideStory`：基础模式，注意只能在当前章节/页面内导航（即 SS 里不能用于切换普通关、EX 关和 S 关）；
+* `保全派驻`：用于保全派驻模式，可以点击神秘代码输入框右侧的向下小箭头来选择内置作业，并且可以设置循环次数；
+* `悖论模拟`：新增的专用于干员悖论模拟的场景，分为以下两种使用方式：
+  * 直接使用单次战斗：输入神秘代码后，在干员的悖论模拟入口，<u>选择好技能，出现【开始模拟】按钮后，点击 MAA 的开始按钮</u>；
+  * 多个干员连续作战：勾选战斗列表，依次输入每个干员的作业的神秘代码，然后<u>在干员列表界面，点击 MAA 的开始按钮</u>。
+* `其他活动`：兜底模式，不可使用战斗列表。
 
 现在，博士们可以直接使用悖论模拟的战斗列表功能完成所有悖论模拟作业，支持按职业找人、自动跳过未拥有的干员，并在战斗列表中直接显示干员名，真正实现“点一下，全都打完”~
 
@@ -20,10 +29,18 @@
 
 ----
 
-#### One-click Paradox Simulation
+#### Copilot Optimization
 
-Doctors can now directly use the Paradox Simulation battle list to complete all simulation stages.  
-It supports searching operators by profession, automatically skipping unowned operators, and shows operator names directly in the list — truly "one click, all done"!  
+In this version, we've optimized the Copilot, allowing you to use it in more scenarios. Currently, MAA supports the following scenarios:
+
+* `Main Theme/Intermezzi/SideStory`: Basic mode. Note that navigation is only possible within the current chapter/page (i.e., in SideStory, you cannot switch between normal stages, EX stages, and S stages);
+* `SSS`: For SSS mode. You can click the small downward arrow on the right side of the mysterious code input box to select built-in files, also you can set the number of loop times;
+* `Paradox Simulation`: A newly added scenario specifically designed for operator paradox simulations, available in the following two usage methods:
+  * Direct single battle usage: After entering the secret code, you need to navigate to the operator's paradox simulation entry point, <u>select the skills, wait for the [Start Simulation] button to appear, then click MAA's start button</u> to start;
+  * Continuous battles for multiple operators: You need to check the battle list checkbox, sequentially enter each operator's secret code for the operation, then <u>click MAA's start button on the operator list interface</u>.
+* `Other Events`: Fallback mode, battle list cannot be used.
+
+Now, Doctors can directly use the combat list feature in Paradox Simulation to complete all Paradox Simulation assignments. It supports filtering by profession, automatically skipping unowned Operators, and displaying Operator names directly in the combat list — truly achieving "one click, all done"~
 
 #### New Content Support
 
