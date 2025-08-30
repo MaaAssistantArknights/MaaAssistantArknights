@@ -25,7 +25,7 @@ bool asst::ParadoxRecognitionTask::_run()
     // 设置技能
     m_skill_num = 1;
     auto* groups = &Copilot.get_data().groups;
-    for (const auto& [name, opers_vec] : *groups) {
+    for (const auto& opers_vec : *groups | views::values) {
         if (opers_vec.empty()) {
             continue;
         }
@@ -36,10 +36,13 @@ bool asst::ParadoxRecognitionTask::_run()
         }
     }
 
-    return_initial_oper(); // 回干员列表（默认在最左侧），折叠filter，切换sort
+    return_initial_oper(); // 回干员列表（默认在最左侧）
+    const auto role = BattleData.get_role(m_oper_name["name"].as_string());
+    if (!click_role_table(role)) {
+        return_initial_oper();
+    }
 
-    bool result = swipe_and_analyze();
-    if (result) {
+    if (swipe_and_analyze()) {
         enter_paradox(m_skill_num);
     }
 
@@ -52,7 +55,7 @@ std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& na
     return navigate_name.substr(4, length - 6);
 }
 
-void asst::ParadoxRecognitionTask::enter_paradox(int skill_num)
+void asst::ParadoxRecognitionTask::enter_paradox(int skill_num) const
 {
     ctrler()->click(m_navigate_rect);
     ProcessTask(*this, { "OperParadoxBegin" }).run();
@@ -64,22 +67,48 @@ void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate
     m_navigate_name = standardize_name(navigate_name);
 }
 
-void asst::ParadoxRecognitionTask::swipe_page()
+void asst::ParadoxRecognitionTask::swipe_page() const
 {
     ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();
 }
 
-void asst::ParadoxRecognitionTask::return_initial_oper()
+void asst::ParadoxRecognitionTask::return_initial_oper() const
 {
-    if (ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_ignore_error(true).set_retry_times(0).run()) {
-        return;
+    if (!ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_retry_times(0).run()) {
+        ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();
+    }
+    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+    ProcessTask(
+        *this,
+        { "BattleQuickFormationRole-Pioneer",
+          "BattleQuickFormationRole-Warrior",
+          "BattleQuickFormationRole-Tank",
+          "BattleQuickFormationRole-Caster",
+          "BattleQuickFormationRole-Medic",
+          "BattleQuickFormationRole-Sniper",
+          "BattleQuickFormationRole-Special",
+          "BattleQuickFormationRole-Support" })
+        .run();
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+}
+
+bool asst::ParadoxRecognitionTask::click_role_table(const battle::Role role) const
+{
+    static const std::unordered_map<battle::Role, std::string> role_name_type = {
+        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
+        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
+    };
+
+    const auto role_iter = role_name_type.find(role);
+
+    if (role_iter == role_name_type.cend()) {
+        return false;
     }
 
-    ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run(); // 回到干员列表
-    ProcessTask(*this, { "OperBoxRoleTabSelect" })
-        .set_ignore_error(true)
-        .set_retry_times(0)
-        .run(); // 折叠filter，切换sort
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+    return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
 }
 
 bool asst::ParadoxRecognitionTask::swipe_and_analyze()

@@ -28,6 +28,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -37,7 +38,9 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
@@ -368,6 +371,14 @@ namespace MaaWpfGui.Main
             }
 
             AchievementTrackerHelper.Events.Startup();
+
+            var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+            var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+            var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
+            if (maxTimeInterval > 90)
+            {
+                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 0.030).ToString("F2")), UiLogColor.Error));
+            }
         }
 
         /// <inheritdoc/>

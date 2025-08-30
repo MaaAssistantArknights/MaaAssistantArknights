@@ -808,10 +808,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例：史爾特爾,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航。僅支援:
-  1. 主線關卡：同一章節內導航
-  2. SideStory：目前頁面內導航（普通/EX/S 相互不可跳轉）
-開始前請切換至關卡選擇頁面</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式:
+  1. {key=MainStage}: 同一章節內導航
+  2. {key=SideStory}: 當前頁面內導航（普通/EX/S 不能互跳）
+  3. {key=StoryCollection}: 當前頁面內導航
+  4. {key=ParadoxSimulation}: 從{key=Operator}列表啟動
+請在對應介面啟動，不支援跨章節導航</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
@@ -1258,6 +1260,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
     <system:String x:Key="Achievement.Martian.Description">遠古版本好用嗎？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">資源時間或版本時間距今超過 3 個月</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">資源時間或版本時間距今超過 {0} 個月</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">嚴重錯訁</system:String>
     <system:String x:Key="Achievement.Rules.Description">我會一直注視著你。</system:String>

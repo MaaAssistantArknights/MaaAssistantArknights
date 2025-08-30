@@ -1,7 +1,4 @@
 {
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -11,6 +8,20 @@
     "ClickChapter3": {
         "text": ["Shadow of A Dying Sun", "Shadow of A"]
     },
+    "ClickChapterNew": {
+        "text": ["Movements"]
+    },
+    "ClickChapterNewOpenTime": {
+        "text": ["Unlock Time"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "roi": [747, 27, 58, 26],
+        "text": ["Default"]
+    },
+    "ClickChapterNewOverview": {
+        "roi": [1163, 27, 84, 28],
+        "text": ["Movements"]
+    },
     "LevelOfDifficulty": {
         "text": ["Environment", "PRTS"]
     },
@@ -19,9 +30,6 @@
     },
     "EnterChapterDifficultyNormal": {
         "text": ["Start Operation"]
-    },
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
@@ -276,7 +284,6 @@
             ["Phantom in the Mirror", "镜中虚影"],
             ["Static Roadblock", "道路障碍物"],
             ["Tentacle", "触手"],
-            ["'Clip'", "\"夹子\""],
             ["Metal Crab Guard Team", "磐蟹护卫队"],
             ["Gas Tank P.", "便携气罐"],
             ["Mieszko Coil", "梅什科线圈"],
@@ -773,7 +780,7 @@
             ["Golden Echo", "黄金回响"],
             ["Aggini of Nila", "尼卢火"],
             ["Lappland the Decadenza", "荒芜拉普兰德"],
-            ["CrownSlayer", "弑君者"],
+            ["Crownslayer", "弑君者"],
             ["Contrail", "云迹"],
             ["Vulpisfoglia", "忍冬"],
             ["Philae", "菲莱"],
@@ -781,12 +788,12 @@
             ["Firework Launcher", "烟花发射器"],
             ["Karlan Trade Model", "喀兰贸易模型"],
             ["Doctor Hologram", "博士投影"],
-            ["Arts: Blood Tax", "法术：血税"],
+            ["Arts Blood Tax", "法术：血税"],
             ["Promotion Permit", "预备进阶许可"],
             ["Dirk", "短剑"],
             ["Orirock Dagger", "源岩匕首"],
             ["Hardtack", "压缩饼干"],
-            ["Arts: All-Out", "法术：全力"],
+            ["Arts All-Out", "法术：全力"],
             ["Strong Tea", "浓茶"],
             ["Advanced Deployment Permit", "晋升调配特许"],
             ["Standard Caster Wand", "制式术师杖"],
@@ -794,16 +801,16 @@
             ["Buzzer", "蜂鸣器"],
             ["Elite Sniper Set", "精英狙击套组"],
             ["Coin-Operated Machine", "竞技投币机"],
-            ["Arts: Familiar Face", "法术：熟人"],
+            ["Arts Familiar Face", "法术：熟人"],
             ["Standard Defender Shield", "制式重装盾"],
-            ["Reserve Operator - Supporter", "预备干员-辅助"],
+            ["Reserve Operator *-* *Supporter", "预备干员-辅助"],
             ["Caster Drone", "术师无人机"],
             ["Lucky Coin", "幸运币"],
             ["Miniature Accelerator", "有限加速器"],
-            ["Reserve Operator - Vanguard", "预备干员-先锋"],
-            ["Reserve Operator - Guard", "预备干员-近卫"],
-            ["Reserve Operator - Medic", "预备干员-医疗"],
-            ["Reserve Operator - Specialist", "预备干员-特种"],
+            ["Reserve Operator *-* *Vanguard", "预备干员-先锋"],
+            ["Reserve Operator *-* *Guard", "预备干员-近卫"],
+            ["Reserve Operator *-* *Medic", "预备干员-医疗"],
+            ["Reserve Operator *-* *Specialist", "预备干员-特种"],
             ["Engineer's Hammer", "工匠锤"],
             ["Pocket Arts Circle", "口袋法阵"],
             ["Small Shield", "小盾"],
@@ -829,18 +836,18 @@
             ["M3 Claw", "M3利爪"],
             ["Portable Launcher", "便携弹射器"],
             ["Multi-Purpose Robotic Arm", "全能机械臂"],
-            ["Arts: Recovery", "法术：恢复"],
-            ["Arts: Strength", "法术：力量"],
-            ["Arts: Transmission", "法术：传动"],
-            ["Arts: Greed", "法术：贪婪"],
-            ["Arts: Satisfaction", "法术：满足"],
-            ["Arts: Shield", "法术：护盾"],
-            ["Arts: Role Model", "法术：榜样"],
-            ["Arts: Barrier", "法术：屏障"],
-            ["Arts: Peer", "法术：同行"],
-            ["Arts: Boost", "法术：提升"],
-            ["Arts: Slow", "法术：迟缓"],
-            ["Arts: Infiltration", "法术：破袭"],
+            ["Arts Recovery", "法术：恢复"],
+            ["Arts Strength", "法术：力量"],
+            ["Arts Transmission", "法术：传动"],
+            ["Arts Greed", "法术：贪婪"],
+            ["Arts Satisfaction", "法术：满足"],
+            ["Arts Shield", "法术：护盾"],
+            ["Arts Role Model", "法术：榜样"],
+            ["Arts Barrier", "法术：屏障"],
+            ["Arts Peer", "法术：同行"],
+            ["Arts Boost", "法术：提升"],
+            ["Arts Slow", "法术：迟缓"],
+            ["Arts Infiltration", "法术：破袭"],
             ["Barge Captain", "驳船操作员"],
             ["Supply Retainer", "补给留存器"],
             ["Enemy Entrance", "敌人入口"],
@@ -1346,7 +1353,7 @@
     },
     "BattleQuickFormationExpandRole": {
         "algorithm": "OcrDetect",
-        "text": ["Job", "Class"],
+        "text": ["JOD", "Job", "Class"],
         "roi": [1207, 25, 42, 32]
     },
     "BattleQuickFormationFilter-Cost": {

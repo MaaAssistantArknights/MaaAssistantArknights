@@ -27,9 +27,6 @@
     "EnterChapterDifficultyNormal": {
         "text": ["作戦へ"]
     },
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
-    },
     "CharsNameOcrReplace": {
         "replaceFull": true,
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的日文识别任务复用 このタスクの「ocrReplace」は、オペレーター名に関連するすべての認識タスクで再利用されます",
