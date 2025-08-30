@@ -37,7 +37,7 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     return_initial_oper(); // 回干员列表（默认在最左侧）
-    const auto role = BattleData.get_role(m_oper_name["name"].as_string()); 
+    const auto role = BattleData.get_role(m_oper_name["name"].as_string());
     if (!click_role_table(role)) {
         return_initial_oper();
     }
