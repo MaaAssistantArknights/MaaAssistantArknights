@@ -1422,25 +1422,25 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<bool> VerifyCopilotListTask()
         {
-            var list = CopilotItemViewModels.Where(i => i.IsChecked);
-            if (list.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
+            var copilotItemViewModels = CopilotItemViewModels.Where(i => i.IsChecked).ToArray();
+
+            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
             {
                 AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
                 return false;
             }
 
-            if (!list.Any())
+            switch (copilotItemViewModels.Length)
             {
-                AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
-                return false;
-            }
-            else if (list.Count() == 1)
-            {
-                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
-                return false;
+                case 0:
+                    AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
+                    return false;
+                case 1:
+                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
+                    return false;
             }
 
-            var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>
+            var stageNames = copilotItemViewModels.Select(i => i.FilePath).ToHashSet().Select(async path =>
             {
                 if (!File.Exists(path))
                 {
@@ -1455,20 +1455,22 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error("could not read & parse copilot file: " + path, ex);
+                    _logger.Error(ex, "could not read & parse copilot file: {Path}", path);
                     return null;
                 }
             });
             foreach (var stageName in stageNames)
             {
                 var name = await stageName;
-                if (string.IsNullOrEmpty(name) || DataHelper.FindMap(name) is null)
+                if (!string.IsNullOrEmpty(name) && DataHelper.FindMap(name) is not null)
                 {
-                    AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
-                    _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
-                    return false;
+                    continue;
                 }
+
+                AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
+                _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
+                return false;
             }
 
             return true;
