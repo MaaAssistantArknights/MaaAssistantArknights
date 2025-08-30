@@ -29,7 +29,7 @@ namespace MaaWpfGui.Models
         private bool _startUp;
         private bool _recruit;
         private bool _infrast;
-        private bool _combat;
+        private bool _fight;
         private bool _mall;
         private bool _award;
         private bool _roguelike;
@@ -43,7 +43,7 @@ namespace MaaWpfGui.Models
 
         public bool Base { get => _infrast; set => SetAndNotify(ref _infrast, value); }
 
-        public bool Combat { get => _combat; set => SetAndNotify(ref _combat, value); }
+        public bool Combat { get => _fight; set => SetAndNotify(ref _fight, value); }
 
         public bool Mall { get => _mall; set => SetAndNotify(ref _mall, value); }
 
@@ -64,6 +64,7 @@ namespace MaaWpfGui.Models
 
         public void Set(string taskName, bool enable)
         {
+            bool ret = false;
             if (Guide && enable)
             {
                 _currentEnableSetting = taskName;
@@ -74,33 +75,42 @@ namespace MaaWpfGui.Models
             {
                 case "WakeUp":
                     WakeUp = enable;
+                    SetRunning("StartUp");
                     break;
                 case "Recruiting":
                     Recruiting = enable;
+                    SetRunning("Recruit");
                     break;
                 case "Base":
                     Base = enable;
+                    SetRunning("Infrast");
                     break;
                 case "Combat":
                     Combat = enable;
+                    SetRunning("Fight");
                     break;
                 case "Mall":
                     Mall = enable;
+                    SetRunning("Mall");
                     break;
                 case "Mission":
                     Mission = enable;
+                    SetRunning("Award");
                     break;
                 case "AutoRoguelike":
                     AutoRoguelike = enable;
+                    SetRunning("Roguelike");
                     break;
                 case "Reclamation":
                     Reclamation = enable;
+                    SetRunning("Reclamation");
                     break;
                 case "AfterAction":
                     AfterAction = enable;
                     break;
                 case "Custom":
                     Custom = enable;
+                    SetRunning("Custom");
                     break;
             }
 
@@ -112,6 +122,88 @@ namespace MaaWpfGui.Models
             else
             {
                 AdvancedSettingsVisibility = true;
+            }
+
+            void SetRunning(in string task)
+            {
+                if (enable && CurrentTask.StartsWith(task))
+                {
+                    IsCurrentTaskRunning = true;
+                    ret = true;
+                }
+            }
+
+            if (!enable)
+            {
+            }
+            else if (ret)
+            {
+                Instances.TaskQueueViewModel.AddLog("_is running switch succ");
+            }
+            else
+            {
+                Instances.TaskQueueViewModel.AddLog("_is running switch fail");
+                IsCurrentTaskRunning = false;
+            }
+        }
+
+        private string _currentTask = string.Empty;
+
+        // 重构前的临时过渡
+        public string CurrentTask
+        {
+            get => _currentTask;
+            set
+            {
+                _currentTask = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    IsCurrentTaskRunning = false;
+                    return;
+                }
+
+                bool ret = CheckTask("StartUp", _startUp);
+                ret |= CheckTask("Recruit", _recruit);
+                ret |= CheckTask("Infrast", _infrast);
+                ret |= CheckTask("Fight", _fight);
+                ret |= CheckTask("Mall", _mall);
+                ret |= CheckTask("Award", _award);
+                ret |= CheckTask("Roguelike", _roguelike);
+                ret |= CheckTask("Reclamation", _reclamation);
+                ret |= CheckTask("Custom", _custom);
+                if (ret)
+                {
+                    Instances.TaskQueueViewModel.AddLog("_is running set succ");
+                }
+                else
+                {
+                    Instances.TaskQueueViewModel.AddLog("_is running set fail");
+                    IsCurrentTaskRunning = false;
+                }
+
+                bool CheckTask(string taskName, bool taskIsShown)
+                {
+                    if (taskIsShown && value.StartsWith(taskName))
+                    {
+                        IsCurrentTaskRunning = true;
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        private bool _isCurrentTaskRunning;
+
+        /// <summary> Gets or sets a value indicating whether 当前选中的任务是否正在运行 </summary>
+        public bool IsCurrentTaskRunning
+        {
+            get => _isCurrentTaskRunning;
+            set
+            {
+                SetAndNotify(ref _isCurrentTaskRunning, value);
+                Instances.TaskQueueViewModel.AddLog("IsCurrentTaskRunning changed to " + value);
             }
         }
 
