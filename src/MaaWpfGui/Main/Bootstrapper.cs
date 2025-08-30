@@ -45,6 +45,7 @@ using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
+using Serilog.Events;
 using Stylet;
 using StyletIoC;
 
@@ -159,10 +160,11 @@ namespace MaaWpfGui.Main
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     UiLogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+                .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
@@ -282,6 +284,23 @@ namespace MaaWpfGui.Main
             if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
             {
                 // return;
+            }
+        }
+
+        public class ClassNameEnricher : ILogEventEnricher
+        {
+            public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
+            {
+                if (!logEvent.Properties.TryGetValue("SourceContext", out var sourceContextValue))
+                {
+                    return;
+                }
+
+                var sourceContext = sourceContextValue.ToString().Trim('"');
+                var lastDotIndex = sourceContext.LastIndexOf('.');
+                var className = lastDotIndex >= 0 ? sourceContext[(lastDotIndex + 1)..] : sourceContext;
+
+                logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty("ClassName", className));
             }
         }
 
