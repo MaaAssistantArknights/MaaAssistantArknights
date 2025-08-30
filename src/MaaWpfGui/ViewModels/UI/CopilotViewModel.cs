@@ -1429,7 +1429,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if (CopilotItemViewModels.Count == 1)
+            if (!list.Any())
+            {
+                AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
+                return false;
+            }
+            else if (list.Count() == 1)
             {
                 AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
                 return false;

@@ -878,6 +878,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotEmptyError">작업이 비어 있습니다</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
