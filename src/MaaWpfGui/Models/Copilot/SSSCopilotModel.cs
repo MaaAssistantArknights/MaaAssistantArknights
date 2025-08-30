@@ -83,20 +83,20 @@ public class SSSCopilotModel : CopilotBase
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
 
-    private static readonly Dictionary<OperatorType, string[]> _typeAliases = new()
+    private static readonly Dictionary<OperatorRole, string[]> _typeAliases = new()
     {
-        { OperatorType.Warrior, ["Warrior", "Guard", "近卫"] },
-        { OperatorType.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
-        { OperatorType.Medic, ["Medic", "医疗"] },
-        { OperatorType.Tank, ["Tank", "Defender", "重装", "坦克"] },
-        { OperatorType.Sniper, ["Sniper", "狙击"] },
-        { OperatorType.Caster, ["Caster", "术师", "术士", "法师"] },
-        { OperatorType.Support, ["Support", "Supporter", "辅助", "支援"] },
-        { OperatorType.Special, ["Special", "Specialist", "特种"] },
-        { OperatorType.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
+        { OperatorRole.Warrior, ["Warrior", "Guard", "近卫"] },
+        { OperatorRole.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
+        { OperatorRole.Medic, ["Medic", "医疗"] },
+        { OperatorRole.Tank, ["Tank", "Defender", "重装", "坦克"] },
+        { OperatorRole.Sniper, ["Sniper", "狙击"] },
+        { OperatorRole.Caster, ["Caster", "术师", "术士", "法师"] },
+        { OperatorRole.Support, ["Support", "Supporter", "辅助", "支援"] },
+        { OperatorRole.Special, ["Special", "Specialist", "特种"] },
+        { OperatorRole.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
     };
 
-    private static readonly Dictionary<string, OperatorType> _nameToOperType =
+    private static readonly Dictionary<string, OperatorRole> _nameToOperType =
         _typeAliases.SelectMany(kv => kv.Value.Select(v => new { v, kv.Key }))
             .ToDictionary(x => x.v, x => x.Key, StringComparer.OrdinalIgnoreCase);
 
