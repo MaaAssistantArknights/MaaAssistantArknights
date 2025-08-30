@@ -48,7 +48,7 @@ jobs:
 
           echo '======='
 
-          echo 'Target RP: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
+          echo 'Target PR: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
           echo '' >> $PR_BODY
           echo '<details><summary>Debug info</summary>' >> $PR_BODY
           echo '' >> $PR_BODY
