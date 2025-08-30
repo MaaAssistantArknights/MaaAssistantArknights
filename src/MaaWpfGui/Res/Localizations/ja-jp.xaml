@@ -811,10 +811,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません。サポートのみです:
-  1. {key=MainStage}：同一章内でのナビゲーション
-  2. {key=SideStory}：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
-開始前にステージ選択ページに切り替えてください</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:
+  1. {key=MainStage}: 同じ章内でのナビゲーション
+  2. {key=SideStory}: 現在のページ内でのナビゲーション（Normal/EX/S 間の移動は不可）
+  3. {key=StoryCollection}: 現在のページ内でのナビゲーション
+  4. {key=ParadoxSimulation}: {key=Operator}リストから起動
+対応する画面から開始してください。章間のナビゲーションはサポートされていません。</system:String>
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
@@ -1258,6 +1260,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
     <system:String x:Key="Achievement.Martian.Description">古いバージョンは使いやすかったですか？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">リソースまたはバージョンの時間が{0}ヶ月以上経過している</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
     <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>

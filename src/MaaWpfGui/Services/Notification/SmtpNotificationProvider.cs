@@ -117,7 +117,7 @@ namespace MaaWpfGui.Services.Notification
             var email = Email
                 .From(emailFrom)
                 .To(emailTo)
-                .Subject($"[MAA] {title}")
+                .Subject($"{title}")
                 .Body(_emailTemplate.Replace("{title}", title).Replace("{content}", content), true);
 
             var sendResult = await email.SendAsync();

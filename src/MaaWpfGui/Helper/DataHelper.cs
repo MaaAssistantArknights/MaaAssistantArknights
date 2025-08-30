@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
@@ -46,11 +47,16 @@ namespace MaaWpfGui.Helper
             { "txwy", "zh-tw" },
         };
 
-        // 储存角色信息的字典
+        /// <summary>
+        /// Gets 储存角色信息的字典
+        /// </summary>
         public static Dictionary<string, CharacterInfo> Characters { get; } = [];
 
         public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtuallyOpers.Contains(oper.Key)).ToDictionary();
 
+        /// <summary>
+        /// Gets 当前语言与客户端类型下的干员名列表
+        /// </summary>
         public static HashSet<string> CharacterNames { get; } = [];
 
         public static Dictionary<string, (string DisplayName, string ClientName)> RecruitTags { get; private set; } = [];
@@ -87,6 +93,7 @@ namespace MaaWpfGui.Helper
             CharacterNames.Clear();
             foreach (var (key, value) in characterData)
             {
+                value.Id = key;
                 Characters.Add(key, value);
                 if (!key.StartsWith("char_"))
                 {
@@ -226,21 +233,35 @@ namespace MaaWpfGui.Helper
             return dict;
         }
 
+        /// <summary>
+        /// 通过任意服务器中对应的干员名获取干员信息
+        /// </summary>
+        /// <param name="characterName">任意服务器中的干员名</param>
+        /// <returns>对应干员信息</returns>
         public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
         {
             return _nameToCharacterMap.GetValueOrDefault(characterName);
         }
 
+        /// <summary>
+        /// 通过任意服务器中对应的干员名获取指定语言的干员名
+        /// </summary>
+        /// <param name="characterName">任意服务器中的干员名</param>
+        /// <param name="language">指定语言，默认为当前语言</param>
+        /// <returns>指定语言干员名</returns>
         public static string? GetLocalizedCharacterName(string? characterName, string? language = null)
         {
-            if (string.IsNullOrEmpty(characterName))
-            {
-                return null;
-            }
-
-            return GetLocalizedCharacterName(GetCharacterByNameOrAlias(characterName), language);
+            return string.IsNullOrEmpty(characterName)
+                ? null
+                : GetLocalizedCharacterName(GetCharacterByNameOrAlias(characterName), language);
         }
 
+        /// <summary>
+        /// 通过干员信息获取指定语言的干员名
+        /// </summary>
+        /// <param name="characterInfo">干员信息</param>
+        /// <param name="language">指定语言</param>
+        /// <returns>指定语言干员名</returns>
         public static string? GetLocalizedCharacterName(CharacterInfo? characterInfo, string? language = null)
         {
             if (characterInfo?.Name == null)
@@ -260,6 +281,12 @@ namespace MaaWpfGui.Helper
             };
         }
 
+        /// <summary>
+        /// 判断干员在指定客户端中是否可用
+        /// </summary>
+        /// <param name="character">干员信息</param>
+        /// <param name="clientType">客户端类型</param>
+        /// <returns>是否可用</returns>
         public static bool IsCharacterAvailableInClient(CharacterInfo? character, string clientType)
         {
             if (character is null)
@@ -277,14 +304,44 @@ namespace MaaWpfGui.Helper
             };
         }
 
+        /// <summary>
+        /// 判断干员在指定客户端中是否可用
+        /// </summary>
+        /// <param name="characterName">干员名</param>
+        /// <param name="clientType">客户端类型</param>
+        /// <returns>是否可用</returns>
         public static bool IsCharacterAvailableInClient(string characterName, string clientType)
         {
             var character = GetCharacterByNameOrAlias(characterName);
             return character != null && IsCharacterAvailableInClient(character, clientType);
         }
 
+        /// <summary>
+        /// 通过完整 ID 查询
+        /// </summary>
+        /// <param name="id">干员 id</param>
+        /// <returns>干员信息</returns>
+        public static CharacterInfo? GetCharacterById(string id)
+        {
+            return Characters.GetValueOrDefault(id);
+        }
+
+        /// <summary>
+        /// 通过代号查询（如 char_002_amiya 中的 amiya）
+        /// </summary>
+        /// <param name="codeName">干员代号</param>
+        /// <returns>干员信息</returns>
+        public static CharacterInfo? GetCharacterByCodeName(string codeName)
+        {
+            return Characters.Values.FirstOrDefault(character =>
+                character.CodeName.Equals(codeName, StringComparison.OrdinalIgnoreCase));
+        }
+
         public class CharacterInfo
         {
+            [JsonIgnore]
+            public string Id { get; set; } = string.Empty;
+
             [JsonProperty("name")]
             public string? Name { get; set; }
 
@@ -316,7 +373,7 @@ namespace MaaWpfGui.Helper
             public string? Position { get; set; }
 
             [JsonProperty("profession")]
-            public OperProfession Profession { get; set; } = OperProfession.Unknown;
+            public OperatorType Type { get; set; } = OperatorType.Unknown;
 
             [JsonProperty("rangeId")]
             public List<string>? RangeId { get; set; }
@@ -324,67 +381,29 @@ namespace MaaWpfGui.Helper
             [JsonProperty("rarity")]
             public int Rarity { get; set; }
 
-            public bool IsOperator => Profession == OperProfession.Caster || Profession == OperProfession.Medic
-                || Profession == OperProfession.Pioneer || Profession == OperProfession.Sniper
-                || Profession == OperProfession.Special || Profession == OperProfession.Support
-                || Profession == OperProfession.Tank || Profession == OperProfession.Warrior;
+            public bool IsOperator => Type is
+                OperatorType.Caster or
+                OperatorType.Medic or
+                OperatorType.Pioneer or
+                OperatorType.Sniper or
+                OperatorType.Special or
+                OperatorType.Support or
+                OperatorType.Tank or
+                OperatorType.Warrior;
 
-            public enum OperProfession
+            [JsonIgnore]
+            public string CodeName => ExtractCodeName(Id);
+
+            private static string ExtractCodeName(string id)
             {
-                /// <summary>
-                /// 未知, 默认值
-                /// </summary>
-                Unknown,
+                if (string.IsNullOrEmpty(id))
+                {
+                    return string.Empty;
+                }
 
-                /// <summary>
-                /// 术士
-                /// </summary>
-                Caster,
-
-                /// <summary>
-                /// 医疗
-                /// </summary>
-                Medic,
-
-                /// <summary>
-                /// 先锋
-                /// </summary>
-                Pioneer,
-
-                /// <summary>
-                /// 狙击
-                /// </summary>
-                Sniper,
-
-                /// <summary>
-                /// 特种
-                /// </summary>
-                Special,
-
-                /// <summary>
-                /// 辅助
-                /// </summary>
-                Support,
-
-                /// <summary>
-                /// 重装
-                /// </summary>
-                Tank,
-
-                /// <summary>
-                /// 近卫
-                /// </summary>
-                Warrior,
-
-                /// <summary>
-                /// 召唤物 (from asst::BattleDataConfig, MAA内部分类使用Drone
-                /// </summary>
-                Token,
-
-                /// <summary>
-                /// 未知?
-                /// </summary>
-                Trap,
+                // 从"char_002_amiya"中提取"amiya"
+                var parts = id.Split('_');
+                return parts.Length >= 3 ? parts[2] : id;
             }
         }
 

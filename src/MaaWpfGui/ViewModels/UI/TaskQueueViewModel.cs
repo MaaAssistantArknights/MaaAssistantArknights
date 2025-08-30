@@ -1180,6 +1180,18 @@ namespace MaaWpfGui.ViewModels.UI
             var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;
             AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
 
+            var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+            var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+            var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
+            if (maxTimeInterval > 90)
+            {
+                AddLog(
+                    string.Format(
+                        LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"),
+                        Math.Round(maxTimeInterval / 30, 1)),
+                    UiLogColor.Error);
+            }
+
             var uiVersion = VersionUpdateSettingsUserControlModel.UiVersion;
             var coreVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
             if (!Instances.VersionUpdateViewModel.IsDebugVersion() && uiVersion != coreVersion)
