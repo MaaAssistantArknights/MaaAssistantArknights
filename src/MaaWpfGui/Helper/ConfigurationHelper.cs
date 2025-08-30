@@ -135,11 +135,11 @@ namespace MaaWpfGui.Helper
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, old, value);
-                _logger.Debug("Configuration {Key} has been set to {Value}", key, value);
+                _logger.Debug("Configuration {Key} has been set to `{Value}`", key, value);
             }
             else
             {
-                _logger.Warning("Failed to save configuration {Key} to {Value}", key, value);
+                _logger.Warning("Failed to save configuration {Key} to `{Value}`", key, value);
             }
 
             return result;
@@ -158,11 +158,11 @@ namespace MaaWpfGui.Helper
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, old, value);
-                _logger.Debug("Global configuration {Key} has been set to {Value}", key, value);
+                _logger.Debug("Global configuration {Key} has been set to `{Value}`", key, value);
             }
             else
             {
-                _logger.Warning("Failed to save global configuration {Key} to {Value}", key, value);
+                _logger.Warning("Failed to save global configuration {Key} to `{Value}`", key, value);
             }
 
             return result;

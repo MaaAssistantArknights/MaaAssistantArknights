@@ -255,11 +255,11 @@ public static class ConfigFactory
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
-                _logger.Debug("Configuration {Key} has been set to {NewValue}", key, newValue);
+                _logger.Debug("Configuration {Key} has been set to `{NewValue}`", key, newValue);
             }
             else
             {
-                _logger.Warning("Failed to save configuration {Key} to {NewValue}", key, newValue);
+                _logger.Warning("Failed to save configuration {Key} to `{NewValue}`", key, newValue);
             }
         }
         catch (Exception e)
