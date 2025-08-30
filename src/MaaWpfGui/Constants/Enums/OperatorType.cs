@@ -1,4 +1,4 @@
-// <copyright file="Role.cs" company="MaaAssistantArknights">
+// <copyright file="OperatorType.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -16,8 +16,13 @@ namespace MaaWpfGui.Constants.Enums;
 /// <summary>
 /// 干员职业类型枚举。
 /// </summary>
-public enum Role
+public enum OperatorType
 {
+    /// <summary>
+    /// 未知, 默认值
+    /// </summary>
+    Unknown,
+
     /// <summary>
     /// 近卫/Guard
     /// </summary>
@@ -62,4 +67,14 @@ public enum Role
     /// 无人机/召唤物/Drone/Summon
     /// </summary>
     Drone,
+
+    /// <summary>
+    /// 召唤物 (from asst::BattleDataConfig, MAA内部分类使用Drone
+    /// </summary>
+    Token = Drone,
+
+    /// <summary>
+    /// 装置
+    /// </summary>
+    Trap,
 }
