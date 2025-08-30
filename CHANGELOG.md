@@ -150,3 +150,4 @@ Now, Doctors can directly use the combat list feature in Paradox Simulation to c
 * A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters. @ABA2396
 * The XML header documentation for a C# element is missing a tag. @ABA2396
 * Copyright 2025 @ABA2396
+* Update localization strings for Mini Game section @AnnAngela
