@@ -51,7 +51,7 @@ Emulators running on your local machine should use addresses like `127.0.0.1:<po
 
 ### Emulator documentation and reference addresses
 
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D): Emulator settings show current multi-instance ports.
+- [Bluestacks 5](https://support.bluestacks.com/hc/en-us/articles/360061342631-How-to-transfer-your-apps-from-BlueStacks-4-to-BlueStacks-5): Emulator settings show current multi-instance ports.
 - [MuMu Player](https://mumu.163.com/help/20240807/40912_1073151.html?maa): Multi-instance manager shows running ports in the top-right corner.
 - [MuMu Player Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `127.0.0.1:16384`
 - [LDPlayer 9](https://help.ldmnq.com/docs/LD9adbserver) `emulator-5554`
