@@ -1,5 +1,44 @@
 ## v5.24.0
 
+### 功能进化 | Highlight
+
+本次更新继续扩展自动化能力，一起来看看吧
+
+#### 一键悖论模拟
+
+现在，博士们可以直接使用悖论模拟的战斗列表功能完成所有悖论模拟作业，支持按职业找人、自动跳过未拥有的干员，并在战斗列表中直接显示干员名，真正实现“点一下，全都打完”~
+
+#### 新内容支持
+
+- **争锋频道：蜜果城** 入口适配
+- 外服也同步适配了 **新版终端界面**
+
+#### 其他优化
+
+- 自动战斗在关卡结束后增加了黑色返回按钮的检测，更加稳健
+- 界面与交互细节继续优化，深色模式显示效果更自然
+
+----
+
+#### One-click Paradox Simulation
+
+Doctors can now directly use the Paradox Simulation battle list to complete all simulation stages.  
+It supports searching operators by profession, automatically skipping unowned operators, and shows operator names directly in the list — truly "one click, all done"!  
+
+#### New Content Support
+
+- [CN ONLY] **Arena Channel: Honey Fruit City** entry  
+- **New Terminal interface** adaptation for global servers  
+
+#### Other Improvements
+
+- Added detection for the black return button after auto-battle ends, making runs more robust  
+- UI and interaction polish — dark mode looks more natural
+
+----
+
+以下是详细内容：
+
 ### 新增 | New
 
 * 悖论模拟战斗列表通过职业找人 @ABA2396
@@ -30,7 +69,7 @@
 * 悖论模拟单文件无法使用 @ABA2396
 * 关卡名下划线被解释成 CheckBox 访问键 @ABA2396
 * 勾八导航乱写 @ABA2396
-* 自动战斗界面Idle setter限制 @status102
+* 自动战斗界面 Idle setter 限制 @status102
 * 自动战斗-战斗列表使用错误的作业战斗 @status102
 * 信用购物有时候点不掉危机合约支援界面 @ABA2396
 * ServerChan 未使用通用 httpService @ABA2396
@@ -38,9 +77,9 @@
 * 肉鸽入口等待 ocr 识别错误 @ABA2396
 * 界园肉鸽商店钱包余额ocr roi @status102
 * 自动战斗-战斗列表`突袭`提示显示在运行期显示效果 @status102
-* 不再点击停止任务时移除存储的TaskId @status102
+* 不再点击停止任务时移除存储的 TaskId @status102
 * 繁中服薩米肉鴿第四層名稱 (#13846) @momomochi987
-* 肉鸽投资存款不变重试20次退出 @status102
+* 肉鸽投资存款不变重试 20 次退出 @status102
 * required version 显示错误 @ABA2396
 * 会客室换班失败（如选人过程中弹出线索交流完成）时重开任务 @ABA2396
 * 肉鸽开局招募在无开局干员时, 无法识别两招募的左侧位 @status102
