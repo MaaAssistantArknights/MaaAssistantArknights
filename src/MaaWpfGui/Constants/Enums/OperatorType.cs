@@ -69,7 +69,7 @@ public enum OperatorType
     Drone,
 
     /// <summary>
-    /// 召唤物 (from asst::BattleDataConfig, MAA内部分类使用Drone
+    /// 召唤物 (from asst::BattleDataConfig, MAA 内部分类使用 Drone
     /// </summary>
     Token = Drone,
 
