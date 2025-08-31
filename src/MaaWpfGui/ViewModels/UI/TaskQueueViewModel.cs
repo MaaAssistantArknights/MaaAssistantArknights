@@ -687,7 +687,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.VersionUpdateViewModel.IsDebugVersion() || File.Exists("DEBUG") || File.Exists("DEBUG.txt"))
             {
-                taskList.Add("Custom");
+                // taskList.Add("Custom");
             }
 
             var tempOrderList = new List<DragItemViewModel?>(new DragItemViewModel[taskList.Count]);

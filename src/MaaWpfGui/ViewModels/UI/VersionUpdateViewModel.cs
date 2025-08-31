@@ -72,7 +72,7 @@ public class VersionUpdateViewModel : Screen
         return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
     }
 
-    private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    private readonly string _curVersion = FakeUpdateHelper.CurrentVersion; // Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
     private string _latestVersion = string.Empty;
 
     private string _updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);

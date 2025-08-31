@@ -59,7 +59,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="{DynamicResource UpdateAutoDownload}"
-                        IsChecked="{Binding AutoDownloadUpdatePackage}" />
+                        IsChecked="False" />
                     <CheckBox
                         Margin="8"
                         HorizontalAlignment="Left"
