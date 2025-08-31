@@ -49,7 +49,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource StartupUpdateCheck}"
-                    IsChecked="{Binding StartupUpdateCheck}"
+                    IsChecked="True"
                     IsEnabled="False" />
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox
@@ -64,7 +64,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource UpdateAutoDownload}"
-                    IsChecked="{Binding AutoDownloadUpdatePackage}" />
+                    IsChecked="{Binding FakeIsCheckingForUpdates}" />
                 <CheckBox
                     Margin="8"
                     HorizontalAlignment="Left"

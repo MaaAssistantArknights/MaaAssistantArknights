@@ -559,6 +559,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
 
+        if (FakeUpdateHelper.IsUpdating)
+        {
+            FakeUpdateHelper.Updated();
+            return;
+        }
+
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
         if (!wasFirstBoot && Instances.VersionUpdateDialogViewModel.IsFirstBootAfterUpdate)
         {

@@ -72,10 +72,10 @@ public class VersionUpdateDialogViewModel : Screen
         return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
     }
 
-    private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    private readonly string _curVersion = FakeUpdateHelper.CurrentVersion; // Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
     private string _latestVersion = string.Empty;
 
-    private string _updateTag = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
+    private string _updateTag = FakeUpdateHelper.TargetVersion; // ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionName, string.Empty);
 
     /// <summary>
     /// Gets or sets the update tag.
@@ -84,12 +84,14 @@ public class VersionUpdateDialogViewModel : Screen
     {
         get => _updateTag;
         set {
-            SetAndNotify(ref _updateTag, value);
-            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
+            // SetAndNotify(ref _updateTag, value);
+            // ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
         }
     }
 
-    private string _updateInfo = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+    private static readonly string _updateInfoFilePath = Path.Combine(PathsHelper.DataDir, "updateInfo.txt");
+
+    private string _updateInfo = File.Exists(_updateInfoFilePath) ? File.ReadAllText(_updateInfoFilePath) : string.Empty; // ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
 
     // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 

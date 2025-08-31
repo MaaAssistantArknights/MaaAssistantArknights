@@ -934,6 +934,8 @@ public class TaskQueueViewModel : Screen
             }
         }
 
+        // CanShowAutoReload = true;
+
         TaskItemViewModels = [.. taskqueue];
         TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
         var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
