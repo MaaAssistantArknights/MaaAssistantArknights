@@ -124,6 +124,11 @@ namespace MaaWpfGui.Models
                 AdvancedSettingsVisibility = true;
             }
 
+            if (enable && !ret) // 如果切换到的不是当前运行任务
+            {
+                IsCurrentTaskRunning = false;
+            }
+
             void SetRunning(in string task)
             {
                 if (enable && CurrentTask.StartsWith(task))
@@ -131,19 +136,6 @@ namespace MaaWpfGui.Models
                     IsCurrentTaskRunning = true;
                     ret = true;
                 }
-            }
-
-            if (!enable)
-            {
-            }
-            else if (ret)
-            {
-                Instances.TaskQueueViewModel.AddLog("_is running switch succ");
-            }
-            else
-            {
-                Instances.TaskQueueViewModel.AddLog("_is running switch fail");
-                IsCurrentTaskRunning = false;
             }
         }
 
@@ -162,34 +154,28 @@ namespace MaaWpfGui.Models
                     return;
                 }
 
-                bool ret = CheckTask("StartUp", _startUp);
-                ret |= CheckTask("Recruit", _recruit);
-                ret |= CheckTask("Infrast", _infrast);
-                ret |= CheckTask("Fight", _fight);
-                ret |= CheckTask("Mall", _mall);
-                ret |= CheckTask("Award", _award);
-                ret |= CheckTask("Roguelike", _roguelike);
-                ret |= CheckTask("Reclamation", _reclamation);
-                ret |= CheckTask("Custom", _custom);
-                if (ret)
+                bool ret = false;
+                CheckTask("StartUp", _startUp);
+                CheckTask("Recruit", _recruit);
+                CheckTask("Infrast", _infrast);
+                CheckTask("Fight", _fight);
+                CheckTask("Mall", _mall);
+                CheckTask("Award", _award);
+                CheckTask("Roguelike", _roguelike);
+                CheckTask("Reclamation", _reclamation);
+                CheckTask("Custom", _custom);
+                if (!ret) // 如果没有匹配上任何任务
                 {
-                    Instances.TaskQueueViewModel.AddLog("_is running set succ");
-                }
-                else
-                {
-                    Instances.TaskQueueViewModel.AddLog("_is running set fail");
                     IsCurrentTaskRunning = false;
                 }
 
-                bool CheckTask(string taskName, bool taskIsShown)
+                void CheckTask(string taskName, bool taskIsShown)
                 {
                     if (taskIsShown && value.StartsWith(taskName))
                     {
                         IsCurrentTaskRunning = true;
-                        return true;
+                        ret = true;
                     }
-
-                    return false;
                 }
             }
         }
