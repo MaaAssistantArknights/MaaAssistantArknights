@@ -1423,13 +1423,6 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<bool> VerifyCopilotListTask()
         {
             var copilotItemViewModels = CopilotItemViewModels.Where(i => i.IsChecked).ToArray();
-
-            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
-            {
-                AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
-                return false;
-            }
-
             switch (copilotItemViewModels.Length)
             {
                 case 0:
@@ -1438,6 +1431,12 @@ namespace MaaWpfGui.ViewModels.UI
                 case 1:
                     AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
                     return false;
+            }
+
+            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
+            {
+                AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
+                return false;
             }
 
             var stageNames = copilotItemViewModels.Select(i => i.FilePath).ToHashSet().Select(async path =>
