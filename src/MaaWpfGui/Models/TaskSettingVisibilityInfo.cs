@@ -186,11 +186,7 @@ namespace MaaWpfGui.Models
         public bool IsCurrentTaskRunning
         {
             get => _isCurrentTaskRunning;
-            set
-            {
-                SetAndNotify(ref _isCurrentTaskRunning, value);
-                Instances.TaskQueueViewModel.AddLog("IsCurrentTaskRunning changed to " + value);
-            }
+            set => SetAndNotify(ref _isCurrentTaskRunning, value);
         }
 
         private bool _enableAdvancedSettings;
