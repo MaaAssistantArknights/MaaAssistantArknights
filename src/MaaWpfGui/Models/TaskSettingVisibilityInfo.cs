@@ -87,6 +87,7 @@ namespace MaaWpfGui.Models
         public bool IsTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
 
         public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
+
         public void Set(string taskName, bool enable)
         {
             bool ret = false;
@@ -156,7 +157,7 @@ namespace MaaWpfGui.Models
 
             void SetRunning(in string task)
             {
-                if (enable && CurrentTask.StartsWith(task))
+                if (enable && _CurrentTask.StartsWith(task))
                 {
                     IsCurrentTaskRunning = true;
                     ret = true;
@@ -167,7 +168,7 @@ namespace MaaWpfGui.Models
         private string _currentTask = string.Empty;
 
         // 重构前的临时过渡
-        public string CurrentTask
+        public string _CurrentTask
         {
             get => _currentTask;
             set
