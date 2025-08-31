@@ -88,14 +88,6 @@ namespace MaaWpfGui.Main
 
                 var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-                var folderName = Path.GetFileName(Path.GetDirectoryName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)));
-                if (string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase))
-                {
-                    return [];
-                }
-
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
                 return dllFiles
@@ -189,6 +181,12 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var isBuildOutputFolder =
+                string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
 
             Log.Logger = loggerConfiguration.CreateLogger();
             _logger = Log.Logger.ForContext<Bootstrapper>();
@@ -198,7 +196,7 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", Directory.GetCurrentDirectory());
+            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -236,7 +234,7 @@ namespace MaaWpfGui.Main
             }
 
             // Debug 模式下 DLL 是未打包的
-            if (maaEnv != "Debug")
+            if (maaEnv != "Debug" && !isBuildOutputFolder)
             {
                 var unknownDlls = UnknownDllDetected();
                 if (unknownDlls.Count > 0)
