@@ -1689,25 +1689,6 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _waiting, value);
         }
 
-        private bool _fightTaskRunning;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the battle task is running.
-        /// </summary>
-        public bool FightTaskRunning
-        {
-            get => _fightTaskRunning;
-            set => SetAndNotify(ref _fightTaskRunning, value);
-        }
-
-        private bool _infrastTaskRunning;
-
-        public bool InfrastTaskRunning
-        {
-            get => _infrastTaskRunning;
-            set => SetAndNotify(ref _infrastTaskRunning, value);
-        }
-
         /*
         private bool _shutdown = false;
 
