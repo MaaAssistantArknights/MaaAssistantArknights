@@ -117,8 +117,6 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
     std::string pre_pre_last_oper;
     std::string pre_last_oper;
 
-    bool find_oper = false;
-
     while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -134,21 +132,32 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
         pre_pre_last_oper = pre_last_oper;
         pre_last_oper = last_oper;
 
-        for (const auto& box_info : opers_result) {
-            if (match_oper(box_info.name)) {
-                m_navigate_rect = box_info.rect;
-                find_oper = true;
-                break;
+        if (auto rect = match_from_result(opers_result)) {
+            // 页尾有回弹动画
+            sleep(500);
+            OperBoxImageAnalyzer confirm_analyzer(ctrler()->get_image());
+            if (!confirm_analyzer.analyze()) {
+                continue;
             }
-        }
-
-        if (find_oper) {
-            break;
+            if (auto rect2 = match_from_result(confirm_analyzer.get_result())) {
+                m_navigate_rect = *rect2;
+                return true;
+            }
         }
 
         swipe_page();
     }
-    return find_oper;
+    return false;
+}
+
+std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result)
+{
+    for (const auto& box_info : result) {
+        if (match_oper(box_info.name)) {
+            return box_info.rect;
+        }
+    }
+    return std::nullopt;
 }
 
 bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)
