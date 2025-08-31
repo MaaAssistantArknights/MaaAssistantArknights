@@ -87,6 +87,15 @@ namespace MaaWpfGui.Main
                 };
 
                 var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                var folderName = Path.GetFileName(Path.GetDirectoryName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)));
+                if (string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase))
+                {
+                    return [];
+                }
+
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
                 return dllFiles
