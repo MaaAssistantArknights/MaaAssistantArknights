@@ -333,7 +333,7 @@ namespace MaaWpfGui.Main
             {
                 if (args.Action == NotifyCollectionChangedAction.Reset)
                 {
-                    TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
+                    TaskSettingVisibilityInfo.Instance._CurrentTask = string.Empty;
                 }
             };
 
@@ -2348,7 +2348,7 @@ namespace MaaWpfGui.Main
                 value.Status = status;
                 if (value.Status == TaskStatus.InProgress)
                 {
-                    TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
+                    TaskSettingVisibilityInfo.Instance._CurrentTask = value.Type.ToString();
                 }
 
                 return true;
