@@ -112,7 +112,9 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
-        private string _windowVersionUpdateInfo = string.Empty;
+        private string _windowVersionUpdateInfo = FakeUpdateHelper.CurrentVersion == FakeUpdateHelper.TargetVersion
+            ? string.Empty
+            : $"{LocalizationHelper.GetString("NewVersionFoundTitle")}: {FakeUpdateHelper.TargetVersion}";
 
         /// <summary>
         /// Gets or sets the version update info.
