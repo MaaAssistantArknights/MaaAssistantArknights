@@ -1,7 +1,4 @@
 {
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": ["Select"]
-    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["ECOSEQUENCE", "SEQUENCE"]
     },
