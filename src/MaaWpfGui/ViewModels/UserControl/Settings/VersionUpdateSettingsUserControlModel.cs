@@ -68,7 +68,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the core version.
     /// </summary>
-    public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+    public static string CoreVersion { get; } = FakeUpdateHelper.CurrentVersion; // Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
     public static string CoreVersionDisplay => string.Join("\u200B", CoreVersion.ToCharArray());
 
@@ -77,7 +77,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the UI version.
     /// </summary>
-    public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
+    public static string UiVersion { get; } = FakeUpdateHelper.CurrentVersion; // _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
     public static string UiVersionDisplay => string.Join("\u200B", UiVersion.ToCharArray());
 
@@ -391,7 +391,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         OnPropertyChanged(nameof(MirrorChyanCdkExpiredLocalTime));
     }
 
-    private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
+    private bool _startupUpdateCheck = false; // Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
 
     // UI 绑定的方法
     [UsedImplicitly]
@@ -458,6 +458,17 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _fakeIsCheckingForUpdates = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
+
+    public bool FakeIsCheckingForUpdates
+    {
+        get => _fakeIsCheckingForUpdates;
+        set
+        {
+            SetAndNotify(ref _fakeIsCheckingForUpdates, value);
+        }
+    }
+
     private bool _isCheckingForUpdates;
 
     /// <summary>
@@ -471,7 +482,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+    private bool _autoDownloadUpdatePackage = false; // Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto download update package.
@@ -506,6 +517,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task ManualUpdate()
     {
+        IsCheckingForUpdates = true;
+        await Task.Delay(1000);
+        IsCheckingForUpdates = false;
+        FakeUpdateHelper.Updating();
+        return;
+
         if (IsCheckingForUpdates)
         {
             return;
