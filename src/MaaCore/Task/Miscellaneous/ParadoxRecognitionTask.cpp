@@ -37,13 +37,15 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     return_initial_oper(); // 回干员列表（默认在最左侧）
-    const auto role = BattleData.get_role(m_oper_name["name"].as_string());
+    const auto name = m_oper_name["name"].as_string();
+    const auto role = BattleData.get_role(name);
     if (!click_role_table(role)) {
         return_initial_oper();
     }
 
+    const auto rarity = BattleData.get_rarity(name);
     if (swipe_and_analyze()) {
-        enter_paradox(m_skill_num);
+        enter_paradox(m_skill_num, rarity);
     }
 
     return true;
@@ -55,11 +57,14 @@ std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& na
     return navigate_name.substr(4, length - 6);
 }
 
-void asst::ParadoxRecognitionTask::enter_paradox(int skill_num) const
+void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int rarity) const
 {
     ctrler()->click(m_navigate_rect);
     ProcessTask(*this, { "OperParadoxBegin" }).run();
-    ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
+    if (rarity > 2) {
+        ProcessTask(*this, { "OperOpenParadoxChooseSkill" }).run();
+        ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
+    }
 }
 
 void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate_name)
