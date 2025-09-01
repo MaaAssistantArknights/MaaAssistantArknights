@@ -164,7 +164,7 @@ bool asst::BattleFormationTask::_run()
         }
     }
 
-    add_additional();
+    // add_additional();
     if (m_add_trust) {
         add_trust_operators();
     }
@@ -644,6 +644,7 @@ bool asst::BattleFormationTask::parse_formation()
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
+    m_opers_in_formation->clear();
     return true;
 }
 
