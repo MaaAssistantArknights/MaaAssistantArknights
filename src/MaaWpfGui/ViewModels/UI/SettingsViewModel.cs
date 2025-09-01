@@ -33,6 +33,7 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.Views.UI;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
@@ -839,8 +840,20 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                await Execute.OnUIThreadAsync(() =>
-                    Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                if (Instances.AnnouncementViewModel.View is System.Windows.Window window)
+                {
+                    if (window.WindowState == WindowState.Minimized)
+                    {
+                        window.WindowState = WindowState.Normal;
+                    }
+
+                    window.Activate();
+                }
+                else
+                {
+                    Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel);
+                }
+
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             }
             finally
