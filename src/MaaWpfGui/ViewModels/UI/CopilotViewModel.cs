@@ -1123,6 +1123,11 @@ namespace MaaWpfGui.ViewModels.UI
                 var codeName = stageName![4..^2];
                 var characterInfo = DataHelper.GetCharacterByCodeName(codeName);
                 var name = DataHelper.GetLocalizedCharacterName(characterInfo);
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = stageName;
+                }
+
                 var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
@@ -1433,7 +1438,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return false;
             }
 
-            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
+            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name?.Trim())))
             {
                 AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
                 return false;
