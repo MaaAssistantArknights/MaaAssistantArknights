@@ -69,5 +69,29 @@
             "downloadingFallback": "Attempting download from GitHub...",
             "invalidState": "Invalid download state, please refresh the page and try again."
         }
+    },
+    "references": {
+        "documentation": "Documentation",
+        "qqGroup": "QQ Group",
+        "discord": "Discord",
+        "github": "GitHub",
+        "friendLinks": "Friend Links"
+    },
+    "friendLinks": {
+        "prts-plus": "PRTS Plus",
+        "status": "MAA Status",
+        "mirrorc": "MirrorChyan",
+        "penguin-stats": "Penguin Statistics",
+        "yituliu": "Yituliu",
+        "arkntools": "Arkntools",
+        "ark-nights": "Arknights | Planner",
+        "alas": "ALAS"
+    },
+    "header": {
+        "title": "MAA - Arknights Assistant",
+        "description": "<1>Arknights Assistant: </1><2>Sanity Farming, Base Management and more, </2><3>leaving NOTHING behind</3>"
+    },
+    "footer": {
+        "compliance": "<1>MAA is released under the <4>AGPL-3.0</4> license<1><2>；</2><3>by using it, you acknowledge and agree to the <5>User Agreement</5>.</3>"
     }
 }

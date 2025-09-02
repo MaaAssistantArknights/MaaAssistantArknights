@@ -69,5 +69,29 @@
             "downloadingFallback": "正在尝试从海外源(Github)下载...",
             "invalidState": "无效的下载状态，请刷新页面重试。"
         }
+    },
+    "references": {
+        "documentation": "使用文档",
+        "qqGroup": "QQ 群",
+        "discord": "Discord",
+        "github": "GitHub",
+        "friendLinks": "友情链接"
+    },
+    "friendLinks": {
+        "prts-plus": "PRTS 作业站",
+        "status": "MAA 状态监测",
+        "mirrorc": "Mirror酱",
+        "penguin-stats": "企鹅物流数据统计",
+        "yituliu": "明日方舟一图流",
+        "arkntools": "明日方舟工具箱",
+        "ark-nights": "明日方舟 | 干员培养表",
+        "alas": "碧蓝航线小助手"
+    },
+    "header": {
+        "title": "MAA —「明日方舟」小助手",
+        "description": "<1>《明日方舟》小助手，</1><2>自动刷图、智能基建换班，</2><3>全日常一键长草</3>"
+    },
+    "footer": {
+        "compliance": "<1>MAA 以 <4>AGPL-3.0</4> 协议开源<1><2>；</2><3>使用即表示您同意并知悉「<5>用户协议</5>」的相关内容。</3>"
     }
 }
