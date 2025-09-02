@@ -155,16 +155,6 @@ jobs:
         run: |
           python3 tools/maadeps-download.py ${{ matrix.lowercase_target }}-windows
 
-      - name: Create fake event file
-        shell: bash
-        run: cp -v "$GITHUB_EVENT_PATH" ./event.json
-
-      - name: Merge Event Data with Inputs
-        if: startsWith(github.ref, 'refs/tags/v')
-        shell: bash
-        run: |
-          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
-
       - name: Taggify Version
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
@@ -187,18 +177,14 @@ jobs:
 
       - name: Build
         run: |
-          $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
-          $env:GITHUB_EVENT_PATH = "$pwd\\event.json"
-          $env:GITHUB_REF = "refs/heads/not_master"
-          $env:MAA_BUILDER_MAA_VERSION = '${{ needs.meta.outputs.tag }}'
-          ./build.cmd DevBuild
+          mkdir -p build
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-windows' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake --build build --parallel $(nproc --all)
+
+          mkdir -p install
+          cmake --install build --prefix install
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cleanup checksum file
-        run: |
-          rm -vf ./artifacts/checksum.json
-        shell: bash
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
