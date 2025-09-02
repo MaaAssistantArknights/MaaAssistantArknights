@@ -36,6 +36,9 @@ import {
   detectPlatform,
 } from './ReleaseModels'
 
+import { useTranslation } from "react-i18next";
+import { withTranslation, WithTranslation } from 'react-i18next'
+
 type GITHUB_MIRROR_TYPE = {
   name: string
   transform: (original: URL) => string
@@ -61,7 +64,7 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
     <div className="flex flex-row items-center justify-center gap-2 font-mono">
       <div className="flex flex-col items-start justify-center gap-1">
         <div className="text-sm transition-colors duration-300">{percentage.toFixed(0)}%</div>
-        <div className={clsx("w-12 h-1 rounded-full", "dark:bg-white/10" , "bg-stone-800/10")}>
+        <div className={clsx("w-12 h-1 rounded-full", "dark:bg-white/10", "bg-stone-800/10")}>
           <div
             className={clsx("h-full rounded-full", 'dark:text-white', 'text-stone-800')}
             style={{ width: `${percentage}%` }}
@@ -125,40 +128,40 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
 
 type DownloadDetectionStates =
   | {
-      state: 'idle'
-    }
+    state: 'idle'
+  }
   | {
-      state: 'detecting'
-      detected: number
-    }
+    state: 'detecting'
+    detected: number
+  }
   | {
-      state: 'speedTesting'
-      mirrorIndex: number
-    }
+    state: 'speedTesting'
+    mirrorIndex: number
+  }
   | {
-      state: 'detected'
-      availableMirror: number
-      canTestSpeed: boolean
-      cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
-    }
+    state: 'detected'
+    availableMirror: number
+    canTestSpeed: boolean
+    cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
+  }
   | {
-      state: 'connecting'
-      mirrorIndex: number
-      mirrorLatency: number
-      mirrorSpeed: number
-    }
+    state: 'connecting'
+    mirrorIndex: number
+    mirrorLatency: number
+    mirrorSpeed: number
+  }
   | {
-      state: 'downloading'
-      mirrorIndex: number
-      progressDownloaded: number
-      progressTotal: number
-    }
+    state: 'downloading'
+    mirrorIndex: number
+    progressDownloaded: number
+    progressTotal: number
+  }
   | {
-      state: 'downloaded'
-    }
+    state: 'downloaded'
+  }
   | {
-      state: 'fallback'
-    }
+    state: 'fallback'
+  }
 
 const DownloadButton = forwardRef<
   HTMLDivElement,
@@ -167,6 +170,7 @@ const DownloadButton = forwardRef<
     releaseName: string | null
   }
 >(({ platform, releaseName }, ref) => {
+  const { t } = useTranslation();
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -324,9 +328,9 @@ const DownloadButton = forwardRef<
           <div className="flex items-center -ml-1">
             <Icon icon={platform.platform.icon} fontSize="28px" />
             <span className="ml-2">
-              {platform.platform.title}
-              <span className="mx-1 text-sm">{platform.platform.subtitle}</span>
-              下载
+              {t(platform.platform.title)}
+              <span className="mx-1 text-sm">{t(platform.platform.subtitle)}</span>
+              {t("release.buttonLabels.download")}
             </span>
           </div>
           <div className="flex items-center mt-1 mb-0.5 ml-8 text-sm">
@@ -350,7 +354,11 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像可用性 (${loadState.detected}/${mirrorsTemplate.length})……`}
+        title={t("release.mirrorDetect.detecting", {
+          current: loadState.detected,
+          total: mirrorsTemplate.length,
+        })}
+      // title={`正在检测下载镜像可用性 (${loadState.detected}/${mirrorsTemplate.length})……`}
       />
     )
   } else if (loadState.state === 'speedTesting') {
@@ -358,45 +366,68 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 #${loadState.mirrorIndex} 速度……`}
+        title={t("release.mirrorDetect.testing", { index: loadState.mirrorIndex })}
+      // title={`正在检测下载镜像 #${loadState.mirrorIndex} 速度……`}
       />
     )
   } else if (loadState.state === 'detected') {
-    const cantTestSpeedReasonsText = {
-      saveData: '用户开启了“节省数据”模式',
-      mobile: '用户正在使用移动网络',
-      ok: '',
-    }
-    return (
-      <DownloadState
-        iconClassName="animate-spin"
-        icon={mdiLoading}
-        title={`已检测可用下载镜像 ${loadState.availableMirror} 个（${
-          loadState.canTestSpeed
-            ? '已按下载速度排序'
-            : `由于${
-                cantTestSpeedReasonsText[loadState.cantTestSpeedReason]
-              }，无法检测镜像下载速度，按镜像延迟排序`
-        }）`}
-      />
-    )
+    const title = loadState.canTestSpeed
+      ? t("release.speedTest.success", { count: loadState.availableMirror })
+      : t("release.speedTest.failure", {
+        count: loadState.availableMirror,
+        reason: t(`release.speedTest.reasons.${loadState.cantTestSpeedReason}`),
+      });
+
+    return <DownloadState iconClassName="animate-spin" icon={mdiLoading} title={title} />;
+    // const cantTestSpeedReasonsText = {
+    //   saveData: '用户开启了“节省数据”模式',
+    //   mobile: '用户正在使用移动网络',
+    //   ok: '',
+    // }
+    // return (
+    //   <DownloadState
+    //     iconClassName="animate-spin"
+    //     icon={mdiLoading}
+    //     title={`已检测可用下载镜像 ${loadState.availableMirror} 个（${loadState.canTestSpeed
+    //       ? '已按下载速度排序'
+    //       : `由于${cantTestSpeedReasonsText[loadState.cantTestSpeedReason]
+    //       }，无法检测镜像下载速度，按镜像延迟排序`
+    //       }）`}
+    //   />
+    // )
   } else if (loadState.state === 'connecting') {
+    const title = loadState.mirrorSpeed > 0
+      ? t("release.download.connectingWithSpeed", {
+        index: loadState.mirrorIndex,
+        latency: loadState.mirrorLatency.toFixed(3),
+        speed: ((loadState.mirrorSpeed / 1024 / 1024) * 1000).toFixed(3)
+      })
+      : t("release.download.connectingWithoutSpeed", {
+        index: loadState.mirrorIndex,
+        latency: loadState.mirrorLatency.toFixed(3)
+      });
+
     return (
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在尝试从镜像 #${
-          loadState.mirrorIndex
-        }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms${
-          loadState.mirrorSpeed > 0
-            ? `，测速：${+(
-                (loadState.mirrorSpeed / 1024 / 1024) *
-                1000
-              ).toFixed(3)} MiB/s`
-            : ''
-        }）下载……`}
+        title={title}
       />
-    )
+    );
+    // return (
+    //   <DownloadState
+    //     iconClassName="animate-spin"
+    //     icon={mdiLoading}
+    //     title={`正在尝试从镜像 #${loadState.mirrorIndex
+    //       }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms${loadState.mirrorSpeed > 0
+    //         ? `，测速：${+(
+    //           (loadState.mirrorSpeed / 1024 / 1024) *
+    //           1000
+    //         ).toFixed(3)} MiB/s`
+    //         : ''
+    //       }）下载……`}
+    //   />
+    // )
   } else if (loadState.state === 'downloading') {
     return (
       <DownloadState
@@ -405,7 +436,10 @@ const DownloadButton = forwardRef<
         title={
           <div className="flex items-center">
             <span className="mr-4">
-              正在从镜像 #{loadState.mirrorIndex} 下载……
+              {t("release.download.downloadingFromMirror", {
+                index: loadState.mirrorIndex
+              })}
+              {/* 正在从镜像 #{loadState.mirrorIndex} 下载…… */}
             </span>
             <DataLoadRate
               loaded={loadState.progressDownloaded}
@@ -420,7 +454,7 @@ const DownloadButton = forwardRef<
     return (
       <DownloadState
         icon={mdiCheck}
-        title={platform.platform.messages.downloaded}
+        title={t(platform.platform.messages.downloaded)}
       />
     )
   } else if (loadState.state === 'fallback') {
@@ -428,20 +462,23 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="正在尝试从海外源(Github)下载……"
+        title={t("release.download.downloadingFallback")}
+      // title="正在尝试从海外源(Github)下载……"
       />
     )
   } else {
     return (
       <DownloadState
         icon={mdiAlertCircle}
-        title="无效的下载状态，请刷新页面重试"
+        title={t("release.download.invalid_state")}
+      // title="无效的下载状态，请刷新页面重试"
       />
     )
   }
 })
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
+  const { t } = useTranslation();
   const [viewAll, setViewAll] = useState(false)
   const [envPlatformId, setCurrentPlatformId] = useState<
     string | typeof DetectionFailedSymbol | null
@@ -482,11 +519,11 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
                 style={{ display: 'inline-flex' }}
               >
                 <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
-                不支持您当前的系统架构
+                {t("release.platformDetect.archIncompatible")}
               </motion.span>
             ) : (
               // 占位保持高度一致
-              <span className="opacity-0">不支持您当前的系统架构</span>
+              <span className="opacity-0">{t("release.platformDetect.archIncompatible")}</span>
             )}
           </div>
         </div>
@@ -528,7 +565,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="正在匹配……"
+        title={t("release.platformDetect.detecting")}
+      // title="正在匹配……"
       />
     )
   }
@@ -541,7 +579,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         <DownloadState
           key="unavailable"
           icon={mdiAlertCircle}
-          title="未找到可用的下载链接"
+          title={t("release.platformDetect.failure")}
+        // title="未找到可用的下载链接"
         />
       )}
       {!viewAll && (
@@ -558,7 +597,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             onClick={() => setViewAll(true)}
           >
             <div className="text-base">
-                查看全部
+              {t("release.buttonLabels.viewAll")}
+              {/* 查看全部 */}
             </div>
           </GlowButton>
         </motion.div>
@@ -576,8 +616,10 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
           >
             <div className="text-sm">
-              <p><i>已有 Mirror酱 CDK？</i></p>
-              <p><i>前往 Mirror酱 高速下载</i></p>
+              <p><i>{t("release.buttonLabels.mirrorchyanCDKYes")}</i></p>
+              <p><i>{t("release.buttonLabels.mirrorchyanGo")}</i></p>
+              {/* <p><i>已有 Mirror酱 CDK？</i></p>
+              <p><i>前往 Mirror酱 高速下载</i></p> */}
             </div>
           </GlowButton>
         </motion.div>
@@ -586,9 +628,11 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   )
 }
 
-export class HomeActionsReleaseErrorBoundary extends Component<{
+interface Props extends WithTranslation {
   children?: React.ReactNode
-}> {
+}
+
+export const HomeActionsReleaseErrorBoundary = withTranslation()(class HomeActionsReleaseErrorBoundary extends Component<Props> {
   state = {
     error: null as Error | null,
   }
@@ -598,6 +642,7 @@ export class HomeActionsReleaseErrorBoundary extends Component<{
   }
 
   render() {
+    const { t } = this.props
     const { error } = this.state
     if (error) {
       return (
@@ -605,13 +650,15 @@ export class HomeActionsReleaseErrorBoundary extends Component<{
           icon={mdiAlertCircle}
           title={
             <div className="flex flex-col ml-4">
-              <span className="mb-2">载入版本信息失败。您可尝试</span>
+              <span className="mb-2">{t("release.buttonLabels.versionInfoLoadingError")}</span>
+              {/* <span className="mb-2">载入版本信息失败。您可尝试</span> */}
               <GlowButton
                 translucent
                 bordered
                 href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
               >
-                <span className="text-sm">前往 GitHub Releases 下载</span>
+                <span className="text-sm">{t("release.buttonLabels.downloadFromGitHubReleases")}</span>
+                {/* <span className="text-sm">前往 GitHub Releases 下载</span> */}
               </GlowButton>
             </div>
           }
@@ -621,7 +668,7 @@ export class HomeActionsReleaseErrorBoundary extends Component<{
 
     return this.props.children
   }
-}
+})
 
 export const HomeActionsRelease: FC = () => {
   const { data } = useRelease()
