@@ -51,12 +51,12 @@
             "archIncompatible": "현재 시스템 아키텍처에서는 지원되지 않아요"
         },
         "mirrorDetect": {
-            "detecting": "다운로드 미러 가용성 확인 중 ({{current}}/{{total}})..."
+            "detecting": "다운로드 Mirror 가용성 확인 중 ({{current}}/{{total}})..."
         },
         "speedTest": {
-            "testing": "다운로드 미러 #{{index}} 속도 테스트 중...",
-            "success": "{{count}}개의 사용 가능한 미러 발견 (다운로드 속도순으로 정렬)",
-            "failure": "{{count}}개의 사용 가능한 미러 발견 ({{reason}}으로 인해 다운로드 속도를 테스트할 수 없어 미러 지연 시간순으로 정렬)",
+            "testing": "다운로드 Mirror #{{index}} 속도 테스트 중...",
+            "success": "{{count}}개의 사용 가능한 Mirror 발견 (다운로드 속도순으로 정렬)",
+            "failure": "{{count}}개의 사용 가능한 Mirror 발견 ({{reason}}으로 인해 다운로드 속도를 테스트할 수 없어 지연 시간순으로 정렬)",
             "reasons": {
                 "saveData": "사용자가 \"데이터 절약\" 모드를 활성화",
                 "mobile": "사용자가 모바일 네트워크를 사용 중"
