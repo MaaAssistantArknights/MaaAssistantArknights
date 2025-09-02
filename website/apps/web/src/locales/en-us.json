@@ -1,0 +1,73 @@
+{
+    "platforms": {
+        "windows-x64": {
+            "title": "Windows",
+            "subtitle": "x64",
+            "messages": {
+                "downloaded": "Download is complete, extract files and run MAA.exe"
+            }
+        },
+        "windows-arm64": {
+            "title": "Windows",
+            "subtitle": "arm64",
+            "messages": {
+                "downloaded": "Download is complete, extract files and run MAA.exe"
+            }
+        },
+        "macos-universal": {
+            "title": "macOS",
+            "subtitle": "Universal",
+            "messages": {
+                "downloaded": "Download is complete, open the disk image and drag MAA.app to the Applications folder"
+            }
+        },
+        "linux-x64": {
+            "title": "Linux",
+            "subtitle": "x64 Dynamic Library",
+            "messages": {
+                "downloaded": "Download of dynamic library and resource files is complete (Linux versions have no GUI)"
+            }
+        },
+        "linux-aarch64": {
+            "title": "Linux",
+            "subtitle": "aarch64 Dynamic Library",
+            "messages": {
+                "downloaded": "Download of dynamic library and resource files is complete (Linux versions have no GUI)"
+            }
+        }
+    },
+    "release": {
+        "buttonLabels": {
+            "download": "Download",
+            "viewAll": "View All",
+            "mirrorchyanCDKYes": "Got a MirrorChyan CDK?",
+            "mirrorchyanGo": "Proceed to MirrorChyan for high-speed download",
+            "versionInfoLoadingError": "Failed to load version information",
+            "downloadFromGitHubReleases": "Proceed to GitHub Releases to download"
+        },
+        "platformDetect": {
+            "detecting": "Detecting the system architecture...",
+            "failure": "Failed to find a download link for the current architecture",
+            "archIncompatible": "Incompatible with your system architecture"
+        },
+        "mirrorDetect": {
+            "detecting": "Checking mirror availability ({{current}}/{{total}})..."
+        },
+        "speedTest": {
+            "testing": "Testing download speed for mirror #{{index}}...",
+            "success": "Detected {{count}} available mirrors (sorted by download speed)",
+            "failure": "Detected {{count}} available mirrors (unable to test the download speed because {{reason}}; sorted by latency)",
+            "reasons": {
+                "saveData": "user has enabled data-saving mode",
+                "mobile": "user is on a mobile network"
+            }
+        },
+        "download": {
+            "connectingWithSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms, speed: {{speed}} MiB/s)...",
+            "connectingWithoutSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms)...",
+            "downloadingFromMirror": "Downloading from mirror #{{index}}...",
+            "downloadingFallback": "Attempting download from GitHub...",
+            "invalidState": "Invalid download state, please refresh the page and try again."
+        }
+    }
+}

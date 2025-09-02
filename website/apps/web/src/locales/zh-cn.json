@@ -1,0 +1,73 @@
+{
+    "platforms": {
+        "windows-x64": {
+            "title": "Windows",
+            "subtitle": "x64",
+            "messages": {
+                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+            }
+        },
+        "windows-arm64": {
+            "title": "Windows",
+            "subtitle": "arm64",
+            "messages": {
+                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+            }
+        },
+        "macos-universal": {
+            "title": "macOS",
+            "subtitle": "通用",
+            "messages": {
+                "downloaded": "下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可"
+            }
+        },
+        "linux-x64": {
+            "title": "Linux",
+            "subtitle": "x64 动态库",
+            "messages": {
+                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+            }
+        },
+        "linux-aarch64": {
+            "title": "Linux",
+            "subtitle": "aarch64 动态库",
+            "messages": {
+                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+            }
+        }
+    },
+    "release": {
+        "buttonLabels": {
+            "download": "下载",
+            "viewAll": "查看全部",
+            "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
+            "mirrorchyanGo": "前往 Mirror酱 高速下载",
+            "versionInfoLoadingError": "加载版本信息失败",
+            "downloadFromGitHubReleases": "前往 GitHub Releases 下载"
+        },
+        "platformDetect": {
+            "detecting": "正在匹配系统架构...",
+            "failure": "未找到当前架构的可用下载链接",
+            "archIncompatible": "不支持您当前的系统架构"
+        },
+        "mirrorDetect": {
+            "detecting": "正在检测下载镜像可用性 ({{current}}/{{total}})..."
+        },
+        "speedTest": {
+            "testing": "正在检测下载镜像 #{{index}} 速度...",
+            "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
+            "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
+            "reasons": {
+                "saveData": "用户开启了“节省数据”模式",
+                "mobile": "用户正在使用移动网络"
+            }
+        },
+        "download": {
+            "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
+            "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
+            "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
+            "downloadingFallback": "正在尝试从海外源(Github)下载...",
+            "invalidState": "无效的下载状态，请刷新页面重试。"
+        }
+    }
+}
