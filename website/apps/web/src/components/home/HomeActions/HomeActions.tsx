@@ -113,20 +113,13 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
             transition={{ duration: 0.3, ease: 'easeOut', delay: 1.4 }}
             style={{ display: 'inline-block' }}
           />,
-          3: <motion.span
-            className="whitespace-nowrap"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: 'easeOut', delay: 1.4 }}
-            style={{ display: 'inline-block' }}
-          />,
-          4: <a
+          3: <a
             href="https://spdx.org/licenses/AGPL-3.0-only.html"
             target="_blank"
             rel="noopener noreferrer"
             className="underline"
           />,
-          5: <a
+          4: <a
             href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/terms-of-service.md"
             target="_blank"
             rel="noopener noreferrer"
