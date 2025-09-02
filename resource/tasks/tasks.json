@@ -2541,7 +2541,6 @@
             "Dreamland/DreamlandDefault/EnterInfrast.png",
             "Dreamland/DreamlandDark/EnterInfrast.png",
             "JieGarden/EnterInfrast.png"
-
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -4345,7 +4344,6 @@
             "Dreamland/DreamlandDefault/DepotEnter.png",
             "Dreamland/DreamlandDark/DepotEnter.png",
             "JieGarden/DepotEnter.png"
-
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
