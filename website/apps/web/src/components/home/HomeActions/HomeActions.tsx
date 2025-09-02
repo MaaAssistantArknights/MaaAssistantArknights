@@ -125,8 +125,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
             rel="noopener noreferrer"
             className="underline"
           />
-        }}>
-        </Trans>
+        }} />
       </div>
     </div>
   )
