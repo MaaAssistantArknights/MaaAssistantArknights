@@ -37,11 +37,11 @@ export function Screenshots({
 }) {
   const { theme } = useTheme()
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
-  
+
   const screenshotCenter = theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
   const screenshotLeft = theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
   const screenshotRight = theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
-  
+
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)
   const textureRight = useLoader(TextureLoader, screenshotRight)
@@ -123,10 +123,10 @@ export function Screenshots({
     const onMove = (e: MouseEvent | TouchEvent) => {
       if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
         const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
-        
+
         const x = (clientX / window.innerWidth) * 2 - 1
         const y = (clientY / window.innerHeight) * 2 - 1
-    
+
         lerpRotationTo.current.set(y, x)
       }
     }
