@@ -99,6 +99,6 @@
         }
     },
     "footer": {
-        "compliance": "<1>MAA is released under the <4>AGPL-3.0</4> license<1><2>; </2><3>by using it, you acknowledge and agree to the <5>User Agreement</5>.</3>"
+        "compliance": "<1>MAA is released under the <3>AGPL-3.0</3> license; <1><2>by using it, you acknowledge and agree to the <4>User Agreement</4>.</2>"
     }
 }
