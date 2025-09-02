@@ -34,9 +34,9 @@
         "next": ["RSChapterToRS"]
     },
     "RSChapterToRS": {
+        "ocrReplace": [["月合", "月台"]],
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "ocrReplace": [["月合", "月台"]],
         "text": ["月台"],
         "preDelay": 1000,
         "roi": [1027, 443, 158, 137],
