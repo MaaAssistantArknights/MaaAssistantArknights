@@ -4,97 +4,102 @@
             "title": "Windows",
             "subtitle": "x64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "다운로드 완료, 압축 해제 후 MAA.exe를 실행해주세요"
             }
         },
         "windows-arm64": {
             "title": "Windows",
             "subtitle": "arm64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "다운로드 완료, 압축 해제 후 MAA.exe를 실행해주세요"
             }
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "通用",
+            "subtitle": "범용",
             "messages": {
-                "downloaded": "下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可"
+                "downloaded": "다운로드 완료, 디스크 이미지를 열고 MAA.app을 응용 프로그램 폴더로 드래그해주세요"
             }
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 动态库",
+            "subtitle": "x64 동적 라이브러리",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "동적 라이브러리와 리소스 파일 다운로드 완료 (Linux 버전은 GUI가 없어요)"
             }
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 动态库",
+            "subtitle": "aarch64 동적 라이브러리",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "동적 라이브러리와 리소스 파일 다운로드 완료 (Linux 버전은 GUI가 없어요)"
             }
         }
     },
     "release": {
         "buttonLabels": {
-            "download": "下载",
-            "viewAll": "查看全部",
-            "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
-            "mirrorchyanGo": "前往 Mirror酱 高速下载",
-            "versionInfoLoadingError": "加载版本信息失败",
-            "downloadFromGitHubReleases": "前往 GitHub Releases 下载"
+            "download": "다운로드",
+            "viewAll": "전체 보기",
+            "mirrorchyanCDKYes": "MirrorChyan CDK가 있나요?",
+            "mirrorchyanGo": "MirrorChyan 고속 다운로드로 이동",
+            "versionInfoLoadingError": "<1>버전 정보 로드에 실패했습니다. </1><2>GitHub Releases에서 다운로드</2>할 수 있어요",
+            "downloadFromGitHubReleases": "GitHub Releases에서 다운로드"
         },
         "platformDetect": {
-            "detecting": "正在匹配系统架构...",
-            "failure": "未找到当前架构的可用下载链接",
-            "archIncompatible": "不支持您当前的系统架构"
+            "detecting": "시스템 아키텍처 매칭 중...",
+            "failure": "현재 아키텍처에서 사용 가능한 다운로드 링크를 찾을 수 없어요",
+            "archIncompatible": "현재 시스템 아키텍처에서는 지원되지 않아요"
         },
         "mirrorDetect": {
-            "detecting": "正在检测下载镜像可用性 ({{current}}/{{total}})..."
+            "detecting": "다운로드 미러 가용성 확인 중 ({{current}}/{{total}})..."
         },
         "speedTest": {
-            "testing": "正在检测下载镜像 #{{index}} 速度...",
-            "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
-            "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
+            "testing": "다운로드 미러 #{{index}} 속도 테스트 중...",
+            "success": "{{count}}개의 사용 가능한 미러 발견 (다운로드 속도순으로 정렬)",
+            "failure": "{{count}}개의 사용 가능한 미러 발견 ({{reason}}으로 인해 다운로드 속도를 테스트할 수 없어 미러 지연 시간순으로 정렬)",
             "reasons": {
-                "saveData": "用户开启了“节省数据”模式",
-                "mobile": "用户正在使用移动网络"
+                "saveData": "사용자가 \"데이터 절약\" 모드를 활성화",
+                "mobile": "사용자가 모바일 네트워크를 사용 중"
             }
         },
         "download": {
-            "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
-            "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
-            "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
-            "downloadingFallback": "正在尝试从海外源(Github)下载...",
-            "invalidState": "无效的下载状态，请刷新页面重试。"
+            "connectingWithSpeed": "Mirror #{{index}}에서 다운로드 시도 중 (지연시간: {{latency}} ms, 속도: {{speed}} MiB/s)...",
+            "connectingWithoutSpeed": "Mirror #{{index}}에서 다운로드 시도 중 (지연시간: {{latency}} ms)...",
+            "downloadingFromMirror": "Mirror #{{index}}에서 다운로드 중...",
+            "downloadingFallback": "GitHub에서 다운로드 시도 중...",
+            "invalidState": "잘못된 다운로드 상태입니다. 페이지를 새로고침하여 다시 시도해주세요."
         }
     },
     "references": {
-        "documentation": "使用文档",
-        "qqGroup": "QQ 群",
+        "documentation": "사용자 설명서",
+        "qqGroup": "QQ 그룹",
         "discord": "Discord",
         "github": "GitHub",
-        "friendLinks": "友情链接"
+        "friendLinks": "관련 링크"
     },
     "friendLinks": {
-        "prts-plus": "PRTS 作业站",
-        "status": "MAA 状态监测",
-        "mirrorc": "Mirror酱",
-        "penguin-stats": "企鹅物流数据统计",
-        "yituliu": "明日方舟一图流",
-        "arkntools": "明日方舟工具箱",
-        "ark-nights": "明日方舟 | 干员培养表",
-        "alas": "碧蓝航线小助手"
+        "prts-plus": "PRTS Plus",
+        "status": "MAA 상태 모니터링",
+        "mirrorc": "MirrorChyan",
+        "penguin-stats": "펭귄 물류 데이터 분석 부서",
+        "yituliu": "명일방주 한눈에 보기",
+        "arkntools": "명일방주 공구 상자",
+        "ark-nights": "명일방주 | 플래너",
+        "alas": "벽람항로 AutoScript"
     },
     "meta": {
-        "title": "MAA —「明日方舟」小助手",
-        "description": "MAA —「明日方舟」小助手，自动刷图、智能基建换班，全日常一键长草"
+        "title": "MAA — 「명일방주」 어시스턴트",
+        "description": "MAA — 「명일방주」 어시스턴트, 자동 스테이지 클리어, 스마트 기반시설 교대, 모든 일일 임무를 원클릭으로"
     },
     "header": {
-        "description": "<1>《明日方舟》小助手，</1><2>自动刷图、智能基建换班，</2><3>全日常一键长草</3>"
+        "description": "<1>《명일방주》 어시스턴트,</1><2> 자동 스테이지 클리어, 스마트 기반시설 교대,</2><3> 모든 일일 임무를 원클릭으로</3>"
+    },
+    "screenshots": {
+        "render": {
+            "failure": "MAA 스크린샷 렌더링에 실패했습니다. GPU 가속이 비활성화되어 있나요?"
+        }
     },
     "footer": {
-        "compliance": "<1>MAA 以 <4>AGPL-3.0</4> 协议开源<1><2>；</2><3>使用即表示您同意并知悉「<5>用户协议</5>」的相关内容。</3>"
+        "compliance": "<1>MAA는 <4>AGPL-3.0</4> 라이선스로 오픈소스입니다</1><2>;</2><3>사용 시 「<5>이용 약관</5>」의 관련 내용에 동의하고 숙지하였음을 의미합니다.</3>"
     }
 }
