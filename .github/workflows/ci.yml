@@ -183,7 +183,7 @@ jobs:
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
-          name: MAA-win-${{ matrix.lowercase_target }}
+          name: MAA-win-${{ matrix.arch }}
           path: artifacts
 
   ubuntu:
