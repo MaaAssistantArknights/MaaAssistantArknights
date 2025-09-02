@@ -3,8 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const languages = [
-    { code: "zh_cn", label: "中文" },
+    { code: "zh_cn", label: "简体中文" },
+    { code: "zh_tw", label: "繁體中文" },
     { code: "en_us", label: "English" },
+    { code: "ja_jp", label: "日本語" },
+    { code: "ko_kr", label: "한국어" },
 ];
 
 export const LanguageToggle: React.FC = () => {
@@ -13,13 +16,12 @@ export const LanguageToggle: React.FC = () => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleDropdown = () => setOpen((prev) => !prev);
-
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
         setOpen(false);
     };
 
-    // 点击页面其他地方关闭下拉
+    // 点击外部关闭下拉
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -30,22 +32,23 @@ export const LanguageToggle: React.FC = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const currentLabel = languages.find((l) => l.code === i18n.language)?.label || "Language";
+
     return (
-        <motion.div
-            className="relative inline-block"
-            ref={dropdownRef}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{ zIndex: 9999 }}
-        >
-            {/* 主按钮 */}
+        <motion.div ref={dropdownRef} className="relative">
+            {/* 按钮 */}
             <motion.button
                 onClick={toggleDropdown}
-                className="px-3 py-1 border rounded bg-white dark:bg-gray-800 shadow-md"
+                className="px-3 py-1 rounded-lg border shadow-md
+                           bg-white dark:bg-gray-800
+                           text-gray-800 dark:text-white
+                           border-gray-200 dark:border-gray-700
+                           hover:bg-gray-100 dark:hover:bg-gray-700
+                           transition-all"
                 whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
             >
-                {languages.find((l) => l.code === i18n.language)?.label || "Language"}
+                {currentLabel}
             </motion.button>
 
             {/* 下拉菜单 */}
@@ -57,7 +60,8 @@ export const LanguageToggle: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute mt-1 right-0 border rounded shadow-lg bg-white dark:bg-gray-800 z-50 min-w-[120px]"
+                        className="absolute right-0 mt-1 min-w-[140px] border rounded shadow-lg
+              bg-white dark:bg-gray-800 text-gray-800 dark:text-white z-50"
                     >
                         {languages.map((lang) => (
                             <motion.button

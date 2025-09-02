@@ -87,8 +87,11 @@
         "ark-nights": "Arknights | Planner",
         "alas": "ALAS"
     },
-    "header": {
+    "meta": {
         "title": "MAA - Arknights Assistant",
+        "description": "MAA - Arknights Assistant, Sanity Farming, Base Management and more, leaving NOTHING behind"
+    },
+    "header": {
         "description": "<1>Arknights Assistant: </1><2>Sanity Farming, Base Management and more, </2><3>leaving NOTHING behind</3>"
     },
     "footer": {
