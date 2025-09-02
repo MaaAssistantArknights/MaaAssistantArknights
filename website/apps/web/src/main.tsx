@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom/client'
 import ReactGA from 'react-ga-neo'
 import { SWRConfig } from 'swr'
 
+import "./i18n"
+
 import App from './App'
 import { fetch } from './utils/fetch'
 
