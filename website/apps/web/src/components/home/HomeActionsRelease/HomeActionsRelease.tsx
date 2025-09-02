@@ -596,7 +596,6 @@ export const HomeActionsReleaseErrorBoundary = withTranslation()(class HomeActio
   }
 
   render() {
-    const { t } = this.props
     const { error } = this.state
     if (error) {
       return (
@@ -605,8 +604,9 @@ export const HomeActionsReleaseErrorBoundary = withTranslation()(class HomeActio
           title={
             <div className="flex flex-col ml-4">
               <Trans key={i18n.language} i18nKey="release.buttonLabels.versionInfoLoadingError" components={{
-                1: <span className="mb-2" />,
+                1: <span className="mb-2 block text-center" />,
                 2: <GlowButton
+                  className="mb-2"
                   translucent
                   bordered
                   href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"

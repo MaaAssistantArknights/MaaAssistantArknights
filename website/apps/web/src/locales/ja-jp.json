@@ -42,8 +42,7 @@
             "viewAll": "查看全部",
             "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
             "mirrorchyanGo": "前往 Mirror酱 高速下载",
-            "versionInfoLoadingError": "加载版本信息失败",
-            "downloadFromGitHubReleases": "前往 GitHub Releases 下载"
+            "versionInfoLoadingError": "<1>载入版本信息失败。您可尝试</1><2>前往 GitHub Releases 下载</2>"
         },
         "platformDetect": {
             "detecting": "正在匹配系统架构...",
