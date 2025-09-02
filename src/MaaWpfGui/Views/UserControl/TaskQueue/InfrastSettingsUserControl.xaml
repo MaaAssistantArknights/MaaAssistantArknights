@@ -49,8 +49,9 @@
                     VerticalContentAlignment="Center"
                     hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{c:Binding !InfrastTaskRunning,
-                                                 Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                        d:IsHitTestVisible="True"
+                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding CustomInfrastPlanList}"
                     SelectedValue="{Binding CustomInfrastPlanIndex}"
                     SelectedValuePath="Value" />

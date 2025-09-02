@@ -808,10 +808,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例：史爾特爾,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">不支援跨章節導航。僅支援:
-  1. 主線關卡：同一章節內導航
-  2. SideStory：目前頁面內導航（普通/EX/S 相互不可跳轉）
-開始前請切換至關卡選擇頁面</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式:
+  1. {key=MainStage}: 同一章節內導航
+  2. {key=SideStory}: 當前頁面內導航（普通/EX/S 不能互跳）
+  3. {key=StoryCollection}: 當前頁面內導航
+  4. {key=ParadoxSimulation}: 從{key=Operator}列表啟動
+請在對應介面啟動，不支援跨章節導航</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
@@ -874,6 +876,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->
@@ -1177,12 +1180,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">檢測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
+請將 MAA 解壓縮到一個獨立的新資料夾中，或移除不屬於 MAA 的 DLL 檔案。
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">偵測到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安裝或版本過低,
 點擊 "確定" 將執行安裝腳本並退出 MAA，點擊 "取消" 將直接退出 MAA。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-同一路徑下只能啟動一個實例！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個實例！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾下，並設定使用不同的 MAA，相同的 adb 和不同的模擬器地址進行多開操作。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
@@ -1257,6 +1261,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
     <system:String x:Key="Achievement.Martian.Description">遠古版本好用嗎？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">資源時間或版本時間距今超過 3 個月</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">資源時間或版本時間距今超過 {0} 個月</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">嚴重錯訁</system:String>
     <system:String x:Key="Achievement.Rules.Description">我會一直注視著你。</system:String>

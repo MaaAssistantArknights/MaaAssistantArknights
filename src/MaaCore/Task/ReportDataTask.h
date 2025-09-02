@@ -2,9 +2,7 @@
 
 #include "AbstractTask.h"
 
-#include <cctype>
 #include <future>
-#include <unordered_set>
 
 namespace asst
 {

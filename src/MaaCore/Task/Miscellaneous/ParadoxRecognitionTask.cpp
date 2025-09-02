@@ -25,7 +25,7 @@ bool asst::ParadoxRecognitionTask::_run()
     // 设置技能
     m_skill_num = 1;
     auto* groups = &Copilot.get_data().groups;
-    for (const auto& [name, opers_vec] : *groups) {
+    for (const auto& opers_vec : *groups | views::values) {
         if (opers_vec.empty()) {
             continue;
         }
@@ -36,11 +36,16 @@ bool asst::ParadoxRecognitionTask::_run()
         }
     }
 
-    return_initial_oper(); // 回干员列表（默认在最左侧），折叠filter，切换sort
+    return_initial_oper(); // 回干员列表（默认在最左侧）
+    const auto name = m_oper_name["name"].as_string();
+    const auto role = BattleData.get_role(name);
+    if (!click_role_table(role)) {
+        return_initial_oper();
+    }
 
-    bool result = swipe_and_analyze();
-    if (result) {
-        enter_paradox(m_skill_num);
+    const auto rarity = BattleData.get_rarity(name);
+    if (swipe_and_analyze()) {
+        enter_paradox(m_skill_num, rarity);
     }
 
     return true;
@@ -52,11 +57,14 @@ std::string asst::ParadoxRecognitionTask::standardize_name(const std::string& na
     return navigate_name.substr(4, length - 6);
 }
 
-void asst::ParadoxRecognitionTask::enter_paradox(int skill_num)
+void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int rarity) const
 {
     ctrler()->click(m_navigate_rect);
     ProcessTask(*this, { "OperParadoxBegin" }).run();
-    ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
+    if (rarity > 2) {
+        ProcessTask(*this, { "OperOpenParadoxChooseSkill" }).run();
+        ProcessTask(*this, { "ParadoxChooseSkill" + std::to_string(skill_num) }).run();
+    }
 }
 
 void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate_name)
@@ -64,22 +72,48 @@ void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate
     m_navigate_name = standardize_name(navigate_name);
 }
 
-void asst::ParadoxRecognitionTask::swipe_page()
+void asst::ParadoxRecognitionTask::swipe_page() const
 {
     ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();
 }
 
-void asst::ParadoxRecognitionTask::return_initial_oper()
+void asst::ParadoxRecognitionTask::return_initial_oper() const
 {
-    if (ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_ignore_error(true).set_retry_times(0).run()) {
-        return;
+    if (!ProcessTask(*this, { "ParadoxReturnOperListFlag" }).set_retry_times(0).run()) {
+        ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run();
+    }
+    ProcessTask(*this, { "BattleQuickFormationExpandRole" }).set_retry_times(3).run();
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+    ProcessTask(
+        *this,
+        { "BattleQuickFormationRole-Pioneer",
+          "BattleQuickFormationRole-Warrior",
+          "BattleQuickFormationRole-Tank",
+          "BattleQuickFormationRole-Caster",
+          "BattleQuickFormationRole-Medic",
+          "BattleQuickFormationRole-Sniper",
+          "BattleQuickFormationRole-Special",
+          "BattleQuickFormationRole-Support" })
+        .run();
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+}
+
+bool asst::ParadoxRecognitionTask::click_role_table(const battle::Role role) const
+{
+    static const std::unordered_map<battle::Role, std::string> role_name_type = {
+        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
+        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
+    };
+
+    const auto role_iter = role_name_type.find(role);
+
+    if (role_iter == role_name_type.cend()) {
+        return false;
     }
 
-    ProcessTask(*this, { "ParadoxReturnUntilOperList" }).run(); // 回到干员列表
-    ProcessTask(*this, { "OperBoxRoleTabSelect" })
-        .set_ignore_error(true)
-        .set_retry_times(0)
-        .run(); // 折叠filter，切换sort
+    ProcessTask(*this, { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }).run();
+    return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
 }
 
 bool asst::ParadoxRecognitionTask::swipe_and_analyze()
@@ -87,8 +121,6 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
     LogTraceFunction;
     std::string pre_pre_last_oper;
     std::string pre_last_oper;
-
-    bool find_oper = false;
 
     while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
@@ -105,21 +137,32 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
         pre_pre_last_oper = pre_last_oper;
         pre_last_oper = last_oper;
 
-        for (const auto& box_info : opers_result) {
-            if (match_oper(box_info.name)) {
-                m_navigate_rect = box_info.rect;
-                find_oper = true;
-                break;
+        if (auto rect = match_from_result(opers_result)) {
+            // 页尾有回弹动画
+            sleep(500);
+            OperBoxImageAnalyzer confirm_analyzer(ctrler()->get_image());
+            if (!confirm_analyzer.analyze()) {
+                continue;
             }
-        }
-
-        if (find_oper) {
-            break;
+            if (auto rect2 = match_from_result(confirm_analyzer.get_result())) {
+                m_navigate_rect = *rect2;
+                return true;
+            }
         }
 
         swipe_page();
     }
-    return find_oper;
+    return false;
+}
+
+std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result)
+{
+    for (const auto& box_info : result) {
+        if (match_oper(box_info.name)) {
+            return box_info.rect;
+        }
+    }
+    return std::nullopt;
 }
 
 bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)

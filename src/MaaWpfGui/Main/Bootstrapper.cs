@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -27,6 +28,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -36,11 +38,14 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
+using Serilog.Events;
 using Stylet;
 using StyletIoC;
 
@@ -65,6 +70,36 @@ namespace MaaWpfGui.Main
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
+
+        private static List<string> UnknownDllDetected()
+        {
+            try
+            {
+                // 属于 MAA 的 DLL 列表
+                // 因为经常有人把 MAA 和别的东西解压到一起然后发生 DLL 劫持然后报错，遂检测
+                var maaDlls = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "DirectML.dll",
+                    "fastdeploy_ppocr.dll",
+                    "MaaCore.dll",
+                    "onnxruntime_maa.dll",
+                    "opencv_world4_maa.dll",
+                };
+
+                var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
+
+                return dllFiles
+                    .Select(Path.GetFileName)
+                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return [];
+            }
+        }
 
         private static bool IsVCppInstalled()
         {
@@ -126,10 +161,11 @@ namespace MaaWpfGui.Main
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     UiLogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+                .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
@@ -145,6 +181,12 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var isBuildOutputFolder =
+                string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
 
             Log.Logger = loggerConfiguration.CreateLogger();
             _logger = Log.Logger.ForContext<Bootstrapper>();
@@ -154,7 +196,7 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", Directory.GetCurrentDirectory());
+            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -191,9 +233,26 @@ namespace MaaWpfGui.Main
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
 
+            // Debug 模式下 DLL 是未打包的
+            if (maaEnv != "Debug" && !isBuildOutputFolder)
+            {
+                var unknownDlls = UnknownDllDetected();
+                if (unknownDlls.Count > 0)
+                {
+                    MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
+                        "MAA",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
+                    Shutdown();
+                    return;
+                }
+            }
+
             if (!IsVCppInstalled())
             {
-                var ret = MessageBox.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel);
+                var ret = MessageBoxHelper.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel, MessageBoxImage.Information);
                 if (ret == MessageBoxResult.OK)
                 {
                     var startInfo = new ProcessStartInfo
@@ -218,7 +277,7 @@ namespace MaaWpfGui.Main
 
             if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
             {
-                Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Warning"), MessageBoxButton.OK, MessageBoxImage.Error));
+                Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
 
             base.OnStart();
@@ -231,7 +290,23 @@ namespace MaaWpfGui.Main
 
             if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
             {
-                return;
+                // return;
+            }
+        }
+
+        public class ClassNameEnricher : ILogEventEnricher
+        {
+            public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
+            {
+                if (!logEvent.Properties.TryGetValue("SourceContext", out var sourceContextValue))
+                {
+                    return;
+                }
+
+                var sourceContext = sourceContextValue.ToString().Trim('"');
+                var className = sourceContext.Split('.').Last();
+
+                logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty("ClassName", className));
             }
         }
 
@@ -253,7 +328,7 @@ namespace MaaWpfGui.Main
                     return true;
                 }
 
-                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"));
+                MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath"), "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             catch (AbandonedMutexException)
@@ -264,7 +339,7 @@ namespace MaaWpfGui.Main
             }
             catch (Exception e)
             {
-                MessageBox.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message);
+                MessageBoxHelper.Show(LocalizationHelper.GetString("MultiInstanceUnderSamePath") + e.Message, "MAA", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
         }
@@ -321,6 +396,14 @@ namespace MaaWpfGui.Main
             }
 
             AchievementTrackerHelper.Events.Startup();
+
+            var buildTimeInterval = (DateTime.UtcNow - VersionUpdateSettingsUserControlModel.BuildDateTime).TotalDays;
+            var resourceTimeInterval = (DateTime.UtcNow - SettingsViewModel.VersionUpdateSettings.ResourceDateTime).TotalDays;
+            var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
+            if (maxTimeInterval > 90)
+            {
+                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 0.030).ToString("F2")), UiLogColor.Error));
+            }
         }
 
         /// <inheritdoc/>

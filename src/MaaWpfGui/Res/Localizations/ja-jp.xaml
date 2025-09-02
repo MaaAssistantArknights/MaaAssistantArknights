@@ -811,10 +811,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">チャプター間の移動はサポートされていません。サポートのみです:
-  1. {key=MainStage}：同一章内でのナビゲーション
-  2. {key=SideStory}：現在のページ内ナビゲーション（通常/EX/S 相互移動不可）
-開始前にステージ選択ページに切り替えてください</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:
+  1. {key=MainStage}: 同じ章内でのナビゲーション
+  2. {key=SideStory}: 現在のページ内でのナビゲーション（Normal/EX/S 間の移動は不可）
+  3. {key=StoryCollection}: 現在のページ内でのナビゲーション
+  4. {key=ParadoxSimulation}: {key=Operator}リストから起動
+対応する画面から開始してください。章間のナビゲーションはサポートされていません。</system:String>
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
@@ -876,6 +878,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotEmptyError">作業が空です</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">ステージ名が空の作業があります</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">コパイロットタスクをファイルに保存できませんでした: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">タスクなしで「{key=UseCopilotList}」を使用した</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">「{key=UseCopilotList}」を使用して単一ジョブを実行しています。これは推奨されません。単一ジョブを直接実行してください。</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
@@ -1177,12 +1180,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">ケミカルライト</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">MAA の実行ディレクトリに不明な DLL ファイルが検出されました。DLL ハイジャックが発生し、予期しない結果を招く可能性があります。
+MAA を新しい独立したフォルダーに解凍するか、MAA に属さない DLL ファイルを削除してください。
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Microsoft Visual C++ redistributable 2015-2022 (x64) がインストールされていないか、バージョンが低すぎることが検出されました。
 「OK」をクリックするとインストールスクリプトが実行され、MAA が終了します。「キャンセル」をクリックすると MAA が直接終了します。
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-同じパスの下で起動できるのは1つのインスタンスのみ！
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同じパスの下で起動できるのは1つのインスタンスのみ！
 MAA を複数開くには、新しい MAA を他のフォルダにコピーし、異なる MAA、同じ adb、異なるシミュレータアドレスを使用して複数の操作を行うように設定します。
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">現在のソフトウェアの場所ではデータを保存できません。設定が失われるか、実行時に問題が発生する可能性があります。書き込み可能なディレクトリに移動してください。システム保護ディレクトリ（Program Files、System32、Windows ディレクトリなど）には配置しないでください。</system:String>
@@ -1257,6 +1261,7 @@ MAA を複数開くには、新しい MAA を他のフォルダにコピーし�
     <system:String x:Key="Achievement.Martian.Title">火星人</system:String>
     <system:String x:Key="Achievement.Martian.Description">古いバージョンは使いやすかったですか？</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">リソースまたはバージョンの時間が3ヶ月以上経過している</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">リソースまたはバージョンの時間が{0}ヶ月以上経過している</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">重大エラー</system:String>
     <system:String x:Key="Achievement.Rules.Description">私はずっとあなたを見つめています。</system:String>

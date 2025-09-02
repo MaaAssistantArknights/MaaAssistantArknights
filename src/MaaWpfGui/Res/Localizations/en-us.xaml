@@ -322,8 +322,8 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">Downloading from ｢{key=GlobalSource}｣...</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">Downloading from ｢{key=MirrorChyan}｣...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">\nDownloading from ｢{key=GlobalSource}｣...</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">\nDownloading from ｢{key=MirrorChyan}｣...</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version:&#160;</system:String>
     <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info:&#160;</system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
@@ -772,9 +772,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
-    <system:String x:Key="MiniGame@ALL@GreenGrass">Contest Channel: Green Grass City (Unofficial)</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrass">Contest Channel: Green Grass City (Unofficial translation)</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel:（Unofficial）</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel: Honeydew</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
@@ -811,10 +811,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Does not support cross-chapter navigation. Only supports:
-  1. MainStory: Navigation within the same chapter
-  2. SideStory: Navigation within current page (Normal/EX/S cannot jump to each other)
-Please switch to the stage selection page before starting</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:
+  1. {key=MainStage}: Navigate within the same chapter
+  2. {key=SideStory}: Navigate within the current page (cannot jump between Normal/EX/S)
+  3. {key=StoryCollection}: Navigate within the current page
+  4. {key=ParadoxSimulation}: Start from the {key=Operator} list
+Please start from the corresponding screen. Cross-chapter navigation is not supported.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
@@ -876,6 +878,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotEmptyError">copilot is empty</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">copilot tasks with empty name</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">Using ｢{key=UseCopilotList}｣, but no tasks have been added</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">You're using ｢{key=UseCopilotList}｣ to execute a single task, which is not recommended. For single tasks, please run them directly instead.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
@@ -1177,12 +1180,13 @@ With save file: farm points through crafting (advanced).
     <system:String x:Key="ReclamationToolToCraftPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">Unknown DLL files have been detected in the MAA runtime directory, which may cause DLL hijacking and unexpected consequences.
+Please extract MAA into a separate new folder, or remove any DLL files that do not belong to MAA.
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
 Click "OK" to execute the installation script and exit MAA. Click "Cancel" to exit MAA directly.
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-Only one instance can be launched under the same path!
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">The current software location cannot save data, which may cause settings loss or runtime errors. Please move the software to a writable directory. Do not place it in system-protected directories (e.g., Program Files, System32, or Windows directories).</system:String>
@@ -1257,6 +1261,7 @@ If you want to run multiple MAA at the same time, please copy the whole MAA and 
     <system:String x:Key="Achievement.Martian.Title">Martian</system:String>
     <system:String x:Key="Achievement.Martian.Description">How's that ancient version working for you?</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">Resource or version date is more than 3 months old</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">Resource or version date is more than {0} months old</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">Serious Erro-</system:String>
     <system:String x:Key="Achievement.Rules.Description">I'll be watching you.</system:String>

@@ -811,10 +811,12 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
-    <system:String x:Key="UseCopilotListTip" xml:space="preserve">챕터 간 이동은 지원하지 않습니다. 지원 사항:
-  1. {key=MainStage}: 동일 챕터 내 네비게이션
-  2. {key=SideStory}: 현재 페이지 내 네비게이션 (일반/EX/S 서로 이동 불가)
-시작하기 전에 스테이지 선택 화면으로 전환하세요</system:String>
+    <system:String x:Key="UseCopilotListTip" xml:space="preserve">다음 모드에서만 지원됩니다:
+  1. {key=MainStage}: 동일 챕터 내에서 이동
+  2. {key=SideStory}: 현재 페이지 내에서 이동 (일반/EX/S 간 이동 불가)
+  3. {key=StoryCollection}: 현재 페이지 내에서 이동
+  4. {key=ParadoxSimulation}: {key=Operator} 목록에서 시작
+해당 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
@@ -876,6 +878,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotEmptyError">작업이 비어 있습니다</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">스테이지 이름이 비어 있는 작업이 있습니다</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">부조종사 작업을 파일에 저장할 수 없습니다.: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">작업 없이 ｢{key=UseCopilotList}」를 사용 중입니다.</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">｢{key=UseCopilotList}｣를 사용하여 단일 작업을 실행하는 것은 권장되지 않습니다. 단일 작업은 직접 실행해 주세요.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->
@@ -1175,12 +1178,13 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ReclamationToolToCraftPlaceholder">형광봉</system:String>
     <!--  !Reclamation  -->
     <!--  Boot  -->
-    <system:String x:Key="VC++NotInstalled" xml:space="preserve">
-Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
+    <system:String x:Key="UnknownDllDetected" xml:space="preserve">MAA 실행 디렉터리에서 알 수 없는 DLL 파일이 감지되었습니다. 이는 DLL 하이재킹을 일으켜 예상치 못한 결과를 초래할 수 있습니다.
+MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 DLL 파일을 제거해 주십시오.
+    </system:String>
+    <system:String x:Key="VC++NotInstalled" xml:space="preserve">Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거나 버전이 너무 낮은 것으로 감지되었습니다..
 "확인"을 클릭하여 설치 스크립트를 실행하고 MAA를 종료하세요. "취소"를 클릭하여 MAA를 바로 종료하세요.
     </system:String>
-    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">
-동일한 경로에서는 하나의 인스턴스만 실행할 수 있습니다!
+    <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">동일한 경로에서는 하나의 인스턴스만 실행할 수 있습니다!
 여러 개의 MAA를 동시에 실행하려면 MAA 전체 폴더를 복사한 뒤, 같은 adb를 사용하되 연결 주소는 다르게 설정하여 서로 다른 경로에서 실행하세요.
     </system:String>
     <system:String x:Key="SoftwareLocationWarning">현재 소프트웨어 위치에서는 데이터를 저장할 수 없어 설정이 손실되거나 실행 오류가 발생할 수 있습니다. 쓰기 가능한 디렉터리로 이동하십시오. 시스템 보호 디렉터리(예: Program Files, System32 또는 Windows 디렉터리)에 두지 마십시오.</system:String>
@@ -1255,6 +1259,7 @@ Microsoft Visual C++ redistributable 2015-2022(x64) 가 설치되지 않았거�
     <system:String x:Key="Achievement.Martian.Title">화성인</system:String>
     <system:String x:Key="Achievement.Martian.Description">혹시 과거에 살고 계신가요?</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
+    <system:String x:Key="Achievement.Martian.ConditionsTip">리소스 또는 버전이 현재로부터 {0}개월 초과</system:String>
 
     <system:String x:Key="Achievement.Rules.Title">규정</system:String>
     <system:String x:Key="Achievement.Rules.Description">제가 계속 지켜보고 있을게요</system:String>

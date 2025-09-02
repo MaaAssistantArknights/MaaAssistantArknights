@@ -83,27 +83,27 @@ public class SSSCopilotModel : CopilotBase
     [JsonProperty("stages")]
     public List<Stage>? Stages { get; set; }
 
-    private static readonly Dictionary<Role, string[]> _roleAliases = new()
+    private static readonly Dictionary<OperatorRole, string[]> _typeAliases = new()
     {
-        { Role.Warrior, ["Warrior", "Guard", "近卫"] },
-        { Role.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
-        { Role.Medic, ["Medic", "医疗"] },
-        { Role.Tank, ["Tank", "Defender", "重装", "坦克"] },
-        { Role.Sniper, ["Sniper", "狙击"] },
-        { Role.Caster, ["Caster", "术师", "术士", "法师"] },
-        { Role.Support, ["Support", "Supporter", "辅助", "支援"] },
-        { Role.Special, ["Special", "Specialist", "特种"] },
-        { Role.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
+        { OperatorRole.Warrior, ["Warrior", "Guard", "近卫"] },
+        { OperatorRole.Pioneer, ["Pioneer", "Vanguard", "先锋"] },
+        { OperatorRole.Medic, ["Medic", "医疗"] },
+        { OperatorRole.Tank, ["Tank", "Defender", "重装", "坦克"] },
+        { OperatorRole.Sniper, ["Sniper", "狙击"] },
+        { OperatorRole.Caster, ["Caster", "术师", "术士", "法师"] },
+        { OperatorRole.Support, ["Support", "Supporter", "辅助", "支援"] },
+        { OperatorRole.Special, ["Special", "Specialist", "特种"] },
+        { OperatorRole.Drone, ["Drone", "Summon", "无人机", "召唤物"] },
     };
 
-    private static readonly Dictionary<string, Role> _nameToRole =
-        _roleAliases.SelectMany(kv => kv.Value.Select(v => new { v, kv.Key }))
+    private static readonly Dictionary<string, OperatorRole> _nameToOperType =
+        _typeAliases.SelectMany(kv => kv.Value.Select(v => new { v, kv.Key }))
             .ToDictionary(x => x.v, x => x.Key, StringComparer.OrdinalIgnoreCase);
 
     private static string GetLocalizedToolmenName(string key)
     {
-        return _nameToRole.TryGetValue(key, out var role)
-            ? LocalizationHelper.GetString(role.ToString())
+        return _nameToOperType.TryGetValue(key, out var operType)
+            ? LocalizationHelper.GetString(operType.ToString())
             : key;
     }
 
