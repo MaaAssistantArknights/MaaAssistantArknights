@@ -1031,7 +1031,6 @@
         "text": ["Continue", "Recruitment"]
     },
     "InfrastReward": {
-        "fullMatch": true,
         "text": ["Collectable", "Orders", "Acquired", "Trust"]
     },
     "ShamareThumbnail1": {
