@@ -7,7 +7,7 @@ export const ThemeToggle: React.FC = () => {
 
   return (
     <motion.button
-      className="fixed top-4 right-4 z-50 p-2 rounded-full bg-opacity-20 backdrop-blur-sm
+      className="p-2 rounded-full bg-opacity-20 backdrop-blur-sm
                 dark:bg-gray-800 dark:bg-opacity-30 
                 bg-white border border-gray-200 dark:border-gray-700
                 text-gray-800 dark:text-white
@@ -15,9 +15,6 @@ export const ThemeToggle: React.FC = () => {
       onClick={toggleTheme}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.05 }}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
       aria-label="change theme"
     >
       {theme === 'dark' ? (
