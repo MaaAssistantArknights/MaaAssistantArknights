@@ -529,7 +529,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </div>
       </motion.div>
     )
-  }, [envPlatformId, release.name])
+  }, [envPlatformId, release.name, t])
 
   const allPlatformDownloadBtns = useMemo(
     () => validPlatforms.map(renderPlatformButton),
