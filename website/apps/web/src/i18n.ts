@@ -13,13 +13,13 @@ i18n
     .use(initReactI18next)
     .init({
         resources: {
-            zh_cn: { translation: zh_cn },
-            zh_tw: { translation: zh_tw },
-            en_us: { translation: en_us },
-            ja_jp: { translation: ja_jp },
-            ko_kr: { translation: ko_kr },
+            "zh-CN": { translation: zh_cn },
+            "zh-TW": { translation: zh_tw },
+            "en-US": { translation: en_us },
+            "ja-JP": { translation: ja_jp },
+            "ko-KR": { translation: ko_kr },
         },
-        fallbackLng: "zh_cn", // 找不到翻译时默认中文
+        fallbackLng: "zh-CN", // 找不到翻译时默认中文
         interpolation: {
             escapeValue: false, // React 已经处理 XSS，不需要 escape
         },
