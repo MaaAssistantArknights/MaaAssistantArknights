@@ -42,8 +42,7 @@
             "viewAll": "전체 보기",
             "mirrorchyanCDKYes": "MirrorChyan CDK가 있나요?",
             "mirrorchyanGo": "MirrorChyan 고속 다운로드로 이동",
-            "versionInfoLoadingError": "<1>버전 정보 로드에 실패했습니다. </1><2>GitHub Releases에서 다운로드</2>할 수 있어요",
-            "downloadFromGitHubReleases": "GitHub Releases에서 다운로드"
+            "versionInfoLoadingError": "<1>버전 정보를 불러오지 못했습니다. 시도해 보세요</1><2>GitHub Releases에서 다운로드하기</2>"
         },
         "platformDetect": {
             "detecting": "시스템 아키텍처 매칭 중...",
@@ -100,6 +99,6 @@
         }
     },
     "footer": {
-        "compliance": "<1>MAA는 <3>AGPL-3.0</3> 라이선스로 오픈소스입니다; </1><2>사용 시 「<4>이용 약관</4>」의 관련 내용에 동의하고 숙지하였음을 의미합니다.</2>"
+        "compliance": "<1>MAA는 <3>AGPL-3.0</3> 라이선스로 오픈소스입니다;</1><2>사용 시 「<4>이용 약관</4>」의 관련 내용에 동의하고 숙지하였음을 의미합니다.</2>"
     }
 }
