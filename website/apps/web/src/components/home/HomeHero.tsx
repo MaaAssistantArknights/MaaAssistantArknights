@@ -12,7 +12,11 @@ import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader'
 import { HomeLinks } from './HomeLinks/HomeLinks'
 import { Screenshots } from './Screenshots/Screenshots'
 
+import { useTranslation } from 'react-i18next'
+
 export const HomeHero: FC = () => {
+  const { t } = useTranslation()
+
   const linkRef = useRef<HTMLDivElement | null>(null)
   const indicatorRef = useRef<HTMLDivElement | null>(null)
   const windowDimensions = useWindowSize()
@@ -34,7 +38,7 @@ export const HomeHero: FC = () => {
               fallback={
                 <div className="absolute inset-0 dark:bg-black/50 bg-gray-500/30 flex items-center justify-center">
                   <div className={`${theme === 'dark' ? 'text-white/50' : 'text-gray-800/70'} text-sm font-semibold`}>
-                    MAA 截图渲染失败；是否禁用了 GPU 加速？
+                    {t('screenshots.render.failure')}
                   </div>
                 </div>
               }
@@ -53,14 +57,14 @@ export const HomeHero: FC = () => {
           )}
         </section>
       </motion.div>
-      
+
       <HomeHeroHeader />
 
       <HomeActions toggleLinks={() => setShowLinks(!showLinks)} showLinks={showLinks} />
-      <HomeLinks 
-        ref={linkRef} 
-        showLinks={showLinks} 
-        onClose={() => setShowLinks(false)} 
+      <HomeLinks
+        ref={linkRef}
+        showLinks={showLinks}
+        onClose={() => setShowLinks(false)}
       />
     </div>
   )
@@ -71,8 +75,8 @@ function ScreenshotsCanvas({
   indicatorRef,
   showLinks = false,
 }: {
-  sidebarRef: React.MutableRefObject<HTMLDivElement | null>
-  indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  sidebarRef: React.RefObject<HTMLDivElement | null>
+  indicatorRef: React.RefObject<HTMLDivElement | null>
   showLinks?: boolean
 }) {
   return (

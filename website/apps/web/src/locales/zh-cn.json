@@ -42,8 +42,7 @@
             "viewAll": "查看全部",
             "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
             "mirrorchyanGo": "前往 Mirror酱 高速下载",
-            "versionInfoLoadingError": "加载版本信息失败",
-            "downloadFromGitHubReleases": "前往 GitHub Releases 下载"
+            "versionInfoLoadingError": "<1>载入版本信息失败。您可尝试</1><2>前往 GitHub Releases 下载</2>"
         },
         "platformDetect": {
             "detecting": "正在匹配系统架构...",
@@ -93,6 +92,11 @@
     },
     "header": {
         "description": "<1>《明日方舟》小助手，</1><2>自动刷图、智能基建换班，</2><3>全日常一键长草</3>"
+    },
+    "screenshots": {
+        "render": {
+            "failure": "MAA 截图渲染失败；是否禁用了 GPU 加速？"
+        }
     },
     "footer": {
         "compliance": "<1>MAA 以 <4>AGPL-3.0</4> 协议开源<1><2>；</2><3>使用即表示您同意并知悉「<5>用户协议</5>」的相关内容。</3>"
