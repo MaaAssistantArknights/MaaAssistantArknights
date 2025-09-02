@@ -101,17 +101,16 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
       <div className="mt-6 text-xs leading-5 text-center md:mt-8 dark:text-white/70 text-black/70 transition-colors duration-300">
         <Trans key={i18n.language} i18nKey="footer.compliance" components={{
           1: <motion.span
-            className="whitespace-nowrap"
+            className="inline-block"
             initial={{ opacity: 0, x: -10, }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 1.3 }}
-            style={{ display: 'inline-block' }}
           />,
           2: <motion.span
+            className="inline-block"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut', delay: 1.4 }}
-            style={{ display: 'inline-block' }}
           />,
           3: <a
             href="https://spdx.org/licenses/AGPL-3.0-only.html"
