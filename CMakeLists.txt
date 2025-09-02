@@ -53,6 +53,14 @@ set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
 
+if (WIN32)
+    include_external_msproject(SyncRes ${PROJECT_SOURCE_DIR}/src/SyncRes/SyncRes.csproj)
+    include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
+    
+    add_dependencies(MaaCore SyncRes)
+    add_dependencies(MaaWpfGui MaaCore SyncRes)
+endif()
+
 if(APPLE)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "@loader_path/")
 elseif(UNIX)
