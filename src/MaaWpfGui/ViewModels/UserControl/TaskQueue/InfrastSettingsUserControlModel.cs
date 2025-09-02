@@ -183,6 +183,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     [
         new() { Display = LocalizationHelper.GetString("InfrastModeNormal"), Value = Mode.Normal },
         new() { Display = LocalizationHelper.GetString("InfrastModeRotation"), Value = Mode.Rotation },
+        new() { Display = LocalizationHelper.GetString("InfrastModeIntelligentCustom"), Value = Mode.IntelligentRotation },
         new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
     ];
 
@@ -653,4 +654,9 @@ public enum InfrastMode
     /// 轮换
     /// </summary>
     Rotation = 20000,
+
+    /// <summary>
+    /// 智能轮换
+    /// </summary>
+    IntelligentRotation = 30000,
 }
