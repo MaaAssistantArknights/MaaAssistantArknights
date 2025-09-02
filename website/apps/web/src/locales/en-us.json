@@ -91,7 +91,7 @@
         "description": "MAA - Arknights Assistant, Sanity Farming, Base Management and more, leaving NOTHING behind"
     },
     "header": {
-        "description": "<1>Arknights Assistant: </1><2>Sanity Farming, Base Management and more, </2><3>leaving NOTHING behind</3>"
+        "description": "<1>Arknights Assistant: </1> <2>Sanity Farming, Base Management and more, </2> <3>leaving NOTHING behind</3>"
     },
     "screenshots": {
         "render": {
@@ -99,6 +99,6 @@
         }
     },
     "footer": {
-        "compliance": "<1>MAA is released under the <3>AGPL-3.0</3> license; <1><2>by using it, you acknowledge and agree to the <4>User Agreement</4>.</2>"
+        "compliance": "<1>MAA is released under the <3>AGPL-3.0</3> license; <1> <2>by using it, you acknowledge and agree to the <4>User Agreement</4>.</2>"
     }
 }
