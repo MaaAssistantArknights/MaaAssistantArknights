@@ -10,11 +10,11 @@ function App() {
   const { t, i18n } = useTranslation()
 
   const langMap: Record<string, string> = {
-    zh_cn: "zh-CN",
-    zh_tw: "zh-TW",
-    en_us: "en",
-    ja_jp: "ja",
-    ko_kr: "ko",
+    "zh-CN": "zh-CN",
+    "zh-TW": "zh-TW",
+    "en-US": "en",
+    "ja-JP": "ja",
+    "ko-KR": "ko",
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
       <main className="h-full max-h-screen overflow-hidden dark:bg-[#080808] bg-[#f5f5f5] transition-colors duration-300">
         <motion.div
           className="fixed top-4 right-4 flex items-center gap-2 z-50"
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >

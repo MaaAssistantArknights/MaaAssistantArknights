@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const languages = [
-    { code: "zh_cn", label: "简体中文" },
-    { code: "zh_tw", label: "繁體中文" },
-    { code: "en_us", label: "English" },
-    { code: "ja_jp", label: "日本語" },
-    { code: "ko_kr", label: "한국어" },
+    { code: "zh-CN", label: "简体中文" },
+    { code: "zh-TW", label: "繁體中文" },
+    { code: "en-US", label: "English" },
+    { code: "ja-JP", label: "日本語" },
+    { code: "ko-KR", label: "한국어" },
 ];
 
 export const LanguageToggle: React.FC = () => {
