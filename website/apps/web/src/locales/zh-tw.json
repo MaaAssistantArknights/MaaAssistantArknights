@@ -4,96 +4,96 @@
             "title": "Windows",
             "subtitle": "x64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
             }
         },
         "windows-arm64": {
             "title": "Windows",
             "subtitle": "arm64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
             }
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "通用",
+            "subtitle": "通用版本",
             "messages": {
-                "downloaded": "下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可"
+                "downloaded": "下載完成後，打開磁碟映像檔，將 MAA.app 拖曳到應用程式資料夾即可"
             }
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 动态库",
+            "subtitle": "x64 動態函式庫",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
             }
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 动态库",
+            "subtitle": "aarch64 動態函式庫",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
             }
         }
     },
     "release": {
         "buttonLabels": {
-            "download": "下载",
+            "download": "下載",
             "viewAll": "查看全部",
-            "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
-            "mirrorchyanGo": "前往 Mirror酱 高速下载",
-            "versionInfoLoadingError": "<1>载入版本信息失败。您可尝试</1><2>前往 GitHub Releases 下载</2>"
+            "mirrorchyanCDKYes": "已經有 Mirror醬 CDK？",
+            "mirrorchyanGo": "前往 Mirror醬 高速下載",
+            "versionInfoLoadingError": "<1>載入版本資訊失敗。您可以</1><2>前往 GitHub Releases 下載</2>"
         },
         "platformDetect": {
-            "detecting": "正在匹配系统架构...",
-            "failure": "未找到当前架构的可用下载链接",
-            "archIncompatible": "不支持您当前的系统架构"
+            "detecting": "正在偵測系統架構...",
+            "failure": "未找到您目前系統架構的可用下載連結",
+            "archIncompatible": "不支援您目前的系統架構"
         },
         "mirrorDetect": {
-            "detecting": "正在检测下载镜像可用性 ({{current}}/{{total}})..."
+            "detecting": "正在檢測下載鏡像可用性 ({{current}}/{{total}})..."
         },
         "speedTest": {
-            "testing": "正在检测下载镜像 #{{index}} 速度...",
-            "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
-            "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
+            "testing": "正在測試鏡像 #{{index}} 的下載速度...",
+            "success": "已偵測到 {{count}} 個可用鏡像（已依下載速度排序）",
+            "failure": "已偵測到 {{count}} 個可用鏡像（由於{{reason}}，無法測試下載速度，已依鏡像延遲排序）",
             "reasons": {
-                "saveData": "用户开启了“节省数据”模式",
-                "mobile": "用户正在使用移动网络"
+                "saveData": "使用者已開啟節省流量模式",
+                "mobile": "使用者目前使用行動網路"
             }
         },
         "download": {
-            "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
-            "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
-            "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
-            "downloadingFallback": "正在尝试从海外源(Github)下载...",
-            "invalidState": "无效的下载状态，请刷新页面重试。"
+            "connectingWithSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms，速度：{{speed}} MiB/s）下載...",
+            "connectingWithoutSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms）下載...",
+            "downloadingFromMirror": "正在從鏡像 #{{index}} 下載...",
+            "downloadingFallback": "正在嘗試從海外來源（GitHub）下載...",
+            "invalidState": "無效的下載狀態，請重新整理頁面後再試一次。"
         }
     },
     "references": {
-        "documentation": "使用文档",
-        "qqGroup": "QQ 群",
+        "documentation": "使用文件",
+        "qqGroup": "QQ 群組",
         "discord": "Discord",
         "github": "GitHub",
-        "friendLinks": "友情链接"
+        "friendLinks": "友站連結"
     },
     "friendLinks": {
-        "prts-plus": "PRTS 作业站",
-        "status": "MAA 状态监测",
-        "mirrorc": "Mirror酱",
-        "penguin-stats": "企鹅物流数据统计",
-        "yituliu": "明日方舟一图流",
+        "prts-plus": "PRTS 作業站",
+        "status": "MAA 狀態監測",
+        "mirrorc": "Mirror醬",
+        "penguin-stats": "企鵝物流數據統計",
+        "yituliu": "明日方舟一圖流",
         "arkntools": "明日方舟工具箱",
-        "ark-nights": "明日方舟 | 干员培养表",
-        "alas": "碧蓝航线小助手"
+        "ark-nights": "明日方舟｜幹員培養表",
+        "alas": "碧藍航線小助手"
     },
     "meta": {
         "title": "MAA —「明日方舟」小助手",
-        "description": "MAA —「明日方舟」小助手，自动刷图、智能基建换班，全日常一键长草"
+        "description": "MAA —「明日方舟」小助手，自動刷圖、智慧基建換班，全日常一鍵長草"
     },
     "header": {
-        "description": "<1>《明日方舟》小助手，</1><2>自动刷图、智能基建换班，</2><3>全日常一键长草</3>"
+        "description": "<1>《明日方舟》小助手，</1><2>自動刷圖、智慧基建換班，</2><3>全日常一鍵長草</3>"
     },
     "footer": {
-        "compliance": "<1>MAA 以 <3>AGPL-3.0</3> 协议开源；<1><2>使用即表示您同意并知悉「<4>用户协议</4>」的相关内容。</2>"
+        "compliance": "<1>MAA 依 <3>AGPL-3.0</3> 授權條款開源；<1><2>使用本軟體即表示您已閱讀並同意「<4>使用者協議</4>」。</2>"
     }
 }
