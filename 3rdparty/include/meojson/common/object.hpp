@@ -71,17 +71,17 @@ public:
     {
     }
 
-    template <
-        typename jsonization_t,
-        std::enable_if_t<
-            std::is_rvalue_reference_v<jsonization_t&&>
-                && _utils::has_move_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
-            bool> = true>
-    basic_object(jsonization_t&& value)
-        : basic_object(
-              ext::jsonization<string_t, jsonization_t>().move_to_json_object(std::move(value)))
-    {
-    }
+    //template <
+    //    typename jsonization_t,
+    //    std::enable_if_t<
+    //        std::is_rvalue_reference_v<jsonization_t&&>
+    //            && _utils::has_move_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
+    //        bool> = true>
+    //basic_object(jsonization_t&& value)
+    //    : basic_object(
+    //          ext::jsonization<string_t, jsonization_t>().move_to_json_object(std::move(value)))
+    //{
+    //}
 
     ~basic_object() = default;
 

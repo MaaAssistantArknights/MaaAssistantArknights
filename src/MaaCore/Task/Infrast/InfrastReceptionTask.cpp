@@ -81,9 +81,10 @@ bool asst::InfrastReceptionTask::get_friend_clue()
 
 bool asst::InfrastReceptionTask::get_self_clue()
 {
+    constexpr int kRetryTimesDefault = ProcessTask::RetryTimesDefault;
     auto run_with_retries = [&](const std::vector<std::string>& tasks) {
         ProcessTask task(*this, tasks);
-        task.set_retry_times(ProcessTask::RetryTimesDefault);
+        task.set_retry_times(kRetryTimesDefault);
         return task.run();
     };
 
