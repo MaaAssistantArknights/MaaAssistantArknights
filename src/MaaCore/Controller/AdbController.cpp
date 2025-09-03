@@ -752,7 +752,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         if (m_screencap_times > 9) { // 每 10 次截图计算一次平均耗时
             m_screencap_times = 0;
-            auto filtered_cost = m_screencap_cost | views::filter([](auto num) { return num > 0; });
+            auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
             if (filtered_cost.empty()) {
                 return screencap_ret;
             }

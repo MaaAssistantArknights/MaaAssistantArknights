@@ -128,8 +128,8 @@ bool asst::BattleHelper::update_deployment_(
         if (!old_deployment_opers.empty()) {
             auto avatar =
                 old_deployment_opers |
-                views::filter([&](const battle::DeploymentOper& temp_oper) { return temp_oper.role == oper.role; }) |
-                views::transform([&](const battle::DeploymentOper& temp_oper) {
+                std::views::filter([&](const battle::DeploymentOper& temp_oper) { return temp_oper.role == oper.role; }) |
+                std::views::transform([&](const battle::DeploymentOper& temp_oper) {
                     return std::make_pair(temp_oper.name, temp_oper.avatar);
                 });
             const auto& result = analyze_oper_with_cache(oper, avatar);
@@ -998,7 +998,7 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 }
 
 template <typename T>
-requires asst::std::ranges::range<T> && asst::OperAvatarPair<asst::std::ranges::range_value_t<T>>
+requires std::ranges::range<T> && asst::OperAvatarPair<std::ranges::range_value_t<T>>
 std::optional<asst::BestMatcher::Result>
     asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
 {

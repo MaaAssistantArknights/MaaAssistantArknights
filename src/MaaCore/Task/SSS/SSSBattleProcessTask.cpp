@@ -20,7 +20,7 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
     std::ranges::transform(
-        m_sss_combat_data.strategies | views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
+        m_sss_combat_data.strategies | std::views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
         std::inserter(m_all_cores, m_all_cores.begin()),
         [](const auto& strategy) { return strategy.core.value(); });
     for (const auto& action : m_sss_combat_data.actions) {
@@ -156,7 +156,7 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
     }
-    for (const auto& oper : m_cur_deployment_opers | views::reverse) {
+    for (const auto& oper : m_cur_deployment_opers | std::views::reverse) {
         if (replace_limit <= 0 || oper.cost < cost_limit) {
             break;
         }
@@ -202,7 +202,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     auto tool_men_done = [&](const RoleCounts& tool_men) -> bool {
-        return std::ranges::all_of(tool_men | views::values, [](int counts) { return counts <= 0; });
+        return std::ranges::all_of(tool_men | std::views::values, [](int counts) { return counts <= 0; });
     };
 
     /* 不再检查干员是否暴毙
@@ -210,7 +210,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         return role != Role::Drone && role != Role::Unknown;
     };
     for (Strategy& strategy :
-         m_sss_combat_data.loc_stragegies | views::values | views::transform([&](const auto& locs) -> Strategy& {
+         m_sss_combat_data.loc_stragegies | std::views::values | std::views::transform([&](const auto& locs) -> Strategy& {
              return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
          })) {
         if (strategy.core_deployed &&                          // 当前 strategy 已经完毕
@@ -243,7 +243,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 #ifdef ASST_DEBUG
         LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core"
                  << strategy.core.value_or("(empty)") << "and tool_men"
-                 << (strategy.tool_men | views::transform([](const auto& rolecounts) {
+                 << (strategy.tool_men | std::views::transform([](const auto& rolecounts) {
                          return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
                      }));
 #endif
@@ -272,7 +272,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         }
 
         auto required_roles_view =
-            strategy.tool_men | views::filter([](const auto& tool_man) { return tool_man.second > 0; }) | views::keys;
+            strategy.tool_men | std::views::filter([](const auto& tool_man) { return tool_man.second > 0; }) | std::views::keys;
         auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
 
         // 如果有费用转好的干员，直接使用

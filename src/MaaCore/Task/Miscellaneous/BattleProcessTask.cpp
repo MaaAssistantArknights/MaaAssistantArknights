@@ -136,7 +136,7 @@ bool asst::BattleProcessTask::to_group()
     }
 
     std::unordered_map<std::string, std::string> ungrouped;
-    const auto& grouped_view = m_oper_in_group | views::values;
+    const auto& grouped_view = m_oper_in_group | std::views::values;
     for (const auto& name : char_set) {
         if (std::ranges::find(grouped_view, name) != grouped_view.end()) {
             continue;

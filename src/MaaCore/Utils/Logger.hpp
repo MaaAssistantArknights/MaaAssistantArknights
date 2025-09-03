@@ -14,13 +14,13 @@
 #include <thread>
 #include <type_traits>
 #include <utility>
+#include <ranges>
 
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "Platform.hpp"
-#include "Ranges.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
 #include "WorkingDir.hpp"

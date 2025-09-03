@@ -565,7 +565,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             results_json["level"] = final_combination.min_level;
             for (const auto& comb : result_vec) {
                 json::array opers_json;
-                for (const Recruitment& oper_info : comb.opers | views::reverse) { // print reversely
+                for (const Recruitment& oper_info : comb.opers | std::views::reverse) { // print reversely
                     opers_json.emplace_back(
                         json::object {
                             { "name", oper_info.name },

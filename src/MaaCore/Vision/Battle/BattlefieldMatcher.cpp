@@ -176,7 +176,7 @@ battle::Role BattlefieldMatcher::oper_role_analyze(const Rect& roi) const
     role_analyzer.set_task_info(TaskName);
     role_analyzer.set_roi(roi);
 
-    for (const auto& role_name : RoleMap | views::keys) {
+    for (const auto& role_name : RoleMap | std::views::keys) {
         role_analyzer.append_templ(TaskName + role_name + Ext);
     }
     auto role_opt = role_analyzer.analyze();

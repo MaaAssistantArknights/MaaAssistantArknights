@@ -553,7 +553,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
-    for (const auto& key : m_baseline | views::keys) {
+    for (const auto& key : m_baseline | std::views::keys) {
         Log.trace(__FUNCTION__, "baseline", key.to_string());
     }
 

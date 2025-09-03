@@ -223,14 +223,14 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         };
     }
     else {
-        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
+        auto homes_pos = m_homes | std::views::transform(&ReplacementHome::location);
         auto invalid_homes_pos =
-            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
-            views::transform(&Point::to_string);
+            homes_pos | std::views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            std::views::transform(&Point::to_string);
         if (!invalid_homes_pos.empty()) {
             Log.error("No replacement homes point:", invalid_homes_pos);
         }
-        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
+        Log.info("replacement home:", homes_pos | std::views::transform(&Point::to_string));
     }
 
     if (m_homes.empty()) {
@@ -818,7 +818,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
 void asst::RoguelikeBattleTaskPlugin::all_melee_retreat()
 {
     std::vector<Point> retreat_locs {};
-    for (const auto& loc : m_used_tiles | views::keys) {
+    for (const auto& loc : m_used_tiles | std::views::keys) {
         auto& tile_info = m_normal_tile_info[loc];
         auto& type = tile_info.buildable;
         if (type == battle::LocationType::Melee || type == battle::LocationType::All) {
@@ -984,7 +984,7 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo>
 
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
-    for (const auto& loc : available_loc | views::take(CalcPointCount)) {
+    for (const auto& loc : available_loc | std::views::take(CalcPointCount)) {
         const auto& [cur_direction, cur_score] = calc_best_direction_and_score(loc, oper, home.direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;

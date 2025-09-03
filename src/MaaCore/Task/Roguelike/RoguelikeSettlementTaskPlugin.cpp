@@ -120,7 +120,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
     std::ranges::for_each(battle_tasks, analyze_battle_data);
 
     using Theme = RoguelikeTheme;
-    for (const auto& [task, is_number] : text_tasks | views::take(m_config->get_theme() == Theme::Phantom ? 3 : 4)) {
+    for (const auto& [task, is_number] : text_tasks | std::views::take(m_config->get_theme() == Theme::Phantom ? 3 : 4)) {
         analyze_text_data(task, is_number);
     }
 

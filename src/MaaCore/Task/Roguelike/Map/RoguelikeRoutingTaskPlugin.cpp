@@ -535,8 +535,8 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
         const int leftmost_x = x_min_p.x;
         const int rightmost_x = x_max_p.x;
 
-        auto leftmostBrightPoints = brightPoints | views::filter([&](const Point& p) { return p.x == leftmost_x; });
-        auto rightmostBrightPoints = brightPoints | views::filter([&](const Point& p) { return p.x == rightmost_x; });
+        auto leftmostBrightPoints = brightPoints | std::views::filter([&](const Point& p) { return p.x == leftmost_x; });
+        auto rightmostBrightPoints = brightPoints | std::views::filter([&](const Point& p) { return p.x == rightmost_x; });
 
         auto [leftmost_y_min_p, leftmost_y_max_p] =
             std::ranges::minmax(leftmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });

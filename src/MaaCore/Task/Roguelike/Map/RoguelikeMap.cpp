@@ -52,7 +52,7 @@ void asst::RoguelikeMap::update_node_costs()
     for (const RoguelikeNodePtr& node : std::ranges::reverse_view(m_nodes)) {
         node->cost = m_cost_fun(node);
         if (!node->succs.empty()) {
-            auto succ_costs = node->succs | views::transform([&](const size_t node_index) {
+            auto succ_costs = node->succs | std::views::transform([&](const size_t node_index) {
                                   return m_cost_fun(m_nodes.at(node_index));
                               });
             node->cost += std::ranges::min(succ_costs);

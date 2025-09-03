@@ -468,7 +468,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     // 如果识别到了自定义的干员，延迟 500 ms 后重新识别准确位置，避免触底动画影响
     if (result.size() >= 3) {
-        const auto views = result | views::drop(result.size() - 3);
+        const auto views = result | std::views::drop(result.size() - 3);
         const auto& first = views.front();
         const auto& end = views.back();
         if (image.cols > end.rect.x + (end.rect.x - first.rect.x)) {

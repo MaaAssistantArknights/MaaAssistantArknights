@@ -101,11 +101,11 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 
     if (auto opt = json.find<json::array>("role_order")) {
         const auto& raw_roles = opt.value();
-        using views::filter, views::transform;
+        using std::views::filter, std::views::transform;
         std::unordered_set<Role> specified_role;
         std::vector<Role> role_order;
         bool is_legal = true;
-        if (std::ranges::find_if_not(raw_roles | views::all, std::mem_fn(&json::value::is_string)) != raw_roles.end()) {
+        if (std::ranges::find_if_not(raw_roles | std::views::all, std::mem_fn(&json::value::is_string)) != raw_roles.end()) {
             Log.error("Role should be string");
             return false;
         }

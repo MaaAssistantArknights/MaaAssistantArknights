@@ -37,7 +37,7 @@ private:
         TaskList task_list = {};
         task_list.reserve(other_string_list.size());
         std::ranges::copy(
-            other_string_list | views::transform(&std::ranges::range_value_t<ListType>::as_string),
+            other_string_list | std::views::transform(&std::ranges::range_value_t<ListType>::as_string),
             std::back_inserter(task_list));
         return task_list;
     }

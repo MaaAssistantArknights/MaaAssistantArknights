@@ -97,7 +97,7 @@ protected:
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
     template <typename T>
-    requires asst::std::ranges::range<T> && OperAvatarPair<asst::std::ranges::range_value_t<T>>
+    requires std::ranges::range<T> && OperAvatarPair<std::ranges::range_value_t<T>>
     std::optional<asst::BestMatcher::Result>
         analyze_oper_with_cache(const battle::DeploymentOper& oper, T&& avatar_cache);
 

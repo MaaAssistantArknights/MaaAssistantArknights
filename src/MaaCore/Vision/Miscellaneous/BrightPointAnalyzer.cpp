@@ -20,7 +20,7 @@ BrightPointAnalyzer::ResultsVecOpt BrightPointAnalyzer::analyze()
         return std::nullopt;
     }
 
-    auto transform_view = brightPoints | views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
+    auto transform_view = brightPoints | std::views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
     ResultsVec results(std::ranges::begin(transform_view), std::ranges::end(transform_view));
 
     if (m_log_tracing) {

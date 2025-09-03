@@ -150,7 +150,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         }
     }
 
-    Log.info("Formation:", m_formation | views::keys);
+    Log.info("Formation:", m_formation | std::views::keys);
     auto cb_info = basic_info_with_what("OcrFormation");
     auto& cb_formation = cb_info["details"]["formation"];
     for (const auto& [name, avatar] : m_formation) {
@@ -602,7 +602,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         show_img(analyzer);
 
         DetectionResult cur_locations;
-        auto tiles = m_normal_tile_info | views::values;
+        auto tiles = m_normal_tile_info | std::views::values;
         for (const auto& box : result_opt->operators) {
             Rect rect = box.rect.move(det_box_move);
             auto iter = std::ranges::find_if(tiles, [&](const TilePack::TileInfo& t) { return rect.include(t.pos); });
@@ -646,7 +646,7 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     }
 
     std::vector<Point> newcomer;
-    for (const Point& loc : clip.battlefield | views::keys) {
+    for (const Point& loc : clip.battlefield | std::views::keys) {
         if (pre_clip_ptr->battlefield.contains(loc)) {
             continue;
         }

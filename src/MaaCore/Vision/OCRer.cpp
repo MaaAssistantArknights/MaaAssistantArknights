@@ -98,7 +98,7 @@ bool OCRer::filter_and_replace_by_required_(Result& res) const
     auto equ_text = ocr_config.process_equivalence_class(res.text);
 
     if (m_params.full_match) {
-        auto required = m_params.required | views::transform([&](const auto& str) { return str.second; });
+        auto required = m_params.required | std::views::transform([&](const auto& str) { return str.second; });
         return std::ranges::find(required, equ_text) != required.end();
     }
     else {

@@ -528,7 +528,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
-            max_oper_x = std::ranges::max(chars | views::transform([&](const auto& x) { return x.rect.x; }));
+            max_oper_x = std::ranges::max(chars | std::views::transform([&](const auto& x) { return x.rect.x; }));
             auto it = std::ranges::find_if(chars, [&](const battle::roguelike::Recruitment& oper) -> bool {
                 return oper.name == char_name;
             });

@@ -164,9 +164,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     si.StartupInfo.wShowWindow = SW_HIDE;
     si.StartupInfo.hStdOutput = pipe_child_write;
     si.StartupInfo.hStdError = pipe_child_write;
-    ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr };
-    ASST_AUTO_DEDUCED_ZERO_INIT_END
 
     std::vector<uint8_t> attrs;
     size_t attrsize = 0;

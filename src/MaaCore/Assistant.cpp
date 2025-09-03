@@ -372,7 +372,7 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     std::vector<TaskId> result(m_tasks_list.size());
-    std::ranges::copy(m_tasks_list | views::keys, result.begin());
+    std::ranges::copy(m_tasks_list | std::views::keys, result.begin());
     return result;
 }
 

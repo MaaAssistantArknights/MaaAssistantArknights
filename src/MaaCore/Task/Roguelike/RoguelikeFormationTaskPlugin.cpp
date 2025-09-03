@@ -117,11 +117,11 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
         int count = 0;
         const int require = condition.threshold;
         for (const std::string& group_name : condition.groups) {
-            auto group_filter = views::filter([&](const auto& oper) {
+            auto group_filter = std::views::filter([&](const auto& oper) {
                 const auto& group_ids = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper.name);
                 return std::ranges::any_of(group_ids, [&](int id) { return group_list[id] == group_name; });
             });
-            for (const auto& oper : oper_list | group_filter | views::take(require - count)) {
+            for (const auto& oper : oper_list | group_filter | std::views::take(require - count)) {
                 if (!oper_to_select.contains(oper.name)) {
                     sorted_oper_list.emplace_back(oper);
                     oper_to_select.emplace(oper.name);
@@ -136,7 +136,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
     std::erase_if(oper_list, [&](const auto& oper) { return oper_to_select.contains(oper.name); });
     std::ranges::stable_partition(oper_list, [](const auto& oper) { return !oper.name.starts_with("预备干员"); });
-    std::ranges::move(oper_list | views::take(13 - sorted_oper_list.size()), std::back_inserter(sorted_oper_list));
+    std::ranges::move(oper_list | std::views::take(13 - sorted_oper_list.size()), std::back_inserter(sorted_oper_list));
 
     for (const auto& oper : sorted_oper_list) {
         select(oper);
@@ -155,16 +155,16 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
     // 比较在新一页识别到的干员名 （detected_oper_names） 与 上一页识别到的干员名 (m_last_detected_oper_names)
     // 若完全相同则认为已到达尾页
     auto formation_analyze_result = formation_analyzer.get_result();
-    auto oper_name_view = formation_analyze_result | views::transform([&](auto oper) { return oper.name; });
+    auto oper_name_view = formation_analyze_result | std::views::transform([&](auto oper) { return oper.name; });
     std::vector<std::string> detected_oper_names(oper_name_view.begin(), oper_name_view.end());
     const bool reach_last_column = (detected_oper_names == m_last_detected_oper_names);
     m_last_detected_oper_names = std::move(detected_oper_names);
 
-    auto unique_filter = views::filter([&](const auto& oper) {
+    auto unique_filter = std::views::filter([&](const auto& oper) {
         // TODO: 这里没考虑多个相同预备干员的情况，不过影响应该不大
         return !std::ranges::any_of(oper_list, [&](const auto& existing_oper) { return oper.name == existing_oper.name; });
     });
-    auto append_page_proj = views::transform([&](auto oper) {
+    auto append_page_proj = std::views::transform([&](auto oper) {
         Log.info(__FUNCTION__, "oper: ", oper.name, " page: ", cur_page);
         oper.page = cur_page;
         return oper;

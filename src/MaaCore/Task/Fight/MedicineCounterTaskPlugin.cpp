@@ -83,7 +83,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     }
     else if (m_used_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | views::reverse) {
+        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
@@ -234,7 +234,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
 void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine, int reduce)
 {
     Log.info(__FUNCTION__, "reduce excess medicine count, current:", using_medicine.using_count, ", reduce:", reduce);
-    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
+    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
         reduce -= use;

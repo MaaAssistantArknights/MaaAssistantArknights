@@ -120,7 +120,7 @@ bool asst::InfrastReceptionTask::use_clue()
     vacancy_analyzer.analyze();
 
     const auto& vacancy = vacancy_analyzer.get_vacancy();
-    for (const auto& id : vacancy | views::keys) {
+    for (const auto& id : vacancy | std::views::keys) {
         Log.trace("InfrastReceptionTask | Vacancy", id);
     }
 

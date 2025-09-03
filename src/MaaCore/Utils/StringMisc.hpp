@@ -11,9 +11,9 @@
 #include <string_view>
 #include <type_traits>
 #include <utility>
+#include <ranges>
 
 #include "Meta.hpp"
-#include "Ranges.hpp"
 
 namespace asst::utils
 {
@@ -121,7 +121,7 @@ template <
     typename Pred = decltype([](CharT c) -> bool { return c != ' '; })>
 inline void string_trim(StringT& str, Pred not_space = Pred {})
 {
-    str.erase(std::ranges::find_if(str | views::reverse, not_space).base(), str.end());
+    str.erase(std::ranges::find_if(str | std::views::reverse, not_space).base(), str.end());
     str.erase(str.begin(), std::ranges::find_if(str, not_space));
 }
 
