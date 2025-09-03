@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
+// i18n语言代码；显示在页面上的语言选择文本；HTML的lang属性
 const languages = [
-    { code: "zh-CN", label: "简体中文" },
-    { code: "zh-TW", label: "繁體中文" },
-    { code: "en-US", label: "English" },
-    { code: "ja-JP", label: "日本語" },
-    { code: "ko-KR", label: "한국어" },
+    { code: "zh-CN", label: "简体中文", lang: "zh-CN" },
+    { code: "zh-TW", label: "繁體中文", lang: "zh-TW" },
+    { code: "en-US", label: "English", lang: "en-US" },
+    { code: "ja-JP", label: "日本語", lang: "ja-JP" },
+    { code: "ko-KR", label: "한국어", lang: "ko-KR" },
 ];
 
 export const LanguageToggle: React.FC = () => {
@@ -38,6 +39,7 @@ export const LanguageToggle: React.FC = () => {
         <motion.div ref={dropdownRef} className="relative">
             {/* 按钮 */}
             <motion.button
+                lang={languages.find((l) => l.code === i18n.language)?.lang || "zh-CN"}
                 onClick={toggleDropdown}
                 className="px-3 py-1 rounded-lg border shadow-md
                            bg-white dark:bg-gray-800
@@ -65,6 +67,7 @@ export const LanguageToggle: React.FC = () => {
                     >
                         {languages.map((lang) => (
                             <motion.button
+                                lang={lang.lang}
                                 key={lang.code}
                                 onClick={() => changeLanguage(lang.code)}
                                 disabled={i18n.language === lang.code}
