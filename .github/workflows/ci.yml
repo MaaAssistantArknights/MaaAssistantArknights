@@ -318,7 +318,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: macos-15
+    runs-on: macos-latest
     strategy:
       matrix:
         arch: [arm64, x86_64]
@@ -369,7 +369,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: [meta, macOS-Core]
-    runs-on: macos-15
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
