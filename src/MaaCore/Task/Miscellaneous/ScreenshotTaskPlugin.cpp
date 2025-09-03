@@ -11,7 +11,7 @@ asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
 {
     m_screenshot_tasks.clear();
     if (auto ptr = Task.get(config_name)) {
-        ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
+        std::ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
     }
     else {
         Log.info(__FUNCTION__, "| no config found");
@@ -24,7 +24,7 @@ asst::ScreenshotTaskPlugin::ScreenshotTaskPlugin(
     }
 #endif
     if (auto ptr = Task.get(debug_config_name)) {
-        ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
+        std::ranges::copy(ptr->next, std::back_inserter(m_screenshot_tasks));
     }
     else {
         Log.info(__FUNCTION__, "| no debug config found");
@@ -46,7 +46,7 @@ bool asst::ScreenshotTaskPlugin::verify(AsstMsg msg, const json::value& details)
         m_last_triggered_time = now;
         return false;
     }
-    if (ranges::any_of(m_screenshot_tasks, [&task](std::string_view item) { return task.ends_with(item); })) {
+    if (std::ranges::any_of(m_screenshot_tasks, [&task](std::string_view item) { return task.ends_with(item); })) {
         m_last_triggered_task = task;
         m_last_triggered_time = now;
         return true;

@@ -10,7 +10,7 @@ concept ByteValueType = std::is_integral_v<ValueType> && sizeof(ValueType) == 1;
 
 template <typename ContainerType>
 concept AppendableBytesContainer = requires(ContainerType a) {
-    requires ranges::contiguous_range<ContainerType>;
+    requires std::ranges::contiguous_range<ContainerType>;
     requires ByteValueType<typename ContainerType::value_type>;
     requires std::is_constructible_v<ContainerType>;
     requires std::is_constructible_v<

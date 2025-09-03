@@ -1,6 +1,6 @@
 #include "RoguelikeBattleTaskPlugin.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include <chrono>
 #include <future>
 #include <vector>
@@ -426,7 +426,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     for (const auto& deploy_plan : deploy_plan_list) {
         if (!m_used_tiles.contains(deploy_plan.placed) &&
             !m_blacklist_location.contains(deploy_plan.placed) /* 判断该位置是否已被占据 */) {
-            if (auto oper_it = ranges::find_if(
+            if (auto oper_it = std::ranges::find_if(
                     m_cur_deployment_opers,
                     [&](const auto& oper) { return oper.name == deploy_plan.oper_name; });
                 oper_it == m_cur_deployment_opers.end() || !oper_it->available) { // 等费
@@ -550,7 +550,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once(const cv::Mat& image, const cv::Ma
             m_cur_home_index = *urgent_home_opt;
 
             if (m_allow_to_use_dice) {
-                auto dice_key_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
+                auto dice_key_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
                     return DiceSet.contains(oper.name);
                 });
                 if (dice_key_iter != m_cur_deployment_opers.end()) {
@@ -714,9 +714,9 @@ std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
     }
 
     // 同时出现了多个家门的紧急情况，index 序号小的是靠前的家门，优先入栈
-    ranges::sort(new_urgent);
+    std::ranges::sort(new_urgent);
     for (const size_t& home_index : new_urgent) {
-        if (ranges::find(m_urgent_home_index, home_index) != m_urgent_home_index.cend()) {
+        if (std::ranges::find(m_urgent_home_index, home_index) != m_urgent_home_index.cend()) {
             continue;
         }
         m_urgent_home_index.emplace_back(home_index);
@@ -775,7 +775,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
     }
     // 费用高的优先用，放前面
-    ranges::sort(cur_available, [](const auto& lhs, const auto& rhs) { return lhs.cost > rhs.cost; });
+    std::ranges::sort(cur_available, [](const auto& lhs, const auto& rhs) { return lhs.cost > rhs.cost; });
 
     DeploymentOper best_oper;
 
@@ -969,7 +969,7 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo>
         return std::nullopt;
     }
     // 把所有可用的点按距离排个序
-    ranges::sort(available_loc, comp_dist);
+    std::ranges::sort(available_loc, comp_dist);
 
     if (DiceSet.contains(oper.name)) {
         return DeployInfo { available_loc.back(), DeployDirection::None };

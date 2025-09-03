@@ -505,7 +505,7 @@ public:
             else if constexpr (std::constructible_from<std::string, T>) {
                 s << std::string(std::forward<T>(v));
             }
-            else if constexpr (ranges::input_range<T>) {
+            else if constexpr (std::ranges::input_range<T>) {
                 s << "[";
                 std::string_view comma_space {};
                 for (const auto& elem : std::forward<T>(v)) {

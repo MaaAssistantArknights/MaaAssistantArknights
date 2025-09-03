@@ -263,8 +263,8 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
 
     std::decay_t<decltype(ocr_replace)> merged_replace {};
     merged_replace.reserve(number_replace.size() + ocr_replace.size());
-    ranges::copy(number_replace, std::back_inserter(merged_replace));
-    ranges::copy(ocr_replace, std::back_inserter(merged_replace));
+    std::ranges::copy(number_replace, std::back_inserter(merged_replace));
+    std::ranges::copy(ocr_replace, std::back_inserter(merged_replace));
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);
@@ -287,7 +287,7 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     const auto& task_replace = ocr_task->replace_map;
     auto merge_map = std::vector(number_replace);
-    ranges::copy(task_replace, std::back_inserter(merge_map));
+    std::ranges::copy(task_replace, std::back_inserter(merge_map));
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);

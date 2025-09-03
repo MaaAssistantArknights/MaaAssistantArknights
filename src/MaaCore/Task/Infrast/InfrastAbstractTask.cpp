@@ -10,7 +10,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
@@ -135,8 +135,8 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     Log.info(__FUNCTION__, "available operators for group size:", opers.size());
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
-        if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
-            ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
+        if (std::ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
+            std::ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
             current_room_config().names.insert(
                 current_room_config().names.end(),
                 oper_group_pair.second.begin(),
@@ -153,7 +153,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
         json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
         std::vector<std::string> names;
-        ranges::for_each(
+        std::ranges::for_each(
             current_room_config().operator_groups,
             [&names](std::pair<const std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
         info["details"]["groups"] = json::array(std::move(names));
@@ -362,7 +362,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
     oper_analyzer.sort_by_loc();
     const auto& oper_analyzer_res = oper_analyzer.get_result();
     size_t selected_count =
-        ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
+        std::ranges::count_if(oper_analyzer_res, [](const infrast::Oper& info) { return info.selected; });
     Log.info(
         "selected_count,config.names.size,num_of_opers_expect = ",
         selected_count,
@@ -397,7 +397,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
         }
 
         const std::string& name = name_analyzer.get_result().text;
-        if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
+        if (auto iter = std::ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "is in \"operators\"，and is selected");
             room_config.names.erase(iter);
         }
@@ -453,9 +453,9 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         }
         const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
-        if (auto iter = ranges::find(room_config.names, name);
+        if (auto iter = std::ranges::find(room_config.names, name);
             iter != room_config.names.end() ||
-            ranges::find(room_config.candidates, name) != room_config.candidates.end()) {
+            std::ranges::find(room_config.candidates, name) != room_config.candidates.end()) {
             need_to_select = true;
             break;
         }
@@ -500,12 +500,12 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
 
-        if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
+        if (auto iter = std::ranges::find(room_config.names, name); iter != room_config.names.end()) {
             room_config.names.erase(iter);
         }
         else if (max_num_of_opers() - room_config.selected > room_config.names.size()) {
             // names中的数量，比剩余的空位多，就可以选备选的
-            if (auto candd_iter = ranges::find(room_config.candidates, name);
+            if (auto candd_iter = std::ranges::find(room_config.candidates, name);
                 candd_iter != room_config.candidates.end()) {
                 room_config.candidates.erase(candd_iter);
             }
@@ -590,7 +590,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     }
 
     for (const std::string& name : names) {
-        auto iter = ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
+        auto iter = std::ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
         if (iter != page_result.cend()) {
             ctrler()->click(iter->rect);
         }
@@ -639,7 +639,7 @@ bool asst::InfrastAbstractTask::click_clear_button()
                 return false;
             }
             size_t selected_count =
-                ranges::count_if(analyzer.get_result(), [](const infrast::Oper& info) { return info.selected; });
+                std::ranges::count_if(analyzer.get_result(), [](const infrast::Oper& info) { return info.selected; });
             Log.info(__FUNCTION__, "after clear, selected_count = ", selected_count);
             if (selected_count == 0) {
                 break;

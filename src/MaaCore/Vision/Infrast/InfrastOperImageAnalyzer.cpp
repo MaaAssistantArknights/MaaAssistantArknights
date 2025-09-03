@@ -1,7 +1,7 @@
 #include "InfrastOperImageAnalyzer.h"
 
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include "Config/Miscellaneous/InfrastConfig.h"
 #include "Config/TaskData.h"
@@ -45,7 +45,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_loc()
 {
     LogTraceFunction;
 
-    ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+    std::ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
         if (std::abs(lhs.rect.x - rhs.rect.x) < 5) {
             // x差距较小则理解为是同一排的，按y排序
             return lhs.rect.y < rhs.rect.y;
@@ -60,7 +60,7 @@ void asst::InfrastOperImageAnalyzer::sort_by_mood()
 {
     LogTraceFunction;
 
-    ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
+    std::ranges::sort(m_result, [](const infrast::Oper& lhs, const infrast::Oper& rhs) -> bool {
         // 先按心情排序，心情低的放前面
         if (std::fabs(lhs.mood_ratio - rhs.mood_ratio) > DoubleDiff) {
             return lhs.mood_ratio < rhs.mood_ratio;
@@ -298,7 +298,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             else if (possible_skills.size() > 1) {
                 // 匹配得分最高的id作为基准，排除有识别错误，其他的技能混进来了的情况
                 // 即排除容器中，除了有同一个技能的不同等级，还有别的技能的情况
-                auto max_iter = ranges::max_element(possible_skills, std::less {}, [](const auto& pair) {
+                auto max_iter = std::ranges::max_element(possible_skills, std::less {}, [](const auto& pair) {
                     return pair.second.score;
                 });
                 double base_score = max_iter->second.score;

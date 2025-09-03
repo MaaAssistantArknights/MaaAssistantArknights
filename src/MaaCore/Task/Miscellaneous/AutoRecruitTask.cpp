@@ -11,7 +11,7 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include <algorithm>
 #include <regex>
 
@@ -27,7 +27,7 @@ auto get_all_combs(
 
     {
         rcs_with_single_tag.reserve(tags.size());
-        ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfig::TagId& t) {
+        std::ranges::transform(tags, std::back_inserter(rcs_with_single_tag), [](const RecruitConfig::TagId& t) {
             RecruitCombs result;
             result.tags = { t };
             result.min_level = 6;
@@ -51,8 +51,8 @@ auto get_all_combs(
         for (auto& rc : rcs_with_single_tag) {
             rc.avg_level /= static_cast<double>(rc.opers.size());
             // intersection and union are based on sorted container
-            ranges::sort(rc.tags);
-            ranges::sort(rc.opers);
+            std::ranges::sort(rc.tags);
+            std::ranges::sort(rc.opers);
         }
     }
 
@@ -90,13 +90,13 @@ auto get_all_combs(
     static constexpr std::string_view SeniorOper = "高级资深干员";
 
     for (auto comb_iter = result.begin(); comb_iter != result.end();) {
-        if (ranges::find(comb_iter->tags, RecruitConfig::TagId(SeniorOper)) != comb_iter->tags.end()) {
+        if (std::ranges::find(comb_iter->tags, RecruitConfig::TagId(SeniorOper)) != comb_iter->tags.end()) {
             ++comb_iter;
             continue;
         }
         // no senior tag, remove 6-star operators
         // assuming sorted by level
-        auto iter = ranges::find_if(comb_iter->opers, [](const Recruitment& op) { return op.level >= 6; });
+        auto iter = std::ranges::find_if(comb_iter->opers, [](const Recruitment& op) { return op.level >= 6; });
         if (iter == comb_iter->opers.end()) {
             ++comb_iter;
             continue;
@@ -309,7 +309,7 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     if (result.empty()) {
         return std::nullopt;
     }
-    auto iter = ranges::find_if(result, [&](const TextRect& r) -> bool {
+    auto iter = std::ranges::find_if(result, [&](const TextRect& r) -> bool {
         return !m_force_skipped.contains(slot_index_from_rect(r.rect));
     });
     if (iter == result.cend()) {
@@ -452,7 +452,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         m_has_permit = image_analyzer.get_permit_rect().empty();
 
         std::vector<RecruitConfig::TagId> tag_ids;
-        ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
+        std::ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
 
         bool has_special_tag = false;
         bool has_robot_tag = false;
@@ -470,7 +470,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // special tags
         const std::vector<RecruitConfig::TagId> SpecialTags = { "高级资深干员", "资深干员" };
-        if (auto special_iter = ranges::find_first_of(SpecialTags, tag_ids); special_iter != SpecialTags.cend())
+        if (auto special_iter = std::ranges::find_first_of(SpecialTags, tag_ids); special_iter != SpecialTags.cend())
             [[unlikely]] {
             has_special_tag = true;
             json::value cb_info = info;
@@ -481,7 +481,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // robot tags
         const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械", "元素" };
-        if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
+        if (auto robot_iter = std::ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
             has_robot_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
@@ -513,7 +513,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             if (rc.min_level < 3) {
                 // find another min level (assuming operator list sorted in increment order by
                 // level)
-                auto sec = ranges::find_if(rc.opers, [](const Recruitment& op) { return op.level >= 3; });
+                auto sec = std::ranges::find_if(rc.opers, [](const Recruitment& op) { return op.level >= 3; });
                 if (sec != rc.opers.end()) {
                     rc.min_level = sec->level;
                     rc.avg_level = std::transform_reduce(
@@ -527,13 +527,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        ranges::sort(result_vec, [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
+        std::ranges::sort(result_vec, [&](const RecruitCombs& lhs, const RecruitCombs& rhs) -> bool {
             // prefer the one with special tag
             // workaround for
             // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1336
             if (has_special_tag) {
-                bool l_has = ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
-                bool r_has = ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
+                bool l_has = std::ranges::find_first_of(lhs.tags, SpecialTags) != lhs.tags.cend();
+                bool r_has = std::ranges::find_first_of(rhs.tags, SpecialTags) != rhs.tags.cend();
                 if (l_has != r_has) {
                     return l_has > r_has;
                 }
@@ -733,7 +733,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
-            auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+            auto tag_rect_iter = std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
             }
@@ -998,7 +998,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
         version.erase(0, 1);
     }
 
-    version.erase(ranges::remove(version, ' ').begin(), version.end());
+    version.erase(std::ranges::remove(version, ' ').begin(), version.end());
 
     extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 

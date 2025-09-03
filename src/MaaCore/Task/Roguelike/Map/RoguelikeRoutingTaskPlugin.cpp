@@ -531,7 +531,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
         // 按照水平方向排序（从左到右）
         std::vector<Point> brightPoints = analyzer.get_result();
 
-        auto [x_min_p, x_max_p] = ranges::minmax(brightPoints, /*comp=*/ {}, [](const Point& p) { return p.x; });
+        auto [x_min_p, x_max_p] = std::ranges::minmax(brightPoints, /*comp=*/ {}, [](const Point& p) { return p.x; });
         const int leftmost_x = x_min_p.x;
         const int rightmost_x = x_max_p.x;
 
@@ -539,11 +539,11 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
         auto rightmostBrightPoints = brightPoints | views::filter([&](const Point& p) { return p.x == rightmost_x; });
 
         auto [leftmost_y_min_p, leftmost_y_max_p] =
-            ranges::minmax(leftmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
+            std::ranges::minmax(leftmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int leftmost_y = (leftmost_y_min_p.y + leftmost_y_max_p.y) / 2;
 
         auto [rightmost_y_min_p, rightmost_y_max_p] =
-            ranges::minmax(rightmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
+            std::ranges::minmax(rightmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int rightmost_y = (rightmost_y_min_p.y + rightmost_y_max_p.y) / 2;
 
         if ((std::abs(prev_y - node_y) < m_direction_threshold &&

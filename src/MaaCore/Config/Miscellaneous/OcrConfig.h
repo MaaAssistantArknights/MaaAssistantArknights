@@ -2,7 +2,7 @@
 
 #include "Config/AbstractConfig.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include <algorithm>
 #include <numeric>
 #include <string>

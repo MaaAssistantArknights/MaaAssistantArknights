@@ -12,7 +12,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
@@ -166,7 +166,7 @@ bool asst::BattleHelper::update_deployment_(
     // ————————————————————————————————————————
     // 匹配未知非冷却干员
     // ————————————————————————————————————————
-    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
+    if (std::ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -208,7 +208,7 @@ bool asst::BattleHelper::update_deployment_(
                 if (const auto& results = re_matcher.get_result(); !results.empty()) {
                     // 遍历结果，找到 y 最小的（之前选中的） rect
                     auto min_rect_iter =
-                        ranges::min_element(results, [](const auto& a, const auto& b) { return a.rect.y < b.rect.y; });
+                        std::ranges::min_element(results, [](const auto& a, const auto& b) { return a.rect.y < b.rect.y; });
 
                     oper_rect = min_rect_iter->rect;
                 }
@@ -988,7 +988,7 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 {
     LogTraceFunction;
 
-    auto oper_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+    auto oper_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
     if (oper_iter == m_cur_deployment_opers.end()) {
         Log.error("No oper", name);
         return std::nullopt;
@@ -998,7 +998,7 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 }
 
 template <typename T>
-requires asst::ranges::range<T> && asst::OperAvatarPair<asst::ranges::range_value_t<T>>
+requires asst::std::ranges::range<T> && asst::OperAvatarPair<asst::std::ranges::range_value_t<T>>
 std::optional<asst::BestMatcher::Result>
     asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
 {

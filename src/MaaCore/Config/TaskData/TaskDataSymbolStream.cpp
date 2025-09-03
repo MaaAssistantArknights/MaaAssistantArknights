@@ -142,18 +142,18 @@ asst::TaskDataSymbolStream::SymbolsOrError
             }
             if (op == Symbol::Add) {
                 // x = x + y
-                ranges::move(y, std::back_inserter(x));
+                std::ranges::move(y, std::back_inserter(x));
             }
             else {
                 // x = x - y
                 // WARNING:
                 // self_name + #self ^ #self = #none
                 // self_name + #self ^ self_name = #self
-                if (ranges::any_of(y, [&](const auto& sy) { return sy == Symbol::SharpSelf; })) {
+                if (std::ranges::any_of(y, [&](const auto& sy) { return sy == Symbol::SharpSelf; })) {
                     std::erase(x, self_name);
                 }
                 std::erase_if(x, [&](const auto& sx) {
-                    return ranges::any_of(y, [&](const auto& sy) { return sx == sy; });
+                    return std::ranges::any_of(y, [&](const auto& sy) { return sx == sy; });
                 });
             }
         }
@@ -195,7 +195,7 @@ asst::TaskDataSymbolStream::SymbolsOrError
             }
             Symbols x_copy = x;
             for (int i = 0; i < times - 1; ++i) {
-                ranges::copy(x_copy, std::back_inserter(x));
+                std::ranges::copy(x_copy, std::back_inserter(x));
             }
         }
         return x;
@@ -226,7 +226,7 @@ asst::TaskDataSymbolStream::SymbolsOrError
                         return { std::nullopt,
                                  "decode_vtasks: failed while " + sx.name() + " @ " + sy.name() + ", " + opt.error() };
                     }
-                    ranges::copy(*opt, std::back_inserter(x));
+                    std::ranges::copy(*opt, std::back_inserter(x));
                 }
             }
         }

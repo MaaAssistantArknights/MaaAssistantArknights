@@ -13,7 +13,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include "Utils/StringMisc.hpp"
 
 asst::OcrPack::OcrPack() :
@@ -110,8 +110,8 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
             const auto& box = ocr_result.boxes.at(i);
             int x_collect[] = { box[0], box[2], box[4], box[6] };
             int y_collect[] = { box[1], box[3], box[5], box[7] };
-            auto [left, right] = ranges::minmax(x_collect);
-            auto [top, bottom] = ranges::minmax(y_collect);
+            auto [left, right] = std::ranges::minmax(x_collect);
+            auto [top, bottom] = std::ranges::minmax(y_collect);
             det_rect = Rect(left, top, right - left, bottom - top);
         }
         else {

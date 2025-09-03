@@ -28,16 +28,16 @@ private:
     static std::string append_prefix(std::string_view task_name, std::string_view task_prefix);
     static TaskList append_prefix(const TaskList& base_task_list, std::string_view task_prefix);
 
-    template <ranges::forward_range ListType>
+    template <std::ranges::forward_range ListType>
     requires(
-        !std::same_as<ranges::range_value_t<ListType>, std::string> &&
-        requires { std::declval<ranges::range_value_t<ListType>>().as_string(); })
+        !std::same_as<std::ranges::range_value_t<ListType>, std::string> &&
+        requires { std::declval<std::ranges::range_value_t<ListType>>().as_string(); })
     static TaskList to_string_list(const ListType& other_string_list)
     {
         TaskList task_list = {};
         task_list.reserve(other_string_list.size());
-        ranges::copy(
-            other_string_list | views::transform(&ranges::range_value_t<ListType>::as_string),
+        std::ranges::copy(
+            other_string_list | views::transform(&std::ranges::range_value_t<ListType>::as_string),
             std::back_inserter(task_list));
         return task_list;
     }

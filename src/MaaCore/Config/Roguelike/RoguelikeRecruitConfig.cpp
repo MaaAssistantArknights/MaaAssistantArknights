@@ -87,7 +87,7 @@ int asst::RoguelikeRecruitConfig::get_group_id_from_name(
 const std::string
     asst::RoguelikeRecruitConfig::get_group_name_from_id(const std::string& theme, const int group_id) const noexcept
 {
-    auto it = ranges::find_if(m_all_groups.at(theme), [&](const auto& group) { return group.second.id == group_id; });
+    auto it = std::ranges::find_if(m_all_groups.at(theme), [&](const auto& group) { return group.second.id == group_id; });
     if (it != m_all_groups.at(theme).end()) {
         return it->first;
     }

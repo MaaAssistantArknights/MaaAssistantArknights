@@ -99,7 +99,7 @@ bool OCRer::filter_and_replace_by_required_(Result& res) const
 
     if (m_params.full_match) {
         auto required = m_params.required | views::transform([&](const auto& str) { return str.second; });
-        return ranges::find(required, equ_text) != required.end();
+        return std::ranges::find(required, equ_text) != required.end();
     }
     else {
         auto is_sub = [&](const auto& p) -> bool {
@@ -109,6 +109,6 @@ bool OCRer::filter_and_replace_by_required_(Result& res) const
             res.text = p.first;
             return true;
         };
-        return ranges::find_if(m_params.required, is_sub) != m_params.required.cend();
+        return std::ranges::find_if(m_params.required, is_sub) != m_params.required.cend();
     };
 }

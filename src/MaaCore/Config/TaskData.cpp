@@ -15,7 +15,7 @@
 #include "TemplResource.h"
 #include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include "Utils/StringMisc.hpp"
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
@@ -179,7 +179,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             static const std::unordered_set count_methods { MatchMethod::RGBCount, MatchMethod::HSVCount };
             if (auto match_task = std::dynamic_pointer_cast<MatchTaskInfo>(task);
                 task->algorithm == AlgorithmType::MatchTemplate &&
-                ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
+                std::ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
                     match_task->methods.cend() &&
                 match_task->color_scales.empty()) {
                 // RGBCount 和 HSVCount 必须有 color_scales
@@ -588,7 +588,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             threshold_opt->as_double());
     }
     else if (threshold_opt->is_array()) {
-        ranges::copy(
+        std::ranges::copy(
             threshold_opt->as_array() | views::transform(&json::value::as_double),
             std::back_inserter(match_task_info_ptr->templ_thresholds));
     }
@@ -619,7 +619,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             get_match_method(method_opt->as_string()));
     }
     else if (method_opt->is_array()) {
-        ranges::copy(
+        std::ranges::copy(
             method_opt->as_array() | views::transform(&json::value::as_string) | views::transform(&get_match_method),
             std::back_inserter(match_task_info_ptr->methods));
     }
@@ -628,7 +628,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         return nullptr;
     }
 
-    if (ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
+    if (std::ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
         Log.error("Invalid method in task", name);
         return nullptr;
     }
@@ -715,7 +715,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             const auto& lower = lower_item.as_array();
             const auto& upper = upper_item.as_array();
 
-            if (!ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
+            if (!std::ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
                 Log.error("Invalid color_range in task", name);
                 return nullptr;
             }

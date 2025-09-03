@@ -1,6 +1,6 @@
 #include "CreditShopImageAnalyzer.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include "Utils/NoWarningCV.h"
 
@@ -104,8 +104,8 @@ bool asst::CreditShopImageAnalyzer::whether_to_buy_analyze()
     }
 
     if (m_is_white_list) {
-        ranges::sort(m_need_to_buy, std::less {}, [&](const auto& pair) {
-            return ranges::find(m_shopping_list, pair.second);
+        std::ranges::sort(m_need_to_buy, std::less {}, [&](const auto& pair) {
+            return std::ranges::find(m_shopping_list, pair.second);
         });
     }
 

@@ -1,6 +1,6 @@
 #include "InfrastReceptionTask.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"

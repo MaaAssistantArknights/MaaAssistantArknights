@@ -6,7 +6,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include "Vision/Battle/BattleFormationAnalyzer.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldDetector.h"
@@ -605,7 +605,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         auto tiles = m_normal_tile_info | views::values;
         for (const auto& box : result_opt->operators) {
             Rect rect = box.rect.move(det_box_move);
-            auto iter = ranges::find_if(tiles, [&](const TilePack::TileInfo& t) { return rect.include(t.pos); });
+            auto iter = std::ranges::find_if(tiles, [&](const TilePack::TileInfo& t) { return rect.include(t.pos); });
             if (iter == tiles.end()) {
                 Log.warn(i, __FUNCTION__, "no pos", box.rect.to_string(), rect);
                 continue;
@@ -618,7 +618,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     }
 
     /* 取众数 */
-    auto oper_det_iter = ranges::max_element(oper_det_samping, [&](const auto& lhs, const auto& rhs) {
+    auto oper_det_iter = std::ranges::max_element(oper_det_samping, [&](const auto& lhs, const auto& rhs) {
         return lhs.second < rhs.second;
     });
     if (oper_det_iter == oper_det_samping.end()) {
@@ -707,7 +707,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         ananlyze_deployment_names(clip);
         ananlyze_deployment_names(*pre_clip_ptr);
         for (const auto& pre_oper : pre_clip_ptr->deployment) {
-            auto iter = ranges::find_if(clip.deployment, [&](const auto& oper) { return oper.name == pre_oper.name; });
+            auto iter = std::ranges::find_if(clip.deployment, [&](const auto& oper) { return oper.name == pre_oper.name; });
             if (iter != clip.deployment.end()) {
                 continue;
             }

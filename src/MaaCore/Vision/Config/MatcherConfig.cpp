@@ -67,7 +67,7 @@ void MatcherConfig::set_method(MatchMethod method) noexcept
 void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
 {
     m_params.templs.clear();
-    ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
+    std::ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
     m_params.templ_thres = std::move(task_info.templ_thresholds);
     m_params.mask_ranges = std::move(task_info.mask_ranges);
     m_params.color_scales = std::move(task_info.color_scales);

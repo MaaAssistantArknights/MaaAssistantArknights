@@ -2,7 +2,7 @@
 
 #include "Config/AbstractConfig.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include <algorithm>
 #include <numeric>
 #include <string>
@@ -131,16 +131,16 @@ struct RecruitCombs
     // intersection of two recruit combs
     friend RecruitCombs operator*(RecruitCombs& lhs, RecruitCombs& rhs)
     {
-        ranges::sort(lhs.tags);
-        ranges::sort(lhs.opers);
-        ranges::sort(rhs.tags);
-        ranges::sort(rhs.opers);
+        std::ranges::sort(lhs.tags);
+        std::ranges::sort(lhs.opers);
+        std::ranges::sort(rhs.tags);
+        std::ranges::sort(rhs.opers);
 
         RecruitCombs result;
 
-        ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
+        std::ranges::set_union(lhs.tags, rhs.tags, std::back_inserter(result.tags));
 
-        ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
+        std::ranges::set_intersection(lhs.opers, rhs.opers, std::back_inserter(result.opers));
 
         result.update_attributes();
 
