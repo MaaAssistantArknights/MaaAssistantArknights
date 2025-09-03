@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import http.client
 
-TARGET_TAG = "v2.9.1"
+TARGET_TAG = "v2.9.2-maa.1"
 basedir = Path(__file__).parent.parent
 
 
@@ -154,7 +154,7 @@ def main():
         return
 
     req = urllib.request.Request(
-        "https://api.github.com/repos/MaaXYZ/MaaDeps/releases"
+        "https://api.github.com/repos/MaaAssistantArknights/MaaDeps/releases"
     )
     token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
     if token:
