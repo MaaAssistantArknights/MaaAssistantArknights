@@ -173,12 +173,12 @@ jobs:
           
       - name: Build
         run: |
-         cmake --build build --parallel $(nproc --all)
+          cmake --build build --config Release
 
       - name: Install
         run: |
           mkdir -p install
-          cmake --install build --prefix install
+          cmake --install build --prefix install --config Release
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
@@ -226,6 +226,7 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
+            -DCMAKE_BUILD_TYPE=Release \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
@@ -236,14 +237,14 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build --parallel $(nproc --all)
+          cmake --build build --config Release
         env:
           CLICOLOR_FORCE: 1
 
       - name: Install
         run: |
           mkdir -p install
-          cmake --install build --prefix install
+          cmake --install build --prefix install --config Release
 
 
       - name: Setup Cross Compile Toolchains for CLI
@@ -350,11 +351,11 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build
+          cmake --build build --config Release
 
       - name: Install
         run: |
-          cmake --install build --prefix install
+          cmake --install build --prefix install --config Release
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
