@@ -25,6 +25,16 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
   // console.log('HomeActions rendered, showLinks:', showLinks);
   const { t, i18n } = useTranslation();
 
+  const docsLinkMapping: Record<string, string> = {
+    "zh-CN": "/docs/zh-cn",
+    "zh-TW": "/docs/zh-tw",
+    "en-US": "/docs/en-us",
+    "ja-JP": "/docs/ja-jp",
+    "ko-KR": "/docs/ko-kr",
+  };
+
+  const docsLink = docsLinkMapping[i18n.language] ?? "/docs"
+
   return (
     <div className="absolute bottom-0 left-0 right-0 mb-24 md:mb-[7vh] flex flex-col mx-8">
       <motion.div
@@ -48,7 +58,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
       </motion.div>
 
       <div className="flex-row gap-4 items-center justify-center mt-4 flex flex-col md:flex-row">
-        <GlowButton translucent href="/docs">
+        <GlowButton translucent href={docsLink}>
           <div className="flex items-center -ml-1 font-light">
             <Icon icon={mdiDocument} fontSize="30px" />
             <span className="ml-2">{t('references.documentation')}</span>
