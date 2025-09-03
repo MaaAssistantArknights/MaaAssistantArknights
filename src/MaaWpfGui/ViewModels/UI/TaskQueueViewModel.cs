@@ -1394,7 +1394,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Waiting = true;
             AddLog(LocalizationHelper.GetString("Waiting"));
-            if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
+            if (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
             {
                 await WaitUntilRoguelikeCombatComplete();
 
@@ -1411,7 +1411,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task WaitUntilRoguelikeCombatComplete()
         {
             int time = 0;
-            while (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            while (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
             {
                 await Task.Delay(1000);
                 ++time;

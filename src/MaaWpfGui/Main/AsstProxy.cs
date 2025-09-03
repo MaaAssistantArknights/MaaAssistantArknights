@@ -1712,7 +1712,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
+                        if (TaskQueueViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }
