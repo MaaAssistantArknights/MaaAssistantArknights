@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.UI.AnnouncementView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
@@ -86,6 +87,7 @@
                 Margin="30,10,20,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                IsEnabled="{c:Binding 'IsScrolledToBottom or DoNotRemindThisAnnouncementAgain'}"
                 Orientation="Horizontal">
                 <CheckBox
                     Height="30"
@@ -93,15 +95,13 @@
                     HorizontalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"
-                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}"
-                    IsEnabled="{Binding IsScrolledToBottom}" />
+                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
                 <Button
                     Height="50"
                     MinWidth="100"
                     Margin="10"
                     Command="{s:Action Close}"
-                    Content="{DynamicResource Confirm}"
-                    IsEnabled="{Binding IsScrolledToBottom}" />
+                    Content="{DynamicResource Confirm}" />
             </StackPanel>
         </Grid>
     </Grid>
