@@ -9,12 +9,13 @@ import { LanguageToggle } from './components/LanguageToggle'
 function App() {
   const { t, i18n } = useTranslation()
 
+  // i18n语言代码 -> HTML的lang属性
   const langMap: Record<string, string> = {
     "zh-CN": "zh-CN",
     "zh-TW": "zh-TW",
-    "en-US": "en",
-    "ja-JP": "ja",
-    "ko-KR": "ko",
+    "en-US": "en-US",
+    "ja-JP": "ja-JP",
+    "ko-KR": "ko-KR",
   };
 
   useEffect(() => {
