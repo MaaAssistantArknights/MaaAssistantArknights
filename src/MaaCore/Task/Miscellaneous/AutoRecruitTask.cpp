@@ -11,8 +11,8 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
 
-#include <ranges>
 #include <algorithm>
+#include <ranges>
 #include <regex>
 
 namespace asst::recruit_calc
@@ -481,7 +481,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // robot tags
         const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械", "元素" };
-        if (auto robot_iter = std::ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend()) [[unlikely]] {
+        if (auto robot_iter = std::ranges::find_first_of(RobotTags, tag_ids); robot_iter != RobotTags.cend())
+            [[unlikely]] {
             has_robot_tag = true;
             json::value cb_info = info;
             cb_info["what"] = "RecruitSpecialTag";
@@ -733,7 +734,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
-            auto tag_rect_iter = std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
+            auto tag_rect_iter =
+                std::ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
             }

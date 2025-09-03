@@ -1,8 +1,8 @@
 #include "BattleProcessTask.h"
 
-#include <ranges>
 #include <chrono>
 #include <future>
+#include <ranges>
 #include <thread>
 
 #include "Utils/NoWarningCV.h"
@@ -112,7 +112,9 @@ bool asst::BattleProcessTask::to_group()
             continue;
         }
         std::vector<std::string> oper_name_list;
-        std::ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
+        std::ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) {
+            return oper.name;
+        });
         groups.emplace(group_name, std::move(oper_name_list));
     }
 
@@ -165,7 +167,8 @@ bool asst::BattleProcessTask::to_group()
         // there is a build error on macOS
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         const std::string& oper_name_for_lambda = oper_name;
-        auto iter = std::ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name_for_lambda; });
+        auto iter =
+            std::ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name_for_lambda; });
         if (iter == this_group.end()) {
             continue;
         }

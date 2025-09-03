@@ -1,7 +1,7 @@
 #include "InfrastProductionTask.h"
 
-#include <ranges>
 #include <algorithm>
+#include <ranges>
 
 #include <calculator/calculator.hpp>
 
@@ -656,7 +656,8 @@ bool asst::InfrastProductionTask::opers_choose()
                         return false;
                     }
                     std::string name = name_analyzer.get_result().text;
-                    return std::ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
+                    return std::ranges::find(std::as_const(opt_iter->name_filter), name) !=
+                           opt_iter->name_filter.cend();
                 }
             });
 

@@ -1015,8 +1015,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         convert_lf(raw_output);
 
         std::erase_if(raw_output, [](char c) { return !std::isalnum(static_cast<unsigned char>(c)); });
-        bool all_digit = !raw_output.empty() &&
-                         std::ranges::all_of(raw_output, [](char c) { return std::isdigit(static_cast<unsigned char>(c)); });
+        bool all_digit = !raw_output.empty() && std::ranges::all_of(raw_output, [](char c) {
+            return std::isdigit(static_cast<unsigned char>(c));
+        });
 
         if (!all_digit) {
             json::value info = get_info_json() | json::object {

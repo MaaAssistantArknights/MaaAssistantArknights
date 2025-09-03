@@ -7,11 +7,11 @@
 #include <iterator>
 #include <locale>
 #include <memory>
+#include <ranges>
 #include <string>
 #include <string_view>
 #include <type_traits>
 #include <utility>
-#include <ranges>
 
 #include "Meta.hpp"
 

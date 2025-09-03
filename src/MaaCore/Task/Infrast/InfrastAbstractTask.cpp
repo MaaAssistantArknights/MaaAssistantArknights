@@ -10,12 +10,12 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include <ranges>
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
+#include <ranges>
 
 asst::InfrastAbstractTask::InfrastAbstractTask(
     const AsstCallback& callback,
@@ -135,7 +135,9 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     Log.info(__FUNCTION__, "available operators for group size:", opers.size());
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
-        if (std::ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
+        if (std::ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) {
+                return opers.contains(oper);
+            })) {
             std::ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
             current_room_config().names.insert(
                 current_room_config().names.end(),

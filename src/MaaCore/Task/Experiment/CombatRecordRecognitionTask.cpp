@@ -6,13 +6,13 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include <ranges>
 #include "Vision/Battle/BattleFormationAnalyzer.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldDetector.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
+#include <ranges>
 
 #include <unordered_map>
 #include <unordered_set>
@@ -707,7 +707,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         ananlyze_deployment_names(clip);
         ananlyze_deployment_names(*pre_clip_ptr);
         for (const auto& pre_oper : pre_clip_ptr->deployment) {
-            auto iter = std::ranges::find_if(clip.deployment, [&](const auto& oper) { return oper.name == pre_oper.name; });
+            auto iter =
+                std::ranges::find_if(clip.deployment, [&](const auto& oper) { return oper.name == pre_oper.name; });
             if (iter != clip.deployment.end()) {
                 continue;
             }

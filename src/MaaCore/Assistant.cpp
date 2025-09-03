@@ -1,8 +1,8 @@
 #include "Assistant.h"
 
 #include "Utils/NoWarningCV.h"
-#include <ranges>
 #include <meojson/json.hpp>
+#include <ranges>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"

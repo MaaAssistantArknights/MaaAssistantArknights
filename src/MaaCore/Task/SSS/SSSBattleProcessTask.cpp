@@ -20,7 +20,8 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
     std::ranges::transform(
-        m_sss_combat_data.strategies | std::views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
+        m_sss_combat_data.strategies |
+            std::views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
         std::inserter(m_all_cores, m_all_cores.begin()),
         [](const auto& strategy) { return strategy.core.value(); });
     for (const auto& action : m_sss_combat_data.actions) {
@@ -210,8 +211,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         return role != Role::Drone && role != Role::Unknown;
     };
     for (Strategy& strategy :
-         m_sss_combat_data.loc_stragegies | std::views::values | std::views::transform([&](const auto& locs) -> Strategy& {
-             return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
+         m_sss_combat_data.loc_stragegies | std::views::values | std::views::transform([&](const auto& locs) ->
+    Strategy& { return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
          })) {
         if (strategy.core_deployed &&                          // 当前 strategy 已经完毕
             !strategy.core.empty() &&                          // 存在 core
@@ -271,8 +272,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return deploy_oper(core.name, strategy.location, strategy.direction) && update_deployment();
         }
 
-        auto required_roles_view =
-            strategy.tool_men | std::views::filter([](const auto& tool_man) { return tool_man.second > 0; }) | std::views::keys;
+        auto required_roles_view = strategy.tool_men |
+                                   std::views::filter([](const auto& tool_man) { return tool_man.second > 0; }) |
+                                   std::views::keys;
         auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
 
         // 如果有费用转好的干员，直接使用

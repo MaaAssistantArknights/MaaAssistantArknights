@@ -10,11 +10,11 @@
 #include <functional>
 #include <iostream>
 #include <mutex>
+#include <ranges>
 #include <streambuf>
 #include <thread>
 #include <type_traits>
 #include <utility>
-#include <ranges>
 
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"

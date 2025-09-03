@@ -57,7 +57,9 @@ void asst::StageQueueMissionCompletedTaskPlugin::mission_completed()
     auto&& [code, difficulty] = analyzer.get_stage_key();
 
     std::string stage_code = std::move(code);
-    std::ranges::transform(stage_code, stage_code.begin(), [](char ch) -> char { return static_cast<char>(::toupper(ch)); });
+    std::ranges::transform(stage_code, stage_code.begin(), [](char ch) -> char {
+        return static_cast<char>(::toupper(ch));
+    });
 
     Log.info(__FUNCTION__, "Stage Code:", stage_code, "Stars:", analyzer.get_stars());
 

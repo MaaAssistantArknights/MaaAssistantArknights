@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ranges>
 #include <filesystem>
+#include <ranges>
 
 namespace asst::utils
 {

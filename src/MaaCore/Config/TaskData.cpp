@@ -15,8 +15,8 @@
 #include "TemplResource.h"
 #include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
-#include <ranges>
 #include "Utils/StringMisc.hpp"
+#include <ranges>
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
@@ -620,7 +620,8 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
     }
     else if (method_opt->is_array()) {
         std::ranges::copy(
-            method_opt->as_array() | std::views::transform(&json::value::as_string) | std::views::transform(&get_match_method),
+            method_opt->as_array() | std::views::transform(&json::value::as_string) |
+                std::views::transform(&get_match_method),
             std::back_inserter(match_task_info_ptr->methods));
     }
     else {

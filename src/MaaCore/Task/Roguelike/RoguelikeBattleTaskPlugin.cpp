@@ -1,8 +1,8 @@
 #include "RoguelikeBattleTaskPlugin.h"
 
-#include <ranges>
 #include <chrono>
 #include <future>
+#include <ranges>
 #include <vector>
 
 #include "Config/GeneralConfig.h"
@@ -225,7 +225,8 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     else {
         auto homes_pos = m_homes | std::views::transform(&ReplacementHome::location);
         auto invalid_homes_pos =
-            homes_pos | std::views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            homes_pos |
+            std::views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
             std::views::transform(&Point::to_string);
         if (!invalid_homes_pos.empty()) {
             Log.error("No replacement homes point:", invalid_homes_pos);

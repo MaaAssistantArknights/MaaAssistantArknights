@@ -13,8 +13,8 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
-#include <ranges>
 #include "Utils/StringMisc.hpp"
+#include <ranges>
 
 asst::OcrPack::OcrPack() :
     m_det(nullptr),

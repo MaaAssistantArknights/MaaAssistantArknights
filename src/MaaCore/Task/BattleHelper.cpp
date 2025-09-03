@@ -12,13 +12,13 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include <ranges>
 #include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
+#include <ranges>
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
@@ -126,12 +126,12 @@ bool asst::BattleHelper::update_deployment_(
     for (auto& oper : cur_opers) {
         bool is_analyzed = false;
         if (!old_deployment_opers.empty()) {
-            auto avatar =
-                old_deployment_opers |
-                std::views::filter([&](const battle::DeploymentOper& temp_oper) { return temp_oper.role == oper.role; }) |
-                std::views::transform([&](const battle::DeploymentOper& temp_oper) {
-                    return std::make_pair(temp_oper.name, temp_oper.avatar);
-                });
+            auto avatar = old_deployment_opers | std::views::filter([&](const battle::DeploymentOper& temp_oper) {
+                              return temp_oper.role == oper.role;
+                          }) |
+                          std::views::transform([&](const battle::DeploymentOper& temp_oper) {
+                              return std::make_pair(temp_oper.name, temp_oper.avatar);
+                          });
             const auto& result = analyze_oper_with_cache(oper, avatar);
             if (result) {
                 set_oper_name(oper, result->templ_info.name);
@@ -207,8 +207,9 @@ bool asst::BattleHelper::update_deployment_(
             if (re_matcher.analyze()) {
                 if (const auto& results = re_matcher.get_result(); !results.empty()) {
                     // 遍历结果，找到 y 最小的（之前选中的） rect
-                    auto min_rect_iter =
-                        std::ranges::min_element(results, [](const auto& a, const auto& b) { return a.rect.y < b.rect.y; });
+                    auto min_rect_iter = std::ranges::min_element(results, [](const auto& a, const auto& b) {
+                        return a.rect.y < b.rect.y;
+                    });
 
                     oper_rect = min_rect_iter->rect;
                 }

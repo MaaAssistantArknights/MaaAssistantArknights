@@ -162,7 +162,9 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
 
     auto unique_filter = std::views::filter([&](const auto& oper) {
         // TODO: 这里没考虑多个相同预备干员的情况，不过影响应该不大
-        return !std::ranges::any_of(oper_list, [&](const auto& existing_oper) { return oper.name == existing_oper.name; });
+        return !std::ranges::any_of(oper_list, [&](const auto& existing_oper) {
+            return oper.name == existing_oper.name;
+        });
     });
     auto append_page_proj = std::views::transform([&](auto oper) {
         Log.info(__FUNCTION__, "oper: ", oper.name, " page: ", cur_page);

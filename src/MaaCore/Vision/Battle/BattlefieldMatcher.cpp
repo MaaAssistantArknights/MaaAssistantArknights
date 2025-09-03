@@ -1,7 +1,7 @@
 #include "BattlefieldMatcher.h"
 
-#include <ranges>
 #include <algorithm>
+#include <ranges>
 
 #include "Utils/NoWarningCV.h"
 
@@ -320,7 +320,8 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     // 例子中的"41"
     std::string total_kills_text = kills_text.substr(pos + 1, std::string::npos);
     int total_kills = 0;
-    if (total_kills_text.empty() || !std::ranges::all_of(total_kills_text, [](char c) -> bool { return std::isdigit(c); })) {
+    if (total_kills_text.empty() ||
+        !std::ranges::all_of(total_kills_text, [](char c) -> bool { return std::isdigit(c); })) {
         Log.warn("total kills recognition failed, set to", m_total_kills_prompt);
         total_kills = m_total_kills_prompt;
     }

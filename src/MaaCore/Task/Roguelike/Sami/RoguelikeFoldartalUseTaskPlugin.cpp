@@ -89,7 +89,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     auto foldartal_list = m_config->status().foldartal_list;
     Log.trace("All foldartal got yet:", foldartal_list);
-    auto filter = std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    auto filter =
+        std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;

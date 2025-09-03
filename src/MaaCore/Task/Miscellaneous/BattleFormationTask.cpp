@@ -398,7 +398,9 @@ void asst::BattleFormationTask::report_missing_operators()
 
 bool asst::BattleFormationTask::has_oper_selected(const std::vector<asst::battle::OperUsage>& opers) const
 {
-    return std::ranges::any_of(opers, [](const battle::OperUsage& op) { return op.status == battle::OperStatus::Selected; });
+    return std::ranges::any_of(opers, [](const battle::OperUsage& op) {
+        return op.status == battle::OperStatus::Selected;
+    });
 }
 
 bool asst::BattleFormationTask::has_oper_unchecked(const std::vector<asst::battle::OperUsage>& opers) const
@@ -497,7 +499,8 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     battle::OperUsage* oper = nullptr;
     bool ret = true;
-    for (const auto& res : opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
+    for (const auto& res :
+         opers_result | std::views::filter([](const QuickFormationOper& op) { return !op.is_selected; })) {
         const auto& iter = std::ranges::find_if(groups, [&](OperGroup* group) {
             if (!has_oper_unchecked(group->second)) { // 干员组没有干员已选中且存在可用干员
                 return false;
