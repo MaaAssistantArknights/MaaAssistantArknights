@@ -98,7 +98,8 @@ bool asst::BattleHelper::abandon()
 
 template <typename T>
 requires std::ranges::range<T> && asst::OperAvatarPair<std::ranges::range_value_t<T>>
-std::optional<asst::BestMatcher::Result> analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
+std::optional<asst::BestMatcher::Result>
+    analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
 {
     using namespace asst;
 
