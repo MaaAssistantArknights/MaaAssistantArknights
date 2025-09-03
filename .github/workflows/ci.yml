@@ -127,7 +127,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
@@ -184,7 +184,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
-          path: install
+          path: install/*.dll
 
   ubuntu:
     # Prevent duplicate runs on organization branches with PRs

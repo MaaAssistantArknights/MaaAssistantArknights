@@ -88,7 +88,7 @@ endif()
 
 install(TARGETS MaaCore ${MaaCore_install_flatten_args} ${MaaCore_install_extra_args})
 
-maadeps_install(bin)
+maadeps_install(.)
 
 if (INSTALL_PYTHON)
     install(DIRECTORY src/Python DESTINATION .)
