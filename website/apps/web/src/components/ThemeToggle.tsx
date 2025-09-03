@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useTheme } from '@/contexts/ThemeContext';
+import React from 'react'
+import { motion } from 'framer-motion'
+import { useTheme } from '@/contexts/ThemeContext'
 
 export const ThemeToggle: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <motion.button
@@ -35,5 +35,5 @@ export const ThemeToggle: React.FC = () => {
         </svg>
       )}
     </motion.button>
-  );
-};
+  )
+}

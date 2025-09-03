@@ -21,7 +21,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
   HTMLButtonElement,
   GlowButtonProps
 >(({ children, translucent, bordered, href, onClick, className }, ref) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   const motionConfig: MotionProps = {
     whileHover: {
