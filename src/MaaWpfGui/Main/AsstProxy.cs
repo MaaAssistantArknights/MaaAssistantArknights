@@ -1383,7 +1383,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (SettingsViewModel.GameSettings.AutoRestartOnDrop)
+                                if (TaskQueueViewModel.FightTask.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
