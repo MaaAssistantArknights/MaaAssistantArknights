@@ -4,101 +4,101 @@
             "title": "Windows",
             "subtitle": "x64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください。"
             }
         },
         "windows-arm64": {
             "title": "Windows",
             "subtitle": "arm64",
             "messages": {
-                "downloaded": "下载完成，解压后运行 MAA.exe 即可"
+                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください。"
             }
         },
         "macos-universal": {
             "title": "macOS",
-            "subtitle": "通用",
+            "subtitle": "ユニバーサル",
             "messages": {
-                "downloaded": "下载完成，打开磁盘映像后将 MAA.app 拖入应用程序文件夹即可"
+                "downloaded": "ダウンロードが完了しました。ディスクイメージを開き、MAA.app をアプリケーションフォルダにドラッグしてください。"
             }
         },
         "linux-x64": {
             "title": "Linux",
-            "subtitle": "x64 动态库",
+            "subtitle": "x64 ダイナミックライブラリ",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）。"
             }
         },
         "linux-aarch64": {
             "title": "Linux",
-            "subtitle": "aarch64 动态库",
+            "subtitle": "aarch64 ダイナミックライブラリ",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）。"
             }
         }
     },
     "release": {
         "buttonLabels": {
-            "download": "下载",
-            "viewAll": "查看全部",
-            "mirrorchyanCDKYes": "已有 Mirror酱 CDK？",
-            "mirrorchyanGo": "前往 Mirror酱 高速下载",
-            "versionInfoLoadingError": "<1>载入版本信息失败。您可尝试</1><2>前往 GitHub Releases 下载</2>"
+            "download": "ダウンロード",
+            "viewAll": "すべて表示",
+            "mirrorchyanCDKYes": "MirrorちゃんCDK をお持ちですか？",
+            "mirrorchyanGo": "Mirrorちゃん高速ダウンロードへ",
+            "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。</1><2>GitHubのReleasesからダウンロードを試みてください。</2>"
         },
         "platformDetect": {
-            "detecting": "正在匹配系统架构...",
-            "failure": "未找到当前架构的可用下载链接",
-            "archIncompatible": "不支持您当前的系统架构"
+            "detecting": "システムアーキテクチャを検出中...",
+            "failure": "現在のアーキテクチャに対応するダウンロードリンクが見つかりませんでした。",
+            "archIncompatible": "現在のシステムアーキテクチャはサポートされていません。"
         },
         "mirrorDetect": {
-            "detecting": "正在检测下载镜像可用性 ({{current}}/{{total}})..."
+            "detecting": "ダウンロードミラーの有効性を検出中 ({{current}}/{{total}})..."
         },
         "speedTest": {
-            "testing": "正在检测下载镜像 #{{index}} 速度...",
-            "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
-            "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
+            "testing": "ダウンロードミラー #{{index}} の速度を検出中...",
+            "success": "{{count}}個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）。",
+            "failure": "{{count}}個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）。",
             "reasons": {
-                "saveData": "用户开启了“节省数据”模式",
-                "mobile": "用户正在使用移动网络"
+                "saveData": "ユーザーが「データ節約」モードを有効にしています。",
+                "mobile": "ユーザーがモバイルネットワークを使用しています。"
             }
         },
         "download": {
-            "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
-            "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
-            "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
-            "downloadingFallback": "正在尝试从海外源(Github)下载...",
-            "invalidState": "无效的下载状态，请刷新页面重试。"
+            "connectingWithSpeed": "ミラー #{{index}}（遅延：{{latency}} ms、速度：{{speed}} MiB/s）からダウンロードを試みています...",
+            "connectingWithoutSpeed": "ミラー #{{index}}（遅延：{{latency}} ms）からダウンロードを試みています...",
+            "downloadingFromMirror": "ミラー #{{index}} からダウンロード中...",
+            "downloadingFallback": "GitHub からダウンロードを試みています...",
+            "invalidState": "無効なダウンロード状態です。ページをリフレッシュして再試行してください。"
         }
     },
     "references": {
-        "documentation": "使用文档",
-        "qqGroup": "QQ 群",
+        "documentation": "使用ドキュメント",
+        "qqGroup": "QQグループ",
         "discord": "Discord",
         "github": "GitHub",
-        "friendLinks": "友情链接"
+        "friendLinks": "リンク集"
     },
     "friendLinks": {
-        "prts-plus": "PRTS 作业站",
-        "status": "MAA 状态监测",
-        "mirrorc": "Mirror酱",
-        "penguin-stats": "企鹅物流数据统计",
-        "yituliu": "明日方舟一图流",
-        "arkntools": "明日方舟工具箱",
-        "ark-nights": "明日方舟 | 干员培养表",
-        "alas": "碧蓝航线小助手"
+        "prts-plus": "PRTS作業ステーション",
+        "status": "MAAステータス監視",
+        "mirrorc": "Mirrorちゃん",
+        "penguin-stats": "ペンギン急便データ統計",
+        "yituliu": "アークナイツ一図流",
+        "arkntools": "アークナイツツールボックス",
+        "ark-nights": "アークナイツ | オペレーター育成表",
+        "alas": "アズールレーンゲームアシスタント"
     },
     "meta": {
-        "title": "MAA —「明日方舟」小助手",
-        "description": "MAA —「明日方舟」小助手，自动刷图、智能基建换班，全日常一键长草"
+        "title": "MAA —「アークナイツ」ゲームアシスタント",
+        "description": "MAA —「アークナイツ」ゲームアシスタント、自動作戦、自動基地シフト、日常を一括で放置"
     },
     "header": {
-        "description": "<1>《明日方舟》小助手，</1><2>自动刷图、智能基建换班，</2><3>全日常一键长草</3>"
+        "description": "<1>「アークナイツ」ゲームアシスタント、</1><2>自動作戦、自動基地シフト、</2><3>日常を一括で放置</3>"
     },
     "screenshots": {
         "render": {
-            "failure": "MAA 截图渲染失败；是否禁用了 GPU 加速？"
+            "failure": "MAA のスクリーンショットのレンダリングに失敗しました。GPU アクセラレーションが無効になっていますか？"
         }
     },
     "footer": {
-        "compliance": "<1>MAA 以 <3>AGPL-3.0</3> 协议开源；</1><2>使用即表示您同意并知悉「<4>用户协议</4>」的相关内容。</2>"
+        "compliance": "<1>MAA は<3>AGPL-3.0</3>ライセンスでオープンソースです；</1><2>使用することにより、「<4>利用規約</4>」に同意したことになります。</2>"
     }
 }
