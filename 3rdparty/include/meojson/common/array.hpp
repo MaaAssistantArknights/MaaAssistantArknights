@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 #include "exception.hpp"
@@ -40,48 +41,47 @@ public:
     // explicit basic_array(basic_value<string_t>&& val);
 
     template <
-        typename collection_t,
+        typename jsonization_t,
         std::enable_if_t<
-            _utils::is_collection<collection_t>
-                && std::is_constructible_v<value_type, _utils::range_value_t<collection_t>>,
+            _utils::has_to_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_to_json_array_in_templ_spec<jsonization_t, string_t>::value,
             bool> = true>
-    basic_array(collection_t arr)
-        : _array_data(std::make_move_iterator(arr.begin()), std::make_move_iterator(arr.end()))
-    {
-    }
-
-    template <
-        typename fixed_array_t,
-        std::enable_if_t<_utils::is_fixed_array<fixed_array_t>, bool> = true>
-    basic_array(const fixed_array_t& arr)
-        : _array_data(arr.begin(), arr.end())
+    basic_array(const jsonization_t& value)
+        : basic_array(ext::jsonization<string_t, jsonization_t>().to_json(value))
     {
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+        std::enable_if_t<
+            _utils::has_to_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
     basic_array(const jsonization_t& value)
-        : basic_array(value.to_json())
+        : basic_array(ext::jsonization<string_t, jsonization_t>().to_json_array(value))
     {
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_array(const jsonization_t& value)
-        : basic_array(ext::jsonization<jsonization_t>().to_json(value))
+        std::enable_if_t<
+            std::is_rvalue_reference_v<jsonization_t&&>
+                && _utils::has_move_to_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_move_to_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    basic_array(jsonization_t&& value)
+        : basic_array(ext::jsonization<string_t, jsonization_t>().move_to_json(std::move(value)))
     {
     }
 
-    template <typename... elem_ts>
-    basic_array(const std::tuple<elem_ts...>& tup)
-    {
-        foreach_tuple(tup, std::make_index_sequence<std::tuple_size_v<std::tuple<elem_ts...>>>());
-    }
-    template <typename first_t, typename second_t>
-    basic_array(std::pair<first_t, second_t> pair)
-        : _array_data({ std::move(pair.first), std::move(pair.second) })
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            std::is_rvalue_reference_v<jsonization_t&&>
+                && _utils::has_move_to_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    basic_array(jsonization_t&& value)
+        : basic_array(
+              ext::jsonization<string_t, jsonization_t>().move_to_json_array(std::move(value)))
     {
     }
 
@@ -119,6 +119,30 @@ public:
     std::tuple<elem_ts...> as_tuple() const;
     template <typename first_t, typename second_t>
     std::pair<first_t, second_t> as_pair() const;
+
+    template <
+        typename value_t,
+        std::enable_if_t<
+            _utils::has_from_json_array_in_templ_spec<value_t, string_t>::value,
+            bool> = true>
+    value_t as() const&
+    {
+        value_t res;
+        ext::jsonization<string_t, value_t>().from_json_array(*this, res);
+        return res;
+    }
+
+    template <
+        typename value_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_array_in_templ_spec<value_t, string_t>::value,
+            bool> = true>
+    value_t as() &&
+    {
+        value_t res;
+        ext::jsonization<string_t, value_t>().move_from_json_array(std::move(*this), res);
+        return res;
+    }
 
     // Usage: get(key_1, key_2, ..., default_value);
     template <typename... key_then_default_value_t>
@@ -192,29 +216,19 @@ public:
         std::enable_if_t<_utils::is_fixed_array<fixed_array_t<value_t, Size>>, bool> = true>
     explicit operator fixed_array_t<value_t, Size>() const
     {
-        return as_fixed_array<value_t, Size, fixed_array_t>();
-    }
-
-    template <typename... elem_ts>
-    explicit operator std::tuple<elem_ts...>() const
-    {
-        return as_tuple<elem_ts...>();
-    }
-
-    template <typename elem1_t, typename elem2_t>
-    explicit operator std::pair<elem1_t, elem2_t>() const
-    {
-        return as_pair<elem1_t, elem2_t>();
+        return as<fixed_array_t<value_t, Size>>();
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
-            true>
-    explicit operator jsonization_t() const
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_from_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() const&
     {
         jsonization_t dst {};
-        if (!dst.from_json(*this)) {
+        if (!ext::jsonization<string_t, jsonization_t>().from_json(*this, dst)) {
             throw exception("Wrong JSON");
         }
         return dst;
@@ -223,12 +237,43 @@ public:
     template <
         typename jsonization_t,
         std::enable_if_t<
-            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            _utils::has_from_json_array_in_templ_spec<jsonization_t, string_t>::value,
             bool> = true>
-    explicit operator jsonization_t() const
+    explicit operator jsonization_t() const&
     {
         jsonization_t dst {};
-        if (!ext::jsonization<jsonization_t>().from_json(*this, dst)) {
+        if (!ext::jsonization<string_t, jsonization_t>().from_json_array(*this, dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_move_from_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() &&
+    {
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().from_json(std::move(*this), dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_array_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() &&
+    {
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().move_from_json_array(
+                std::move(*this),
+                dst)) {
             throw exception("Wrong JSON");
         }
         return dst;
@@ -243,17 +288,6 @@ private:
     auto get_helper(const value_t& default_value, size_t pos, rest_keys_t&&... rest) const;
     template <typename value_t>
     auto get_helper(const value_t& default_value, size_t pos) const;
-
-    template <typename tuple_t>
-    tuple_t as_tuple_templ() const;
-    template <size_t index, typename tuple_t>
-    void set_tuple(tuple_t& tup) const;
-
-    template <typename Tuple, std::size_t... Is>
-    void foreach_tuple(const Tuple& t, std::index_sequence<Is...>)
-    {
-        (_array_data.emplace_back(std::get<Is>(t)), ...);
-    }
 
     string_t format(size_t indent, size_t indent_times) const;
 
@@ -368,95 +402,32 @@ inline bool basic_array<string_t>::all() const
     return true;
 }
 
-namespace _as_collection_helper
-{
-template <typename T>
-class has_emplace_back
-{
-    template <typename U>
-    static auto test(int) -> decltype(std::declval<U>().emplace_back(), std::true_type());
-
-    template <typename U>
-    static std::false_type test(...);
-
-public:
-    static constexpr bool value = decltype(test<T>(0))::value;
-};
-}
-
 template <typename string_t>
 template <typename value_t, template <typename...> typename collection_t>
 inline collection_t<value_t> basic_array<string_t>::as_collection() const
 {
-    collection_t<value_t> result;
-    if constexpr (_as_collection_helper::has_emplace_back<collection_t<value_t>>::value) {
-        for (const auto& elem : _array_data) {
-            result.emplace_back(elem.template as<value_t>());
-        }
-    }
-    else {
-        for (const auto& elem : _array_data) {
-            result.emplace(elem.template as<value_t>());
-        }
-    }
-    return result;
+    return as<collection_t<value_t>>();
 }
 
 template <typename string_t>
 template <typename value_t, size_t Size, template <typename, size_t> typename fixed_array_t>
 inline fixed_array_t<value_t, Size> basic_array<string_t>::as_fixed_array() const
 {
-    if (size() != Size) {
-        throw exception("Wrong array size");
-    }
-
-    fixed_array_t<value_t, Size> result;
-    for (size_t i = 0; i < Size; ++i) {
-        result.at(i) = _array_data.at(i).template as<value_t>();
-    }
-    return result;
-}
-
-template <typename string_t>
-template <size_t index, typename tuple_t>
-inline void basic_array<string_t>::set_tuple(tuple_t& tup) const
-{
-    using elem_t = std::tuple_element_t<index, tuple_t>;
-
-    if constexpr (index > 0) {
-        set_tuple<index - 1>(tup);
-    }
-
-    std::get<index>(tup) = static_cast<elem_t>(at(index));
-}
-
-template <typename string_t>
-template <typename tuple_t>
-inline tuple_t basic_array<string_t>::as_tuple_templ() const
-{
-    constexpr size_t tuple_size = std::tuple_size_v<tuple_t>;
-
-    if (size() != tuple_size) {
-        throw exception("Wrong array size");
-    }
-
-    tuple_t result;
-    set_tuple<tuple_size - 1>(result);
-    return result;
+    return as<fixed_array_t<value_t, Size>>();
 }
 
 template <typename string_t>
 template <typename... elem_ts>
 inline std::tuple<elem_ts...> basic_array<string_t>::as_tuple() const
 {
-    return as_tuple_templ<std::tuple<elem_ts...>>();
+    return as<std::tuple<elem_ts...>>();
 }
 
 template <typename string_t>
 template <typename first_t, typename second_t>
 inline std::pair<first_t, second_t> basic_array<string_t>::as_pair() const
 {
-    return as_tuple_templ<std::pair<first_t, second_t>>();
+    return as<std::pair<first_t, second_t>>();
 }
 
 template <typename string_t>

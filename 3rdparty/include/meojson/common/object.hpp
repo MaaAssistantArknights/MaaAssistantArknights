@@ -39,29 +39,47 @@ public:
     // explicit basic_object(basic_value<string_t>&& val);
 
     template <
-        typename map_t,
+        typename jsonization_t,
         std::enable_if_t<
-            _utils::is_map<map_t>
-                && std::is_constructible_v<value_type, _utils::range_value_t<map_t>>,
+            _utils::has_to_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
             bool> = true>
-    basic_object(map_t map)
-        : _object_data(std::make_move_iterator(map.begin()), std::make_move_iterator(map.end()))
+    basic_object(const jsonization_t& value)
+        : basic_object(ext::jsonization<string_t, jsonization_t>().to_json(value))
     {
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+        std::enable_if_t<
+            _utils::has_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
     basic_object(const jsonization_t& value)
-        : basic_object(value.to_json())
+        : basic_object(ext::jsonization<string_t, jsonization_t>().to_json_object(value))
     {
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_object(const jsonization_t& value)
-        : basic_object(ext::jsonization<jsonization_t>().to_json(value))
+        std::enable_if_t<
+            std::is_rvalue_reference_v<jsonization_t&&>
+                && _utils::has_move_to_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_move_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    basic_object(jsonization_t&& value)
+        : basic_object(ext::jsonization<string_t, jsonization_t>().move_to_json(std::move(value)))
+    {
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            std::is_rvalue_reference_v<jsonization_t&&>
+                && _utils::has_move_to_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    basic_object(jsonization_t&& value)
+        : basic_object(
+              ext::jsonization<string_t, jsonization_t>().move_to_json_object(std::move(value)))
     {
     }
 
@@ -90,6 +108,30 @@ public:
     bool all() const;
     template <typename value_t, template <typename...> typename map_t = std::map>
     map_t<string_t, value_t> as_map() const;
+
+    template <
+        typename value_t,
+        std::enable_if_t<
+            _utils::has_from_json_object_in_templ_spec<value_t, string_t>::value,
+            bool> = true>
+    value_t as() const&
+    {
+        value_t res;
+        ext::jsonization<string_t, value_t>().from_json_object(*this, res);
+        return res;
+    }
+
+    template <
+        typename value_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_object_in_templ_spec<value_t, string_t>::value,
+            bool> = true>
+    value_t as() &&
+    {
+        value_t res;
+        ext::jsonization<string_t, value_t>().move_from_json_object(std::move(*this), res);
+        return res;
+    }
 
     // Usage: get(key_1, key_2, ..., default_value);
     template <typename... key_then_default_value_t>
@@ -151,12 +193,14 @@ public:
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
-            true>
-    explicit operator jsonization_t() const
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_from_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() const&
     {
         jsonization_t dst {};
-        if (!dst.from_json(*this)) {
+        if (!ext::jsonization<string_t, jsonization_t>().from_json(*this, dst)) {
             throw exception("Wrong JSON");
         }
         return dst;
@@ -165,12 +209,43 @@ public:
     template <
         typename jsonization_t,
         std::enable_if_t<
-            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            _utils::has_from_json_object_in_templ_spec<jsonization_t, string_t>::value,
             bool> = true>
-    explicit operator jsonization_t() const
+    explicit operator jsonization_t() const&
     {
         jsonization_t dst {};
-        if (!ext::jsonization<jsonization_t>().from_json(*this, dst)) {
+        if (!ext::jsonization<string_t, jsonization_t>().from_json_object(*this, dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_in_templ_spec<jsonization_t, string_t>::value
+                && !_utils::has_move_from_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() &&
+    {
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().from_json(std::move(*this), dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
+    }
+
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_object_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() &&
+    {
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().move_from_json_object(
+                std::move(*this),
+                dst)) {
             throw exception("Wrong JSON");
         }
         return dst;
@@ -195,8 +270,8 @@ private:
 template <typename string_t>
 inline basic_object<string_t>::basic_object(std::initializer_list<value_type> init_list)
     : _object_data(
-        std::make_move_iterator(init_list.begin()),
-        std::make_move_iterator(init_list.end()))
+          std::make_move_iterator(init_list.begin()),
+          std::make_move_iterator(init_list.end()))
 {
 }
 
@@ -309,11 +384,7 @@ template <typename string_t>
 template <typename value_t, template <typename...> typename map_t>
 inline map_t<string_t, value_t> basic_object<string_t>::as_map() const
 {
-    map_t<string_t, value_t> result;
-    for (const auto& [key, val] : _object_data) {
-        result.emplace(key, val.template as<value_t>());
-    }
-    return result;
+    return as<map_t<string_t, value_t>>();
 }
 
 template <typename string_t>
