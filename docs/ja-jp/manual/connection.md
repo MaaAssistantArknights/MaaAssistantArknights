@@ -38,7 +38,7 @@ icon: mdi:plug
 
 #### エミュレータ関連ドキュメントおよび参考ポート
 
-- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
+- [Bluestacks 5](https://support.bluestacks.com/hc/ja/articles/360061342631-BlueStacks-5-BlueStacks-4%E3%81%8B%E3%82%89%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95) `5555`
 - [MuMu](https://mumu.163.com/help/20240807/40912_1073151.html?maa) `16384`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
 - [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
