@@ -184,13 +184,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
     size_t loop_times = params.get("loop_times", 1);
     if (m_multi_copilot_plugin_ptr->get_enable()) {
         // 如果没三星就中止
-        if (m_paradox_task_ptr->get_enable()) {
-            // 悖论模拟不需要强制三星，因为练度等关系有概率不过，反正不消耗理智，走单独的退出逻辑
-            m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" });
-        }
-        else {
-            m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
-        }
+        // 悖论模拟不需要强制三星，因为练度等关系有概率不过，反正不消耗理智，走单独的退出逻辑
+        // EDIT: UI 上取消勾选需要按顺序，非三星通关会导致取消的内容错误
+        /* if (m_paradox_task_ptr->get_enable()) {
+             m_stop_task_ptr->set_tasks({ "ClickCornerUntilReturnButton" });
+         }
+         else {
+             m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+         }*/
+        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
         m_stop_task_ptr->set_enable(true);
     }
     else if (loop_times > 1) {
