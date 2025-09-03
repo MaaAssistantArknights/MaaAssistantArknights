@@ -1270,43 +1270,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _copilotIdList.Clear();
 
-                if (ActiveTabIndex == 2)
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        var task = new AsstCopilotTask()
-                        {
-                            MultiTasks = [new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = UseCopilotList }],
-                            Formation = _form,
-                            AddTrust = _addTrust,
-                            IgnoreRequirements = _ignoreRequirements,
-                            UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                            UseSanityPotion = _useSanityPotion,
-                        };
-                        return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    });
-                    ret = t.All(b => b) && Instances.AsstProxy.AsstStart();
-                }
-                else
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
+                });
+
+                var task = new AsstCopilotTask()
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
-                    });
-                    var task = new AsstCopilotTask()
-                    {
-                        MultiTasks = t.ToList(),
-                        Formation = _form,
-                        AddTrust = _addTrust,
-                        IgnoreRequirements = _ignoreRequirements,
-                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                        UseSanityPotion = _useSanityPotion,
-                    };
-                    ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    ret = ret && Instances.AsstProxy.AsstStart();
-                }
+                    MultiTasks = [.. t],
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                };
+
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
             else
             {
