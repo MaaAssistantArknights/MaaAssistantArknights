@@ -7,7 +7,6 @@ on:
       - "include/**"
       - "src/Cpp/**"
       - "src/MaaCore/**"
-      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -17,7 +16,6 @@ on:
       - "include/**"
       - "src/Cpp/**"
       - "src/MaaCore/**"
-      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -43,7 +41,7 @@ jobs:
       - name: Generate cache key
         id: cache_key
         run: |
-          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', 'src/SyncRes/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
+          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
 
       - name: Restore cache smoke-testing
         id: cache-exe
