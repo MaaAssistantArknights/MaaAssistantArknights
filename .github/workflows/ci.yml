@@ -231,22 +231,21 @@ jobs:
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+        env:
+          CC: ${{ matrix.arch == 'x86_64' && 'gcc-14' || 'aarch64-linux-gnu-gcc-14' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'g++-14' || 'aarch64-linux-gnu-g++-14' }}
 
       - name: Build
         run: |
           cmake --build build --parallel $(nproc --all)
+        env:
+          CLICOLOR_FORCE: 1
 
       - name: Install
         run: |
           mkdir -p install
           cmake --install build --prefix install
-        env:
-          CC: ${{ matrix.arch == 'x86_64' && 'gcc-14' || 'aarch64-linux-gnu-gcc-14' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'g++-14' || 'aarch64-linux-gnu-g++-14' }}
-          CMAKE_COLOR_DIAGNOSTICS: ON
-          CLICOLOR_FORCE: 1
-          CXXFLAGS: | # workaround for gcc bugs
-            -Wno-error=restrict -Wno-error=array-bounds -Wno-error=stringop-overread -Wno-error=missing-field-initializers
+
 
       - name: Setup Cross Compile Toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -345,7 +344,10 @@ jobs:
 
       - name: Config cmake
         run: |
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' \
+            -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
 
       - name: Build
         run: |
