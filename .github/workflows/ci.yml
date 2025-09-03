@@ -165,19 +165,20 @@ jobs:
           $node.FileVersion = $match
           $node.AssemblyVersion = $match
           $csproj.Save($csprojPath)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: Config cmake
         run: |
           mkdir -p build
           cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake --build build --parallel $(nproc --all)
+          
+      - name: Build
+        run: |
+         cmake --build build --parallel $(nproc --all)
 
+      - name: Install
+        run: |
           mkdir -p install
           cmake --install build --prefix install
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
@@ -221,7 +222,7 @@ jobs:
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
 
-      - name: Build MAA
+      - name: Config cmake
         run: |
           mkdir -p build
           cmake -B build \
@@ -230,8 +231,13 @@ jobs:
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+
+      - name: Build
+        run: |
           cmake --build build --parallel $(nproc --all)
 
+      - name: Install
+        run: |
           mkdir -p install
           cmake --install build --prefix install
         env:
@@ -337,13 +343,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure MaaCore
+      - name: Config cmake
         run: |
           cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
 
-      - name: Build MaaCore
+      - name: Build
         run: |
           cmake --build build
+
+      - name: Install
+        run: |
           cmake --install build --prefix install
 
       - name: Upload MAA to Github
