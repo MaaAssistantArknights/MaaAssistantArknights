@@ -1,45 +1,35 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "react-i18next";
-
-// i18n语言代码；显示在页面上的语言选择文本；HTML的lang属性
-const languages = [
-    { code: "zh-CN", label: "简体中文", lang: "zh-CN" },
-    { code: "zh-TW", label: "繁體中文", lang: "zh-TW" },
-    { code: "en-US", label: "English", lang: "en-US" },
-    { code: "ja-JP", label: "日本語", lang: "ja-JP" },
-    { code: "ko-KR", label: "한국어", lang: "ko-KR" },
-];
+import React, { useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useTranslation } from "react-i18next"
+import { languages, getLanguageOption } from "@/i18n"
 
 export const LanguageToggle: React.FC = () => {
-    const { i18n } = useTranslation();
-    const [open, setOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { i18n } = useTranslation()
+    const [open, setOpen] = useState(false)
+    const dropdownRef = useRef<HTMLDivElement>(null)
 
-    const toggleDropdown = () => setOpen((prev) => !prev);
+    const toggleDropdown = () => setOpen((prev) => !prev)
     const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-        setOpen(false);
-    };
+        i18n.changeLanguage(lng)
+        setOpen(false)
+    }
 
     // 点击外部关闭下拉
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setOpen(false);
+                setOpen(false)
             }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    const currentLabel = languages.find((l) => l.code === i18n.language)?.label || "Language";
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
 
     return (
         <motion.div ref={dropdownRef} className="relative">
             {/* 按钮 */}
             <motion.button
-                lang={languages.find((l) => l.code === i18n.language)?.lang || "zh-CN"}
+                lang={getLanguageOption(i18n.language).htmlLang}
                 onClick={toggleDropdown}
                 className="px-3 py-1 rounded-lg border shadow-md
                            bg-white dark:bg-gray-800
@@ -50,7 +40,7 @@ export const LanguageToggle: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.05 }}
             >
-                {currentLabel}
+                {getLanguageOption(i18n.language).label}
             </motion.button>
 
             {/* 下拉菜单 */}
@@ -67,7 +57,7 @@ export const LanguageToggle: React.FC = () => {
                     >
                         {languages.map((lang) => (
                             <motion.button
-                                lang={lang.lang}
+                                lang={lang.htmlLang}
                                 key={lang.code}
                                 onClick={() => changeLanguage(lang.code)}
                                 disabled={i18n.language === lang.code}
@@ -81,5 +71,5 @@ export const LanguageToggle: React.FC = () => {
                 )}
             </AnimatePresence>
         </motion.div>
-    );
-};
+    )
+}

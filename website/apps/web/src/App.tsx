@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { getLanguageOption } from './i18n'
 import { HomeHero } from './components/home/HomeHero'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -9,17 +10,8 @@ import { LanguageToggle } from './components/LanguageToggle'
 function App() {
   const { t, i18n } = useTranslation()
 
-  // i18n语言代码 -> HTML的lang属性
-  const langMap: Record<string, string> = {
-    "zh-CN": "zh-CN",
-    "zh-TW": "zh-TW",
-    "en-US": "en-US",
-    "ja-JP": "ja-JP",
-    "ko-KR": "ko-KR",
-  };
-
   useEffect(() => {
-    document.documentElement.lang = langMap[i18n.language] || "zh-CN";
+    document.documentElement.lang = getLanguageOption(i18n.language).htmlLang
 
     document.title = t('meta.title')
     const metaDesc = document.querySelector('meta[name="description"]')
