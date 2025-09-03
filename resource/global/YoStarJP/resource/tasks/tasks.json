@@ -15,7 +15,8 @@
         "text": ["開放時間"]
     },
     "ClickChapterNewDefaultProgress": {
-        "roi": [670, 26, 110, 38],
+        "ocrReplace": [[".*オル.*", "デフォルト"]],
+        "roi": [665, 25, 120, 40],
         "text": ["デフォルト"]
     },
     "ClickChapterNewOverview": {

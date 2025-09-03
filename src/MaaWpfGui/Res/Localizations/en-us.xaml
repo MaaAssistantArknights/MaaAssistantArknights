@@ -878,6 +878,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CopilotEmptyError">copilot is empty</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">copilot tasks with empty name</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">Could not save copilot task to file: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">Using ｢{key=UseCopilotList}｣, but no tasks have been added</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">You're using ｢{key=UseCopilotList}｣ to execute a single task, which is not recommended. For single tasks, please run them directly instead.</system:String>
     <!--  !Logs  -->
     <!--  !Copilot  -->

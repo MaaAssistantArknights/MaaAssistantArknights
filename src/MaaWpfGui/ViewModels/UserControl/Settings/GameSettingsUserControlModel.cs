@@ -138,33 +138,6 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, bool.TrueString));
-
-    public bool AutoRestartOnDrop
-    {
-        get => _autoRestartOnDrop;
-        set
-        {
-            SetAndNotify(ref _autoRestartOnDrop, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
-        }
-    }
-
-    private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
-
-    /// <summary>
-    /// Gets or sets a value indicating whether delay abort until battle complete
-    /// </summary>
-    public bool RoguelikeDelayAbortUntilCombatComplete
-    {
-        get => _roguelikeDelayAbortUntilCombatComplete;
-        set
-        {
-            SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
-        }
-    }
-
     private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
 
     public string StartsWithScript

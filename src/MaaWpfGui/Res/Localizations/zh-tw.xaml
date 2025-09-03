@@ -876,6 +876,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotEmptyError">作業為空</system:String>
     <system:String x:Key="CopilotTasksWithEmptyName">存在關卡名稱為空的作業</system:String>
     <system:String x:Key="CopilotCouldNotSaveFile" xml:space="preserve">無法儲存作業檔案到: </system:String>
+    <system:String x:Key="Copilot.StartWithEmptyList">正在使用 ｢{key=UseCopilotList}｣, 但未新增任何作業</system:String>
     <system:String x:Key="CopilotSingleTaskWarning">正在使用 ｢{key=UseCopilotList}｣ 執行單一作業，不推薦此行為。單一作業請直接執行。</system:String>
     <!--  !日誌  -->
     <!--  !Copilot  -->

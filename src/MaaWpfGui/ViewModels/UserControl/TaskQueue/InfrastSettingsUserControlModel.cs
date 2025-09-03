@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
@@ -586,7 +587,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void RefreshCustomInfrastPlanIndexByPeriod()
     {
-        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || Instances.TaskQueueViewModel.InfrastTaskRunning)
+        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status == TaskStatus.InProgress)
         {
             return;
         }

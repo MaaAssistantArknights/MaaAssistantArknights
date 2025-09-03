@@ -1123,6 +1123,11 @@ namespace MaaWpfGui.ViewModels.UI
                 var codeName = stageName![4..^2];
                 var characterInfo = DataHelper.GetCharacterByCodeName(codeName);
                 var name = DataHelper.GetLocalizedCharacterName(characterInfo);
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = stageName;
+                }
+
                 var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
             }
@@ -1265,43 +1270,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _copilotIdList.Clear();
 
-                if (ActiveTabIndex == 2)
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        var task = new AsstCopilotTask()
-                        {
-                            MultiTasks = [new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = UseCopilotList }],
-                            Formation = _form,
-                            AddTrust = _addTrust,
-                            IgnoreRequirements = _ignoreRequirements,
-                            UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                            UseSanityPotion = _useSanityPotion,
-                        };
-                        return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    });
-                    ret = t.All(b => b) && Instances.AsstProxy.AsstStart();
-                }
-                else
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
+                });
+
+                var task = new AsstCopilotTask()
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
-                    });
-                    var task = new AsstCopilotTask()
-                    {
-                        MultiTasks = t.ToList(),
-                        Formation = _form,
-                        AddTrust = _addTrust,
-                        IgnoreRequirements = _ignoreRequirements,
-                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                        UseSanityPotion = _useSanityPotion,
-                    };
-                    ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    ret = ret && Instances.AsstProxy.AsstStart();
-                }
+                    MultiTasks = [.. t],
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                };
+
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
             else
             {
@@ -1422,20 +1408,24 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<bool> VerifyCopilotListTask()
         {
-            var list = CopilotItemViewModels.Where(i => i.IsChecked);
-            if (list.Any(i => string.IsNullOrEmpty(i.Name.Trim())))
+            var copilotItemViewModels = CopilotItemViewModels.Where(i => i.IsChecked).ToArray();
+            switch (copilotItemViewModels.Length)
+            {
+                case 0:
+                    AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
+                    return false;
+                case 1:
+                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
+                    return false;
+            }
+
+            if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name?.Trim())))
             {
                 AddLog(LocalizationHelper.GetString("CopilotTasksWithEmptyName"), UiLogColor.Error, showTime: false);
                 return false;
             }
 
-            if (CopilotItemViewModels.Count == 1)
-            {
-                AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
-                return false;
-            }
-
-            var stageNames = list.Select(i => i.FilePath).ToHashSet().Select(async path =>
+            var stageNames = copilotItemViewModels.Select(i => i.FilePath).ToHashSet().Select(async path =>
             {
                 if (!File.Exists(path))
                 {
@@ -1450,20 +1440,22 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error("could not read & parse copilot file: " + path, ex);
+                    _logger.Error(ex, "could not read & parse copilot file: {Path}", path);
                     return null;
                 }
             });
             foreach (var stageName in stageNames)
             {
                 var name = await stageName;
-                if (string.IsNullOrEmpty(name) || DataHelper.FindMap(name) is null)
+                if (!string.IsNullOrEmpty(name) && DataHelper.FindMap(name) is not null)
                 {
-                    AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
-                    _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
-                    return false;
+                    continue;
                 }
+
+                AddLog(LocalizationHelper.GetString("UnsupportedStages") + $"  {name}", UiLogColor.Error, showTime: false);
+                _ = Task.Run(ResourceUpdater.ResourceUpdateAndReloadAsync);
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.MapOutdated);
+                return false;
             }
 
             return true;

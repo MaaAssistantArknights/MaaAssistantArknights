@@ -933,6 +933,21 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether delay abort until battle complete
+    /// </summary>
+    public bool RoguelikeDelayAbortUntilCombatComplete
+    {
+        get => _roguelikeDelayAbortUntilCombatComplete;
+        set
+        {
+            SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
+        }
+    }
+
     private bool _roguelikeStartWithSeed = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithSeed, bool.FalseString));
 
     /// <summary>

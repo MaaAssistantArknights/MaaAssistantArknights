@@ -254,14 +254,12 @@ namespace MaaWpfGui.ViewModels.UI
             if (!string.IsNullOrEmpty(body) && AnnouncementInfo != body)
             {
                 const string Template =
-                    "old Announcement:\n" +
-                    "===================================\n" +
+                    "----------- OLD -----------\n" +
                     "{AnnouncementInfo}\n" +
-                    "===================================\n\n" +
-                    "new AnnouncementInfo:\n" +
-                    "===================================\n" +
+                    "---------------------------\n\n" +
+                    "=========== NEW ===========\n" +
                     "{Body}\n" +
-                    "===================================";
+                    "===========================";
                 _logger.Information(Template,
                     AnnouncementInfo,
                     body);
