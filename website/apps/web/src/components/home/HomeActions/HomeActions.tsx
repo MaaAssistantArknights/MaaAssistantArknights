@@ -14,16 +14,16 @@ import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import { FC, Suspense } from 'react'
 
-import { Trans, useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next"
 
 interface HomeActionsProps {
-  toggleLinks?: () => void;
-  showLinks?: boolean;
+  toggleLinks?: () => void
+  showLinks?: boolean
 }
 
 export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) => {
-  // console.log('HomeActions rendered, showLinks:', showLinks);
-  const { t, i18n } = useTranslation();
+  // console.log('HomeActions rendered, showLinks:', showLinks)
+  const { t, i18n } = useTranslation()
 
   const docsLinkMapping: Record<string, string> = {
     "zh-CN": "/docs/zh-cn",
@@ -31,7 +31,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
     "en-US": "/docs/en-us",
     "ja-JP": "/docs/ja-jp",
     "ko-KR": "/docs/ko-kr",
-  };
+  }
 
   const docsLink = docsLinkMapping[i18n.language] ?? "/docs"
 
@@ -97,8 +97,8 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
         <GlowButton
           translucent
           onClick={() => {
-            // console.log('Friend link button clicked, current state:', showLinks);
-            if (toggleLinks) toggleLinks();
+            // console.log('Friend link button clicked, current state:', showLinks)
+            if (toggleLinks) toggleLinks()
           }}
           className={`friend-link-button ${showLinks ? 'active-link-button' : ''}`}
         >

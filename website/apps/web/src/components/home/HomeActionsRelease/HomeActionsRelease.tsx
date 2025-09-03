@@ -170,7 +170,7 @@ const DownloadButton = forwardRef<
     releaseName: string | null
   }
 >(({ platform, releaseName }, ref) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -374,9 +374,9 @@ const DownloadButton = forwardRef<
       : t("release.speedTest.failure", {
         count: loadState.availableMirror,
         reason: t(`release.speedTest.reasons.${loadState.cantTestSpeedReason}`),
-      });
+      })
 
-    return <DownloadState iconClassName="animate-spin" icon={mdiLoading} title={title} />;
+    return <DownloadState iconClassName="animate-spin" icon={mdiLoading} title={title} />
   } else if (loadState.state === 'connecting') {
     const title = loadState.mirrorSpeed > 0
       ? t("release.download.connectingWithSpeed", {
@@ -387,7 +387,7 @@ const DownloadButton = forwardRef<
       : t("release.download.connectingWithoutSpeed", {
         index: loadState.mirrorIndex,
         latency: loadState.mirrorLatency.toFixed(3)
-      });
+      })
 
     return <DownloadState iconClassName="animate-spin" icon={mdiLoading} title={title} />
   } else if (loadState.state === 'downloading') {
@@ -437,7 +437,7 @@ const DownloadButton = forwardRef<
 })
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [viewAll, setViewAll] = useState(false)
   const [envPlatformId, setCurrentPlatformId] = useState<
     string | typeof DetectionFailedSymbol | null

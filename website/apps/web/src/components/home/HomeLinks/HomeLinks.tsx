@@ -17,7 +17,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface HomeLinksProps {
-  showLinks?: boolean;
+  showLinks?: boolean
   onClose?: () => void; // 添加关闭回调函数
 }
 
@@ -99,151 +99,151 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
   const { t } = useTranslation()
   const { theme } = useTheme()
   // 添加一个引用变量来跟踪面板的定位状态
-  const isPanelCenteredRef = React.useRef(false);
+  const isPanelCenteredRef = React.useRef(false)
 
-  // console.log('HomeLinks rendered, showLinks:', showLinks);
+  // console.log('HomeLinks rendered, showLinks:', showLinks)
 
   // 使用 useEffect 直接响应 showLinks 状态变化
   useEffect(() => {
-    // console.log('showLinks changed to:', showLinks);
-    const panel = ref as React.RefObject<HTMLDivElement | null>;
-    if (!panel.current) return;
+    // console.log('showLinks changed to:', showLinks)
+    const panel = ref as React.RefObject<HTMLDivElement | null>
+    if (!panel.current) return
 
     if (showLinks) {
-      panel.current.style.opacity = '1';
-      panel.current.style.pointerEvents = 'auto';
+      panel.current.style.opacity = '1'
+      panel.current.style.pointerEvents = 'auto'
     } else {
-      panel.current.style.opacity = '0';
-      panel.current.style.pointerEvents = 'none';
+      panel.current.style.opacity = '0'
+      panel.current.style.pointerEvents = 'none'
     }
-  }, [showLinks, ref]);
+  }, [showLinks, ref])
 
   // 添加点击外部关闭的事件监听
   useEffect(() => {
     // 如果未显示链接或没有关闭回调，不需要监听点击事件
-    if (!showLinks || !onClose) return;
+    if (!showLinks || !onClose) return
 
     const handleOutsideClick = (event: MouseEvent) => {
-      const panel = ref as React.RefObject<HTMLDivElement | null>;
-      if (!panel.current) return;
+      const panel = ref as React.RefObject<HTMLDivElement | null>
+      if (!panel.current) return
 
       // 查找友链按钮
-      const linkButton = document.querySelector('.friend-link-button');
+      const linkButton = document.querySelector('.friend-link-button')
 
       // 如果点击的是面板内部或友链按钮，不关闭
       if (panel.current.contains(event.target as Node) ||
         (linkButton && linkButton.contains(event.target as Node))) {
-        return;
+        return
       }
 
       // 点击了面板和按钮以外的区域，关闭面板
-      // console.log('Clicked outside the panel, close the friend link');
-      onClose();
-    };
+      // console.log('Clicked outside the panel, close the friend link')
+      onClose()
+    }
 
     // 添加点击事件监听，使用捕获阶段避免与其他点击事件冲突
-    document.addEventListener('click', handleOutsideClick, true);
+    document.addEventListener('click', handleOutsideClick, true)
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick, true);
-    };
-  }, [ref, showLinks, onClose]);
+      document.removeEventListener('click', handleOutsideClick, true)
+    }
+  }, [ref, showLinks, onClose])
 
   // 监听友链按钮位置变化，相应调整面板位置
   useEffect(() => {
     const positionLinksPanel = () => {
-      const panel = ref as React.RefObject<HTMLDivElement | null>;
-      if (!panel.current) return;
+      const panel = ref as React.RefObject<HTMLDivElement | null>
+      if (!panel.current) return
 
       // 查找友链按钮
-      const linkButton = document.querySelector('.friend-link-button');
+      const linkButton = document.querySelector('.friend-link-button')
       if (!linkButton) {
-        console.error('Friend link button not found!');
-        return;
+        console.error('Friend link button not found!')
+        return
       }
 
       // 获取按钮位置信息
-      const buttonRect = linkButton.getBoundingClientRect();
+      const buttonRect = linkButton.getBoundingClientRect()
 
       if (showLinks) {
         // 设置初始高度，稍后再根据内容调整
-        panel.current.style.maxHeight = 'none';
+        panel.current.style.maxHeight = 'none'
         panel.current.style.width = 'auto'; // 先设为自动宽度来测量内容宽度
 
         // 确保面板不超出窗口范围
-        const windowHeight = window.innerHeight;
-        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight
+        const windowWidth = window.innerWidth
 
         // 计算面板实际需要的宽度和高度
         // 先设置一个临时的宽度，让内容能够正常布局
-        panel.current.style.maxWidth = '480px';
+        panel.current.style.maxWidth = '480px'
 
         // 强制浏览器重新计算布局
-        void panel.current.offsetWidth;
+        void panel.current.offsetWidth
 
         // 获取内容实际宽度（加上一些内边距）
         const contentWidth = Math.min(
           Math.max(panel.current.scrollWidth, 240), // 至少240px宽，最多不超过面板宽度
           480 // 最大宽度限制为480px
-        );
+        )
 
-        const panelHeight = Math.min(panel.current.scrollHeight, windowHeight * 0.6);
+        const panelHeight = Math.min(panel.current.scrollHeight, windowHeight * 0.6)
 
         // 计算面板在按钮右侧显示时是否会超出窗口右边缘
-        const buttonRight = buttonRect.right;
-        const buttonTop = buttonRect.top;
+        const buttonRight = buttonRect.right
+        const buttonTop = buttonRect.top
         const spaceOnRight = windowWidth - buttonRight - 20; // 右侧可用空间（减去20px边距）
 
         // 判断是否有足够空间在按钮右侧显示
-        const isSufficientSpaceOnRight = spaceOnRight >= contentWidth;
+        const isSufficientSpaceOnRight = spaceOnRight >= contentWidth
 
         // 如果右侧空间不足则居中显示
-        const shouldCenterPanel = !isSufficientSpaceOnRight;
+        const shouldCenterPanel = !isSufficientSpaceOnRight
 
         // 更新面板定位状态
-        isPanelCenteredRef.current = shouldCenterPanel;
+        isPanelCenteredRef.current = shouldCenterPanel
 
         if (shouldCenterPanel) {
           // 居中显示
-          panel.current.style.position = 'fixed';
-          panel.current.style.left = '50%';
-          panel.current.style.top = '50%';
-          panel.current.style.transform = 'translate(-50%, -50%)';
+          panel.current.style.position = 'fixed'
+          panel.current.style.left = '50%'
+          panel.current.style.top = '50%'
+          panel.current.style.transform = 'translate(-50%, -50%)'
 
           // 设置宽度为内容实际需要的宽度
-          const panelWidth = Math.min(windowWidth * 0.9, contentWidth);
+          const panelWidth = Math.min(windowWidth * 0.9, contentWidth)
 
-          panel.current.style.width = `${panelWidth}px`;
-          panel.current.style.maxHeight = `${Math.min(panelHeight, windowHeight * 0.8)}px`;
+          panel.current.style.width = `${panelWidth}px`
+          panel.current.style.maxHeight = `${Math.min(panelHeight, windowHeight * 0.8)}px`
         } else {
           // 在按钮右侧显示
-          panel.current.style.position = 'fixed';
-          panel.current.style.left = `${buttonRight + 10}px`;
-          panel.current.style.top = `${buttonTop}px`;
-          panel.current.style.transform = 'translateX(0) rotateY(0)';
+          panel.current.style.position = 'fixed'
+          panel.current.style.left = `${buttonRight + 10}px`
+          panel.current.style.top = `${buttonTop}px`
+          panel.current.style.transform = 'translateX(0) rotateY(0)'
 
           // 设置宽度为内容实际需要的宽度，但不超过右侧可用空间
-          panel.current.style.width = `${Math.min(contentWidth, spaceOnRight)}px`;
+          panel.current.style.width = `${Math.min(contentWidth, spaceOnRight)}px`
 
           // 确保面板不超出窗口底部
           if (buttonTop + panelHeight > windowHeight - 20) {
             // 调整顶部位置使面板底部不超出窗口
-            const newTop = Math.max(20, windowHeight - panelHeight - 20);
-            panel.current.style.top = `${newTop}px`;
+            const newTop = Math.max(20, windowHeight - panelHeight - 20)
+            panel.current.style.top = `${newTop}px`
           }
 
-          panel.current.style.maxHeight = `${panelHeight}px`;
+          panel.current.style.maxHeight = `${panelHeight}px`
         }
 
         // 确保面板可见
-        panel.current.style.opacity = '1';
-        panel.current.style.pointerEvents = 'auto';
+        panel.current.style.opacity = '1'
+        panel.current.style.pointerEvents = 'auto'
 
-        // console.log(`Panel positioned ${shouldCenterPanel ? 'centered' : 'at right'}, content width: ${contentWidth}px`);
+        // console.log(`Panel positioned ${shouldCenterPanel ? 'centered' : 'at right'}, content width: ${contentWidth}px`)
       } else {
         // 隐藏面板
-        panel.current.style.opacity = '0';
-        panel.current.style.pointerEvents = 'none';
+        panel.current.style.opacity = '0'
+        panel.current.style.pointerEvents = 'none'
 
         // 根据面板位置应用不同的隐藏动画
         if (isPanelCenteredRef.current) {
@@ -251,23 +251,23 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
           panel.current.style.transform = 'translate(-50%, -50%) translateY(10px) rotateX(5deg)'; // 有点屎的实现，但能用
         } else {
           // 在右侧时向左横向淡出
-          panel.current.style.transform = 'translateX(-10px) rotateY(10deg)';
+          panel.current.style.transform = 'translateX(-10px) rotateY(10deg)'
         }
       }
-    };
+    }
 
     // 初始执行一次定位
     setTimeout(positionLinksPanel, 50); // 添加小延迟确保DOM已更新
 
     // 监听窗口大小变化和滚动事件，重新计算位置
-    window.addEventListener('resize', positionLinksPanel);
-    window.addEventListener('scroll', positionLinksPanel);
+    window.addEventListener('resize', positionLinksPanel)
+    window.addEventListener('scroll', positionLinksPanel)
 
     return () => {
-      window.removeEventListener('resize', positionLinksPanel);
-      window.removeEventListener('scroll', positionLinksPanel);
-    };
-  }, [ref, showLinks]);
+      window.removeEventListener('resize', positionLinksPanel)
+      window.removeEventListener('scroll', positionLinksPanel)
+    }
+  }, [ref, showLinks])
 
   return (
     <div

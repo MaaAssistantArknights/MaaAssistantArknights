@@ -3,11 +3,11 @@ import { FC } from 'react'
 
 import { useTheme } from '@/contexts/ThemeContext'
 
-import { Trans, useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next"
 
 export const HomeHeroHeader: FC = () => {
-  const { i18n } = useTranslation();
-  const { theme } = useTheme();
+  const { i18n } = useTranslation()
+  const { theme } = useTheme()
 
   return (
     <motion.div
