@@ -106,7 +106,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
   // 使用 useEffect 直接响应 showLinks 状态变化
   useEffect(() => {
     // console.log('showLinks changed to:', showLinks);
-    const panel = ref as React.MutableRefObject<HTMLDivElement | null>;
+    const panel = ref as React.RefObject<HTMLDivElement | null>;
     if (!panel.current) return;
 
     if (showLinks) {
@@ -124,7 +124,7 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
     if (!showLinks || !onClose) return;
 
     const handleOutsideClick = (event: MouseEvent) => {
-      const panel = ref as React.MutableRefObject<HTMLDivElement | null>;
+      const panel = ref as React.RefObject<HTMLDivElement | null>;
       if (!panel.current) return;
 
       // 查找友链按钮
@@ -283,7 +283,6 @@ export const HomeLinks = forwardRef<HTMLDivElement, HomeLinksProps>(({ showLinks
       <div className="pt-4 pb-4 px-4">
         <h1 className="text-2xl font-bold mb-3 px-2">
           {t('references.friendLinks')}
-          {/* 友情链接 */}
           <span className={`text-sm ml-4 font-bold opacity-80 tracking-wider ${theme === 'dark' ? '' : 'text-gray-700'}`}>
             LINKS
           </span>

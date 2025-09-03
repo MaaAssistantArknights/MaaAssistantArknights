@@ -31,8 +31,8 @@ export function Screenshots({
   indicatorRef,
   showLinks = false,
 }: {
-  sidebarRef: React.MutableRefObject<HTMLDivElement | null>
-  indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  sidebarRef: React.RefObject<HTMLDivElement | null>
+  indicatorRef: React.RefObject<HTMLDivElement | null>
   showLinks?: boolean
 }) {
   const { theme } = useTheme()
