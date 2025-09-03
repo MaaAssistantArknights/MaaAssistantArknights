@@ -318,8 +318,7 @@ namespace MaaWpfGui.Main
             {
                 if (args.Action == NotifyCollectionChangedAction.Reset)
                 {
-                    Instances.TaskQueueViewModel.FightTaskRunning = false;
-                    Instances.TaskQueueViewModel.InfrastTaskRunning = false;
+                    TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
                 }
             };
         }
@@ -1384,7 +1383,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (SettingsViewModel.GameSettings.AutoRestartOnDrop)
+                                if (TaskQueueViewModel.FightTask.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
@@ -1713,7 +1712,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
+                        if (TaskQueueViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }
@@ -1894,7 +1893,7 @@ namespace MaaWpfGui.Main
                                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.OverLimitAgent, FightTask.FightReport.TimesFinished);
                             }
 
-                            if (Instances.TaskQueueViewModel.FightTaskRunning && FightTask.Instance.HasTimesLimited != false && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
+                            if (FightTask.Instance.HasTimesLimited != false && FightTask.FightReport.TimesFinished + FightTask.FightReport.Series > FightTask.Instance.MaxTimes)
                             {
                                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FightTimesUnused"), FightTask.FightReport.TimesFinished, FightTask.FightReport.Series, FightTask.FightReport.TimesFinished + FightTask.FightReport.Series, FightTask.Instance.MaxTimes), UiLogColor.Error);
                             }
@@ -2337,22 +2336,15 @@ namespace MaaWpfGui.Main
             if (_tasksStatus.TryGetValue(id, out var value))
             {
                 value.Status = status;
-                if (value.Type == TaskType.Fight)
+                if (value.Status == TaskStatus.InProgress)
                 {
-                    Instances.TaskQueueViewModel.FightTaskRunning = status == TaskStatus.InProgress;
-                }
-                else if (value.Type == TaskType.Infrast)
-                {
-                    Instances.TaskQueueViewModel.InfrastTaskRunning = status == TaskStatus.InProgress;
+                    TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
                 }
 
                 return true;
             }
-            else
-            {
-                Log.Error("Task ID {TaskId} not found in _tasksStatus", id);
-            }
 
+            _logger.Error("Task ID {TaskId} not found in _tasksStatus", id);
             return false;
         }
 

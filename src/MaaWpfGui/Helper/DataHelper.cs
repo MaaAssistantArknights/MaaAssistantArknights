@@ -373,7 +373,7 @@ namespace MaaWpfGui.Helper
             public string? Position { get; set; }
 
             [JsonProperty("profession")]
-            public OperatorType Type { get; set; } = OperatorType.Unknown;
+            public OperatorRole Type { get; set; } = OperatorRole.Unknown;
 
             [JsonProperty("rangeId")]
             public List<string>? RangeId { get; set; }
@@ -382,14 +382,14 @@ namespace MaaWpfGui.Helper
             public int Rarity { get; set; }
 
             public bool IsOperator => Type is
-                OperatorType.Caster or
-                OperatorType.Medic or
-                OperatorType.Pioneer or
-                OperatorType.Sniper or
-                OperatorType.Special or
-                OperatorType.Support or
-                OperatorType.Tank or
-                OperatorType.Warrior;
+                OperatorRole.Caster or
+                OperatorRole.Medic or
+                OperatorRole.Pioneer or
+                OperatorRole.Sniper or
+                OperatorRole.Special or
+                OperatorRole.Support or
+                OperatorRole.Tank or
+                OperatorRole.Warrior;
 
             [JsonIgnore]
             public string CodeName => ExtractCodeName(Id);

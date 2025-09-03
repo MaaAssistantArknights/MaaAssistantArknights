@@ -180,9 +180,10 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        d:IsHitTestVisible="True"
                         DisplayMemberPath="Key"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                     Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding SeriesList}"
                         SelectedValue="{Binding Series}"
                         SelectedValuePath="Value" />
@@ -267,9 +268,10 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            d:IsHitTestVisible="True"
                             DisplayMemberPath="Display"
-                            IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                             ItemsSource="{Binding StageList}"
                             SelectedValue="{Binding Stage1}"
                             SelectedValuePath="Value" />
@@ -281,9 +283,10 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage2}"
                                 SelectedValuePath="Value" />
@@ -291,9 +294,10 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage3}"
                                 SelectedValuePath="Value" />
@@ -301,9 +305,10 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 DisplayMemberPath="Display"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 ItemsSource="{Binding StageList}"
                                 SelectedValue="{Binding Stage4}"
                                 SelectedValuePath="Value" />
@@ -312,10 +317,11 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            d:IsHitTestVisible="True"
                             DisplayMemberPath="Display"
                             IsEnabled="{c:Binding UseRemainingSanityStage}"
-                            IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                             ItemsSource="{Binding RemainingSanityStageList}"
                             SelectedValue="{Binding RemainingSanityStage}"
                             SelectedValuePath="Value"
@@ -329,9 +335,10 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            d:IsHitTestVisible="True"
                             hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                            IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                             Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                             ToolTip="{DynamicResource CustomStageCodeTip}" />
                         <StackPanel
@@ -342,27 +349,30 @@
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                             <TextBox
                                 Height="30"
                                 Margin="6"
                                 VerticalContentAlignment="Center"
+                                d:IsHitTestVisible="True"
                                 hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
-                                IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                             Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                             Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                                 Text="{Binding Stage4, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="{DynamicResource CustomStageCodeTip}" />
                         </StackPanel>
@@ -370,10 +380,11 @@
                             Height="30"
                             Margin="6"
                             VerticalContentAlignment="Center"
+                            d:IsHitTestVisible="True"
                             hc:InfoElement.Placeholder="{DynamicResource NotSelected}"
                             IsEnabled="{c:Binding UseRemainingSanityStage}"
-                            IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                            IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                         Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                             Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{c:Binding UseRemainingSanityStage}" />
                     </StackPanel>
@@ -404,9 +415,10 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        d:IsHitTestVisible="True"
                         DisplayMemberPath="Display"
-                        IsHitTestVisible="{c:Binding !InfrastTaskRunning,
-                                                     Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                        IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                     Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding CustomInfrastPlanList, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
                         SelectedValue="{Binding CustomInfrastPlanIndex, Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}"
                         SelectedValuePath="Value" />
@@ -422,9 +434,10 @@
                     IsChecked="{Binding UseCustomAnnihilation}" />
                 <ComboBox
                     Height="30"
+                    d:IsHitTestVisible="True"
                     DisplayMemberPath="Key"
-                    IsHitTestVisible="{c:Binding !FightTaskRunning,
-                                                 Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
+                                                 Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                     ItemsSource="{Binding AnnihilationModeList}"
                     SelectedValue="{Binding AnnihilationStage}"
                     SelectedValuePath="Value"
@@ -468,6 +481,10 @@
                 Margin="0,10"
                 Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
                 IsChecked="{Binding CustomInfrastPlanShowInFightSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoRestartOption}"
+                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

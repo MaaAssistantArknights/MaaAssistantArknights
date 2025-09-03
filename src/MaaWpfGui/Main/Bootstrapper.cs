@@ -45,6 +45,7 @@ using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
+using Serilog.Events;
 using Stylet;
 using StyletIoC;
 
@@ -86,6 +87,7 @@ namespace MaaWpfGui.Main
                 };
 
                 var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
                 return dllFiles
@@ -159,10 +161,11 @@ namespace MaaWpfGui.Main
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     UiLogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+                .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
@@ -178,6 +181,12 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var isBuildOutputFolder =
+                string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(folderName, "RelWithDebInfo", StringComparison.OrdinalIgnoreCase);
 
             Log.Logger = loggerConfiguration.CreateLogger();
             _logger = Log.Logger.ForContext<Bootstrapper>();
@@ -187,7 +196,7 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", Directory.GetCurrentDirectory());
+            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -225,7 +234,7 @@ namespace MaaWpfGui.Main
             }
 
             // Debug 模式下 DLL 是未打包的
-            if (maaEnv != "Debug")
+            if (maaEnv != "Debug" && !isBuildOutputFolder)
             {
                 var unknownDlls = UnknownDllDetected();
                 if (unknownDlls.Count > 0)
@@ -282,6 +291,22 @@ namespace MaaWpfGui.Main
             if (parsedArgs.TryGetValue(ConfigFlag, out string configArgs) && Config(configArgs))
             {
                 // return;
+            }
+        }
+
+        public class ClassNameEnricher : ILogEventEnricher
+        {
+            public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
+            {
+                if (!logEvent.Properties.TryGetValue("SourceContext", out var sourceContextValue))
+                {
+                    return;
+                }
+
+                var sourceContext = sourceContextValue.ToString().Trim('"');
+                var className = sourceContext.Split('.').Last();
+
+                logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty("ClassName", className));
             }
         }
 

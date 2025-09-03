@@ -1,4 +1,4 @@
-// <copyright file="OperatorType.cs" company="MaaAssistantArknights">
+// <copyright file="OperatorRole.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -16,7 +16,7 @@ namespace MaaWpfGui.Constants.Enums;
 /// <summary>
 /// 干员职业类型枚举。
 /// </summary>
-public enum OperatorType
+public enum OperatorRole
 {
     /// <summary>
     /// 未知, 默认值

@@ -1394,7 +1394,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Waiting = true;
             AddLog(LocalizationHelper.GetString("Waiting"));
-            if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
+            if (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
             {
                 await WaitUntilRoguelikeCombatComplete();
 
@@ -1411,7 +1411,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task WaitUntilRoguelikeCombatComplete()
         {
             int time = 0;
-            while (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            while (RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
             {
                 await Task.Delay(1000);
                 ++time;
@@ -1687,25 +1687,6 @@ namespace MaaWpfGui.ViewModels.UI
             [UsedImplicitly]
             get => _waiting;
             private set => SetAndNotify(ref _waiting, value);
-        }
-
-        private bool _fightTaskRunning;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the battle task is running.
-        /// </summary>
-        public bool FightTaskRunning
-        {
-            get => _fightTaskRunning;
-            set => SetAndNotify(ref _fightTaskRunning, value);
-        }
-
-        private bool _infrastTaskRunning;
-
-        public bool InfrastTaskRunning
-        {
-            get => _infrastTaskRunning;
-            set => SetAndNotify(ref _infrastTaskRunning, value);
         }
 
         /*
