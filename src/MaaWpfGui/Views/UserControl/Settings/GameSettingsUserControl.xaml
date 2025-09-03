@@ -72,15 +72,6 @@
             </CheckBox>
         </StackPanel>
 
-        <StackPanel
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Margin="20,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
-        </StackPanel>
         <hc:TextBox
             Grid.Row="7"
             Width="300"

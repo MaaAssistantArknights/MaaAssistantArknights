@@ -520,16 +520,4 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             EmulatorPath = dialog.FileName;
         }
     }
-
-    private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, "True"));
-
-    public bool AutoRestartOnDrop
-    {
-        get => _autoRestartOnDrop;
-        set
-        {
-            SetAndNotify(ref _autoRestartOnDrop, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
-        }
-    }
 }
