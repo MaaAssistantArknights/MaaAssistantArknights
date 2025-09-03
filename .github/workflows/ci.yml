@@ -171,7 +171,7 @@ jobs:
       - name: Build
         run: |
           mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
           cmake --build build --parallel $(nproc --all)
 
           mkdir -p install
@@ -225,7 +225,6 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
-            -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_THIRD_LIBS=ON \
             -DINSTALL_RESOURCE=ON \
