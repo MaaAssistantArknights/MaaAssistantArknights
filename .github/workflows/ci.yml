@@ -227,7 +227,6 @@ jobs:
           mkdir -p build
           cmake -B build \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
-            -DINSTALL_THIRD_LIBS=ON \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_VERSION='${{ needs.meta.outputs.tag }}'

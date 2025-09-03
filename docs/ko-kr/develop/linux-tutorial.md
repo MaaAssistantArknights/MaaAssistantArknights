@@ -22,7 +22,7 @@ Mac은 `tools/build_macos_universal.zsh` 스크립트를 사용하여 컴파일�
    - Ubuntu/Debian
 
    ```bash
-   sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+   sudo apt install gcc-14 g++-14 cmake zlib1g-dev
    ```
 
 2. 서드파티 라이브러리 빌드
@@ -51,8 +51,7 @@ Mac은 `tools/build_macos_universal.zsh` 스크립트를 사용하여 컴파일�
 3. MAA 컴파일
 
    ```bash
-   CC=gcc-12 CXX=g++-12 cmake -B build \
-       -DINSTALL_THIRD_LIBS=ON \
+   CC=gcc-14 CXX=g++-14 cmake -B build \
        -DINSTALL_RESOURCE=ON \
        -DINSTALL_PYTHON=ON
    cmake --build build

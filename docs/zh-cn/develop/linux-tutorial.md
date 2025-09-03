@@ -22,7 +22,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - Ubuntu/Debian
 
     ```bash
-    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+    sudo apt install gcc-14 g++-14 cmake zlib1g-dev
     ```
 
 2. 构建第三方库
@@ -51,8 +51,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 3. 编译 MAA
 
     ```bash
-    CC=gcc-12 CXX=g++-12 cmake -B build \
-        -DINSTALL_THIRD_LIBS=ON \
+    CC=gcc-14 CXX=g++-14 cmake -B build \
         -DINSTALL_RESOURCE=ON \
         -DINSTALL_PYTHON=ON
     cmake --build build
