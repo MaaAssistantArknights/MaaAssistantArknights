@@ -1,4 +1,4 @@
-// <copyright file="TaskViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="TaskSettingsViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -28,11 +28,11 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
-public abstract class TaskViewModel : PropertyChangedBase
+public abstract class TaskSettingsViewModel : PropertyChangedBase
 {
     private readonly Dictionary<string, List<string>> _propertyDependencies = []; // 属性依赖关系, key为被订阅的属性名, value为依赖于该属性的属性名列表
 
-    protected TaskViewModel()
+    protected TaskSettingsViewModel()
     {
         InitializePropertyDependencies();
     }
@@ -84,10 +84,10 @@ public abstract class TaskViewModel : PropertyChangedBase
         }
     }
 
-    protected T? GetTaskConfig<T>()
-        where T : BaseTask
+    protected T GetTaskConfig<T>()
+        where T : BaseTask, new()
     {
-        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] as T;
+        return ConfigFactory.CurrentConfig.TaskQueue[TaskSettingVisibilityInfo.Instance.CurrentIndex] is T t ? t : new T();
     }
 
     protected bool SetTaskConfig<T>(Func<T, bool> isEqual, Action<T> @setValue, [CallerMemberName] string propertyName = "")
@@ -114,9 +114,7 @@ public abstract class TaskViewModel : PropertyChangedBase
     /// 刷新UI
     /// </summary>
     /// <param name="baseTask">需要刷新的任务</param>
-    public virtual void RefreshUI(BaseTask baseTask)
-    {
-    }
+    public abstract void RefreshUI(BaseTask baseTask);
 
     /// <summary>
     /// 序列化MAA任务
@@ -125,8 +123,5 @@ public abstract class TaskViewModel : PropertyChangedBase
     /// [Obsolete] 重构后弃用
     public abstract (AsstTaskType Type, JObject Params) Serialize();
 
-    public virtual bool? SerializeTask(BaseTask baseTask, int? taskId = null)
-    {
-        return null;
-    }
+    public abstract bool? SerializeTask(BaseTask baseTask, int? taskId = null);
 }

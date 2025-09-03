@@ -12,6 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
+using System.Linq;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -56,6 +59,11 @@ public class InfrastTask : BaseTask
     public bool ReceptionMessageBoard { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 会客室线索交换
+    /// </summary>
+    public bool ReceptionClueExchange { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 继续专精
     /// </summary>
     public bool ContinueTraining { get; set; } = false;
@@ -69,4 +77,7 @@ public class InfrastTask : BaseTask
     /// Gets or sets 自定义配置计划编号
     /// </summary>
     public int PlanIndex { get; set; }
+
+    public List<(InfrastRoomType Room, bool IsEnabled)> RoomList { get; set; } =
+       [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, (InfrastRoomType, bool)>(i => new(i, true))];
 }

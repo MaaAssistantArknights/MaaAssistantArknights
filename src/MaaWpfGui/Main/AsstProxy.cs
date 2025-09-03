@@ -318,7 +318,7 @@ namespace MaaWpfGui.Main
             {
                 if (args.Action == NotifyCollectionChangedAction.Reset)
                 {
-                    TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
+                    TaskSettingVisibilityInfo.Instance._CurrentTask = string.Empty;
                 }
             };
         }
@@ -855,33 +855,20 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainError:
                     {
-                        // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
                         TaskStatusUpdate(taskId, TaskStatus.Completed);
                         _tasksStatus.TryGetValue(taskId, out var value);
-                        if (value is { Type: TaskType.Fight } &&
-                            TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
-                            TaskQueueViewModel.FightTask.UseAlternateStage &&
-                            TaskQueueViewModel.FightTask.Stages.Any(stage =>
-                                Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) &&
-                                stage != "Annihilation"))
+                        var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
+                        Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
+                        ToastNotification.ShowDirect(log);
+
+                        if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                            ExternalNotificationService.Send(log, log);
                         }
-                        else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
+                        if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
                         {
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                             AchievementTrackerHelper.Instance.Unlock(AchievementIds.CopilotError);
-                        }
-                        else
-                        {
-                            var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                            Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
-                            ToastNotification.ShowDirect(log);
-
-                            if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
-                            {
-                                ExternalNotificationService.Send(log, log);
-                            }
                         }
 
                         break;
@@ -2259,12 +2246,6 @@ namespace MaaWpfGui.Main
             /// <summary>刷理智</summary>
             Fight,
 
-            /// <summary>关卡选择为剿灭时的备选刷理智</summary>
-            FightAnnihilationAlternate,
-
-            /// <summary>剩余理智</summary>
-            FightRemainingSanity,
-
             /// <summary>自动公招</summary>
             Recruit,
 
@@ -2312,8 +2293,6 @@ namespace MaaWpfGui.Main
         [
             TaskType.StartUp,
             TaskType.Fight,
-            TaskType.FightAnnihilationAlternate,
-            TaskType.FightRemainingSanity,
             TaskType.Recruit,
             TaskType.Infrast,
             TaskType.Mall,
@@ -2338,7 +2317,7 @@ namespace MaaWpfGui.Main
                 value.Status = status;
                 if (value.Status == TaskStatus.InProgress)
                 {
-                    TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
+                    TaskSettingVisibilityInfo.Instance._CurrentTask = value.Type.ToString();
                 }
 
                 return true;
