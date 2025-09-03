@@ -495,18 +495,51 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     [validPlatforms, renderPlatformButton]
   )
 
-  const innerContent = useMemo(() => {
-    if (viewAll || envPlatformId === DetectionFailedSymbol) {
-      return allPlatformDownloadBtns
-    } else {
-      const platform = validPlatforms.find(
-        (platform) => platform.platform.id === envPlatformId,
-      )
-      if (!platform) return allPlatformDownloadBtns
-
-      return [renderPlatformButton(platform)]
+  const innerContent = useMemo<React.ReactNode>(() => {
+    if (viewAll) {
+      // 用户主动展开 -> 显示所有
+      return (<motion.div
+        layout
+        className="
+          flex flex-wrap justify-center items-start gap-4
+          max-h-[50vh] overflow-y-auto
+          pr-2
+          scroll-smooth
+        "
+      >
+        {allPlatformDownloadBtns}
+      </motion.div>)
     }
-  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton])
+
+    if (!envPlatformId || envPlatformId === DetectionFailedSymbol) {
+      // 检测失败
+      return (
+        <DownloadState
+          key="detect-failed"
+          icon={mdiAlertCircle}
+          title={t("release.platformDetect.failure")}
+        />
+      )
+    }
+
+    const platform = validPlatforms.find(
+      (platform) => platform.platform.id === envPlatformId,
+    )
+
+    if (!platform) {
+      // 检测到但不支持
+      return (
+        <DownloadState
+          key="unsupported"
+          icon={mdiAlertCircle}
+          title={t("release.platformDetect.failure")}
+        />
+      )
+    }
+
+    // 检测成功且支持
+    return renderPlatformButton(platform)
+  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton, allPlatformDownloadBtns, t])
 
   const [os, arch] = useMemo(() => {
     if (!envPlatformId) return ['unknown', 'unknown']
@@ -531,15 +564,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
   return (
     <AnimatePresence mode="popLayout">
-      {validPlatforms.length ? (
-        innerContent
-      ) : (
-        <DownloadState
-          key="unavailable"
-          icon={mdiAlertCircle}
-          title={t("release.platformDetect.failure")}
-        />
-      )}
+      {innerContent}
+
       {!viewAll && (
         <motion.div
           layout
@@ -549,16 +575,14 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           key="view-all-switch"
           className="gap-4 items-center flex flex-col md:flex-row"
         >
-          <GlowButton
-            bordered
-            onClick={() => setViewAll(true)}
-          >
+          <GlowButton bordered onClick={() => setViewAll(true)}>
             <div className="text-base">
               {t("release.buttonLabels.viewAll")}
             </div>
           </GlowButton>
         </motion.div>
       )}
+
       {!viewAll && mirrorchyanAvailable && (
         <motion.div
           layout
