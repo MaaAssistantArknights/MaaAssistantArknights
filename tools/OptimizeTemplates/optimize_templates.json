@@ -5040,5 +5040,20 @@
     "resource/template/infrast/Bskill_ctrl_mp_oblvns": "6df546c1e1b7c622e3914808ff558707123f4bb4a9904b40c8cbf8978df545e7",
     "resource/template/infrast/Bskill_ctrl_p_oblvns": "ec040d04c63a826ddf7b1b338aad0bd86db43152508777d51fc822218024aa2f",
     "resource/template/infrast/Bskill_ctrl_trade_mortis": "3d273271c29cae5b9fdc330bd587605d130cca25768064087cb7f7c03a8c678e",
-    "resource/template/infrast/Bskill_ctrl_t_limit&spd_tmoris": "4bb1e02bdcb5268853b0ca931c8d797fa87a0fe52c5a75f92776c3a8185e7896"
+    "resource/template/infrast/Bskill_ctrl_t_limit&spd_tmoris": "4bb1e02bdcb5268853b0ca931c8d797fa87a0fe52c5a75f92776c3a8185e7896",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/GachaEnter": "434fd94b135fc2b8e019398d273568fec2048acf39c6c44cf993737953eee4f8",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/Friends": "6a124b1fa4d1a601d58c06d0198cd0ceb25515f8b69f401c7aecd04c61675bf0",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/Recruit": "1e7e4fd3f2df18f0c139e9da287a126ff9380d0bf817b0b09291bc7f24c7396d",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/Terminal": "e27affad461d52b0ffa2a87daee2e381b3daeadecb7354c15fa16c17cca1962c",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/Mall": "0ffba6958e523c626c5f563e5edfec332aad2a7a23e5c505a12798eb412157a9",
+    "resource/global/txwy/resource/template/UiTheme/Gaming/DepotEnter": "f2cf9f0f2a24b3de21cb5e9ab56730d6fad72bb9b9fad445afa0f94fb4bd19bd",
+    "resource/template/UiTheme/JieGarden/GachaEnter": "34121324f99f0f1ea0eb4da4bcf53978958cd0796f89b37cc65ead1fb05ae210",
+    "resource/template/UiTheme/JieGarden/Friends": "f20a39851ee6000920eb937584b2e29b5f1e57f736154ea39d402b86dc99f14c",
+    "resource/template/UiTheme/JieGarden/Recruit": "a0b48bc74100d6989f0016222470d1284855aec933bcf7d5174c37ffb179e43a",
+    "resource/template/UiTheme/JieGarden/Terminal": "9e6d3cd7ed4fa18a235064da9eccbd2b71f1a5586638e50cbacd2a39ef0fcdd9",
+    "resource/template/UiTheme/JieGarden/Task": "68d2bf43d38865ae5ec139b0c5ff58c70e755987402aef87142712640fbeaeca",
+    "resource/template/UiTheme/JieGarden/EnterInfrast": "9f11dbaac9f9f0e249b5c1ce4a7e471c6fedd61a5696fdcb74adec2272528024",
+    "resource/template/UiTheme/JieGarden/OperBoxEnter": "c6659e8c2fd56c664d891b4cfca785ee3a149f59a0cf3cc9c5a2473c7c2f1d72",
+    "resource/template/UiTheme/JieGarden/Mall": "479c40c304c742b23d1179e77c413d94214a11ec8fb12d214ac346b0e0505fc7",
+    "resource/template/UiTheme/JieGarden/DepotEnter": "17ab036b743d32d9a036f0e2ae6313356d483a6cad03625d0e29c610166583ff"
 }
