@@ -1567,6 +1567,14 @@
         "sortId": -10000,
         "usage": "로도스 아일랜드 의료부에서 개발한 신형 약물. 재앙과 전장 등의 활성화된 오리지늄 환경 속에서 일시적으로 광석병 악화를 억제해 준다. 이 약품은 신체에 큰 부담을 줄 수 있으므로 사용에 주의해야 한다."
     },
+    "act1multi_token_cap": {
+        "classifyType": "NONE",
+        "description": "로도스 아일랜드 협동 경기의 참여 인증. “경기장에 남는 것은 땀이요, 경기장에서 가져가는 것은 우정일지니.”",
+        "icon": "act1multi_token_cap.png",
+        "name": "참여 인증 - S1",
+        "sortId": -10000,
+        "usage": "쌓여가는 참여 인증은 경기 열기의 상승을 의미한다. 열기가 일정 레벨에 도달하면 그에 상응하는 보상을 받을 수 있다."
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "삶이 번성하고 대대로 전해 내려온다. 이것이 그 증명이다.",
@@ -2126,6 +2134,14 @@
         "name": "범용증명서",
         "sortId": 10006,
         "usage": "중견 오퍼레이터임을 증명하는 증명서. 희귀한 물자와 교환할 수 있다."
+    },
+    "emoticon_originium_slug": {
+        "classifyType": "NONE",
+        "description": "“더 이상 입꼬리를 억지로 올려 미소 짓지 마. 원석충처럼 등껍질을 열고 몸을 펴봐…… 날 믿어, 이렇게 하면 너희도 곧 어색함이 사라질 거야.”",
+        "icon": "emoticon_originium_slug.png",
+        "name": "이모티콘 세트: 원석충",
+        "sortId": 2000002,
+        "usage": "원석충의 동작을 기반으로 디자인된 이모티콘 세트. 협력자 간의 의사소통에 사용된다."
     },
     "et_ObsidianPass": {
         "classifyType": "NONE",
