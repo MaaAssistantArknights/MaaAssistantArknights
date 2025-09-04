@@ -4526,7 +4526,7 @@
     },
     "OperParadoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperOpenInformationMenu", "OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "next": ["OperOpenInformationMenu"],
         "preDelay": 500,
         "postDelay": 500
     },
@@ -4534,7 +4534,7 @@
         "action": "ClickSelf",
         "template": "OperInformationMenu.png",
         "roi": [447, 0, 158, 135],
-        "next": ["OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "next": ["OperOpenParadox"],
         "preDelay": 500,
         "postDelay": 500
     },
@@ -4549,22 +4549,23 @@
         "action": "ClickSelf",
         "template": "OperParadoxBegin.png",
         "roi": [1009, 603, 260, 114],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["#self", "Stop"]
     },
     "ParadoxChooseSkill1": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [928, 103, 146, 156]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 150, 50, 50]
     },
     "ParadoxChooseSkill2": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [931, 315, 140, 149]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 370, 50, 50]
     },
     "ParadoxChooseSkill3": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [928, 523, 139, 145]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 570, 50, 50]
     },
     "ParadoxReturnUntilOperList": {
         "baseTask": "ParadoxReturn",
