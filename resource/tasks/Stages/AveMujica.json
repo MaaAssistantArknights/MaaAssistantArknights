@@ -52,15 +52,15 @@
         "baseTask": "SS-Open",
         "postDelay": 4000,
         "template": ["StageSideStory.png", "StageActivity.png"],
-        "next": ["SSChapterToSS"]
+        "next": ["AveMujicaChapterToAveMujica"]
     },
     "AveMujica-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "postDelay": 4000,
         "text": ["无忧梦呓", "拥抱命运"],
-        "next": ["SSChapterToSS"]
+        "next": ["AveMujicaChapterToAveMujica"]
     },
-    "SSChapterToSS": {
+    "AveMujicaChapterToAveMujica": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["万般皆梦"],
