@@ -501,7 +501,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       return (<motion.div
         layout
         className="
-          flex flex-wrap justify-center items-start gap-4
+          w-full flex flex-wrap justify-center items-start gap-4
           max-h-[50vh] overflow-y-auto overflow-x-hidden
           pr-2
           scroll-smooth
