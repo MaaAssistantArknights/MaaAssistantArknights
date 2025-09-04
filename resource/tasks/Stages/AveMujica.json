@@ -5,7 +5,8 @@
         "next": ["AveMujica-3@SideStoryStage", "AveMujica-3@SwipeToStage"]
     },
     "AveMujica-3@SideStoryStage": {
-        "text": ["SS-3"]
+        "text": ["SS-3"],
+        "roi": [588, 651, 107, 33]
     },
     "AveMujica-5": {
         "algorithm": "JustReturn",
@@ -13,7 +14,8 @@
         "next": ["AveMujica-5@SideStoryStage", "AveMujica-5@SwipeToStage"]
     },
     "AveMujica-5@SideStoryStage": {
-        "text": ["SS-5"]
+        "text": ["SS-5"],
+        "roi": [588, 651, 107, 33]
     },
     "AveMujica-6": {
         "algorithm": "JustReturn",
@@ -21,7 +23,8 @@
         "next": ["AveMujica-6@SideStoryStage", "AveMujica-6@SwipeToStage"]
     },
     "AveMujica-6@SideStoryStage": {
-        "text": ["SS-6"]
+        "text": ["SS-6"],
+        "roi": [588, 651, 107, 33]
     },
     "AveMujica-7": {
         "algorithm": "JustReturn",
@@ -29,7 +32,8 @@
         "next": ["AveMujica-7@SideStoryStage", "AveMujica-7@SwipeToStage"]
     },
     "AveMujica-7@SideStoryStage": {
-        "text": ["SS-7"]
+        "text": ["SS-7"],
+        "roi": [588, 651, 107, 33]
     },
     "AveMujica-8": {
         "algorithm": "JustReturn",
@@ -37,7 +41,8 @@
         "next": ["AveMujica-8@SideStoryStage", "AveMujica-8@SwipeToStage"]
     },
     "AveMujica-8@SideStoryStage": {
-        "text": ["SS-8"]
+        "text": ["SS-8"],
+        "roi": [588, 651, 107, 33]
     },
     "AveMujica-OpenOpt": {
         "algorithm": "JustReturn",
