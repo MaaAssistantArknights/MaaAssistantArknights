@@ -502,7 +502,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         layout
         className="
           flex flex-wrap justify-center items-start gap-4
-          max-h-[50vh] overflow-y-auto
+          max-h-[50vh] overflow-y-auto overflow-x-hidden
           pr-2
           scroll-smooth
         "
