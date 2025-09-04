@@ -12,7 +12,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
