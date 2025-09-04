@@ -5027,5 +5027,18 @@
     "official/OperInformationMenu": "42f705c3a75182a61c7ea07844d70e3f9b1f8baa425085a08aea06527ad09d3b",
     "official/OperParadoxBegin": "f98992b13867c9d0796c4a9dab3999bddbb4f41792efe3ac457582edf4d3b48f",
     "official/OperParadox": "c8e2dafa53bd15a01fb1a6d7b3e657dff93b67217f6a9ab8d7c896f01c986258",
-    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DialogSkip": "6ce2ed39031d20a21b0fdf7eab6285cbe383aeb4deabf76b9d3d89669b061ab3"
+    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DialogSkip": "6ce2ed39031d20a21b0fdf7eab6285cbe383aeb4deabf76b9d3d89669b061ab3",
+    "resource/template/items/act45side_token_puzzlepieces": "ebf561373be4f5e08a84fa7f8348b559e3ba75f430070a6a76c54fefab8270ec",
+    "resource/template/items/act6collection_point_token": "d2d507b38784e9514044cd0f0eb7e4e01288f7fef20de3340410c13ed5ed597d",
+    "resource/template/items/LINKAGE_TKT_GACHA_10_6501": "c1089767420b75d11f7df50fdf7b18f880d9357e59ca0565aeace69ca2648d26",
+    "resource/template/infrast/Bskill_ctrl_dorm_uika1": "e3f95f99e05ebcc19f227fb208c8a26e6f1bc5ae7cf6486869e6a367aac6909b",
+    "resource/template/infrast/Bskill_ctrl_dorm_uika2": "a527545368826f9824a994162dd2486b0e67d730dba403d384dc28b07e0394af",
+    "resource/template/infrast/Bskill_ctrl_hire_tmoris": "6ce267bfd468cdf8ab640a9db0bcdd2b3eac12d0318d99b25510fdaa11b133ea",
+    "resource/template/infrast/Bskill_ctrl_meet_amoris1": "16392e40df534d1f728d19c230d2310cf9f9f5811f396fbab9d1572a6d85dd1b",
+    "resource/template/infrast/Bskill_ctrl_meet_amoris2": "2c06093a7ff2639d59cc2c5f84e17bd115291ed6320cde720f3c4431d09e78dd",
+    "resource/template/infrast/Bskill_ctrl_mp_mortis": "293a8de48edaa2590a48160eb948da79b84c038aadd8d1fbc3ae1796e38d44cd",
+    "resource/template/infrast/Bskill_ctrl_mp_oblvns": "6df546c1e1b7c622e3914808ff558707123f4bb4a9904b40c8cbf8978df545e7",
+    "resource/template/infrast/Bskill_ctrl_p_oblvns": "ec040d04c63a826ddf7b1b338aad0bd86db43152508777d51fc822218024aa2f",
+    "resource/template/infrast/Bskill_ctrl_trade_mortis": "3d273271c29cae5b9fdc330bd587605d130cca25768064087cb7f7c03a8c678e",
+    "resource/template/infrast/Bskill_ctrl_t_limit&spd_tmoris": "4bb1e02bdcb5268853b0ca931c8d797fa87a0fe52c5a75f92776c3a8185e7896"
 }

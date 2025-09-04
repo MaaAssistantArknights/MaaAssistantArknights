@@ -219,6 +219,18 @@
                 "name": ["无言的慈爱"],
                 "template": "Bskill_ctrl_d_r_tag.png"
             },
+            "bskill_ctrl_dorm_uika1": {
+                "desc": ["进驻控制中枢时，宿舍内每有1名干员，热情值+1"],
+                "name": ["偶像光环"],
+                "template": "Bskill_ctrl_dorm_uika1.png"
+            },
+            "bskill_ctrl_dorm_uika2": {
+                "desc": [
+                    "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）；当与丰川祥子一起进驻控制中枢时，丰川祥子的心情每小时恢复+0.1"
+                ],
+                "name": ["羁绊相生"],
+                "template": "Bskill_ctrl_dorm_uika2.png"
+            },
             "bskill_ctrl_ela": {
                 "desc": [
                     "进驻控制中枢时，更容易获得线索板上尚未拥有的线索，但控制中枢内除自身以外的其余干员心情每小时消耗+0.25"
@@ -250,6 +262,11 @@
                 },
                 "name": ["感染力"],
                 "template": "Bskill_ctrl_h_spd.png"
+            },
+            "bskill_ctrl_hire_tmoris": {
+                "desc": ["进驻控制中枢时，热情值+10；人脉资源的联络速度+10%（同种效果取最高）"],
+                "name": ["可靠伙伴"],
+                "template": "Bskill_ctrl_hire_tmoris.png"
             },
             "bskill_ctrl_karlan": {
                 "desc": ["进驻控制中枢时，控制中枢内每个喀兰贸易干员可使控制中枢内所有干员的心情每小时恢复+0.05"],
@@ -301,6 +318,28 @@
                 "name": ["德才兼备"],
                 "template": "Bskill_ctrl_lungmen.png"
             },
+            "bskill_ctrl_meet_amoris1": {
+                "desc": ["进驻控制中枢时，热情值+10；会客室线索搜集速度提升+5%（同种效果取最高）"],
+                "name": ["勤学苦练"],
+                "template": "Bskill_ctrl_meet_amoris1.png"
+            },
+            "bskill_ctrl_meet_amoris2": {
+                "desc": [
+                    "当与丰川祥子一起进驻控制中枢时，丰川祥子心情每小时消耗+0.05，会客室线索搜集速度额外提升+5%（同种效果取最高）"
+                ],
+                "name": ["成效优先"],
+                "template": "Bskill_ctrl_meet_amoris2.png"
+            },
+            "bskill_ctrl_mp_mortis": {
+                "desc": ["当与丰川祥子一起进驻控制中枢时，消除自身心情消耗的影响"],
+                "name": ["互为半身"],
+                "template": "Bskill_ctrl_mp_mortis.png"
+            },
+            "bskill_ctrl_mp_oblvns": {
+                "desc": ["进驻控制中枢时，热情值处于40点及以上时，自身心情每小时消耗+0.05"],
+                "name": ["生活的重压"],
+                "template": "Bskill_ctrl_mp_oblvns.png"
+            },
             "bskill_ctrl_p_bot": {
                 "desc": ["进驻控制中枢时，如果Lancet-2进驻在发电站，发电站额外+2（仅影响设施数量）"],
                 "efficient": {
@@ -308,6 +347,13 @@
                 },
                 "name": ["我寻思能行"],
                 "template": "Bskill_ctrl_p_bot.png"
+            },
+            "bskill_ctrl_p_oblvns": {
+                "desc": [
+                    "进驻控制中枢时，所有生产贵金属类配方的制造站生产力+0.5%，每有20点热情值，所有生产贵金属类配方的制造站生产力+0.5%"
+                ],
+                "name": ["丰富工作经验"],
+                "template": "Bskill_ctrl_p_oblvns.png"
             },
             "bskill_ctrl_p_spd": {
                 "desc": ["进驻控制中枢时，所有制造站生产力+2%（同种效果取最高）"],
@@ -349,6 +395,11 @@
                 "name": ["精密计算"],
                 "template": "Bskill_ctrl_t_limit&spd.png"
             },
+            "bskill_ctrl_t_limit&spd_tmoris": {
+                "desc": ["进驻控制中枢时，每个进驻在贸易站的叙拉古干员，订单获取效率+5%"],
+                "name": ["家族认可"],
+                "template": "Bskill_ctrl_t_limit&spd_tmoris.png"
+            },
             "bskill_ctrl_t_spd": {
                 "desc": [
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
@@ -388,6 +439,13 @@
                 "desc": ["当与怪物猎人小队干员进驻控制中枢一起工作时，所有贸易站订单效率+7%（同种效果取最高）"],
                 "name": ["秘传交涉术"],
                 "template": "Bskill_ctrl_token_t_spd.png"
+            },
+            "bskill_ctrl_trade_mortis": {
+                "desc": [
+                    "进驻控制中枢时，热情值+20；每有8点热情值，自身心情每小时消耗+0.01，所有贸易站订单效率+1%（同种效果取最高）"
+                ],
+                "name": ["演技的怪物"],
+                "template": "Bskill_ctrl_trade_mortis.png"
             },
             "bskill_ctrl_train_spd1": {
                 "desc": [
