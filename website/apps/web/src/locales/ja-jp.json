@@ -4,35 +4,35 @@
             "title": "Windows",
             "subtitle": "x64",
             "messages": {
-                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください。"
+                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください"
             }
         },
         "windows-arm64": {
             "title": "Windows",
             "subtitle": "arm64",
             "messages": {
-                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください。"
+                "downloaded": "ダウンロードが完了しました。解凍後、MAA.exe を実行してください"
             }
         },
         "macos-universal": {
             "title": "macOS",
             "subtitle": "ユニバーサル",
             "messages": {
-                "downloaded": "ダウンロードが完了しました。ディスクイメージを開き、MAA.app をアプリケーションフォルダにドラッグしてください。"
+                "downloaded": "ダウンロードが完了しました。ディスクイメージを開き、MAA.app をアプリケーションフォルダにドラッグしてください"
             }
         },
         "linux-x64": {
             "title": "Linux",
             "subtitle": "x64 ダイナミックライブラリ",
             "messages": {
-                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）。"
+                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）"
             }
         },
         "linux-aarch64": {
             "title": "Linux",
             "subtitle": "aarch64 ダイナミックライブラリ",
             "messages": {
-                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）。"
+                "downloaded": "ダイナミックライブラリとリソースファイルがダウンロード完了しました（Linux 版には GUI はありません）"
             }
         }
     },
@@ -42,23 +42,23 @@
             "viewAll": "すべて表示",
             "mirrorchyanCDKYes": "MirrorちゃんCDK をお持ちですか？",
             "mirrorchyanGo": "Mirrorちゃん高速ダウンロードへ",
-            "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。</1><2>GitHubのReleasesからダウンロードを試みてください。</2>"
+            "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。GitHub Releases からダウンロードを試みてください。</1><2>Github Release へダウンロードする</2>"
         },
         "platformDetect": {
             "detecting": "システムアーキテクチャを検出中...",
-            "failure": "現在のアーキテクチャに対応するダウンロードリンクが見つかりませんでした。",
-            "archIncompatible": "現在のシステムアーキテクチャはサポートされていません。"
+            "failure": "現在のアーキテクチャに対応するダウンロードリンクが見つかりませんでした",
+            "archIncompatible": "現在のシステムアーキテクチャはサポートされていません"
         },
         "mirrorDetect": {
             "detecting": "ダウンロードミラーの有効性を検出中 ({{current}}/{{total}})..."
         },
         "speedTest": {
             "testing": "ダウンロードミラー #{{index}} の速度を検出中...",
-            "success": "{{count}}個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）。",
-            "failure": "{{count}}個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）。",
+            "success": "{{count}}個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）",
+            "failure": "{{count}}個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）",
             "reasons": {
-                "saveData": "ユーザーが「データ節約」モードを有効にしています。",
-                "mobile": "ユーザーがモバイルネットワークを使用しています。"
+                "saveData": "ユーザーが「データ節約」モードを有効にしています",
+                "mobile": "ユーザーがモバイルネットワークを使用しています"
             }
         },
         "download": {
