@@ -8098,8 +8098,7 @@
         },
         "trap_197_muulwr": {
             "name": "护具分发员",
-            "name_en": "护具分发员",
-            "name_en_unavailable": true,
+            "name_en": "Protective Gear Giver",
             "name_jp": "防具支給員",
             "name_kr": "보호구 배급원",
             "name_tw": "护具分发员",
@@ -8111,8 +8110,7 @@
         },
         "trap_198_muulas": {
             "name": "混乱烟花箱",
-            "name_en": "混乱烟花箱",
-            "name_en_unavailable": true,
+            "name_en": "Chaotic Fireworks",
             "name_jp": "花火セット",
             "name_kr": "혼란의 폭죽상자",
             "name_tw": "混乱烟花箱",
@@ -8124,8 +8122,7 @@
         },
         "trap_199_muulrg": {
             "name": "猛兽能量饮料",
-            "name_en": "猛兽能量饮料",
-            "name_en_unavailable": true,
+            "name_en": "Beastmode Energy Drink",
             "name_jp": "ニャンスターエナジー",
             "name_kr": "맹수 에너지음료",
             "name_tw": "猛兽能量饮料",
@@ -8137,8 +8134,7 @@
         },
         "trap_200_muulcl": {
             "name": "喷射汽水机",
-            "name_en": "喷射汽水机",
-            "name_en_unavailable": true,
+            "name_en": "Soda Dispenser",
             "name_jp": "サイダー噴射機",
             "name_kr": "사이다 분사기",
             "name_tw": "喷射汽水机",
@@ -8150,8 +8146,7 @@
         },
         "trap_201_muulco": {
             "name": "赛场啦啦队",
-            "name_en": "赛场啦啦队",
-            "name_en_unavailable": true,
+            "name_en": "Cheerleader",
             "name_jp": "競技応援団",
             "name_kr": "경기장 응원단",
             "name_tw": "赛场啦啦队",
@@ -8163,8 +8158,7 @@
         },
         "trap_202_muworkg": {
             "name": "高级设施建筑工",
-            "name_en": "高级设施建筑工",
-            "name_en_unavailable": true,
+            "name_en": "Expert Facility Builder",
             "name_jp": "上級施設建設作業員",
             "name_kr": "고급 시설 건축공",
             "name_tw": "高级设施建筑工",
@@ -8176,8 +8170,7 @@
         },
         "trap_203_mufrprn": {
             "name": "坍塌的杂物堆",
-            "name_en": "坍塌的杂物堆",
-            "name_en_unavailable": true,
+            "name_en": "Collapsed Junk Pile",
             "name_jp": "ガラクタのなだれ",
             "name_kr": "무너진 잔해",
             "name_tw": "坍塌的杂物堆",
@@ -8189,8 +8182,7 @@
         },
         "trap_205_mufrfm": {
             "name": "建筑工具间",
-            "name_en": "建筑工具间",
-            "name_en_unavailable": true,
+            "name_en": "Construction Workshop",
             "name_jp": "作業員倉庫",
             "name_kr": "건축 공구실",
             "name_tw": "建筑工具间",
@@ -8202,8 +8194,7 @@
         },
         "trap_206_mufrbk": {
             "name": "临时休息舱",
-            "name_en": "临时休息舱",
-            "name_en_unavailable": true,
+            "name_en": "Recuperation Pod",
             "name_jp": "仮設休憩室",
             "name_kr": "임시 휴게실",
             "name_tw": "临时休息舱",
@@ -8215,8 +8206,7 @@
         },
         "trap_207_mufrwl": {
             "name": "液压式高台 ",
-            "name_en": "液压式高台 ",
-            "name_en_unavailable": true,
+            "name_en": "Hydraulic Platform",
             "name_jp": "油圧式高台",
             "name_kr": "유압식 플랫폼",
             "name_tw": "液压式高台 ",
@@ -8228,8 +8218,7 @@
         },
         "trap_208_mufrst": {
             "name": "混凝土路障 ",
-            "name_en": "混凝土路障 ",
-            "name_en_unavailable": true,
+            "name_en": "Concrete Roadblock",
             "name_jp": "コンクリ防壁",
             "name_kr": "콘크리트 바리케이드",
             "name_tw": "混凝土路障 ",
@@ -8241,8 +8230,7 @@
         },
         "trap_209_mufrbs": {
             "name": "便携健身架",
-            "name_en": "便携健身架",
-            "name_en_unavailable": true,
+            "name_en": "Portable Exercise Rack",
             "name_jp": "携帯式健康器",
             "name_kr": "휴대용 운동기구",
             "name_tw": "便携健身架",
