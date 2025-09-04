@@ -1,0 +1,65 @@
+{
+    "AveMujica-3": {
+        "algorithm": "JustReturn",
+        "sub": ["AveMujica-3@AveMujica-OpenOpt"],
+        "next": ["AveMujica-3@SideStoryStage", "AveMujica-3@SwipeToStage"]
+    },
+    "AveMujica-3@SideStoryStage": {
+        "text": ["SS-3"]
+    },
+    "AveMujica-5": {
+        "algorithm": "JustReturn",
+        "sub": ["AveMujica-5@AveMujica-OpenOpt"],
+        "next": ["AveMujica-5@SideStoryStage", "AveMujica-5@SwipeToStage"]
+    },
+    "AveMujica-5@SideStoryStage": {
+        "text": ["SS-5"]
+    },
+    "AveMujica-6": {
+        "algorithm": "JustReturn",
+        "sub": ["AveMujica-6@AveMujica-OpenOpt"],
+        "next": ["AveMujica-6@SideStoryStage", "AveMujica-6@SwipeToStage"]
+    },
+    "AveMujica-6@SideStoryStage": {
+        "text": ["SS-6"]
+    },
+    "AveMujica-7": {
+        "algorithm": "JustReturn",
+        "sub": ["AveMujica-7@AveMujica-OpenOpt"],
+        "next": ["AveMujica-7@SideStoryStage", "AveMujica-7@SwipeToStage"]
+    },
+    "AveMujica-7@SideStoryStage": {
+        "text": ["SS-7"]
+    },
+    "AveMujica-8": {
+        "algorithm": "JustReturn",
+        "sub": ["AveMujica-8@AveMujica-OpenOpt"],
+        "next": ["AveMujica-8@SideStoryStage", "AveMujica-8@SwipeToStage"]
+    },
+    "AveMujica-8@SideStoryStage": {
+        "text": ["SS-8"]
+    },
+    "AveMujica-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["AveMujica-OpenOcr", "AveMujica-Open"]
+    },
+    "AveMujica-Open": {
+        "baseTask": "AveMujica-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["SSChapterToSS"]
+    },
+    "AveMujica-OpenOcr": {
+        "baseTask": "AveMujica-OpenOcr",
+        "text": ["无忧梦呓", "拥抱命运"],
+        "next": ["SSChapterToSS"]
+    },
+    "SSChapterToSS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["万般皆梦"],
+        "preDelay": 3000,
+        "postDelay": 2000,
+        "roi": ["?????"],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}
