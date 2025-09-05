@@ -1567,6 +1567,14 @@
         "sortId": -10000,
         "usage": "ロドスの医療部が開発した新薬。天災や戦場などのような、源石が活性化した環境下で鉱石病の進行を一時的に抑制できる。ただし、身体に大きな負担がかかってしまうため、使用の際はくれぐれも慎重に。"
     },
+    "act1multi_token_cap": {
+        "classifyType": "NONE",
+        "description": "協心競技の参加認定証。会場にしみ込んだ汗水と引き換えに、新たな友情を持ち帰ろう。",
+        "icon": "act1multi_token_cap.png",
+        "name": "参加認定証-S1",
+        "sortId": -10000,
+        "usage": "認定証の数は、試合への注目度と比例している。一定の注目を集めることができれば、対応する報酬を獲得できる。"
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "生存と繁栄、代々受け継がれていく。これがその証となる。",
@@ -2134,6 +2142,14 @@
         "name": "中堅資格証",
         "sortId": 10006,
         "usage": "中堅たる能力を持つオペレーターであると証明する資格証。資格交換所で物資と交換できる。"
+    },
+    "emoticon_originium_slug": {
+        "classifyType": "NONE",
+        "description": "「そんな作り笑いはやめてくれ。オリジムシのように殻を開けて、リラックスするんだ……信じてくれ、こうすれば相手ともすぐに打ち解けられるはずだから。」",
+        "icon": "emoticon_originium_slug.png",
+        "name": "スタンプ「オリジムシ」",
+        "sortId": 2000002,
+        "usage": "オリジムシの動きを参考にデザインされたスタンプ。協力者とのコミュニケーションに使用できる。"
     },
     "et_ObsidianPass": {
         "classifyType": "NONE",

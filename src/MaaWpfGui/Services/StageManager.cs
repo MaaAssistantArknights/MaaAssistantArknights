@@ -390,7 +390,7 @@ namespace MaaWpfGui.Services
                 // Side story Drop item tips
                 if (!string.IsNullOrEmpty(stage.Drop))
                 {
-                    lines.Add($"{stage.Display}: {ItemListHelper.GetItemName(stage.Drop)}");
+                    lines.Add($"{stage.Value}: {ItemListHelper.GetItemName(stage.Drop)}");
                 }
 
                 // Normal stage tips
