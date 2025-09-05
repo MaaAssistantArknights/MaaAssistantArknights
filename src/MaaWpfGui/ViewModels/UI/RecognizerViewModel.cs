@@ -577,6 +577,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region OperBox
 
+        private int _operBoxSelectedIndex = 0;
+
+        public int OperBoxSelectedIndex
+        {
+            get => _operBoxSelectedIndex;
+            set => SetAndNotify(ref _operBoxSelectedIndex, value);
+        }
+
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
 
         public string OperBoxInfo
@@ -741,6 +749,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            if (OperBoxNotHaveList.Count > 0)
+            {
+                OperBoxSelectedIndex = 0;
+            }
+
             OperBoxInfo = $"{LocalizationHelper.GetString("IdentificationCompleted")}\n{LocalizationHelper.GetString("OperBoxRecognitionTip")}";
             OperBoxDataArray = ownOpers;
             SaveOperBoxDetails(ownOpers);
@@ -756,6 +769,7 @@ namespace MaaWpfGui.ViewModels.UI
         [UsedImplicitly]
         public async Task StartOperBox()
         {
+            OperBoxSelectedIndex = 1;
             _tempOperHaveSet = [];
             OperBoxHaveList = [];
             OperBoxNotHaveList = [];
