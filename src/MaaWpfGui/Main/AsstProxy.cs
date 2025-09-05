@@ -1777,6 +1777,12 @@ namespace MaaWpfGui.Main
                                 LocalizationHelper.GetString(actionString),
                                 DataHelper.GetLocalizedCharacterName(target) ?? target));
 
+                        var elapsed_time_str = subTaskDetails!["elapsed_time"]?.ToString();
+                        if (int.TryParse(elapsed_time_str, out int elapsed_time_int) && elapsed_time_int >= 0)
+                        {
+                            Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("ElapsedTime"), elapsed_time_int), UiLogColor.Message);
+                        }
+
                         break;
                     }
 
