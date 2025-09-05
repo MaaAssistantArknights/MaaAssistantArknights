@@ -590,7 +590,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -765,7 +766,8 @@
             ["^焰影苇.*", "焰影苇草"],
             ["Miss\\.[Cc]hristine", "Miss.Christine"],
             ["^野.{0,2}$", "野鬃"],
-            ["^(“|”|\\\\|\")?斩(“|”|\\\\|\")?$", "“斩”"]
+            ["^(“|”|\\\\|\")?斩(“|”|\\\\|\")?$", "“斩”"],
+            ["八.*海铃", "八幡海铃"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -790,7 +792,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -1012,7 +1015,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -1041,7 +1045,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
@@ -1681,7 +1686,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
@@ -1719,7 +1725,8 @@
             "DahuangCity/Recruit.png",
             "Dreamland/DreamlandDefault/Recruit.png",
             "Dreamland/DreamlandDark/Recruit.png",
-            "JieGarden/Recruit.png"
+            "JieGarden/Recruit.png",
+            "AveMujika/Recruit.png"
         ],
         "action": "ClickSelf",
         "roi": [900, 450, 200, 150],
@@ -1803,7 +1810,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -1850,7 +1858,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -1935,7 +1944,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -2019,7 +2029,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -2077,7 +2088,8 @@
             "DahuangCity/Task.png",
             "Dreamland/DreamlandDefault/Task.png",
             "Dreamland/DreamlandDark/Task.png",
-            "JieGarden/Task.png"
+            "JieGarden/Task.png",
+            "AveMujika/Task.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -2143,7 +2155,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -2203,7 +2216,8 @@
             "DahuangCity/Friends.png",
             "Dreamland/DreamlandDefault/Friends.png",
             "Dreamland/DreamlandDark/Friends.png",
-            "JieGarden/Friends.png"
+            "JieGarden/Friends.png",
+            "AveMujika/Friends.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -2265,7 +2279,8 @@
             "DahuangCity/Mall.png",
             "Dreamland/DreamlandDefault/Mall.png",
             "Dreamland/DreamlandDark/Mall.png",
-            "JieGarden/Mall.png"
+            "JieGarden/Mall.png",
+            "AveMujika/Mall.png"
         ],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
@@ -2328,7 +2343,8 @@
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png"
+            "JieGarden/Terminal.png",
+            "AveMujika/Terminal.png"
         ],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
@@ -2540,7 +2556,8 @@
             "DahuangCity/EnterInfrast.png",
             "Dreamland/DreamlandDefault/EnterInfrast.png",
             "Dreamland/DreamlandDark/EnterInfrast.png",
-            "JieGarden/EnterInfrast.png"
+            "JieGarden/EnterInfrast.png",
+            "AveMujika/EnterInfrast.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -3731,17 +3748,17 @@
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [15, 385, 80, 100]
+        "specificRect": [150, 385, 1, 100]
     },
     "BattleQuickFormationSkill2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [15, 560, 80, 30]
+        "specificRect": [150, 560, 1, 30]
     },
     "BattleQuickFormationSkill3": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [15, 650, 80, 30]
+        "specificRect": [150, 650, 1, 30]
     },
     "BattleQuickFormationModulePage": {
         "algorithm": "OcrDetect",
@@ -4343,7 +4360,8 @@
             "DahuangCity/DepotEnter.png",
             "Dreamland/DreamlandDefault/DepotEnter.png",
             "Dreamland/DreamlandDark/DepotEnter.png",
-            "JieGarden/DepotEnter.png"
+            "JieGarden/DepotEnter.png",
+            "AveMujika/DepotEnter.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -4436,7 +4454,8 @@
             "DahuangCity/OperBoxEnter.png",
             "Dreamland/DreamlandDefault/OperBoxEnter.png",
             "Dreamland/DreamlandDark/OperBoxEnter.png",
-            "JieGarden/OperBoxEnter.png"
+            "JieGarden/OperBoxEnter.png",
+            "AveMujika/OperBoxEnter.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -4526,7 +4545,7 @@
     },
     "OperParadoxBegin": {
         "algorithm": "JustReturn",
-        "next": ["OperOpenInformationMenu", "OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "next": ["OperOpenInformationMenu"],
         "preDelay": 500,
         "postDelay": 500
     },
@@ -4534,7 +4553,7 @@
         "action": "ClickSelf",
         "template": "OperInformationMenu.png",
         "roi": [447, 0, 158, 135],
-        "next": ["OperOpenParadox", "OperOpenParadoxChooseSkill"],
+        "next": ["OperOpenParadox"],
         "preDelay": 500,
         "postDelay": 500
     },
@@ -4549,22 +4568,23 @@
         "action": "ClickSelf",
         "template": "OperParadoxBegin.png",
         "roi": [1009, 603, 260, 114],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["#self", "Stop"]
     },
     "ParadoxChooseSkill1": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [928, 103, 146, 156]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 150, 50, 50]
     },
     "ParadoxChooseSkill2": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [931, 315, 140, 149]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 370, 50, 50]
     },
     "ParadoxChooseSkill3": {
-        "action": "ClickSelf",
-        "template": "ParadoxChooseSkill.png",
-        "roi": [928, 523, 139, 145]
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [970, 570, 50, 50]
     },
     "ParadoxReturnUntilOperList": {
         "baseTask": "ParadoxReturn",
@@ -5012,7 +5032,8 @@
             "DahuangCity/GachaEnter.png",
             "Dreamland/DreamlandDefault/GachaEnter.png",
             "Dreamland/DreamlandDark/GachaEnter.png",
-            "JieGarden/GachaEnter.png"
+            "JieGarden/GachaEnter.png",
+            "AveMujika/GachaEnter.png"
         ],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
@@ -5114,7 +5135,8 @@
             "DahuangCity/Mall.png",
             "Dreamland/DreamlandDefault/Mall.png",
             "Dreamland/DreamlandDark/Mall.png",
-            "JieGarden/Mall.png"
+            "JieGarden/Mall.png",
+            "AveMujika/Mall.png"
         ],
         "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },

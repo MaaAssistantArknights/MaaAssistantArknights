@@ -23,10 +23,10 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotItemViewModel"/> class.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name="name">The name</param>
         /// <param name="filePath">The original Name of file</param>
         /// <param name="isRaid">是否为突袭关</param>
-        /// <param name="copilotId">作业站对应id，本地作业应为默认值0</param>
+        /// <param name="copilotId">作业站对应 id，本地作业应为默认值 0</param>
         /// <param name="isChecked">isChecked</param>
         public CopilotItemViewModel(string name, string filePath, bool isRaid = false, int copilotId = 0, bool isChecked = true)
         {
@@ -50,7 +50,7 @@ namespace MaaWpfGui.ViewModels
         public string FilePath { get; }
 
         /// <summary>
-        /// Gets or sets 作业站对应id，本地作业应为默认值0
+        /// Gets or sets 作业站对应 id，本地作业应为默认值 0
         /// </summary>
         [JsonProperty("copilot_id")]
         public int CopilotId { get; set; }

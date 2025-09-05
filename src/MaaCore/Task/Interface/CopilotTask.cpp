@@ -64,7 +64,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     using SupportUnitUsage = BattleFormationTask::SupportUnitUsage;
 
-    if (m_has_set_params) {
+    if (m_has_subtasks_duplicate) {
         Log.error(__FUNCTION__, "CopilotTask set_params failed, already set params");
         return false;
     }
@@ -156,6 +156,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
             m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
         }
         m_multi_copilot_plugin_ptr->set_multi_copilot_config(std::move(configs_cvt));
+        m_has_subtasks_duplicate = true;
     }
 
     m_medicine_task_ptr->set_enable(use_sanity_potion);
@@ -205,8 +206,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         for (size_t i = 1; i < loop_times; ++i) {
             m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
         }
+        m_has_subtasks_duplicate = true;
     }
-    m_has_set_params = true;
     return true;
 }
 

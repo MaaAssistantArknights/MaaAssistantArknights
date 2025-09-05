@@ -9845,6 +9845,15 @@
         "stageId": "act2enemyduel_01a",
         "width": 15
     },
+    "act2enemyduel_01b-activities/act2enemyduel/level_act2enemyduel_01b": {
+        "code": "VS-1",
+        "filename": "act2enemyduel_01b-activities-act2enemyduel-level_act2enemyduel_01b.json",
+        "height": 11,
+        "levelId": "activities/act2enemyduel/level_act2enemyduel_01b",
+        "name": "争锋对决！",
+        "stageId": "act2enemyduel_01b",
+        "width": 15
+    },
     "act2vmulti-01-activities/act2vmulti/level_act2vmulti_01": {
         "code": "IG-1",
         "filename": "act2vmulti-01-activities-act2vmulti-level_act2vmulti_01.json",
@@ -14236,6 +14245,87 @@
         "name": "雪花屏",
         "stageId": "act44side_tr02",
         "width": 11
+    },
+    "act45side_01-activities/act45side/level_act45side_01": {
+        "code": "SS-1",
+        "filename": "act45side_01-activities-act45side-level_act45side_01.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_01",
+        "name": "花格窗边的梦想",
+        "stageId": "act45side_01",
+        "width": 11
+    },
+    "act45side_02-activities/act45side/level_act45side_02": {
+        "code": "SS-2",
+        "filename": "act45side_02-activities-act45side-level_act45side_02.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_02",
+        "name": "寂静长廊的两端",
+        "stageId": "act45side_02",
+        "width": 10
+    },
+    "act45side_03-activities/act45side/level_act45side_03": {
+        "code": "SS-3",
+        "filename": "act45side_03-activities-act45side-level_act45side_03.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_03",
+        "name": "音乐室内的光芒",
+        "stageId": "act45side_03",
+        "width": 11
+    },
+    "act45side_04-activities/act45side/level_act45side_04": {
+        "code": "SS-4",
+        "filename": "act45side_04-activities-act45side-level_act45side_04.json",
+        "height": 9,
+        "levelId": "activities/act45side/level_act45side_04",
+        "name": "名为客房区的迷宫",
+        "stageId": "act45side_04",
+        "width": 11
+    },
+    "act45side_05-activities/act45side/level_act45side_05": {
+        "code": "SS-5",
+        "filename": "act45side_05-activities-act45side-level_act45side_05.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_05",
+        "name": "通往舞会的邀请函",
+        "stageId": "act45side_05",
+        "width": 11
+    },
+    "act45side_06-activities/act45side/level_act45side_06": {
+        "code": "SS-6",
+        "filename": "act45side_06-activities-act45side-level_act45side_06.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_06",
+        "name": "回声飘荡的大厅",
+        "stageId": "act45side_06",
+        "width": 11
+    },
+    "act45side_07-activities/act45side/level_act45side_07": {
+        "code": "SS-7",
+        "filename": "act45side_07-activities-act45side-level_act45side_07.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_07",
+        "name": "永恒绚烂的藏品",
+        "stageId": "act45side_07",
+        "width": 11
+    },
+    "act45side_08-activities/act45side/level_act45side_08": {
+        "code": "SS-8",
+        "filename": "act45side_08-activities-act45side-level_act45side_08.json",
+        "height": 9,
+        "levelId": "activities/act45side/level_act45side_08",
+        "name": "童话的开场",
+        "stageId": "act45side_08",
+        "width": 13
+    },
+    "act45side_tr01-activities/act45side/level_act45side_tr01": {
+        "code": "SS-TR-1",
+        "filename": "act45side_tr01-activities-act45side-level_act45side_tr01.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_tr01",
+        "name": "吊桥外的月光",
+        "stageId": "act45side_tr01",
+        "width": 9
     },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
@@ -21572,6 +21662,15 @@
         "stageId": "mem_ascln_1",
         "width": 11
     },
+    "mem_ashlok_1-obt/memory/level_memory_ashlok_1": {
+        "code": "mem_ashlok_1",
+        "filename": "mem_ashlok_1-obt-memory-level_memory_ashlok_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_ashlok_1",
+        "name": "轰响",
+        "stageId": "mem_ashlok_1",
+        "width": 10
+    },
     "mem_astesi_1-obt/memory/level_memory_astesi_1": {
         "code": "mem_astesi_1",
         "filename": "mem_astesi_1-obt-memory-level_memory_astesi_1.json",
@@ -22868,6 +22967,15 @@
         "stageId": "mem_mint_1",
         "width": 9
     },
+    "mem_mitm_1-obt/memory/level_memory_mitm_1": {
+        "code": "mem_mitm_1",
+        "filename": "mem_mitm_1-obt-memory-level_memory_mitm_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_mitm_1",
+        "name": "多管闲事",
+        "stageId": "mem_mitm_1",
+        "width": 10
+    },
     "mem_mizuki_1-obt/memory/level_memory_mizuki_1": {
         "code": "mem_mizuki_1",
         "filename": "mem_mizuki_1-obt-memory-level_memory_mizuki_1.json",
@@ -23020,6 +23128,15 @@
         "name": "背后援手",
         "stageId": "mem_nowell_1",
         "width": 10
+    },
+    "mem_nymph_1-obt/memory/level_memory_nymph_1": {
+        "code": "mem_nymph_1",
+        "filename": "mem_nymph_1-obt-memory-level_memory_nymph_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_nymph_1",
+        "name": "直面心灵",
+        "stageId": "mem_nymph_1",
+        "width": 11
     },
     "mem_orchid_1-obt/memory/level_memory_orchid_1": {
         "code": "mem_orchid_1",
@@ -23759,6 +23876,15 @@
         "stageId": "mem_whispr_1",
         "width": 11
     },
+    "mem_whitw2_1-obt/memory/level_memory_whitw2_1": {
+        "code": "mem_whitw2_1",
+        "filename": "mem_whitw2_1-obt-memory-level_memory_whitw2_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_whitw2_1",
+        "name": "玩家",
+        "stageId": "mem_whitw2_1",
+        "width": 11
+    },
     "mem_wildmn_1-obt/memory/level_memory_wildmn_1": {
         "code": "mem_wildmn_1",
         "filename": "mem_wildmn_1-obt-memory-level_memory_wildmn_1.json",
@@ -23776,6 +23902,15 @@
         "name": "身后支援",
         "stageId": "mem_windft_1",
         "width": 11
+    },
+    "mem_wscoot_1-obt/memory/level_memory_wscoot_1": {
+        "code": "mem_wscoot_1",
+        "filename": "mem_wscoot_1-obt-memory-level_memory_wscoot_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_wscoot_1",
+        "name": "先礼后兵",
+        "stageId": "mem_wscoot_1",
+        "width": 10
     },
     "mem_wyvern_1-obt/memory/level_memory_wyvern_1": {
         "code": "mem_wyvern_1",

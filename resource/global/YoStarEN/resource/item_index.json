@@ -1567,6 +1567,14 @@
         "sortId": -10000,
         "usage": "A new formulation from Rhodes Island's Medical R&D, capable of temporarily suppressing the exacerbation of Oripathy in Catastrophe- or battlefield-level Originium zones. THIS DRUG PLACES IMMENSE STRAIN ON THE BODY. USE WITH CAUTION."
     },
+    "act1multi_token_cap": {
+        "classifyType": "NONE",
+        "description": "A certificate of participation in Rhodes Island's Icebreaker Games. 'Leave your sweat in the stadium. Come home with camaraderie.'",
+        "icon": "act1multi_token_cap.png",
+        "name": "Participation Certificate - S1",
+        "sortId": -10000,
+        "usage": "As you collect Participation Certificates, so does Hype. Reach certain Hype levels to receive rewards."
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "Life prospers, age passes down to age, and this is their proof.",
@@ -2126,6 +2134,14 @@
         "name": "Universal Certificates",
         "sortId": 10006,
         "usage": "A certificate that attests an operator possesses core abilities. Can be exchanged for rare materials."
+    },
+    "emoticon_originium_slug": {
+        "classifyType": "NONE",
+        "description": "'Stop pulling up the corners of your mouth into that stiff smile and try being more like an Originium slug. Open up your shell, spread out your soft parts, and... Believe me, do that, and you'll get over the awkwardness real quick.'",
+        "icon": "emoticon_originium_slug.png",
+        "name": "Emote Set: Slug Style",
+        "sortId": 2000002,
+        "usage": "An emote set based on Originium slugs, used to communicate between partners."
     },
     "et_ObsidianPass": {
         "classifyType": "NONE",
