@@ -432,7 +432,7 @@ const DownloadButton = forwardRef<
     return (
       <DownloadState
         icon={mdiAlertCircle}
-        title={t("release.download.invalid_state")}
+        title={t("release.download.invalidState")}
       />
     )
   }
