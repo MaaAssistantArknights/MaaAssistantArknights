@@ -5,14 +5,12 @@
 }
 
 :global(.dark) .root {
-
   border: thin solid rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease-out;
   box-shadow: 0 0 15px rgba(100, 100, 255, 0.15);
 }
 
 :global(.light) .root {
-
   transition: all 0.2s ease-out;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -27,7 +25,6 @@
 }
 
 :global(.light) .root:hover {
-
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
