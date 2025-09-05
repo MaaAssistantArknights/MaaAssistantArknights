@@ -37,6 +37,9 @@
 #include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInputSeedTaskPlugin.h"
 
+// ------------------ 界园主题专用配置及插件 ------------------
+#include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst) :
@@ -97,6 +100,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     // ------------------ 萨卡兹主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeInputSeedTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    // ------------------ 界园主题专用插件 ------------------
+    m_roguelike_task_ptr->register_plugin<RoguelikeCoppersTaskPlugin>(m_config_ptr, m_control_ptr);
 
     m_subtasks.emplace_back(m_roguelike_task_ptr);
 }

@@ -89,6 +89,9 @@
     <Filter Include="Source\Task\Roguelike\Sami">
       <UniqueIdentifier>{78679758-d75f-4a67-82cc-d0a868050ac7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Task\Roguelike\JieGarden">
+      <UniqueIdentifier>{543a44b2-ae6b-40ac-8b8e-1e6fa82b5375}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resource\tasks">
       <UniqueIdentifier>{b351ee18-df9a-48bc-ab0d-c10ed691719f}</UniqueIdentifier>
     </Filter>
@@ -436,6 +439,9 @@
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
@@ -916,6 +922,9 @@
     </ClInclude>
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h">
       <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\JieGarden</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h">
       <Filter>Source\Vision\Roguelike</Filter>
@@ -1446,6 +1455,9 @@
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike\Sami</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\JieGarden\RoguelikeCoppersTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike\JieGarden</Filter>
+    </ClCompile>
     <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp">
       <Filter>Source\Vision\Roguelike</Filter>
     </ClCompile>
@@ -1453,6 +1465,9 @@
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\JieGarden\RoguelikeCoppersConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
