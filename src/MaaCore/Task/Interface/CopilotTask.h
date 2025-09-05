@@ -46,6 +46,6 @@ private:
     std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
     std::shared_ptr<ProcessTask> m_stop_task_ptr = nullptr;
     std::string m_stage_name;
-    bool m_has_set_params = false;
+    bool m_has_subtasks_duplicate = false;
 };
 }
