@@ -37,6 +37,8 @@ import {
 } from './ReleaseModels'
 
 import { Trans, useTranslation, withTranslation, WithTranslation } from 'react-i18next'
+
+import { useLayoutState } from "@/contexts/LayoutStateContext"
 import i18n from '@/i18n'
 
 type GITHUB_MIRROR_TYPE = {
@@ -438,6 +440,8 @@ const DownloadButton = forwardRef<
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const { t } = useTranslation()
+  const { isWidthOverflow } = useLayoutState()
+
   const [viewAll, setViewAll] = useState(false)
   const [envPlatformId, setCurrentPlatformId] = useState<
     string | typeof DetectionFailedSymbol | null
@@ -488,7 +492,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </div>
       </motion.div>
     )
-  }, [envPlatformId, release.name, t])
+  }, [envPlatformId, release.name, t, i18n])
 
   const allPlatformDownloadBtns = useMemo(
     () => validPlatforms.map(renderPlatformButton),
@@ -503,7 +507,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         className="
           w-full flex flex-wrap justify-center items-start gap-4
           max-h-[50vh] overflow-y-auto overflow-x-hidden
-          pt-8
+          pt-8 pl-8 pr-8
           scroll-smooth
         "
       >
@@ -539,7 +543,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
 
     // 检测成功且支持
     return renderPlatformButton(platform)
-  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton, allPlatformDownloadBtns, t])
+  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton, allPlatformDownloadBtns, t, i18n])
 
   const [os, arch] = useMemo(() => {
     if (!envPlatformId) return ['unknown', 'unknown']
@@ -573,7 +577,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           key="view-all-switch"
-          className="gap-4 items-center flex flex-col md:flex-row"
+          className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
         >
           <GlowButton bordered onClick={() => setViewAll(true)}>
             <div className="text-base">

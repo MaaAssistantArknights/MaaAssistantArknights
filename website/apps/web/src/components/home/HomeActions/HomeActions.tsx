@@ -16,8 +16,9 @@ import { FC, Suspense } from 'react'
 
 import { Trans, useTranslation } from "react-i18next"
 
-import { useRef } from "react";
-import { useOverflowDetection } from '@/utils/useOverflowDetection'
+import { useRef, useEffect } from "react";
+
+import { useLayoutState } from "@/contexts/LayoutStateContext"
 
 interface HomeActionsProps {
   toggleLinks?: () => void
@@ -28,8 +29,12 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
   // console.log('HomeActions rendered, showLinks:', showLinks)
   const { t, i18n } = useTranslation()
 
+  const { isWidthOverflow, registerWidthCheck } = useLayoutState()
   const containerRef = useRef<HTMLDivElement>(null)
-  const isOverflow = useOverflowDetection(containerRef, "gap-4 items-center mt-4 flex flex-row", [t, i18n])
+
+  useEffect(() => {
+    registerWidthCheck(containerRef, "gap-4 items-center mt-4 flex flex-row") // 测量用的 class
+  }, [])
 
   const docsLinkMapping: Record<string, string> = {
     "zh-CN": "/docs/zh-cn",
@@ -42,9 +47,9 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
   const docsLink = docsLinkMapping[i18n.language] ?? "/docs"
 
   return (
-    <div className={`items-center absolute bottom-0 left-0 right-0 flex flex-col mx-8 ${isOverflow ? "mb-24" : "mb-[7vh]"}`}>
+    <div className={`items-center absolute bottom-0 left-0 right-0 flex flex-col mx-8 ${isWidthOverflow ? 'mb-24' : 'mb-[7vh]'}`}>
       <motion.div
-        className={`items-center justify-center font-light flex-wrap relative ${isOverflow ? "flex-col hidden gap-2" : "flex flex-row gap-x-4 gap-y-2"}`}
+        className={`items-center justify-center font-light flex-wrap relative ${isWidthOverflow ? 'flex-col hidden gap-2' : 'flex flex-row gap-x-4 gap-y-2'}`}
         // layout
         layoutRoot
       >
@@ -65,7 +70,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
 
       <div
         ref={containerRef} // 水平overflow检测锚点
-        className={`gap-4 items-center justify-center mt-4 flex ${isOverflow ? "flex-col" : "flex-row"}`}>
+        className={`gap-4 items-center justify-center mt-4 flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}>
         <GlowButton translucent href={docsLink}>
           <div className="flex items-center -ml-1 font-light">
             <Icon icon={mdiDocument} fontSize="30px" />
@@ -116,7 +121,7 @@ export const HomeActions: FC<HomeActionsProps> = ({ toggleLinks, showLinks }) =>
           </div>
         </GlowButton>
       </div>
-      <div className={`text-xs leading-5 text-center dark:text-white/70 text-black/70 transition-colors duration-300 ${isOverflow ? "mt-6" : "mt-8"}`}>
+      <div className={`text-xs leading-5 text-center dark:text-white/70 text-black/70 transition-colors duration-300 ${isWidthOverflow ? 'mt-6' : 'mt-8'}`}>
         <Trans key={i18n.language} i18nKey="footer.compliance" components={{
           1: <motion.span
             className="inline-block"
