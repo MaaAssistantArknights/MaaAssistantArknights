@@ -13,7 +13,7 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujika/Terminal.png"
+            "AveMujica/Terminal.png"
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
