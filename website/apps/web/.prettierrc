@@ -19,6 +19,8 @@
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "endOfLine": "auto",
   "overrides": [
     {
       "files": ["**/*.json"],

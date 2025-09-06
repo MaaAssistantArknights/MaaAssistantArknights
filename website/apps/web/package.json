@@ -50,7 +50,7 @@
         "eslint-config-prettier": "^8.10.2",
         "eslint-plugin-react": "^7.37.5",
         "postcss": "^8.5.6",
-        "prettier": "^2.8.8",
+        "prettier": "^3.6.2",
         "rollup-plugin-analyzer": "^4.0.0",
         "tailwindcss": "^3.4.17",
         "typescript": "^5.9.2"
