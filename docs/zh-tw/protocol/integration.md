@@ -201,8 +201,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "only_buy_discount": bool,              // 是否只購買折扣商品（僅在第二輪購買時生效），可選，預設值 false
     "reserve_max_credit": bool,             // 當信用點低於 300 時是否停止購買（僅在第二輪購買時生效），可選，預設值 false
     "credit_fight": bool,                   // 是否借助戰打一場 OF-1 關卡，以便隔日獲得更多信用，可選，預設值 false
-    "formation_index": int                  // 打 OF-1 時所使用的編隊，可選，預設值 0；
-                                            // 為 0-4 的整數，其中 0 表示當前分隊，1-4 分別表示第一、二、三、四分隊
+    "formation_index": int                  // 打 OF-1 時所使用的編隊欄位的索引。可選，預設值 0；
+                                            // 取值為 0-4 的整數，其中 0 表示選擇當前編隊，1-4 分別表示第一、二、三、四編隊
 }
 ```
 

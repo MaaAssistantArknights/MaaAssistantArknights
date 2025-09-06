@@ -192,8 +192,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "only_buy_discount": bool,              // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부입니다. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
     "reserve_max_credit": bool,             // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
     "credit_fight": bool,                   // 지원을 빌려 OF-1 스테이지를 1회 클리어하여 다음 날 더 많은 크레딧을 획득할지 여부. 선택 사항, 기본값 false
-    "formation_index": int                  // OF-1 진행 시 사용할 편성. 선택 사항, 기본값 0;
-                                            // 0–4 사이의 정수. 0 = 현재 분대, 1–4 = 제1~제4 분대
+    "formation_index": int                  // OF-1 진행 시 사용할 편성 슬롯의 인덱스. 선택 사항, 기본값 0.
+                                            // 0~4 사이의 정수이며, 0은 현재 편성을, 1~4는 각각 첫 번째~네 번째 편성을 나타냄
 }
 ```
 

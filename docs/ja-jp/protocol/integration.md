@@ -200,8 +200,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "only_buy_discount": bool,              // 割引対象のアイテムだけを購入するかどうかは。これは2回目の購入の際にのみ適用されます。デフォルトは false。
     "reserve_max_credit": bool,             // クレジットポイントが 300 未満になった場合に購入を停止するかどうかは。これは2回目の購入の際にのみ適用されます。デフォルトは false。
     "credit_fight": bool,                   // サポートを借りて OF-1 を1回攻略し、翌日により多くのクレジットを獲得するかどうか。任意、デフォルト値は false
-    "formation_index": int                  // OF-1 の際に使用する編成。任意、デフォルト値は 0；
-                                            // 0〜4 の整数。0 は現在の分隊、1〜4 は第1〜第4分隊を表す
+    "formation_index": int                  // OF-1 実行時に使用する編成スロットのインデックス。任意指定可能、デフォルトは 0。
+                                            // 0～4 の整数で、0 は現在の編成を意味し、1～4 はそれぞれ第1～第4編成を表す
 }
 ```
 

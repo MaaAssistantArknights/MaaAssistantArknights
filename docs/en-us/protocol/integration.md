@@ -203,7 +203,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
     "only_buy_discount": bool,              // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false
     "reserve_max_credit": bool,             // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false
     "credit_fight": bool,                   // Whether to run one battle of OF-1 with support units to gain more Credits the next day; optional, default is false
-    "formation_index": int                  // Formation index used for OF-1; optional, default is 0;
+    "formation_index": int                  // Formation slot index used for the OF-1 battle; optional, default is 0;
                                             // Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad
 }
 ```
