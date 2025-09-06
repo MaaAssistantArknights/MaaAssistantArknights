@@ -31,11 +31,3 @@
 .link {
   text-decoration: none;
 }
-
-:global(.dark) .link:hover * {
-  text-decoration-color: rgba(255, 255, 255, 0.15);
-}
-
-:global(.light) .link:hover * {
-  text-decoration-color: rgba(0, 0, 0, 0.15);
-}
