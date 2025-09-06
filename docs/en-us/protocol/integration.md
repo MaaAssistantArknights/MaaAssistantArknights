@@ -189,6 +189,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
 // Corresponding task parameters
 {
     "enable": bool,         // Whether to enable this task, optional, by default true
+    "visit_friends": bool,  // Whether to visit friends' base to obtain Credits; optional, default is true
     "shopping": bool,       // Whether to buy items from the store, optional, by default false. Editing in run-time is not supported.
     "buy_first": [          // Items to be purchased with priority, optional. Editing in run-time is not supported.
         string,             // Item name, e.g. "招聘许可" (Recruitment Permit), "龙门币" (LMD), etc.
@@ -198,9 +199,12 @@ Supports some of the special stages, please refer to [autoLocalization example](
         string,             // Item name, e.g. "加急许可" (Expedited Plan), "家具零件" (Furniture Part), etc.
         ...
     ],
-    "force_shopping_if_credit_full": bool, // Whether to ignore the Blacklist if credit overflows, by default true
-    "only_buy_discount": bool, // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false
-    "reserve_max_credit": bool // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false
+    "force_shopping_if_credit_full": bool,  // Whether to ignore the Blacklist if credit overflows, by default true
+    "only_buy_discount": bool,              // Whether to purchase only discounted items, applicable only on the second round of purchases, by default false
+    "reserve_max_credit": bool,             // Whether to stop purchasing when credit points fall below 300, applicable only on the second round of purchases, by default false
+    "credit_fight": bool,                   // Whether to run one battle of OF-1 with support units to gain more Credits the next day; optional, default is false
+    "formation_index": int                  // Formation index used for OF-1; optional, default is 0;
+                                            // Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fourth squad
 }
 ```
 
