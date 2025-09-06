@@ -549,19 +549,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const innerContent = useMemo<React.ReactNode>(() => {
     if (viewAll) {
       // 用户主动展开 -> 显示所有
-      return (
-        <motion.div
-          layout
-          className="
-          w-full flex flex-wrap justify-center items-start gap-4
-          max-h-[50vh] overflow-y-auto overflow-x-hidden
-          pt-8 pl-8 pr-8
-          scroll-smooth
-        "
-        >
-          {allPlatformDownloadBtns}
-        </motion.div>
-      )
+      return (allPlatformDownloadBtns)
     }
 
     if (!envPlatformId || envPlatformId === DetectionFailedSymbol) {
@@ -625,48 +613,52 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   }
 
   return (
-    <AnimatePresence mode="popLayout">
-      {innerContent}
+    <motion.div
+      layout
+      className={`w-full flex flex-wrap justify-center items-center items-start gap-4 max-h-[50vh]`}>
+      <AnimatePresence mode="popLayout">
+        {innerContent}
 
-      {!viewAll && (
-        <motion.div
-          layout
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          key="view-all-switch"
-          className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
-        >
-          <GlowButton bordered onClick={() => setViewAll(true)}>
-            <div className="text-base">{t('release.buttonLabels.viewAll')}</div>
-          </GlowButton>
-        </motion.div>
-      )}
-
-      {!viewAll && mirrorchyanAvailable && (
-        <motion.div
-          layout
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          key="mirrorchyan"
-        >
-          <GlowButton
-            bordered
-            href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+        {!viewAll && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            key="view-all-switch"
+            className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
           >
-            <div className="text-sm">
-              <p>
-                <i>{t('release.buttonLabels.mirrorchyanCDKYes')}</i>
-              </p>
-              <p>
-                <i>{t('release.buttonLabels.mirrorchyanGo')}</i>
-              </p>
-            </div>
-          </GlowButton>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <GlowButton bordered onClick={() => setViewAll(true)}>
+              <div className="text-base">{t('release.buttonLabels.viewAll')}</div>
+            </GlowButton>
+          </motion.div>
+        )}
+
+        {!viewAll && mirrorchyanAvailable && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            key="mirrorchyan"
+          >
+            <GlowButton
+              bordered
+              href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+            >
+              <div className="text-sm">
+                <p>
+                  <i>{t('release.buttonLabels.mirrorchyanCDKYes')}</i>
+                </p>
+                <p>
+                  <i>{t('release.buttonLabels.mirrorchyanGo')}</i>
+                </p>
+              </div>
+            </GlowButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }
 
