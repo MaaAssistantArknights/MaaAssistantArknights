@@ -34,7 +34,7 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
     const ref = targetRef.current
     const el = ref?.current
     if (!el) return
-    
+
     el.style.transition = ''
     el.style.opacity = '0'
 
@@ -58,7 +58,6 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
       el.style.transition = 'opacity 1s'
       el.style.opacity = '1'
     }, 1000)
-
   }
 
   const registerWidthCheck = (
