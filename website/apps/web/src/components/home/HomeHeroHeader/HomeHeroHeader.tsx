@@ -35,19 +35,19 @@ export const HomeHeroHeader: FC = () => {
           >
             <Trans key={i18n.language} i18nKey="header.description" components={{
               1: <motion.span
-                className="inline-block"
+                className="whitespace-nowrap"
                 initial={{ opacity: 0, y: 10, rotate: -10 }}
                 animate={{ opacity: 1, y: 0, rotate: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 0.8 }}
               />,
               2: <motion.span
-                className="inline-block"
+                className="whitespace-nowrap"
                 initial={{ opacity: 0, y: 10, rotate: 10 }}
                 animate={{ opacity: 1, y: 0, rotate: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 1.0 }}
               />,
               3: <motion.span
-                className="inline-block"
+                className="whitespace-nowrap"
                 initial={{ opacity: 0, y: 10, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 1.2 }}
