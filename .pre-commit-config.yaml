@@ -19,7 +19,8 @@ repos:
     hooks:
       - id: prettier
         additional_dependencies:
-          - "@trivago/prettier-plugin-sort-imports"
+          - "prettier@latest"
+          - "@trivago/prettier-plugin-sort-imports@latest"
         files: ^((\.github/ISSUE_TEMPLATE|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
         types_or:
           - yaml
