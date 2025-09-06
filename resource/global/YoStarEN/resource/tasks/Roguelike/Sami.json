@@ -62,7 +62,7 @@
         "roi": [467, 531, 357, 72]
     },
     "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"]
+        "text": ["Obtain after", "this floor", "Collapse", "will trigger", "on next floor"]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
@@ -196,7 +196,7 @@
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -205,13 +205,14 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             ["Garden", "_default"],
+			[".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forests", "_exit"],
@@ -220,13 +221,14 @@
             [".*Gelid ?Rockshelves", "_exit"],
             [".*Immaculate ?Garden", "_exit"],
             [".*Garden", "_exit"],
+			[".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passage", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forests", "_default"],
@@ -235,12 +237,13 @@
             [".*Gelid ?Rockshelves", "_exit"],
             [".*Immaculate ?Garden", "_exit"],
             [".*Garden", "_exit"],
+			[".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passage", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
             [".*Placid ?Forests", "_collapsal_paradigms"],
@@ -249,13 +252,14 @@
             [".*Gelid ?Rockshelves", "_SKIP_"],
             [".*Immaculate ?Garden", "_SKIP_"],
             [".*Garden", "_SKIP_"],
+			[".*70.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -264,13 +268,14 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             [".*Garden", "_default"],
+			[".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [603, 49, 125, 18],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forests", "_aggressive"],
@@ -279,6 +284,7 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             [".*Garden", "_default"],
+			[".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
