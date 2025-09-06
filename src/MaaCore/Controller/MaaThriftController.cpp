@@ -304,7 +304,32 @@ bool asst::MaaThriftController::start_game(const std::string& client_type)
     }
 }
 
+bool asst::MaaThriftController::start_activity(const std::string& activity_name)
+{
+    if (!client_ || !transport_ || !transport_->isOpen()) {
+        Log.error("client_ is not created or transport_ is not open");
+        return false;
+    }
+
+    if (activity_name.empty()) {
+        return false;
+    }
+
+    try {
+        return client_->start_game(activity_name);
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot start game:", e.what());
+        return false;
+    }
+}
+
 bool asst::MaaThriftController::stop_game()
+{
+    return false;
+}
+
+bool asst::MaaThriftController::stop_activity([[maybe_unused]] const std::string& activity_name)
 {
     return false;
 }

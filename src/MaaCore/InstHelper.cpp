@@ -25,6 +25,11 @@ bool asst::InstHelper::need_exit() const
     return m_inst != nullptr && m_inst->need_exit();
 }
 
+bool asst::InstHelper::is_restarting() const
+{
+    return m_inst != nullptr && m_inst->is_restarting();
+}
+
 bool asst::InstHelper::sleep(unsigned millisecond) const
 {
     if (need_exit()) {
