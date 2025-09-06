@@ -61,7 +61,7 @@ bool asst::UseSupportUnitTaskPlugin::try_add_support_unit_for_role(
     LogTraceFunction;
 
     // 从 required_opers 中筛除职业不为 role 的干员
-    auto filtered_view = required_opers | views::filter([&](const RequiredOper& required_oper) {
+    auto filtered_view = required_opers | std::views::filter([&](const RequiredOper& required_oper) {
                              return role == Role::Unknown || required_oper.role == role;
                          });
     std::vector<battle::RequiredOper> filtered_required_opers(filtered_view.begin(), filtered_view.end());

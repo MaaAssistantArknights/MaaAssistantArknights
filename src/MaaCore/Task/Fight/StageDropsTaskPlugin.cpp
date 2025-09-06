@@ -183,7 +183,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);
-    ranges::transform(m_stage_code, m_stage_code.begin(), [](char ch) -> char {
+    std::ranges::transform(m_stage_code, m_stage_code.begin(), [](char ch) -> char {
         return static_cast<char>(::toupper(ch));
     });
     m_stage_difficulty = difficulty;
@@ -347,7 +347,7 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
             callback(AsstMsg::SubTaskError, cb_info);
             return false;
         }
-        if (ranges::find(filter, drop_type) == filter.cend()) {
+        if (std::ranges::find(filter, drop_type) == filter.cend()) {
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {
@@ -375,7 +375,7 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
         version.erase(0, 1);
     }
 
-    version.erase(ranges::remove(version, ' ').begin(), version.end());
+    version.erase(std::ranges::remove(version, ' ').begin(), version.end());
 
     extra_headers.insert({ "User-Agent", std::string("MaaAssistantArknights/") + version });
 

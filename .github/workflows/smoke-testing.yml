@@ -7,7 +7,6 @@ on:
       - "include/**"
       - "src/Cpp/**"
       - "src/MaaCore/**"
-      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -17,7 +16,6 @@ on:
       - "include/**"
       - "src/Cpp/**"
       - "src/MaaCore/**"
-      - "src/SyncRes/**"
       - "MAA.sln"
       - "resource/**"
       - "!**/*.md"
@@ -43,7 +41,7 @@ jobs:
       - name: Generate cache key
         id: cache_key
         run: |
-          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', 'src/SyncRes/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
+          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'MAA.sln') }}" >> $env:GITHUB_OUTPUT
 
       - name: Restore cache smoke-testing
         id: cache-exe
@@ -69,14 +67,14 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./maadeps-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 maadeps-download.py x64-windows
+          python3 tools/maadeps-download.py x64-windows
 
       - name: Add msbuild to PATH
         if: steps.cache-exe.outputs.cache-hit != 'true'

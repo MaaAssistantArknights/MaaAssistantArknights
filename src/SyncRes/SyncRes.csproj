@@ -17,7 +17,7 @@
       <MaaResourceFiles Include="$(MSBuildProjectDirectory)\..\..\resource\**\*.*" />
       <MaaPythonBinding Include="$(MSBuildProjectDirectory)\..\..\src\Python\**\*.*" />
       <!-- 添加 DependencySetup_依赖库安装.bat 文件 -->
-      <DependencySetupFile Include="$(MSBuildProjectDirectory)\..\..\DependencySetup_依赖库安装.bat" />
+      <DependencySetupFile Include="$(MSBuildProjectDirectory)\..\..\tools\DependencySetup_依赖库安装.bat" />
     </ItemGroup>
     <Message Text="Copying resource files" Importance="High" />
     <!-- 先清理目标资源目录 -->

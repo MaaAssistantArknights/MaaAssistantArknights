@@ -3,8 +3,7 @@
     "path": "..\\..\\MAA.sln",
     "projects": [
       "src\\MaaCore\\MaaCore.vcxproj",
-      "src\\Cpp\\MaaSample.vcxproj",
-      "src\\SyncRes\\SyncRes.csproj",
+      "src\\Cpp\\MaaSample.vcxproj"
     ]
   }
 }

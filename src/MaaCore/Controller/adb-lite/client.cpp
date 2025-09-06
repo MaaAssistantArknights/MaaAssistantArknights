@@ -2,14 +2,14 @@
 #include <iostream>
 #include <thread>
 
-#include <asio.hpp>
+#include <boost/asio.hpp>
 
 #include "client.hpp"
 #include "protocol.hpp"
 
 #include "Utils/Platform.hpp"
 
-using asio::ip::tcp;
+using boost::asio::ip::tcp;
 using tcp_endpoints = tcp::resolver::results_type;
 
 using adb::protocol::send_host_request;
@@ -17,10 +17,10 @@ using adb::protocol::send_sync_request;
 
 namespace adb
 {
-static inline std::string version(asio::io_context& context, const tcp_endpoints& endpoints)
+static inline std::string version(boost::asio::io_context& context, const tcp_endpoints& endpoints)
 {
     tcp::socket socket(context);
-    asio::connect(socket, endpoints);
+    boost::asio::connect(socket, endpoints);
 
     const auto request = "host:version";
     send_host_request(socket, request);
@@ -28,10 +28,10 @@ static inline std::string version(asio::io_context& context, const tcp_endpoints
     return protocol::host_message(socket);
 }
 
-static inline std::string devices(asio::io_context& context, const tcp_endpoints& endpoints)
+static inline std::string devices(boost::asio::io_context& context, const tcp_endpoints& endpoints)
 {
     tcp::socket socket(context);
-    asio::connect(socket, endpoints);
+    boost::asio::connect(socket, endpoints);
 
     const auto request = "host:devices";
     send_host_request(socket, request);
@@ -41,7 +41,7 @@ static inline std::string devices(asio::io_context& context, const tcp_endpoints
 
 std::string version()
 {
-    asio::io_context context;
+    boost::asio::io_context context;
     tcp::resolver resolver(context);
     const auto endpoints = resolver.resolve("127.0.0.1", "5037");
     return version(context, endpoints);
@@ -49,7 +49,7 @@ std::string version()
 
 std::string devices()
 {
-    asio::io_context context;
+    boost::asio::io_context context;
     tcp::resolver resolver(context);
     const auto endpoints = resolver.resolve("127.0.0.1", "5037");
     return devices(context, endpoints);
@@ -57,12 +57,12 @@ std::string devices()
 
 void kill_server()
 {
-    asio::io_context context;
+    boost::asio::io_context context;
     tcp::resolver resolver(context);
     const auto endpoints = resolver.resolve("127.0.0.1", "5037");
 
     tcp::socket socket(context);
-    asio::connect(socket, endpoints);
+    boost::asio::connect(socket, endpoints);
 
     const auto request = "host:kill";
     send_host_request(socket, request);
@@ -71,22 +71,22 @@ void kill_server()
 class io_handle_impl : public io_handle
 {
 public:
-    io_handle_impl(std::unique_ptr<asio::io_context> context, tcp::socket socket);
+    io_handle_impl(std::unique_ptr<boost::asio::io_context> context, tcp::socket socket);
     void write(const std::string_view data) override;
     std::string read(unsigned timeout = 0) override;
 
 private:
     friend class client_impl;
 
-    const std::unique_ptr<asio::io_context> m_context;
-    asio::ip::tcp::socket m_socket;
+    const std::unique_ptr<boost::asio::io_context> m_context;
+    boost::asio::ip::tcp::socket m_socket;
 };
 
-io_handle_impl::io_handle_impl(std::unique_ptr<asio::io_context> context, tcp::socket socket) :
+io_handle_impl::io_handle_impl(std::unique_ptr<boost::asio::io_context> context, tcp::socket socket) :
     m_context(std::move(context)),
     m_socket(std::move(socket))
 {
-    asio::socket_base::keep_alive option(true);
+    boost::asio::socket_base::keep_alive option(true);
     m_socket.set_option(option);
 }
 
@@ -95,37 +95,44 @@ std::string io_handle_impl::read(unsigned timeout)
     std::array<char, 1024> buffer;
 
     if (timeout == 0) {
-        const auto bytes_read = m_socket.read_some(asio::buffer(buffer));
+        const auto bytes_read = m_socket.read_some(boost::asio::buffer(buffer));
         return std::string(buffer.data(), bytes_read);
     }
 
-    std::error_code ec;
+    boost::system::error_code ec;
     size_t bytes_read = 0;
-    asio::steady_timer timer(*m_context, std::chrono::seconds(timeout));
+    boost::asio::steady_timer timer(*m_context, std::chrono::seconds(timeout));
 
-    m_socket.async_read_some(asio::buffer(buffer), [&](const asio::error_code& error, size_t bytes_transferred) {
+    m_socket.async_read_some(
+        boost::asio::buffer(buffer),
+        [&](const boost::system::error_code& error, size_t bytes_transferred) {
+            if (error) {
+                ec = error;
+                return;
+            }
+            bytes_read = bytes_transferred;
+            timer.cancel();
+        });
+
+    timer.async_wait([&](const boost::system::error_code& error) {
         if (error) {
             ec = error;
             return;
         }
-        bytes_read = bytes_transferred;
-        timer.cancel();
-    });
-
-    timer.async_wait([&](const asio::error_code& error) {
-        if (error) {
-            ec = error;
-            return;
+        try {
+            m_socket.cancel();
         }
-        m_socket.cancel(ec);
+        catch (const boost::system::system_error& e) {
+            ec = e.code();
+        }
     });
 
     m_context->restart();
     while (m_context->run_one()) {
-        if (ec == asio::error::eof) {
+        if (ec == boost::asio::error::eof) {
             break;
         }
-        else if (ec == asio::error::operation_aborted) {
+        else if (ec == boost::asio::error::operation_aborted) {
             break;
         }
         else if (ec) {
@@ -138,7 +145,7 @@ std::string io_handle_impl::read(unsigned timeout)
 
 void io_handle_impl::write(const std::string_view data)
 {
-    m_socket.write_some(asio::buffer(data));
+    m_socket.write_some(boost::asio::buffer(data));
 }
 
 class client_impl : public client
@@ -161,7 +168,7 @@ private:
     friend class client;
 
     std::string m_serial;
-    asio::io_context m_context;
+    boost::asio::io_context m_context;
     tcp_endpoints m_endpoints;
 
     /// Switch the connection to the device.
@@ -170,7 +177,7 @@ private:
      * @note Should be used only by the client class.
      * @note Local services (e.g. shell, push) can be requested after this.
      */
-    void switch_to_device(asio::ip::tcp::socket& socket);
+    void switch_to_device(boost::asio::ip::tcp::socket& socket);
 };
 
 std::shared_ptr<client> client::create(const std::string_view serial)
@@ -189,7 +196,7 @@ client_impl::client_impl(const std::string_view serial)
 std::string client_impl::connect()
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     const auto request = "host:connect:" + m_serial;
     send_host_request(socket, request);
@@ -200,7 +207,7 @@ std::string client_impl::connect()
 std::string client_impl::disconnect()
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     const auto request = "host:disconnect:" + m_serial;
     send_host_request(socket, request);
@@ -221,7 +228,7 @@ std::string client_impl::devices()
 std::string client_impl::shell(const std::string_view command)
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 
@@ -234,7 +241,7 @@ std::string client_impl::shell(const std::string_view command)
 std::string client_impl::exec(const std::string_view command)
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 
@@ -253,7 +260,7 @@ bool client_impl::push(const std::string_view src, const std::string_view dst, i
     }
 
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 
@@ -280,7 +287,7 @@ bool client_impl::push(const std::string_view src, const std::string_view dst, i
     const auto now = std::chrono::system_clock::now().time_since_epoch();
     const auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(now).count();
     const auto done_request = protocol::sync_request("DONE", static_cast<uint32_t>(timestamp));
-    socket.write_some(asio::buffer(done_request));
+    socket.write_some(boost::asio::buffer(done_request));
 
     std::string result;
     uint32_t length;
@@ -295,7 +302,7 @@ bool client_impl::push(const std::string_view src, const std::string_view dst, i
 std::string client_impl::root()
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 
@@ -308,7 +315,7 @@ std::string client_impl::root()
 std::string client_impl::unroot()
 {
     tcp::socket socket(m_context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 
@@ -320,9 +327,9 @@ std::string client_impl::unroot()
 
 std::shared_ptr<io_handle> client_impl::interactive_shell(const std::string_view command)
 {
-    auto context = std::make_unique<asio::io_context>();
+    auto context = std::make_unique<boost::asio::io_context>();
     tcp::socket socket(*context);
-    asio::connect(socket, m_endpoints);
+    boost::asio::connect(socket, m_endpoints);
 
     switch_to_device(socket);
 

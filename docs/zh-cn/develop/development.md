@@ -32,10 +32,9 @@ icon: iconoir:developer
 4. 下载预构建的第三方库
 
     **需要有 Python 环境，请自行搜索 Python 安装教程**  
-    _（maadeps-download.py 文件在项目根目录）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 配置编程环境

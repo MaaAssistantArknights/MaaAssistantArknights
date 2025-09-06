@@ -13,8 +13,8 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
-#include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
+#include <ranges>
 
 asst::OcrPack::OcrPack() :
     m_det(nullptr),
@@ -110,8 +110,8 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
             const auto& box = ocr_result.boxes.at(i);
             int x_collect[] = { box[0], box[2], box[4], box[6] };
             int y_collect[] = { box[1], box[3], box[5], box[7] };
-            auto [left, right] = ranges::minmax(x_collect);
-            auto [top, bottom] = ranges::minmax(y_collect);
+            auto [left, right] = std::ranges::minmax(x_collect);
+            auto [top, bottom] = std::ranges::minmax(y_collect);
             det_rect = Rect(left, top, right - left, bottom - top);
         }
         else {
@@ -147,24 +147,19 @@ bool asst::OcrPack::check_and_load()
     fastdeploy::RuntimeOption option;
     option.UseOrtBackend();
     if (m_gpu_id) {
-        option.UseGpu(*m_gpu_id);
+        option.UseDirectML(*m_gpu_id);
     }
 
-    auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
-    option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-        "dummy.onnx",
+        platform::path_to_utf8_string(m_det_model_path),
         std::string(),
         option,
         fastdeploy::ModelFormat::ONNX);
 
-    auto rec_model = asst::utils::read_file<std::string>(m_rec_model_path);
-    std::string rec_label = asst::utils::read_file<std::string>(m_rec_label_path);
-    option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
     m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        "dummy.onnx",
+        platform::path_to_utf8_string(m_rec_model_path),
         std::string(),
-        rec_label,
+        platform::path_to_utf8_string(m_rec_label_path),
         option,
         fastdeploy::ModelFormat::ONNX);
 

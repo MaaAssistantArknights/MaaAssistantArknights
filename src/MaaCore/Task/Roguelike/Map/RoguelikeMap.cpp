@@ -4,7 +4,7 @@
 #include <limits>
 
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 asst::RoguelikeMap::RoguelikeMap()
 {
@@ -49,13 +49,13 @@ void asst::RoguelikeMap::set_curr_pos(const size_t& node_index)
 
 void asst::RoguelikeMap::update_node_costs()
 {
-    for (const RoguelikeNodePtr& node : ranges::reverse_view(m_nodes)) {
+    for (const RoguelikeNodePtr& node : std::ranges::reverse_view(m_nodes)) {
         node->cost = m_cost_fun(node);
         if (!node->succs.empty()) {
-            auto succ_costs = node->succs | views::transform([&](const size_t node_index) {
+            auto succ_costs = node->succs | std::views::transform([&](const size_t node_index) {
                                   return m_cost_fun(m_nodes.at(node_index));
                               });
-            node->cost += ranges::min(succ_costs);
+            node->cost += std::ranges::min(succ_costs);
         }
     }
 }
@@ -101,7 +101,7 @@ size_t asst::RoguelikeMap::get_next_node() const
         return m_curr_pos;
     }
 
-    const size_t next_index = ranges::min(curr->succs, [&](const size_t& node1_index, const size_t& node2_index) {
+    const size_t next_index = std::ranges::min(curr->succs, [&](const size_t& node1_index, const size_t& node2_index) {
         return m_nodes.at(node1_index)->cost < m_nodes.at(node2_index)->cost;
     });
     return next_index;

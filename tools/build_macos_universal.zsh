@@ -10,7 +10,7 @@ pushd ${basedir}
 build_arch() {
     [[ $1 = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
 
-    python3 maadeps-download.py ${triplet}
+    python3 tools/maadeps-download.py ${triplet}
 
     if [[ -n $(which ccache) ]]; then
         export CMAKE_C_COMPILER_LAUNCHER=ccache

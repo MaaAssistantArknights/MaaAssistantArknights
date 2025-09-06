@@ -31,10 +31,10 @@ Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can underst
 
 4. Download prebuilt third-party libraries  
    **Python environment required - search for Python installation tutorials if needed**  
-   _(maadeps-download.py is located in the project root)_
+   _(tools/maadeps-download.py is located in the project root)_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. Configure development environment

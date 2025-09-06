@@ -93,7 +93,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         ocr.set_bin_threshold(50, 255);
         const auto& task_replace = Task.get<OcrTaskInfo>("RoguelikeSettlementOcr-" + task_name)->replace_map;
         auto merge_map = number_replace;
-        ranges::copy(task_replace, std::back_inserter(merge_map));
+        std::ranges::copy(task_replace, std::back_inserter(merge_map));
         ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
@@ -117,10 +117,11 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
                                                                                 { "Exp", false },
                                                                                 { "Skill", false } };
 
-    ranges::for_each(battle_tasks, analyze_battle_data);
+    std::ranges::for_each(battle_tasks, analyze_battle_data);
 
     using Theme = RoguelikeTheme;
-    for (const auto& [task, is_number] : text_tasks | views::take(m_config->get_theme() == Theme::Phantom ? 3 : 4)) {
+    for (const auto& [task, is_number] :
+         text_tasks | std::views::take(m_config->get_theme() == Theme::Phantom ? 3 : 4)) {
         analyze_text_data(task, is_number);
     }
 

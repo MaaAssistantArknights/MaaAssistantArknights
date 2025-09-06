@@ -17,7 +17,7 @@ MAA 的構建方法仍在討論中, 本教程的內容可能過時, 請以 [GitH
     - Ubuntu/Debian
 
     ```bash
-    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+    sudo apt install gcc-14 g++-14 cmake zlib1g-dev
     ```
 
 2. 構建第三方庫
@@ -28,7 +28,7 @@ MAA 的構建方法仍在討論中, 本教程的內容可能過時, 請以 [GitH
         > 包含在相對較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的動態庫，如果您系統中的 libstdc++ 版本較老，可能遇到 ABI 不兼容的問題。
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     - 自行構建第三方庫
@@ -42,8 +42,7 @@ MAA 的構建方法仍在討論中, 本教程的內容可能過時, 請以 [GitH
 
     ```bash
     mkdir -p build
-    CC=gcc-12 CXX=g++-12 cmake -B build \
-        -DINSTALL_THIRD_LIBS=ON \
+    CC=gcc-14 CXX=g++-14 cmake -B build \
         -DINSTALL_RESOURCE=ON \
         -DINSTALL_PYTHON=ON
     cmake --build build

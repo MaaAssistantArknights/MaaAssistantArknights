@@ -60,7 +60,7 @@ std::optional<asst::InfrastTrainingTask::TrainingStatus> asst::InfrastTrainingTa
         const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
         std::vector<std::pair<std::string, std::string>> task_replace =
             Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
-        ranges::copy(replace_map, std::back_inserter(task_replace));
+        std::ranges::copy(replace_map, std::back_inserter(task_replace));
         RegionOCRer name_analyzer(image);
         name_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
         name_analyzer.set_replace(task_replace);

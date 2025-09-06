@@ -1,6 +1,6 @@
 #include "InfrastReceptionTask.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -81,9 +81,10 @@ bool asst::InfrastReceptionTask::get_friend_clue()
 
 bool asst::InfrastReceptionTask::get_self_clue()
 {
+    constexpr int kRetryTimesDefault = ProcessTask::RetryTimesDefault;
     auto run_with_retries = [&](const std::vector<std::string>& tasks) {
         ProcessTask task(*this, tasks);
-        task.set_retry_times(ProcessTask::RetryTimesDefault);
+        task.set_retry_times(kRetryTimesDefault);
         return task.run();
     };
 
@@ -120,7 +121,7 @@ bool asst::InfrastReceptionTask::use_clue()
     vacancy_analyzer.analyze();
 
     const auto& vacancy = vacancy_analyzer.get_vacancy();
-    for (const auto& id : vacancy | views::keys) {
+    for (const auto& id : vacancy | std::views::keys) {
         Log.trace("InfrastReceptionTask | Vacancy", id);
     }
 

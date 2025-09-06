@@ -23,7 +23,7 @@ bool asst::AccountSwitchTask::_run()
         return false;
     }
 
-    if (ranges::find(SupportedClientType, m_client_type) == SupportedClientType.end()) {
+    if (std::ranges::find(SupportedClientType, m_client_type) == SupportedClientType.end()) {
         Log.error(__FUNCTION__, "unsupported client");
         return false;
     }

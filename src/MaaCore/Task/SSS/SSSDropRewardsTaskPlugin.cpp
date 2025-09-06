@@ -52,7 +52,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
 
     bool operSelect = false;
     for (const std::string& name : SSSCopilot.get_data().order_of_drops) {
-        auto iter = ranges::find_if(opers, [&](const auto& props) {
+        auto iter = std::ranges::find_if(opers, [&](const auto& props) {
             auto role = get_role_type(name);
             return (role != Role::Unknown && props.role) ? *props.role == role : props.ocr_res.text == name;
         });

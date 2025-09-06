@@ -55,9 +55,7 @@ std::optional<int> asst::Win32IO::call_command(
     si.StartupInfo.wShowWindow = SW_HIDE;
     si.StartupInfo.hStdOutput = pipe_child_write;
     si.StartupInfo.hStdError = pipe_child_write;
-    ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
-    ASST_AUTO_DEDUCED_ZERO_INIT_END
 
     std::vector<uint8_t> attrs;
     size_t attrsize = 0;

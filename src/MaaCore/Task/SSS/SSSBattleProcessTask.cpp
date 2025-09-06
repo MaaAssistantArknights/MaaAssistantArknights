@@ -19,8 +19,9 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
         return false;
     }
     m_sss_combat_data = SSSCopilot.get_data(stage_name);
-    ranges::transform(
-        m_sss_combat_data.strategies | views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
+    std::ranges::transform(
+        m_sss_combat_data.strategies |
+            std::views::filter([](const auto& strategy) { return strategy.core.has_value(); }),
         std::inserter(m_all_cores, m_all_cores.begin()),
         [](const auto& strategy) { return strategy.core.value(); });
     for (const auto& action : m_sss_combat_data.actions) {
@@ -59,7 +60,7 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
         return false;
     }
 
-    if (ranges::equal(
+    if (std::ranges::equal(
             m_cur_deployment_opers,
             old_deployment_opers,
             [](const DeploymentOper& oper1, const DeploymentOper& oper2) { return oper1.name == oper2.name; })) {
@@ -149,14 +150,14 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     }
     else {
         replace_count = 4;
-        if (ranges::count_if(
+        if (std::ranges::count_if(
                 m_cur_deployment_opers,
                 [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */
             < 2) {
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
     }
-    for (const auto& oper : m_cur_deployment_opers | views::reverse) {
+    for (const auto& oper : m_cur_deployment_opers | std::views::reverse) {
         if (replace_limit <= 0 || oper.cost < cost_limit) {
             break;
         }
@@ -202,7 +203,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     auto tool_men_done = [&](const RoleCounts& tool_men) -> bool {
-        return ranges::all_of(tool_men | views::values, [](int counts) { return counts <= 0; });
+        return std::ranges::all_of(tool_men | std::views::values, [](int counts) { return counts <= 0; });
     };
 
     /* 不再检查干员是否暴毙
@@ -210,8 +211,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         return role != Role::Drone && role != Role::Unknown;
     };
     for (Strategy& strategy :
-         m_sss_combat_data.loc_stragegies | views::values | views::transform([&](const auto& locs) -> Strategy& {
-             return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
+         m_sss_combat_data.loc_stragegies | std::views::values | std::views::transform([&](const auto& locs) ->
+    Strategy& { return m_sss_combat_data.strategies[locs.back()]; // 仅检查同格子最靠后的 strategy 的部署情况
          })) {
         if (strategy.core_deployed &&                          // 当前 strategy 已经完毕
             !strategy.core.empty() &&                          // 存在 core
@@ -243,7 +244,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 #ifdef ASST_DEBUG
         LogDebug << __FUNCTION__ << "| Checking strategy at" << strategy.location << "with core"
                  << strategy.core.value_or("(empty)") << "and tool_men"
-                 << (strategy.tool_men | views::transform([](const auto& rolecounts) {
+                 << (strategy.tool_men | std::views::transform([](const auto& rolecounts) {
                          return asst::enum_to_string(rolecounts.first) + ": " + std::to_string(rolecounts.second);
                      }));
 #endif
@@ -271,12 +272,13 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return deploy_oper(core.name, strategy.location, strategy.direction) && update_deployment();
         }
 
-        auto required_roles_view =
-            strategy.tool_men | views::filter([](const auto& tool_man) { return tool_man.second > 0; }) | views::keys;
+        auto required_roles_view = strategy.tool_men |
+                                   std::views::filter([](const auto& tool_man) { return tool_man.second > 0; }) |
+                                   std::views::keys;
         auto required_roles = std::unordered_set(required_roles_view.begin(), required_roles_view.end());
 
         // 如果有费用转好的干员，直接使用
-        if (auto available_iter = ranges::find_if(
+        if (auto available_iter = std::ranges::find_if(
                 tool_men,
                 [&](const DeploymentOper& oper) {
                     return required_roles.contains(oper.role) && // 职业匹配
@@ -296,7 +298,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
         }
 
-        if (ranges::any_of(tool_men, [&](const auto& oper) {
+        if (std::ranges::any_of(tool_men, [&](const auto& oper) {
                 return required_roles.contains(oper.role) && !m_all_cores.contains(oper.name);
             })) {
             // 如果待部署区有符合要求的干员，但是费用还没转好，就等待
@@ -326,7 +328,7 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
     bool to_abandon = false;
 
     if (!action.name.empty() &&
-        !ranges::any_of(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == action.name; }) &&
+        !std::ranges::any_of(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == action.name; }) &&
         !m_battlefield_opers.contains(action.name)) {
         to_abandon = true;
     }

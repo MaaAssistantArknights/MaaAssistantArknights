@@ -164,23 +164,19 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
 
     if (task_ptr->algorithm == AlgorithmType::MatchTemplate) {
         auto& raw_result = std::get<Matcher::Result>(res_opt->result);
-        return { .rect = res_opt->rect,
-                 .reco_detail = json::object { { "score", raw_result.score } },
-                 .task_ptr = task_ptr };
+        return { .rect = res_opt->rect, .reco_detail = { { "score", raw_result.score } }, .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::OcrDetect) {
         auto& raw_result = std::get<OCRer::Result>(res_opt->result);
         return { .rect = res_opt->rect,
-                 .reco_detail = json::object { { "score", raw_result.score }, { "text", raw_result.text } },
+                 .reco_detail = { { "score", raw_result.score }, { "text", raw_result.text } },
                  .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::FeatureMatch) {
         auto& raw_result = std::get<FeatureMatcher::Result>(res_opt->result);
-        return { .rect = res_opt->rect,
-                 .reco_detail = json::object { { "count", raw_result.count } },
-                 .task_ptr = task_ptr };
+        return { .rect = res_opt->rect, .reco_detail = { { "count", raw_result.count } }, .task_ptr = task_ptr };
     }
 
     return { .rect = res_opt->rect, .task_ptr = task_ptr };

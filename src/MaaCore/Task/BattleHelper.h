@@ -96,11 +96,6 @@ protected:
     std::string analyze_detail_page_oper_name(const cv::Mat& image);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
-    template <typename T>
-    requires asst::ranges::range<T> && OperAvatarPair<asst::ranges::range_value_t<T>>
-    std::optional<asst::BestMatcher::Result>
-        analyze_oper_with_cache(const battle::DeploymentOper& oper, T&& avatar_cache);
-
     // 从场上干员和已占用格子中移除冷却中的干员
     void remove_cooling_from_battlefield(const battle::DeploymentOper& oper);
 
