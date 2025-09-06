@@ -367,7 +367,7 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={t("release.mirrorDetect.testing", { index: loadState.mirrorIndex })}
+        title={t("release.speedTest.testing", { index: loadState.mirrorIndex })}
       />
     )
   } else if (loadState.state === 'detected') {
