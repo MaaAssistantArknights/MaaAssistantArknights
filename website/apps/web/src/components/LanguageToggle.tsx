@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { getLanguageOption, languages } from '@/i18n'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { languages, getLanguageOption } from '@/i18n'
 
 export const LanguageToggle: React.FC = () => {
   const { i18n } = useTranslation()

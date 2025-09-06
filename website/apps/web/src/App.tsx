@@ -1,12 +1,14 @@
+import { LayoutStateProvider } from '@/contexts/LayoutStateContext'
+
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { getLanguageOption } from './i18n'
+
+import { LanguageToggle } from './components/LanguageToggle'
+import { ThemeToggle } from './components/ThemeToggle'
 import { HomeHero } from './components/home/HomeHero'
 import { ThemeProvider } from './contexts/ThemeContext'
-import { ThemeToggle } from './components/ThemeToggle'
-import { LanguageToggle } from './components/LanguageToggle'
-import { LayoutStateProvider } from "@/contexts/LayoutStateContext"
+import { getLanguageOption } from './i18n'
 
 function App() {
   const { t, i18n } = useTranslation()
@@ -17,7 +19,10 @@ function App() {
     document.title = t('meta.title')
     const metaDesc = document.querySelector('meta[name="description"]')
     if (metaDesc) {
-      metaDesc.setAttribute('content', t('meta.description', { interpolation: { escapeValue: false } }))
+      metaDesc.setAttribute(
+        'content',
+        t('meta.description', { interpolation: { escapeValue: false } }),
+      )
     }
   }, [t, i18n])
   return (
@@ -28,7 +33,7 @@ function App() {
             className="fixed top-4 right-4 flex items-center gap-2 z-50"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
           >
             <LanguageToggle />
             <ThemeToggle />

@@ -42,8 +42,8 @@ export async function download(
 
   let ttfbTimeoutTimer = ttfbTimeout
     ? setTimeout(() => {
-      xhr.abort()
-    }, ttfbTimeout)
+        xhr.abort()
+      }, ttfbTimeout)
     : null
 
   return new Promise((resolve, reject) => {

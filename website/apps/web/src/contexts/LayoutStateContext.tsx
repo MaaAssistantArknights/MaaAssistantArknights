@@ -1,28 +1,31 @@
 import React, {
+  RefObject,
   createContext,
   useContext,
   useEffect,
   useRef,
   useState,
-  RefObject,
-} from "react"
-
-import { useTranslation } from "react-i18next"
+} from 'react'
+import { useTranslation } from 'react-i18next'
 
 type LayoutState = {
   isWidthOverflow: boolean
-  registerWidthCheck: (ref: RefObject<HTMLElement | null>, measureClass: string) => void
+  registerWidthCheck: (
+    ref: RefObject<HTMLElement | null>,
+    measureClass: string,
+  ) => void
 }
 
 const LayoutStateContext = createContext<LayoutState | undefined>(undefined)
 
-export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-
+export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { t, i18n } = useTranslation()
   const [isWidthOverflow, setIsWidthOverflow] = useState(false)
   const contentWidthRef = useRef(0)
   const targetRef = useRef<RefObject<HTMLElement | null>>(null)
-  const targetMeasureClass = useRef<string>("")
+  const targetMeasureClass = useRef<string>('')
 
   // 测量内容宽度，
   // 先临时将class设为传入值（通常是使得这个元素最宽的值），
@@ -49,7 +52,10 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setIsWidthOverflow(window.innerWidth < totalWidth)
   }
 
-  const registerWidthCheck = (ref: RefObject<HTMLElement | null>, measureClass: string) => {
+  const registerWidthCheck = (
+    ref: RefObject<HTMLElement | null>,
+    measureClass: string,
+  ) => {
     targetRef.current = ref
     targetMeasureClass.current = measureClass
     measure()
@@ -57,12 +63,12 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   // 初始加载和切换语言时，更新宽度
   useEffect(() => {
-    if (document.readyState === "complete") {
+    if (document.readyState === 'complete') {
       measure()
     } else {
       const handleLoad = () => measure()
-      window.addEventListener("load", handleLoad)
-      return () => window.removeEventListener("load", handleLoad)
+      window.addEventListener('load', handleLoad)
+      return () => window.removeEventListener('load', handleLoad)
     }
   }, [t, i18n])
 
@@ -71,12 +77,14 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const handleResize = () => {
       setIsWidthOverflow(window.innerWidth < contentWidthRef.current)
     }
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return (
-    <LayoutStateContext.Provider value={{ isWidthOverflow, registerWidthCheck }}>
+    <LayoutStateContext.Provider
+      value={{ isWidthOverflow, registerWidthCheck }}
+    >
       {children}
     </LayoutStateContext.Provider>
   )
@@ -85,7 +93,7 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({ c
 export const useLayoutState = () => {
   const ctx = useContext(LayoutStateContext)
   if (!ctx) {
-    throw new Error("useLayoutState must be used within a LayoutStateProvider")
+    throw new Error('useLayoutState must be used within a LayoutStateProvider')
   }
   return ctx
 }

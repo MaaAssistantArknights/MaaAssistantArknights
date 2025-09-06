@@ -1,18 +1,17 @@
+import { useTheme } from '@/contexts/ThemeContext'
 import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
-import { motion } from 'framer-motion'
 
+import { motion } from 'framer-motion'
 import { FC, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useWindowSize } from 'react-use'
-import { useTheme } from '@/contexts/ThemeContext'
 
 import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
 import { HomeActions } from './HomeActions/HomeActions'
 import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader'
 import { HomeLinks } from './HomeLinks/HomeLinks'
 import { Screenshots } from './Screenshots/Screenshots'
-
-import { useTranslation } from 'react-i18next'
 
 export const HomeHero: FC = () => {
   const { t } = useTranslation()
@@ -37,7 +36,9 @@ export const HomeHero: FC = () => {
             <ErrorBoundary
               fallback={
                 <div className="absolute inset-0 dark:bg-black/50 bg-gray-500/30 flex items-center justify-center">
-                  <div className={`${theme === 'dark' ? 'text-white/50' : 'text-gray-800/70'} text-sm font-semibold`}>
+                  <div
+                    className={`${theme === 'dark' ? 'text-white/50' : 'text-gray-800/70'} text-sm font-semibold`}
+                  >
                     {t('screenshots.render.failure')}
                   </div>
                 </div>
@@ -60,7 +61,10 @@ export const HomeHero: FC = () => {
 
       <HomeHeroHeader />
 
-      <HomeActions toggleLinks={() => setShowLinks(!showLinks)} showLinks={showLinks} />
+      <HomeActions
+        toggleLinks={() => setShowLinks(!showLinks)}
+        showLinks={showLinks}
+      />
       <HomeLinks
         ref={linkRef}
         showLinks={showLinks}
@@ -80,9 +84,18 @@ function ScreenshotsCanvas({
   showLinks?: boolean
 }) {
   return (
-    <Canvas camera={{ fov: 35, position: [0, -1, 14] }} flat linear dpr={window.devicePixelRatio || 1.5}>
+    <Canvas
+      camera={{ fov: 35, position: [0, -1, 14] }}
+      flat
+      linear
+      dpr={window.devicePixelRatio || 1.5}
+    >
       <ambientLight intensity={1} />
-      <Screenshots sidebarRef={sidebarRef} indicatorRef={indicatorRef} showLinks={showLinks} />
+      <Screenshots
+        sidebarRef={sidebarRef}
+        indicatorRef={indicatorRef}
+        showLinks={showLinks}
+      />
     </Canvas>
   )
 }
