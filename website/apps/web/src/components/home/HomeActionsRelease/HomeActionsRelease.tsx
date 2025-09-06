@@ -549,7 +549,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   const innerContent = useMemo<React.ReactNode>(() => {
     if (viewAll) {
       // 用户主动展开 -> 显示所有
-      return (allPlatformDownloadBtns)
+      return allPlatformDownloadBtns
     }
 
     if (!envPlatformId || envPlatformId === DetectionFailedSymbol) {
@@ -615,7 +615,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   return (
     <motion.div
       layout
-      className={`w-full flex flex-wrap justify-center items-center items-start gap-4 max-h-[50vh]`}>
+      className={`w-full flex flex-wrap justify-center items-center items-start gap-4 max-h-[50vh]`}
+    >
       <AnimatePresence mode="popLayout">
         {innerContent}
 
@@ -629,7 +630,9 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
           >
             <GlowButton bordered onClick={() => setViewAll(true)}>
-              <div className="text-base">{t('release.buttonLabels.viewAll')}</div>
+              <div className="text-base">
+                {t('release.buttonLabels.viewAll')}
+              </div>
             </GlowButton>
           </motion.div>
         )}
