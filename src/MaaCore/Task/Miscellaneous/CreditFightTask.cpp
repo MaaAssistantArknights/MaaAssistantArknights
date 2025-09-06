@@ -38,7 +38,7 @@ bool asst::CreditFightTask::set_params(int formation_index)
         { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
         { "formation", true },
         { "support_unit_usage", 3 },
-        { "formation_index", index },
+        { "formation_index", formation_index },
     };
     return m_copilot_task_ptr->set_params(copilot_params) &&
            m_stage_navigation_task_ptr->set_stage_name(m_copilot_task_ptr->get_stage_name());
