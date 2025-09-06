@@ -205,7 +205,7 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             ["Garden", "_default"],
-			[".*70.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
@@ -221,7 +221,7 @@
             [".*Gelid ?Rockshelves", "_exit"],
             [".*Immaculate ?Garden", "_exit"],
             [".*Garden", "_exit"],
-			[".*70.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passage", "_exit"]
         ]
@@ -237,7 +237,7 @@
             [".*Gelid ?Rockshelves", "_exit"],
             [".*Immaculate ?Garden", "_exit"],
             [".*Garden", "_exit"],
-			[".*70.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passage", "_exit"]
         ]
@@ -252,7 +252,7 @@
             [".*Gelid ?Rockshelves", "_SKIP_"],
             [".*Immaculate ?Garden", "_SKIP_"],
             [".*Garden", "_SKIP_"],
-			[".*70.*", "_SKIP_"],
+            [".*70.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
@@ -268,7 +268,7 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             [".*Garden", "_default"],
-			[".*70.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
@@ -284,7 +284,7 @@
             [".*Gelid ?Rockshelves", "_pragmatic"],
             [".*Immaculate ?Garden", "_default"],
             [".*Garden", "_default"],
-			[".*70.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passage", "_SKIP_"]
         ]
