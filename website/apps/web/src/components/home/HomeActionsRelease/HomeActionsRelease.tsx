@@ -514,8 +514,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
               {!isCurrentPlatform ? (
                 <motion.span
                   className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
                   style={{ display: 'inline-flex' }}
                 >
