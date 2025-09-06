@@ -18,7 +18,7 @@ repos:
     rev: v3.5.3
     hooks:
       - id: prettier
-        files: ^((\.github/ISSUE_TEMPLATE|resource|src|tools|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
+        files: ^((\.github/ISSUE_TEMPLATE|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
         types_or:
           - yaml
           - json
