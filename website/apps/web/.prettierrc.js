@@ -19,7 +19,7 @@ module.exports = {
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
   endOfLine: 'auto',
   overrides: [
     {
