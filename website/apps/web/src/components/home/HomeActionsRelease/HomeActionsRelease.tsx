@@ -615,7 +615,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
   return (
     <motion.div
       layout
-      className={`w-full flex flex-wrap justify-center items-center items-start gap-4 max-h-[50vh]`}
+      className={`w-full flex flex-wrap justify-center items-center gap-4 max-h-[50vh]`}
     >
       <AnimatePresence mode="popLayout">
         {innerContent}
