@@ -34,6 +34,9 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
     const ref = targetRef.current
     const el = ref?.current
     if (!el) return
+    
+    el.style.transition = ''
+    el.style.opacity = '0'
 
     const originalClass = el.className
     if (targetMeasureClass.current) {
@@ -50,6 +53,12 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
     contentWidthRef.current = totalWidth
     setIsWidthOverflow(window.innerWidth < totalWidth)
+
+    setTimeout(() => {
+      el.style.transition = 'opacity 1s'
+      el.style.opacity = '1'
+    }, 1000)
+
   }
 
   const registerWidthCheck = (

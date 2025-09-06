@@ -72,7 +72,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
 
       <div
         ref={containerRef} // 水平overflow检测锚点
-        className={`gap-4 items-center justify-center mt-4 flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
+        className={`gap-4 items-center justify-center mt-4 flex max-h-[50vh] ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
       >
         <GlowButton translucent href={docsLink}>
           <div className="flex items-center -ml-1 font-light">
