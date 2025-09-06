@@ -68,6 +68,7 @@ export default hopeTheme({
     imgLazyload: true,
     imgMark: true,
     imgSize: true,
+    linkify: false,  // disable auto converting URL-like text to hrefs
     //mathjax: true,
     mark: true,
     //mermaid: true,
