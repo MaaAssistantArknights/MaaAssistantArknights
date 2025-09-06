@@ -1,15 +1,14 @@
-import { useFrame, useLoader } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
-import { Mesh, TextureLoader, Vector2 } from 'three'
-import { useTheme } from '@/contexts/ThemeContext'
-
 import darkScreenshotCenter from '@/assets/screenshots/dark/center.png?url'
 import darkScreenshotLeft from '@/assets/screenshots/dark/left.png?url'
 import darkScreenshotRight from '@/assets/screenshots/dark/right.png?url'
-
 import lightScreenshotCenter from '@/assets/screenshots/light/center.png?url'
 import lightScreenshotLeft from '@/assets/screenshots/light/left.png?url'
 import lightScreenshotRight from '@/assets/screenshots/light/right.png?url'
+import { useTheme } from '@/contexts/ThemeContext'
+import { useFrame, useLoader } from '@react-three/fiber'
+
+import { useEffect, useRef } from 'react'
+import { Mesh, TextureLoader, Vector2 } from 'three'
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
@@ -31,17 +30,20 @@ export function Screenshots({
   indicatorRef,
   showLinks = false,
 }: {
-  sidebarRef: React.MutableRefObject<HTMLDivElement | null>
-  indicatorRef: React.MutableRefObject<HTMLDivElement | null>
+  sidebarRef: React.RefObject<HTMLDivElement | null>
+  indicatorRef: React.RefObject<HTMLDivElement | null>
   showLinks?: boolean
 }) {
   const { theme } = useTheme()
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
-  
-  const screenshotCenter = theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
-  const screenshotLeft = theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
-  const screenshotRight = theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
-  
+
+  const screenshotCenter =
+    theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
+  const screenshotLeft =
+    theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
+  const screenshotRight =
+    theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
+
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)
   const textureRight = useLoader(TextureLoader, screenshotRight)
@@ -78,11 +80,7 @@ export function Screenshots({
       return
     }
 
-    if (
-      meshCenterRef.current &&
-      meshLeftRef.current &&
-      meshRightRef.current
-    ) {
+    if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
       const lerpT = 0.25
       meshCenterRef.current.rotation.x = lerp(
         meshCenterRef.current.rotation.x,
@@ -121,12 +119,16 @@ export function Screenshots({
 
   useEffect(() => {
     const onMove = (e: MouseEvent | TouchEvent) => {
-      if (meshCenterRef.current && meshLeftRef.current && meshRightRef.current) {
+      if (
+        meshCenterRef.current &&
+        meshLeftRef.current &&
+        meshRightRef.current
+      ) {
         const { clientX, clientY } = e instanceof MouseEvent ? e : e.touches[0]
-        
+
         const x = (clientX / window.innerWidth) * 2 - 1
         const y = (clientY / window.innerHeight) * 2 - 1
-    
+
         lerpRotationTo.current.set(y, x)
       }
     }
