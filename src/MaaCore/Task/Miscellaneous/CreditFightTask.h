@@ -22,7 +22,7 @@ public:
     bool set_params(int formation_index = 0);
 
 private:
-    std::shared_ptr<CopilotTask> m_copilot_task_ptr = nullptr;
     std::shared_ptr<StageNavigationTask> m_stage_navigation_task_ptr = nullptr;
+    std::shared_ptr<CopilotTask> m_copilot_task_ptr = nullptr;
 };
 } // namespace asst
