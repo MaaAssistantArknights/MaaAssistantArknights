@@ -81,6 +81,7 @@ bool asst::ControlScaleProxy::swipe(
     double slope_in,
     double slope_out,
     bool with_pause,
+    const Point& pause_button,
     bool high_resolution_swipe_fix)
 {
     int x1 = static_cast<int>(p1.x * m_control_scale);
@@ -98,10 +99,20 @@ bool asst::ControlScaleProxy::swipe(
         x2 = static_cast<int>(p2.x * m_control_scale);
         y2 = static_cast<int>(p2.y * m_control_scale);
     }
+    int pause_button_x = static_cast<int>(pause_button.x * m_control_scale);
+    int pause_button_y = static_cast<int>(pause_button.y * m_control_scale);
 
     Log.trace("Swipe with scaled coordinates", p1, p2, m_control_scale);
 
-    return m_controller->swipe(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out, with_pause);
+    return m_controller->swipe(
+        Point(x1, y1),
+        Point(x2, y2),
+        duration,
+        extra_swipe,
+        slope_in,
+        slope_out,
+        with_pause,
+        Point(pause_button_x, pause_button_y));
 }
 
 bool asst::ControlScaleProxy::swipe(
@@ -112,6 +123,7 @@ bool asst::ControlScaleProxy::swipe(
     double slope_in,
     double slope_out,
     bool with_pause,
+    const Point& pause_button,
     bool high_resolution_swipe_fix)
 {
     auto rand_p1 = rand_point_in_rect(r1);
@@ -126,7 +138,16 @@ bool asst::ControlScaleProxy::swipe(
         rand_p2.x = rand_p1.x - static_cast<int>(x_dist * opt.adb_swipe_x_distance_multiplier);
     }
 
-    return swipe(rand_p1, rand_p2, duration, extra_swipe, slope_in, slope_out, with_pause, high_resolution_swipe_fix);
+    return swipe(
+        rand_p1,
+        rand_p2,
+        duration,
+        extra_swipe,
+        slope_in,
+        slope_out,
+        with_pause,
+        pause_button,
+        high_resolution_swipe_fix);
 }
 
 bool asst::ControlScaleProxy::inject_input_event(InputEvent event)

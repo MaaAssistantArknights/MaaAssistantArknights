@@ -44,6 +44,7 @@ protected:
     bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
 
     bool pause();
+    bool advance_while_paused();
     bool speed_up();
     bool abandon();
 
@@ -55,6 +56,7 @@ protected:
         bool stop_on_unknown);
     bool update_kills(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
     bool update_cost(const cv::Mat& image, const cv::Mat& image_prev = cv::Mat());
+    bool update_cost_regeneration(const cv::Mat& reusable = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
 
@@ -116,12 +118,20 @@ protected:
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_last_use_skill_time;
     int m_camera_count = 0;
     std::pair<double, double> m_camera_shift = { 0., 0. };
+    int m_pause_on_start_delay = 0;
+    int m_pause_esc_post_delay = 0;
+    int m_pause_pre_delay = 0;
+    int m_pause_post_delay = 0;
 
     /* 实时更新的数据 */
     bool m_in_battle = false;
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    int m_cost_regenerated = 0;
+    int m_cost_regeneration = 0;
+    bool m_paused = false;
+    bool m_need_pause_on_start = false;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

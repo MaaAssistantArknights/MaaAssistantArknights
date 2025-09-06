@@ -155,7 +155,8 @@ bool asst::MinitouchController::swipe(
     bool extra_swipe,
     double slope_in,
     double slope_out,
-    bool with_pause)
+    bool with_pause,
+    const Point& pause_button)
 {
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
@@ -186,30 +187,39 @@ bool asst::MinitouchController::swipe(
         return a * t + b * std::pow(t, 2) + c * std::pow(t, 3);
     }; // TODO: move this to math.hpp
 
-    bool need_pause = with_pause && use_swipe_with_pause();
     const auto& opt = Config.get_options();
-    std::future<void> pause_future;
+    if (with_pause && use_swipe_with_pause()) {
+        // 计算划出位置 (x3, y3)
+        // 滑动顺序: (x1, y1) -> (x3, y3) -> (x2, y2)
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        double len = std::sqrt(dx * dx + dy * dy);
+        int x3 = x1 + static_cast<int>(opt.swipe_with_pause_required_distance * dx / len);
+        int y3 = y1 + static_cast<int>(opt.swipe_with_pause_required_distance * dy / len);
+        // 按下右上角暂停按钮
+        if (!m_minitoucher->down(pause_button.x, pause_button.y, Minitoucher::DefaultClickDelay, true, 1)) {
+            return false;
+        }
+        if (!m_minitoucher->up(opt.swipe_with_pause_pre_delay, true, 1)) {
+            return false;
+        }
+        // 滑出干员
+        if (!m_minitoucher->move(x3, y3, 0)) {
+            return false;
+        }
+        y1 = x3;
+        y1 = y3;
+        // 按下 Esc 暂停键
+        if (!m_use_maa_touch) {
+            sleep(opt.minitouch_swipe_with_pause_post_delay); // 我也不知道为什么一定要等一会儿，疑似 Esc 按得太快了
+        }
+        press_esc();
+    }
     auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
         for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
             double progress = cubic_spline(slope_in, slope_out, static_cast<double>(cur_time) / duration);
             int cur_x = static_cast<int>(std::lerp(_x1, _x2, progress));
             int cur_y = static_cast<int>(std::lerp(_y1, _y2, progress));
-            if (need_pause && std::sqrt(std::pow(cur_x - _x1, 2) + std::pow(cur_y - _y1, 2)) >
-                                  opt.swipe_with_pause_required_distance) {
-                need_pause = false;
-                if (m_use_maa_touch) {
-                    constexpr int EscKeyCode = 111;
-                    if (!m_minitoucher->key_down(EscKeyCode)) {
-                        return false;
-                    }
-                    if (!m_minitoucher->key_up(EscKeyCode, 0)) {
-                        return false;
-                    }
-                }
-                else {
-                    pause_future = std::async(std::launch::async, [&]() { press_esc(); });
-                }
-            }
             if (cur_x < 0 || cur_x > m_minitouch_props.max_x || cur_y < 0 || cur_y > m_minitouch_props.max_y) {
                 continue;
             }
@@ -244,6 +254,13 @@ bool asst::MinitouchController::swipe(
     return true;
 }
 
+bool asst::MinitouchController::press_esc()
+{
+    std::future<void> pause_future = std::async(std::launch::async, [&]() { AdbController::press_esc(); });
+    pause_future.wait();
+    return true;
+}
+
 bool asst::MinitouchController::inject_input_event(const InputEvent& event)
 {
     LogTraceFunction;
@@ -255,9 +272,9 @@ bool asst::MinitouchController::inject_input_event(const InputEvent& event)
 
     switch (event.type) {
     case InputEvent::Type::KEY_DOWN:
-        return m_minitoucher->key_down(event.keycode, 0, false);
+        return false;
     case InputEvent::Type::KEY_UP:
-        return m_minitoucher->key_up(event.keycode, 0, false);
+        return false;
     case InputEvent::Type::TOUCH_DOWN:
         return m_minitoucher->down(event.point.x, event.point.y, 0, false, event.pointerId);
     case InputEvent::Type::TOUCH_UP:

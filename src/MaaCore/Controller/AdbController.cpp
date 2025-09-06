@@ -408,7 +408,8 @@ bool asst::AdbController::swipe(
     bool extra_swipe,
     [[maybe_unused]] double slope_in,
     [[maybe_unused]] double slope_out,
-    [[maybe_unused]] bool with_pause)
+    [[maybe_unused]] bool with_pause,
+    [[maybe_unused]] const Point& pause_button)
 {
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
