@@ -4,22 +4,22 @@ module.exports = {
   tabWidth: 2,
   semi: false,
   arrowParens: 'always',
-  // importOrder: [
-  //   '^@.*/(.*)$',
-  //   '<THIRD_PARTY_MODULES>',
-  //   '^(App|components|pages|store|utils|stories|models|store|constants|assets|_i18n)',
-  //   '^[./].*(?<![.]css)$',
-  //   '^[./].*(?<=[.]css)$',
-  // ],
-  // importOrderParserPlugins: [
-  //   'typescript',
-  //   'jsx',
-  //   'classProperties',
-  //   'decorators-legacy',
-  // ],
-  // importOrderSeparation: true,
-  // importOrderSortSpecifiers: true,
-  // plugins: [require('@trivago/prettier-plugin-sort-imports')],
+  importOrder: [
+    '^@.*/(.*)$',
+    '<THIRD_PARTY_MODULES>',
+    '^(App|components|pages|store|utils|stories|models|store|constants|assets|_i18n)',
+    '^[./].*(?<![.]css)$',
+    '^[./].*(?<=[.]css)$',
+  ],
+  importOrderParserPlugins: [
+    'typescript',
+    'jsx',
+    'classProperties',
+    'decorators-legacy',
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
   endOfLine: 'auto',
   overrides: [
     {
