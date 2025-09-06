@@ -21,25 +21,25 @@ All features involving automatic combat require a stable game frame rate of at l
 
 ## Recommended Starts
 
-::: details _Last updated 2025/8/2_
+::: details _Last updated on 2025/8/30_
 
-| Theme   | Difficulty        | Squad                                   | Strategy            | Operator  |
-| ------- | ----------------- | --------------------------------------- | ------------------------- | --------- |
-| Phantom | Formal Investigation·3~7 | Leader Squad / Tactical Assault Squad | Overcoming Your Weaknesses | Thorns |
-| Mizuki  | Surging Waves·3~7 | People-Oriented Squad / Mind Over Matter Squad | Slow and Steady Wins the Race | Wiš'adel |
-| Sami    | Braving Nature·4~10 | Special Training Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
-| Sarkaz  | Face the Spirit·4~10 | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
-| Garden  | Enter the Garden·3~10 | Leader Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
+| Theme   | Difficulty             | Squad                                           | Strategy                      | Operator |
+| ------- | ---------------------- | ----------------------------------------------- | ----------------------------- | -------- |
+| Phantom | Formal Investigation·2 | Leader Squad / Tactical Assault Squad           | Overcoming Your Weaknesses    | Thorns   |
+| Mizuki  | Surging Waves·3~7      | People-Oriented Squad / Mind Over Matter Squad  | Slow and Steady Wins the Race | Wiš'adel |
+| Sami    | Braving Nature·4~10    | Special Training Squad / Tactical Ranged Squad  | Slow and Steady Wins the Race | Wiš'adel |
+| Sarkaz  | Facing Souls·4~10      | Blueprint Mapping Squad / Tactical Ranged Squad | Slow and Steady Wins the Race | Wiš'adel |
+| Garden  | Enter the Garden·3~10  | Leader Squad / Tactical Ranged Squad            | Slow and Steady Wins the Race | Wiš'adel |
 
 The recommended difficulties consider factors like `enemy difficulty`, `hope consumption`, and `score multiplier`, and have been tested to be stable with high-level operators. Feel free to adjust based on your situation and needs.
 
-| Theme   | Notes |
-| ------- | ----- |
-| Phantom | `Formal Investigation·4` and higher difficulties may give hope-reducing collectibles at start, preventing recruitment of six-star operators. |
-| Mizuki  | `Surging Waves·4` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Mind Over Matter Squad`.<br>`People-Oriented Squad` is better for high-level accounts, while `Mind Over Matter Squad` requires luck. |
-| Sami    | `Braving Nature·6` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Special Training Squad`. |
-| Sarkaz  | `Face the Spirit·15` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Blueprint Mapping Squad`.<br>With `Blueprint Mapping Squad`, MAA will adopt an avoidance strategy to quickly obtain `Spirit Bookmarks`, but generally cannot complete endings.<br>When using the Originium Ingot farming strategy with `Point-Stab Ingot Squad`, MAA will use shop refreshing to speed up the process. |
-| Garden  | `Enter the Garden·15` and higher difficulties increase six-star operator hope cost by +1, potentially making it impossible to recruit them with `Leader Squad`.<br>When set to `Enter the Garden·3` difficulty with the Originium Ingot farming strategy and `Leader Squad`, MAA will use the `End of Time` stage-skip strategy to speed up the process. |
+| Theme   | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Phantom | `Formal Investigation·3` and higher difficulties may offer hope-reducing collectibles at start, preventing recruitment of six-star operators.                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Mizuki  | `Surging Waves·4` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Mind Over Matter Squad`.<br>`People-Oriented Squad` is better for high-level accounts, while `Mind Over Matter Squad` requires luck.                                                                                                                                                                                                                                                                                                                                       |
+| Sami    | `Braving Nature·6` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Special Training Squad`.                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Sarkaz  | `Facing Souls·15` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Blueprint Mapping Squad` unless `Blueprint Mapping Squad Enhancement Ⅱ` has been activated in `Historical Reconstruction`.<br>When `Blueprint Mapping Squad` is selected, MAA will use a combat-avoidance strategy to quickly collect `Soul Bookmarks`, though it typically makes it impossible to witness an ending.<br>When the Originium Ingot farming strategy and the `Ingots Squad` are selected, MAA will use the shop refreshing strategy to speed up the process. |
+| Garden  | `Enter the Garden·15` and higher difficulties increase six-star operator hope cost by +1, making it potentially impossible to recruit them with `Leader Squad`.<br>When `Enter the Garden·3` difficulty, the Originium Ingot farming strategy and `Leader Squad` are selected, MAA will use the `End of Time` stage-skip strategy to speed up the process.                                                                                                                                                                                                                                                              |
 
 :::
 

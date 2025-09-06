@@ -127,6 +127,8 @@ MAA 現在會嘗試從登錄檔中讀取 `bluestacks.conf` 的儲存位置，當
    - 國際版預設路徑為 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - 中國版預設路徑為 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
+   注：`C:\ProgramData`為隱藏目錄，必要時請在檔案資源管理器的地址欄中直接貼上該地址，以便進入目錄並進行尋找。
+
 2. 如果是第一次使用，請執行一次 MAA，使 MAA 自動生成配置檔案。
 
 3. **先關閉** MAA，**然後**開啟 `gui.json`，找到 `Configurations` 下的當前配置名欄位（可在 設定-切換配置 中檢視，預設為 `Default`），在其中搜索欄位 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路徑。（注意斜槓要用轉義 `\\`）
