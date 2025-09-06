@@ -1,11 +1,6 @@
-import { navbar } from "vuepress-theme-hope";
+import { defineNavbarConfig } from "vuepress-theme-plume";
 
-export const enusNavbar = navbar([
-  {
-    text: "Home",
-    icon: "ic:round-home",
-    link: "/en-us/",
-  },
+export const enusNavbar = defineNavbarConfig([
   {
     text: "User Manual",
     icon: "mdi:user",
@@ -20,10 +15,5 @@ export const enusNavbar = navbar([
     text: "Protocol Docs",
     icon: "basil:document-solid",
     link: "/en-us/protocol/",
-  },
-  {
-    text: "MAA Website",
-    icon: "mdi:cow",
-    link: "https://maa.plus",
   },
 ]);

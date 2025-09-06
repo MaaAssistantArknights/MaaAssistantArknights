@@ -1,11 +1,6 @@
-import { navbar } from "vuepress-theme-hope";
+import { defineNavbarConfig } from "vuepress-theme-plume";
 
-export const jajpNavbar = navbar([
-  {
-    text: "ホームページ",
-    icon: "ic:round-home",
-    link: "/ja-jp/",
-  },
+export const jajpNavbar = defineNavbarConfig([
   {
     text: "使用説明",
     icon: "mdi:user",
@@ -20,10 +15,5 @@ export const jajpNavbar = navbar([
     text: "プロトコルドキュメント",
     icon: "basil:document-solid",
     link: "/ja-jp/protocol/",
-  },
-  {
-    text: "MAA 公式サイト",
-    icon: "mdi:cow",
-    link: "https://maa.plus",
   },
 ]);
