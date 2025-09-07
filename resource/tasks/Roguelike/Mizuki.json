@@ -3,6 +3,7 @@
         "next": [
             "Mizuki@StartExplore@Roguelike@ChooseOperConfirm",
             "Mizuki@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Mizuki@Roguelike@Abandon",
             "Mizuki@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },

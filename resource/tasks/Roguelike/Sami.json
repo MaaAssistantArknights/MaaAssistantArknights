@@ -3,6 +3,7 @@
         "next": [
             "Sami@StartExplore@Roguelike@ChooseOperConfirm",
             "Sami@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sami@Roguelike@Abandon",
             "Sami@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },
