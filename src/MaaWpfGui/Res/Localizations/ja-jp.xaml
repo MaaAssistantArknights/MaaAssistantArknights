@@ -901,7 +901,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」を使用してエラーレポートを生成し、青色の ｢{key=Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
     <system:String x:Key="ErrorCrashMessageHelpTip">他人に助けを求める場合は、このウィンドウのスクリーンショットや写真ではなく、生成されたエラーレポートファイルを送信してください。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">前回のクラッシュ原因</system:String>
-
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
