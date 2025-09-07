@@ -570,7 +570,7 @@
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
         "baseTask": "Sami@Roguelike@NextLevel",
-        "next": ["#self", "Sami@Roguelike@ExitThenAbandon"]
+        "next": ["#self", "Sami@Roguelike@FoldartalGainNextLevelThenExit", "Sami@Roguelike@ExitThenAbandon"]
     },
     "Sami@Roguelike@RecruitMain": {
         "template": "Sami@Roguelike@Recruit.png"
