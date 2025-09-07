@@ -865,9 +865,10 @@ private:
 
     inline static std::atomic<const char*> g_last_signal_reason { nullptr };
 
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4996)
-
+#endif
     static void write_crash_file(const char* reason, const char* detail = nullptr) noexcept
     {
         FILE* f = fopen("crash.log", "a");
@@ -884,8 +885,9 @@ private:
         fprintf(f, "===================\n\n");
         fclose(f);
     }
-
+#ifdef _MSC_VER
 #pragma warning(pop)
+#endif
 
     static void custom_terminate_handler() noexcept
     {
