@@ -42,6 +42,7 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
+using Microsoft.Win32;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -201,7 +202,7 @@ namespace MaaWpfGui.Main
                 _logger.Information("Start with DEBUG file");
             }
 
-            if (IsUserAdministrator())
+            if (IsAdministratorWithUac())
             {
                 _logger.Information("Run as Administrator");
             }
@@ -344,6 +345,32 @@ namespace MaaWpfGui.Main
         }
 
         public static bool IsUserAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        public static bool IsUacEnabled()
+        {
+            try
+            {
+                using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System");
+                if (key == null)
+                {
+                    return true;
+                }
+
+                var value = key.GetValue("EnableLUA");
+                if (value is int intValue)
+                {
+                    return intValue != 0;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        public static bool IsAdministratorWithUac() => IsUserAdministrator() && IsUacEnabled();
 
         /// <inheritdoc/>
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
