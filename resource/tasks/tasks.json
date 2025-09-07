@@ -1048,6 +1048,7 @@
             "JieGarden/Terminal.png",
             "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
         "postDelay": 1000,
@@ -1689,6 +1690,7 @@
             "JieGarden/Terminal.png",
             "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "exceededNext": ["Fight@TodaysSupplies", "Fight@CloseAnnos#next", "Stop"],
@@ -2282,6 +2284,7 @@
             "JieGarden/Mall.png",
             "AveMujica/Mall.png"
         ],
+        "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [772, 407, 186, 171],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
@@ -2346,6 +2349,7 @@
             "JieGarden/Terminal.png",
             "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "action": "Stop",
         "roi": [844, 58, 268, 272],
         "crop_doc": {
@@ -5035,6 +5039,7 @@
             "JieGarden/GachaEnter.png",
             "AveMujica/GachaEnter.png"
         ],
+        "maskRange": [1, 255],
         "roi": [1052, 443, 228, 156],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
         "crop_doc": {
