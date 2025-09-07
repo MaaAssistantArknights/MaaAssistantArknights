@@ -1025,6 +1025,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">Module unavailable</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
+    <system:String x:Key="CostRegeneration">当前费用回复: {0} ({1}/120)</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
     <system:String x:Key="UseSkill">Use Skill</system:String>
     <system:String x:Key="Retreat">Retreat</system:String>

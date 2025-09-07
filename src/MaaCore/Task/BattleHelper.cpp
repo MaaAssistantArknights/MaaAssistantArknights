@@ -50,10 +50,18 @@ void asst::BattleHelper::clear()
     m_last_use_skill_time.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
+    m_pause_on_start_delay = Task.get("BattlePauseEsc")->special_params[0];
+    m_pause_esc_post_delay = Task.get("BattlePauseEsc")->special_params[1];
+    m_pause_pre_delay = Task.get("BattlePause")->special_params[0];
+    m_pause_post_delay = Task.get("BattlePause")->special_params[1];
 
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
+    m_cost_regenerated = 0;
+    m_cost_regeneration = 0;
+    m_paused = false;
+    m_need_pause_on_start = false;
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
     m_used_tiles.clear();
@@ -82,6 +90,21 @@ bool asst::BattleHelper::pause()
     LogTraceFunction;
 
     return ProcessTask(this_task(), { "BattlePause" }).run();
+}
+
+bool asst::BattleHelper::advance_while_paused()
+{
+    LogTraceFunction;
+
+    if (!m_paused) {
+        return false;
+    }
+
+    m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
+    m_inst_helper.ctrler()->press_esc();
+    m_inst_helper.sleep(m_pause_esc_post_delay);
+
+    return true;
 }
 
 bool asst::BattleHelper::speed_up()
@@ -133,7 +156,7 @@ bool asst::BattleHelper::update_deployment_(
                     return std::make_pair(temp_oper.name, temp_oper.avatar);
                 });
             const auto& result = analyze_oper_with_cache(oper, avatar);
-            if (result) {
+            if (result && !result->templ_info.name.empty()) {
                 set_oper_name(oper, result->templ_info.name);
                 remove_cooling_from_battlefield(oper);
                 is_analyzed = true;
@@ -254,15 +277,17 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
 
     if (!update_deployment_(oper_result_opt->deployment, old_deployment_opers, false)) {
         // 发现未知干员，暂停游戏后再重新识别干员
-        do {
-            pause();
-            // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
-            // 所以这里一直点，直到真的点上了为止
-            if (!init || !check_pause_button()) {
-                break;
-            }
-            std::this_thread::yield();
-        } while (!m_inst_helper.need_exit());
+        if (!m_paused) {
+            do {
+                pause();
+                // 在刚进入游戏的时候（画面刚刚完全亮起来的时候），点暂停是没反应的
+                // 所以这里一直点，直到真的点上了为止
+                if (!init || !check_pause_button()) {
+                    break;
+                }
+                std::this_thread::yield();
+            } while (!m_inst_helper.need_exit());
+        }
 
         // 重新截图
         image = m_inst_helper.ctrler()->get_image();
@@ -286,7 +311,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             return false;
         }
         update_deployment_(oper_result_opt->deployment, old_deployment_opers, true);
-        pause();
+        if (!m_paused) {
+            pause();
+        }
         cancel_oper_selection();
         image = m_inst_helper.ctrler()->get_image();
     }
@@ -363,6 +390,23 @@ bool asst::BattleHelper::update_cost(const cv::Mat& image, const cv::Mat& image_
     return true;
 }
 
+bool asst::BattleHelper::update_cost_regeneration(const cv::Mat& reusable)
+{
+    const int cost_bar_size = Task.get<MatchTaskInfo>("CostRegenerationBar")->special_params[0];
+
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .cost_regeneration = true });
+    auto result_opt = analyzer.analyze();
+    int cost_regeneration = result_opt->cost_regeneration.value;
+    if (m_cost_regeneration >= cost_bar_size * 0.75 && cost_regeneration <= cost_bar_size * 0.25) {
+        ++m_cost_regenerated;
+    }
+    m_cost_regeneration = cost_regeneration;
+
+    return true;
+}
+
 bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     LogTraceFunction;
@@ -395,6 +439,18 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
+    if (deploy_with_pause) {
+        m_inst_helper.sleep(500);
+        if (!m_paused) {
+            ProcessTask(this_task(), { "BattlePause" }).run();
+        }
+        m_inst_helper.ctrler()->click(oper_point);
+        m_inst_helper.sleep(500);
+    }
+    const Rect& pause_button_rect = Task.get("BattlePause")->specific_rect;
+    Point pause_button(
+        pause_button_rect.x + pause_button_rect.width / 2,
+        pause_button_rect.y + pause_button_rect.height / 2);
     m_inst_helper.ctrler()->swipe(
         oper_point,
         target_point,
@@ -402,7 +458,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         false,
         swipe_oper_task_ptr->special_params.at(2),
         swipe_oper_task_ptr->special_params.at(3),
-        deploy_with_pause);
+        deploy_with_pause,
+        pause_button);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
@@ -434,7 +491,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
     }
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         // m_inst_helper.ctrler()->press_esc();
         ProcessTask(this_task(), { "BattlePauseCancel" }).run();
     }
@@ -548,7 +605,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     Matcher battle_flag_analyzer(image);
-    battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
+    battle_flag_analyzer.set_task_info(m_paused ? "BattleOfficiallyBegin" : "BattlePauseCheck");
     bool ret = battle_flag_analyzer.analyze().has_value();
 
     BattlefieldMatcher battle_flag_analyzer_2(image);
@@ -599,6 +656,21 @@ bool asst::BattleHelper::wait_until_start(bool weak)
     constexpr auto timeout_duration = std::chrono::minutes(1);
     const auto start_time = std::chrono::steady_clock::now();
 
+    if (m_need_pause_on_start) {
+        Matcher pause_button_analyzer(m_inst_helper.ctrler()->get_image());
+        pause_button_analyzer.set_task_info("BattlePauseCheck");
+        while (!m_inst_helper.need_exit() && !pause_button_analyzer.analyze()) {
+            m_inst_helper.ctrler()->press_esc();
+            m_inst_helper.sleep(m_pause_on_start_delay);
+            if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
+                Log.warn("Timeout reached while waiting to start the battle.");
+                return false;
+            }
+
+            pause_button_analyzer.set_image(m_inst_helper.ctrler()->get_image());
+        }
+        m_paused = true;
+    }
     cv::Mat image = m_inst_helper.ctrler()->get_image();
     while (!m_inst_helper.need_exit() && !check_in_battle(image, weak)) {
         if (std::chrono::steady_clock::now() - start_time > timeout_duration) {
@@ -794,7 +866,16 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     }
     const Point& target_point = target_iter->second.pos;
 
+    if (m_paused) {
+        m_inst_helper.sleep(m_pause_pre_delay);
+        m_inst_helper.ctrler()->click(Task.get("BattlePause")->specific_rect);
+        m_inst_helper.sleep(m_pause_post_delay);
+    }
     m_inst_helper.ctrler()->click(target_point);
+    if (m_paused) {
+        m_inst_helper.ctrler()->press_esc();
+        m_inst_helper.sleep(m_pause_esc_post_delay);
+    }
     m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
 
     return true;
@@ -806,13 +887,13 @@ bool asst::BattleHelper::click_retreat()
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         ProcessTask(this_task(), { "BattlePause" }).run();
     }
     // return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
     bool ret = m_inst_helper.ctrler()->click(m_retreat_button_pos);
 
-    if (deploy_with_pause) {
+    if (deploy_with_pause && !m_paused) {
         ProcessTask(this_task(), { "BattlePauseCancel" }).run();
     }
     return ret;
@@ -825,7 +906,7 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
 
     bool pausing = false;
-    if (!keep_waiting && deploy_with_pause) {
+    if (!keep_waiting && deploy_with_pause && !m_paused) {
         pausing = ProcessTask(this_task(), { "BattlePause" }).run();
     }
 
@@ -850,7 +931,12 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
             }
             return true;
         }
-        m_inst_helper.sleep(Config.get_options().task_delay);
+        if (m_paused) {
+            advance_while_paused();
+        }
+        else {
+            m_inst_helper.sleep(Config.get_options().task_delay);
+        }
     }
 
     // this means false positive in skill ready detection
@@ -1031,7 +1117,7 @@ std::optional<asst::BestMatcher::Result>
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)
 {
-    if (!oper.cooling) {
+    if (!oper.cooling && oper.role == Role::Drone) {
         return;
     }
     auto iter = m_battlefield_opers.find(oper.name);

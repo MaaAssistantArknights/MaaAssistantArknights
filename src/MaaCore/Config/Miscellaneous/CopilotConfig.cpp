@@ -156,6 +156,15 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
             { "摆完挂机", ActionType::SkillDaemon },
             { "开摆", ActionType::SkillDaemon },
 
+            { "Pause", ActionType::Pause },
+            { "PAUSE", ActionType::Pause },
+            { "pause", ActionType::Pause },
+            { "CancelPause", ActionType::Pause },
+            { "CANCELPAUSE", ActionType::Pause },
+            { "cancelpause", ActionType::Pause },
+            { "暂停", ActionType::Pause },
+            { "取消暂停", ActionType::Pause },
+
             { "MoveCamera", ActionType::MoveCamera },
             { "movecamera", ActionType::MoveCamera },
             { "MOVECAMERA", ActionType::MoveCamera },
@@ -191,6 +200,8 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
         action.cost_changes = action_info.get("cost_changes", 0);
         action.costs = action_info.get("costs", 0);
         action.cooling = action_info.get("cooling", -1);
+        action.cost_regenerated = action_info.get("cost_regenerated", 0);
+        action.cost_regeneration = action_info.get("cost_regeneration", 0);
         action.name = action_info.get("name", std::string());
 
         action.location.x = action_info.get("location", 0, 0);

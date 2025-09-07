@@ -3944,6 +3944,7 @@
         "roi": [0, 102, 190, 37]
     },
     "BattleOfficiallyBegin": {
+        "template": ["BattleOfficiallyBegin", "BattlePauseCheck"],
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255],
         "templThreshold": 0.7
@@ -3961,7 +3962,12 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1170, 20, 60, 60],
-        "postDelay": 200
+        "postDelay": 200,
+        "specialParams": [100, 100]
+    },
+    "BattlePauseEsc": {
+        "algorithm": "JustReturn",
+        "specialParams": [30, 200]
     },
     "BattlePauseCancel": {
         "algorithm": "JustReturn",
@@ -3973,6 +3979,10 @@
     },
     "BattlePauseCancelCheck": {
         "template": "BattleOfficiallyBegin.png",
+        "roi": [1165, 20, 65, 65],
+        "maskRange": [100, 255]
+    },
+    "BattlePauseCheck": {
         "roi": [1165, 20, 65, 65],
         "maskRange": [100, 255]
     },
@@ -4041,6 +4051,11 @@
         "roi": [1199, 494, 80, 44],
         "specialParams_doc": "Cost数字变化阈值, 模板匹配, 100=1.0; 正常在 0.997-1 之间波动, 少有0.995; _5->_6 的分数最高, 0.85上下",
         "specialParams": [98]
+    },
+    "CostRegenerationBar": {
+        "template": "empty.png",
+        "roi": [1160, 542, 120, 1],
+        "specialParams": [100]
     },
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]

@@ -217,6 +217,7 @@ enum class ActionType
     BulletTime,  // 使用 1/5 的速度
     Output,      // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
+    Pause,       // 暂停/取消暂停
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头
@@ -232,6 +233,8 @@ struct Action
     int costs = 0;
     int cost_changes = 0;
     int cooling = 0;
+    int cost_regenerated = 0;
+    int cost_regeneration = 0;
     ActionType type = ActionType::Deploy;
     std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
     Point location;

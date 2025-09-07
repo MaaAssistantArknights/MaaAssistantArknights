@@ -46,7 +46,8 @@ public:
         bool extra_swipe = false,
         double slope_in = 1,
         double slope_out = 1,
-        bool with_pause = false) override;
+        bool with_pause = false,
+        const Point& pause_button = Point()) override;
 
     virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override { return false; }
 

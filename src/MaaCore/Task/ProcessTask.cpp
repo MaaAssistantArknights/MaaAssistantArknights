@@ -430,5 +430,5 @@ void ProcessTask::exec_swipe_task(
     double slope_out,
     bool high_resolution_swipe_fix) const
 {
-    ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, false, high_resolution_swipe_fix);
+    ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, false, Point(), high_resolution_swipe_fix);
 }
