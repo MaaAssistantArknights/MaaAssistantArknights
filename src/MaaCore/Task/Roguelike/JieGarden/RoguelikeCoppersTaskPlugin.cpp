@@ -49,9 +49,6 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (mode == RoguelikeMode::Investment) {
         return m_config->get_invest_with_more_score();
     }
-    if (mode == RoguelikeMode::Collectible) {
-        return m_config->get_collectible_mode_shopping();
-    }
 
     return true;
 }
