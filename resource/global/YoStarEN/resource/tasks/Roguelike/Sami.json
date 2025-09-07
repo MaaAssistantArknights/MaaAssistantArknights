@@ -171,9 +171,9 @@
     "Sami@Roguelike@GetDropSelectRecruit": {
         "template": "Sami@Roguelike@GetDropSelectRecruit.png"
     },
-	"Sami@Roguelike@GetDropSelectReward": {
+    "Sami@Roguelike@GetDropSelectReward": {
         "templThreshold": 0.9
-	},
+    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "Brisk Marshlands",
@@ -203,7 +203,7 @@
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
-			[".*Immaculate ?Garde.*", "_default"],
+            [".*Immaculate ?Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passag.*", "_SKIP_"]
         ]
@@ -214,7 +214,7 @@
             [".*Placid ?Forest.*", "_exit"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_exit"],
             [".*Gel?i?d ?Rockshe.*", "_exit"],
-			[".*Immaculate ?Garde.*", "_exit"],
+            [".*Immaculate ?Garde.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passag.*", "_exit"]
         ]
@@ -225,7 +225,7 @@
             [".*Placid ?Forest.*", "_default"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_exit"],
             [".*Gel?i?d ?Rockshe.*", "_exit"],
-			[".*Immaculate ?Garde.*", "_exit"],
+            [".*Immaculate ?Garde.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
             [".*Secluded ?Passag.*", "_exit"]
         ]
@@ -236,7 +236,7 @@
             [".*Placid ?Forest.*", "_collapsal_paradigms"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_SKIP_"],
             [".*Gel?i?d ?Rockshe.*", "_SKIP_"],
-			[".*Immaculate ?Garde.*", "_SKIP_"],
+            [".*Immaculate ?Garde.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
             [".*Secluded ?Passag.*", "_SKIP_"]
         ]
@@ -247,7 +247,7 @@
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
-			[".*Immaculate ?Garde.*", "_default"],
+            [".*Immaculate ?Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passag.*", "_SKIP_"]
         ]
@@ -258,7 +258,7 @@
             [".*Placid ?Forest.*", "_aggressive"],
             [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
-			[".*Immaculate ?Garde.*", "_default"],
+            [".*Immaculate ?Garde.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
             [".*Secluded ?Passag.*", "_SKIP_"]
         ]
