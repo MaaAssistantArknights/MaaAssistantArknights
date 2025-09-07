@@ -15,6 +15,7 @@
             "JieGarden/Terminal.png",
             "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies"],
