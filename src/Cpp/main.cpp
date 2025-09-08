@@ -8,13 +8,24 @@
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-    const auto cur_path = std::filesystem::path(argv[0]).parent_path();
+    auto working_path = std::filesystem::path(argv[0]).parent_path();
+
+#ifdef ASST_DEBUG
+    if (!std::filesystem::exists(working_path / "resource")) {
+        working_path = working_path.parent_path().parent_path().parent_path();
+    }
+#endif
+
+    if (!std::filesystem::exists(working_path / "resource")) {
+        std::cerr << "resource folder not found!" << std::endl;
+        return -1;
+    }
 
     // 可以将日志、调试图片等存到别的目录下，需要在最一开始调用。不调用默认保存到资源同目录
-    // AsstSetUserDir(cur_path.c_str());
+    // AsstSetUserDir(working_path.c_str());
 
     // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
-    if (!AsstLoadResource(cur_path.string().c_str())) {
+    if (!AsstLoadResource(working_path.string().c_str())) {
         std::cerr << "-------- load resource failed: official --------" << std::endl;
         return -1;
     }
@@ -29,7 +40,7 @@ int main([[maybe_unused]] int argc, char** argv)
         else {
             std::cout << "load overseas_type: " << arg << std::endl;
 
-            const auto overseas_path = cur_path / "resource" / "global" / arg;
+            const auto overseas_path = working_path / "resource" / "global" / arg;
             if (!AsstLoadResource(overseas_path.string().c_str())) {
                 std::cerr << "-------- load resource failed: " << arg << " --------" << std::endl;
                 return -1;
