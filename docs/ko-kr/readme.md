@@ -106,11 +106,7 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 
 ### 다국어 지원 (i18n)
 
-MAA는 다국어를 지원하며, Weblate를 사용하여 로컬라이징을 관리합니다. 여러 언어를 알고 계시다면 [MAA Weblate](https://weblate.maa-org.net)로 이동하여 번역에 도움을 주세요.
-
 MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(간체)를 기준으로 합니다.
-
-[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### 개발 참여 및 기여
 

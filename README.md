@@ -108,11 +108,7 @@ MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，�
 
 ### 多语言 (i18n)
 
-MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通晓多门语言，欢迎前往 [MAA Weblate](https://weblate.maa-org.net) 帮助我们进行翻译。
-
 MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
-
-[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### 参与开发
 
