@@ -7,7 +7,7 @@ New-Item -Path "./install/debug" -ItemType Directory -Force -ErrorAction Silentl
 foreach ($client in $clients) {
   $jobs += Start-Job -ScriptBlock {
     param ($client)
-    ./install/Sample.exe $client > "./install/debug/asst_$client.log"
+    ./install/test.exe $client > "./install/debug/asst_$client.log"
 
     if ($LASTEXITCODE -ne 0) {
       return $client

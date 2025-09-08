@@ -114,6 +114,7 @@ if (BUILD_TEST)
     )
     target_link_libraries(test MaaCore)
 
+    add_dependencies(test MaaCore)
     install(TARGETS test RUNTIME DESTINATION .)
 endif (BUILD_TEST)
 
