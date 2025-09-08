@@ -169,7 +169,7 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
           
       - name: Build
         run: |
@@ -180,11 +180,20 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install --config Release
 
+      - name: Publish WPF GUI
+        run: |
+          if (${{ matrix.arch }} -eq 'arm64') {
+            $env:Platform = 'ARM64'
+          } else {
+            $env:Platform = 'x64'
+          }
+          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o $GITHUB_WORKSPACE/install
+
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
-          path: install/*.dll
+          path: install
 
   ubuntu:
     # Prevent duplicate runs on organization branches with PRs

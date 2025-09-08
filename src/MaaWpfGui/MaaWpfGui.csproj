@@ -17,7 +17,7 @@
 
   <!-- Build and Publish -->
   <PropertyGroup>
-    <OutputPath>..\..\build\bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
