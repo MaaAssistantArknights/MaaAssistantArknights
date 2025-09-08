@@ -468,7 +468,7 @@ passphrase = "password"       # ssh 密钥的密码
 [emulator-ports]: ../../manual/connection.md#获取端口号
 [playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
-[wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
+[wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/asst.schema.json
