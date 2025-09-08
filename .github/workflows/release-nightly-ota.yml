@@ -338,7 +338,6 @@ jobs:
           cd build-ota
 
           pushd ${{ needs.build-win-nightly.outputs.tag }}
-          zip -d *.zip '*.lib' '*.pdb' '*.exp' '*.config' '*.xml'
           mv *.zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
           popd
 
