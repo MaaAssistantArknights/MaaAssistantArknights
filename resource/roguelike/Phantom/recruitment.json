@@ -19,6 +19,23 @@
             "name": "棘刺",
             "opers": [
                 {
+                    "name": "丰川祥子",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 811,
+                    "promote_priority": 1001,
+                    "promote_priority_when_team_full": 1200,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["地面阻挡", "地面单切", "棘刺"],
+                            "is_less": true,
+                            "offset": 200
+                        }
+                    ]
+                },
+                {
                     "name": "棘刺",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -348,9 +365,8 @@
                 {
                     "name": "佩佩",
                     "skill": 2,
-                    "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 819,
+                    "recruit_priority": 809,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
@@ -463,6 +479,9 @@
                             "offset": -150
                         }
                     ]
+                },
+                {
+                    "name": "丰川祥子"
                 },
                 {
                     "name": "棘刺"
