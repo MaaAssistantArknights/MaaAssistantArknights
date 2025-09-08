@@ -1057,8 +1057,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="copilot">作业</param>
         /// <param name="flags">难度等级</param>
-        /// <param name="navigateName">关卡code，用于导航</param>
-        /// <param name="copilotId">作业站id</param>
+        /// <param name="navigateName">关卡 code，用于导航</param>
+        /// <param name="copilotId">作业站 id</param>
         /// <returns>是否添加了作业</returns>
         private async Task<bool> AddCopilotTaskToList(CopilotModel copilot, CopilotModel.DifficultyFlags flags, string? navigateName = null, int copilotId = 0)
         {
@@ -1075,25 +1075,33 @@ namespace MaaWpfGui.ViewModels.UI
                     Directory.CreateDirectory(CopilotJsonDir);
                 }
                 catch
-                {// ignored
+                {
+                    return false;
                 }
             }
 
-            var stageName = DataHelper.FindMap(copilot.StageName)?.Code;
-            if (navigateName is null && stageName is null)
+            var mapInfo = DataHelper.FindMap(copilot.StageName);
+            var stageCode = mapInfo?.Code;
+            var stageId = mapInfo?.StageId;
+            if (mapInfo is null)
             {
-                AddLog(string.Format(LocalizationHelper.GetString("CopilotStageNameNotFound"), stageName), UiLogColor.Error, showTime: false);
+                AddLog(string.Format(LocalizationHelper.GetString("CopilotStageNameNotFound"), stageCode), UiLogColor.Error, showTime: false);
                 return false;
             }
 
-            navigateName = string.IsNullOrEmpty(navigateName) ? stageName : navigateName;
-            if (stageName != navigateName)
+            navigateName = string.IsNullOrEmpty(navigateName) ? stageCode : navigateName;
+            if (stageCode != navigateName)
             {
-                stageName = navigateName;
+                stageCode = navigateName;
                 AddLog(LocalizationHelper.GetString("CopilotStageNameNotEqualWithNavigateName"), UiLogColor.Warning, showTime: false);
             }
 
-            var fileName = !string.IsNullOrEmpty(stageName!) ? stageName : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            if (stageId is null || stageCode is null || navigateName is null)
+            {
+                return false;
+            }
+
+            var fileName = !string.IsNullOrEmpty(stageCode) ? stageCode : DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             var cachePath = $"{CopilotJsonDir}/{fileName}.json";
             await _semaphore.WaitAsync();
             if (File.Exists(cachePath) && CopilotItemViewModels.Any(i => i.FilePath == cachePath))
@@ -1120,13 +1128,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (ActiveTabIndex == 2)
             {
-                var codeName = stageName![4..^2];
-                var characterInfo = DataHelper.GetCharacterByCodeName(codeName);
-                var name = DataHelper.GetLocalizedCharacterName(characterInfo);
-                if (string.IsNullOrEmpty(name))
+                string? name = null;
+                if (stageId?.Length > 6)
                 {
-                    name = stageName;
+                    var codeName = stageId[4..^2];
+                    var characterInfo = DataHelper.GetCharacterByCodeName(codeName);
+                    name = DataHelper.GetLocalizedCharacterName(characterInfo);
                 }
+
+                name ??= stageCode;
 
                 var item = new CopilotItemViewModel(name, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                 CopilotItemViewModels.Add(item);
@@ -1135,13 +1145,13 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (flags.HasFlag(CopilotModel.DifficultyFlags.Normal))
                 {
-                    var item = new CopilotItemViewModel(stageName, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
+                    var item = new CopilotItemViewModel(stageCode, cachePath, false, copilotId) { Index = CopilotItemViewModels.Count, };
                     CopilotItemViewModels.Add(item);
                 }
 
                 if (flags.HasFlag(CopilotModel.DifficultyFlags.Raid))
                 {
-                    var item = new CopilotItemViewModel(stageName, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
+                    var item = new CopilotItemViewModel(stageCode, cachePath, true, copilotId) { Index = CopilotItemViewModels.Count, };
                     CopilotItemViewModels.Add(item);
                 }
             }
@@ -1270,43 +1280,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _copilotIdList.Clear();
 
-                if (ActiveTabIndex == 2)
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        var task = new AsstCopilotTask()
-                        {
-                            MultiTasks = [new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = UseCopilotList }],
-                            Formation = _form,
-                            AddTrust = _addTrust,
-                            IgnoreRequirements = _ignoreRequirements,
-                            UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                            UseSanityPotion = _useSanityPotion,
-                        };
-                        return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    });
-                    ret = t.All(b => b) && Instances.AsstProxy.AsstStart();
-                }
-                else
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
+                });
+
+                var task = new AsstCopilotTask()
                 {
-                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                    {
-                        _copilotIdList.Add(i.CopilotId);
-                        return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
-                    });
-                    var task = new AsstCopilotTask()
-                    {
-                        MultiTasks = t.ToList(),
-                        Formation = _form,
-                        AddTrust = _addTrust,
-                        IgnoreRequirements = _ignoreRequirements,
-                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                        UseSanityPotion = _useSanityPotion,
-                    };
-                    ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                    ret = ret && Instances.AsstProxy.AsstStart();
-                }
+                    MultiTasks = [.. t],
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                };
+
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
             }
             else
             {

@@ -159,7 +159,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
                             // 10000 - Custom: Custom shift mode, reads user configuration, see protocol/base-scheduling-schema.md
                             // 20000 - Rotation: One-key rotation mode, skips control center, power station, dormitory and office, other facilities do not change shifts but retain basic operations (such as using drones, reception room logic)
     "facility": [           // Facilities for shifting (ordered), required. Editing in run-time is not supported.
-        string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
+        string,             // Facility name: "Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm" | "Processing" | "Training"
         ...
     ],
     "drones": string,       // Usage of drones, optional, by default "_NotUse"

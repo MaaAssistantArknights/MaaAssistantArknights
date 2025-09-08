@@ -884,7 +884,19 @@
             ["Necrass", "死芒"],
             ["Fires of Days Past", "旧日之火"],
             ["Thicket", "树丛"],
-            ["Shield and Wall", "盾与墙"]
+            ["Shield and Wall", "盾与墙"],
+            ["Hydraulic Platform", "液压式高台 "],
+            ["Protective Gear Giver", "护具分发员"],
+            ["Recuperation Pod", "临时休息舱"],
+            ["Beastmode Energy Drink", "猛兽能量饮料"],
+            ["Collapsed Junk Pile", "坍塌的杂物堆"],
+            ["Chaotic Fireworks", "混乱烟花箱"],
+            ["Soda Dispenser", "喷射汽水机"],
+            ["Cheerleader", "赛场啦啦队"],
+            ["Expert Facility Builder", "高级设施建筑工"],
+            ["Construction Workshop", "建筑工具间"],
+            ["Concrete Roadblock", "混凝土路障 "],
+            ["Portable Exercise Rack", "便携健身架"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -1031,7 +1043,6 @@
         "text": ["Continue", "Recruitment"]
     },
     "InfrastReward": {
-        "fullMatch": true,
         "text": ["Collectable", "Orders", "Acquired", "Trust"]
     },
     "ShamareThumbnail1": {

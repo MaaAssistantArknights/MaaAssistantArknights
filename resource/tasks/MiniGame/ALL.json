@@ -68,6 +68,7 @@
         "action": "ClickSelf",
         "roi": [1010, 611, 212, 109],
         "text": ["返回主页"],
+        "postDelay": 5000,
         "next": ["MiniGame@ALL@GreenGrass@DuelChannel@Begin", "MiniGame@ALL@GreenGrass@DuelChannel@End"]
     }
 }

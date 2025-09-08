@@ -11,8 +11,11 @@
             "Gaming/Terminal.png",
             "DahuangCity/Terminal.png",
             "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png"
+            "Dreamland/DreamlandDark/Terminal.png",
+            "JieGarden/Terminal.png",
+            "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies"],
@@ -242,7 +245,7 @@
     },
     "RoguelikeRefreshSupportBtnOcr": {
         "algorithm": "OcrDetect",
-        "text": ["更新助战列表"],
+        "text": ["更新列表"],
         "roi": [1097, 13, 164, 38],
         "postDelay": 3000,
         "postDelay_Doc": "点击刷新后的等待时间",
@@ -1441,7 +1444,7 @@
         "action": "ClickSelf",
         "roi": [507, 418, 242, 149],
         "exceededNext": ["Roguelike@ExitThenAbandon"],
-        "next": ["Roguelike@StageTraderInvestSystemLeave", "Roguelike@StageTraderInvestSystemLeave#next"]
+        "next": ["Roguelike@StageTraderInvestSystemLeave", "Roguelike@StageTraderInvestSystemLeave#next", "#self"]
     },
     "Roguelike@StageTraderInvestConfirm": {
         "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
@@ -1490,7 +1493,7 @@
     "Roguelike@StageTraderInvestSystemLeave": {
         "action": "ClickSelf",
         "roi": [682, 420, 245, 143],
-        "next": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"]
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave", "#self"]
     },
     "Roguelike@StageTraderLeave": {
         "action": "ClickSelf",

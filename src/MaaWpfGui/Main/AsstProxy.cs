@@ -1404,7 +1404,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "OfflineConfirm":
-                                if (SettingsViewModel.GameSettings.AutoRestartOnDrop)
+                                if (TaskQueueViewModel.FightTask.AutoRestartOnDrop)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
                                 }
@@ -1734,7 +1734,7 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails!["name"]);
-                        if (SettingsViewModel.GameSettings.RoguelikeDelayAbortUntilCombatComplete)
+                        if (TaskQueueViewModel.RoguelikeTask.RoguelikeDelayAbortUntilCombatComplete)
                         {
                             Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
                         }

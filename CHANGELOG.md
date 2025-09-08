@@ -1,4 +1,8 @@
-## v5.24.0
+## v5.24.2
+
+### 特殊说明
+
+由于本次活动代号 SS 与 SideStory 的内部代号冲突，关卡命名统一采用 AveMujica-x 格式（例如 AveMujica-8），请使用 手动输入关卡名 / cli 的博士使用此代号。
 
 ### 功能进化 | Highlight
 
@@ -29,6 +33,10 @@
 
 ----
 
+### [CN ONLY] Special Notice
+
+Due to a conflict between this event's code SS and the internal code for SideStory, the stage naming will use the format AveMujica-x (e.g., AveMujica-8). Please use this code when entering the stage manually or via CLI.
+
 #### Copilot Optimization
 
 In this version, we've optimized the Copilot, allowing you to use it in more scenarios. Currently, MAA supports the following scenarios:
@@ -55,6 +63,79 @@ Now, Doctors can directly use the combat list feature in Paradox Simulation to c
 ----
 
 以下是详细内容：
+
+## v5.24.2
+
+### 新增 | New
+
+* 适配 命运(AveMujica) 主题 (#13970) @weinibuliu
+* SideStory「无忧梦呓」导航 (#13969) @SherkeyXD
+* 勾选 ｢下次公告更新前不再显示｣ 勾选框时不需要滚到底才能关闭公告 @ABA2396
+
+### 改进 | Improved
+
+* 优化关卡验证逻辑，避免导入错误类型关卡时直接崩溃 @ABA2396
+
+### 修复 | Fix
+
+* 肉鸽因模拟器卡顿偶现无法退出商店 @ABA2396
+* OF-1 无法切换分队 @status102
+* 蜜果城模拟器卡顿时可能无法返回主界面 @Windsland52
+* 八幡海铃识别错误 @Saratoga-Official
+* 选技能可能会点到技能范围 @ABA2396
+
+### 其他 | Other
+
+* 关卡小提示改用 Value @ABA2396
+* 调整日志输出格式 @ABA2396
+* 悖论模拟选技能改用固定位置，避免透明背景影响 @ABA2396
+
+## v5.24.1
+
+### 新增 | New
+
+* 适配 悬想(界园肉鸽) 主题 (#13948) @weinibuliu
+* 繁中服「視相」主題介面 (#13947) @momomochi987
+* 悖论通关后自动取消勾选，遇到战斗失败的关卡时停止 (#13963) @ABA2396
+
+### 改进 | Improved
+
+* 日志记录增加 ClassName 输出，debug 模式下属性切换新增反引号显示 @ABA2396
+* 优化 Copilot 列表验证逻辑，提高性能 @ABA2396
+
+### 修复 | Fix
+
+* 自动编队后续追加自定干员失败 @status102
+* 错误的关卡名可能导致验证崩溃 @ABA2396
+* 公告重复点击时不会前置窗口 @ABA2396
+* 战斗列表无法进入 1/2 星干员悖论 @ABA2396
+* 悖论模拟战斗列表页尾干员错位 @ABA2396
+* 空作业列表点开始崩溃 @status102
+* 繁中服薩米肉鴿第五層名稱 (#13961) @momomochi987
+* EN not picking up Trade Orders @Constrat
+* IS5 EN StageRefresh not working, updated template @Constrat
+* IS2 and IS3 not starting for EN @Constrat
+* update Infrast templates for EN @Constrat
+
+### 文档 | Docs
+
+* 修正文档中的部分错误 (#13923) @lucienshawls
+
+### 其他 | Other
+
+* 将 ｢掉线时自动重连｣ 从 ｢运行设置｣ 移到 ｢刷理智设置｣ 中 @ABA2396
+* 将 ｢自动肉鸽在战斗结束前延迟停止动作｣ 从 ｢运行设置｣ 移到 ｢肉鸽设置｣ 中 @ABA2396
+* 繁中服「銀心湖列車」復刻活動導航 (#13945) @momomochi987
+* 调整公告日志记录 @ABA2396
+* 提取 isBuildOutputFolder @ABA2396
+* 编译目录下不检查 dll @ABA2396
+* 长草任务运行状态 (#13928) @status102
+* 简化 Split @ABA2396
+* OperatorType -> OperatorRole @status102
+* JP ocr fix (#13938) @Manicsteiner
+* i18n @Constrat @Manicsteiner
+
+## v5.24.0
 
 ### 新增 | New
 

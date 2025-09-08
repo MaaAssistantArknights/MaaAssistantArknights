@@ -38,11 +38,11 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
+using Microsoft.Win32;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -161,10 +161,10 @@ namespace MaaWpfGui.Main
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
                     UiLogFilename,
-                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}][{ClassName}] <{ThreadId}> {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
@@ -202,7 +202,7 @@ namespace MaaWpfGui.Main
                 _logger.Information("Start with DEBUG file");
             }
 
-            if (IsUserAdministrator())
+            if (IsAdministratorWithUac())
             {
                 _logger.Information("Run as Administrator");
             }
@@ -305,7 +305,7 @@ namespace MaaWpfGui.Main
 
                 var sourceContext = sourceContextValue.ToString().Trim('"');
                 var className = sourceContext.Split('.').Last();
-
+                className = ("[" + className + "]").PadRight(24);
                 logEvent.AddOrUpdateProperty(propertyFactory.CreateProperty("ClassName", className));
             }
         }
@@ -345,6 +345,32 @@ namespace MaaWpfGui.Main
         }
 
         public static bool IsUserAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        public static bool IsUacEnabled()
+        {
+            try
+            {
+                using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System");
+                if (key == null)
+                {
+                    return true;
+                }
+
+                var value = key.GetValue("EnableLUA");
+                if (value is int intValue)
+                {
+                    return intValue != 0;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        public static bool IsAdministratorWithUac() => IsUserAdministrator() && IsUacEnabled();
 
         /// <inheritdoc/>
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
