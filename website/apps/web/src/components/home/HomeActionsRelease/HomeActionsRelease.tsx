@@ -77,8 +77,8 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
           <div
             className={clsx(
               'h-full rounded-full',
-              'dark:text-white',
-              'text-stone-800',
+              'dark:bg-white',
+              'bg-stone-800',
             )}
             style={{ width: `${percentage}%` }}
           />
