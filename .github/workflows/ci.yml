@@ -138,7 +138,7 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
           
       - name: Build
         run: |
@@ -148,6 +148,7 @@ jobs:
         run: |
           mkdir -p install
           cmake --install build --prefix install --config Release
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
         uses: actions/cache@v4
@@ -161,7 +162,7 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
-      - name: Taggify Version
+      - name: Taggify Version for csproj
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
@@ -183,6 +184,14 @@ jobs:
         continue-on-error: true
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
+
+      - name: Organize Install Files
+        run: |
+            rm -rf install/*.pdb
+            rm -rf install/msvc-debug
+            rm -rf *.h
+
+            cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
