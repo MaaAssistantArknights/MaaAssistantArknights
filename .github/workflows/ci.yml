@@ -120,19 +120,6 @@ jobs:
         run: |
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        id: cache-nuget
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
-
-      - name: Restore dependencies
-        if: steps.cache-nuget.outputs.cache-hit != 'true'
-        run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
-
       - name: Cache MaaDeps
         id: cache-maadeps
         uses: actions/cache@v4
@@ -147,6 +134,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch }}-windows
+
+      - name: Config cmake
+        run: |
+          mkdir -p build
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
+          
+      - name: Build
+        run: |
+          cmake --build build --config Release
+
+      - name: Install
+        run: |
+          mkdir -p install
+          cmake --install build --prefix install --config Release
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
+
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
       - name: Taggify Version
         run: |
@@ -166,28 +179,10 @@ jobs:
           $node.AssemblyVersion = $match
           $csproj.Save($csprojPath)
 
-      - name: Config cmake
-        run: |
-          mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
-          
-      - name: Build
-        run: |
-          cmake --build build --config Release
-
-      - name: Install
-        run: |
-          mkdir -p install
-          cmake --install build --prefix install --config Release
-
       - name: Publish WPF GUI
+        continue-on-error: true
         run: |
-          if (${{ matrix.arch }} -eq 'arm64') {
-            $env:Platform = 'ARM64'
-          } else {
-            $env:Platform = 'x64'
-          }
-          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o $GITHUB_WORKSPACE/install
+          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
