@@ -1,9 +1,0 @@
-{
-  "solution": {
-    "path": "..\\..\\MAA.sln",
-    "projects": [
-      "src\\MaaCore\\MaaCore.vcxproj",
-      "src\\Cpp\\MaaSample.vcxproj"
-    ]
-  }
-}

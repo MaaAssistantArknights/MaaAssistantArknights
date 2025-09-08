@@ -2,12 +2,12 @@ $clients = @("Official", "YostarJP", "YostarEN", "YostarKR", "txwy")
 $jobs = @()
 $error_client = @()
 
-New-Item -Path "./x64/Debug/debug" -ItemType Directory -Force -ErrorAction SilentlyContinue > $null
+New-Item -Path "./install/debug" -ItemType Directory -Force -ErrorAction SilentlyContinue > $null
 
 foreach ($client in $clients) {
   $jobs += Start-Job -ScriptBlock {
     param ($client)
-    ./x64/Debug/Sample.exe $client > "./x64/Debug/debug/asst_$client.log"
+    ./install/Sample.exe $client > "./install/debug/asst_$client.log"
 
     if ($LASTEXITCODE -ne 0) {
       return $client
@@ -24,15 +24,15 @@ foreach ($job in $jobs) {
   }
 }
 
-Remove-Item ./x64/Debug/debug/asst.log -ErrorAction SilentlyContinue
+Remove-Item ./install/debug/asst.log -ErrorAction SilentlyContinue
 foreach ($client in $clients) {
-  Get-Content ./x64/Debug/debug/asst_$client.log | Add-Content ./x64/Debug/debug/asst.log
+  Get-Content ./install/debug/asst_$client.log | Add-Content ./install/debug/asst.log
 }
 
 if ($error_client.Count -gt 0) {
   $pattern = "[ERR]"
   foreach ($client in $error_client) {
-    Get-Content ./x64/Debug/debug/asst_$client.log | ForEach-Object {
+    Get-Content ./install/debug/asst_$client.log | ForEach-Object {
       if ($_ -match $pattern) {
         Write-Host $_ -ForegroundColor DarkRed
       } else {

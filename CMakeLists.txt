@@ -113,6 +113,8 @@ if (BUILD_TEST)
         CXX_STANDARD_REQUIRED ON
     )
     target_link_libraries(test MaaCore)
+
+    install(TARGETS test RUNTIME DESTINATION .)
 endif (BUILD_TEST)
 
 if (APPLE)

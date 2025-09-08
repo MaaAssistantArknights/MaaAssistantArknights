@@ -9,7 +9,6 @@ on:
       - "src/**"
       - "cmake/**"
       - "CMakeLists.txt"
-      - "MAA.sln"
       - ".github/workflows/codeql-core.yml"
       - "!**/*.md"
       - "!**/*.xaml"
