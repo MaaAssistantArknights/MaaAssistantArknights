@@ -52,7 +52,7 @@ set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
 
-target_compile_definitions(MaaCore PRIVATE $<$<CONFIG:Debug>:ASST_DEBUG/>)
+target_compile_definitions(MaaCore PRIVATE $<$<CONFIG:Debug>:ASST_DEBUG>)
 
 if(WIN32)
     add_custom_command(
@@ -104,7 +104,7 @@ if (BUILD_TEST)
     else()
         target_compile_options(smoke_test PRIVATE "-Wno-error")
     endif()
-    target_compile_definitions(smoke_test PRIVATE ASST_DEBUG SMOKE_TESTING)
+    target_compile_definitions(smoke_test PRIVATE SMOKE_TESTING)
     target_link_libraries(smoke_test MaaCore)
 
     add_dependencies(smoke_test MaaCore)
