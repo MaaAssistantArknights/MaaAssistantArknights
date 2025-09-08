@@ -7,14 +7,15 @@ endif ()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
-option(BUILD_TEST "build a demo" OFF)
+option(BUILD_WPF_GUI "build MaaWpfGui" ${WIN32})
+option(BUILD_DEBUG_DEMO "build debug demo" OFF)
 option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
 option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
 option(INSTALL_PYTHON "install python ffi" OFF)
 option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
-option(WITH_WPF_GUI "build with MaaWpfGui" ON)
+option(BUILD_SMOKE_TEST "build smoke_test" OFF)
 
 include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
 
@@ -62,7 +63,7 @@ if(WIN32)
         COMMAND_EXPAND_LISTS)
 endif()
 
-if (WIN32 AND WITH_WPF_GUI)
+if (BUILD_WPF_GUI)
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
     
     add_dependencies(MaaWpfGui MaaCore)
@@ -95,7 +96,20 @@ if (INSTALL_RESOURCE)
     install(DIRECTORY resource DESTINATION .)
 endif (INSTALL_RESOURCE)
 
-if (BUILD_TEST)
+if (BUILD_DEBUG_DEMO)
+    add_executable(debug_demo src/Cpp/main.cpp)
+    if(MSVC)
+        target_compile_options(debug_demo PRIVATE "/WX-")
+    else()
+        target_compile_options(debug_demo PRIVATE "-Wno-error")
+    endif()
+    target_link_libraries(debug_demo MaaCore)
+
+    add_dependencies(debug_demo MaaCore)
+    # install(TARGETS debug_demo ${MaaCore_install_flatten_args})
+endif (BUILD_DEBUG_DEMO)
+
+if (BUILD_SMOKE_TEST)
     add_executable(smoke_test src/Cpp/main.cpp)
     if(MSVC)
         target_compile_options(smoke_test PRIVATE "/WX-")
@@ -107,7 +121,7 @@ if (BUILD_TEST)
 
     add_dependencies(smoke_test MaaCore)
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
-endif (BUILD_TEST)
+endif (BUILD_SMOKE_TEST)
 
 if (APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
