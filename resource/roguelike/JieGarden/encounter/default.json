@@ -262,7 +262,8 @@
         {
             "name": "入暂亭",
             "option_num": 3,
-            "choose": 3
+            "choose": 2,
+            "fallback_choices": [[4, 2]]
         },
         {
             "name": "南武群英会",
