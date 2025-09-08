@@ -1,3 +1,4 @@
+import { useLayoutState } from '@/contexts/LayoutStateContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { FCC } from '@/types'
 import { WithChildren } from '@/types'
@@ -21,6 +22,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
   GlowButtonProps
 >(({ children, translucent, bordered, href, onClick, className }, ref) => {
   const { theme } = useTheme()
+  const { disableLayoutMotion } = useLayoutState()
 
   const motionConfig: MotionProps = {
     whileHover: {
@@ -66,7 +68,7 @@ export const GlowButton: FCC<GlowButtonProps> = forwardRef<
 
   const inner = (
     <motion.button
-      layout
+      layout={!disableLayoutMotion} //根据状态决定是否启用布局动画
       type="button"
       className={clsx(
         moduleStyles.root,
