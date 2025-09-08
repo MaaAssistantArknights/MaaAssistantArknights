@@ -894,10 +894,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往 ｢Windows 設定｣ 選擇預設瀏覽器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
-    <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常退出。</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">以上問題導致程式異常關閉。</system:String>
     <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」查看日誌，了解錯誤發生的具體原因。</system:String>
-    <system:String x:Key="ErrorCrashMessageGenerateReport">請使用「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」生成錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 鏈接提交反饋。</system:String>
-    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人尋求幫助，請傳送生成的錯誤報告檔案，而不是傳送這個視窗的截圖或照片。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">請使用「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」產生錯誤報告，並點擊藍色的 ｢{key=Issue}｣ 連結提交回報。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果要尋求他人協助，請傳送產生的錯誤報告檔案，而不是傳送這個視窗的截圖或照片。</system:String>
     <system:String x:Key="ErrorCrashDialogTitle">上次程式崩潰原因</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
     <!--  !ErrorView  -->
