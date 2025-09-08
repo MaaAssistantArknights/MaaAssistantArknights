@@ -57,12 +57,13 @@
             "Dawning Frostbounds",
             "Gelid Rockshelves",
             "Immaculate Garden",
-            "Clayrovant Carcass"
+            "Clayrovant Carcass",
+            "Secluded Passage"
         ],
         "roi": [467, 531, 357, 72]
     },
     "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["Obtain after", "this floor", "Collapse", "will trigger", "on next floor"]
+        "text": ["Obtain after", "this floor", "will trigger", "on next floor"]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
@@ -171,9 +172,6 @@
     "Sami@Roguelike@GetDropSelectRecruit": {
         "template": "Sami@Roguelike@GetDropSelectRecruit.png"
     },
-    "Sami@Roguelike@GetDropSelectReward": {
-        "templThreshold": 0.9
-    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "Brisk Marshlands",
@@ -181,7 +179,8 @@
             "Dawning Frostbounds",
             "Gelid Rockshelves",
             "Immaculate Garden",
-            "Clayrovant Carcass"
+            "Clayrovant Carcass",
+            "Secluded Passage"
         ],
         "roi": [467, 531, 357, 72]
     },
@@ -198,69 +197,99 @@
         "text": ["Use the Safe House again", "Use the Safe"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
             [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passag.*", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forest.*", "_exit"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_exit"],
+            [".*Daw.*", "_exit"],
+            [".*rostbou.*", "_exit"],
+            [".*12.*", "_exit"],
             [".*Gel?i?d ?Rockshe.*", "_exit"],
             [".*Immaculate ?Garde.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secluded ?Passag.*", "_exit"]
+            [".*Secl?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
             [".*Placid ?Forest.*", "_default"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_exit"],
+            [".*Daw.*", "_exit"],
+            [".*rostbou.*", "_exit"],
+            [".*12.*", "_exit"],
             [".*Gel?i?d ?Rockshe.*", "_exit"],
             [".*Immaculate ?Garde.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secluded ?Passag.*", "_exit"]
+            [".*Secl?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
             [".*Placid ?Forest.*", "_collapsal_paradigms"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_SKIP_"],
+            [".*Daw.*", "_SKIP_"],
+            [".*rostbou.*", "_SKIP_"],
+            [".*12.*", "_SKIP_"],
             [".*Gel?i?d ?Rockshe.*", "_SKIP_"],
             [".*Immaculate ?Garde.*", "_SKIP_"],
+            [".*70.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
-            [".*Secluded ?Passag.*", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
             [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passag.*", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
             [".*Placid ?Forest.*", "_aggressive"],
-            [".*Dawni?n?g ?(F|f)rostbou.*", "_pragmatic"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
+            [".*12.*", "_pragmatic"],
             [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
             [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passag.*", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     }
 }
