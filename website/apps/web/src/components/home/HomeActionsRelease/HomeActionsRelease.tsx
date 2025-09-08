@@ -538,7 +538,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
         </motion.div>
       )
     },
-    [envPlatformId, release.name, t, i18n],
+    [envPlatformId, release.name, t],
   )
 
   const allPlatformDownloadBtns = useMemo(
@@ -587,7 +587,6 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     renderPlatformButton,
     allPlatformDownloadBtns,
     t,
-    i18n,
   ])
 
   const [os, arch] = useMemo(() => {
