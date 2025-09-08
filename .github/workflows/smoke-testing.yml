@@ -83,7 +83,7 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DMAADEPS_TRIPLET='maa-x64-windows' -DINSTALL_RESOURCE=ON -DBUILD_TEST=ON -DWITH_WPF_GUI=OFF
+          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DMAADEPS_TRIPLET='maa-x64-windows' -DINSTALL_RESOURCE=ON -DBUILD_SMOKE_TEST=ON -DBUILD_WPF_GUI=OFF
           
       - name: Build
         run: |
