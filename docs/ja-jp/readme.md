@@ -86,7 +86,7 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 **現在、プロジェクトチームにはフロントエンドの専門家が非常に不足しています。経験があれば、私たちに参加してください！**
 
 - 新しいFramework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
-- [作業シェアサイト](https://prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作業シェアサイト](https://zoot.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [公式ウェブサイト](https://maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
@@ -196,7 +196,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 ユーザー研究グループQQグループ：[QQグループ](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord サーバー: [Discord 招待リンク](https://discord.gg/23DfZ9uA4V)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
+自動作戦JSON作業シェア：[zoot.plus](https://zoot.plus)  
 Bilibili ライブ配信: [MrEO ライブ配信](https://live.bilibili.com/2808861) コーディング & [MAA-Official ライブ配信](https://live.bilibili.com/27548877) ゲーム/雑談  
 
 技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  

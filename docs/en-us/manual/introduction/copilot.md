@@ -5,7 +5,7 @@ icon: ph:sword-bold
 
 # Auto Combat
 
-Welcome to use and share operation files on [prts.plus](https://prts.plus).
+Welcome to use and share operation files on [zoot.plus](https://zoot.plus).
 
 ::: warning
 All features involving automatic combat require a stable game frame rate of at least 60 FPS, including but not limited to Auto Combat and Integrated Strategy.
@@ -35,7 +35,7 @@ Supports automatic combat for any `Squad Formation Stage` and `Stationary Securi
 
 ## Creating Operations
 
-- Please use the [Operation Editor](https://prts.plus/create) to create operations. You can refer to the [Combat Operation Protocol](../../protocol/copilot-schema.md) for guidance.
+- Please use the [Operation Editor](https://zoot.plus/create) to create operations. You can refer to the [Combat Operation Protocol](../../protocol/copilot-schema.md) for guidance.
 - Getting map coordinates:
   - After entering the stage name in the Operation Editor, a draggable and zoomable coordinate map will automatically load in the lower left corner, where you can click to set operator positions.
   - If you export the JSON after entering the stage name and then start an operation, a map image with coordinate information will be generated in the `debug\map` folder in your MAA directory.

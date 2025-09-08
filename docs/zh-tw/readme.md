@@ -89,8 +89,8 @@ MAA 的意思是 MAA Assistant Arknights
 **目前項目組非常缺前端大佬，若您有相關經驗，歡迎加入我們！**
 
 - 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
-- [作業站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [作業站](https://prts.plus) 後端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [作業站](https://zoot.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作業站](https://zoot.plus) 後端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官網](https://maa.plus) ： [前端](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - 深度學習：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
@@ -200,7 +200,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 伺服器：[Discord](https://discord.gg/23DfZ9uA4V)  
 用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)  
+自動戰鬥 JSON 作業分享：[zoot.plus](https://zoot.plus) 或 [抄作業.com](http://抄作業.com)  
 Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談  
 
 技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  

@@ -94,8 +94,8 @@ MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，�
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
 - 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [作业站](https://zoot.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作业站](https://zoot.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
@@ -198,7 +198,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord 服务器: [邀请链接](https://discord.gg/23DfZ9uA4V)  
 用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享：[prts.plus](https://prts.plus)  
+自动战斗 JSON 作业分享：[zoot.plus](https://zoot.plus)  
 Bilibili 直播间：[MrEO 直播间](https://live.bilibili.com/2808861) 直播敲代码 & [MAA-Official 直播间](https://live.bilibili.com/27548877) 游戏/杂谈  
 
 技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  

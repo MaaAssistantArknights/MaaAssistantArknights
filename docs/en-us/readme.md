@@ -97,8 +97,8 @@ MAA supports command-line interface (CLI) operation on Linux, macOS, and Windows
 **The project team is currently in great need of front-end developers. If you have relevant experience, we welcome you to join us!**
 
 - New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- [Copilot Site](https://prts.plus) Frontend: [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [Copilot Site](https://prts.plus) Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [Copilot Site](https://zoot.plus) Frontend: [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [Copilot Site](https://zoot.plus) Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [Official Website](https://maa.plus): [Frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
@@ -201,7 +201,7 @@ This software supports GPU acceleration, which relies on Microsoft's standalone 
 User Exchange QQ Groups: [MAA Usage & Arknights Exchange QQ Group](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 Discord Server: [Invite Link](https://discord.gg/23DfZ9uA4V)  
 User Exchange Telegram Group: [Telegram Group](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-Auto-battle JSON strategy sharing: [prts.plus](https://prts.plus)  
+Auto-battle JSON strategy sharing: [zoot.plus](https://zoot.plus)  
 Bilibili Live: [MrEO Live](https://live.bilibili.com/2808861) coding streams & [MAA-Official Live](https://live.bilibili.com/27548877) gaming/chat  
 
 Technical Group (non-Arknights, no casual chat): [Internal Competition Hell! (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
