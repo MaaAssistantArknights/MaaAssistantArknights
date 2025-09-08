@@ -49,15 +49,15 @@ icon: iconoir:developer
     cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
     ```
 
-6. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
-7. 设置 VS
+7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
+8. 设置 VS
 
     - VS 上方配置选择 `Debug` `x64`
     - 右键 `MaaWpfGui` - 设为启动项目
     - 按 F5 运行
 
-8. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
-9. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
+9. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
+10. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
 
     ```bash
@@ -67,14 +67,14 @@ icon: iconoir:developer
 
     这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
 
-10. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
+11. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
 
     ```bash
     git push origin dev
     ```
 
-11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
-12. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
+12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+13. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
 
     1. 关联 MAA 原仓库
 
