@@ -47,7 +47,7 @@ Homebrew users can install maa-cli via the unofficial [tap](https://github.com/M
   nix run github:Cryolitia/nur-packages#maa-cli-nightly
   ```
 
-  Stable is the maa-cli packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix), using the nixpkgs's Rust toolchain; Nightly is in [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix), uses the Beta Channel of Rust toolchain, automatically updates and builds for verification by Github Action daily.
+  Stable is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix), using the nixpkgs Rust toolchain; Nightly is in [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix), using the Beta Channel Rust toolchain, automatically updated and built daily by GitHub Actions.
 
 - Users using Homebrew on Linux please refer to the macOS installation method above.
 
@@ -95,6 +95,14 @@ maa-cli only provides an interface for MaaCore, it needs MaaCore and resources t
 ```bash
 maa install
 ```
+
+For Windows platform users, before running the `maa install` command, please run the following command as administrator in Command Prompt or PowerShell to install the required VC++ toolset:
+
+- Windows:
+
+  ```bat
+  winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
+  ```
 
 For users who installed via package managers, MaaCore can also be installed via package managers:
 
