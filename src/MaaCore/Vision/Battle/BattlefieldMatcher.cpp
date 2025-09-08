@@ -39,7 +39,7 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
         result.pause_button = pause_button_analyze();
         if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
             // flag 表明当前画面是在战斗场景的，不在的就没必要识别了
-            return std::nullopt;
+            return std::nullopt; // 测试时注释
         }
     }
 
@@ -73,11 +73,10 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
     return result;
 }
 
-std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() const
+BattlefieldMatcher::MatchResult<std::vector<battle::DeploymentOper>> BattlefieldMatcher::deployment_analyze() const
 {
-    const auto& flag_task_ptr = Task.get("BattleOpersFlag");
     MultiMatcher flags_analyzer(m_image);
-    flags_analyzer.set_task_info(flag_task_ptr);
+    flags_analyzer.set_task_info("BattleOpersFlag");
 
 #ifndef ASST_DEBUG
     flags_analyzer.set_log_tracing(false);
@@ -89,6 +88,10 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
     }
     auto& flags = flag_opt.value();
     sort_by_horizontal_(flags);
+    if (hit_deployment_cache(flags)) {
+        Log.info("Hit deployment cache, skip analyze");
+        return { .status = MatchStatus::HitCache };
+    }
 
     const Rect& click_move = Task.get("BattleOperClickRange")->rect_move;
     const Rect& role_move = Task.get("BattleOperRoleRange")->rect_move;
@@ -156,7 +159,86 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         oper_result.emplace_back(std::move(oper));
     }
 
-    return oper_result;
+    return { .value = std::move(oper_result), .status = MatchStatus::Success };
+}
+
+bool asst::BattlefieldMatcher::hit_deployment_cache(const asst::MultiMatcher::ResultsVec& flags) const
+{
+    if (m_image_prev.empty() || m_image.cols != m_image_prev.cols || m_image.rows != m_image_prev.rows) {
+        return false;
+    }
+    const auto& cache_task = Task.get("BattleOperCache");
+    const Rect& click_move = Task.get("BattleOperClickRange")->rect_move;
+    const Rect& avatar_move = Task.get("BattleOperAvatar")->rect_move;
+    const auto& dist = [](const asst::Rect& a, const asst::Rect& b) {
+        return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
+    };
+
+    MultiMatcher flags_prev_ana(m_image_prev);
+    flags_prev_ana.set_task_info("BattleOpersFlag");
+    flags_prev_ana.set_log_tracing(false);
+    auto flags_prev_opt = flags_prev_ana.analyze();
+    if (!flags_prev_opt) {
+        return false; // 新图有干员, 但上一帧没有
+    }
+    auto& flags_prev = flags_prev_opt.value();
+    if (flags.size() != flags_prev.size()) {
+        return false; // 新图干员数量和上一帧不一致
+    }
+    sort_by_horizontal_(flags_prev);
+    bool is_same = true;
+    cv::Mat mask = cv::Mat(m_image.rows, m_image.cols, CV_8UC1, cv::Scalar(0));
+    cv::Mat avai_image, avai_image_prev, cache_det;
+    cv::Scalar avg, avg_prev;
+    for (size_t i = 0; i < flags.size(); ++i) {
+        if (dist(flags[i].rect, flags_prev[i].rect) > 3) {
+            is_same = false;
+            break; // 新图干员位置和上一帧不一致
+        }
+
+        const auto& flag_res = flags[i];
+        const auto& avatar_rect = flag_res.rect.move(click_move).move(avatar_move);
+        mask(make_rect<cv::Rect>(avatar_rect)).setTo(cv::Scalar(255));
+
+        cv::absdiff(
+            m_image(make_rect<cv::Rect>(flag_res.rect.move(cache_task->rect_move))),
+            m_image_prev(make_rect<cv::Rect>(flag_res.rect.move(cache_task->rect_move))),
+            cache_det);
+        cv::inRange(cache_det, cv::Scalar::all(cache_task->special_params[0]), cv::Scalar::all(255), cache_det);
+        int count = cv::countNonZero(cache_det);
+        if (count > cache_task->special_params[1]) { // 用于区分干员可用状态变化
+            Log.debug(__FUNCTION__, "oper cache changed, count:", count);
+            is_same = false;
+            break; // 新图干员缓存和上一帧不一致
+        }
+    }
+    if (!is_same) {
+        return false;
+    }
+
+    cv::Mat match;
+    /*
+    const auto& deploy_rect = Rect::bounding_box(
+        flags.front().rect,                                    // 首干员c标
+        flags.front().rect.move(click_move).move(avatar_move), // 首干员头像
+        flags.back().rect.move(click_move).move(avatar_move)); // 尾干员头像
+    mask(make_rect<cv::Rect>(deploy_rect)).setTo(cv::Scalar(255));
+    mask.rowRange(60, 84).setTo(cv::Scalar(0));                // 剔除cd时间的区域
+    */
+    cv::Rect cut_rect = cv::boundingRect(mask);
+    cv::matchTemplate(m_image(cut_rect), m_image_prev(cut_rect), match, cv::TM_SQDIFF_NORMED, mask(cut_rect));
+    double score;
+    cv::minMaxLoc(match, nullptr, &score);
+    double threshold = static_cast<double>(cache_task->special_params[2]) / 100;
+    if ((1 - score) > threshold) {
+        LogInfo << __FUNCTION__ << "hit cache, score:" << score;
+        return true;
+    }
+    else {
+        LogInfo << __FUNCTION__ << "miss cache, score:" << score;
+    }
+
+    return false;
 }
 
 battle::Role BattlefieldMatcher::oper_role_analyze(const Rect& roi) const
