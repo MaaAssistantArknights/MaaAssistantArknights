@@ -113,7 +113,7 @@ bool asst::MallTask::set_params(const json::value& params)
     int formation_index = params.get("formation_index", 0);
     if (!params.contains("formation_index") && params.contains("select_formation")) {
         Log.warn("================  DEPRECATED  ================");
-        Log.warn("`select_formation` has been deprecated since v5.23.3; Please use 'select_formation'");
+        Log.warn("`select_formation` has been deprecated since v5.23.3; Please use 'formation_index'");
         Log.warn("================  DEPRECATED  ================");
         formation_index = params.get("select_formation", 0);
     }
