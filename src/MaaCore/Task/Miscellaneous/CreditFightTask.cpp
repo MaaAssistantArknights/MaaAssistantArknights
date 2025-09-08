@@ -5,7 +5,7 @@
 #include "Task/AbstractTask.h"
 #include "Task/Fight/StageNavigationTask.h"
 #include "Task/ProcessTask.h"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
     PackageTask(callback, inst, task_chain)

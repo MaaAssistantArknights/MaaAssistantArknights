@@ -37,10 +37,9 @@ icon: iconoir:developer
 4. 사전 빌드된 외부 라이브러리 다운로드
 
     **Python 환경 필요 (별도 설치 필요)**  
-    _（maadeps-download.py 파일은 프로젝트 루트에 위치）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 개발 환경 구성

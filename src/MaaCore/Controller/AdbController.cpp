@@ -206,7 +206,7 @@ int asst::AdbController::get_mumu_index(const std::string& address)
     }
 
     std::string port_str = address.substr(pos + 1);
-    if (port_str.empty() || !ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
+    if (port_str.empty() || !std::ranges::all_of(port_str, [](const char& c) -> bool { return std::isdigit(c); })) {
         Log.error("port is invalid", port_str);
         return 0;
     }
@@ -270,7 +270,7 @@ int asst::AdbController::get_ld_index(const std::string& address)
     if (address.starts_with("emulator-")) {
         constexpr int base_emulator_port = 5554;
         std::string port_str = address.substr(9); // after "emulator-"
-        if (port_str.empty() || !ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
+        if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
             Log.error("emulator port is invalid", port_str);
             return 0;
         }
@@ -285,7 +285,7 @@ int asst::AdbController::get_ld_index(const std::string& address)
     if (pos != std::string::npos && address.substr(0, pos) == "127.0.0.1") {
         constexpr int base_adb_port = 5555;
         std::string port_str = address.substr(pos + 1);
-        if (port_str.empty() || !ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
+        if (port_str.empty() || !std::ranges::all_of(port_str, [](char c) { return std::isdigit(c); })) {
             Log.error("adb port is invalid", port_str);
             return 0;
         }
@@ -752,13 +752,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         if (m_screencap_times > 9) { // 每 10 次截图计算一次平均耗时
             m_screencap_times = 0;
-            auto filtered_cost = m_screencap_cost | views::filter([](auto num) { return num > 0; });
+            auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
             if (filtered_cost.empty()) {
                 return screencap_ret;
             }
             // 过滤后的有效截图用时次数
-            auto filtered_count = m_screencap_cost.size() - ranges::count(m_screencap_cost, -1);
-            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filtered_cost);
+            auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+            auto [screencap_cost_min, screencap_cost_max] = std::ranges::minmax(filtered_cost);
             json::value info = json::object {
                 { "uuid", m_uuid },
                 { "what", "ScreencapCost" },
@@ -1015,8 +1015,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         convert_lf(raw_output);
 
         std::erase_if(raw_output, [](char c) { return !std::isalnum(static_cast<unsigned char>(c)); });
-        bool all_digit = !raw_output.empty() &&
-                         ranges::all_of(raw_output, [](char c) { return std::isdigit(static_cast<unsigned char>(c)); });
+        bool all_digit = !raw_output.empty() && std::ranges::all_of(raw_output, [](char c) {
+            return std::isdigit(static_cast<unsigned char>(c));
+        });
 
         if (!all_digit) {
             json::value info = get_info_json() | json::object {

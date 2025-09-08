@@ -11,11 +11,8 @@ from pathlib import Path
 import shutil
 import http.client
 
-TARGET_TAG = "2024-08-17"
-# FIXME: update DirectML to 1.15.2 for Windows
-if platform.system() == "Windows":
-    TARGET_TAG = "2024-10-16"
-basedir = Path(__file__).parent
+TARGET_TAG = "v2.9.2-maa.1"
+basedir = Path(__file__).parent.parent
 
 
 def detect_host_triplet():

@@ -44,7 +44,7 @@ void OCRerConfig::set_replace(
             }
             eq_classes_regex.pop_back();
             eq_classes_regex += ')';
-            ranges::for_each(eq_class, [&](std::string_view elem) {
+            std::ranges::for_each(eq_class, [&](std::string_view elem) {
                 utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
             });
         }

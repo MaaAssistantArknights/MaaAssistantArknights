@@ -7,13 +7,13 @@
 #include <iterator>
 #include <locale>
 #include <memory>
+#include <ranges>
 #include <string>
 #include <string_view>
 #include <type_traits>
 #include <utility>
 
 #include "Meta.hpp"
-#include "Ranges.hpp"
 
 namespace asst::utils
 {
@@ -28,7 +28,7 @@ template <typename StringT>
 using sv_pair = std::pair<sv_type<StringT>, sv_type<StringT>>;
 } // namespace detail
 
-template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+template <typename StringT, typename CharT = std::ranges::range_value_t<StringT>>
 concept IsSomeKindOfString = std::same_as<CharT, char> || std::same_as<CharT, wchar_t>;
 
 template <IsSomeKindOfString StringT>
@@ -60,11 +60,11 @@ inline constexpr void
 
 #ifdef ASST_USE_RANGES_RANGE_V3
 // workaround for P2210R2
-template <ranges::forward_range Rng>
-requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng)); })
+template <std::ranges::forward_range Rng>
+requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), std::ranges::distance(rng)); })
 inline auto make_string_view(Rng&& rng)
 {
-    return std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng));
+    return std::basic_string_view(std::addressof(*rng.begin()), std::ranges::distance(rng));
 }
 
 template <std::forward_iterator It, std::sized_sentinel_for<It> End>
@@ -74,7 +74,7 @@ inline auto make_string_view(It beg, End end)
     return std::basic_string_view(std::addressof(*beg), std::distance(beg, end));
 }
 #else
-inline auto make_string_view(ranges::contiguous_range auto&& rng)
+inline auto make_string_view(std::ranges::contiguous_range auto&& rng)
 {
     return std::basic_string_view(rng.begin(), rng.end());
 }
@@ -117,24 +117,24 @@ template <IsSomeKindOfString StringT>
 
 template <
     IsSomeKindOfString StringT,
-    typename CharT = ranges::range_value_t<StringT>,
+    typename CharT = std::ranges::range_value_t<StringT>,
     typename Pred = decltype([](CharT c) -> bool { return c != ' '; })>
 inline void string_trim(StringT& str, Pred not_space = Pred {})
 {
-    str.erase(ranges::find_if(str | views::reverse, not_space).base(), str.end());
-    str.erase(str.begin(), ranges::find_if(str, not_space));
+    str.erase(std::ranges::find_if(str | std::views::reverse, not_space).base(), str.end());
+    str.erase(str.begin(), std::ranges::find_if(str, not_space));
 }
 
 inline void tolowers(IsSomeKindOfString auto& str)
 {
-    using CharT = ranges::range_value_t<decltype(str)>;
-    ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::tolower(ch)); });
+    using CharT = std::ranges::range_value_t<decltype(str)>;
+    std::ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::tolower(ch)); });
 }
 
 inline void touppers(IsSomeKindOfString auto& str)
 {
-    using CharT = ranges::range_value_t<decltype(str)>;
-    ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::toupper(ch)); });
+    using CharT = std::ranges::range_value_t<decltype(str)>;
+    std::ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::toupper(ch)); });
 }
 
 template <typename NumberT = int, bool FullMatch = false>

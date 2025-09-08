@@ -28,10 +28,9 @@ icon: iconoir:developer
 4. 下載預構建的第三方庫
 
     **需要有 Python 環境，請自行搜索 Python 安裝教學**  
-    _（maadeps-download.py 文件在項目根目錄）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 配置編程環境

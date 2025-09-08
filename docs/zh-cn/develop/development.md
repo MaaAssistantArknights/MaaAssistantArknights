@@ -32,21 +32,29 @@ icon: iconoir:developer
 4. 下载预构建的第三方库
 
     **需要有 Python 环境，请自行搜索 Python 安装教程**  
-    _（maadeps-download.py 文件在项目根目录）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 配置编程环境
 
     - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
+    - 下载并安装 `cmake`
 
-6. 双击打开 `MAA.sln` 文件，Visual Studio 会自动加载整个项目。
+6. 执行 cmake 项目配置
+
+    ```cmd
+    mkdir -p build
+    cmake -B build
+    ```
+
+6. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
 7. 设置 VS
 
-    - VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
+    - VS 上方配置选择 `Debug` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
     - 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+    - 右键 `MaaWpfGui` - 设为启动项目
 
 8. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
 9. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  

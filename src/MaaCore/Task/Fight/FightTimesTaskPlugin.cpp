@@ -180,7 +180,7 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
         }
     }
     close_series_list();
-    (available_only ? LogInfo : LogError) << __FUNCTION__ << "no available series found";
+    LogInfo << __FUNCTION__ << "no available series found";
     return std::nullopt;
 }
 
@@ -270,7 +270,7 @@ std::vector<asst::FightSeriesListItem> asst::FightTimesTaskPlugin::analyze_serie
             }
         }*/
     }
-    // ranges::reverse(list);
+    // std::ranges::reverse(list);
     return list;
 }
 
@@ -354,7 +354,7 @@ std::optional<int> asst::FightTimesTaskPlugin::analyze_sanity_cost(const cv::Mat
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = ocr_task->replace_map;
     auto merge_map = std::vector(number_replace);
-    ranges::copy(task_replace, std::back_inserter(merge_map));
+    std::ranges::copy(task_replace, std::back_inserter(merge_map));
 
     Matcher match(image);
     match.set_task_info("StageSanityCost");

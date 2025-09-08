@@ -10,6 +10,7 @@
 #include <functional>
 #include <iostream>
 #include <mutex>
+#include <ranges>
 #include <streambuf>
 #include <thread>
 #include <type_traits>
@@ -20,7 +21,6 @@
 #include "Locale.hpp"
 #include "Meta.hpp"
 #include "Platform.hpp"
-#include "Ranges.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
 #include "WorkingDir.hpp"
@@ -505,7 +505,7 @@ public:
             else if constexpr (std::constructible_from<std::string, T>) {
                 s << std::string(std::forward<T>(v));
             }
-            else if constexpr (ranges::input_range<T>) {
+            else if constexpr (std::ranges::input_range<T>) {
                 s << "[";
                 std::string_view comma_space {};
                 for (const auto& elem : std::forward<T>(v)) {
