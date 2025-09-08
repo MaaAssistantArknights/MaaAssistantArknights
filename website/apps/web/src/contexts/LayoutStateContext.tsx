@@ -22,7 +22,7 @@ const LayoutStateContext = createContext<LayoutState | undefined>(undefined)
 export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [isWidthOverflow, setIsWidthOverflow] = useState(false)
   const [disableLayoutMotion, setDisableLayoutMotion] = useState(false)
 
@@ -80,7 +80,7 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
       window.addEventListener('load', handleLoad)
       return () => window.removeEventListener('load', handleLoad)
     }
-  }, [t, i18n])
+  }, [t])
 
   // 窗口 resize
   useEffect(() => {
