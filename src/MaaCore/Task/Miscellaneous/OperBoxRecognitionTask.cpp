@@ -1,6 +1,6 @@
 #include "OperBoxRecognitionTask.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include <future>
 

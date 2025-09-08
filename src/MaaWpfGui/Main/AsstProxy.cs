@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +52,9 @@ using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
+
 using AsstTaskId = System.Int32;
+
 using FightTask = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
@@ -334,6 +338,19 @@ namespace MaaWpfGui.Main
             }
         }
 
+        public static string MainResourcePath()
+        {
+            var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
+            if (uiVersion == "0.0.1")
+            {
+                return Directory.GetCurrentDirectory() + @"\..\..\..";
+            }
+            else
+            {
+                return Directory.GetCurrentDirectory();
+            }
+        }
+
         /// <summary>
         /// 加载全局资源。新版 core 全惰性加载资源，所以可以无脑调用
         /// </summary>
@@ -343,7 +360,8 @@ namespace MaaWpfGui.Main
             _logger.Information("Load Resource");
 
             string clientType = SettingsViewModel.GameSettings.ClientType;
-            string mainRes = Directory.GetCurrentDirectory();
+            string mainRes = MainResourcePath();
+
             string globalResource = mainRes + @"\resource\global\" + clientType;
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
@@ -701,6 +719,7 @@ namespace MaaWpfGui.Main
                                 }
 
                                 break;
+
                             case "LDPlayer":
                                 if (!SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable)
                                 {
@@ -763,10 +782,12 @@ namespace MaaWpfGui.Main
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
                                 break;
+
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
+
                             default:
                                 {
                                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
@@ -1470,6 +1491,7 @@ namespace MaaWpfGui.Main
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                         AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
                                         break;
+
                                     case "VisitLimited" or "VisitNextBlack":
                                         TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
@@ -2103,6 +2125,7 @@ namespace MaaWpfGui.Main
                 case "MuMuEmulator12":
                     AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Config);
                     break;
+
                 case "LDPlayer":
                     AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
                     break;

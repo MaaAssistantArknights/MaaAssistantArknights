@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
@@ -123,8 +124,8 @@ namespace MaaWpfGui.Helper
                 _ => string.Empty,
             };
 
-            var clientTags = ParseRecruit(Path.Combine("resource", clientPath, "recruitment.json"));
-            var displayTags = ParseRecruit(Path.Combine("resource", displayPath, "recruitment.json"));
+            var clientTags = ParseRecruit(Path.Combine(AsstProxy.MainResourcePath(), "resource", clientPath, "recruitment.json"));
+            var displayTags = ParseRecruit(Path.Combine(AsstProxy.MainResourcePath(), "resource", displayPath, "recruitment.json"));
 
             RecruitTags = clientTags.Keys
                 .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
@@ -166,7 +167,7 @@ namespace MaaWpfGui.Helper
         private static void LoadMapData()
         {
             MapData = [];
-            var path = Path.Combine("resource", "Arknights-Tile-Pos", "overview.json");
+            var path = Path.Combine(AsstProxy.MainResourcePath(), "resource", "Arknights-Tile-Pos", "overview.json");
             if (!File.Exists(path))
             {
                 return;

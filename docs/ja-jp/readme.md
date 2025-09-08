@@ -104,7 +104,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 1. ビルド済みのサードパーティ ライブラリをダウンロードします。
 
       ```cmd
-      python maadeps-download.py
+      python tools/maadeps-download.py
       ```
 
 2. Visual Studio 2022 で `MAA.sln` を開き、`MaaWpfGui` を右クリックして、スタートアップ プロジェクトとして設定します。

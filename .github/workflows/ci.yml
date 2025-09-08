@@ -12,9 +12,9 @@ on:
       - "src/**"
       - "cmake/**"
       - "CMakeLists.txt"
-      - "MAA.sln"
       - ".github/workflows/ci.yml"
       - "!**/*.md"
+      - "tools/maadeps-download.py"
   pull_request:
     branches:
       - "dev"
@@ -24,8 +24,8 @@ on:
       - "src/**"
       - "cmake/**"
       - "CMakeLists.txt"
-      - "MAA.sln"
       - "!**/*.md"
+      - "tools/maadeps-download.py"
   workflow_dispatch:
 
 concurrency:
@@ -108,13 +108,8 @@ jobs:
     needs: meta
     strategy:
       matrix:
-        include:
-          - msbuild_target: x64
-            lowercase_target: x64
-          - msbuild_target: ARM64
-            lowercase_target: arm64
-    env:
-      MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
+        arch: [arm64, x64]
+      fail-fast: false
     runs-on: windows-latest
 
     steps:
@@ -127,6 +122,35 @@ jobs:
         run: |
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 tools/maadeps-download.py ${{ matrix.arch }}-windows
+
+      - name: Config cmake
+        run: |
+          mkdir -p build
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DWITH_WPF_GUI=OFF
+          
+      - name: Build
+        run: |
+          cmake --build build --config Release
+
+      - name: Install
+        run: |
+          mkdir -p install
+          cmake --install build --prefix install --config Release
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
         uses: actions/cache@v4
@@ -134,38 +158,13 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
-        run: dotnet restore
+        run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
-      - name: Cache MaaDeps
-        id: cache-maadeps
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.lowercase_target }}-maadeps-${{ hashFiles('./maadeps-download.py') }}
-
-      - name: Bootstrap MaaDeps
-        if: steps.cache-maadeps.outputs.cache-hit != 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
-
-      - name: Create fake event file
-        shell: bash
-        run: cp -v "$GITHUB_EVENT_PATH" ./event.json
-
-      - name: Merge Event Data with Inputs
-        if: startsWith(github.ref, 'refs/tags/v')
-        shell: bash
-        run: |
-          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
-
-      - name: Taggify Version
+      - name: Taggify Version for csproj
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
@@ -182,29 +181,26 @@ jobs:
           $node.FileVersion = $match
           $node.AssemblyVersion = $match
           $csproj.Save($csprojPath)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: Publish WPF GUI
+        continue-on-error: true
         run: |
-          $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
-          $env:GITHUB_EVENT_PATH = "$pwd\\event.json"
-          $env:GITHUB_REF = "refs/heads/not_master"
-          $env:MAA_BUILDER_MAA_VERSION = '${{ needs.meta.outputs.tag }}'
-          ./build.cmd DevBuild
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
-      - name: Cleanup checksum file
-        run: |
-          rm -vf ./artifacts/checksum.json
+      - name: Organize Install Files
         shell: bash
+        run: |
+            rm -rf install/*.pdb
+            rm -rf install/msvc-debug
+            rm -rf *.h
+
+            cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
-          name: MAA-win-${{ matrix.lowercase_target }}
-          path: artifacts
+          name: MAA-win-${{ matrix.arch }}
+          path: install
 
   ubuntu:
     # Prevent duplicate runs on organization branches with PRs
@@ -213,12 +209,11 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         arch: [aarch64, x86_64]
-    permissions:
-      actions: write
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -234,36 +229,39 @@ jobs:
         if: ${{ matrix.arch != 'x86_64' }}
         run: |
           sudo apt-get update
-          sudo apt-get install g++-12-aarch64-linux-gnu g++-12-aarch64-linux-gnu
+          sudo apt-get install gcc-14-aarch64-linux-gnu g++-14-aarch64-linux-gnu
 
       # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
+          python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
 
-      - name: Build MAA
+      - name: Config cmake
         run: |
           mkdir -p build
           cmake -B build \
-            -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
+            -DCMAKE_BUILD_TYPE=Release \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
-            -DINSTALL_THIRD_LIBS=ON \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake --build build --parallel $(nproc --all)
-
-          mkdir -p install
-          cmake --install build --prefix install
         env:
-          CC: ${{ matrix.arch == 'x86_64' && 'gcc-12' || 'aarch64-linux-gnu-gcc-12' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'g++-12' || 'aarch64-linux-gnu-g++-12' }}
-          CMAKE_COLOR_DIAGNOSTICS: ON
+          CC: ${{ matrix.arch == 'x86_64' && 'gcc-14' || 'aarch64-linux-gnu-gcc-14' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'g++-14' || 'aarch64-linux-gnu-g++-14' }}
+
+      - name: Build
+        run: |
+          cmake --build build --config Release
+        env:
           CLICOLOR_FORCE: 1
-          CXXFLAGS: | # workaround for gcc bugs
-            -Wno-error=restrict -Wno-error=array-bounds -Wno-error=stringop-overread -Wno-error=missing-field-initializers
+
+      - name: Install
+        run: |
+          mkdir -p install
+          cmake --install build --prefix install --config Release
+
 
       - name: Setup Cross Compile Toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -337,10 +335,11 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: macos-14
+    runs-on: macos-latest
     strategy:
       matrix:
         arch: [arm64, x86_64]
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -355,18 +354,24 @@ jobs:
       - name: Bootstrap MaaDeps
         run: |
           [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
-          python3 maadeps-download.py ${triplet}
+          python3 tools/maadeps-download.py ${triplet}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure MaaCore
+      - name: Config cmake
         run: |
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' \
+            -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
 
-      - name: Build MaaCore
+      - name: Build
         run: |
-          cmake --build build
-          cmake --install build --prefix install
+          cmake --build build --config Release
+
+      - name: Install
+        run: |
+          cmake --install build --prefix install --config Release
 
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
@@ -381,7 +386,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: [meta, macOS-Core]
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

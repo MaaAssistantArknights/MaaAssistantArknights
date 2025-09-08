@@ -1,8 +1,8 @@
 #include "BattleProcessTask.h"
 
-#include "Utils/Ranges.hpp"
 #include <chrono>
 #include <future>
+#include <ranges>
 #include <thread>
 
 #include "Utils/NoWarningCV.h"
@@ -112,7 +112,9 @@ bool asst::BattleProcessTask::to_group()
             continue;
         }
         std::vector<std::string> oper_name_list;
-        ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
+        std::ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) {
+            return oper.name;
+        });
         groups.emplace(group_name, std::move(oper_name_list));
     }
 
@@ -136,9 +138,9 @@ bool asst::BattleProcessTask::to_group()
     }
 
     std::unordered_map<std::string, std::string> ungrouped;
-    const auto& grouped_view = m_oper_in_group | views::values;
+    const auto& grouped_view = m_oper_in_group | std::views::values;
     for (const auto& name : char_set) {
-        if (ranges::find(grouped_view, name) != grouped_view.end()) {
+        if (std::ranges::find(grouped_view, name) != grouped_view.end()) {
             continue;
         }
         ungrouped.emplace(name, name);
@@ -154,7 +156,7 @@ bool asst::BattleProcessTask::to_group()
     }
 
     for (const auto& [group_name, oper_name] : m_oper_in_group) {
-        const auto& group_it = ranges::find_if(get_combat_data().groups, [&](const OperUsageGroup& pair) {
+        const auto& group_it = std::ranges::find_if(get_combat_data().groups, [&](const OperUsageGroup& pair) {
             return pair.first == group_name;
         });
         if (group_it == get_combat_data().groups.end()) {
@@ -165,7 +167,8 @@ bool asst::BattleProcessTask::to_group()
         // there is a build error on macOS
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/3779762713/jobs/6425284487
         const std::string& oper_name_for_lambda = oper_name;
-        auto iter = ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name_for_lambda; });
+        auto iter =
+            std::ranges::find_if(this_group, [&](const auto& oper) { return oper.name == oper_name_for_lambda; });
         if (iter == this_group.end()) {
             continue;
         }
@@ -381,7 +384,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 return false;
             }
             size_t cooling_count =
-                ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+                std::ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
@@ -398,7 +401,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 return false;
             }
             if (auto iter =
-                    ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+                    std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
                 iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
             }

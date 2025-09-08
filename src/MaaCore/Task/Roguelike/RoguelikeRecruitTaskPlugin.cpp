@@ -314,7 +314,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // __________________will-be-removed-begin__________________
                     const battle::Role oper_role = get_oper_role(oper_info.name);
                     int role_num = recruit_info.offset_melee ? offset_melee_num : team_roles[oper_role];
-                    for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
+                    for (const auto& offset_pair : std::ranges::reverse_view(recruit_info.recruit_priority_offset)) {
                         if (role_num >= offset_pair.first) {
                             priority += offset_pair.second;
                             break;
@@ -322,7 +322,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     }
                     // role_num = team_roles[oper_role];
                     // const auto role_info = RoguelikeRecruit.get_role_info(rogue_theme, oper_role);
-                    // for (const auto& offset_pair : ranges::reverse_view(role_info)) {
+                    // for (const auto& offset_pair : std::ranges::reverse_view(role_info)) {
                     //     if (role_num >= offset_pair.first) {
                     //         priority += offset_pair.second;
                     //         break;
@@ -369,7 +369,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 添加到候选名单
-            auto existing_it = ranges::find_if(recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool {
+            auto existing_it = std::ranges::find_if(recruit_list, [&](const RoguelikeRecruitInfo& pri) -> bool {
                 return pri.name == recruit_info.name;
             });
             if (existing_it == recruit_list.cend()) {
@@ -456,7 +456,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 选择优先级最高的干员
-    auto selected_oper = ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
+    auto selected_oper =
+        std::ranges::max_element(recruit_list, std::less {}, std::mem_fn(&RoguelikeRecruitInfo::priority));
     if (selected_oper == recruit_list.cend()) {
         Log.trace(__FUNCTION__, "| No opers in recruit list.");
         return false;
@@ -528,13 +529,13 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
         if (analyzer.analyze()) {
             const auto& chars = analyzer.get_result();
-            max_oper_x = ranges::max(chars | views::transform([&](const auto& x) { return x.rect.x; }));
-            auto it = ranges::find_if(chars, [&](const battle::roguelike::Recruitment& oper) -> bool {
+            max_oper_x = std::ranges::max(chars | std::views::transform([&](const auto& x) { return x.rect.x; }));
+            auto it = std::ranges::find_if(chars, [&](const battle::roguelike::Recruitment& oper) -> bool {
                 return oper.name == char_name;
             });
 
             std::unordered_set<std::string> oper_names;
-            ranges::transform(
+            std::ranges::transform(
                 chars,
                 std::inserter(oper_names, oper_names.end()),
                 std::mem_fn(&battle::roguelike::Recruitment::name));

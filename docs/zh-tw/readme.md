@@ -146,7 +146,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 1. 下載預構建的第三方庫
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目

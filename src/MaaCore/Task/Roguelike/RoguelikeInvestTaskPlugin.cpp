@@ -168,7 +168,7 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, c
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
     auto merge_map = std::vector(number_replace);
-    ranges::copy(task_replace, std::back_inserter(merge_map));
+    std::ranges::copy(task_replace, std::back_inserter(merge_map));
 
     RegionOCRer ocr(img);
     ocr.set_task_info(task_name);

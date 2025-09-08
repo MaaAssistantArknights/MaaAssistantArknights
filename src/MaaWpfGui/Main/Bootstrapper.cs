@@ -228,7 +228,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists("resource"))
+            if (!Directory.Exists(Path.Combine(AsstProxy.MainResourcePath(), "resource")))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
             }

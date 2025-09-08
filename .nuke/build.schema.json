@@ -42,8 +42,7 @@
         "UseRsVersion",
         "UseTagVersion",
         "WithCompileCoreRelease",
-        "WithCompileWpfRelease",
-        "WithSyncRes"
+        "WithCompileWpfRelease"
       ]
     },
     "Verbosity": {

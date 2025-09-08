@@ -1,8 +1,9 @@
 #include "PixelAnalyzer.h"
 
+#include <ranges>
+
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
 
 using namespace asst;
 
@@ -32,8 +33,8 @@ PixelAnalyzer::ResultsVecOpt PixelAnalyzer::analyze()
         return std::nullopt;
     }
 
-    auto transform_view = pixelPoints | views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
-    ResultsVec results(ranges::begin(transform_view), ranges::end(transform_view));
+    auto transform_view = pixelPoints | std::views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
+    ResultsVec results(std::ranges::begin(transform_view), std::ranges::end(transform_view));
 
     if (m_log_tracing) {
         Log.trace("analyze_bright_points | num:", results.size());

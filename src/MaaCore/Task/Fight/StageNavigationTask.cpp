@@ -62,7 +62,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     }
 
     std::string upper_prefix = stage_prefix;
-    ranges::transform(upper_prefix, upper_prefix.begin(), [](const char ch) -> char {
+    std::ranges::transform(upper_prefix, upper_prefix.begin(), [](const char ch) -> char {
         return static_cast<char>(::toupper(ch));
     });
     m_stage_code = upper_prefix + chapter + "-" + stage_index;

@@ -33,10 +33,10 @@ icon: iconoir:developer
 4. 事前ビルド済みサードパーティライブラリのダウンロード
 
     **Python環境が必要（インストール方法は各自検索）**  
-    _（maadeps-download.py はプロジェクトルートに配置）_
+    _（tools/maadeps-download.py はプロジェクトルートに配置）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 開発環境の設定

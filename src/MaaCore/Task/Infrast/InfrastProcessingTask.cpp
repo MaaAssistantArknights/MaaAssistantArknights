@@ -3,7 +3,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 bool asst::InfrastProcessingTask::_run()
 {

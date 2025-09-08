@@ -12,13 +12,13 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Utils/Ranges.hpp"
 #include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
+#include <ranges>
 
 #include "Arknights-Tile-Pos/TileCalc2.hpp"
 
@@ -96,6 +96,40 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
+template <typename T>
+requires std::ranges::range<T> && asst::OperAvatarPair<std::ranges::range_value_t<T>>
+std::optional<asst::BestMatcher::Result>
+    analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
+{
+    using namespace asst;
+
+    BestMatcher avatar_analyzer(oper.avatar);
+    avatar_analyzer.set_method(MatchMethod::Ccoeff);
+    if (oper.cooling) {
+        Log.trace("start matching cooling", oper.index);
+        static const auto cooling_threshold =
+            Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
+        static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
+        avatar_analyzer.set_threshold(cooling_threshold);
+        avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
+    }
+    else {
+        static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+        static const auto drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
+        avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
+    }
+
+    for (const auto& [name, avatar] : avatar_cache) {
+        avatar_analyzer.append_templ(name, avatar);
+    }
+
+    if (avatar_analyzer.analyze()) {
+        return avatar_analyzer.get_result();
+    }
+
+    return std::nullopt;
+}
+
 bool asst::BattleHelper::update_deployment_(
     std::vector<battle::DeploymentOper>& cur_opers,
     const std::vector<battle::DeploymentOper>& old_deployment_opers,
@@ -126,12 +160,12 @@ bool asst::BattleHelper::update_deployment_(
     for (auto& oper : cur_opers) {
         bool is_analyzed = false;
         if (!old_deployment_opers.empty()) {
-            auto avatar =
-                old_deployment_opers |
-                views::filter([&](const battle::DeploymentOper& temp_oper) { return temp_oper.role == oper.role; }) |
-                views::transform([&](const battle::DeploymentOper& temp_oper) {
-                    return std::make_pair(temp_oper.name, temp_oper.avatar);
-                });
+            auto avatar = old_deployment_opers | std::views::filter([&](const battle::DeploymentOper& temp_oper) {
+                              return temp_oper.role == oper.role;
+                          }) |
+                          std::views::transform([&](const battle::DeploymentOper& temp_oper) {
+                              return std::make_pair(temp_oper.name, temp_oper.avatar);
+                          });
             const auto& result = analyze_oper_with_cache(oper, avatar);
             if (result) {
                 set_oper_name(oper, result->templ_info.name);
@@ -166,7 +200,7 @@ bool asst::BattleHelper::update_deployment_(
     // ————————————————————————————————————————
     // 匹配未知非冷却干员
     // ————————————————————————————————————————
-    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
+    if (std::ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -207,8 +241,9 @@ bool asst::BattleHelper::update_deployment_(
             if (re_matcher.analyze()) {
                 if (const auto& results = re_matcher.get_result(); !results.empty()) {
                     // 遍历结果，找到 y 最小的（之前选中的） rect
-                    auto min_rect_iter =
-                        ranges::min_element(results, [](const auto& a, const auto& b) { return a.rect.y < b.rect.y; });
+                    auto min_rect_iter = std::ranges::min_element(results, [](const auto& a, const auto& b) {
+                        return a.rect.y < b.rect.y;
+                    });
 
                     oper_rect = min_rect_iter->rect;
                 }
@@ -988,45 +1023,13 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 {
     LogTraceFunction;
 
-    auto oper_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+    auto oper_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
     if (oper_iter == m_cur_deployment_opers.end()) {
         Log.error("No oper", name);
         return std::nullopt;
     }
 
     return oper_iter->rect;
-}
-
-template <typename T>
-requires asst::ranges::range<T> && asst::OperAvatarPair<asst::ranges::range_value_t<T>>
-std::optional<asst::BestMatcher::Result>
-    asst::BattleHelper::analyze_oper_with_cache(const asst::battle::DeploymentOper& oper, T&& avatar_cache)
-{
-    BestMatcher avatar_analyzer(oper.avatar);
-    avatar_analyzer.set_method(MatchMethod::Ccoeff);
-    if (oper.cooling) {
-        Log.trace("start matching cooling", oper.index);
-        static const auto cooling_threshold =
-            Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
-        static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
-        avatar_analyzer.set_threshold(cooling_threshold);
-        avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
-    }
-    else {
-        static const auto threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
-        static const auto drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
-        avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
-    }
-
-    for (const auto& [name, avatar] : avatar_cache) {
-        avatar_analyzer.append_templ(name, avatar);
-    }
-
-    if (avatar_analyzer.analyze()) {
-        return avatar_analyzer.get_result();
-    }
-
-    return std::nullopt;
 }
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)

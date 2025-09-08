@@ -420,7 +420,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 
     constexpr char Dot = '.';
     if (digit_str.empty() ||
-        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
+        !std::ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
         return 0;
     }
     if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {

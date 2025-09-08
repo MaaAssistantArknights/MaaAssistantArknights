@@ -35,12 +35,10 @@ public:
 
     virtual void release_adb(const std::string& adb_release, int64_t timeout = 20000);
 
-    ASST_AUTO_DEDUCED_ZERO_INIT_START
     WSADATA m_wsa_data {};
     SOCKET m_server_sock = INVALID_SOCKET;
     sockaddr_in m_server_sock_addr {};
     LPFN_ACCEPTEX m_server_accept_ex = nullptr;
-    ASST_AUTO_DEDUCED_ZERO_INIT_END
 
 private:
     // for Windows socket
