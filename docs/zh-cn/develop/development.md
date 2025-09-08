@@ -46,7 +46,7 @@ icon: iconoir:developer
 
     ```cmd
     mkdir -p build
-    cmake -G "Visual Studio 17 2022" -B build -DBUILD_WFP_GUI=ON -DBUILD_DEBUG_DEMO=ON
+    cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
     ```
 
 6. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
