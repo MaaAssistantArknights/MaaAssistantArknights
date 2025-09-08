@@ -1,5 +1,9 @@
 #include "CombatRecordRecognitionTask.h"
 
+#include <ranges>
+#include <unordered_map>
+#include <unordered_set>
+
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
@@ -12,10 +16,6 @@
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
-#include <ranges>
-
-#include <unordered_map>
-#include <unordered_set>
 
 bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::path& path)
 {
@@ -47,10 +47,6 @@ bool asst::CombatRecordRecognitionTask::_run()
     m_video_frame_count = static_cast<size_t>(m_video_ptr->get(cv::CAP_PROP_FRAME_COUNT));
     m_battle_start_frame = 0;
     m_scale = WindowHeightDefault / m_video_ptr->get(cv::CAP_PROP_FRAME_HEIGHT);
-
-#ifdef ASST_DEBUG
-    cv::namedWindow(DrawWindow, cv::WINDOW_AUTOSIZE);
-#endif // ASST_DEBUG
 
     if (!analyze_formation()) {
         Log.error(__FUNCTION__, "failed to analyze formation");
