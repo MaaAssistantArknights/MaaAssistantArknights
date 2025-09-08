@@ -45,7 +45,7 @@ jobs:
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: temp
           show-progress: false
@@ -114,7 +114,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
@@ -216,7 +216,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
@@ -342,7 +342,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
@@ -389,7 +389,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           show-progress: false
 
@@ -404,13 +404,13 @@ jobs:
           git submodule update --init --depth 1 src/MaaMacGui
 
       - name: Download Arm64 MAA from Github
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
       - name: Download x64 MAA from Github
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
@@ -552,7 +552,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from Github
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: assets
 
@@ -565,7 +565,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Release to Github
-        uses: softprops/action-gh-release@v2.3.2
+        uses: softprops/action-gh-release@v2.3.3
         with:
           body_path: CHANGELOG.md
           files: |
