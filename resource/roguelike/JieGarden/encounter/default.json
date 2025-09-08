@@ -156,7 +156,6 @@
             "option_num": 3,
             "choose": 1,
             "fallback_choices": [
-                [5, 1],
                 [4, 1],
                 [2, 1]
             ]
