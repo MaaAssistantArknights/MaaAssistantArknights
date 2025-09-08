@@ -24,6 +24,7 @@ using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
@@ -157,13 +158,13 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         bool isDefaultClient = new HashSet<string> { string.Empty, "Official", "Bilibili" }.Contains(clientType);
 
-        const string DefaultJsonPath = "resource/version.json";
+        string defaultJsonPath = Path.Combine(AsstProxy.MainResourcePath(), "resource/version.json");
         var jsonPath = isDefaultClient
-            ? DefaultJsonPath
+            ? defaultJsonPath
             : $"resource/global/{clientType}/resource/version.json";
 
         string versionName;
-        if (!File.Exists(DefaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
+        if (!File.Exists(defaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
         {
             return (DateTime.MinValue, string.Empty);
         }
@@ -174,7 +175,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
         var lastUpdated = isDefaultClient
             ? (string?)versionJson?["last_updated"]
-            : (string?)LoadJson(DefaultJsonPath)?["last_updated"];
+            : (string?)LoadJson(defaultJsonPath)?["last_updated"];
 
         var dateTime = lastUpdated == null
             ? DateTime.MinValue

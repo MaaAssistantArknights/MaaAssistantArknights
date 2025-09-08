@@ -78,13 +78,13 @@ namespace MaaWpfGui.Helper
 
         private static void LoadBattleData()
         {
-            const string FilePath = "resource/battle_data.json";
-            if (!File.Exists(FilePath))
+            string filePath = Path.Combine(AsstProxy.MainResourcePath(), "resource/battle_data.json");
+            if (!File.Exists(filePath))
             {
                 return;
             }
 
-            string jsonText = File.ReadAllText(FilePath);
+            string jsonText = File.ReadAllText(filePath);
             var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
             var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
