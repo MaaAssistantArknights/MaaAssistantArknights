@@ -1143,7 +1143,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
         allowed_key.merge(tmp);
     }
 
-    for (const auto& name : task_json.as_object() | std::views::keys) {
+    for (const auto& [name, _] : task_json.as_object()) {
         if (!allowed_key.contains(name) && !is_doc(name) && !has_doc(name)) {
             Log.error(task_name, "has unknown key:", name);
             validity = false;
