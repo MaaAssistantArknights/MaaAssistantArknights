@@ -42,7 +42,7 @@
             "viewAll": "すべて表示",
             "mirrorchyanCDKYes": "MirrorちゃんCDK をお持ちですか？",
             "mirrorchyanGo": "Mirrorちゃん高速ダウンロードへ",
-            "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。GitHub Releases からダウンロードを試みてください。</1><2>Github Release へダウンロードする</2>"
+            "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。<br />GitHub Releases からダウンロードを試みてください。</1><2>Github Release へダウンロードする</2>"
         },
         "platformDetect": {
             "detecting": "システムアーキテクチャを検出中...",
