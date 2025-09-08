@@ -43,7 +43,7 @@ bool asst::MinitouchController::call_and_hup_minitouch()
 
     const auto start_time = std::chrono::steady_clock::now();
     while (true) {
-        if (need_exit()) {
+        if (!is_restarting() && need_exit()) {
             release_minitouch(true);
             return false;
         }
