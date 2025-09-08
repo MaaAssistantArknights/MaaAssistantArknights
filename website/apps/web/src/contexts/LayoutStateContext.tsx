@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 type LayoutState = {
   isWidthOverflow: boolean
+  disableLayoutMotion: boolean
   registerWidthCheck: (
     ref: RefObject<HTMLElement | null>,
     measureClass: string,
@@ -23,6 +24,8 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { t, i18n } = useTranslation()
   const [isWidthOverflow, setIsWidthOverflow] = useState(false)
+  const [disableLayoutMotion, setDisableLayoutMotion] = useState(false)
+
   const contentWidthRef = useRef(0)
   const targetRef = useRef<RefObject<HTMLElement | null>>(null)
   const targetMeasureClass = useRef<string>('')
@@ -35,8 +38,8 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
     const el = ref?.current
     if (!el) return
 
-    el.style.transition = ''
-    el.style.opacity = '0'
+    // 测量前关闭布局动画
+    setDisableLayoutMotion(true)
 
     const originalClass = el.className
     if (targetMeasureClass.current) {
@@ -51,13 +54,12 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
     el.className = originalClass
 
+    setTimeout(() => {
+      setDisableLayoutMotion(false)
+    }, 0) // 异步开启布局动画
+
     contentWidthRef.current = totalWidth
     setIsWidthOverflow(window.innerWidth < totalWidth)
-
-    setTimeout(() => {
-      el.style.transition = 'opacity 1s'
-      el.style.opacity = '1'
-    }, 1000)
   }
 
   const registerWidthCheck = (
@@ -91,7 +93,7 @@ export const LayoutStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <LayoutStateContext.Provider
-      value={{ isWidthOverflow, registerWidthCheck }}
+      value={{ isWidthOverflow, disableLayoutMotion, registerWidthCheck }}
     >
       {children}
     </LayoutStateContext.Provider>
