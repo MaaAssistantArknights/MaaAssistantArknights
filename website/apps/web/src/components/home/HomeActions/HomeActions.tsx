@@ -139,7 +139,7 @@ export const HomeActions: FC<HomeActionsProps> = ({
           components={{
             1: (
               <motion.span
-                className="whitespace-nowrap"
+                className="whitespace-nowrap inline-block"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 1.3 }}
@@ -147,10 +147,10 @@ export const HomeActions: FC<HomeActionsProps> = ({
             ),
             2: (
               <motion.span
-                className="whitespace-nowrap"
+                className="whitespace-nowrap inline-block"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, ease: 'easeOut', delay: 1.4 }}
+                transition={{ duration: 0.4, ease: 'easeOut', delay: 1.4 }}
               />
             ),
             3: (
