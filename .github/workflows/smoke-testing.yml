@@ -53,7 +53,7 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/test.exe
+            ./install/smoke_test.exe
             ./install/fastdeploy_ppocr.dll
             ./install/MaaCore.dll
             ./install/onnxruntime_maa.dll
@@ -104,7 +104,7 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/test.exe
+            ./install/smoke_test.exe
             ./install/fastdeploy_ppocr.dll
             ./install/MaaCore.dll
             ./install/onnxruntime_maa.dll

@@ -12,10 +12,8 @@ option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
 option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
 option(INSTALL_PYTHON "install python ffi" OFF)
 option(INSTALL_RESOURCE "install resource" OFF)
-option(INSTALL_DEVEL "install development files" OFF)
 option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
-option(WITH_ASST_DEBUG "build with ASST_DEBUG defined" OFF)
 option(WITH_WPF_GUI "build with MaaWpfGui" ON)
 
 include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
@@ -54,6 +52,8 @@ set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
 
+target_compile_definitions(MaaCore PRIVATE $<$<CONFIG:Debug>:ASST_DEBUG/>)
+
 if(WIN32)
     add_custom_command(
         TARGET MaaCore
@@ -82,20 +82,11 @@ if(WITH_EMULATOR_EXTRAS AND NOT EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorEx
 endif()
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
 
-if (WITH_ASST_DEBUG)
-    target_compile_definitions(MaaCore PRIVATE ASST_DEBUG)
-endif ()
-
-
-if(INSTALL_DEVEL)
-    set(MaaCore_install_extra_args PUBLIC_HEADER DESTINATION devel/include ARCHIVE DESTINATION devel/lib)
-endif()
-
 if(INSTALL_FLATTEN)
     set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
 endif()
 
-install(TARGETS MaaCore ${MaaCore_install_flatten_args} ${MaaCore_install_extra_args})
+install(TARGETS MaaCore ${MaaCore_install_flatten_args})
 
 maadeps_install(.)
 
@@ -107,15 +98,16 @@ if (INSTALL_RESOURCE)
 endif (INSTALL_RESOURCE)
 
 if (BUILD_TEST)
-    add_executable(test src/Cpp/main.cpp)
-    set_target_properties(test PROPERTIES
+    add_executable(smoke_test src/Cpp/main.cpp)
+    set_target_properties(smoke_test PROPERTIES
         CXX_STANDARD 20
         CXX_STANDARD_REQUIRED ON
     )
-    target_link_libraries(test MaaCore)
+    target_compile_definitions(smoke_test PRIVATE ASST_DEBUG SMOKE_TESTING)
+    target_link_libraries(smoke_test MaaCore)
 
-    add_dependencies(test MaaCore)
-    install(TARGETS test RUNTIME DESTINATION .)
+    add_dependencies(smoke_test MaaCore)
+    install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_TEST)
 
 if (APPLE)
