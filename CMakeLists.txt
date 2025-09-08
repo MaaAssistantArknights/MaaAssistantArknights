@@ -99,10 +99,11 @@ endif (INSTALL_RESOURCE)
 
 if (BUILD_TEST)
     add_executable(smoke_test src/Cpp/main.cpp)
-    set_target_properties(smoke_test PROPERTIES
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED ON
-    )
+    if(MSVC)
+        target_compile_options(smoke_test PRIVATE "/WX-")
+    else()
+        target_compile_options(smoke_test PRIVATE "-Wno-error")
+    endif()
     target_compile_definitions(smoke_test PRIVATE ASST_DEBUG SMOKE_TESTING)
     target_link_libraries(smoke_test MaaCore)
 
