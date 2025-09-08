@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
+        description: 'Name of the tag to create for the release'
         type: string
         required: true
 
@@ -19,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
