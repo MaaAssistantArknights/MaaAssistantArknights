@@ -98,10 +98,6 @@ bool asst::CombatRecordRecognitionTask::_run()
     cb_json["details"]["filename"] = utils::path_to_utf8_string(filepath);
     callback(AsstMsg::SubTaskExtraInfo, cb_json);
 
-#ifdef ASST_DEBUG
-    cv::destroyWindow(DrawWindow);
-#endif // ASST_DEBUG
-
     return true;
 }
 
@@ -127,7 +123,6 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
 
         formation_ananlyzer.set_image(frame);
         auto formation_opt = formation_ananlyzer.analyze();
-        show_img(formation_ananlyzer);
         // 有些视频会有个过渡或者动画啥的，只取一帧识别的可能不全。多识别几帧
         if (formation_opt) {
             if (formation_opt->size() > m_formation.size()) {
@@ -186,7 +181,6 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         RegionOCRer stage_analyzer(frame);
         stage_analyzer.set_task_info(stage_name_task_ptr);
         bool analyzed = stage_analyzer.analyze().has_value();
-        show_img(stage_analyzer);
 
         if (!analyzed) {
             // BattlefieldMatcher battle_analyzer(frame);
@@ -252,7 +246,6 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         oper_analyzer.set_image(frame);
         auto oper_result_opt = oper_analyzer.analyze();
         bool analyzed = oper_result_opt && oper_result_opt->pause_button;
-        show_img(oper_analyzer);
         if (analyzed) {
             m_battle_start_frame = i;
             deployment = std::move(oper_result_opt->deployment);
@@ -293,7 +286,6 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
             }
         }
         bool analyzed = best_match_analyzer.analyze().has_value();
-        // show_img(best_match_analyzer);
         if (!analyzed) {
             Log.warn(m_battle_start_frame, "failed to match", name);
             continue;
@@ -361,7 +353,6 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
         analyzer.set_total_kills_prompt(total_kills);
         auto result_opt = analyzer.analyze();
-        show_img(analyzer);
 
         if (!result_opt) {
             battle_over();
@@ -514,7 +505,6 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     analyzer.set_object_of_interest({ .skill_ready = true });
     analyzer.set_base_point(target_position);
     bool pre_ready = analyzer.analyze()->skill_ready.ready;
-    show_img(analyzer);
 
     if (!pre_ready) {
         // TODO: 有可能是点开之后等着技能转好，这种情况比较难处理
@@ -595,7 +585,6 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         BattlefieldDetector analyzer(frame);
         analyzer.set_object_of_interest({ .operators = true });
         auto result_opt = analyzer.analyze();
-        show_img(analyzer);
 
         DetectionResult cur_locations;
         auto tiles = m_normal_tile_info | std::views::values;
@@ -664,7 +653,6 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
         for (const auto& loc : newcomer) {
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
             auto result_opt = analyzer.analyze();
-            show_img(analyzer);
             for (size_t i = 0; i < ClsSize; ++i) {
                 dir_cls_sampling[loc][i] += result_opt->deploy_direction.raw[i];
             }
@@ -806,7 +794,6 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
             }
         }
         bool analyzed = avatar_analyzer.analyze().has_value();
-        // show_img(avatar_analyzer.get_draw());
         if (analyzed) {
             oper.name = avatar_analyzer.get_result().templ_info.name;
         }
@@ -898,23 +885,4 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     const auto& det_name = det_result_opt->front().text;
 
     return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
-}
-
-void asst::CombatRecordRecognitionTask::show_img(const asst::VisionHelper& analyzer)
-{
-#ifdef ASST_DEBUG
-    show_img(analyzer.get_draw());
-#else
-    std::ignore = analyzer;
-#endif
-}
-
-void asst::CombatRecordRecognitionTask::show_img(const cv::Mat& img)
-{
-#ifdef ASST_DEBUG
-    cv::imshow(DrawWindow, img);
-    cv::waitKey(1);
-#else
-    std::ignore = img;
-#endif
 }
