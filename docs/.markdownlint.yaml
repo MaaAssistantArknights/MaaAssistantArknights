@@ -255,6 +255,7 @@ MD056: true
 MD058: true
 
 # MD059/descriptive-link-text - Link text should be descriptive
-MD059: false
+MD059:
+  false
   # Prohibited link texts
   #prohibited_texts: ["click here", "here", "link", "more"]
