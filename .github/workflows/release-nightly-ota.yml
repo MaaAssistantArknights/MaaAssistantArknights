@@ -231,6 +231,7 @@ jobs:
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
       - name: Organize Install Files
+        shell: bash
         run: |
             rm -rf install/*.pdb
             rm -rf install/msvc-debug
