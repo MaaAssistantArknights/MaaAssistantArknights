@@ -298,6 +298,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         get => _mirrorChyanCdk;
         set
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                MirrorChyanCdkExpiredTime = 0;
+            }
+
             if (!SetAndNotify(ref _mirrorChyanCdk, value))
             {
                 return;
@@ -331,11 +336,13 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             }
 
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, value.ToString());
+            RefreshMirrorChyanCdkRemaining();
         }
     }
 
-    [PropertyDependsOn(nameof(MirrorChyanCdkExpiredTime))]
-    public DateTime MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime).DateTime.ToLocalTime();
+    public DateTime MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime).DateTime;
+
+    public DateTime MirrorChyanCdkExpiredLocalTime => MirrorChyanCdkExpiredDateTime.ToLocalTime();
 
     /// <summary>
     /// Gets 剩余时间
@@ -359,7 +366,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets uI 显示用颜色
     /// </summary>
-    [PropertyDependsOn(nameof(MirrorChyanCdkExpiredTime))]
     public string MirrorChyanCdkRemainingBrush
     {
         get
@@ -376,6 +382,15 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             return UiLogColor.Success;
         }
+    }
+
+    public void RefreshMirrorChyanCdkRemaining()
+    {
+        OnPropertyChanged(nameof(MirrorChyanCdkExpiredDateTime));
+        OnPropertyChanged(nameof(MirrorChyanCdkRemaining));
+        OnPropertyChanged(nameof(IsMirrorChyanCdkExpired));
+        OnPropertyChanged(nameof(MirrorChyanCdkRemainingText));
+        OnPropertyChanged(nameof(MirrorChyanCdkRemainingBrush));
     }
 
     private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));
