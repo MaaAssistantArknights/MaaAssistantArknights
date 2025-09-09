@@ -9,6 +9,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:AchievementSettingsUserControlModel}}"
@@ -47,8 +48,8 @@
             <Path
                 Margin="4"
                 d:Fill="{DynamicResource NormalMedalBrush}"
+                uiBehaviors:ResourceReferenceHelper.FillResourceKey="{Binding MedalBrushKey}"
                 Data="{DynamicResource HangoverGeometry}"
-                Fill="{Binding MedalBrush}"
                 Stretch="Uniform" />
         </Border>
         <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding IsDebugVersion}">

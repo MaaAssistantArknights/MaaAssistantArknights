@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     Title="{DynamicResource AchievementList}"
     Width="600"
     Height="400"
@@ -25,8 +26,8 @@
                         <Path
                             Width="40"
                             Height="40"
+                            uiBehaviors:ResourceReferenceHelper.FillResourceKey="{Binding MedalBrushKey}"
                             Data="{DynamicResource HangoverGeometry}"
-                            Fill="{Binding MedalBrush}"
                             Stretch="Uniform" />
                         <VirtualizingStackPanel Margin="8" HorizontalAlignment="Left">
                             <VirtualizingStackPanel
@@ -87,11 +88,11 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
         <hc:SearchBar
-            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             MinWidth="200"
             Margin="25,5"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            Background="{DynamicResource MouseOverRegionBrushOpacity75}"
             Command="{Binding SearchCmd, Source={x:Static helper:AchievementTrackerHelper.Instance}}"
             CommandParameter="{Binding Text, RelativeSource={RelativeSource Self}}"
             IsRealTime="True" />
