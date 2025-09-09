@@ -79,8 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py x64-linux
-          python3 tools/linux-toolchain-download.py x64-linux
-
+          python3 tools/linux-toolchain-download.py x64
 
       - name: Config cmake
         run: |
