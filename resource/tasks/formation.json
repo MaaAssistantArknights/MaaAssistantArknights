@@ -1,0 +1,106 @@
+{
+    "SupportListAnalyzer-Flag": {
+        "doc": [
+            "识别助战栏位时，应用于 MultiMatcher 的配置任务",
+            "识别每个助战干员栏位底部的 Icon，后续根据相对位置识别其他信息",
+            "模版列表首项表示好友助战: .from_friend = (templ_name == flag_task_ptr->templ_names.at(0))"
+        ],
+        "template": ["SupportListAnalyzer-Flag-Friend.png", "SupportListAnalyzer-Flag-Stranger.png"],
+        "roi": [95, 606, 1185, 50],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 0, 0],
+                [255, 255, 255]
+            ]
+        ]
+    },
+    "SupportListAnalyzer-NameOcr": {
+        "doc": [
+            "识别助战栏位时，应用于 RegionOCRer 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员名识别用 roi 为 [r.x + m.x, r.y + m.y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "baseTask": "CharsNameOcrReplace",
+        "rectMove": [0, -34, 129, 34]
+    },
+    "SupportListAnalyzer-Elite": {
+        "doc": [
+            "识别助战栏位时，应用于 Matcher 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英阶段识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "template": [
+            "SupportListAnalyzer-Elite-2.png",
+            "SupportListAnalyzer-Elite-1.png",
+            "SupportListAnalyzer-Elite-0.png"
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [250, 250, 250],
+                [255, 255, 255]
+            ]
+        ],
+        "rectMove": [40, -180, 50, 45]
+    },
+    "SupportListAnalyzer-LevelOcr": {
+        "doc": [
+            "识别助战栏位时，应用于 RegionOCRer 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [80, -125, 40, 20]
+    },
+    "SupportListAnalyzer-Potential": {
+        "doc": [
+            "识别助战栏位时，应用于 Matcher 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员潜能识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "template": [
+            "SupportListAnalyzer-Potential-6.png",
+            "SupportListAnalyzer-Potential-5.png",
+            "SupportListAnalyzer-Potential-4.png",
+            "SupportListAnalyzer-Potential-3.png",
+            "SupportListAnalyzer-Potential-2.png",
+            "SupportListAnalyzer-Potential-1.png"
+        ],
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [200, 200, 200],
+                [255, 255, 255]
+            ]
+        ],
+        "rectMove": [6, -74, 56, 40]
+    },
+    "SupportListAnalyzer-ModuleDisabled": {
+        "doc": [
+            "识别助战栏位时，应用于 Matcher 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员模组可用状态识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "rectMove": [10, -135, 40, 35]
+    },
+    "SupportListAnalyzer-Friendship": {
+        "doc": [
+            "识别助战栏位时，应用于 Matcher 的配置任务",
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则用于判断助战干员提供者是否为挚友的 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "template": "empty.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [20, 170, 210],
+                [30, 255, 240]
+            ]
+        ],
+        "rectMove": [40, -437, 20, 38]
+    }
+}
