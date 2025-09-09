@@ -79,6 +79,12 @@ namespace MaaWpfGui.Helper
             return int.TryParse(value, out var result) ? result : defaultValue;
         }
 
+        public static long GetValue(string key, long defaultValue)
+        {
+            var value = GetValue(key, defaultValue.ToString());
+            return long.TryParse(value, out var result) ? result : defaultValue;
+        }
+
         public static bool GetValue(string key, bool defaultValue)
         {
             var value = GetValue(key, defaultValue.ToString());
@@ -120,6 +126,12 @@ namespace MaaWpfGui.Helper
         {
             var value = GetGlobalValue(key, defaultValue.ToString());
             return int.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static long GetGlobalValue(string key, long defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return long.TryParse(value, out var result) ? result : defaultValue;
         }
 
         public static bool GetGlobalValue(string key, bool defaultValue)
