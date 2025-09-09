@@ -299,7 +299,7 @@ jobs:
           show-progress: false
 
       - name: Download MAA from Github
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
