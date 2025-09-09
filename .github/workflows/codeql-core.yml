@@ -32,57 +32,11 @@ jobs:
         with:
           show-progress: false
 
-      - name: Update submodules
-        run: git submodule update --init --depth 1 3rdparty/EmulatorExtras
-
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        id: cache-nuget
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
-
-      - name: Restore dependencies
-        if: steps.cache-nuget.outputs.cache-hit != 'true'
-        run: dotnet restore
-
-      - name: Cache MaaDeps
-        id: cache-maadeps
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
-
-      - name: Bootstrap MaaDeps
-        if: steps.cache-maadeps.outputs.cache-hit != 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 tools/maadeps-download.py x64-windows
-
-      - name: Create fake event file
-        shell: bash
-        run: cp -v "$GITHUB_EVENT_PATH" ./event.json
-
       - name: Setup CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: c-cpp,csharp
           build-mode: manual
-
-      - name: Build MAA
-        shell: pwsh
-        run: |
-          $env:GITHUB_WORKFLOW = 'dev-build-win'
-          $env:GITHUB_EVENT_PATH = "$pwd\\event.json"
-          $env:GITHUB_REF = "refs/heads/not_master"
-          $env:MAA_BUILDER_MAA_VERSION = 'v0.0.1'
-          ./build.cmd DevBuild
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run CodeQL
         uses: github/codeql-action/analyze@v3
