@@ -425,7 +425,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 提前记录时间，避免等待超过定时时间
                 DateTime currentTime = DateTime.Now;
-                currentTime = new(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
+                currentTime = currentTime
+                    .AddSeconds(-currentTime.Second)
+                    .AddMilliseconds(-currentTime.Millisecond);
 
                 if (currentTime == _lastTimerElapsed)
                 {
@@ -434,6 +436,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _lastTimerElapsed = currentTime;
 
+                VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
                 HandleDatePromptUpdate();
                 HandleCheckForUpdates();
 

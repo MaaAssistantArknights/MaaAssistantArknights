@@ -144,7 +144,8 @@
                                 Margin="0,5,0,0"
                                 uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MirrorChyanCdkRemainingBrush}"
                                 Text="{Binding MirrorChyanCdkRemainingText}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                ToolTip="{Binding MirrorChyanCdkExpiredLocalTime}" />
                         </StackPanel>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
