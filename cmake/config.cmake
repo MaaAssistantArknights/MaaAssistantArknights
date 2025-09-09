@@ -36,23 +36,43 @@ else()
 endif()
 
 if(LINUX)
-    execute_process(
-        COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libstdc++.so.6
-        OUTPUT_VARIABLE LIBSTDCPP_PATH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    file(READ_SYMLINK "${LIBSTDCPP_PATH}" LINK_TARGET)
-    if(NOT IS_ABSOLUTE "${LINK_TARGET}")
-        get_filename_component(LIBSTDCPP_PATH_DIR "${LIBSTDCPP_PATH}" DIRECTORY)
-        file(REAL_PATH "${LIBSTDCPP_PATH_DIR}/${LINK_TARGET}" LIBSTDCPP_PATH_REAL)
-    else()
-        set(LIBSTDCPP_PATH_REAL "${LINK_TARGET}")
-    endif()
-    message(STATUS "libstdc++.so.6 path: ${LIBSTDCPP_PATH_REAL}")
-    if(NOT EXISTS "${LIBSTDCPP_PATH_REAL}")
-        message(FATAL_ERROR "File not found: ${LIBSTDCPP_PATH_REAL}")
-    endif()
-    install(FILES "${LIBSTDCPP_PATH_REAL}" DESTINATION bin RENAME libstdc++.so.6)
+    function(copy_and_add_rpath_library LIBNAME)
+        execute_process(
+            COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=${LIBNAME}.so.1 -target ${CMAKE_CXX_COMPILER_TARGET} --sysroot=${CMAKE_SYSROOT}
+            OUTPUT_VARIABLE LIB_PATH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+        if("${LIB_PATH}" STREQUAL "${LIBNAME}.so.1}")
+            message(FATAL_ERROR "Could not locate ${LIBNAME}.so.1 using compiler")
+        endif()
+
+        file(READ_SYMLINK "${LIB_PATH}" LINK_TARGET)
+        if(NOT LINK_TARGET)
+            set(LIB_PATH_REAL "${LIB_PATH}")
+        elseif(NOT IS_ABSOLUTE "${LINK_TARGET}")
+            get_filename_component(LIB_PATH_DIR "${LIB_PATH}" DIRECTORY)
+            file(REAL_PATH "${LIB_PATH_DIR}/${LINK_TARGET}" LIB_PATH_REAL)
+        else()
+            set(LIB_PATH_REAL "${LINK_TARGET}")
+        endif()
+
+        if(NOT EXISTS "${LIB_PATH_REAL}")
+            message(FATAL_ERROR "File not found: ${LIB_PATH_REAL}")
+        endif()
+
+        message(STATUS "${LIBNAME}.so.1 path: ${LIB_PATH_REAL}")
+
+        install(FILES "${LIB_PATH_REAL}" DESTINATION . RENAME "${LIBNAME}.so.1")
+
+        get_filename_component(LIB_PATH_DIR "${LIB_PATH_REAL}" DIRECTORY)
+        list(APPEND CMAKE_BUILD_RPATH "${LIB_PATH_DIR}")
+        set(CMAKE_BUILD_RPATH "${CMAKE_BUILD_RPATH}" PARENT_SCOPE)
+    endfunction()
+
+    copy_and_add_rpath_library(libc++)
+    copy_and_add_rpath_library(libc++abi)
+    copy_and_add_rpath_library(libunwind)
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
