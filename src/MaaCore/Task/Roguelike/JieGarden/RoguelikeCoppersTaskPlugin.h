@@ -50,7 +50,6 @@ private:
     std::vector<std::pair<RoguelikeCopper, Point>> m_pending_copper;
 
     int m_col = 4;        // 列数 (col)
-    int m_row = 3;        // 行数 (row)
     int m_origin_x = 0;   // 第一列节点的默认横坐标 (Rect.x)
     int m_last_x = 0;     // 最后一列节点的默认横坐标 (Rect.x)
     int m_origin_y = 0;   // 第一行节点的默认纵坐标 (Rect.y)
