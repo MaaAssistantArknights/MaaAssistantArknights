@@ -129,10 +129,6 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         WindowManager.ShowWindow(_achievementsWindow);
     }
 
-    private static readonly SolidColorBrush _hiddenMedalBrush = Application.Current.Resources["HiddenMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Gold);
-
-    private static readonly SolidColorBrush _normalMedalBrush = Application.Current.Resources["NormalMedalBrush"] is SolidColorBrush brush ? brush : new(Colors.Silver);
-
     private int _clickCount = 0;
     private static readonly Random _random = new();
     private bool _isTriggered = false;
@@ -171,23 +167,23 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     private void ResetDebugState()
     {
         IsDebugVersion = false;
-        MedalBrush = _normalMedalBrush;
+        MedalBrushKey = "NormalMedalBrush";
         _isTriggered = false;
     }
 
     private void EnableDebugMode()
     {
         IsDebugVersion = true;
-        MedalBrush = _hiddenMedalBrush;
+        MedalBrushKey = "HiddenMedalBrush";
         _isTriggered = true;
     }
 
-    private SolidColorBrush _medalBrush = _normalMedalBrush;
+    private string _medalBrushKey = "NormalMedalBrush";
 
-    public SolidColorBrush MedalBrush
+    public string MedalBrushKey
     {
-        get => _medalBrush;
-        set => SetAndNotify(ref _medalBrush, value);
+        get => _medalBrushKey;
+        set => SetAndNotify(ref _medalBrushKey, value);
     }
 
     private bool _isDebugVersion = false;
