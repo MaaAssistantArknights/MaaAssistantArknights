@@ -338,7 +338,7 @@ jobs:
           cd build-ota
 
           pushd ${{ needs.build-win-nightly.outputs.tag }}
-          zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip ./*
+          zip -r MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip ./*
           popd
 
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
