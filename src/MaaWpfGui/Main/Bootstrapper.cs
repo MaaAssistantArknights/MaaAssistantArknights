@@ -428,7 +428,7 @@ namespace MaaWpfGui.Main
             var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
             if (maxTimeInterval > 90)
             {
-                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 0.030).ToString("F2")), UiLogColor.Error));
+                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 30.436875).ToString("F2")), UiLogColor.Error));
             }
         }
 
