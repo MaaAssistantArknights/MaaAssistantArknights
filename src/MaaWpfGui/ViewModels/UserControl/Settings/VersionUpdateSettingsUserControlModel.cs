@@ -164,7 +164,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         string defaultJsonPath = Path.Combine(AsstProxy.MainResourcePath(), "resource/version.json");
         var jsonPath = isDefaultClient
             ? defaultJsonPath
-            : $"resource/global/{clientType}/resource/version.json";
+            : Path.Combine(AsstProxy.MainResourcePath(), $"resource/global/{clientType}/resource/version.json");
 
         string versionName;
         if (!File.Exists(defaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))
