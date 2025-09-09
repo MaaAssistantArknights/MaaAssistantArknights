@@ -562,7 +562,8 @@
                     "skill": 2,
                     "skill_usage": 0,
                     "is_start": true,
-                    "recruit_priority": 810,
+                    "is_key": true,
+                    "recruit_priority": 821,
                     "promote_priority": 980,
                     "recruit_priority_offsets": [
                         {
@@ -2252,7 +2253,7 @@
                     "name": "佩佩",
                     "skill": 2,
                     "is_start": true,
-                    "recruit_priority": 809,
+                    "recruit_priority": 800,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
@@ -2264,11 +2265,10 @@
                 },
                 {
                     "name": "乌尔比安",
-                    "skill": 3,
-                    "alternate_skill": 2,
+                    "skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 520,
+                    "recruit_priority": 801,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {

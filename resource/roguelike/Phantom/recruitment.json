@@ -24,7 +24,7 @@
                     "skill_usage": 0,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 811,
+                    "recruit_priority": 821,
                     "promote_priority": 1001,
                     "promote_priority_when_team_full": 1200,
                     "recruit_priority_offsets": [
@@ -324,7 +324,7 @@
                     "skill_usage": 0,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 821,
+                    "recruit_priority": 801,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
@@ -366,7 +366,7 @@
                     "name": "佩佩",
                     "skill": 2,
                     "is_start": true,
-                    "recruit_priority": 809,
+                    "recruit_priority": 800,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
