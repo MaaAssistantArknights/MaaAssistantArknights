@@ -225,18 +225,22 @@ jobs:
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
           git submodule update --init --depth 1 src/maa-cli
 
-      - name: Install cross compile toolchains
-        if: ${{ matrix.arch != 'x86_64' }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install gcc-14-aarch64-linux-gnu g++-14-aarch64-linux-gnu
-
       # Caching not necessary on ubuntu runner
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
+
+      - name: Install cross compile toolchains
+        run: |
+          python3 tools/linux-toolchain-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
+
+      - name: Install llvm 20
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20 all
 
       - name: Config cmake
         run: |
@@ -246,10 +250,8 @@ jobs:
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
-            -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
-        env:
-          CC: ${{ matrix.arch == 'x86_64' && 'gcc-14' || 'aarch64-linux-gnu-gcc-14' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'g++-14' || 'aarch64-linux-gnu-g++-14' }}
+            -DMAA_VERSION='${{ needs.meta.outputs.tag }}' \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
 
       - name: Build
         run: |
