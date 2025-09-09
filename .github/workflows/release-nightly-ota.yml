@@ -299,7 +299,7 @@ jobs:
           show-progress: false
 
       - name: Download MAA from Github
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
@@ -338,7 +338,7 @@ jobs:
           cd build-ota
 
           pushd ${{ needs.build-win-nightly.outputs.tag }}
-          mv *.zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
+          zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip ./*
           popd
 
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
