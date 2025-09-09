@@ -1,11 +1,21 @@
-import darkScreenshotCenter from '@/assets/screenshots/dark/center.png?url'
-import darkScreenshotLeft from '@/assets/screenshots/dark/left.png?url'
-import darkScreenshotRight from '@/assets/screenshots/dark/right.png?url'
-import lightScreenshotCenter from '@/assets/screenshots/light/center.png?url'
-import lightScreenshotLeft from '@/assets/screenshots/light/left.png?url'
-import lightScreenshotRight from '@/assets/screenshots/light/right.png?url'
+const screenshots = import.meta.glob('@/assets/screenshots/*/*/*.png', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+function getScreenshot(
+  theme: string,
+  lang: string,
+  position: 'left' | 'center' | 'right',
+) {
+  const path = `/src/assets/screenshots/${theme}/${lang}/${position}.png`
+  return screenshots[path]
+}
+
 import { useTheme } from '@/contexts/ThemeContext'
 import { useFrame, useLoader } from '@react-three/fiber'
+import { useTranslation } from 'react-i18next'
+import { getLanguageOption } from '@/i18n'
 
 import { useEffect, useRef } from 'react'
 import { Mesh, TextureLoader, Vector2 } from 'three'
@@ -35,14 +45,13 @@ export function Screenshots({
   showLinks?: boolean
 }) {
   const { theme } = useTheme()
+  const { i18n } = useTranslation()
+  const languageFileName = getLanguageOption(i18n.language).languageFileName
   const lerpRotationTo = useRef<Vector2>(new Vector2(0, 0))
 
-  const screenshotCenter =
-    theme === 'dark' ? darkScreenshotCenter : lightScreenshotCenter
-  const screenshotLeft =
-    theme === 'dark' ? darkScreenshotLeft : lightScreenshotLeft
-  const screenshotRight =
-    theme === 'dark' ? darkScreenshotRight : lightScreenshotRight
+  const screenshotCenter = getScreenshot(theme, languageFileName, 'center')
+  const screenshotLeft = getScreenshot(theme, languageFileName, 'left')
+  const screenshotRight = getScreenshot(theme, languageFileName, 'right')
 
   const textureCenter = useLoader(TextureLoader, screenshotCenter)
   const textureLeft = useLoader(TextureLoader, screenshotLeft)

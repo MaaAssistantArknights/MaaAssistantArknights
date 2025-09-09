@@ -15,15 +15,42 @@ export interface LanguageOption {
   label: string
   /** HTML lang 属性 */
   htmlLang: string
+  /** 语言文件名 */
+  languageFileName: string
 }
 
 /** 所有语言选项 */
 export const languages: LanguageOption[] = [
-  { code: 'zh-CN', label: '简体中文', htmlLang: 'zh-CN' },
-  { code: 'zh-TW', label: '繁體中文', htmlLang: 'zh-TW' },
-  { code: 'en-US', label: 'English', htmlLang: 'en-US' },
-  { code: 'ja-JP', label: '日本語', htmlLang: 'ja-JP' },
-  { code: 'ko-KR', label: '한국어', htmlLang: 'ko-KR' },
+  {
+    code: 'zh-CN',
+    label: '简体中文',
+    htmlLang: 'zh-CN',
+    languageFileName: 'zh-cn',
+  },
+  {
+    code: 'zh-TW',
+    label: '繁體中文',
+    htmlLang: 'zh-TW',
+    languageFileName: 'zh-tw',
+  },
+  {
+    code: 'en-US',
+    label: 'English',
+    htmlLang: 'en-US',
+    languageFileName: 'en-us',
+  },
+  {
+    code: 'ja-JP',
+    label: '日本語',
+    htmlLang: 'ja-JP',
+    languageFileName: 'ja-jp',
+  },
+  {
+    code: 'ko-KR',
+    label: '한국어',
+    htmlLang: 'ko-KR',
+    languageFileName: 'ko-kr',
+  },
 ]
 
 /** fallback 配置 */
@@ -31,6 +58,7 @@ export const fallback: LanguageOption = {
   code: 'zh-CN' as string,
   label: '简体中文' as string,
   htmlLang: 'zh-CN' as string,
+  languageFileName: 'zh-cn' as string,
 }
 
 /** 根据 i18n 语言代码获取 LanguageOption */
