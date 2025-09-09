@@ -35,7 +35,8 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - 下载预构建的第三方库 (推荐的)
 
         > **Note**
-        > 包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题.
+        > ~~包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题~~.
+        > 目前已经基于交叉编译降低了运行环境, 仅需要依赖 glibc 2.31 (ubuntu 20.04).
 
         ```bash
         python tools/maadeps-download.py
@@ -49,6 +50,8 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
         ```bash
         git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
+        # 如果系统环境过低, 请考虑不使用交叉编译, 而是直接使用本地编译环境.
+        # 需要调整 MaaDeps/vcpkg-overlay/triplet 中的 toolchain 配置.
         python linux-toolchain-download.py
         python build.py
         ```
