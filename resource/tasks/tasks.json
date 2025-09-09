@@ -2869,10 +2869,7 @@
         "action": "ClickSelf",
         "roi": [400, 610, 100, 110],
         "maxTimes": 3,
-        "next": [
-            "InfrastReceptionMessageBoardWithNew",
-            "InfrastReceptionInteractive"
-        ]
+        "next": ["InfrastReceptionMessageBoardWithNew", "InfrastReceptionInteractive"]
     },
     "InfrastReceptionMessageBoardWithNew": {
         "action": "ClickSelf",
