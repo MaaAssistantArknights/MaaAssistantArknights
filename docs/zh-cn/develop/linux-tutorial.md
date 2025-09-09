@@ -45,6 +45,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     如果您发现上面的方法下载的库由于 ABI 版本等原因无法在您的系统上运行且不希望使用容器等方案, 也可以尝试从头编译
 
     - 自行构建第三方库 (将花费较长时间)
+
         ```bash
         git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
