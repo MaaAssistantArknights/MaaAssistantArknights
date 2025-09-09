@@ -2871,7 +2871,6 @@
         "maxTimes": 3,
         "next": [
             "InfrastReceptionMessageBoardWithNew",
-            "InfrastReceptionMessageBoardWithoutNew",
             "InfrastReceptionInteractive"
         ]
     },
@@ -2892,12 +2891,6 @@
             "InfrastReceptionMessageBoard-Received",
             "InfrastReceptionMessageBoardWithNew@LoadingText"
         ]
-    },
-    "InfrastReceptionMessageBoardWithoutNew": {
-        "action": "DoNothing",
-        "baseTask": "InfrastReceptionMessageBoardWithNew",
-        "postDelay": 0,
-        "next": []
     },
     "InfrastReceptionMessageBoard-AccessRecord": {
         "doc": "进信息板的上周记录，不一定会有",
