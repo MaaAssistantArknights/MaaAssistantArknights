@@ -23,6 +23,11 @@ namespace MaaWpfGui.Constants
         public const string Text = "PrimaryTextBrush";
 
         /// <summary>
+        /// The recommended color for success logs.
+        /// </summary>
+        public const string Success = "SuccessLogBrush";
+
+        /// <summary>
         /// The recommended color for error logs.
         /// </summary>
         public const string Error = "ErrorLogBrush";
