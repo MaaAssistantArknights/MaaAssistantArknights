@@ -14,7 +14,7 @@ import { HomeLinks } from './HomeLinks/HomeLinks'
 import { Screenshots } from './Screenshots/Screenshots'
 
 export const HomeHero: FC = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const linkRef = useRef<HTMLDivElement | null>(null)
   const indicatorRef = useRef<HTMLDivElement | null>(null)
@@ -26,6 +26,7 @@ export const HomeHero: FC = () => {
     <div key={theme}>
       <AnimatedBlobs />
       <motion.div
+        key={i18n.language}
         className="absolute h-full w-full flex items-center"
         initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
