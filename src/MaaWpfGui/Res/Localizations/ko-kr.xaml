@@ -320,6 +320,7 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 만료까지 {0}일 남았습니다.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢{key=GlobalSource}｣ 에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢{key=MirrorChyan}｣ 에서 다운로드 중...</system:String>

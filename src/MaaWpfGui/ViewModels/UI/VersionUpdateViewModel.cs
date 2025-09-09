@@ -1019,6 +1019,12 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.UnknownError;
         }
 
+        var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<int?>() ?? null;
+        if (mirrorChyanCdkExpired.HasValue)
+        {
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired.Value;
+        }
+
         var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;
         if (errorCode != MirrorChyanErrorCode.Success)
         {
