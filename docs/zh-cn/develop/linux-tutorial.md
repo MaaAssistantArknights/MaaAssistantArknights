@@ -22,7 +22,10 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - Ubuntu/Debian
 
     ```bash
-    sudo apt install gcc-14 g++-14 cmake zlib1g-dev
+    wget https://apt.llvm.org/llvm.sh
+    chmod +x llvm.sh
+    sudo ./llvm.sh 20
+    sudo apt install cmake
     ```
 
 2. 构建第三方库
@@ -36,28 +39,32 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 
         ```bash
         python tools/maadeps-download.py
+        python tools/linux-toolchain-download.py
         ```
 
     如果您发现上面的方法下载的库由于 ABI 版本等原因无法在您的系统上运行且不希望使用容器等方案, 也可以尝试从头编译
 
     - 自行构建第三方库 (将花费较长时间)
-
         ```bash
-        git submodule update --init --recursive
+        git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
+        python linux-toolchain-download.py
         python build.py
         ```
 
 3. 编译 MAA
 
     ```bash
-    CC=gcc-14 CXX=g++-14 cmake -B build \
+    cmake -B build \
         -DINSTALL_RESOURCE=ON \
-        -DINSTALL_PYTHON=ON
+        -DINSTALL_PYTHON=ON \
+        -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
     cmake --build build
     ```
 
     来将 MAA 安装到目标位置, 注意 MAA 推荐通过指定 `LD_LIBRARY_PATH` 来运行, 不要使用管理员权限将 MAA 装入 `/usr`
+
+    > 现在应该不需要指定LD_LIBRARY_PATH即可运行, 有问题提issue吧
 
     ```bash
     cmake --install build --prefix <target_directory>
