@@ -51,6 +51,7 @@
 
 
     <!--  UiLogColor  -->
+    <SolidColorBrush x:Key="SuccessLogBrush" Color="Green" />
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="WarningLogBrush" Color="DarkGoldenrod" />
     <SolidColorBrush x:Key="InfoLogBrush" Color="DarkCyan" />

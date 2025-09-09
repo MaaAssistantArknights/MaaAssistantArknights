@@ -20,6 +20,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -28,6 +30,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -311,6 +314,67 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdk, value);
+        }
+    }
+
+    // 时间戳
+    private int _mirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0);
+
+    public int MirrorChyanCdkExpiredTime
+    {
+        get => _mirrorChyanCdkExpiredTime;
+        set
+        {
+            if (!SetAndNotify(ref _mirrorChyanCdkExpiredTime, value))
+            {
+                return;
+            }
+
+            ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, value.ToString());
+        }
+    }
+
+    [PropertyDependsOn(nameof(MirrorChyanCdkExpiredTime))]
+    public DateTime MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime).DateTime.ToLocalTime();
+
+    /// <summary>
+    /// Gets 剩余时间
+    /// </summary>
+    public TimeSpan MirrorChyanCdkRemaining => MirrorChyanCdkExpiredDateTime - DateTime.Now;
+
+    /// <summary>
+    /// Gets a value indicating whether 是否已过期
+    /// </summary>
+    public bool IsMirrorChyanCdkExpired => MirrorChyanCdkRemaining.TotalSeconds <= 0;
+
+    /// <summary>
+    /// Gets 显示用的剩余时间提示
+    /// </summary>
+    public string MirrorChyanCdkRemainingText =>
+        IsMirrorChyanCdkExpired
+            ? LocalizationHelper.GetString("MirrorChyanCdkExpired")
+            : string.Format(LocalizationHelper.GetString("MirrorChyanCdkRemainingDays"),
+                            MirrorChyanCdkRemaining.TotalDays.ToString("F1"));
+
+    /// <summary>
+    /// Gets uI 显示用颜色
+    /// </summary>
+    [PropertyDependsOn(nameof(MirrorChyanCdkExpiredTime))]
+    public string MirrorChyanCdkRemainingBrush
+    {
+        get
+        {
+            if (IsMirrorChyanCdkExpired)
+            {
+                return UiLogColor.Error;
+            }
+
+            if (MirrorChyanCdkRemaining.TotalDays <= 7)
+            {
+                return UiLogColor.Warning;
+            }
+
+            return UiLogColor.Success;
         }
     }
 

@@ -116,6 +116,25 @@ namespace MaaWpfGui.Helper
             return defaultValue;
         }
 
+        public static int GetGlobalValue(string key, int defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return int.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static bool GetGlobalValue(string key, bool defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return bool.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static TOut GetGlobalValue<TOut>(string key, TOut defaultValue)
+            where TOut : struct, Enum
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return Enum.TryParse<TOut>(value, out var result) ? result : defaultValue;
+        }
+
         /// <summary>
         /// Set a configuration value
         /// </summary>

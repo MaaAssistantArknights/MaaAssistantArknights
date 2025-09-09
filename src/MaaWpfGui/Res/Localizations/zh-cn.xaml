@@ -321,6 +321,7 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 类型与待下载的资源不匹配，请检查 CDK 适用范围。</system:String>
+    <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 还剩 {0} 天到期。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用 ｢{key=GlobalSource}｣ 下载……</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用 ｢{key=MirrorChyan}｣ 下载……</system:String>

@@ -10,6 +10,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type viewModels:VersionUpdateSettingsUserControlModel}}"
@@ -138,6 +139,12 @@
                                     Command="{s:Action MirrorChyanCdkCopy}"
                                     Content="{DynamicResource Copy}" />
                             </Grid>
+                            <controls:TextBlock
+                                MaxWidth="150"
+                                Margin="0,5,0,0"
+                                uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MirrorChyanCdkRemainingBrush}"
+                                Text="{Binding MirrorChyanCdkRemainingText}"
+                                TextWrapping="Wrap" />
                         </StackPanel>
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
