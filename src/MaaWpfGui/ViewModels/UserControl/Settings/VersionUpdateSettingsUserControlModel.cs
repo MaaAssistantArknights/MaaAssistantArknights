@@ -323,9 +323,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     }
 
     // 时间戳
-    private int _mirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0);
+    private long _mirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
 
-    public int MirrorChyanCdkExpiredTime
+    public long MirrorChyanCdkExpiredTime
     {
         get => _mirrorChyanCdkExpiredTime;
         set
