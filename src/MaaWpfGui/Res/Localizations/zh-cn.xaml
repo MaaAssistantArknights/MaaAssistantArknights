@@ -1001,6 +1001,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="EncounterOcrError">事件名识别错误</system:String>
+    <system:String x:Key="JieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeInvestmentReachLimit">投资源石锭达到设定次数({0}), 停止探索</system:String>
