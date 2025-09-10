@@ -40,6 +40,9 @@ target_link_libraries(MaaCore HeaderOnlyLibraries ${OpenCV_LIBS} fastdeploy_ppoc
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
 endif()
+if(LINUX)
+    target_link_libraries(MaaCore pthread)
+endif()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 
@@ -104,9 +107,6 @@ if (BUILD_DEBUG_DEMO)
         target_compile_options(debug_demo PRIVATE "-Wno-error")
     endif()
     target_link_libraries(debug_demo MaaCore)
-    if(LINUX)
-        target_link_libraries(debug_demo pthread)
-    endif()
 
     add_dependencies(debug_demo MaaCore)
     # install(TARGETS debug_demo ${MaaCore_install_flatten_args})
