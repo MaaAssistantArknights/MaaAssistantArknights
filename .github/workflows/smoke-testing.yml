@@ -108,7 +108,7 @@ jobs:
 
       - name: Run tests
         run: |
-          sh tools/SmokeTesting/run_tests.sh
+          ./tools/SmokeTesting/run_tests.sh
 
       # - name: Save cache smoke-testing
       #   if: steps.cache-exe.outputs.cache-hit != 'true'
