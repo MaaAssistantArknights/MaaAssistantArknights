@@ -35,59 +35,71 @@ jobs:
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
           show-progress: false
 
-      - name: Generate cache key
-        id: cache_key
-        run: |
-          Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py') }}" >> $env:GITHUB_OUTPUT
+      # - name: Generate cache key
+      #   id: cache_key
+      #   run: |
+      #     Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $env:GITHUB_OUTPUT
 
-      - name: Restore cache smoke-testing
-        id: cache-exe
-        uses: actions/cache/restore@v4
-        with:
-          key: ${{ steps.cache_key.outputs.key }}
-          path: |
-            ./install/smoke_test.exe
-            ./install/fastdeploy_ppocr.dll
-            ./install/MaaCore.dll
-            ./install/onnxruntime_maa.dll
-            ./install/opencv_world4d_maa.dll
+      # - name: Restore cache smoke-testing
+      #   id: cache-exe
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     key: ${{ steps.cache_key.outputs.key }}
+      #     path: |
+      #       ./install/smoke_test.exe
+      #       ./install/fastdeploy_ppocr.dll
+      #       ./install/MaaCore.dll
+      #       ./install/onnxruntime_maa.dll
+      #       ./install/opencv_world4d_maa.dll
 
       - name: Fetch submodules
-        if: steps.cache-exe.outputs.cache-hit != 'true'
+        # if: steps.cache-exe.outputs.cache-hit != 'true'
         run: |
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Cache MaaDeps
-        if: steps.cache-exe.outputs.cache-hit != 'true'
+        # if: steps.cache-exe.outputs.cache-hit != 'true'
         id: cache-maadeps
         uses: actions/cache@v4
         with:
-          path: |
-            ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+          path: ./MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Bootstrap MaaDeps
-        if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
+        # steps.cache-exe.outputs.cache-hit != 'true' &&
+        if:  steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/maadeps-download.py x64-windows
+          python3 tools/maadeps-download.py x64-linux
+          python3 tools/linux-toolchain-download.py x64
+
+      - name: Install llvm-20
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
 
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DMAADEPS_TRIPLET='maa-x64-windows' -DINSTALL_RESOURCE=ON -DBUILD_SMOKE_TEST=ON -DBUILD_WPF_GUI=OFF
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DMAADEPS_TRIPLET='maa-x64-linux' \
+            -DINSTALL_RESOURCE=ON \
+            -DBUILD_SMOKE_TEST=ON \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
       - name: Build
         run: |
-          cmake --build build --config Debug --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --build build --config Debug --parallel $(nproc)
 
       - name: Install
         run: |
@@ -96,19 +108,19 @@ jobs:
 
       - name: Run tests
         run: |
-          pwsh tools/SmokeTesting/run_tests.ps1
+          ./tools/SmokeTesting/run_tests.sh
 
-      - name: Save cache smoke-testing
-        if: steps.cache-exe.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          key: ${{ steps.cache_key.outputs.key }}
-          path: |
-            ./install/smoke_test.exe
-            ./install/fastdeploy_ppocr.dll
-            ./install/MaaCore.dll
-            ./install/onnxruntime_maa.dll
-            ./install/opencv_world4d_maa.dll
+      # - name: Save cache smoke-testing
+      #   if: steps.cache-exe.outputs.cache-hit != 'true'
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     key: ${{ steps.cache_key.outputs.key }}
+      #     path: |
+      #       ./install/smoke_test.exe
+      #       ./install/fastdeploy_ppocr.dll
+      #       ./install/MaaCore.dll
+      #       ./install/onnxruntime_maa.dll
+      #       ./install/opencv_world4d_maa.dll
 
       - name: Upload logs
         if: always()

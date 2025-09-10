@@ -1,4 +1,4 @@
-$clients = @("Official", "YostarJP", "YostarEN", "YostarKR", "txwy")
+$clients = @("Official", "YoStarJP", "YoStarEN", "YoStarKR", "txwy")
 $jobs = @()
 $error_client = @()
 
