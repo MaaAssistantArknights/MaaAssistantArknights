@@ -178,6 +178,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 해당 작업 매개변수
 {
     "enable": bool,         // 이 작업을 활성화할지 여부, 선택 사항, 기본값은 true
+    "visit_friends": bool,  // 친구의 기지를 방문하여 크레딧을 획득할지 여부. 선택 사항, 기본값 true
     "shopping": bool,       // 상점에서 아이템을 구매할지 여부, 선택 사항, 기본값은 false입니다. 실행 중에 편집할 수 없습니다.
     "buy_first": [          // 우선적으로 구매할 아이템 목록, 선택 사항입니다. 실행 중에 편집할 수 없습니다.
         string,             // 아이템 이름, 예: "招聘许可" (모집 허가증), "龙门币" (용문폐) 등
@@ -187,9 +188,12 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
         string,             // 아이템 이름, 예: "加急许可" (즉시 완료 허가증), "家具零件" (가구 부품) 등
         ...
     ],
-    "force_shopping_if_credit_full": bool // 크레딧이 넘친다면 블랙리스트를 무시할지 여부, 기본값은 true입니다.
-    "only_buy_discount": bool // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부입니다. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
-    "reserve_max_credit": boll // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
+    "force_shopping_if_credit_full": bool,  // 크레딧이 넘친다면 블랙리스트를 무시할지 여부, 기본값은 true입니다.
+    "only_buy_discount": bool,              // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부입니다. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
+    "reserve_max_credit": bool,             // 크레딧 포인트가 300 미만으로 떨어질 때 구매를 중단할지 여부. 기본적으로 두 번째 구매 시에만 적용되며 기본값은 false입니다.
+    "credit_fight": bool,                   // 지원을 빌려 OF-1 스테이지를 1회 클리어하여 다음 날 더 많은 크레딧을 획득할지 여부. 선택 사항, 기본값 false
+    "formation_index": int                  // OF-1 진행 시 사용할 편성 슬롯의 인덱스. 선택 사항, 기본값 0.
+                                            // 0~4 사이의 정수이며, 0은 현재 편성을, 1~4는 각각 첫 번째~네 번째 편성을 나타냄
 }
 ```
 
