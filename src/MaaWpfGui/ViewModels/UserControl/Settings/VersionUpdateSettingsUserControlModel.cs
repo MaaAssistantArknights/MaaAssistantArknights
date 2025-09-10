@@ -340,6 +340,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private bool _mirrorChyanCdkFetchFailed = false;
+
+    public bool MirrorChyanCdkFetchFailed
+    {
+        get => _mirrorChyanCdkFetchFailed;
+        set => SetAndNotify(ref _mirrorChyanCdkFetchFailed, value);
+    }
+
     public DateTime MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime).DateTime;
 
     public DateTime MirrorChyanCdkExpiredLocalTime => MirrorChyanCdkExpiredDateTime.ToLocalTime();
