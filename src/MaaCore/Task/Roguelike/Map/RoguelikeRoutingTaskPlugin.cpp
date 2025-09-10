@@ -380,7 +380,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
 
     // 执行节点类型对应的任务
     const std::string& theme = m_config->get_theme();
-    std::string node_name = get_node_name(node_type);
+    std::string node_name = type2name(node_type);
 
     const std::string node_task_name = theme + "@Roguelike@MapNode" + node_name;
     // 设置 next
@@ -758,7 +758,7 @@ std::vector<asst::RoguelikeNodeType>
                 continue;
             }
             const std::string node_name = task_name.substr(pos + 7);
-            RoguelikeNodeType node_type = get_node_type(node_name);
+            RoguelikeNodeType node_type = name2type(node_name);
             if (node_type != RoguelikeNodeType::Unknown) {
                 priority_order.push_back(node_type);
                 Log.debug(
