@@ -140,7 +140,7 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF
           
       - name: Build
         run: |
@@ -250,7 +250,7 @@ jobs:
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
-            -DMAA_VERSION='${{ needs.meta.outputs.tag }}' \
+            -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' \
             -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
 
       - name: Build
@@ -365,7 +365,7 @@ jobs:
           cmake -B build -GNinja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' \
-            -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+            -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
 
       - name: Build
         run: |
