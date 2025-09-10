@@ -227,7 +227,7 @@ jobs:
 
       - name: Restore MaaDeps Cache
         id: cache-maadeps
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: ./MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
@@ -239,14 +239,6 @@ jobs:
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
           python3 tools/linux-toolchain-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
-
-      # Always save cache regardless of build success
-      - name: Save MaaDeps Cache
-        if: always() && steps.cache-maadeps.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Install llvm 20
         run: |
