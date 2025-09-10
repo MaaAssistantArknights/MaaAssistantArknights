@@ -37,11 +37,11 @@ export const HomeActions: FC<HomeActionsProps> = ({
   }, [])
 
   const docsLinkMapping: Record<string, string> = {
-    'zh-CN': '/docs/zh-cn',
-    'zh-TW': '/docs/zh-tw',
-    'en-US': '/docs/en-us',
-    'ja-JP': '/docs/ja-jp',
-    'ko-KR': '/docs/ko-kr',
+    'zh-CN': '/docs/zh-cn/',
+    'zh-TW': '/docs/zh-tw/',
+    'en-US': '/docs/en-us/',
+    'ja-JP': '/docs/ja-jp/',
+    'ko-KR': '/docs/ko-kr/',
   }
 
   const docsLink = docsLinkMapping[i18n.language] ?? '/docs'
