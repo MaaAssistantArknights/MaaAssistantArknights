@@ -941,9 +941,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// </summary>
     public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } = new()
     {
-        new() { Display = "令 - 掷地有声", Value = RoguelikeBoskySubNodeType.Ling },
-        new() { Display = "黍 - 种因得果", Value = RoguelikeBoskySubNodeType.Shu },
-        new() { Display = "年 - 三缺一", Value = RoguelikeBoskySubNodeType.Nian },
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeLing"), Value = RoguelikeBoskySubNodeType.Ling },
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeShu"), Value = RoguelikeBoskySubNodeType.Shu },
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeNian"), Value = RoguelikeBoskySubNodeType.Nian },
     };
 
     /// <summary>
