@@ -506,6 +506,54 @@
         "template": "empty.png",
         "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 15]
     },
+    "JieGarden@Roguelike@RoutingBoskyPassagePriority_Default": {
+        "doc": [
+            "界园树洞节点优先级策略配置",
+            "按优先级从高到低排列节点类型名称",
+            "拾遗>传说>故肆>易与>筹谋>常乐>杂疑(暂时取消)>灾祸(暂时取消)"
+        ],
+        "template": "empty.png",
+        "next": [
+            "JieGarden@Roguelike@MapNodeOmissions",
+            "JieGarden@Roguelike@MapNodeLegend",
+            "JieGarden@Roguelike@MapNodeOldShop",
+            "JieGarden@Roguelike@MapNodeYiTrader",
+            "JieGarden@Roguelike@MapNodeScheme",
+            "JieGarden@Roguelike@MapNodePlaytime"
+        ]
+    },
+    "JieGarden@Roguelike@MapNodeYiTrader": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageYiTraderEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeDisaster": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeOmissions": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeLegend": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeOldShop": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeScheme": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodePlaytime": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeDoubts": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
     "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
         "template": [
             "JieGarden@Roguelike@MapNodeOldShop.png",
