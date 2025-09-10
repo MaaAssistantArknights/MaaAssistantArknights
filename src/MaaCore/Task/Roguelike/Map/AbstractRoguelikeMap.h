@@ -4,6 +4,9 @@
 
 namespace asst
 {
+
+enum class RoguelikeBoskySubNodeType;
+
 enum class RoguelikeNodeType
 {
     Init = -1,        // Init
@@ -39,18 +42,13 @@ enum class RoguelikeNodeType
     Scheme = 25     // 筹谋
 };
 
-/// <summary>
-/// 根据字符串获取节点类型
-/// </summary>
-/// <param name="node_name">节点类型名称，例如 "YiTrader"</param>
-/// <returns>对应的节点类型，如果未找到返回 Unknown</returns>
+// 根据字符串获取节点类型
 RoguelikeNodeType name2type(const std::string& node_name);
 
-/// <summary>
-/// 获取节点类型的字符串名称
-/// </summary>
-/// <param name="node_type">节点类型</param>
-/// <returns>对应的字符串名称，如果类型未知返回空字符串</returns>
+// 获取节点类型的字符串名称
 std::string type2name(RoguelikeNodeType node_type);
+
+// 获取树篱之途子节点类型的字符串名称
+std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type);
 
 } // namespace asst

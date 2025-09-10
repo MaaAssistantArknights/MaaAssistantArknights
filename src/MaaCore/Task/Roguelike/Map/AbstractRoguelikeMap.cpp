@@ -1,4 +1,5 @@
 #include "AbstractRoguelikeMap.h"
+#include "RoguelikeBoskyPassageMap.h"
 
 #include <unordered_map>
 
@@ -55,6 +56,20 @@ std::string type2name(RoguelikeNodeType node_type)
 
     auto it = reverse_mapping.find(node_type);
     return it != reverse_mapping.end() ? it->second : "";
+}
+
+std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type)
+{
+    // 界园树洞子节点类型映射表
+    static const std::unordered_map<RoguelikeBoskySubNodeType, std::string> subtype_mapping = {
+        { RoguelikeBoskySubNodeType::Unknown, "Unknown" },
+        { RoguelikeBoskySubNodeType::Ling, "Ling" }, // 令 - 常乐 掷地有声
+        { RoguelikeBoskySubNodeType::Shu, "Shu" },   // 黍 - 常乐 种因得果
+        { RoguelikeBoskySubNodeType::Nian, "Nian" }  // 年 - 常乐 三缺一
+    };
+
+    auto it = subtype_mapping.find(sub_node_type);
+    return it != subtype_mapping.end() ? it->second : "";
 }
 
 } // namespace asst

@@ -225,7 +225,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
 
         // 获取目标常乐节点子类型
-        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", static_cast<int>(m_bosky_map.m_target_subtype));
+        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", subtype2name(m_bosky_map.m_target_subtype));
 
         // 尝试找到目标节点，使用常乐节点优先的策略
         bosky_decide_and_click(priority_order);
@@ -289,7 +289,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
         if (idx.has_value()) {
             // 更新节点类型（防止类型不一致）
             m_bosky_map.set_node_type(idx.value(), type);
-            Log.debug(__FUNCTION__, "| updated node (", idx.value(), ") type: (", static_cast<int>(type), ")");
+            Log.debug(__FUNCTION__, "| updated node (", idx.value(), ") type: (", type2name(type), ")");
         }
         else {
             Log.warn(__FUNCTION__, "| failed to create/update node from pixel (", rect.x, ", ", rect.y, ")");
@@ -336,13 +336,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
         if (!nodes_of_type.empty()) {
             chosen = nodes_of_type.front();
             found = true;
-            Log.debug(
-                __FUNCTION__,
-                "| found node of type (",
-                static_cast<int>(node_type),
-                ") with index (",
-                chosen,
-                ")");
+            Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
             break;
         }
     }
@@ -358,7 +352,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
     int gy = m_bosky_map.get_node_y(chosen);
     RoguelikeNodeType node_type = m_bosky_map.get_node_type(chosen);
 
-    Log.info(__FUNCTION__, "| chosen node: ", chosen, " (", gx, ", ", gy, ") type: ", static_cast<int>(node_type));
+    Log.info(__FUNCTION__, "| chosen node: ", chosen, " (", gx, ", ", gy, ") type: ", type2name(node_type));
 
     // 点击节点中心
     auto [px, py] = m_bosky_map.get_node_pixel(
@@ -764,7 +758,7 @@ std::vector<asst::RoguelikeNodeType>
                 Log.debug(
                     __FUNCTION__,
                     "| Added priority node type: ",
-                    static_cast<int>(node_type),
+                    type2name(node_type),
                     " from task: ",
                     task_name);
             }

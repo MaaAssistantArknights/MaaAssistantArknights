@@ -1,4 +1,5 @@
 #include "RoguelikeBoskyPassageMap.h"
+#include "AbstractRoguelikeMap.h"
 #include "Utils/Logger.hpp"
 
 #include <array>
@@ -70,7 +71,7 @@ void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubN
         return;
     }
     n->sub_type = sub_type;
-    Log.info(__FUNCTION__, "| Set node ", index, " subtype to ", static_cast<int>(sub_type));
+    Log.info(__FUNCTION__, "| Set node ", index, " subtype to ", subtype2name(sub_type));
 }
 
 RoguelikeBoskySubNodeType RoguelikeBoskyPassageMap::get_node_subtype(size_t index) const
