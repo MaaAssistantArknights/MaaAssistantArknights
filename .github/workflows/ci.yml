@@ -351,9 +351,10 @@ jobs:
         with:
           show-progress: false
 
-      - name: Install Dependencies
-        run: |
-          brew install ninja
+      # ninja 1.13.1 is already installed and up-to-date. To reinstall 1.13.1, run: brew reinstall ninja
+      # - name: Install Dependencies
+      #   run: |
+      #     brew install ninja
 
       # Caching not necessary on macOS runner
       - name: Bootstrap MaaDeps
