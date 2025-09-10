@@ -61,6 +61,7 @@ private:
 
     // ———————— constants and variables ———————————————————————————————————————————————
     RoutingStrategy m_routing_strategy = RoutingStrategy::None;
+    RoutingStrategy m_bosky_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
     // 界园树洞平面地图 - 单例模式
     RoguelikeBoskyPassageMap& m_bosky_map = RoguelikeBoskyPassageMap::get_instance();
