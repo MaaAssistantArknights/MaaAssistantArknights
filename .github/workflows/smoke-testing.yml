@@ -84,10 +84,10 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build -DCMAKE_BUILD_TYPE=Debug -DMAADEPS_TRIPLET='maa-x64-windows' -DINSTALL_RESOURCE=ON -DBUILD_SMOKE_TEST=ON -DBUILD_WPF_GUI=OFF
-          
+
       - name: Build
         run: |
-          cmake --build build --config Debug
+          cmake --build build --config Debug --parallel $env:NUMBER_OF_PROCESSORS
 
       - name: Install
         run: |
