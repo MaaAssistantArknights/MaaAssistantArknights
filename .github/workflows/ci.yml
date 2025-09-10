@@ -231,9 +231,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
-
-      - name: Install cross compile toolchains
-        run: |
           python3 tools/linux-toolchain-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
 
       - name: Install llvm 20
