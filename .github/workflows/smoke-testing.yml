@@ -45,7 +45,7 @@ jobs:
       # - name: Generate cache key
       #   id: cache_key
       #   run: |
-      #     Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py') }}" >> $env:GITHUB_OUTPUT
+      #     Write-Output "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $env:GITHUB_OUTPUT
 
       # - name: Restore cache smoke-testing
       #   id: cache-exe
@@ -64,28 +64,28 @@ jobs:
         run: |
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
-      # - name: Cache MaaDeps
-      #   if: steps.cache-exe.outputs.cache-hit != 'true'
-      #   id: cache-maadeps
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       ./MaaDeps
-      #     key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+      - name: Cache MaaDeps
+        # if: steps.cache-exe.outputs.cache-hit != 'true'
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: ./MaaDeps
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
-      - name: Bootstrap Depencies
-        # if: steps.cache-exe.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
+      - name: Bootstrap MaaDeps
+        # steps.cache-exe.outputs.cache-hit != 'true' &&
+        if:  steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py x64-linux
           python3 tools/linux-toolchain-download.py x64
 
+      - name: Install llvm-20
+        run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 20
-
-          sudo apt install cmake
+          sudo llvm.sh 20
 
       - name: Config cmake
         run: |
@@ -108,7 +108,7 @@ jobs:
 
       - name: Run tests
         run: |
-          ./tools/SmokeTesting/run_tests.sh
+          tools/SmokeTesting/run_tests.sh
 
       # - name: Save cache smoke-testing
       #   if: steps.cache-exe.outputs.cache-hit != 'true'
