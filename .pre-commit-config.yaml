@@ -29,8 +29,8 @@ repos:
       - id: prettier
         name: prettier (website)
         additional_dependencies:
-          - "prettier@3.6.2"
-          - "@trivago/prettier-plugin-sort-imports@5.2.2"
+          - "prettier"
+          - "@trivago/prettier-plugin-sort-imports"
         files: ^website/.*
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.17.2
