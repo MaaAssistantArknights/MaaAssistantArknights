@@ -224,4 +224,35 @@ public enum RoguelikeMode
     /// 深入调查，尽可能稳定地打更多层数，不期而遇采用激进策略
     /// </summary>
     Exploration = 7,
+
+    /// <summary>
+    /// 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
+    /// </summary>
+    FindPlaytime = 20001,
+}
+
+/// <summary>
+/// 界园常乐节点子类型
+/// </summary>
+public enum RoguelikeBoskySubNodeType
+{
+    /// <summary>
+    /// 未知
+    /// </summary>
+    Unknown = 0,
+
+    /// <summary>
+    /// 令 - 常乐 掷地有声
+    /// </summary>
+    Ling = 1,
+
+    /// <summary>
+    /// 黍 - 常乐 种因得果
+    /// </summary>
+    Shu = 2,
+
+    /// <summary>
+    /// 年 - 常乐 三缺一
+    /// </summary>
+    Nian = 3,
 }
