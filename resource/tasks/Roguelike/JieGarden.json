@@ -566,6 +566,19 @@
         "template": "empty.png",
         "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
     },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucher": {
+        "algorithm": "OcrDetect",
+        "text": ["把券存下来"],
+        "roi": [1026, 9, 141, 27],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确认留存"],
+        "roi": [766, 572, 142, 49],
+        "action": "ClickSelf"
+    },
     "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
         "template": [
             "JieGarden@Roguelike@MapNodeOldShop.png",
