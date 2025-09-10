@@ -225,13 +225,28 @@ jobs:
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
           git submodule update --init --depth 1 src/maa-cli
 
-      # Caching not necessary on ubuntu runner
+      - name: Restore MaaDeps Cache
+        id: cache-maadeps
+        uses: actions/cache/restore@v4
+        with:
+          path: ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
+
       - name: Bootstrap MaaDeps
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
           python3 tools/linux-toolchain-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
+
+      # Always save cache regardless of build success
+      - name: Save MaaDeps Cache
+        if: always() && steps.cache-maadeps.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Install llvm 20
         run: |
