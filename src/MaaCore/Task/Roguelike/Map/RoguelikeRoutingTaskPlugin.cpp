@@ -58,10 +58,17 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
             m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
             return true;
         }
-        else {
-            m_bosky_routing_strategy = RoutingStrategy::BoskyPassage_JieGarden;
+
+        if (mode == RoguelikeMode::FindPlaytime) {
+            m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
+            int target = m_config->get_find_playTime_target();
+            m_bosky_map.m_target_subtype = static_cast<RoguelikeBoskySubNodeType>(target);
+            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target: ", target);
             return true;
         }
+
+        m_bosky_routing_strategy = RoutingStrategy::BoskyPassage_JieGarden;
+        return true;
     }
 
     if (mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {
@@ -88,6 +95,7 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     std::string task_name = details.get("details", "task", "");
+    Log.debug(__FUNCTION__, "| Checking task: ", task_name);
 
     // trigger 任务的名字可以为 "...@Roguelike@Routing-..." 的形式
     if (const size_t pos = task_name.find('-'); pos != std::string::npos) {
@@ -95,6 +103,7 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     if (task_name == m_config->get_theme() + "@Roguelike@Routing") {
+        Log.info(__FUNCTION__, "| RoguelikeRoutingTaskPlugin triggered for task: ", task_name);
         return true;
     }
 
@@ -104,6 +113,13 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
 bool asst::RoguelikeRoutingTaskPlugin::_run()
 {
     LogTraceFunction;
+
+    Log.info(
+        __FUNCTION__,
+        "| Running with routing_strategy: ",
+        static_cast<int>(m_routing_strategy),
+        " bosky_routing_strategy: ",
+        static_cast<int>(m_bosky_routing_strategy));
 
     switch (m_routing_strategy) {
     case RoutingStrategy::FastInvestment_Sarkaz:
@@ -199,6 +215,19 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     case RoutingStrategy::BoskyPassage_JieGarden: {
         bosky_update_map();
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("Default");
+        bosky_decide_and_click(priority_order);
+        break;
+    }
+
+    case RoutingStrategy::FindPlaytime_JieGarden: {
+        // 更新地图
+        bosky_update_map();
+        const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
+
+        // 获取目标常乐节点子类型
+        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", static_cast<int>(m_bosky_map.m_target_subtype));
+
+        // 尝试找到目标节点，使用常乐节点优先的策略
         bosky_decide_and_click(priority_order);
         break;
     }

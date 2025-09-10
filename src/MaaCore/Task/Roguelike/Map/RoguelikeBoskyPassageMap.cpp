@@ -73,6 +73,18 @@ void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubN
     Log.info(__FUNCTION__, "| Set node ", index, " subtype to ", static_cast<int>(sub_type));
 }
 
+RoguelikeBoskySubNodeType RoguelikeBoskyPassageMap::get_node_subtype(size_t index) const
+{
+    if (index >= m_nodes.size()) {
+        return RoguelikeBoskySubNodeType::Unknown;
+    }
+    const Node& n = m_nodes[index];
+    if (!n.exists) {
+        return RoguelikeBoskySubNodeType::Unknown;
+    }
+    return n.sub_type;
+}
+
 void RoguelikeBoskyPassageMap::reset()
 {
     for (auto& n : m_nodes) {
