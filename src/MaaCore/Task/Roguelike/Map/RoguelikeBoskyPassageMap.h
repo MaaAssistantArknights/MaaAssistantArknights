@@ -121,7 +121,11 @@ public:
     // 获取子类型
     [[nodiscard]] RoguelikeBoskySubNodeType get_node_subtype(size_t index) const;
 
-    RoguelikeBoskySubNodeType m_target_subtype = RoguelikeBoskySubNodeType::Unknown;
+    // 设置目标子类型
+    void set_target_subtype(RoguelikeBoskySubNodeType target) { m_target_subtype = target; }
+
+    // 获取目标子类型
+    [[nodiscard]] RoguelikeBoskySubNodeType get_target_subtype() const { return m_target_subtype; }
 
     // 中心节点 index
     static constexpr int CENTER_X = 3;
@@ -147,6 +151,7 @@ private:
     std::array<Node, WIDTH * HEIGHT> m_nodes {}; // 直接按 y*WIDTH + x 索引
     size_t m_curr_pos = 0;
     size_t m_existing_count = 0;
+    RoguelikeBoskySubNodeType m_target_subtype = RoguelikeBoskySubNodeType::Unknown;
 
     // 辅助函数：获取有效的节点引用，如果索引无效或节点不存在则返回 nullptr
     [[nodiscard]] Node* get_valid_node(size_t index);

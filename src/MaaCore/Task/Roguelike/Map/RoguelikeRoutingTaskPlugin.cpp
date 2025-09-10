@@ -62,7 +62,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         if (mode == RoguelikeMode::FindPlaytime) {
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
-            m_bosky_map.m_target_subtype = static_cast<RoguelikeBoskySubNodeType>(target);
+            m_bosky_map.set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
             Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target: ", target);
             return true;
         }
@@ -225,7 +225,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
 
         // 获取目标常乐节点子类型
-        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", subtype2name(m_bosky_map.m_target_subtype));
+        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", subtype2name(m_bosky_map.get_target_subtype()));
 
         // 尝试找到目标节点，使用常乐节点优先的策略
         bosky_decide_and_click(priority_order);
