@@ -28,6 +28,15 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     sudo apt install cmake
     ```
 
+    - Arch Linux
+
+    ```bash
+    sudo pacman -S --needed cmake
+    # 另外, 需要安装 llvm 20
+    # clang-20, clang++-20
+    # 在 PATH 中需要能找到 clang-20, clang++-20 
+    ```
+
 2. 构建第三方库
 
     可以选择下载预构建的依赖库或从头进行编译
@@ -50,7 +59,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
         ```bash
         git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
-        # 如果系统环境过低, 请考虑不使用交叉编译, 而是直接使用本地编译环境.
+        # 如果系统环境过低无法安装 llvm 20, 请考虑不使用交叉编译, 直接使用本地编译环境.
         # 需要调整 MaaDeps/vcpkg-overlay/triplet 中的 toolchain 配置.
         python linux-toolchain-download.py
         python build.py
@@ -68,7 +77,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 
     来将 MAA 安装到目标位置, 注意 MAA 推荐通过指定 `LD_LIBRARY_PATH` 来运行, 不要使用管理员权限将 MAA 装入 `/usr`
 
-    > 现在应该不需要指定LD_LIBRARY_PATH即可运行, 有问题提issue吧
+    > 现在应该不需要指定 `LD_LIBRARY_PATH` 即可运行
 
     ```bash
     cmake --install build --prefix <target_directory>
