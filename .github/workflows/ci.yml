@@ -225,8 +225,15 @@ jobs:
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
           git submodule update --init --depth 1 src/maa-cli
 
-      # Caching not necessary on ubuntu runner
-      - name: Bootstrap MaaDeps
+      - name: Cache MaaDeps and Toolchain
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
+
+      - name: Bootstrap MaaDeps and Toolchain
+        if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
