@@ -18,13 +18,20 @@ repos:
     rev: v3.5.3
     hooks:
       - id: prettier
+        name: prettier (config files)
+        files: ^((\.github/ISSUE_TEMPLATE|docs|resource|src|tools)/.*|\.pre-commit-config\.yaml|package-definition\.json)
+        types_or:
+          - yaml
+          - json
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.5.3
+    hooks:
+      - id: prettier
+        name: prettier (website)
         additional_dependencies:
-          - prettier@3.6.2
+          - "prettier@3.6.2"
           - "@trivago/prettier-plugin-sort-imports@5.2.2"
-        files: ^((\.github/ISSUE_TEMPLATE|website)/.*|\.pre-commit-config\.yaml|package-definition\.json)
-        # types_or:
-        #   - yaml
-        #   - json
+        files: ^website/.*
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.17.2
     hooks:
