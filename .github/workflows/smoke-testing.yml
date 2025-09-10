@@ -93,7 +93,6 @@ jobs:
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DMAADEPS_TRIPLET='maa-x64-linux' \
-            -DINSTALL_RESOURCE=ON \
             -DBUILD_SMOKE_TEST=ON \
             -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
