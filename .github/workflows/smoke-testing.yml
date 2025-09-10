@@ -80,8 +80,12 @@ jobs:
         run: |
           python3 tools/maadeps-download.py x64-linux
           python3 tools/linux-toolchain-download.py x64
+
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
           
-          sudo apt install cmake llvm-20
+          sudo apt install cmake
 
       - name: Config cmake
         run: |
