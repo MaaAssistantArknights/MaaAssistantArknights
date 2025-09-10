@@ -1,15 +1,13 @@
-name: "CodeQL Website and Workflows Analysis"
+name: "CodeQL Website Analysis"
 
 on:
   pull_request:
     branches: ["dev"]
     paths:
       - "website/**"
-      - ".github/workflows/*.yml"
-      - ".github/*.yml"
       - "!**/*.md"
   schedule:
-    - cron: "00 12 * * *" # Runs daily at 12:00 UTC
+    - cron: "10 12 * * *" # Runs daily at 12:10 UTC
   workflow_dispatch:
 
 permissions:
@@ -50,23 +48,3 @@ jobs:
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  analyze-workflows:
-    name: Analyze GitHub Workflows
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          show-progress: false
-
-      - name: Setup CodeQL for GitHub Actions
-        uses: github/codeql-action/init@v3
-        with:
-          languages: actions
-          build-mode: none
-
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:multi-none"
