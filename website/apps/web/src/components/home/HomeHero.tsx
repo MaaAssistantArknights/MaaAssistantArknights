@@ -2,7 +2,6 @@ import { useTheme } from '@/contexts/ThemeContext'
 import { Canvas } from '@react-three/fiber'
 import { ErrorBoundary } from '@sentry/react'
 
-import { Screenshots } from './Screenshots/Screenshots'
 import { motion } from 'framer-motion'
 import { FC, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,7 @@ import { AnimatedBlobs } from './AnimatedBlobs/AnimatedBlobs'
 import { HomeActions } from './HomeActions/HomeActions'
 import { HomeHeroHeader } from './HomeHeroHeader/HomeHeroHeader'
 import { HomeLinks } from './HomeLinks/HomeLinks'
+import { Screenshots } from './Screenshots/Screenshots'
 
 export const HomeHero: FC = () => {
   const { t, i18n } = useTranslation()
