@@ -34,13 +34,13 @@ static const std::unordered_map<std::string, RoguelikeNodeType> NodeTypeMapping 
     { "Scheme", RoguelikeNodeType::Scheme }
 };
 
-RoguelikeNodeType get_node_type(const std::string& node_name)
+RoguelikeNodeType name2type(const std::string& node_name)
 {
     auto it = NodeTypeMapping.find(node_name);
     return it != NodeTypeMapping.end() ? it->second : RoguelikeNodeType::Unknown;
 }
 
-std::string get_node_name(RoguelikeNodeType node_type)
+std::string type2name(RoguelikeNodeType node_type)
 {
     // 在第一次调用时构建反向映射表
     static std::unordered_map<RoguelikeNodeType, std::string> reverse_mapping;
