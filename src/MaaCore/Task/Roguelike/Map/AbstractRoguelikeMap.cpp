@@ -43,19 +43,16 @@ RoguelikeNodeType name2type(const std::string& node_name)
 
 std::string type2name(RoguelikeNodeType node_type)
 {
-    // 在第一次调用时构建反向映射表
-    static std::unordered_map<RoguelikeNodeType, std::string> reverse_mapping;
-    static bool initialized = false;
-
-    if (!initialized) {
+    static const std::unordered_map<RoguelikeNodeType, std::string> reverse_mapping = []() {
+        std::unordered_map<RoguelikeNodeType, std::string> mapping;
         for (const auto& [name, type] : NodeTypeMapping) {
-            reverse_mapping[type] = name;
+            mapping[type] = name;
         }
-        initialized = true;
-    }
+        return mapping;
+    }();
 
     auto it = reverse_mapping.find(node_type);
-    return it != reverse_mapping.end() ? it->second : "";
+    return it != reverse_mapping.end() ? it->second : "Unknown";
 }
 
 std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type)
@@ -69,7 +66,7 @@ std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type)
     };
 
     auto it = subtype_mapping.find(sub_node_type);
-    return it != subtype_mapping.end() ? it->second : "";
+    return it != subtype_mapping.end() ? it->second : "Unknown";
 }
 
 } // namespace asst
