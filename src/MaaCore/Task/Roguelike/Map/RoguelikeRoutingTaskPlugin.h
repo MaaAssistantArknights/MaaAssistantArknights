@@ -79,8 +79,9 @@ private:
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
 
     // ==================== BoskyPassage (JieGarden) 专用 ====================
-    void bosky_update_map();       // 从当前截图识别所有可见节点并更新/创建
-    void bosky_decide_and_click(); // 策略
+    void bosky_update_map(); // 从当前截图识别所有可见节点并更新/创建
+    void bosky_decide_and_click(const std::vector<RoguelikeNodeType>& priority_order);      // 策略，可指定优先级策略
+    std::vector<RoguelikeNodeType> get_bosky_passage_priority(const std::string& strategy); // 从配置文件读取优先级
 
     RoguelikeBoskyPassageMap::BoskyPassageMapConfig m_bosky_config;
 };

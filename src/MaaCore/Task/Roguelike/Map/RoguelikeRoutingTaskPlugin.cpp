@@ -193,7 +193,8 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
     case RoutingStrategy::BoskyPassage_JieGarden: {
         bosky_update_map();
-        bosky_decide_and_click();
+        const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("Default");
+        bosky_decide_and_click(priority_order);
         break;
     }
 
@@ -286,23 +287,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
     Log.info(__FUNCTION__, "| map updated with ", m_bosky_map.size(), " nodes");
 }
 
-void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
+void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<RoguelikeNodeType>& priority_order)
 {
     LogTraceFunction;
 
     Log.info(__FUNCTION__, "| deciding and clicking a bosky passage node");
-
-    // 定义节点类型的优先级顺序
-    const std::vector<RoguelikeNodeType> priority_order = {
-        RoguelikeNodeType::Omissions, // 拾遗 - 最高优先级
-        RoguelikeNodeType::Legend,    // 传说
-        RoguelikeNodeType::YiTrader,  // 易与
-        RoguelikeNodeType::OldShop,   // 故肆
-        RoguelikeNodeType::Scheme,    // 筹谋
-        RoguelikeNodeType::Playtime,  // 常乐
-        RoguelikeNodeType::Doubts,    // 杂疑
-        // RoguelikeNodeType::Disaster   // 祸乱 - 最低优先级
-    };
 
     size_t chosen = 0;
     bool found = false;
@@ -355,30 +344,13 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click()
     m_bosky_map.set_visited(chosen);
     m_bosky_map.set_curr_pos(chosen);
 
-    // 根据节点类型判断 Task.set_task_base base_task_name
-    switch (m_bosky_map.get_node_type(chosen)) {
-    case RoguelikeNodeType::YiTrader:
-        Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@RoutingAction-StageYiTraderEnter");
-        break;
-    case RoguelikeNodeType::Disaster:
-        Task.set_task_base(
-            "JieGarden@Roguelike@RoutingAction",
-            "JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter");
-        break;
-    case RoguelikeNodeType::Omissions:
-    case RoguelikeNodeType::Legend:
-    case RoguelikeNodeType::OldShop:
-    case RoguelikeNodeType::Scheme:
-    case RoguelikeNodeType::Playtime:
-    case RoguelikeNodeType::Doubts:
-        Task.set_task_base(
-            "JieGarden@Roguelike@RoutingAction",
-            "JieGarden@Roguelike@RoutingAction-StageEncounterEnter");
-        break;
-    default:
-        Log.warn(__FUNCTION__, "| unknown node type: ", static_cast<int>(node_type));
-        break;
-    }
+    // 执行节点类型对应的任务
+    const std::string& theme = m_config->get_theme();
+    std::string node_name = get_node_name(node_type);
+
+    const std::string node_task_name = theme + "@Roguelike@MapNode" + node_name;
+    // 设置 next
+    Task.set_task_base("JieGarden@Roguelike@RoutingAction", node_task_name);
 }
 
 bool asst::RoguelikeRoutingTaskPlugin::update_map(
@@ -714,5 +686,64 @@ void asst::RoguelikeRoutingTaskPlugin::update_selected_x()
     }
     else {
         m_selected_x = m_middle_x;
+    }
+}
+
+std::vector<asst::RoguelikeNodeType>
+    asst::RoguelikeRoutingTaskPlugin::get_bosky_passage_priority(const std::string& strategy)
+{
+    LogTraceFunction;
+
+    std::vector<RoguelikeNodeType> priority_order;
+
+    try {
+        const std::string& theme = m_config->get_theme();
+        const std::string config_name = theme + "@Roguelike@RoutingBoskyPassagePriority_" + strategy;
+
+        auto task_info = Task.get(config_name);
+
+        if (!task_info) {
+            Log.error(__FUNCTION__, "| priority config not found: ", config_name);
+            return {};
+        }
+
+        // 从 next 字段中读取优先级配置
+        const auto& next_tasks = task_info->next;
+        if (next_tasks.empty()) {
+            Log.warn(__FUNCTION__, "| Priority config is empty in: ", config_name);
+            return {};
+        }
+
+        // 从任务名称中解析节点类型
+        priority_order.reserve(next_tasks.size());
+        for (const std::string& task_name : next_tasks) {
+            // 解析类似 "JieGarden@Roguelike@MapNodeYiTrader" 这样的任务名 -> "YiTrader"
+            const size_t pos = task_name.rfind("MapNode");
+            if (pos == std::string::npos) {
+                Log.warn(__FUNCTION__, "| Invalid task name in priority config: ", task_name);
+                continue;
+            }
+            const std::string node_name = task_name.substr(pos + 7);
+            RoguelikeNodeType node_type = get_node_type(node_name);
+            if (node_type != RoguelikeNodeType::Unknown) {
+                priority_order.push_back(node_type);
+                Log.debug(
+                    __FUNCTION__,
+                    "| Added priority node type: ",
+                    static_cast<int>(node_type),
+                    " from task: ",
+                    task_name);
+            }
+            else {
+                Log.warn(__FUNCTION__, "| Failed to parse node type from task: ", task_name);
+            }
+        }
+
+        Log.info(__FUNCTION__, "| Loaded ", priority_order.size(), " node types from priority config");
+        return priority_order;
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| Exception while reading priority config: ", e.what());
+        return {};
     }
 }
