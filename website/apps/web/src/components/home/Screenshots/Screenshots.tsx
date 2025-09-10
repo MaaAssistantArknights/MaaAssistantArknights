@@ -1,3 +1,11 @@
+import { useTheme } from '@/contexts/ThemeContext'
+import { getLanguageOption } from '@/i18n'
+import { useFrame, useLoader } from '@react-three/fiber'
+
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Mesh, TextureLoader, Vector2 } from 'three'
+
 const screenshots = import.meta.glob('@/assets/screenshots/*/*/*.png', {
   eager: true,
   import: 'default',
@@ -11,14 +19,6 @@ function getScreenshot(
   const path = `/src/assets/screenshots/${theme}/${lang}/${position}.png`
   return screenshots[path]
 }
-
-import { useTheme } from '@/contexts/ThemeContext'
-import { useFrame, useLoader } from '@react-three/fiber'
-import { useTranslation } from 'react-i18next'
-import { getLanguageOption } from '@/i18n'
-
-import { useEffect, useRef } from 'react'
-import { Mesh, TextureLoader, Vector2 } from 'three'
 
 function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
