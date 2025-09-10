@@ -23,7 +23,8 @@ public:
         FastInvestment_Sarkaz,
         FastInvestment_JieGarden,
         FastPass,
-        BoskyPassage_JieGarden
+        BoskyPassage_JieGarden,
+        FindPlaytime_JieGarden
     };
 
 protected:

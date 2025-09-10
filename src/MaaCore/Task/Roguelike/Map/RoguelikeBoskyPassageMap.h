@@ -118,6 +118,11 @@ public:
     // 设置子类型
     void set_node_subtype(size_t index, RoguelikeBoskySubNodeType sub_type);
 
+    // 获取子类型
+    [[nodiscard]] RoguelikeBoskySubNodeType get_node_subtype(size_t index) const;
+
+    RoguelikeBoskySubNodeType m_target_subtype = RoguelikeBoskySubNodeType::Unknown;
+
     // 中心节点 index
     static constexpr int CENTER_X = 3;
     static constexpr int CENTER_Y = 2;
