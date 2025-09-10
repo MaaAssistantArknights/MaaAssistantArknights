@@ -91,7 +91,7 @@ jobs:
             -DMAADEPS_TRIPLET='maa-x64-linux' \
             -DINSTALL_RESOURCE=ON \
             -DBUILD_SMOKE_TEST=ON \
-            -DBUILD_WPF_GUI=OFF
+            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
       - name: Build
         run: |
