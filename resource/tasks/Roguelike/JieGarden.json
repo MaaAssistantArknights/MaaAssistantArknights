@@ -522,6 +522,18 @@
             "JieGarden@Roguelike@MapNodePlaytime"
         ]
     },
+    "JieGarden@Roguelike@RoutingBoskyPassagePriority_FindPlaytime": {
+        "doc": ["常乐>拾遗>传说>故肆>易与>筹谋>杂疑(暂时取消)>灾祸(暂时取消)"],
+        "template": "empty.png",
+        "next": [
+            "JieGarden@Roguelike@MapNodePlaytime",
+            "JieGarden@Roguelike@MapNodeOmissions",
+            "JieGarden@Roguelike@MapNodeLegend",
+            "JieGarden@Roguelike@MapNodeOldShop",
+            "JieGarden@Roguelike@MapNodeYiTrader",
+            "JieGarden@Roguelike@MapNodeScheme"
+        ]
+    },
     "JieGarden@Roguelike@MapNodeYiTrader": {
         "template": "empty.png",
         "next": ["JieGarden@Roguelike@RoutingAction-StageYiTraderEnter"]
@@ -1237,6 +1249,22 @@
             ["见字祠", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28],
+        "withoutDet": true,
+        "binThreshold": [200, 255],
+        "useRaw": false
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "text": ["_default", "_restart", "_boskyPassageDefault"],
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,

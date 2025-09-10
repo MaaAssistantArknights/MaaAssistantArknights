@@ -144,6 +144,13 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         else if (event.name == "三缺一") {
             bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Nian);
         }
+
+        if (bosky_map.m_target_subtype != RoguelikeBoskySubNodeType::Unknown) {
+            if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.m_target_subtype) {
+                Log.info(__FUNCTION__, "| Found target playtime node, proceeding with normal strategy");
+                // TODO: 完成任务，退出程序
+            }
+        }
     }
 
     const auto click_option_task_name = [&](int item, int total) {
