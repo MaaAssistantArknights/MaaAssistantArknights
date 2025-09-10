@@ -322,6 +322,7 @@
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK の本日のダウンロード回数が上限に達しました。明日もう一度お試しください。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK の種類がダウンロード対象のリソースと一致しません。CDK の適用範囲を確認してください。</system:String>
     <system:String x:Key="MirrorChyanCdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
+    <system:String x:Key="MirrorChyanCdkFetchFailed">CDK 情報の取得に失敗しました。前回正常に取得した結果を表示しています。</system:String>
     <system:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">「{key=GlobalSource}」からダウンロード中...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">「{key=MirrorChyan}」からダウンロード中...</system:String>

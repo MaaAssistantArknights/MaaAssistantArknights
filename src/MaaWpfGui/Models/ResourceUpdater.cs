@@ -170,8 +170,17 @@ namespace MaaWpfGui.Models
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
-            var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<int?>() ?? null;
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired ?? 0;
+            var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<long?>();
+
+            if (mirrorChyanCdkExpired.HasValue)
+            {
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired.Value;
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+            }
+            else
+            {
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
+            }
 
             var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;
             if (errorCode != MirrorChyanErrorCode.Success)
