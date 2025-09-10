@@ -28,9 +28,11 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
+using RoguelikeBoskySubNodeType = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBoskySubNodeType;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+
 public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
     static RoguelikeSettingsUserControlModel()
@@ -111,6 +113,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyFindPlaytime"), Value = Mode.FindPlaytime },
                 ];
                 break;
 
@@ -918,6 +921,36 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private RoguelikeBoskySubNodeType _roguelikeFindPlaytimeTarget = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, RoguelikeBoskySubNodeType.Ling);
+
+    /// <summary>
+    /// Gets or sets the target playtime subnode type for FindPlaytime mode.
+    /// </summary>
+    public RoguelikeBoskySubNodeType RoguelikeFindPlaytimeTarget
+    {
+        get => _roguelikeFindPlaytimeTarget;
+        set
+        {
+            SetAndNotify(ref _roguelikeFindPlaytimeTarget, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Gets the list of available playtime target options for FindPlaytime mode.
+    /// </summary>
+    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } = new()
+    {
+        new() { Display = "令 - 掷地有声", Value = RoguelikeBoskySubNodeType.Ling },
+        new() { Display = "黍 - 种因得果", Value = RoguelikeBoskySubNodeType.Shu },
+        new() { Display = "年 - 三缺一", Value = RoguelikeBoskySubNodeType.Nian },
+    };
+
+    /// <summary>
+    /// Gets a value indicating whether the FindPlaytime target selection should be visible.
+    /// </summary>
+    public bool RoguelikeFindPlaytimeTargetVisible => RoguelikeMode == Mode.FindPlaytime && RoguelikeTheme == Theme.JieGarden;
+
     private bool _roguelikeStopAtMaxLevel = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, bool.FalseString));
 
     /// <summary>
@@ -1138,6 +1171,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             // 深入探索
             DeepExplorationAutoIterate = RoguelikeDeepExplorationAutoIterate,
+
+            // 刷常乐节点
+            FindPlaytimeTarget = RoguelikeFindPlaytimeTarget,
 
             SamiFirstFloorFoldartal = RoguelikeTheme == Theme.Sami && RoguelikeMode == Mode.Collectible && Roguelike3FirstFloorFoldartal,
             SamiStartFloorFoldartal = Roguelike3FirstFloorFoldartals,
