@@ -2,8 +2,6 @@ import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import { useLayoutState } from '@/contexts/LayoutStateContext'
 import { Release, useRelease } from '@/hooks/use-release'
 import i18n from '@/i18n'
-import mdiLoading from '@iconify/icons-mdi/loading'
-import type { IconifyIcon } from '@iconify/react'
 import { downloadBlob } from '@/utils/blob'
 import { checkUrlConnectivity, checkUrlSpeed, download } from '@/utils/fetch'
 import { formatBytes } from '@/utils/format'
@@ -11,6 +9,8 @@ import sleep from '@/utils/sleep'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
 import mdiCheck from '@iconify/icons-mdi/check'
 import mdiDownload from '@iconify/icons-mdi/download'
+import mdiLoading from '@iconify/icons-mdi/loading'
+import type { IconifyIcon } from '@iconify/react'
 import { Icon } from '@iconify/react'
 
 import clsx from 'clsx'
@@ -150,40 +150,40 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
 
 type DownloadDetectionStates =
   | {
-    state: 'idle'
-  }
+      state: 'idle'
+    }
   | {
-    state: 'detecting'
-    detected: number
-  }
+      state: 'detecting'
+      detected: number
+    }
   | {
-    state: 'speedTesting'
-    mirrorIndex: number
-  }
+      state: 'speedTesting'
+      mirrorIndex: number
+    }
   | {
-    state: 'detected'
-    availableMirror: number
-    canTestSpeed: boolean
-    cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
-  }
+      state: 'detected'
+      availableMirror: number
+      canTestSpeed: boolean
+      cantTestSpeedReason: 'saveData' | 'mobile' | 'ok'
+    }
   | {
-    state: 'connecting'
-    mirrorIndex: number
-    mirrorLatency: number
-    mirrorSpeed: number
-  }
+      state: 'connecting'
+      mirrorIndex: number
+      mirrorLatency: number
+      mirrorSpeed: number
+    }
   | {
-    state: 'downloading'
-    mirrorIndex: number
-    progressDownloaded: number
-    progressTotal: number
-  }
+      state: 'downloading'
+      mirrorIndex: number
+      progressDownloaded: number
+      progressTotal: number
+    }
   | {
-    state: 'downloaded'
-  }
+      state: 'downloaded'
+    }
   | {
-    state: 'fallback'
-  }
+      state: 'fallback'
+    }
 
 const DownloadButton = forwardRef<
   HTMLDivElement,
@@ -396,11 +396,11 @@ const DownloadButton = forwardRef<
     const title = loadState.canTestSpeed
       ? t('release.speedTest.success', { count: loadState.availableMirror })
       : t('release.speedTest.failure', {
-        count: loadState.availableMirror,
-        reason: t(
-          `release.speedTest.reasons.${loadState.cantTestSpeedReason}`,
-        ),
-      })
+          count: loadState.availableMirror,
+          reason: t(
+            `release.speedTest.reasons.${loadState.cantTestSpeedReason}`,
+          ),
+        })
 
     return (
       <DownloadState
@@ -413,14 +413,14 @@ const DownloadButton = forwardRef<
     const title =
       loadState.mirrorSpeed > 0
         ? t('release.download.connectingWithSpeed', {
-          index: loadState.mirrorIndex,
-          latency: loadState.mirrorLatency.toFixed(3),
-          speed: ((loadState.mirrorSpeed / 1024 / 1024) * 1000).toFixed(3),
-        })
+            index: loadState.mirrorIndex,
+            latency: loadState.mirrorLatency.toFixed(3),
+            speed: ((loadState.mirrorSpeed / 1024 / 1024) * 1000).toFixed(3),
+          })
         : t('release.download.connectingWithoutSpeed', {
-          index: loadState.mirrorIndex,
-          latency: loadState.mirrorLatency.toFixed(3),
-        })
+            index: loadState.mirrorIndex,
+            latency: loadState.mirrorLatency.toFixed(3),
+          })
 
     return (
       <DownloadState
