@@ -192,7 +192,7 @@ jobs:
         run: |
             rm -rf install/*.pdb
             rm -rf install/msvc-debug
-            rm -rf *.h
+            rm -rf install/*.h
 
             cp tools/DependencySetup_依赖库安装.bat install
 
