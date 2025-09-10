@@ -59,7 +59,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
             return true;
         }
         else {
-            m_routing_strategy = RoutingStrategy::BoskyPassage_JieGarden;
+            m_bosky_routing_strategy = RoutingStrategy::BoskyPassage_JieGarden;
             return true;
         }
     }
@@ -191,6 +191,11 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         navigate_route();
         break;
 
+    default:
+        break;
+    }
+
+    switch (m_bosky_routing_strategy) {
     case RoutingStrategy::BoskyPassage_JieGarden: {
         bosky_update_map();
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("Default");
