@@ -117,8 +117,8 @@ jobs:
         run: |
           ./tools/SmokeTesting/run_tests.sh
 
-      - name: Save cache smoke-testing
-        if: steps.smoke-cache.outputs.cache-hit != 'true'
+      - name: Save cache smoke-testing (only in dev)
+        if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:
           key: ${{ steps.cache_key.outputs.key }}
