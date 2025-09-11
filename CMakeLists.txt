@@ -16,7 +16,7 @@ option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(BUILD_SMOKE_TEST "build smoke_test" OFF)
-option(BUILD_RES_UPDATER "build resource_updater" OFF)
+option(BUILD_RES_UPDATER "build ResourceUpdater" OFF)
 
 include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
 
@@ -128,11 +128,19 @@ if (BUILD_SMOKE_TEST)
 endif (BUILD_SMOKE_TEST)
 
 if (BUILD_RES_UPDATER)
-    add_executable(resource_updater tools/ResourceUpdater/main.cpp)
-    target_include_directories(resource_updater PUBLIC include PRIVATE src/MaaCore) # For Utils/Time.hpp
-    target_link_libraries(resource_updater HeaderOnlyLibraries ${OpenCV_LIBS})
+    add_executable(ResourceUpdater tools/ResourceUpdater/main.cpp)
+    target_include_directories(ResourceUpdater PUBLIC include PRIVATE src/MaaCore) # For Utils/Time.hpp
+    target_link_libraries(ResourceUpdater HeaderOnlyLibraries ${OpenCV_LIBS})
     if(LINUX)
-        target_link_libraries(resource_updater pthread)
+        target_link_libraries(ResourceUpdater pthread)
+    endif()
+    install(TARGETS ResourceUpdater DESTINATION . COMPONENT ResourceUpdater)
+
+    # Copy from maadeps_install, adding component
+    if(MSVC)
+        install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>" DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT ResourceUpdater)
+    else()
+        install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/" DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT ResourceUpdater)
     endif()
 endif (BUILD_RES_UPDATER)
 

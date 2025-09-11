@@ -1,0 +1,7 @@
+# for win
+*.exe
+*.dll
+# for linux & macos
+ResourceUpdater
+*.so.*
+*.dylib.*
