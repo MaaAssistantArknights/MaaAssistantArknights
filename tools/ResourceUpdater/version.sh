@@ -40,9 +40,9 @@ else
         version_file="$dir/version.json"
         
         if [ -f "$version_file" ]; then
-            # Use jq to update the JSON
+            # Use jq to update the JSON with proper 4-space indentation
             current_date=$(date -u +"%Y-%m-%d %H:%M:%S.000")
-            jq --arg date "$current_date" '.last_updated = $date' "$version_file" > "$version_file.tmp"
+            jq --arg date "$current_date" --indent 4 '.last_updated = $date' "$version_file" > "$version_file.tmp"
             mv "$version_file.tmp" "$version_file"
             
             echo "Updated: $version_file"
