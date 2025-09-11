@@ -189,7 +189,7 @@ jobs:
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --target ResourceUpdater --config Release --parallel $(nproc)
+          cmake --build build --config Release --parallel $(nproc)
 
       - name: Install
         if: steps.resupd-cache.outputs.cache-hit != 'true'
