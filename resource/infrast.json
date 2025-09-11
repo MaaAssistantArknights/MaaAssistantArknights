@@ -3256,5 +3256,5 @@
         ],
         "skillsGroup_Doc": "相关技能组参考https://bbs.nga.cn/read.php?tid=25965441"
     },
-    "roomType": ["Power", "Reception", "Control", "Dorm", "Trade", "Office", "Mfg"]
+    "roomType": ["Trade", "Power", "Mfg", "Office", "Reception", "Dorm", "Control"]
 }

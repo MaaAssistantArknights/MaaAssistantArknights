@@ -3,6 +3,7 @@
 *.dll
 # for linux & macos
 ResourceUpdater
+*.h
 *.so.*
 *.dylib.*
 
