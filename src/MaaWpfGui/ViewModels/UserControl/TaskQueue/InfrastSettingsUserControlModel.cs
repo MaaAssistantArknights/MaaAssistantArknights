@@ -435,7 +435,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _customInfrastPlanIndex, value);
-            TaskQueueViewModel.SetInfrastParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanIndex, value.ToString());
         }
     }

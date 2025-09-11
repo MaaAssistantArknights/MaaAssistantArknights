@@ -140,6 +140,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        If ｢{key=CustomInfrastPlan}｣ has execution time, it will not switch automatically before ｢{key=Base}｣ task starts or during task execution, and will remain in the state at {key=LinkStart}. Switching only occurs when idle or after the task is completed.
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">Custom Base infrastructure selection is empty. Please check your configuration or turn off the Custom Base function.</system:String>
     <system:String x:Key="General">General Mode</system:String>

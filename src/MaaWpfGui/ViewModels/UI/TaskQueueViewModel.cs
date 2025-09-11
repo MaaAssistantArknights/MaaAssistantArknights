@@ -1617,18 +1617,6 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 
-        public static void SetInfrastParams()
-        {
-            int id = Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == TaskType.Infrast).Key;
-            if (id == 0)
-            {
-                return;
-            }
-
-            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
-            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-        }
-
         public bool AppendInfrast()
         {
             if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
