@@ -1,7 +1,6 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
-#include <thread>
 #include <unordered_set>
 
 #include <meojson/json.hpp>
@@ -69,9 +68,7 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-#if defined(_WIN32)
     SetConsoleOutputCP(CP_UTF8);
-#endif
 
     // ---- PATH DECLARATION ----
 
@@ -621,12 +618,7 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
         { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
     };
 
-    // TODO: new meojson seems not support basic_object | std::views::values
-    for (auto& [key, val] : buffs) {
-        std::ignore = key;
-        auto& buff_obj = val;
-    // }
-    // for (auto& buff_obj : buffs | std::views::values) {
+    for (auto& buff_obj : buffs | asst::views::values) {
         std::string room_type;
 
         if (buff_obj["roomType"].is_number()) {
@@ -1048,9 +1040,9 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base)
 {
-    using std::ranges::find_if, std::ranges::range;
+    using asst::ranges::find_if, asst::ranges::range;
     using asst::utils::string_replace_all_in_place;
-    using std::views::filter, std::views::split, std::views::transform, std::views::drop_while;
+    using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool {
         return !str.empty();
