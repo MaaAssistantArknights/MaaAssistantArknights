@@ -1,4 +1,4 @@
-name: res-update-game
+name: Resource Updater
 
 on:
   schedule:
