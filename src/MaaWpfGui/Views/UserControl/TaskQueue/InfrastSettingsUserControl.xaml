@@ -44,17 +44,29 @@
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'InfrastMode == ui:InfrastMode.Custom', Source={x:Static ui:InfrastSettingsUserControlModel.Instance}}">
-                <hc:ComboBox
-                    Margin="0,4"
-                    VerticalContentAlignment="Center"
-                    hc:InfoElement.Title="{DynamicResource CustomInfrastPlan}"
-                    DisplayMemberPath="Display"
+                <StackPanel Margin="0,4">
+                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                        <controls:TextBlock
+                            Margin="8,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource CustomInfrastPlan}" />
+                        <controls:TooltipBlock
+                            VerticalAlignment="Center"
+                            d:Visibility="Visible"
+                            TooltipText="{DynamicResource CustomInfrastPlanToolTip}" />
+                    </StackPanel>
+                    <ComboBox
+                        Margin="0,4"
+                        VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
+                        DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                    ItemsSource="{Binding CustomInfrastPlanList}"
-                    SelectedValue="{Binding CustomInfrastPlanIndex}"
-                    SelectedValuePath="Value" />
+                        ItemsSource="{Binding CustomInfrastPlanList}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        SelectedValuePath="Value" />
+                </StackPanel>
                 <controls:TextBlock
                     Margin="0,5"
                     HorizontalAlignment="Center"

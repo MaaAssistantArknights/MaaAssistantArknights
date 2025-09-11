@@ -140,6 +140,9 @@
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        如 ｢{key=CustomInfrastPlan}｣ 存在执行时间，｢{key=Base}｣ 任务开始前或任务运行时不会自动切换，将保持 {key=LinkStart} 时的状态，仅在空闲或任务完成后切换。
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>

@@ -140,6 +140,9 @@
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        ｢{key=CustomInfrastPlan}｣에 실행 시간이 존재할 경우, ｢{key=Base}｣ 작업 시작 전이나 작업 중에는 자동으로 전환되지 않으며, {key=LinkStart} 상태를 유지합니다. 전환은 오직 대기 중이거나 작업이 완료된 후에만 이루어집니다.
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 커스텀 기능을 끄세요.</system:String>
     <system:String x:Key="General">일반 모드</system:String>
