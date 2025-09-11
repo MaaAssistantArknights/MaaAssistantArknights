@@ -146,8 +146,8 @@ jobs:
         with:
           key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/ResourceUpdater.exe
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Cache MaaDeps
         if: steps.cache-resupd.outputs.cache-hit != 'true'
@@ -165,18 +165,14 @@ jobs:
         run: |
           python3 tools/maadeps-download.py x64-windows
 
-      - name: Config cmake
-        run: |
-          mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-x64-windows' -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF -DBUILD_RES_UPDATER=ON
+      - name: Add msbuild to PATH
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        uses: microsoft/setup-msbuild@v2
 
       - name: Build Resource Updater
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --target ResourceUpdater --config Release --parallel $env:NUMBER_OF_PROCESSORS
-        
-      - name: Install Resource Updater
-        run: |
-          cmake --install build --component ResourceUpdater --config Release --prefix tools/ResourceUpdater
+          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
 
       - name: Save ResourceUpdater.exe to cache
         if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
@@ -184,8 +180,8 @@ jobs:
         with:
           key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/ResourceUpdater.exe
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Download txwy
         id: download-txwy
@@ -193,7 +189,7 @@ jobs:
         continue-on-error: true
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Delay txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -205,7 +201,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
         id: download-overseas
@@ -213,7 +209,7 @@ jobs:
         continue-on-error: true
         with:
           name: overseas
-          path: ./tools/ResourceUpdater/Overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Delay Overseas
         if: steps.download-overseas.outcome == 'failure'
@@ -225,7 +221,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: overseas
-          path: ./tools/ResourceUpdater/Overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download Official
         id: download-official
@@ -233,7 +229,7 @@ jobs:
         continue-on-error: true
         with:
           name: official
-          path: ./tools/ResourceUpdater/Official
+          path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Delay Official
         if: steps.download-official.outcome == 'failure'
@@ -245,11 +241,11 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: official
-          path: ./tools/ResourceUpdater/Official
+          path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Run Resource Updater
         run: |
-          ./tools/ResourceUpdater/ResourceUpdater.exe
+          ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Task Sorting
         id: task_sorting
