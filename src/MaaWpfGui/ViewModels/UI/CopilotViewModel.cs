@@ -66,7 +66,7 @@ namespace MaaWpfGui.ViewModels.UI
         private const string CopilotIdPrefix = "maa://";
         private static readonly string TempCopilotFile = Path.Combine(PathsHelper.Cache, "_temp_copilot.json");
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
-        private static readonly string CopilotJsonDir = Path.Combine(PathsHelper.GuiConfigDirectory, "copilot");
+        private static readonly string CopilotJsonDir = Path.Combine(PathsHelper.Config, "copilot");
         private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
         private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -642,7 +642,7 @@ namespace MaaWpfGui.ViewModels.UI
             object? payload;
             if (!File.Exists(filename))
             {
-                var resourceFile = Path.Combine(PathsHelper.ResourceDirectory, "copilot", Path.GetFileName(filename));
+                var resourceFile = Path.Combine(PathsHelper.Resource, "copilot", Path.GetFileName(filename));
                 if (File.Exists(resourceFile))
                 {
                     filename = resourceFile;
@@ -1026,7 +1026,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                var files = Directory.GetFiles(Path.Combine(PathsHelper.ResourceDirectory, "copilot"), "*.json");
+                var files = Directory.GetFiles(Path.Combine(PathsHelper.Resource, "copilot"), "*.json");
                 comboBox.ItemsSource = files.Select(Path.GetFileName).ToList();
             }
             catch (Exception exception)
