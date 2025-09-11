@@ -102,8 +102,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     // 刷常乐节点保存路上招募券
-    // 好像开局的招募会多次触发 等之后再优化
-    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime) {
+    // 只在非开局招募时保存招募券
+    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
         bool ret = ProcessTask(*this, { "JieGarden@Roguelike@ReserveRecruitmentVoucher" }).run();
         if (ret) {
             return true;
