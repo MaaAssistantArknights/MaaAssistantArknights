@@ -28,7 +28,7 @@
     <system:String x:Key="UpdateSettings">更新設定</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
     <system:String x:Key="IssueReport">問題回饋</system:String>
-    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="MaaVersion">軟體版本</system:String>
     <system:String x:Key="BuildDateTime">構建日期</system:String>
     <system:String x:Key="CoreVersion">Core 版本</system:String>
     <system:String x:Key="UiVersion">UI 版本</system:String>

@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">도전과제</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
     <system:String x:Key="IssueReport">문제 보고</system:String>
-    <system:String x:Key="MaaVersion">MAA 버전</system:String>
+    <system:String x:Key="MaaVersion">소프트웨어 버전</system:String>
     <system:String x:Key="BuildDateTime">빌드 날짜</system:String>
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>

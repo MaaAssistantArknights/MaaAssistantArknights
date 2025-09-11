@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">Achievements</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="IssueReport">Issue Report</system:String>
-    <system:String x:Key="MaaVersion">MAA Version</system:String>
+    <system:String x:Key="MaaVersion">Software Version</system:String>
     <system:String x:Key="BuildDateTime">Build Date</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
