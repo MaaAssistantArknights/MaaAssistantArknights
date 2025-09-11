@@ -76,53 +76,6 @@ namespace MaaWpfGui.Main
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        private static bool TryCreateResourceSymlink()
-        {
-            var result = MessageBox.Show(
-                        "Resource folder not found. Do you want to create a symbolic link to the project's resource folder?",
-                        "MAA",
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Question);
-
-            if (result != MessageBoxResult.OK)
-            {
-                MessageBox.Show(
-                    "resource folder not found and symbolic link creation was cancelled by user.",
-                    "MAA",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return false;
-            }
-
-            var sourceResourcePath = PathsHelper.SourceResourceDirectory;
-            if (!Directory.Exists(sourceResourcePath))
-            {
-                return false;
-            }
-
-            var linkPath = PathsHelper.ResourceDirectory;
-            var processInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                Arguments = $"/c mklink /D \"{linkPath}\" \"{sourceResourcePath}\"",
-                Verb = "runas",
-                UseShellExecute = true,
-                CreateNoWindow = false,
-            };
-            var process = Process.Start(processInfo);
-            process.WaitForExit(5000);
-            if (process.ExitCode == 0 && Directory.Exists(linkPath))
-            {
-                MessageBoxHelper.Show(
-                    "Symbolic link created successfully. Please restart the application.",
-                    "MAA",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
-
-            return true;
-        }
-
         private static List<string> UnknownDllDetected()
         {
             try
@@ -281,15 +234,6 @@ namespace MaaWpfGui.Main
             // 检查 resource 文件夹是否存在
             if (!Directory.Exists(PathsHelper.ResourceDirectory))
             {
-                if (maaEnv == "Debug" || isBuildOutputFolder)
-                {
-                    if (TryCreateResourceSymlink())
-                    {
-                        Shutdown();
-                        return;
-                    }
-                }
-
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
 
