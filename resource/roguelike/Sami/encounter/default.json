@@ -493,7 +493,10 @@
                     ]
                 }
             ],
-            "fallback_choices": [[4, 4], [1, 1]]
+            "fallback_choices": [
+                [4, 4],
+                [1, 1]
+            ]
         },
         {
             "name": "科考站",
