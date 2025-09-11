@@ -183,7 +183,8 @@ jobs:
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Release \
             -DMAADEPS_TRIPLET='maa-x64-linux' \
-            -DBUILD_RES_UPDATER=ON
+            -DBUILD_RES_UPDATER=ON \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'
