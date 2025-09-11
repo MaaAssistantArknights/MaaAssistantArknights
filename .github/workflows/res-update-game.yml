@@ -129,7 +129,7 @@ jobs:
 
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout MAA
         uses: actions/checkout@v5
@@ -140,55 +140,73 @@ jobs:
           show-progress: false
           fetch-depth: 3
 
-      - name: Restore ResourceUpdater.exe from cache
-        id: cache-resupd
+      - name: Restore ResourceUpdater from cache
+        id: resupd-cache
         uses: actions/cache/restore@v4
         with:
-          key: Resource-updater-CMake-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/ResourceUpdater.exe
+            ./tools/ResourceUpdater/libc++.so.1
+            ./tools/ResourceUpdater/libc++abi.so.1
+            ./tools/ResourceUpdater/libopencv_world4.so.411
+            ./tools/ResourceUpdater/libunwind.so.1
+            ./tools/ResourceUpdater/ResourceUpdater
 
       - name: Cache MaaDeps
-        if: steps.cache-resupd.outputs.cache-hit != 'true'
-        id: cache-maadeps
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
+        id: maadeps-cache
         uses: actions/cache@v4
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Bootstrap MaaDeps
-        if: steps.cache-resupd.outputs.cache-hit != 'true' && steps.cache-maadeps.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/maadeps-download.py x64-windows
+          python3 tools/maadeps-download.py x64-linux
+          python3 tools/linux-toolchain-download.py x64
+
+      - name: Install llvm-20
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
 
       - name: Config cmake
-        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-x64-windows' -DBUILD_WPF_GUI=OFF -DBUILD_RES_UPDATER=ON
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DMAADEPS_TRIPLET='maa-x64-linux' \
+            -DBUILD_RES_UPDATER=ON \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
-      - name: Build Resource Updater
-        if: steps.cache-resupd.outputs.cache-hit != 'true'
+      - name: Build
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --target ResourceUpdater --config Release --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --build build --config Release --parallel $(nproc)
 
-      - name: Install Resource Updater
-        if: steps.cache-resupd.outputs.cache-hit != 'true'
+      - name: Install
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --install build --component ResourceUpdater --config Release --prefix tools/ResourceUpdater
+          cmake --install build --config Release --prefix tools/ResourceUpdater
 
-      - name: Save ResourceUpdater.exe to cache
-        if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
+      - name: Save ResourceUpdater to cache
+        if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: Resource-updater-CMake-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/ResourceUpdater.exe
+            ./tools/ResourceUpdater/libc++.so.1
+            ./tools/ResourceUpdater/libc++abi.so.1
+            ./tools/ResourceUpdater/libopencv_world4.so.411
+            ./tools/ResourceUpdater/libunwind.so.1
+            ./tools/ResourceUpdater/ResourceUpdater
 
       - name: Download txwy
         id: download-txwy
@@ -201,7 +219,7 @@ jobs:
       - name: Delay txwy
         if: steps.download-txwy.outcome == 'failure'
         run: |
-          Start-Sleep -s 20
+          sleep 10
 
       - name: Re-download txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -221,7 +239,7 @@ jobs:
       - name: Delay Overseas
         if: steps.download-overseas.outcome == 'failure'
         run: |
-          Start-Sleep -s 20
+          sleep 10
 
       - name: Re-download Overseas
         if: steps.download-overseas.outcome == 'failure'
@@ -241,7 +259,7 @@ jobs:
       - name: Delay Official
         if: steps.download-official.outcome == 'failure'
         run: |
-          Start-Sleep -s 20
+          sleep 10
 
       - name: Re-download Official
         if: steps.download-official.outcome == 'failure'
@@ -252,13 +270,13 @@ jobs:
 
       - name: Run Resource Updater
         run: |
-          ./tools/ResourceUpdater/ResourceUpdater.exe
+          ./tools/ResourceUpdater/ResourceUpdater
 
       - name: Task Sorting
         id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
-          Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
+          echo "gitdiff=$(echo $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$'))" >> $GITHUB_OUTPUT
 
       - name: Run prettier
         uses: Nerixyz/actionsx-prettier@v3-adj
@@ -267,7 +285,8 @@ jobs:
 
       - name: Update version.json date if necessary
         id: update_version
-        run: pwsh tools/ResourceUpdater/version.ps1
+        run: |
+          tools/ResourceUpdater/version.sh
 
       - name: Setup python
         if: steps.update_version.outputs.contains_png == 'True'
@@ -307,19 +326,19 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
 
-          $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if ([string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
-          } else {
-            $commit_msg = $commit_msg.Trim()
-          }
+          commit_msg="${{ github.event.inputs.commit_message }}"
+          if [ -z "$commit_msg" ]; then
+            commit_msg="chore: Auto Update Game Resources - $(date '+%Y-%m-%d')"
+          else
+            commit_msg=$(echo "$commit_msg" | xargs) # Trim whitespace
+          fi
 
-          $run_url = "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          run_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           git commit -m "$commit_msg" -m "$run_url" -m "[skip changelog]"
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
-          }
+          if [ $? -eq 0 ]; then
+            echo "have_commits=True" >> $GITHUB_OUTPUT
+          fi
 
           git pull origin ${{ github.ref_name }} --rebase
 
