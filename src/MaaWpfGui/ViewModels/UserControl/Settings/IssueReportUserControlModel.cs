@@ -46,20 +46,18 @@ public class IssueReportUserControlModel : PropertyChangedBase
         ConfigurationHelper.ConfigFile,
         ConfigFactory.ConfigFilePath];
 
-    private const string DebugDir = "debug";
-
     public static IssueReportUserControlModel Instance { get; }
 
     public void OpenDebugFolder()
     {
         try
         {
-            if (!Directory.Exists(DebugDir))
+            if (!Directory.Exists(PathsHelper.Debug))
             {
-                Directory.CreateDirectory(DebugDir);
+                Directory.CreateDirectory(PathsHelper.Debug);
             }
 
-            Process.Start("explorer.exe", DebugDir);
+            Process.Start("explorer.exe", PathsHelper.Debug);
         }
         catch (Exception ex)
         {
@@ -73,7 +71,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         try
         {
             var reportFileName = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip";
-            string zipPath = Path.Combine(DebugDir, reportFileName);
+            string zipPath = Path.Combine(PathsHelper.Debug, reportFileName);
             string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             string debugTempPath = Path.Combine(tempPath, "debug");
             string resourceTempPath = Path.Combine(tempPath, "resource");
