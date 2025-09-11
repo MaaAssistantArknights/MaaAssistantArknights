@@ -149,7 +149,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.get_target_subtype()) {
                 Log.info(__FUNCTION__, "| Found target playtime node, completing task and exiting");
 
-                auto target_info = basic_info_with_what("JieGardenTargetFound");
+                auto target_info = basic_info_with_what("RoguelikeJieGardenTargetFound");
                 target_info["details"]["target_subtype"] = subtype2name(bosky_map.get_target_subtype());
                 callback(AsstMsg::SubTaskExtraInfo, target_info);
 
