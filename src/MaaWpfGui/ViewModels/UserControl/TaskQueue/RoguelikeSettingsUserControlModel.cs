@@ -1094,8 +1094,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
                 break;
 
-            case "JieGardenTargetFound":
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("JieGardenTargetFound"), subTaskDetails!["target_subtype"]), UiLogColor.Success);
+            case "RoguelikeJieGardenTargetFound":
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeJieGardenTargetFound"), subTaskDetails!["target_subtype"]), UiLogColor.Success);
                 break;
 
             case "FoldartalGainOcrNextLevel":

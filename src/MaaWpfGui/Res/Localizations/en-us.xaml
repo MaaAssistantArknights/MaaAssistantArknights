@@ -171,6 +171,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
     <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
     <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
@@ -1004,7 +1005,6 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
-    <system:String x:Key="JieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeInvestmentReachLimit">Coins reach limit({0}), Stop exploring</system:String>

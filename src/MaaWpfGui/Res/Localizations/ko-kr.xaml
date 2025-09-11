@@ -171,6 +171,7 @@
     <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
     <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
     <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
@@ -1004,7 +1005,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DreadfulFoe">노드: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
-    <system:String x:Key="JieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄 각뿔의 투자량이 설정된 값에({0}) 도달하여 탐사가 중단되었습니다</system:String>
