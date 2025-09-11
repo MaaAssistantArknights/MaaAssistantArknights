@@ -144,7 +144,7 @@ jobs:
         id: cache-resupd
         uses: actions/cache/restore@v4
         with:
-          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}-1
           path: |
             ./tools/ResourceUpdater/opencv_world4_maa.dll
             ./tools/ResourceUpdater/ResourceUpdater.exe
@@ -166,15 +166,18 @@ jobs:
           python3 tools/maadeps-download.py x64-windows
 
       - name: Config cmake
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
           cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-x64-windows' -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF -DBUILD_RES_UPDATER=ON
 
       - name: Build Resource Updater
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           cmake --build build --target ResourceUpdater --config Release --parallel $env:NUMBER_OF_PROCESSORS
-        
+
       - name: Install Resource Updater
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           cmake --install build --component ResourceUpdater --config Release --prefix tools/ResourceUpdater
 
@@ -182,7 +185,7 @@ jobs:
         if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}-1
           path: |
             ./tools/ResourceUpdater/opencv_world4_maa.dll
             ./tools/ResourceUpdater/ResourceUpdater.exe
