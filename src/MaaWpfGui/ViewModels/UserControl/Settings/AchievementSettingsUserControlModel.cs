@@ -42,7 +42,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
     public void BackupAchievements()
     {
         using var dialog = new FolderBrowserDialog();
-        dialog.SelectedPath = Environment.CurrentDirectory;
+        dialog.SelectedPath = PathsHelper.BaseDirectory;
         dialog.ShowNewFolderButton = true;
 
         if (dialog.ShowDialog() != DialogResult.OK)
@@ -75,7 +75,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         var dlg = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "JSON|*.json",
-            InitialDirectory = Environment.CurrentDirectory,
+            InitialDirectory = PathsHelper.BaseDirectory,
         };
 
         if (dlg.ShowDialog() != true)

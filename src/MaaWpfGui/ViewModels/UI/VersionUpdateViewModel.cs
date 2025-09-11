@@ -203,7 +203,7 @@ public class VersionUpdateViewModel : Screen
                 .ShowUpdateVersion(row: 2);
         }
 
-        string curDir = PathsHelper.WorkingDirectory;
+        string curDir = PathsHelper.BaseDirectory;
         string extractDir = Path.Combine(curDir, "NewVersionExtract"); // 新版本解压的路径
         string oldFileDir = Path.Combine(curDir, ".old");
 

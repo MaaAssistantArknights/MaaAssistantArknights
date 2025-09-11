@@ -60,16 +60,68 @@ namespace MaaWpfGui.Main
 
         private static Mutex _mutex;
         private static bool _hasMutex;
-        public const string UiLogFilename = "debug/gui.log";
-        public const string UiLogBakFilename = "debug/gui.bak.log";
-        public const string CoreLogFilename = "debug/asst.log";
-        public const string CoreLogBakFilename = "debug/asst.bak.log";
+
+        private const string UiLogFileName = "gui.log";
+        private const string UiLogBakFileName = "gui.bak.log";
+        private const string CoreLogFileName = "asst.log";
+        private const string CoreLogBakFileName = "asst.bak.log";
+        public static readonly string UiLogFilePath = Path.Combine(PathsHelper.DebugDirectory, UiLogFileName);
+        public static readonly string UiLogBakFilePath = Path.Combine(PathsHelper.DebugDirectory, UiLogBakFileName);
+        public static readonly string CoreLogFilePath = Path.Combine(PathsHelper.DebugDirectory, CoreLogFileName);
+        public static readonly string CoreLogBakFilePath = Path.Combine(PathsHelper.DebugDirectory, CoreLogBakFileName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern bool FreeLibrary(IntPtr hModule);
+
+        private static bool TryCreateResourceSymlink()
+        {
+            var result = MessageBox.Show(
+                        "Resource folder not found. Do you want to create a symbolic link to the project's resource folder?",
+                        "MAA",
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.OK)
+            {
+                MessageBox.Show(
+                    "resource folder not found and symbolic link creation was cancelled by user.",
+                    "MAA",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return false;
+            }
+
+            var sourceResourcePath = PathsHelper.SourceResourceDirectory;
+            if (!Directory.Exists(sourceResourcePath))
+            {
+                return false;
+            }
+
+            var linkPath = PathsHelper.ResourceDirectory;
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/c mklink /D \"{linkPath}\" \"{sourceResourcePath}\"",
+                Verb = "runas",
+                UseShellExecute = true,
+                CreateNoWindow = false,
+            };
+            var process = Process.Start(processInfo);
+            process.WaitForExit(5000);
+            if (process.ExitCode == 0 && Directory.Exists(linkPath))
+            {
+                MessageBoxHelper.Show(
+                    "Symbolic link created successfully. Please restart the application.",
+                    "MAA",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+
+            return true;
+        }
 
         private static List<string> UnknownDllDetected()
         {
@@ -90,10 +142,9 @@ namespace MaaWpfGui.Main
 
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-                return dllFiles
+                return [.. dllFiles
                     .Select(Path.GetFileName)
-                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))];
             }
             catch (Exception)
             {
@@ -149,21 +200,21 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            if (File.Exists(UiLogFilename) && new FileInfo(UiLogFilename).Length > 4 * 1024 * 1024)
+            if (File.Exists(UiLogFilePath) && new FileInfo(UiLogFilePath).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(UiLogBakFilename))
+                if (File.Exists(UiLogBakFilePath))
                 {
-                    File.Delete(UiLogBakFilename);
+                    File.Delete(UiLogBakFilePath);
                 }
 
-                File.Move(UiLogFilename, UiLogBakFilename);
+                File.Move(UiLogFilePath, UiLogBakFilePath);
             }
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    UiLogFilename,
+                    UiLogFilePath,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
@@ -181,7 +232,7 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var workingDirectory = PathsHelper.WorkingDirectory;
+            var workingDirectory = PathsHelper.BaseDirectory;
             var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
@@ -232,40 +283,14 @@ namespace MaaWpfGui.Main
             {
                 if (maaEnv == "Debug" || isBuildOutputFolder)
                 {
-                    var result = MessageBox.Show(
-                        "Resource folder not found. Do you want to create a symbolic link to the project's resource folder?",
-                        "MAA",
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Question);
-
-                    if (result != MessageBoxResult.OK)
+                    if (TryCreateResourceSymlink())
                     {
-                        throw new DirectoryNotFoundException("resource folder not found and symbolic link creation was cancelled by user.");
-                    }
-
-                    var sourceResourcePath = PathsHelper.SourceResourceDirectory;
-                    if (Directory.Exists(sourceResourcePath))
-                    {
-                        var linkPath = PathsHelper.ResourceDirectory;
-                        var processInfo = new ProcessStartInfo
-                        {
-                            FileName = "cmd.exe",
-                            Arguments = $"/c mklink /D \"{linkPath}\" \"{sourceResourcePath}\"",
-                            Verb = "runas",
-                            UseShellExecute = true,
-                            CreateNoWindow = false,
-                        };
-                        Process.Start(processInfo);
-                    }
-                    else
-                    {
-                        throw new DirectoryNotFoundException("resource folder not found!");
+                        Shutdown();
+                        return;
                     }
                 }
-                else
-                {
-                    throw new DirectoryNotFoundException("resource folder not found!");
-                }
+
+                throw new DirectoryNotFoundException("resource folder not found!");
             }
 
             // Debug 模式下 DLL 是未打包的
@@ -310,7 +335,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(PathsHelper.WorkingDirectory))
+            if (!IsWritable(PathsHelper.BaseDirectory))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -353,7 +378,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + PathsHelper.WorkingDirectory.Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.BaseDirectory.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try
@@ -472,7 +497,14 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            try
+            {
+                Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            }
+            catch
+            {
+                // ignored
+            }
 
             Release();
 

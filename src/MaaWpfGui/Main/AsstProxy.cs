@@ -337,7 +337,7 @@ namespace MaaWpfGui.Main
                 }
             };
 
-            AsstSetUserDir(PathsHelper.WorkingDirectory);
+            AsstSetUserDir(PathsHelper.BaseDirectory);
         }
 
         /// <summary>

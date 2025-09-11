@@ -100,7 +100,7 @@ namespace MaaWpfGui.Helper
                 return cachedImage;
             }
 
-            var imagePath = Path.Combine(Environment.CurrentDirectory, $"resource/template/items/{itemId}.png");
+            var imagePath = Path.Combine(PathsHelper.ResourceDirectory, $"template/items/{itemId}.png");
             if (!File.Exists(imagePath))
             {
                 _imageCache.TryAdd(itemId, null);

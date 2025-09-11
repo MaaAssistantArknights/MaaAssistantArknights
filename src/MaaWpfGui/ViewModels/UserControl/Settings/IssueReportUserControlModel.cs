@@ -39,12 +39,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     private static readonly string[] _payloadFileNames = [
-        Bootstrapper.UiLogFilename,
-        Bootstrapper.UiLogBakFilename,
-        Bootstrapper.CoreLogFilename,
-        Bootstrapper.CoreLogBakFilename,
-        ConfigurationHelper.ConfigurationFile,
-        ConfigFactory.ConfigFileName];
+        Bootstrapper.UiLogFilePath,
+        Bootstrapper.UiLogBakFilePath,
+        Bootstrapper.CoreLogFilePath,
+        Bootstrapper.CoreLogBakFilePath,
+        ConfigurationHelper.ConfigurationPath,
+        ConfigFactory.ConfigFilePath];
 
     private const string DebugDir = "debug";
 
@@ -94,7 +94,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
                     continue;
                 }
 
-                string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, file);
+                string relativePath = Path.GetRelativePath(PathsHelper.BaseDirectory, file);
                 string dest = Path.Combine(tempPath, relativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                 File.Copy(file, dest, overwrite: true);
