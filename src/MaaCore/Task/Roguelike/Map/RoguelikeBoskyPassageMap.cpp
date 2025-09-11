@@ -10,7 +10,7 @@ std::optional<size_t>
     RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
     if (!in_bounds(x, y)) {
-        Log.warn(__FUNCTION__, "| Coordinates (", x, ", ", y, ") out of bounds");
+        Log.warn(__FUNCTION__, "| Coordinates (", x, ",", y, ") out of bounds");
         return std::nullopt;
     }
 
@@ -31,7 +31,7 @@ std::optional<size_t>
         return idx;
     }
     else {
-        Log.warn(__FUNCTION__, "| Node already exists at (", x, ", ", y, ")");
+        Log.warn(__FUNCTION__, "| Node already exists at (", x, ",", y, ")");
         return std::nullopt;
     }
 }
@@ -67,11 +67,11 @@ void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubN
 {
     Node* n = get_valid_node(index);
     if (!n || !n->exists) {
-        Log.warn(__FUNCTION__, "| Invalid index or node doesn't exist: ", index);
+        Log.warn(__FUNCTION__, "| Invalid index or node doesn't exist:", index);
         return;
     }
     n->sub_type = sub_type;
-    Log.info(__FUNCTION__, "| Set node ", index, " subtype to ", subtype2name(sub_type));
+    Log.info(__FUNCTION__, "| Set node", index, "subtype to", subtype2name(sub_type));
 }
 
 RoguelikeBoskySubNodeType RoguelikeBoskyPassageMap::get_node_subtype(size_t index) const
@@ -231,10 +231,10 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     }
 
     auto [gx, gy] = pixel_to_grid_coords(px, py, config);
-    Log.info(__FUNCTION__, "| analyzing node (", px, ", ", py, ") -> (", gx, ", ", gy, ")");
+    Log.info(__FUNCTION__, "| analyzing node (", px, ",", py, ") -> (", gx, ",", gy, ")");
 
     if (!in_bounds(gx, gy)) {
-        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ", ", gy, ") out of bounds");
+        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ",", gy, ") out of bounds");
         return std::nullopt;
     }
 
