@@ -200,7 +200,7 @@ jobs:
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: ResourceUpdater-CMake-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/libc++.so.1
             ./tools/ResourceUpdater/libc++abi.so.1
