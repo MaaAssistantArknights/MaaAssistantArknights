@@ -358,16 +358,7 @@ namespace MaaWpfGui.Main
 
         public static string MainResourcePath()
         {
-            var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-            if (uiVersion == "0.0.1")
-            {
-                // 糊点屎
-                return WorkingDirectory() + @"\..\..\..";
-            }
-            else
-            {
-                return WorkingDirectory();
-            }
+            return WorkingDirectory();
         }
 
         /// <summary>

@@ -230,7 +230,42 @@ namespace MaaWpfGui.Main
             // 检查 resource 文件夹是否存在
             if (!Directory.Exists(Path.Combine(AsstProxy.MainResourcePath(), "resource")))
             {
-                throw new DirectoryNotFoundException("resource folder not found!");
+                if (maaEnv == "Debug" || isBuildOutputFolder)
+                {
+                    var result = MessageBox.Show(
+                        "Resource folder not found. Do you want to create a symbolic link to the project's resource folder?",
+                        "MAA",
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Question);
+
+                    if (result != MessageBoxResult.OK)
+                    {
+                        throw new DirectoryNotFoundException("resource folder not found and symbolic link creation was cancelled by user.");
+                    }
+
+                    var sourceResourcePath = Path.Combine(Directory.GetParent(currentDirectory).Parent.Parent.FullName, "resource");
+                    if (Directory.Exists(sourceResourcePath))
+                    {
+                        var linkPath = Path.Combine(AsstProxy.MainResourcePath(), "resource");
+                        var processInfo = new ProcessStartInfo
+                        {
+                            FileName = "cmd.exe",
+                            Arguments = $"/c mklink /D \"{linkPath}\" \"{sourceResourcePath}\"",
+                            Verb = "runas",
+                            UseShellExecute = true,
+                            CreateNoWindow = false,
+                        };
+                        Process.Start(processInfo);
+                    }
+                    else
+                    {
+                        throw new DirectoryNotFoundException("resource folder not found!");
+                    }
+                }
+                else
+                {
+                    throw new DirectoryNotFoundException("resource folder not found!");
+                }
             }
 
             // Debug 模式下 DLL 是未打包的
