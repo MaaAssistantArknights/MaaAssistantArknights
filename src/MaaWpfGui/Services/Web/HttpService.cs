@@ -218,7 +218,7 @@ namespace MaaWpfGui.Services.Web
 
         public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")
         {
-            string fileDir = Directory.GetCurrentDirectory();
+            string fileDir = AsstProxy.WorkingDirectory();
             string fileNameWithTemp = fileName + ".temp";
             string fullFilePath = Path.Combine(fileDir, fileName);
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);

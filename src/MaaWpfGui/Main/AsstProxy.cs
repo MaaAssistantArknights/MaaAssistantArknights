@@ -86,6 +86,17 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private static unsafe bool AsstSetUserDir(string dirname)
+        {
+            fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
+            {
+                _logger.Information("AsstSetUserDir dirname: {Dirname}", dirname);
+                var ret = MaaService.AsstSetUserDir(ptr);
+                _logger.Information("AsstSetUserDir ret: {Ret}", ret);
+                return ret;
+            }
+        }
+
         private static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
@@ -325,6 +336,8 @@ namespace MaaWpfGui.Main
                     TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
                 }
             };
+
+            AsstSetUserDir(WorkingDirectory());
         }
 
         /// <summary>
@@ -338,16 +351,22 @@ namespace MaaWpfGui.Main
             }
         }
 
+        public static string WorkingDirectory()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
+
         public static string MainResourcePath()
         {
             var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
             if (uiVersion == "0.0.1")
             {
-                return Directory.GetCurrentDirectory() + @"\..\..\..";
+                // 糊点屎
+                return WorkingDirectory() + @"\..\..\..";
             }
             else
             {
-                return Directory.GetCurrentDirectory();
+                return WorkingDirectory();
             }
         }
 
@@ -363,7 +382,7 @@ namespace MaaWpfGui.Main
             string mainRes = MainResourcePath();
 
             string globalResource = mainRes + @"\resource\global\" + clientType;
-            string mainCache = Directory.GetCurrentDirectory() + @"\cache";
+            string mainCache = WorkingDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
             bool loaded;

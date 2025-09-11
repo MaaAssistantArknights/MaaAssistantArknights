@@ -114,7 +114,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             // 遍历 cache 文件夹下的文件，复制到 tempPath/cache
-            const string CacheResourceDir = "cache";
+            const string CacheResourceDir = MaaApiService.CacheDir;
             if (Directory.Exists(CacheResourceDir))
             {
                 foreach (var file in Directory.EnumerateFiles(CacheResourceDir, "*", SearchOption.AllDirectories))

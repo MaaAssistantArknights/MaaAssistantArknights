@@ -64,7 +64,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private CopilotBase? _copilotCache;
         private const string CopilotIdPrefix = "maa://";
-        private const string TempCopilotFile = "cache/_temp_copilot.json";
+        private const string TempCopilotFile = MaaApiService.CacheDir + "_temp_copilot.json";
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
         private const string CopilotJsonDir = "config/copilot";
         private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";

@@ -40,6 +40,8 @@ namespace MaaWpfGui.Services
         public static extern bool AsstSetStaticOption(AsstStaticOptionKey key, [MarshalAs(UnmanagedType.LPUTF8Str)]string value);
 
         [DllImport("MaaCore.dll")]
+        public static extern unsafe bool AsstSetUserDir(byte* dirname);
+        [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstLoadResource(byte* dirname);
 
         [DllImport("MaaCore.dll")]

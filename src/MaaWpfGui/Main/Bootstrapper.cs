@@ -181,8 +181,8 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var workingDirectory = AsstProxy.WorkingDirectory();
+            var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
@@ -196,7 +196,7 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
+            _logger.Information("User Dir {BaseDirectory}", workingDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -275,7 +275,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
+            if (!IsWritable(AsstProxy.WorkingDirectory()))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -318,7 +318,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + AsstProxy.WorkingDirectory().Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try
