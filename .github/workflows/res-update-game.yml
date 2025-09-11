@@ -169,7 +169,7 @@ jobs:
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-x64-windows' -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF -DBUILD_RES_UPDATER=ON
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-x64-windows' -DBUILD_WPF_GUI=OFF -DBUILD_RES_UPDATER=ON
 
       - name: Build Resource Updater
         if: steps.cache-resupd.outputs.cache-hit != 'true'
