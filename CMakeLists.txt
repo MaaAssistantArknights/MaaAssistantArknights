@@ -16,6 +16,7 @@ option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(BUILD_SMOKE_TEST "build smoke_test" OFF)
+option(BUILD_RES_UPDATER "build resource_updater" OFF)
 
 include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
 
@@ -125,6 +126,15 @@ if (BUILD_SMOKE_TEST)
     add_dependencies(smoke_test MaaCore)
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_SMOKE_TEST)
+
+if (BUILD_RES_UPDATER)
+    add_executable(resource_updater tools/ResourceUpdater/main.cpp)
+    target_include_directories(resource_updater PUBLIC include PRIVATE src/MaaCore) # For Utils/Time.hpp
+    target_link_libraries(resource_updater HeaderOnlyLibraries ${OpenCV_LIBS})
+    if(LINUX)
+        target_link_libraries(resource_updater pthread)
+    endif()
+endif (BUILD_RES_UPDATER)
 
 if (APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
