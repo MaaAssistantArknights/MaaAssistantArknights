@@ -125,7 +125,7 @@ jobs:
           compression-level: 0
 
   update-game-resources:
-    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
+    # Remove the comment in case of rate limitations on the runners/instances.
 
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -208,61 +208,43 @@ jobs:
             ./tools/ResourceUpdater/libunwind.so.1
             ./tools/ResourceUpdater/ResourceUpdater
 
+      - name: Wait for TXWY resources
+        uses: lewagon/wait-on-check-action@v1.4.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'clone-resources-txwy'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 5
+
       - name: Download txwy
-        id: download-txwy
-        uses: actions/download-artifact@v5
-        continue-on-error: true
-        with:
-          name: txwy
-          path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
-
-      - name: Delay txwy
-        if: steps.download-txwy.outcome == 'failure'
-        run: |
-          sleep 10
-
-      - name: Re-download txwy
-        if: steps.download-txwy.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
+
+      - name: Wait for Overseas resources
+        uses: lewagon/wait-on-check-action@v1.4.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'clone-resources-overseas'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 5
 
       - name: Download Overseas
-        id: download-overseas
-        uses: actions/download-artifact@v5
-        continue-on-error: true
-        with:
-          name: overseas
-          path: ./tools/ResourceUpdater/Overseas
-
-      - name: Delay Overseas
-        if: steps.download-overseas.outcome == 'failure'
-        run: |
-          sleep 10
-
-      - name: Re-download Overseas
-        if: steps.download-overseas.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
+
+      - name: Wait for Official resources
+        uses: lewagon/wait-on-check-action@v1.4.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'clone-resources-official'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 5
 
       - name: Download Official
-        id: download-official
-        uses: actions/download-artifact@v5
-        continue-on-error: true
-        with:
-          name: official
-          path: ./tools/ResourceUpdater/Official
-
-      - name: Delay Official
-        if: steps.download-official.outcome == 'failure'
-        run: |
-          sleep 10
-
-      - name: Re-download Official
-        if: steps.download-official.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
           name: official
