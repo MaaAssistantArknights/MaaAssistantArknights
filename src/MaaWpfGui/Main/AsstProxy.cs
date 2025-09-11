@@ -382,7 +382,7 @@ namespace MaaWpfGui.Main
             string mainRes = MainResourcePath();
 
             string globalResource = mainRes + @"\resource\global\" + clientType;
-            string mainCache = WorkingDirectory() + @"\cache";
+            string mainCache = MaaApiService.CacheDir;
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
             bool loaded;
