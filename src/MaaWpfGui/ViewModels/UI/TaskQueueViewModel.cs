@@ -1345,6 +1345,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void ManualStop()
         {
+            if (Stopping || _runningState.GetIdle())
+            {
+                _logger.Information("Already stopping or idle, return.");
+                return;
+            }
+
             _ = Stop();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
 
