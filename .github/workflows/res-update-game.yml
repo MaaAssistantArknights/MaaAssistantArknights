@@ -144,7 +144,7 @@ jobs:
         id: resupd-cache
         uses: actions/cache/restore@v4
         with:
-          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/libc++.so.1
             ./tools/ResourceUpdater/libc++abi.so.1
@@ -159,7 +159,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
@@ -200,7 +200,7 @@ jobs:
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: ResourceUpdater-CMake-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: ResourceUpdater-CMake-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/libc++.so.1
             ./tools/ResourceUpdater/libc++abi.so.1
