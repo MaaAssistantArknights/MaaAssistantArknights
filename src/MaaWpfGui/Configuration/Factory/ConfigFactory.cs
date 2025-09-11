@@ -35,10 +35,10 @@ namespace MaaWpfGui.Configuration.Factory;
 public static class ConfigFactory
 {
     private const string ConfigFileName = "gui.new.json";
-    public static readonly string ConfigFilePath = Path.Combine(PathsHelper.GuiConfigDirectory, ConfigFileName);
+    public static readonly string ConfigFilePath = Path.Combine(PathsHelper.Config, ConfigFileName);
 
     // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
-    private static readonly string _configurationBakFile = Path.Combine(PathsHelper.GuiConfigDirectory, "gui.new.json.bak");
+    private static readonly string _configurationBakFile = Path.Combine(PathsHelper.Config, "gui.new.json.bak");
 
     private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 

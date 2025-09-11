@@ -61,14 +61,10 @@ namespace MaaWpfGui.Main
         private static Mutex _mutex;
         private static bool _hasMutex;
 
-        private const string UiLogFileName = "gui.log";
-        private const string UiLogBakFileName = "gui.bak.log";
-        private const string CoreLogFileName = "asst.log";
-        private const string CoreLogBakFileName = "asst.bak.log";
-        public static readonly string UiLogFilePath = Path.Combine(PathsHelper.DebugDirectory, UiLogFileName);
-        public static readonly string UiLogBakFilePath = Path.Combine(PathsHelper.DebugDirectory, UiLogBakFileName);
-        public static readonly string CoreLogFilePath = Path.Combine(PathsHelper.DebugDirectory, CoreLogFileName);
-        public static readonly string CoreLogBakFilePath = Path.Combine(PathsHelper.DebugDirectory, CoreLogBakFileName);
+        public static readonly string UiLogFile = Path.Combine(PathsHelper.Debug, "gui.log");
+        public static readonly string UiLogBakFile = Path.Combine(PathsHelper.Debug, "gui.bak.log");
+        public static readonly string CoreLogFile = Path.Combine(PathsHelper.Debug, "asst.log");
+        public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.Debug, "asst.bak.log");
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllName);
@@ -153,21 +149,21 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            if (File.Exists(UiLogFilePath) && new FileInfo(UiLogFilePath).Length > 4 * 1024 * 1024)
+            if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(UiLogBakFilePath))
+                if (File.Exists(UiLogBakFile))
                 {
-                    File.Delete(UiLogBakFilePath);
+                    File.Delete(UiLogBakFile);
                 }
 
-                File.Move(UiLogFilePath, UiLogBakFilePath);
+                File.Move(UiLogFile, UiLogBakFile);
             }
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    UiLogFilePath,
+                    UiLogFile,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
@@ -185,7 +181,7 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var workingDirectory = PathsHelper.BaseDirectory;
+            var workingDirectory = PathsHelper.Base;
             var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
@@ -232,7 +228,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists(PathsHelper.ResourceDirectory))
+            if (!Directory.Exists(PathsHelper.Resource))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
@@ -279,7 +275,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(PathsHelper.BaseDirectory))
+            if (!IsWritable(PathsHelper.Base))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -322,7 +318,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + PathsHelper.BaseDirectory.Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.Base.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try

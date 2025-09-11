@@ -35,7 +35,7 @@ namespace MaaWpfGui.Helper
         /// <returns>反序列化数据</returns>
         public static T? Get<T>(string key, T? defaultValue = default, string? dataDir = null)
         {
-            var filePath = Path.Combine(dataDir ?? PathsHelper.DataDirectory, $"{key}.json");
+            var filePath = Path.Combine(dataDir ?? PathsHelper.Data, $"{key}.json");
 
             if (!File.Exists(filePath))
             {
@@ -69,13 +69,13 @@ namespace MaaWpfGui.Helper
         /// <returns>是否设置成功</returns>
         public static bool Set<T>(string key, T value, string? dataDir = null)
         {
-            var filePath = Path.Combine(dataDir ?? PathsHelper.DataDirectory, $"{key}.json");
+            var filePath = Path.Combine(dataDir ?? PathsHelper.Data, $"{key}.json");
 
             lock (_lock)
             {
                 try
                 {
-                    Directory.CreateDirectory(PathsHelper.DataDirectory);
+                    Directory.CreateDirectory(PathsHelper.Data);
                     var json = JsonConvert.SerializeObject(value, Formatting.Indented);
                     File.WriteAllText(filePath, json);
                     return true;
@@ -95,7 +95,7 @@ namespace MaaWpfGui.Helper
         /// <returns>是否成功删除</returns>
         public static bool Delete(string key)
         {
-            var filePath = Path.Combine(PathsHelper.DataDirectory, $"{key}.json");
+            var filePath = Path.Combine(PathsHelper.Data, $"{key}.json");
 
             try
             {
@@ -121,7 +121,7 @@ namespace MaaWpfGui.Helper
         /// <returns>是否存在</returns>
         public static bool Exists(string key)
         {
-            var filePath = Path.Combine(PathsHelper.DataDirectory, $"{key}.json");
+            var filePath = Path.Combine(PathsHelper.Data, $"{key}.json");
             return File.Exists(filePath);
         }
     }

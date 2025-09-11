@@ -39,11 +39,11 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     private static readonly string[] _payloadFileNames = [
-        Bootstrapper.UiLogFilePath,
-        Bootstrapper.UiLogBakFilePath,
-        Bootstrapper.CoreLogFilePath,
-        Bootstrapper.CoreLogBakFilePath,
-        ConfigurationHelper.ConfigurationPath,
+        Bootstrapper.UiLogFile,
+        Bootstrapper.UiLogBakFile,
+        Bootstrapper.CoreLogFile,
+        Bootstrapper.CoreLogBakFile,
+        ConfigurationHelper.ConfigFile,
         ConfigFactory.ConfigFilePath];
 
     private const string DebugDir = "debug";
@@ -94,7 +94,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
                     continue;
                 }
 
-                string relativePath = Path.GetRelativePath(PathsHelper.BaseDirectory, file);
+                string relativePath = Path.GetRelativePath(PathsHelper.Base, file);
                 string dest = Path.Combine(tempPath, relativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                 File.Copy(file, dest, overwrite: true);
@@ -114,7 +114,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             // 遍历 cache 文件夹下的文件，复制到 tempPath/cache
-            string cacheResourceDir = PathsHelper.CacheDirectory;
+            string cacheResourceDir = PathsHelper.Cache;
             if (Directory.Exists(cacheResourceDir))
             {
                 foreach (var file in Directory.EnumerateFiles(cacheResourceDir, "*", SearchOption.AllDirectories))

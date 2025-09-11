@@ -25,13 +25,9 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationHelper
     {
-        private const string ConfigurationName = "gui.json";
-        private const string ConfigurationBakName = "gui.json.bak";
-        private const string ConfigurationErrorName = "gui.error.json";
-
-        public static readonly string ConfigurationPath = Path.Combine(PathsHelper.GuiConfigDirectory, ConfigurationName);
-        public static readonly string ConfigurationBakPath = Path.Combine(PathsHelper.GuiConfigDirectory, ConfigurationBakName);
-        public static readonly string ConfigurationErrorPath = Path.Combine(PathsHelper.GuiConfigDirectory, ConfigurationErrorName);
+        public static readonly string ConfigFile = Path.Combine(PathsHelper.Config, "gui.json");
+        public static readonly string ConfigBakFile = Path.Combine(PathsHelper.Config, "gui.json.bak");
+        public static readonly string ConfigErrorFile = Path.Combine(PathsHelper.Config, "gui.error.json");
 
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _kvsMap;
         private static string _current = ConfigurationKeys.DefaultConfiguration;
@@ -280,26 +276,26 @@ namespace MaaWpfGui.Helper
 
         private static bool ParseConfig(out JObject parsed)
         {
-            parsed = ParseJsonFile(ConfigurationPath);
+            parsed = ParseJsonFile(ConfigFile);
             if (parsed is not null)
             {
                 return true;
             }
 
-            if (File.Exists(ConfigurationPath))
+            if (File.Exists(ConfigFile))
             {
                 _logger.Warning("Failed to load configuration file, copying configuration file to error file");
-                File.Copy(ConfigurationPath, ConfigurationErrorPath, true);
+                File.Copy(ConfigFile, ConfigErrorFile, true);
             }
 
-            if (File.Exists(ConfigurationBakPath))
+            if (File.Exists(ConfigBakFile))
             {
                 _logger.Information("trying to use backup file");
-                parsed = ParseJsonFile(ConfigurationBakPath);
+                parsed = ParseJsonFile(ConfigBakFile);
                 if (parsed is not null)
                 {
                     _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
-                    File.Copy(ConfigurationBakPath, ConfigurationPath, true);
+                    File.Copy(ConfigBakFile, ConfigFile, true);
                     return true;
                 }
             }
@@ -329,13 +325,13 @@ namespace MaaWpfGui.Helper
             }
 
             SetKvOrMigrate(parsed);
-            if (Save(ConfigurationBakPath))
+            if (Save(ConfigBakFile))
             {
-                _logger.Information("{File} saved", ConfigurationBakPath);
+                _logger.Information("{File} saved", ConfigBakFile);
             }
             else
             {
-                _logger.Warning("{File} save failed", ConfigurationBakPath);
+                _logger.Warning("{File} save failed", ConfigBakFile);
             }
 
             return true;
@@ -400,7 +396,7 @@ namespace MaaWpfGui.Helper
                         },
                         Formatting.Indented);
 
-                    File.WriteAllText(file ?? ConfigurationPath, jsonStr);
+                    File.WriteAllText(file ?? ConfigFile, jsonStr);
                 }
                 catch (Exception e)
                 {
@@ -494,11 +490,11 @@ namespace MaaWpfGui.Helper
 
                 if (Save())
                 {
-                    _logger.Information("{File} saved", ConfigurationPath);
+                    _logger.Information("{File} saved", ConfigFile);
                 }
                 else
                 {
-                    _logger.Warning("{File} save failed", ConfigurationPath);
+                    _logger.Warning("{File} save failed", ConfigFile);
                 }
             }
 

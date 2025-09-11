@@ -63,9 +63,9 @@ namespace MaaWpfGui.Services
         public async Task UpdateStageWeb()
         {
             // 清理旧的缓存文件
-            string cacheAllFileDownloadComplete = PathsHelper.CacheDirectory + "allFileDownloadComplete.json";
-            string lastUpdateTime = PathsHelper.CacheDirectory + "LastUpdateTime.json";
-            string stageAndTasksUpdateTime = PathsHelper.CacheDirectory + "stageAndTasksUpdateTime.json";
+            string cacheAllFileDownloadComplete = PathsHelper.Cache + "allFileDownloadComplete.json";
+            string lastUpdateTime = PathsHelper.Cache + "LastUpdateTime.json";
+            string stageAndTasksUpdateTime = PathsHelper.Cache + "stageAndTasksUpdateTime.json";
             var filesToClean = new[] { cacheAllFileDownloadComplete, lastUpdateTime, stageAndTasksUpdateTime };
 
             foreach (var file in filesToClean)
