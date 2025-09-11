@@ -243,7 +243,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding UiVersion}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="MaaVersionClick"
                                 Visibility="{c:Binding 'UiVersion == CoreVersion'}">
@@ -278,7 +278,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding UiVersion}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="UiVersionClick"
                                 Visibility="{c:Binding 'UiVersion != CoreVersion'}">
@@ -313,7 +313,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding CoreVersion}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="CoreVersionClick"
                                 Visibility="{c:Binding 'UiVersion != CoreVersion'}">
@@ -347,7 +347,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding ResourceVersion}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="ResourceVersionClick">
                                 <TextBlock
@@ -392,7 +392,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding BuildDateTimeCurrentCultureString}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="MaaVersionClick">
                                 <TextBlock
@@ -426,7 +426,7 @@
                                 Grid.Column="1"
                                 Margin="0,5,0,5"
                                 hc:FloatingBlock.Content="{Binding ResourceDateTimeCurrentCultureString}"
-                                Background="{DynamicResource PallasBrush}"
+                                Background="#6969AA"
                                 CornerRadius="0,3,3,0"
                                 PreviewMouseDown="ResourceVersionClick">
                                 <TextBlock
