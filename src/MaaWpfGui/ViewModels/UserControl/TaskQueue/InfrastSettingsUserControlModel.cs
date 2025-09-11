@@ -35,6 +35,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+
 using Mode = InfrastMode;
 
 /// <summary>
@@ -587,7 +588,9 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void RefreshCustomInfrastPlanIndexByPeriod()
     {
-        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status == TaskStatus.InProgress)
+        if (InfrastMode != Mode.Custom ||
+            !_customInfrastPlanHasPeriod ||
+            Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status == TaskStatus.InProgress)
         {
             return;
         }
