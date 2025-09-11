@@ -113,6 +113,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         // 未处在冷却时间
         analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
         if (analyzer.analyze()) {
+            Log.info(__FUNCTION__, "| RefreshSupportBtn no cooldown");
             m_refresh_result = { analyzer.get_result().front().rect, false, 0 };
             return true;
         }
@@ -121,7 +122,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         analyzer.set_required({});
         analyzer.set_replace({ { "：", ":" } });
         if (!analyzer.analyze()) {
-            Log.info(__FUNCTION__, "| RefreshSupportBtn analyse failed");
+            Log.info(__FUNCTION__, "| RefreshSupportBtn analyze failed");
             return false;
         }
         const auto& results = analyzer.get_result();
@@ -137,7 +138,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
                 return true;
             }
         }
-        Log.info(__FUNCTION__, "| RefreshSupportBtn failed: no matched reusults");
+        Log.info(__FUNCTION__, "| RefreshSupportBtn failed: no matched results");
         return false;
     }
 
