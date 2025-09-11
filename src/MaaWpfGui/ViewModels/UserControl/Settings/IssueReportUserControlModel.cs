@@ -114,12 +114,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             // 遍历 cache 文件夹下的文件，复制到 tempPath/cache
-            const string CacheResourceDir = MaaApiService.CacheDir;
-            if (Directory.Exists(CacheResourceDir))
+            string cacheResourceDir = PathsHelper.CacheDirectory;
+            if (Directory.Exists(cacheResourceDir))
             {
-                foreach (var file in Directory.EnumerateFiles(CacheResourceDir, "*", SearchOption.AllDirectories))
+                foreach (var file in Directory.EnumerateFiles(cacheResourceDir, "*", SearchOption.AllDirectories))
                 {
-                    string relativePath = Path.GetRelativePath(CacheResourceDir, file);
+                    string relativePath = Path.GetRelativePath(cacheResourceDir, file);
                     string dest = Path.Combine(tempPath, "cache", relativePath);
                     Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                     File.Copy(file, dest, overwrite: true);

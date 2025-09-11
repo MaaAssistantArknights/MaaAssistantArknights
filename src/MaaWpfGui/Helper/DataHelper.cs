@@ -78,7 +78,7 @@ namespace MaaWpfGui.Helper
 
         private static void LoadBattleData()
         {
-            string filePath = Path.Combine(AsstProxy.MainResourcePath(), "resource/battle_data.json");
+            string filePath = Path.Combine(PathsHelper.ResourceDirectory, "battle_data.json");
             if (!File.Exists(filePath))
             {
                 return;
@@ -124,8 +124,8 @@ namespace MaaWpfGui.Helper
                 _ => string.Empty,
             };
 
-            var clientTags = ParseRecruit(Path.Combine(AsstProxy.MainResourcePath(), "resource", clientPath, "recruitment.json"));
-            var displayTags = ParseRecruit(Path.Combine(AsstProxy.MainResourcePath(), "resource", displayPath, "recruitment.json"));
+            var clientTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDirectory, clientPath, "recruitment.json"));
+            var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDirectory,  displayPath, "recruitment.json"));
 
             RecruitTags = clientTags.Keys
                 .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
@@ -167,7 +167,7 @@ namespace MaaWpfGui.Helper
         private static void LoadMapData()
         {
             MapData = [];
-            var path = Path.Combine(AsstProxy.MainResourcePath(), "resource", "Arknights-Tile-Pos", "overview.json");
+            var path = Path.Combine(PathsHelper.ResourceDirectory, "Arknights-Tile-Pos", "overview.json");
             if (!File.Exists(path))
             {
                 return;

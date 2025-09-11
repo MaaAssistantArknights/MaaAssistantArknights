@@ -76,7 +76,7 @@ namespace MaaWpfGui.Models
                 {
                     DirectoryMerge(
                         Path.Combine(basePath, folder),
-                        Path.Combine(AsstProxy.WorkingDirectory(), folder));
+                        Path.Combine(PathsHelper.WorkingDirectory, folder));
                 }
             }
             catch (Exception e)
@@ -287,7 +287,7 @@ namespace MaaWpfGui.Models
 
             try
             {
-                DirectoryMerge(ExtractFolder, AsstProxy.WorkingDirectory());
+                DirectoryMerge(ExtractFolder, PathsHelper.WorkingDirectory);
             }
             catch (Exception e)
             {

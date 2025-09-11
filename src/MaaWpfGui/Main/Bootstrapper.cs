@@ -181,7 +181,7 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var workingDirectory = AsstProxy.WorkingDirectory();
+            var workingDirectory = PathsHelper.WorkingDirectory;
             var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
@@ -228,7 +228,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists(Path.Combine(AsstProxy.MainResourcePath(), "resource")))
+            if (!Directory.Exists(PathsHelper.ResourceDirectory))
             {
                 if (maaEnv == "Debug" || isBuildOutputFolder)
                 {
@@ -243,10 +243,10 @@ namespace MaaWpfGui.Main
                         throw new DirectoryNotFoundException("resource folder not found and symbolic link creation was cancelled by user.");
                     }
 
-                    var sourceResourcePath = Path.Combine(Directory.GetParent(currentDirectory).Parent.Parent.FullName, "resource");
+                    var sourceResourcePath = PathsHelper.SourceResourceDirectory;
                     if (Directory.Exists(sourceResourcePath))
                     {
-                        var linkPath = Path.Combine(AsstProxy.MainResourcePath(), "resource");
+                        var linkPath = PathsHelper.ResourceDirectory;
                         var processInfo = new ProcessStartInfo
                         {
                             FileName = "cmd.exe",
@@ -310,7 +310,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(AsstProxy.WorkingDirectory()))
+            if (!IsWritable(PathsHelper.WorkingDirectory))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -353,7 +353,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + AsstProxy.WorkingDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.WorkingDirectory.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try

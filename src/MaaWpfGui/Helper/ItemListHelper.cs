@@ -40,14 +40,14 @@ namespace MaaWpfGui.Helper
             switch (language)
             {
                 case "zh-cn":
-                    filename = Path.Combine(AsstProxy.MainResourcePath(), "resource", "item_index.json");
+                    filename = Path.Combine(PathsHelper.ResourceDirectory, "item_index.json");
                     break;
 
                 case "pallas":
                     break;
 
                 default:
-                    filename = Path.Combine(AsstProxy.MainResourcePath(), "resource", "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
+                    filename = Path.Combine(PathsHelper.ResourceDirectory, "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
                     break;
             }
 

@@ -161,10 +161,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         bool isDefaultClient = new HashSet<string> { string.Empty, "Official", "Bilibili" }.Contains(clientType);
 
-        string defaultJsonPath = Path.Combine(AsstProxy.MainResourcePath(), "resource/version.json");
+        string defaultJsonPath = Path.Combine(PathsHelper.ResourceDirectory, "version.json");
         var jsonPath = isDefaultClient
             ? defaultJsonPath
-            : Path.Combine(AsstProxy.MainResourcePath(), $"resource/global/{clientType}/resource/version.json");
+            : Path.Combine(PathsHelper.ResourceDirectory, $"global/{clientType}/resource/version.json");
 
         string versionName;
         if (!File.Exists(defaultJsonPath) || (!isDefaultClient && !File.Exists(jsonPath)))

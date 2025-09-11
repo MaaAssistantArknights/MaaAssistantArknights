@@ -24,7 +24,7 @@ namespace MaaWpfGui.Services.Web
 {
     public class MaaApiService : IMaaApiService
     {
-        private const string CacheDir = AsstProxy.WorkingDirectory() + "/cache/";
+        private static readonly string CacheDir = PathsHelper.WorkingDirectory + "/cache/";
 
         public async Task<JObject?> RequestMaaApiWithCache(string api)
         {

@@ -139,8 +139,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch
         {
-            "zh-cn" or "zh-tw" => Path.Combine(MaaApiService.CacheDir, "announcement.md"),
-            _ => Path.Combine(MaaApiService.CacheDir, "announcement_en.md"),
+            "zh-cn" or "zh-tw" => Path.Combine(PathsHelper.CacheDirectory, "announcement.md"),
+            _ => Path.Combine(PathsHelper.CacheDirectory, "announcement_en.md"),
         };
 
         private static string AnnouncementInFile
