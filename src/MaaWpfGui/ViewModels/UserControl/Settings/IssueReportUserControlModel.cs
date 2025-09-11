@@ -44,7 +44,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         Bootstrapper.CoreLogFile,
         Bootstrapper.CoreLogBakFile,
         ConfigurationHelper.ConfigFile,
-        ConfigFactory.ConfigFilePath];
+        ConfigFactory.ConfigFile];
 
     public static IssueReportUserControlModel Instance { get; }
 
