@@ -144,7 +144,7 @@ jobs:
         id: cache-resupd
         uses: actions/cache/restore@v4
         with:
-          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}-1
+          key: Resource-updater-CMake-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/opencv_world4_maa.dll
             ./tools/ResourceUpdater/ResourceUpdater.exe
@@ -185,7 +185,7 @@ jobs:
         if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: Resource-updater-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}-1
+          key: Resource-updater-CMake-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/opencv_world4_maa.dll
             ./tools/ResourceUpdater/ResourceUpdater.exe
