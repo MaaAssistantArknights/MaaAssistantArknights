@@ -1095,8 +1095,18 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 break;
 
             case "RoguelikeJieGardenTargetFound":
-                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeJieGardenTargetFound"), subTaskDetails!["target_subtype"]), UiLogColor.Success);
-                break;
+                {
+                    var targetSubtype = subTaskDetails!["target_subtype"]?.ToString();
+                    var localizedTarget = targetSubtype switch
+                    {
+                        "Ling" => LocalizationHelper.GetString("RoguelikePlaytimeLing"),
+                        "Shu" => LocalizationHelper.GetString("RoguelikePlaytimeShu"),
+                        "Nian" => LocalizationHelper.GetString("RoguelikePlaytimeNian"),
+                        _ => targetSubtype ?? "Unknown",
+                    };
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeJieGardenTargetFound"), localizedTarget), UiLogColor.Success);
+                    break;
+                }
 
             case "FoldartalGainOcrNextLevel":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
