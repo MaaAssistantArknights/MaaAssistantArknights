@@ -306,7 +306,7 @@
                                     IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     ToolTip="{c:Binding CopilotId}">
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}"/>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}" />
                                 </CheckBox>
                                 <TextBlock
                                     Grid.Column="1"
