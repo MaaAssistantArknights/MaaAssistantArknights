@@ -590,7 +590,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     {
         if (InfrastMode != Mode.Custom ||
             !_customInfrastPlanHasPeriod ||
-            Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status == TaskStatus.InProgress)
+            Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status != TaskStatus.Completed)
         {
             return;
         }
@@ -598,8 +598,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var now = DateTime.Now;
         foreach (var plan in CustomInfrastPlanInfoList.Where(
                      plan => plan.PeriodList.Any(
-                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                                   && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                                   TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
         {
             CustomInfrastPlanIndex = plan.Index;
             return;
