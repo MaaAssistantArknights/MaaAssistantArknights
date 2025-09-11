@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">成就设置</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="IssueReport">问题反馈</system:String>
-    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="MaaVersion">软件版本</system:String>
     <system:String x:Key="BuildDateTime">构建日期</system:String>
     <system:String x:Key="CoreVersion">核心版本</system:String>
     <system:String x:Key="UiVersion">界面版本</system:String>
