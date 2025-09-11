@@ -63,7 +63,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
             m_bosky_map.set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
-            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target: ", target);
+            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target:", target);
             return true;
         }
 
@@ -95,7 +95,7 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     std::string task_name = details.get("details", "task", "");
-    Log.debug(__FUNCTION__, "| Checking task: ", task_name);
+    Log.debug(__FUNCTION__, "| Checking task:", task_name);
 
     // trigger 任务的名字可以为 "...@Roguelike@Routing-..." 的形式
     if (const size_t pos = task_name.find('-'); pos != std::string::npos) {
@@ -103,7 +103,7 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     if (task_name == m_config->get_theme() + "@Roguelike@Routing") {
-        Log.info(__FUNCTION__, "| RoguelikeRoutingTaskPlugin triggered for task: ", task_name);
+        Log.info(__FUNCTION__, "| RoguelikeRoutingTaskPlugin triggered for task:", task_name);
         return true;
     }
 
@@ -116,9 +116,9 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
     Log.info(
         __FUNCTION__,
-        "| Running with routing_strategy: ",
+        "| Running with routing_strategy:",
         static_cast<int>(m_routing_strategy),
-        " bosky_routing_strategy: ",
+        "bosky_routing_strategy:",
         static_cast<int>(m_bosky_routing_strategy));
 
     switch (m_routing_strategy) {
@@ -145,7 +145,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
             const auto relative_path = relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
-            Log.debug(__FUNCTION__, "| Saving image to ", relative_path);
+            Log.debug(__FUNCTION__, "| Saving image to", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
             m_need_generate_map = false;
@@ -225,7 +225,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
 
         // 获取目标常乐节点子类型
-        Log.info(__FUNCTION__, "| Looking for playtime subtype: ", subtype2name(m_bosky_map.get_target_subtype()));
+        Log.info(__FUNCTION__, "| Looking for playtime subtype:", subtype2name(m_bosky_map.get_target_subtype()));
 
         // 尝试找到目标节点，使用常乐节点优先的策略
         bosky_decide_and_click(priority_order);
@@ -260,7 +260,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
     }
 
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
-    Log.info(__FUNCTION__, "| found ", match_results.size(), " nodes");
+    Log.info(__FUNCTION__, "| found", match_results.size(), "nodes");
 
     // 排序 靠左上优先
     sort_by_vertical_(match_results);
@@ -273,11 +273,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
 
     // 处理每个识别到的节点
     for (const auto& [rect, score, templ_name] : match_results) {
-        Log.debug(__FUNCTION__, "| analyzing node ", templ_name, " at (", rect.x, ", ", rect.y, ")");
+        Log.debug(__FUNCTION__, "| analyzing node", templ_name, "at (", rect.x, ",", rect.y, ")");
 
         const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
         if (type == RoguelikeNodeType::Unknown) {
-            Log.warn(__FUNCTION__, "| unknown template: ", templ_name);
+            Log.warn(__FUNCTION__, "| unknown template:", templ_name);
             continue;
         }
 
@@ -292,7 +292,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
             Log.debug(__FUNCTION__, "| updated node (", idx.value(), ") type: (", type2name(type), ")");
         }
         else {
-            Log.warn(__FUNCTION__, "| failed to create/update node from pixel (", rect.x, ", ", rect.y, ")");
+            Log.warn(__FUNCTION__, "| failed to create/update node from pixel (", rect.x, ",", rect.y, ")");
         }
 
 #ifdef ASST_DEBUG
@@ -314,11 +314,11 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_update_map()
 #ifdef ASST_DEBUG
     const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
     const auto relative_path = relative_dir / (std::format("{}_bosky_draw.png", utils::format_now_for_filename()));
-    Log.debug(__FUNCTION__, "| Saving bosky map image to ", relative_path);
+    Log.debug(__FUNCTION__, "| Saving bosky map image to", relative_path);
     asst::imwrite(relative_path, image_draw);
 #endif
 
-    Log.info(__FUNCTION__, "| map updated with ", m_bosky_map.size(), " nodes");
+    Log.info(__FUNCTION__, "| map updated with", m_bosky_map.size(), "nodes");
 }
 
 void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<RoguelikeNodeType>& priority_order)
@@ -352,7 +352,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
     int gy = m_bosky_map.get_node_y(chosen);
     RoguelikeNodeType node_type = m_bosky_map.get_node_type(chosen);
 
-    Log.info(__FUNCTION__, "| chosen node: ", chosen, " (", gx, ", ", gy, ") type: ", type2name(node_type));
+    Log.info(__FUNCTION__, "| chosen node:", chosen, "(", gx, ",", gy, ") type:", type2name(node_type));
 
     // 点击节点中心
     auto [px, py] = m_bosky_map.get_node_pixel(
@@ -363,7 +363,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
         m_bosky_config.row_offset);
 
     if (px == -1 || py == -1) {
-        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node ", chosen, ": (", px, ", ", py, ")");
+        Log.error(__FUNCTION__, "| Invalid pixel coordinates for node", chosen, ": (", px, ",", py, ")");
         return;
     }
 
@@ -727,14 +727,14 @@ std::vector<asst::RoguelikeNodeType>
 
     auto task_info = Task.get(config_name);
     if (!task_info) {
-        Log.error(__FUNCTION__, "| priority config not found: ", config_name);
+        Log.error(__FUNCTION__, "| priority config not found:", config_name);
         return {};
     }
 
     // 从 next 字段中读取优先级配置
     const auto& next_tasks = task_info->next;
     if (next_tasks.empty()) {
-        Log.warn(__FUNCTION__, "| Priority config is empty in: ", config_name);
+        Log.warn(__FUNCTION__, "| Priority config is empty in:", config_name);
         return {};
     }
 
@@ -747,7 +747,7 @@ std::vector<asst::RoguelikeNodeType>
         constexpr std::string_view map_node_prefix = "MapNode";
         const size_t pos = task_name.rfind(map_node_prefix);
         if (pos == std::string::npos) {
-            Log.warn(__FUNCTION__, "| Invalid task name in priority config: ", task_name);
+            Log.warn(__FUNCTION__, "| Invalid task name in priority config:", task_name);
             continue;
         }
 
@@ -755,13 +755,13 @@ std::vector<asst::RoguelikeNodeType>
         RoguelikeNodeType node_type = name2type(node_name);
         if (node_type != RoguelikeNodeType::Unknown) {
             priority_order.push_back(node_type);
-            Log.debug(__FUNCTION__, "| Added priority node type: ", type2name(node_type), " from task: ", task_name);
+            Log.debug(__FUNCTION__, "| Added priority node type:", type2name(node_type), "from task:", task_name);
         }
         else {
-            Log.warn(__FUNCTION__, "| Failed to parse node type from task: ", task_name);
+            Log.warn(__FUNCTION__, "| Failed to parse node type from task:", task_name);
         }
     }
 
-    Log.info(__FUNCTION__, "| Loaded ", priority_order.size(), " node types from priority config");
+    Log.info(__FUNCTION__, "| Loaded", priority_order.size(), "node types from priority config");
     return priority_order;
 }
