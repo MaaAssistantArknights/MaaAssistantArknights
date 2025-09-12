@@ -245,7 +245,7 @@
     <system:String x:Key="AdbProgram">ADB 程式</system:String>
     <system:String x:Key="EmulatorException">檢測模擬器出錯\n請使用系統管理員身分執行本軟體\n或手動設定連接</system:String>
     <system:String x:Key="AdbException">檢測 ADB 出錯\n請使用系統管理員身分執行本軟體\n或手動設定連接</system:String>
-    <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器\n請使用系統管理員身分執行本軟體\n或手動設定連接</system:String>
+    <system:String x:Key="EmulatorNotFound">未檢測到任何模擬器\n請確認已啟動模擬器\n若模擬器以系統管理員身分執行，需以系統管理員身分執行本軟體\n如仍無法檢測，請手動設定連接</system:String>
     <system:String x:Key="EmulatorTooMany">檢測到多個模擬器\n請關閉不需要的模擬器\n或手動設定連接</system:String>
     <system:String x:Key="EmulatorStartFailed">無法成功啟動模擬器\n請使用管理員權限開啟本軟體\n或手動啟動模擬器。</system:String>
     <system:String x:Key="SwitchLanguage">切換語言 🌐</system:String>
