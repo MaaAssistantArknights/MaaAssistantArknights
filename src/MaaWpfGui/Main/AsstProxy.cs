@@ -86,6 +86,17 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private static unsafe bool AsstSetUserDir(string dirname)
+        {
+            fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
+            {
+                _logger.Information("AsstSetUserDir dirame: {Dirname}", dirname);
+                var ret = MaaService.AsstSetUserDir(ptr);
+                _logger.Information("AsstSetUserDir ret: {Ret}", ret);
+                return ret;
+            }
+        }
+
         private static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
@@ -325,6 +336,8 @@ namespace MaaWpfGui.Main
                     TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
                 }
             };
+
+            AsstSetUserDir(PathsHelper.BaseDir);
         }
 
         /// <summary>
@@ -338,19 +351,6 @@ namespace MaaWpfGui.Main
             }
         }
 
-        public static string MainResourcePath()
-        {
-            var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
-            if (uiVersion == "0.0.1")
-            {
-                return Directory.GetCurrentDirectory() + @"\..\..\..";
-            }
-            else
-            {
-                return Directory.GetCurrentDirectory();
-            }
-        }
-
         /// <summary>
         /// 加载全局资源。新版 core 全惰性加载资源，所以可以无脑调用
         /// </summary>
@@ -360,11 +360,11 @@ namespace MaaWpfGui.Main
             _logger.Information("Load Resource");
 
             string clientType = SettingsViewModel.GameSettings.ClientType;
-            string mainRes = MainResourcePath();
+            string mainRes = PathsHelper.ResourceDir;
 
-            string globalResource = mainRes + @"\resource\global\" + clientType;
-            string mainCache = Directory.GetCurrentDirectory() + @"\cache";
-            string globalCache = mainCache + @"\resource\global\" + clientType;
+            string globalResource = Path.Combine(mainRes, "global", clientType);
+            string mainCache = PathsHelper.CacheDir;
+            string globalCache = Path.Combine(mainCache, "global", clientType);
 
             bool loaded;
             if (clientType is "" or "Official" or "Bilibili")
@@ -387,15 +387,23 @@ namespace MaaWpfGui.Main
 
             static bool LoadResIfExists(string path)
             {
-                const string Resource = @"\resource";
-                if (!Directory.Exists(path + Resource))
+                if (!Directory.Exists(path))
                 {
-                    _logger.Warning("Resource not found: {Path}", path + Resource);
+                    _logger.Warning("Resource not found: {Path}", path);
                     return true;
                 }
 
-                _logger.Information("Load resource: {Path}", path + Resource);
-                return AsstLoadResource(path);
+                _logger.Information("Load resource: {Path}", path);
+
+                // AsstLoadResource 需要的是 resource 的上级目录
+                var parent = Directory.GetParent(path)?.FullName ?? string.Empty;
+                if (string.IsNullOrEmpty(parent))
+                {
+                    _logger.Warning("Resource path invalid: {Path}", path);
+                    return false;
+                }
+
+                return AsstLoadResource(parent);
             }
 
             // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
