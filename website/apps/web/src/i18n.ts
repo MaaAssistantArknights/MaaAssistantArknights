@@ -15,7 +15,9 @@ export interface LanguageOption {
   label: string
   /** HTML lang 属性 */
   htmlLang: string
-  /** 语言文件名 */
+  /** MirrorChyan 语言代码 */
+  mirrorchyanLang: string
+  /** 语言对应的本地资源文件名 */
   languageFileName: string
 }
 
@@ -25,30 +27,35 @@ export const languages: LanguageOption[] = [
     code: 'zh-CN',
     label: '简体中文',
     htmlLang: 'zh-CN',
+    mirrorchyanLang: 'zh',
     languageFileName: 'zh-cn',
   },
   {
     code: 'zh-TW',
     label: '繁體中文',
     htmlLang: 'zh-TW',
+    mirrorchyanLang: 'zh', // MirrorChyan 没有繁体中文，使用简体中文
     languageFileName: 'zh-tw',
   },
   {
     code: 'en-US',
     label: 'English',
     htmlLang: 'en-US',
+    mirrorchyanLang: 'en',
     languageFileName: 'en-us',
   },
   {
     code: 'ja-JP',
     label: '日本語',
     htmlLang: 'ja-JP',
+    mirrorchyanLang: 'en', // MirrorChyan 没有日语，使用英语
     languageFileName: 'ja-jp',
   },
   {
     code: 'ko-KR',
     label: '한국어',
     htmlLang: 'ko-KR',
+    mirrorchyanLang: 'en', // MirrorChyan 没有韩语，使用英语
     languageFileName: 'ko-kr',
   },
 ]
@@ -58,6 +65,7 @@ export const fallback: LanguageOption = {
   code: 'zh-CN' as string,
   label: '简体中文' as string,
   htmlLang: 'zh-CN' as string,
+  mirrorchyanLang: 'zh',
   languageFileName: 'zh-cn' as string,
 }
 

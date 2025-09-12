@@ -1,7 +1,7 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
 import { useLayoutState } from '@/contexts/LayoutStateContext'
 import { Release, useRelease } from '@/hooks/use-release'
-import i18n from '@/i18n'
+import i18n, { getLanguageOption } from '@/i18n'
 import { downloadBlob } from '@/utils/blob'
 import { checkUrlConnectivity, checkUrlSpeed, download } from '@/utils/fetch'
 import { formatBytes } from '@/utils/format'
@@ -611,6 +611,8 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     )
   }
 
+  const mirrorchyanLang = getLanguageOption(i18n.language).mirrorchyanLang
+
   return (
     <motion.div
       layout
@@ -646,7 +648,7 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
           >
             <GlowButton
               bordered
-              href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+              href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
             >
               <div className="text-sm">
                 <p>
