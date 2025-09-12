@@ -37,23 +37,6 @@ public static class PathsHelper
     /// </summary>
     public static string ResourceDir => _resource ??= Path.Combine(BaseDir, "resource");
 
-    /// <summary>
-    /// Gets the resource directory under the third-level parent of the working directory (for source code soft link).
-    /// </summary>
-    public static string SourceResourceDir
-    {
-        get
-        {
-            var dir = new DirectoryInfo(BaseDir);
-            for (int i = 0; i < 3 && dir.Parent != null; i++)
-            {
-                dir = dir.Parent;
-            }
-
-            return Path.Combine(dir.FullName, "resource");
-        }
-    }
-
     private static string? _cache;
 
     /// <summary>
