@@ -556,9 +556,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         // UI 绑定的方法
         [UsedImplicitly]
-        public void SelectCopilotTask(int index)
+        public void SelectCopilotTask(object? sender, MouseButtonEventArgs? e = null)
         {
-            Filename = CopilotItemViewModels[index].FilePath;
+            if (e?.Source is FrameworkElement element && element.Tag is int index)
+            {
+                Filename = CopilotItemViewModels[index].FilePath; // 假设原方法接受int参数
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    UseCopilotList = false;
+                }
+            }
         }
 
         // UI 绑定的方法
