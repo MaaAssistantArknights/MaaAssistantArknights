@@ -166,6 +166,102 @@ inline static LocationType get_role_usual_location(const Role& role)
 // 招募相关
 // ————————————————————————————————————————————————————————————————
 /// <summary>
+/// 编队/招募时对所需干员模组的要求。
+/// </summary>
+enum class OperModule
+{
+    /// <summary>
+    /// 无指定模组
+    /// </summary>
+    Unspecified = -1,
+
+    /// <summary>
+    /// 基础模组/无模组。
+    /// </summary>
+    None = 0,
+
+    /// <summary>
+    /// Chi 模组。
+    /// </summary>
+    Chi = 1,
+
+    /// <summary>
+    /// Upsilon 模组。
+    /// </summary>
+    Upsilon = 2,
+
+    /// <summary>
+    /// Delta 模组。
+    /// </summary>
+    Delta = 3,
+
+    /// <summary>
+    /// Alpha 模组。
+    /// </summary>
+    Alpha = 4
+};
+
+inline std::string oper_module_to_string(const OperModule module)
+{
+    switch (module) {
+    case OperModule::Chi:
+        return "Chi";
+    case OperModule::Upsilon:
+        return "Upsilon";
+    case OperModule::Delta:
+        return "Delta";
+    case OperModule::Alpha:
+        return "Alpha";
+    default:
+        return "Unknown";
+    }
+}
+
+/// <summary>
+/// 编队/招募时对所需干员的额外练度要求。
+/// </summary>
+struct ExtraOperReqs
+{
+    /// <summary>
+    /// 所需干员最低精英阶段，当且仅当 <c>level != 0</c> 时有效。
+    /// 为 -1–2 的整数，其中 -1 表示无要求，0-2 分别表示精英阶段 1–2。
+    /// </summary>
+    int elite = -1;
+
+    /// <summary>
+    /// 所需干员最低等级。
+    /// 精英阶段高于 <c>elite</c> 的干员不受此要求限制。
+    /// 为 -1 或 1–90 的整数，其中 -1 表示无要求，1–90 分别表示 1–90 级。
+    /// </summary>
+    int level = -1;
+
+    /// <summary>
+    /// 所需干员最低技能等级。
+    /// 仅在 <c>RequiredOper::skill != 0</c> 时有效。
+    /// 为 -1 或 1–10 的整数，其中 -1 表示无要求，1–7 分别表示 1–7 级，8–10 分别表示专精等级 1–3 级。
+    /// </summary>
+    int skill_level = -1;
+
+    /// <summary>
+    /// 所需干员携带模组。
+    /// </summary>
+    OperModule module = OperModule::Unspecified;
+
+    /// <summary>
+    /// 所需干员携带模组的最低等级。
+    /// 仅在 <c>module</c> 不为 <c>OperModule::Unspecified</c> 或 <c>OperModule::None</c> 时有效。
+    /// 为 -1 或 1–3 的整数，其中 -1 表示无要求，1–3 分别表示 1–3 级。
+    /// </summary>
+    int module_level = -1;
+
+    /// <summary>
+    /// 所需干员最低潜能。
+    /// 为 -1 或 1–6 的整数，其中 -1 表示无要求，1–6 分别表示 1–6 潜。
+    /// </summary>
+    int potential = -1;
+};
+
+/// <summary>
 /// 编队/招募需要的干员。
 /// </summary>
 struct RequiredOper
@@ -184,6 +280,11 @@ struct RequiredOper
     /// 所需干员携带技能。为 0–3 的整数，其中 0 表示无需指定技能，1–3 分别表示一、二、三技能。
     /// </summary>
     int skill = 0;
+
+    /// <summary>
+    /// 对所需干员的额外练度要求。
+    /// </summary>
+    ExtraOperReqs ExtraOperReqs;
 
     RequiredOper() = default;
 
