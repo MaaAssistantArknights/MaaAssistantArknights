@@ -412,7 +412,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = 50 * 1000;
+            _timer.Interval = 30 * 1000;
             _timer.Elapsed += Timer1_Elapsed;
             _timer.Start();
         }
@@ -425,11 +425,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 // 提前记录时间，避免等待超过定时时间
                 DateTime currentTime = DateTime.Now;
-                currentTime = currentTime
-                    .AddSeconds(-currentTime.Second)
-                    .AddMilliseconds(-currentTime.Millisecond);
+                currentTime = new(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
-                if (currentTime == _lastTimerElapsed)
+                if (currentTime > _lastTimerElapsed)
                 {
                     return;
                 }
