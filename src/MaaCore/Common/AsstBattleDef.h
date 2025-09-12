@@ -166,6 +166,47 @@ inline static LocationType get_role_usual_location(const Role& role)
 // 招募相关
 // ————————————————————————————————————————————————————————————————
 /// <summary>
+/// 编队/招募时对所需干员模组的要求。
+/// </summary>
+enum class OperModule
+{
+    /// <summary>
+    /// 无指定模组
+    /// </summary>
+    Unspecified = -1,
+
+    /// <summary>
+    /// 基础模组/无模组。
+    /// </summary>
+    Original = 0,
+
+    /// <summary>
+    /// Chi 模组。
+    /// </summary>
+    Chi,
+
+    /// <summary>
+    /// Upsilon 模组。
+    /// </summary>
+    Upsilon,
+
+    /// <summary>
+    /// Delta 模组。
+    /// </summary>
+    Delta,
+
+    /// <summary>
+    /// Alpha 模组。
+    /// </summary>
+    Alpha,
+
+    /// <summary>
+    /// Beta 模组。
+    /// </summary>
+    Beta,
+};
+
+/// <summary>
 /// 编队/招募需要的干员。
 /// </summary>
 struct RequiredOper
@@ -181,18 +222,47 @@ struct RequiredOper
     std::string name;
 
     /// <summary>
+    /// 所需干员最低精英阶段，当且仅当 <c>level != 0</c> 时有效。
+    /// 为 0–2 的整数，分别表示精英阶段 1–2。
+    /// </summary>
+    int elite = 0;
+
+    /// <summary>
+    /// 所需干员最低等级。
+    /// 精英阶段高于 <c>elite</c> 的干员不受此要求限制。
+    /// 为 0–90 的整数，其中 0 表示无要求，1–90 分别表示 1–90 级。
+    /// </summary>
+    int level = 0;
+
+    /// <summary>
     /// 所需干员携带技能。为 0–3 的整数，其中 0 表示无需指定技能，1–3 分别表示一、二、三技能。
     /// </summary>
     int skill = 0;
 
-    RequiredOper() = default;
+    /// <summary>
+    /// 所需干员最低技能等级。
+    /// 仅在 <c>RequiredOper::skill != 0</c> 时有效。
+    /// 为 0–10 的整数，其中 0 表示无要求，1–7 分别表示 1–7 级，8–10 分别表示专精等级 1–3 级。
+    /// </summary>
+    int skill_level = 0;
 
-    RequiredOper(Role role_, std::string name_, int skill_) :
-        role(role_),
-        name(std::move(name_)),
-        skill(skill_)
-    {
-    }
+    /// <summary>
+    /// 所需干员携带模组。
+    /// </summary>
+    OperModule module = OperModule::Unspecified;
+
+    /// <summary>
+    /// 所需干员携带模组的最低等级。
+    /// 仅在 <c>module</c> 不为 <c>OperModule::Unspecified</c> 或 <c>OperModule::Original</c> 时有效。
+    /// 为 0–3 的整数，其中 0 表示无要求，1–3 分别表示 1–3 级。
+    /// </summary>
+    int module_level = 0;
+
+    /// <summary>
+    /// 所需干员最低潜能。
+    /// 为 0–6 的整数，其中 0 表示无要求，1–6 分别表示 1–6 潜。
+    /// </summary>
+    int potential = 0;
 };
 
 /// <summary>
@@ -507,6 +577,26 @@ inline std::string enum_to_string(asst::battle::Role role, bool en = false)
 
     if (auto iter = RoleToName.find(role); iter != RoleToName.end()) {
         return en ? iter->second.second : iter->second.first;
+    }
+
+    return "Unknown";
+}
+
+inline std::string enum_to_string(const battle::OperModule module)
+{
+    using OperModule = battle::OperModule;
+    static const std::unordered_map<OperModule, std::string> OPER_MODULE_STR_MAP {
+        { OperModule::Unspecified, "Unspecified" },
+        { OperModule::Original, "Original" },
+        { OperModule::Chi, "Chi" },
+        { OperModule::Upsilon, "Upsilon" },
+        { OperModule::Delta, "Delta" },
+        { OperModule::Alpha, "Alpha" },
+        { OperModule::Beta, "Beta" },
+    };
+
+    if (const auto iter = OPER_MODULE_STR_MAP.find(module); iter != OPER_MODULE_STR_MAP.end()) {
+        return iter->second;
     }
 
     return "Unknown";
