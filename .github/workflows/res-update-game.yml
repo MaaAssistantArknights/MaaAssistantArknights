@@ -140,20 +140,20 @@ jobs:
           show-progress: false
           fetch-depth: 3
 
-      # - name: Restore ResourceUpdater from cache
-      #   id: resupd-cache
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
-      #     path: |
-      #       ./tools/ResourceUpdater/libc++.so.1
-      #       ./tools/ResourceUpdater/libc++abi.so.1
-      #       ./tools/ResourceUpdater/libopencv_world4.so.411
-      #       ./tools/ResourceUpdater/libunwind.so.1
-      #       ./tools/ResourceUpdater/ResourceUpdater
+      - name: Restore ResourceUpdater from cache
+        id: resupd-cache
+        uses: actions/cache/restore@v4
+        with:
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/libc++.so.1
+            ./tools/ResourceUpdater/libc++abi.so.1
+            ./tools/ResourceUpdater/libopencv_world4.so.411
+            ./tools/ResourceUpdater/libunwind.so.1
+            ./tools/ResourceUpdater/ResourceUpdater
 
       - name: Cache MaaDeps
-        # if: steps.resupd-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
         uses: actions/cache@v4
         with:
@@ -162,8 +162,7 @@ jobs:
           key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
 
       - name: Bootstrap MaaDeps
-      #steps.resupd-cache.outputs.cache-hit != 'true' &&
-        if:  steps.maadeps-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -171,7 +170,7 @@ jobs:
           python3 tools/linux-toolchain-download.py x64
 
       - name: Install llvm-20
-        # if: steps.resupd-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
@@ -179,7 +178,7 @@ jobs:
           rm llvm.sh
 
       - name: Config cmake
-        # if: steps.resupd-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
           cmake -B build \
@@ -189,27 +188,27 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
       - name: Build
-        # if: steps.resupd-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           cmake --build build --target ResourceUpdater --config Release --parallel $(nproc)
 
       - name: Install
-        # if: steps.resupd-cache.outputs.cache-hit != 'true'
+        if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
           cmake --install build --prefix tools/ResourceUpdater --config Release --component ResourceUpdater
           cmake --install build --prefix tools/ResourceUpdater --config Release --component libcxx
 
-      # - name: Save ResourceUpdater to cache
-      #   if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
-      #     path: |
-      #       ./tools/ResourceUpdater/libc++.so.1
-      #       ./tools/ResourceUpdater/libc++abi.so.1
-      #       ./tools/ResourceUpdater/libopencv_world4.so.411
-      #       ./tools/ResourceUpdater/libunwind.so.1
-      #       ./tools/ResourceUpdater/ResourceUpdater
+      - name: Save ResourceUpdater to cache
+        if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/libc++.so.1
+            ./tools/ResourceUpdater/libc++abi.so.1
+            ./tools/ResourceUpdater/libopencv_world4.so.411
+            ./tools/ResourceUpdater/libunwind.so.1
+            ./tools/ResourceUpdater/ResourceUpdater
 
       - name: Download txwy
         id: download-txwy
@@ -363,7 +362,7 @@ jobs:
         if: steps.update_version.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
 
-    #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
-    #     if: steps.add_files.outputs.have_commits == 'True'
-    #     run: |
-    #       gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
+      # - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+      #   if: steps.add_files.outputs.have_commits == 'True'
+      #   run: |
+      #     gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
