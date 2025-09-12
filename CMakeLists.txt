@@ -57,6 +57,33 @@ set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
 
+# 创建资源目录链接的函数
+function(create_resource_link TARGET_NAME OUTPUT_DIR)
+    if(WIN32)
+        # Windows 使用 mklink /J 创建目录链接（不需要管理员权限）
+        add_custom_command(
+            TARGET ${TARGET_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Creating resource directory link for ${TARGET_NAME}..."
+            COMMAND ${CMAKE_COMMAND} -E remove_directory "${OUTPUT_DIR}/resource"
+            COMMAND cmd /c "mklink /J \"${OUTPUT_DIR}/resource\" \"${PROJECT_SOURCE_DIR}/resource\""
+            COMMAND ${CMAKE_COMMAND} -E echo "Resource directory link created successfully"
+            COMMENT "Creating junction for resource directory for ${TARGET_NAME}"
+        )
+    else()
+        # Unix/Linux/macOS 使用符号链接
+        add_custom_command(
+            TARGET ${TARGET_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Creating resource directory link for ${TARGET_NAME}..."
+            COMMAND ${CMAKE_COMMAND} -E remove "${OUTPUT_DIR}/resource"
+            COMMAND ${CMAKE_COMMAND} -E create_symlink "${PROJECT_SOURCE_DIR}/resource" "${OUTPUT_DIR}/resource"
+            COMMAND ${CMAKE_COMMAND} -E echo "Resource directory link created successfully"
+            COMMENT "Creating symlink for resource directory for ${TARGET_NAME}"
+        )
+    endif()
+endfunction()
+
 if(WIN32)
     add_custom_command(
         TARGET MaaCore
@@ -71,6 +98,9 @@ if (BUILD_WPF_GUI)
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
     
     add_dependencies(MaaWpfGui MaaCore)
+
+    # 为 MaaWpfGui 创建资源目录链接
+    create_resource_link(MaaWpfGui "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>")
 endif()
 
 if(APPLE)
@@ -110,6 +140,9 @@ if (BUILD_DEBUG_DEMO)
     target_link_libraries(debug_demo MaaCore)
 
     add_dependencies(debug_demo MaaCore)
+
+    # 为 debug_demo 创建资源目录链接
+    create_resource_link(debug_demo "$<TARGET_FILE_DIR:debug_demo>")
     # install(TARGETS debug_demo ${MaaCore_install_flatten_args})
 endif (BUILD_DEBUG_DEMO)
 
@@ -124,6 +157,9 @@ if (BUILD_SMOKE_TEST)
     target_link_libraries(smoke_test MaaCore)
 
     add_dependencies(smoke_test MaaCore)
+    
+    # 为 smoke_test 创建资源目录链接
+    create_resource_link(smoke_test "$<TARGET_FILE_DIR:smoke_test>")
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_SMOKE_TEST)
 
