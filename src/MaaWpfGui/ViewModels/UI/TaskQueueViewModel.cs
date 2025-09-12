@@ -427,7 +427,7 @@ namespace MaaWpfGui.ViewModels.UI
                 DateTime currentTime = DateTime.Now;
                 currentTime = new(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
-                if (currentTime > _lastTimerElapsed)
+                if (currentTime <= _lastTimerElapsed)
                 {
                     return;
                 }
