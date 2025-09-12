@@ -195,7 +195,8 @@ jobs:
       - name: Install
         # if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --install build --component ResourceUpdater --config Release --prefix tools/ResourceUpdater
+          cmake --install build --prefix tools/ResourceUpdater --config Release --component ResourceUpdater
+          cmake --install build --prefix tools/ResourceUpdater --config Release --component libcxx
 
       # - name: Save ResourceUpdater to cache
       #   if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
