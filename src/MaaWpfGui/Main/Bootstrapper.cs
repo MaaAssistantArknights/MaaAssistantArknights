@@ -60,10 +60,11 @@ namespace MaaWpfGui.Main
 
         private static Mutex _mutex;
         private static bool _hasMutex;
-        public const string UiLogFilename = "debug/gui.log";
-        public const string UiLogBakFilename = "debug/gui.bak.log";
-        public const string CoreLogFilename = "debug/asst.log";
-        public const string CoreLogBakFilename = "debug/asst.bak.log";
+
+        public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
+        public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
+        public static readonly string CoreLogFile = Path.Combine(PathsHelper.DebugDir, "asst.log");
+        public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.DebugDir, "asst.bak.log");
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllName);
@@ -90,10 +91,9 @@ namespace MaaWpfGui.Main
 
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-                return dllFiles
+                return [.. dllFiles
                     .Select(Path.GetFileName)
-                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))];
             }
             catch (Exception)
             {
@@ -149,21 +149,21 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            if (File.Exists(UiLogFilename) && new FileInfo(UiLogFilename).Length > 4 * 1024 * 1024)
+            if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(UiLogBakFilename))
+                if (File.Exists(UiLogBakFile))
                 {
-                    File.Delete(UiLogBakFilename);
+                    File.Delete(UiLogBakFile);
                 }
 
-                File.Move(UiLogFilename, UiLogBakFilename);
+                File.Move(UiLogFile, UiLogBakFile);
             }
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    UiLogFilename,
+                    UiLogFile,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
@@ -181,8 +181,8 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var workingDirectory = PathsHelper.BaseDir;
+            var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
@@ -196,7 +196,7 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
+            _logger.Information("User Dir {BaseDirectory}", workingDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
@@ -228,7 +228,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists(Path.Combine(AsstProxy.MainResourcePath(), "resource")))
+            if (!Directory.Exists(PathsHelper.ResourceDir))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
@@ -275,7 +275,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
+            if (!IsWritable(PathsHelper.BaseDir))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -318,7 +318,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.BaseDir.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try
@@ -437,7 +437,14 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            try
+            {
+                Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            }
+            catch
+            {
+                // ignored
+            }
 
             Release();
 
