@@ -189,12 +189,12 @@ jobs:
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --config Release --parallel $(nproc)
+          cmake --build build --target ResourceUpdater --config Release --parallel $(nproc)
 
       - name: Install
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --install build --config Release --prefix tools/ResourceUpdater
+          cmake --install build --component ResourceUpdater --config Release --prefix tools/ResourceUpdater
 
       - name: Save ResourceUpdater to cache
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
