@@ -39,6 +39,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
+using static MaaWpfGui.Helper.PathsHelper;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using DataFormats = System.Windows.Forms.DataFormats;
 using Task = System.Threading.Tasks.Task;
@@ -64,9 +65,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private CopilotBase? _copilotCache;
         private const string CopilotIdPrefix = "maa://";
-        private static readonly string TempCopilotFile = Path.Combine(PathsHelper.CacheDir, "_temp_copilot.json");
+        private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
-        private static readonly string CopilotJsonDir = Path.Combine(PathsHelper.ConfigDir, "copilot");
+        private static readonly string CopilotJsonDir = Path.Combine(ConfigDir, "copilot");
         private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
         private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -642,7 +643,7 @@ namespace MaaWpfGui.ViewModels.UI
             object? payload;
             if (!File.Exists(filename))
             {
-                var resourceFile = Path.Combine(PathsHelper.ResourceDir, "copilot", Path.GetFileName(filename));
+                var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(filename));
                 if (File.Exists(resourceFile))
                 {
                     filename = resourceFile;
@@ -1026,7 +1027,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                var files = Directory.GetFiles(Path.Combine(PathsHelper.ResourceDir, "copilot"), "*.json");
+                var files = Directory.GetFiles(Path.Combine(ResourceDir, "copilot"), "*.json");
                 comboBox.ItemsSource = files.Select(Path.GetFileName).ToList();
             }
             catch (Exception exception)
