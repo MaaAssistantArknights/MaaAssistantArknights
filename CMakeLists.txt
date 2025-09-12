@@ -156,7 +156,7 @@ if (BUILD_SMOKE_TEST)
     add_dependencies(smoke_test MaaCore)
 
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
-    create_resource_link(smoke_test "${CMAKE_INSTALL_PREFIX}")
+    #create_resource_link(smoke_test "${CMAKE_INSTALL_PREFIX}")
 endif (BUILD_SMOKE_TEST)
 
 if (BUILD_RES_UPDATER)
