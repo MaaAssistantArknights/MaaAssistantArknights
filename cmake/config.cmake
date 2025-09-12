@@ -64,6 +64,7 @@ if(LINUX)
         message(STATUS "${LIBNAME}.so.1 path: ${LIB_PATH_REAL}")
 
         install(FILES "${LIB_PATH_REAL}" DESTINATION . RENAME "${LIBNAME}.so.1")
+        install(FILES "${LIB_PATH_REAL}" DESTINATION . RENAME "${LIBNAME}.so.1" COMPONENT libcxx)
 
         get_filename_component(LIB_PATH_DIR "${LIB_PATH_REAL}" DIRECTORY)
         list(APPEND CMAKE_BUILD_RPATH "${LIB_PATH_DIR}")
