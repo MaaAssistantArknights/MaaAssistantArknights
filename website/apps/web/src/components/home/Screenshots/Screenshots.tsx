@@ -13,10 +13,10 @@ const screenshots = import.meta.glob('@/assets/screenshots/*/*/*.png', {
 
 function getScreenshot(
   theme: string,
-  lang: string,
+  languageFileName: string,
   position: 'left' | 'center' | 'right',
 ) {
-  const path = `/src/assets/screenshots/${theme}/${lang}/${position}.png`
+  const path = `/src/assets/screenshots/${theme}/${languageFileName}/${position}.png`
   return screenshots[path]
 }
 
