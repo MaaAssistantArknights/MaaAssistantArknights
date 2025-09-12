@@ -61,10 +61,10 @@ namespace MaaWpfGui.Main
         private static Mutex _mutex;
         private static bool _hasMutex;
 
-        public static readonly string UiLogFile = Path.Combine(PathsHelper.Debug, "gui.log");
-        public static readonly string UiLogBakFile = Path.Combine(PathsHelper.Debug, "gui.bak.log");
-        public static readonly string CoreLogFile = Path.Combine(PathsHelper.Debug, "asst.log");
-        public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.Debug, "asst.bak.log");
+        public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
+        public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
+        public static readonly string CoreLogFile = Path.Combine(PathsHelper.DebugDir, "asst.log");
+        public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.DebugDir, "asst.bak.log");
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllName);
@@ -181,7 +181,7 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var workingDirectory = PathsHelper.Base;
+            var workingDirectory = PathsHelper.BaseDir;
             var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
@@ -228,7 +228,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists(PathsHelper.Resource))
+            if (!Directory.Exists(PathsHelper.ResourceDir))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
@@ -275,7 +275,7 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(PathsHelper.Base))
+            if (!IsWritable(PathsHelper.BaseDir))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
@@ -318,7 +318,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + PathsHelper.Base.Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.BaseDir.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try

@@ -25,9 +25,9 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationHelper
     {
-        public static readonly string ConfigFile = Path.Combine(PathsHelper.Config, "gui.json");
-        public static readonly string ConfigBakFile = Path.Combine(PathsHelper.Config, "gui.json.bak");
-        public static readonly string ConfigErrorFile = Path.Combine(PathsHelper.Config, "gui.error.json");
+        public static readonly string ConfigFile = Path.Combine(PathsHelper.ConfigDir, "gui.json");
+        public static readonly string ConfigBakFile = Path.Combine(PathsHelper.ConfigDir, "gui.json.bak");
+        public static readonly string ConfigErrorFile = Path.Combine(PathsHelper.ConfigDir, "gui.error.json");
 
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _kvsMap;
         private static string _current = ConfigurationKeys.DefaultConfiguration;

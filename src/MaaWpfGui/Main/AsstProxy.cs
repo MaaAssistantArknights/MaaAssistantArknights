@@ -337,7 +337,7 @@ namespace MaaWpfGui.Main
                 }
             };
 
-            AsstSetUserDir(PathsHelper.Base);
+            AsstSetUserDir(PathsHelper.BaseDir);
         }
 
         /// <summary>
@@ -360,10 +360,10 @@ namespace MaaWpfGui.Main
             _logger.Information("Load Resource");
 
             string clientType = SettingsViewModel.GameSettings.ClientType;
-            string mainRes = PathsHelper.Resource;
+            string mainRes = PathsHelper.ResourceDir;
 
             string globalResource = Path.Combine(mainRes, "global", clientType);
-            string mainCache = PathsHelper.Cache;
+            string mainCache = PathsHelper.CacheDir;
             string globalCache = Path.Combine(mainCache, "global", clientType);
 
             bool loaded;

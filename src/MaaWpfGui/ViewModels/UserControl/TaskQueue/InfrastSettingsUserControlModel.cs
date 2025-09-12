@@ -290,7 +290,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _defaultInfrast, value);
             if (_defaultInfrast != UserDefined)
             {
-                CustomInfrastFile = Path.Combine(PathsHelper.Resource, "custom_infrast", value);
+                CustomInfrastFile = Path.Combine(PathsHelper.ResourceDir, "custom_infrast", value);
             }
 
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);

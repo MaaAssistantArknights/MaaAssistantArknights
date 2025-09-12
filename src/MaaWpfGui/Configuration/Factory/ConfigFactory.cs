@@ -35,10 +35,10 @@ using static MaaWpfGui.Helper.PathsHelper;
 
 public static class ConfigFactory
 {
-    public static readonly string ConfigFile = Path.Combine(Config, "gui.new.json");
+    public static readonly string ConfigFile = Path.Combine(ConfigDir, "gui.new.json");
 
     // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
-    private static readonly string _configBakFile = Path.Combine(Config, "gui.new.json.bak");
+    private static readonly string _configBakFile = Path.Combine(ConfigDir, "gui.new.json.bak");
 
     private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
@@ -58,9 +58,9 @@ public static class ConfigFactory
     {
         lock (_lock)
         {
-            if (Directory.Exists(Config) is false)
+            if (Directory.Exists(ConfigDir) is false)
             {
-                Directory.CreateDirectory(Config);
+                Directory.CreateDirectory(ConfigDir);
             }
 
             Root? parsed = null;

@@ -27,8 +27,8 @@ namespace MaaWpfGui.Helper
     {
         private static readonly ILogger _logger = Log.ForContext<ETagCache>();
 
-        private static readonly string _etagFile = Path.Combine(PathsHelper.Cache, "etag.json");
-        private static readonly string _lastModifiedFile = Path.Combine(PathsHelper.Cache, "last_modified.json");
+        private static readonly string _etagFile = Path.Combine(PathsHelper.CacheDir, "etag.json");
+        private static readonly string _lastModifiedFile = Path.Combine(PathsHelper.CacheDir, "last_modified.json");
         private static Dictionary<string, string> _etagCache = [];
         private static Dictionary<string, DateTimeOffset> _lastModifiedCache = [];
 

@@ -28,23 +28,23 @@ public static class PathsHelper
     /// <summary>
     /// Gets the application's working directory (AppDomain.CurrentDomain.BaseDirectory).
     /// </summary>
-    public static string Base => _base ??= AppDomain.CurrentDomain.BaseDirectory;
+    public static string BaseDir => _base ??= AppDomain.CurrentDomain.BaseDirectory;
 
     private static string? _resource;
 
     /// <summary>
     /// Gets the resource directory under the working directory.
     /// </summary>
-    public static string Resource => _resource ??= Path.Combine(Base, "resource");
+    public static string ResourceDir => _resource ??= Path.Combine(BaseDir, "resource");
 
     /// <summary>
     /// Gets the resource directory under the third-level parent of the working directory (for source code soft link).
     /// </summary>
-    public static string SourceResource
+    public static string SourceResourceDir
     {
         get
         {
-            var dir = new DirectoryInfo(Base);
+            var dir = new DirectoryInfo(BaseDir);
             for (int i = 0; i < 3 && dir.Parent != null; i++)
             {
                 dir = dir.Parent;
@@ -59,14 +59,14 @@ public static class PathsHelper
     /// <summary>
     /// Gets the full path to the application's cache directory.
     /// </summary>
-    public static string Cache => _cache ??= Path.Combine(Base, "cache");
+    public static string CacheDir => _cache ??= Path.Combine(BaseDir, "cache");
 
     private static string? _config;
 
     /// <summary>
     /// Gets the full path to the directory containing GUI configuration files for the application.
     /// </summary>
-    public static string Config => _config ??= Path.Combine(Base, "config");
+    public static string ConfigDir => _config ??= Path.Combine(BaseDir, "config");
 
     private static string? _debug;
 
@@ -75,7 +75,7 @@ public static class PathsHelper
     /// </summary>
     /// <remarks>The debug directory is located within the application's base directory and is named
     /// "debug". The directory may not exist until created by the application or related processes.</remarks>
-    public static string Debug => _debug ??= Path.Combine(Base, "debug");
+    public static string DebugDir => _debug ??= Path.Combine(BaseDir, "debug");
 
     private static string? _data;
 
@@ -85,5 +85,5 @@ public static class PathsHelper
     /// <remarks>The data directory is located within the application's base directory under a folder
     /// named "data". This property returns the resolved path, creating the directory if it does not exist is the
     /// responsibility of the caller.</remarks>
-    public static string Data => _data ??= Path.Combine(Base, "data");
+    public static string DataDir => _data ??= Path.Combine(BaseDir, "data");
 }
