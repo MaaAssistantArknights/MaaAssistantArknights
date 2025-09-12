@@ -154,7 +154,6 @@ if (BUILD_SMOKE_TEST)
     target_link_libraries(smoke_test MaaCore)
 
     add_dependencies(smoke_test MaaCore)
-
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_SMOKE_TEST)
 
