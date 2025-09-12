@@ -98,9 +98,6 @@ if (BUILD_WPF_GUI)
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
     
     add_dependencies(MaaWpfGui MaaCore)
-
-    # 为 MaaWpfGui 创建资源目录链接
-    create_resource_link(MaaWpfGui "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>")
 endif()
 
 if(APPLE)
@@ -157,9 +154,7 @@ if (BUILD_SMOKE_TEST)
     target_link_libraries(smoke_test MaaCore)
 
     add_dependencies(smoke_test MaaCore)
-    
-    # 为 smoke_test 创建资源目录链接
-    create_resource_link(smoke_test "$<TARGET_FILE_DIR:smoke_test>")
+
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_SMOKE_TEST)
 
