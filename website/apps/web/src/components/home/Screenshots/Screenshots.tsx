@@ -24,10 +24,6 @@ function lerp(v0: number, v1: number, t: number) {
   return v0 * (1 - t) + v1 * t
 }
 
-function snapTo(num: number, target: number, delta: number) {
-  return Math.abs(num - target) <= delta ? target : num
-}
-
 function absInRange(num: number, center: number, delta: number) {
   const abs = Math.abs(num)
   return abs >= center - delta && abs <= center + delta
@@ -35,15 +31,7 @@ function absInRange(num: number, center: number, delta: number) {
 
 const sidePanelRotationOffset = 0.15
 
-export function Screenshots({
-  sidebarRef,
-  indicatorRef,
-  showLinks = false,
-}: {
-  sidebarRef: React.RefObject<HTMLDivElement | null>
-  indicatorRef: React.RefObject<HTMLDivElement | null>
-  showLinks?: boolean
-}) {
+export function Screenshots() {
   const { theme } = useTheme()
   const { i18n } = useTranslation()
   const languageFileName = getLanguageOption(i18n.language).languageFileName
