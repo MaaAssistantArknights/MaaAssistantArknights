@@ -46,15 +46,9 @@ export const HomeHero: FC = () => {
               }
               onError={() => {
                 if (linkRef.current) linkRef.current.style.opacity = '1'
-                if (indicatorRef.current)
-                  indicatorRef.current.style.opacity = '0'
               }}
             >
-              <ScreenshotsCanvas
-                sidebarRef={linkRef}
-                indicatorRef={indicatorRef}
-                showLinks={showLinks}
-              />
+              <ScreenshotsCanvas />
             </ErrorBoundary>
           )}
         </section>
@@ -75,15 +69,7 @@ export const HomeHero: FC = () => {
   )
 }
 
-function ScreenshotsCanvas({
-  sidebarRef,
-  indicatorRef,
-  showLinks = false,
-}: {
-  sidebarRef: React.RefObject<HTMLDivElement | null>
-  indicatorRef: React.RefObject<HTMLDivElement | null>
-  showLinks?: boolean
-}) {
+function ScreenshotsCanvas() {
   return (
     <Canvas
       camera={{ fov: 35, position: [0, -1, 14] }}
@@ -92,11 +78,7 @@ function ScreenshotsCanvas({
       dpr={window.devicePixelRatio || 1.5}
     >
       <ambientLight intensity={1} />
-      <Screenshots
-        sidebarRef={sidebarRef}
-        indicatorRef={indicatorRef}
-        showLinks={showLinks}
-      />
+      <Screenshots />
     </Canvas>
   )
 }
