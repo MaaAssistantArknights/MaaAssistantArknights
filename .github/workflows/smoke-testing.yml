@@ -53,8 +53,6 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/AsstCaller.h
-            ./install/AsstPort.h
             ./install/libc++.so.1
             ./install/libc++abi.so.1
             ./install/libfastdeploy_ppocr.so
@@ -125,8 +123,6 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/AsstCaller.h
-            ./install/AsstPort.h
             ./install/libc++.so.1
             ./install/libc++abi.so.1
             ./install/libfastdeploy_ppocr.so
