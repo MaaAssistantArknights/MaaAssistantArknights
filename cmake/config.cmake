@@ -43,7 +43,7 @@ if(LINUX)
             OUTPUT_STRIP_TRAILING_WHITESPACE
         )
 
-        if("${LIB_PATH}" STREQUAL "${LIBNAME}.so.1}")
+        if("${LIB_PATH}" STREQUAL "${LIBNAME}.so.1")
             message(FATAL_ERROR "Could not locate ${LIBNAME}.so.1 using compiler")
         endif()
 
