@@ -142,7 +142,10 @@ namespace MaaWpfGui.Views.UI
 
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.UnexpectedCrash);
 
-            return LocalizationHelper.GetString("UnknownErrorOccurs");
+            return $"{LocalizationHelper.GetString("UnknownErrorOccurs")}\n" +
+                   $"{LocalizationHelper.GetString("ErrorCrashMessageOpenLog")}\n" +
+                   $"{LocalizationHelper.GetString("ErrorCrashMessageGenerateReport")}\n" +
+                   $"{LocalizationHelper.GetString("ErrorCrashMessageHelpTip")}";
         }
 
         protected override void OnClosed(EventArgs e)

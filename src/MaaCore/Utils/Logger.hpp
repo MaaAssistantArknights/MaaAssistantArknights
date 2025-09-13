@@ -862,6 +862,33 @@ private:
     }
 
 #ifndef ASST_DEBUG
+
+    inline static std::atomic<const char*> g_last_signal_reason { nullptr };
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4996)
+#endif
+    static void write_crash_file(const char* reason, const char* detail = nullptr) noexcept
+    {
+        FILE* f = fopen("crash.log", "a");
+        if (!f) {
+            return;
+        }
+        fprintf(f, "=== FATAL ERROR ===\n");
+        if (reason) {
+            fprintf(f, "Reason: %s\n", reason);
+        }
+        if (detail) {
+            fprintf(f, "Detail: %s\n", detail);
+        }
+        fprintf(f, "===================\n\n");
+        fclose(f);
+    }
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
     static void custom_terminate_handler() noexcept
     {
         static bool in_handler = false;
@@ -872,24 +899,35 @@ private:
 
         try {
             auto& logger = Logger::get_instance();
-            std::string exception_info = "Unknown exception";
 
-            try {
-                if (auto eptr = std::current_exception()) {
+            // 先写信号信息
+            if (auto sig_reason = g_last_signal_reason.load()) {
+                logger.error("=== FATAL ERROR ===");
+                logger.error("Signal caught:", sig_reason);
+                logger.flush();
+                write_crash_file("Fatal Signal", sig_reason);
+            }
+
+            // 再处理 C++ 异常
+            std::string exception_info = "Unknown exception";
+            if (auto eptr = std::current_exception()) {
+                try {
                     std::rethrow_exception(eptr);
                 }
+                catch (const std::exception& e) {
+                    exception_info = std::string("std::exception: ") + e.what() + " (type: " + typeid(e).name() + ")";
+                }
+                catch (...) {
+                    exception_info = "Unknown exception type";
+                }
             }
-            catch (const std::exception& e) {
-                exception_info = std::string("std::exception: ") + e.what() + " (type: " + typeid(e).name() + ")";
-            }
-            catch (...) {
-                exception_info = "Unknown exception type";
-            }
+
             logger.error("=== FATAL ERROR ===");
             logger.error("Unhandled exception caught:", exception_info);
             logger.error("Program terminating...");
             logger.error("===================");
             logger.flush();
+            write_crash_file("Unhandled exception", exception_info.c_str());
         }
         catch (...) {
             std::cerr << "=== FATAL ERROR ===" << std::endl;
@@ -901,8 +939,6 @@ private:
 
     static void signal_handler(int sig)
     {
-        auto& logger = Logger::get_instance();
-
         std::string sig_name;
         switch (sig) {
         case SIGSEGV:
@@ -921,20 +957,7 @@ private:
             sig_name = "Signal " + std::to_string(sig);
             break;
         }
-
-        try {
-            logger.error("=== FATAL ERROR ===");
-            logger.error("Signal caught:", sig_name);
-            logger.error("Signal number:", std::to_string(sig));
-            logger.error("Program terminating...");
-            logger.error("===================");
-        }
-        catch (...) {
-            std::cerr << "=== FATAL ERROR ===" << std::endl;
-            std::cerr << "Signal caught: " << sig_name << " (" << sig << ")" << std::endl;
-            std::cerr << "===================" << std::endl;
-        }
-
+        g_last_signal_reason.store(sig_name.c_str());
         custom_terminate_handler();
         std::_Exit(EXIT_FAILURE);
     }

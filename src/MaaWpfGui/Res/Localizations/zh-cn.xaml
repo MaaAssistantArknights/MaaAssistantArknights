@@ -901,6 +901,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打开链接失败，请前往 ｢Windows 设置｣ 选择默认浏览器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送这个窗口的截图或照片。</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->
