@@ -368,6 +368,7 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
     }
 
     Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
+    sleep(200);
     ctrler()->click(click_point);
     m_bosky_map.set_visited(chosen);
     m_bosky_map.set_curr_pos(chosen);
