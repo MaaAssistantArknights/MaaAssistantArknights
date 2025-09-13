@@ -112,11 +112,6 @@ jobs:
         run: |
           mkdir -p install
           cmake --install build --prefix install --config Debug
-          # 创建资源目录链接
-          echo "Creating resource directory link..."
-          rm -rf install/resource
-          ln -s "$(pwd)/resource" install/resource
-          echo "Resource directory link created successfully"
 
       - name: Run tests
         run: |
