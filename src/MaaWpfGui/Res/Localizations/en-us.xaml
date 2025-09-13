@@ -901,6 +901,11 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to ｢Windows Settings｣ and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">The above issue caused the program to crash.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=Issue} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending a screenshot or photo of this window.</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->

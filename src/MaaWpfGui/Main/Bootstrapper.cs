@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -136,6 +137,82 @@ namespace MaaWpfGui.Main
             catch
             {
                 return false;
+            }
+        }
+
+        public static void ParseCrashLog()
+        {
+            var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
+            if (!File.Exists(crashFile))
+            {
+                return;
+            }
+
+            try
+            {
+                string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
+
+                StringBuilder message = new StringBuilder();
+                string currentReason = null;
+                string currentDetail = null;
+
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("Reason: "))
+                    {
+                        currentReason = line[7..].Trim();
+                    }
+                    else if (line.StartsWith("Detail: "))
+                    {
+                        currentDetail = line[8..].Trim();
+                    }
+                    else if (line.StartsWith("==================="))
+                    {
+                        if (!string.IsNullOrEmpty(currentReason))
+                        {
+                            message.AppendLine($"Reason: {currentReason}");
+                            if (!string.IsNullOrEmpty(currentDetail))
+                            {
+                                message.AppendLine($"Detail: {currentDetail}");
+                            }
+
+                            message.AppendLine();
+                        }
+
+                        currentReason = null;
+                        currentDetail = null;
+                    }
+                }
+
+                if (message.Length > 0)
+                {
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHeader"));
+                    message.AppendLine();
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageOpenLog"));
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageGenerateReport"));
+                    message.AppendLine();
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHelpTip"));
+
+                    MessageBoxHelper.Show(
+                        message.ToString(),
+                        LocalizationHelper.GetString("ErrorCrashDialogTitle"),
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+
+                    try
+                    {
+                        File.Delete(crashFile);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            catch
+            {
+                // ignored
             }
         }
 
@@ -279,6 +356,8 @@ namespace MaaWpfGui.Main
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
+
+            Task.Run(ParseCrashLog);
 
             base.OnStart();
             _hasMutex = true;
