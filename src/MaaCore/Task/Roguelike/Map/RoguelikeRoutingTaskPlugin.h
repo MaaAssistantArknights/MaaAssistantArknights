@@ -27,6 +27,12 @@ public:
         FindPlaytime_JieGarden
     };
 
+    enum class RoguelikeRoutingTaskRunMode
+    {
+        Default,                // 普通肉鸽地图
+        BoskyPassage_JieGarden, // 界园树洞地图
+    };
+
 protected:
     virtual bool _run() override;
 
@@ -66,6 +72,8 @@ private:
     RoguelikeMap m_map;
     // 界园树洞平面地图 - 单例模式
     RoguelikeBoskyPassageMap& m_bosky_map = RoguelikeBoskyPassageMap::get_instance();
+    // 运行模式
+    mutable RoguelikeRoutingTaskRunMode m_run_mode = RoguelikeRoutingTaskRunMode::Default;
     bool m_need_generate_map = true;
     size_t m_selected_column = 0;  // 当前选中节点所在列
     int m_selected_x = 0;          // 当前选中节点的横坐标 (Rect.x)
