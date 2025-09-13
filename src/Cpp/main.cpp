@@ -10,13 +10,6 @@ int main([[maybe_unused]] int argc, char** argv)
 {
     auto working_path = std::filesystem::path(argv[0]).parent_path();
 
-#ifdef ASST_DEBUG
-    if (!std::filesystem::exists(working_path / "resource")) {
-        // <ProjectDir>/build/bin/Debug or <ProjectDir>/build/bin/Release
-        working_path = working_path.parent_path().parent_path().parent_path();
-    }
-#endif
-
     if (!std::filesystem::exists(working_path / "resource")) {
         std::cerr << "resource folder not found!" << std::endl;
         return -1;
