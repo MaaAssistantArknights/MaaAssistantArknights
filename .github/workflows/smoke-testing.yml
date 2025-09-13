@@ -64,12 +64,6 @@ jobs:
             ./install/libunwind.so.1
             ./install/smoke_test
 
-      - name: Make link for cache smoke-testing
-        if: steps.smoke-cache.outputs.cache-hit != 'true'
-        run: |
-          ln -s "$(pwd)/resource" install/resource
-          echo "Create resource directory link"
-
       - name: Fetch submodules
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
