@@ -1443,8 +1443,8 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
                     return false;
                 case 1:
-                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
-                    return false;
+                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
+                    break; // 降级为警告, 有用户炸就派uuu
             }
 
             if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name?.Trim())))
