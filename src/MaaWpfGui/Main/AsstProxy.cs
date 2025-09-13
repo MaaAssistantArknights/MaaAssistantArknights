@@ -360,27 +360,27 @@ namespace MaaWpfGui.Main
             _logger.Information("Load Resource");
 
             string clientType = SettingsViewModel.GameSettings.ClientType;
-            string mainRes = PathsHelper.ResourceDir;
 
-            string globalResource = Path.Combine(mainRes, "global", clientType);
-            string mainCache = PathsHelper.CacheDir;
-            string globalCache = Path.Combine(mainCache, "global", clientType);
+            string mainRes = PathsHelper.ResourceDir;
+            string globalRes = Path.Combine(mainRes, "global", clientType, "resource");
+            string mainCacheRes = PathsHelper.CacheDir;
+            string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
 
             bool loaded;
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                CopyTasksJson(mainCache);
+                CopyTasksJson(mainCacheRes);
                 loaded = LoadResIfExists(mainRes);
-                loaded &= LoadResIfExists(mainCache);
+                loaded &= LoadResIfExists(mainCacheRes);
             }
             else
             {
                 // Read resources first, then read cache
-                CopyTasksJson(mainCache);
-                CopyTasksJson(globalCache);
-                loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
-                loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
+                CopyTasksJson(mainCacheRes);
+                CopyTasksJson(globalCacheRes);
+                loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCacheRes);
+                loaded &= LoadResIfExists(globalRes) && LoadResIfExists(globalCacheRes);
             }
 
             return loaded;
