@@ -624,6 +624,7 @@ bool asst::BattleFormationTask::parse_formation()
         groups = &SSSCopilot.get_data().groups;
     }
 
+    m_formation.clear();
     for (const auto& [name, opers_vec] : *groups) {
         if (opers_vec.empty()) {
             continue;
