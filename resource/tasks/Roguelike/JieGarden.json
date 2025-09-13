@@ -191,7 +191,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["交换"],
-        "roi": [575, 558, 127, 50]
+        "roi": [575, 558, 127, 50],
+        "preDelay": 1000
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "algorithm": "OcrDetect",
