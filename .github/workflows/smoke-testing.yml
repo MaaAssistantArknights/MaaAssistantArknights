@@ -100,6 +100,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DMAADEPS_TRIPLET='maa-x64-linux' \
             -DBUILD_SMOKE_TEST=ON \
+            -DINSTALL_RESOURCE=ON \
             -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
 
       - name: Build
