@@ -113,13 +113,13 @@ protected:
 
     std::vector<QuickFormationOper> analyzer_opers(const cv::Mat& image);
 
-    std::string m_stage_name;
-    std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation; // 作业编队
+    std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
+    std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation_last; // 上次的编队
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
-        std::make_shared<std::unordered_map<std::string, std::string>>(); // 编队中的干员名称-所属组名
-    bool m_add_trust = false;                                             // 是否需要追加信赖干员
-    bool m_ignore_requirements = false;                                   // 是否跳过未满足的干员属性要求
-    std::vector<std::pair<std::string, int>> m_user_additional;           // 追加干员表，从头往后加
+        std::make_shared<std::unordered_map<std::string, std::string>>();      // 编队中的干员名称-所属组名
+    bool m_add_trust = false;                                                  // 是否需要追加信赖干员
+    bool m_ignore_requirements = false;                                        // 是否跳过未满足的干员属性要求
+    std::vector<std::pair<std::string, int>> m_user_additional;                // 追加干员表，从头往后加
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;
