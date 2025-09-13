@@ -562,7 +562,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (e?.Source is FrameworkElement element && element.Tag is int index)
             {
                 Filename = CopilotItemViewModels[index].FilePath; // 假设原方法接受int参数
-                if (e.ChangedButton == MouseButton.Left)
+                if (e.ChangedButton == MouseButton.Right)
                 {
                     UseCopilotList = false;
                 }
