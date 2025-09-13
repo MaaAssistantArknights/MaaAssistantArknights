@@ -110,6 +110,9 @@ if (BUILD_DEBUG_DEMO)
     target_link_libraries(debug_demo MaaCore)
 
     add_dependencies(debug_demo MaaCore)
+
+    # 为 debug_demo 创建资源目录链接
+    create_resource_link(debug_demo "$<TARGET_FILE_DIR:debug_demo>")
     # install(TARGETS debug_demo ${MaaCore_install_flatten_args})
 endif (BUILD_DEBUG_DEMO)
 
