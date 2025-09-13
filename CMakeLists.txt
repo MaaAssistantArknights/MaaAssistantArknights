@@ -69,7 +69,7 @@ endif()
 
 if (BUILD_WPF_GUI)
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
-    
+    create_resource_link(MaaWpfGui "$<TARGET_FILE_DIR:MaaWpfGui>")
     add_dependencies(MaaWpfGui MaaCore)
 endif()
 
