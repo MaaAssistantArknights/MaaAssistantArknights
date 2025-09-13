@@ -65,7 +65,7 @@
             "connectingWithSpeed": "Mirror #{{index}}에서 다운로드 시도 중 (지연시간: {{latency}} ms, 속도: {{speed}} MiB/s)...",
             "connectingWithoutSpeed": "Mirror #{{index}}에서 다운로드 시도 중 (지연시간: {{latency}} ms)...",
             "downloadingFromMirror": "Mirror #{{index}}에서 다운로드 중...",
-            "downloadingFallback": "GitHub에서 다운로드 시도 중...",
+            "downloadingFallback": "GitHub에서 다운로드 중...",
             "invalidState": "잘못된 다운로드 상태입니다. 페이지를 새로고침하여 다시 시도해주세요."
         }
     },

@@ -65,7 +65,7 @@
             "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
             "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
             "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
-            "downloadingFallback": "正在尝试从海外源(Github)下载...",
+            "downloadingFallback": "正在从海外源(Github)下载...",
             "invalidState": "无效的下载状态，请刷新页面重试。"
         }
     },

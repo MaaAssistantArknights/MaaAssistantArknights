@@ -65,7 +65,7 @@
             "connectingWithSpeed": "ミラー #{{index}}（遅延：{{latency}} ms、速度：{{speed}} MiB/s）からダウンロードを試みています...",
             "connectingWithoutSpeed": "ミラー #{{index}}（遅延：{{latency}} ms）からダウンロードを試みています...",
             "downloadingFromMirror": "ミラー #{{index}} からダウンロード中...",
-            "downloadingFallback": "GitHub からダウンロードを試みています...",
+            "downloadingFallback": "GitHub からダウンロード中...",
             "invalidState": "無効なダウンロード状態です。ページをリフレッシュして再試行してください。"
         }
     },

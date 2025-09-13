@@ -62,10 +62,10 @@
             }
         },
         "download": {
-            "connectingWithSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms, speed: {{speed}} MiB/s)...",
-            "connectingWithoutSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms)...",
+            "connectingWithSpeed": "Attempting to download from mirror #{{index}} (latency: {{latency}} ms, speed: {{speed}} MiB/s)...",
+            "connectingWithoutSpeed": "Attempting to download from mirror #{{index}} (latency: {{latency}} ms)...",
             "downloadingFromMirror": "Downloading from mirror #{{index}}...",
-            "downloadingFallback": "Attempting download from GitHub...",
+            "downloadingFallback": "Downloading from GitHub...",
             "invalidState": "Invalid download state, please refresh the page and try again."
         }
     },
