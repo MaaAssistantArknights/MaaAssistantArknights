@@ -97,6 +97,16 @@ bool asst::RoguelikeRoutingTaskPlugin::verify(const AsstMsg msg, const json::val
     std::string task_name = details.get("details", "task", "");
     Log.debug(__FUNCTION__, "| Checking task:", task_name);
 
+    // 检查是否包含 BoskyPassage 并设置运行模式
+    if (task_name.find("JieGarden@Roguelike@Routing-BoskyPassage") != std::string::npos) {
+        m_run_mode = RoguelikeRoutingTaskRunMode::BoskyPassage_JieGarden;
+        Log.debug(__FUNCTION__, "| Setting run mode to BoskyPassage_JieGarden");
+    }
+    else {
+        m_run_mode = RoguelikeRoutingTaskRunMode::Default;
+        Log.debug(__FUNCTION__, "| Setting run mode to Default");
+    }
+
     // trigger 任务的名字可以为 "...@Roguelike@Routing-..." 的形式
     if (const size_t pos = task_name.find('-'); pos != std::string::npos) {
         task_name = task_name.substr(0, pos);
@@ -121,121 +131,125 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
         "bosky_routing_strategy:",
         static_cast<int>(m_bosky_routing_strategy));
 
-    switch (m_routing_strategy) {
-    case RoutingStrategy::FastInvestment_Sarkaz:
-        if (m_need_generate_map) {
-            // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
-            ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
-            // 刷新节点
-            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
-            // 不识别了，进商店，Go!
-            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
-            // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
-            m_need_generate_map = false;
-        }
-        else {
-            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
-        }
-        break;
-    case RoutingStrategy::FastInvestment_JieGarden:
-        if (m_need_generate_map) {
-            cv::Mat image = ctrler()->get_image();
-            cv::Mat image_draw = image.clone();
-            update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
-#ifdef ASST_DEBUG
-            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            const auto relative_path = relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
-            Log.debug(__FUNCTION__, "| Saving image to", relative_path);
-            asst::imwrite(relative_path, image_draw);
-#endif
-            m_need_generate_map = false;
-        }
-        if (m_map.get_curr_pos() == RoguelikeMap::INIT_INDEX) {
-            m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
-                if (node->type == RoguelikeNodeType::CombatOps || node->type == RoguelikeNodeType::EmergencyOps ||
-                    node->type == RoguelikeNodeType::DreadfulFoe) {
-                    return 1;
-                }
-                return 0;
-            });
-            m_map.update_node_costs();
-            const size_t next_node = m_map.get_next_node();
-
-            // 若无法避免超过两场战斗则重开
-            if (m_map.get_node_cost(next_node) >= 2) {
-                callback(
-                    AsstMsg::TaskChainExtraInfo,
-                    json::object {
-                        { "what", "RoutingRestart" },
-                        { "why", "TooManyBattlesAhead" },
-                        { "node_cost", m_map.get_node_cost(next_node) },
-                    });
-
-                Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
-                reset_in_run_variables();
+    if (m_run_mode == RoguelikeRoutingTaskRunMode::Default) {
+        switch (m_routing_strategy) {
+        case RoutingStrategy::FastInvestment_Sarkaz:
+            if (m_need_generate_map) {
+                // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
+                ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
+                // 刷新节点
+                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
+                // 不识别了，进商店，Go!
+                Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+                // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
+                m_need_generate_map = false;
             }
             else {
-                const int next_node_x = m_origin_x;
-                const int next_node_y = m_map.get_node_y(next_node);
-                Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
-                ctrler()->click(next_node_center);
-                sleep(200);
-
-                Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
-                m_map.set_curr_pos(next_node);
+                Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
             }
+            break;
+        case RoutingStrategy::FastInvestment_JieGarden:
+            if (m_need_generate_map) {
+                cv::Mat image = ctrler()->get_image();
+                cv::Mat image_draw = image.clone();
+                update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
+#ifdef ASST_DEBUG
+                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
+                const auto relative_path =
+                    relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
+                Log.debug(__FUNCTION__, "| Saving image to", relative_path);
+                asst::imwrite(relative_path, image_draw);
+#endif
+                m_need_generate_map = false;
+            }
+            if (m_map.get_curr_pos() == RoguelikeMap::INIT_INDEX) {
+                m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
+                    if (node->type == RoguelikeNodeType::CombatOps || node->type == RoguelikeNodeType::EmergencyOps ||
+                        node->type == RoguelikeNodeType::DreadfulFoe) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                m_map.update_node_costs();
+                const size_t next_node = m_map.get_next_node();
+
+                // 若无法避免超过两场战斗则重开
+                if (m_map.get_node_cost(next_node) >= 2) {
+                    callback(
+                        AsstMsg::TaskChainExtraInfo,
+                        json::object {
+                            { "what", "RoutingRestart" },
+                            { "why", "TooManyBattlesAhead" },
+                            { "node_cost", m_map.get_node_cost(next_node) },
+                        });
+
+                    Task.set_task_base(
+                        "JieGarden@Roguelike@RoutingAction",
+                        "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+                    reset_in_run_variables();
+                }
+                else {
+                    const int next_node_x = m_origin_x;
+                    const int next_node_y = m_map.get_node_y(next_node);
+                    Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
+                    ctrler()->click(next_node_center);
+                    sleep(200);
+
+                    Task.set_task_base(
+                        "JieGarden@Roguelike@RoutingAction",
+                        "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                    m_map.set_curr_pos(next_node);
+                }
+            }
+            else {
+                // 执行默认的避战策略
+                Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+            }
+            break;
+        case RoutingStrategy::FastPass:
+            if (m_need_generate_map) {
+                generate_map();
+                m_need_generate_map = false;
+            }
+
+            m_selected_column = m_map.get_node_column(m_map.get_curr_pos());
+            update_selected_x();
+
+            refresh_following_combat_nodes();
+            navigate_route();
+            break;
+
+        default:
+            break;
         }
-        else {
-            // 执行默认的避战策略
-            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+    }
+
+    if (m_run_mode == RoguelikeRoutingTaskRunMode::BoskyPassage_JieGarden) {
+        switch (m_bosky_routing_strategy) {
+        case RoutingStrategy::BoskyPassage_JieGarden: {
+            bosky_update_map();
+            const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("Default");
+            bosky_decide_and_click(priority_order);
+            break;
         }
-        break;
-    case RoutingStrategy::FastPass:
-        if (m_need_generate_map) {
-            generate_map();
-            m_need_generate_map = false;
+
+        case RoutingStrategy::FindPlaytime_JieGarden: {
+            // 更新地图
+            bosky_update_map();
+            const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
+
+            // 获取目标常乐节点子类型
+            Log.info(__FUNCTION__, "| Looking for playtime subtype:", subtype2name(m_bosky_map.get_target_subtype()));
+
+            // 尝试找到目标节点，使用常乐节点优先的策略
+            bosky_decide_and_click(priority_order);
+            break;
         }
 
-        m_selected_column = m_map.get_node_column(m_map.get_curr_pos());
-        update_selected_x();
-
-        refresh_following_combat_nodes();
-        navigate_route();
-        break;
-
-    default:
-        break;
+        default:
+            break;
+        }
     }
-
-    switch (m_bosky_routing_strategy) {
-    case RoutingStrategy::BoskyPassage_JieGarden: {
-        bosky_update_map();
-        const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("Default");
-        bosky_decide_and_click(priority_order);
-        break;
-    }
-
-    case RoutingStrategy::FindPlaytime_JieGarden: {
-        // 更新地图
-        bosky_update_map();
-        const std::vector<RoguelikeNodeType> priority_order = get_bosky_passage_priority("FindPlaytime");
-
-        // 获取目标常乐节点子类型
-        Log.info(__FUNCTION__, "| Looking for playtime subtype:", subtype2name(m_bosky_map.get_target_subtype()));
-
-        // 尝试找到目标节点，使用常乐节点优先的策略
-        bosky_decide_and_click(priority_order);
-        break;
-    }
-
-    default:
-        break;
-    }
-
     return true;
 }
 
