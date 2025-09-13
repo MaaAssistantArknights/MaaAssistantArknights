@@ -1275,7 +1275,7 @@ namespace MaaWpfGui.Main
                                     }
                                 }
 
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd('\n'), UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd(), UiLogColor.Error);
                             }
                             else
                             {
