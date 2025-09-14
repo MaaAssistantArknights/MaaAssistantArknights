@@ -17,7 +17,7 @@ for client in "${clients[@]}"; do
     client_map+=("$client")
 done
 
-for i in {1..${#pids}}; do
+for i in {0..$(( ${#pids} - 1 ))}; do
     pid=${pids[$i]}
     client=${client_map[$i]}
     
@@ -34,7 +34,7 @@ done
 if [[ ${#error_clients} -gt 0 ]]; then
     for client in "${error_clients[@]}"; do
         while IFS= read -r line; do
-            if [[ "$line" =~ "\[ERR\]" ]]; then
+            if [[ "$line" =~ (\[ERR\]) ]]; then
                 print -P "%F{red}${line}%f"
             else
                 echo "$line"
