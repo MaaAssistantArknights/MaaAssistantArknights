@@ -469,32 +469,14 @@ public:
                 s << utils::path_to_utf8_string(std::forward<T>(v));
             }
             else if constexpr (std::same_as<Logger::level, remove_cvref_t<T>>) {
-                constexpr int buff_len = 128;
-                char buff[buff_len] = { 0 };
 #ifdef _WIN32
-#ifdef _MSC_VER
-                sprintf_s(
-                    buff,
-                    buff_len,
-#else  // ! _MSC_VER
-                sprintf(
-                    buff,
-#endif // END _MSC_VER
-                    "[%s][%s][Px%x][Tx%4.4lx]",
-                    asst::utils::format_now().c_str(),
-                    v.str.data(),
-                    m_pid,
-                    m_tid);
-#else  // ! _WIN32
-                sprintf(
-                    buff,
-                    "[%s][%s][Px%x][Tx%4.4hx]",
-                    asst::utils::format_now().c_str(),
-                    v.str.data(),
-                    m_pid,
-                    m_tid);
-#endif // END _WIN32
-                s << buff;
+                int pid = _getpid();
+#else
+                int pid = ::getpid();
+#endif
+                auto tid = static_cast<uint16_t>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
+
+                s << std::format("[{}][{}][Px{}][Tx{}]", utils::format_now(), v.str, pid, tid);
             }
             else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
                 s << asst::enum_to_string(std::forward<T>(v));
@@ -531,20 +513,6 @@ public:
         separator m_sep = separator::space;
         std::unique_lock<std::mutex> m_trace_lock;
         stream_t m_ofs;
-
-        inline static thread_local const auto m_pid =
-#ifdef _WIN32
-            _getpid();
-#else
-            ::getpid();
-#endif
-
-        inline static thread_local const auto m_tid =
-#ifdef _WIN32
-            ::GetCurrentThreadId();
-#else
-            static_cast<unsigned short>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
-#endif
     };
 
     // template <typename stream_t>

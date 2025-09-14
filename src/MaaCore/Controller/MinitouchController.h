@@ -208,7 +208,7 @@ protected:
             return str;
         }
 
-        [[nodiscard]] std::string wait_cmd(int ms) { return std::format("w {}\n", key_code); }
+        [[nodiscard]] std::string wait_cmd(int ms) { return std::format("w {}\n", ms); }
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
