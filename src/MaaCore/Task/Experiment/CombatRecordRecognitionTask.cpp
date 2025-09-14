@@ -86,8 +86,7 @@ bool asst::CombatRecordRecognitionTask::_run()
 
     Log.info("full copilot json", m_copilot_json.to_string());
 
-    std::string filename = "MaaAI_" + m_stage_name + "_" + utils::path_to_utf8_string(m_video_path.stem()) + "_" +
-                           utils::format_now_for_filename() + ".json";
+    std::string filename = std::format("MaaAI_{}_{}_{}.json", m_stage_name, utils::path_to_utf8_string(m_video_path.stem()), utils::format_now_for_filename());
     auto filepath = UserDir.get() / "cache" / "CombatRecord" / utils::path(filename);
     std::filesystem::create_directories(filepath.parent_path());
     std::ofstream osf(filepath);

@@ -170,14 +170,6 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     }
 
     if (need_save) {
-        auto format_float = [](const float val, const int precision = 3) {
-            char buffer[32];
-            if (const int len = snprintf(buffer, sizeof(buffer), "%.*f", precision, val);
-                len < 0 || static_cast<size_t>(len) >= sizeof(buffer)) {
-                return std::string("_err");
-            }
-            return std::string(buffer);
-        };
         std::string subfolder = [class_id] {
             switch (class_id) {
             case 2:
@@ -191,10 +183,14 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
             }
         }();
 
-        std::string base_filename = utils::format_now_for_filename() + "_" + std::to_string(m_base_point.x) + "_" +
-                                    std::to_string(m_base_point.y) + "(c" + format_float(prob[0]) + ")(n" +
-                                    format_float(prob[1]) + ")(y" + format_float(prob[2]) + ").png";
-
+        std::string base_filename = std::format(
+            "{}_{}_{}(c{})(n{})(y{}).png",
+            utils::format_now_for_filename(),
+            m_base_point.x,
+            m_base_point.y,
+            prob[0],
+            prob[1],
+            prob[2]);
         std::filesystem::path relative_path = utils::path("debug") / "skill_ready" / subfolder / base_filename;
 
         last_class = class_id;
