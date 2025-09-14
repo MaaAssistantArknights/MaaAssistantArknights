@@ -31,9 +31,9 @@ namespace MaaWpfGui.Helper;
 
 public class ConfigConverter
 {
-    private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFileName;
-    private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigurationFile + ".old";
-    private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigurationFile;
+    private static readonly string ConfigurationNewFile = ConfigFactory.ConfigFile;
+    private static readonly string ConfigurationOldBakFile = ConfigurationHelper.ConfigFile + ".old";
+    private static readonly string ConfigurationOldFile = ConfigurationHelper.ConfigFile;
 
     public static bool ConvertConfig()
     {
