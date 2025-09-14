@@ -4,12 +4,12 @@ set -e
 
 clients=("Official" "YoStarJP" "YoStarEN" "YoStarKR" "txwy")
 error_clients=()
-log_dir="./debug"
+log_dir="./install/debug"
 mkdir -p "$log_dir"
 
 declare -A pids
 for client in "${clients[@]}"; do
-    ./smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
+    ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
     pids["$client"]=$!
 done
 
