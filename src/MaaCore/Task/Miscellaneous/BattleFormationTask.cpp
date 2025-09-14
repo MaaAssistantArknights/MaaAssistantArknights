@@ -60,6 +60,22 @@ bool asst::BattleFormationTask::_run()
     }
     else if (compare_formation()) {
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
+        for (auto& [name, opers] : m_formation | std::views::values | std::views::join) {
+            const auto& pair_it =
+                std::ranges::find_if(*m_opers_in_formation, [&](const auto& pair) { return pair.second == name; });
+            if (pair_it == m_opers_in_formation->end()) {
+                continue;
+            }
+
+            auto oper_it =
+                std::ranges::find_if(opers, [&](const battle::OperUsage& oper) { return oper.name == pair_it->first; });
+            if (oper_it == opers.end()) {
+                Log.error(__FUNCTION__, "| Cannot find oper ", pair_it->first, " in m_formation");
+            }
+            else {
+                oper_it->status = battle::OperStatus::Selected; // 更新编队情况
+            }
+        }
         return true; // 编队未变更，跳过
     }
 
