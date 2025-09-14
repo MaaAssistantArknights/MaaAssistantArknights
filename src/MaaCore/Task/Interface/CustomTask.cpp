@@ -1,7 +1,8 @@
 #include "CustomTask.h"
+
+#include "Config/TaskData.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
-
 #include "Utils/Logger.hpp"
 
 asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
@@ -26,6 +27,10 @@ bool asst::CustomTask::set_params(const json::value& params)
     for (const auto& t : *tasks_opt) {
         if (!t.is_string()) {
             Log.error("set_params failed, task is not string");
+            return false;
+        }
+        if (Task.get(t.as_string()) == nullptr) {
+            Log.error("set_params failed, task not found: ", t.as_string());
             return false;
         }
         tasks.emplace_back(t.as_string());
