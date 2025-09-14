@@ -100,6 +100,8 @@ jobs:
 
       - name: Run tests
         run: |
+          brew install bash
+
           ./tools/SmokeTesting/run_tests.sh
 
       - name: Save cache smoke-testing (only in dev)
