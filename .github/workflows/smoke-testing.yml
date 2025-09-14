@@ -100,9 +100,7 @@ jobs:
 
       - name: Run tests
         run: |
-          brew install bash
-
-          ./tools/SmokeTesting/run_tests.sh
+          ./tools/SmokeTesting/run_tests.zsh
 
       - name: Save cache smoke-testing (only in dev)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
