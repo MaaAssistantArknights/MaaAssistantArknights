@@ -160,7 +160,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
     if (image.empty()) {
         return false;
     }
-    std::string stem = utils::get_time_filestem();
+    std::string stem = utils::format_now_for_filename();
 
     if (auto_clean) {
         // 第1次或每执行 debug.clean_files_freq(50) 次后执行清理
