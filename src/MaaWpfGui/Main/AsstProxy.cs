@@ -887,14 +887,12 @@ namespace MaaWpfGui.Main
                         // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
                         TaskStatusUpdate(taskId, TaskStatus.Completed);
                         _tasksStatus.TryGetValue(taskId, out var value);
-                        if (value is { Type: TaskType.Fight } &&
-                            TaskQueueViewModel.FightTask.Stage == "Annihilation" &&
-                            TaskQueueViewModel.FightTask.UseAlternateStage &&
-                            TaskQueueViewModel.FightTask.Stages.Any(stage =>
-                                Instances.TaskQueueViewModel.IsStageOpen(stage ?? string.Empty) &&
-                                stage != "Annihilation"))
+                        if (value is { Type: TaskType.FightAnnihilation })
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                            if (!FightTask.Instance.HideAnnihilationError)
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                            }
                         }
                         else if (value is { Type: TaskType.Copilot } or { Type: TaskType.VideoRec })
                         {
@@ -2290,8 +2288,8 @@ namespace MaaWpfGui.Main
             /// <summary>刷理智</summary>
             Fight,
 
-            /// <summary>关卡选择为剿灭时的备选刷理智</summary>
-            FightAnnihilationAlternate,
+            /// <summary>剿灭模式</summary>
+            FightAnnihilation,
 
             /// <summary>剩余理智</summary>
             FightRemainingSanity,
@@ -2343,7 +2341,7 @@ namespace MaaWpfGui.Main
         [
             TaskType.StartUp,
             TaskType.Fight,
-            TaskType.FightAnnihilationAlternate,
+            TaskType.FightAnnihilation,
             TaskType.FightRemainingSanity,
             TaskType.Recruit,
             TaskType.Infrast,

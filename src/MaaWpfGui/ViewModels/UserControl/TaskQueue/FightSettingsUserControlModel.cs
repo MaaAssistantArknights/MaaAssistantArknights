@@ -666,15 +666,15 @@ public class FightSettingsUserControlModel : TaskViewModel
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
     };
 
-    private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
+    private bool _enableAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.EnableAnnihilation, false);
 
-    public bool UseCustomAnnihilation
+    public bool EnableAnnihilation
     {
-        get => _useCustomAnnihilation;
+        get => _enableAnnihilation;
         set
         {
-            SetAndNotify(ref _useCustomAnnihilation, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
+            SetAndNotify(ref _enableAnnihilation, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.EnableAnnihilation, value.ToString());
         }
     }
 
@@ -687,6 +687,18 @@ public class FightSettingsUserControlModel : TaskViewModel
         {
             SetAndNotify(ref _annihilationStage, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
+        }
+    }
+
+    private bool _hideAnnihilationError = ConfigurationHelper.GetValue(ConfigurationKeys.HideAnnihilationError, false);
+
+    public bool HideAnnihilationError
+    {
+        get => _hideAnnihilationError;
+        set
+        {
+            SetAndNotify(ref _hideAnnihilationError, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.HideAnnihilationError, value.ToString());
         }
     }
 
@@ -862,10 +874,32 @@ public class FightSettingsUserControlModel : TaskViewModel
             ClientType = SettingsViewModel.GameSettings.ClientType,
         };
 
-        if (Stage == "Annihilation" && UseCustomAnnihilation)
+        if (IsSpecifiedDrops != false && !string.IsNullOrEmpty(DropsItemId))
         {
-            task.Stage = AnnihilationStage;
+            task.Drops.Add(DropsItemId, DropsQuantity);
         }
+
+        return task.Serialize();
+    }
+
+    public (AsstTaskType Type, JObject Params) AnnihilationSerialize()
+    {
+        var task = new AsstFightTask()
+        {
+            Stage = AnnihilationStage,
+            Medicine = UseMedicine != false ? MedicineNumber : 0,
+            Stone = UseStoneDisplay ? StoneNumber : 0,
+            Series = Series,
+            MaxTimes = HasTimesLimited != false ? MaxTimes : int.MaxValue,
+            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
+            IsDrGrandet = IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
 
         if (IsSpecifiedDrops != false && !string.IsNullOrEmpty(DropsItemId))
         {

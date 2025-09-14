@@ -1517,36 +1517,21 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string curStage = FightTask.Stage;
 
+            // 剿灭模式分离
+            if (FightTask.EnableAnnihilation)
+            {
+                AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
+                var (anniType, anniMainParam) = FightTask.AnnihilationSerialize();
+                Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilation, anniType, anniMainParam);
+            }
+
             var (type, mainParam) = FightTask.Serialize();
             bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
+
             if (!mainFightRet)
             {
                 AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
                 return false;
-            }
-
-            if ((curStage == "Annihilation") && FightTask.UseAlternateStage)
-            {
-                foreach (var stage in FightTask.Stages)
-                {
-                    if (stage is null || !IsStageOpen(stage) || (stage == curStage))
-                    {
-                        continue;
-                    }
-
-                    AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
-                    var task = mainParam.ToObject<AsstFightTask>();
-                    if (task != null)
-                    {
-                        task.Stage = stage;
-                        task.Stone = 0;
-                        task.MaxTimes = int.MaxValue;
-                        task.Drops = [];
-                        mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.FightAnnihilationAlternate, type, task.Serialize().Params);
-                    }
-
-                    break;
-                }
             }
 
             if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
