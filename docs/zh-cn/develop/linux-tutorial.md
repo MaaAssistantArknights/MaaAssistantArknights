@@ -22,9 +22,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - Ubuntu/Debian
 
     ```bash
-    wget https://apt.llvm.org/llvm.sh
-    chmod +x llvm.sh
-    sudo ./llvm.sh 20
     sudo apt install cmake
     ```
 
@@ -32,9 +29,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 
     ```bash
     sudo pacman -S --needed cmake
-    # 另外, 需要安装 llvm 20
-    # clang-20, clang++-20
-    # 在 PATH 中需要能找到 clang-20, clang++-20 
     ```
 
 2. 构建第三方库
@@ -49,7 +43,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 
         ```bash
         python tools/maadeps-download.py
-        python tools/linux-toolchain-download.py
         ```
 
     如果您发现上面的方法下载的库由于 ABI 版本等原因无法在您的系统上运行且不希望使用容器等方案, 也可以尝试从头编译
@@ -59,8 +52,8 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
         ```bash
         git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
-        # 如果系统环境过低无法安装 llvm 20, 请考虑不使用交叉编译, 直接使用本地编译环境.
-        # 需要调整 MaaDeps/vcpkg-overlay/triplet 中的 toolchain 配置.
+        # 如果系统环境过低无法使用我们预构建的 llvm 20, 请考虑不使用交叉编译, 直接使用本地编译环境.
+        # 需要调整 MaaDeps/cmake 中的 toolchain 配置.
         python linux-toolchain-download.py
         python build.py
         ```
@@ -71,7 +64,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     cmake -B build \
         -DINSTALL_RESOURCE=ON \
         -DINSTALL_PYTHON=ON \
-        -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
+        -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
     cmake --build build
     ```
 

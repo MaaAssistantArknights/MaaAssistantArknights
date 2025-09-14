@@ -159,7 +159,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
+          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
@@ -167,15 +167,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py x64-linux
-          python3 tools/linux-toolchain-download.py x64
-
-      - name: Install llvm-20
-        if: steps.resupd-cache.outputs.cache-hit != 'true'
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 20
-          rm llvm.sh
 
       - name: Config cmake
         if: steps.resupd-cache.outputs.cache-hit != 'true'
@@ -185,7 +176,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DMAADEPS_TRIPLET='maa-x64-linux' \
             -DBUILD_RES_UPDATER=ON \
-            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
+            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
 
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'

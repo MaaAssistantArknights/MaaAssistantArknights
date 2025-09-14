@@ -230,7 +230,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps and Toolchain
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
@@ -238,14 +238,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
-          python3 tools/linux-toolchain-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
-
-      - name: Install llvm 20
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 20
-          rm llvm.sh
 
       - name: Config cmake
         run: |
@@ -256,7 +248,7 @@ jobs:
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' \
-            -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
+            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
 
       - name: Build
         run: |
