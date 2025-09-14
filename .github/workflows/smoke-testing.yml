@@ -35,7 +35,7 @@ jobs:
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -53,13 +53,10 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/libc++.so.1
-            ./install/libc++abi.so.1
-            ./install/libfastdeploy_ppocr.so
-            ./install/libMaaCore.so
-            ./install/libonnxruntime.so.1
-            ./install/libopencv_world4.so.411
-            ./install/libunwind.so.1
+            ./install/libfastdeploy_ppocr.dylib
+            ./install/libMaaCore.dylib
+            ./install/libonnxruntime.1.19.2.dylib
+            ./install/libopencv_world4.4.11.0.dylib
             ./install/smoke_test
 
       - name: Fetch submodules
@@ -73,14 +70,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-arm64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.smoke-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/maadeps-download.py x64-linux
+          python3 tools/maadeps-download.py arm64-osx
 
       - name: Config cmake
         if: steps.smoke-cache.outputs.cache-hit != 'true'
@@ -88,9 +85,9 @@ jobs:
           mkdir -p build
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Debug \
-            -DMAADEPS_TRIPLET='maa-x64-linux' \
+            -DMAADEPS_TRIPLET='maa-arm64-osx' \
             -DBUILD_SMOKE_TEST=ON \
-            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
+            -DINSTALL_RESOURCE=ON
 
       - name: Build
         if: steps.smoke-cache.outputs.cache-hit != 'true'
@@ -113,13 +110,10 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./install/libc++.so.1
-            ./install/libc++abi.so.1
-            ./install/libfastdeploy_ppocr.so
-            ./install/libMaaCore.so
-            ./install/libonnxruntime.so.1
-            ./install/libopencv_world4.so.411
-            ./install/libunwind.so.1
+            ./install/libfastdeploy_ppocr.dylib
+            ./install/libMaaCore.dylib
+            ./install/libonnxruntime.1.19.2.dylib
+            ./install/libopencv_world4.4.11.0.dylib
             ./install/smoke_test
 
       - name: Upload logs
