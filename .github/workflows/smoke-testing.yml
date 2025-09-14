@@ -85,7 +85,8 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DMAADEPS_TRIPLET='maa-arm64-osx' \
             -DBUILD_SMOKE_TEST=ON \
-            -DINSTALL_RESOURCE=ON
+            -DINSTALL_RESOURCE=ON \
+            -DWITH_HASH_VERSION=ON
 
       - name: Build
         if: steps.smoke-cache.outputs.cache-hit != 'true'

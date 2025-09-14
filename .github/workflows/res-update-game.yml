@@ -172,7 +172,8 @@ jobs:
           mkdir -p build
           cmake -B build -GNinja \
             -DCMAKE_BUILD_TYPE=Release \
-            -DMAADEPS_TRIPLET='maa-arm64-osx'
+            -DMAADEPS_TRIPLET='maa-arm64-osx' \
+            -DWITH_HASH_VERSION=ON
 
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'
