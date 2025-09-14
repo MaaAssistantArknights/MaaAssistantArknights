@@ -16,7 +16,7 @@ include(${MAA_PROJECT_DIR}/cmake/utils.cmake)
 include(${MAA_PROJECT_DIR}/cmake/version.cmake)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs)
-find_package(Boost REQUIRED CONFIG COMPONENTS system)
+# find_package(Boost REQUIRED CONFIG COMPONENTS system)
 
 add_library(HeaderOnlyLibraries INTERFACE)
 target_include_directories(HeaderOnlyLibraries INTERFACE ${MAA_PROJECT_DIR}/3rdparty/include)
@@ -24,7 +24,7 @@ target_include_directories(HeaderOnlyLibraries INTERFACE ${MAA_PROJECT_DIR}/3rdp
 add_executable(res_updater main.cpp)
 
 target_include_directories(res_updater PUBLIC ${MAA_PROJECT_DIR}/include PRIVATE ${MAA_PROJECT_DIR}/src/MaaCore) # For Utils/Time.hpp
-target_link_libraries(res_updater HeaderOnlyLibraries ${OpenCV_LIBS})
+target_link_libraries(res_updater HeaderOnlyLibraries ${OpenCV_LIBS}) # Boost::system
 if(LINUX)
     target_link_libraries(res_updater pthread)
 endif()
