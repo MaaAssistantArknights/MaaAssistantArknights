@@ -605,6 +605,22 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
 
         var now = DateTime.Now;
+
+        if (CustomInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || CustomInfrastPlanIndex < 0)
+        {
+            CustomInfrastPlanIndex = 0;
+        }
+
+        var currentPlan = CustomInfrastPlanInfoList.First(p => p.Index == CustomInfrastPlanIndex);
+        foreach (var period in currentPlan.PeriodList)
+        {
+            if (TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
+            {
+                return; // 当前 index 仍在有效时间内，不需要切换
+            }
+        }
+
         foreach (var plan in CustomInfrastPlanInfoList.Where(
                      plan => plan.PeriodList.Any(
                          period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
@@ -612,11 +628,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         {
             CustomInfrastPlanIndex = plan.Index;
             return;
-        }
-
-        if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count || CustomInfrastPlanList.Count < 0)
-        {
-            CustomInfrastPlanIndex = 0;
         }
 
         return;
