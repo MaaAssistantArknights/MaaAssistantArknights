@@ -89,6 +89,8 @@ protected:
 
     virtual bool _run() override;
     bool parse_formation();
+    // 判断当前编队是否与上次相同, 同时为相同部分添加进已选中, return 是否完全相同
+    bool compare_formation();
     bool is_formation_valid(const cv::Mat& img) const;
     bool select_formation(int select_index, const cv::Mat& img);
     bool enter_selection_page(const cv::Mat& img = cv::Mat());
@@ -115,11 +117,12 @@ protected:
 
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation_last; // 上次的编队
+    // 编队中的干员名称-所属组名
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
-        std::make_shared<std::unordered_map<std::string, std::string>>();      // 编队中的干员名称-所属组名
-    bool m_add_trust = false;                                                  // 是否需要追加信赖干员
-    bool m_ignore_requirements = false;                                        // 是否跳过未满足的干员属性要求
-    std::vector<std::pair<std::string, int>> m_user_additional;                // 追加干员表，从头往后加
+        std::make_shared<std::unordered_map<std::string, std::string>>();
+    bool m_add_trust = false;                                   // 是否需要追加信赖干员
+    bool m_ignore_requirements = false;                         // 是否跳过未满足的干员属性要求
+    std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加
     DataResource m_data_resource = DataResource::Copilot;
     std::vector<AdditionalFormation> m_additional;
     std::string m_last_oper_name;

@@ -58,6 +58,10 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
+    else if (compare_formation()) {
+        Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
+        return true; // 编队未变更，跳过
+    }
 
     if (m_select_formation_index > 0 && !select_formation(m_select_formation_index, img)) {
         return false;
@@ -626,6 +630,7 @@ bool asst::BattleFormationTask::parse_formation()
 
     std::swap(m_formation, m_formation_last);
     m_formation.clear();
+    m_opers_in_formation->clear();
     for (const auto& [name, opers_vec] : *groups) {
         if (opers_vec.empty()) {
             continue;
@@ -647,10 +652,56 @@ bool asst::BattleFormationTask::parse_formation()
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
         m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, opers_vec);
     }
-
     callback(AsstMsg::SubTaskExtraInfo, info);
-    m_opers_in_formation->clear();
     return true;
+}
+
+bool asst::BattleFormationTask::compare_formation()
+{
+    size_t count = 0;
+    for (auto& [role, groups_] : m_formation) {
+        const auto& role_it = m_formation_last.find(role);
+        if (role_it == m_formation_last.cend()) {
+            continue;
+        }
+
+        auto& last_groups = role_it->second;
+        for (auto& group : groups_) {
+            ++count;
+            auto last_group_it = std::ranges::find_if(last_groups, [&](const OperGroup& g) {
+                return g.first == group.first && g.second == group.second;
+            });
+            if (last_group_it == last_groups.end()) { // fallback to only opers equal
+                last_group_it =
+                    std::ranges::find_if(last_groups, [&](const OperGroup& g) { return g.second == group.second; });
+            }
+            if (last_group_it == last_groups.end()) {
+                continue; // not find the same group in last formation
+            }
+
+            const auto& oper_last_it = std::ranges::find_if(last_group_it->second, [&](const battle::OperUsage& op) {
+                return op.status == battle ::OperStatus::Selected;
+            });
+            if (oper_last_it == last_group_it->second.cend()) {
+                LogError << __FUNCTION__ << "| Group" << last_group_it->first
+                         << "was selected last time, but no oper was selected";
+                continue; // last group no oper was selected
+            }
+            auto oper_it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
+                return op.name == oper_last_it->name;
+            });
+            if (oper_it == group.second.end()) {
+                LogError << __FUNCTION__ << "| Group" << last_group_it->first << ",Oper" << oper_last_it->name
+                         << "was selected last time, but not found in current group";
+                continue; // 很怪, 按理说不会找不到, 有组相同但是找不到干员
+            }
+
+            oper_it->status = battle::OperStatus::Selected;
+            m_opers_in_formation->emplace(oper_last_it->name, last_group_it->first);
+            last_groups.erase(last_group_it); // 移除已匹配的干员组
+        }
+    }
+    return count == m_opers_in_formation->size();
 }
 
 bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat& img)
