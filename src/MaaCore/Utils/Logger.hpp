@@ -481,7 +481,7 @@ public:
                     buff,
 #endif // END _MSC_VER
                     "[%s][%s][Px%x][Tx%4.4lx]",
-                    asst::utils::get_format_time().c_str(),
+                    asst::utils::format_now().c_str(),
                     v.str.data(),
                     m_pid,
                     m_tid);
@@ -489,7 +489,7 @@ public:
                 sprintf(
                     buff,
                     "[%s][%s][Px%x][Tx%4.4hx]",
-                    asst::utils::get_format_time().c_str(),
+                    asst::utils::format_now().c_str(),
                     v.str.data(),
                     m_pid,
                     m_tid);

@@ -191,7 +191,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
             }
         }();
 
-        std::string base_filename = utils::get_time_filestem() + "_" + std::to_string(m_base_point.x) + "_" +
+        std::string base_filename = utils::format_now_for_filename() + "_" + std::to_string(m_base_point.x) + "_" +
                                     std::to_string(m_base_point.y) + "(c" + format_float(prob[0]) + ")(n" +
                                     format_float(prob[1]) + ")(y" + format_float(prob[2]) + ").png";
 

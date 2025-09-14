@@ -894,7 +894,7 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
     if (!top_view.empty()) {
         using namespace asst::utils::path_literals;
         asst::imwrite(
-            "debug"_p / "skill"_p / asst::utils::path(m_stage_name + '_' + utils::get_time_filestem() + ".png"),
+            "debug"_p / "skill"_p / asst::utils::path(m_stage_name + '_' + utils::format_now_for_filename() + ".png"),
             top_view);
     }
 #endif

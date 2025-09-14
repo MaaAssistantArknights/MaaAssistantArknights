@@ -87,7 +87,7 @@ bool asst::CombatRecordRecognitionTask::_run()
     Log.info("full copilot json", m_copilot_json.to_string());
 
     std::string filename = "MaaAI_" + m_stage_name + "_" + utils::path_to_utf8_string(m_video_path.stem()) + "_" +
-                           utils::get_time_filestem() + ".json";
+                           utils::format_now_for_filename() + ".json";
     auto filepath = UserDir.get() / "cache" / "CombatRecord" / utils::path(filename);
     std::filesystem::create_directories(filepath.parent_path());
     std::ofstream osf(filepath);
@@ -215,7 +215,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
     m_copilot_json["minimum_required"] = "v4.0.0";
     m_copilot_json["doc"]["title"] = "MAA AI - " + m_stage_name;
     m_copilot_json["doc"]["details"] =
-        "Built at: " + utils::get_format_time() + "\n" + utils::path_to_utf8_string(m_video_path);
+        "Built at: " + utils::format_now() + "\n" + utils::path_to_utf8_string(m_video_path);
 
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("OcrStage"));
     return true;

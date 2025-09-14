@@ -4,55 +4,66 @@
 #include <string>
 
 #ifdef _WIN32
-#include "Platform/SafeWindows.h"
+#include "SafeWindows.hpp"
 #else
-#include <ctime>
 #include <fcntl.h>
 #include <sys/time.h>
+#include <time.h>
 #endif
 
-#include "StringMisc.hpp"
+#include <chrono>
+#include <format>
+#include <string>
 
 namespace asst::utils
 {
-inline std::string get_format_time()
+inline std::string format_now()
 {
-    char buff[128] = { 0 };
-#ifdef _WIN32
-    SYSTEMTIME curtime;
-    GetLocalTime(&curtime);
-#ifdef _MSC_VER
-    sprintf_s(
-        buff,
-        sizeof(buff),
-#else  // ! _MSC_VER
-    sprintf(
-        buff,
-#endif // END _MSC_VER
-        "%04d-%02d-%02d %02d:%02d:%02d.%03d",
-        curtime.wYear,
-        curtime.wMonth,
-        curtime.wDay,
-        curtime.wHour,
-        curtime.wMinute,
-        curtime.wSecond,
-        curtime.wMilliseconds);
+    constexpr std::string_view kFormat = "{:0>4}-{:0>2}-{:0>2} {:0>2}:{:0>2}:{:0>2}.{:0>3}";
 
-#else  // ! _WIN32
-    struct timeval tv = {};
+#ifdef _WIN32
+    SYSTEMTIME sys {};
+    GetLocalTime(&sys);
+    return std::format(kFormat, sys.wYear, sys.wMonth, sys.wDay, sys.wHour, sys.wMinute, sys.wSecond, sys.wMilliseconds);
+#else
+    timeval tv = {};
     gettimeofday(&tv, nullptr);
     time_t nowtime = tv.tv_sec;
-    struct tm* tm_info = localtime(&nowtime);
-    auto offset = strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-    sprintf(buff + offset, ".%03ld", static_cast<long int>(tv.tv_usec / 1000));
-#endif // END _WIN32
-    return buff;
+    tm* tm_info = localtime(&nowtime);
+    return std::format(
+        kFormat,
+        tm_info->tm_year + 1900,
+        tm_info->tm_mon,
+        tm_info->tm_mday,
+        tm_info->tm_hour,
+        tm_info->tm_min,
+        tm_info->tm_sec,
+        tv.tv_usec / 1000);
+#endif
 }
 
-inline std::string get_time_filestem()
+inline std::string format_now_for_filename()
 {
-    std::string stem = utils::get_format_time();
-    string_replace_all_in_place(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });
-    return stem;
+    constexpr std::string_view kFormat = "{:0>4}.{:0>2}.{:0>2}-{:0>2}.{:0>2}.{:0>2}.{}";
+
+#ifdef _WIN32
+    SYSTEMTIME sys {};
+    GetLocalTime(&sys);
+    return std::format(kFormat, sys.wYear, sys.wMonth, sys.wDay, sys.wHour, sys.wMinute, sys.wSecond, sys.wMilliseconds);
+#else
+    timeval tv = {};
+    gettimeofday(&tv, nullptr);
+    time_t nowtime = tv.tv_sec;
+    tm* tm_info = localtime(&nowtime);
+    return std::format(
+        kFormat,
+        tm_info->tm_year + 1900,
+        tm_info->tm_mon,
+        tm_info->tm_mday,
+        tm_info->tm_hour,
+        tm_info->tm_min,
+        tm_info->tm_sec,
+        tv.tv_usec / 1000);
+#endif
 }
 } // namespace asst::utils
