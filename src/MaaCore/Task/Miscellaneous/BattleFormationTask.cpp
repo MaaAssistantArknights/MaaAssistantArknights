@@ -186,19 +186,55 @@ bool asst::BattleFormationTask::_run()
 
 void asst::BattleFormationTask::formation_with_last_opers()
 {
-    std::vector<OperGroup*> opers;
-    for (auto& [role, oper_groups] : m_formation) {
-        for (auto& oper_group : oper_groups) {
-            if (oper_group.second.size() != 1) {
-                continue;
-            }
-            // 不支持干员组，以免选中练度更低的干员
-            opers.emplace_back(&oper_group);
+    // 此时的oper_in_formation是根据上次编队结果复用的, 但是task此时已清空, 重新选一下好了
+
+    const auto& opers_result = analyzer_opers(ctrler()->get_image());
+
+    if (!opers_result.empty()) {
+        if (m_last_oper_name == opers_result.back().text) {
+            Log.info("last oper name is same as current, skip");
+            return;
         }
+        m_last_oper_name = opers_result.back().text;
     }
 
-    if (need_exit() || !select_opers_in_cur_page(opers)) {
-        return;
+    // 展平的干员组
+    auto formation_view = m_formation | std::views::values | std::views::join;
+    const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
+    for (auto it = m_opers_in_formation->begin(); !need_exit() && it != m_opers_in_formation->end();) {
+        const auto& oper_in_page_it = std::ranges::find_if(opers_result, [&](const QuickFormationOper& op) {
+            return !op.is_selected && op.text == it->first;
+        }); // 编队页中的干员
+        if (oper_in_page_it == opers_result.end()) [[unlikely]] {
+            Log.warn(__FUNCTION__, "| Oper", it->first, "was selected last time, but not found in current page");
+            it = m_opers_in_formation->erase(it);
+            continue; // 该干员找不到, 一页只能放下10个干员, 可能被右侧挡住. 打回到正常编队逻辑
+        }
+
+        auto opers_view =
+            formation_view |
+            std::views::filter([&](const std::pair<std::string, std::vector<asst::battle::OperUsage>>& pair) {
+                return pair.first == it->second;
+            }) |
+            std::views::values | std::views::join;
+        auto oper_it =
+            std::ranges::find_if(opers_view, [&](const battle::OperUsage& op) { return op.name == it->first; });
+        if (oper_it == opers_view.end()) {
+            LogError << __FUNCTION__ << "| Group" << it->second << ",Oper" << it->first
+                     << "was selected last time, but not found in current pair";
+            continue; // 很怪, 按理说不会找不到, 有组相同但是找不到干员
+        }
+
+        ctrler()->click(oper_in_page_it->flag_rect);
+        sleep(delay);
+
+        oper_it->status = battle::OperStatus::Selected;
+        json::value info = basic_info_with_what("BattleFormationSelected");
+        auto& details = info["details"];
+        details["selected"] = it->first;
+        details["group_name"] = it->second;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        ++it;
     }
 }
 
@@ -500,7 +536,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(const std::vector<OperG
         m_last_oper_name = opers_result.back().text;
     }
 
-    int delay = Task.get("BattleQuickFormationOCR")->post_delay;
+    const int delay = Task.get("BattleQuickFormationOCR")->post_delay;
     battle::OperUsage* oper = nullptr;
     bool ret = true;
     for (const auto& res :
@@ -682,21 +718,11 @@ bool asst::BattleFormationTask::compare_formation()
             const auto& oper_last_it = std::ranges::find_if(last_group_it->second, [&](const battle::OperUsage& op) {
                 return op.status == battle ::OperStatus::Selected;
             });
-            if (oper_last_it == last_group_it->second.cend()) {
+            if (oper_last_it == last_group_it->second.cend()) [[unlikely]] {
                 LogError << __FUNCTION__ << "| Group" << last_group_it->first
                          << "was selected last time, but no oper was selected";
-                continue; // last group no oper was selected
+                continue; // 旧编队中该干员组有干员被选中，但找不到被选中的干员
             }
-            auto oper_it = std::ranges::find_if(group.second, [&](const battle::OperUsage& op) {
-                return op.name == oper_last_it->name;
-            });
-            if (oper_it == group.second.end()) {
-                LogError << __FUNCTION__ << "| Group" << last_group_it->first << ",Oper" << oper_last_it->name
-                         << "was selected last time, but not found in current group";
-                continue; // 很怪, 按理说不会找不到, 有组相同但是找不到干员
-            }
-
-            oper_it->status = battle::OperStatus::Selected;
             m_opers_in_formation->emplace(oper_last_it->name, last_group_it->first);
             last_groups.erase(last_group_it); // 移除已匹配的干员组
         }
