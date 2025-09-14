@@ -52,22 +52,13 @@ public class ConfigConverter
         var parsedNew = ParseJsonFile(ConfigurationNewFile);
 
         // TODO 测试项, 需移除
-        parsedNew?.Remove(nameof(ConfigFactory.Root.ConfigVersion));
+        // parsedNew?.Remove(nameof(ConfigFactory.Root.ConfigVersion));
 #if DEBUG
         bool is_debug = true;
 #else
         bool is_debug = false;
 #endif
         Debug.Assert(is_debug, "测试项请移除");
-
-        try
-        {
-            File.Copy(ConfigurationOldFile, ConfigurationOldBakFile + $"_{DateTimeOffset.Now:MM-dd_HH-mm-ss}", true);
-        }
-        catch (Exception e)
-        {
-            Log.Error(e, "备份旧配置文件失败");
-        }
 
         int curVersion = 0;
         bool ret = true;
