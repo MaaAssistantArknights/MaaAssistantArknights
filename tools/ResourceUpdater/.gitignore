@@ -1,8 +1,10 @@
 # for win
 *.exe
 *.dll
-# for linux & macos
+# for linux
 ResourceUpdater
+# for macos
+res_updater
 *.h
 *.so.*
 *.dylib.*
