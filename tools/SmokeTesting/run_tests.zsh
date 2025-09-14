@@ -34,7 +34,7 @@ done
 if [[ ${#error_clients} -gt 0 ]]; then
     for client in "${error_clients[@]}"; do
         while IFS= read -r line; do
-            if [[ "$line" =~ (\[ERR\]) ]]; then
+            if [[ "$line" == *"[ERR]"* ]]; then
                 print -P "%F{red}${line}%f"
             else
                 echo "$line"
