@@ -3,6 +3,7 @@ name: smoke-testing
 on:
   push:
     paths:
+      - ".github/workflows/smoke-testing.yml"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
@@ -14,6 +15,7 @@ on:
       - "tools/maadeps-download.py"
   pull_request:
     paths:
+      - ".github/workflows/smoke-testing.yml"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
