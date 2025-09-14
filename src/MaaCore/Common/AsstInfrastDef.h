@@ -138,6 +138,7 @@ struct CustomRoomConfig
     std::vector<std::string> candidates;
     int selected = 0;
     bool sort = false;
+    std::vector<std::string> blacklist;
 };
 
 using CustomFacilityConfig = std::vector<CustomRoomConfig>;
