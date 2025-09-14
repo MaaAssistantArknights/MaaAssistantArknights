@@ -1295,7 +1295,7 @@
                     "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
                 ],
                 "efficient": {
-                    "all": 0.10
+                    "all": 0.1
                 },
                 "name": ["囤积者", "无畏豪情", "午休好去处"],
                 "template": "Bskill_man_limit&cost2.png"
