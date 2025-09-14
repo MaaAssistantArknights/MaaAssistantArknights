@@ -202,7 +202,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
