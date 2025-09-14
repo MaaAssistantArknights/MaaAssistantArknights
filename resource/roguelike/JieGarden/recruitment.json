@@ -474,6 +474,7 @@
                     "name": "休谟斯",
                     "skill": 1,
                     "is_start": true,
+                    "is_key": true,
                     "recruit_priority": 730,
                     "promote_priority": 400,
                     "recruit_priority_offsets": [
@@ -4159,7 +4160,6 @@
                 {
                     "name": "芳汀",
                     "skill": 2,
-                    "is_key": true,
                     "is_start": true,
                     "recruit_priority": 468
                 },
