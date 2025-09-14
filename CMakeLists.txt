@@ -17,7 +17,6 @@ option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(WITH_HASH_VERSION "generate version from git hash" OFF)
 option(BUILD_SMOKE_TEST "build smoke_test" OFF)
-option(BUILD_RES_UPDATER "build ResourceUpdater" OFF)
 
 include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
 

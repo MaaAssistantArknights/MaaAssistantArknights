@@ -129,7 +129,7 @@ jobs:
 
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout MAA
         uses: actions/checkout@v5
@@ -146,11 +146,8 @@ jobs:
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/libc++.so.1
-            ./tools/ResourceUpdater/libc++abi.so.1
-            ./tools/ResourceUpdater/libopencv_world4.so.411
-            ./tools/ResourceUpdater/libunwind.so.1
-            ./tools/ResourceUpdater/ResourceUpdater
+            ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
+            ./tool/ResourceUpdaters/res_updater
 
       - name: Cache MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true'
@@ -166,28 +163,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/maadeps-download.py x64-linux
+          python3 tools/maadeps-download.py arm64-osx
 
       - name: Config cmake
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
+          cd tools/ResourceUpdater
           mkdir -p build
           cmake -B build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DMAADEPS_TRIPLET='maa-x64-linux' \
-            -DBUILD_RES_UPDATER=ON \
-            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
+            -DMAADEPS_TRIPLET='maa-arm64-osx'
 
       - name: Build
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --target ResourceUpdater --config Release --parallel $(nproc)
+          cmake --build tools/ResourceUpdater/build --config Release --parallel $(sysctl -n hw.logicalcpu)
 
       - name: Install
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --install build --prefix tools/ResourceUpdater --config Release --component ResourceUpdater
-          cmake --install build --prefix tools/ResourceUpdater --config Release --component libcxx
+          cmake --install tools/ResourceUpdater/build --prefix tools/ResourceUpdater --config Release
 
       - name: Save ResourceUpdater to cache
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
@@ -195,11 +190,8 @@ jobs:
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/libc++.so.1
-            ./tools/ResourceUpdater/libc++abi.so.1
-            ./tools/ResourceUpdater/libopencv_world4.so.411
-            ./tools/ResourceUpdater/libunwind.so.1
-            ./tools/ResourceUpdater/ResourceUpdater
+            ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
+            ./tool/ResourceUpdaters/res_updater
 
       - name: Download txwy
         id: download-txwy
@@ -263,7 +255,7 @@ jobs:
 
       - name: Run Resource Updater
         run: |
-          ./tools/ResourceUpdater/ResourceUpdater
+          ./tools/ResourceUpdater/res_updater
 
       - name: Task Sorting
         id: task_sorting
