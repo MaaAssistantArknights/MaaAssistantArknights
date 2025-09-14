@@ -159,26 +159,61 @@
                             Style="{StaticResource ButtonBaseStyle}">
                             <!--  IsEnabled="{Binding Idle}"  -->
                             <hc:ContextMenuButton.Menu>
-                                <ContextMenu ItemsSource="{Binding TaskTypeList}">
+                                <ContextMenu
+                                    HorizontalOffset="-10"
+                                    Placement="Bottom"
+                                    PlacementTarget="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}"
+                                    VerticalOffset="0">
                                     <ContextMenu.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical" />
                                         </ItemsPanelTemplate>
                                     </ContextMenu.ItemsPanel>
-                                    <ContextMenu.ItemTemplate>
-                                        <DataTemplate>
-                                            <MenuItem Command="{s:Action AddTaskQueueTask}" CommandParameter="{Binding Value}">
-                                                <MenuItem.HeaderTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            Text="{Binding DataContext.Display, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=MenuItem}}"
-                                                            TextAlignment="Center" />
-                                                    </DataTemplate>
-                                                </MenuItem.HeaderTemplate>
-                                            </MenuItem>
-                                        </DataTemplate>
-                                    </ContextMenu.ItemTemplate>
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[0].Value}"
+                                        Header="{Binding TaskTypeList[0].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[1].Value}"
+                                        Header="{Binding TaskTypeList[1].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[2].Value}"
+                                        Header="{Binding TaskTypeList[2].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[3].Value}"
+                                        Header="{Binding TaskTypeList[3].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[4].Value}"
+                                        Header="{Binding TaskTypeList[4].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[5].Value}"
+                                        Header="{Binding TaskTypeList[5].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[6].Value}"
+                                        Header="{Binding TaskTypeList[6].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[7].Value}"
+                                        Header="{Binding TaskTypeList[7].Display}" />
+                                    <MenuItem
+                                        Padding="0,3"
+                                        Command="{s:Action AddTaskQueueTask}"
+                                        CommandParameter="{Binding TaskTypeList[8].Value}"
+                                        Header="{Binding TaskTypeList[8].Display}" />
                                 </ContextMenu>
                             </hc:ContextMenuButton.Menu>
                         </hc:ContextMenuButton>
