@@ -53,16 +53,14 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./AsstCaller.h
-            ./AsstPort.h
-            ./libc++.so.1
-            ./libc++abi.so.1
-            ./libfastdeploy_ppocr.so
-            ./libMaaCore.so
-            ./libonnxruntime.so.1
-            ./libopencv_world4.so.411
-            ./libunwind.so.1
-            ./smoke_test
+            ./install/libc++.so.1
+            ./install/libc++abi.so.1
+            ./install/libfastdeploy_ppocr.so
+            ./install/libMaaCore.so
+            ./install/libonnxruntime.so.1
+            ./install/libopencv_world4.so.411
+            ./install/libunwind.so.1
+            ./install/smoke_test
 
       - name: Fetch submodules
         if: steps.smoke-cache.outputs.cache-hit != 'true'
@@ -112,7 +110,7 @@ jobs:
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p install
-          cmake --install build --prefix ./ --config Debug
+          cmake --install build --prefix install --config Debug
 
       - name: Run tests
         run: |
@@ -124,20 +122,18 @@ jobs:
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
-            ./AsstCaller.h
-            ./AsstPort.h
-            ./libc++.so.1
-            ./libc++abi.so.1
-            ./libfastdeploy_ppocr.so
-            ./libMaaCore.so
-            ./libonnxruntime.so.1
-            ./libopencv_world4.so.411
-            ./libunwind.so.1
-            ./smoke_test
+            ./install/libc++.so.1
+            ./install/libc++abi.so.1
+            ./install/libfastdeploy_ppocr.so
+            ./install/libMaaCore.so
+            ./install/libonnxruntime.so.1
+            ./install/libopencv_world4.so.411
+            ./install/libunwind.so.1
+            ./install/smoke_test
 
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: logs
-          path: ./debug
+          path: ./install/debug
