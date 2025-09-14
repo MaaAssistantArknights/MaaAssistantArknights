@@ -147,7 +147,7 @@ jobs:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
-            ./tool/ResourceUpdaters/res_updater
+            ./tools/ResourceUpdater/res_updater
 
       - name: Cache MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true'
@@ -191,7 +191,7 @@ jobs:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
             ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
-            ./tool/ResourceUpdaters/res_updater
+            ./tools/ResourceUpdater/res_updater
 
       - name: Download txwy
         id: download-txwy
