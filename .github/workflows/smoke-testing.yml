@@ -25,10 +25,6 @@ on:
       - "tools/maadeps-download.py"
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   smoke-testing:
     # Prevent duplicate runs on organization branches with PRs
