@@ -36,7 +36,6 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
-
 using static MaaWpfGui.Main.AsstProxy;
 using Mode = InfrastMode;
 
@@ -130,7 +129,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// Gets infrast order list.
     /// </summary>
     /// <returns>The infrast order list.</returns>
-    public List<string> GetInfrastOrderList() => [.. InfrastRoomModels.Where(i.IsEnabled).Select(i => i.Name)];
+    public List<string> GetInfrastOrderList() => [.. InfrastRoomModels.Where(i => i.IsEnabled).Select(i => i.Name)];
 
     // UI 绑定的方法
     [UsedImplicitly]
