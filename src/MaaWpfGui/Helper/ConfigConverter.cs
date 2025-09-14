@@ -460,7 +460,6 @@ public class ConfigConverter
             }
         }
 
-        Task.Run(() => ConfigFactory.Save()).Wait();
         return true;
     }
 

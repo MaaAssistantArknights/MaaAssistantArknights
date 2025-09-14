@@ -269,7 +269,7 @@ public static class ConfigFactory
         }
     }
 
-    public static bool Save(string? file = null, Root? root = null)
+    private static bool Save(string? file = null, Root? root = null)
     {
         lock (_lock)
         {
