@@ -79,7 +79,7 @@ jobs:
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p build
-          cmake -B build \
+          cmake -B build -GNinja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DMAADEPS_TRIPLET='maa-arm64-osx' \
             -DBUILD_SMOKE_TEST=ON \
