@@ -156,7 +156,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-x64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-arm64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.resupd-cache.outputs.cache-hit != 'true' && steps.maadeps-cache.outputs.cache-hit != 'true'
@@ -170,7 +170,7 @@ jobs:
         run: |
           cd tools/ResourceUpdater
           mkdir -p build
-          cmake -B build \
+          cmake -B build -GNinja \
             -DCMAKE_BUILD_TYPE=Release \
             -DMAADEPS_TRIPLET='maa-arm64-osx'
 
