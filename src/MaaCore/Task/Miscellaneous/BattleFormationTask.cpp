@@ -721,7 +721,7 @@ bool asst::BattleFormationTask::compare_formation()
                          << "was selected last time, but no oper was selected";
                 continue; // 旧编队中该干员组有干员被选中，但找不到被选中的干员
             }
-            m_opers_in_formation->emplace(oper_last_it->name, last_group_it->first);
+            m_opers_in_formation->emplace(oper_last_it->name, group.first);
             last_groups.erase(last_group_it); // 移除已匹配的干员组
         }
     }
