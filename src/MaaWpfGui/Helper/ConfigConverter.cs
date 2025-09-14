@@ -80,34 +80,8 @@ public class ConfigConverter
             }
         }
 
-        RemoveTooOldKey(curVersion);
         ret &= ConvertTaskQueue(curVersion);
         return ret;
-    }
-
-    private static void RemoveTooOldKey(int curVersion)
-    {
-        if (curVersion >= 1)
-        {
-            return;
-        }
-
-        string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
-            ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
-            ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
-        ];
-        foreach (var configName in ConfigurationHelper.GetConfigurationList())
-        {
-            ConfigurationHelper.SwitchConfiguration(configName);
-            ConfigFactory.AddConfiguration(configName);
-            ConfigFactory.SwitchConfig(configName);
-
-            // 删除旧的配置
-            foreach (var key in configKeys)
-            {
-                ConfigurationHelper.DeleteValue(key);
-            }
-        }
     }
 
     // 迁移任务队列，v5.15编写
@@ -115,14 +89,26 @@ public class ConfigConverter
     {
         if (curVersion >= 1)
         {
-            //return true;
+            return true;
         }
+
+        string[] configKeys = [ConfigurationKeys.AnnouncementInfo, ConfigurationKeys.DoNotRemindThisAnnouncementAgain, ConfigurationKeys.DoNotShowAnnouncement,
+            ConfigurationKeys.VersionName, ConfigurationKeys.VersionUpdateBody, ConfigurationKeys.VersionUpdateIsFirstBoot, ConfigurationKeys.VersionUpdatePackage,
+            ConfigurationKeys.VersionUpdateDoNotShowUpdate, ConfigurationKeys.CustomInfrastEnabled, ConfigurationKeys.CustomInfrastPlanShowInFightSettings,
+        ];
 
         var currentConfigName = ConfigurationHelper.GetCurrentConfiguration();
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
             ConfigurationHelper.SwitchConfiguration(configName);
             ConfigFactory.SwitchConfig(configName);
+
+            // 删除旧的配置
+            foreach (var key in configKeys)
+            {
+                ConfigurationHelper.DeleteValue(key);
+            }
+
             var local = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
             // TaskQueue部分
@@ -175,7 +161,7 @@ public class ConfigConverter
                 fightTask.HideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
                 fightTask.UseExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
                 fightTask.AnnihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
-                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
+                fightTask.UseCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false) && fightTask.AnnihilationStage != "Annihilation";
                 fightTask.HideUnavailableStage = ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, true);
                 fightTask.IsStageManually = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
                 fightTask.UseOptionalStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
