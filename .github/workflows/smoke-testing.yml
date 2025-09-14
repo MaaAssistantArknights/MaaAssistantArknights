@@ -108,7 +108,8 @@ jobs:
           ./tools/SmokeTesting/run_tests.zsh
 
       - name: Save cache smoke-testing (only in dev)
-        if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
+      # && github.ref == 'refs/heads/dev'
+        if: steps.smoke-cache.outputs.cache-hit != 'true' 
         uses: actions/cache/save@v4
         with:
           key: ${{ steps.cache_key.outputs.key }}
