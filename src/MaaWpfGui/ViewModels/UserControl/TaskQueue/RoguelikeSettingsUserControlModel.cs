@@ -45,8 +45,14 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     public void InitRoguelike()
     {
         GenerateRoguelikeThemeList();
-        UpdateRoguelikeDifficultyList();
+        UpdateRoguelikeParams();
+    }
+
+    private void UpdateRoguelikeParams()
+    {
+        // 确保在更新列表之前先更新相关属性
         UpdateRoguelikeModeList();
+        UpdateRoguelikeDifficultyList();
         UpdateRoguelikeRolesList();
         UpdateRoguelikeSquadList();
         UpdateRoguelikeStartWithAllDict();
@@ -89,7 +95,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         }
 
         // 验证当前选中的难度是否在新列表中
-        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
+        RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == difficulty) ? difficulty : -1;
     }
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch
@@ -383,12 +389,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
             }
 
             // 确保在更新列表之前先更新相关属性
-            UpdateRoguelikeModeList();
-            UpdateRoguelikeDifficultyList();
-            UpdateRoguelikeRolesList();
-            UpdateRoguelikeSquadList();
-            UpdateRoguelikeStartWithAllDict();
-            UpdateRoguelikeCoreCharList();
+            UpdateRoguelikeParams();
 
             // 强制刷新难度显示
             OnPropertyChanged(nameof(RoguelikeDifficulty));
@@ -783,7 +784,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         set => SetTaskConfig<RoguelikeTask>(t => t.StopWhenLevelMax == value, t => t.StopWhenLevelMax = value);
     }
 
-    private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
+    private bool _roguelikeDelayAbortUntilCombatComplete = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether delay abort until battle complete
@@ -816,6 +817,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     {
         if (baseTask is RoguelikeTask)
         {
+            UpdateRoguelikeParams();
             Refresh();
         }
     }
