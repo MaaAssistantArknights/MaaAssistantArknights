@@ -7,14 +7,23 @@ error_clients=()
 log_dir="./install/debug"
 mkdir -p "$log_dir"
 
-typeset -A pids
-for client in "${clients[@]}"; do
-    ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
-    pids[$client]=$!
-done
+pids=()
+client_map=()
 
 for client in "${clients[@]}"; do
-    wait ${pids[$client]} || error_clients+=("$client")
+    echo "Starting test for $client"
+    ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
+    pids+=($!)
+    client_map+=("$client")
+done
+
+for i in {1..${#pids}}; do
+    pid=${pids[$i]}
+    client=${client_map[$i]}
+    
+    if ! wait $pid; then
+        error_clients+=("$client")
+    fi
 done
 
 rm -f "$log_dir/asst.log"
