@@ -138,7 +138,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 }
                 const std::string& name = name_analyzer.get_result().text;
                 if (std::any_of(blacklist.begin(), blacklist.end(), [&](const std::string& s) { return s == name; })) {
-                    Log.trace("Skip operator ", name, " in blacklist");
+                    Log.trace("Skip operator", name, "in blacklist");
                     continue;
                 }
             }
