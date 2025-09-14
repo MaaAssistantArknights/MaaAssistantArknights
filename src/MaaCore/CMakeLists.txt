@@ -2,19 +2,23 @@ file(GLOB_RECURSE maa_src *.h *.hpp *.cpp)
 
 add_library(MaaCore SHARED ${maa_src})
 
-if(WITH_EMULATOR_EXTRAS AND NOT EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
-    target_include_directories(EmulatorExtras INTERFACE ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras)
-    target_link_libraries(MaaCore PRIVATE EmulatorExtras)
-    message(WARNING "EmulatorExtras not found, please run `git submodule update --init 3rdparty/EmulatorExtras`")
-    set(WITH_EMULATOR_EXTRAS OFF)
+if(WITH_EMULATOR_EXTRAS)
+    if(NOT EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
+        message(WARNING "EmulatorExtras not found, please run `git submodule update --init 3rdparty/EmulatorExtras`")
+        target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=ON)
+    else()
+        target_include_directories(MaaCore INTERFACE ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras)
+        target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=OFF)
+    endif()
 endif()
-target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
 
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
 target_link_libraries(MaaCore HeaderOnlyLibraries ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
+
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
 endif()
+
 if(LINUX)
     target_link_libraries(MaaCore pthread)
 endif()
@@ -33,13 +37,12 @@ if(WIN32)
         COMMAND_EXPAND_LISTS)
 endif()
 
-
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 
-if (WIN32)
-    #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
+if(WIN32)
+    # 注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
     target_compile_definitions(MaaCore PRIVATE ASST_DLL_EXPORTS _UNICODE UNICODE)
-endif ()
+endif()
 
 if(APPLE)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "@loader_path/")
