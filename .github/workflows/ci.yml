@@ -225,14 +225,14 @@ jobs:
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
           git submodule update --init --depth 1 src/maa-cli
 
-      - name: Cache MaaDeps and Toolchain
+      - name: Cache MaaDeps
         id: cache-maadeps
         uses: actions/cache@v4
         with:
           path: ./MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
-      - name: Bootstrap MaaDeps and Toolchain
+      - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -344,12 +344,18 @@ jobs:
         with:
           show-progress: false
 
-      # ninja 1.13.1 is already installed and up-to-date. To reinstall 1.13.1, run: brew reinstall ninja
+      # ninja 1.13.1 is already installed and up-to-date.
       # - name: Install Dependencies
       #   run: |
       #     brew install ninja
 
-      # Caching not necessary on macOS runner
+      - name: Cache MaaDeps
+        id: cache-maadeps
+        uses: actions/cache@v4
+        with:
+          path: ./MaaDeps
+          key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
+
       - name: Bootstrap MaaDeps
         run: |
           [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
