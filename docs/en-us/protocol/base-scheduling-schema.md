@@ -99,6 +99,8 @@ Please note that JSON files do not support comments. The comments in this docume
                     // If operators is empty, room uses original algorithm completely
                     // If operators not empty, considers only single operator efficiency, not combination efficiency
                     // May conflict with custom operators defined later, e.g., using operators needed later, use cautiously or place autofill rooms last
+                    "blacklist": ["Lancet-2"], // Exclude the specified operators from autofill for this room, optional
+                    // If a blacklisted operator's trust is not maxed, they may still be assigned to a dorm during trust filling
                     "product": "Battle Record" // Current manufacturing product, optional.
                     // If detected facility product doesn't match task setting, UI will show red warning; may have more uses in future
                     // Values: "Battle Record"|"Pure Gold"|"Dualchip"|"Originium Shard"|"LMD"|"Orundum"
