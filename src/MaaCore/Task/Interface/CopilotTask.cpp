@@ -203,9 +203,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
         // 追加
         m_subtasks.reserve(m_subtasks.size() * loop_times);
-        auto raw_end = m_subtasks.end();
+        size_t original_size = m_subtasks.size();
         for (size_t i = 1; i < loop_times; ++i) {
-            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
+            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), m_subtasks.begin() + original_size);
         }
         m_has_subtasks_duplicate = true;
     }
