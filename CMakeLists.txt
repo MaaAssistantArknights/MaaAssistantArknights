@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
 project(MAA)
 
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
-endif ()
+endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
@@ -24,12 +24,12 @@ include(${PROJECT_SOURCE_DIR}/cmake/config.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/version.cmake)
 
+if(APPLE)
+    include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
+endif()
+
 add_library(HeaderOnlyLibraries INTERFACE)
-target_include_directories(HeaderOnlyLibraries INTERFACE 3rdparty/include 3rdparty/EmulatorExtras)
-
-file(GLOB_RECURSE maa_src src/MaaCore/*.h src/MaaCore/*.hpp src/MaaCore/*.cpp)
-
-add_library(MaaCore SHARED ${maa_src})
+target_include_directories(HeaderOnlyLibraries INTERFACE 3rdparty/include)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs)
 find_package(Boost REQUIRED CONFIG COMPONENTS system)
@@ -37,99 +37,22 @@ find_package(ZLIB REQUIRED)
 find_package(fastdeploy_ppocr REQUIRED)
 find_package(ONNXRuntime REQUIRED)
 
-target_link_libraries(MaaCore HeaderOnlyLibraries ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
-if(WIN32)
-    target_link_libraries(MaaCore ws2_32)
-endif()
-if(LINUX)
-    target_link_libraries(MaaCore pthread)
-endif()
+add_subdirectory(src/MaaCore)
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
-
-if (WIN32)
-    #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
-    target_compile_definitions(MaaCore PRIVATE ASST_DLL_EXPORTS _UNICODE UNICODE)
-endif ()
-
-target_include_directories(MaaCore PUBLIC include PRIVATE src/MaaCore)
-set(MaaCore_PUBLIC_HEADERS include/AsstCaller.h include/AsstPort.h)
-target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
-set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
-
-if(WIN32)
-    add_custom_command(
-        TARGET MaaCore
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-        "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
-        $<TARGET_FILE_DIR:MaaCore>
-        COMMAND_EXPAND_LISTS)
-endif()
-
-if (BUILD_WPF_GUI)
+if(BUILD_WPF_GUI)
     include_external_msproject(MaaWpfGui ${PROJECT_SOURCE_DIR}/src/MaaWpfGui/MaaWpfGui.csproj)
-    
+
     add_dependencies(MaaWpfGui MaaCore)
 endif()
 
-if(APPLE)
-    set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "@loader_path/")
-elseif(UNIX)
-    set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
-endif()
-
-if(WITH_EMULATOR_EXTRAS AND NOT EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
-    message(WARNING "EmulatorExtras not found, please run `git submodule update --init 3rdparty/EmulatorExtras`")
-    set(WITH_EMULATOR_EXTRAS OFF)
-endif()
-target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
-
-if(INSTALL_FLATTEN)
-    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
-endif()
-
-install(TARGETS MaaCore ${MaaCore_install_flatten_args})
-
-maadeps_install(.)
-
-if (INSTALL_PYTHON)
+if(INSTALL_PYTHON)
     install(DIRECTORY src/Python DESTINATION .)
-endif (INSTALL_PYTHON)
-if (INSTALL_RESOURCE)
+endif()
+
+if(INSTALL_RESOURCE)
     install(DIRECTORY resource DESTINATION .)
-endif (INSTALL_RESOURCE)
+endif()
 
-if (BUILD_DEBUG_DEMO)
-    add_executable(debug_demo src/Cpp/main.cpp)
-    if(MSVC)
-        target_compile_options(debug_demo PRIVATE "/WX-")
-    else()
-        target_compile_options(debug_demo PRIVATE "-Wno-error")
-    endif()
-    target_link_libraries(debug_demo MaaCore)
-
-    add_dependencies(debug_demo MaaCore)
-
-    # 为 debug_demo 创建资源目录链接
-    create_resource_link(debug_demo "$<TARGET_FILE_DIR:debug_demo>")
-    # install(TARGETS debug_demo ${MaaCore_install_flatten_args})
-endif (BUILD_DEBUG_DEMO)
-
-if (BUILD_SMOKE_TEST)
-    add_executable(smoke_test src/Cpp/main.cpp)
-    if(MSVC)
-        target_compile_options(smoke_test PRIVATE "/WX-")
-    else()
-        target_compile_options(smoke_test PRIVATE "-Wno-error")
-    endif()
-    target_compile_definitions(smoke_test PRIVATE SMOKE_TESTING)
-    target_link_libraries(smoke_test MaaCore)
-
-    add_dependencies(smoke_test MaaCore)
-    install(TARGETS smoke_test ${MaaCore_install_flatten_args})
-endif (BUILD_SMOKE_TEST)
-
-if (APPLE)
-    include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
-endif (APPLE)
+if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
+    add_subdirectory(src/Cpp)
+endif()
