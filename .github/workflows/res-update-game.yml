@@ -13,7 +13,7 @@ on:
 jobs:
   clone-resources-official:
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Clone ArknightsGameResource for Official
         uses: actions/checkout@v5
@@ -44,7 +44,7 @@ jobs:
 
   clone-resources-overseas:
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v5
@@ -86,7 +86,7 @@ jobs:
 
   clone-resources-txwy:
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Clone arknights-toolbox-update for Taiwan
         uses: actions/checkout@v5
