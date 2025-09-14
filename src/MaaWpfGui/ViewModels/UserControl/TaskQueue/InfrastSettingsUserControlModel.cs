@@ -587,41 +587,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
             return;
         }
-
-        RefreshCustomInfrastPlanIndexByPeriod();
-    }
-
-    public void RefreshCustomInfrastPlanIndexByPeriod()
-    {
-        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
-        {
-            return;
-        }
-
-        if (!_runningState.GetIdle() &&
-             Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status != TaskStatus.Completed)
-        {
-            return;
-        }
-
-        var now = DateTime.Now;
-        foreach (var plan in CustomInfrastPlanInfoList.Where(
-                     plan => plan.PeriodList.Any(
-                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                                   TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
-        {
-            CustomInfrastPlanIndex = plan.Index;
-            return;
-        }
-
-        if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count || CustomInfrastPlanList.Count < 0)
-        {
-            CustomInfrastPlanIndex = 0;
-        }
-
-        return;
-
-        static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
     }
 
     public void IncreaseCustomInfrastPlanIndex()
@@ -643,6 +608,22 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
+        int index = CustomInfrastPlanIndex;
+        if (InfrastMode == Mode.Custom)
+        {
+            var now = DateTime.Now;
+            foreach (var plan in CustomInfrastPlanInfoList.Where(
+                         plan => plan.PeriodList.Any(
+                             period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                                       TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+            {
+                index = plan.Index;
+                break;
+            }
+
+            CustomInfrastPlanIndex = index;
+        }
+
         return new AsstInfrastTask
         {
             Mode = InfrastMode,
@@ -656,8 +637,10 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             ReceptionMessageBoard = ReceptionMessageBoardReceive,
             ReceptionClueExchange = ReceptionClueExchange,
             Filename = CustomInfrastFile,
-            PlanIndex = CustomInfrastPlanIndex,
+            PlanIndex = index,
         }.Serialize();
+
+        static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
     }
 }
 

@@ -939,7 +939,6 @@ namespace MaaWpfGui.Main
                         {
                             case "Infrast":
                                 InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                                InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                                 break;
                         }
 

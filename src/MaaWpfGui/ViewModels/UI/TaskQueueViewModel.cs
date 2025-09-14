@@ -437,14 +437,10 @@ namespace MaaWpfGui.ViewModels.UI
                 VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
                 HandleDatePromptUpdate();
                 HandleCheckForUpdates();
-
-                InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
-
                 await HandleTimerLogic(currentTime);
             }
             catch
-            {
-                // ignored
+            { // ignored
             }
         }
 
@@ -627,7 +623,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetAllTemporaryVariable();
-                InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
             }
 
             await LinkStart();
