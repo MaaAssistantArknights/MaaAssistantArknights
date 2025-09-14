@@ -170,28 +170,28 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     }
 
     if (need_save) {
-        std::string subfolder = [class_id] {
-            switch (class_id) {
-            case 2:
-                return "y";
-            case 1:
-                return "n";
-            case 0:
-                return "c";
-            default:
-                return "unknown";
-            }
-        }();
+        std::string subfolder;
+        switch (class_id) {
+        case 2:
+            subfolder = "y";
+        case 1:
+            subfolder = "n";
+        case 0:
+            subfolder = "c";
+        default:
+            subfolder = "unknown";
+        }
 
-        std::string base_filename = std::format(
-            "{}_{}_{}(c{})(n{})(y{}).png",
+        std::string filename = std::format(
+            "debug/skill_ready/{}/{}_{}_{}(c{})(n{})(y{}).png",
+            subfolder,
             utils::format_now_for_filename(),
             m_base_point.x,
             m_base_point.y,
             prob[0],
             prob[1],
             prob[2]);
-        std::filesystem::path relative_path = utils::path("debug") / "skill_ready" / subfolder / base_filename;
+        std::filesystem::path relative_path = utils::path(filename);
 
         last_class = class_id;
         last_save_time = now;
