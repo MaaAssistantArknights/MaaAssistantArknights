@@ -7,7 +7,11 @@
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
 
-#include "Utils/Time.hpp"
+#ifdef _WIN32
+#include "Utils/Platform/SafeWindows.h"
+#endif
+
+#include "Utils/StringMisc.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -1540,3 +1544,4 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
 
     return true;
 }
+
