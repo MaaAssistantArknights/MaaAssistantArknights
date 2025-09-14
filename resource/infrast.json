@@ -25,11 +25,17 @@
             },
             "bskill_ctrl_amiya": {
                 "desc": ["当与阿米娅一起进驻控制中枢时，自身和阿米娅心情每小时恢复+0.05"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["魔王传承"],
                 "template": "Bskill_ctrl_amiya.png"
             },
             "bskill_ctrl_amiya1": {
                 "desc": ["当与阿米娅一起进驻控制中枢时，自身和阿米娅心情每小时恢复+0.1"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“未完的故事”"],
                 "template": "Bskill_ctrl_amiya1.png"
             },
@@ -43,6 +49,9 @@
             },
             "bskill_ctrl_bd_spd": {
                 "desc": ["进驻控制中枢时，自身心情每小时消耗+0.5；每个进驻在制造站的黑钢国际干员，生产力+5%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["老友相聚"],
                 "template": "Bskill_ctrl_bd_spd.png"
             },
@@ -50,6 +59,9 @@
                 "desc": [
                     "进驻控制中枢时，当伊内丝入驻会客室时，会客室效率+5%；当赫德雷入驻贸易站时，赫德雷所在贸易站订单上限+1"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["同谋·α"],
                 "template": "Bskill_ctrl_c_babel.png"
             },
@@ -57,6 +69,9 @@
                 "desc": [
                     "进驻控制中枢时，当伊内丝入驻会客室时，会客室效率+5%；当赫德雷入驻贸易站时，赫德雷所在贸易站订单上限+2"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["同谋·β"],
                 "template": "Bskill_ctrl_c_babel2.png"
             },
@@ -70,11 +85,17 @@
             },
             "bskill_ctrl_c_spd1": {
                 "desc": ["进驻控制中枢时，会客室线索搜集速度+15%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["期冀之汇"],
                 "template": "Bskill_ctrl_c_spd1.png"
             },
             "bskill_ctrl_c_victoria": {
                 "desc": ["进驻控制中枢时，会客室更容易获得格拉斯哥帮线索（工作时长影响概率）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“一千封信”"],
                 "template": "Bskill_ctrl_c_victoria.png"
             },
@@ -192,6 +213,9 @@
                 "desc": [
                     "进驻控制中枢时，自身心情每小时消耗+0.5；每个岁干员进驻在宿舍以外的设施则人间烟火+5（最多5名）"
                 ],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["知我为我"],
                 "template": "Bskill_ctrl_cost_bd3.png"
             },
@@ -199,6 +223,9 @@
                 "desc": [
                     "进驻控制中枢时，其他设施内处于工作状态的干员心情每小时恢复+0.05；同时每有20点人间烟火，则额外+0.05，（与控制中枢加成有特殊比较规则）"
                 ],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["孤光共照"],
                 "template": "Bskill_ctrl_cost_bd4.png"
             },
@@ -206,21 +233,33 @@
                 "desc": [
                     "进驻控制中枢时，其他设施内处于工作状态的干员心情每小时恢复+0.1，当魔王进驻中枢时额外+0.1（与控制中枢加成有特殊比较规则）"
                 ],
+                "efficient": {
+                    "all": 0.1
+                },
                 "name": ["巴别塔之帜"],
                 "template": "Bskill_ctrl_cost_expand.png"
             },
             "bskill_ctrl_cost_felyne": {
                 "desc": ["进驻控制中枢时，自身心情每小时消耗+0.5，木天蓼+8"],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["耐力回复"],
                 "template": "Bskill_ctrl_cost_felyne.png"
             },
             "bskill_ctrl_d_r_tag": {
                 "desc": ["进驻控制中枢时，所有宿舍内精英干员的心情每小时恢复+0.1（同种效果取最高）"],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["无言的慈爱"],
                 "template": "Bskill_ctrl_d_r_tag.png"
             },
             "bskill_ctrl_dorm_uika1": {
                 "desc": ["进驻控制中枢时，宿舍内每有1名干员，热情值+1"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["偶像光环"],
                 "template": "Bskill_ctrl_dorm_uika1.png"
             },
@@ -228,6 +267,9 @@
                 "desc": [
                     "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）；当与丰川祥子一起进驻控制中枢时，丰川祥子的心情每小时恢复+0.1"
                 ],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["羁绊相生"],
                 "template": "Bskill_ctrl_dorm_uika2.png"
             },
@@ -235,21 +277,33 @@
                 "desc": [
                     "进驻控制中枢时，更容易获得线索板上尚未拥有的线索，但控制中枢内除自身以外的其余干员心情每小时消耗+0.25"
                 ],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["反抗者"],
                 "template": "Bskill_ctrl_ela.png"
             },
             "bskill_ctrl_felyne": {
                 "desc": ["进驻控制中枢时，控制中枢内每有1名怪物猎人小队干员，则木天蓼+2"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["团队合作"],
                 "template": "Bskill_ctrl_felyne.png"
             },
             "bskill_ctrl_fraction_knight": {
                 "desc": ["进驻控制中枢时，每个进驻在制造站的骑士干员生产力+7%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["烛骑士微光"],
                 "template": "Bskill_ctrl_fraction_knight.png"
             },
             "bskill_ctrl_g_limit&spd": {
                 "desc": ["进驻控制中枢时，同一贸易站中，每有1名格拉斯哥帮干员，订单获取效率+10%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["运筹好手"],
                 "template": "Bskill_ctrl_g_limit&spd.png"
             },
@@ -265,6 +319,9 @@
             },
             "bskill_ctrl_hire_tmoris": {
                 "desc": ["进驻控制中枢时，热情值+10；人脉资源的联络速度+10%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["可靠伙伴"],
                 "template": "Bskill_ctrl_hire_tmoris.png"
             },
@@ -278,6 +335,9 @@
             },
             "bskill_ctrl_lda": {
                 "desc": ["当与阿进驻控制中枢一起工作时，控制中枢内所有干员心情每小时恢复+0.25"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["浮生得闲"],
                 "template": "Bskill_ctrl_lda.png"
             },
@@ -297,6 +357,9 @@
                     "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）",
                     "进驻控制中枢时，所有宿舍内所有干员的心情每小时恢复+0.05（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["领袖", "战纹", "巡心"],
                 "template": "Bskill_ctrl_leader.png"
             },
@@ -320,6 +383,9 @@
             },
             "bskill_ctrl_meet_amoris1": {
                 "desc": ["进驻控制中枢时，热情值+10；会客室线索搜集速度提升+5%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0.01
+                },
                 "name": ["勤学苦练"],
                 "template": "Bskill_ctrl_meet_amoris1.png"
             },
@@ -327,16 +393,25 @@
                 "desc": [
                     "当与丰川祥子一起进驻控制中枢时，丰川祥子心情每小时消耗+0.05，会客室线索搜集速度额外提升+5%（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["成效优先"],
                 "template": "Bskill_ctrl_meet_amoris2.png"
             },
             "bskill_ctrl_mp_mortis": {
                 "desc": ["当与丰川祥子一起进驻控制中枢时，消除自身心情消耗的影响"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["互为半身"],
                 "template": "Bskill_ctrl_mp_mortis.png"
             },
             "bskill_ctrl_mp_oblvns": {
                 "desc": ["进驻控制中枢时，热情值处于40点及以上时，自身心情每小时消耗+0.05"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["生活的重压"],
                 "template": "Bskill_ctrl_mp_oblvns.png"
             },
@@ -352,6 +427,9 @@
                 "desc": [
                     "进驻控制中枢时，所有生产贵金属类配方的制造站生产力+0.5%，每有20点热情值，所有生产贵金属类配方的制造站生产力+0.5%"
                 ],
+                "efficient": {
+                    "all": 0.5
+                },
                 "name": ["丰富工作经验"],
                 "template": "Bskill_ctrl_p_oblvns.png"
             },
@@ -392,11 +470,17 @@
             },
             "bskill_ctrl_t_limit&spd": {
                 "desc": ["进驻控制中枢时，每个进驻在贸易站的喀兰贸易干员，订单获取效率-15%，订单上限+6"],
+                "efficient": {
+                    "all": -0.15
+                },
                 "name": ["精密计算"],
                 "template": "Bskill_ctrl_t_limit&spd.png"
             },
             "bskill_ctrl_t_limit&spd_tmoris": {
                 "desc": ["进驻控制中枢时，每个进驻在贸易站的叙拉古干员，订单获取效率+5%"],
+                "efficient": {
+                    "all": 0.5
+                },
                 "name": ["家族认可"],
                 "template": "Bskill_ctrl_t_limit&spd_tmoris.png"
             },
@@ -432,11 +516,17 @@
             },
             "bskill_ctrl_token_p_spd2": {
                 "desc": ["当与怪物猎人小队干员进驻控制中枢一起工作时，所有制造站生产力+2%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["以身作则"],
                 "template": "Bskill_ctrl_token_p_spd2.png"
             },
             "bskill_ctrl_token_t_spd": {
                 "desc": ["当与怪物猎人小队干员进驻控制中枢一起工作时，所有贸易站订单效率+7%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["秘传交涉术"],
                 "template": "Bskill_ctrl_token_t_spd.png"
             },
@@ -444,6 +534,9 @@
                 "desc": [
                     "进驻控制中枢时，热情值+20；每有8点热情值，自身心情每小时消耗+0.01，所有贸易站订单效率+1%（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 1
+                },
                 "name": ["演技的怪物"],
                 "template": "Bskill_ctrl_trade_mortis.png"
             },
@@ -451,6 +544,9 @@
                 "desc": [
                     "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["S.W.E.E.P.主管"],
                 "template": "Bskill_ctrl_train_spd1.png"
             },
@@ -458,6 +554,9 @@
                 "desc": [
                     "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["断金之交"],
                 "template": "Bskill_ctrl_train_spd2.png"
             },
@@ -465,6 +564,9 @@
                 "desc": [
                     "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["下城人脉"],
                 "template": "Bskill_ctrl_train_spd3.png"
             },
@@ -480,6 +582,9 @@
             },
             "bskill_token_prod_spd3_lungmenguard": {
                 "desc": ["当与龙门近卫局干员进驻控制中枢一起工作时，所有制造站生产力+3%（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["共事情谊"],
                 "template": "Bskill_token_prod_spd3_lungmenguard.png"
             }
@@ -490,11 +595,17 @@
         "skills": {
             "bskill_dorm_all&bd_n1": {
                 "desc": ["进驻宿舍时，每1层梦境转化为1点感知信息"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["梦境呓语"],
                 "template": "Bskill_dorm_all&bd_n1.png"
             },
             "bskill_dorm_all&bd_n1_2": {
                 "desc": ["进驻宿舍时，每1个小节转化为1点感知信息"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["琴键漫步"],
                 "template": "Bskill_dorm_all&bd_n1_2.png"
             },
@@ -502,6 +613,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高），同时当前宿舍每级提供1层梦境"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["睡前故事"],
                 "template": "Bskill_dorm_all&bd_n1_n2.png"
             },
@@ -509,16 +623,25 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高），同时当前宿舍每级提供1个小节"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["慢板行歌"],
                 "template": "Bskill_dorm_all&bd_n1_n3.png"
             },
             "bskill_dorm_all&one1": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复-0.1，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["慵懒"],
                 "template": "Bskill_dorm_all&one1.png"
             },
             "bskill_dorm_all&one2": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复-0.1，该宿舍内所有干员的心情每小时恢复+0.25（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["嗜睡"],
                 "template": "Bskill_dorm_all&one2.png"
             },
@@ -529,6 +652,9 @@
                     "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
                     "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["牧歌", "解脱", "“归乡”", "天生丽质"],
                 "template": "Bskill_dorm_all&one3.png"
             },
@@ -536,6 +662,9 @@
                 "desc": [
                     "进驻宿舍时，使心情未满的宿舍成员，平均分配到总计每小时心情恢复+0.8的加成（该技能对单名干员和多名干员生效时，同种效果分别取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["小酌怡情"],
                 "template": "Bskill_dorm_all&single.png"
             },
@@ -544,6 +673,9 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
                     "进驻宿舍时，该宿舍内除自身以外所有干员的心情每小时恢复+0.1（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["鼓舞", "挣脱"],
                 "template": "Bskill_dorm_all1.png"
             },
@@ -559,6 +691,9 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": [
                     "小提琴独奏",
                     "偶像",
@@ -581,11 +716,17 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["狮心王", "冬将军", "提灯女神", "大锅饭·β", "利他主义", "静心仪式·β"],
                 "template": "Bskill_dorm_all3.png"
             },
             "bskill_dorm_all4": {
                 "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["芬芳疗养·α"],
                 "template": "Bskill_dorm_all4.png"
             },
@@ -593,21 +734,33 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时该宿舍内心情18以下的干员恢复效果额外+0.1（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["芬芳疗养·β"],
                 "template": "Bskill_dorm_all_tired.png"
             },
             "bskill_dorm_bd_dungeon": {
                 "desc": ["进驻宿舍时，当前宿舍每级提供1层魔物料理"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["森西大食堂"],
                 "template": "Bskill_dorm_bd_dungeon.png"
             },
             "bskill_dorm_bdnum": {
                 "desc": ["进驻宿舍时，该宿舍内每有1名干员，无声共鸣+1"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["无声共鸣"],
                 "template": "Bskill_dorm_bdnum.png"
             },
             "bskill_dorm_exchangeAp": {
                 "desc": ["进驻宿舍时，如果自身为满心情，则与当前宿舍前一位进驻的干员互换心情"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["患难之交"],
                 "template": "Bskill_dorm_exchangeAp.png"
             },
@@ -615,6 +768,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["寻同路人"],
                 "template": "Bskill_dorm_hireToRecAll1.png"
             },
@@ -622,6 +778,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.05恢复效果（叠加后的最终值同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["无瑕心·α"],
                 "template": "Bskill_dorm_hireToRecAll2.png"
             },
@@ -629,6 +788,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.1，同时每个招募位（不包含初始招募位）额外+0.1恢复效果（叠加后的最终值同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["无瑕心·β"],
                 "template": "Bskill_dorm_hireToRecAll3.png"
             },
@@ -636,31 +798,49 @@
                 "desc": [
                     "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“独处”"],
                 "template": "Bskill_dorm_one.png"
             },
             "bskill_dorm_one1": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+0.55"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["超脱"],
                 "template": "Bskill_dorm_one1.png"
             },
             "bskill_dorm_one2": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+0.7", "进驻宿舍时，自身心情每小时恢复+0.7"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["独处", "幼狼情性"],
                 "template": "Bskill_dorm_one2.png"
             },
             "bskill_dorm_one3": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+0.75"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["隐形的美食家"],
                 "template": "Bskill_dorm_one3.png"
             },
             "bskill_dorm_one4": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+0.85", "进驻宿舍时，自身心情每小时恢复+0.85"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["狂热", "麻烦回避者"],
                 "template": "Bskill_dorm_one4.png"
             },
             "bskill_dorm_one5": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+1"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["悲歌"],
                 "template": "Bskill_dorm_one5.png"
             },
@@ -668,6 +848,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.1，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["柔和微光·α"],
                 "template": "Bskill_dorm_powToRecAll1.png"
             },
@@ -675,11 +858,17 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，同时每有1间发电站，则恢复效果额外+0.05（叠加后的最终值同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["柔和微光·β"],
                 "template": "Bskill_dorm_powToRecAll2.png"
             },
             "bskill_dorm_reborn": {
                 "desc": ["进驻宿舍时，自身心情每小时恢复+2，同时无法获得其他来源提供的心情恢复效果"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["自律"],
                 "template": "Bskill_dorm_reborn.png"
             },
@@ -687,6 +876,9 @@
                 "desc": [
                     "进驻宿舍时，基建内（不包括副手）每名行医干员为该宿舍内所有干员心情每小时恢复速度+6%（最多生效4名）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["火山温泉浴"],
                 "template": "Bskill_dorm_rec_all&profession.png"
             },
@@ -694,6 +886,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2，每有5点无声共鸣，该宿舍内所有干员的心情每小时恢复额外+0.01（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["无词颂歌"],
                 "template": "Bskill_dorm_rec_allbd.png"
             },
@@ -701,6 +896,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，如果目标是莱欧斯小队干员，则恢复效果额外+0.15（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["资深料理人"],
                 "template": "Bskill_dorm_senshi.png"
             },
@@ -708,6 +906,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.2（同种效果取最高）；同时自身心情每小时恢复+0.4"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["活泼"],
                 "template": "Bskill_dorm_single&one01.png"
             },
@@ -715,6 +916,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.25（同种效果取最高）；同时自身心情每小时恢复+0.5"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["探险家的热情"],
                 "template": "Bskill_dorm_single&one02.png"
             },
@@ -722,6 +926,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.3（同种效果取最高）；同时自身心情每小时恢复+0.3"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["烘焙"],
                 "template": "Bskill_dorm_single&one11.png"
             },
@@ -731,6 +938,9 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.4（同种效果取最高）；同时自身心情每小时恢复+0.4"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["烹饪", "Give me five", "甜甜圈派对"],
                 "template": "Bskill_dorm_single&one12.png"
             },
@@ -738,6 +948,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.4（同种效果取最高）；同时自身心情每小时恢复+0.2"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["和谐"],
                 "template": "Bskill_dorm_single&one21.png"
             },
@@ -746,6 +959,9 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.5（同种效果取最高）；同时自身心情每小时恢复+0.25",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.5（同种效果取最高）；同时自身心情每小时恢复+0.25"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["使徒", "喀兰圣女"],
                 "template": "Bskill_dorm_single&one22.png"
             },
@@ -754,6 +970,9 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高）",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["善解人意", "天生乐天派"],
                 "template": "Bskill_dorm_single1.png"
             },
@@ -762,6 +981,9 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高）",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.65（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["医疗服务", "疗养"],
                 "template": "Bskill_dorm_single2.png"
             },
@@ -772,11 +994,17 @@
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）",
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.7（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["维多利亚文学", "天启", "心理疏导", "恩典颂歌"],
                 "template": "Bskill_dorm_single3.png"
             },
             "bskill_dorm_single4": {
                 "desc": ["进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.75（同种效果取最高）"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["慈悲"],
                 "template": "Bskill_dorm_single4.png"
             },
@@ -784,6 +1012,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是蓝毒，则恢复效果额外+0.45"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["毒剂师之友"],
                 "template": "Bskill_dorm_single_indigo.png"
             },
@@ -791,6 +1022,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是拉特兰干员，则恢复效果额外+0.45"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["圣城趣事通"],
                 "template": "Bskill_dorm_single_laterano.png"
             },
@@ -798,6 +1032,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是萨米干员，则恢复效果额外+0.45"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["降生于冰寒"],
                 "template": "Bskill_dorm_single_sami.png"
             },
@@ -805,6 +1042,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是锡兰，则恢复效果额外+0.45"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["沏茶"],
                 "template": "Bskill_dorm_single_schwarz.png"
             },
@@ -812,6 +1052,9 @@
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是嘉维尔，则恢复效果额外+0.45"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["烤肉大师"],
                 "template": "Bskill_dorm_single_tomimi.png"
             },
@@ -819,11 +1062,17 @@
                 "desc": [
                     "进驻宿舍时，基建内（不包含副手及活动室使用者）每名岁干员为该宿舍内所有干员心情每小时恢复速度+0.06（最多生效4名，且同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["调众口"],
                 "template": "Bskill_dorm_sui.png"
             },
             "bskill_dorm_toone1": {
                 "desc": ["进驻宿舍时，推进之王对该宿舍中格拉斯哥帮干员恢复效果额外+0.3"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["头号陪练"],
                 "template": "Bskill_dorm_toone1.png"
             },
@@ -831,6 +1080,9 @@
                 "desc": [
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2；同时该宿舍每有1名心情未满的干员，则恢复效果额外+0.01（同种效果取最高）"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["倾谈者"],
                 "template": "Bskill_dorm_unfull.png"
             }
@@ -842,66 +1094,105 @@
         "skills": {
             "bskill_formula_spd_sunbr": {
                 "desc": ["进驻制造站时，若古米在贸易站，则作战记录类配方的生产力+35%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["患难拍档"],
                 "template": "Bskill_formula_spd_sunbr.png"
             },
             "bskill_man_A1": {
                 "desc": ["进驻制造站时，当前制造站内每个A1小队干员为自身+10%的生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["重聚时光"],
                 "template": "Bskill_man_A1.png"
             },
             "bskill_man_bd1": {
                 "desc": ["进驻制造站时，每5点人间烟火转化为1点巫术结晶"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["古老巫术"],
                 "template": "Bskill_man_bd1.png"
             },
             "bskill_man_constrLv": {
                 "desc": ["进驻制造站时，基建内每间设施每级+1个工程机器人，上限64个"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["绘图设计"],
                 "template": "Bskill_man_constrLv.png"
             },
             "bskill_man_cost_all": {
                 "desc": ["进驻制造站时，消除当前制造站内所有干员自身心情消耗的影响"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["团队精神"],
                 "template": "Bskill_man_cost_all.png"
             },
             "bskill_man_cost_room1": {
                 "desc": ["进驻制造站时，当前制造站内所有干员心情每小时消耗-0.1"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["春雷响，万物长"],
                 "template": "Bskill_man_cost_room1.png"
             },
             "bskill_man_exp&cost": {
                 "desc": ["进驻制造站时，生产作战记录类配方时，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["Vlog"],
                 "template": "Bskill_man_exp&cost.png"
             },
             "bskill_man_exp&limit1": {
                 "desc": ["进驻制造站时，生产作战记录类配方时，仓库容量上限+12"],
+                "efficient": {
+                    "CombatRecord": 0.12
+                },
                 "name": ["剪辑·α"],
                 "template": "Bskill_man_exp&limit1.png"
             },
             "bskill_man_exp&limit2": {
                 "desc": ["进驻制造站时，生产作战记录类配方时，仓库容量上限+15"],
+                "efficient": {
+                    "CombatRecord": 0.15
+                },
                 "name": ["剪辑·β"],
                 "template": "Bskill_man_exp&limit2.png"
             },
             "bskill_man_exp&limit3": {
                 "desc": ["进驻制造站时，生产作战记录类配方时，仓库容量上限+4"],
+                "efficient": {
+                    "CombatRecord": 0.04
+                },
                 "name": ["合理利用"],
                 "template": "Bskill_man_exp&limit3.png"
             },
             "bskill_man_exp&spd&limit&cost1": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%，心情每小时消耗-0.25"],
+                "efficient": {
+                    "CombatRecord": 20.1
+                },
                 "name": ["镜中影"],
                 "template": "Bskill_man_exp&spd&limit&cost1.png"
             },
             "bskill_man_exp&spd&limit&cost2": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+35%，心情每小时消耗-0.25"],
+                "efficient": {
+                    "CombatRecord": 35.1
+                },
                 "name": ["戏中人"],
                 "template": "Bskill_man_exp&spd&limit&cost2.png"
             },
             "bskill_man_exp0": {
                 "desc": ["进驻制造站时，作战记录类配方的生产力+20%", "进驻制造站时，作战记录类配方的生产力+20%"],
+                "efficient": {
+                    "CombatRecord": 20.1
+                },
                 "name": ["公证所教习α", "公证所教习·α"],
                 "template": "Bskill_man_exp4.png"
             },
@@ -935,6 +1226,9 @@
             },
             "bskill_man_fuze": {
                 "desc": ["进驻制造站时，生产力+20%，每有1瓶乌萨斯特饮，则仓库容量上限+2"],
+                "efficient": {
+                    "CombatRecord": 20.1
+                },
                 "name": ["实干的寡言者"],
                 "template": "Bskill_man_fuze.png"
             },
@@ -942,6 +1236,9 @@
                 "desc": [
                     "进驻制造站时，基建内（不包含副手）每有1名黑钢国际干员（最多3名），贵金属类配方的生产力+2%，心情每小时消耗-0.15"
                 ],
+                "efficient": {
+                    "PureGold": 2.2
+                },
                 "name": ["挑大梁"],
                 "template": "Bskill_man_gold&blacksteel.png"
             },
@@ -964,11 +1261,17 @@
             },
             "bskill_man_gold3": {
                 "desc": ["进驻制造站时，贵金属类配方的生产力+25%，心情每小时消耗+0.25"],
+                "efficient": {
+                    "PureGold": 25
+                },
                 "name": ["小奇思"],
                 "template": "Bskill_man_gold3.png"
             },
             "bskill_man_gold4": {
                 "desc": ["进驻制造站时，贵金属类配方的生产力+25%，心情每小时消耗+0.25"],
+                "efficient": {
+                    "PureGold": 25
+                },
                 "name": ["净味香氛"],
                 "template": "Bskill_man_gold4.png"
             },
@@ -979,6 +1282,9 @@
                     "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25",
                     "进驻制造站时，仓库容量上限+8，心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 0.08
+                },
                 "name": ["拾荒者", "磐蟹·阿盘", "“都想要”", "智慧之境"],
                 "template": "Bskill_man_limit&cost1.png"
             },
@@ -988,6 +1294,9 @@
                     "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
                     "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 0.10
+                },
                 "name": ["囤积者", "无畏豪情", "午休好去处"],
                 "template": "Bskill_man_limit&cost2.png"
             },
@@ -996,11 +1305,17 @@
                     "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25",
                     "进驻制造站时，仓库容量上限+16，心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 0.16
+                },
                 "name": ["探险者", "收纳达人"],
                 "template": "Bskill_man_limit&cost3.png"
             },
             "bskill_man_limit&cost5": {
                 "desc": ["进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 0.1
+                },
                 "name": ["掘进工程"],
                 "template": "Bskill_man_limit&cost5.png"
             },
@@ -1043,41 +1358,65 @@
             },
             "bskill_man_skill_change": {
                 "desc": ["进驻制造站时，当前制造站内所有莱茵科技类、红松骑士团类技能也全都视作标准化类技能"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["意识兼容"],
                 "template": "Bskill_man_skill_change.png"
             },
             "bskill_man_skill_spd": {
                 "desc": ["进驻制造站时，当前制造站内每个标准化类技能为自身+5%的生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["意识协议"],
                 "template": "Bskill_man_skill_spd.png"
             },
             "bskill_man_skill_spd2": {
                 "desc": ["进驻制造站时，当前制造站内每个莱茵科技类技能为自身+5%的生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["源石技艺理论应用"],
                 "template": "Bskill_man_skill_spd2.png"
             },
             "bskill_man_skill_spd3": {
                 "desc": ["进驻制造站时，当前制造站内每个金属工艺类技能为自身+5%的生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["打工心得"],
                 "template": "Bskill_man_skill_spd3.png"
             },
             "bskill_man_spd&cost1": {
                 "desc": ["进驻制造站时，生产力+20%，心情每小时消耗+0.25"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["量体裁衣"],
                 "template": "Bskill_man_spd&cost1.png"
             },
             "bskill_man_spd&dorm1": {
                 "desc": ["进驻制造站时，每间宿舍每级为贵金属类配方的生产力+1%"],
+                "efficient": {
+                    "PureGold": 20
+                },
                 "name": ["齐心沙盗"],
                 "template": "Bskill_man_spd&dorm1.png"
             },
             "bskill_man_spd&limit&cost1": {
                 "desc": ["进驻制造站时，生产力-5%，仓库容量上限+16，心情每小时消耗-0.15"],
+                "efficient": {
+                    "all": -5
+                },
                 "name": ["工匠精神·α"],
                 "template": "Bskill_man_spd&limit&cost1.png"
             },
             "bskill_man_spd&limit&cost2": {
                 "desc": ["进驻制造站时，生产力-5%，仓库容量上限+19，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": -5
+                },
                 "name": ["工匠精神·β"],
                 "template": "Bskill_man_spd&limit&cost2.png"
             },
@@ -1094,6 +1433,9 @@
             },
             "bskill_man_spd&limit&cost4": {
                 "desc": ["进驻制造站时，生产力-20%，仓库容量上限+17，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": -20
+                },
                 "name": ["“可靠”助手"],
                 "template": "Bskill_man_spd&limit&cost4.png"
             },
@@ -1115,16 +1457,25 @@
             },
             "bskill_man_spd&limit5": {
                 "desc": ["进驻制造站时，生产力+25%，仓库容量上限+6"],
+                "efficient": {
+                    "all": 25.06
+                },
                 "name": ["得心应手"],
                 "template": "Bskill_man_spd&limit5.png"
             },
             "bskill_man_spd&limit6": {
                 "desc": ["进驻制造站时，生产力+20%，仓库容量上限-8"],
+                "efficient": {
+                    "all": 19.92
+                },
                 "name": ["行动派"],
                 "template": "Bskill_man_spd&limit6.png"
             },
             "bskill_man_spd&limit_felyne": {
                 "desc": ["进驻制造站时，仓库容量上限+8，生产力+5%，同时每有1个木天蓼，则生产力+1%"],
+                "efficient": {
+                    "all": 5.08
+                },
                 "name": ["可靠的随从们"],
                 "template": "Bskill_man_spd&limit_felyne.png"
             },
@@ -1132,6 +1483,9 @@
                 "desc": [
                     "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+5%的生产力"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["自动化·α"],
                 "template": "Bskill_man_spd&power1.png"
             },
@@ -1139,6 +1493,9 @@
                 "desc": [
                     "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+10%的生产力"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["自动化·β"],
                 "template": "Bskill_man_spd&power2.png"
             },
@@ -1146,6 +1503,9 @@
                 "desc": [
                     "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个发电站为当前制造站+15%的生产力"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["仿生海龙"],
                 "template": "Bskill_man_spd&power3.png"
             },
@@ -1159,6 +1519,9 @@
             },
             "bskill_man_spd&trade1": {
                 "desc": ["进驻制造站时，每个贸易站为当前制造站贵金属类配方的生产力+3%"],
+                "efficient": {
+                    "PureGold": 3
+                },
                 "name": ["原质塑金副产物"],
                 "template": "Bskill_man_spd&trade1.png"
             },
@@ -1193,6 +1556,9 @@
             },
             "bskill_man_spd_add&cost": {
                 "desc": ["进驻制造站时，当自身心情落差大于12时，生产力+10%，仓库容量+6"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["窗外雪啸"],
                 "template": "Bskill_man_spd_add&cost.png"
             },
@@ -1220,11 +1586,17 @@
             },
             "bskill_man_spd_add3": {
                 "desc": ["进驻制造站后，生产力每小时+2%，最终达到+20%"],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["例行清扫"],
                 "template": "Bskill_man_spd_add3.png"
             },
             "bskill_man_spd_bd1": {
                 "desc": ["进驻制造站时，每2点思维链环+1%生产力"],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["念力"],
                 "template": "Bskill_man_spd_bd1.png"
             },
@@ -1254,21 +1626,33 @@
             },
             "bskill_man_spd_bd5": {
                 "desc": ["进驻制造站时，每1点巫术结晶+1%生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["逐水草"],
                 "template": "Bskill_man_spd_bd5.png"
             },
             "bskill_man_spd_bd6": {
                 "desc": ["进驻制造站时，每1点巫术结晶+2%生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["问枯荣"],
                 "template": "Bskill_man_spd_bd6.png"
             },
             "bskill_man_spd_bd7": {
                 "desc": ["进驻制造站时，每3点人间烟火+1%生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["稻禾厚，顺秋收"],
                 "template": "Bskill_man_spd_bd7.png"
             },
             "bskill_man_spd_bd_dungeon": {
                 "desc": ["进驻制造站时，每1点魔物料理+1%生产力"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["意想不到的美味"],
                 "template": "Bskill_man_spd_bd_dungeon.png"
             },
@@ -1278,16 +1662,25 @@
                     "感知信息": "[NumOfPeopleInDorm]"
                 },
                 "desc": ["进驻制造站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点思维链环"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["超感"],
                 "template": "Bskill_man_spd_bd_n1.png"
             },
             "bskill_man_spd_double": {
                 "desc": ["进驻制造站时，当与温米在同一个制造站时，贵金属类配方的生产力+15%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“搭把手！”"],
                 "template": "Bskill_man_spd_double.png"
             },
             "bskill_man_spd_double2": {
                 "desc": ["进驻制造站时，当与酒神在在同一个制造站时，作战记录类配方的生产力+30%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["盛餐的回报"],
                 "template": "Bskill_man_spd_double2.png"
             },
@@ -1301,6 +1694,9 @@
             },
             "bskill_man_spd_variable11": {
                 "desc": ["进驻制造站时，当前制造站内干员提升的每格仓库容量，提供2%生产力"],
+                "efficient": {
+                    "all": 2
+                },
                 "name": ["回收利用"],
                 "template": "Bskill_man_spd_variable11.png"
             },
@@ -1320,16 +1716,25 @@
                 "desc": [
                     "进驻制造站时，当前制造站内干员根据自身提升的仓库容量提供一定的生产力。提升16格以下的，每格仓库容量提供1%生产力；提升大于16格的，每格仓库容量提供3%生产力（无法与回收利用叠加，且优先生效）"
                 ],
+                "efficient": {
+                    "all": 5
+                },
                 "name": ["大就是好！"],
                 "template": "Bskill_man_spd_variable31.png"
             },
             "bskill_man_token_spd1": {
                 "desc": ["进驻制造站时，每有1台作业平台进驻发电站，贵金属类配方的生产力+5%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["机械精通·α"],
                 "template": "Bskill_man_token_spd1.png"
             },
             "bskill_man_token_spd2": {
                 "desc": ["进驻制造站时，每有1台作业平台进驻发电站，贵金属类配方的生产力+10%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["机械精通·β"],
                 "template": "Bskill_man_token_spd2.png"
             }
@@ -1805,6 +2210,9 @@
         "skills": {
             "bskill_hire_bd_B": {
                 "desc": ["进驻人力办公室时，每个招募位（不包含初始招募位）+15点无声共鸣"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["心声图绘"],
                 "template": "Bskill_hire_bd_B.png"
             },
@@ -1836,11 +2244,17 @@
             },
             "bskill_hire_skgoat3": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗+1"],
+                "efficient": {
+                    "all": 29.9
+                },
                 "name": ["永不停歇·α"],
                 "template": "Bskill_hire_skgoat3.png"
             },
             "bskill_hire_skgoat4": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+45%，心情每小时消耗+1"],
+                "efficient": {
+                    "all": 44.9
+                },
                 "name": ["永不停歇·β"],
                 "template": "Bskill_hire_skgoat4.png"
             },
@@ -1860,7 +2274,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
                 ],
                 "efficient": {
-                    "all": 35.1
+                    "all": 45
                 },
                 "name": ["洞悉人心", "好事之徒"],
                 "template": "Bskill_hire_spd&clue.png"
@@ -1870,7 +2284,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+30%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
                 ],
                 "efficient": {
-                    "all": 30.1
+                    "all": 40
                 },
                 "name": ["交游广阔"],
                 "template": "Bskill_hire_spd&clue2.png"
@@ -1896,7 +2310,7 @@
                     "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）使心情每小时消耗-0.1"
                 ],
                 "efficient": {
-                    "all": 36
+                    "all": 35.1
                 },
                 "name": ["救援队·保证体力"],
                 "template": "Bskill_hire_spd&cost3.png"
@@ -1907,11 +2321,17 @@
                     "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25",
                     "进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 20.1
+                },
                 "name": ["特殊渠道 ", "特殊渠道", "踏坊寻味·α"],
                 "template": "Bskill_hire_spd&cost4.png"
             },
             "bskill_hire_spd&cost5": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 10.1
+                },
                 "name": ["宫廷礼仪"],
                 "template": "Bskill_hire_spd&cost5.png"
             },
@@ -1920,21 +2340,33 @@
                     "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25",
                     "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 30.1
+                },
                 "name": ["威权谕使", "踏坊寻味·β"],
                 "template": "Bskill_hire_spd&cost6.png"
             },
             "bskill_hire_spd&dorm1": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+5%，每间宿舍每级额外+1%人脉资源的联络速度"],
+                "efficient": {
+                    "all": 25
+                },
                 "name": ["梅兰德侦探·α"],
                 "template": "Bskill_hire_spd&dorm1.png"
             },
             "bskill_hire_spd&dorm2": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+5%，每间宿舍每级额外+2%人脉资源的联络速度"],
+                "efficient": {
+                    "all": 45
+                },
                 "name": ["梅兰德侦探·β"],
                 "template": "Bskill_hire_spd&dorm2.png"
             },
             "bskill_hire_spd&extra1": {
                 "desc": ["进驻人力办公室时，每个招募位（不包含初始招募位）+10%人脉资源的联络速度"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["用人唯才"],
                 "template": "Bskill_hire_spd&extra1.png"
             },
@@ -1942,6 +2374,9 @@
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加格拉斯哥帮线索的概率（工作时长和招募位影响概率）"
                 ],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["旧识新交"],
                 "template": "Bskill_hire_spd&glasgow.png"
             },
@@ -1973,6 +2408,9 @@
             },
             "bskill_hire_spd3": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+35%"],
+                "efficient": {
+                    "all": 35
+                },
                 "name": ["人事管理·β"],
                 "template": "Bskill_hire_spd3.png"
             },
@@ -2000,13 +2438,16 @@
             "bskill_hire_spd_bd_n1_n1": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+20%，同时每个招募位（不包含初始招募位）+10点记忆碎片"],
                 "efficient": {
-                    "all": 20
+                    "all": 20.1
                 },
                 "name": ["巡游"],
                 "template": "Bskill_hire_spd_bd_n1_n1.png"
             },
             "bskill_hire_spd_bd_n2": {
                 "desc": ["进驻人力办公室时，每个招募位（不包含初始招募位）+10点人间烟火"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["救援队·灾后普查"],
                 "template": "Bskill_hire_spd_bd_n2.png"
             },
@@ -2014,6 +2455,9 @@
                 "desc": [
                     "进驻人力办公室时，每1点记忆碎片转化为1点感知信息，心情耗尽时清空所有记忆碎片和自身累积的感知信息"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["追忆"],
                 "template": "Bskill_hire_spd_memento.png"
             }
@@ -2124,11 +2568,17 @@
             },
             "bskill_pow_spd_P": {
                 "desc": ["进驻发电站时，如果凯尔希进驻在控制中枢，则无人机充能速度+5%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“愉快的对谈”"],
                 "template": "Bskill_pow_spd_P.png"
             },
             "bskill_pow_spd_P1": {
                 "desc": ["进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["咒文共鸣"],
                 "template": "Bskill_pow_spd_P1.png"
             },
@@ -2166,11 +2616,17 @@
             },
             "bskill_power_rec_spd&dorm&lv": {
                 "desc": ["进驻发电站时，每间宿舍每级为充能速度额外+0.5%"],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["灵河共鸣"],
                 "template": "Bskill_power_rec_spd&dorm&lv.png"
             },
             "bskill_power_rec_spd_ext&faction": {
                 "desc": ["进驻发电站时，如果其他拉特兰干员进驻在发电站，则无人机充能速度+5%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["维护中"],
                 "template": "Bskill_power_rec_spd_ext&faction.png"
             }
@@ -2184,11 +2640,23 @@
         "skills": {
             "bskil_meet_team&char": {
                 "desc": ["进驻会客室时，提升会客室内另一干员所属派系的线索倾向效果（如会客室没有另一干员则不提升）"],
+                "efficient": {
+                    "No1": 10,
+                    "No2": 10,
+                    "No3": 10,
+                    "No4": 10,
+                    "No5": 10,
+                    "No6": 10,
+                    "No7": 10
+                },
                 "name": ["交个朋友"],
                 "template": "Bskil_meet_team&char.png"
             },
             "bskill_meet_bd_dungeon": {
                 "desc": ["进驻会客室时，每拥有1点魔物料理，线索搜集速度额外提升2%"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["饱餐的干劲"],
                 "template": "Bskill_meet_bd_dungeon.png"
             },
@@ -2207,11 +2675,17 @@
             },
             "bskill_meet_condChar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["得心应手"],
                 "template": "Bskill_meet_condChar.png"
             },
             "bskill_meet_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
+                "efficient": {
+                    "General": 15
+                },
                 "name": ["无辜笑脸"],
                 "template": "Bskill_meet_exchange.png"
             },
@@ -2267,6 +2741,9 @@
             },
             "bskill_meet_glasgow1": {
                 "desc": ["进驻会客室时，更容易获得格拉斯哥帮线索（工作时长影响概率）"],
+                "efficient": {
+                    "No5": 0
+                },
                 "name": ["风声"],
                 "template": "Bskill_meet_glasgow1.png"
             },
@@ -2284,6 +2761,9 @@
             },
             "bskill_meet_iana": {
                 "desc": ["进驻会客室时，线索搜集速度提升5%，同时每1点情报储备额外提升5%"],
+                "efficient": {
+                    "General": 5.1
+                },
                 "name": ["情报专家"],
                 "template": "Bskill_meet_iana.png"
             },
@@ -2346,6 +2826,9 @@
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5"
                 ],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["远见"],
                 "template": "Bskill_meet_spd&bd.png"
             },
@@ -2353,11 +2836,17 @@
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5，且更容易获得线索板上尚未拥有的线索"
                 ],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["未来之途"],
                 "template": "Bskill_meet_spd&bd&notOwned.png"
             },
             "bskill_meet_spd&bd2": {
                 "desc": ["进驻会客室时，当与铃兰进驻会客室一起工作时，线索搜集速度额外提升30%"],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["杀手的假期"],
                 "template": "Bskill_meet_spd&bd2.png"
             },
@@ -2365,6 +2854,9 @@
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，与其他黑钢国际干员进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5"
                 ],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["人情练达"],
                 "template": "Bskill_meet_spd&blacksteel1.png"
             },
@@ -2372,6 +2864,9 @@
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，与其他黑钢国际干员进驻会客室一起工作时，线索搜集速度额外提升20%"
                 ],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["情报探查"],
                 "template": "Bskill_meet_spd&blacksteel2.png"
             },
@@ -2379,6 +2874,9 @@
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
                 ],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["文献学顾问"],
                 "template": "Bskill_meet_spd&condChar_mustget.png"
             },
@@ -2386,6 +2884,9 @@
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得罗德岛制药的线索"
                 ],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["暗线"],
                 "template": "Bskill_meet_spd&condChar_mustget2.png"
             },
@@ -2399,16 +2900,25 @@
             },
             "bskill_meet_spd&cost_condChar": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升50%，心情每小时消耗+2"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["双面间谍"],
                 "template": "Bskill_meet_spd&cost_condChar.png"
             },
             "bskill_meet_spd&cost_condChar2": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["“职业操守”·α"],
                 "template": "Bskill_meet_spd&cost_condChar2.png"
             },
             "bskill_meet_spd&cost_condChar3": {
                 "desc": ["进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["“职业操守”·β"],
                 "template": "Bskill_meet_spd&cost_condChar3.png"
             },
@@ -2416,13 +2926,17 @@
                 "desc": [
                     "进驻会客室时，线索搜集速度提升+10%，与其他萨米干员进驻会客室一起工作时，线索搜集速度额外提升+5%，自身心情每小时消耗+0.5"
                 ],
+                "efficient": {
+                    "General": 10
+                },
+
                 "name": ["冰原游弋"],
                 "template": "Bskill_meet_spd&sami.png"
             },
             "bskill_meet_spd1": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%"],
                 "efficient": {
-                    "all": 10
+                    "General": 10
                 },
                 "name": ["线索搜集·α"],
                 "template": "Bskill_meet_spd1.png"
@@ -2435,7 +2949,7 @@
                     "进驻会客室时，线索搜集速度提升15%"
                 ],
                 "efficient": {
-                    "all": 20
+                    "General": 20
                 },
                 "name": ["化影", "线索搜集·β", "好奇心", "泡茶高手"],
                 "template": "Bskill_meet_spd2.png"
@@ -2451,7 +2965,7 @@
                     "进驻会客室时，线索搜集速度提升20%"
                 ],
                 "efficient": {
-                    "all": 25
+                    "General": 25
                 },
                 "name": ["追踪者", "警司", "占卜", "星象学", "领袖外交", "线索搜集·β", "社交达人"],
                 "template": "Bskill_meet_spd3.png"
@@ -2459,7 +2973,7 @@
             "bskill_meet_spd4": {
                 "desc": ["进驻会客室时，线索搜集速度提升25%"],
                 "efficient": {
-                    "all": 25
+                    "General": 25
                 },
                 "name": ["领袖外交"],
                 "template": "Bskill_meet_spd4.png"
@@ -2471,7 +2985,7 @@
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
-                    "all": 1
+                    "General": 1
                 },
                 "name": ["不容遗漏·α", "情报分析", "见微知著"],
                 "template": "Bskill_meet_spdNotOwned1.png"
@@ -2479,23 +2993,32 @@
             "bskill_meet_spdNotOwned2": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
-                    "all": 11
+                    "General": 11
                 },
                 "name": ["不容遗漏·β"],
                 "template": "Bskill_meet_spdNotOwned2.png"
             },
             "bskill_meet_spdOwned1": {
                 "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
+                "efficient": {
+                    "General": 1
+                },
                 "name": ["显眼的调查者"],
                 "template": "Bskill_meet_spdOwned1.png"
             },
             "bskill_meet_spd_clue": {
                 "desc": ["进驻会客室时，每个招募位（不包含初始招募位）提升5%线索搜集速度"],
+                "efficient": {
+                    "General": 10
+                },
                 "name": ["广交义友"],
                 "template": "Bskill_meet_spd_clue.png"
             },
             "bskill_meet_spd_confes1": {
                 "desc": ["进驻会客室时，如果菲亚梅塔进驻在宿舍，则线索搜集速度额外提升10%"],
+                "efficient": {
+                    "General": 0
+                },
                 "name": ["不泯童心"],
                 "template": "Bskill_meet_spd_confes1.png"
             },
@@ -2509,6 +3032,9 @@
             },
             "bskill_meet_spd_notOwned_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
+                "efficient": {
+                    "General": 1
+                },
                 "name": ["眼观六路"],
                 "template": "Bskill_meet_spd_notOwned_exchange.png"
             },
@@ -2538,11 +3064,17 @@
         "skills": {
             "bskill_tra_Lappland1": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["醉翁之意·α"],
                 "template": "Bskill_tra_Lappland1.png"
             },
             "bskill_tra_Lappland2": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+4"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["醉翁之意·β"],
                 "template": "Bskill_tra_Lappland2.png"
             },
@@ -2564,31 +3096,49 @@
             },
             "bskill_tra_bd_cost1": {
                 "desc": ["进驻贸易站时，贸易站内全体干员每小时心情消耗-0.1，每有10点人间烟火，则额外-0.01"],
+                "efficient": {
+                    "all": 0.1
+                },
                 "name": ["跋山涉水"],
                 "template": "Bskill_tra_bd_cost1.png"
             },
             "bskill_tra_bd_cost2": {
                 "desc": ["进驻贸易站时，贸易站内全体干员每小时心情消耗-0.1，每有10点人间烟火，则额外-0.02"],
+                "efficient": {
+                    "all": 0.1
+                },
                 "name": ["万里传书"],
                 "template": "Bskill_tra_bd_cost2.png"
             },
             "bskill_tra_bd_n1": {
                 "desc": ["进驻贸易站时，宿舍内每有1名干员则感知信息+1，同时每1点感知信息转化为1点无声共鸣"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["乐感"],
                 "template": "Bskill_tra_bd_n1.png"
             },
             "bskill_tra_bd_n2": {
                 "desc": ["进驻贸易站时，宿舍内每有1名干员则人间烟火+1，同时每有1点人间烟火，则订单获取效率+1%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["“愿者上钩”"],
                 "template": "Bskill_tra_bd_n2.png"
             },
             "bskill_tra_cost1": {
                 "desc": ["进驻贸易站时，贸易站内干员心情每小时消耗-0.1"],
+                "efficient": {
+                    "all": 0.1
+                },
                 "name": ["暖场"],
                 "template": "Bskill_tra_cost1.png"
             },
             "bskill_tra_flow_durin": {
                 "desc": ["进驻贸易站时，基建内每1名杜林族干员（最多4名）为当前贸易站提供1条赤金生产线"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["际崖居民"],
                 "template": "Bskill_tra_flow_durin.png"
             },
@@ -2611,7 +3161,7 @@
             "bskill_tra_flow_gs": {
                 "desc": ["进驻贸易站时，每有1条赤金生产线，则当前贸易站订单获取效率+5%"],
                 "efficient": {
-                    "all": 6
+                    "all": 0
                 },
                 "name": ["销路宣发"],
                 "template": "Bskill_tra_flow_gs.png"
@@ -2635,36 +3185,57 @@
             },
             "bskill_tra_laterano1": {
                 "desc": ["进驻贸易站时，同个贸易站中每有1名拉特兰干员，当前贸易站订单获取效率+15%"],
+                "efficient": {
+                    "all": 15
+                },
                 "name": ["同城加急单"],
                 "template": "Bskill_tra_laterano1.png"
             },
             "bskill_tra_law": {
                 "desc": ["进驻贸易站时，如果下笔赤金订单交付数小于4，则视为违约订单"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["合同法"],
                 "template": "Bskill_tra_law.png"
             },
             "bskill_tra_lemuen1": {
                 "desc": ["进驻贸易站时，订单获取效率+20%；当与能天使在同一个贸易站时，订单获取效率额外+25%"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["相伴"],
                 "template": "Bskill_tra_lemuen1.png"
             },
             "bskill_tra_limit&cost": {
                 "desc": ["进驻贸易站时，订单上限+5，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 0.5
+                },
                 "name": ["谈判"],
                 "template": "Bskill_tra_limit&cost.png"
             },
             "bskill_tra_limit&trade1": {
                 "desc": ["进驻贸易站时，当前贸易站每级+1个订单上限"],
+                "efficient": {
+                    "all": 0.3
+                },
                 "name": ["多面逢源"],
                 "template": "Bskill_tra_limit&trade1.png"
             },
             "bskill_tra_limit&trade2": {
                 "desc": ["进驻贸易站时，当前贸易站每级+1个订单上限"],
+                "efficient": {
+                    "all": 0.3
+                },
                 "name": ["钱不我待"],
                 "template": "Bskill_tra_limit&trade2.png"
             },
             "bskill_tra_limit2spd": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提升的每5个订单上限，提供25%订单获取效率，最多提供100%效率"],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["冠军风采"],
                 "template": "Bskill_tra_limit2spd.png"
             },
@@ -2672,36 +3243,57 @@
                 "desc": [
                     "进驻贸易站时，当前贸易站内其他干员提供的每10%订单获取效率使订单上限-1（订单最少为1），同时每有1笔订单就+4%订单获取效率（与部分技能有特殊叠加规则）"
                 ],
+                "efficient": {
+                    "all": 4
+                },
                 "name": ["市井之道"],
                 "template": "Bskill_tra_limit_count.png"
             },
             "bskill_tra_limit_diff": {
                 "desc": ["进驻贸易站时，当前订单数与订单上限每差1笔订单，则订单获取效率+4%"],
+                "efficient": {
+                    "all": 4
+                },
                 "name": ["摊贩经济"],
                 "template": "Bskill_tra_limit_diff.png"
             },
             "bskill_tra_long1": {
                 "desc": ["进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+250，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["投资·α"],
                 "template": "Bskill_tra_long1.png"
             },
             "bskill_tra_long2": {
                 "desc": ["进驻贸易站后，如果下笔赤金订单交付数大于3，则其龙门币收益+500，心情每小时消耗-0.25"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["投资·β"],
                 "template": "Bskill_tra_long2.png"
             },
             "bskill_tra_ord_spd_ext0": {
                 "desc": ["进驻贸易站时，订单获取效率+25%；当乌尔比安在基建内时（不包含副手），订单获取效率额外+5%"],
+                "efficient": {
+                    "all": 25
+                },
                 "name": ["对陆接洽代表·α"],
                 "template": "Bskill_tra_ord_spd_ext0.png"
             },
             "bskill_tra_ord_spd_ext1": {
                 "desc": ["进驻贸易站时，订单获取效率+30%；当乌尔比安在基建内时（不包含副手），订单获取效率额外+10%"],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["对陆接洽代表·β"],
                 "template": "Bskill_tra_ord_spd_ext1.png"
             },
             "bskill_tra_par&per1": {
                 "desc": ["进驻贸易站时，订单获取效率+25%；当伊内丝入驻工作场所时（不包含副手），订单获取效率额外+5%"],
+                "efficient": {
+                    "all": 25
+                },
                 "name": ["白手起家·α"],
                 "template": "Bskill_tra_par&per1.png"
             },
@@ -2709,6 +3301,9 @@
                 "desc": [
                     "进驻贸易站时，订单获取效率+30%；当伊内丝、W入驻工作场所时（不包含副手），订单获取效率分别额外+5%"
                 ],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["白手起家·β"],
                 "template": "Bskill_tra_par&per2.png"
             },
@@ -2716,11 +3311,17 @@
                 "desc": [
                     "进驻贸易站时，同个贸易站中每有1名格拉斯哥帮干员，当前贸易站订单获取效率+20%；当与推进之王在同一个贸易站时，订单获取效率额外+35%"
                 ],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["帮派指南针"],
                 "template": "Bskill_tra_par1.png"
             },
             "bskill_tra_pepe": {
                 "desc": ["进驻贸易站时，固定获取特别独占订单（不视作违约订单），且该类订单不受任何订单获取效率的影响"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["慧眼独到"],
                 "template": "Bskill_tra_pepe.png"
             },
@@ -2734,11 +3335,17 @@
             },
             "bskill_tra_share2": {
                 "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+10%订单获取效率"],
+                "efficient": {
+                    "all": 20
+                },
                 "name": ["勤俭经营·α"],
                 "template": "Bskill_tra_share2.png"
             },
             "bskill_tra_share3": {
                 "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+20%订单获取效率"],
+                "efficient": {
+                    "all": 40
+                },
                 "name": ["勤俭经营·β"],
                 "template": "Bskill_tra_share3.png"
             },
@@ -2837,21 +3444,33 @@
             },
             "bskill_tra_spd&limit_down1": {
                 "desc": ["进驻贸易站时，订单获取效率+20%，且订单上限-2（订单最少为1）"],
+                "efficient": {
+                    "all": 19.8
+                },
                 "name": ["威压"],
                 "template": "Bskill_tra_spd&limit_down1.png"
             },
             "bskill_tra_spd&limit_down2": {
                 "desc": ["进驻贸易站时，订单获取效率+25%，且订单上限-6（订单最少为1）"],
+                "efficient": {
+                    "all": 24.4
+                },
                 "name": ["不怒自威"],
                 "template": "Bskill_tra_spd&limit_down2.png"
             },
             "bskill_tra_spd&limit_felyne": {
                 "desc": ["进驻贸易站时，订单获取效率+5%，且订单上限+2，同时每有1个木天蓼，则订单获取效率+3%"],
+                "efficient": {
+                    "all": 5.2
+                },
                 "name": ["可爱的艾露猫"],
                 "template": "Bskill_tra_spd&limit_felyne.png"
             },
             "bskill_tra_spd&meet": {
                 "desc": ["进驻贸易站时，订单获取效率+15%，会客室每级额外提供5%获取效率，最多提供30%效率"],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["天生的顾问"],
                 "template": "Bskill_tra_spd&meet.png"
             },
@@ -2865,6 +3484,9 @@
             },
             "bskill_tra_spd&wt1": {
                 "desc": ["进驻贸易站时，订单获取效率+10%，当前贸易站赤金订单的赤金交付数必定为2（不视作违约订单）"],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["天真的谈判者"],
                 "template": "Bskill_tra_spd&wt1.png"
             },
@@ -2898,16 +3520,25 @@
             },
             "bskill_tra_spd_bd1": {
                 "desc": ["进驻贸易站时，每4点无声共鸣+1%订单效率"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["徘徊旋律"],
                 "template": "Bskill_tra_spd_bd1.png"
             },
             "bskill_tra_spd_bd2": {
                 "desc": ["进驻贸易站时，每2点无声共鸣+1%订单效率"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["怅惘和声"],
                 "template": "Bskill_tra_spd_bd2.png"
             },
             "bskill_tra_spd_bd_dungeon": {
                 "desc": ["进驻贸易站时，每1点魔物料理+1%订单效率"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["熟悉的味道"],
                 "template": "Bskill_tra_spd_bd_dungeon.png"
             },
@@ -2929,11 +3560,17 @@
             },
             "bskill_tra_texas1": {
                 "desc": ["当与拉普兰德在同一个贸易站时，心情每小时消耗+0.3，订单获取效率+65%"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["恩怨"],
                 "template": "Bskill_tra_texas1.png"
             },
             "bskill_tra_texas2": {
                 "desc": ["当与能天使在同一个贸易站时，心情每小时消耗-0.3"],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["默契"],
                 "template": "Bskill_tra_texas2.png"
             },
@@ -2941,6 +3578,9 @@
                 "desc": [
                     "进驻贸易站时，当前贸易站内其他干员提供的订单获取效率全部归零，且每人为自身+45%订单获取效率，同时全体心情每小时消耗+0.25"
                 ],
+                "efficient": {
+                    "all": 0
+                },
                 "name": ["低语"],
                 "template": "Bskill_tra_vodfox.png"
             },
@@ -2951,6 +3591,9 @@
                     "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "Money": 5
+                },
                 "name": ["裁缝·α", "手工艺品·α", "鉴定师的眼光", "懂行"],
                 "template": "Bskill_tra_wt&cost1.png"
             },
@@ -2960,21 +3603,33 @@
                     "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
+                "efficient": {
+                    "all": 10
+                },
                 "name": ["裁缝·β", "手工艺品·β", "鉴定师的手段"],
                 "template": "Bskill_tra_wt&cost2.png"
             },
             "bskill_trade_ord_spd_variable": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提升的每个订单上限，提供4%订单获取效率"],
+                "efficient": {
+                    "all": 4
+                },
                 "name": ["招商引资"],
                 "template": "Bskill_trade_ord_spd_variable.png"
             },
             "trade_ord_spd&par1": {
                 "desc": ["进驻贸易站时，订单获取效率+30%"],
+                "efficient": {
+                    "all": 30
+                },
                 "name": ["外贸决议·α"],
                 "template": "Trade_ord_spd&par1.png"
             },
             "trade_ord_spd&par2": {
                 "desc": ["进驻贸易站时，订单获取效率+30%；当前贸易站内存在格拉斯哥帮干员时，订单获取效率额外+10%"],
+                "efficient": {
+                    "all": 40
+                },
                 "name": ["外贸决议·β"],
                 "template": "Trade_ord_spd&par2.png"
             }
