@@ -231,11 +231,12 @@ public class ConfigConverter
                 }
 
                 list.Sort((x, y) => x.Value.CompareTo(y.Value));
+                var roomList = new List<InfrastTask.RoomInfo>();
                 foreach (var (room, isEnable) in list)
                 {
                     if (Enum.TryParse<InfrastRoomType>(room, out var result))
                     {
-                        infrastTask.RoomList.Add(new(result, ConfigurationHelper.GetValue("Infrast." + room + ".IsChecked", true)));
+                        roomList.Add(new(result, ConfigurationHelper.GetValue("Infrast." + room + ".IsChecked", true)));
                         ConfigurationHelper.DeleteValue("Infrast." + room + ".IsChecked");
                     }
                     else
@@ -243,6 +244,8 @@ public class ConfigConverter
                         Log.Error("Enum.TryParse<InfrastRoomType> 失败，room: {Room}", room);
                     }
                 }
+
+                infrastTask.RoomList = roomList;
 
                 recruitTask.ExtraTagMode = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, 0);
                 recruitTask.Level3PreferTags = [.. ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty).Split(";")];

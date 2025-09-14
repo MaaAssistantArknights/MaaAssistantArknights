@@ -78,6 +78,8 @@ public class InfrastTask : BaseTask
     /// </summary>
     public int PlanIndex { get; set; }
 
-    public List<(InfrastRoomType Room, bool IsEnabled)> RoomList { get; set; } =
-       [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, (InfrastRoomType, bool)>(i => new(i, true))];
+    public List<RoomInfo> RoomList { get; set; } =
+       [.. typeof(InfrastRoomType).GetEnumValues().OfType<InfrastRoomType>().Select<InfrastRoomType, RoomInfo>(i => new(i, true))];
+
+    public record RoomInfo(InfrastRoomType Room, bool IsEnabled);
 }

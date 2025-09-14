@@ -21,7 +21,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
-using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
@@ -158,7 +157,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
     public void InfrastOrderSelectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
-        var list = InfrastRoomModels.Select<InfrastRoomItemViewModel, (InfrastRoomType Room, bool IsEnabled)>(i => new(i.RoomType, i.IsEnabled)).ToList();
+        var list = InfrastRoomModels.Select<InfrastRoomItemViewModel, InfrastTask.RoomInfo>(i => new(i.RoomType, i.IsEnabled)).ToList();
         SetTaskConfig<InfrastTask>(t => t.RoomList.SequenceEqual(list), t => t.RoomList = list);
     }
 
