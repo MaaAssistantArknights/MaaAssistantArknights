@@ -372,13 +372,10 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
             task.ConfirmList.Add(5);
         }
 
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, task),
+        };
     }
 }

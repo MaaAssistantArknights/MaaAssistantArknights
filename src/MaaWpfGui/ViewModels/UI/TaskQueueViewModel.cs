@@ -1642,11 +1642,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool? ret = null;
             foreach (var instance in _taskViewModelTypes)
             {
-                ret = instance.SerializeTask(task, taskId);
-                if (ret is null)
-                {
-                    continue;
-                }
+                ret ??= instance.SerializeTask(task, taskId);
             }
 
             return ret;

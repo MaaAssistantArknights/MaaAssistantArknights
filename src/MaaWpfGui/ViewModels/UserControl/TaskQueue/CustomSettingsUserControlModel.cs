@@ -14,7 +14,6 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -98,15 +97,12 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
 
         var task = new AsstCustomTask()
         {
-           CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
+            CustomTasks = [.. custom.TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(task => task.Trim())],
         };
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Custom, task),
+        };
     }
 }

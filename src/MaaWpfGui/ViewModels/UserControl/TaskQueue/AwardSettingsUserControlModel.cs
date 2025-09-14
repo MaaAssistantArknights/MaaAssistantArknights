@@ -125,13 +125,10 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel
             Mining = award.Mining,
             SpecialAccess = award.SpecialAccess,
         };
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, task),
+        };
     }
 }

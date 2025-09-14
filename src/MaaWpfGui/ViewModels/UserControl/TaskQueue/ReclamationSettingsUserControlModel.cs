@@ -157,29 +157,26 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
 
     public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
     {
-        if (baseTask is not ReclamationTask task)
+        if (baseTask is not ReclamationTask reclamation)
         {
             return null;
         }
 
-        var toolToCraft = !string.IsNullOrEmpty(task.ToolToCraft) ? task.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-        var asstTask = new AsstReclamationTask()
+        var toolToCraft = !string.IsNullOrEmpty(reclamation.ToolToCraft) ? reclamation.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+        var task = new AsstReclamationTask()
         {
-            Theme = task.Theme,
-            Mode = task.Mode,
-            IncrementMode = task.IncrementMode,
-            MaxCraftCountPerRound = task.MaxCraftCountPerRound,
+            Theme = reclamation.Theme,
+            Mode = reclamation.Mode,
+            IncrementMode = reclamation.IncrementMode,
+            MaxCraftCountPerRound = reclamation.MaxCraftCountPerRound,
             ToolToCraft = [.. toolToCraft.Split(';').Select(s => s.Trim())],
-            ClearStore = task.ClearStore,
+            ClearStore = reclamation.ClearStore,
         };
 
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, asstTask);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, asstTask);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, task),
+        };
     }
 }

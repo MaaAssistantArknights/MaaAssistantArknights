@@ -272,13 +272,10 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
             ReserveMaxCredit = mall.ReserveMaxCredit,
         };
 
-        if (taskId is { } id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, task),
+        };
     }
 }

@@ -1113,13 +1113,10 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
             }
         }
 
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, task),
+        };
     }
 }

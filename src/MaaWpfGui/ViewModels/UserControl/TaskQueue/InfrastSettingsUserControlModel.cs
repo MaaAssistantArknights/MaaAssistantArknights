@@ -618,14 +618,11 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
             Filename = infrast.Filename,
             PlanIndex = infrast.PlanIndex,
         };
-        if (taskId is { } id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, task),
+        };
     }
 }
 
