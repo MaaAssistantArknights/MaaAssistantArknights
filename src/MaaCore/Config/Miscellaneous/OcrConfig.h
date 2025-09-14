@@ -2,9 +2,9 @@
 
 #include "Config/AbstractConfig.h"
 
-#include "Utils/Ranges.hpp"
 #include <algorithm>
 #include <numeric>
+#include <ranges>
 #include <string>
 #include <unordered_set>
 #include <vector>

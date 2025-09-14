@@ -3,6 +3,7 @@
         "next": [
             "JieGarden@StartExplore@Roguelike@ChooseOperConfirm",
             "JieGarden@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "JieGarden@Roguelike@Abandon",
             "JieGarden@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },

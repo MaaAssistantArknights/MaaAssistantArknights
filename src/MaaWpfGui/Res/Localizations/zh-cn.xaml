@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">成就设置</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="IssueReport">问题反馈</system:String>
-    <system:String x:Key="MaaVersion">MAA 版本</system:String>
+    <system:String x:Key="MaaVersion">软件版本</system:String>
     <system:String x:Key="BuildDateTime">构建日期</system:String>
     <system:String x:Key="CoreVersion">核心版本</system:String>
     <system:String x:Key="UiVersion">界面版本</system:String>
@@ -140,6 +140,9 @@
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        如 ｢{key=CustomInfrastPlan}｣ 存在执行时间，｢{key=Base}｣ 任务开始前或任务运行时不会自动切换，将保持 {key=LinkStart} 时的状态，仅在空闲或任务完成后切换。
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
@@ -243,7 +246,7 @@
     <system:String x:Key="AdbProgram">ADB 程序</system:String>
     <system:String x:Key="EmulatorException">检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
-    <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
+    <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请确认已启动模拟器\n如模拟器是以管理员权限启动，需以管理员权限启动本软件\n如仍无法检测，请手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
     <system:String x:Key="SwitchLanguage">切换语言 🌐</system:String>
@@ -321,6 +324,8 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 无效，请检查输入是否正确。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下载次数已达上限，请明日再试。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 类型与待下载的资源不匹配，请检查 CDK 适用范围。</system:String>
+    <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 还剩 {0} 天到期。</system:String>
+    <system:String x:Key="MirrorChyanCdkFetchFailed">获取 CDK 信息失败，已显示上次成功查询的结果。</system:String>
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">正在使用 ｢{key=GlobalSource}｣ 下载……</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">正在使用 ｢{key=MirrorChyan}｣ 下载……</system:String>
@@ -896,6 +901,11 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打开链接失败，请前往 ｢Windows 设置｣ 选择默认浏览器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">以上问题导致程序异常退出。</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">您可以前往「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」查看日志，了解错误发生的具体原因。</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">请使用「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」生成错误报告，并点击蓝色的 ｢{key=Issue}｣ 链接提交反馈。</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">如果向他人寻求帮助，请发送生成的错误报告文件，而不是发送这个窗口的截图或照片。</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">上次程序崩溃原因</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->

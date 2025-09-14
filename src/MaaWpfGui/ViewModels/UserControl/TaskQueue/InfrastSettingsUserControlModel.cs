@@ -26,15 +26,16 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+
 using Mode = InfrastMode;
 
 /// <summary>
@@ -47,9 +48,15 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         Instance = new();
     }
 
+    public InfrastSettingsUserControlModel()
+    {
+        _runningState = RunningState.Instance;
+    }
+
     public static InfrastSettingsUserControlModel Instance { get; }
 
     private static readonly ILogger _logger = Log.ForContext<InfrastSettingsUserControlModel>();
+    private readonly RunningState _runningState;
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -136,7 +143,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// <returns>The infrast order list.</returns>
     public List<string> GetInfrastOrderList()
     {
-        return InfrastItemViewModels.Where(i => InfrastMode == Mode.Rotation || i.IsChecked).Select(i => i.OriginalName).ToList();
+        return [.. InfrastItemViewModels.Where(i => i.IsChecked).Select(i => i.OriginalName)];
     }
 
     // UI 绑定的方法
@@ -289,7 +296,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _defaultInfrast, value);
             if (_defaultInfrast != UserDefined)
             {
-                CustomInfrastFile = @"resource\custom_infrast\" + value;
+                CustomInfrastFile = Path.Combine(PathsHelper.ResourceDir, "custom_infrast", value);
             }
 
             ConfigurationHelper.SetValue(ConfigurationKeys.DefaultInfrast, value);
@@ -434,7 +441,6 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             }
 
             SetAndNotify(ref _customInfrastPlanIndex, value);
-            TaskQueueViewModel.SetInfrastParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanIndex, value.ToString());
         }
     }
@@ -587,24 +593,41 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public void RefreshCustomInfrastPlanIndexByPeriod()
     {
-        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status == TaskStatus.InProgress)
+        if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
+        {
+            return;
+        }
+
+        if (!_runningState.GetIdle() &&
+             Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == AsstProxy.TaskType.Infrast).Value.Status != TaskStatus.Completed)
         {
             return;
         }
 
         var now = DateTime.Now;
+
+        if (CustomInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || CustomInfrastPlanIndex < 0)
+        {
+            CustomInfrastPlanIndex = 0;
+        }
+
+        var currentPlan = CustomInfrastPlanInfoList.First(p => p.Index == CustomInfrastPlanIndex);
+        foreach (var period in currentPlan.PeriodList)
+        {
+            if (TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
+            {
+                return; // 当前 index 仍在有效时间内，不需要切换
+            }
+        }
+
         foreach (var plan in CustomInfrastPlanInfoList.Where(
                      plan => plan.PeriodList.Any(
-                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                                   && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
+                                   TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
         {
             CustomInfrastPlanIndex = plan.Index;
             return;
-        }
-
-        if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count || CustomInfrastPlanList.Count < 0)
-        {
-            CustomInfrastPlanIndex = 0;
         }
 
         return;

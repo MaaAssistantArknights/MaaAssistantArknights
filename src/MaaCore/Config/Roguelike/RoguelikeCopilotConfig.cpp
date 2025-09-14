@@ -101,11 +101,12 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 
     if (auto opt = json.find<json::array>("role_order")) {
         const auto& raw_roles = opt.value();
-        using views::filter, views::transform;
+        using std::views::filter, std::views::transform;
         std::unordered_set<Role> specified_role;
         std::vector<Role> role_order;
         bool is_legal = true;
-        if (ranges::find_if_not(raw_roles | views::all, std::mem_fn(&json::value::is_string)) != raw_roles.end()) {
+        if (std::ranges::find_if_not(raw_roles | std::views::all, std::mem_fn(&json::value::is_string)) !=
+            raw_roles.end()) {
             Log.error("Role should be string");
             return false;
         }
@@ -130,14 +131,14 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
             role_order.emplace_back(role);
         }
         if (is_legal) [[likely]] {
-            ranges::copy(
+            std::ranges::copy(
                 RoleOrder | filter([&](Role role) { return !specified_role.contains(role); }),
                 std::back_inserter(role_order));
             if (role_order.size() != RoleNumber) [[unlikely]] {
                 Log.error("Unexpected role_order size:", role_order.size());
                 return false;
             }
-            ranges::move(role_order, data.role_order.begin());
+            std::ranges::move(role_order, data.role_order.begin());
         }
         else {
             Log.error("Illegal role_order detected");

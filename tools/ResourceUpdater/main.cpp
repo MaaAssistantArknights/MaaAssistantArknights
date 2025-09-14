@@ -1,31 +1,17 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 #include <unordered_set>
 
 #include <meojson/json.hpp>
 #include <opencv2/opencv.hpp>
 
-#include "Utils/Time.hpp"
+#ifdef _WIN32
+#include "Utils/Platform/SafeWindows.h"
+#endif
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 5054)
-#elif defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-enum-enum-conversion"
-#pragma clang diagnostic ignored "-Wdeprecated-anon-enum-enum-conversion"
-#elif defined(__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-enum-enum-conversion"
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
+#include "Utils/StringMisc.hpp"
 
 namespace fs = std::filesystem;
 
@@ -68,7 +54,9 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir);
 
 int main([[maybe_unused]] int argc, char** argv)
 {
+#if defined(_WIN32)
     SetConsoleOutputCP(CP_UTF8);
+#endif
 
     // ---- PATH DECLARATION ----
 
@@ -618,7 +606,12 @@ bool update_infrast_data(const fs::path& input_dir, const fs::path& output_dir)
         { "MEETING", "Reception" }, { "HIRE", "Office" },     { "TRAINING", "" },
     };
 
-    for (auto& buff_obj : buffs | asst::views::values) {
+    // TODO: new meojson seems not support basic_object | std::views::values
+    for (auto& [key, val] : buffs) {
+        std::ignore = key;
+        auto& buff_obj = val;
+    // }
+    // for (auto& buff_obj : buffs | std::views::values) {
         std::string room_type;
 
         if (buff_obj["roomType"].is_number()) {
@@ -1040,9 +1033,9 @@ bool update_battle_chars_info(const fs::path& official_dir, const fs::path& over
 
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base)
 {
-    using asst::ranges::find_if, asst::ranges::range;
+    using std::ranges::find_if, std::ranges::range;
     using asst::utils::string_replace_all_in_place;
-    using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
+    using std::views::filter, std::views::split, std::views::transform, std::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool {
         return !str.empty();
@@ -1532,3 +1525,4 @@ bool update_version_info(const fs::path& input_dir, const fs::path& output_dir)
 
     return true;
 }
+

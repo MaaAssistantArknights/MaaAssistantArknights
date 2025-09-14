@@ -354,15 +354,30 @@
                 {
                     "name": "佩佩",
                     "skill": 2,
-                    "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 819,
+                    "recruit_priority": 800,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 1,
                             "offset": -210
+                        }
+                    ]
+                },
+                {
+                    "name": "丰川祥子",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority": 821,
+                    "promote_priority": 960,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤", "重装"],
+                            "threshold": 1,
+                            "offset": -300
                         }
                     ]
                 },
@@ -2638,6 +2653,9 @@
                     "name": "斑点"
                 },
                 {
+                    "name": "丰川祥子"
+                },
+                {
                     "name": "仇白"
                 },
                 {
@@ -2912,6 +2930,9 @@
             "doc": "打三及以上",
             "opers": [
                 {
+                    "name": "丰川祥子"
+                },
+                {
                     "name": "棘刺"
                 },
                 {
@@ -3000,6 +3021,9 @@
         {
             "name": "领主",
             "opers": [
+                {
+                    "name": "丰川祥子"
+                },
                 {
                     "name": "棘刺"
                 },

@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <initializer_list>
+#include <map>
 #include <memory>
 #include <optional>
 #include <ostream>
@@ -12,6 +13,7 @@
 #include <type_traits>
 #include <utility>
 #include <variant>
+#include <vector>
 
 #include "exception.hpp"
 #include "utils.hpp"
@@ -68,40 +70,6 @@ public:
     template <typename... args_t>
     basic_value(value_type type, args_t&&... args);
 
-    template <
-        typename collection_t,
-        std::enable_if_t<
-            _utils::is_collection<collection_t>
-                && std::is_constructible_v<
-                    typename basic_array<string_t>::value_type,
-                    _utils::range_value_t<collection_t>>,
-            bool> = true>
-    basic_value(collection_t&& collection)
-        : basic_value(basic_array<string_t>(std::forward<collection_t>(collection)))
-    {
-    }
-
-    template <
-        typename fixed_array_t,
-        std::enable_if_t<_utils::is_fixed_array<fixed_array_t>, bool> = true>
-    basic_value(const fixed_array_t& arr)
-        : basic_value(basic_array<string_t>(arr))
-    {
-    }
-
-    template <
-        typename map_t,
-        std::enable_if_t<
-            _utils::is_map<map_t>
-                && std::is_constructible_v<
-                    typename basic_object<string_t>::value_type,
-                    _utils::range_value_t<map_t>>,
-            bool> = true>
-    basic_value(map_t&& map)
-        : basic_value(basic_object<string_t>(std::forward<map_t>(map)))
-    {
-    }
-
     template <typename enum_t, std::enable_if_t<std::is_enum_v<enum_t>, bool> = true>
     basic_value(enum_t e)
         : basic_value(static_cast<std::underlying_type_t<enum_t>>(e))
@@ -110,46 +78,23 @@ public:
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_member<jsonization_t>::value, bool> = true>
+        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t, string_t>::value, bool> =
+            true>
     basic_value(const jsonization_t& value)
-        : basic_value(value.to_json())
+        : basic_value(ext::jsonization<string_t, jsonization_t>().to_json(value))
     {
     }
 
     template <
         typename jsonization_t,
-        std::enable_if_t<_utils::has_to_json_in_templ_spec<jsonization_t>::value, bool> = true>
-    basic_value(const jsonization_t& value)
-        : basic_value(ext::jsonization<jsonization_t>().to_json(value))
+        std::enable_if_t<
+            std::is_rvalue_reference_v<jsonization_t&&>
+                && _utils::has_move_to_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    basic_value(jsonization_t&& value)
+        : basic_value(ext::jsonization<string_t, jsonization_t>().move_to_json(std::move(value)))
     {
     }
-
-    template <typename... elem_ts>
-    basic_value(std::tuple<elem_ts...>&& tup)
-        : basic_value(basic_array<string_t>(std::forward<std::tuple<elem_ts...>>(tup)))
-    {
-    }
-
-    template <typename elem1_t, typename elem2_t>
-    basic_value(std::pair<elem1_t, elem2_t>&& pair)
-        : basic_value(basic_array<string_t>(std::pair<elem1_t, elem2_t>(pair)))
-    {
-    }
-
-    template <
-        typename variant_t,
-        std::enable_if_t<_utils::is_variant<std::decay_t<variant_t>>, bool> = true>
-    basic_value(variant_t&& var)
-        : basic_value(_utils::serialize_variant<string_t>(
-              std::forward<variant_t>(var),
-              std::make_index_sequence<std::variant_size_v<std::decay_t<variant_t>>>()))
-    {
-    }
-
-    template <
-        typename value_t,
-        std::enable_if_t<!std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
-    basic_value(value_t) = delete;
 
     // I don't know if you want to convert char to string or number, so I delete these constructors.
     basic_value(char) = delete;
@@ -230,7 +175,10 @@ public:
     map_t<string_t, value_t> as_map() const;
 
     template <typename value_t>
-    value_t as() const;
+    value_t as() const&;
+
+    template <typename value_t>
+    value_t as() &&;
 
     basic_array<string_t>& as_array();
     basic_object<string_t>& as_object();
@@ -253,13 +201,13 @@ public:
     basic_value<string_t>& operator=(const basic_value<string_t>& rhs);
     basic_value<string_t>& operator=(basic_value<string_t>&&) noexcept;
 
-    template <
-        typename value_t,
-        std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
-    basic_value<string_t>& operator=(value_t rhs)
-    {
-        return *this = basic_value<string_t>(std::move(rhs));
-    }
+    // template <
+    //     typename value_t,
+    //     std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
+    // basic_value<string_t>& operator=(value_t rhs)
+    // {
+    //     return *this = basic_value<string_t>(std::move(rhs));
+    // }
 
     bool operator==(const basic_value<string_t>& rhs) const;
 
@@ -323,48 +271,11 @@ public:
 
     template <
         typename value_t,
-        size_t Size,
-        template <typename, size_t> typename fixed_array_t = std::array,
-        std::enable_if_t<_utils::is_fixed_array<fixed_array_t<value_t, Size>>, bool> = true>
-    explicit operator fixed_array_t<value_t, Size>() const
-    {
-        return as_fixed_array<value_t, Size, fixed_array_t>();
-    }
-
-    template <
-        typename value_t,
         template <typename...> typename map_t = std::map,
         std::enable_if_t<_utils::is_map<map_t<string_t, value_t>>, bool> = true>
     explicit operator map_t<string_t, value_t>() const
     {
         return as_map<value_t, map_t>();
-    }
-
-    template <
-        typename jsonization_t,
-        std::enable_if_t<_utils::has_from_json_in_member<jsonization_t, string_t>::value, bool> =
-            true>
-    explicit operator jsonization_t() const
-    {
-        jsonization_t dst {};
-        if (!dst.from_json(*this)) {
-            throw exception("Wrong JSON");
-        }
-        return dst;
-    }
-
-    template <
-        typename jsonization_t,
-        std::enable_if_t<
-            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
-            bool> = true>
-    explicit operator jsonization_t() const
-    {
-        jsonization_t dst {};
-        if (!ext::jsonization<jsonization_t>().from_json(*this, dst)) {
-            throw exception("Wrong JSON");
-        }
-        return dst;
     }
 
     template <typename enum_t, std::enable_if_t<std::is_enum_v<enum_t>, bool> = true>
@@ -373,24 +284,32 @@ public:
         return static_cast<enum_t>(static_cast<std::underlying_type_t<enum_t>>(*this));
     }
 
-    template <typename... elem_ts>
-    explicit operator std::tuple<elem_ts...>() const
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() const&
     {
-        return as_array().template as_tuple<elem_ts...>();
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().from_json(*this, dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
     }
 
-    template <typename elem1_t, typename elem2_t>
-    explicit operator std::pair<elem1_t, elem2_t>() const
+    template <
+        typename jsonization_t,
+        std::enable_if_t<
+            _utils::has_move_from_json_in_templ_spec<jsonization_t, string_t>::value,
+            bool> = true>
+    explicit operator jsonization_t() &&
     {
-        return as_array().template as_pair<elem1_t, elem2_t>();
-    }
-
-    template <typename... args_t>
-    explicit operator std::variant<args_t...>() const
-    {
-        return _utils::deserialize_variant<string_t, std::variant<args_t...>>(
-            *this,
-            std::make_index_sequence<std::variant_size_v<std::variant<args_t...>>>());
+        jsonization_t dst {};
+        if (!ext::jsonization<string_t, jsonization_t>().move_from_json(std::move(*this), dst)) {
+            throw exception("Wrong JSON");
+        }
+        return dst;
     }
 
 private:
@@ -554,11 +473,8 @@ inline bool basic_value<string_t>::is() const noexcept
     if constexpr (std::is_same_v<basic_value<string_t>, value_t>) {
         return true;
     }
-    else if constexpr (_utils::has_check_json_in_member<value_t, string_t>::value) {
-        return value_t().check_json(*this);
-    }
     else if constexpr (_utils::has_check_json_in_templ_spec<value_t, string_t>::value) {
-        return ext::jsonization<value_t>().check_json(*this);
+        return ext::jsonization<string_t, value_t>().check_json(*this);
     }
     else if constexpr (std::is_same_v<bool, value_t>) {
         return is_boolean();
@@ -575,31 +491,12 @@ inline bool basic_value<string_t>::is() const noexcept
     else if constexpr (_utils::is_collection<value_t>) {
         return is_array() && all<typename value_t::value_type>();
     }
-    else if constexpr (_utils::is_fixed_array<value_t>) {
-        return is_array() && all<typename value_t::value_type>()
-               && as_array().size() == _utils::fixed_array_size<value_t>;
-    }
     else if constexpr (std::is_same_v<basic_object<string_t>, value_t>) {
         return is_object();
     }
     else if constexpr (_utils::is_map<value_t>) {
         return is_object() && std::is_constructible_v<string_t, typename value_t::key_type>
                && all<typename value_t::mapped_type>();
-    }
-    else if constexpr (_utils::is_variant<value_t>) {
-        return _utils::detect_variant<string_t, value_t>(
-            *this,
-            std::make_index_sequence<std::variant_size_v<value_t>>());
-    }
-    else if constexpr (_utils::is_pair<value_t>) {
-        return is_array() && as_array().size() == 2
-               && at(0).template is<typename value_t::first_type>()
-               && at(1).template is<typename value_t::second_type>();
-    }
-    else if constexpr (_utils::is_tuple<value_t>) {
-        return _utils::detect_tuple<string_t, value_t>(
-            *this,
-            std::make_index_sequence<std::tuple_size_v<value_t>>());
     }
     else {
         static_assert(!sizeof(value_t), "Unsupported type");
@@ -899,21 +796,33 @@ inline basic_object<string_t>& basic_value<string_t>::as_object()
 
 template <typename string_t>
 template <typename value_t>
-inline value_t basic_value<string_t>::as() const
+inline value_t basic_value<string_t>::as() const&
 {
     if constexpr (std::is_same_v<basic_value<string_t>, value_t>) {
         return *this;
     }
-    else if constexpr (_utils::has_from_json_in_member<value_t, string_t>::value) {
+    else if constexpr (_utils::has_from_json_in_templ_spec<value_t, string_t>::value) {
         value_t dst {};
-        if (!dst.from_json(*this)) {
+        if (!ext::jsonization<string_t, value_t>().from_json(*this, dst)) {
             throw exception("Wrong JSON");
         }
         return dst;
     }
-    else if constexpr (_utils::has_from_json_in_templ_spec<value_t, string_t>::value) {
+    else {
+        return static_cast<value_t>(*this);
+    }
+}
+
+template <typename string_t>
+template <typename value_t>
+inline value_t basic_value<string_t>::as() &&
+{
+    if constexpr (std::is_same_v<basic_value<string_t>, value_t>) {
+        return std::move(*this);
+    }
+    else if constexpr (_utils::has_move_from_json_in_templ_spec<value_t, string_t>::value) {
         value_t dst {};
-        if (!ext::jsonization<value_t>().from_json(*this, dst)) {
+        if (!ext::jsonization<string_t, value_t>().move_from_json(std::move(*this), dst)) {
             throw exception("Wrong JSON");
         }
         return dst;

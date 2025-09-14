@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -42,6 +43,7 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.Views.UI;
 using MaaWpfGui.WineCompat;
+using Microsoft.Win32;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -59,10 +61,11 @@ namespace MaaWpfGui.Main
 
         private static Mutex _mutex;
         private static bool _hasMutex;
-        public const string UiLogFilename = "debug/gui.log";
-        public const string UiLogBakFilename = "debug/gui.bak.log";
-        public const string CoreLogFilename = "debug/asst.log";
-        public const string CoreLogBakFilename = "debug/asst.bak.log";
+
+        public static readonly string UiLogFile = Path.Combine(PathsHelper.DebugDir, "gui.log");
+        public static readonly string UiLogBakFile = Path.Combine(PathsHelper.DebugDir, "gui.bak.log");
+        public static readonly string CoreLogFile = Path.Combine(PathsHelper.DebugDir, "asst.log");
+        public static readonly string CoreLogBakFile = Path.Combine(PathsHelper.DebugDir, "asst.bak.log");
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllName);
@@ -89,10 +92,9 @@ namespace MaaWpfGui.Main
 
                 var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-                return dllFiles
+                return [.. dllFiles
                     .Select(Path.GetFileName)
-                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                    .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))];
             }
             catch (Exception)
             {
@@ -138,6 +140,82 @@ namespace MaaWpfGui.Main
             }
         }
 
+        public static void ParseCrashLog()
+        {
+            var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
+            if (!File.Exists(crashFile))
+            {
+                return;
+            }
+
+            try
+            {
+                string[] lines = File.ReadAllLines(crashFile, Encoding.UTF8);
+
+                StringBuilder message = new StringBuilder();
+                string currentReason = null;
+                string currentDetail = null;
+
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("Reason: "))
+                    {
+                        currentReason = line[7..].Trim();
+                    }
+                    else if (line.StartsWith("Detail: "))
+                    {
+                        currentDetail = line[8..].Trim();
+                    }
+                    else if (line.StartsWith("==================="))
+                    {
+                        if (!string.IsNullOrEmpty(currentReason))
+                        {
+                            message.AppendLine($"Reason: {currentReason}");
+                            if (!string.IsNullOrEmpty(currentDetail))
+                            {
+                                message.AppendLine($"Detail: {currentDetail}");
+                            }
+
+                            message.AppendLine();
+                        }
+
+                        currentReason = null;
+                        currentDetail = null;
+                    }
+                }
+
+                if (message.Length > 0)
+                {
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHeader"));
+                    message.AppendLine();
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageOpenLog"));
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageGenerateReport"));
+                    message.AppendLine();
+                    message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHelpTip"));
+
+                    MessageBoxHelper.Show(
+                        message.ToString(),
+                        LocalizationHelper.GetString("ErrorCrashDialogTitle"),
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
+
+                    try
+                    {
+                        File.Delete(crashFile);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
@@ -148,21 +226,21 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            if (File.Exists(UiLogFilename) && new FileInfo(UiLogFilename).Length > 4 * 1024 * 1024)
+            if (File.Exists(UiLogFile) && new FileInfo(UiLogFile).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(UiLogBakFilename))
+                if (File.Exists(UiLogBakFile))
                 {
-                    File.Delete(UiLogBakFilename);
+                    File.Delete(UiLogBakFile);
                 }
 
-                File.Move(UiLogFilename, UiLogBakFilename);
+                File.Move(UiLogFile, UiLogBakFile);
             }
 
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    UiLogFilename,
+                    UiLogFile,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}][{Level:u3}]{ClassName} <{ThreadId}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.With<ClassNameEnricher>()
                 .Enrich.FromLogContext()
@@ -180,8 +258,8 @@ namespace MaaWpfGui.Main
             loggerConfiguration = (maaEnv == "Debug" || withDebugFile)
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var folderName = Path.GetFileName(currentDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            var workingDirectory = PathsHelper.BaseDir;
+            var folderName = Path.GetFileName(workingDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
             var isBuildOutputFolder =
                 string.Equals(folderName, "Release", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(folderName, "Debug", StringComparison.OrdinalIgnoreCase) ||
@@ -195,13 +273,13 @@ namespace MaaWpfGui.Main
             _logger.Information("Built at {BuiltDate:O}", builtDate);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("Command Line: {Join}", string.Join(' ', args));
-            _logger.Information("User Dir {GetCurrentDirectory}", currentDirectory);
+            _logger.Information("User Dir {BaseDirectory}", workingDirectory);
             if (withDebugFile)
             {
                 _logger.Information("Start with DEBUG file");
             }
 
-            if (IsUserAdministrator())
+            if (IsAdministratorWithUac())
             {
                 _logger.Information("Run as Administrator");
             }
@@ -227,7 +305,7 @@ namespace MaaWpfGui.Main
             }
 
             // 检查 resource 文件夹是否存在
-            if (!Directory.Exists("resource"))
+            if (!Directory.Exists(PathsHelper.ResourceDir))
             {
                 throw new DirectoryNotFoundException("resource folder not found!");
             }
@@ -274,10 +352,12 @@ namespace MaaWpfGui.Main
                 return;
             }
 
-            if (!IsWritable(AppDomain.CurrentDomain.BaseDirectory))
+            if (!IsWritable(PathsHelper.BaseDir))
             {
                 Task.Run(() => MessageBoxHelper.Show(LocalizationHelper.GetString("SoftwareLocationWarning"), LocalizationHelper.GetString("Error"), MessageBoxButton.OK, MessageBoxImage.Error));
             }
+
+            Task.Run(ParseCrashLog);
 
             base.OnStart();
             _hasMutex = true;
@@ -317,7 +397,7 @@ namespace MaaWpfGui.Main
         private static bool HandleMultipleInstances()
         {
             // 设置互斥量的名称
-            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            string mutexName = "MAA_" + PathsHelper.BaseDir.Replace("\\", "_").Replace(":", string.Empty);
             _mutex = new Mutex(true, mutexName, out var isOnlyInstance);
 
             try
@@ -344,6 +424,32 @@ namespace MaaWpfGui.Main
         }
 
         public static bool IsUserAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        public static bool IsUacEnabled()
+        {
+            try
+            {
+                using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System");
+                if (key == null)
+                {
+                    return true;
+                }
+
+                var value = key.GetValue("EnableLUA");
+                if (value is int intValue)
+                {
+                    return intValue != 0;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        public static bool IsAdministratorWithUac() => IsUserAdministrator() && IsUacEnabled();
 
         /// <inheritdoc/>
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -401,7 +507,7 @@ namespace MaaWpfGui.Main
             var maxTimeInterval = Math.Max(buildTimeInterval, resourceTimeInterval);
             if (maxTimeInterval > 90)
             {
-                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 0.030).ToString("F2")), UiLogColor.Error));
+                Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 30.436875).ToString("F2")), UiLogColor.Error));
             }
         }
 
@@ -410,7 +516,14 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            try
+            {
+                Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+            }
+            catch
+            {
+                // ignored
+            }
 
             Release();
 

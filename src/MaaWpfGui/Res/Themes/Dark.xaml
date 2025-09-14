@@ -69,6 +69,7 @@
     <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#e45649" />
 
     <!--  UiLogColor  -->
+    <SolidColorBrush x:Key="SuccessLogBrush" Color="#90EE90" />
     <SolidColorBrush x:Key="ErrorLogBrush" Color="Red" />
     <SolidColorBrush x:Key="WarningLogBrush" Color="Goldenrod" />
     <SolidColorBrush x:Key="InfoLogBrush" Color="#00C8C8" />

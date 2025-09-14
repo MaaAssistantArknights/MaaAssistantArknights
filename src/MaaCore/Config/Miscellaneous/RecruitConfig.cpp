@@ -52,7 +52,7 @@ bool asst::RecruitConfig::parse(const json::value& json)
     }
 
     // 按干员等级排个序
-    ranges::sort(m_all_opers, std::greater {}, std::mem_fn(&Recruitment::level));
+    std::ranges::sort(m_all_opers, std::greater {}, std::mem_fn(&Recruitment::level));
 
     return true;
 }

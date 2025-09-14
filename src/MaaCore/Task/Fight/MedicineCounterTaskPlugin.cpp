@@ -83,7 +83,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
     }
     else if (m_used_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | views::reverse) {
+        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
@@ -234,7 +234,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
 void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine, int reduce)
 {
     Log.info(__FUNCTION__, "reduce excess medicine count, current:", using_medicine.using_count, ", reduce:", reduce);
-    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
+    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
         reduce -= use;
@@ -263,8 +263,8 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const c
 
     std::decay_t<decltype(ocr_replace)> merged_replace {};
     merged_replace.reserve(number_replace.size() + ocr_replace.size());
-    ranges::copy(number_replace, std::back_inserter(merged_replace));
-    ranges::copy(ocr_replace, std::back_inserter(merged_replace));
+    std::ranges::copy(number_replace, std::back_inserter(merged_replace));
+    std::ranges::copy(ocr_replace, std::back_inserter(merged_replace));
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);
@@ -287,7 +287,7 @@ std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const 
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     const auto& task_replace = ocr_task->replace_map;
     auto merge_map = std::vector(number_replace);
-    ranges::copy(task_replace, std::back_inserter(merge_map));
+    std::ranges::copy(task_replace, std::back_inserter(merge_map));
 
     RegionOCRer ocr(image);
     ocr.set_task_info(ocr_task);

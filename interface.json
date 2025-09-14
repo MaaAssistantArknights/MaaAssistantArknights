@@ -8,32 +8,34 @@
   ],
   "resource": [
     {
-      "name": "官服",
-      "path": ["{PROJECT_DIR}/resource"]
+      "name": "官服 | Official",
+      "path": [
+        "{PROJECT_DIR}/resource"
+      ]
     },
     {
-      "name": "日服",
+      "name": "日服 | YoStarJP",
       "path": [
         "{PROJECT_DIR}/resource",
         "{PROJECT_DIR}/resource/global/YoStarJP/resource"
       ]
     },
     {
-      "name": "韩服",
+      "name": "韩服 | YoStarKR",
       "path": [
         "{PROJECT_DIR}/resource",
         "{PROJECT_DIR}/resource/global/YoStarKR/resource"
       ]
     },
     {
-      "name": "美服",
+      "name": "美服 | YoStarEN",
       "path": [
         "{PROJECT_DIR}/resource",
         "{PROJECT_DIR}/resource/global/YoStarEN/resource"
       ]
     },
     {
-      "name": "台服",
+      "name": "台服 | txwy",
       "path": [
         "{PROJECT_DIR}/resource",
         "{PROJECT_DIR}/resource/global/txwy/resource"

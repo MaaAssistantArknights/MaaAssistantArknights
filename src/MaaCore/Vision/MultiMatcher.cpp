@@ -1,6 +1,6 @@
 #include "MultiMatcher.h"
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 #include <utility>
 
 #include "Utils/NoWarningCV.h"
@@ -36,7 +36,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
                 bool need_push = true;
                 // 如果有两个点离得太近，只取里面得分高的那个
                 // 一般相邻的都是刚刚push进去的，这里倒序快一点
-                for (auto& iter : ranges::reverse_view(results)) {
+                for (auto& iter : std::ranges::reverse_view(results)) {
                     if (std::abs(j + m_roi.x - iter.rect.x) >= min_distance ||
                         std::abs(i + m_roi.y - iter.rect.y) >= min_distance) {
                         continue;

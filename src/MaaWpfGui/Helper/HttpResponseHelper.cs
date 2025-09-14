@@ -27,7 +27,7 @@ namespace MaaWpfGui.Helper
 
         public static async Task<bool> SaveResponseToFileAsync(HttpResponseMessage? response, string saveTo, bool saveAndDeleteTmp = true)
         {
-            saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
+            saveTo = Path.Combine(PathsHelper.BaseDir, saveTo);
 
             var tempFile = saveTo + ".tmp";
             if (File.Exists(tempFile))

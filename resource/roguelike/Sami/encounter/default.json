@@ -188,7 +188,8 @@
         {
             "name": "特里蒙旅行社特派团",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "fallback_choices": [[4, 1]]
         },
         {
             "name": "在地公共移动站N6号",
@@ -491,6 +492,10 @@
                         }
                     ]
                 }
+            ],
+            "fallback_choices": [
+                [4, 4],
+                [1, 1]
             ]
         },
         {

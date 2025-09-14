@@ -62,7 +62,7 @@ namespace MaaWpfGui.Utilities
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
-            if (Bootstrapper.IsUserAdministrator())
+            if (Bootstrapper.IsAdministratorWithUac())
             {
                 SetStart(false, out _);
                 return false;
@@ -90,7 +90,7 @@ namespace MaaWpfGui.Utilities
         {
             error = string.Empty;
 
-            if (set && Bootstrapper.IsUserAdministrator())
+            if (set && Bootstrapper.IsAdministratorWithUac())
             {
                 error = LocalizationHelper.GetString("LaunchOnSystemStartupAdminPrompt");
                 return false;

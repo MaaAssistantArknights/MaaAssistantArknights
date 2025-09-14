@@ -228,8 +228,7 @@
                     Grid.Row="1"
                     Background="{DynamicResource MouseOverRegionBrushOpacity75}"
                     BorderThickness="0"
-                    SelectedIndex="{c:Binding 'OperBoxNotHaveList.Count != 0 ? 0 : 1',
-                                              Mode=OneTime}"
+                    SelectedIndex="{Binding OperBoxSelectedIndex}"
                     Style="{StaticResource TabControlSliding}">
                     <TabItem
                         Header="{c:Binding OperBoxNotHaveList.Count}"
@@ -256,10 +255,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
-                    <TabItem
-                        Header="{c:Binding OperBoxHaveList.Count}"
-                        HeaderStringFormat="{StaticResource OperBoxHaveList}"
-                        Visibility="{c:Binding 'OperBoxHaveList.Count != 0'}">
+                    <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{StaticResource OperBoxHaveList}">
                         <DataGrid
                             Width="680"
                             HorizontalAlignment="Center"

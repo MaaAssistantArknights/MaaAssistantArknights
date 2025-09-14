@@ -1,0 +1,13 @@
+# for win
+*.exe
+*.dll
+# for linux
+ResourceUpdater
+# for macos
+res_updater
+*.h
+*.so.*
+*.dylib.*
+
+Official
+Overseas

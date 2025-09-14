@@ -25,10 +25,10 @@ namespace MaaWpfGui.Helper
 {
     public class ConfigurationHelper
     {
-        public const string ConfigurationFile = "config/gui.json";
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, ConfigurationFile);
-        private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.bak");
-        private static readonly string _configurationErrorFile = Path.Combine(Environment.CurrentDirectory, "config/gui.error.json");
+        public static readonly string ConfigFile = Path.Combine(PathsHelper.ConfigDir, "gui.json");
+        public static readonly string ConfigBakFile = Path.Combine(PathsHelper.ConfigDir, "gui.json.bak");
+        public static readonly string ConfigErrorFile = Path.Combine(PathsHelper.ConfigDir, "gui.error.json");
+
         private static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _kvsMap;
         private static string _current = ConfigurationKeys.DefaultConfiguration;
         private static ConcurrentDictionary<string, string> _kvs;
@@ -79,6 +79,12 @@ namespace MaaWpfGui.Helper
             return int.TryParse(value, out var result) ? result : defaultValue;
         }
 
+        public static long GetValue(string key, long defaultValue)
+        {
+            var value = GetValue(key, defaultValue.ToString());
+            return long.TryParse(value, out var result) ? result : defaultValue;
+        }
+
         public static bool GetValue(string key, bool defaultValue)
         {
             var value = GetValue(key, defaultValue.ToString());
@@ -114,6 +120,31 @@ namespace MaaWpfGui.Helper
             // 保证有全局配置
             SetGlobalValue(key, defaultValue);
             return defaultValue;
+        }
+
+        public static int GetGlobalValue(string key, int defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return int.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static long GetGlobalValue(string key, long defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return long.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static bool GetGlobalValue(string key, bool defaultValue)
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return bool.TryParse(value, out var result) ? result : defaultValue;
+        }
+
+        public static TOut GetGlobalValue<TOut>(string key, TOut defaultValue)
+            where TOut : struct, Enum
+        {
+            var value = GetGlobalValue(key, defaultValue.ToString());
+            return Enum.TryParse<TOut>(value, out var result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -245,26 +276,26 @@ namespace MaaWpfGui.Helper
 
         private static bool ParseConfig(out JObject parsed)
         {
-            parsed = ParseJsonFile(_configurationFile);
+            parsed = ParseJsonFile(ConfigFile);
             if (parsed is not null)
             {
                 return true;
             }
 
-            if (File.Exists(_configurationFile))
+            if (File.Exists(ConfigFile))
             {
                 _logger.Warning("Failed to load configuration file, copying configuration file to error file");
-                File.Copy(_configurationFile, _configurationErrorFile, true);
+                File.Copy(ConfigFile, ConfigErrorFile, true);
             }
 
-            if (File.Exists(_configurationBakFile))
+            if (File.Exists(ConfigBakFile))
             {
                 _logger.Information("trying to use backup file");
-                parsed = ParseJsonFile(_configurationBakFile);
+                parsed = ParseJsonFile(ConfigBakFile);
                 if (parsed is not null)
                 {
                     _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
-                    File.Copy(_configurationBakFile, _configurationFile, true);
+                    File.Copy(ConfigBakFile, ConfigFile, true);
                     return true;
                 }
             }
@@ -294,13 +325,13 @@ namespace MaaWpfGui.Helper
             }
 
             SetKvOrMigrate(parsed);
-            if (Save(_configurationBakFile))
+            if (Save(ConfigBakFile))
             {
-                _logger.Information("{File} saved", _configurationBakFile);
+                _logger.Information("{File} saved", ConfigBakFile);
             }
             else
             {
-                _logger.Warning("{File} save failed", _configurationBakFile);
+                _logger.Warning("{File} save failed", ConfigBakFile);
             }
 
             return true;
@@ -365,7 +396,7 @@ namespace MaaWpfGui.Helper
                         },
                         Formatting.Indented);
 
-                    File.WriteAllText(file ?? _configurationFile, jsonStr);
+                    File.WriteAllText(file ?? ConfigFile, jsonStr);
                 }
                 catch (Exception e)
                 {
@@ -459,11 +490,11 @@ namespace MaaWpfGui.Helper
 
                 if (Save())
                 {
-                    _logger.Information("{File} saved", _configurationFile);
+                    _logger.Information("{File} saved", ConfigFile);
                 }
                 else
                 {
-                    _logger.Warning("{File} save failed", _configurationFile);
+                    _logger.Warning("{File} save failed", ConfigFile);
                 }
             }
 

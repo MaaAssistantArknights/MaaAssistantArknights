@@ -3,6 +3,7 @@
         "next": [
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm",
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirmToGiveUp",
+            "Sarkaz@Roguelike@Abandon",
             "Sarkaz@StartExplore@Roguelike@ChooseOperConfirm#next"
         ]
     },

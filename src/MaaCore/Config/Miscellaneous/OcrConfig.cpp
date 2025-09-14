@@ -8,7 +8,7 @@ std::string asst::OcrConfig::process_equivalence_class(const std::string& str) c
 {
     std::string result = str;
     for (const auto& eq_class : m_eq_classes) {
-        ranges::for_each(eq_class.begin() + 1, eq_class.end(), [&](const std::string& elem) {
+        std::ranges::for_each(eq_class.begin() + 1, eq_class.end(), [&](const std::string& elem) {
             utils::string_replace_all_in_place(result, elem, eq_class.front());
         });
     }

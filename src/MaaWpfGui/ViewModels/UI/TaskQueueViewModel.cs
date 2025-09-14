@@ -412,7 +412,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = 50 * 1000;
+            _timer.Interval = 30 * 1000;
             _timer.Elapsed += Timer1_Elapsed;
             _timer.Start();
         }
@@ -427,13 +427,14 @@ namespace MaaWpfGui.ViewModels.UI
                 DateTime currentTime = DateTime.Now;
                 currentTime = new(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
-                if (currentTime == _lastTimerElapsed)
+                if (currentTime <= _lastTimerElapsed)
                 {
                     return;
                 }
 
                 _lastTimerElapsed = currentTime;
 
+                VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
                 HandleDatePromptUpdate();
                 HandleCheckForUpdates();
 
@@ -1342,6 +1343,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void ManualStop()
         {
+            if (Stopping || _runningState.GetIdle())
+            {
+                _logger.Information("Already stopping or idle, return.");
+                return;
+            }
+
             _ = Stop();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
 
@@ -1605,18 +1612,6 @@ namespace MaaWpfGui.ViewModels.UI
             };
 
             var taskParams = task.Serialize().Params;
-            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-        }
-
-        public static void SetInfrastParams()
-        {
-            int id = Instances.AsstProxy.TasksStatus.FirstOrDefault(i => i.Value.Type == TaskType.Infrast).Key;
-            if (id == 0)
-            {
-                return;
-            }
-
-            var taskParams = InfrastSettingsUserControlModel.Instance.Serialize().Params;
             Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
         }
 

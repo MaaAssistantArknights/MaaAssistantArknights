@@ -22,7 +22,13 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - Ubuntu/Debian
 
     ```bash
-    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+    sudo apt install cmake
+    ```
+
+    - Arch Linux
+
+    ```bash
+    sudo pacman -S --needed cmake
     ```
 
 2. 构建第三方库
@@ -32,10 +38,11 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - 下载预构建的第三方库 (推荐的)
 
         > **Note**
-        > 包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题.
+        > ~~包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题~~.
+        > 目前已经基于交叉编译降低了运行环境, 仅需要依赖 glibc 2.31 (ubuntu 20.04).
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     如果您发现上面的方法下载的库由于 ABI 版本等原因无法在您的系统上运行且不希望使用容器等方案, 也可以尝试从头编译
@@ -43,22 +50,27 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
     - 自行构建第三方库 (将花费较长时间)
 
         ```bash
-        git submodule update --init --recursive
+        git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
+        # 如果系统环境过低无法使用我们预构建的 llvm 20, 请考虑不使用交叉编译, 直接使用本地编译环境.
+        # 需要调整 MaaDeps/cmake 中的 toolchain 配置.
+        python linux-toolchain-download.py
         python build.py
         ```
 
 3. 编译 MAA
 
     ```bash
-    CC=gcc-12 CXX=g++-12 cmake -B build \
-        -DINSTALL_THIRD_LIBS=ON \
+    cmake -B build \
         -DINSTALL_RESOURCE=ON \
-        -DINSTALL_PYTHON=ON
+        -DINSTALL_PYTHON=ON \
+        -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
     cmake --build build
     ```
 
     来将 MAA 安装到目标位置, 注意 MAA 推荐通过指定 `LD_LIBRARY_PATH` 来运行, 不要使用管理员权限将 MAA 装入 `/usr`
+
+    > 现在应该不需要指定 `LD_LIBRARY_PATH` 即可运行
 
     ```bash
     cmake --install build --prefix <target_directory>

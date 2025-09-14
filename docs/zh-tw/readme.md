@@ -96,11 +96,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 多語言 (i18n)
 
-MAA 支援多國語言，並使用 Weblate 進行在地化管理。如果您通曉多門語言，歡迎前往 [MAA Weblate](https://weblate.maa-org.net) 協助我們進行翻譯。
-
 MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）為準。
-
-[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ## 致謝
 
@@ -146,7 +142,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 1. 下載預構建的第三方庫
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目

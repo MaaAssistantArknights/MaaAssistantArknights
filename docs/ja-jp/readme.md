@@ -93,18 +93,14 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 
 ### 多言語 (i18n)
 
-MAA は多言語をサポートし、Weblateを使用してローカライズ管理を行います。複数の言語に精通している場合は、[MAA Weblate](https://weblate.maa-org.net)で翻訳のお手伝いをしてください。
-
 MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべて中国語（簡体字）を基準としています。
-
-[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Windows
 
 1. ビルド済みのサードパーティ ライブラリをダウンロードします。
 
       ```cmd
-      python maadeps-download.py
+      python tools/maadeps-download.py
       ```
 
 2. Visual Studio 2022 で `MAA.sln` を開き、`MaaWpfGui` を右クリックして、スタートアップ プロジェクトとして設定します。

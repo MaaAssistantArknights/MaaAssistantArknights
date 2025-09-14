@@ -17,13 +17,19 @@
 
   <!-- Build and Publish -->
   <PropertyGroup>
-    <OutputPath>..\..\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
     <SelfContained>false</SelfContained>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <PostBuildEvent>
+      echo Creating resource directory link...
+      if exist "$(OutputPath)resource" rmdir "$(OutputPath)resource"
+      mklink /J "$(OutputPath)resource" "$(SolutionDir)\..\resource"
+      echo Resource directory link created successfully
+    </PostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup>

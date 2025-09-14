@@ -11,7 +11,7 @@
 void asst::SideStoryReopenTask::set_sidestory_name(std::string sidestory_name)
 {
     std::string upper_prefix = std::move(sidestory_name);
-    ranges::transform(upper_prefix, upper_prefix.begin(), [](char ch) -> char {
+    std::ranges::transform(upper_prefix, upper_prefix.begin(), [](char ch) -> char {
         return static_cast<char>(::toupper(ch));
     });
     m_sidestory_name = upper_prefix;

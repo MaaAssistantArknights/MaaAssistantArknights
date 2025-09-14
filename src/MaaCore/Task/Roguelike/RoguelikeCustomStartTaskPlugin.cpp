@@ -95,6 +95,9 @@ bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params
         else if (m_config->get_theme() == RoguelikeTheme::Sarkaz) {
             list.ideas = select_list->get("ideas", false);
         }
+        else if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
+            list.ticket = select_list->get("ticket", false);
+        }
         m_start_select = list;
     }
 

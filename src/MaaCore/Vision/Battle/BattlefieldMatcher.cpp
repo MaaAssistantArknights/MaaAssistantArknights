@@ -1,7 +1,7 @@
 #include "BattlefieldMatcher.h"
 
-#include "Utils/Ranges.hpp"
 #include <algorithm>
+#include <ranges>
 
 #include "Utils/NoWarningCV.h"
 
@@ -176,7 +176,7 @@ battle::Role BattlefieldMatcher::oper_role_analyze(const Rect& roi) const
     role_analyzer.set_task_info(TaskName);
     role_analyzer.set_roi(roi);
 
-    for (const auto& role_name : RoleMap | views::keys) {
+    for (const auto& role_name : RoleMap | std::views::keys) {
         role_analyzer.append_templ(TaskName + role_name + Ext);
     }
     auto role_opt = role_analyzer.analyze();
@@ -312,7 +312,7 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
 
     // 例子中的"0"
     std::string kills_count = kills_text.substr(0, pos);
-    if (kills_count.empty() || !ranges::all_of(kills_count, [](char c) -> bool { return std::isdigit(c); })) {
+    if (kills_count.empty() || !std::ranges::all_of(kills_count, [](char c) -> bool { return std::isdigit(c); })) {
         return {};
     }
     int kills = std::stoi(kills_count);
@@ -320,7 +320,8 @@ BattlefieldMatcher::MatchResult<std::pair<int, int>> BattlefieldMatcher::kills_a
     // 例子中的"41"
     std::string total_kills_text = kills_text.substr(pos + 1, std::string::npos);
     int total_kills = 0;
-    if (total_kills_text.empty() || !ranges::all_of(total_kills_text, [](char c) -> bool { return std::isdigit(c); })) {
+    if (total_kills_text.empty() ||
+        !std::ranges::all_of(total_kills_text, [](char c) -> bool { return std::isdigit(c); })) {
         Log.warn("total kills recognition failed, set to", m_total_kills_prompt);
         total_kills = m_total_kills_prompt;
     }

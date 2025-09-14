@@ -15,8 +15,8 @@
 #include "TemplResource.h"
 #include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
+#include <ranges>
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
@@ -109,7 +109,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
         std::queue<std::string_view> task_queue;
         std::unordered_set<std::string_view> checking_task_set;
 
-        for (std::string_view name : m_json_all_tasks_info | views::keys) {
+        for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
             m_task_status[name] = ToBeGenerate;
             task_queue.push(name);
             checking_task_set.insert(name);
@@ -179,7 +179,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             static const std::unordered_set count_methods { MatchMethod::RGBCount, MatchMethod::HSVCount };
             if (auto match_task = std::dynamic_pointer_cast<MatchTaskInfo>(task);
                 task->algorithm == AlgorithmType::MatchTemplate &&
-                ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
+                std::ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
                     match_task->methods.cend() &&
                 match_task->color_scales.empty()) {
                 // RGBCount 和 HSVCount 必须有 color_scales
@@ -291,7 +291,7 @@ bool asst::TaskData::parse(const json::value& json)
     }
 
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
-    for (std::string_view name : m_json_all_tasks_info | views::keys) {
+    for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
         generate_task_info(name);
     }
 
@@ -304,7 +304,7 @@ void asst::TaskData::clear_tasks()
     // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
     m_all_tasks_info.clear();
     m_raw_all_tasks_info.clear();
-    for (std::string_view name : m_json_all_tasks_info | views::keys) {
+    for (std::string_view name : m_json_all_tasks_info | std::views::keys) {
         m_task_status[task_name_view(name)] = ToBeGenerate;
     }
 }
@@ -588,8 +588,8 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             threshold_opt->as_double());
     }
     else if (threshold_opt->is_array()) {
-        ranges::copy(
-            threshold_opt->as_array() | views::transform(&json::value::as_double),
+        std::ranges::copy(
+            threshold_opt->as_array() | std::views::transform(&json::value::as_double),
             std::back_inserter(match_task_info_ptr->templ_thresholds));
     }
     else {
@@ -619,8 +619,9 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             get_match_method(method_opt->as_string()));
     }
     else if (method_opt->is_array()) {
-        ranges::copy(
-            method_opt->as_array() | views::transform(&json::value::as_string) | views::transform(&get_match_method),
+        std::ranges::copy(
+            method_opt->as_array() | std::views::transform(&json::value::as_string) |
+                std::views::transform(&get_match_method),
             std::back_inserter(match_task_info_ptr->methods));
     }
     else {
@@ -628,7 +629,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         return nullptr;
     }
 
-    if (ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
+    if (std::ranges::find(match_task_info_ptr->methods, MatchMethod::Invalid) != match_task_info_ptr->methods.end()) {
         Log.error("Invalid method in task", name);
         return nullptr;
     }
@@ -715,12 +716,12 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
             const auto& lower = lower_item.as_array();
             const auto& upper = upper_item.as_array();
 
-            if (!ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
+            if (!std::ranges::all_of(std::array { lower, upper } | std::views::join, &json::value::is_number)) {
                 Log.error("Invalid color_range in task", name);
                 return nullptr;
             }
-            auto lower_number = lower | views::transform(&json::value::as_integer);
-            auto upper_number = upper | views::transform(&json::value::as_integer);
+            auto lower_number = lower | std::views::transform(&json::value::as_integer);
+            auto upper_number = upper | std::views::transform(&json::value::as_integer);
 
             if (lower_number.size() == 1 && upper_number.size() == 1) {
                 // gray scale "[..., [[0], [255]], ...]"
@@ -1142,7 +1143,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
         allowed_key.merge(tmp);
     }
 
-    for (const auto& name : task_json.as_object() | views::keys) {
+    for (const auto& [name, _] : task_json.as_object()) {
         if (!allowed_key.contains(name) && !is_doc(name) && !has_doc(name)) {
             Log.error(task_name, "has unknown key:", name);
             validity = false;

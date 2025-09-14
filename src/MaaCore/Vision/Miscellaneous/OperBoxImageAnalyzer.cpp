@@ -29,7 +29,7 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
 int asst::OperBoxImageAnalyzer::level_num(const std::string& level)
 {
-    if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c); })) {
+    if (level.empty() || !std::ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c); })) {
         return 1;
     }
     return std::stoi(level);
@@ -107,11 +107,11 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 
     for (int i = 1; i < 10; ++i) {
         if (auto top_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_top)) {
-            ranges::move(*top_result_opt, std::back_inserter(results));
+            std::ranges::move(*top_result_opt, std::back_inserter(results));
         }
 
         if (auto bottom_result_opt = analyze_task("OperBoxFlagRole" + std::to_string(i), roi_bottom)) {
-            ranges::move(*bottom_result_opt, std::back_inserter(results));
+            std::ranges::move(*bottom_result_opt, std::back_inserter(results));
         }
     }
 

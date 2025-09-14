@@ -218,6 +218,7 @@ namespace MaaWpfGui.Constants
         public const string UpdateSource = "VersionUpdate.ResourceUpdateSource";
         public const string ForceGithubGlobalSource = "VersionUpdate.UpdateSource.ForceGithubGlobalSource";
         public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
+        public const string MirrorChyanCdkExpiredTime = "VersionUpdate.UpdateSource.MirrorChyanCdkExpired";
         public const string StartupUpdateCheck = "VersionUpdate.StartupUpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string ResourceApi = "VersionUpdate.ResourceApi";

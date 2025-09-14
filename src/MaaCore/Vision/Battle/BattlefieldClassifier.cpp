@@ -99,7 +99,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     SkillReadyResult::Prob prob = softmax(raw_results);
     Log.info(__FUNCTION__, "prob:", prob);
     // 类别顺序为 c, n, y
-    int class_id = static_cast<int>(ranges::max_element(prob) - prob.begin());
+    int class_id = static_cast<int>(std::ranges::max_element(prob) - prob.begin());
     bool ready = class_id == 2; // 只有当class_id为2（代表y）时，才认为是ready
     float score = prob[class_id];
 
@@ -152,8 +152,8 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         Log.trace("Class changed", last_class, class_id);
         need_save = true;
     }
-    // y 全存，c 5 秒存一次
-    else if (class_id == 2 || (class_id == 0 && duration_since_last_save > 5)) {
+    // y 1 秒存一次（最小开技能间隔为 1.5s），c 5 秒存一次
+    else if ((class_id == 2 && duration_since_last_save > 1) || (class_id == 0 && duration_since_last_save > 5)) {
         Log.trace("Class is", class_id);
         need_save = true;
     }
@@ -237,7 +237,7 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         output_shape.size());
 
     auto& session = OnnxSessions::get_instance().get("deploy_direction_cls");
-    // 这俩是hardcode在模型里的
+    // 这俩是 hardcode 在模型里的
     constexpr const char* input_names[] = { "input" };   // session.GetInputName()
     constexpr const char* output_names[] = { "output" }; // session.GetOutputName()
 

@@ -159,7 +159,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                             // 20000 - Rotation: 一鍵輪換模式，會跳過控制中樞、發電站、宿舍以及辦公室，其餘設施不進行換班但保留基本操作（如使用無人機、會客室邏輯）
 
     "facility": [           // 要換班的設施（有序），必選。不支援執行中設定
-        string,             // 設施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
+        string,             // 設施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm" | "Processing" | "Training"
         ...
     ],
     "drones": string,       // 無人機用途，可選項，預設 _NotUse
@@ -186,19 +186,23 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```json5
 // 對應的任務參數
 {
-    "enable": bool,         // 是否啟用本任務，可選，預設為 true
-    "shopping": bool,       // 是否購物，可選，預設 false。不支援執行中設定
-    "buy_first": [          // 優先購買列表，可選。不支援執行中設定
-        string,             // 商品名，如 "招聘許可"、"龍門幣" 等
-        ...
+    "enable": bool,         // 是否啟用此任務，可選，預設值 true
+    "visit_friends": bool,  // 是否造訪好友基建以獲得信用，可選，預設值 true
+    "shopping": bool,       // 是否購物，可選，預設值 true
+    "buy_first": [          // 優先購買清單，可選，預設值 []
+      string,               // 商品名稱，如 "招聘許可"、"龍門幣" 等
+      ...
     ],
-    "blacklist": [          // 黑名單列表，可選。不支援執行中設定
-        string,             // 商品名，如 "加急許可"、"家具零件" 等
-        ...
+    "blacklist": [          // 購物黑名單，可選，預設值 []
+      string,               // 商品名稱，如 "加急許可"、"家具零件" 等
+      ...
     ],
-   "force_shopping_if_credit_full": bool // 是否在信用溢出時無視黑名單，預設為 true
-    "only_buy_discount": bool // 是否只購買折扣物品，只作用於第二輪購買，預設為 false
-    "reserve_max_credit": boll // 是否在信用點低於300時停止購買，只作用於第二輪購買，預設為 false
+    "force_shopping_if_credit_full": bool,  // 信用點已滿時是否忽略黑名單進行購買，可選，預設值 false
+    "only_buy_discount": bool,              // 是否只購買折扣商品（僅在第二輪購買時生效），可選，預設值 false
+    "reserve_max_credit": bool,             // 當信用點低於 300 時是否停止購買（僅在第二輪購買時生效），可選，預設值 false
+    "credit_fight": bool,                   // 是否借助戰打一場 OF-1 關卡，以便隔日獲得更多信用，可選，預設值 false
+    "formation_index": int                  // 打 OF-1 時所使用的編隊欄位的索引。可選，預設值 0；
+                                            // 取值為 0–4 的整數，其中 0 表示選擇當前編隊，1-4 分別表示第一、二、三、四編隊
 }
 ```
 

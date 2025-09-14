@@ -158,17 +158,3 @@ cv::Mat VisionHelper::draw_roi(const cv::Rect& roi, const cv::Mat& base) const
 
     return image_draw;
 }
-
-/*
-void VisionHelper::handle_draw(const cv::Mat& draw) const
-{
-
-    if (show_draw_) {
-        const std::string kWinName = "Draw";
-        cv::imshow(kWinName, draw);
-        cv::waitKey(0);
-        cv::destroyWindow(kWinName);
-    }
-
-}
-*/

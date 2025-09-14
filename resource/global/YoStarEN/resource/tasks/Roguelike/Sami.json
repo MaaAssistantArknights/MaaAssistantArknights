@@ -57,12 +57,13 @@
             "Dawning Frostbounds",
             "Gelid Rockshelves",
             "Immaculate Garden",
-            "Clayrovant Carcass"
+            "Clayrovant Carcass",
+            "Secluded Passage"
         ],
         "roi": [467, 531, 357, 72]
     },
     "Sami@Roguelike@FoldartalGainNextLevel": {
-        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"]
+        "text": ["Obtain after", "this floor", "will trigger", "on next floor"]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
@@ -178,7 +179,8 @@
             "Dawning Frostbounds",
             "Gelid Rockshelves",
             "Immaculate Garden",
-            "Clayrovant Carcass"
+            "Clayrovant Carcass",
+            "Secluded Passage"
         ],
         "roi": [467, 531, 357, 72]
     },
@@ -196,91 +198,98 @@
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
-            [".*Placid ?Forests", "_aggressive"],
-            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*Placid ?Forest.*", "_aggressive"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
             [".*12.*", "_pragmatic"],
-            [".*Gelid ?Rockshelves", "_pragmatic"],
-            [".*Immaculate ?Garden", "_default"],
-            ["Garden", "_default"],
+            [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
+            [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passage", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode1": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
-            [".*Placid ?Forests", "_exit"],
-            [".*Dawning ?Frostbounds", "_exit"],
+            [".*Placid ?Forest.*", "_exit"],
+            [".*Daw.*", "_exit"],
+            [".*rostbou.*", "_exit"],
             [".*12.*", "_exit"],
-            [".*Gelid ?Rockshelves", "_exit"],
-            [".*Immaculate ?Garden", "_exit"],
-            [".*Garden", "_exit"],
+            [".*Gel?i?d ?Rockshe.*", "_exit"],
+            [".*Immaculate ?Garde.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secluded ?Passage", "_exit"]
+            [".*Secl?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_default"],
-            [".*Placid ?Forests", "_default"],
-            [".*Dawning ?Frostbounds", "_exit"],
+            [".*Placid ?Forest.*", "_default"],
+            [".*Daw.*", "_exit"],
+            [".*rostbou.*", "_exit"],
             [".*12.*", "_exit"],
-            [".*Gelid ?Rockshelves", "_exit"],
-            [".*Immaculate ?Garden", "_exit"],
-            [".*Garden", "_exit"],
+            [".*Gel?i?d ?Rockshe.*", "_exit"],
+            [".*Immaculate ?Garde.*", "_exit"],
+            [".*70.*", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            [".*Secluded ?Passage", "_exit"]
+            [".*Secl?uded ?Passag.*", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
-        "roi": [593, 48, 135, 27],
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_collapsal_paradigms"],
-            [".*Placid ?Forests", "_collapsal_paradigms"],
-            [".*Dawning ?Frostbounds", "_SKIP_"],
+            [".*Placid ?Forest.*", "_collapsal_paradigms"],
+            [".*Daw.*", "_SKIP_"],
+            [".*rostbou.*", "_SKIP_"],
             [".*12.*", "_SKIP_"],
-            [".*Gelid ?Rockshelves", "_SKIP_"],
-            [".*Immaculate ?Garden", "_SKIP_"],
-            [".*Garden", "_SKIP_"],
+            [".*Gel?i?d ?Rockshe.*", "_SKIP_"],
+            [".*Immaculate ?Garde.*", "_SKIP_"],
+            [".*70.*", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
-            [".*Secluded ?Passage", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode6": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
-            [".*Placid ?Forests", "_aggressive"],
-            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*Placid ?Forest.*", "_aggressive"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
             [".*12.*", "_pragmatic"],
-            [".*Gelid ?Rockshelves", "_pragmatic"],
-            [".*Immaculate ?Garden", "_default"],
-            [".*Garden", "_default"],
+            [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
+            [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passage", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode7": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
-        "roi": [593, 48, 135, 27],
+        "roi": [540, 0, 240, 127],
         "ocrReplace": [
             [".*Brisk ?M?arshlands", "_aggressive"],
-            [".*Placid ?Forests", "_aggressive"],
-            [".*Dawning ?Frostbounds", "_pragmatic"],
+            [".*Placid ?Forest.*", "_aggressive"],
+            [".*Daw.*", "_pragmatic"],
+            [".*rostbou.*", "_pragmatic"],
             [".*12.*", "_pragmatic"],
-            [".*Gelid ?Rockshelves", "_pragmatic"],
-            [".*Immaculate ?Garden", "_default"],
-            [".*Garden", "_default"],
+            [".*Gel?i?d ?Rockshe.*", "_pragmatic"],
+            [".*Immaculate ?Garde.*", "_default"],
+            [".*70.*", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            [".*Secluded ?Passage", "_SKIP_"]
+            [".*Secl?uded ?Passag.*", "_SKIP_"]
         ]
     }
 }
