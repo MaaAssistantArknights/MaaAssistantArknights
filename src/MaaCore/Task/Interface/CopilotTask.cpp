@@ -151,9 +151,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
         size_t count = configs_cvt.size();
         // 追加任务
         m_subtasks.reserve(m_subtasks.size() * count);
-        auto raw_end = m_subtasks.end();
+        // 保存原始大小
+        size_t original_size = m_subtasks.size();
         for (size_t i = 1; i < count; ++i) {
-            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
+            m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), m_subtasks.begin() + original_size);
         }
         m_multi_copilot_plugin_ptr->set_multi_copilot_config(std::move(configs_cvt));
         m_has_subtasks_duplicate = true;
