@@ -572,8 +572,8 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
     {
         if (baseTask is InfrastTask)
         {
-            Refresh();
             InitInfrastRoomList();
+            Refresh();
         }
     }
 
