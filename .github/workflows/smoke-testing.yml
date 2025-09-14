@@ -90,7 +90,7 @@ jobs:
       - name: Build
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
-          cmake --build build --config Debug --parallel $(nproc)
+          cmake --build build --config Debug --parallel $(sysctl -n hw.logicalcpu)
 
       - name: Install
         if: steps.smoke-cache.outputs.cache-hit != 'true'
