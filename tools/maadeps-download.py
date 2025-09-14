@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import http.client
 
-TARGET_TAG = "v2.9.2-maa.1"
+TARGET_TAG = "v2.10.2-maa.1"
 basedir = Path(__file__).parent.parent
 
 

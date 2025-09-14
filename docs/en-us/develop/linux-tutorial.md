@@ -22,9 +22,6 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
     - Ubuntu/Debian
 
     ```bash
-    wget https://apt.llvm.org/llvm.sh
-    chmod +x llvm.sh
-    sudo ./llvm.sh 20
     sudo apt install cmake
     ```
 
@@ -32,8 +29,6 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 
     ```bash
     sudo pacman -S --needed cmake
-    # also, llvm 20 is needed.
-    # clang-20, clang++-20 are required to be found in PATH
     ```
 
 2. Build third-party libraries
@@ -48,7 +43,6 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 
         ```bash
         python tools/maadeps-download.py
-        python tools/linux-toolchain-download.py
         ```
 
     If you find the libraries downloaded above cannot run on your system due to ABI version issues and you don't want to use container solutions, you can also try compiling from scratch
@@ -58,8 +52,8 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
         ```bash
         git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
-        # If the system is too old to install llvm 20, please consider using local build enviroment instead of cross compiling.
-        # The toolchain config under MaaDeps/vcpkg-overlay/triplet needs to be modified.
+        # If the system is too old to use our prebuilt llvm 20, please consider using local build enviroment instead of cross compiling.
+        # The toolchain config under MaaDeps/cmake needs to be modified.
         python linux-toolchain-download.py
         python build.py
         ```
@@ -70,7 +64,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
     cmake -B build \
         -DINSTALL_RESOURCE=ON \
         -DINSTALL_PYTHON=ON \
-        -DCMAKE_TOOLCHAIN_FILE=cmake/linux/maa-x64-linux-toolchain.cmake
+        -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
     cmake --build build
     ```
 
