@@ -694,7 +694,6 @@ bool asst::BattleFormationTask::parse_formation()
 
 bool asst::BattleFormationTask::compare_formation()
 {
-    size_t count = 0;
     for (auto& [role, groups_] : m_formation) {
         const auto& role_it = m_formation_last.find(role);
         if (role_it == m_formation_last.cend()) {
@@ -703,7 +702,6 @@ bool asst::BattleFormationTask::compare_formation()
 
         auto& last_groups = role_it->second;
         for (auto& group : groups_) {
-            ++count;
             auto last_group_it = std::ranges::find_if(last_groups, [&](const OperGroup& g) {
                 return g.first == group.first && g.second == group.second;
             });
@@ -727,7 +725,9 @@ bool asst::BattleFormationTask::compare_formation()
             last_groups.erase(last_group_it); // 移除已匹配的干员组
         }
     }
-    return count == m_opers_in_formation->size();
+
+    return static_cast<size_t>(std::ranges::distance(m_formation | std::views::values | std::views::join)) ==
+           m_opers_in_formation->size();
 }
 
 bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat& img)
