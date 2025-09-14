@@ -366,7 +366,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build --config Release --parallel $(nproc)
+          cmake --build build --config Release --parallel $(sysctl -n hw.logicalcpu)
 
       - name: Install
         run: |
