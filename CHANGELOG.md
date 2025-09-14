@@ -49,6 +49,9 @@
 
 ### 其他 | Other
 
+* 自定义基建配置时间仍在有效期内时不检查其他时间段 @ABA2396
+* CustomTask 增加任务存在检测 @status102
+* 为 smoke-testing 使用 cache 时增加 resource 链接 @status102 @MistEO
 * 移除 debug_demo (原Sample) 的对应 resource 额外查找逻辑 (#14081) @status102 @MistEO
 * 统一 WpfGui 工作目录 (#14072) @MistEO @ABA2396 @status102
 * 重构依赖后 MaaWpfGui 的 resource 路径丢失 (#14077) @status102
@@ -57,18 +60,6 @@
 * maa 变成前文明产物了 @ABA2396
 * 糊一下 debug_demo 资源路径读取 @MistEO
 * 修复 wpf gui 一些 resource path 读取 @MistEO
-* smoke testing upload logs @Constrat
-* move smoke testing working dir @Constrat
-* prevent caching in non-dev branches @Constrat
-* stuck on max trust EN @Constrat
-* pthread linking problem @neko-para
-* nightly package zip @MistEO
-* global resource path @MistEO
-* linux cross compiling (#14048) @neko-para
-* remove opencv highgui @MistEO
-* build error of ASST_DEBUG @MistEO
-* remove resource from smoke testing use the default location, do not duplicate @Constrat
-* add --parallel to cmake workflows @Constrat
 * 战斗列表作业设置按钮：左键单击解析作业详情，右键单击应用作业并关闭列表 @status102
 * 依赖大更新 (#13908) @MistEO @status102
 * 给自定义任务添加 ScreenshotTaskPlugin 插件 @ABA2396
@@ -76,9 +67,6 @@
 * 添加信息获取失败时的提示 @ABA2396
 * CDK 倒计时显示 @ABA2396
 * 添加 ResourceReferenceHelper，允许绑定前后景色 key @ABA2396
-* allow single copilot task execution @status102
-* convert ResourceUpdater to ubuntu-latest (#14076) @Constrat
-* support build resource updater @neko-para
 * 界园萨卡兹肉鸽招募休谟斯优先级 @Saratoga-Official
 * 调整 y 存图时间间隔 @ABA2396
 * 调整定时器触发逻辑 @ABA2396
@@ -92,6 +80,26 @@
 * 再糊点注释 @MistEO
 * 糊点注释 @MistEO
 * 管理员权限启动额外判断是否开启 UAC @ABA2396
+* type number for nightly ota @Constrat
+* do not auto gen version for local build @MistEO
+* add caching for macos maadeps @Constrat
+* try macos for smoke_test (#14104) @MistEO @Constrat
+* custom clang @neko-para
+* smoke testing upload logs @Constrat
+* move smoke testing working dir @Constrat
+* prevent caching in non-dev branches @Constrat
+* stuck on max trust EN @Constrat
+* pthread linking problem @neko-para
+* nightly package zip @MistEO
+* global resource path @MistEO
+* linux cross compiling (#14048) @neko-para
+* remove opencv highgui @MistEO
+* build error of ASST_DEBUG @MistEO
+* remove resource from smoke testing use the default location, do not duplicate @Constrat
+* add --parallel to cmake workflows @Constrat
+* allow single copilot task execution @status102
+* convert ResourceUpdater to ubuntu-latest (#14076) @Constrat
+* support build resource updater @neko-para
 * mujika -> mujica (#14000) @weinibuliu
 * remove -DINSTALL_RESOURCES @Constrat
 * gitignore @status102
@@ -104,4 +112,3 @@
 * remove MaaDeps @MistEO
 * bump maa-cli to 0.5.8 (#14032) @wangl-cc
 * BrightPointAnalyzer -> PixelAnalyzer (#13915) @Alan-Charred
-* EN @Constrat
