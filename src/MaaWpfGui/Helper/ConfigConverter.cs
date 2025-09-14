@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -54,7 +53,13 @@ public class ConfigConverter
 
         // TODO 测试项, 需移除
         parsedNew?.Remove(nameof(ConfigFactory.Root.ConfigVersion));
-        Debug.Assert(Instances.VersionUpdateViewModel.IsDebugVersion(), "测试项请移除");
+#if DEBUG
+        bool is_debug = true;
+#else
+        bool is_debug = false;
+#endif
+        Debug.Assert(is_debug, "测试项请移除");
+
         try
         {
             File.Copy(ConfigurationOldFile, ConfigurationOldBakFile + $"_{DateTimeOffset.Now:MM-dd_HH-mm-ss}", true);
