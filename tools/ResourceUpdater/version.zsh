@@ -18,17 +18,17 @@ else
     modified_files=$(echo "$all_modified_files" | grep -v '^resource\(/global/[^/]*/resource\)\?/tasks/')
     
     # Get unique directories
-    directories=$(echo "$modified_files" | xargs -I{} dirname {} | sort -u)
+    directories=(${(f)$(echo "$modified_files" | xargs -I{} dirname {} | sort -u)})
     
     # Build list of directories containing version.json
     version_json_dirs=()
     
-    for dir in $directories; do
+    for dir in "${directories[@]}"; do
         # If this is Arknights-Tile-Pos folder, use parent directory
         if [[ "$dir" =~ /Arknights-Tile-Pos$ ]]; then
-            version_json_dirs+="$(dirname "$dir")"
+            version_json_dirs+=("$(dirname "$dir")")
         else
-            version_json_dirs+="$dir"
+            version_json_dirs+=("$dir")
         fi
     done
     
@@ -36,7 +36,7 @@ else
     typeset -U version_json_dirs
     
     # Update all version.json files
-    for dir in $version_json_dirs; do
+    for dir in "${version_json_dirs[@]}"; do
         version_file="$dir/version.json"
         
         if [ -f "$version_file" ]; then
