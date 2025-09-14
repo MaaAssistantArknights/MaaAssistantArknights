@@ -4,11 +4,10 @@ add_library(MaaCore SHARED ${maa_src})
 
 if(WITH_EMULATOR_EXTRAS)
     if(EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
-        target_include_directories(MaaCore INTERFACE ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras)
+        target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras)
     else()
         message(WARNING "EmulatorExtras not found, please run `git submodule update --init 3rdparty/EmulatorExtras`")
         set(WITH_EMULATOR_EXTRAS OFF)
-        target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=0)
     endif()
 endif()
 
