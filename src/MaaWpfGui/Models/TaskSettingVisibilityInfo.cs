@@ -28,8 +28,7 @@ namespace MaaWpfGui.Models
     /// </summary>
     public class TaskSettingVisibilityInfo : PropertyChangedBase
     {
-        public const string DefaultVisibleTaskSetting = "Combat";
-
+        // public const string DefaultVisibleTaskSetting = "Combat";
         private bool _startUp;
         private bool _recruit;
         private bool _infrast;
@@ -84,13 +83,13 @@ namespace MaaWpfGui.Models
         }
 
         [PropertyDependsOn(nameof(CurrentIndex))]
-        public bool IsTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
+        public bool IsCurrentTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
 
         public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
 
         public void NotifyOfTaskStatus()
         {
-            NotifyOfPropertyChange(nameof(IsTaskRunning));
+            NotifyOfPropertyChange(nameof(IsCurrentTaskRunning));
         }
 
         public void Set(int taskIndex, bool enable)
