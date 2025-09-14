@@ -29,8 +29,9 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujika/Terminal.png"
+            "AveMujica/Terminal.png"
         ],
+        "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],

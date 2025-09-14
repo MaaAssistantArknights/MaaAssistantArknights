@@ -3171,7 +3171,7 @@
     "YoStarEN/Sami@Roguelike@MissionFailedFlag3": "bceddf2aa1f9671a97bfcdc9fdd0275dd74800078b7ec297c296b6b5cb3c3ede",
     "official/Sami@Roguelike@MissionFailedFlag3": "0fdde7e39ddf04743d56090bb75f7f57741c12df6058bce1f37b19a1d86d1cc9",
     "official/InfrastReceptionMessageBoardWithoutNew": "8606e6e36530f04beee68401bd15e82436f1be803ebbe2e025f5105f05420dbd",
-    "official/InfrastReceptionMessageBoardWithNew": "2f027b40332b12658498de51ba738262bab3a3faade113d07a5f0c646bf8ed33",
+    "official/InfrastReceptionMessageBoardWithNew": "abfc7c926987b8833ea5a5236f4680bb6af544db3e03e08f4446b119ca4acf2e",
     "resource/template/items/act41side_token_light": "0803222765c35bacc6f6c80d4dc80f03e1011af48f88d6f28915007db2ab792d",
     "resource/template/infrast/Bskill_hire_skgoat3": "b98fab4f563229b5cc2a63905ee01a02e9f1f64ab183f43d4f8490fe8355e7ec",
     "resource/template/infrast/Bskill_hire_skgoat4": "22f34a23518878bbc3db67aa4d12f552e21ee6651d093627f62fb97827f19338",
@@ -3510,7 +3510,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderRefresh": "a1de45d0a557f6a79f4cd20bbcdbcc0cb30e9195078931e37434ec65efe9e284",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@DropsFlag": "b21923f540251c130df7aeeacc7f6938ecaef9f0a75869fe668865bcd9bd3de2",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderLeave": "7e7dbcf4db640d9585bf1e6b1878c1e64698ad9b245c773c82e7f207e515f430",
-    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "009c830251fa241e59b29e5ebd9ce77699afa5f404f577966ff3b3b3ae2259bf",
+    "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@ChooseOperConfirm": "fa196acb4790b4c90089fb9739f59080553c0e53a5dfdd83a488a0c7b32ad3b7",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@FormationConfirm": "764ebf6a76be78cc6bf0d57f6a2d71f0387ab0d03ac4a27a3e4ef3dd8e63d60b",
     "resource/global/YoStarEN/resource/template/Roguelike/base/Roguelike@StageTraderInvestSystem": "07f7243d192668a085d06a2c176210b90e0e03991f801fe2403c02d423106fcf",
     "resource/global/YoStarEN/resource/template/Roguelike/Mizuki/Mizuki@Roguelike@Recruit": "532ef13c3f91314c646a68204a8e879db8896276756076459805bb9784650861",
@@ -5055,5 +5055,14 @@
     "resource/template/UiTheme/JieGarden/EnterInfrast": "9f11dbaac9f9f0e249b5c1ce4a7e471c6fedd61a5696fdcb74adec2272528024",
     "resource/template/UiTheme/JieGarden/OperBoxEnter": "c6659e8c2fd56c664d891b4cfca785ee3a149f59a0cf3cc9c5a2473c7c2f1d72",
     "resource/template/UiTheme/JieGarden/Mall": "479c40c304c742b23d1179e77c413d94214a11ec8fb12d214ac346b0e0505fc7",
-    "resource/template/UiTheme/JieGarden/DepotEnter": "17ab036b743d32d9a036f0e2ae6313356d483a6cad03625d0e29c610166583ff"
+    "resource/template/UiTheme/JieGarden/DepotEnter": "17ab036b743d32d9a036f0e2ae6313356d483a6cad03625d0e29c610166583ff",
+    "resource/template/UiTheme/AveMujica/GachaEnter": "b92d88b97b86cbf849cf3f87e66d2e3bceb7f3d3255805a876f91a1f916f9fb2",
+    "resource/template/UiTheme/AveMujica/Friends": "b48141d52ceebfc7174f669c5c0e5b47eeaa5ab806b7ece806a9293019180eea",
+    "resource/template/UiTheme/AveMujica/Recruit": "678ee77c1dde293615c6d08b5f913552de9c83fb5c581a7015716dbbc7679582",
+    "resource/template/UiTheme/AveMujica/Terminal": "ab1316485a888111cdce77c20305fcb1a9bfd79a952ac0aaef5c82d442265987",
+    "resource/template/UiTheme/AveMujica/Task": "c741c909a7aafc9550eca909e2dd421124cff7c36fcf2a9194145366f38d20e7",
+    "resource/template/UiTheme/AveMujica/EnterInfrast": "b10626d775efa09ee5f29ba1dcd548f131f6ad314c3403b29c3011d5b756ffda",
+    "resource/template/UiTheme/AveMujica/OperBoxEnter": "d60a351c2ecc695c2726c144e24bb043c4fc54c34dac1bd9de7308a2a6b81e68",
+    "resource/template/UiTheme/AveMujica/Mall": "9cab02f58962aa1cbbf3af3bd8423a9a04a642bcd24ad60038064fc53d799c7b",
+    "resource/template/UiTheme/AveMujica/DepotEnter": "cf3bd3a06002af0fd1d049e0bcdcedfa60ca3aade70698feb33fac2f8218ff15"
 }

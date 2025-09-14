@@ -81,7 +81,7 @@ public:
 
     virtual json::value basic_info() const;
 
-    static constexpr int RetryTimesDefault = 20;
+    inline static constexpr int RetryTimesDefault = 20;
 
 protected:
     virtual bool _run() = 0;

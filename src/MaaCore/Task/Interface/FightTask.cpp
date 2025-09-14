@@ -11,7 +11,7 @@
 #include "Task/Fight/StageNavigationTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType),

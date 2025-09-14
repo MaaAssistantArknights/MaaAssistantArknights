@@ -89,7 +89,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     auto foldartal_list = m_config->status().foldartal_list;
     Log.trace("All foldartal got yet:", foldartal_list);
-    auto filter = views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    auto filter =
+        std::views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;
@@ -113,7 +114,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
             if (need_exit()) {
                 return;
             }
-            if (auto iter_up = ranges::find(list, up_board);
+            if (auto iter_up = std::ranges::find(list, up_board);
                 iter_up == list.end() || boards_to_skip.contains(up_board)) {
                 continue;
             }
@@ -123,7 +124,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                 if (need_exit()) {
                     return;
                 }
-                if (auto iter_down = ranges::find(list, down_board);
+                if (auto iter_down = std::ranges::find(list, down_board);
                     iter_down == list.end() || boards_to_skip.contains(down_board)) {
                     continue;
                 }
@@ -150,7 +151,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     break;
                 }
                 if (result == UseBoardResult::UpBoardNotFound) {
-                    list.erase(ranges::find(list, up_board));
+                    list.erase(std::ranges::find(list, up_board));
                     Log.info("Up board not found! Delete up board:", up_board);
                     break;
                 }
@@ -161,14 +162,14 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     continue;
                 }
                 if (result == UseBoardResult::DownBoardNotFound) {
-                    list.erase(ranges::find(list, down_board));
+                    list.erase(std::ranges::find(list, down_board));
                     Log.info("Down board not found! Delete down board:", down_board);
                     continue;
                 }
                 // 正常使用板子，用完删除上板子和下板子
                 if (result == UseBoardResult::UseBoardResultSuccess) {
-                    list.erase(ranges::find(list, up_board));
-                    list.erase(ranges::find(list, down_board));
+                    list.erase(std::ranges::find(list, up_board));
+                    list.erase(std::ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
                     break;
                 }
@@ -176,7 +177,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
         }
     };
 
-    ranges::for_each(usage.pairs, check_pair);
+    std::ranges::for_each(usage.pairs, check_pair);
 
     return;
 }

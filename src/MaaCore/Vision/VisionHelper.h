@@ -4,7 +4,7 @@
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/Platform.hpp"
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #if __has_include(<opencv2/xfeatures2d.hpp>)
 #define MAA_VISION_HAS_XFEATURES2D
@@ -73,7 +73,7 @@ inline static cv::Mat make_roi(const cv::Mat& img, const RectTy& roi)
 template <typename ResultsVec>
 inline static void sort_by_horizontal_(ResultsVec& results)
 {
-    ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
+    std::ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
         // y 差距较小则理解为是同一排的，按x排序
         return std::abs(lhs.rect.y - rhs.rect.y) < 5 ? lhs.rect.x < rhs.rect.x : lhs.rect.y < rhs.rect.y;
     });
@@ -84,7 +84,7 @@ inline static void sort_by_horizontal_(ResultsVec& results)
 template <typename ResultsVec>
 inline static void sort_by_vertical_(ResultsVec& results)
 {
-    ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
+    std::ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
         // x 差距较小则理解为是同一排的，按y排序
         return std::abs(lhs.rect.x - rhs.rect.x) < 5 ? lhs.rect.y < rhs.rect.y : lhs.rect.x < rhs.rect.x;
     });
@@ -93,7 +93,7 @@ inline static void sort_by_vertical_(ResultsVec& results)
 template <typename ResultsVec>
 inline static void sort_by_score_(ResultsVec& results)
 {
-    ranges::sort(results, std::greater {}, std::mem_fn(&ResultsVec::value_type::score));
+    std::ranges::sort(results, std::greater {}, std::mem_fn(&ResultsVec::value_type::score));
 }
 
 template <typename ResultsVec>
@@ -105,7 +105,7 @@ inline static void sort_by_required_(ResultsVec& results, const std::vector<std:
     }
 
     // 不在 required 中的将被排在最后
-    ranges::sort(results, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+    std::ranges::sort(results, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
         size_t lvalue = req_cache[lhs.text];
         size_t rvalue = req_cache[rhs.text];
         if (lvalue == 0) {
@@ -122,7 +122,7 @@ inline static void sort_by_required_(ResultsVec& results, const std::vector<std:
 template <typename ResultsVec>
 inline static ResultsVec NMS(ResultsVec results, double threshold = 0.7)
 {
-    ranges::sort(results, [](const auto& a, const auto& b) { return a.score > b.score; });
+    std::ranges::sort(results, [](const auto& a, const auto& b) { return a.score > b.score; });
 
     ResultsVec nms_results;
     for (size_t i = 0; i < results.size(); ++i) {

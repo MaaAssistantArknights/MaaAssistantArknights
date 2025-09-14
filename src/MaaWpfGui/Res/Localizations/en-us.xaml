@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">Achievements</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="IssueReport">Issue Report</system:String>
-    <system:String x:Key="MaaVersion">MAA Version</system:String>
+    <system:String x:Key="MaaVersion">Software Version</system:String>
     <system:String x:Key="BuildDateTime">Build Date</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
@@ -140,6 +140,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        If ｢{key=CustomInfrastPlan}｣ has execution time, it will not switch automatically before ｢{key=Base}｣ task starts or during task execution, and will remain in the state at {key=LinkStart}. Switching only occurs when idle or after the task is completed.
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">Custom Base infrastructure selection is empty. Please check your configuration or turn off the Custom Base function.</system:String>
     <system:String x:Key="General">General Mode</system:String>
@@ -243,7 +246,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="AdbProgram">ADB Program</system:String>
     <system:String x:Key="EmulatorException">Error in emulator detection\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="AdbException">Error in ADB detection\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
-    <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
+    <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease make sure the emulator is running\nIf the emulator is started with administrator privileges, please run this software as administrator\nIf still not detected, please set the connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
     <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
     <system:String x:Key="SwitchLanguage">Switch Language 🌐</system:String>
@@ -321,6 +324,8 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
+    <system:String x:Key="MirrorChyanCdkRemainingDays">CDK expires in {0} days.</system:String>
+    <system:String x:Key="MirrorChyanCdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">\nDownloading from ｢{key=GlobalSource}｣...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">\nDownloading from ｢{key=MirrorChyan}｣...</system:String>
@@ -420,8 +425,8 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeStartWithRandomReward">Random Reward</system:String>
     <system:String x:Key="RoguelikeStartWithKey">Key</system:String>
     <system:String x:Key="RoguelikeStartWithDice">Dice</system:String>
-    <system:String x:Key="RoguelikeStartWithIdea">Idea[TODO]</system:String>
-    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
+    <system:String x:Key="RoguelikeStartWithIdea">Thought</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">Ticket[i18n]</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
@@ -896,6 +901,11 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to ｢Windows Settings｣ and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">The above issue caused the program to crash.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">You can go to “{key=Settings} - {key=Issue} - {key=OpenDebugFolder}” to view the logs and check the specific cause of the error.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">Please use “{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}” to generate an error report, and click the blue ｢{key=Issue}｣ link to submit feedback.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">If you need help from others, please send the generated error report file instead of sending a screenshot or photo of this window.</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">Reason for the last crash</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->

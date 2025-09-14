@@ -203,7 +203,7 @@ public class VersionUpdateViewModel : Screen
                 .ShowUpdateVersion(row: 2);
         }
 
-        string curDir = Directory.GetCurrentDirectory();
+        string curDir = PathsHelper.BaseDir;
         string extractDir = Path.Combine(curDir, "NewVersionExtract"); // 新版本解压的路径
         string oldFileDir = Path.Combine(curDir, ".old");
 
@@ -1017,6 +1017,18 @@ public class VersionUpdateViewModel : Screen
         if (data is null)
         {
             return CheckUpdateRetT.UnknownError;
+        }
+
+        var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<long?>();
+
+        if (mirrorChyanCdkExpired.HasValue)
+        {
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired.Value;
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+        }
+        else
+        {
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
         }
 
         var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;

@@ -18,7 +18,7 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
    - Ubuntu/Debian
 
    ```bash
-   sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+   sudo apt install gcc-14 g++-14 cmake zlib1g-dev
    ```
 
 2. サードパーティ製ライブラリのコンパイル
@@ -31,7 +31,7 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
      > 比較的新しいLinuxリリース（Ubuntu 22.04）でコンパイルされたダイナミックライブラリに含まれています。システム内のlibstdc++バージョンが古い場合、ABI互換性のない問題が発生する可能性があります。
 
      ```bash
-     python maadeps-download.py
+     python tools/maadeps-download.py
      ```
 
    上記の方法でダウンロードしたライブラリがABIバージョンなどの理由でシステム上で実行できず、コンテナなどのスキームを使用したくないことがわかった場合は、最初からコンパイルしてみることもできます
@@ -47,8 +47,7 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
 3. MAAのコンパイル
 
    ```bash
-   CC=gcc-12 CXX=g++-12 cmake -B build \
-       -DINSTALL_THIRD_LIBS=ON \
+   CC=gcc-14 CXX=g++-14 cmake -B build \
        -DINSTALL_RESOURCE=ON \
        -DINSTALL_PYTHON=ON
    cmake --build build

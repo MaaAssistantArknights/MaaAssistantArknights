@@ -32,24 +32,32 @@ icon: iconoir:developer
 4. 下载预构建的第三方库
 
     **需要有 Python 环境，请自行搜索 Python 安装教程**  
-    _（maadeps-download.py 文件在项目根目录）_
 
     ```cmd
-    python maadeps-download.py
+    python tools/maadeps-download.py
     ```
 
 5. 配置编程环境
 
+    - 下载并安装 `CMake`
     - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
 
-6. 双击打开 `MAA.sln` 文件，Visual Studio 会自动加载整个项目。
-7. 设置 VS
+6. 执行 cmake 项目配置
 
-    - VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
-    - 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+    ```cmd
+    mkdir -p build
+    cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+    ```
 
-8. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
-9. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
+7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
+8. 设置 VS
+
+    - VS 上方配置选择 `Debug` `x64`
+    - 右键 `MaaWpfGui` - 设为启动项目
+    - 按 F5 运行
+
+9. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
+10. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
 
     ```bash
@@ -59,14 +67,14 @@ icon: iconoir:developer
 
     这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
 
-10. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
+11. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（Fork 的仓库）
 
     ```bash
     git push origin dev
     ```
 
-11. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
-12. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
+12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
+13. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
 
     1. 关联 MAA 原仓库
 

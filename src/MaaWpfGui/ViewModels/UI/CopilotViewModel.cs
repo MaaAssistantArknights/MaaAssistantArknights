@@ -39,6 +39,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Helper.CopilotHelper;
+using static MaaWpfGui.Helper.PathsHelper;
 using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 using DataFormats = System.Windows.Forms.DataFormats;
 using Task = System.Threading.Tasks.Task;
@@ -64,9 +65,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private CopilotBase? _copilotCache;
         private const string CopilotIdPrefix = "maa://";
-        private const string TempCopilotFile = "cache/_temp_copilot.json";
+        private static readonly string TempCopilotFile = Path.Combine(CacheDir, "_temp_copilot.json");
         private static readonly string[] _supportExt = [".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi"];
-        private const string CopilotJsonDir = "config/copilot";
+        private static readonly string CopilotJsonDir = Path.Combine(ConfigDir, "copilot");
         private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-?)?(?:\d{1,2})";
         private const string InvalidStageNameChars = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
 
@@ -556,9 +557,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         // UI 绑定的方法
         [UsedImplicitly]
-        public void SelectCopilotTask(int index)
+        public void SelectCopilotTask(object? sender, MouseButtonEventArgs? e = null)
         {
-            Filename = CopilotItemViewModels[index].FilePath;
+            if (e?.Source is FrameworkElement element && element.Tag is int index)
+            {
+                Filename = CopilotItemViewModels[index].FilePath; // 假设原方法接受int参数
+                if (e.ChangedButton == MouseButton.Right)
+                {
+                    UseCopilotList = false;
+                }
+            }
         }
 
         // UI 绑定的方法
@@ -640,6 +648,15 @@ namespace MaaWpfGui.ViewModels.UI
             int copilotId = 0;
             bool writeToCache = false;
             object? payload;
+            if (!File.Exists(filename))
+            {
+                var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(filename));
+                if (File.Exists(resourceFile))
+                {
+                    filename = resourceFile;
+                }
+            }
+
             if (File.Exists(filename))
             {
                 var fileSize = new FileInfo(filename).Length;
@@ -1017,7 +1034,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                comboBox.ItemsSource = Directory.GetFiles(@".\resource\copilot\", "*.json");
+                var files = Directory.GetFiles(Path.Combine(ResourceDir, "copilot"), "*.json");
+                comboBox.ItemsSource = files.Select(Path.GetFileName).ToList();
             }
             catch (Exception exception)
             {
@@ -1425,8 +1443,8 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("Copilot.StartWithEmptyList"), UiLogColor.Error, showTime: false);
                     return false;
                 case 1:
-                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Error, showTime: false);
-                    return false;
+                    AddLog(LocalizationHelper.GetString("CopilotSingleTaskWarning"), UiLogColor.Warning, showTime: false);
+                    break; // 降级为警告, 有用户炸就派uuu
             }
 
             if (copilotItemViewModels.Any(i => string.IsNullOrEmpty(i.Name?.Trim())))

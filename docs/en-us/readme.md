@@ -104,11 +104,7 @@ MAA supports command-line interface (CLI) operation on Linux, macOS, and Windows
 
 ### Multilingual Support (i18n)
 
-MAA supports multiple languages and uses Weblate for localization management. If you're fluent in multiple languages, please visit [MAA Weblate](https://weblate.maa-org.net) to help with translations.
-
 MAA uses Chinese (Simplified) as its primary language, and all translation entries are based on Chinese (Simplified).
-
-[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Development Participation
 

@@ -25,7 +25,7 @@ bool asst::ParadoxRecognitionTask::_run()
     // 设置技能
     m_skill_num = 1;
     auto* groups = &Copilot.get_data().groups;
-    for (const auto& opers_vec : *groups | views::values) {
+    for (const auto& opers_vec : *groups | std::views::values) {
         if (opers_vec.empty()) {
             continue;
         }

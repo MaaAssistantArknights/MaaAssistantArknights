@@ -29,7 +29,7 @@
     <system:String x:Key="AchievementSettings">도전과제</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
     <system:String x:Key="IssueReport">문제 보고</system:String>
-    <system:String x:Key="MaaVersion">MAA 버전</system:String>
+    <system:String x:Key="MaaVersion">소프트웨어 버전</system:String>
     <system:String x:Key="BuildDateTime">빌드 날짜</system:String>
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>
@@ -140,6 +140,9 @@
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
+    <system:String x:Key="CustomInfrastPlanToolTip">
+        ｢{key=CustomInfrastPlan}｣에 실행 시간이 존재할 경우, ｢{key=Base}｣ 작업 시작 전이나 작업 중에는 자동으로 전환되지 않으며, {key=LinkStart} 상태를 유지합니다. 전환은 오직 대기 중이거나 작업이 완료된 후에만 이루어집니다.
+    </system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 커스텀 기능을 끄세요.</system:String>
     <system:String x:Key="General">일반 모드</system:String>
@@ -243,7 +246,7 @@
     <system:String x:Key="AdbProgram">ADB 프로그램</system:String>
     <system:String x:Key="EmulatorException">에뮬레이터를 검색하는 중에 오류가 발생했습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
     <system:String x:Key="AdbException">ADB를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
-    <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
+    <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n에뮬레이터가 실행 중인지 확인해 주세요\n에뮬레이터가 관리자 권한으로 실행된 경우, 본 소프트웨어도 관리자 권한으로 실행해야 합니다\n그래도 감지되지 않으면 수동으로 연결을 설정해 주세요.</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요.</system:String>
     <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환 🌐</system:String>
@@ -320,6 +323,8 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK가 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">해당 CDK의 일일 다운로드 횟수가 제한에 도달했습니다. 내일 다시 시도해 주세요.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 유형이 다운로드할 리소스와 일치하지 않습니다. CDK의 적용 범위를 확인해 주세요.</system:String>
+    <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 만료까지 {0}일 남았습니다.</system:String>
+    <system:String x:Key="MirrorChyanCdkFetchFailed">CDK 정보를 가져오지 못했습니다. 마지막으로 성공적으로 조회한 결과를 표시합니다.</system:String>
     <system:String x:Key="NewVersionFoundTitle">새로운 버전 확인</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithGlobalSource">｢{key=GlobalSource}｣ 에서 다운로드 중...</system:String>
     <system:String x:Key="NewVersionFoundDescDownloadingWithMirrorChyan">｢{key=MirrorChyan}｣ 에서 다운로드 중...</system:String>
@@ -896,6 +901,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. ｢Windows 설정｣ 으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
+    <system:String x:Key="ErrorCrashMessageHeader">위의 문제로 인해 프로그램이 비정상 종료되었습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageOpenLog">「{key=Settings} - {key=Issue} - {key=OpenDebugFolder}」로 이동하여 로그를 확인하고 오류가 발생한 구체적인 원인을 확인할 수 있습니다.</system:String>
+    <system:String x:Key="ErrorCrashMessageGenerateReport">「{key=Settings} - {key=Issue} - {key=GenerateSupportPayload}」을(를) 사용하여 오류 보고서를 생성한 후, 파란색 ｢{key=Issue}｣ 링크를 클릭하여 피드백을 제출해 주세요.</system:String>
+    <system:String x:Key="ErrorCrashMessageHelpTip">다른 사람에게 도움을 요청할 경우, 이 창의 스크린샷이나 사진이 아니라 생성된 오류 보고서 파일을 보내 주세요.</system:String>
+    <system:String x:Key="ErrorCrashDialogTitle">마지막 충돌 원인</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
     <!--  !ErrorView  -->
     <!--  AsstProxy  -->

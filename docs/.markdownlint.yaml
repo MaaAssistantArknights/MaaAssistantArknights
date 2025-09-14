@@ -224,3 +224,38 @@ MD052: true
 MD053:
   # Ignored definitions
   ignored_definitions: ["//"]
+
+# MD054/link-image-style - Link and image style
+MD054:
+  # Allow autolinks
+  autolink: true
+  # Allow collapsed reference links and images
+  collapsed: true
+  # Allow full reference links and images
+  full: true
+  # Allow inline links and images
+  inline: true
+  # Allow shortcut reference links and images
+  shortcut: true
+  # Allow URLs as inline links
+  url_inline: true
+
+# MD055/table-pipe-style - Table pipe style
+MD055:
+  # Table pipe style
+  style: "consistent"
+
+# MD056/table-column-count - Table column count
+MD056: true
+
+# MD057 - Table column count inconsistencies with table header column count
+# (Not documented in official rules list - MD057 appears to be missing or deprecated)
+
+# MD058/blanks-around-tables - Tables should be surrounded by blank lines
+MD058: true
+
+# MD059/descriptive-link-text - Link text should be descriptive
+MD059:
+  false
+  # Prohibited link texts
+  #prohibited_texts: ["click here", "here", "link", "more"]

@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
@@ -77,13 +78,13 @@ namespace MaaWpfGui.Helper
 
         private static void LoadBattleData()
         {
-            const string FilePath = "resource/battle_data.json";
-            if (!File.Exists(FilePath))
+            string filePath = Path.Combine(PathsHelper.ResourceDir, "battle_data.json");
+            if (!File.Exists(filePath))
             {
                 return;
             }
 
-            string jsonText = File.ReadAllText(FilePath);
+            string jsonText = File.ReadAllText(filePath);
             var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
 
             var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
@@ -123,8 +124,8 @@ namespace MaaWpfGui.Helper
                 _ => string.Empty,
             };
 
-            var clientTags = ParseRecruit(Path.Combine("resource", clientPath, "recruitment.json"));
-            var displayTags = ParseRecruit(Path.Combine("resource", displayPath, "recruitment.json"));
+            var clientTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir, clientPath, "recruitment.json"));
+            var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir,  displayPath, "recruitment.json"));
 
             RecruitTags = clientTags.Keys
                 .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
@@ -166,7 +167,7 @@ namespace MaaWpfGui.Helper
         private static void LoadMapData()
         {
             MapData = [];
-            var path = Path.Combine("resource", "Arknights-Tile-Pos", "overview.json");
+            var path = Path.Combine(PathsHelper.ResourceDir, "Arknights-Tile-Pos", "overview.json");
             if (!File.Exists(path))
             {
                 return;

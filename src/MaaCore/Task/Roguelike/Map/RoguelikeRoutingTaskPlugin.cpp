@@ -11,7 +11,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
-#include "Vision/Miscellaneous/BrightPointAnalyzer.h"
+#include "Vision/Miscellaneous/PixelAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 
 bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
@@ -503,7 +503,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
     }
 
     // 将 image转换为二值图像后计算亮点
-    BrightPointAnalyzer analyzer(image);
+    PixelAnalyzer analyzer(image);
 
     const int center_x = node_x - (m_column_offset - m_node_width) / 2; // node 与 前一列节点的中点横坐标
     const int node_y = m_map.get_node_y(node);
@@ -529,21 +529,23 @@ void asst::RoguelikeRoutingTaskPlugin::generate_edges(
         }
 
         // 按照水平方向排序（从左到右）
-        std::vector<Point> brightPoints = analyzer.get_result();
+        std::vector<Point> brightPixels = analyzer.get_result();
 
-        auto [x_min_p, x_max_p] = ranges::minmax(brightPoints, /*comp=*/ {}, [](const Point& p) { return p.x; });
+        auto [x_min_p, x_max_p] = std::ranges::minmax(brightPixels, /*comp=*/ {}, [](const Point& p) { return p.x; });
         const int leftmost_x = x_min_p.x;
         const int rightmost_x = x_max_p.x;
 
-        auto leftmostBrightPoints = brightPoints | views::filter([&](const Point& p) { return p.x == leftmost_x; });
-        auto rightmostBrightPoints = brightPoints | views::filter([&](const Point& p) { return p.x == rightmost_x; });
+        auto leftmostBrightPixels =
+            brightPixels | std::views::filter([&](const Point& p) { return p.x == leftmost_x; });
+        auto rightmostBrightPixels =
+            brightPixels | std::views::filter([&](const Point& p) { return p.x == rightmost_x; });
 
         auto [leftmost_y_min_p, leftmost_y_max_p] =
-            ranges::minmax(leftmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
+            std::ranges::minmax(leftmostBrightPixels, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int leftmost_y = (leftmost_y_min_p.y + leftmost_y_max_p.y) / 2;
 
         auto [rightmost_y_min_p, rightmost_y_max_p] =
-            ranges::minmax(rightmostBrightPoints, /*comp=*/ {}, [](const Point& p) { return p.y; });
+            std::ranges::minmax(rightmostBrightPixels, /*comp=*/ {}, [](const Point& p) { return p.y; });
         const int rightmost_y = (rightmost_y_min_p.y + rightmost_y_max_p.y) / 2;
 
         if ((std::abs(prev_y - node_y) < m_direction_threshold &&

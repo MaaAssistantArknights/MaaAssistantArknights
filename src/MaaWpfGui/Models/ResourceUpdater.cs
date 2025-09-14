@@ -76,7 +76,7 @@ namespace MaaWpfGui.Models
                 {
                     DirectoryMerge(
                         Path.Combine(basePath, folder),
-                        Path.Combine(Directory.GetCurrentDirectory(), folder));
+                        Path.Combine(PathsHelper.BaseDir, folder));
                 }
             }
             catch (Exception e)
@@ -168,6 +168,18 @@ namespace MaaWpfGui.Models
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
                 return (CheckUpdateRetT.UnknownError, null, null);
+            }
+
+            var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<long?>();
+
+            if (mirrorChyanCdkExpired.HasValue)
+            {
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired.Value;
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+            }
+            else
+            {
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             }
 
             var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;
@@ -275,7 +287,7 @@ namespace MaaWpfGui.Models
 
             try
             {
-                DirectoryMerge(ExtractFolder, Directory.GetCurrentDirectory());
+                DirectoryMerge(ExtractFolder, PathsHelper.BaseDir);
             }
             catch (Exception e)
             {

@@ -39,14 +39,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
     }
 
     private static readonly string[] _payloadFileNames = [
-        Bootstrapper.UiLogFilename,
-        Bootstrapper.UiLogBakFilename,
-        Bootstrapper.CoreLogFilename,
-        Bootstrapper.CoreLogBakFilename,
-        ConfigurationHelper.ConfigurationFile,
-        ConfigFactory.ConfigFileName];
-
-    private const string DebugDir = "debug";
+        Bootstrapper.UiLogFile,
+        Bootstrapper.UiLogBakFile,
+        Bootstrapper.CoreLogFile,
+        Bootstrapper.CoreLogBakFile,
+        ConfigurationHelper.ConfigFile,
+        ConfigFactory.ConfigFile];
 
     public static IssueReportUserControlModel Instance { get; }
 
@@ -54,12 +52,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            if (!Directory.Exists(DebugDir))
+            if (!Directory.Exists(PathsHelper.DebugDir))
             {
-                Directory.CreateDirectory(DebugDir);
+                Directory.CreateDirectory(PathsHelper.DebugDir);
             }
 
-            Process.Start("explorer.exe", DebugDir);
+            Process.Start("explorer.exe", PathsHelper.DebugDir);
         }
         catch (Exception ex)
         {
@@ -73,7 +71,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
         try
         {
             var reportFileName = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip";
-            string zipPath = Path.Combine(DebugDir, reportFileName);
+            string zipPath = Path.Combine(PathsHelper.DebugDir, reportFileName);
             string tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             string debugTempPath = Path.Combine(tempPath, "debug");
             string resourceTempPath = Path.Combine(tempPath, "resource");
@@ -94,7 +92,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
                     continue;
                 }
 
-                string relativePath = Path.GetRelativePath(Environment.CurrentDirectory, file);
+                string relativePath = Path.GetRelativePath(PathsHelper.BaseDir, file);
                 string dest = Path.Combine(tempPath, relativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                 File.Copy(file, dest, overwrite: true);
@@ -114,12 +112,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
             }
 
             // 遍历 cache 文件夹下的文件，复制到 tempPath/cache
-            const string CacheResourceDir = "cache";
-            if (Directory.Exists(CacheResourceDir))
+            string cacheResourceDir = PathsHelper.CacheDir;
+            if (Directory.Exists(cacheResourceDir))
             {
-                foreach (var file in Directory.EnumerateFiles(CacheResourceDir, "*", SearchOption.AllDirectories))
+                foreach (var file in Directory.EnumerateFiles(cacheResourceDir, "*", SearchOption.AllDirectories))
                 {
-                    string relativePath = Path.GetRelativePath(CacheResourceDir, file);
+                    string relativePath = Path.GetRelativePath(cacheResourceDir, file);
                     string dest = Path.Combine(tempPath, "cache", relativePath);
                     Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
                     File.Copy(file, dest, overwrite: true);

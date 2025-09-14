@@ -14318,6 +14318,150 @@
         "stageId": "act45side_08",
         "width": 13
     },
+    "act45side_ex01#f#-activities/act45side/level_act45side_ex01": {
+        "code": "SS-EX-1",
+        "filename": "act45side_ex01#f#-activities-act45side-level_act45side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex01",
+        "name": "第一篇·糖果小屋",
+        "stageId": "act45side_ex01#f#",
+        "width": 11
+    },
+    "act45side_ex01-activities/act45side/level_act45side_ex01": {
+        "code": "SS-EX-1",
+        "filename": "act45side_ex01-activities-act45side-level_act45side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex01",
+        "name": "第一篇·糖果小屋",
+        "stageId": "act45side_ex01",
+        "width": 11
+    },
+    "act45side_ex02#f#-activities/act45side/level_act45side_ex02": {
+        "code": "SS-EX-2",
+        "filename": "act45side_ex02#f#-activities-act45side-level_act45side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex02",
+        "name": "第二篇·玩具盒子",
+        "stageId": "act45side_ex02#f#",
+        "width": 12
+    },
+    "act45side_ex02-activities/act45side/level_act45side_ex02": {
+        "code": "SS-EX-2",
+        "filename": "act45side_ex02-activities-act45side-level_act45side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex02",
+        "name": "第二篇·玩具盒子",
+        "stageId": "act45side_ex02",
+        "width": 12
+    },
+    "act45side_ex03#f#-activities/act45side/level_act45side_ex03": {
+        "code": "SS-EX-3",
+        "filename": "act45side_ex03#f#-activities-act45side-level_act45side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex03",
+        "name": "第三篇·闪亮翅膀",
+        "stageId": "act45side_ex03#f#",
+        "width": 13
+    },
+    "act45side_ex03-activities/act45side/level_act45side_ex03": {
+        "code": "SS-EX-3",
+        "filename": "act45side_ex03-activities-act45side-level_act45side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex03",
+        "name": "第三篇·闪亮翅膀",
+        "stageId": "act45side_ex03",
+        "width": 13
+    },
+    "act45side_ex04#f#-activities/act45side/level_act45side_ex04": {
+        "code": "SS-EX-4",
+        "filename": "act45side_ex04#f#-activities-act45side-level_act45side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex04",
+        "name": "第四篇·轻轻眨眼",
+        "stageId": "act45side_ex04#f#",
+        "width": 12
+    },
+    "act45side_ex04-activities/act45side/level_act45side_ex04": {
+        "code": "SS-EX-4",
+        "filename": "act45side_ex04-activities-act45side-level_act45side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex04",
+        "name": "第四篇·轻轻眨眼",
+        "stageId": "act45side_ex04",
+        "width": 12
+    },
+    "act45side_ex05#f#-activities/act45side/level_act45side_ex05": {
+        "code": "SS-EX-5",
+        "filename": "act45side_ex05#f#-activities-act45side-level_act45side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex05",
+        "name": "第五篇·羽绒被褥",
+        "stageId": "act45side_ex05#f#",
+        "width": 13
+    },
+    "act45side_ex05-activities/act45side/level_act45side_ex05": {
+        "code": "SS-EX-5",
+        "filename": "act45side_ex05-activities-act45side-level_act45side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex05",
+        "name": "第五篇·羽绒被褥",
+        "stageId": "act45side_ex05",
+        "width": 13
+    },
+    "act45side_ex06#f#-activities/act45side/level_act45side_ex06": {
+        "code": "SS-EX-6",
+        "filename": "act45side_ex06#f#-activities-act45side-level_act45side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex06",
+        "name": "第六篇·镜中茶会",
+        "stageId": "act45side_ex06#f#",
+        "width": 11
+    },
+    "act45side_ex06-activities/act45side/level_act45side_ex06": {
+        "code": "SS-EX-6",
+        "filename": "act45side_ex06-activities-act45side-level_act45side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex06",
+        "name": "第六篇·镜中茶会",
+        "stageId": "act45side_ex06",
+        "width": 11
+    },
+    "act45side_ex07#f#-activities/act45side/level_act45side_ex07": {
+        "code": "SS-EX-7",
+        "filename": "act45side_ex07#f#-activities-act45side-level_act45side_ex07.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex07",
+        "name": "第七篇·月下幻梦",
+        "stageId": "act45side_ex07#f#",
+        "width": 12
+    },
+    "act45side_ex07-activities/act45side/level_act45side_ex07": {
+        "code": "SS-EX-7",
+        "filename": "act45side_ex07-activities-act45side-level_act45side_ex07.json",
+        "height": 7,
+        "levelId": "activities/act45side/level_act45side_ex07",
+        "name": "第七篇·月下幻梦",
+        "stageId": "act45side_ex07",
+        "width": 12
+    },
+    "act45side_ex08#f#-activities/act45side/level_act45side_ex08": {
+        "code": "SS-EX-8",
+        "filename": "act45side_ex08#f#-activities-act45side-level_act45side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex08",
+        "name": "童话的结局",
+        "stageId": "act45side_ex08#f#",
+        "width": 13
+    },
+    "act45side_ex08-activities/act45side/level_act45side_ex08": {
+        "code": "SS-EX-8",
+        "filename": "act45side_ex08-activities-act45side-level_act45side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act45side/level_act45side_ex08",
+        "name": "童话的结局",
+        "stageId": "act45side_ex08",
+        "width": 13
+    },
     "act45side_tr01-activities/act45side/level_act45side_tr01": {
         "code": "SS-TR-1",
         "filename": "act45side_tr01-activities-act45side-level_act45side_tr01.json",

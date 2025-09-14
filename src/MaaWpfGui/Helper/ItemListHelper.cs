@@ -21,6 +21,7 @@ using System.Text.Json;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using Serilog;
 
@@ -39,14 +40,14 @@ namespace MaaWpfGui.Helper
             switch (language)
             {
                 case "zh-cn":
-                    filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "item_index.json");
+                    filename = Path.Combine(PathsHelper.ResourceDir, "item_index.json");
                     break;
 
                 case "pallas":
                     break;
 
                 default:
-                    filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
+                    filename = Path.Combine(PathsHelper.ResourceDir, "global", DataHelper.ClientDirectoryMapper[language], "resource", "item_index.json");
                     break;
             }
 
@@ -99,7 +100,7 @@ namespace MaaWpfGui.Helper
                 return cachedImage;
             }
 
-            var imagePath = Path.Combine(Environment.CurrentDirectory, $"resource/template/items/{itemId}.png");
+            var imagePath = Path.Combine(PathsHelper.ResourceDir, $"template/items/{itemId}.png");
             if (!File.Exists(imagePath))
             {
                 _imageCache.TryAdd(itemId, null);

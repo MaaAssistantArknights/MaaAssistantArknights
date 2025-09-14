@@ -95,9 +95,6 @@ private:
     json::value m_copilot_json;
     int m_pre_action_costs = -1;
 
-    void show_img(const VisionHelper& analyzer);
-    void show_img(const cv::Mat& img);
-
 #ifdef ASST_DEBUG
     inline static const std::string DrawWindow = "CombatRecord";
 #endif

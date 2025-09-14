@@ -22,14 +22,14 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
     - Ubuntu/Debian
 
     ```bash
-    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+    sudo apt install cmake
     ```
 
     - Arch Linux
 
-        ```bash
-        sudo pacman -S --needed gcc cmake zlib
-        ```
+    ```bash
+    sudo pacman -S --needed cmake
+    ```
 
 2. Build third-party libraries
 
@@ -38,10 +38,11 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
     - Download pre-built third-party libraries (recommended)
 
         > **Note**
-        > Contains dynamic libraries compiled on relatively new Linux distributions (Ubuntu 22.04). If your system's libstdc++ version is older, you may encounter ABI incompatibility issues.
+        > ~~Contains dynamic libraries compiled on relatively new Linux distributions (Ubuntu 22.04). If your system's libstdc++ version is older, you may encounter ABI incompatibility issues.~~
+        > After introducing cross compiling to lower the runtime requirement, only glibc 2.31 (aka. ubuntu 20.04) is required now.
 
         ```bash
-        python maadeps-download.py
+        python tools/maadeps-download.py
         ```
 
     If you find the libraries downloaded above cannot run on your system due to ABI version issues and you don't want to use container solutions, you can also try compiling from scratch
@@ -49,22 +50,27 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
     - Build third-party libraries from scratch (will take considerable time)
 
         ```bash
-        git submodule update --init --recursive
+        git clone https://github.com/MaaAssistantArknights/MaaDeps
         cd MaaDeps
+        # If the system is too old to use our prebuilt llvm 20, please consider using local build enviroment instead of cross compiling.
+        # The toolchain config under MaaDeps/cmake needs to be modified.
+        python linux-toolchain-download.py
         python build.py
         ```
 
 3. Compile MAA
 
     ```bash
-    CC=gcc-12 CXX=g++-12 cmake -B build \
-        -DINSTALL_THIRD_LIBS=ON \
+    cmake -B build \
         -DINSTALL_RESOURCE=ON \
-        -DINSTALL_PYTHON=ON
+        -DINSTALL_PYTHON=ON \
+        -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
     cmake --build build
     ```
 
     To install MAA to target location, note that MAA is recommended to run by specifying `LD_LIBRARY_PATH`, don't use administrator privileges to install MAA into `/usr`
+
+    > Now it shall be able to run without specifying `LD_LIBRARY_PATH`
 
     ```bash
     cmake --install build --prefix <target_directory>

@@ -727,19 +727,22 @@
         "doc": "模板任务: 选择左侧的存档读取",
         "template": "Tales@RA@ActsLeft2.png",
         "roi": [317, 488, 196, 32],
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Tales@RA@SelectMiddleSave": {
         "doc": "模板任务: 选择中间的存档读取",
         "template": "Tales@RA@ActsLeft2.png",
         "roi": [617, 488, 46, 32],
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Tales@RA@SelectRightSave": {
         "doc": "模板任务: 选择右侧的存档读取",
         "template": "Tales@RA@ActsLeft2.png",
         "roi": [767, 488, 196, 32],
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Tales@RA@SelectSecondLastSave": {
         "doc": "模板任务: 选择从右往左第二个存档或仅存的存档",

@@ -31,15 +31,14 @@ using Serilog;
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
 namespace MaaWpfGui.Configuration.Factory;
+using static MaaWpfGui.Helper.PathsHelper;
 
 public static class ConfigFactory
 {
-    public const string ConfigFileName = "config/gui.new.json";
-    private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, ConfigFileName);
+    public static readonly string ConfigFile = Path.Combine(ConfigDir, "gui.new.json");
 
     // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
-    // ReSharper disable once UnusedMember.Local
-    private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json.bak");
+    private static readonly string _configBakFile = Path.Combine(ConfigDir, "gui.new.json.bak");
 
     private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
@@ -59,21 +58,21 @@ public static class ConfigFactory
     {
         lock (_lock)
         {
-            if (Directory.Exists("config") is false)
+            if (Directory.Exists(ConfigDir) is false)
             {
-                Directory.CreateDirectory("config");
+                Directory.CreateDirectory(ConfigDir);
             }
 
             Root? parsed = null;
-            if (File.Exists(_configurationFile))
+            if (File.Exists(ConfigFile))
             {
                 try
                 {
-                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
+                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(ConfigFile), _options);
                     if (parsed is null)
                     {
                         _logger.Warning("Failed to load configuration file, copying configuration file to error file");
-                        File.Copy(_configurationFile, _configurationFile + ".err", true);
+                        File.Copy(ConfigFile, ConfigFile + ".err", true);
                     }
                 }
                 catch (Exception e)
@@ -82,21 +81,21 @@ public static class ConfigFactory
                 }
             }
 
-            if (parsed is null && File.Exists(_configurationBakFile))
+            if (parsed is null && File.Exists(_configBakFile))
             {
                 _logger.Information("trying to use backup file");
                 try
                 {
-                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationBakFile), _options);
+                    parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configBakFile), _options);
                     if (parsed is not null)
                     {
                         _logger.Information("Backup file loaded successfully, copying backup file to configuration file");
-                        File.Copy(_configurationBakFile, _configurationFile, true);
+                        File.Copy(_configBakFile, ConfigFile, true);
                     }
                     else
                     {
                         _logger.Warning("Failed to load backup file, copying backup file to error file");
-                        File.Copy(_configurationBakFile, _configurationBakFile + ".err", true);
+                        File.Copy(_configBakFile, _configBakFile + ".err", true);
                     }
                 }
                 catch (Exception e)
@@ -152,13 +151,13 @@ public static class ConfigFactory
                 SpecificConfigBind(keyValue.Key, keyValue.Value);
             }
 
-            if (Save(_configurationBakFile, parsed))
+            if (Save(_configBakFile, parsed))
             {
-                _logger.Information("{File} saved", _configurationBakFile);
+                _logger.Information("{File} saved", _configBakFile);
             }
             else
             {
-                _logger.Warning("{File} save failed", _configurationBakFile);
+                _logger.Warning("{File} save failed", _configBakFile);
             }
 
             return parsed;
@@ -274,7 +273,7 @@ public static class ConfigFactory
         {
             try
             {
-                File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(root ?? Root, _options));
+                File.WriteAllText(file ?? ConfigFile, JsonSerializer.Serialize(root ?? Root, _options));
             }
             catch (Exception e)
             {
@@ -291,7 +290,7 @@ public static class ConfigFactory
         await _semaphore.WaitAsync();
         try
         {
-            var filePath = file ?? _configurationFile;
+            var filePath = file ?? ConfigFile;
             var jsonString = JsonSerializer.Serialize(Root, _options);
             await File.WriteAllTextAsync(filePath, jsonString);
             return true;
@@ -313,11 +312,11 @@ public static class ConfigFactory
         {
             if (Save())
             {
-                _logger.Information("{File} saved", _configurationFile);
+                _logger.Information("{File} saved", ConfigFile);
             }
             else
             {
-                _logger.Warning("{File} save failed", _configurationFile);
+                _logger.Warning("{File} save failed", ConfigFile);
             }
         }
     }

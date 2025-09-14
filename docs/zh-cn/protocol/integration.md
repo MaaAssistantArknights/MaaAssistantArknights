@@ -160,7 +160,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                             // 20000 - Rotation: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）
 
     "facility": [           // 要换班的设施（有序），必选。不支持运行中设置
-        string,             // 设施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
+        string,             // 设施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm" | "Processing" | "Training"
         ...
     ],
     "drones": string,       // 无人机用途，可选项，默认 _NotUse
@@ -189,19 +189,23 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```json5
 // 对应的任务参数
 {
-    "enable": bool,         // 是否启用本任务，可选，默认为 true
-    "shopping": bool,       // 是否购物，可选，默认 false。不支持运行中设置
-    "buy_first": [          // 优先购买列表，可选。不支持运行中设置
+    "enable": bool,         // 是否启用本任务，可选，默认值 true
+    "visit_friends": bool,  // 是否访问好友基建以获得信用，可选，默认值 true
+    "shopping": bool,       // 是否购物，可选，默认值 true
+    "buy_first": [          // 优先购买列表，可选，默认值 []
         string,             // 商品名，如 "招聘许可"、"龙门币" 等
         ...
     ],
-    "blacklist": [          // 黑名单列表，可选。不支持运行中设置
+    "blacklist": [          // 购物黑名单列表，可选，默认值 []
         string,             // 商品名，如 "加急许可"、"家具零件" 等
         ...
     ],
-   "force_shopping_if_credit_full": bool // 是否在信用溢出时无视黑名单，默认为 true
-    "only_buy_discount": bool // 是否只购买折扣物品，只作用于第二轮购买，默认为 false
-    "reserve_max_credit": bool // 是否在信用点低于300时停止购买，只作用于第二轮购买，默认为 false
+    "force_shopping_if_credit_full": bool,  // 是否在信用溢出时无视黑名单，可选，默认值 false
+    "only_buy_discount": bool,              // 是否只购买折扣物品，只作用于第二轮购买，可选，默认值 false
+    "reserve_max_credit": bool,             // 是否在信用点低于 300 时停止购买，只作用于第二轮购买，可选，默认值 false
+    "credit_fight": bool,                   // 是否借助战打一局 OF-1 关卡以便在第二天获得更多信用，可选，默认值 false
+    "formation_index": int                  // 打 OF-1 时所使用的编队栏位的编号，可选，默认值 0；
+                                            // 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队
 }
 ```
 

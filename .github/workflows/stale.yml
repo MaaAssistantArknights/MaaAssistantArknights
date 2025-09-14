@@ -21,7 +21,7 @@ jobs:
       contents: none
     steps:
       - name: Close inactive issues
-        uses: actions/stale@v9
+        uses: actions/stale@v10
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           days-before-stale: ${{ env.daysBeforeStale }}

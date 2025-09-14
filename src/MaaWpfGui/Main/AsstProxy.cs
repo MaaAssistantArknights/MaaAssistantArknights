@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +52,9 @@ using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = nint;
 using AsstInstanceOptionKey = System.Int32;
+
 using AsstTaskId = System.Int32;
+
 using FightTask = MaaWpfGui.ViewModels.UserControl.TaskQueue.FightSettingsUserControlModel;
 using ToastNotification = MaaWpfGui.Helper.ToastNotification;
 
@@ -79,6 +83,17 @@ namespace MaaWpfGui.Main
                 }
 
                 return buf;
+            }
+        }
+
+        private static unsafe bool AsstSetUserDir(string dirname)
+        {
+            fixed (byte* ptr = EncodeNullTerminatedUtf8(dirname))
+            {
+                _logger.Information("AsstSetUserDir dirame: {Dirname}", dirname);
+                var ret = MaaService.AsstSetUserDir(ptr);
+                _logger.Information("AsstSetUserDir ret: {Ret}", ret);
+                return ret;
             }
         }
 
@@ -321,6 +336,8 @@ namespace MaaWpfGui.Main
                     TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
                 }
             };
+
+            AsstSetUserDir(PathsHelper.BaseDir);
         }
 
         /// <summary>
@@ -343,41 +360,50 @@ namespace MaaWpfGui.Main
             _logger.Information("Load Resource");
 
             string clientType = SettingsViewModel.GameSettings.ClientType;
-            string mainRes = Directory.GetCurrentDirectory();
-            string globalResource = mainRes + @"\resource\global\" + clientType;
-            string mainCache = Directory.GetCurrentDirectory() + @"\cache";
-            string globalCache = mainCache + @"\resource\global\" + clientType;
+
+            string mainRes = PathsHelper.ResourceDir;
+            string globalRes = Path.Combine(mainRes, "global", clientType, "resource");
+            string mainCacheRes = PathsHelper.CacheDir;
+            string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
 
             bool loaded;
             if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
-                CopyTasksJson(mainCache);
+                CopyTasksJson(mainCacheRes);
                 loaded = LoadResIfExists(mainRes);
-                loaded &= LoadResIfExists(mainCache);
+                loaded &= LoadResIfExists(mainCacheRes);
             }
             else
             {
                 // Read resources first, then read cache
-                CopyTasksJson(mainCache);
-                CopyTasksJson(globalCache);
-                loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCache);
-                loaded &= LoadResIfExists(globalResource) && LoadResIfExists(globalCache);
+                CopyTasksJson(mainCacheRes);
+                CopyTasksJson(globalCacheRes);
+                loaded = LoadResIfExists(mainRes) && LoadResIfExists(mainCacheRes);
+                loaded &= LoadResIfExists(globalRes) && LoadResIfExists(globalCacheRes);
             }
 
             return loaded;
 
             static bool LoadResIfExists(string path)
             {
-                const string Resource = @"\resource";
-                if (!Directory.Exists(path + Resource))
+                if (!Directory.Exists(path))
                 {
-                    _logger.Warning("Resource not found: {Path}", path + Resource);
+                    _logger.Warning("Resource not found: {Path}", path);
                     return true;
                 }
 
-                _logger.Information("Load resource: {Path}", path + Resource);
-                return AsstLoadResource(path);
+                _logger.Information("Load resource: {Path}", path);
+
+                // AsstLoadResource 需要的是 resource 的上级目录
+                var parent = Directory.GetParent(path)?.FullName ?? string.Empty;
+                if (string.IsNullOrEmpty(parent))
+                {
+                    _logger.Warning("Resource path invalid: {Path}", path);
+                    return false;
+                }
+
+                return AsstLoadResource(parent);
             }
 
             // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
@@ -701,6 +727,7 @@ namespace MaaWpfGui.Main
                                 }
 
                                 break;
+
                             case "LDPlayer":
                                 if (!SettingsViewModel.ConnectSettings.LdPlayerExtras.Enable)
                                 {
@@ -763,10 +790,12 @@ namespace MaaWpfGui.Main
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge1);
                                 break;
+
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge2);
                                 break;
+
                             default:
                                 {
                                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.SnapshotChallenge3);
@@ -1246,7 +1275,7 @@ namespace MaaWpfGui.Main
                                     }
                                 }
 
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd('\n'), UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + str.ToString().TrimEnd(), UiLogColor.Error);
                             }
                             else
                             {
@@ -1470,6 +1499,7 @@ namespace MaaWpfGui.Main
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                         AchievementTrackerHelper.Instance.AddProgress(AchievementIds.MosquitoLeg);
                                         break;
+
                                     case "VisitLimited" or "VisitNextBlack":
                                         TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
@@ -2103,6 +2133,7 @@ namespace MaaWpfGui.Main
                 case "MuMuEmulator12":
                     AsstSetConnectionExtrasMuMu12(SettingsViewModel.ConnectSettings.MuMuEmulator12Extras.Config);
                     break;
+
                 case "LDPlayer":
                     AsstSetConnectionExtrasLdPlayer(SettingsViewModel.ConnectSettings.LdPlayerExtras.Config);
                     break;

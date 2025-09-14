@@ -472,9 +472,9 @@ With these schemas, you can get auto-completion and validation in supported edit
 [task-types]: ../../protocol/integration.md#list-of-task-types
 [emulator-ports]: ../../manual/connection.md#obtain-port-number
 [playcover-doc]: ../../manual/device/macos.md#%E2%9C%85-playcover-the-software-runs-most-fluently-for-its-nativity-%F0%9F%9A%80
-[waydroid-doc]: ../../manual/device/linux.md#✅-waydroid
+[waydroid-doc]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/manual/device/linux.md#✅-waydroid
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/config_examples
-[wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
+[wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/main/home/dot_config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/crates/maa-cli/schemas/asst.schema.json

@@ -3,7 +3,7 @@
 #include <numbers>
 #include <regex>
 
-#include "Utils/Ranges.hpp"
+#include <ranges>
 
 #include "Utils/NoWarningCV.h"
 
@@ -553,7 +553,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
-    for (const auto& key : m_baseline | views::keys) {
+    for (const auto& key : m_baseline | std::views::keys) {
         Log.trace(__FUNCTION__, "baseline", key.to_string());
     }
 
@@ -867,7 +867,7 @@ int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str
 
     constexpr char Dot = '.';
     if (digit_str.empty() ||
-        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
+        !std::ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
         return 0;
     }
     if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {

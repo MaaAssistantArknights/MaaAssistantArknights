@@ -1,7 +1,7 @@
 #include "ItemConfig.h"
 
-#include "Utils/Ranges.hpp"
 #include <meojson/json.hpp>
+#include <ranges>
 
 #include "Utils/Logger.hpp"
 
@@ -22,8 +22,8 @@ bool asst::ItemConfig::parse(const json::value& json)
 
     m_ordered_material_item_id.clear();
     m_ordered_material_item_id.reserve(material_sortid.size());
-    ranges::copy(material_sortid | views::keys, std::back_inserter(m_ordered_material_item_id));
-    ranges::sort(m_ordered_material_item_id, std::less {}, [&](const std::string& name) -> int {
+    std::ranges::copy(material_sortid | std::views::keys, std::back_inserter(m_ordered_material_item_id));
+    std::ranges::sort(m_ordered_material_item_id, std::less {}, [&](const std::string& name) -> int {
         return material_sortid[name];
     });
 

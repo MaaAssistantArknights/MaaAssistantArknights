@@ -306,7 +306,7 @@
                                     IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     ToolTip="{c:Binding CopilotId}">
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}"/>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}" />
                                 </CheckBox>
                                 <TextBlock
                                     Grid.Column="1"
@@ -325,10 +325,11 @@
                                     hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                    Command="{s:Action SelectCopilotTask}"
-                                    CommandParameter="{c:Binding Index}"
                                     Foreground="{DynamicResource SecondaryTextBrush}"
-                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    MouseRightButtonUp="{s:Action SelectCopilotTask}"
+                                    PreviewMouseLeftButtonUp="{s:Action SelectCopilotTask}"
+                                    Tag="{c:Binding Index}" />
                                 <Button
                                     Grid.Column="3"
                                     Margin="0"
