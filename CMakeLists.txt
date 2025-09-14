@@ -130,23 +130,6 @@ if (BUILD_SMOKE_TEST)
     install(TARGETS smoke_test ${MaaCore_install_flatten_args})
 endif (BUILD_SMOKE_TEST)
 
-if (BUILD_RES_UPDATER)
-    add_executable(ResourceUpdater tools/ResourceUpdater/main.cpp)
-    target_include_directories(ResourceUpdater PUBLIC include PRIVATE src/MaaCore) # For Utils/Time.hpp
-    target_link_libraries(ResourceUpdater HeaderOnlyLibraries ${OpenCV_LIBS})
-    if(LINUX)
-        target_link_libraries(ResourceUpdater pthread)
-    endif()
-    install(TARGETS ResourceUpdater DESTINATION . COMPONENT ResourceUpdater)
-
-    # Copy from maadeps_install, adding component
-    if(MSVC)
-        install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>" DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT ResourceUpdater)
-    else()
-        install(DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/" DESTINATION . USE_SOURCE_PERMISSIONS COMPONENT ResourceUpdater)
-    endif()
-endif (BUILD_RES_UPDATER)
-
 if (APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
 endif (APPLE)
