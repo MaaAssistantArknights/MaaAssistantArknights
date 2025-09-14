@@ -27,6 +27,10 @@ if(APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
 endif()
 
+if(INSTALL_FLATTEN)
+    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
+endif()
+
 add_library(HeaderOnlyLibraries INTERFACE)
 target_include_directories(HeaderOnlyLibraries INTERFACE 3rdparty/include)
 

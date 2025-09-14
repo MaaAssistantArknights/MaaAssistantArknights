@@ -51,9 +51,5 @@ elseif(UNIX)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
 endif()
 
-if(INSTALL_FLATTEN)
-    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
-endif()
-
 install(TARGETS MaaCore ${MaaCore_install_flatten_args})
 maadeps_install(.)
