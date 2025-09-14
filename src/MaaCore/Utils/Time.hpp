@@ -24,7 +24,15 @@ inline std::string format_now()
 #ifdef _WIN32
     SYSTEMTIME sys {};
     GetLocalTime(&sys);
-    return std::format(kFormat, sys.wYear, sys.wMonth, sys.wDay, sys.wHour, sys.wMinute, sys.wSecond, sys.wMilliseconds);
+    return std::format(
+        kFormat,
+        sys.wYear,
+        sys.wMonth,
+        sys.wDay,
+        sys.wHour,
+        sys.wMinute,
+        sys.wSecond,
+        sys.wMilliseconds);
 #else
     timeval tv = {};
     gettimeofday(&tv, nullptr);
@@ -49,7 +57,15 @@ inline std::string format_now_for_filename()
 #ifdef _WIN32
     SYSTEMTIME sys {};
     GetLocalTime(&sys);
-    return std::format(kFormat, sys.wYear, sys.wMonth, sys.wDay, sys.wHour, sys.wMinute, sys.wSecond, sys.wMilliseconds);
+    return std::format(
+        kFormat,
+        sys.wYear,
+        sys.wMonth,
+        sys.wDay,
+        sys.wHour,
+        sys.wMinute,
+        sys.wSecond,
+        sys.wMilliseconds);
 #else
     timeval tv = {};
     gettimeofday(&tv, nullptr);
