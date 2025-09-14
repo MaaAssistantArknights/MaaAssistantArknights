@@ -187,6 +187,9 @@ bool asst::BattleFormationTask::_run()
 void asst::BattleFormationTask::formation_with_last_opers()
 {
     // 此时的oper_in_formation是根据上次编队结果复用的, 但是task此时已清空, 重新选一下好了
+    if (m_opers_in_formation->empty()) {
+        return;
+    }
 
     const auto& opers_result = analyzer_opers(ctrler()->get_image());
 
