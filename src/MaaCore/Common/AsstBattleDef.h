@@ -29,8 +29,10 @@ struct OperatorRequirements
     // int elite = -1;        // 精英化等级
     // int level = -1;        // 干员等级
     // int skill_level = -1;  // 技能等级
-    int module = -1; // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
     // int potentiality = -1; // 潜能要求
+    int module = -1; // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ
+
+    bool operator==(const OperatorRequirements& req) const { return module == req.module; }
 };
 
 // 干员编队状态
@@ -50,7 +52,13 @@ struct OperUsage // 干员用法
     SkillUsage skill_usage = SkillUsage::NotUse;
     int skill_times = 1;                          // 使用技能的次数，默认为 1，兼容曾经的作业
     battle::OperatorRequirements requirements {}; // 练度需求
-    OperStatus status = OperStatus::Unchecked;    // 编队状态
+    OperStatus status = OperStatus::Unchecked;    // 编队状态, 可能有其他更好的位置存储
+
+    bool operator==(const OperUsage& other) const
+    {
+        return name == other.name && skill == other.skill && skill_usage == other.skill_usage &&
+               skill_times == other.skill_times && requirements == other.requirements;
+    }
 };
 
 enum class DeployDirection

@@ -25,6 +25,3 @@ if (BUILD_XCFRAMEWORK)
     )
 endif (BUILD_XCFRAMEWORK)
 
-target_compile_options(MaaCore PRIVATE
-    -Wno-deprecated-declarations
-    -Wno-gnu-zero-variadic-macro-arguments)

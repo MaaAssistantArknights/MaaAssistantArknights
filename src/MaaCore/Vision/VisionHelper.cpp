@@ -131,7 +131,7 @@ cv::Mat asst::VisionHelper::create_mask(const cv::Mat& image, const cv::Rect& ro
 
 bool VisionHelper::save_img(const std::filesystem::path& relative_dir)
 {
-    std::string stem = utils::get_time_filestem();
+    std::string stem = utils::format_now_for_filename();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     bool ret = imwrite(relative_path, m_image);

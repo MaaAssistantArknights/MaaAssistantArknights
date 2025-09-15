@@ -128,7 +128,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
@@ -158,7 +158,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
@@ -196,11 +196,16 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Zip files
+        run: |
+          cd install
+          Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
+
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
-          path: install
+          path: install/*.zip
 
   ubuntu:
     # Prevent duplicate runs on organization branches with PRs
@@ -589,3 +594,12 @@ jobs:
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed Release"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
