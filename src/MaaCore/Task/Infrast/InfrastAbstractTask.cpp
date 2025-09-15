@@ -353,6 +353,7 @@ bool asst::InfrastAbstractTask::select_opers_review(
     // save_img("debug/");
     auto room_config = origin_room_config;
 
+    sleep(500); // 等待干员选择界面稳定
     const auto image = ctrler()->get_image();
     InfrastOperImageAnalyzer oper_analyzer(image);
     oper_analyzer.set_to_be_calced(
