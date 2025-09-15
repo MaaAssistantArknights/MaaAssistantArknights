@@ -781,7 +781,9 @@ namespace MaaWpfGui.ViewModels.UI
             var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
             // Closed activity stages
-            foreach (var stage in FightTask.Stages)
+            // TODO 依旧需要修复
+            // [Stage1, Stage2, Stage3, Stage4]
+            foreach (var stage in new[] { FightTask.Stage1, FightTask.Stage2, FightTask.Stage3, FightTask.Stage4 })
             {
                 if (stage == null || Instances.StageManager.GetStageInfo(stage).IsActivityClosed() != true)
                 {

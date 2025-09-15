@@ -107,8 +107,6 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             { "炭", "SK-5" },
         };
 
-    public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
-
     // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
     public string Stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
@@ -120,7 +118,8 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().Stage1;
         set
         {
-            if (GetTaskConfig<FightTask>().Stage1 == value)
+            var stage = GetTaskConfig<FightTask>().Stage1;
+            if (stage == value)
             {
                 return;
             }
@@ -128,7 +127,7 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
             if (CustomStageCode)
             {
                 // 从后往前删
-                if (GetTaskConfig<FightTask>().Stage1.Length != 3)
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
@@ -148,14 +147,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().Stage2;
         set
         {
-            if (GetTaskConfig<FightTask>().Stage2 == value)
+            var stage = GetTaskConfig<FightTask>().Stage2;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (GetTaskConfig<FightTask>().Stage2.Length != 3)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
@@ -175,14 +176,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().Stage3;
         set
         {
-            if (GetTaskConfig<FightTask>().Stage3 == value)
+            var stage = GetTaskConfig<FightTask>().Stage3;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (GetTaskConfig<FightTask>().Stage3.Length != 3)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
@@ -202,14 +205,16 @@ public class FightSettingsUserControlModel : TaskSettingsViewModel
         get => GetTaskConfig<FightTask>().Stage4;
         set
         {
-            if (GetTaskConfig<FightTask>().Stage4 == value)
+            var stage = GetTaskConfig<FightTask>().Stage4;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (GetTaskConfig<FightTask>().Stage4.Length != 3)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
