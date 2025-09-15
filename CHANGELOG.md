@@ -1,4 +1,4 @@
-## v5.25.0-beta.3
+## v5.25.0-beta.4
 
 ### 新增 | New
 
@@ -17,6 +17,9 @@
 
 ### 修复 | Fix
 
+* minitouch 触控 wait ms @ABA2396
+* 复核自定义干员时等待游戏动画 @ABA2396
+* 自动战斗无法读取下拉列表中的作业 @ABA2396
 * 修复 minitouch 爆炸 @MistEO
 * 刷开局奖励只选票券时行为异常 @ABA2396
 * Copilot多任务编队时编队设置残留 @status102
