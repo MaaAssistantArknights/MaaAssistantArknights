@@ -40,8 +40,8 @@
         "buttonLabels": {
             "download": "ダウンロード",
             "viewAll": "すべて表示",
-            "mirrorchyanCDKYes": "Mirrorちゃん CDK をお持ちですか？",
-            "mirrorchyanGo": "Mirrorちゃん 高速ダウンロードへ",
+            "mirrorchyanCDKPrompt": "Mirrorちゃん CDK をお持ちですか？",
+            "mirrorchyanDownload": "Mirrorちゃん 高速ダウンロードへ",
             "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。<br />GitHub Releases からダウンロードを試みてください。</1><2>Github Release へダウンロードする</2>"
         },
         "platformDetect": {

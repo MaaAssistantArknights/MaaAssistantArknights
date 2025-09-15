@@ -40,8 +40,8 @@
         "buttonLabels": {
             "download": "下載",
             "viewAll": "查看全部",
-            "mirrorchyanCDKYes": "已經有 Mirror醬 CDK？",
-            "mirrorchyanGo": "前往 Mirror醬 高速下載",
+            "mirrorchyanCDKPrompt": "已經有 Mirror醬 CDK？",
+            "mirrorchyanDownload": "前往 Mirror醬 高速下載",
             "versionInfoLoadingError": "<1>載入版本資訊失敗。您可以</1><2>前往 GitHub Releases 下載</2>"
         },
         "platformDetect": {

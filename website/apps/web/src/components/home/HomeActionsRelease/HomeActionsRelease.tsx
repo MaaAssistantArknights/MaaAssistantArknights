@@ -652,10 +652,10 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
             >
               <div className="text-sm">
                 <p>
-                  <i>{t('release.buttonLabels.mirrorchyanCDKYes')}</i>
+                  <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
                 </p>
                 <p>
-                  <i>{t('release.buttonLabels.mirrorchyanGo')}</i>
+                  <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
                 </p>
               </div>
             </GlowButton>

@@ -40,8 +40,8 @@
         "buttonLabels": {
             "download": "다운로드",
             "viewAll": "전체 보기",
-            "mirrorchyanCDKYes": "MirrorChyan CDK가 있나요?",
-            "mirrorchyanGo": "MirrorChyan 고속 다운로드로 이동",
+            "mirrorchyanCDKPrompt": "MirrorChyan CDK가 있나요?",
+            "mirrorchyanDownload": "MirrorChyan 고속 다운로드로 이동",
             "versionInfoLoadingError": "<1>버전 정보를 불러오지 못했습니다. 시도해 보세요</1><2>GitHub Releases에서 다운로드하기</2>"
         },
         "platformDetect": {
