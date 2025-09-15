@@ -212,6 +212,15 @@ namespace MaaWpfGui.ViewModels.UI
             get => _filename;
             set
             {
+                if (!File.Exists(value))
+                {
+                    var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(value));
+                    if (File.Exists(resourceFile))
+                    {
+                        value = resourceFile;
+                    }
+                }
+
                 SetAndNotify(ref _filename, value);
                 ClearLog();
                 if (string.IsNullOrWhiteSpace(value))
@@ -648,14 +657,6 @@ namespace MaaWpfGui.ViewModels.UI
             int copilotId = 0;
             bool writeToCache = false;
             object? payload;
-            if (!File.Exists(filename))
-            {
-                var resourceFile = Path.Combine(ResourceDir, "copilot", Path.GetFileName(filename));
-                if (File.Exists(resourceFile))
-                {
-                    filename = resourceFile;
-                }
-            }
 
             if (File.Exists(filename))
             {
