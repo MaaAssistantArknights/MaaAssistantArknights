@@ -131,10 +131,10 @@ bool asst::SupportList::leave_support_unit_detail_panel()
         return false;
     }
 
-     if (ProcessTask(m_task, { "SupportList-Cancel" }).run()) {
-         m_in_support_unit_detail_panel = false;
-         return true;
-     }
+    if (ProcessTask(m_task, { "SupportList-Cancel" }).run()) {
+        m_in_support_unit_detail_panel = false;
+        return true;
+    }
 
     return false;
 }

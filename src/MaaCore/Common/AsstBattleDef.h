@@ -302,10 +302,10 @@ struct RequiredOper
 struct SupportUnit
 {
     Rect rect;
-    std::string name;  // 干员名
-    int elite = 0;     // 精英化阶段
-    int level = 0;     // 等级
-    int potential = 0; // 干员潜能
+    std::string name;         // 干员名
+    int elite = 0;            // 精英化阶段
+    int level = 0;            // 等级
+    int potential = 0;        // 干员潜能
     bool from_friend = false; // 是否为好友助战
     // SomeType modules       // 模组
     // ———————— 以下字段仅在集成战略中有效 ————————
@@ -322,10 +322,10 @@ inline static std::string canonical_oper_name(battle::Role role, const std::stri
     using battle::Role;
     static const std::unordered_map<std::pair<Role, std::string>, std::string, std::pair_hash<Role, std::string>>
         CanonicalOperNameDict {
-                { { Role::Caster, "阿米娅" }, "阿米娅" },
-                { { Role::Warrior, "阿米娅" }, "阿米娅-WARRIOR" },
-                { { Role::Medic, "阿米娅" }, "阿米娅-MEDIC" },
-            };
+            { { Role::Caster, "阿米娅" }, "阿米娅" },
+            { { Role::Warrior, "阿米娅" }, "阿米娅-WARRIOR" },
+            { { Role::Medic, "阿米娅" }, "阿米娅-MEDIC" },
+        };
 
     if (const auto iter = CanonicalOperNameDict.find({ role, literal_name }); iter != CanonicalOperNameDict.end()) {
         return iter->second;
