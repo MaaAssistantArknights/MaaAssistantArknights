@@ -25,14 +25,14 @@
             "title": "Linux",
             "subtitle": "x64 动态库",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "动态库与资源文件下载完成（Linux 版本暂无 GUI）"
             }
         },
         "linux-aarch64": {
             "title": "Linux",
             "subtitle": "aarch64 动态库",
             "messages": {
-                "downloaded": "动态库与资源文件下载完成 (Linux 版本暂无 GUI)"
+                "downloaded": "动态库与资源文件下载完成（Linux 版本暂无 GUI）"
             }
         }
     },
@@ -50,7 +50,7 @@
             "archIncompatible": "不支持您当前的系统架构"
         },
         "mirrorDetect": {
-            "detecting": "正在检测下载镜像可用性 ({{current}}/{{total}})..."
+            "detecting": "正在检测下载镜像可用性（{{current}}/{{total}}）..."
         },
         "speedTest": {
             "testing": "正在检测下载镜像 #{{index}} 速度...",
@@ -65,7 +65,7 @@
             "connectingWithSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms，测速：{{speed}} MiB/s）下载...",
             "connectingWithoutSpeed": "正在尝试从镜像 #{{index}}（延迟：{{latency}} ms）下载...",
             "downloadingFromMirror": "正在从镜像 #{{index}} 下载...",
-            "downloadingFallback": "正在从海外源(Github)下载...",
+            "downloadingFallback": "正在从海外源（Github）下载...",
             "invalidState": "无效的下载状态，请刷新页面重试。"
         }
     },

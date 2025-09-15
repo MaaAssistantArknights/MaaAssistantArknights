@@ -50,7 +50,7 @@
             "archIncompatible": "不支援您目前的系統架構"
         },
         "mirrorDetect": {
-            "detecting": "正在檢測下載鏡像可用性 ({{current}}/{{total}})..."
+            "detecting": "正在檢測下載鏡像可用性（{{current}}/{{total}}）..."
         },
         "speedTest": {
             "testing": "正在測試鏡像 #{{index}} 的下載速度...",
@@ -65,7 +65,7 @@
             "connectingWithSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms，速度：{{speed}} MiB/s）下載...",
             "connectingWithoutSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms）下載...",
             "downloadingFromMirror": "正在從鏡像 #{{index}} 下載...",
-            "downloadingFallback": "正在從GitHub下載...",
+            "downloadingFallback": "正在從 GitHub 下載...",
             "invalidState": "無效的下載狀態，請重新整理頁面後再試一次。"
         }
     },
