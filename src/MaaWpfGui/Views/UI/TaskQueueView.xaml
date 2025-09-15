@@ -160,12 +160,11 @@
                             <!--  IsEnabled="{Binding Idle}"  -->
                             <hc:ContextMenuButton.Menu>
                                 <ContextMenu
-                                    Width="150"
+                                    Width="190"
                                     Padding="0,3"
-                                    HorizontalOffset="-10"
+                                    HorizontalOffset="-7"
                                     Placement="Bottom"
-                                    PlacementTarget="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}"
-                                    VerticalOffset="0">
+                                    VerticalOffset="-7">
                                     <ContextMenu.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical" />
