@@ -94,7 +94,7 @@ jobs:
           - x64
     steps:
       - name: Download release config
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
 
       - name: Fetch MaaRelease
         uses: actions/checkout@v5
@@ -133,6 +133,15 @@ jobs:
           tag: ${{ needs.create-tag.outputs.release_tag }}
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
+
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed make release OTA for Windows"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   make-ota-mac:
     needs: create-tag
@@ -177,6 +186,15 @@ jobs:
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed make release OTA for macos"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
   release:
     needs:
       - make-ota
