@@ -160,6 +160,8 @@
                             <!--  IsEnabled="{Binding Idle}"  -->
                             <hc:ContextMenuButton.Menu>
                                 <ContextMenu
+                                    Width="150"
+                                    Padding="0,3"
                                     HorizontalOffset="-10"
                                     Placement="Bottom"
                                     PlacementTarget="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}"
