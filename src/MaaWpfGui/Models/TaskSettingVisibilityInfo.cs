@@ -141,6 +141,10 @@ namespace MaaWpfGui.Models
                 {
                     Reclamation = enable;
                 }
+                else if (task is CustomTask)
+                {
+                    Custom = enable;
+                }
             }
 
             EnableAdvancedSettings = false;
