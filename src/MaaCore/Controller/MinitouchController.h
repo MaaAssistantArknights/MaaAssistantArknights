@@ -144,7 +144,8 @@ protected:
         [[nodiscard]] std::string
             down_cmd(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
         {
-            std::string str = std::format("d {} {} {} {}\n", contact, x, y, m_props.max_pressure);
+            auto [c_x, c_y] = scale(x, y);
+            std::string str = std::format("d {} {} {} {}\n", contact, c_x, c_y, m_props.max_pressure);
 
             if (with_commit) {
                 str += commit_cmd();
@@ -158,7 +159,8 @@ protected:
         [[nodiscard]] std::string
             move_cmd(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
         {
-            std::string str = std::format("m {} {} {} {}\n", contact, x, y, m_props.max_pressure);
+            auto [c_x, c_y] = scale(x, y);
+            std::string str = std::format("m {} {} {} {}\n", contact, c_x, c_y, m_props.max_pressure);
 
             if (with_commit) {
                 str += commit_cmd();
