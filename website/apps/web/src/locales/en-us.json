@@ -4,14 +4,14 @@
             "title": "Windows",
             "subtitle": "x64",
             "messages": {
-                "downloaded": "Download is complete, extract files and run MAA.exe"
+                "downloaded": "Download complete, extract files and run MAA.exe"
             }
         },
         "windows-arm64": {
             "title": "Windows",
             "subtitle": "arm64",
             "messages": {
-                "downloaded": "Download is complete, extract files and run MAA.exe"
+                "downloaded": "Download complete, extract files and run MAA.exe"
             }
         },
         "macos-universal": {
@@ -41,7 +41,7 @@
             "download": "Download",
             "viewAll": "View All",
             "mirrorchyanCDKYes": "Got a MirrorChyan CDK?",
-            "mirrorchyanGo": "Proceed to MirrorChyan for high-speed download",
+            "mirrorchyanGo": "Go to MirrorChyan for high-speed download",
             "versionInfoLoadingError": "<1>Failed to load version info. You may </1><2>Download from GitHub Releases</2>"
         },
         "platformDetect": {
