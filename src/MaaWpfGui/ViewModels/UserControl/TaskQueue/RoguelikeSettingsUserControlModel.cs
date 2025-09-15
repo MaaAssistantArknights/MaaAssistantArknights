@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -369,8 +370,6 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     /// </summary>
     public List<GenericCombinedData<Theme>> RoguelikeThemeList { get; } = [];
 
-    private Theme _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, Theme.JieGarden);
-
     /// <summary>
     /// Gets or sets the Roguelike theme.
     /// </summary>
@@ -396,31 +395,11 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
-    private int _roguelikeDifficulty = GetValidDifficulty();
-
-    /// <summary>
-    /// 获取有效的难度值，处理配置中的无效值
-    /// </summary>
-    private static int GetValidDifficulty()
-    {
-        string difficultyStr = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
-        if (string.IsNullOrEmpty(difficultyStr) || !int.TryParse(difficultyStr, out int difficulty))
-        {
-            // 如果配置值无效，返回默认值并保存
-            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, int.MaxValue.ToString());
-            return int.MaxValue;
-        }
-
-        return difficulty;
-    }
-
     public int RoguelikeDifficulty
     {
         get => GetTaskConfig<RoguelikeTask>().Difficulty;
         set => SetTaskConfig<RoguelikeTask>(t => t.Difficulty == value, t => t.Difficulty = value);
     }
-
-    private Mode _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, Mode.Exp);
 
     /// <summary>
     /// Gets or sets 策略，往后打 / 刷一层就退 / 烧热水
@@ -962,6 +941,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstRoguelikeTask()

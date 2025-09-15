@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
@@ -272,6 +271,7 @@ public class RecruitSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstRecruitTask()

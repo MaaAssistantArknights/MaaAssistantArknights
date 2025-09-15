@@ -13,6 +13,7 @@
 
 #nullable enable
 
+using System;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -68,6 +69,7 @@ public class StartUpSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var clientType = SettingsViewModel.GameSettings.ClientType;

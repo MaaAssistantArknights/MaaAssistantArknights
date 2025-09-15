@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -140,6 +141,7 @@ public class ReclamationSettingsUserControlModel : TaskSettingsViewModel
     /// <param name="tools_to_craft">要组装的支援道具。</param>
     /// <param name="clear_store">刷完点数后是否清空商店。</param>
     /// <returns>返回(Asst任务类型, 参数)</returns>
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft) ? ReclamationToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);

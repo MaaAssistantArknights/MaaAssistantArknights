@@ -79,6 +79,7 @@ public class CustomSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstCustomTask()

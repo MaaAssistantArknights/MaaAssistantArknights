@@ -185,6 +185,7 @@ public class MallSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var fightEnable = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(x => x is FightTask)?.IsEnable is not false;

@@ -708,7 +708,6 @@ namespace MaaWpfGui.ViewModels.UI
                 taskItem.EnableSetting = true;
             }
 
-            FightTask.InitDrops(); // todo 需要改
             NeedToUpdateDatePrompt();
             UpdateDatePromptAndStagesLocally();
             InfrastTask.RefreshCustomInfrastPlan();
@@ -1438,21 +1437,6 @@ namespace MaaWpfGui.ViewModels.UI
                 await Stop();
                 SetStopped();
             }
-        }
-
-        public bool AppendFight()
-        {
-            string curStage = FightTask.Stage;
-
-            var (type, mainParam) = FightTask.Serialize();
-            bool mainFightRet = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, type, mainParam);
-            if (!mainFightRet)
-            {
-                AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
-                return false;
-            }
-
-            return mainFightRet;
         }
 
         public bool EnableSetFightParams { get; set; } = true;

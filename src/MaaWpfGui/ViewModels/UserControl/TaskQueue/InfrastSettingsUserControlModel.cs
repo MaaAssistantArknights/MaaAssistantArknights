@@ -577,6 +577,7 @@ public class InfrastSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         return new AsstInfrastTask

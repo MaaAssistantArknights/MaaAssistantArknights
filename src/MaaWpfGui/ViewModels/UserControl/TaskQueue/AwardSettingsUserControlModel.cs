@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Windows;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -95,6 +96,7 @@ public class AwardSettingsUserControlModel : TaskSettingsViewModel
         }
     }
 
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstAwardTask()
