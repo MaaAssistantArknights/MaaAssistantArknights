@@ -42,11 +42,11 @@
             "viewAll": "View All",
             "mirrorchyanCDKPrompt": "Have a MirrorChyan CDK?",
             "mirrorchyanDownload": "Visit MirrorChyan for high-speed downloads",
-            "versionInfoLoadingError": "<1>Failed to load version information. You can try to </1><2>download from GitHub Releases</2>"
+            "versionInfoLoadingError": "<1>Failed to load version information. You can try to</1><2>Download from GitHub Releases</2>"
         },
         "platformDetect": {
             "detecting": "Detecting system architecture...",
-            "failure": "No download available for your current architecture",
+            "failure": "No downloads available for your current architecture",
             "archIncompatible": "Incompatible with your system architecture"
         },
         "mirrorDetect": {
