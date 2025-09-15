@@ -1294,58 +1294,67 @@ namespace MaaWpfGui.ViewModels.UI
             });
 
             bool ret = true;
-            if (UseCopilotList)
+            try
             {
-                _copilotIdList.Clear();
-
-                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
+                if (UseCopilotList)
                 {
-                    _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
-                });
+                    _copilotIdList.Clear();
 
-                var task = new AsstCopilotTask()
-                {
-                    MultiTasks = [.. t],
-                    Formation = _form,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    UseSanityPotion = _useSanityPotion,
-                };
-
-                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                ret = ret && Instances.AsstProxy.AsstStart();
-            }
-            else
-            {
-                if (IsDataFromWeb)
-                {
-                    try
+                    var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                     {
-                        await File.WriteAllTextAsync(TempCopilotFile, JsonConvert.SerializeObject(_copilotCache, Formatting.Indented));
-                    }
-                    catch
+                        _copilotIdList.Add(i.CopilotId);
+                        return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
+                    });
+
+                    var task = new AsstCopilotTask()
                     {
-                        AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + TempCopilotFile, UiLogColor.Error);
-                        Stop();
-                        return;
-                    }
+                        MultiTasks = [.. t],
+                        Formation = _form,
+                        AddTrust = _addTrust,
+                        IgnoreRequirements = _ignoreRequirements,
+                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                        UseSanityPotion = _useSanityPotion,
+                    };
+
+                    ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                    ret = ret && Instances.AsstProxy.AsstStart();
                 }
-
-                var task = new AsstCopilotTask()
+                else
                 {
-                    FileName = IsDataFromWeb ? TempCopilotFile : Filename,
-                    Formation = _form,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    LoopTimes = Loop ? LoopTimes : 1,
-                    UseSanityPotion = _useSanityPotion,
-                    FormationIndex = UseFormation ? _formationIndex : 0,
-                };
-                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
-                ret = ret && Instances.AsstProxy.AsstStart();
+                    if (IsDataFromWeb)
+                    {
+                        try
+                        {
+                            await File.WriteAllTextAsync(TempCopilotFile, JsonConvert.SerializeObject(_copilotCache, Formatting.Indented));
+                        }
+                        catch
+                        {
+                            AddLog(LocalizationHelper.GetString("CopilotCouldNotSaveFile") + TempCopilotFile, UiLogColor.Error);
+                            Stop();
+                            return;
+                        }
+                    }
+
+                    var task = new AsstCopilotTask()
+                    {
+                        FileName = IsDataFromWeb ? TempCopilotFile : Filename,
+                        Formation = _form,
+                        AddTrust = _addTrust,
+                        IgnoreRequirements = _ignoreRequirements,
+                        UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                        LoopTimes = Loop ? LoopTimes : 1,
+                        UseSanityPotion = _useSanityPotion,
+                        FormationIndex = UseFormation ? _formationIndex : 0,
+                    };
+                    ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
+                    ret = ret && Instances.AsstProxy.AsstStart();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to start copilot task");
+                AddLog(LocalizationHelper.GetString("CopilotStartError") + ex.Message, UiLogColor.Error, showTime: false);
+                ret = false;
             }
 
             if (ret)
