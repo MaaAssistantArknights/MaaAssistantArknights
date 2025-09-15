@@ -1,4 +1,4 @@
-## v5.25.0-beta.1
+## v5.25.0-beta.2
 
 ### 新增 | New
 
@@ -6,12 +6,14 @@
 * 战斗列表新增右键点击作业设置时自动关闭列表逻辑 @status102
 * 添加 CDK 到期时间显示 @ABA2396
 * 成就设置中的图标颜色可以随着主题色动态更新 @ABA2396
+* 自动战斗多作业支持保存干员组内编入的干员 (#14095) @status102
 
 ### 改进 | Improved
 
 * 更新基建技能效率 @ABA2396
 * 优化更新设置中的徽标显示和逻辑 @ABA2396
 * 优化干员识别动画显示效果 @ABA2396
+* 更新项目依赖，重构 CMAKE 及部分 CI @MistEO @Constrat
 
 ### 修复 | Fix
 
@@ -35,6 +37,7 @@
 * 停止中或者空闲状态不允许点击停止按钮 @ABA2396
 * EN Roguelike@ChooseOperConfirm (#14033) @Daydreamer114
 * Sami floor detection @lin4289 @Constrat
+* smoke-testing script @Constrat
 
 ### 文档 | Docs
 
@@ -112,3 +115,8 @@
 * remove MaaDeps @MistEO
 * bump maa-cli to 0.5.8 (#14032) @wangl-cc
 * BrightPointAnalyzer -> PixelAnalyzer (#13915) @Alan-Charred
+
+### 其他 | Other
+
+* remove SyncRes @MistEO
+* use std::format instead of sprintf (#14107) @MistEO

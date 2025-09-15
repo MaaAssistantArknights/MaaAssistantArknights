@@ -172,7 +172,7 @@ jobs:
         with:
           path: |
             ./MaaDeps
-          key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('./tools/maadeps-download.py') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         if: steps.cache-maadeps.outputs.cache-hit != 'true'
@@ -202,7 +202,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-${{ matrix.arch }}-nuget-${{ hashFiles('**/*.csproj') }}
 
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
