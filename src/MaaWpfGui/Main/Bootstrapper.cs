@@ -197,8 +197,7 @@ namespace MaaWpfGui.Main
                         message.ToString(),
                         LocalizationHelper.GetString("ErrorCrashDialogTitle"),
                         MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                    );
+                        MessageBoxImage.Error);
 
                     try
                     {
