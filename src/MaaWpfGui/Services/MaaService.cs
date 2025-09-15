@@ -41,6 +41,7 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstSetUserDir(byte* dirname);
+
         [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstLoadResource(byte* dirname);
 
