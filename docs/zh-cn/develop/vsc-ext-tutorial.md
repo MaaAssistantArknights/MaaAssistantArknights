@@ -1,9 +1,9 @@
 ---
 order: 8
-# icon: iconoir:developer
+icon: iconoir:code-brackets
 ---
 
-# Maa / MaaFramework 专用 VSCode 插件教程
+# 专用 VSCode 插件教程
 
 * [插件商店](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
 * [仓库](https://github.com/neko-para/maa-support-extension)
@@ -16,7 +16,7 @@ order: 8
 
 ### 控制面板
 
-左侧添加了专用控制面板, 图标: ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
+左侧添加了专用控制面板, 图标 ![MaaSupport ControlPanel](/images/maa-support-panel.svg)
 
 插件的绝大部分功能均基于 `interface.json` 配置. 在控制面板最顶部可以选择生效的 `interface.json`.
 
@@ -85,9 +85,11 @@ order: 8
 
 在 VSCode 的命令中搜索 `Maa: 打开截图工具`, 可打开 `截图/裁剪` 面板.
 
+> 使用 `Ctrl+Shift+P` (MacOS 上则是 `Command+Shift+P`) 呼出命令面板
+
 * 选择并连接控制器后, 可使用 `截图` 按钮直接获取截图
 * 可使用 `上传` 按钮手动上传
-* 按住 Ctrl 键, 框选需要裁剪的区域
+* 按住 `Ctrl` 键, 框选需要裁剪的区域
 * 使用滚轮可进行缩放
 * 裁剪完成后, 使用 `下载` 按钮, 可自动将裁剪结果保存到激活资源的最顶层的图片目录
 
