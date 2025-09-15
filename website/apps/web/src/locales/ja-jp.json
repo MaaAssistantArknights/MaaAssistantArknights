@@ -40,8 +40,8 @@
         "buttonLabels": {
             "download": "ダウンロード",
             "viewAll": "すべて表示",
-            "mirrorchyanCDKYes": "MirrorちゃんCDK をお持ちですか？",
-            "mirrorchyanGo": "Mirrorちゃん高速ダウンロードへ",
+            "mirrorchyanCDKYes": "Mirrorちゃん CDK をお持ちですか？",
+            "mirrorchyanGo": "Mirrorちゃん 高速ダウンロードへ",
             "versionInfoLoadingError": "<1>バージョン情報の読み込みに失敗しました。<br />GitHub Releases からダウンロードを試みてください。</1><2>Github Release へダウンロードする</2>"
         },
         "platformDetect": {
@@ -50,12 +50,12 @@
             "archIncompatible": "現在のシステムアーキテクチャはサポートされていません"
         },
         "mirrorDetect": {
-            "detecting": "ダウンロードミラーの有効性を検出中 ({{current}}/{{total}})..."
+            "detecting": "ダウンロードミラーの有効性を検出中（{{current}}/{{total}}）..."
         },
         "speedTest": {
             "testing": "ダウンロードミラー #{{index}} の速度を検出中...",
-            "success": "{{count}}個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）",
-            "failure": "{{count}}個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）",
+            "success": "{{count}} 個の有効なミラーが検出されました（ダウンロード速度順に並べ替えています）",
+            "failure": "{{count}} 個の有効なミラーが検出されました（{{reason}}のため、ミラーのダウンロード速度を検出できませんでした。ミラーの遅延順に並べ替えています）",
             "reasons": {
                 "saveData": "ユーザーが「データ節約」モードを有効にしています",
                 "mobile": "ユーザーがモバイルネットワークを使用しています"
@@ -71,14 +71,14 @@
     },
     "references": {
         "documentation": "使用ドキュメント",
-        "qqGroup": "QQグループ",
+        "qqGroup": "QQ グループ",
         "discord": "Discord",
         "github": "GitHub",
         "friendLinks": "リンク集"
     },
     "friendLinks": {
-        "prts-plus": "PRTS作業ステーション",
-        "status": "MAAステータス監視",
+        "prts-plus": "PRTS 作業ステーション",
+        "status": "MAA ステータス監視",
         "mirrorc": "Mirrorちゃん",
         "penguin-stats": "ペンギン急便データ統計",
         "yituliu": "アークナイツ一図流",
@@ -99,6 +99,6 @@
         }
     },
     "footer": {
-        "compliance": "<1>MAA は<3>AGPL-3.0</3>ライセンスでオープンソースです；</1><2>使用することにより、「<4>利用規約</4>」に同意したことになります。</2>"
+        "compliance": "<1>MAA は <3>AGPL-3.0</3> ライセンスでオープンソースです；</1><2>使用することにより、「<4>利用規約</4>」に同意したことになります。</2>"
     }
 }
