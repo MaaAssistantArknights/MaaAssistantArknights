@@ -134,6 +134,15 @@ jobs:
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed make release OTA for Windows"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   make-ota-mac:
     needs: create-tag
     runs-on: macos-14
@@ -177,6 +186,15 @@ jobs:
           prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed make release OTA for macos"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
   release:
     needs:
       - make-ota
