@@ -196,6 +196,12 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Tar files
+        run: |
+          mkdir -p release
+          cd install
+          zip -r $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip .
+
       - name: Upload MAA to Github
         uses: actions/upload-artifact@v4
         with:
@@ -589,3 +595,12 @@ jobs:
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+
+      - name: Create issue if failed
+        if: failure()
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: "create-issue"
+          title: "Failed Release"
+          body: |
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
