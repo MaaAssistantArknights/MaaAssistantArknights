@@ -57,8 +57,8 @@
             "success": "检测到 {{count}} 个可用镜像（已按下载速度排序）",
             "failure": "检测到 {{count}} 个可用镜像（由于{{reason}}，无法检测镜像下载速度，按镜像延迟排序）",
             "reasons": {
-                "saveData": "用户开启了“节省数据”模式",
-                "mobile": "用户正在使用移动网络"
+                "saveData": "已启用“流量节省”模式",
+                "mobile": "正在使用移动网络"
             }
         },
         "download": {
