@@ -95,7 +95,7 @@
     },
     "screenshots": {
         "render": {
-            "failure": "MAA 截圖渲染失敗；是否已停用 GPU 加速？"
+            "failure": "MAA 截圖渲染失敗；請確認是否已停用 GPU 加速？"
         }
     },
     "footer": {
