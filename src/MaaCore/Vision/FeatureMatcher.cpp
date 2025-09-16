@@ -47,11 +47,20 @@ asst::FeatureMatcher::ResultsVecOpt asst::FeatureMatcher::analyze() const
     }
 
     auto [keypoints_1, descriptors_1] = detect(templ, create_mask(templ, m_params.green_mask));
+    auto [keypoints_2, descriptors_2] = detect(m_image, create_mask(m_image, make_rect<cv::Rect>(m_roi)));
 
-    auto results = feature_match(templ, keypoints_1, descriptors_1);
+    auto match_points = match(descriptors_1, descriptors_2);
+
+    std::vector<cv::DMatch> good_matches;
+    ResultsVec results = feature_postproc(match_points, keypoints_1, keypoints_2, templ.cols, templ.rows, good_matches);
+
+#ifdef ASST_DEBUG
+    cv::Mat matches_draw;
+    cv::drawMatches(m_image_draw, keypoints_2, templ, keypoints_1, good_matches, matches_draw);
+#endif // ASST_DEBUG
 #ifdef ASST_DEBUG
     const auto& color = cv::Scalar(0, 0, 255);
-#endif
+#endif // ASST_DEBUG
     for (const auto& r : results) {
         if (r.count < m_params.count) {
             Log.debug("feature_match |", templ_name, "count:", r.count, "rect:", r.rect, "roi:", m_roi);
@@ -96,25 +105,6 @@ std::pair<std::vector<cv::KeyPoint>, cv::Mat>
     detector->detectAndCompute(image, mask, keypoints, descriptors);
 
     return std::make_pair(std::move(keypoints), std::move(descriptors));
-}
-
-asst::FeatureMatcher::ResultsVec asst::FeatureMatcher::feature_match(
-    const cv::Mat& templ,
-    const std::vector<cv::KeyPoint>& keypoints_1,
-    const cv::Mat& descriptors_1) const
-{
-    auto [keypoints_2, descriptors_2] = detect(m_image, create_mask(m_image, make_rect<cv::Rect>(m_roi)));
-
-    auto match_points = match(descriptors_1, descriptors_2);
-
-    std::vector<cv::DMatch> good_matches;
-    ResultsVec results = feature_postproc(match_points, keypoints_1, keypoints_2, templ.cols, templ.rows, good_matches);
-
-#ifdef ASST_DEBUG
-    cv::Mat matches_draw;
-    cv::drawMatches(m_image_draw, keypoints_2, templ, keypoints_1, good_matches, matches_draw);
-#endif // ASST_DEBUG
-    return results;
 }
 
 std::vector<std::vector<cv::DMatch>>
