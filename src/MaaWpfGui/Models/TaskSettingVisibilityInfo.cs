@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -108,54 +109,23 @@ namespace MaaWpfGui.Models
 
             if (enable || ConfigFactory.CurrentConfig.TaskQueue[taskIndex].GetType() != ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].GetType())
             {
-                var task = ConfigFactory.CurrentConfig.TaskQueue[taskIndex];
-                if (task is StartUpTask)
+                _ = ConfigFactory.CurrentConfig.TaskQueue[taskIndex] switch
                 {
-                    WakeUp = enable;
-                }
-                else if (task is RecruitTask)
-                {
-                    Recruiting = enable;
-                }
-                else if (task is InfrastTask)
-                {
-                    Base = enable;
-                }
-                else if (task is FightTask)
-                {
-                    Combat = enable;
-                }
-                else if (task is MallTask)
-                {
-                    Mall = enable;
-                }
-                else if (task is AwardTask)
-                {
-                    Mission = enable;
-                }
-                else if (task is RoguelikeTask)
-                {
-                    AutoRoguelike = enable;
-                }
-                else if (task is ReclamationTask)
-                {
-                    Reclamation = enable;
-                }
-                else if (task is CustomTask)
-                {
-                    Custom = enable;
-                }
+                    StartUpTask => WakeUp = enable,
+                    RecruitTask => Recruiting = enable,
+                    InfrastTask => Base = enable,
+                    FightTask => Combat = enable,
+                    MallTask => Mall = enable,
+                    AwardTask => Mission = enable,
+                    RoguelikeTask => AutoRoguelike = enable,
+                    ReclamationTask => Reclamation = enable,
+                    CustomTask => Custom = enable,
+                    _ => throw new NotImplementedException(),
+                };
             }
 
             EnableAdvancedSettings = false;
-            if (Mission || WakeUp)
-            {
-                AdvancedSettingsVisibility = false;
-            }
-            else
-            {
-                AdvancedSettingsVisibility = true;
-            }
+            AdvancedSettingsVisibility = !Mission && !WakeUp;
 
             if (enable)
             {
