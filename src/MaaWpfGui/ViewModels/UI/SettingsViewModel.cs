@@ -24,6 +24,7 @@ using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -156,7 +157,6 @@ namespace MaaWpfGui.ViewModels.UI
         private void Init()
         {
             InitSettings();
-            TaskQueueViewModel.InfrastTask.InitInfrast();
             TaskQueueViewModel.RoguelikeTask.InitRoguelike();
             InitConfiguration();
             InitUiSettings();
@@ -507,6 +507,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _currentConfiguration, value);
                 ConfigurationHelper.SwitchConfiguration(value);
+                ConfigFactory.SwitchConfig(value);
 
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
@@ -529,7 +530,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
             }
 
-            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration) && ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
