@@ -1449,6 +1449,14 @@ namespace MaaWpfGui.Main
                             case "DeepExplorationNotUnlockedComplain":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationNotUnlockedComplain"), UiLogColor.Warning);
                                 break;
+
+                            case "PNS-Resume":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReclamationPnsModeError"), UiLogColor.Error);
+                                break;
+
+                            case "PIS-Commence":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReclamationPisModeError"), UiLogColor.Error);
+                                break;
                         }
 
                         break;
