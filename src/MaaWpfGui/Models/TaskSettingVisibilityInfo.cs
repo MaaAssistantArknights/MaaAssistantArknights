@@ -84,7 +84,11 @@ namespace MaaWpfGui.Models
         }
 
         [PropertyDependsOn(nameof(CurrentIndex))]
-        public bool IsCurrentTaskRunning => Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) && status.Status == TaskStatus.InProgress;
+        public bool IsCurrentTaskRunning =>
+            ConfigFactory.CurrentConfig.TaskQueue.Count > CurrentIndex &&
+            CurrentIndex >= 0 &&
+            Instances.AsstProxy.TasksStatus.TryGetValue(ConfigFactory.CurrentConfig.TaskQueue[CurrentIndex].TaskId, out var status) &&
+            status.Status == TaskStatus.InProgress;
 
         public static BaseTask CurrentTask => ConfigFactory.CurrentConfig.TaskQueue[Instance.CurrentIndex];
 
