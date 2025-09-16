@@ -124,8 +124,7 @@ namespace MaaWpfGui.Models
                 AdvancedSettingsVisibility = true;
             }
 
-            // 如果切换到的不是当前运行任务
-            if (enable && !ret)
+            if (enable && !ret) // 如果切换到的不是当前运行任务
             {
                 IsCurrentTaskRunning = false;
             }
@@ -165,9 +164,7 @@ namespace MaaWpfGui.Models
                 CheckTask("Roguelike", _roguelike);
                 CheckTask("Reclamation", _reclamation);
                 CheckTask("Custom", _custom);
-
-                // 如果没有匹配上任何任务
-                if (!ret)
+                if (!ret) // 如果没有匹配上任何任务
                 {
                     IsCurrentTaskRunning = false;
                 }
