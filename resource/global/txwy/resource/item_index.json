@@ -1087,6 +1087,14 @@
         "sortId": 10026,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_5801": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_5801.png",
+        "name": "尋訪數據契約",
+        "sortId": 10026,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1878,6 +1886,14 @@
         "name": "數據黑盒",
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
+    },
+    "act40side_token_yumyum": {
+        "classifyType": "NONE",
+        "description": "飯香不怕巷子深。平日肉眼不可見，沿街細嗅可聞到的縹緲香氣，至飯館前則撲面而來。跟著百灶街頭的飯菜香，自可走出一幅百灶盛景圖。",
+        "icon": "act40side_token_yumyum.png",
+        "name": "“生香”",
+        "sortId": -10000,
+        "usage": "來餘味居，不要吝惜於讚賞飯菜的美味，只要將小大廚誇到面紅耳赤，就算他的嘴上不說，盤子裡也會多給你盛幾塊肉。"
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
