@@ -92,7 +92,20 @@ public class ConfigConverter
         foreach (var configName in ConfigurationHelper.GetConfigurationList())
         {
             ConfigurationHelper.SwitchConfiguration(configName);
-            ConfigFactory.SwitchConfig(configName);
+            if (ConfigFactory.Root.Configurations.ContainsKey(configName))
+            {
+            }
+            else if (ConfigFactory.AddConfiguration(configName) is false)
+            {
+                Log.Error("配置迁移失败，无法添加配置: {ConfigName}", configName);
+                throw new Exception($"配置迁移失败，无法添加配置{configName}");
+            }
+
+            if (!ConfigFactory.SwitchConfig(configName))
+            {
+                Log.Error("配置迁移失败，无法切换到配置: {ConfigName}", configName);
+                throw new Exception($"配置迁移失败，无法切换到配置{configName}");
+            }
 
             // 删除旧的配置
             foreach (var key in configKeys)
