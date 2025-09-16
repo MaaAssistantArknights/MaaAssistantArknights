@@ -33,6 +33,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Data;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -914,9 +916,9 @@ namespace MaaWpfGui.Main
                     {
                         // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
                         TaskStatusUpdate(taskId, TaskStatus.Completed);
-                        if (_tasksStatus.TryGetValue(taskId, out var task))
+                        if (_tasksStatus.TryGetValue(taskId, out var taskInfo))
                         {
-                            if (_mainTaskTypes.Contains(task.Type))
+                            if (_mainTaskTypes.Contains(taskInfo.Type))
                             {
                                 Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                             }
@@ -925,9 +927,12 @@ namespace MaaWpfGui.Main
                         switch (taskChain)
                         {
                             case "Infrast":
-                                InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                                InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
-                                break;
+                                {
+                                    var infrastTask = ConfigFactory.CurrentConfig.TaskQueue.FirstOrDefault(t => t.TaskId == taskId) as InfrastTask;
+                                    InfrastSettingsUserControlModel.IncreaseCustomInfrastPlanIndex(infrastTask);
+                                    InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
+                                    break;
+                                }
                         }
 
                         if (taskChain == "Fight" && FightTask.SanityReport is not null)

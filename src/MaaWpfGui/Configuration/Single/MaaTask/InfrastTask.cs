@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Models;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -72,6 +73,8 @@ public class InfrastTask : BaseTask
     /// Gets or sets 自定义配置文件路径
     /// </summary>
     public string Filename { get; set; } = string.Empty;
+
+    public List<CustomInfrastConfig.Plan> InfrastPlan { get; set; } = [];
 
     /// <summary>
     /// Gets or sets 自定义配置计划编号

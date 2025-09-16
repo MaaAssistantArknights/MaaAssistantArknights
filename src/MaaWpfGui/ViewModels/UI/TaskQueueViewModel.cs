@@ -710,7 +710,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             NeedToUpdateDatePrompt();
             UpdateDatePromptAndStagesLocally();
-            InfrastTask.RefreshCustomInfrastPlan();
         }
 
         public DayOfWeek CurDayOfWeek { get; private set; }
@@ -1439,35 +1438,6 @@ namespace MaaWpfGui.ViewModels.UI
                 await Stop();
                 SetStopped();
             }
-        }
-
-        public bool EnableSetFightParams { get; set; } = true;
-
-        /// <summary>
-        /// Sets parameters.
-        /// </summary>
-        public void SetFightParams()
-        {
-            var type = TaskType.Fight;
-            var id = Instances.AsstProxy.TasksStatus.FirstOrDefault(t => t.Value.Type == type).Key;
-            if (!EnableSetFightParams || id == 0)
-            {
-                return;
-            }
-
-            var taskParams = FightTask.Serialize().Params;
-            Instances.AsstProxy.AsstSetTaskParamsEncoded(id, taskParams);
-        }
-
-        public bool AppendInfrast()
-        {
-            if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
-            {
-                AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
-                return false;
-            }
-
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, InfrastTask.Serialize());
         }
 
         /// <summary>
