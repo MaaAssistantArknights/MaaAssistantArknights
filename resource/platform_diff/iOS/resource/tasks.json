@@ -14,6 +14,12 @@
     "SSSDrawCard": {
         "templThreshold": 0.97
     },
+    "InfrastControl": {
+        "templThreshold": 0.85
+    },
+    "InfrastControlMini": {
+        "templThreshold": 0.85
+    },
     "InfrastSmileyOnRest": {
         "templThreshold": 0.7
     },
