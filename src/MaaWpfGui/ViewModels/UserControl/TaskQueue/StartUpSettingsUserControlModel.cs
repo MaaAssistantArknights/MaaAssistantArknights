@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+
+using System;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -25,7 +27,7 @@ using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
-public class StartUpSettingsUserControlModel : TaskViewModel
+public class StartUpSettingsUserControlModel : TaskSettingsViewModel
 {
     static StartUpSettingsUserControlModel()
     {
@@ -34,16 +36,13 @@ public class StartUpSettingsUserControlModel : TaskViewModel
 
     public static StartUpSettingsUserControlModel Instance { get; }
 
-    private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty).Trim();
-
     public string AccountName
     {
-        get => _accountName;
+        get => GetTaskConfig<StartUpTask>().AccountName;
         set
         {
             value = value.Trim();
-            SetAndNotify(ref _accountName, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+            SetTaskConfig<StartUpTask>(t => t.AccountName == value, t => t.AccountName = value);
         }
     }
 
@@ -62,6 +61,15 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         }
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is StartUpTask)
+        {
+            Refresh();
+        }
+    }
+
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var clientType = SettingsViewModel.GameSettings.ClientType;
@@ -103,13 +111,10 @@ public class StartUpSettingsUserControlModel : TaskViewModel
             AccountName = accountName,
         };
 
-        if (taskId is int id)
+        return taskId switch
         {
-            return Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task);
-        }
-        else
-        {
-            return Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task);
-        }
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, task),
+        };
     }
 }

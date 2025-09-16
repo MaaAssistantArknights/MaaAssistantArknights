@@ -60,12 +60,12 @@
                         Margin="0,4"
                         VerticalContentAlignment="Center"
                         d:IsHitTestVisible="True"
-                        DisplayMemberPath="Display"
+                        DisplayMemberPath="Name"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
                         ItemsSource="{Binding CustomInfrastPlanList}"
                         SelectedValue="{Binding CustomInfrastPlanIndex}"
-                        SelectedValuePath="Value" />
+                        SelectedValuePath="Index" />
                 </StackPanel>
                 <controls:TextBlock
                     Margin="0,5"
@@ -148,10 +148,10 @@
             <StackPanel>
                 <ListBox
                     Margin="0,5"
-                    d:ItemsSource="{d:SampleData ItemCount=9}"
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
                     dd:DragDrop.IsDragSource="True"
                     dd:DragDrop.IsDropTarget="True"
-                    ItemsSource="{Binding Path=InfrastItemViewModels}"
+                    ItemsSource="{Binding Path=InfrastRoomModels}"
                     PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                  Target={x:Type helper:MouseWheelHelper}}"
                     Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
@@ -159,7 +159,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsEnabled}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

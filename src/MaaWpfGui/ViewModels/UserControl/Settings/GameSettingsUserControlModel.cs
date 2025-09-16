@@ -15,7 +15,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -96,7 +99,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
 
             ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
             VersionUpdateSettings.ResourceInfoUpdate();
-            FightSettingsUserControlModel.Instance.UpdateStageList();
+            ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList().ForEach(FightSettingsUserControlModel.Instance.UpdateStageList);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
 
             if (!NeedRestartAfterClientTypeChange(oldValue, value))
