@@ -896,7 +896,19 @@
             ["Expert Facility Builder", "高级设施建筑工"],
             ["Construction Workshop", "建筑工具间"],
             ["Concrete Roadblock", "混凝土路障 "],
-            ["Portable Exercise Rack", "便携健身架"]
+            ["Portable Exercise Rack", "便携健身架"],
+            ["Stable Sarkaz Caster Crystal", "稳定态萨卡兹术师结晶"],
+            ["'Frozen Monstrosity's Echo'", "“寒灾回响”"],
+            ["Theresis", "特雷西斯"],
+            ["Weakening Node", "弱化节点"],
+            ["Reconstruction", "重构体"],
+            ["Windscoot", "骋风"],
+            ["Nutty", "小螺帽"],
+            ["Alanna", "阿兰娜"],
+            ["Active Sarkaz Caster Crystal", "活性态萨卡兹术师结晶"],
+            ["'Shadow in the Snow'", "“风雪中的影子”"],
+            ["Hot Drink Machine", "加热饮料机"],
+            ["Cold Drink Machine", "冰镇饮料机"]
         ]
     },
     "GameStartCheckResourceOCR": {

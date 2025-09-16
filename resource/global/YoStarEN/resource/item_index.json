@@ -343,6 +343,14 @@
         "sortId": 100002,
         "usage": "A product of modern technology that requires the ultimate in industrial craft. Used in advanced strengthening projects."
     },
+    "30165": {
+        "classifyType": "MATERIAL",
+        "description": "A new material still in the experimental stage. Not only can it output large amounts of energy, but it can also adapt to Originium Arts. This may indicate the future development of this optically protective material.",
+        "icon": "30165.png",
+        "name": "Rephasic Enantiomer",
+        "sortId": 100001,
+        "usage": "A product of cutting-edge research on luminescent materials. Can be used for high level upgrades."
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "An artificial material serendipitously born in the laboratory. It has excellent resistance to extreme temperatures, is lightweight, and is easy to process, making it ideal for use in high-tech projects.",
@@ -478,6 +486,22 @@
         "name": "Cyclicene Prefab",
         "sortId": 100009,
         "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
+    },
+    "31093": {
+        "classifyType": "MATERIAL",
+        "description": "A particle that can adsorb many different materials. At first, it was only used in cheap adsorbents, but has since become a cutting-edge material thanks to its strong universal coagulative properties.",
+        "icon": "31093.png",
+        "name": "Coagulative Nodule",
+        "sortId": 100008,
+        "usage": "A lab-made synthetic particle, boasting powerful adsorption properties. Can be used in a variety of strengthening projects."
+    },
+    "31094": {
+        "classifyType": "MATERIAL",
+        "description": "An optical material that boasts both physical durability and astonishing Originium Arts resistance, currently used in studies regarding optical protection. Other uses are still being tested.",
+        "icon": "31094.png",
+        "name": "Chiral Refractor",
+        "sortId": 100007,
+        "usage": "A specialized material that displays useful optical qualities and other physical traits. Can be used for high level upgrades."
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1167,6 +1191,22 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "SINGLE_60_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_60_0_1_GACHA.png",
+        "name": "Command: Reconstruction Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A special permit from Rhodes Island HR for recruiting special talents at special points in time. Can be used to recruit one operator."
+    },
+    "SINGLE_60_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "SINGLE_60_0_1_GACHA_10.png",
+        "name": "Command: Reconstruction Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "SOCIAL_PT": {
         "classifyType": "NONE",
         "description": "Credit holds communities together and stands as a symbol of social stability. Sometimes it's even more valuable than money, so do please cherish it.",
@@ -1791,6 +1831,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged for the corresponding event stage reward."
     },
+    "act2mainss_token": {
+        "classifyType": "NONE",
+        "description": "To help calm the children anxious about leaving the landship, Raidian made these pin badges with paging and messaging functionalities, encouraging them to keep on smiling and stay in contact. After hearing about them, many operators asked her for some, recording words of encouragement on them before hiding them all over prior to the evacuation.",
+        "icon": "act2mainss_token.png",
+        "name": "'Courage' Badge",
+        "sortId": -10000,
+        "usage": "Communicators made by Raidian in the shape of pin badges. Retrieving them can help reduce interference on the comms network, and they can be traded at Closure's for all sorts of supplies."
+    },
     "act2vmulti_token_cap": {
         "classifyType": "NONE",
         "description": "As you collect Mementos, so does Hype. Reach certain Hype levels to receive rewards.",
@@ -2167,6 +2215,22 @@
         "sortId": -10000,
         "usage": "Obtain 'Collaboration Limited Ten-roll Headhunting Permit' and avatar 'Soubo Impressions.' 'Collaboration Limited Ten-roll Headhunting Permit' expires 09/21/2023 03:59"
     },
+    "itempack_gold_1": {
+        "classifyType": "NONE",
+        "description": "Exusiai suddenly remembered her promise to exchange those medals today. After checking the number of 'Best Boss' medals you have, she skirted around the old rules and gave you this one.",
+        "icon": "itempack_gold_1.png",
+        "name": "Super! Best! Boss Medal",
+        "sortId": -10000,
+        "usage": "Looks to be made from expensive metals, and can be exchanged for LMD."
+    },
+    "itempack_main_1": {
+        "classifyType": "NONE",
+        "description": "A materials supply crate issued alongside Sanity samplers, giving you a random material as you restore your Sanity.",
+        "icon": "itempack_main_1.png",
+        "name": "Rhodes Island Supply Crate",
+        "sortId": -10000,
+        "usage": "Contains an Emergency Sanity Sampler and some Rhodes Island Supplies."
+    },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
         "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
@@ -2428,6 +2492,14 @@
         "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
         "icon": "randomMaterial_10.png",
         "name": "Rhodes Island Supplies VII",
+        "sortId": 60110,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_11": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_11.png",
+        "name": "Rhodes Island Supplies VIII",
         "sortId": 60110,
         "usage": "Filled with an assortment of supplies and materials."
     },
