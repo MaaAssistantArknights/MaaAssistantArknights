@@ -234,7 +234,7 @@
                         Header="{c:Binding OperBoxNotHaveList.Count}"
                         HeaderStringFormat="{StaticResource OperBoxNotHaveList}"
                         Visibility="{c:Binding 'OperBoxNotHaveList.Count != 0'}">
-                        <DataGrid
+                        <controls:NoAutomationDataGrid
                             Width="680"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Stretch"
@@ -253,10 +253,10 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn MinWidth="130" Binding="{Binding Name}" />
                             </DataGrid.Columns>
-                        </DataGrid>
+                        </controls:NoAutomationDataGrid>
                     </TabItem>
                     <TabItem Header="{c:Binding OperBoxHaveList.Count}" HeaderStringFormat="{StaticResource OperBoxHaveList}">
-                        <DataGrid
+                        <controls:NoAutomationDataGrid
                             Width="680"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Stretch"
@@ -275,7 +275,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn MinWidth="130" Binding="{Binding Name}" />
                             </DataGrid.Columns>
-                        </DataGrid>
+                        </controls:NoAutomationDataGrid>
                     </TabItem>
                 </TabControl>
                 <StackPanel
@@ -321,7 +321,7 @@
                         Text="{Binding DepotInfo}"
                         TextWrapping="Wrap" />
                 </StackPanel>
-                <DataGrid
+                <controls:NoAutomationDataGrid
                     Grid.Row="1"
                     Width="680"
                     HorizontalAlignment="Center"
@@ -351,7 +351,7 @@
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                         <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
                     </DataGrid.Columns>
-                </DataGrid>
+                </controls:NoAutomationDataGrid>
                 <StackPanel
                     Grid.Row="2"
                     Margin="27,0"
