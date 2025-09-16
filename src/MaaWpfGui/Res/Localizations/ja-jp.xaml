@@ -227,8 +227,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体（重装、術師、狙撃）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">前線支援（前衛、補助、医療）</system:String>
     <system:String x:Key="AsYourHeartDesires">自由自在（ランダム）</system:String>
-    <system:String x:Key="FlexibleDeployment">灵活部署（先锋、辅助、特种）</system:String>
-    <system:String x:Key="Unbreakable">坚不可摧（重装、术师、医疗）</system:String>
+    <system:String x:Key="FlexibleDeployment">灵活部署（先鋒、補助、特殊）</system:String>
+    <system:String x:Key="Unbreakable">坚不可摧（重装、術師、医療）</system:String>
     <system:String x:Key="AlgorithmFinish">演算終了</system:String>
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
@@ -410,7 +410,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
-    <system:String x:Key="RoguelikeThemeJieGarden">界ガーデン</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界ガーデン（占位）</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
