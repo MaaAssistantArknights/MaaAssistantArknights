@@ -63,6 +63,7 @@ namespace MaaWpfGui.ViewModels.UI
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
             LoadOperBoxDetails();
+            OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
         }
 
         private void RunningState_IdleChanged(object? sender, bool e)
