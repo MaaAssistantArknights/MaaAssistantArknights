@@ -1,5 +1,6 @@
 {
     "OR-OpenOcr": {
+        "ocrReplace": [["相見.*", "相見歡"]],
         "text": ["相見歡", "閱世情", "悵別離"]
     },
     "ORChapterToOR": {
