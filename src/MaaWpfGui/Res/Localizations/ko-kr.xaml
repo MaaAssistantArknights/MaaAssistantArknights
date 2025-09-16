@@ -233,6 +233,8 @@
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">단조 레드 골드</system:String>
+    <system:String x:Key="ReclamationPnsModeError">当前使用无存档任务模式。请手动删除现有存档后再尝试。若您希望保留存档，请考虑切换模式。</system:String>
+    <system:String x:Key="ReclamationPisModeError">当前任务模式需要您拥有可合成道具的存档。请考虑切换模式。</system:String>
     <system:String x:Key="NotSwitch">미변경</system:String>
     <system:String x:Key="NotSelected">미선택</system:String>
     <system:String x:Key="Official">공식 서버</system:String>

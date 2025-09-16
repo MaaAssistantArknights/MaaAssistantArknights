@@ -233,6 +233,8 @@
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">鍛造レッドゴールド</system:String>
+    <system:String x:Key="ReclamationPnsModeError">当前使用无存档任务模式。请手动删除现有存档后再尝试。若您希望保留存档，请考虑切换模式。</system:String>
+    <system:String x:Key="ReclamationPisModeError">当前任务模式需要您拥有可合成道具的存档。请考虑切换模式。</system:String>
     <system:String x:Key="NotSwitch">切り替えない</system:String>
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
