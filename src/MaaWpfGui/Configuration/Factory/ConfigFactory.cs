@@ -244,7 +244,7 @@ public static class ConfigFactory
     // ReSharper disable once MemberCanBePrivate.Global
     public static Root Root => _rootConfig.Value;
 
-    public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
+    public static SpecificConfig CurrentConfig => Root.CurrentConfig;
 
     private static async void OnPropertyChanged(string key, object? oldValue, object? newValue)
     {
