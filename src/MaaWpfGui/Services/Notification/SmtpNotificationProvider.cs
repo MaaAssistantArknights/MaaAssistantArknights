@@ -142,45 +142,45 @@ namespace MaaWpfGui.Services.Notification
             color: black;
             text-align: center;
             }
-          
+
             .heading {
             font-size: large;
             }
-          
+
             .notification h1 {
             font-size: large;
             font-weight: bold;
             }
-          
+
             .notification p {
             font-size: medium;
             }
-          
+
             .footer {
             font-size: small;
             }
-          
+
             .space {
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             }
         </style>
-          
+
         <h1 class="title">Maa Assistant Arknights</h1>
-          
+
         <div class="heading">
             <p>{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateHello")}}</p>
         </div>
-          
+
         <hr />
-          
+
         <div class="notification">
             <h1>{title}</h1>
             <p>{content}</p>
         </div>
-          
+
         <hr />
-          
+
         <div class="footer">
             <p>
             {{LocalizationHelper.GetString("ExternalNotificationEmailTemplateFooterLineOne")}}
@@ -194,7 +194,7 @@ namespace MaaWpfGui.Services.Notification
                 Bilibili
             </a>
             <a class="space" href="https://maa.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkOfficialSite")}}</a>
-            <a class="space" href="https://prts.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite")}}</a>
+            <a class="space" href="https://zoot.plus">{{LocalizationHelper.GetString("ExternalNotificationEmailTemplateLinkCopilotSite")}}</a>
             </p>
         </div>
         </html>

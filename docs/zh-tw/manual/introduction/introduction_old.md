@@ -106,7 +106,7 @@ icon: ic:baseline-article
 
 ### 自動戰鬥
 
-- 歡迎使用作業分享站 [prts.plus](https://prts.plus) 使用 & 分享作業檔案！
+- 歡迎使用作業分享站 [zoot.plus](https://zoot.plus) 使用 & 分享作業檔案！
 
 #### 抄作業
 
@@ -118,7 +118,7 @@ icon: ic:baseline-article
 
 #### 寫作業
 
-- 可以在 [作業編輯器](https://prts.plus/create) 上製作，可參考 [戰鬥流程協議](../../protocol/copilot-schema.md) 使用。
+- 可以在 [作業編輯器](https://zoot.plus/create) 上製作，可參考 [戰鬥流程協議](../../protocol/copilot-schema.md) 使用。
 - 地圖座標獲取：填寫 `stage_name` 後直接開一局，會在目錄下產生 `map.png`，可以用於參考。也可參考 [PRTS.Map](https://map.ark-nights.com/areas) 網站，在設定中將 `座標展示` 修改為 `MAA` 後使用。
 - 支援演習模式，不用一直浪費理智測試的。
 - 推薦在作業描述裡填上你的署名（作者名）、參考的攻略影片連結、其他想說的等等。

@@ -9,7 +9,7 @@ icon: ph:sword-bold
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.
 :::
 
-欢迎使用作业分享站 [prts.plus](https://prts.plus) 使用及分享作业文件。
+欢迎使用作业分享站 [zoot.plus](https://zoot.plus) 使用及分享作业文件。
 
 ## 抄作业
 
@@ -35,7 +35,7 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 ## 写作业
 
-- 请使用 [作业编辑器](https://prts.plus/create) 制作，可参考 [战斗流程协议](../../protocol/copilot-schema.md)。
+- 请使用 [作业编辑器](https://zoot.plus/create) 制作，可参考 [战斗流程协议](../../protocol/copilot-schema.md)。
 - 地图坐标获取：
   - 在作业编辑器中填写关卡后，左下角会自动加载可拖动缩放的坐标地图，可点选设置当前干员位置。
   - 填写关卡并导出 JSON 后直接开始行动，会在 MAA 目录下 `debug\map` 中生成覆盖有坐标信息的地图截图。

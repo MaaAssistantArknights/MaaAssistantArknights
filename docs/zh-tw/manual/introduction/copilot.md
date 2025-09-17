@@ -9,7 +9,7 @@ icon: ph:sword-bold
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.
 :::
 
-歡迎使用作業分享站 [prts.plus](https://prts.plus) 使用及分享作業文件。
+歡迎使用作業分享站 [zoot.plus](https://zoot.plus) 使用及分享作業文件。
 
 ## 抄作業
 
@@ -35,7 +35,7 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 ## 寫作業
 
-- 請使用 [作業編輯器](https://prts.plus/create) 製作，可參考 [戰鬥流程協議](../../protocol/copilot-schema.md)。
+- 請使用 [作業編輯器](https://zoot.plus/create) 製作，可參考 [戰鬥流程協議](../../protocol/copilot-schema.md)。
 - 地圖坐標獲取：
   - 在作業編輯器中填寫關卡後，左下角會自動載入可拖動縮放的坐標地圖，可點選設置當前幹員位置。
   - 填寫關卡並導出 JSON 後直接開始行動，會在 MAA 目錄下 `debug\map` 中生成覆蓋有坐標資訊的地圖截圖。

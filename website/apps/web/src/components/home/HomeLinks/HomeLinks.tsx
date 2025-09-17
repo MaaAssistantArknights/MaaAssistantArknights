@@ -1,6 +1,6 @@
 import linksIconArkNights from '@/assets/links/ark-nights.com.png?url'
 import linksIconPenguinStats from '@/assets/links/penguin-stats.png?url'
-import linksIconPrtsPlus from '@/assets/links/prts.plus.png?url'
+import linksIconPrtsPlus from '@/assets/links/zoot.plus.png?url'
 import linksIconYituliu from '@/assets/links/yituliu.site.png?url'
 import linksIconArkntools from '@/assets/links/arkntools.app.png?url'
 import linksIconMirrorChyan from '@/assets/links/mirrorc.png?url'
@@ -46,7 +46,7 @@ const HomeLink: FC<{
 const LINKS = [
   <HomeLink
     key="prts-plus"
-    href="https://prts.plus"
+    href="https://zoot.plus"
     title="PRTS 作业站"
     icon={
       <img
