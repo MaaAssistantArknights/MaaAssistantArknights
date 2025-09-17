@@ -1015,6 +1015,8 @@
         "action": "ClickSelf",
         "text": ["查看", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 60, 45],
+        "postDelay": 1000,
+        "postDelay_Doc": "加个延迟避免在回弹动画的时候识别",
         "next": ["#self", "Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipeToTheRight"]
     },
     "Roguelike@PreSelectThemeSwipeToLeft": {
