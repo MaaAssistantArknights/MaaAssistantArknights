@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      vuepress-theme-plume:
-        specifier: 1.0.0-rc.163
-        version: 1.0.0-rc.163(@algolia/client-search@5.37.0)(markdown-it@14.1.0)(qrcode@1.5.4)(sass-embedded@1.92.1)(sass@1.92.1)(search-insights@2.17.3)(typescript@5.9.2)(vuepress@2.0.0-rc.24(@vuepress/bundler-vite@2.0.0-rc.24(@types/node@24.5.1)(sass-embedded@1.92.1)(sass@1.92.1)(typescript@5.9.2))(typescript@5.9.2)(vue@3.5.21(typescript@5.9.2)))
     devDependencies:
       '@vuepress/bundler-vite':
         specifier: 2.0.0-rc.24
@@ -24,6 +17,9 @@ importers:
       '@vuepress/plugin-google-analytics':
         specifier: 2.0.0-rc.112
         version: 2.0.0-rc.112(vuepress@2.0.0-rc.24(@vuepress/bundler-vite@2.0.0-rc.24(@types/node@24.5.1)(sass-embedded@1.92.1)(sass@1.92.1)(typescript@5.9.2))(typescript@5.9.2)(vue@3.5.21(typescript@5.9.2)))
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -39,6 +35,9 @@ importers:
       vuepress:
         specifier: 2.0.0-rc.24
         version: 2.0.0-rc.24(@vuepress/bundler-vite@2.0.0-rc.24(@types/node@24.5.1)(sass-embedded@1.92.1)(sass@1.92.1)(typescript@5.9.2))(typescript@5.9.2)(vue@3.5.21(typescript@5.9.2))
+      vuepress-theme-plume:
+        specifier: 1.0.0-rc.163
+        version: 1.0.0-rc.163(@algolia/client-search@5.37.0)(markdown-it@14.1.0)(qrcode@1.5.4)(sass-embedded@1.92.1)(sass@1.92.1)(search-insights@2.17.3)(typescript@5.9.2)(vuepress@2.0.0-rc.24(@vuepress/bundler-vite@2.0.0-rc.24(@types/node@24.5.1)(sass-embedded@1.92.1)(sass@1.92.1)(typescript@5.9.2))(typescript@5.9.2)(vue@3.5.21(typescript@5.9.2)))
 
 packages:
 

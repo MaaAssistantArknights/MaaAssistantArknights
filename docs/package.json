@@ -12,20 +12,17 @@
         "@vuepress/bundler-vite": "2.0.0-rc.24",
         "@vuepress/plugin-docsearch": "2.0.0-rc.112",
         "@vuepress/plugin-google-analytics": "2.0.0-rc.112",
+        "gray-matter": "^4.0.3",
         "markdown-it": "^14.1.0",
         "markdown-it-anchor": "^9.2.0",
         "sass-embedded": "^1.92.1",
         "vue": "^3.5.21",
-        "vuepress": "2.0.0-rc.24"
+        "vuepress": "2.0.0-rc.24",
+        "vuepress-theme-plume": "1.0.0-rc.163"
     },
     "scripts": {
         "dev": "vuepress dev .",
         "build": "vuepress build .",
         "clean": "vuepress dev . --clean-cache"
-    },
-    "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
-    "dependencies": {
-        "gray-matter": "^4.0.3",
-        "vuepress-theme-plume": "1.0.0-rc.163"
     }
 }
