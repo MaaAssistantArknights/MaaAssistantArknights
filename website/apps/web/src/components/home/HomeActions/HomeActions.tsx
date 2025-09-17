@@ -37,14 +37,14 @@ export const HomeActions: FC<HomeActionsProps> = ({
   }, [])
 
   const docsLinkMapping: Record<string, string> = {
-    'zh-CN': '/docs/zh-cn/',
-    'zh-TW': '/docs/zh-tw/',
-    'en-US': '/docs/en-us/',
-    'ja-JP': '/docs/ja-jp/',
-    'ko-KR': '/docs/ko-kr/',
+    'zh-CN': 'https://docs.maa.plus/zh-cn/',
+    'zh-TW': 'https://docs.maa.plus/zh-tw/',
+    'en-US': 'https://docs.maa.plus/en-us/',
+    'ja-JP': 'https://docs.maa.plus/ja-jp/',
+    'ko-KR': 'https://docs.maa.plus/ko-kr/',
   }
 
-  const docsLink = docsLinkMapping[i18n.language] ?? '/docs'
+  const docsLink = docsLinkMapping[i18n.language] ?? 'https://docs.maa.plus/'
 
   return (
     <div
