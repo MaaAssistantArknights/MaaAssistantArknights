@@ -1,0 +1,104 @@
+{
+    "platforms": {
+        "windows-x64": {
+            "title": "Windows",
+            "subtitle": "x64",
+            "messages": {
+                "downloaded": "Download completed. Extract the files and run MAA.exe"
+            }
+        },
+        "windows-arm64": {
+            "title": "Windows",
+            "subtitle": "arm64",
+            "messages": {
+                "downloaded": "Download completed. Extract the files and run MAA.exe"
+            }
+        },
+        "macos-universal": {
+            "title": "macOS",
+            "subtitle": "Universal",
+            "messages": {
+                "downloaded": "Download completed. Open the disk image and drag MAA.app to your Applications folder"
+            }
+        },
+        "linux-x64": {
+            "title": "Linux",
+            "subtitle": "x64 Dynamic Library",
+            "messages": {
+                "downloaded": "Dynamic libraries and resource files downloaded. (Linux version has no GUI yet)"
+            }
+        },
+        "linux-aarch64": {
+            "title": "Linux",
+            "subtitle": "aarch64 Dynamic Library",
+            "messages": {
+                "downloaded": "Dynamic libraries and resource files downloaded. (Linux version has no GUI yet)"
+            }
+        }
+    },
+    "release": {
+        "buttonLabels": {
+            "download": "Download",
+            "viewAll": "View All",
+            "mirrorchyanCDKPrompt": "Have a MirrorChyan CDK?",
+            "mirrorchyanDownload": "Visit MirrorChyan for high-speed downloads",
+            "versionInfoLoadingError": "<1>Failed to load version information. You can try to</1><2>Download from GitHub Releases</2>"
+        },
+        "platformDetect": {
+            "detecting": "Detecting system architecture...",
+            "failure": "No downloads available for your current architecture",
+            "archIncompatible": "Incompatible with your system architecture"
+        },
+        "mirrorDetect": {
+            "detecting": "Checking download mirror availability ({{current}}/{{total}})..."
+        },
+        "speedTest": {
+            "testing": "Testing download speed for mirror #{{index}}...",
+            "success": "Found {{count}} available mirrors (sorted by download speed)",
+            "failure": "Found {{count}} available mirrors (unable to test download speeds due to {{reason}}, sorted by latency)",
+            "reasons": {
+                "saveData": "data-saving mode enabled",
+                "mobile": "mobile network detected"
+            }
+        },
+        "download": {
+            "connectingWithSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms, speed test: {{speed}} MiB/s)...",
+            "connectingWithoutSpeed": "Attempting download from mirror #{{index}} (latency: {{latency}} ms)...",
+            "downloadingFromMirror": "Downloading from mirror #{{index}}...",
+            "downloadingFallback": "Downloading from GitHub...",
+            "invalidState": "Invalid download state. Please refresh the page and try again."
+        }
+    },
+    "references": {
+        "documentation": "Documentation",
+        "qqGroup": "QQ Group",
+        "discord": "Discord",
+        "github": "GitHub",
+        "friendLinks": "Friend Links"
+    },
+    "friendLinks": {
+        "prts-plus": "PRTS Plus",
+        "status": "MAA Status",
+        "mirrorc": "MirrorChyan",
+        "penguin-stats": "Penguin Statistics",
+        "yituliu": "Yituliu",
+        "arkntools": "Arkntools",
+        "ark-nights": "Arknights | Planner",
+        "alas": "ALAS"
+    },
+    "meta": {
+        "title": "MAA - Arknights Assistant",
+        "description": "MAA - Arknights Assistant, Sanity Farming, Base Management and more, leaving NOTHING behind"
+    },
+    "header": {
+        "description": "<1>Arknights Assistant:</1> <2>Sanity Farming, Base Management and more,</2> <3>leaving NOTHING behind</3>"
+    },
+    "screenshots": {
+        "render": {
+            "failure": "Failed to render MAA screenshots. Is GPU acceleration disabled?"
+        }
+    },
+    "footer": {
+        "compliance": "<1>MAA is open-sourced under the <3>AGPL-3.0</3> license.</1> <2>By using MAA, you acknowledge and agree to our <4>User Agreement</4>.</2>"
+    }
+}

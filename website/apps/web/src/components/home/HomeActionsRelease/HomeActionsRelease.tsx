@@ -1,5 +1,11 @@
 import { GlowButton } from '@/components/foundations/GlowButton/GlowButton'
+import { useLayoutState } from '@/contexts/LayoutStateContext'
 import { Release, useRelease } from '@/hooks/use-release'
+import i18n, { getLanguageOption } from '@/i18n'
+import { downloadBlob } from '@/utils/blob'
+import { checkUrlConnectivity, checkUrlSpeed, download } from '@/utils/fetch'
+import { formatBytes } from '@/utils/format'
+import sleep from '@/utils/sleep'
 import mdiAlertCircle from '@iconify/icons-mdi/alert-circle'
 import mdiCheck from '@iconify/icons-mdi/check'
 import mdiDownload from '@iconify/icons-mdi/download'
@@ -19,16 +25,14 @@ import {
   useMemo,
   useState,
 } from 'react'
+import {
+  Trans,
+  WithTranslation,
+  useTranslation,
+  withTranslation,
+} from 'react-i18next'
 import { useMount } from 'react-use'
 
-import { downloadBlob } from '@/utils/blob'
-import {
-  checkUrlConnectivity,
-  checkUrlSpeed,
-  download,
-} from '@/utils/fetch'
-import { formatBytes } from '@/utils/format'
-import sleep from '@/utils/sleep'
 import {
   DetectionFailedSymbol,
   PLATFORMS,
@@ -60,17 +64,33 @@ const DataLoadRate: FC<{ loaded: number; total: number }> = ({
   return (
     <div className="flex flex-row items-center justify-center gap-2 font-mono">
       <div className="flex flex-col items-start justify-center gap-1">
-        <div className="text-sm transition-colors duration-300">{percentage.toFixed(0)}%</div>
-        <div className={clsx("w-12 h-1 rounded-full", "dark:bg-white/10" , "bg-stone-800/10")}>
+        <div className="text-sm transition-colors duration-300">
+          {percentage.toFixed(0)}%
+        </div>
+        <div
+          className={clsx(
+            'w-12 h-1 rounded-full',
+            'dark:bg-white/10',
+            'bg-stone-800/10',
+          )}
+        >
           <div
-            className={clsx("h-full rounded-full", 'dark:text-white', 'text-stone-800')}
+            className={clsx(
+              'h-full rounded-full',
+              'dark:bg-white',
+              'bg-stone-800',
+            )}
             style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
       <div className="flex flex-col items-end justify-center">
-        <div className="text-sm transition-colors duration-300">{formatBytes(loaded, 1)}</div>
-        <div className="text-sm transition-colors duration-300">{formatBytes(total, 1)}</div>
+        <div className="text-sm transition-colors duration-300">
+          {formatBytes(loaded, 1)}
+        </div>
+        <div className="text-sm transition-colors duration-300">
+          {formatBytes(total, 1)}
+        </div>
       </div>
     </div>
   )
@@ -91,7 +111,8 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
     <motion.div
       className={clsx(
         'flex py-6 px-3 flex-col items-center justify-center font-normal transition-colors duration-300',
-        'dark:text-white', 'text-stone-800',
+        'dark:text-white',
+        'text-stone-800',
         className,
       )}
       {...{
@@ -116,7 +137,11 @@ export const DownloadState: FC<DownloadStateProps> = forwardRef<
       ref={ref}
     >
       <div className="flex items-center -ml-1">
-        <Icon className={clsx(iconClassName, "transition-colors duration-300")} icon={icon} fontSize="28px" />
+        <Icon
+          className={clsx(iconClassName, 'transition-colors duration-300')}
+          icon={icon}
+          fontSize="28px"
+        />
         <span className="ml-2 transition-colors duration-300">{title}</span>
       </div>
     </motion.div>
@@ -167,6 +192,7 @@ const DownloadButton = forwardRef<
     releaseName: string | null
   }
 >(({ platform, releaseName }, ref) => {
+  const { t } = useTranslation()
   const href = platform.asset.browser_download_url
 
   const [loadState, setLoadState] = useState<DownloadDetectionStates>({
@@ -324,9 +350,11 @@ const DownloadButton = forwardRef<
           <div className="flex items-center -ml-1">
             <Icon icon={platform.platform.icon} fontSize="28px" />
             <span className="ml-2">
-              {platform.platform.title}
-              <span className="mx-1 text-sm">{platform.platform.subtitle}</span>
-              下载
+              {t(platform.platform.title)}
+              <span className="mx-1 text-sm">
+                {t(platform.platform.subtitle)}
+              </span>
+              {t('release.buttonLabels.download')}
             </span>
           </div>
           <div className="flex items-center mt-1 mb-0.5 ml-8 text-sm">
@@ -350,7 +378,10 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像可用性 (${loadState.detected}/${mirrorsTemplate.length})……`}
+        title={t('release.mirrorDetect.detecting', {
+          current: loadState.detected,
+          total: mirrorsTemplate.length,
+        })}
       />
     )
   } else if (loadState.state === 'speedTesting') {
@@ -358,43 +389,44 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在检测下载镜像 #${loadState.mirrorIndex} 速度……`}
+        title={t('release.speedTest.testing', { index: loadState.mirrorIndex })}
       />
     )
   } else if (loadState.state === 'detected') {
-    const cantTestSpeedReasonsText = {
-      saveData: '用户开启了“节省数据”模式',
-      mobile: '用户正在使用移动网络',
-      ok: '',
-    }
+    const title = loadState.canTestSpeed
+      ? t('release.speedTest.success', { count: loadState.availableMirror })
+      : t('release.speedTest.failure', {
+          count: loadState.availableMirror,
+          reason: t(
+            `release.speedTest.reasons.${loadState.cantTestSpeedReason}`,
+          ),
+        })
+
     return (
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`已检测可用下载镜像 ${loadState.availableMirror} 个（${
-          loadState.canTestSpeed
-            ? '已按下载速度排序'
-            : `由于${
-                cantTestSpeedReasonsText[loadState.cantTestSpeedReason]
-              }，无法检测镜像下载速度，按镜像延迟排序`
-        }）`}
+        title={title}
       />
     )
   } else if (loadState.state === 'connecting') {
+    const title =
+      loadState.mirrorSpeed > 0
+        ? t('release.download.connectingWithSpeed', {
+            index: loadState.mirrorIndex,
+            latency: loadState.mirrorLatency.toFixed(3),
+            speed: ((loadState.mirrorSpeed / 1024 / 1024) * 1000).toFixed(3),
+          })
+        : t('release.download.connectingWithoutSpeed', {
+            index: loadState.mirrorIndex,
+            latency: loadState.mirrorLatency.toFixed(3),
+          })
+
     return (
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title={`正在尝试从镜像 #${
-          loadState.mirrorIndex
-        }（延迟：${+loadState.mirrorLatency.toFixed(3)} ms${
-          loadState.mirrorSpeed > 0
-            ? `，测速：${+(
-                (loadState.mirrorSpeed / 1024 / 1024) *
-                1000
-              ).toFixed(3)} MiB/s`
-            : ''
-        }）下载……`}
+        title={title}
       />
     )
   } else if (loadState.state === 'downloading') {
@@ -405,7 +437,9 @@ const DownloadButton = forwardRef<
         title={
           <div className="flex items-center">
             <span className="mr-4">
-              正在从镜像 #{loadState.mirrorIndex} 下载……
+              {t('release.download.downloadingFromMirror', {
+                index: loadState.mirrorIndex,
+              })}
             </span>
             <DataLoadRate
               loaded={loadState.progressDownloaded}
@@ -420,7 +454,7 @@ const DownloadButton = forwardRef<
     return (
       <DownloadState
         icon={mdiCheck}
-        title={platform.platform.messages.downloaded}
+        title={t(platform.platform.messages.downloaded)}
       />
     )
   } else if (loadState.state === 'fallback') {
@@ -428,20 +462,23 @@ const DownloadButton = forwardRef<
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="正在尝试从海外源(Github)下载……"
+        title={t('release.download.downloadingFallback')}
       />
     )
   } else {
     return (
       <DownloadState
         icon={mdiAlertCircle}
-        title="无效的下载状态，请刷新页面重试"
+        title={t('release.download.invalidState')}
       />
     )
   }
 })
 
 export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
+  const { t } = useTranslation()
+  const { isWidthOverflow } = useLayoutState()
+
   const [viewAll, setViewAll] = useState(false)
   const [envPlatformId, setCurrentPlatformId] = useState<
     string | typeof DetectionFailedSymbol | null
@@ -466,55 +503,96 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
     [release],
   )
 
-  const renderPlatformButton = useCallback((platform: ResolvedPlatform) => {
-    const isCurrentPlatform = platform.platform.id === envPlatformId
-    return (
-      <motion.div layout key={platform.platform.id}>
-        <div className="flex flex-col items-center gap-1">
-          <DownloadButton platform={platform} releaseName={release.name} />
-          <div className="min-h-[1.25rem] mt-1 text-xs">
-            {!isCurrentPlatform ? (
-              <motion.span
-                className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
-                style={{ display: 'inline-flex' }}
-              >
-                <Icon icon={mdiAlertCircle} className="mr-1 flex-shrink-0" width="14" height="14" />
-                不支持您当前的系统架构
-              </motion.span>
-            ) : (
-              // 占位保持高度一致
-              <span className="opacity-0">不支持您当前的系统架构</span>
-            )}
+  const renderPlatformButton = useCallback(
+    (platform: ResolvedPlatform) => {
+      const isCurrentPlatform = platform.platform.id === envPlatformId
+      return (
+        <motion.div layout key={platform.platform.id}>
+          <div className="flex flex-col items-center gap-1">
+            <DownloadButton platform={platform} releaseName={release.name} />
+            <div className="min-h-[1.25rem] mt-1 text-xs">
+              {!isCurrentPlatform ? (
+                <motion.span
+                  className="inline-flex items-center whitespace-nowrap text-red-500 dark:text-red-400"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: 'easeOut', delay: 0.6 }}
+                  style={{ display: 'inline-flex' }}
+                >
+                  <Icon
+                    icon={mdiAlertCircle}
+                    className="mr-1 flex-shrink-0"
+                    width="14"
+                    height="14"
+                  />
+                  {t('release.platformDetect.archIncompatible')}
+                </motion.span>
+              ) : (
+                // 占位保持高度一致
+                <span className="opacity-0">
+                  {t('release.platformDetect.archIncompatible')}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      </motion.div>
-    )
-  }, [envPlatformId, release.name])
+        </motion.div>
+      )
+    },
+    [envPlatformId, release.name, t],
+  )
 
   const allPlatformDownloadBtns = useMemo(
     () => validPlatforms.map(renderPlatformButton),
-    [validPlatforms, renderPlatformButton]
+    [validPlatforms, renderPlatformButton],
   )
 
-  const innerContent = useMemo(() => {
-    if (viewAll || envPlatformId === DetectionFailedSymbol) {
+  const innerContent = useMemo<React.ReactNode>(() => {
+    if (viewAll) {
+      // 用户主动展开 -> 显示所有
       return allPlatformDownloadBtns
-    } else {
-      const platform = validPlatforms.find(
-        (platform) => platform.platform.id === envPlatformId,
-      )
-      if (!platform) return allPlatformDownloadBtns
-
-      return [renderPlatformButton(platform)]
     }
-  }, [validPlatforms, viewAll, envPlatformId, renderPlatformButton])
+
+    if (!envPlatformId || envPlatformId === DetectionFailedSymbol) {
+      // 检测失败
+      return (
+        <DownloadState
+          key="detect-failed"
+          icon={mdiAlertCircle}
+          title={t('release.platformDetect.failure')}
+        />
+      )
+    }
+
+    const platform = validPlatforms.find(
+      (platform) => platform.platform.id === envPlatformId,
+    )
+
+    if (!platform) {
+      // 检测到但不支持
+      return (
+        <DownloadState
+          key="unsupported"
+          icon={mdiAlertCircle}
+          title={t('release.platformDetect.failure')}
+        />
+      )
+    }
+
+    // 检测成功且支持
+    return renderPlatformButton(platform)
+  }, [
+    validPlatforms,
+    viewAll,
+    envPlatformId,
+    renderPlatformButton,
+    allPlatformDownloadBtns,
+    t,
+  ])
 
   const [os, arch] = useMemo(() => {
     if (!envPlatformId) return ['unknown', 'unknown']
-    return envPlatformId.toString()
+    return envPlatformId
+      .toString()
       .replace(/macos-universal/i, 'macos-arm64')
       .split('-')
   }, [envPlatformId])
@@ -528,100 +606,115 @@ export const DownloadButtons: FC<{ release: Release }> = ({ release }) => {
       <DownloadState
         iconClassName="animate-spin"
         icon={mdiLoading}
-        title="正在匹配……"
+        title={t('release.platformDetect.detecting')}
       />
     )
   }
 
+  const mirrorchyanLang = getLanguageOption(i18n.language).mirrorchyanLang
+
   return (
-    <AnimatePresence mode="popLayout">
-      {validPlatforms.length ? (
-        innerContent
-      ) : (
-        <DownloadState
-          key="unavailable"
-          icon={mdiAlertCircle}
-          title="未找到可用的下载链接"
-        />
-      )}
-      {!viewAll && (
-        <motion.div
-          layout
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          key="view-all-switch"
-          className="gap-4 items-center flex flex-col md:flex-row"
-        >
-          <GlowButton
-            bordered
-            onClick={() => setViewAll(true)}
+    <motion.div
+      layout
+      className={`w-full flex flex-wrap justify-center items-center gap-4 max-h-[50vh]`}
+    >
+      <AnimatePresence mode="popLayout">
+        {innerContent}
+
+        {!viewAll && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            key="view-all-switch"
+            className={`gap-4 items-center flex ${isWidthOverflow ? 'flex-col' : 'flex-row'}`}
           >
-            <div className="text-base">
-                查看全部
-            </div>
-          </GlowButton>
-        </motion.div>
-      )}
-      {!viewAll && mirrorchyanAvailable && (
-        <motion.div
-          layout
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          key="mirrorchyan"
-        >
-          <GlowButton
-            bordered
-            href={`https://mirrorchyan.com/zh/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+            <GlowButton bordered onClick={() => setViewAll(true)}>
+              <div className="text-base">
+                {t('release.buttonLabels.viewAll')}
+              </div>
+            </GlowButton>
+          </motion.div>
+        )}
+
+        {!viewAll && mirrorchyanAvailable && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            key="mirrorchyan"
           >
-            <div className="text-sm">
-              <p><i>已有 Mirror酱 CDK？</i></p>
-              <p><i>前往 Mirror酱 高速下载</i></p>
-            </div>
-          </GlowButton>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <GlowButton
+              bordered
+              href={`https://mirrorchyan.com/${mirrorchyanLang}/projects?rid=MAA&os=${os}&arch=${arch}&channel=stable&source=maaplus-download`}
+            >
+              <div className="text-sm">
+                <p>
+                  <i>{t('release.buttonLabels.mirrorchyanCDKPrompt')}</i>
+                </p>
+                <p>
+                  <i>{t('release.buttonLabels.mirrorchyanDownload')}</i>
+                </p>
+              </div>
+            </GlowButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }
 
-export class HomeActionsReleaseErrorBoundary extends Component<{
+interface Props extends WithTranslation {
   children?: React.ReactNode
-}> {
-  state = {
-    error: null as Error | null,
-  }
+}
 
-  componentDidCatch(error: Error) {
-    this.setState({ error })
-  }
-
-  render() {
-    const { error } = this.state
-    if (error) {
-      return (
-        <DownloadState
-          icon={mdiAlertCircle}
-          title={
-            <div className="flex flex-col ml-4">
-              <span className="mb-2">载入版本信息失败。您可尝试</span>
-              <GlowButton
-                translucent
-                bordered
-                href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
-              >
-                <span className="text-sm">前往 GitHub Releases 下载</span>
-              </GlowButton>
-            </div>
-          }
-        />
-      )
+export const HomeActionsReleaseErrorBoundary = withTranslation()(
+  class HomeActionsReleaseErrorBoundary extends Component<Props> {
+    state = {
+      error: null as Error | null,
     }
 
-    return this.props.children
-  }
-}
+    componentDidCatch(error: Error) {
+      this.setState({ error })
+    }
+
+    render() {
+      const { error } = this.state
+      if (error) {
+        return (
+          <DownloadState
+            icon={mdiAlertCircle}
+            title={
+              <div className="flex flex-col ml-4">
+                <Trans
+                  key={i18n.language}
+                  i18nKey="release.buttonLabels.versionInfoLoadingError"
+                  components={{
+                    1: <span className="mb-2 block text-center" />,
+                    2: (
+                      <GlowButton
+                        className="mb-2"
+                        translucent
+                        bordered
+                        href="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
+                      >
+                        <span className="text-sm" />
+                      </GlowButton>
+                    ),
+                  }}
+                />
+              </div>
+            }
+          />
+        )
+      }
+
+      return this.props.children
+    }
+  },
+)
 
 export const HomeActionsRelease: FC = () => {
   const { data } = useRelease()

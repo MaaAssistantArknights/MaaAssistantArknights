@@ -6,6 +6,7 @@ import ReactGA from 'react-ga-neo'
 import { SWRConfig } from 'swr'
 
 import App from './App'
+import './i18n'
 import { fetch } from './utils/fetch'
 
 import './index.css'

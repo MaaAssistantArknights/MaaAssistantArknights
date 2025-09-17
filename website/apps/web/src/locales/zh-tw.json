@@ -1,0 +1,104 @@
+{
+    "platforms": {
+        "windows-x64": {
+            "title": "Windows",
+            "subtitle": "x64",
+            "messages": {
+                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
+            }
+        },
+        "windows-arm64": {
+            "title": "Windows",
+            "subtitle": "arm64",
+            "messages": {
+                "downloaded": "下載完成，解壓縮後執行 MAA.exe 即可"
+            }
+        },
+        "macos-universal": {
+            "title": "macOS",
+            "subtitle": "通用版本",
+            "messages": {
+                "downloaded": "下載完成後，打開磁碟映像檔，將 MAA.app 拖曳到應用程式資料夾即可"
+            }
+        },
+        "linux-x64": {
+            "title": "Linux",
+            "subtitle": "x64 動態函式庫",
+            "messages": {
+                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
+            }
+        },
+        "linux-aarch64": {
+            "title": "Linux",
+            "subtitle": "aarch64 動態函式庫",
+            "messages": {
+                "downloaded": "動態函式庫與資源檔案下載完成（Linux 版本暫無 GUI）"
+            }
+        }
+    },
+    "release": {
+        "buttonLabels": {
+            "download": "下載",
+            "viewAll": "查看全部",
+            "mirrorchyanCDKPrompt": "已經有 Mirror醬 CDK？",
+            "mirrorchyanDownload": "前往 Mirror醬 高速下載",
+            "versionInfoLoadingError": "<1>載入版本資訊失敗。您可以</1><2>前往 GitHub Releases 下載</2>"
+        },
+        "platformDetect": {
+            "detecting": "正在偵測系統架構...",
+            "failure": "未找到您目前系統架構的可用下載連結",
+            "archIncompatible": "不支援您目前的系統架構"
+        },
+        "mirrorDetect": {
+            "detecting": "正在檢測下載鏡像可用性（{{current}}/{{total}}）..."
+        },
+        "speedTest": {
+            "testing": "正在測試鏡像 #{{index}} 的下載速度...",
+            "success": "已偵測到 {{count}} 個可用鏡像（已依下載速度排序）",
+            "failure": "已偵測到 {{count}} 個可用鏡像（由於{{reason}}，無法測試下載速度，已依鏡像延遲排序）",
+            "reasons": {
+                "saveData": "使用者已開啟節省流量模式",
+                "mobile": "使用者目前使用行動網路"
+            }
+        },
+        "download": {
+            "connectingWithSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms，速度：{{speed}} MiB/s）下載...",
+            "connectingWithoutSpeed": "正在嘗試從鏡像 #{{index}}（延遲：{{latency}} ms）下載...",
+            "downloadingFromMirror": "正在從鏡像 #{{index}} 下載...",
+            "downloadingFallback": "正在從 GitHub 下載...",
+            "invalidState": "無效的下載狀態，請重新整理頁面後再試一次。"
+        }
+    },
+    "references": {
+        "documentation": "使用文件",
+        "qqGroup": "QQ 群組",
+        "discord": "Discord",
+        "github": "GitHub",
+        "friendLinks": "友站連結"
+    },
+    "friendLinks": {
+        "prts-plus": "PRTS 作業站",
+        "status": "MAA 狀態監測",
+        "mirrorc": "Mirror醬",
+        "penguin-stats": "企鵝物流數據統計",
+        "yituliu": "明日方舟一圖流",
+        "arkntools": "明日方舟工具箱",
+        "ark-nights": "明日方舟｜幹員培養表",
+        "alas": "碧藍航線小助手"
+    },
+    "meta": {
+        "title": "MAA —「明日方舟」小助手",
+        "description": "MAA —「明日方舟」小助手，自動刷圖、智慧基建換班，全日常一鍵長草"
+    },
+    "header": {
+        "description": "<1>《明日方舟》小助手，</1><2>自動刷圖、智慧基建換班，</2><3>全日常一鍵長草</3>"
+    },
+    "screenshots": {
+        "render": {
+            "failure": "MAA 截圖渲染失敗；請確認是否已停用 GPU 加速？"
+        }
+    },
+    "footer": {
+        "compliance": "<1>MAA 依 <3>AGPL-3.0</3> 授權條款開源；</1><2>使用本軟體即表示您已閱讀並同意「<4>使用者協議</4>」。</2>"
+    }
+}
