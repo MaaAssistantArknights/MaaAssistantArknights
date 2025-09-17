@@ -696,12 +696,7 @@
         "action": "ClickSelf",
         "roi": [1109, 0, 171, 138],
         "postDelay": 1000,
-        "next": [
-            "#self",
-            "Roguelike@GamePassTheEndConfirm",
-            "Roguelike@GamePass",
-            "Roguelike@ClickToStartPoint"
-        ]
+        "next": ["#self", "Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"]
     },
     "Roguelike@GamePassTheEndConfirm": {
         "action": "ClickSelf",
