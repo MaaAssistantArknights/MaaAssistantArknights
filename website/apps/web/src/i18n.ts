@@ -62,11 +62,11 @@ export const languages: LanguageOption[] = [
 
 /** fallback 配置 */
 export const fallback: LanguageOption = {
-  code: 'zh-CN' as string,
-  label: '简体中文' as string,
-  htmlLang: 'zh-CN' as string,
+  code: 'zh-CN',
+  label: '简体中文',
+  htmlLang: 'zh-CN',
   mirrorchyanLang: 'zh',
-  languageFileName: 'zh-cn' as string,
+  languageFileName: 'zh-cn',
 }
 
 /** 根据 i18n 语言代码获取 LanguageOption */
