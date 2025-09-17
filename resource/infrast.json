@@ -3627,7 +3627,7 @@
             "trade_ord_spd&par2": {
                 "desc": ["进驻贸易站时，订单获取效率+30%；当前贸易站内存在格拉斯哥帮干员时，订单获取效率额外+10%"],
                 "efficient": {
-                    "all": 40
+                    "all": 30
                 },
                 "name": ["外贸决议·β"],
                 "template": "Trade_ord_spd&par2.png"
