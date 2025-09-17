@@ -475,7 +475,7 @@ namespace MaaWpfGui.Main
                 });
             }
 
-            Instances.TaskQueueViewModel.SetInited();
+            _runningState.SetInit(true);
             _runningState.SetIdle(true);
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
             AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
@@ -495,7 +495,7 @@ namespace MaaWpfGui.Main
                 await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;
