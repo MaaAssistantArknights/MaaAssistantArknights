@@ -1,24 +1,8 @@
-import { defineNoteConfig, defineNotesConfig } from "vuepress-theme-plume";
+import { defineNotesConfig } from "vuepress-theme-plume"
+import { genNotes } from "./genSidebar"
 
 export const enusNotes = defineNotesConfig({
   dir: "en-us",
   link: "/en-us/",
-  notes: [
-    defineNoteConfig({
-      dir: "manual",
-      link: "/manual/",
-      sidebar: "auto",
-    }),
-    defineNoteConfig({
-      dir: "develop",
-      link: "/develop/",
-      sidebar: "auto",
-    }),
-    defineNoteConfig({
-      dir: "protocol",
-      link: "/protocol/",
-      sidebar: "auto",
-    }),
-    
-  ]
-});
+  notes: genNotes("en-us"),
+})
