@@ -202,7 +202,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
-                        Content="{DynamicResource StartToRecruit}" />
+                        Content="{DynamicResource StartToRecruit}"
+                        IsEnabled="{c:Binding Inited}" />
                 </Grid>
             </Grid>
         </TabItem>
@@ -298,7 +299,7 @@
                         Margin="30,0"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding Idle}" />
+                        IsEnabled="{Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -384,7 +385,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{Binding Idle}" />
+                        IsEnabled="{Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -535,7 +536,7 @@
                         Command="{s:Action GachaOnce}"
                         Content="{DynamicResource GachaOnce}"
                         FontSize="16"
-                        IsEnabled="{Binding Idle}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -543,7 +544,7 @@
                         Command="{s:Action GachaTenTimes}"
                         Content="{DynamicResource GachaTenTimes}"
                         FontSize="16"
-                        IsEnabled="{Binding Idle}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                     <Button
                         Width="180"
                         Height="70"
@@ -551,7 +552,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="{c:Binding !IsPeepTransitioning}" />
+                        IsEnabled="{c:Binding '!IsPeepTransitioning and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -611,7 +612,7 @@
                         Command="{s:Action Peep}"
                         Content="{c:Binding '!Peeping ? &quot;Peep!&quot; : (IsGachaInProgress ? &quot;Stop!!!!!&quot; : &quot;Stop!&quot;)'}"
                         FontSize="16"
-                        IsEnabled="{c:Binding !IsPeepTransitioning}" />
+                        IsEnabled="{c:Binding '!IsPeepTransitioning and Inited'}" />
                     <hc:NumericUpDown
                         MinWidth="50"
                         VerticalAlignment="Center"
@@ -645,7 +646,8 @@
                     Height="50"
                     Margin="10"
                     Command="{s:Action StartMiniGame}"
-                    Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}" />
+                    Content="{c:Binding 'Idle ? &quot;Link Start!&quot; : &quot;Stop!&quot;'}"
+                    IsEnabled="{c:Binding 'Inited and !Stopping'}" />
             </Grid>
         </TabItem>
     </TabControl>

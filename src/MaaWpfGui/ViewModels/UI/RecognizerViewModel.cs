@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,26 +58,23 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.StateChanged += (__, e) =>
+            {
+                Idle = e.Idle;
+                Inited = e.Inited;
+                Stopping = e.Stopping;
+
+                if (e.Stopping && Peeping && !IsPeepTransitioning)
+                {
+                    _ = Peep();
+                }
+            };
             _peepImageTimer.Elapsed += PeepImageTimerElapsed;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
             LoadOperBoxDetails();
             OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
-        }
-
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
-            if (!Idle)
-            {
-                return;
-            }
-
-            Peeping = false;
-            IsPeepInProgress = false;
-            IsGachaInProgress = false;
         }
 
         private bool _idle;
@@ -88,6 +86,22 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _idle;
             set => SetAndNotify(ref _idle, value);
+        }
+
+        private bool _inited;
+
+        public bool Inited
+        {
+            get => _inited;
+            set => SetAndNotify(ref _inited, value);
+        }
+
+        private bool _stopping;
+
+        public bool Stopping
+        {
+            get => _stopping;
+            set => SetAndNotify(ref _stopping, value);
         }
 
         #region Recruit
@@ -1253,13 +1267,24 @@ namespace MaaWpfGui.ViewModels.UI
             if (!Idle)
             {
                 await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
                 return;
             }
 
             _runningState.SetIdle(false);
             string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                _runningState.SetIdle(true);
+            }
+
+            if (_runningState.GetStopping())
+            {
+                Instances.TaskQueueViewModel.SetStopped();
+                return;
+            }
+
+            caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
             if (!caught)
             {
                 _runningState.SetIdle(true);
