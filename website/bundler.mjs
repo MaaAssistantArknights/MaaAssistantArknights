@@ -1,24 +1,27 @@
 import * as fs from 'fs';
 
-const bundleBasePath = './dist';
+const websiteBasePath = './dist';
+const docsBasePath = '../docs/dist';
 
 const maaProjectLocationMapping = [
   {
     from: './apps/web/dist',
-    to: `${bundleBasePath}`,
+    to: `${websiteBasePath}`,
   },
   {
     from: '../docs/.vuepress/dist',
-    to: `${bundleBasePath}/docs`,
+    to: `${docsBasePath}`,
   },
   {
     from: '../docs/staticwebapp.config.json',
-    to: `${bundleBasePath}/docs/staticwebapp.config.json`,
+    to: `${docsBasePath}/staticwebapp.config.json`,
   },
 ];
 
-console.log(`[INF] Removing ${bundleBasePath}`);
-fs.rmSync(bundleBasePath, { recursive: true, force: true });
+console.log(`[INF] Removing ${websiteBasePath}`);
+fs.rmSync(websiteBasePath, { recursive: true, force: true });
+console.log(`[INF] Removing ${docsBasePath}`);
+fs.rmSync(docsBasePath, { recursive: true, force: true });
 
 maaProjectLocationMapping.forEach(({ from, to }) => {
   if (fs.existsSync(from) === false) {
