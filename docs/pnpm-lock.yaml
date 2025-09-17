@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
     devDependencies:
       '@vuepress/bundler-vite':
         specifier: 2.0.0-rc.24
