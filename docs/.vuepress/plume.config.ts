@@ -1,9 +1,9 @@
-import { defineThemeConfig } from 'vuepress-theme-plume'
-import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from './navbar'
-import { zhcnNotes, zhtwNotes, enusNotes, jajpNotes, kokrNotes } from './notes'
+import { defineThemeConfig } from 'vuepress-theme-plume';
+import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from './navbar';
+import { zhcnNotes, zhtwNotes, enusNotes, jajpNotes, kokrNotes } from './notes';
 
 export default defineThemeConfig({
-  logo: "/images/maa-logo_512x512.png",
+  logo: '/images/maa-logo_512x512.png',
 
   appearance: true,
 
@@ -22,29 +22,28 @@ export default defineThemeConfig({
   nextPage: false,
   createTime: false,
 
-
   locales: {
-    "/zh-cn/": {
+    '/zh-cn/': {
       navbar: zhcnNavbar,
       notes: zhcnNotes,
       footer: false,
     },
-    "/zh-tw/": {
+    '/zh-tw/': {
       navbar: zhtwNavbar,
       notes: zhtwNotes,
       footer: false,
     },
-    "/en-us/": {
+    '/en-us/': {
       navbar: enusNavbar,
       notes: enusNotes,
       footer: false,
     },
-    "/ja-jp/": {
+    '/ja-jp/': {
       navbar: jajpNavbar,
       notes: jajpNotes,
       footer: false,
     },
-    "/ko-kr/": {
+    '/ko-kr/': {
       navbar: kokrNavbar,
       notes: kokrNotes,
       footer: false,

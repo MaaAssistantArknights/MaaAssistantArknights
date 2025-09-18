@@ -25,7 +25,7 @@
 
 <!-- markdownlint-restore -->
 
-[简体中文](https://maa.plus/docs/zh-cn/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
+[简体中文](https://docs.maa.plus/zh-cn/) | [繁體中文](https://docs.maa.plus/zh-tw/) | [English](https://docs.maa.plus/en-us/) | [日本語](https://docs.maa.plus/ja-jp/) | [한국어](https://docs.maa.plus/ko-kr/)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -39,12 +39,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载与安装
 
-请阅读 [文档](https://maa.plus/docs/zh-cn/manual/newbie.html) 后前往 [官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载，并参考 [新手上路](https://maa.plus/docs/zh-cn/manual/newbie.html) 进行安装。
+请阅读 [文档](https://docs.maa.plus/zh-cn/manual/newbie.html) 后前往 [官网](https://maa.plus) 或 [Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载，并参考 [新手上路](https://docs.maa.plus/zh-cn/manual/newbie.html) 进行安装。
 
 ## 亮点功能
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/zh-cn/protocol/base-scheduling-schema.html)
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://docs.maa.plus/zh-cn/protocol/base-scheduling-schema.html)
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)
 - 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高资回费出的是推王呢还是推王呢）~~
 - 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示
@@ -83,16 +83,16 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 功能介绍
 
-请参阅 [用户手册](https://maa.plus/docs/zh-cn/manual/)。
+请参阅 [用户手册](https://docs.maa.plus/zh-cn/manual/)。
 
 ### 外服支持
 
 目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
-若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参阅 [外服适配教程](https://maa.plus/docs/zh-cn/develop/overseas-client-adaptation.html)
+若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参阅 [外服适配教程](https://docs.maa.plus/zh-cn/develop/overseas-client-adaptation.html)
 
 ### CLI 支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/zh-cn/manual/cli/)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://docs.maa.plus/zh-cn/manual/cli/)
 
 ## 加入我们
 
@@ -114,11 +114,11 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 #### Windows
 
-请参阅 [开始开发](https://maa.plus/docs/zh-cn/develop/development.html)。
+请参阅 [开始开发](https://docs.maa.plus/zh-cn/develop/development.html)。
 
 #### Linux | macOS
 
-请参阅 [Linux 编译教程](https://maa.plus/docs/zh-cn/develop/linux-tutorial.html)。
+请参阅 [Linux 编译教程](https://docs.maa.plus/zh-cn/develop/linux-tutorial.html)。
 
 #### API
 
@@ -131,22 +131,22 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [Rust 接口](src/Rust/src/maa_sys)：[HTTP 接口](src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaX/tree/main/packages/main/coreLoader)
 - [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/demo.wo)
-- [集成文档](https://maa.plus/docs/zh-cn/protocol/integration.html)
-- [回调消息协议](https://maa.plus/docs/zh-cn/protocol/callback-schema.html)
-- [任务流程协议](https://maa.plus/docs/zh-cn/protocol/task-schema.html)
-- [自动抄作业协议](https://maa.plus/docs/zh-cn/protocol/copilot-schema.html)
+- [集成文档](https://docs.maa.plus/zh-cn/protocol/integration.html)
+- [回调消息协议](https://docs.maa.plus/zh-cn/protocol/callback-schema.html)
+- [任务流程协议](https://docs.maa.plus/zh-cn/protocol/task-schema.html)
+- [自动抄作业协议](https://docs.maa.plus/zh-cn/protocol/copilot-schema.html)
 
 #### 外服适配
 
-请参阅 [外服适配教程](https://maa.plus/docs/zh-cn/develop/overseas-client-adaptation.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+请参阅 [外服适配教程](https://docs.maa.plus/zh-cn/develop/overseas-client-adaptation.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
 #### 想参与开发，但不太会用 GitHub?
 
-[GitHub Pull Request 流程简述](https://maa.plus/docs/zh-cn/develop/development.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://docs.maa.plus/zh-cn/develop/development.html#github-pull-request-流程简述)
 
 #### Issue bot
 
-请参阅 [Issue Bot 使用方法](https://maa.plus/docs/zh-cn/develop/issue-bot-usage.html)
+请参阅 [Issue Bot 使用方法](https://docs.maa.plus/zh-cn/develop/issue-bot-usage.html)
 
 ## 致谢
 

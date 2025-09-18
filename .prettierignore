@@ -1,5 +1,6 @@
 **/node_modules/
 **/pnpm-lock.yaml
+docs/**/*.md
 
 MaaDeps/
 3rdparty/
