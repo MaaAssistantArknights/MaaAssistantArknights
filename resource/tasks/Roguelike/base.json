@@ -510,7 +510,7 @@
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [631, 714, 14, 6],
+        "specificRect": [261, 640, 31, 32],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033；有时光之末可以继续",
         "postDelay": 800,
         "next": [
@@ -695,7 +695,8 @@
     "Roguelike@GamePassSkip2": {
         "action": "ClickSelf",
         "roi": [1109, 0, 171, 138],
-        "next": ["Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"]
+        "postDelay": 1000,
+        "next": ["#self", "Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"]
     },
     "Roguelike@GamePassTheEndConfirm": {
         "action": "ClickSelf",
@@ -1014,6 +1015,8 @@
         "action": "ClickSelf",
         "text": ["查看", "TODO: image of //INTEGRATED STRATEGIES"],
         "roi": [450, 480, 60, 45],
+        "postDelay": 1000,
+        "postDelay_Doc": "加个延迟避免在回弹动画的时候识别",
         "next": ["#self", "Roguelike@SelectTheme", "Roguelike@PreSelectThemeSwipeToTheRight"]
     },
     "Roguelike@PreSelectThemeSwipeToLeft": {
