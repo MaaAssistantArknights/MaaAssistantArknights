@@ -1,0 +1,3 @@
+Sitemap: https://docs.maa.plus/sitemap.xml
+User-agent:*
+Disallow:
