@@ -77,7 +77,7 @@ MAA Team 允许用户通过 MAA 获得收益，但**存在额外限制**：
 
 1. 用户必须明确声明其与 MAA Team 的关系；
 2. 用户必须明确声明自身是否正在使用 MAA；
-3. 用户必须**无偿**提供属于 MAA Team 的第一手资料（包括但不限于 [MAA GitHub 仓库地址](https://github.com/MaaAssistantArknights/MaaAssistantArknights/)、[MAA 官网](https://maa.plus/)、[MAA 文档站](https://maa.plus/docs/)等）。
+3. 用户必须**无偿**提供属于 MAA Team 的第一手资料（包括但不限于 [MAA GitHub 仓库地址](https://github.com/MaaAssistantArknights/MaaAssistantArknights/)、[MAA 官网](https://maa.plus/)、[MAA 文档站](https://docs.maa.plus/)等）。
 
 在满足上述前提条件之后，用户方可有偿提供如使用教学、疑难解答、内容分发、远程控制、代理运行等额外服务。
 
