@@ -1,7 +1,7 @@
 ---
 title: CLI 가이드
 icon: material-symbols:terminal
-index: false
+index: true
 dir:
   order: 6
 ---

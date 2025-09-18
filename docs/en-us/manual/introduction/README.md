@@ -3,7 +3,7 @@ title: Introduction
 icon: mdi:information-outline
 index: false
 dir:
-  order: 2
+  order: 4
 ---
 
 <Catalog base='/en-us/manual/introduction/' />
