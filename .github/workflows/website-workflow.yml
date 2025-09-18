@@ -57,6 +57,9 @@ jobs:
         run: pnpm run build
         working-directory: "./docs"
 
+      - name: AWS config sync
+        run: cp ./docs/staticwebapp.config.json ./docs/.vuepress/dist/staticwebapp.config.json
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
