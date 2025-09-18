@@ -19,10 +19,16 @@ repos:
     hooks:
       - id: prettier
         name: prettier (config files)
-        files: ^((\.github/ISSUE_TEMPLATE|docs|resource|src|tools)/.*|\.pre-commit-config\.yaml|package-definition\.json)
+        files: ^((\.github/ISSUE_TEMPLATE|resource|src|tools)/.*|\.pre-commit-config\.yaml|package-definition\.json)
         types_or:
           - yaml
           - json
+  # - repo: https://github.com/rbubley/mirrors-prettier
+  #   rev: v3.5.3
+  #   hooks:
+  #     - id: prettier
+  #       name: prettier (docs)
+  #       files: ^docs/.*
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.17.2
     hooks:
