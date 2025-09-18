@@ -2984,7 +2984,7 @@
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
-                    "General": 1
+                    "all": 1
                 },
                 "name": ["不容遗漏·α", "情报分析", "见微知著"],
                 "template": "Bskill_meet_spdNotOwned1.png"
@@ -2992,7 +2992,7 @@
             "bskill_meet_spdNotOwned2": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
-                    "General": 11
+                    "all": 11
                 },
                 "name": ["不容遗漏·β"],
                 "template": "Bskill_meet_spdNotOwned2.png"
@@ -3032,7 +3032,7 @@
             "bskill_meet_spd_notOwned_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
-                    "General": 1
+                    "all": 1
                 },
                 "name": ["眼观六路"],
                 "template": "Bskill_meet_spd_notOwned_exchange.png"
