@@ -3,7 +3,5 @@
         "module": "nodenext",
         "moduleResolution": "nodenext"
     },
-    "include": [
-        ".vuepress/**/*.ts"
-    ]
+    "include": [".vuepress/**/*.ts"]
 }
