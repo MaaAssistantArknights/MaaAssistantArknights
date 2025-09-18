@@ -41,10 +41,6 @@ if(APPLE)
     get_osx_architecture()
 endif(APPLE)
 
-if(NOT DEFINED MAADEPS_TRIPLET)
-    detect_maadeps_triplet(MAADEPS_TRIPLET)
-endif()
-
 # 创建资源目录链接的函数
 function(create_resource_link TARGET_NAME OUTPUT_DIR)
     if(WIN32)

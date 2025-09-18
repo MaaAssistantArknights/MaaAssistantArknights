@@ -52,4 +52,6 @@ elseif(UNIX)
 endif()
 
 install(TARGETS MaaCore ${MaaCore_install_flatten_args})
-maadeps_install(.)
+if(USE_MAADEPS)
+  maadeps_install(.)
+endif()
