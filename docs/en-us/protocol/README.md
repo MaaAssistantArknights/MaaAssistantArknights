@@ -2,6 +2,8 @@
 title: Protocol Docs
 icon: basil:document-solid
 index: false
+comments: false
+editLink: false
 dir:
   order: 3
 ---
