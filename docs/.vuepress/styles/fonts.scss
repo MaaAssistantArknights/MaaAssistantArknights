@@ -1,9 +1,14 @@
 :root {
-  --vp-font-family-base: -apple-system, BlinkMacSystemFont, "Noto Sans SC", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", sans-serif;
-  
-  --vp-font-family-heading: Georgia, -apple-system, "Nimbus Roman No9 L", "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Microsoft Yahei", "WenQuanYi Micro Hei", "ST Heiti", sans-serif;
-  
-  --vp-font-family-mono: "Maple Mono NF CN", "JetBrains Mono", "Fira Code", "Noto Sans SC", Consolas, monospace, Menlo, "Courier New";
+  --vp-font-family-base:
+    -apple-system, BlinkMacSystemFont, "Noto Sans SC", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans",
+    "Droid Sans", "Helvetica Neue", STHeiti, "Microsoft YaHei", sans-serif;
+
+  --vp-font-family-heading:
+    Georgia, -apple-system, "Nimbus Roman No9 L", "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Microsoft Yahei",
+    "WenQuanYi Micro Hei", "ST Heiti", sans-serif;
+
+  --vp-font-family-mono:
+    "Maple Mono NF CN", "JetBrains Mono", "Fira Code", "Noto Sans SC", Consolas, monospace, Menlo, "Courier New";
 }
 
 html[lang="ja-JP"] {
