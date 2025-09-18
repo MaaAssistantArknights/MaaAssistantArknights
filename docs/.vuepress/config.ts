@@ -1,13 +1,14 @@
-import { defineUserConfig } from "vuepress";
-import { getDirname, path } from "vuepress/utils";
-import { viteBundler } from "@vuepress/bundler-vite";
+import { viteBundler } from '@vuepress/bundler-vite'
+import { defineUserConfig } from 'vuepress'
 import { googleAnalyticsPlugin } from "@vuepress/plugin-google-analytics";
-import Theme from "./theme";
+import { plumeTheme } from 'vuepress-theme-plume'
 
-const __dirname = getDirname(import.meta.url);
+import DocSearchConfig from './plugins/search';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 export default defineUserConfig({
-  base: "/docs/",
+  base: "/",
   lang: "zh-CN",
   title: "MaaAssistantArknights",
   description: "MAA",
@@ -15,47 +16,26 @@ export default defineUserConfig({
 
   locales: {
     "/zh-cn/": {
-      lang: "zh-cn",
+      lang: "zh-CN",
       description: "文档",
     },
     "/zh-tw/": {
-      lang: "zh-tw",
+      lang: "zh-TW",
       description: "文件",
     },
     "/en-us/": {
-      lang: "en-us",
+      lang: "en-US",
       description: "Documentation",
     },
     "/ja-jp/": {
-      lang: "ja-jp",
+      lang: "ja-JP",
       description: "ドキュメンテーション",
     },
     "/ko-kr/": {
-      lang: "ko-kr",
+      lang: "ko-KR",
       description: "선적 서류 비치",
     },
   },
-
-  markdown: {
-    headers: {
-      level: [2, 3, 4, 5],
-    },
-  },
-
-  theme: Theme,
-
-  alias: {
-    "@theme-hope/modules/navbar/components/LanguageDropdown": path.resolve(
-      __dirname,
-      "./components/LanguageDropdown.ts",
-    ),
-  },
-
-  plugins: [
-    googleAnalyticsPlugin({
-      id: "G-FJQDKG394Z",
-    }),
-  ],
 
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -90,4 +70,55 @@ export default defineUserConfig({
     viteOptions: {},
     vuePluginOptions: {},
   }),
+
+  shouldPrefetch: false,
+
+  theme: plumeTheme({
+    hostname: "https://docs.maa.plus",
+
+    docsRepo: "MaaAssistantArknights/MaaAssistantArknights",
+    docsDir: "/docs",
+    docsBranch: "dev",
+
+    editLink: true,
+    lastUpdated: false,
+    contributors: false,
+    changelog: false,
+
+    blog: false,
+
+    cache: "filesystem",
+
+    search: DocSearchConfig,
+
+    codeHighlighter: {
+      themes: { light: 'one-light', dark: 'one-dark-pro' },
+    },
+
+    markdown: {
+      
+    },
+
+    watermark: false,
+
+    comment: {
+      provider: "Giscus",
+      repo: "MaaAssistantArknights/maa-website",
+      repoId: "R_kgDOHY7Gyg",
+      category: "Comments",
+      categoryId: "DIC_kwDOHY7Gys4CgoVH",
+      mapping: "pathname",
+      strict: true,
+      lazyLoading: true,
+    },
+
+    //replaceAssets: isProd ? "https://cdn.maa.plus" : false,
+
+  }),
+
+  plugins: [
+    googleAnalyticsPlugin({
+      id: "G-FJQDKG394Z",
+    }),
+  ],
 });

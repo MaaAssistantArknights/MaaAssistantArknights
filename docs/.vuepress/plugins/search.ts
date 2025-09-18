@@ -1,8 +1,8 @@
 export default {
+    provider: "algolia" as const,
     appId: "99JM20SIFG",
     apiKey: "7596a5a8c95cd64d4cf3050c9a4f878e",
     indexName: "maa",
-    // 这里应该把所有本地化配置都放入 locales 中
     locales: {
         "/zh-cn/": {
             placeholder: "搜索",
