@@ -179,6 +179,8 @@ MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取
    - 国際版のデフォルトパスは `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` です。
    - 中国本土版のデフォルトパスは `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf` です。
 
+   注意：`C:\ProgramData`は隠しディレクトリです。必要に応じて、このアドレスをファイルエクスプローラのアドレスバーに直接貼り付けて、アクセスしてください。
+
 2. 初めて使用する場合は、一度 MAA を実行して、MAA が設定ファイルを自動生成するようにします。
 
 3. **MAA を閉じた後に**、`gui.json` を開き、`Configurations` の下の現在の設定名フィールド（設定-切り替え設定 で確認できます。デフォルトは `Default`）を検索し、`Bluestacks.Config.Path` フィールドを検索して、`bluestacks.conf` の完全なパスを入力します。（スラッシュはエスケープ `\\` を使用してください）

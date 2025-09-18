@@ -135,6 +135,8 @@ MAA now attempts to read the `bluestacks.conf` storage location from the registr
    - International version default: `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - Chinese version default: `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
+   Note: `C:\ProgramData` is a hidden directory. If necessary, paste this address directly into the file explorer's address bar to access it.
+
 2. If this is your first time, run MAA once so it automatically generates the configuration file.
 
 3. **First close** MAA, **then** open `gui.json`, find your current configuration name under `Configurations` (viewable in Settings-Switch Configuration, default is `Default`), search for the `Bluestacks.Config.Path` field, and enter the full path to `bluestacks.conf`. (Note: use escaped backslashes `\\`)
