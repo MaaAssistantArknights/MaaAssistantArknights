@@ -13,6 +13,12 @@ on:
       - ".github/workflows/website-workflow.yml"
       - "docs/**"
   workflow_dispatch:
+    inputs:
+      deploy-to-prod:
+        description: "Deploy to production environment"
+        default: false
+        required: true
+        type: boolean
 
 permissions:
   contents: read
@@ -62,15 +68,10 @@ jobs:
         with:
           path: "./docs/.vuepress/dist"
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        if: ${{ github.event.inputs.deploy-to-prod == true || github.ref == 'refs/heads/master' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./docs/.vuepress/dist"
+          publish_branch: gh-pages
