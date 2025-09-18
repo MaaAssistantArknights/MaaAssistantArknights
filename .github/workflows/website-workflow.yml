@@ -15,15 +15,10 @@ on:
   workflow_dispatch:
     inputs:
       deploy-to-prod:
-        description: "Deploy to production environment"
+        description: "Deploy to prod"
         default: false
         required: true
         type: boolean
-
-permissions:
-  contents: read
-  pages: write  
-  id-token: write
 
 concurrency:
   group: "pages"
