@@ -8,6 +8,10 @@ icon: material-symbols:task
 Usage of `resource/tasks` and description of each field
 
 ::: tip
+It is recommended to use [Visual Studio Code](https://code.visualstudio.com/) and install [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) extension for efficient editing. For more details, please visit the extension's homepage.
+:::
+
+::: warning
 Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
 :::
 

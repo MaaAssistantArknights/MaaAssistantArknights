@@ -6,6 +6,10 @@ icon: material-symbols:task
 # Tasks 스키마
 
 ::: tip
+It is recommended to use [Visual Studio Code](https://code.visualstudio.com/) and install [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) extension for efficient editing. For more details, please visit the extension's homepage.
+:::
+
+::: warning
 주의: JSON 형식은 주석을 지원하지 않으므로 아래의 예시에서 주석은 제거해주시기 바랍니다.
 :::
 
