@@ -9,7 +9,7 @@ icon: jam:write-f
 このドキュメントの目的は、ドキュメント作成者がテーマが提供する機能をより良く活用し、読みやすさを向上させることを指導することです。
 :::
 
-私たちのドキュメントは [vuepress](https://github.com/vuejs/vuepress) に基づいて構築されており、[vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) テーマが使用されています。詳細な説明については[公式ドキュメント](https://theme-hope.vuejs.press/)をご覧いただけます。ここでは一部の一般的な機能について紹介します。
+私たちのドキュメントは [vuepress](https://github.com/vuejs/vuepress) に基づいて構築されており、[vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) テーマが使用されています。詳細な説明については[公式ドキュメント](https://theme-plume.vuejs.press/)をご覧いただけます。ここでは一部の一般的な機能について紹介します。
 
 ## コンテナ
 
