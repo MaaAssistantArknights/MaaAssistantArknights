@@ -9,7 +9,7 @@ icon: jam:write-f
 이 문서의 목적은 문서 작성자가 주제가 제공하는 기능을 더 잘 활용하여 더 읽기 쉬운 효과를 얻는 데 도움을 주는 것입니다.
 :::
 
-우리의 문서는 [vuepress](https://github.com/vuejs/vuepress)로 작성되었으며, [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 테마를 사용하고 있습니다. 더 자세한 설명은 [공식 문서](https://theme-hope.vuejs.press/zh/)를 참조할 수 있으며, 여기서는 일부 일반적인 기능에 대해서만 소개하겠습니다.
+우리의 문서는 [vuepress](https://github.com/vuejs/vuepress)로 작성되었으며, [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 테마를 사용하고 있습니다. 더 자세한 설명은 [공식 문서](https://theme-plume.vuejs.press/)를 참조할 수 있으며, 여기서는 일부 일반적인 기능에 대해서만 소개하겠습니다.
 
 ## 로컬 배포
 

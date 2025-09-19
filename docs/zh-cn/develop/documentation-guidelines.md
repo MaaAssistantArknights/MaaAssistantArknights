@@ -9,7 +9,7 @@ icon: jam:write-f
 本文档的目的在于指导文档编写者更好的使用主题提供的功能，以此达到更易读的效果。
 :::
 
-我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 主题，你也可以查看[官方文档](https://theme-hope.vuejs.press/zh/)来获取更加详细的说明，这里仅介绍一些常用的功能
+我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主题，你也可以查看[官方文档](https://theme-plume.vuejs.press/)来获取更加详细的说明，这里仅介绍一些常用的功能
 
 ## 本地部署
 
