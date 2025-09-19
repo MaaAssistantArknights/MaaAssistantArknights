@@ -14,7 +14,7 @@ icon: jam:write-f
 ## 本地部署
 
 1. 安裝 [pnpm](https://pnpm.io/zh/installation)，並參考 [Pull Request 流程簡述](./development.md#github-pull-request-流程簡述)將倉庫克隆到本地。
-2. 在 `website` 目錄下新建終端，運行 `pnpm i` 下載依賴。
+2. 在 `docs` 目錄下新建終端，運行 `pnpm i` 下載依賴。
 3. 運行 `pnpm run dev` 進行部署。
 
 ## 容器
