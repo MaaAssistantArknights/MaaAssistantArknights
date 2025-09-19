@@ -11,6 +11,12 @@ icon: jam:write-f
 
 私たちのドキュメントは [vuepress](https://github.com/vuejs/vuepress) に基づいて構築されており、[vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) テーマが使用されています。詳細な説明については[公式ドキュメント](https://theme-plume.vuejs.press/)をご覧いただけます。ここでは一部の一般的な機能について紹介します。
 
+## ローカルデプロイ
+
+1. [pnpm](https://pnpm.io/installation)をインストールし、[Pull Request 流れの概要](./development.md#github-pull-request-流程简述)を参照してリポジトリをローカルにクローンします。
+2. `docs`ディレクトリでターミナルを開き、`pnpm i`を実行して依存関係をインストールします。
+3. `pnpm run dev`を実行してデプロイします。
+
 ## コンテナ
 
 ~~Dockerのコンテナではありません~~
