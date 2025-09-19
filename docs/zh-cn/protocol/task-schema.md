@@ -8,7 +8,11 @@ icon: material-symbols:task
 `resource/tasks` 的使用方法及各字段说明
 
 ::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
+推荐使用 [Visual Studio Code](https://code.visualstudio.com/) 并安装 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 扩展以实现高效编辑，详情请查阅扩展主页
+:::
+
+::: warning
+JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
 :::
 
 ## 完整字段一览
