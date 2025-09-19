@@ -7,10 +7,11 @@
   flex-wrap: wrap;
   justify-content: center;
   max-width: 100%;
+  padding: 0;
 }
 
 /* 按钮 */
 .actions .action .vp-button {
-  margin: 0.5rem !important;
+  margin: 0.5rem;
   min-width: 12ch;
 }
