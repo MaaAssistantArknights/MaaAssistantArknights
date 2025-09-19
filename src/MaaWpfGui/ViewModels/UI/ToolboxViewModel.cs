@@ -1,4 +1,4 @@
-// <copyright file="RecognizerViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -16,13 +16,11 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -46,15 +44,15 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of recruit.
     /// </summary>
-    public class RecognizerViewModel : Screen
+    public class ToolboxViewModel : Screen
     {
         private readonly RunningState _runningState;
-        private static readonly ILogger _logger = Log.ForContext<RecognizerViewModel>();
+        private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
+        /// Initializes a new instance of the <see cref="ToolboxViewModel"/> class.
         /// </summary>
-        public RecognizerViewModel()
+        public ToolboxViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
