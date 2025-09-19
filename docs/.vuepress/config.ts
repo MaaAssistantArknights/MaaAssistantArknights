@@ -103,7 +103,7 @@ export default defineUserConfig({
       category: 'Comments',
       categoryId: 'DIC_kwDOHY7Gys4CgoVH',
       mapping: 'pathname',
-      strict: true,
+      strict: false,
       lazyLoading: true,
     },
 
