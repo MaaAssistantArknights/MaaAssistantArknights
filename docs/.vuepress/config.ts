@@ -92,7 +92,13 @@ export default defineUserConfig({
       themes: { light: 'one-light', dark: 'one-dark-pro' },
     },
 
-    markdown: {},
+    markdown: {
+      image: {
+        lazyload: true,
+        mark: true,
+        size: true,
+      },
+    },
 
     watermark: false,
 
