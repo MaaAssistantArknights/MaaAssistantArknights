@@ -1,2 +1,16 @@
 @use "home.scss";
 @use "fonts.scss";
+
+/* 按钮组容器 */
+.actions .action {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+}
+
+/* 按钮 */
+.actions .action .vp-button {
+    margin: 0.5rem !important;
+    min-width: 12ch;
+}
