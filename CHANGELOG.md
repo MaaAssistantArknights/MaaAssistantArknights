@@ -44,7 +44,7 @@ We have made some adjustments to the *Copilot* feature, which mainly include:
 We have optimized the base skill-related functions in *Base* task:
 
 * We have set efficiency data for all base skills that previously lacked that data, allowing MAA to better select suitable base skills for doctors with incomplete operator rosters during the *Base* task (though we did remove U-Offcial, ~~U-Offcial is so cute, why should she work~~)
-* If the *Base* task is in Custom Base Mod and the MAA is currently running, Base Plan will no longer switch over time to avoid various issues caused by interrupting the MAA's work by switching the Base Plan when MAA is running.
+* If the *Base* task is in Custom Base Mode and the MAA is currently running, Base Plan will no longer switch over time to avoid various issues caused by interrupting the MAA's work by switching the Base Plan when MAA is running.
 * If the *Base* task is in One-click Rotation Mode, the MAA will no longer enter unchecked facilities.
 * We adjusted the sorting logic for reception room skills, now prioritizing skills that are more likely to obtain clues not yet owned.
 
