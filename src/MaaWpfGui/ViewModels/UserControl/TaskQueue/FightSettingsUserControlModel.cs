@@ -369,7 +369,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public static string UseStoneString => LocalizationHelper.GetString("UseOriginitePrime");
 
     private bool? _useStone = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false) &&
-                                      ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
+                              ConfigurationHelper.GetValue(ConfigurationKeys.UseStone, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use originiums with null.
@@ -753,15 +753,28 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _useExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
+    private bool _useExpiringMedicineInDaysEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicineInDaysEnabled, true);
 
-    public bool UseExpiringMedicine
+    public bool UseExpiringMedicineInDaysEnabled
     {
-        get => _useExpiringMedicine;
+        get => _useExpiringMedicineInDaysEnabled;
         set
         {
-            SetAndNotify(ref _useExpiringMedicine, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
+            SetAndNotify(ref _useExpiringMedicineInDaysEnabled, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicineInDaysEnabled, value.ToString());
+            Instances.TaskQueueViewModel.SetFightParams();
+        }
+    }
+
+    private int _useExpiringMedicineInDays = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicineInDays, 2);
+
+    public int UseExpiringMedicineInDays
+    {
+        get => _useExpiringMedicineInDays;
+        set
+        {
+            SetAndNotify(ref _useExpiringMedicineInDays, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicineInDays, value.ToString());
             Instances.TaskQueueViewModel.SetFightParams();
         }
     }
@@ -853,7 +866,7 @@ public class FightSettingsUserControlModel : TaskViewModel
             Stone = UseStoneDisplay ? StoneNumber : 0,
             Series = Series,
             MaxTimes = HasTimesLimited != false ? MaxTimes : int.MaxValue,
-            ExpiringMedicine = UseExpiringMedicine ? 9999 : 0,
+            MedicineExpiringInDays = UseExpiringMedicineInDaysEnabled ? UseExpiringMedicineInDays : 0,
             IsDrGrandet = IsDrGrandet,
             ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
             ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
