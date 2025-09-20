@@ -8,7 +8,11 @@ icon: material-symbols:task
 `resource/tasks` 的使用方法及各欄位說明
 
 ::: tip
-請注意 JSON 檔是不支援註解的，下方的註解僅用於說明，請勿直接複製使用
+推薦使用 [Visual Studio Code](https://code.visualstudio.com/) 並安裝 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 擴展以實現高效編輯，詳情請查閱擴展首頁和[文件](../develop/vsc-ext-tutorial.md)
+:::
+
+::: warning
+JSON 文件是不支持注釋的，文本中的注釋僅用於示範，請勿直接複製使用
 :::
 
 ## 完整欄位一覽
