@@ -94,7 +94,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Items.Add(Instances.TaskQueueViewModel);
             Items.Add(Instances.CopilotViewModel);
-            Items.Add(Instances.RecognizerViewModel);
+            Items.Add(Instances.ToolboxViewModel);
             Items.Add(Instances.SettingsViewModel);
 
             Instances.SettingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。

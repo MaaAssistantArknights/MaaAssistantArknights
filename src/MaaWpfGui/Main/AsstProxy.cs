@@ -864,7 +864,7 @@ namespace MaaWpfGui.Main
                     {
                         if (msg == AsstMsg.TaskChainError)
                         {
-                            Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                            Instances.ToolboxViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("IdentifyTheMistakes"));
                         }
 
@@ -1540,11 +1540,11 @@ namespace MaaWpfGui.Main
             switch (taskChain)
             {
                 case "Depot":
-                    Instances.RecognizerViewModel.DepotParse((JObject?)subTaskDetails);
+                    Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails);
                     break;
 
                 case "OperBox":
-                    Instances.RecognizerViewModel.OperBoxParse((JObject?)subTaskDetails);
+                    Instances.ToolboxViewModel.OperBoxParse((JObject?)subTaskDetails);
                     break;
             }
 
@@ -1662,7 +1662,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
-                        var tooltip = Instances.RecognizerViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
+                        var tooltip = Instances.ToolboxViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
@@ -1986,7 +1986,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcRecruitCalcMsg(JObject details)
         {
-            Instances.RecognizerViewModel.ProcRecruitMsg(details);
+            Instances.ToolboxViewModel.ProcRecruitMsg(details);
         }
 
         private static void ProcVideoRecMsg(JObject details)

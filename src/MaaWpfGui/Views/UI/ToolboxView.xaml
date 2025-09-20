@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="MaaWpfGui.Views.UI.RecognizerView"
+    x:Class="MaaWpfGui.Views.UI.ToolboxView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
@@ -12,7 +12,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
+    d:DataContext="{d:DesignInstance {x:Type ui:ToolboxViewModel}}"
     d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
