@@ -1,0 +1,137 @@
+{
+    "SupportListAnalyzer-Flag": {
+        "doc": [
+            "识别每个助战干员栏位底部的 Icon，后续根据相对位置识别其他信息",
+            "模版列表首项表示好友助战: .from_friend = (templ_name == flag_task_ptr->templ_names.at(0))"
+        ],
+        "template": ["SupportListAnalyzer-Flag-Friend.png", "SupportListAnalyzer-Flag-Stranger.png"],
+        "roi": [95, 606, 1185, 50],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [150, 0, 0],
+                [255, 255, 255]
+            ]
+        ]
+    },
+    "SupportListAnalyzer-NameOcr": {
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员名识别用 roi 为 [r.x + m.x, r.y + m.y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "baseTask": "CharsNameOcrReplace",
+        "rectMove": [0, -34, 129, 34]
+    },
+    "SupportListAnalyzer-Elite": {
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英阶段识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "template": ["SupportListAnalyzer-Elite-2.png", "SupportListAnalyzer-Elite-1.png"],
+        "templThreshold": 0.7,
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [250, 250, 250],
+                [255, 255, 255]
+            ]
+        ],
+        "rectMove": [40, -180, 50, 45]
+    },
+    "SupportListAnalyzer-LevelOcr": {
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [80, -125, 40, 20]
+    },
+    "SupportListAnalyzer-Potential": {
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员潜能识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "template": [
+            "SupportListAnalyzer-Potential-6.png",
+            "SupportListAnalyzer-Potential-5.png",
+            "SupportListAnalyzer-Potential-4.png",
+            "SupportListAnalyzer-Potential-3.png",
+            "SupportListAnalyzer-Potential-2.png",
+            "SupportListAnalyzer-Potential-1.png"
+        ],
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [200, 200, 200],
+                [255, 255, 255]
+            ]
+        ],
+        "roi": [800, 471, 100, 35],
+        "rectMove": [10, -135, 40, 35]
+    },
+    "SupportList-RoleSelected": {
+        "doc": "模版任务: 招募助战干员时通过深色背景的职业图标判断当前职业是否正确，Ccoeff 应该够用，若出问题可以考虑换为 RGBCount",
+        "template": "empty.png",
+        "roi": [20, 93, 73, 608]
+    },
+    "SupportList-SelectRole": {
+        "doc": "模版任务: 招募助战干员时通过点击浅色背景的职业图标切换职业",
+        "template": "empty.png",
+        "roi": [20, 93, 73, 608],
+        "action": "ClickSelf",
+        "next": ["SupportList-SelectRole@NextAfterLoadingText", "SupportList-RoleSelected", "SupportList-SelectRole"]
+    },
+    "Caster@SupportList-RoleSelected": {},
+    "Caster@SupportList-SelectRole": {},
+    "Medic@SupportList-RoleSelected": {},
+    "Medic@SupportList-SelectRole": {},
+    "Pioneer@SupportList-RoleSelected": {},
+    "Pioneer@SupportList-SelectRole": {},
+    "Sniper@SupportList-RoleSelected": {},
+    "Sniper@SupportList-SelectRole": {},
+    "Special@SupportList-RoleSelected": {},
+    "Special@SupportList-SelectRole": {},
+    "Support@SupportList-RoleSelected": {},
+    "Support@SupportList-SelectRole": {},
+    "Tank@SupportList-RoleSelected": {},
+    "Tank@SupportList-SelectRole": {},
+    "Warrior@SupportList-RoleSelected": {},
+    "Warrior@SupportList-SelectRole": {},
+    "SupportList-Confirm": {
+        "doc": "识别 <招募助战> 文字并点击",
+        "baseTask": "RecruitSupportConfirm"
+    },
+    "SupportList-Cancel": {
+        "doc": "若识别到 <招募助战> 文字就点击屏幕下方取消选择",
+        "baseTask": "RecruitSupportConfirm",
+        "action": "ClickRect",
+        "specificRect": [640, 700, 0, 0],
+        "postDelay": 500
+    },
+    "SupportList-Refresh": {
+        "roi": [1096, 12, 61, 52],
+        "preDelay": 500,
+        "action": "ClickSelf",
+        "next": ["SupportList-Refresh@NextAfterLoadingText", "Stop"]
+    },
+    "SupportList-RefreshCooldown": {
+        "roi": [1096, 12, 61, 52],
+        "postDelay": 1000,
+        "next": ["SupportList-CooldownThenRefresh#next"]
+    },
+    "SupportList-CooldownThenRefresh": {
+        "doc": "更新助战列表，如果识别到冷却倒计时则等待倒计时结束后再点击 <更新助战列表> 按钮",
+        "algorithm": "JustReturn",
+        "next": ["SupportList-Refresh", "SupportList-RefreshCooldown"]
+    },
+    "SupportList-SwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
+    },
+    "SupportList-SwipeToTheRight": {
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
+    }
+}
