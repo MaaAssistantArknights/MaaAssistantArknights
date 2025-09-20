@@ -60,11 +60,11 @@
                                 Value="{Binding Progress}" />
                             <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding IsUnlocked}">
                                 <TextBlock
-                                    Foreground="{Binding MedalBrush}"
+                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MedalBrushKey}"
                                     Text="{DynamicResource AchievementUnlockedAt}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
-                                    Foreground="{Binding MedalBrush}"
+                                    uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MedalBrushKey}"
                                     Text="{Binding UnlockedTimeLocal, StringFormat={}{0:G}}"
                                     TextWrapping="Wrap" />
                             </VirtualizingStackPanel>

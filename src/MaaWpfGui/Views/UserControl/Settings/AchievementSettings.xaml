@@ -41,7 +41,7 @@
             Margin="5"
             hc:FloatingBlock.Content="{Binding Tip}"
             Background="{DynamicResource MouseOverRegionBrushOpacity75}"
-            BorderBrush="{Binding MedalBrush}"
+            uiBehaviors:ResourceReferenceHelper.BorderBrushResourceKey="{Binding MedalBrushKey}"
             BorderThickness="1"
             PreviewMouseLeftButtonDown="{s:Action OnDebugClick}"
             Style="{StaticResource BorderCircular}">
