@@ -165,6 +165,12 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, clear as far as possible</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Investigation, clear as far as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">目标常乐节点</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>

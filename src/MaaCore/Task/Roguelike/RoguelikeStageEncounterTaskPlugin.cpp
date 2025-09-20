@@ -3,6 +3,7 @@
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
@@ -128,6 +129,35 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             ctrler()->click(matcher.get_result().rect);
             ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick" }).run();
             ProcessTask(*this, { "Roguelike@StageEncounterJudgeClick2" }).run();
+        }
+    }
+
+    // 界园树洞
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
+        auto& bosky_map = RoguelikeBoskyPassageMap::get_instance();
+        if (event.name == "掷地有声") {
+            bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Ling);
+        }
+        else if (event.name == "种因得果") {
+            bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Shu);
+        }
+        else if (event.name == "三缺一") {
+            bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Nian);
+        }
+
+        if (bosky_map.get_target_subtype() != RoguelikeBoskySubNodeType::Unknown) {
+            if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.get_target_subtype()) {
+                Log.info(__FUNCTION__, "| Found target playtime node, completing task and exiting");
+
+                auto target_info = basic_info_with_what("RoguelikeJieGardenTargetFound");
+                target_info["details"]["target_subtype"] = subtype2name(bosky_map.get_target_subtype());
+                callback(AsstMsg::SubTaskExtraInfo, target_info);
+
+                // 完成任务，退出
+                m_control_ptr->exit_then_stop();
+                m_task_ptr->set_enable(false);
+                return std::nullopt;
+            }
         }
     }
 

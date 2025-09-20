@@ -1,10 +1,12 @@
 #pragma once
 
-#include <optional>
-#include <vector>
+#include <string>
 
 namespace asst
 {
+
+enum class RoguelikeBoskySubNodeType;
+
 enum class RoguelikeNodeType
 {
     Init = -1,        // Init
@@ -39,4 +41,14 @@ enum class RoguelikeNodeType
     YiTrader = 24,  // 易与
     Scheme = 25     // 筹谋
 };
+
+// 根据字符串获取节点类型
+RoguelikeNodeType name2type(const std::string& node_name);
+
+// 获取节点类型的字符串名称
+std::string type2name(RoguelikeNodeType node_type);
+
+// 获取树篱之途子节点类型的字符串名称
+std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type);
+
 } // namespace asst
