@@ -17,7 +17,7 @@ body:
           required: true
         - label: I have checked all the options without carefully reading the content and believe this will not affect issue resolution.
           required: false
-        - label: I have reviewed the [FAQs](https://maa.plus/docs/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
+        - label: I have reviewed the [FAQs](https://docs.maa.plus/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
           required: true
   - type: textarea
     id: describe

@@ -142,6 +142,8 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
    - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
+   참고: `C:\ProgramData`는 숨겨진 디렉터리입니다. 필요한 경우, 파일 탐색기의 주소 표시줄에 이 주소를 직접 붙여넣어 접근하세요.
+
 2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
 
 3. **MAA를 종료**한 후, `gui.json`을 열어 `Configurations` 아래의 현재 구성 이름 필드를 찾습니다(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다). 그 안에서 `Bluestacks.Config.Path` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)

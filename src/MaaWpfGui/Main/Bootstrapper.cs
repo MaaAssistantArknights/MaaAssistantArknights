@@ -197,8 +197,7 @@ namespace MaaWpfGui.Main
                         message.ToString(),
                         LocalizationHelper.GetString("ErrorCrashDialogTitle"),
                         MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                    );
+                        MessageBoxImage.Error);
 
                     try
                     {
@@ -455,9 +454,9 @@ namespace MaaWpfGui.Main
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<TaskQueueViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<RecognizerViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
+            builder.Bind<ToolboxViewModel>().ToSelf().InSingletonScope();
+            builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<StageManager>().ToSelf().InSingletonScope();

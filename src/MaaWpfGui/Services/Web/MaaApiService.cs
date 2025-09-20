@@ -26,33 +26,41 @@ namespace MaaWpfGui.Services.Web
     {
         private static readonly string CacheDir = PathsHelper.BaseDir + "/cache/";
 
-        public async Task<JObject?> RequestMaaApiWithCache(string api)
+        public async Task<JObject?> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
         {
-            return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2);
+            return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache);
         }
 
-        private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null)
+        private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
         {
-            var json = await TryRequest(api, primaryBaseUrl);
+            var json = await TryRequest(api, primaryBaseUrl, allowFallbackToCache);
             if (json != null || string.IsNullOrEmpty(fallbackBaseUrl))
             {
                 return json;
             }
 
-            return await TryRequest(api, fallbackBaseUrl);
+            return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
         }
 
-        private async Task<JObject?> TryRequest(string api, string baseUrl)
+        private async Task<JObject?> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
         {
             var url = baseUrl + api;
             var cache = CacheDir + api;
 
             var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
-            if (response == null ||
-                response.StatusCode == System.Net.HttpStatusCode.NotModified ||
-                response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response == null)
+            {
+                return allowFallbackToCache ? LoadApiCache(api) : null;
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
             {
                 return LoadApiCache(api);
+            }
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return allowFallbackToCache ? LoadApiCache(api) : null;
             }
 
             var body = await HttpResponseHelper.GetStringAsync(response);

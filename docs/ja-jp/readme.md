@@ -49,20 +49,16 @@ MAAは、MAA Assistant Arknightsです。
 
 UIを見れば使い方もすぐ分かる！  
 
-```component Image2
-{
-  "imageList": [
-    {
-      "light": "images/ja-jp/readme/1-light.png",
-      "dark": "images/ja-jp/readme/1-light.png"
-    },
-    {
-      "light": "images/ja-jp/readme/2-light.png",
-      "dark": "images/ja-jp/readme/2-light.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/ja-jp/readme/1-light.png',
+    dark: 'images/ja-jp/readme/1-light.png'
+  },
+  {
+    light: 'images/ja-jp/readme/2-light.png',
+    dark: 'images/ja-jp/readme/2-light.png'
+  }
+]" />
 
 ## マニュアル
 

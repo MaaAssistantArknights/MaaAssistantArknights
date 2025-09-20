@@ -147,6 +147,12 @@
         "action": "ClickSelf",
         "postDelay": 500
     },
+    "Tales@RA@PIS-Commence": {
+        "doc": "在主题入口界面识别到 <开始演算>, 可利用 callback 提示用户切换模式",
+        "baseTask": "Tales@RA@PNS-Commence",
+        "action": "DoNothing",
+        "next": []
+    },
     "Tales@RA@PIS-Craft": {
         "doc": "点击开始组装图标",
         "baseTask": "Tales@RA@Craft",
@@ -274,7 +280,7 @@
         "next": ["#self", "Stop"]
     },
     "Tales@RA@PIS-Resume": {
-        "doc": "在主题入口界面点击 <继续演算> 开启新游戏",
+        "doc": "在主题入口界面点击 <继续演算> 继续游戏",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["继续演算"],
@@ -405,7 +411,7 @@
         ]
     },
     "Tales@RA@PNS-ConfirmToLeaveNode": {
-        "doc": "确认离开当前区块，注意，可能会在没有 <正在提交反馈至神经> 文字的情况下卡住一小会儿",
+        "doc": "确认离开当前区块, 注意, 可能会在没有 <正在提交反馈至神经> 文字的情况下卡住一小会儿",
         "baseTask": "Tales@RA@DialogConfirmYellow",
         "template": "Tales@RA@DialogConfirmYellow.png",
         "next": [
@@ -514,7 +520,7 @@
         "next": ["Tales@RA@PNS-ClickBaseCamp"]
     },
     "Tales@RA@PNS-OpeningDialogue": {
-        "doc": "点击右下角对话选项位置，跳过引导对话",
+        "doc": "点击右下角对话选项位置, 跳过引导对话",
         "template": "DialogueLog.png",
         "roi": [27, 14, 64, 51],
         "sub": ["Tales@RA@PNS-OpeningDialogueClick*10"],
@@ -628,6 +634,12 @@
         "template": "Tales@RA@HeadquartersButton.png",
         "action": "DoNothing"
     },
+    "Tales@RA@PNS-Resume": {
+        "doc": "在主题入口界面识别到 <继续演算>, 可利用 callback 提示用户切换模式",
+        "baseTask": "Tales@RA@PIS-Resume",
+        "action": "DoNothing",
+        "next": []
+    },
     "Tales@RA@PNS-SkipToCalc": {
         "doc": "跳到下一次量定结算",
         "template": ["Tales@RA@ActsLeft2.png", "Tales@RA@ActsLeft1.png", "Tales@RA@NextDay.png"],
@@ -686,12 +698,12 @@
     "Tales@RA@ProsperityInSave": {
         "doc": "生息演算「沙洲遗闻」有存档刷生息点数 <ProsperityInSave> 任务入口",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
+        "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Commence", "Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
     },
     "Tales@RA@ProsperityNoSave": {
         "doc": "生息演算「沙洲遗闻」无存档刷生息点数 <ProsperityNoSave> 任务入口",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Navigation"]
+        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Resume", "Tales@RA@PNS-Navigation"]
     },
     "Tales@RA@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",

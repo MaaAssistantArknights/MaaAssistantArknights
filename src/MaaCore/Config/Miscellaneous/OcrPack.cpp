@@ -144,23 +144,38 @@ bool asst::OcrPack::check_and_load()
 
     LogTraceFunction;
 
-    fastdeploy::RuntimeOption option;
-    option.UseOrtBackend();
+    fastdeploy::RuntimeOption det_option;
+    fastdeploy::RuntimeOption rec_option;
+    det_option.UseOrtBackend();
+    rec_option.UseOrtBackend();
+
+#ifdef _WIN32
     if (m_gpu_id) {
-        option.UseDirectML(*m_gpu_id);
+        det_option.UseDirectML(*m_gpu_id);
+        rec_option.UseDirectML(*m_gpu_id);
     }
+#elif defined(__APPLE__)
+    // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
+    // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
+    det_option.UseCoreML(0x004);
+    // rec 结果不对，先禁用
+    rec_option.UseCpu();
+#else
+    det_option.UseCpu();
+    rec_option.UseCpu();
+#endif
 
     m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
         platform::path_to_utf8_string(m_det_model_path),
         std::string(),
-        option,
+        det_option,
         fastdeploy::ModelFormat::ONNX);
 
     m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
         platform::path_to_utf8_string(m_rec_model_path),
         std::string(),
         platform::path_to_utf8_string(m_rec_label_path),
-        option,
+        rec_option,
         fastdeploy::ModelFormat::ONNX);
 
     if (m_det && m_rec) {

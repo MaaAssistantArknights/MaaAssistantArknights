@@ -402,7 +402,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Toolbox-GachaOnce":
                         {
                             await _runningState.UntilIdleAsync();
-                            await Instances.RecognizerViewModel.GachaOnce();
+                            await Instances.ToolboxViewModel.GachaOnce();
                             await _runningState.UntilIdleAsync();
 
                             break;
@@ -411,7 +411,7 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "Toolbox-GachaTenTimes":
                         {
                             await _runningState.UntilIdleAsync();
-                            await Instances.RecognizerViewModel.GachaTenTimes();
+                            await Instances.ToolboxViewModel.GachaTenTimes();
                             await _runningState.UntilIdleAsync();
 
                             break;
@@ -619,7 +619,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;
@@ -631,7 +631,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;

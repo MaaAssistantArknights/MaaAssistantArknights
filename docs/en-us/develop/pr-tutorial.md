@@ -22,16 +22,12 @@ Abbreviated as "repo", the place where we store our code and other resource file
 
 👇 You can simply understand this webpage and all its contents as MAA's repository (we generally call it MAA's main repository)
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/repository-light.png",
-      "dark": "images/zh-cn/pr-tutorial/repository-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/repository-light.png',
+    dark: 'images/zh-cn/pr-tutorial/repository-dark.png'
+  }
+]" />
 
 ### Fork
 
@@ -42,16 +38,12 @@ Since it's a copy, it becomes `MAA (1)` (just kidding)
 To distinguish from the original repository, we generally call the original MAA repository the "main repository" or "upstream repository."  
 Since everyone can fork their own copy, the copied version is called a "personal repository" or "origin repository."
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/fork-light.png",
-      "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/fork-light.png',
+    dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+  }
+]" />
 
 ### Pull Request
 
@@ -62,16 +54,12 @@ Of course, since it's a "request," it naturally needs approval. MAA Team members
 
 👇 Below are PRs currently submitted by contributors, waiting for approval
 
-```component Image1
-{
-  "imageList": [
-    {
-      "light": "images/zh-cn/pr-tutorial/pull-request-light.png",
-      "dark": "images/zh-cn/pr-tutorial/pull-request-dark.png"
-    }
-  ]
-}
-```
+<ImageGrid :imageList="[
+  {
+    light: 'images/zh-cn/pr-tutorial/pull-request-light.png',
+    dark: 'images/zh-cn/pr-tutorial/pull-request-dark.png'
+  }
+]" />
 
 ### Conflict
 
@@ -84,29 +72,21 @@ Conflicts are somewhat troublesome to resolve. This section only explains the co
 
 1. First, enter MAA's main repository and click the Fork button in the upper right corner to fork a copy of the code
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/fork-light.png",
-          "dark": "images/zh-cn/pr-tutorial/fork-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/fork-light.png',
+        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+      }
+    ]" />
 
 2. Then directly click "Create Fork"
 
-    ```component Image1
-    {
-      "imageList": [
-        {
-          "light": "images/zh-cn/pr-tutorial/pr-2-light.png",
-          "dark": "images/zh-cn/pr-tutorial/pr-2-dark.png"
-        }
-      ]
-    }
-    ```
+    <ImageGrid :imageList="[
+      {
+        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+      }
+    ]" />
 
 3. You'll arrive at your personal repository. You can see the title is "YourName/MaaAssistantArknights" with small text below saying "forked from MaaAssistantArknights/MaaAssistantArknights"
 

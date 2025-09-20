@@ -2984,7 +2984,7 @@
                     "进驻会客室时，更容易获得线索板上尚未拥有的线索"
                 ],
                 "efficient": {
-                    "General": 1
+                    "all": 1
                 },
                 "name": ["不容遗漏·α", "情报分析", "见微知著"],
                 "template": "Bskill_meet_spdNotOwned1.png"
@@ -2992,7 +2992,7 @@
             "bskill_meet_spdNotOwned2": {
                 "desc": ["进驻会客室时，线索搜集速度提升10%，且更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
-                    "General": 11
+                    "all": 11
                 },
                 "name": ["不容遗漏·β"],
                 "template": "Bskill_meet_spdNotOwned2.png"
@@ -3000,7 +3000,7 @@
             "bskill_meet_spdOwned1": {
                 "desc": ["进驻会客室时，更容易获得线索板上已经拥有的线索"],
                 "efficient": {
-                    "General": 1
+                    "General": 0
                 },
                 "name": ["显眼的调查者"],
                 "template": "Bskill_meet_spdOwned1.png"
@@ -3032,7 +3032,7 @@
             "bskill_meet_spd_notOwned_exchange": {
                 "desc": ["进驻会客室时，处于线索交流时更容易获得线索板上尚未拥有的线索"],
                 "efficient": {
-                    "General": 1
+                    "all": 1
                 },
                 "name": ["眼观六路"],
                 "template": "Bskill_meet_spd_notOwned_exchange.png"
@@ -3484,7 +3484,7 @@
             "bskill_tra_spd&wt1": {
                 "desc": ["进驻贸易站时，订单获取效率+10%，当前贸易站赤金订单的赤金交付数必定为2（不视作违约订单）"],
                 "efficient": {
-                    "all": 10
+                    "all": 0
                 },
                 "name": ["天真的谈判者"],
                 "template": "Bskill_tra_spd&wt1.png"
@@ -3627,7 +3627,7 @@
             "trade_ord_spd&par2": {
                 "desc": ["进驻贸易站时，订单获取效率+30%；当前贸易站内存在格拉斯哥帮干员时，订单获取效率额外+10%"],
                 "efficient": {
-                    "all": 40
+                    "all": 30
                 },
                 "name": ["外贸决议·β"],
                 "template": "Trade_ord_spd&par2.png"

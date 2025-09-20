@@ -1,4 +1,4 @@
-// <copyright file="RecognizerViewModel.cs" company="MaaAssistantArknights">
+// <copyright file="ToolboxViewModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2025 MaaAssistantArknights Contributors
 //
@@ -21,7 +21,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -45,37 +44,35 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of recruit.
     /// </summary>
-    public class RecognizerViewModel : Screen
+    public class ToolboxViewModel : Screen
     {
         private readonly RunningState _runningState;
-        private static readonly ILogger _logger = Log.ForContext<RecognizerViewModel>();
+        private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
+        /// Initializes a new instance of the <see cref="ToolboxViewModel"/> class.
         /// </summary>
-        public RecognizerViewModel()
+        public ToolboxViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState.StateChanged += (__, e) =>
+            {
+                Idle = e.Idle;
+                Inited = e.Inited;
+                Stopping = e.Stopping;
+
+                if (e.Stopping && Peeping && !IsPeepTransitioning)
+                {
+                    _ = Peep();
+                }
+            };
             _peepImageTimer.Elapsed += PeepImageTimerElapsed;
             _peepImageTimer.Interval = 1000d / PeepTargetFps;
             _gachaTimer.Tick += RefreshGachaTip;
             LoadDepotDetails();
             LoadOperBoxDetails();
-        }
-
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
-            if (!Idle)
-            {
-                return;
-            }
-
-            Peeping = false;
-            IsPeepInProgress = false;
-            IsGachaInProgress = false;
+            OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
         }
 
         private bool _idle;
@@ -87,6 +84,22 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _idle;
             set => SetAndNotify(ref _idle, value);
+        }
+
+        private bool _inited;
+
+        public bool Inited
+        {
+            get => _inited;
+            set => SetAndNotify(ref _inited, value);
+        }
+
+        private bool _stopping;
+
+        public bool Stopping
+        {
+            get => _stopping;
+            set => SetAndNotify(ref _stopping, value);
         }
 
         #region Recruit
@@ -1252,13 +1265,24 @@ namespace MaaWpfGui.ViewModels.UI
             if (!Idle)
             {
                 await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
                 return;
             }
 
             _runningState.SetIdle(false);
             string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstMiniGame(MiniGameTaskName));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                _runningState.SetIdle(true);
+            }
+
+            if (_runningState.GetStopping())
+            {
+                Instances.TaskQueueViewModel.SetStopped();
+                return;
+            }
+
+            caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
             if (!caught)
             {
                 _runningState.SetIdle(true);

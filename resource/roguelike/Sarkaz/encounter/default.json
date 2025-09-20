@@ -594,7 +594,8 @@
         {
             "name": "原初异途",
             "option_num": 4,
-            "choose": 4
+            "choose": 4,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "巴别塔雇员",
