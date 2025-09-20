@@ -20,7 +20,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
-using Serilog.Core;
 
 namespace MaaWpfGui.States
 {
@@ -35,7 +34,7 @@ namespace MaaWpfGui.States
             public bool Stopping { get; } = stopping;
         }
 
-        private static RunningState _instance;
+        private static RunningState? _instance;
         private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
 
         private RunningState()
@@ -83,7 +82,7 @@ namespace MaaWpfGui.States
         }
 
         // 超时事件
-        public event EventHandler<string> TimeoutOccurred;
+        public event EventHandler<string>? TimeoutOccurred;
 
         public void StartTimeoutTimer()
         {
@@ -103,7 +102,7 @@ namespace MaaWpfGui.States
         }
 
         // 超时计时器回调
-        private void TimeoutReminderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimeoutReminderTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs? e)
         {
             if (!_taskStartTime.HasValue || _idle)
             {
