@@ -1,12 +1,15 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu-22.04",
-    "features": {
-        "ghcr.io/devcontainers/features/python:1": {},
-        "ghcr.io/devcontainers/features/sshd:1": {}
-    },
     "customizations": {
         "vscode": {
-            "extensions": ["llvm-vs-code-extensions.vscode-clangd", "DavidAnson.vscode-markdownlint"]
+            "extensions": [
+                "mkxml.vscode-filesize",
+                "nekosu.maa-support",
+                "DavidAnson.vscode-markdownlint",
+                "esbenp.prettier-vscode",
+                "vue.volar",
+                "ms-python.python",
+                "ms-python.black-formatter"
+            ]
         }
     }
 }
