@@ -62,7 +62,7 @@ foreach ($branch in $branches) {
             $cacheKey = $cache.key
 
             Write-Output "    Deleting cache for $branchName/${pattern}: '$cacheKey' (ID: $cacheId)"
-            #gh cache delete $cacheId
+            gh cache delete $cacheId
             
             $totalClearedSize += $cache.sizeInBytes
         }
