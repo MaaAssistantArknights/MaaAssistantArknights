@@ -2,6 +2,8 @@
 title: 用戶說明書
 icon: mdi:user
 index: false
+comments: false
+editLink: false
 dir:
   order: 1
 ---
