@@ -5,7 +5,7 @@ config:
   - type: doc-hero
     hero:
       name: MAA
-      text: 文档站 | Document
+      text: 文档站 | Documentation
       tagline: 选择语言 | Select Language
       image: /images/maa-logo_512x512.png
       actions:
