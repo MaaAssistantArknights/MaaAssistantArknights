@@ -3233,7 +3233,7 @@
             "bskill_tra_limit2spd": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提升的每5个订单上限，提供25%订单获取效率，最多提供100%效率"],
                 "efficient": {
-                    "all": 10
+                    "all": 0
                 },
                 "name": ["冠军风采"],
                 "template": "Bskill_tra_limit2spd.png"
@@ -3436,7 +3436,7 @@
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1"
                 ],
                 "efficient": {
-                    "all": 30
+                    "all": 30.1
                 },
                 "name": ["使命必达", "少当家", "大巴扎管理学", "半身人公会代表"],
                 "template": "Bskill_tra_spd&limit7.png"
