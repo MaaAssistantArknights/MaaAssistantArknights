@@ -133,9 +133,7 @@ namespace MaaWpfGui.States
             TimeoutOccurred?.Invoke(this, message);
         }
 
-        // values
-        // 由初始化设置为 true
-        private bool _idle;
+        private bool _idle = true;
 
         public bool Idle
         {
