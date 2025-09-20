@@ -1,0 +1,40 @@
+:root {
+  --vp-home-hero-name: var(--vp-c-text-1);
+  --vp-home-hero-text: var(--vp-c-text-2);
+  --vp-home-hero-tagline: var(--vp-c-text-3);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(350deg, var(--vp-c-yellow-1) 10%, var(--vp-c-red-2));
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, var(--vp-c-yellow-1) 50%, var(--vp-c-yellow-1) 50%);
+  --vp-home-hero-image-filter: blur(50px);
+
+  --vp-home-hero-name-font-size: 4rem;
+  --vp-home-hero-name-line-height: 1.1;
+
+  @media (min-width: 640px) {
+    --vp-home-hero-name-font-size: 5rem;
+  }
+
+  @media (min-width: 960px) {
+    --vp-home-hero-name-font-size: 6rem;
+  }
+}
+
+.vp-home-doc-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1152px;
+  }
+
+  .name {
+    font-size: var(--vp-home-hero-name-font-size) !important;
+    line-height: var(--vp-home-hero-name-line-height) !important;
+  }
+}

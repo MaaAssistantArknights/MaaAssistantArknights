@@ -560,6 +560,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         "30135", // D32钢
         "30145", // 晶体电子单元
         "30155", // 烧结核凝晶
+        "30165", // 重相位对映体
     ];
 
     public void InitDrops()

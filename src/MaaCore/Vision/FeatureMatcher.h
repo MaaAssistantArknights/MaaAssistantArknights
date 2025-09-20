@@ -39,10 +39,6 @@ private:
 
 private:
     std::pair<std::vector<cv::KeyPoint>, cv::Mat> detect(const cv::Mat& image, const cv::Mat& mask) const;
-    asst::FeatureMatcher::ResultsVec feature_match(
-        const cv::Mat& templ,
-        const std::vector<cv::KeyPoint>& keypoints_1,
-        const cv::Mat& descriptors_1) const;
     std::vector<std::vector<cv::DMatch>> match(const cv::Mat& descriptors_1, const cv::Mat& descriptors_2) const;
     asst::FeatureMatcher::ResultsVec feature_postproc(
         const std::vector<std::vector<cv::DMatch>>& match_points,

@@ -233,6 +233,8 @@
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
+    <system:String x:Key="ReclamationPnsModeError">当前使用无存档任务模式。请手动删除现有存档后再尝试。若您希望保留存档，请考虑切换模式。</system:String>
+    <system:String x:Key="ReclamationPisModeError">当前任务模式需要您拥有可合成道具的存档。请考虑切换模式。</system:String>
     <system:String x:Key="NotSwitch">不切换</system:String>
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>

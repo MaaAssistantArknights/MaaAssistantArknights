@@ -94,7 +94,10 @@ jobs:
           - x64
     steps:
       - name: Download release config
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
+        with:
+          name: MaaReleaseConfig
+          path: ./MaaReleaseConfig
 
       - name: Fetch MaaRelease
         uses: actions/checkout@v5

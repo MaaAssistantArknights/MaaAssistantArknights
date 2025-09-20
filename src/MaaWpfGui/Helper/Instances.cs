@@ -56,7 +56,7 @@ namespace MaaWpfGui.Helper
 
         public static TaskQueueViewModel TaskQueueViewModel { get; private set; }
 
-        public static RecognizerViewModel RecognizerViewModel { get; private set; }
+        public static ToolboxViewModel ToolboxViewModel { get; private set; }
 
         public static SettingsViewModel SettingsViewModel { get; private set; }
 
@@ -98,7 +98,7 @@ namespace MaaWpfGui.Helper
             AnnouncementViewModel = container.Get<AnnouncementViewModel>();
             AsstProxy = container.Get<AsstProxy>();
             TaskQueueViewModel = container.Get<TaskQueueViewModel>();
-            RecognizerViewModel = container.Get<RecognizerViewModel>();
+            ToolboxViewModel = container.Get<ToolboxViewModel>();
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
 

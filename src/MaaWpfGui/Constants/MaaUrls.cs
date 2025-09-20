@@ -58,7 +58,7 @@ namespace MaaWpfGui.Constants
 
         private static string Language => ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        private const string MaaDocs = "https://maa.plus/docs";
+        private const string MaaDocs = "https://docs.maa.plus";
 
         // 常见问题
         public static string HelpUri => $"{MaaDocs}/{Language}/manual/faq.html";

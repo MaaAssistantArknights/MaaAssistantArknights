@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -19,13 +20,21 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
-using Serilog.Core;
 
 namespace MaaWpfGui.States
 {
     public class RunningState
     {
-        private static RunningState _instance;
+        public class RunningStateChangedEventArgs(bool idle, bool inited, bool stopping) : EventArgs
+        {
+            public bool Idle { get; } = idle;
+
+            public bool Inited { get; } = inited;
+
+            public bool Stopping { get; } = stopping;
+        }
+
+        private static RunningState? _instance;
         private static readonly ILogger _logger = Log.Logger.ForContext<RunningState>();
 
         private RunningState()
@@ -73,7 +82,7 @@ namespace MaaWpfGui.States
         }
 
         // 超时事件
-        public event EventHandler<string> TimeoutOccurred;
+        public event EventHandler<string>? TimeoutOccurred;
 
         public void StartTimeoutTimer()
         {
@@ -93,7 +102,7 @@ namespace MaaWpfGui.States
         }
 
         // 超时计时器回调
-        private void TimeoutReminderTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void TimeoutReminderTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs? e)
         {
             if (!_taskStartTime.HasValue || _idle)
             {
@@ -124,9 +133,7 @@ namespace MaaWpfGui.States
             TimeoutOccurred?.Invoke(this, message);
         }
 
-        // values
-        // 由初始化设置为 true
-        private bool _idle;
+        private bool _idle = true;
 
         public bool Idle
         {
@@ -151,26 +158,69 @@ namespace MaaWpfGui.States
                     SleepManagement.BlockSleep();
                 }
 
-                OnIdleChanged(value);
+                RaiseStateChanged();
             }
         }
 
-        // getters
         public bool GetIdle() => Idle;
 
-        // action
         public void SetIdle(bool idle, [CallerMemberName] string caller = "")
         {
             _logger.Information("Idle: {Old} to {New} (called from {Caller})", Idle, idle, caller);
             Idle = idle;
         }
 
-        // subscribes
-        public event EventHandler<bool> IdleChanged;
+        private bool _inited;
 
-        public virtual void OnIdleChanged(bool newIdleValue)
+        public bool Inited
         {
-            IdleChanged?.Invoke(this, newIdleValue);
+            get => _inited;
+            set
+            {
+                if (_inited != value)
+                {
+                    _inited = value;
+                    RaiseStateChanged();
+                }
+            }
+        }
+
+        public bool GetInit() => Inited;
+
+        public void SetInit(bool init, [CallerMemberName] string caller = "")
+        {
+            _logger.Information("Init: {Old} to {New} (called from {Caller})", Inited, init, caller);
+            Inited = init;
+        }
+
+        private bool _stopping;
+
+        public bool Stopping
+        {
+            get => _stopping;
+            set
+            {
+                if (_stopping != value)
+                {
+                    _stopping = value;
+                    RaiseStateChanged();
+                }
+            }
+        }
+
+        public bool GetStopping() => Stopping;
+
+        public void SetStopping(bool stopping, [CallerMemberName] string caller = "")
+        {
+            _logger.Information("Stopping: {Old} to {New} (called from {Caller})", Stopping, stopping, caller);
+            Stopping = stopping;
+        }
+
+        public event EventHandler<RunningStateChangedEventArgs>? StateChanged;
+
+        private void RaiseStateChanged()
+        {
+            StateChanged?.Invoke(this, new(_idle, _inited, _stopping));
         }
 
         /// <summary>

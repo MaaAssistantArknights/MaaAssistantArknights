@@ -23,7 +23,7 @@ public:
         bool is_raid = false;    // 是否是突袭
         bool is_paradox = false; // 是否是悖论模拟
 
-        MEO_JSONIZATION(filename, stage_name, is_raid, is_paradox);
+        MEO_JSONIZATION(filename, stage_name, MEO_OPT is_raid, MEO_OPT is_paradox);
     };
 
 public:

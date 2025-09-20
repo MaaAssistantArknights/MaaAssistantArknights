@@ -17,8 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
@@ -132,12 +134,13 @@ namespace MaaWpfGui.ViewModels.UI
             HangoverEnd();
 
             _runningState = RunningState.Instance;
-            _runningState.IdleChanged += RunningState_IdleChanged;
-        }
+            _runningState.StateChanged += (_, e) =>
+            {
+                Idle = e.Idle;
 
-        private void RunningState_IdleChanged(object? sender, bool e)
-        {
-            Idle = e;
+                // Inited = e.Inited;
+                // Stopping = e.Stopping;
+            };
         }
 
         #region Init

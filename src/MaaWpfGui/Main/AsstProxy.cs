@@ -475,8 +475,7 @@ namespace MaaWpfGui.Main
                 });
             }
 
-            Instances.TaskQueueViewModel.SetInited();
-            _runningState.SetIdle(true);
+            _runningState.SetInit(true);
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, SettingsViewModel.ConnectSettings.TouchMode);
             AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, SettingsViewModel.GameSettings.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, SettingsViewModel.ConnectSettings.AdbLiteEnabled ? "1" : "0");
@@ -495,7 +494,7 @@ namespace MaaWpfGui.Main
                 await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
 
                 // 一般是点了“停止”按钮了
-                if (Instances.TaskQueueViewModel.Stopping)
+                if (_runningState.GetStopping())
                 {
                     Instances.TaskQueueViewModel.SetStopped();
                     return;
@@ -864,7 +863,7 @@ namespace MaaWpfGui.Main
                     {
                         if (msg == AsstMsg.TaskChainError)
                         {
-                            Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                            Instances.ToolboxViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
                             ToastNotification.ShowDirect(LocalizationHelper.GetString("IdentifyTheMistakes"));
                         }
 
@@ -1449,6 +1448,14 @@ namespace MaaWpfGui.Main
                             case "DeepExplorationNotUnlockedComplain":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationNotUnlockedComplain"), UiLogColor.Warning);
                                 break;
+
+                            case "PNS-Resume":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReclamationPnsModeError"), UiLogColor.Error);
+                                break;
+
+                            case "PIS-Commence":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReclamationPisModeError"), UiLogColor.Error);
+                                break;
                         }
 
                         break;
@@ -1532,11 +1539,11 @@ namespace MaaWpfGui.Main
             switch (taskChain)
             {
                 case "Depot":
-                    Instances.RecognizerViewModel.DepotParse((JObject?)subTaskDetails);
+                    Instances.ToolboxViewModel.DepotParse((JObject?)subTaskDetails);
                     break;
 
                 case "OperBox":
-                    Instances.RecognizerViewModel.OperBoxParse((JObject?)subTaskDetails);
+                    Instances.ToolboxViewModel.OperBoxParse((JObject?)subTaskDetails);
                     break;
             }
 
@@ -1654,7 +1661,7 @@ namespace MaaWpfGui.Main
                 case "RecruitResult":
                     {
                         int level = (int)subTaskDetails!["level"]!;
-                        var tooltip = Instances.RecognizerViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
+                        var tooltip = Instances.ToolboxViewModel.RecruitResultInlines.CreateTooltip(PlacementMode.Center);
                         if (level >= 5)
                         {
                             using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
@@ -1978,7 +1985,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcRecruitCalcMsg(JObject details)
         {
-            Instances.RecognizerViewModel.ProcRecruitMsg(details);
+            Instances.ToolboxViewModel.ProcRecruitMsg(details);
         }
 
         private static void ProcVideoRecMsg(JObject details)
