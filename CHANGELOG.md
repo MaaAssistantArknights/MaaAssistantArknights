@@ -17,20 +17,20 @@
 * 萨米肉鸽未通关结局时探寻前路卡住 @Saratoga-Official
 * 文档站首页在窄屏下的响应式设计 (#14166) @lucienshawls
 * 暂时修复无法读取过去的评论的问题 (#14163) @lucienshawls
-* Eye For an Eye encounter IS2 EN @Constrat
 * 为什么 mujikca 的图黑的不够纯粹 @ABA2396
 * 肉鸽在结算界面卡死 (#14145) @Saratoga-Official
 * CopilotTask参数可选项存在性检查 @status102
 * SettingsViewModel Idle @ABA2396
 * 异格推王的基建加成错误 @Saratoga-Official
 * 调低 MacOS PlayCover 下对 InfrastControl 识别的阈值 (#14139) @Alan-Charred
-* CurrentConfig未刷新 @status102
-* CurrentConfig悬空 @status102
+* CurrentConfig 未刷新 @status102
+* CurrentConfig 悬空 @status102
 * 拥有全干员的情况下重启后进入干员识别界面不会自动选中选项卡 @ABA2396
 * 修复 DataGrid 虚拟化下 Tab 导航异常 @ABA2396
-* download to v5 with necessary fix (#14122) @Constrat
 * 萨卡兹肉鸽未通关结局时原初异途卡住 @Saratoga-Official
 * 肉鸽深入探索无法退出结算界面 (#14123) @Saratoga-Official
+* Eye For an Eye encounter IS2 EN @Constrat
+* download to v5 with necessary fix (#14122) @Constrat
 
 ### 文档 | Docs
 
@@ -40,12 +40,12 @@
 
 ### 其他 | Other
 
-* fix build warning (#14176) @soundofautumn
-* rename RecognizerViewModel -> ToolboxViewModel (#14177) @soundofautumn
-* YostarJP ocr fix (#14134) @Manicsteiner
 * 调整会客室中更容易获得线索板上尚未拥有的线索的技能优先级 @ABA2396
 * 基建把 u酱 ban 了 @ABA2396
 * file header @status102
 * 特征匹配过程函数拆入analyze() @status102
 * 繁中服「相見歡」活動導航 (#14137) @momomochi987
 * fix build warning (#14120) @soundofautumn
+* fix build warning (#14176) @soundofautumn
+* rename RecognizerViewModel -> ToolboxViewModel (#14177) @soundofautumn
+* YostarJP ocr fix (#14134) @Manicsteiner
