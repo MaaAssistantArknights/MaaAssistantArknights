@@ -83,7 +83,13 @@ namespace MaaWpfGui.Services
                 }
             }
 
-            MergePermanentAndActivityStages(await LoadWebStages());
+            var webStages = await LoadWebStages();
+            if (webStages is null)
+            {
+                return;
+            }
+
+            MergePermanentAndActivityStages(webStages);
 
             _ = Execute.OnUIThreadAsync(() =>
             {
@@ -139,17 +145,18 @@ namespace MaaWpfGui.Services
         }
         */
 
-        private static async Task<JObject> LoadWebStages()
+        private static async Task<JObject?> LoadWebStages()
         {
             var clientType = GetClientType();
 
-            var activityTask = Instances.MaaApiService.RequestMaaApiWithCache(StageApi);
-            var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi);
+            var activityTask = Instances.MaaApiService.RequestMaaApiWithCache(StageApi, false);
+            var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi, false);
 
             await Task.WhenAll(activityTask, tasksTask);
 
-            JObject activity = await activityTask;
-            JObject tasksJson = await tasksTask;
+            var activityJson = await activityTask;
+            var tasksJson = await tasksTask;
+            JObject? globalTasksJson = null;
             if (clientType != "Official" && tasksJson != null)
             {
                 var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
@@ -157,14 +164,24 @@ namespace MaaWpfGui.Services
                 // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-                await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
+                globalTasksJson = await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath, false);
+            }
+
+            if (activityJson is null || tasksJson is null)
+            {
+                return null;
+            }
+
+            if (clientType != "Official" && globalTasksJson is null)
+            {
+                return null;
             }
 
             await Task.Run(() =>
             {
                 Instances.AsstProxy.LoadResource();
             });
-            return activity;
+            return activityJson;
         }
 
         private void MergePermanentAndActivityStages(JObject? activity)
