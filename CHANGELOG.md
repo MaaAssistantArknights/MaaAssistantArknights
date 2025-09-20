@@ -2,7 +2,7 @@
 
 ### 依~赖~大~更~新~ | Highlights
 
-在这个版本，我们大幅更新了项目的依赖，并为官网和 API 节点更换了新的 cdn 提供商，大幅优化了访问速度。
+在这个版本，我们大幅更新了项目的依赖，**并为官网和 API 节点更换了新的 cdn 提供商，大幅优化了访问速度**。
 
 #### 自动战斗方面
 
@@ -26,9 +26,40 @@
 
 * 我们在【自动肉鸽】任务中优化了丰川祥子相关招募策略 ~~saki酱、saki酱、saki酱~~
 * 牛牛在【生息演算】任务中将会自动识别当前的存档状态与任务的设置是否一致，如果不一致将会提示你检查存档状态
-* 当你设置Mirror酱的 cdk 后，MAA 将会显示 cdk 的剩余有效时间，方便你掌握有效期
+* 当你设置 Mirror 酱的 cdk 后，MAA 将会显示 cdk 的剩余有效时间，方便你掌握有效期
 
+----
 
+In this version, we have significantly updated the project dependencies and **switched to a new CDN provider for the official website and API nodes, greatly optimizing access speed**.
+
+#### *Copilot* Improvements
+
+We have made some adjustments to the *Copilot* feature, which mainly include:
+
+* MAA will now automatically recognize the operator formation in each job within the job set. If the operator formation of the previous job matches that of the current job, MAA will no longer repeat the operator squading process, thereby saving time.
+* In the Battle list section, the mouse button logic for each job's settings button has been adjusted: left-clicking will allow you to view the job's description and operator formation requirements, while right-clicking will directly extract that job and disable the combat list function (i.e., only run that specific operation).
+
+#### *Base* Improvements
+
+We have optimized the base skill-related functions in *Base* task:
+
+* We have set efficiency data for all base skills that previously lacked that data, allowing MAA to better select suitable base skills for doctors with incomplete operator rosters during the *Base* task (though we did remove U-Offcial, ~~U-Offcial is so cute, why should she work~~)
+* If the *Base* task is in Custom Base Mod and the MAA is currently running, Base Plan will no longer switch over time to avoid various issues caused by interrupting the MAA's work by switching the Base Plan when MAA is running.
+* If the *Base* task is in One-click Rotation Mode, the MAA will no longer enter unchecked facilities.
+* We adjusted the sorting logic for reception room skills, now prioritizing skills that are more likely to obtain clues not yet owned.
+
+#### Other Aspects
+
+We've made some minor changes worth noting:
+
+* [CN ONLY] In the *Auto I.S.* task, we've optimized the recruitment strategy related to Togawa Sakiko ~~Saki-chan, Saki-chan, Saki-chan~~
+* In the *Reclamation Algorithm* task, MAA will automatically detect whether the current save status matches the mission settings. If they don't match, it will prompt you to check your save status.
+* After setting MirrorChyan's CDK, MAA will display the remaining validity period of the CDK, making it easier for you to track its expiration
+
+----
+
+以下是详细内容：
+                
 ### 新增 | New
 
 * CustomTask增加任务存在检测 @status102
