@@ -3444,7 +3444,7 @@
             "bskill_tra_spd&limit_down1": {
                 "desc": ["进驻贸易站时，订单获取效率+20%，且订单上限-2（订单最少为1）"],
                 "efficient": {
-                    "all": 19.8
+                    "all": 10
                 },
                 "name": ["威压"],
                 "template": "Bskill_tra_spd&limit_down1.png"
@@ -3452,7 +3452,7 @@
             "bskill_tra_spd&limit_down2": {
                 "desc": ["进驻贸易站时，订单获取效率+25%，且订单上限-6（订单最少为1）"],
                 "efficient": {
-                    "all": 24.4
+                    "all": 4.1
                 },
                 "name": ["不怒自威"],
                 "template": "Bskill_tra_spd&limit_down2.png"
