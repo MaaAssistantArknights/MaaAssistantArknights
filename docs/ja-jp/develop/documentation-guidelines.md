@@ -13,7 +13,7 @@ icon: jam:write-f
 
 ## ローカルデプロイ
 
-1. [pnpm](https://pnpm.io/installation) をインストールし、[Pull Request ワークフローの概要](./development.md#github-pull-request-流程简述)を参照してリポジトリをローカルにクローンします。
+1. [pnpm](https://pnpm.io/installation) をインストールし、[Pull Request ワークフローの概要](./development.md#github-pull-request-プロセス概要)を参照してリポジトリをローカルにクローンします。
 2. `docs` ディレクトリでターミナルを開き、`pnpm i` を実行して依存関係をインストールします。
 3. `pnpm run dev` を実行してデプロイします。
 
