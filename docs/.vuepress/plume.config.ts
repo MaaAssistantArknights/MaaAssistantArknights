@@ -8,12 +8,13 @@ export default defineThemeConfig({
   appearance: true,
 
   social: [
+    { icon: 'qq', link: 'https://api.maa.plus/MaaAssistantArknights/api/qqgroup' },
     { icon: 'discord', link: 'https://discord.gg/23DfZ9uA4V' },
     //{ icon: 'telegram', link: 'https://t.me/+Mgc2Zngr-hs3ZjU1' },
     { icon: 'bilibili', link: 'https://space.bilibili.com/3493274731940507/' },
     { icon: 'github', link: 'https://github.com/MaaAssistantArknights/MaaAssistantArknights/' },
   ],
-  navbarSocialInclude: ['github', 'discord', 'bilibili'],
+  navbarSocialInclude: ['qq', 'discord', 'bilibili', 'github'],
 
   aside: true,
   // outline: [2, 3, 4, 5],

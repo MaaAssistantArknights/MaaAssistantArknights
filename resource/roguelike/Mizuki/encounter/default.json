@@ -247,6 +247,12 @@
         {
             "name": "现买现印",
             "option_num": 2,
+            "choose": 2,
+            "next_event": "现买现印-退出"
+        },
+        {
+            "name": "现买现印-退出",
+            "option_num": 1,
             "choose": 1
         },
         {
