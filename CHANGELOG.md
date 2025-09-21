@@ -2,7 +2,9 @@
 
 ### 依\~赖\~大\~更\~新\~ | Highlights
 
-在这个版本，我们大幅更新了项目的依赖，~~所以老电脑可能要更新运行库了，~~**并为官网和 API 节点更换了新的 CDN 提供商，大幅优化了访问速度**。
+在这个版本，我们大幅更新了项目的依赖库，优化了 MAA 的性能，~~所以老电脑可能要更新运行库了。~~
+
+**我们还为官网和 API 节点优化了网络，大幅优化了访问速度**。
 
 #### 自动战斗方面
 
@@ -30,7 +32,9 @@
 
 ----
 
-In this version, we have significantly updated the project dependencies and **switched to a new CDN provider for the official website and API nodes, greatly optimizing access speed**.
+In this version, we have significantly updated the project's dependency libraries and optimized MAA's performance. ~~So you may need to update their runtime libraries if you use old computers.~~
+
+**We have also optimized the network for the official website and API nodes, greatly improving access speed.**
 
 #### *Copilot* Improvements
 
