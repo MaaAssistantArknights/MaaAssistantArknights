@@ -825,7 +825,6 @@
         "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
         "roi": [230, 73, 212, 141],
-        "next": ["Sami@Roguelike@StageTraderRefreshConfirm"]
     },
     "Sami@Roguelike@StageVerticalBoons": {
         "baseTask": "Roguelike@StageVertical",
