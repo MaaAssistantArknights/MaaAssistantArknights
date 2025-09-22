@@ -190,11 +190,23 @@
         {
             "name": "别打扰他们",
             "option_num": 2,
+            "choose": 1,
+            "next_event": "别打扰他们-战斗"
+        },
+        {
+            "name": "别打扰他们-战斗",
+            "option_num": 1,
             "choose": 1
         },
         {
             "name": "复仇剧",
             "option_num": 2,
+            "choose": 1,
+            "next_event": "复仇剧-战斗"
+        },
+        {
+            "name": "复仇剧-战斗",
+            "option_num": 1,
             "choose": 1
         },
         {
