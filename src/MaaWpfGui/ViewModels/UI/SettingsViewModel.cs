@@ -58,69 +58,69 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Instance;
 
-        #region 设置界面Model
+        #region 设置界面 Model
 
         /// <summary>
-        /// Gets 游戏设置model
+        /// Gets 游戏设置 model
         /// </summary>
         public static GameSettingsUserControlModel GameSettings { get; } = GameSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 连接设置model
+        /// Gets 连接设置 model
         /// </summary>
         public static ConnectSettingsUserControlModel ConnectSettings { get; } = ConnectSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 启动设置Model
+        /// Gets 启动设置 model
         /// </summary>
         public static StartSettingsUserControlModel StartSettings { get; } = StartSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 界面设置model
+        /// Gets 界面设置 model
         /// </summary>
         public static GuiSettingsUserControlModel GuiSettings { get; } = GuiSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 背景设置model
+        /// Gets 背景设置 model
         /// </summary>
         public static BackgroundSettingsUserControlModel BackgroundSettings { get; } = BackgroundSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 定时设置model
+        /// Gets 定时设置 model
         /// </summary>
         public static TimerSettingsUserControlModel TimerSettings { get; } = TimerSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 远程控制model
+        /// Gets 远程控制 model
         /// </summary>
         public static RemoteControlUserControlModel RemoteControlSettings { get; } = RemoteControlUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 软件更新model
+        /// Gets 软件更新 model
         /// </summary>
         public static VersionUpdateSettingsUserControlModel VersionUpdateSettings { get; } = VersionUpdateSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 外部通知model
+        /// Gets 外部通知 model
         /// </summary>
         public static ExternalNotificationSettingsUserControlModel ExternalNotificationSettings { get; } = ExternalNotificationSettingsUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 性能设置model
+        /// Gets 性能设置 model
         /// </summary>
         public static PerformanceUserControlModel PerformanceSettings { get; } = PerformanceUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 问题反馈model
+        /// Gets 问题反馈 model
         /// </summary>
         public static IssueReportUserControlModel IssueReportSettings { get; } = IssueReportUserControlModel.Instance;
 
         /// <summary>
-        /// Gets 成就model
+        /// Gets 成就 model
         /// </summary>
         public static AchievementSettingsUserControlModel AchievementSettings { get; } = AchievementSettingsUserControlModel.Instance;
 
-        #endregion 设置界面Model
+        #endregion 设置界面 Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -572,8 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region SettingsGuide
 
-        // 目前共4步，再多塞不下了，后续可以整个新功能展示（
-        public static int GuideMaxStep => 5;
+        public static int GuideMaxStep => 6;
 
         private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
 
