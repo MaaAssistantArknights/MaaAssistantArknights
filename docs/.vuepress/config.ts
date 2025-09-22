@@ -10,8 +10,8 @@ const isProd = process.env.NODE_ENV === 'production';
 export default defineUserConfig({
   base: '/',
   lang: 'zh-CN',
-  title: 'MaaAssistantArknights',
-  description: 'MAA',
+  title: 'MAA',
+  description: 'MAA —「明日方舟」小助手',
   host: '0.0.0.0',
   port: 3001,
 
