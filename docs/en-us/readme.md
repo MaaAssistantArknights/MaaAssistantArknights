@@ -12,7 +12,7 @@ dir:
 ![MAA Logo =256x256](/images/maa-logo_512x512.png)
 
 <!-- markdownlint-restore -->
-# MaaAssistantArknights
+# MAA
 
 ![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
 ![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
