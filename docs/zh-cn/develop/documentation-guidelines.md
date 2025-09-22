@@ -232,6 +232,32 @@ MaaAssistantArknight 是由 ==很多猪== 开发的
 
 :::
 
+## 字段容器
+
+该语法较为复杂，请参考 [官方文档](https://theme-plume.vuejs.press/guide/markdown/field/) 进行使用
+
+效果展示如下
+
+:::: field-group
+::: field name="theme" type="ThemeConfig" required default="{ base: '/' }"
+主题配置
+:::
+
+::: field name="enabled" type="boolean" optional default="true"
+是否启用
+:::
+
+::: field name="callback" type="(...args: any[]) => void" optional default="() => {}"
+<Badge type="tip" text="v1.0.0 新增"  />
+回调函数
+:::
+
+::: field name="other" type="string" deprecated
+<Badge type="danger" text="v0.9.0 弃用"  />
+已弃用属性
+:::
+::::
+
 ## 图标
 
 该主题提供了图标支持，你可以在以下地方使用图标:
