@@ -59,32 +59,41 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 ### InternalError
 
-Todo
+`details` 字段为空。
 
 ### InitFailed
 
-```json
-{
-    "what": string,     // 错误类型
-    "why": string,      // 错误原因
-    "details": object   // 错误详情
-}
-```
+:::: field-group
+::: field name="what" type="string" required
+错误类型。
+:::
+::: field name="why" type="string" required
+错误原因。
+:::
+::: field name="details" type="object" required
+错误详情。
+:::
+::::
 
 ### ConnectionInfo
 
-```json
-{
-    "what": string,     // 信息类型
-    "why": string,      // 信息原因
-    "uuid": string,     // 设备唯一码（连接失败时为空）
-    "details": {
-        "adb": string,     // AsstConnect 接口 adb_path 参数
-        "address": string, // AsstConnect 接口 address 参数
-        "config": string   // AsstConnect 接口 config 参数
-    }
-}
-```
+:::: field-group
+::: field name="what" type="string" required
+信息类型。
+:::
+::: field name="why" type="string" required
+信息原因。
+:::
+::: field name="uuid" type="string"
+设备唯一码（连接失败时为空）。
+:::
+::: field name="details" type="object" required
+连接详情。其结构如下：
+- `adb` (string, required): `AsstConnect` 接口 `adb_path` 参数。
+- `address` (string, required): `AsstConnect` 接口 `address` 参数。
+- `config` (string, required): `AsstConnect` 接口 `config` 参数。
+:::
+::::
 
 ### 常见 `What` 字段
 
@@ -111,30 +120,36 @@ Todo
 
 ### AsyncCallInfo
 
-```json
-{
-    "uuid": string,             // 设备唯一码
-    "what": string,             // 回调类型，"Connect" | "Click" | "Screencap" | ...
-    "async_call_id": int,       // 异步请求 id，即调用 AsstAsyncXXX 时的返回值
-    "details": {
-        "ret": bool,            // 实际调用的返回值
-        "cost": int64,          // 耗时，单位毫秒
-    }
-}
-```
+:::: field-group
+::: field name="uuid" type="string" required
+设备唯一码。
+:::
+::: field name="what" type="string" required
+回调类型，例如 `Connect` | `Click` | `Screencap` 等。
+:::
+::: field name="async_call_id" type="number" required
+异步请求 id，即调用 `AsstAsyncXXX` 时的返回值。
+:::
+::: field name="details" type="object" required
+异步调用详情。其结构如下：
+- `ret` (boolean, required): 实际调用的返回值。
+- `cost` (number, required): 耗时，单位毫秒。
+:::
+::::
 
 ### AllTasksCompleted
 
-```json
-{
-    "taskchain": string,            // 最后的任务链
-    "uuid": string,                 // 设备唯一码
-    "finished_tasks": [             // 已经运行过的任务 id
-        int,
-        ...
-    ]
-}
-```
+:::: field-group
+::: field name="taskchain" type="string" required
+最后的任务链。
+:::
+::: field name="uuid" type="string" required
+设备唯一码。
+:::
+::: field name="finished_tasks" type="array<number>" required
+已经运行过的任务 id 列表。
+:::
+::::
 
 #### 常见 `taskchain` 字段
 
@@ -175,45 +190,67 @@ Todo
 
 ### TaskChain 相关消息
 
-```json
-{
-    "taskchain": string,            // 当前的任务链
-    "taskid": int,                  // 当前任务 TaskId
-    "uuid": string                  // 设备唯一码
-}
-```
+:::: field-group
+::: field name="taskchain" type="string" required
+当前的任务链。
+:::
+::: field name="taskid" type="number" required
+当前任务 TaskId。
+:::
+::: field name="uuid" type="string" required
+设备唯一码。
+:::
+::::
 
 ### TaskChainExtraInfo
 
-Todo
+`details` 字段为空。
 
 ### SubTask 相关消息
 
-```json
-{
-    "subtask": string,             // 子任务名
-    "class": string,               // 子任务符号名
-    "taskchain": string,           // 当前任务链
-    "taskid": int,                 // 当前任务 TaskId
-    "details": object,             // 详情
-    "uuid": string                 // 设备唯一码
-}
-```
+:::: field-group
+::: field name="subtask" type="string" required
+子任务名。
+:::
+::: field name="class" type="string" required
+子任务符号名。
+:::
+::: field name="taskchain" type="string" required
+当前任务链。
+:::
+::: field name="taskid" type="number" required
+当前任务 TaskId。
+:::
+::: field name="details" type="object" required
+详情。
+:::
+::: field name="uuid" type="string" required
+设备唯一码。
+:::
+::::
 
 #### 常见 `subtask` 字段
 
 - `ProcessTask`  
+  `details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "task": "StartButton2", // 任务名
-    "action": 512,
-    "exec_times": 1, // 已执行次数
-    "max_times": 999, // 最大执行次数
-    "algorithm": 0
-  }
-  ```
+  :::: field-group
+  ::: field name="task" type="string" required
+  任务名。
+  :::
+  ::: field name="action" type="number" required
+  Action ID。
+  :::
+  ::: field name="exec_times" type="number" required
+  已执行次数。
+  :::
+  ::: field name="max_times" type="number" required
+  最大执行次数。
+  :::
+  ::: field name="algorithm" type="number" required
+  识别算法。
+  :::
+  ::::
 
 - Todo 其他
 
@@ -269,359 +306,208 @@ Todo
 
 ### SubTaskExtraInfo
 
-```json
-{
-    "taskchain": string,           // 当前任务链
-    "class": string,               // 子任务类型
-    "what": string,                // 信息类型
-    "details": object,             // 信息详情
-    "uuid": string,                // 设备唯一码
-}
-```
+:::: field-group
+::: field name="taskchain" type="string" required
+当前任务链。
+:::
+::: field name="class" type="string" required
+子任务类型。
+:::
+::: field name="what" type="string" required
+信息类型。
+:::
+::: field name="details" type="object" required
+信息详情。
+:::
+::: field name="uuid" type="string" required
+设备唯一码。
+:::
+::::
 
 #### 常见 `what` 及 `details` 字段
 
 - `StageDrops`  
-  关卡材料掉落信息
-
-  ```json
-  // 对应的 details 字段举例
-  {
-    "drops": [
-      // 本次识别到的掉落材料
-      {
-        "itemId": "3301",
-        "quantity": 2,
-        "itemName": "技巧概要·卷1"
-      },
-      {
-        "itemId": "3302",
-        "quantity": 1,
-        "itemName": "技巧概要·卷2"
-      },
-      {
-        "itemId": "3303",
-        "quantity": 2,
-        "itemName": "技巧概要·卷3"
-      }
-    ],
-    "stage": {
-      // 关卡信息
-      "stageCode": "CA-5",
-      "stageId": "wk_fly_5"
-    },
-    "stars": 3, // 行动结束星级
-    "stats": [
-      // 本次执行期间总的材料掉落
-      {
-        "itemId": "3301",
-        "itemName": "技巧概要·卷1",
-        "quantity": 4,
-        "addQuantity": 2 //本次新增的掉落数量
-      },
-      {
-        "itemId": "3302",
-        "itemName": "技巧概要·卷2",
-        "quantity": 3,
-        "addQuantity": 1
-      },
-      {
-        "itemId": "3303",
-        "itemName": "技巧概要·卷3",
-        "quantity": 4,
-        "addQuantity": 2
-      }
-    ]
-  }
-  ```
+  关卡材料掉落信息。`details` 字段结构如下：
+  - `drops` (array, required): 本次识别到的掉落材料，数组每一项包含：
+    - `itemId` (string, required): 材料 ID。
+    - `quantity` (number, required): 掉落数量。
+    - `itemName` (string, required): 材料名称。
+  - `stage` (object, required): 关卡信息，包含：
+    - `stageCode` (string, required): 关卡编号。
+    - `stageId` (string, required): 关卡 ID。
+  - `stars` (number, required): 行动结束星级。
+  - `stats` (array, required): 本次执行期间总的材料掉落，数组每一项包含：
+    - `itemId` (string, required): 材料 ID。
+    - `itemName` (string, required): 材料名称。
+    - `quantity` (number, required): 总计数量。
+    - `addQuantity` (number, required): 本次新增的掉落数量。
 
 - `RecruitTagsDetected`  
-  公招识别到了 Tags
+  公招识别到了 Tags。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "tags": ["费用回复", "防护", "先锋干员", "辅助干员", "近战位"]
-  }
-  ```
+  :::: field-group
+  ::: field name="tags" type="array<string>" required
+  识别到的 Tag 列表。
+  :::
+  ::::
 
 - `RecruitSpecialTag`  
-  公招识别到了特殊 Tag
+  公招识别到了特殊 Tag。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "tag": "高级资深干员"
-  }
-  ```
+  :::: field-group
+  ::: field name="tag" type="string" required
+  特殊 Tag 名称，例如 `高级资深干员`。
+  :::
+  ::::
 
 - `RecruitResult`  
-  公招识别结果
-
-  ```json
-  // 对应的 details 字段举例
-  {
-    "tags": [
-      // 所有识别到的 tags，目前来说一定是 5 个
-      "削弱",
-      "减速",
-      "术师干员",
-      "辅助干员",
-      "近战位"
-    ],
-    "level": 4, // 总的星级
-    "result": [
-      {
-        "tags": ["削弱"],
-        "level": 4, // 这组 tags 的星级
-        "opers": [
-          {
-            "name": "初雪",
-            "level": 5 // 干员星级
-          },
-          {
-            "name": "陨星",
-            "level": 5
-          },
-          {
-            "name": "槐琥",
-            "level": 5
-          },
-          {
-            "name": "夜烟",
-            "level": 4
-          },
-          {
-            "name": "流星",
-            "level": 4
-          }
-        ]
-      },
-      {
-        "tags": ["减速", "术师干员"],
-        "level": 4,
-        "opers": [
-          {
-            "name": "夜魔",
-            "level": 5
-          },
-          {
-            "name": "格雷伊",
-            "level": 4
-          }
-        ]
-      },
-      {
-        "tags": ["削弱", "术师干员"],
-        "level": 4,
-        "opers": [
-          {
-            "name": "夜烟",
-            "level": 4
-          }
-        ]
-      }
-    ]
-  }
-  ```
+  公招识别结果。`details` 字段结构如下：
+  - `tags` (array, required): 所有识别到的 tags，目前固定为 5 个。
+  - `level` (number, required): 组合的最高星级。
+  - `result` (array, required): 具体的组合结果，数组每一项包含：
+    - `tags` (array, required): 参与组合的 tags。
+    - `level` (number, required): 这组 tags 的星级。
+    - `opers` (array, required): 可能招募到的干员，数组每一项包含：
+      - `name` (string, required): 干员名称。
+      - `level` (number, required): 干员星级。
 
 - `RecruitTagsRefreshed`  
-  公招刷新了 Tags
+  公招刷新了 Tags。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "count": 1, // 当前槽位已刷新次数
-    "refresh_limit": 3 // 当前槽位刷新次数上限
-  }
-  ```
+  :::: field-group
+  ::: field name="count" type="number" required
+  当前槽位已刷新次数。
+  :::
+  ::: field name="refresh_limit" type="number" required
+  当前槽位刷新次数上限。
+  :::
+  ::::
 
 - `RecruitNoPermit`  
-  公招无招聘许可
+  公招无招聘许可。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "continue": true // 是否继续刷新
-  }
-  ```
+  :::: field-group
+  ::: field name="continue" type="boolean" required
+  是否继续刷新。
+  :::
+  ::::
 
 - `RecruitTagsSelected`  
-  公招选择了 Tags
+  公招选择了 Tags。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "tags": ["减速", "术师干员"]
-  }
-  ```
+  :::: field-group
+  ::: field name="tags" type="array<string>" required
+  选择的 Tag 列表。
+  :::
+  ::::
 
 - `RecruitSlotCompleted`  
-  当前公招槽位任务完成
+  当前公招槽位任务完成。`details` 字段为空。
 
 - `RecruitError`  
-  公招识别错误
+  公招识别错误。`details` 字段为空。
 
 - `EnterFacility`  
-  基建进入了设施
+  基建进入了设施。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "facility": "Mfg", // 设施名
-    "index": 0 // 设施序号
-  }
-  ```
+  :::: field-group
+  ::: field name="facility" type="string" required
+  设施名。
+  :::
+  ::: field name="index" type="number" required
+  设施序号。
+  :::
+  ::::
 
 - `NotEnoughStaff`  
-  基建可用干员不足
+  基建可用干员不足。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "facility": "Mfg", // 设施名
-    "index": 0 // 设施序号
-  }
-  ```
+  :::: field-group
+  ::: field name="facility" type="string" required
+  设施名。
+  :::
+  ::: field name="index" type="number" required
+  设施序号。
+  :::
+  ::::
 
 - `ProductOfFacility`  
-  基建产物
+  基建产物。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-    "product": "Money", // 产物名
-    "facility": "Mfg", // 设施名
-    "index": 0 // 设施序号
-  }
-  ```
+  :::: field-group
+  ::: field name="product" type="string" required
+  产物名。
+  :::
+  ::: field name="facility" type="string" required
+  设施名。
+  :::
+  ::: field name="index" type="number" required
+  设施序号。
+  :::
+  ::::
 
 - `StageInfo`  
-  自动作战关卡信息
+  自动作战关卡信息。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-      "name": string  // 关卡名
-  }
-  ```
+  :::: field-group
+  ::: field name="name" type="string" required
+  关卡名。
+  :::
+  ::::
 
 - `StageInfoError`  
-  自动作战关卡识别错误
+  自动作战关卡识别错误。`details` 字段为空。
 
 - `PenguinId`  
-  企鹅物流 ID
+  企鹅物流 ID。`details` 字段内容如下：
 
-  ```json
-  // 对应的 details 字段举例
-  {
-      "id": string
-  }
-  ```
+  :::: field-group
+  ::: field name="id" type="string" required
+  企鹅物流 ID。
+  :::
+  ::::
 
 - `Depot`  
-  仓库识别结果
-
-  ```json
-  // 对应的 details 字段举例
-  "done": bool,       // 是否已经识别完了，为 false 表示仍在识别中（过程中的数据）
-  "arkplanner": {     // https://penguin-stats.cn/planner
-      "object": {
-          "items": [
-              {
-                  "id": "2004",
-                  "have": 4,
-                  "name": "高级作战记录"
-              },
-              {
-                  "id": "mod_unlock_token",
-                  "have": 25,
-                  "name": "模组数据块"
-              },
-              {
-                  "id": "2003",
-                  "have": 20,
-                  "name": "中级作战记录"
-              }
-          ],
-          "@type": "@penguin-statistics/depot"
-      },
-      "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"高级作战记录\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"模组数据块\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中级作战记录\"}]}"
-  },
-  "lolicon": {     // https://arkntools.app/#/material
-      "object": {
-          "2004" : 4,
-          "mod_unlock_token": 25,
-          "2003": 20
-      },
-      "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
-  }
-  // 目前只支持 ArkPlanner 和 Lolicon (Arkntools) 的格式，以后可能会兼容更多网站
-  ```
+  仓库识别结果。`details` 字段结构如下：
+  - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
+  - `arkplanner` (object, required): [ArkPlanner](https://penguin-stats.cn/planner) 格式的数据。
+  - `lolicon` (object, required): [lolicon](https://arkntools.app/#/material) (Arkntools) 格式的数据。
 
 - `OperBox`  
-  干员识别结果
-
-  ```json
-  // 对应的 details 字段举例
-  "done": bool,       // 是否已经识别完了，为 false 表示仍在识别中（过程中的数据）
-  "all_oper": [
-      {
-          "id": "char_002_amiya",
-          "name": "阿米娅",
-          "own": true,
-          "rarity": 5
-      },
-      {
-          "id": "char_003_kalts",
-          "name": "凯尔希",
-          "own": true,
-          "rarity": 6
-      },
-      {
-          "id": "char_1020_reed2",
-          "name": "焰影苇草",
-          "own": false,
-          "rarity": 6
-      },
-  ]
-  "own_opers": [
-      {
-          "id": "char_002_amiya", // 干员id
-          "name": "阿米娅", // 干员名称
-          "own": true, // 是否拥有
-          "elite": 2, // 精英度 0,1,2
-          "level": 50, // 干员等级
-          "potential": 6, // 干员潜能 [1, 6]
-          "rarity": 5 // 干员稀有度 [1, 6]
-      },
-      {
-          "id": "char_003_kalts",
-          "name": "凯尔希",
-          "own": true,
-          "elite": 2,
-          "level": 50,
-          "potential": 1,
-          "rarity": 6
-      }
-  ]
-  ```
+  干员识别结果。`details` 字段结构如下：
+  - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
+  - `all_oper` (array, required): 全干员列表，数组每一项包含：
+    - `id` (string, required): 干员 ID。
+    - `name` (string, required): 干员名称。
+    - `own` (boolean, required): 是否拥有。
+    - `rarity` (number, required): 干员稀有度 [1, 6]。
+  - `own_opers` (array, required): 已拥有干员的详细信息列表，数组每一项包含：
+    - `id` (string, required): 干员 ID。
+    - `name` (string, required): 干员名称。
+    - `own` (boolean, required): 是否拥有。
+    - `elite` (number, required): 精英等级 [0, 2]。
+    - `level` (number, required): 干员等级。
+    - `potential` (number, required): 干员潜能 [1, 6]。
+    - `rarity` (number, required): 干员稀有度 [1, 6]。
 
 - `UnsupportedLevel`  
-  自动抄作业，不支持的关卡名
+  自动抄作业，不支持的关卡名。`details` 字段为空。
 
 ### ReportRequest
 
 该字段主要用于核心模块向 UI 层传递网络请求信息，UI 负责执行具体的 HTTP 上报操作。
 
-```json
-{
-  "url": "string",            // 请求的完整URL，比如：https://penguin-stats.io/PenguinStats/api/v2/report
-  "headers": {                // 请求头键值对（不包含 Content-Type，UI 层自行添加）
-    "authorization": "PenguinID 1234567890",
-    "User-Agent": "MaaAssistantArknights/1.2.3 cpr/4.5.6"
-  },
-  "body": "string",           // 请求体内容（通常是 JSON 格式的字符串）
-  "subtask": "string"         // 子任务名称，标识具体上报任务，如 "ReportToPenguinStats"、"ReportToYituliu"
-}
-```
+:::: field-group
+::: field name="url" type="string" required
+请求的完整 URL，例如 `https://penguin-stats.io/PenguinStats/api/v2/report`。
+:::
+::: field name="headers" type="object" required
+请求头键值对（不包含 `Content-Type`，UI 层自行添加）。
+:::
+::: field name="body" type="string" required
+请求体内容（通常是 JSON 格式的字符串）。
+:::
+::: field name="subtask" type="string" required
+子任务名称，标识具体上报任务，如 `ReportToPenguinStats`、`ReportToYituliu`。
+:::
+::::
