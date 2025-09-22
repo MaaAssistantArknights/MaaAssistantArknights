@@ -53,53 +53,7 @@ export default defineThemeConfig({
 
   autoFrontmatter: false,
 
-  //markdown: {
-  //  align: true,
-  //  codeTabs: true,
-  //  //echarts: true,
-  //  footnote: true,
-  //  gfm: true,
-  //  hint: true,
-  //  imgLazyload: true,
-  //  imgMark: true,
-  //  imgSize: true,
-  //  //mathjax: true,
-  //  mark: true,
-  //  //mermaid: true,
-  //  tabs: true,
-  //  tasklist: true,
-  //  vPre: true,
-  //  component: true,
-  //
-  //  highlighter: {
-  //    'type': 'shiki',
-  //    themes: {
-  //      light: "light-plus",
-  //      dark: "nord",
-  //    }
-  //  },
-  //},
-
   //plugins: {
-  //  activeHeaderLinks: false,
-  //
-  //  comment: {
-  //    provider: "Giscus",
-  //    repo: "MaaAssistantArknights/maa-website",
-  //    repoId: "R_kgDOHY7Gyg",
-  //    category: "Comments",
-  //    categoryId: "DIC_kwDOHY7Gys4CgoVH",
-  //    mapping: "pathname",
-  //    strict: true,
-  //  },
-  //
-  //  icon: {
-  //    assets: "iconify",
-  //  },
-  //
-  //  sitemap: true,
-  //  seo: true,
-  //
   //  notice: [
   //    {
   //      path: "/zh-tw/",
