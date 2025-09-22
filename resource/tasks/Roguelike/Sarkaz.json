@@ -1046,7 +1046,7 @@
     "Sarkaz@Roguelike@StageTraderRefresh": {
         "template": "Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
-        "roi": [230, 73, 212, 141],
+        "roi": [230, 73, 212, 141]
     },
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
