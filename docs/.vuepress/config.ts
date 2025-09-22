@@ -96,6 +96,7 @@ export default defineUserConfig({
     markdown: {
       icon: { provider: 'iconify' },
       plot: true,
+      field: true,
 
     },
 
