@@ -74,6 +74,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能够以极低的 GPU 占用显著降低 CPU 的负担</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">当前选择的推理加速 GPU（{0}）存在兼容性问题，可能导致识别错误、错位或其他异常结果。\n\n建议前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
