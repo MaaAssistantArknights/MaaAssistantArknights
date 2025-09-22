@@ -25,5 +25,5 @@ RUN eval "$(conda shell.bash hook)" \
 
 # Finalize conda setup
 RUN conda init \
-    && conda config --set auto_activate_base false \
+    && conda config --set auto_activate false \
     && echo "conda activate maa" >> ~/.bashrc
