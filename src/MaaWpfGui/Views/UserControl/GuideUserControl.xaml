@@ -91,12 +91,14 @@
                                 Spacing="20">
                                 <ComboBox
                                     hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
+                                    hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding LanguageList}"
                                     SelectedValue="{Binding Language}"
                                     SelectedValuePath="Value" />
                                 <ComboBox
                                     hc:InfoElement.Title="{DynamicResource UiTheme}"
+                                    hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding DarkModeList}"
                                     SelectedValue="{Binding DarkMode}"
@@ -114,6 +116,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     hc:InfoElement.Title="{DynamicResource ClientType}"
+                                    hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding ClientTypeList}"
                                     SelectedValue="{Binding ClientType}"
@@ -180,10 +183,7 @@
                                 <StackPanel Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
                                     <StackPanel Margin="8,0,0,5" Orientation="Horizontal">
                                         <controls:TextBlock Text="{DynamicResource ConnectionAddress}" />
-                                        <controls:TooltipBlock
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            TooltipText="{DynamicResource ConnectionAddressTip}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource ConnectionAddressTip}" />
                                     </StackPanel>
                                     <hc:ComboBox
                                         HorizontalContentAlignment="Stretch"
@@ -345,21 +345,20 @@
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl TransitionMode="{Binding GuideTransitionMode}" Visibility="{c:Binding 'GuideStepIndex == 4'}">
-                            <StackPanel
-                                s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                                DataContext="{Binding Source={x:Static ui:SettingsViewModel.PerformanceSettings}}">
+                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui:SettingsViewModel.PerformanceSettings}}">
                                 <controls:TextBlock
-                                    Width="300"
+                                    MaxWidth="400"
                                     Foreground="{DynamicResource InfoBrush}"
                                     Text="{DynamicResource UseGpuForInferenceTip}"
                                     TextWrapping="Wrap" />
                                 <hc:ComboBox
-                                    Width="300"
                                     Grid.Row="0"
                                     Grid.Column="1"
+                                    Width="300"
                                     Margin="5"
                                     HorizontalAlignment="Stretch"
                                     hc:InfoElement.Title="{DynamicResource UseGpuForInference}"
+                                    hc:TitleElement.HorizontalAlignment="Center"
                                     Background="{DynamicResource RegionBrushOpacity25}"
                                     ItemsSource="{Binding GpuOptions}"
                                     PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,

@@ -16,22 +16,18 @@
     d:DataContext="{d:DesignInstance {x:Type viewModels:PerformanceUserControlModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <controls:TextBlock Margin="24,0,0,0" Text="{DynamicResource UseGpuForInference}" />
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel
+            Margin="8,0,0,5"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <controls:TextBlock Text="{DynamicResource UseGpuForInference}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource UseGpuForInferenceTip}" />
+        </StackPanel>
         <hc:ComboBox
             Grid.Row="0"
             Grid.Column="1"
-            Width="240"
-            Margin="10,5"
+            Width="250"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{DynamicResource RegionBrushOpacity25}"
@@ -53,12 +49,5 @@
                 </Style>
             </hc:ComboBox.ItemContainerStyle>
         </hc:ComboBox>
-        <CheckBox
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10,5"
-            Content="{DynamicResource GpuAllowDeprecated}"
-            IsChecked="{Binding AllowDeprecatedGpu}"
-            IsEnabled="{Binding AllowDeprecatedGpu}" />
-    </Grid>
+    </StackPanel>
 </UserControl>

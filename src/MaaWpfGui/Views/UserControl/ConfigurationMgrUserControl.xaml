@@ -16,6 +16,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
+    d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -29,6 +30,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             HorizontalContentAlignment="Stretch"
+            hc:TitleElement.HorizontalAlignment="Center"
+            hc:TitleElement.Title="{DynamicResource ConfigurationName}"
             IsEditable="True"
             IsHitTestVisible="{Binding Idle}"
             IsReadOnly="True"
@@ -60,17 +63,11 @@
         </ComboBox>
         <Grid Width="250">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:TextBlock
-                Grid.Column="0"
-                Margin="0,0,5,0"
-                hc:InfoElement.Placeholder="Default"
-                Text="{DynamicResource ConfigurationName}" />
             <TextBox
-                Grid.Column="1"
+                Grid.Column="0"
                 Width="Auto"
                 hc:BorderElement.CornerRadius="4,0,0,4"
                 Text="{Binding NewConfigurationName, UpdateSourceTrigger=PropertyChanged}">
@@ -79,7 +76,7 @@
                 </TextBox.InputBindings>
             </TextBox>
             <Button
-                Grid.Column="2"
+                Grid.Column="1"
                 Width="60"
                 hc:BorderElement.CornerRadius="0,4,4,0"
                 BorderThickness="0,1,1,1"
