@@ -573,7 +573,7 @@ namespace MaaWpfGui.ViewModels.UI
         #region SettingsGuide
 
         // 目前共4步，再多塞不下了，后续可以整个新功能展示（
-        public const int GuideMaxStep = 4;
+        public static int GuideMaxStep => 5;
 
         private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
 
