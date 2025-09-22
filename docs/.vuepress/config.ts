@@ -93,7 +93,11 @@ export default defineUserConfig({
       themes: { light: 'one-light', dark: 'one-dark-pro' },
     },
 
-    markdown: {},
+    markdown: {
+      icon: { provider: 'iconify' },
+      plot: true,
+
+    },
 
     watermark: false,
 
