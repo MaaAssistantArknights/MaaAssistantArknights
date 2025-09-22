@@ -97,8 +97,7 @@ export default defineUserConfig({
       icon: { provider: 'iconify' },
       plot: true,
       field: true,
-      bilibili: true, 
-
+      bilibili: true,
     },
 
     watermark: false,
