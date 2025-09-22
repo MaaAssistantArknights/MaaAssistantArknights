@@ -12,6 +12,7 @@ export default defineUserConfig({
   lang: 'zh-CN',
   title: 'MaaAssistantArknights',
   description: 'MAA',
+  host: '0.0.0.0',
   port: 3001,
 
   locales: {

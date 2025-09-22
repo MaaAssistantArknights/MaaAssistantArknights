@@ -475,3 +475,6 @@ Thumbs.db
 # build & install
 build
 install
+
+# pnpm cache
+.pnpm-store
