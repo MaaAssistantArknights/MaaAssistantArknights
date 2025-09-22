@@ -606,10 +606,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HibernateTip">Windows의 전원 옵션에서 최대 절전 모드를 활성화해야 합니다. 그렇지 않으면 이 기능이 비활성화됩니다.</system:String>
     <system:String x:Key="Sleep">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
-    <system:String x:Key="Once">한 번만*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 ｢{key=Once}｣를 먼저 체크하세요.
-｢{key=Once}｣이 체크되면 실행 후 ｢{key=Once}｣이 체크되기 전 상태로 작업이 복원됩니다.
-아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 ｢{key=Once}｣의 상태가 동기적으로 활성화/취소됩니다.</system:String>
+    <system:String x:Key="Once">이번에만*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">체크 시 옵션 변경 사항이 저장되지 않으며 다음 번 MAA 시작 또는 {key=LinkStart} 이후에 복원됩니다
+이 옵션의 체크를 해제하면 다른 옵션 상태가 정상적으로 저장됩니다
+다른 옵션을 마우스 오른쪽 버튼으로 클릭하면 이 옵션도 함께 체크/체크 해제됩니다</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
