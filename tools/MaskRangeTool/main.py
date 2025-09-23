@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import cv2
-from utils import (
+from mask_utils import (
     calc_mask_from_ranges,
     compare_2_image_with_mask_ranges,
     generate_mask_ranges,
