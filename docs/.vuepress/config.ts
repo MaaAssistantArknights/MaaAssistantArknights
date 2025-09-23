@@ -18,23 +18,28 @@ export default defineUserConfig({
   locales: {
     '/zh-cn/': {
       lang: 'zh-CN',
+      title: 'MAA 文档站',
       description: '文档',
     },
     '/zh-tw/': {
       lang: 'zh-TW',
+      title: 'MAA 文件站',
       description: '文件',
     },
     '/en-us/': {
       lang: 'en-US',
+      title: 'MAA Documentation Site',
       description: 'Documentation',
     },
     '/ja-jp/': {
       lang: 'ja-JP',
-      description: 'ドキュメンテーション',
+      title: 'MAA ドキュメントサイト',
+      description: 'ドキュメント',
     },
     '/ko-kr/': {
       lang: 'ko-KR',
-      description: '선적 서류 비치',
+      title: 'MAA 문서 사이트',
+      description: '문서',
     },
   },
 
