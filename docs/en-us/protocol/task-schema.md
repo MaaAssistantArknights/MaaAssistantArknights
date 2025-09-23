@@ -185,115 +185,207 @@ Please note that JSON files do not support comments. The comments in this docume
 }
 ```
 
+## Expression Calculation
+
+Task list type fields (`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`) support expression calculations.
+
+|    Symbol   |                           Meaning                           |                  Example                  |
+| :---------: | :---------------------------------------------------------: | :---------------------------------------: |
+|     `@`     |                         `@`-type Task                       |              `Fight@ReturnTo`             |
+| `#` (unary) |                          Virtual task                       |                  `#self`                  |
+| `#` (binary)|                          Virtual task                       |            `StartUpThemes#next`           |
+|     `*`     |                          Repeat tasks                       | `(ClickCornerAfterPRTS+ClickCorner)*5`    |
+|     `+`     | Task list merge (in next-type attributes, only first occurrence of same-name tasks kept) |    `A+B`     |
+|     `^`     | Task list difference (in first but not second, order preserved) |  `(A+A+B+C)^(A+B+D)` (result is `C`)  |
+
+Operators `@`, `#`, `*`, `+`, `^` have precedence: `#` (unary) > `@` = `#` (binary) > `*` > `+` = `^`.
+
 ## Special Task Types
 
-### Template Task (`@` Type Task)
+### Template Task
 
-Template task and base task are collectively called **template tasks**.
+**Template tasks** include derived tasks and `@`-type tasks. The core of the template task can be understood as **modifying the default values of fields** based on the *base task*.
 
-Allows using task "A" as template, with "B@A" representing a task generated from "A".
+#### Derived Task
 
-- If task "B@A" is not explicitly defined in `tasks.json`, then add `B@` prefix to `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` fields (or `B` if task name begins with `#`), all other parameters match task "A". For example, if task "A" has:
+Tasks with the `baseTask` field are derived tasks, and the task corresponding to the `baseTask` field is referred to as its *base task* of this derived task. For a derived task,
+
+1. If it is an template matching task, the default value for the `template` field remains `"TaskName.png"`;
+2. If the `algorithm` field differs from its *base task*, the derived class parameters are not inherited (only parameters defined in `TaskInfo` are inherited);
+3. The default values for all other fields are the corresponding fields of its *base task*.
+
+#### Implicit `@`-type Task
+
+If task `"A"` exists and there is not a task directly defined in any task file such as `"B@A"`, it is an implicit `@`-type task, and task `"A"` is called the *base task* of task `"B@A"`. For an implicit `@`-type task,
+
+1. The default values for task list type fields (`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`) are set to the base task's corresponding fields with the `B@` prefix directly appended (if the task name starts with `#`, the `B` prefix is appended);
+2. The default values for all other fields (including the `template` field) are the corresponding fields of its *base task*.
+
+#### Explicit `@`-type Task
+
+If task `"A"` exists and there is a task directly defined in the task file such as `"B@A"`, it is an explicit `@`-type task, and task `"A"` is called the *base task* of task `"B@A"`. For an explicit `@`-type task,
+
+1. The default values for task list type fields (`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`) are set to the base task's corresponding fields with the `B@` prefix directly appended (if the task name starts with `#`, the `B` prefix is appended);
+2. If it is an template matching task, the default value for the `template` field remains `"TaskName.png"`;
+3. If the `algorithm` field differs from its *base task*, the derived class parameters are not inherited (only parameters defined in `TaskInfo` are inherited);
+4. The default values for all other fields are the corresponding fields of its *base task*.
+
+### Virtual Task (`#`-type Task)
+
+Virtual tasks are tasks of the form `"#{sharp_type}"` or `"B#{sharp_type}"`, where `{sharp_type}` can be `none`, `self`, `back`, `next`, `sub`, `on_error_next`, `exceeded_next`, or `reduce_other_times`.
+
+Virtual tasks can be divided into **command virtual tasks** (`#none` / `#self` / `#back`) and **field virtual tasks** (`#next`, etc.).
+
+| Virtual Task Type | Meaning | Simple example |
+|:---------:|:---:|:--------:|
+| none | Empty Task | Skip directly<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` is interpreted as `"A": {"next": ["T1"]}`<br>`"A#none + T1"` is interpreted as `"T1"` |
+| self | Current Task Name | `"A": {"next": "#self"}` in `"#self"` is interpreted as `"A"`<br>`"B": {"next": "A@B@C#self"}` in `"A@B@C#self"` is interpreted as `"B"`.<sup>2</sup> |
+| back | # Preceding task name | `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` will be skipped if it appears directly<sup>3</sup> |
+| next, sub, etc. | # The field corresponding to the previous task name | Take `next` for example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` will be skipped if it appears directly |
+
+_Note<sup>1</sup>: `"#none"` generally used in conjunction with the template task to add prefixes, or used in the `baseTask` field to avoid unnecessary fields in multi-file inheritance._
+
+_Note<sup>2</sup>: `"XXX#self"` has the same meaning as `"#self"`._
+
+_Note<sup>3</sup>: When several tasks have `"next": [ "#back" ]`, `"T1@T2@T3"` represents executing `T3`, `T2`, and `T1` in sequence._
+
+### Multi-File Task
+
+If a task defined in a later loaded task file (e.g. `tasks.json` for foreign services; hereinafter called File 2) also has a task of the same name defined in a earlier loaded task file (e.g. `tasks.json` for official services; hereinafter called File 1), then.
+
+- if the task in File 2 does not have a `baseTask` field, then it inherits the fields of the task with the same name in File 1 directly.
+- If the task in File 2 has a `baseTask` field, then it does not inherit the fields of the task with the same name in File 1, but overwrites them. In particular, when there is no template task, you can use `"baseTask": "#none"` to avoid inheriting unnecessary fields.
+
+### Simple Example
+
+- Derived task example (field `baseTask`)
+
+    Assume the following two tasks are defined:
+
+    ```json
+    "Return": {
+        "action": "ClickSelf",
+        "next": [ "Stop" ]
+    },
+    "Return2": {
+        "baseTask": "Return"
+    },
+    ```
+
+    The parameters of the `"Return2"` task are directly inherited from the `"Return"` task, and actually include the following parameters:
+
+    ```json
+    "Return2": {
+        "algorithm": "MatchTemplate", // Directly inherited
+        "template": "Return2.png",    // "TaskName.png"
+        "action": "ClickSelf",        // Directly inherited
+        "next": [ "Stop" ]            // Directly inherited, without any prefix compared to the Template Task
+    }
+    ```
+
+- `@`-type task example
+
+    Assume that a task `"A"` with the following parameters is defined:
 
     ```json
     "A": {
         "template": "A.png",
         ...,
-        "next": [ "N1", "N2" ]
-    }
+        "next": [ "N1", "#back" ]
+    },
     ```
 
-    This would be equivalent to defining:
+    If the task `"B@A"` is not directly defined, then the task `"B@A"` actually has the following parameters:
 
     ```json
     "B@A": {
         "template": "A.png",
         ...,
-        "next": [ "B@N1", "B@N2" ]
+        "next": [ "B@N1", "B#back" ]
     }
     ```
 
-- If task "B@A" is defined in `tasks.json`, then:
-    1. If "B@A" has different `algorithm` from "A", derived class parameters are not inherited (only `TaskInfo` parameters inherited)
-    2. For image matching tasks, if `template` not explicitly defined, uses `B@A.png` (not inheriting "A" template name); otherwise any derived parameters not explicitly defined inherit directly from "A"
-    3. For `TaskInfo` base class parameters (common to all task types like `algorithm`, `roi`, `next`, etc.), if not explicitly defined in "B@A", inherit directly from "A" except for the five fields mentioned above which get "B@" prefixed when inherited
+    If the task `"B@A"` is defined as `"B@A": {}`, then the task `"B@A"` actually has the following parameters:
 
-### Base Task
-
-Base task and template task are collectively called **template tasks**.
-
-Tasks with `baseTask` field are base tasks.
-
-Base task logic takes precedence over template task. This means `"B@A": { "baseTask": "C", ... }` has no relation to task A.
-
-Any parameter not explicitly defined uses the corresponding parameter from `baseTask` without prefix, except `template` which remains `"TaskName.png"` when not explicitly defined.
-
-#### Multi-File Tasks
-
-If a task defined in a later-loaded file (e.g., foreign server `tasks.json`, called File 2) is also defined in an earlier-loaded file (e.g., CN server `tasks.json`, called File 1), then:
-
-- If File 2's task has no `baseTask` field, it directly inherits fields from File 1's same-name task.
-- If File 2's task has a `baseTask` field, it doesn't inherit fields from File 1's same-name task, but overwrites them instead.
-
-### Virtual Task (`#` Task)
-
-Virtual tasks are also called sharp tasks (`#` type tasks).
-
-Tasks with `#` in name are virtual tasks. `#` can be followed by `next`, `back`, `self`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`.
-
-|  Virtual Task Type  |        Meaning        |                                                                 Simple Example                                                                 |
-| :----------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-|     self     |      Parent task name      | `"A": {"next": "#self"}` where `"#self"` interpreted as `"A"`<br>`"B": {"next": "A@B@C#self"}` where `"A@B@C#self"` interpreted as `"B"`<sup>1</sup> |
-|     back     |   Task name before #   |                                      `"A@B#back"` interpreted as `"A@B"`<br>`"#back"` directly appears will be skipped                                       |
-| next, sub, etc. | Field of task name before # |                      For example with `next`:<br>`"A#next"` interpreted as `Task.get("A")->next`<br>`"#next"` directly appears will be skipped                       |
-
-_Note<sup>1</sup>: `"XXX#self"` has same meaning as `"#self"`._
-
-#### Simple Example
-
-```json
-{
-    "A": { "next": ["N1", "N2"] },
-    "C": { "next": ["B@A#next"] },
-
-    "Loading": {
-        "next": ["#self", "#next", "#back"]
-    },
-    "B": {
-        "next": ["Other", "B@Loading"]
+    ```json
+    "B@A": {
+        "template": "B@A.png",
+        ...,
+        "next": [ "B@N1", "B#back" ]
     }
-}
-```
+    ```
 
-Results in:
+- Virtual task example
 
-```cpp
-Task.get("C")->next = { "B@N1", "B@N2" };
+    ```json
+    {
+        "A": { "next": ["N1", "N2"] },
+        "C": { "next": ["B@A#next"] },
 
-Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
-Task.get("Loading")->next = { "Loading" };
-Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
-```
+        "Loading": {
+            "next": ["#self", "#next", "#back"]
+        },
+        "B": {
+            "next": ["Other", "B@Loading"]
+        }
+    }
+    ```
 
-#### Some Use Cases
+    Results in:
 
-- When several tasks have `"next": [ "#back" ]`, `"Task1@Task2@Task3"` means execute `Task3`, then `Task2`, then `Task1` in sequence.
+    ```cpp
+    Task.get("C")->next = { "B@N1", "B@N2" };
 
-#### Other Related Cases
+    Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
+    Task.get("Loading")->next = { "Loading" };
+    Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
+    ```
 
-```json
-{
-    "A": { "next": ["N0"] },
-    "B": { "next": ["A#next"] },
-    "C@A": { "next": ["N1"] }
-}
-```
+### Precautions
 
-In this case, `"C@B" -> next` (i.e., `C@A#next`) is `[ "N1" ]`, not `[ "C@N0" ]`.
+If the tasks defined in the task list type field (`next`, etc.) contain low-priority operations, the actual results may not match expectations, so please be aware of this.
+
+1. Special cases caused by the order of operations between `@` and double `#`
+
+    ```json
+    {
+        "A": { "next": ["N0"] },
+        "B": { "next": ["A#next"] },
+        "C@A": { "next": ["N1"] }
+    }
+    ```
+
+    In the above case, `"C@B" -> next` (i.e., `C@A#next`) is `[ "N1" ]` rather than `[ "C@N0" ]`.
+
+2. Special cases caused by the order of operations between `@` and `+`
+
+    ```json
+    {
+        "A": { "next": ["#back + N0"] },
+        "B@A": {}
+    }
+    ```
+
+    In the above case,
+
+    ```cpp
+    Task.get("A")->next = { "N0" };
+
+    Task.get_raw("B@A")->next = { "B#back + N0" };
+    Task.get("B@A")->next = { "B", "N0" }; // Note that it is not [ "B", "B@N0" ]
+    ```
+
+    In fact, you can use this feature to avoid adding unnecessary prefixes by simply defining
+
+    ```json
+    {
+        "A": { "next": ["#none + N0"] }
+    }
+    ```
 
 ## Runtime Task Modification
 
-- `Task.lazy_parse()` loads JSON task configuration files at runtime. Lazy_parse rules match [Multi-File Tasks](#multi-file-tasks).
+- `Task.lazy_parse()` loads JSON task configuration files at runtime. Lazy_parse rules match [Multi-File Task](#multi-file-task).
 - `Task.set_task_base()` modifies a task's `baseTask` field.
 
 ### Usage Example
@@ -332,19 +424,6 @@ default:
     break;
 }
 ```
-
-## Expression Calculation
-
-|    Symbol     |                           Meaning                           |                  Example                  |
-| :---------: | :------------------------------------------------------: | :------------------------------------: |
-|     `@`     |                         Template task                         |            `Fight@ReturnTo`            |
-| `#` (unary) |                          Virtual task                          |                `#self`                 |
-| `#` (binary) |                          Virtual task                          |          `StartUpThemes#next`          |
-|     `*`     |                       Repeat multiple tasks                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
-|     `+`     | Task list merge (in next-type attributes, only first occurrence of same-name tasks kept) |                 `A+B`                  |
-|     `^`     |         Task list difference (in first but not second, order preserved)         |   `(A+A+B+C)^(A+B+D)` (result is `C`)    |
-
-Operators `@`, `#`, `*`, `+`, `^` have precedence: `#` (unary) > `@` = `#` (binary) > `*` > `+` = `^`.
 
 ## Schema Validation
 
