@@ -116,7 +116,7 @@ MaaAssistantArknight 是由 ==很多猪== 开发的
 ::: demo-wrapper
 输入：
 
-```
+```markdown
 + 遮罩层效果 + 鼠标悬停：!!鼠标悬停看到我了!!{.mask .hover}
 + 遮罩层效果 + 点击：!!点击看到我了!!{.mask .click}
 + 文本模糊效果 + 鼠标悬停：!!鼠标悬停看到我了!!{.blur .hover}
@@ -195,7 +195,7 @@ MaaAssistantArknight 是由 ==很多猪== 开发的
 
 这是语法：
 
-```
+```markdown
 <ImageGrid :imageList="[
   {
     light: 'images/zh-cn/readme/1-light.png',
@@ -295,7 +295,7 @@ icon: jam:write-f
 
 输入：
 
-```
+```markdown
 - home - <Icon name="material-symbols:home" color="currentColor" size="1em" />
 - vscode - <Icon name="skill-icons:vscode-dark" size="2em" />
 - twitter - <Icon name="skill-icons:twitter" size="2em" />
