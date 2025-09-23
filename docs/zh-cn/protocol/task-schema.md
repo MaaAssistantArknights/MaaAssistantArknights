@@ -184,111 +184,203 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 }
 ```
 
+## 表达式计算
+
+任务列表类型字段（`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`）支持表达式计算。
+
+|    符号     |                           含义                           |                  实例                  |
+| :---------: | :------------------------------------------------------: | :------------------------------------: |
+|     `@`     |                       `@` 型任务                        |            `Fight@ReturnTo`            |
+| `#`（单目） |                          虚任务                          |                `#self`                 |
+| `#`（双目） |                          虚任务                          |          `StartUpThemes#next`          |
+|     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
+|     `+`     |   任务列表合并（在 next 系列字段中同名任务只保留最靠前者）  |                 `A+B`                  |
+|     `^`     |         任务列表差（在前者但不在后者，顺序不变）         |   `(A+A+B+C)^(A+B+D)`（结果为 `C`）    |
+
+运算符 `@`, `#`, `*`, `+`, `^` 有优先级：`#`（单目）> `@` = `#`（双目）> `*` > `+` = `^`。
+
 ## 特殊任务类型
 
-### Template Task（`@` 型任务）
+### 模板任务
 
-Template task 与 base task 合称**模板任务**。
+**模板任务**包括派生任务与 `@` 型任务。模板任务的核心可以理解为依据基任务**修改字段的默认值**。
 
-允许把某个任务 "A" 当作模板，然后 "B@A" 表示由 "A" 生成的任务。
+#### 派生任务
 
-- 如果 `tasks.json` 中未显式定义任务 "B@A"，则在 `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` 字段中增加 `B@` 前缀（如遇任务名开头为 `#` 则增加 `B` 前缀），其余参数与 "A" 任务相同。就是说如果任务 "A" 有以下参数：
+存在字段 `baseTask` 的任务即为派生任务，字段 `baseTask` 对应的任务称为这个派生任务的**基任务**。对于一个派生任务，
+
+1. 若是模板匹配任务，则**字段 `template`** 的默认值仍为 `"任务名.png"`；
+2. 若字段 `algorithm` 与基任务不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）；
+3. 其余字段的默认值均为**基任务对应字段**。
+
+#### 隐式 `@` 型任务
+
+存在任务 `"A"` 且所有任务文件中均未直接定义的型如 `"B@A"` 的任务即为隐式 `@` 型任务，任务 `"A"` 称为任务 `"B@A"` 的**基任务**。对于一个隐式 `@` 型任务，
+
+1. 其任务列表类型字段（`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`）的默认值为基任务对应字段**直接**增加 `B@` 前缀（如遇任务名开头为 `#` 则增加 `B` 前缀）；
+2. 其余字段的默认值均为**基任务对应字段**（包括字段 `template`）。
+
+#### 显式 `@` 型任务
+
+存在任务 `"A"` 且存在任务文件中直接定义的型如 `"B@A"` 的任务即为显式 `@` 型任务，任务 `"A"` 称为任务 `"B@A"` 的**基任务**。对于一个显式 `@` 型任务，
+
+1. 任务列表类型字段（`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`）的默认值为基任务对应字段**直接**增加 `B@` 前缀（如遇任务名开头为 `#` 则增加 `B` 前缀）；
+2. 若是模板匹配任务，则**字段 `template`** 的默认值仍为 `"任务名.png"`；
+3. 若字段 `algorithm` 与基任务不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）；
+4. 其余字段的默认值均为**基任务对应字段**。
+
+### 虚任务（`#` 型任务）
+
+虚任务即型如 `"#{sharp_type}"` 或 `"B#{sharp_type}"` 的任务，其中 `{sharp_type}` 可以是 `none`, `self`, `back`, `next`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`。
+
+可以将虚任务分为**指令虚任务**（`#none` / `#self` / `#back`）和**字段虚任务**（`#next` 等）。
+
+|  虚任务类型  |        含义        |                                                                 简单示例                                                                 |
+| :----------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
+|     none     |       空任务       | 直接跳过<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` 被解释为 `"A": {"next": ["T1"]}`<br>`"A#none + T1"` 被解释为 `"T1"`  |
+|     self     |      当前任务名      | `"A": {"next": ["#self"]}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": ["A@B@C#self"]}` 中的 `"A@B@C#self"` 被解释为 `"B"`<sup>2</sup> |
+|     back     |   # 前面的任务名   |                                      `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过<sup>3</sup>                         |
+| next, sub 等 | # 前任务名对应字段 |                      以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                       |
+
+_Note<sup>1</sup>: `"#none"` 一般配合模板任务增加前缀的特性使用，或用在字段 `baseTask` 中避免多文件继承不必要的字段。_
+
+_Note<sup>2</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
+
+_Note<sup>3</sup>: 当几个任务有 `"next": [ "#back" ]` 时，`"T1@T2@T3"` 代表依次执行 `T3`, `T2`, `T1`。_
+
+### 多文件任务
+
+如果后加载的任务文件 (例如外服 `tasks.json`; 下称文件二) 中定义的任务在先加载的任务文件 (例如国服 `tasks.json`; 下称文件一) 中也定义了同名任务，那么:
+
+- 如果文件二中任务没有 `baseTask` 字段，则直接继承文件一中同名任务的字段。
+- 如果文件二中任务有 `baseTask` 字段，则不继承文件一中同名任务的字段，而是直接覆盖。特别地，在没有模板任务时你可以使用 `"baseTask": "#none"` 来避免继承不必要的字段。
+
+### 使用示例
+
+- 派生任务示例（字段 `baseTask`）
+
+    假设定义了如下两个任务：
+
+    ```json
+    "Return": {
+        "action": "ClickSelf",
+        "next": [ "Stop" ]
+    },
+    "Return2": {
+        "baseTask": "Return"
+    },
+    ```
+
+    则 `"Return2"` 任务的参数会直接从 `"Return"` 任务继承，实际上包含以下参数：
+
+    ```json
+    "Return2": {
+        "algorithm": "MatchTemplate", // 直接继承
+        "template": "Return2.png",    // "任务名.png"
+        "action": "ClickSelf",        // 直接继承
+        "next": [ "Stop" ]            // 直接继承，与 Template Task 相比这里没有前缀
+    }
+    ```
+
+- `@` 型任务示例
+
+    假设定义了包含以下参数的任务 `"A"`：
 
     ```json
     "A": {
         "template": "A.png",
         ...,
-        "next": [ "N1", "N2" ]
-    }
+        "next": [ "N1", "#back" ]
+    },
     ```
 
-    就相当于同时定义了
+    如果任务 `"B@A"` 没有被直接定义，那么任务 `"B@A"` 实际上有以下参数：
 
     ```json
     "B@A": {
         "template": "A.png",
         ...,
-        "next": [ "B@N1", "B@N2" ]
+        "next": [ "B@N1", "B#back" ]
     }
     ```
 
-- 如果 `tasks.json` 中定义了任务 "B@A"，则：
-    1. 如果 "B@A" 与 "A" 的 `algorithm` 字段不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）
-    2. 如果是图像匹配任务，`template` 若未显式定义则为 `B@A.png`（而不是继承"A"的 `template` 名），其余情况任何派生类参数若未显式定义，直接继承 "A" 任务的参数
-    3. 对于 `TaskInfo` 基类中定义的参数（任何类型任务都有的参数，例如 `algorithm`, `roi`, `next` 等），若没有在 "B@A" 内显式定义，则除了上面提到的 `sub` 等五个字段在继承时会增加 "B@" 前缀外，其余参数直接继承 "A" 任务的参数
+    如果任务 `"B@A"` 有定义 `"B@A": {}`，那么任务 `"B@A"` 实际上有以下参数：
 
-### Base Task
-
-Base task 与 template task 合称**模板任务**。
-
-有字段 `baseTask` 的任务即为 base task。
-
-Base task 的逻辑优先于 template task。这意味着 `"B@A": { "baseTask": "C", ... }` 与任务 A 没有任何相关。
-
-任何参数若未显式定义则不加前缀地直接使用 `baseTask` 对应任务的参数，除了 `template` 未显式定义时仍为 `"任务名.png"`。
-
-#### 多文件任务
-
-如果后加载的任务文件 (例如外服 `tasks.json`; 下称文件二) 中定义的任务在先加载的任务文件 (例如国服 `tasks.json`; 下称文件一) 中也定义了同名任务，那么:
-
-- 如果文件二中任务没有 `baseTask` 字段，则直接继承文件一中同名任务的字段。
-- 如果文件二中任务有 `baseTask` 字段，则不继承文件一中同名任务的字段，而是直接覆盖。
-
-### Virtual Task（虚任务）
-
-Virtual task 也称 sharp task（`#` 型任务）。
-
-任务名带 `#` 的任务即为 virtual task。 `#` 后可接 `next`, `back`, `self`, `sub`, `on_error_next`, `exceeded_next`, `reduce_other_times`。
-
-|  虚任务类型  |        含义        |                                                                 简单示例                                                                 |
-| :----------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-|     self     |      父任务名      | `"A": {"next": "#self"}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": "A@B@C#self"}` 中的 `"A@B@C#self"` 被解释为 `"B"`。<sup>1</sup> |
-|     back     |   # 前面的任务名   |                                      `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过                                       |
-| next, sub 等 | # 前任务名对应字段 |                      以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                       |
-
-_Note<sup>1</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
-
-#### 简单示例
-
-```json
-{
-    "A": { "next": ["N1", "N2"] },
-    "C": { "next": ["B@A#next"] },
-
-    "Loading": {
-        "next": ["#self", "#next", "#back"]
-    },
-    "B": {
-        "next": ["Other", "B@Loading"]
+    ```json
+    "B@A": {
+        "template": "B@A.png",
+        ...,
+        "next": [ "B@N1", "B#back" ]
     }
-}
-```
+    ```
 
-可以得到：
+- 虚任务示例
 
-```cpp
-Task.get("C")->next = { "B@N1", "B@N2" };
+    ```json
+    {
+        "A": { "next": ["N1", "N2"] },
+        "C": { "next": ["B@A#next"] },
 
-Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
-Task.get("Loading")->next = { "Loading" };
-Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
-```
+        "Loading": {
+            "next": ["#self", "#next", "#back"]
+        },
+        "B": {
+            "next": ["Other", "B@Loading"]
+        }
+    }
+    ```
 
-#### 一些用途
+    可以得到：
 
-- 当几个任务有 `"next": [ "#back" ]` 时，`"Task1@Task2@Task3"` 代表依次执行 `Task3`, `Task2`, `Task1`。
+    ```cpp
+    Task.get("C")->next = { "B@N1", "B@N2" };
 
-#### 其它相关
+    Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
+    Task.get("Loading")->next = { "Loading" };
+    Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
+    ```
 
-```json
-{
-    "A": { "next": ["N0"] },
-    "B": { "next": ["A#next"] },
-    "C@A": { "next": ["N1"] }
-}
-```
+### 注意事项
 
-以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
+如果任务列表类型字段（`next` 等）中定义的任务包含低优先级运算，则实际结果可能不符预期，需要注意。
+
+1. `@` 与 双目 `#` 的运算顺序导致的特例
+
+    ```json
+    {
+        "A": { "next": ["N0"] },
+        "B": { "next": ["A#next"] },
+        "C@A": { "next": ["N1"] }
+    }
+    ```
+
+    以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
+
+2. `@` 与 `+` 的运算顺序导致的特例
+
+    ```json
+    {
+        "A": { "next": ["#back + N0"] },
+        "B@A": {}
+    }
+    ```
+
+    以上这种情况，
+
+    ```cpp
+    Task.get("A")->next = { "N0" };
+
+    Task.get_raw("B@A")->next = { "B#back + N0" };
+    Task.get("B@A")->next = { "B", "N0" }; // 注意不是 [ "B", "B@N0" ]
+    ```
+
+    事实上，你可以用这个特性来避免添加不必要的前缀，只需要定义
+
+    ```json
+    {
+        "A": { "next": ["#none + N0"] }
+    }
+    ```
 
 ## 运行时修改任务
 
@@ -331,19 +423,6 @@ default:
     break;
 }
 ```
-
-## 表达式计算
-
-|    符号     |                           含义                           |                  实例                  |
-| :---------: | :------------------------------------------------------: | :------------------------------------: |
-|     `@`     |                         模板任务                         |            `Fight@ReturnTo`            |
-| `#`（单目） |                          虚任务                          |                `#self`                 |
-| `#`（双目） |                          虚任务                          |          `StartUpThemes#next`          |
-|     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
-|     `+`     | 任务列表合并（在 next 系列属性中同名任务只保留最靠前者） |                 `A+B`                  |
-|     `^`     |         任务列表差（在前者但不在后者，顺序不变）         |   `(A+A+B+C)^(A+B+D)`（结果为 `C`）    |
-
-运算符 `@`, `#`, `*`, `+`, `^` 有优先级：`#`（单目）> `@` = `#`（双目）> `*` > `+` = `^`。
 
 ## Schema 检验
 
