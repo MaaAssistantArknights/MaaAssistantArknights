@@ -26,7 +26,8 @@
                 "esbenp.prettier-vscode",
                 "vue.volar",
                 "ms-python.python",
-                "ms-python.black-formatter"
+                "ms-python.black-formatter",
+                "ms-python.isort"
             ],
             "settings": {
                 // format
@@ -36,8 +37,12 @@
                     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
                 },
                 "[python]": {
-                    "editor.defaultFormatter": "ms-python.black-formatter"
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit"
+                    }
                 },
+                "isort.args": ["--profile", "black"],
                 // python
                 "python.terminal.launchArgs": ["-u"],
                 "python.defaultInterpreterPath": "/home/vscode/miniconda/envs/maa/bin/python",
