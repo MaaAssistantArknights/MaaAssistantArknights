@@ -69,6 +69,10 @@ The extension supports scheduled scanning and diagnosing all tasks.
 
 The extension supports resource with multiple paths. The extension will perform logical overlapping according to specified order, thus content loaded later can reference content loaded earlier.
 
+### Evaluate Task / Tsak List Expression (Only Maa)
+
+Evaluating the expanded task object and the sources of each properties, and the result of the task list expression via the control panel.
+
 ### MaaPiCli feature (Only MaaFramework projects)
 
 Scanning and selecting controllers, selecting resource, adding and manipulating tasks, and launching tasks can be done via the control panel.
