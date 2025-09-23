@@ -146,11 +146,13 @@ asst::TaskDataSymbolStream::SymbolsOrError
             }
             else {
                 // x = x - y
-                // WARNING:
                 // self_name + #self ^ #self = #none
-                // self_name + #self ^ self_name = #self
+                // self_name + #self ^ self_name = #none
                 if (std::ranges::any_of(y, [&](const auto& sy) { return sy == Symbol::SharpSelf; })) {
                     std::erase(x, self_name);
+                }
+                if (std::ranges::any_of(y, [&](const auto& sy) { return sy == self_name; })) {
+                    std::erase(x, Symbol::SharpSelf);
                 }
                 std::erase_if(x, [&](const auto& sx) {
                     return std::ranges::any_of(y, [&](const auto& sy) { return sx == sy; });
