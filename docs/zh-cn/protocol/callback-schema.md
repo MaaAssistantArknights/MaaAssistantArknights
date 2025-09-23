@@ -89,6 +89,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 :::
 ::: field name="details" type="object" required
 连接详情。其结构如下：
+
 - `adb` (string, required): `AsstConnect` 接口 `adb_path` 参数。
 - `address` (string, required): `AsstConnect` 接口 `address` 参数。
 - `config` (string, required): `AsstConnect` 接口 `config` 参数。
@@ -132,6 +133,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 :::
 ::: field name="details" type="object" required
 异步调用详情。其结构如下：
+
 - `ret` (boolean, required): 实际调用的返回值。
 - `cost` (number, required): 耗时，单位毫秒。
 :::
