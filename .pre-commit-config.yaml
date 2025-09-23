@@ -7,18 +7,20 @@ repos:
     rev: v9.1.4
     hooks:
       - id: oxipng
+        name: Image Compression
         args: ["-q", "-o", "2", "-s", "--ng"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v20.1.0
     hooks:
       - id: clang-format
+        name: Clang-Format (MaaCore)
         files: ^src/MaaCore/.*
         args: ["--assume-filename", ".clang-format"]
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.5.3
     hooks:
       - id: prettier
-        name: prettier (config files)
+        name: Prettier (Config Files)
         files: ^((\.github/ISSUE_TEMPLATE|resource|src|tools)/.*|\.pre-commit-config\.yaml|package-definition\.json)
         types_or:
           - yaml
@@ -27,21 +29,24 @@ repos:
     rev: v3.5.3
     hooks:
       - id: prettier
-        name: prettier (docs)
+        name: Prettier (Documentation)
         files: ^docs/.*
   - repo: https://github.com/psf/black
     rev: 25.9.0
     hooks:
       - id: black
+        name: Black Formatter (Python)
   - repo: https://github.com/pycqa/isort
     rev: 6.0.1
     hooks:
       - id: isort
+        name: Isort (Python)
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.17.2
     hooks:
       - id: markdownlint-cli2
+        name: MarkdownLint (Documentation)
         files: ^docs/.*|^README\.md$
         types:
           - markdown
