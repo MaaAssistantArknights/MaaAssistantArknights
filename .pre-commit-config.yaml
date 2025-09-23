@@ -4,20 +4,20 @@ ci:
   autofix_prs: true
 repos:
   - repo: https://github.com/shssoichiro/oxipng
-    rev: v9.1.4
+    rev: v9.1.5
     hooks:
       - id: oxipng
         name: Image Compression
         args: ["-q", "-o", "2", "-s", "--ng"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v20.1.0
+    rev: v21.1.1
     hooks:
       - id: clang-format
         name: Clang-Format (MaaCore)
         files: ^src/MaaCore/.*
         args: ["--assume-filename", ".clang-format"]
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.5.3
+    rev: v3.6.2
     hooks:
       - id: prettier
         name: Prettier (Config Files)
@@ -26,7 +26,7 @@ repos:
           - yaml
           - json
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.5.3
+    rev: v3.6.2
     hooks:
       - id: prettier
         name: Prettier (Documentation)
@@ -43,7 +43,7 @@ repos:
         name: Isort (Python)
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.17.2
+    rev: v0.18.1
     hooks:
       - id: markdownlint-cli2
         name: MarkdownLint (Documentation)
