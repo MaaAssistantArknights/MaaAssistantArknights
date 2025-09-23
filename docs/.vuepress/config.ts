@@ -94,6 +94,12 @@ export default defineUserConfig({
     },
 
     markdown: {
+      image: {
+        lazyload: true,
+        mark: true,
+        size: true,
+      },
+
       icon: { provider: 'iconify' },
       plot: true,
       field: true,
