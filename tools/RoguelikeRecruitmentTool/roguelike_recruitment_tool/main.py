@@ -1,9 +1,9 @@
 from pathlib import Path
 
 from PyQt5.QtWidgets import QApplication
-
 from roguelike.config import Theme
 from roguelike.recruitment import Configuration
+
 from .main_window import MainWindow
 
 
@@ -18,7 +18,7 @@ class RecruitmentTool(QApplication):
         self.main_window.set_style = lambda style_name: (
             self.setStyle(style_name),
             self.setPalette(self.style().standardPalette()),
-            [widget.update() for widget in self.allWidgets()]
+            [widget.update() for widget in self.allWidgets()],
         )
 
         self.main_window.version_label.setText(f"Version: {RecruitmentTool.VERSION}")

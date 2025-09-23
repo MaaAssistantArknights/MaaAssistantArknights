@@ -1,7 +1,8 @@
-from PIL import Image, ImageTk
+import argparse
 import tkinter as tk
 from tkinter import simpledialog
-import argparse
+
+from PIL import Image, ImageTk
 
 # predifined image paths (for testing)
 imgs = []
@@ -11,6 +12,7 @@ KEEP_RECT = True
 
 # The prompt message
 PROMPT_TEXT = "Press 'q': quit, 'n': next image, 't': toggle text, 's': save last rect, 'c': clear all, 'i': input coords"
+
 
 # resize the image to 1280x720. If the image is 16:9, scale it; if not, stretch it and return a false flag
 def resize_image(image):
@@ -25,6 +27,7 @@ def resize_image(image):
     # If the image is not 16:9, stretch it to 1280x720
     image = image.resize((1280, 720), Image.BICUBIC)
     return image, False
+
 
 class ImageRectSelector:
     def __init__(self, image_path):
@@ -43,14 +46,26 @@ class ImageRectSelector:
 
         # Create a Canvas widget and display the photo image on it (leave some space below for the prompt message)
         self.canvas = tk.Canvas(
-            self.root, width=self.image.width, height=self.image.height + 20, cursor="tcross")        
+            self.root,
+            width=self.image.width,
+            height=self.image.height + 20,
+            cursor="tcross",
+        )
         self.canvas.pack()
         self.canvas_image = self.canvas.create_image(
-            0, 0, anchor=tk.NW, image=self.tk_image)
+            0, 0, anchor=tk.NW, image=self.tk_image
+        )
 
         # Print the prompt message below the image
-        self.canvas.create_text(0, self.image.height + 20, text=PROMPT_TEXT, fill="black", anchor=tk.SW,
-                                tags="prompt", font=("Helvetica", 14))
+        self.canvas.create_text(
+            0,
+            self.image.height + 20,
+            text=PROMPT_TEXT,
+            fill="black",
+            anchor=tk.SW,
+            tags="prompt",
+            font=("Helvetica", 14),
+        )
 
         # Bind the mouse event handlers to the Canvas widget
         self.canvas.bind("<Button-1>", self.on_mouse_down)
@@ -91,7 +106,12 @@ class ImageRectSelector:
     # Crop and save the last drawn rectangle
     def save_rect(self):
         # Get the coordinates of the rectangle
-        x1, y1, x2, y2 = self.rect_start_x, self.rect_start_y, self.rect_end_x, self.rect_end_y
+        x1, y1, x2, y2 = (
+            self.rect_start_x,
+            self.rect_start_y,
+            self.rect_end_x,
+            self.rect_end_y,
+        )
 
         # Get the height and width of the rectangle
         w, h = x2 - x1, y2 - y1
@@ -111,8 +131,14 @@ class ImageRectSelector:
             self.canvas.delete("rect")
 
         # Draw the rectangle with the given tags
-        self.canvas.create_rectangle(self.rect_start_x, self.rect_start_y, self.rect_end_x, self.rect_end_y,
-                                     outline='red', tags=tags)
+        self.canvas.create_rectangle(
+            self.rect_start_x,
+            self.rect_start_y,
+            self.rect_end_x,
+            self.rect_end_y,
+            outline="red",
+            tags=tags,
+        )
 
     def on_mouse_down(self, event):
         self.rect_start_x, self.rect_start_y = event.x, event.y
@@ -132,12 +158,28 @@ class ImageRectSelector:
         print(coords)
 
         # Create a background rectangle for the text widget
-        self.canvas.create_rectangle(self.rect_start_x, self.rect_start_y, self.rect_start_x + 130, self.rect_start_y + 20,
-                                     fill="white", outline="white", tags="text", state=tk.HIDDEN if self.is_text_hidden else tk.NORMAL)
+        self.canvas.create_rectangle(
+            self.rect_start_x,
+            self.rect_start_y,
+            self.rect_start_x + 130,
+            self.rect_start_y + 20,
+            fill="white",
+            outline="white",
+            tags="text",
+            state=tk.HIDDEN if self.is_text_hidden else tk.NORMAL,
+        )
 
         # Create a text widget with white background to display the rectangle coordinates on the canvas
-        self.canvas.create_text(self.rect_start_x, self.rect_start_y, text=coords,
-                                fill="black", anchor=tk.NW, tags="text", font=("Helvetica", 10), state=tk.HIDDEN if self.is_text_hidden else tk.NORMAL)
+        self.canvas.create_text(
+            self.rect_start_x,
+            self.rect_start_y,
+            text=coords,
+            fill="black",
+            anchor=tk.NW,
+            tags="text",
+            font=("Helvetica", 10),
+            state=tk.HIDDEN if self.is_text_hidden else tk.NORMAL,
+        )
 
     def on_key(self, event):
         # Handle the 'q' key to quit the program
@@ -179,8 +221,9 @@ class ImageRectSelector:
     def prompt_rect_coords(self):
         # Prompt the user to enter the rectangle coordinates
         coords_str = simpledialog.askstring(
-            "Input", "Enter rectangle coordinates (x1 y1 x2 y2):")
-        x, y, w, h = map(int, coords_str.replace(',', ' ').split())
+            "Input", "Enter rectangle coordinates (x1 y1 x2 y2):"
+        )
+        x, y, w, h = map(int, coords_str.replace(",", " ").split())
 
         # Set the rectangle coordinates
         self.rect_start_x, self.rect_start_y = x, y
@@ -189,7 +232,9 @@ class ImageRectSelector:
     def run(self):
         # If the image is not 16:9, show a message box and continue
         if not self.is_16_9:
-            tk.messagebox.showinfo("Warning", "The image is not 16:9! Proceeding to next image...")
+            tk.messagebox.showinfo(
+                "Warning", "The image is not 16:9! Proceeding to next image..."
+            )
             self.root.destroy()
             return
 
@@ -213,11 +258,10 @@ if __name__ == "__main__":
     os.chdir(current_dir_path)
 
     # Define command-line arguments
-    parser = argparse.ArgumentParser(
-        description='Select a rectangle on an image.')
-    parser.add_argument('image_paths', type=str,
-                        nargs='*',
-                        help='Path to the input image file.')
+    parser = argparse.ArgumentParser(description="Select a rectangle on an image.")
+    parser.add_argument(
+        "image_paths", type=str, nargs="*", help="Path to the input image file."
+    )
 
     # Parse command-line arguments
     args = parser.parse_args()
@@ -228,9 +272,8 @@ if __name__ == "__main__":
     elif imgs:
         image_paths = imgs
     else:
-        imgs = simpledialog.askstring(
-            "Input", "Enter image path(s):")
-        image_paths = imgs.replace(',', ' ').split()
+        imgs = simpledialog.askstring("Input", "Enter image path(s):")
+        image_paths = imgs.replace(",", " ").split()
 
     # Print the prompt
     print(PROMPT_TEXT)
