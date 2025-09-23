@@ -23,31 +23,28 @@ export default defineThemeConfig({
   nextPage: false,
   createTime: false,
 
+  footer: false,
+
   locales: {
     '/zh-cn/': {
       navbar: zhcnNavbar,
       notes: zhcnNotes,
-      footer: false,
     },
     '/zh-tw/': {
       navbar: zhtwNavbar,
       notes: zhtwNotes,
-      footer: false,
     },
     '/en-us/': {
       navbar: enusNavbar,
       notes: enusNotes,
-      footer: false,
     },
     '/ja-jp/': {
       navbar: jajpNavbar,
       notes: jajpNotes,
-      footer: false,
     },
     '/ko-kr/': {
       navbar: kokrNavbar,
       notes: kokrNotes,
-      footer: false,
     },
   },
 

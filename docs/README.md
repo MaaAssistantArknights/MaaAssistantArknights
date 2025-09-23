@@ -1,6 +1,6 @@
 ---
 pageLayout: home
-title: MAA 文档站
+title: 首页
 config:
   - type: doc-hero
     hero:
