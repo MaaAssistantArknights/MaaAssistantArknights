@@ -99,7 +99,7 @@ export default defineUserConfig({
         mark: true,
         size: true,
       },
-    
+
       icon: { provider: 'iconify' },
       plot: true,
       field: true,
