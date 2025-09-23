@@ -20,7 +20,7 @@ RUN eval "$(conda shell.bash hook)" \
     && conda create -n maa python=$PYTHON_VERSION -y \
     && conda activate maa \
     && conda install -y conda-forge::nodejs=$NODEJS_VERSION \
-    && pip install pre-commit black \
+    && pip install pre-commit black isort \
     && npm install -g pnpm
 
 # Finalize conda setup
