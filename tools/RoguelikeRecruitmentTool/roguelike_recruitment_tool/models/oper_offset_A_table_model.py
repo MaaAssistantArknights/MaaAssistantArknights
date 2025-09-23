@@ -1,7 +1,6 @@
 import pickle
 
-from PyQt5.QtCore import QAbstractTableModel, QMimeData, QModelIndex, QVariant, Qt
-
+from PyQt5.QtCore import QAbstractTableModel, QMimeData, QModelIndex, Qt, QVariant
 from roguelike.recruitment import RecruitPriorityOffset
 
 from ..common import parse_field
@@ -56,7 +55,12 @@ class OperOffsetATableModel(QAbstractTableModel):
     def flags(self, index):
         default_flags = super().flags(index)
         if index.isValid():
-            return default_flags | Qt.ItemIsEditable | Qt.ItemIsDragEnabled | Qt.ItemIsDropEnabled
+            return (
+                default_flags
+                | Qt.ItemIsEditable
+                | Qt.ItemIsDragEnabled
+                | Qt.ItemIsDropEnabled
+            )
         else:
             return default_flags | Qt.ItemIsDropEnabled
 
@@ -83,7 +87,7 @@ class OperOffsetATableModel(QAbstractTableModel):
                     return True
         return False
 
-# ———————— drag & drop ———————————————————————————————————————————
+    # ———————— drag & drop ———————————————————————————————————————————
 
     def supportedDragActions(self):
         return Qt.MoveAction

@@ -5,12 +5,11 @@ from .oper_list_view import OperListView
 from .tab_bar import TabBar
 from .table_view import TableView
 
-
 __all__ = [
     "GroupListView",
     "OffsetATableView",
     "OffsetBTableView",
     "OperListView",
     "TabBar",
-    "TableView"
+    "TableView",
 ]

@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
-from cutter import task_paths, task_list, src_path, dst_path
+
+from cutter import dst_path, src_path, task_list, task_paths
 
 """
 Update tasks.json for multi template tasks

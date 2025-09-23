@@ -3,12 +3,11 @@ from typing import Optional
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCursor, QDrag, QKeyEvent
 from PyQt5.QtWidgets import QAction, QDialog, QListView, QMenu, QToolTip
+from roguelike.recruitment import new_group
 
 from ..common import DocRole
 from ..delegates import EditableDelegate
 from ..dialogs import GroupEditDialog
-
-from roguelike.recruitment import new_group
 
 
 class GroupListView(QListView):
@@ -53,19 +52,27 @@ class GroupListView(QListView):
             selected_group_index = selected_indices[0].row()
 
             insert_above_action = QAction("Insert Above", self)
-            insert_above_action.triggered.connect(lambda: self.create_group(selected_group_index))
+            insert_above_action.triggered.connect(
+                lambda: self.create_group(selected_group_index)
+            )
             context_menu.addAction(insert_above_action)
 
             insert_below_action = QAction("Insert Below", self)
-            insert_below_action.triggered.connect(lambda: self.create_group(selected_group_index + 1))
+            insert_below_action.triggered.connect(
+                lambda: self.create_group(selected_group_index + 1)
+            )
             context_menu.addAction(insert_below_action)
 
             update_action = QAction("Edit", self)
-            update_action.triggered.connect(lambda: self.update_group(selected_group_index))
+            update_action.triggered.connect(
+                lambda: self.update_group(selected_group_index)
+            )
             context_menu.addAction(update_action)
 
             delete_action = QAction("Delete", self)
-            delete_action.triggered.connect(lambda: self.delete_group(selected_group_index))
+            delete_action.triggered.connect(
+                lambda: self.delete_group(selected_group_index)
+            )
             context_menu.addAction(delete_action)
         else:
             insert_action = QAction("Insert", self)
@@ -78,7 +85,9 @@ class GroupListView(QListView):
         group_list = self.model().get_group_list()
         group_list.insert(index, new_group())
         self.model().set_group_list(group_list)
-        self.selectionModel().select(self.model().index(index), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.model().index(index), self.selectionModel().Select
+        )
 
     def update_group(self, index: int) -> None:
         group_list = self.model().get_group_list()
@@ -104,4 +113,6 @@ class GroupListView(QListView):
     def dropEvent(self, event):
         super().dropEvent(event)
         self.selectionModel().clearSelection()
-        self.selectionModel().select(self.indexAt(event.pos()), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.indexAt(event.pos()), self.selectionModel().Select
+        )

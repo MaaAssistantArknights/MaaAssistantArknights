@@ -1,12 +1,13 @@
 import logging
 import os
 import re
-
 from copy import deepcopy
+
 from cchardet import detect
 from lxml import etree
 from xmldiff import main
-from xmldiff.actions import UpdateTextIn, InsertComment, UpdateTextAfter, DeleteNode
+from xmldiff.actions import DeleteNode, InsertComment, UpdateTextAfter, UpdateTextIn
+
 from .translate import ChatTranslator
 
 SPACE = "{http://www.w3.org/XML/1998/namespace}space"

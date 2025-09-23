@@ -26,9 +26,10 @@ class TableView(QTableView):
         if event.key() == Qt.Key_Q:
             index = self.indexAt(self.viewport().mapFromGlobal(QCursor.pos()))
             if index.isValid():
-                content = (f"{self.model().data(index, Qt.DisplayRole).value()}" +
-                           (f"\n{self.model().data(index, DescriptionRole).value()}"
-                            if self.model().data(index, DescriptionRole).value() is not None
-                            else ""))
+                content = f"{self.model().data(index, Qt.DisplayRole).value()}" + (
+                    f"\n{self.model().data(index, DescriptionRole).value()}"
+                    if self.model().data(index, DescriptionRole).value() is not None
+                    else ""
+                )
                 QToolTip.showText(QCursor.pos(), content)
         super().keyPressEvent(event)

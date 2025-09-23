@@ -18,31 +18,10 @@ import sys
 from collections import OrderedDict
 
 server_list = {
-    "YoStarJP": [
-        "yostarjp",
-        "jp",
-        "日",
-        "日服"
-    ],
-    "YoStarEN": [
-        "yostaren",
-        "en",
-        "美",
-        "美服",
-        "國際",
-        "國際服"
-    ],
-    "YoStarKR": [
-        "yostarkr",
-        "kr",
-        "韓",
-        "韓服"
-    ],
-    "txwy": [
-        "txwy"
-        "繁中",
-        "繁中服"
-    ]
+    "YoStarJP": ["yostarjp", "jp", "日", "日服"],
+    "YoStarEN": ["yostaren", "en", "美", "美服", "國際", "國際服"],
+    "YoStarKR": ["yostarkr", "kr", "韓", "韓服"],
+    "txwy": ["txwy" "繁中", "繁中服"],
 }
 
 # Get the server name from argument
@@ -50,17 +29,25 @@ try:
     # server_name = YoStarJP
     server_name = None
     for listed_server in server_list:
-        server_name = listed_server if (not server_name) and sys.argv[1].casefold() in server_list[listed_server] else server_name
+        server_name = (
+            listed_server
+            if (not server_name)
+            and sys.argv[1].casefold() in server_list[listed_server]
+            else server_name
+        )
     if server_name not in server_list:
         raise
 except Exception:
     server_name = None
-    while (not server_name):
-        print("Enter one and only one server name:",
-              ", ".join(server_list))
+    while not server_name:
+        print("Enter one and only one server name:", ", ".join(server_list))
         t = input()
         for listed_server in server_list:
-            server_name = listed_server if (not server_name) and t.casefold() in server_list[listed_server] else server_name
+            server_name = (
+                listed_server
+                if (not server_name) and t.casefold() in server_list[listed_server]
+                else server_name
+            )
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 proj_dir = os.path.join(cur_dir, "../../")
@@ -74,16 +61,17 @@ except IndexError:
     json_name = "tasks.json"
 
 zh_json_file = os.path.join(proj_dir, "resource", json_name)
-gl_json_file = os.path.join(proj_dir, "resource", "global",
-                            server_name, "resource", json_name)
+gl_json_file = os.path.join(
+    proj_dir, "resource", "global", server_name, "resource", json_name
+)
 
 # For test purpose
 # gl_json_file = os.path.join(cur_dir, "test.json")
 
-with open(zh_json_file, 'r', encoding='utf-8') as zh_fh:
+with open(zh_json_file, "r", encoding="utf-8") as zh_fh:
     zh_json = json.load(zh_fh)
 
-with open(gl_json_file, 'r', encoding='utf-8') as gl_fh:
+with open(gl_json_file, "r", encoding="utf-8") as gl_fh:
     gl_json = json.load(gl_fh)
 
 # Sort the global json object by the order of the ZH one
@@ -91,11 +79,14 @@ with open(gl_json_file, 'r', encoding='utf-8') as gl_fh:
 LAST_POSITIONS = 1e10
 key_order = {k: v for v, k in enumerate(zh_json)}
 gl_json_new = OrderedDict(
-    sorted(gl_json.items(), key=lambda i: key_order.get(i[0], LAST_POSITIONS)))
+    sorted(gl_json.items(), key=lambda i: key_order.get(i[0], LAST_POSITIONS))
+)
 
-with open(gl_json_file, 'wb') as gl_fh:
+with open(gl_json_file, "wb") as gl_fh:
     t = json.dumps(gl_json_new, indent=4, ensure_ascii=False)
     gl_fh.write(bytes(t, "utf-8"))
-    print("successfully sorted",
-          os.path.join("resource", "global", server_name, "resource", json_name),
-          "by the order in ZH json file")
+    print(
+        "successfully sorted",
+        os.path.join("resource", "global", server_name, "resource", json_name),
+        "by the order in ZH json file",
+    )

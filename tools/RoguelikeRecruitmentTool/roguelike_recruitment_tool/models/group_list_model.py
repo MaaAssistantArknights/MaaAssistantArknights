@@ -1,8 +1,7 @@
 import pickle
 from typing import Callable
 
-from PyQt5.QtCore import QAbstractListModel, QMimeData, QModelIndex, QVariant, Qt
-
+from PyQt5.QtCore import QAbstractListModel, QMimeData, QModelIndex, Qt, QVariant
 from roguelike.recruitment import Group
 
 from ..common import DocRole
@@ -38,7 +37,12 @@ class GroupListModel(QAbstractListModel):
     def flags(self, index):
         default_flags = super().flags(index)
         if index.isValid():
-            return default_flags | Qt.ItemIsEditable | Qt.ItemIsDragEnabled | Qt.ItemIsDropEnabled
+            return (
+                default_flags
+                | Qt.ItemIsEditable
+                | Qt.ItemIsDragEnabled
+                | Qt.ItemIsDropEnabled
+            )
         else:
             return default_flags | Qt.ItemIsDropEnabled
 
@@ -80,7 +84,9 @@ class GroupListModel(QAbstractListModel):
 
         index = indexes[0]
         if index.isValid():
-            mime_data.setData("application/x-custom-list-item", pickle.dumps(index.row()))
+            mime_data.setData(
+                "application/x-custom-list-item", pickle.dumps(index.row())
+            )
         return mime_data
 
     def dropMimeData(self, data, action, row, column, parent):

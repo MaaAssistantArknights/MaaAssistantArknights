@@ -1,7 +1,7 @@
 import json
 import os
-import sys
 import re
+import sys
 
 # NOTE
 # You may customize here
@@ -14,7 +14,6 @@ regex_ignore_list = [
     "DT-7@SideStoryStage",
     "DT-6@SideStoryStage",
     "DT-3@SideStoryStage",
-
     # CUSTOM
     "AccountManager",
     "Logout",
@@ -31,20 +30,15 @@ regex_ignore_list = [
     "StageDrops-StageCF-FoodBonusFlag",
     "StageDrops-Stage12-TripleFlag",
     "Tales@RA@PIS-ClickTool",
-
     # FUTURE MODES/EVENTS
-    "StartExploreWithSeed"
+    "StartExploreWithSeed",
 ]
 
-server_list = [
-    "YoStarJP",
-    "YoStarEN",
-    "YoStarKR",
-    "txwy"
-]
+server_list = ["YoStarJP", "YoStarEN", "YoStarKR", "txwy"]
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 proj_dir = os.path.join(cur_dir, "../../")
+
 
 def find_missing_translations(server_name):
 
@@ -57,16 +51,17 @@ def find_missing_translations(server_name):
     json_name = "tasks.json"
 
     zh_json_file = os.path.join(proj_dir, "resource/", json_name)
-    gl_json_file = os.path.join(proj_dir, "resource/global/",
-                                server_name, "resource/", json_name)
+    gl_json_file = os.path.join(
+        proj_dir, "resource/global/", server_name, "resource/", json_name
+    )
 
     # For test purpose
     # gl_json_file = os.path.join(cur_dir, "test.json")
 
-    with open(zh_json_file, 'r', encoding='utf-8') as zh_fh:
+    with open(zh_json_file, "r", encoding="utf-8") as zh_fh:
         zh_json: dict = json.load(zh_fh)
 
-    with open(gl_json_file, 'r', encoding='utf-8') as gl_fh:
+    with open(gl_json_file, "r", encoding="utf-8") as gl_fh:
         gl_json: dict = json.load(gl_fh)
 
     # def getBaseTask(task: dict) -> dict:
@@ -94,14 +89,15 @@ def find_missing_translations(server_name):
                 if all(map(str.isascii, value["text"])):
                     continue
 
-                res_keys.append(key + ': ' + ', '.join(value["text"]))
+                res_keys.append(key + ": " + ", ".join(value["text"]))
 
                 print(key, value["text"])
 
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(res_keys))
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(res_keys))
 
     print("Missing translations written to", output_file)
+
 
 def main():
     # Get the server name from argument
@@ -126,6 +122,7 @@ def main():
 
     for server_name in server_names:
         find_missing_translations(server_name)
+
 
 if __name__ == "__main__":
     main()

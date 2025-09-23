@@ -1,6 +1,7 @@
-import cv2
 import json
 from pathlib import Path
+
+import cv2
 
 """
 This is a tool for cropping one image into several images based on current roi.
@@ -16,10 +17,30 @@ std_ratio = std_width / std_height
 
 task_paths = {
     "CN": Path(__file__).parent.parent.parent / "resource" / "tasks",
-    "twxy": Path(__file__).parent.parent.parent / "resource" / "global" / "txwy" / "resource" / "tasks",
-    "YoStarEN": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarEN" / "resource" / "tasks",
-    "YoStarJP": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarJP" / "resource" / "tasks",
-    "YoStarKR": Path(__file__).parent.parent.parent / "resource" / "global" / "YoStarKR" / "resource" / "tasks"
+    "twxy": Path(__file__).parent.parent.parent
+    / "resource"
+    / "global"
+    / "txwy"
+    / "resource"
+    / "tasks",
+    "YoStarEN": Path(__file__).parent.parent.parent
+    / "resource"
+    / "global"
+    / "YoStarEN"
+    / "resource"
+    / "tasks",
+    "YoStarJP": Path(__file__).parent.parent.parent
+    / "resource"
+    / "global"
+    / "YoStarJP"
+    / "resource"
+    / "tasks",
+    "YoStarKR": Path(__file__).parent.parent.parent
+    / "resource"
+    / "global"
+    / "YoStarKR"
+    / "resource"
+    / "tasks",
 }
 
 # Change this to your client
@@ -31,15 +52,15 @@ task_file = task_paths["CN"]
 #
 # For example, when adding a new homepage theme:
 task_list = [
-    "Award",          # Task.png
-    "GachaEnter",     # GachaEnter.png
-    "Home",           # Terminal.png
-    "Infrast",        # EnterInfrast.png
-    "OperBoxEnter",   # OperBoxEnter.png
-    "Recruit",        # Recruit.png
-    "Visit",          # Friends.png
-    "DepotEnter",     # DepotEnter.png
-    "Mall",           # Mall.png
+    "Award",  # Task.png
+    "GachaEnter",  # GachaEnter.png
+    "Home",  # Terminal.png
+    "Infrast",  # EnterInfrast.png
+    "OperBoxEnter",  # OperBoxEnter.png
+    "Recruit",  # Recruit.png
+    "Visit",  # Friends.png
+    "DepotEnter",  # DepotEnter.png
+    "Mall",  # Mall.png
 ]
 
 src_path = Path(__file__).parent / "src"
