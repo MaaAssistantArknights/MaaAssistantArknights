@@ -1,0 +1,67 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+    "name": "MAA Docs Env (Light)",
+    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+    // "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    // "features": {},
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [3001],
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": "bash .devcontainer/0/post-create.sh",
+
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "nekosu.maa-support",
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "esbenp.prettier-vscode",
+                "DavidAnson.vscode-markdownlint",
+                "yzhang.markdown-all-in-one",
+                "vue.volar",
+                "mkxml.vscode-filesize"
+            ],
+            "settings": {
+                // Editor formatting
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+                // Language-specific formatting
+                "[markdown]": {
+                    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+                },
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit"
+                    }
+                },
+
+                // Python formatting and linting
+                "isort.args": ["--profile", "black"],
+
+                // Python runtime
+                "python.terminal.launchArgs": ["-u"],
+                "python.defaultInterpreterPath": "/home/vscode/miniconda/envs/maa/bin/python",
+                "python.terminal.activateEnvironment": false,
+
+                // Performance optimizations
+                "search.exclude": {
+                    "**/node_modules": true,
+                    "**/3rdparty": true
+                }
+            }
+        }
+    }
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}

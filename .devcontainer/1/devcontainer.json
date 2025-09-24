@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-    "name": "MAA",
+    "name": "MAA Core Env (Full)",
     // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
     // "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "build": {
@@ -14,7 +14,7 @@
     "forwardPorts": [3001],
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postCreateCommand": "bash .devcontainer/1/post-create.sh",
 
     // Configure tool-specific properties.
     "customizations": {
