@@ -33,7 +33,6 @@
                 "DavidAnson.vscode-markdownlint",
                 "yzhang.markdown-all-in-one",
                 "vue.volar",
-                "rust-lang.rust-analyzer",
                 "mkxml.vscode-filesize"
             ],
             "settings": {
@@ -56,9 +55,6 @@
                 },
                 "[c]": {
                     "editor.defaultFormatter": "xaver.clang-format"
-                },
-                "[rust]": {
-                    "editor.defaultFormatter": "rust-lang.rust-analyzer"
                 },
 
                 // C/C++ formatting
