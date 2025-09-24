@@ -8,6 +8,11 @@ ENV PATH="$CONDA_DIR/bin:$PATH"
 ARG PYTHON_VERSION=3.12
 ARG NODEJS_VERSION=24
 
+# Install system dependencies
+RUN sudo apt update \
+    && sudo apt upgrade -y \
+    && sudo apt install -y cmake
+
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
     && bash ~/miniconda.sh -b -p $CONDA_DIR \
@@ -17,11 +22,13 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 
 # Configure conda environment
 RUN eval "$(conda shell.bash hook)" \
-    && conda create -n maa python=$PYTHON_VERSION -y \
+    && conda create -n maa \
     && conda activate maa \
-    && conda install -y conda-forge::nodejs=$NODEJS_VERSION \
-    && pip install pre-commit black isort \
-    && npm install -g pnpm
+    && conda install -y \
+    python=$PYTHON_VERSION \
+    conda-forge::nodejs=$NODEJS_VERSION \
+    conda-forge::rust \
+    && pip install pre-commit black isort
 
 # Finalize conda setup
 RUN conda init \

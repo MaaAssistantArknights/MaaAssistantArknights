@@ -20,21 +20,30 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "mkxml.vscode-filesize",
                 "nekosu.maa-support",
-                "DavidAnson.vscode-markdownlint",
-                "esbenp.prettier-vscode",
-                "vue.volar",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools",
+                "xaver.clang-format",
+                // There is no clangd language server provided in MaaDeps
+                // "llvm-vs-code-extensions.vscode-clangd"
                 "ms-python.python",
                 "ms-python.black-formatter",
-                "ms-python.isort"
+                "ms-python.isort",
+                "esbenp.prettier-vscode",
+                "DavidAnson.vscode-markdownlint",
+                "yzhang.markdown-all-in-one",
+                "vue.volar",
+                "rust-lang.rust-analyzer",
+                "mkxml.vscode-filesize"
             ],
             "settings": {
-                // format
+                // Editor formatting
                 "editor.formatOnSave": true,
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+                // Language-specific formatting
                 "[markdown]": {
-                    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+                    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
                 },
                 "[python]": {
                     "editor.defaultFormatter": "ms-python.black-formatter",
@@ -42,11 +51,42 @@
                         "source.organizeImports": "explicit"
                     }
                 },
+                "[cpp]": {
+                    "editor.defaultFormatter": "xaver.clang-format"
+                },
+                "[c]": {
+                    "editor.defaultFormatter": "xaver.clang-format"
+                },
+                "[rust]": {
+                    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+                },
+
+                // C/C++ formatting
+                "C_Cpp.formatting": "clangFormat",
+
+                // Python formatting and linting
                 "isort.args": ["--profile", "black"],
-                // python
+
+                // Python runtime
                 "python.terminal.launchArgs": ["-u"],
                 "python.defaultInterpreterPath": "/home/vscode/miniconda/envs/maa/bin/python",
-                "python.terminal.activateEnvironment": false
+                "python.terminal.activateEnvironment": false,
+
+                // CMake settings
+                "cmake.configureSettings": {
+                    "BUILD_DEBUG_DEMO": "ON",
+                    "CMAKE_TOOLCHAIN_FILE": "MaaDeps/cmake/maa-x64-linux-toolchain.cmake"
+                },
+                "cmake.configureOnOpen": false,
+
+                // Performance optimizations
+                "search.exclude": {
+                    "**/node_modules": true,
+                    "**/build": true,
+                    "**/install": true,
+                    "**/MaaDeps": true,
+                    "**/3rdparty": true
+                }
             }
         }
     }
