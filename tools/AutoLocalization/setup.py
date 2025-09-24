@@ -22,7 +22,7 @@ setup(
         "lxml~=4.9.2",
         "openai~=0.27.7",
         "python-dotenv~=1.0.0",
-        "cchardet~=2.1.7",
+        "charset-normalizer~=3.3.1",
         "xmldiff>=2.6.3",
         "opencc~=1.1.1",
     ],

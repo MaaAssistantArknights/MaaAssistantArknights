@@ -3,7 +3,7 @@ import os
 import re
 from copy import deepcopy
 
-from cchardet import detect
+from charset_normalizer import from_bytes
 from lxml import etree
 from xmldiff import main
 from xmldiff.actions import DeleteNode, InsertComment, UpdateTextAfter, UpdateTextIn
@@ -20,8 +20,11 @@ logging.basicConfig(
 def judge_encoding(file):
     with open(file, "rb") as _:
         content = _.read()
-        result = detect(content)
-        return result["encoding"]
+        best_guess = from_bytes(content).best()
+        if best_guess is None:
+            # fallback
+            return "utf-8"
+        return best_guess.encoding
 
 
 def parse_lang_str(doc_path):
