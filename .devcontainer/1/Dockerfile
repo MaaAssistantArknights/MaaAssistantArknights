@@ -27,7 +27,6 @@ RUN eval "$(conda shell.bash hook)" \
     && conda install -y \
     python=$PYTHON_VERSION \
     conda-forge::nodejs=$NODEJS_VERSION \
-    conda-forge::rust \
     && pip install pre-commit black isort
 
 # Finalize conda setup
