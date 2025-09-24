@@ -23,6 +23,12 @@
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["仮説集"]
     },
+    "Sarkaz@Roguelike@StageEncounterLeaveConfirm": {
+        "template": [
+            "Sarkaz@Roguelike@StageEncounterLeaveConfirm.png",
+            "Sarkaz@Roguelike@StageEncounterLeaveConfirm720p.png"
+        ]
+    },
     "Sarkaz@Roguelike@StageRefresh": {
         "templThreshold": 0.77
     },
