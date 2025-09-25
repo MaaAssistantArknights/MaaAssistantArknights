@@ -6326,6 +6326,141 @@
         "stageId": "act1enemyduel_02b",
         "width": 15
     },
+    "act1halfidle_01-activities/act1vhalfidle/level_act1vhalfidle_01": {
+        "code": "RM-1",
+        "filename": "act1halfidle_01-activities-act1vhalfidle-level_act1vhalfidle_01.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_01",
+        "name": "旧城遗址",
+        "stageId": "act1halfidle_01",
+        "width": 14
+    },
+    "act1halfidle_02-activities/act1vhalfidle/level_act1vhalfidle_02": {
+        "code": "RM-2",
+        "filename": "act1halfidle_02-activities-act1vhalfidle-level_act1vhalfidle_02.json",
+        "height": 11,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_02",
+        "name": "风号峡谷",
+        "stageId": "act1halfidle_02",
+        "width": 16
+    },
+    "act1halfidle_03-activities/act1vhalfidle/level_act1vhalfidle_03": {
+        "code": "RM-3",
+        "filename": "act1halfidle_03-activities-act1vhalfidle-level_act1vhalfidle_03.json",
+        "height": 11,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_03",
+        "name": "坍塌矿区",
+        "stageId": "act1halfidle_03",
+        "width": 17
+    },
+    "act1halfidle_04-activities/act1vhalfidle/level_act1vhalfidle_04": {
+        "code": "RM-4",
+        "filename": "act1halfidle_04-activities-act1vhalfidle-level_act1vhalfidle_04.json",
+        "height": 13,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_04",
+        "name": "沉积河床",
+        "stageId": "act1halfidle_04",
+        "width": 17
+    },
+    "act1halfidle_05-activities/act1vhalfidle/level_act1vhalfidle_05": {
+        "code": "RM-5",
+        "filename": "act1halfidle_05-activities-act1vhalfidle-level_act1vhalfidle_05.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_05",
+        "name": "斑斓巢穴",
+        "stageId": "act1halfidle_05",
+        "width": 15
+    },
+    "act1halfidle_06-activities/act1vhalfidle/level_act1vhalfidle_06": {
+        "code": "RM-6",
+        "filename": "act1halfidle_06-activities-act1vhalfidle-level_act1vhalfidle_06.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_06",
+        "name": "猎骨荒野",
+        "stageId": "act1halfidle_06",
+        "width": 15
+    },
+    "act1halfidle_h01-activities/act1vhalfidle/level_act1vhalfidle_hard_01": {
+        "code": "RM-H1",
+        "filename": "act1halfidle_h01-activities-act1vhalfidle-level_act1vhalfidle_hard_01.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_01",
+        "name": "岩溶险地",
+        "stageId": "act1halfidle_h01",
+        "width": 13
+    },
+    "act1halfidle_h02-activities/act1vhalfidle/level_act1vhalfidle_hard_02": {
+        "code": "RM-H2",
+        "filename": "act1halfidle_h02-activities-act1vhalfidle-level_act1vhalfidle_hard_02.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_02",
+        "name": "裂壕险地",
+        "stageId": "act1halfidle_h02",
+        "width": 13
+    },
+    "act1halfidle_h03-activities/act1vhalfidle/level_act1vhalfidle_hard_03": {
+        "code": "RM-H3",
+        "filename": "act1halfidle_h03-activities-act1vhalfidle-level_act1vhalfidle_hard_03.json",
+        "height": 7,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_03",
+        "name": "孤隘险地",
+        "stageId": "act1halfidle_h03",
+        "width": 13
+    },
+    "act1halfidle_h04-activities/act1vhalfidle/level_act1vhalfidle_hard_04": {
+        "code": "RM-H4",
+        "filename": "act1halfidle_h04-activities-act1vhalfidle-level_act1vhalfidle_hard_04.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_04",
+        "name": "断岭险地",
+        "stageId": "act1halfidle_h04",
+        "width": 15
+    },
+    "act1halfidle_h05-activities/act1vhalfidle/level_act1vhalfidle_hard_05": {
+        "code": "RM-H5",
+        "filename": "act1halfidle_h05-activities-act1vhalfidle-level_act1vhalfidle_hard_05.json",
+        "height": 11,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_05",
+        "name": "迷窟险地",
+        "stageId": "act1halfidle_h05",
+        "width": 16
+    },
+    "act1halfidle_h06-activities/act1vhalfidle/level_act1vhalfidle_hard_06": {
+        "code": "RM-H6",
+        "filename": "act1halfidle_h06-activities-act1vhalfidle-level_act1vhalfidle_hard_06.json",
+        "height": 11,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_06",
+        "name": "蚀林险地",
+        "stageId": "act1halfidle_h06",
+        "width": 15
+    },
+    "act1halfidle_h07-activities/act1vhalfidle/level_act1vhalfidle_hard_07": {
+        "code": "RM-H7",
+        "filename": "act1halfidle_h07-activities-act1vhalfidle-level_act1vhalfidle_hard_07.json",
+        "height": 8,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_07",
+        "name": "雾城险地",
+        "stageId": "act1halfidle_h07",
+        "width": 12
+    },
+    "act1halfidle_h08-activities/act1vhalfidle/level_act1vhalfidle_hard_08": {
+        "code": "RM-H8",
+        "filename": "act1halfidle_h08-activities-act1vhalfidle-level_act1vhalfidle_hard_08.json",
+        "height": 10,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_hard_08",
+        "name": "湖骸险地",
+        "stageId": "act1halfidle_h08",
+        "width": 13
+    },
+    "act1halfidle_tr01-activities/act1vhalfidle/level_act1vhalfidle_tr01": {
+        "code": "RM-TR-1",
+        "filename": "act1halfidle_tr01-activities-act1vhalfidle-level_act1vhalfidle_tr01.json",
+        "height": 7,
+        "levelId": "activities/act1vhalfidle/level_act1vhalfidle_tr01",
+        "name": "荒地前哨",
+        "stageId": "act1halfidle_tr01",
+        "width": 9
+    },
     "act1multi_01-activities/act1multi/level_act1multi_01": {
         "code": "IG-1",
         "filename": "act1multi_01-activities-act1multi-level_act1multi_01.json",
