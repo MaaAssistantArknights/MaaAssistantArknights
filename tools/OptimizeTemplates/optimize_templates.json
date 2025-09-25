@@ -2637,7 +2637,7 @@
     "docs/zh-cn/pr-tutorial/repository-light": "752ab7ec4912db1aa883edd3fb8110d07f82b60ea4251beed93c5a3bdcd848b5",
     "docs/zh-cn/pr-tutorial/pr-14-2-dark": "07ab0f89d193739b8bcd9f8abab85bf27420fdd1d02050296ef6bd1b1578133a",
     "docs/zh-cn/pr-tutorial/pr-9-light": "71454547949073e71c37549e6fbae36efb13217cf1377afb5d87624cba3dd7d3",
-    "docs/maa-logo_512x512": "50a4e75bed0d1197c7cc604d1517aca488f65b50736dc995d37b8beed50c20cc",
+    "docs/maa-logo_512x512": "dbd014915ca3a4dfb91e1f62cc7e6ba937584a6804a09cb1e43b0489e835dd26",
     "YoStarJP/HS-Open": "9355ce2a35570f45e25b9afe82371ccdfec20d09b032d2d64315414b72961402",
     "YoStarKR/HS-Open": "14aaf5f53d6c5a9b0a2f89ae7ded4d7d7e01464e1f41747f8ba548b98d9d31c3",
     "YoStarKR/Reclamation2SkipDays1": "6e12fabbab1b91d8d71e3be27259c0c7e7b3455209ea8053e80e4ceaac6cd2a7",
@@ -5118,5 +5118,9 @@
     "resource/template/items/act1vhalfidle_asc_snp": "9091d0f6f0cb849dd6ed4e81e50b7d6c3616acdf203fd3c7dc7e24d0737c0170",
     "resource/template/items/act1vhalfidle_asc_grd": "f1ee8bda5d028c49480df2cdf29f76b7d3f676d24abec39539a1fe4a605021b3",
     "resource/template/items/act1vhalfidle_asc_spc": "0e37a00429733072b77fcd6c28f319d1f576d597ecbe1cf64ea9e56457413ca4",
-    "resource/template/items/act1vhalfidle_token_point": "228e1c98b7828bb0f270c6e587cb5a478d3a8b56431bef30947fbebc0cd2ce87"
+    "resource/template/items/act1vhalfidle_token_point": "228e1c98b7828bb0f270c6e587cb5a478d3a8b56431bef30947fbebc0cd2ce87",
+    "resource/global/YoStarJP/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageEncounterLeaveConfirm720p": "95b2f2e7c7145170f1d742d98f65ebb1d54cd4e8f14bd7e51da880d4a92bfebc",
+    "resource/global/YoStarJP/resource/template/Roguelike/Mizuki/Mizuki@Roguelike@StageEncounterLeaveConfirm720p": "6aae7d28bb4635d11175176c9f7e7626a30a56fe8357156284769ff18dc41068",
+    "resource/global/YoStarJP/resource/template/Roguelike/Sami/Sami@Roguelike@StageEncounterLeaveConfirm720p": "8194abe8c3e83d1367b2e13499219dbd3bc54926aa83d04e08786dc2076ff833",
+    "resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "b7f93af0962e6e016663a64d3bc1942690fbfc2ab8c8b097034aab2a60a19508"
 }
