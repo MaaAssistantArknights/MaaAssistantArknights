@@ -5103,5 +5103,20 @@
     "web/src/assets/screenshots/dark/ko-kr/center": "a0ff8149aff8dcdd4de1c3791d33dcf1cd685894b0201050d168ce32c6457b56",
     "web/src/assets/screenshots/dark/en-us/right": "54239354f0816bd01cea35f4eb3f07b7f29e2b238a921fb7cdf0ef4a2c73d1db",
     "web/src/assets/screenshots/dark/en-us/left": "739b56f2019a653ad0565a05db61f0018a10d32d4aa7ce93b4837942f0677e59",
-    "web/src/assets/screenshots/dark/en-us/center": "ed89990782180ee45baad39aa1915138af592f673d866e610fc6ee07b1042bc0"
+    "web/src/assets/screenshots/dark/en-us/center": "ed89990782180ee45baad39aa1915138af592f673d866e610fc6ee07b1042bc0",
+    "resource/template/items/act1vhalfidle_level_exp": "70501c3fcc2dfed4fc81fce5148a1669de93a3dd0e5d013344358f8e4c0c5732",
+    "resource/template/items/act1vhalfidle_strategy_point": "836787ff66fc955804a4e61d2d933ce66aa26dd65d98537e23d5895200428c6a",
+    "resource/template/items/act1vhalfidle_gacha_newplayer": "9dfdd04a52e982f263092cb0b21e6cfb6e1cb10140ed1926ae10879a15f3b18f",
+    "resource/template/items/act1vhalfidle_asc_tnk": "dc0afc79f7c9495defe52e5d3b6f2783be4582901adf56385f77b737479d0c55",
+    "resource/template/items/act1vhalfidle_gacha_normal": "676b39b5b251ea7dbc1ed813d57a6af6e054d72633c4d0c2f21b09251a53a461",
+    "resource/template/items/act1vhalfidle_skill_exp": "fb170dc2757560bc3f1836a9f5692a6d1afc620de67cc95fa82813b1cbd80796",
+    "resource/template/items/act1vhalfidle_asc_pio": "038b433ea56c15d71cbb8dfc799616c027633e90da563caf7cfc619d494f79f3",
+    "resource/template/items/act1vhalfidle_asc_sup": "f7c94dfcc968902f51977f23257871a0f09abcf6ee821e43803210abe2817781",
+    "resource/template/items/act1vhalfidle_itempack_asc": "790abd61302cce9e302e049902fdce656b9edbd5b353142d7928842ae75ad1f3",
+    "resource/template/items/act1vhalfidle_asc_cst": "8f505ff117989b465063d2d9b3b8717032099e2004927e91f6a1917ace47ae31",
+    "resource/template/items/act1vhalfidle_asc_med": "a3395461455366b5ac988e24ac72e8030e9bf6374458a95819798ca00e011249",
+    "resource/template/items/act1vhalfidle_asc_snp": "9091d0f6f0cb849dd6ed4e81e50b7d6c3616acdf203fd3c7dc7e24d0737c0170",
+    "resource/template/items/act1vhalfidle_asc_grd": "f1ee8bda5d028c49480df2cdf29f76b7d3f676d24abec39539a1fe4a605021b3",
+    "resource/template/items/act1vhalfidle_asc_spc": "0e37a00429733072b77fcd6c28f319d1f576d597ecbe1cf64ea9e56457413ca4",
+    "resource/template/items/act1vhalfidle_token_point": "228e1c98b7828bb0f270c6e587cb5a478d3a8b56431bef30947fbebc0cd2ce87"
 }
