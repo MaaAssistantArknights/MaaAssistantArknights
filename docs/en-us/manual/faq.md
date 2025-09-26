@@ -22,7 +22,7 @@ Or manually download and install these <u>**two**</u> runtime libraries to solve
 
 - [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET Desktop Runtime 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
-:::
+  :::
 
 ## Software won't run/crashes/shows errors
 

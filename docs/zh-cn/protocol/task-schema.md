@@ -98,7 +98,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
         "highResolutionSwipeFix": false,    // 可选项，是否启用高分辨率滑动修复
                                             // 现阶段应该只有关卡导航未使用 unity 滑动方式所以需要开启
                                             // 默认为 false
-    
+
         /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
 
         "template": "xxx.png",              // 可选项，要匹配的图片文件名，可以是字符串或字符串列表
@@ -112,7 +112,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
                                             // 例如将图片不需要识别的部分涂成黑色（灰度值为 0）
                                             // 然后设置为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
 
-        "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。 
+        "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。
             [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 结构为 [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     内层为 int 时是灰度，
@@ -164,7 +164,7 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
         /* 以下字段仅当 algorithm 为 JustReturn，action 为 Input 时有效 */
 
         "inputText": "A string text.",      // 必选项，要输入的文字内容，以字符串的形式
-        
+
         /* 以下字段仅当 algorithm 为 FeatureMatch 时有效 */
 
         "template": "xxx.png",              // 可选项，要匹配的图片文件名，可以是字符串或字符串列表
@@ -190,11 +190,11 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 
 |    符号     |                           含义                           |                  实例                  |
 | :---------: | :------------------------------------------------------: | :------------------------------------: |
-|     `@`     |                       `@` 型任务                        |            `Fight@ReturnTo`            |
+|     `@`     |                        `@` 型任务                        |            `Fight@ReturnTo`            |
 | `#`（单目） |                          虚任务                          |                `#self`                 |
 | `#`（双目） |                          虚任务                          |          `StartUpThemes#next`          |
 |     `*`     |                       重复多个任务                       | `(ClickCornerAfterPRTS+ClickCorner)*5` |
-|     `+`     |   任务列表合并（在 next 系列字段中同名任务只保留最靠前者）  |                 `A+B`                  |
+|     `+`     | 任务列表合并（在 next 系列字段中同名任务只保留最靠前者） |                 `A+B`                  |
 |     `^`     |         任务列表差（在前者但不在后者，顺序不变）         |   `(A+A+B+C)^(A+B+D)`（结果为 `C`）    |
 
 运算符 `@`, `#`, `*`, `+`, `^` 有优先级：`#`（单目）> `@` = `#`（双目）> `*` > `+` = `^`。
@@ -235,18 +235,18 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 
 可以将虚任务分为**指令虚任务**（`#none` / `#self` / `#back`）和**字段虚任务**（`#next` 等）。
 
-|  虚任务类型  |        含义        |                                                                 简单示例                                                                 |
-| :----------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-|     none     |       空任务       | 直接跳过<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` 被解释为 `"A": {"next": ["T1"]}`<br>`"A#none + T1"` 被解释为 `"T1"`  |
-|     self     |      当前任务名      | `"A": {"next": ["#self"]}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": ["A@B@C#self"]}` 中的 `"A@B@C#self"` 被解释为 `"B"`<sup>2</sup> |
-|     back     |   # 前面的任务名   |                                      `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过<sup>3</sup>                         |
-| next, sub 等 | # 前任务名对应字段 |                      以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                       |
+|  虚任务类型  |        含义        |                                                                  简单示例                                                                  |
+| :----------: | :----------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
+|     none     |       空任务       |        直接跳过<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` 被解释为 `"A": {"next": ["T1"]}`<br>`"A#none + T1"` 被解释为 `"T1"`        |
+|     self     |     当前任务名     | `"A": {"next": ["#self"]}` 中的 `"#self"` 被解释为 `"A"`<br>`"B": {"next": ["A@B@C#self"]}` 中的 `"A@B@C#self"` 被解释为 `"B"`<sup>2</sup> |
+|     back     |   # 前面的任务名   |                                 `"A@B#back"` 被解释为 `"A@B"`<br>`"#back"` 直接出现则会被跳过<sup>3</sup>                                  |
+| next, sub 等 | # 前任务名对应字段 |                       以 `next` 为例：<br>`"A#next"` 被解释为 `Task.get("A")->next`<br>`"#next"` 直接出现则会被跳过                        |
 
-*Note<sup>1</sup>: `"#none"` 一般配合模板任务增加前缀的特性使用，或用在字段 `baseTask` 中避免多文件继承不必要的字段。*
+_Note<sup>1</sup>: `"#none"` 一般配合模板任务增加前缀的特性使用，或用在字段 `baseTask` 中避免多文件继承不必要的字段。_
 
-*Note<sup>2</sup>: `"XXX#self"` 与 `"#self"` 含义相同。*
+_Note<sup>2</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
 
-*Note<sup>3</sup>: 当几个任务有 `"next": [ "#back" ]` 时，`"T1@T2@T3"` 代表依次执行 `T3`, `T2`, `T1`。*
+_Note<sup>3</sup>: 当几个任务有 `"next": [ "#back" ]` 时，`"T1@T2@T3"` 代表依次执行 `T3`, `T2`, `T1`。_
 
 ### 多文件任务
 
@@ -259,86 +259,86 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 
 - 派生任务示例（字段 `baseTask`）
 
-    假设定义了如下两个任务：
+  假设定义了如下两个任务：
 
-    ```json
-    "Return": {
-        "action": "ClickSelf",
-        "next": [ "Stop" ]
-    },
-    "Return2": {
-        "baseTask": "Return"
-    },
-    ```
+  ```json
+  "Return": {
+      "action": "ClickSelf",
+      "next": [ "Stop" ]
+  },
+  "Return2": {
+      "baseTask": "Return"
+  },
+  ```
 
-    则 `"Return2"` 任务的参数会直接从 `"Return"` 任务继承，实际上包含以下参数：
+  则 `"Return2"` 任务的参数会直接从 `"Return"` 任务继承，实际上包含以下参数：
 
-    ```json
-    "Return2": {
-        "algorithm": "MatchTemplate", // 直接继承
-        "template": "Return2.png",    // "任务名.png"
-        "action": "ClickSelf",        // 直接继承
-        "next": [ "Stop" ]            // 直接继承，与 Template Task 相比这里没有前缀
-    }
-    ```
+  ```json
+  "Return2": {
+      "algorithm": "MatchTemplate", // 直接继承
+      "template": "Return2.png",    // "任务名.png"
+      "action": "ClickSelf",        // 直接继承
+      "next": [ "Stop" ]            // 直接继承，与 Template Task 相比这里没有前缀
+  }
+  ```
 
 - `@` 型任务示例
 
-    假设定义了包含以下参数的任务 `"A"`：
+  假设定义了包含以下参数的任务 `"A"`：
 
-    ```json
-    "A": {
-        "template": "A.png",
-        ...,
-        "next": [ "N1", "#back" ]
-    },
-    ```
+  ```json
+  "A": {
+      "template": "A.png",
+      ...,
+      "next": [ "N1", "#back" ]
+  },
+  ```
 
-    如果任务 `"B@A"` 没有被直接定义，那么任务 `"B@A"` 实际上有以下参数：
+  如果任务 `"B@A"` 没有被直接定义，那么任务 `"B@A"` 实际上有以下参数：
 
-    ```json
-    "B@A": {
-        "template": "A.png",
-        ...,
-        "next": [ "B@N1", "B#back" ]
-    }
-    ```
+  ```json
+  "B@A": {
+      "template": "A.png",
+      ...,
+      "next": [ "B@N1", "B#back" ]
+  }
+  ```
 
-    如果任务 `"B@A"` 有定义 `"B@A": {}`，那么任务 `"B@A"` 实际上有以下参数：
+  如果任务 `"B@A"` 有定义 `"B@A": {}`，那么任务 `"B@A"` 实际上有以下参数：
 
-    ```json
-    "B@A": {
-        "template": "B@A.png",
-        ...,
-        "next": [ "B@N1", "B#back" ]
-    }
-    ```
+  ```json
+  "B@A": {
+      "template": "B@A.png",
+      ...,
+      "next": [ "B@N1", "B#back" ]
+  }
+  ```
 
 - 虚任务示例
 
-    ```json
-    {
-        "A": { "next": ["N1", "N2"] },
-        "C": { "next": ["B@A#next"] },
+  ```json
+  {
+    "A": { "next": ["N1", "N2"] },
+    "C": { "next": ["B@A#next"] },
 
-        "Loading": {
-            "next": ["#self", "#next", "#back"]
-        },
-        "B": {
-            "next": ["Other", "B@Loading"]
-        }
+    "Loading": {
+      "next": ["#self", "#next", "#back"]
+    },
+    "B": {
+      "next": ["Other", "B@Loading"]
     }
-    ```
+  }
+  ```
 
-    可以得到：
+  可以得到：
 
-    ```cpp
-    Task.get("C")->next = { "B@N1", "B@N2" };
+  ```cpp
+  Task.get("C")->next = { "B@N1", "B@N2" };
 
-    Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
-    Task.get("Loading")->next = { "Loading" };
-    Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
-    ```
+  Task.get("B@Loading")->next = { "B@Loading", "Other", "B" };
+  Task.get("Loading")->next = { "Loading" };
+  Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
+  ```
 
 ### 注意事项
 
@@ -346,41 +346,41 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 
 1. `@` 与 双目 `#` 的运算顺序导致的特例
 
-    ```json
-    {
-        "A": { "next": ["N0"] },
-        "B": { "next": ["A#next"] },
-        "C@A": { "next": ["N1"] }
-    }
-    ```
+   ```json
+   {
+     "A": { "next": ["N0"] },
+     "B": { "next": ["A#next"] },
+     "C@A": { "next": ["N1"] }
+   }
+   ```
 
-    以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
+   以上这种情况， `"C@B" -> next`（即 `C@A#next`）为 `[ "N1" ]` 而不是 `[ "C@N0" ]`.
 
 2. `@` 与 `+` 的运算顺序导致的特例
 
-    ```json
-    {
-        "A": { "next": ["#back + N0"] },
-        "B@A": {}
-    }
-    ```
+   ```json
+   {
+     "A": { "next": ["#back + N0"] },
+     "B@A": {}
+   }
+   ```
 
-    以上这种情况，
+   以上这种情况，
 
-    ```cpp
-    Task.get("A")->next = { "N0" };
+   ```cpp
+   Task.get("A")->next = { "N0" };
 
-    Task.get_raw("B@A")->next = { "B#back + N0" };
-    Task.get("B@A")->next = { "B", "N0" }; // 注意不是 [ "B", "B@N0" ]
-    ```
+   Task.get_raw("B@A")->next = { "B#back + N0" };
+   Task.get("B@A")->next = { "B", "N0" }; // 注意不是 [ "B", "B@N0" ]
+   ```
 
-    事实上，你可以用这个特性来避免添加不必要的前缀，只需要定义
+   事实上，你可以用这个特性来避免添加不必要的前缀，只需要定义
 
-    ```json
-    {
-        "A": { "next": ["#none + N0"] }
-    }
-    ```
+   ```json
+   {
+     "A": { "next": ["#none + N0"] }
+   }
+   ```
 
 ## 运行时修改任务
 
@@ -393,18 +393,18 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
 
 ```json
 {
-    "A": {
-        "baseTask": "A_default"
-    },
-    "A_default": {
-        "next": ["xxx"]
-    },
-    "A_mode1": {
-        "next": ["yyy"]
-    },
-    "A_mode2": {
-        "next": ["zzz"]
-    }
+  "A": {
+    "baseTask": "A_default"
+  },
+  "A_default": {
+    "next": ["xxx"]
+  },
+  "A_mode1": {
+    "next": ["yyy"]
+  },
+  "A_mode2": {
+    "next": ["zzz"]
+  }
 }
 ```
 

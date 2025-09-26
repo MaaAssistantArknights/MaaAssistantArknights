@@ -21,42 +21,42 @@ Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can underst
 2. Visit the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights), click `Fork`, then `Create fork`.
 3. Clone the dev branch of your repository with submodules:
 
-    ```bash
-    git clone --recurse-submodules <your repository link> -b dev
-    ```
+   ```bash
+   git clone --recurse-submodules <your repository link> -b dev
+   ```
 
-    ::: warning
-    If using Git GUI clients like Visual Studio without `--recurse-submodules` support, run `git submodule update --init` after cloning to initialize submodules.
-    :::
+   ::: warning
+   If using Git GUI clients like Visual Studio without `--recurse-submodules` support, run `git submodule update --init` after cloning to initialize submodules.
+   :::
 
 4. Download prebuilt third-party libraries  
    **Python environment required - search for Python installation tutorials if needed**  
    _(tools/maadeps-download.py is located in the project root)_
 
-    ```cmd
-    python tools/maadeps-download.py
-    ```
+   ```cmd
+   python tools/maadeps-download.py
+   ```
 
 5. Configure development environment
 
-    - Download and install `Visual Studio 2022 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
+   - Download and install `Visual Studio 2022 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
 
 6. Double-click `MAA.sln` to open the project in Visual Studio.
 7. Configure Visual Studio settings
 
-    - Select `RelWithDebInfo` and `x64` in the top configuration bar (Skip for Release builds or ARM platforms)
-    - Right-click `MaaWpfGui` → Properties → Debug → Enable native debugging (This enables breakpoints in C++ Core)
+   - Select `RelWithDebInfo` and `x64` in the top configuration bar (Skip for Release builds or ARM platforms)
+   - Right-click `MaaWpfGui` → Properties → Debug → Enable native debugging (This enables breakpoints in C++ Core)
 
 8. Now you're ready to happily ~~mess around~~ start developing!
 9. Commit regularly with meaningful messages during development  
    If you're not familiar with git usage, you might want to create a new branch for changes instead of committing directly to `dev`:
 
-    ```bash
-    git branch your_own_branch
-    git checkout your_own_branch
-    ```
+   ```bash
+   git branch your_own_branch
+   git checkout your_own_branch
+   ```
 
-    This keeps your changes isolated from upstream `dev` updates.
+   This keeps your changes isolated from upstream `dev` updates.
 
 10. After development, push your local branch (e.g. `dev`) to your remote repository:
 
@@ -69,27 +69,27 @@ Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can underst
 
     1. Add upstream repository:
 
-        ```bash
-        git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-        ```
+       ```bash
+       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+       ```
 
     2. Fetch updates:
 
-        ```bash
-        git fetch upstream
-        ```
+       ```bash
+       git fetch upstream
+       ```
 
     3. Rebase (recommended) or merge:
 
-        ```bash
-        git rebase upstream/dev # rebase
-        ```
+       ```bash
+       git rebase upstream/dev # rebase
+       ```
 
-        or
+       or
 
-        ```bash
-        git merge # merge
-        ```
+       ```bash
+       git merge # merge
+       ```
 
     4. Repeat steps 7, 8, 9, 10.
 
@@ -105,11 +105,11 @@ Please ensure that it has been formatted before submission, or [enable Pre-commi
 
 The currently enabled formatting tools are as follows:
 
-| File Type | Format Tool |
-| --- | --- |
-| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
-| Json/Yaml | [Prettier](https://prettier.io/) |
-| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| File Type | Format Tool                                                     |
+| --------- | --------------------------------------------------------------- |
+| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
+| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Use Pre-commit Hooks to Automatically Format Code
 
@@ -117,10 +117,10 @@ The currently enabled formatting tools are as follows:
 
 2. Execute the following command in the root directory of the project:
 
-    ```bash
-    pip install pre-commit
-    pre-commit install
-    ```
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
 
 If pre-commit still cannot be used after pip install, please check if the pip installation path has been added to the PATH.
 
@@ -130,9 +130,9 @@ The formatting tool will automatically run every time you submit to ensure that 
 
 1. Install clang-format version 20.1.0 or higher.
 
-    ```bash
-    python -m pip install clang-format
-    ```
+   ```bash
+   python -m pip install clang-format
+   ```
 
 2. Use tools like 'Everything' to locate the installation location of clang-format.exe. As a reference, if you are using Anaconda, clang-format.exe will be installed in YourAnacondaPath/Scripts/clang-format.exe.
 3. In Visual Studio, search for 'clang-format' in Tools-Options.

@@ -199,16 +199,16 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 #### 자주 사용되는 `subtask` 필드 값
 
-- `ProcessTask`  
+- `ProcessTask`
 
   ```json
   // 상세 정보에 대한 예시
   {
-      "task": "StartButton2",     // 태스크 이름
-      "action": 512,
-      "exec_times": 1,            // 실행 횟수
-      "max_times": 999,           // 최대 실행 횟수
-      "algorithm": 0
+    "task": "StartButton2", // 태스크 이름
+    "action": 512,
+    "exec_times": 1, // 실행 횟수
+    "max_times": 999, // 최대 실행 횟수
+    "algorithm": 0
   }
   ```
 
@@ -330,7 +330,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       }
     ]
   }
-
   ```
 
 - `RecruitTagsDetected`  
@@ -339,13 +338,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "tags": [
-          "费用回复",
-          "防护",
-          "先锋干员",
-          "辅助干员",
-          "近战位"
-      ]
+    "tags": ["费用回复", "防护", "先锋干员", "辅助干员", "近战位"]
   }
   ```
 
@@ -355,7 +348,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-     "tag": "高级资深干员" // 고급 특별 채용
+    "tag": "高级资深干员" // 고급 특별 채용
   }
   ```
 
@@ -365,74 +358,67 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "tags": [                   // 모든 태그들, 반드시 5개여야 함
-          "削弱",
-          "减速",
-          "术师干员",
-          "辅助干员",
-          "近战位"
-      ],
-      "level": 4,                 // ★ 총합
-      "result": [
+    "tags": [
+      // 모든 태그들, 반드시 5개여야 함
+      "削弱",
+      "减速",
+      "术师干员",
+      "辅助干员",
+      "近战位"
+    ],
+    "level": 4, // ★ 총합
+    "result": [
+      {
+        "tags": ["削弱"],
+        "level": 4, // 태그의 최소 레어도
+        "opers": [
           {
-              "tags": [
-                  "削弱"
-              ],
-              "level": 4, // 태그의 최소 레어도
-              "opers": [
-                  {
-                      "name": "初雪",
-                      "level": 5  // 오퍼레이터의 레어도
-                  },
-                  {
-                      "name": "陨星",
-                      "level": 5
-                  },
-                  {
-                      "name": "槐琥",
-                      "level": 5
-                  },
-                  {
-                      "name": "夜烟",
-                      "level": 4
-                  },
-                  {
-                      "name": "流星",
-                      "level": 4
-                  }
-              ]
+            "name": "初雪",
+            "level": 5 // 오퍼레이터의 레어도
           },
           {
-              "tags": [
-                  "减速",
-                  "术师干员"
-              ],
-              "level": 4,
-              "opers": [
-                  {
-                      "name": "夜魔",
-                      "level": 5
-                  },
-                  {
-                      "name": "格雷伊",
-                      "level": 4
-                  }
-              ]
+            "name": "陨星",
+            "level": 5
           },
           {
-              "tags": [
-                  "削弱",
-                  "术师干员"
-              ],
-              "level": 4,
-              "opers": [
-                  {
-                      "name": "夜烟",
-                      "level": 4
-                  }
-              ]
+            "name": "槐琥",
+            "level": 5
+          },
+          {
+            "name": "夜烟",
+            "level": 4
+          },
+          {
+            "name": "流星",
+            "level": 4
           }
-      ]
+        ]
+      },
+      {
+        "tags": ["减速", "术师干员"],
+        "level": 4,
+        "opers": [
+          {
+            "name": "夜魔",
+            "level": 5
+          },
+          {
+            "name": "格雷伊",
+            "level": 4
+          }
+        ]
+      },
+      {
+        "tags": ["削弱", "术师干员"],
+        "level": 4,
+        "opers": [
+          {
+            "name": "夜烟",
+            "level": 4
+          }
+        ]
+      }
+    ]
   }
   ```
 
@@ -442,20 +428,20 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "count": 1,               // 갱신된 슬롯의 횟수
-      "refresh_limit": 3        // 갱신 횟수 제한
+    "count": 1, // 갱신된 슬롯의 횟수
+    "refresh_limit": 3 // 갱신 횟수 제한
   }
   ```
 
 - `RecruitNoPermit`  
-    모집 라이센스가 없습니다
+   모집 라이센스가 없습니다
 
-    ```json
-    // 상세 정보에 대한 예시
-    {
-        "continue": true,   // 계속 새로고침할지 말지
-    }
-    ```
+  ```json
+  // 상세 정보에 대한 예시
+  {
+    "continue": true // 계속 새로고침할지 말지
+  }
+  ```
 
 - `RecruitTagsSelected`  
   공개모집 태그 선택 완료
@@ -463,10 +449,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "tags": [
-          "减速",
-          "术师干员"
-      ]
+    "tags": ["减速", "术师干员"]
   }
   ```
 
@@ -480,8 +463,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "facility": "Mfg",  // 시설 이름
-      "index": 0          // 시설 ID
+    "facility": "Mfg", // 시설 이름
+    "index": 0 // 시설 ID
   }
   ```
 
@@ -491,8 +474,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "facility": "Mfg",  // 시설 이름
-      "index": 0          // 시설 ID
+    "facility": "Mfg", // 시설 이름
+    "index": 0 // 시설 ID
   }
   ```
 
@@ -502,9 +485,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```json
   // 상세 정보에 대한 예시
   {
-      "product": "Money", // 생산물
-      "facility": "Mfg",  // 시설 이름
-      "index": 0          // 시설 ID
+    "product": "Money", // 생산물
+    "facility": "Mfg", // 시설 이름
+    "index": 0 // 시설 ID
   }
   ```
 
@@ -626,12 +609,13 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 ```json
 {
-  "url": "string",            // 요청의 전체 URL 예: https://penguin-stats.io/PenguinStats/api/v2/report
-  "headers": {                // 요청 헤더 키-값 쌍 (Content-Type 제외, UI에서 추가)
+  "url": "string", // 요청의 전체 URL 예: https://penguin-stats.io/PenguinStats/api/v2/report
+  "headers": {
+    // 요청 헤더 키-값 쌍 (Content-Type 제외, UI에서 추가)
     "authorization": "PenguinID 1234567890",
     "User-Agent": "MaaAssistantArknights/1.2.3 cpr/4.5.6"
   },
-  "body": "string",           // 요청 본문 내용 (보통 JSON 형식의 문자열)
-  "subtask": "string"         // 구체적인 보고 작업을 식별하는 서브태스크 이름 예: "ReportToPenguinStats", "ReportToYituliu"
+  "body": "string", // 요청 본문 내용 (보통 JSON 형식의 문자열)
+  "subtask": "string" // 구체적인 보고 작업을 식별하는 서브태스크 이름 예: "ReportToPenguinStats", "ReportToYituliu"
 }
 ```

@@ -93,8 +93,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 - `adb` (string, required): `AsstConnect` 接口 `adb_path` 参数。
 - `address` (string, required): `AsstConnect` 接口 `address` 参数。
 - `config` (string, required): `AsstConnect` 接口 `config` 参数。
-:::
-::::
+  :::
+  ::::
 
 ### 常见 `What` 字段
 
@@ -136,8 +136,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `ret` (boolean, required): 实际调用的返回值。
 - `cost` (number, required): 耗时，单位毫秒。
-:::
-::::
+  :::
+  ::::
 
 ### AllTasksCompleted
 
@@ -330,6 +330,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `StageDrops`  
   关卡材料掉落信息。`details` 字段结构如下：
+
   - `drops` (array, required): 本次识别到的掉落材料，数组每一项包含：
     - `itemId` (string, required): 材料 ID。
     - `quantity` (number, required): 掉落数量。
@@ -364,6 +365,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `RecruitResult`  
   公招识别结果。`details` 字段结构如下：
+
   - `tags` (array, required): 所有识别到的 tags，目前固定为 5 个。
   - `level` (number, required): 组合的最高星级。
   - `result` (array, required): 具体的组合结果，数组每一项包含：
@@ -471,12 +473,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 - `Depot`  
   仓库识别结果。`details` 字段结构如下：
+
   - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
   - `arkplanner` (object, required): [ArkPlanner](https://penguin-stats.cn/planner) 格式的数据。
   - `lolicon` (object, required): [lolicon](https://arkntools.app/#/material) (Arkntools) 格式的数据。
 
 - `OperBox`  
   干员识别结果。`details` 字段结构如下：
+
   - `done` (boolean, required): 是否已经识别完了，为 `false` 表示仍在识别中（过程中的数据）。
   - `all_oper` (array, required): 全干员列表，数组每一项包含：
     - `id` (string, required): 干员 ID。

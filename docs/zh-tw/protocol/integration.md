@@ -2,6 +2,7 @@
 order: 1
 icon: bxs:book
 ---
+
 # 集成文件
 
 ## 接口介紹
@@ -21,22 +22,22 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 返回值
 
 - `AsstTaskId`  
-    若添加成功，返回該任務 ID，可用於後續設定任務參數；  
-    若添加失敗，返回 0
+   若添加成功，返回該任務 ID，可用於後續設定任務參數；  
+   若添加失敗，返回 0
 
 #### 參數說明
 
 - `AsstHandle handle`  
-    實例句柄
+   實例句柄
 - `const char* type`  
-    任務類型
+   任務類型
 - `const char* params`  
-    任務參數，json string
+   任務參數，json string
 
 ##### 任務類型一覽
 
 - `StartUp`  
-    開始喚醒  
+   開始喚醒
 
 ```json5
 // 對應的任務參數
@@ -53,7 +54,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `CloseDown`  
-    關閉遊戲  
+   關閉遊戲
 
 ```json5
 // 對應的任務參數
@@ -65,7 +66,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Fight`  
-    刷理智
+   刷理智
 
 ```json5
 // 對應的任務參數
@@ -104,7 +105,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 另支援少部分資源關卡名請參考[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-tw.xaml#L219)
 
 - `Recruit`  
-    公開招募
+   公開招募
 
 ```json5
 // 對應的任務參數
@@ -148,7 +149,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Infrast`  
-    基建換班
+   基建換班
 
 ```json5
 {
@@ -180,8 +181,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Mall`  
-    領取信用及商店購物。  
-    會先有序的按 `buy_first` 購買一遍，再從左到右並避開 `blacklist` 購買第二遍，在信用溢出時則會無視黑名單，從左到右購買第三遍直到不再溢出
+   領取信用及商店購物。  
+   會先有序的按 `buy_first` 購買一遍，再從左到右並避開 `blacklist` 購買第二遍，在信用溢出時則會無視黑名單，從左到右購買第三遍直到不再溢出
 
 ```json5
 // 對應的任務參數
@@ -207,7 +208,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Award`  
-    領取日常獎勵
+   領取日常獎勵
 
 ```json5
 // 對應的任務參數
@@ -217,7 +218,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Roguelike`  
-    無限刷肉鴿
+   無限刷肉鴿
 
 ```json5
 // 對應的任務參數
@@ -283,7 +284,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Copilot`  
-    自動抄作業
+   自動抄作業
 
 ```json5
 {
@@ -296,7 +297,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 作業 JSON 請參考 [3.3-戰鬥流程協議](./copilot-schema.md)
 
 - `SSSCopilot`  
-    自動抄保全作業
+   自動抄保全作業
 
 ```json5
 {
@@ -309,7 +310,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
 
 - `Depot`  
-    倉庫辨識
+   倉庫辨識
 
 ```json5
 // 對應的任務參數
@@ -319,7 +320,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `OperBox`  
-    幹員 box 辨識
+   幹員 box 辨識
 
 ```json5
 // 對應的任務參數
@@ -329,7 +330,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Reclamation`  
-    生息演算
+   生息演算
 
 ```json5
 {
@@ -344,7 +345,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "tools_to_craft": [
         string,                 // 自動製造的物品，可選項，默認為荧光棒
         ...
-    ] 
+    ]
                                 // 建議填寫子串
     "increment_mode": int,      // 點擊類型，可選項。默認為0
                                 // 0 - 連點
@@ -353,7 +354,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `Custom`  
+- `Custom`
 
   自定義任務
 
@@ -368,7 +369,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `SingleStep`  
+- `SingleStep`
 
   單步任務（目前僅支援戰鬥）
 
@@ -387,7 +388,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-- `VideoRecognition`  
+- `VideoRecognition`
 
   影片辨識，目前僅支援作業（作戰）影片
 
@@ -413,17 +414,17 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 返回值
 
 - `bool`  
-    返回是否設定成功
+   返回是否設定成功
 
 #### 參數說明
 
 - `AsstHandle handle`  
-    實例句柄
+   實例句柄
 - `AsstTaskId task`  
-    任務 ID, `AsstAppendTask` 接口的返回值
+   任務 ID, `AsstAppendTask` 接口的返回值
 - `const char* params`  
-    任務參數，json string，與 `AsstAppendTask` 接口相同。  
-    未標注 “不支援執行中設定” 的欄位都支援實時修改；否則若當前任務正在執行，會忽略對應的欄位
+   任務參數，json string，與 `AsstAppendTask` 接口相同。  
+   未標注 “不支援執行中設定” 的欄位都支援實時修改；否則若當前任務正在執行，會忽略對應的欄位
 
 ### `AsstSetStaticOption`
 
@@ -440,14 +441,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### 返回值
 
 - `bool`  
-    返回是否設定成功
+   返回是否設定成功
 
 #### 參數說明
 
 - `AsstStaticOptionKey key`  
-    鍵
+   鍵
 - `const char* value`  
-    值
+   值
 
 ##### 鍵值一覽
 
@@ -468,16 +469,16 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 返回值
 
 - `bool`  
-    返回是否設定成功
+   返回是否設定成功
 
 #### 參數說明
 
 - `AsstHandle handle`  
-    實例句柄
+   實例句柄
 - `AsstInstanceOptionKey key`  
-    鍵
+   鍵
 - `const char* value`  
-    值
+   值
 
 ##### 鍵值一覽
 
