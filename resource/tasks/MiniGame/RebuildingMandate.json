@@ -38,7 +38,7 @@
     },
     "MiniGame@RebuildingMandate@SkipConfirm": {
         "action": "ClickSelf",
-        "roi": [714,284,168,155],
+        "roi": [714, 284, 168, 155],
         "postDelay": 1000,
         "next": ["#self", "MiniGame@RebuildingMandate@Lava"]
     },
@@ -83,4 +83,3 @@
         "next": ["#self", "MiniGame@RebuildingMandate@Begin"]
     }
 }
-
