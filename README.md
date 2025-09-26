@@ -140,6 +140,12 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 请参阅 [外服适配教程](https://docs.maa.plus/zh-cn/develop/overseas-client-adaptation.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
+#### 文档站前端
+
+使用 GitHub Codespace 在线开发：
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
 #### 想参与开发，但不太会用 GitHub?
 
 [GitHub Pull Request 流程简述](https://docs.maa.plus/zh-cn/develop/development.html#github-pull-request-流程简述)
