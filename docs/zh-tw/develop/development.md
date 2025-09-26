@@ -147,6 +147,4 @@ MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件�
 
 創建 GitHub codespace 自動配置 C++ 開發環境
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
-
-隨後根據 vscode 的提示或 [Linux 教學](./linux-tutorial.md) 配置 GCC 12 和 CMake 工程
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
