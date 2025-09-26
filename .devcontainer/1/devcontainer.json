@@ -22,10 +22,8 @@
             "extensions": [
                 "nekosu.maa-support",
                 "ms-vscode.cmake-tools",
-                "ms-vscode.cpptools",
                 "xaver.clang-format",
-                // There is no clangd language server provided in MaaDeps
-                // "llvm-vs-code-extensions.vscode-clangd"
+                "llvm-vs-code-extensions.vscode-clangd",
                 "ms-python.python",
                 "ms-python.black-formatter",
                 "ms-python.isort",
@@ -56,9 +54,6 @@
                 "[c]": {
                     "editor.defaultFormatter": "xaver.clang-format"
                 },
-
-                // C/C++ formatting
-                "C_Cpp.formatting": "clangFormat",
 
                 // Python formatting and linting
                 "isort.args": ["--profile", "black"],
