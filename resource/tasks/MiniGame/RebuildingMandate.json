@@ -1,0 +1,85 @@
+{
+    "MiniGame@RebuildingMandate@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@RebuildingMandate@StartExecution", "MiniGame@RebuildingMandate@StageName"]
+    },
+    "MiniGame@RebuildingMandate@StageName": {
+        "action": "ClickSelf",
+        "roi": [597, 348, 219, 128],
+        "next": ["MiniGame@RebuildingMandate@StartExecution", "#self"]
+    },
+    "MiniGame@RebuildingMandate@StartExecution": {
+        "action": "ClickSelf",
+        "roi": [1040, 584, 240, 136],
+        "next": ["#self", "MiniGame@RebuildingMandate@NextStep"]
+    },
+    "MiniGame@RebuildingMandate@NextStep": {
+        "action": "ClickSelf",
+        "roi": [1086, 611, 194, 109],
+        "next": ["MiniGame@RebuildingMandate@StartBuildingProduction", "#self"]
+    },
+    "MiniGame@RebuildingMandate@StartBuildingProduction": {
+        "action": "ClickSelf",
+        "roi": [1003, 609, 277, 111],
+        "preDelay": 1000,
+        "postDelay": 5000,
+        "next": ["#self", "MiniGame@RebuildingMandate@WaitSkip"]
+    },
+    "MiniGame@RebuildingMandate@WaitSkip": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["MiniGame@RebuildingMandate@Skip", "#self"]
+    },
+    "MiniGame@RebuildingMandate@Skip": {
+        "action": "ClickSelf",
+        "roi": [1079, 0, 201, 144],
+        "postDelay": 1000,
+        "next": ["MiniGame@RebuildingMandate@SkipConfirm", "#self"]
+    },
+    "MiniGame@RebuildingMandate@SkipConfirm": {
+        "action": "ClickSelf",
+        "roi": [714, 284, 168, 155],
+        "postDelay": 1000,
+        "next": ["#self", "MiniGame@RebuildingMandate@Lava"]
+    },
+    "MiniGame@RebuildingMandate@Lava": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specialParams": [200, 0, 2, 0],
+        "specificRect": [1135, 656, 8, 8],
+        "rectMove": [733, 303, 8, 8],
+        "postDelay": 500,
+        "next": ["MiniGame@RebuildingMandate@LavaConfirm"]
+    },
+    "MiniGame@RebuildingMandate@LavaConfirm": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specialParams": [200, 0, 2, 0],
+        "specificRect": [733, 303, 8, 8],
+        "rectMove": [233, 303, 8, 8],
+        "next": ["MiniGame@RebuildingMandate@DoubleSpeed"]
+    },
+    "MiniGame@RebuildingMandate@DoubleSpeed": {
+        "action": "ClickSelf",
+        "roi": [1016, 0, 167, 166],
+        "postDelay": 1000,
+        "next": ["#self", "MiniGame@RebuildingMandate@WaitForEnd"]
+    },
+    "MiniGame@RebuildingMandate@WaitForEnd": {
+        "roi": [1027, 499, 247, 125],
+        "postDelay": 5000,
+        "next": ["MiniGame@RebuildingMandate@DoNotApply", "#self"]
+    },
+    "MiniGame@RebuildingMandate@DoNotApply": {
+        "action": "ClickSelf",
+        "roi": [213, 574, 241, 143],
+        "postDelay": 1000,
+        "next": ["MiniGame@RebuildingMandate@SettlementStageName", "#self"]
+    },
+    "MiniGame@RebuildingMandate@SettlementStageName": {
+        "action": "ClickSelf",
+        "roi": [0, 572, 458, 148],
+        "postDelay": 1000,
+        "next": ["#self", "MiniGame@RebuildingMandate@Begin"]
+    }
+}

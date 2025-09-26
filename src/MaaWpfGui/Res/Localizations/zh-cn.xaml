@@ -74,6 +74,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhookBody">消息体模板</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">可用占位符：{title}、{content}、{time}</system:String>
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="UseGpuForInferenceTip">使用 GPU 推理能够以极低的 GPU 占用显著降低 CPU 的负担</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">当前选择的推理加速 GPU（{0}）存在兼容性问题，可能导致识别错误、错位或其他异常结果。\n\n建议前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
@@ -606,10 +607,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="HibernateTip">需在 Windows 电源选项中启用休眠功能，否则该功能无效。</system:String>
     <system:String x:Key="Sleep">睡眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
-    <system:String x:Key="Once">仅一次*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只执行一次，请先勾选仅一次
-勾选仅一次时，执行动作后将恢复至勾选仅一次前一刻的状态
-右键点击下方动作时，会同步 激活/取消 仅一次的选中状态</system:String>
+    <system:String x:Key="Once">仅当次*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">勾选后将不保存选项变化，下次 MAA 启动或 {key=LinkStart} 后复原
+取消勾选本选项后，其他选项状态将会正常保存
+右键点击其他选项时，会同步勾选/取消勾选本选项</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -777,6 +778,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生预案</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">过完新手教程后进入前哨支点，滑动到界面最左侧。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相谈室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活动主界面（右下角有 ｢开始营业｣ 处）开始任务。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">争锋频道：青草城</system:String>
