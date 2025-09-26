@@ -690,6 +690,8 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
+        "postDelay": 3000,
+        "postDelay_Doc": "多加点延迟防止出现一个一闪而过的跳过被GamePassSkip2识别到",
         "roi": [715, 282, 171, 155]
     },
     "Roguelike@GamePassSkip2": {

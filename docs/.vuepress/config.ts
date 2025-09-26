@@ -10,30 +10,36 @@ const isProd = process.env.NODE_ENV === 'production';
 export default defineUserConfig({
   base: '/',
   lang: 'zh-CN',
-  title: 'MaaAssistantArknights',
-  description: 'MAA',
+  title: 'MAA 文档站',
+  description: 'MAA —「明日方舟」小助手',
+  host: '0.0.0.0',
   port: 3001,
 
   locales: {
     '/zh-cn/': {
       lang: 'zh-CN',
+      title: 'MAA 文档站',
       description: '文档',
     },
     '/zh-tw/': {
       lang: 'zh-TW',
+      title: 'MAA 文件站',
       description: '文件',
     },
     '/en-us/': {
       lang: 'en-US',
+      title: 'MAA Documentation Site',
       description: 'Documentation',
     },
     '/ja-jp/': {
       lang: 'ja-JP',
-      description: 'ドキュメンテーション',
+      title: 'MAA ドキュメントサイト',
+      description: 'ドキュメント',
     },
     '/ko-kr/': {
       lang: 'ko-KR',
-      description: '선적 서류 비치',
+      title: 'MAA 문서 사이트',
+      description: '문서',
     },
   },
 
@@ -92,7 +98,18 @@ export default defineUserConfig({
       themes: { light: 'one-light', dark: 'one-dark-pro' },
     },
 
-    markdown: {},
+    markdown: {
+      image: {
+        lazyload: true,
+        mark: true,
+        size: true,
+      },
+
+      icon: { provider: 'iconify' },
+      plot: true,
+      field: true,
+      bilibili: true,
+    },
 
     watermark: false,
 

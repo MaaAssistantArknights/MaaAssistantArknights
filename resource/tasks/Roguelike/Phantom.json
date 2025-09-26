@@ -78,7 +78,9 @@
         "template": "Roguelike@ExitThenAbandon.png",
         "next": ["Phantom@Roguelike@ExitThenAbandon_ToHardest", "Phantom@Roguelike@Abandon"]
     },
-    "Phantom@Roguelike@GamePass": {},
+    "Phantom@Roguelike@GamePass": {
+        "template": ["Phantom@Roguelike@GamePass.png", "Phantom@Roguelike@GamePass4.png"]
+    },
     "Phantom@Roguelike@GamePassSkip1": {},
     "Phantom@Roguelike@GamePassSkip1Confirm": {
         "next": [

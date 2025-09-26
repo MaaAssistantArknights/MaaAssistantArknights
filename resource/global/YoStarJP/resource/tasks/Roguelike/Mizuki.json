@@ -8,8 +8,9 @@
     },
     "Mizuki@Roguelike@NextLevel": {
         "ocrReplace": [
-            ["迫.*来る波濤", "迫り来る波濤"],
-            ["陽の.*海岸", "陽の射す海岸"]
+            ["陽の.*海岸", "陽の射す海岸"],
+            ["離.*の孤[島鳥]", "離れの孤島"],
+            ["迫.*来る波濤", "迫り来る波濤"]
         ],
         "text": ["陽の射す海岸", "離れの孤島", "迫り来る波濤", "秘密の温床", "不可侵の洞窟", "深海の密林", "紺碧の揺籃"]
     },
@@ -18,7 +19,10 @@
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [1063, 0, 217, 700],
-        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
+        "template": [
+            "Mizuki@Roguelike@StageEncounterLeaveConfirm.png",
+            "Mizuki@Roguelike@StageEncounterLeaveConfirm720p.png"
+        ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
@@ -26,7 +30,7 @@
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["陽の.*海岸", "_aggressive"],
-            ["離れの孤島", "_aggressive"],
+            ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波濤", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
             ["不可侵の洞窟", "_default"],
@@ -37,7 +41,7 @@
     "Mizuki@Roguelike@StrategyChange_mode1": {
         "ocrReplace": [
             ["陽の.*海岸", "_default"],
-            ["離れの孤島", "_exit"],
+            ["離.*の孤[島鳥]", "_exit"],
             ["迫.*来る波濤", "_exit"],
             ["秘密の温床", "_exit"],
             ["不可侵の洞窟", "_exit"],
@@ -48,7 +52,7 @@
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["陽の.*海岸", "_default"],
-            ["離れの孤島", "_default"],
+            ["離.*の孤[島鳥]", "_default"],
             ["迫.*来る波濤", "_exit"],
             ["秘密の温床", "_exit"],
             ["不可侵の洞窟", "_exit"],
@@ -59,7 +63,7 @@
     "Mizuki@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
             ["陽の.*海岸", "_aggressive"],
-            ["離れの孤島", "_aggressive"],
+            ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波濤", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
             ["不可侵の洞窟", "_default"],
@@ -70,7 +74,7 @@
     "Mizuki@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
             ["陽の.*海岸", "_aggressive"],
-            ["離れの孤島", "_aggressive"],
+            ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波濤", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
             ["不可侵の洞窟", "_default"],

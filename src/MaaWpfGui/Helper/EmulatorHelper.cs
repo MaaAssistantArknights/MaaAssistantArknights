@@ -497,6 +497,7 @@ public class EmulatorHelper
             "明日方舟 - MuMu模拟器",
             "BlueStacks App Player",
             "BlueStacks",
+            "Google Play Games on PC Emulator"
         };
         foreach (string i in windowName)
         {

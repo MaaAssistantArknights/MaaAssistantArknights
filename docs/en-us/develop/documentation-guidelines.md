@@ -9,12 +9,12 @@ icon: jam:write-f
 The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.
 :::
 
-Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) theme. You can also refer to the [official documentation](https://theme-hope.vuejs.press/) for more detailed explanations. Here, we only introduce some common functionalities.
+Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) theme. You can also refer to the [official documentation](https://theme-plume.vuejs.press/) for more detailed explanations. Here, we only introduce some common functionalities.
 
 ## Deploy Locally
 
 1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to GitHub Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
-2. Create a terminal in the `website` directory, then run `pnpm i` to download dependencies.
+2. Create a terminal in the `docs` directory, then run `pnpm i` to download dependencies.
 3. Run `pnpm run dev` to deploy.
 
 ## Containers

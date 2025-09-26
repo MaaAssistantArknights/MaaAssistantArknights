@@ -27,7 +27,7 @@
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AchievementSettings">実績設定</system:String>
-    <system:String x:Key="AboutUs">About us</system:String>
+    <system:String x:Key="AboutUs">私たちについて</system:String>
     <system:String x:Key="IssueReport">問題報告</system:String>
     <system:String x:Key="MaaVersion">Software バージョン</system:String>
     <system:String x:Key="BuildDateTime">ビルド日付</system:String>
@@ -74,6 +74,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhookBody">メッセージ本文</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">プレホルダー: {title}、{content}、{time}</system:String>
     <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用する</system:String>
+    <system:String x:Key="UseGpuForInferenceTip">GPU 推論を利用することで、ごくわずかな GPU 使用率で CPU の負荷を大幅に軽減できます</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU（{0}）には互換性の問題があり、認識ミスやずれ、その他の予期しない不具合が発生する可能性があります。\n\n「{key=Settings} - {key=PerformanceSettings}」で別の GPU に変更することをおすすめします。</system:String>
@@ -248,7 +249,7 @@
     <system:String x:Key="AdbProgram">ADBプログラム</system:String>
     <system:String x:Key="EmulatorException">エミュレータのエラー検出\n管理者権限でこのアプリを開くか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="AdbException">ADB検出エラー\nこのソフトウェアを開くには管理者権限を使用するか\n手動で接続を設定してください</system:String>
-    <system:String x:Key="EmulatorNotFound">エミュレータが検出されません\nエミュレータが起動していることを確認してください\nエミュレータが管理者権限で起動されている場合、本ソフトも管理者権限で起動してください\nそれでも検出できない場合は、手動で接続設定を行ってください</system:String>    
+    <system:String x:Key="EmulatorNotFound">エミュレータが検出されません\nエミュレータが起動していることを確認してください\nエミュレータが管理者権限で起動されている場合、本ソフトも管理者権限で起動してください\nそれでも検出できない場合は、手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため\n不要なエミュレータを閉じるか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
     <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
@@ -606,10 +607,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HibernateTip">Windows の電源オプションで休止状態を有効にする必要があります。そうしないと、この機能は無効になります。</system:String>
     <system:String x:Key="Sleep">スリープ</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
-    <system:String x:Key="Once">1回のみ*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">1回のみ実行するには、まず1回のみチェックしてください
-チェックが1回のみの場合、動作を実行すると1回のみをチェック前の状態に戻ります
-下のアクションを右クリックすると、1回だけ選択状態が同期してアクティブ/キャンセルされます</system:String>
+    <system:String x:Key="Once">今回のみ*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">チェックすると、オプションの変更が保存されず、次回 MAA 起動時または {key=LinkStart} 後に復元されます
+このオプションのチェックを解除すると、他のオプションの状態は正常に保存されます
+他のオプションを右クリックすると、このオプションも同時にチェック/チェック解除されます</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -777,6 +778,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生予案</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">チュートリアル終了後、前哨支点に入り、画面を一番左までスワイプしてください。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - 相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>

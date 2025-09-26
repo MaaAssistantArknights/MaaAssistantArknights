@@ -74,6 +74,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhookBody">메시지 본문 템플릿</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">플레이스홀더: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
+    <system:String x:Key="UseGpuForInferenceTip">GPU 추론을 사용하면 매우 적은 GPU 점유로 CPU 부담을 크게 줄일 수 있습니다</system:String>
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">현재 선택된 추론 가속 GPU({0})는 호환성 문제가 있어, 인식 오류, 위치 이상 또는 기타 예기치 않은 문제가 발생할 수 있습니다.\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
@@ -606,10 +607,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="HibernateTip">Windows의 전원 옵션에서 최대 절전 모드를 활성화해야 합니다. 그렇지 않으면 이 기능이 비활성화됩니다.</system:String>
     <system:String x:Key="Sleep">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
-    <system:String x:Key="Once">한 번만*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">한 번만 실행하려면 ｢{key=Once}｣를 먼저 체크하세요.
-｢{key=Once}｣이 체크되면 실행 후 ｢{key=Once}｣이 체크되기 전 상태로 작업이 복원됩니다.
-아래 작업을 마우스 오른쪽 버튼으로 클릭하면 선택한 ｢{key=Once}｣의 상태가 동기적으로 활성화/취소됩니다.</system:String>
+    <system:String x:Key="Once">이번에만*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">체크 시 옵션 변경 사항이 저장되지 않으며 다음 번 MAA 시작 또는 {key=LinkStart} 이후에 복원됩니다
+이 옵션의 체크를 해제하면 다른 옵션 상태가 정상적으로 저장됩니다
+다른 옵션을 마우스 오른쪽 버튼으로 클릭하면 이 옵션도 함께 체크/체크 해제됩니다</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터 홈 화면으로 이동</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -777,6 +778,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-차생예안</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">튜토리얼을 완료한 후 전초 거점에 들어가 화면을 왼쪽 끝까지 밀어주세요.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT (허) - 상담실 (비공식)</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢영업 시작｣)</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>

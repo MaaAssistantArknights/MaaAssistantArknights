@@ -74,6 +74,7 @@
     <system:String x:Key="ExternalNotificationCustomWebhookBody">Message body template</system:String>
     <system:String x:Key="ExternalNotificationCustomWebhookPlaceholders">Placeholders: {title}, {content}, {time}</system:String>
     <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
+    <system:String x:Key="UseGpuForInferenceTip">Using GPU inference can significantly reduce CPU load with minimal GPU usage</system:String>
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">The selected GPU ({0}) for inference acceleration has known compatibility issues, which may cause recognition errors, misalignment, or other unexpected results.\n\nIt is recommended to switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
@@ -606,10 +607,10 @@ The primary instance is 0, and other instances are the numbers after the version
     <system:String x:Key="HibernateTip">You need to enable the hibernate feature in Windows power options, otherwise this feature will be invalid.</system:String>
     <system:String x:Key="Sleep">Sleep</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
-    <system:String x:Key="Once">Only once*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">If you want to execute only once, please check "Only once" first
-When "Only once" is checked, after executing the action, it will restore to the state before "Only once" was checked
-Right-clicking the actions below will synchronize the activation/cancellation of the "Only once" selection state</system:String>
+    <system:String x:Key="Once">Only this time*</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">When checked, option changes will not be saved and will revert the next time MAA starts or after {key=LinkStart}
+After unchecking this option, other option states will be saved normally
+Right-clicking other options will check/uncheck this option simultaneously</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -777,6 +778,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-Secondary Plan</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Contest Channel: Green Grass City (Unofficial translation)</system:String>
