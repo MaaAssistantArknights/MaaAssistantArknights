@@ -5122,5 +5122,15 @@
     "resource/global/YoStarJP/resource/template/Roguelike/Sarkaz/Sarkaz@Roguelike@StageEncounterLeaveConfirm720p": "95b2f2e7c7145170f1d742d98f65ebb1d54cd4e8f14bd7e51da880d4a92bfebc",
     "resource/global/YoStarJP/resource/template/Roguelike/Mizuki/Mizuki@Roguelike@StageEncounterLeaveConfirm720p": "6aae7d28bb4635d11175176c9f7e7626a30a56fe8357156284769ff18dc41068",
     "resource/global/YoStarJP/resource/template/Roguelike/Sami/Sami@Roguelike@StageEncounterLeaveConfirm720p": "8194abe8c3e83d1367b2e13499219dbd3bc54926aa83d04e08786dc2076ff833",
-    "resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "b7f93af0962e6e016663a64d3bc1942690fbfc2ab8c8b097034aab2a60a19508"
+    "resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "b7f93af0962e6e016663a64d3bc1942690fbfc2ab8c8b097034aab2a60a19508",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@StartExecution": "557351e42b68826e9d0d7c7fd35c88301e3d425c65d99258d24eb9ba84459d04",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@Skip": "3accb0637965f170e0fb428a25fdca6854240cb03c5bcf581dfe0b0fb3916616",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@StartBuildingProduction": "623d35cff3b52919516bc1cc4801875fb09ceb6e67cd2748fb25fa6a53b49e61",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@StageName": "c6cffe65cb8aaf8e13c7720897674f1b955b15552950c93c33c0ac3f0cfe26fd",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@DoubleSpeed": "1c44231d8a7ef74632c33595f428d040ab14a87e88e996d65e50a3d40ce97841",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@SkipConfirm": "c716680317c6dc1640bf61d2547f1424c626f036515b9b0a23676731574193ce",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@WaitForEnd": "de0dd893e284f2c7e02990014e62e43a4d067500e014d99ce1e3f5a8e6d6a4e9",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@NextStep": "d6d6720edb98862c6e5a081266f2221ea8574910d6ad4203565e898d80bf43ad",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@DoNotApply": "de38fccebcdaa1d6175df33cd71391b1f711d3180f0d3be7d21e85e9055c634d",
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@SettlementStageName": "96b763372d2ffd52879c2346f972196ae32e088bb1a3e7f840cf647c989aa44f"
 }
