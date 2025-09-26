@@ -11,7 +11,9 @@ ARG NODEJS_VERSION=24
 # Install system dependencies
 RUN sudo apt update \
     && sudo apt upgrade -y \
-    && sudo apt install -y cmake
+    && sudo apt install -y \
+    cmake \
+    clangd
 
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
