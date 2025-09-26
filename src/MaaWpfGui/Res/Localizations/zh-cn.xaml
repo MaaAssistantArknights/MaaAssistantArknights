@@ -778,6 +778,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生预案</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">过完新手教程后进入前哨支点，滑动到界面最左侧。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相谈室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活动主界面（右下角有 ｢开始营业｣ 处）开始任务。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">争锋频道：青草城</system:String>
