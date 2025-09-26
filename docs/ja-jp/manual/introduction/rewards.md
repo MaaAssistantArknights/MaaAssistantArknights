@@ -2,13 +2,7 @@
 order: 6
 icon: lucide:gift
 ---
+# 報酬受取
 
-# 领取奖励
-
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
-:::
-
-自动领取每日奖励和每周奖励。
-
-同时支持其他奖励类型，具体请查看设置。
+毎日の報酬と毎週の報酬を自動受取します。
+その他の報酬タイプもサポートしており、詳細は設定をご確認ください。
