@@ -40,11 +40,11 @@ MAAは、MAA Assistant Arknightsです。
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション；[カスタムシフト](./protocol/base-scheduling-schema.md)にも対応しています。
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)へ公開求人データのアップロード。
 - 高スターの公開求人を選択するのに便利な公開求人のパネルの手動認識をサポートします。~~（この上級エリートとCost回復はシージかシージか）~~
-- 所持オペレーターを認識し、既存および未所有のオペレーターの記録サポート、公開求人を手動で設定するためのヒントを提供することもできます。（日本サーバーではオペレーターの名前部分のフォントサイズが異なるため認識にややブレがあります）
+- 所持オペレーターを認識し、既存および未所有のオペレーターの記録サポート、公開求人を手動で設定するためのヒントを提供することもできます。
 - 倉庫のアイテム認識機能 [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkntools.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！
 - 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集、電気ケトルを獲得！
-- 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
+- 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（中文）
 - C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
 UIを見れば使い方もすぐ分かる！  
@@ -91,18 +91,11 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 
 MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべて中国語（簡体字）を基準としています。
 
-### Windows
+### 開発への参加
 
-1. ビルド済みのサードパーティ ライブラリをダウンロードします。
+#### Windows
 
-      ```cmd
-      python tools/maadeps-download.py
-      ```
-
-2. Visual Studio 2022 で `MAA.sln` を開き、`MaaWpfGui` を右クリックして、スタートアップ プロジェクトとして設定します。
-3. VS 上記の設定で 'RelWithDebInfo' 'x64' を選択します （Release パッケージまたは ARM プラットフォームをコンパイルしている場合は、この手順を無視してください）
-4. `MaaWpfGui` を右クリックし、[プロパティ] - [デバッグ] - [ローカル デバッグを有効にする] を選択します (これにより、C++ コアにブレークポイントを掛けることができます)。
-5. (オプション) PR を送信する場合は、[clang-formatを有効にする](./develop/development.md#visual-studioでclang-formatを有効にする)を有効にすることをお勧めします。
+[開発関連](./develop/development.md)を参照してください。
 
 ### Linux | macOS
 
