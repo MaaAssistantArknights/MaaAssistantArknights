@@ -150,15 +150,15 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 我们预置了多种不同的开发环境以供选择：
 
-  - 空白环境，裸 Linux 容器（默认）
+- 空白环境，裸 Linux 容器（默认）
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
   
-  - 轻量环境，适合文档站前端开发
+- 轻量环境，适合文档站前端开发
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
   
-  - 全量环境，适合 MAA Core 相关开发
+- 全量环境，适合 MAA Core 相关开发
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
