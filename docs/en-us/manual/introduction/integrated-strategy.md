@@ -56,10 +56,10 @@ For details, see the [Integrated Strategy Protocol](../../protocol/integrated-st
 - Automatically recognizes operators and their levels, selecting optimal operators and skills.
 - Recognizes shop items and prioritizes purchasing more powerful collectibles.
 
-## Exception Handling
+## Exception Detection
 
-- Automatically reconnects and continues tasks after disconnections or the 4 AM server reset.
-- For battles exceeding 5 minutes, automatically retreats all ground units; after 6 minutes, abandons the battle to avoid time-consuming deadlocks.
-- If a task encounters problems, automatically abandons the current exploration and retries.
+- If a task encounters problems, it will automatically abandon the current exploration and retry.
+- If battle duration exceeds 5 minutes, all ground units will automatically retreat; if it exceeds 6 minutes, the current battle will be automatically abandoned to avoid time-consuming stalemates.
+- To automatically reconnect and continue tasks after intermittent disconnections or updates, please also enable the Start Wake-Up Task and set the corresponding time for forced scheduled start.
 
-If the program repeatedly gets stuck at the same point, please submit an Issue with logs
+If the program gets stuck at the same location multiple times, please submit an Issue with logs and screenshots.
