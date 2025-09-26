@@ -11,7 +11,7 @@
     "MiniGame@RebuildingMandate@StartExecution": {
         "action": "ClickSelf",
         "roi": [1040, 584, 240, 136],
-        "next": ["#self", "MiniGame@RebuildingMandate@NextStep"]
+        "next": ["MiniGame@RebuildingMandate@NextStep", "#self"]
     },
     "MiniGame@RebuildingMandate@NextStep": {
         "action": "ClickSelf",
@@ -33,30 +33,27 @@
     "MiniGame@RebuildingMandate@Skip": {
         "action": "ClickSelf",
         "roi": [1079, 0, 201, 144],
-        "postDelay": 1000,
         "next": ["MiniGame@RebuildingMandate@SkipConfirm", "#self"]
     },
     "MiniGame@RebuildingMandate@SkipConfirm": {
         "action": "ClickSelf",
         "roi": [714, 284, 168, 155],
-        "postDelay": 1000,
         "next": ["#self", "MiniGame@RebuildingMandate@Lava"]
     },
     "MiniGame@RebuildingMandate@Lava": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
-        "specificRect": [1135, 656, 8, 8],
-        "rectMove": [733, 303, 8, 8],
-        "postDelay": 500,
+        "specificRect": [1135, 656, 1, 1],
+        "rectMove": [733, 303, 1, 1],
         "next": ["MiniGame@RebuildingMandate@LavaConfirm"]
     },
     "MiniGame@RebuildingMandate@LavaConfirm": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
-        "specificRect": [733, 303, 8, 8],
-        "rectMove": [233, 303, 8, 8],
+        "specificRect": [733, 303, 1, 1],
+        "rectMove": [533, 303, 1, 1],
         "next": ["MiniGame@RebuildingMandate@DoubleSpeed"]
     },
     "MiniGame@RebuildingMandate@DoubleSpeed": {
@@ -79,7 +76,6 @@
     "MiniGame@RebuildingMandate@SettlementStageName": {
         "action": "ClickSelf",
         "roi": [0, 572, 458, 148],
-        "postDelay": 1000,
         "next": ["#self", "MiniGame@RebuildingMandate@Begin"]
     }
 }
