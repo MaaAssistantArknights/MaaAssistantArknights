@@ -67,7 +67,4 @@ next: false
             !!~7!^:::!~  ~!    Y      .~?7  ..  .? ?^ .~!J  ?7^~5 J::.  J.7::^7^~!     :5     .!: : :~J          ^^!?
                                        .
 
-
-
-
 <!-- markdownlint-disable-file -->
