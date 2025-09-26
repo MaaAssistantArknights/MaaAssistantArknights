@@ -778,6 +778,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-Secondary Plan</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Contest Channel: Green Grass City (Unofficial translation)</system:String>

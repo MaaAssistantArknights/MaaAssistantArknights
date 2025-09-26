@@ -249,7 +249,7 @@
     <system:String x:Key="AdbProgram">ADBプログラム</system:String>
     <system:String x:Key="EmulatorException">エミュレータのエラー検出\n管理者権限でこのアプリを開くか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="AdbException">ADB検出エラー\nこのソフトウェアを開くには管理者権限を使用するか\n手動で接続を設定してください</system:String>
-    <system:String x:Key="EmulatorNotFound">エミュレータが検出されません\nエミュレータが起動していることを確認してください\nエミュレータが管理者権限で起動されている場合、本ソフトも管理者権限で起動してください\nそれでも検出できない場合は、手動で接続設定を行ってください</system:String>    
+    <system:String x:Key="EmulatorNotFound">エミュレータが検出されません\nエミュレータが起動していることを確認してください\nエミュレータが管理者権限で起動されている場合、本ソフトも管理者権限で起動してください\nそれでも検出できない場合は、手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため\n不要なエミュレータを閉じるか\n手動で接続設定を行ってください</system:String>
     <system:String x:Key="EmulatorStartFailed">エミュレータの起動に失敗しました\n管理者権限でこのソフトウェアを開いていただくか\n手動でエミュレータを起動してください。</system:String>
     <system:String x:Key="SwitchLanguage">言語を切り替える 🌐</system:String>
@@ -778,6 +778,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生予案</system:String>
+    <system:String x:Key="MiniGame@RebuildingMandateTip">チュートリアル終了後、前哨支点に入り、画面を一番左までスワイプしてください。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - 相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>
