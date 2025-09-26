@@ -36,9 +36,6 @@
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
 
                 // Language-specific formatting
-                "[markdown]": {
-                    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-                },
                 "[python]": {
                     "editor.defaultFormatter": "ms-python.black-formatter",
                     "editor.codeActionsOnSave": {
