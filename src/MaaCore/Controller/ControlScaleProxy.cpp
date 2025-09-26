@@ -118,15 +118,19 @@ bool asst::ControlScaleProxy::swipe(
     bool precise1 = (r1.width == 1 && r1.height == 1);
     bool precise2 = (r2.width == 1 && r2.height == 1);
 
-    if (precise1)
+    if (precise1) {
         rand_p1 = Point(r1.x, r1.y);
-    else
+    }
+    else {
         rand_p1 = rand_point_in_rect(r1);
+    }
 
-    if (precise2)
+    if (precise2) {
         rand_p2 = Point(r2.x, r2.y);
-    else
+    }
+    else {
         rand_p2 = rand_point_in_rect(r2);
+    }
 
     if (m_controller_type == ControllerType::Adb && !(precise1 && precise2)) {
         // 只有不是精确点时才做ADB修正
