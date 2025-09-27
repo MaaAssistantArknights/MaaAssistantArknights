@@ -863,7 +863,6 @@ asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_ra
                 return TaskDataSymbol::append_prefix(
                     symbol,
                     prefix,
-                    self_name,
                     get_raw,
                     [&](const TaskList& raw_or_empty) -> TaskDataSymbol::SymbolsOrError {
                         if (auto opt = compile_raw_tasklist(raw_or_empty, self_name, get_raw, allow_duplicate)) {
