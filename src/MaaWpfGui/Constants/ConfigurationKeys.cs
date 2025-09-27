@@ -130,7 +130,8 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
-        public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
+        public const string UseExpiringMedicineInDaysEnabled = "Fight.UseExpiringMedicineInDaysEnabled";
+        public const string UseExpiringMedicineInDays = "Fight.UseExpiringMedicineInDays";
         public const string RemainingSanityStage = "Fight.RemainingSanityStage";
 
         public const string RoguelikeTheme = "Roguelike.RoguelikeTheme";
