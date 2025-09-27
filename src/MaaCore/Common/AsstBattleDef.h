@@ -225,6 +225,7 @@ enum class ActionType
     BulletTime,  // 使用 1/5 的速度
     Output,      // 仅输出，什么都不操作，界面上也不显示
     SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
+    ResetTimer,  // 重置全局计时器 (试验性功能)
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头
@@ -253,6 +254,8 @@ struct Action
     std::string doc_color;
     RoleCounts role_counts;
     std::pair<double, double> distance;
+    bool skip_if_not_ready = false; // 跳过使用未准备好的技能，主要用于关闭技能的场景 (试验性功能)
+    int elapsed_time = 0;           // 全局计时条件 (试验性功能)
 };
 
 struct BasicInfo
