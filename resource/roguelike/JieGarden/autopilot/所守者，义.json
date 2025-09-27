@@ -9,6 +9,11 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
+            "groups": ["召唤"],
+            "location": [8, 1],
+            "direction": "down"
+        },
+        {
             "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出"],
             "location": [5, 5],
             "direction": "up"
@@ -30,8 +35,8 @@
         },
         {
             "groups": ["高台输出"],
-            "location": [3, 4],
-            "direction": "right"
+            "location": [7, 1],
+            "direction": "down"
         },
         {
             "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
@@ -39,23 +44,28 @@
             "direction": "left"
         },
         {
-            "groups": ["处决者"],
+            "groups": ["处决者", "鱼"],
             "location": [6, 2],
             "direction": "down"
         },
         {
-            "groups": ["处决者"],
-            "location": [5, 4],
-            "direction": "left"
-        },
-        {
-            "groups": ["处决者"],
-            "location": [6, 4],
-            "direction": "left"
-        },
-        {
             "groups": ["补给站"],
             "location": [4, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [6, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [7, 3],
             "direction": "left"
         }
     ]
