@@ -150,6 +150,4 @@ You can also format with `tools\ClangFormatter\clang-formatter.py` directly, by 
 
 Create GitHub codespace with pre-configured C++ dev environments:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
-
-Then follow the instructions in vscode or [Linux tutorial](./linux-tutorial.md) to configure GCC 12 and the CMake project.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

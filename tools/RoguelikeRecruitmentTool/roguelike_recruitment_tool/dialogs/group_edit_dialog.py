@@ -1,7 +1,6 @@
 from typing import Optional
 
 from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QPushButton, QWidget
-
 from roguelike.recruitment import Group
 
 

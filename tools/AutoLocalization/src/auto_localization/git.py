@@ -1,6 +1,7 @@
 import os.path
 import subprocess
 
+
 def get_latest_file_content(file_path="./cli.py", encoding="utf-8", tag_name=""):
     dirname = os.path.dirname(file_path)
     basename = os.path.basename(file_path)

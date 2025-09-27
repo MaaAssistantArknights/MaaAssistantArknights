@@ -1,8 +1,7 @@
 import pickle
 from typing import Callable
 
-from PyQt5.QtCore import QAbstractListModel, QMimeData, QModelIndex, QVariant, Qt
-
+from PyQt5.QtCore import QAbstractListModel, QMimeData, QModelIndex, Qt, QVariant
 from roguelike.recruitment import Oper
 
 from ..common import DocRole
@@ -64,7 +63,9 @@ class OperListModel(QAbstractListModel):
 
         index = indexes[0]
         if index.isValid():
-            mime_data.setData("application/x-custom-list-item", pickle.dumps(index.row()))
+            mime_data.setData(
+                "application/x-custom-list-item", pickle.dumps(index.row())
+            )
         return mime_data
 
     def dropMimeData(self, data, action, row, column, parent):

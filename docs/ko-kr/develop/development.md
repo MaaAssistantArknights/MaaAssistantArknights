@@ -156,6 +156,4 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 
 GitHub codespace를 사용하여 자동으로 C++ 개발 환경을 구성하세요.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
-
-그런 다음 vscode의 지침을 따르거나 [Linux 컴파일 가이드](./linux-tutorial.md)를 참고하여 GCC 12 및 CMake 프로젝트를 설정하세요.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

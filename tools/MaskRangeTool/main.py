@@ -1,19 +1,27 @@
-import cv2
-from utils import generate_mask_ranges, show_image_mask, calc_mask_from_ranges, compare_2_image_with_mask_ranges
 from pathlib import Path
+
+import cv2
+from mask_utils import (
+    calc_mask_from_ranges,
+    compare_2_image_with_mask_ranges,
+    generate_mask_ranges,
+    show_image_mask,
+)
 
 cur_dir = Path(__file__).parent.resolve()
 maa_dir = cur_dir.parent.parent
 
 
-if __name__ == '__main__':
-    luv_base_mask_range_ignore_light = [[[0, 0, 0], [230, 255, 255]]] # 忽略亮色背景
-    luv_base_mask_range_ignore_dark = [[[20, 0, 0], [255, 255, 255]]] # 忽略暗色背景
-    luv_base_mask_range_ignore_light_dark = [[[20, 0, 0], [230, 255, 255]]] # 忽略亮色暗色背景
-    hsv_base_mask_range_ignore_light = [[[0, 0, 0], [180, 254, 230]]] # 忽略亮色背景
-    hsv_base_mask_range_ignore_dark = [[[0, 1, 40], [180, 255, 255]]] # 忽略暗色背景
-    rgb_base_mask_range_ignore_light = [[[0, 0, 0], [200, 200, 200]]] # 忽略亮色背景
-    rgb_base_mask_range_ignore_dark = [[[20, 20, 20], [255, 255, 255]]] # 忽略暗色背景
+if __name__ == "__main__":
+    luv_base_mask_range_ignore_light = [[[0, 0, 0], [230, 255, 255]]]  # 忽略亮色背景
+    luv_base_mask_range_ignore_dark = [[[20, 0, 0], [255, 255, 255]]]  # 忽略暗色背景
+    luv_base_mask_range_ignore_light_dark = [
+        [[20, 0, 0], [230, 255, 255]]
+    ]  # 忽略亮色暗色背景
+    hsv_base_mask_range_ignore_light = [[[0, 0, 0], [180, 254, 230]]]  # 忽略亮色背景
+    hsv_base_mask_range_ignore_dark = [[[0, 1, 40], [180, 255, 255]]]  # 忽略暗色背景
+    rgb_base_mask_range_ignore_light = [[[0, 0, 0], [200, 200, 200]]]  # 忽略亮色背景
+    rgb_base_mask_range_ignore_dark = [[[20, 20, 20], [255, 255, 255]]]  # 忽略暗色背景
 
     # 自动判断图片的合适 mask_ranges
     # image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageWindAndRain.png"))
@@ -22,35 +30,46 @@ if __name__ == '__main__':
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageDreadfulFoe.png"))
-    mask_ranges = [
-            [
-                [100, 0, 40],
-                [140, 220, 255]
-            ],
-            [
-                [0, 0, 230],
-                [180, 30, 255]
-            ]
-        ]
+    image = cv2.imread(
+        str(
+            maa_dir
+            / "resource"
+            / "template"
+            / "Roguelike"
+            / "JieGarden"
+            / "JieGarden@Roguelike@StageDreadfulFoe.png"
+        )
+    )
+    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
 
-    show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'hsv', False), 'hsv')
+    show_image_mask(
+        image, calc_mask_from_ranges(image, mask_ranges, "hsv", False), "hsv"
+    )
     # mask_ranges = [[[93, 81, 130], [102, 97, 142]], [[128, 100, 164], [134, 110, 169]], [[95, 85, 145], [105, 95, 155]]]
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageDreadfulFoe-5.png"))
-    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageDreadfulFoe.png"))
-    mask_ranges = [
-            [
-                [100, 0, 40],
-                [140, 220, 255]
-            ],
-            [
-                [0, 0, 230],
-                [180, 30, 255]
-            ]
-        ]
+    image1 = cv2.imread(
+        str(
+            maa_dir
+            / "resource"
+            / "template"
+            / "Roguelike"
+            / "JieGarden"
+            / "JieGarden@Roguelike@StageDreadfulFoe-5.png"
+        )
+    )
+    image2 = cv2.imread(
+        str(
+            maa_dir
+            / "resource"
+            / "template"
+            / "Roguelike"
+            / "JieGarden"
+            / "JieGarden@Roguelike@StageDreadfulFoe.png"
+        )
+    )
+    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
 
     compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)

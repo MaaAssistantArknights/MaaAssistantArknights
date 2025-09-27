@@ -1,14 +1,14 @@
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def convert_color(image, color):
-    if color.lower() == 'luv':
+    if color.lower() == "luv":
         return cv2.cvtColor(image, cv2.COLOR_BGR2Luv)
-    elif color.lower() == 'hsv':
+    elif color.lower() == "hsv":
         return cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    elif color.lower() == 'rgb':
+    elif color.lower() == "rgb":
         return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     else:
         raise RuntimeError("Invalid param `color` in function convert_color")
@@ -25,7 +25,9 @@ def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
         l0, l1, l2 = mask_range[0]
         u0, u1, u2 = mask_range[1]
         if mask is not None:
-            mask = cv2.bitwise_or(mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2)))
+            mask = cv2.bitwise_or(
+                mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
+            )
         else:
             mask = cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
 
@@ -44,46 +46,61 @@ def show_image_mask(image, mask, color, hist_mask=None):
 
     # channel ranges
     CHANNEL_RANGES = {
-        'luv': [(0, 255), (0, 255), (0, 255)],
-        'hsv': [(0, 179), (0, 255), (0, 255)],
-        'rgb': [(0, 255), (0, 255), (0, 255)]
+        "luv": [(0, 255), (0, 255), (0, 255)],
+        "hsv": [(0, 179), (0, 255), (0, 255)],
+        "rgb": [(0, 255), (0, 255), (0, 255)],
     }
 
     channel_ranges = CHANNEL_RANGES[color.lower()]
 
-    hist_0 = cv2.calcHist([image_for_hist], [0], hist_mask, [channel_ranges[0][1] - channel_ranges[0][0]],
-                          [channel_ranges[0][0], channel_ranges[0][1] + 1])
-    hist_1 = cv2.calcHist([image_for_hist], [1], hist_mask, [channel_ranges[1][1] - channel_ranges[1][0]],
-                          [channel_ranges[1][0], channel_ranges[1][1] + 1])
-    hist_2 = cv2.calcHist([image_for_hist], [2], hist_mask, [channel_ranges[2][1] - channel_ranges[2][0]],
-                          [channel_ranges[2][0], channel_ranges[2][1] + 1])
+    hist_0 = cv2.calcHist(
+        [image_for_hist],
+        [0],
+        hist_mask,
+        [channel_ranges[0][1] - channel_ranges[0][0]],
+        [channel_ranges[0][0], channel_ranges[0][1] + 1],
+    )
+    hist_1 = cv2.calcHist(
+        [image_for_hist],
+        [1],
+        hist_mask,
+        [channel_ranges[1][1] - channel_ranges[1][0]],
+        [channel_ranges[1][0], channel_ranges[1][1] + 1],
+    )
+    hist_2 = cv2.calcHist(
+        [image_for_hist],
+        [2],
+        hist_mask,
+        [channel_ranges[2][1] - channel_ranges[2][0]],
+        [channel_ranges[2][0], channel_ranges[2][1] + 1],
+    )
 
-    axs[0, 0].plot(hist_0, color='r')
-    axs[0, 0].set_title('Channel 0 Histogram')
+    axs[0, 0].plot(hist_0, color="r")
+    axs[0, 0].set_title("Channel 0 Histogram")
     axs[0, 0].set_xlim([channel_ranges[0][0], channel_ranges[0][1]])
 
-    axs[0, 1].plot(hist_1, color='g')
-    axs[0, 1].set_title('Channel 1 Histogram')
+    axs[0, 1].plot(hist_1, color="g")
+    axs[0, 1].set_title("Channel 1 Histogram")
     axs[0, 1].set_xlim([channel_ranges[1][0], channel_ranges[1][1]])
 
-    axs[0, 2].plot(hist_2, color='b')
-    axs[0, 2].set_title('Channel 2 Histogram')
+    axs[0, 2].plot(hist_2, color="b")
+    axs[0, 2].set_title("Channel 2 Histogram")
     axs[0, 2].set_xlim([channel_ranges[2][0], channel_ranges[2][1]])
 
     # 原图
     axs[1, 0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    axs[1, 0].set_title('Original Image')
-    axs[1, 0].axis('off')
+    axs[1, 0].set_title("Original Image")
+    axs[1, 0].axis("off")
 
     # 掩码后的图像
     axs[1, 1].imshow(cv2.cvtColor(image_with_mask, cv2.COLOR_BGR2RGB))
-    axs[1, 1].set_title('Image with Mask')
-    axs[1, 1].axis('off')
+    axs[1, 1].set_title("Image with Mask")
+    axs[1, 1].axis("off")
 
     # 显示掩码
-    axs[1, 2].imshow(mask, cmap='gray')
-    axs[1, 2].set_title('Mask')
-    axs[1, 2].axis('off')
+    axs[1, 2].imshow(mask, cmap="gray")
+    axs[1, 2].set_title("Mask")
+    axs[1, 2].axis("off")
 
     plt.tight_layout()
     plt.show()
@@ -123,15 +140,21 @@ def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
             break
 
         mask_ranges.append([[l0, l1, l2], [u0, u1, u2]])
-        mask = cv2.bitwise_or(mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2)))
+        mask = cv2.bitwise_or(
+            mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
+        )
 
-    print(f'Recommend {color.upper()} Mask Range: {mask_ranges}')
-    show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, color), color, base_mask)
+    print(f"Recommend {color.upper()} Mask Range: {mask_ranges}")
+    show_image_mask(
+        image, calc_mask_from_ranges(image, mask_ranges, color), color, base_mask
+    )
 
     return mask_ranges
 
 
-def compare_2_image_with_mask_ranges(image1, image2, mask_ranges, color, mask_close=False):
+def compare_2_image_with_mask_ranges(
+    image1, image2, mask_ranges, color, mask_close=False
+):
     image1_for_mask = convert_color(image1, color)
     image2_for_mask = convert_color(image2, color)
 
@@ -145,33 +168,33 @@ def compare_2_image_with_mask_ranges(image1, image2, mask_ranges, color, mask_cl
 
     # 原图
     axs[0, 0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
-    axs[0, 0].set_title('Original Image')
-    axs[0, 0].axis('off')
+    axs[0, 0].set_title("Original Image")
+    axs[0, 0].axis("off")
 
     # 掩码后的图像
     axs[0, 1].imshow(cv2.cvtColor(image1_with_mask, cv2.COLOR_BGR2RGB))
-    axs[0, 1].set_title('Image with Mask')
-    axs[0, 1].axis('off')
+    axs[0, 1].set_title("Image with Mask")
+    axs[0, 1].axis("off")
 
     # 显示掩码
-    axs[0, 2].imshow(mask1, cmap='gray')
-    axs[0, 2].set_title('Mask')
-    axs[0, 2].axis('off')
+    axs[0, 2].imshow(mask1, cmap="gray")
+    axs[0, 2].set_title("Mask")
+    axs[0, 2].axis("off")
 
     # 原图
     axs[1, 0].imshow(cv2.cvtColor(image2, cv2.COLOR_BGR2RGB))
-    axs[1, 0].set_title('Original Image')
-    axs[1, 0].axis('off')
+    axs[1, 0].set_title("Original Image")
+    axs[1, 0].axis("off")
 
     # 掩码后的图像
     axs[1, 1].imshow(cv2.cvtColor(image2_with_mask, cv2.COLOR_BGR2RGB))
-    axs[1, 1].set_title('Image with Mask')
-    axs[1, 1].axis('off')
+    axs[1, 1].set_title("Image with Mask")
+    axs[1, 1].axis("off")
 
     # 显示掩码
-    axs[1, 2].imshow(mask2, cmap='gray')
-    axs[1, 2].set_title('Mask')
-    axs[1, 2].axis('off')
+    axs[1, 2].imshow(mask2, cmap="gray")
+    axs[1, 2].set_title("Mask")
+    axs[1, 2].axis("off")
 
     plt.tight_layout()
     plt.show()

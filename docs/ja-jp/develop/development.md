@@ -125,6 +125,4 @@ Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンド�
 
 GitHub codespace を作成して C++ 開発環境を自動的に構成する
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
-
-次に、 vscode または [Linuxチュートリアル](./linux-tutorial.md) のプロンプトに従って、 GCC 12 および CMake プロジェクトを構成します。
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

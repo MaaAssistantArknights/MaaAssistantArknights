@@ -84,7 +84,7 @@ icon: jam:write-f
 
 **输入：**
 
-```md
+```markdown
 MaaAssistantArknight 是由 ==很多猪== 开发的
 ```
 
