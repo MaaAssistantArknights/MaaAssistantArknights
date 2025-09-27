@@ -39,6 +39,9 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         // 点击刷新
         sleep(500);
         if (ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run()) {
+            ProcessTask(*this, { theme + "@Roguelike@StageTraderRefreshConfirm" })
+                .set_retry_times(RetryTimesDefault)
+                .run();
             buy_once();
         }
     }
