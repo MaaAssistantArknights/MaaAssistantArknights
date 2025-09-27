@@ -11,6 +11,14 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 歡迎使用作業分享站 [prts.plus](https://prts.plus) 使用及分享作業文件。
 
+::: warning
+所有涉及到自動戰鬥的功能都需要以下前提，這包括但不限於自動戰鬥和自動肉鴿。
+
+- 至少 60 幀的**穩定**遊戲幀數
+- 觸控模式為 Minitouch 或 MaaTouch
+
+:::
+
 ## 抄作業
 
 支持任意 `可編隊關卡` 和 `保全派駐` 模式的自動戰鬥。
