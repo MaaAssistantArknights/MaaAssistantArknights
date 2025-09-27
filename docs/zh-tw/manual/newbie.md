@@ -11,31 +11,31 @@ icon: ri:guide-fill
 
 1. 確認系統版本
 
-    MAA 僅支援 Windows 10 / 11，舊版 Windows 請參考[常見問題](./faq.md#系統問題)。
+   MAA 僅支援 Windows 10 / 11，舊版 Windows 請參考[常見問題](./faq.md#系統問題)。
 
-    非 Windows 用戶請參閱[模擬器及設備支援](./device/)。
+   非 Windows 用戶請參閱[模擬器及設備支援](./device/)。
 
 2. 下載正確的版本
 
-    [MAA 官網](https://maa.plus/)一般會自動選擇正確的版本架構，對於大多數閱讀本文的用戶來說，應為 Windows x64。
+   [MAA 官網](https://maa.plus/)一般會自動選擇正確的版本架構，對於大多數閱讀本文的用戶來說，應為 Windows x64。
 
 3. 正確解壓
 
-    確認解壓完整，並確保將 MAA 解壓到一個獨立的文件夾中。請勿將 MAA 解壓到如 `C:\`、`C:\Program Files\` 等需要 UAC 權限的路徑。
+   確認解壓完整，並確保將 MAA 解壓到一個獨立的文件夾中。請勿將 MAA 解壓到如 `C:\`、`C:\Program Files\` 等需要 UAC 權限的路徑。
 
 4. 安裝運行庫
 
-    MAA 需要 VCRedist x64 和 .NET 8，請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat` 來安裝。
+   MAA 需要 VCRedist x64 和 .NET 8，請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat` 來安裝。
 
-    更多信息參考[常見問題](faq.md#可能性-2--執行庫問題)。
+   更多信息參考[常見問題](faq.md#可能性-2--執行庫問題)。
 
 5. 確認模擬器支援
 
-    查閱[模擬器和設備支援](./device/)，確認正在使用的模擬器支援情況。
+   查閱[模擬器和設備支援](./device/)，確認正在使用的模擬器支援情況。
 
 6. 正確設置模擬器解析度
 
-    模擬器解析度應為橫屏的 `1280x720` 或 `1920x1080`；對於美服（YosterEN）玩家，必須為 `1920x1080`。
+   模擬器解析度應為橫屏的 `1280x720` 或 `1920x1080`；對於美服（YosterEN）玩家，必須為 `1920x1080`。
 
 ## 初始配置
 

@@ -2,6 +2,7 @@
 order: 3
 icon: mingcute:git-pull-request-fill
 ---
+
 # 純網頁端 PR 教學
 
 牛牛也能看懂的 GitHub Pull Request 使用指南 (\*´▽｀)ノノ
@@ -71,79 +72,79 @@ icon: mingcute:git-pull-request-fill
 
 1. 首先進入 MAA 主倉庫，fork 一份代碼
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/fork-light.png',
-        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/fork-light.png',
+       dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+     }
+   ]" />
 
 2. 把 “僅 master 分支” 這個選項去掉，然後點擊 Create Fork
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+     }
+   ]" />
 
 3. 接下來來到了你的個人倉庫，可以看到標題是 “你的名字/MaaAssistantArknights”，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （複製自 MAA 主倉庫）
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
+     }
+   ]" />
 
 4. 找到你要改的檔案，可以點 “Go to file” 進行全局搜尋，也可以直接在下面的資料夾裡翻（如果你知道檔案在哪的話）
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
+     }
+   ]" />
 
 5. 打開檔案後，直接點擊檔案右上角的 ✏️ 進行編輯
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
+     }
+   ]" />
 
 6. 開改！（當然如果是資源檔案這種，我們建議先在你電腦上的 MAA 資料夾裡測試修改，確認沒問題了再貼上到網頁上，避免改錯了）
 7. 改完了，翻到最下面，寫一下你改了啥
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
+     }
+   ]" />
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
+     }
+   ]" />
 
 8. 還有第二個檔案要改的？改完了發現弄錯了想再改改？都沒關係！重複 5-8 即可！
 9. 全改好了進行 PR ！直接點 **個人倉庫** 裡的 Pull Request 標籤頁  
-    如果有 Compare & Pull Request 按鈕，那最好，直接點他！如果沒有也不用著急，點下面的 New Pull Request 也是一樣的（請看步驟 11）
+   如果有 Compare & Pull Request 按鈕，那最好，直接點他！如果沒有也不用著急，點下面的 New Pull Request 也是一樣的（請看步驟 11）
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
+     }
+   ]" />
 
 10. 這時候來到了主倉庫，請核對一下你要 PR 的是否確認。  
-    如圖中，中間有個向左的箭頭，是將右邊的 個人姓名/MAA 的 dev 分支，申請合併到 主倉庫/MAA 的 dev 分支。  
+    如圖中，中間有個向左的箭頭，是將右邊的 個人姓名/MAA 的 dev 分支，申請合併到 主倉庫/MAA 的 dev 分支。
 
     <ImageGrid :imageList="[
       {
@@ -162,30 +163,30 @@ icon: mingcute:git-pull-request-fill
     ]" />
 
 11. 等待 MAA Team 的大佬們審核吧！當然他們也可能會提意見  
-  👇 比如（純屬娛樂切勿當真）
+    👇 比如（純屬娛樂切勿當真）
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
-      }
-    ]" />
+        {
+          light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
+          dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
+        }
+      ]" />
 
 12. 如果大佬們說要再修改一些小問題的話，回到 **你的個人倉庫**，切換到先前的 dev 分支，重複 步驟 3-9 即可！  
-  注意不需要操作步驟 2（重新 fork），也不需要操作步驟 10（重新 Pull Request），你目前的 Pull Request 仍處於待審核狀態，後續的修改會直接進入到這個 Pull Request 中  
-  👇 比如可以看到最下面多了一條 “重新修改演示” 的內容
+    注意不需要操作步驟 2（重新 fork），也不需要操作步驟 10（重新 Pull Request），你目前的 Pull Request 仍處於待審核狀態，後續的修改會直接進入到這個 Pull Request 中  
+    👇 比如可以看到最下面多了一條 “重新修改演示” 的內容
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
-      }
-    ]" />
+        {
+          light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
+          dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
+        }
+      ]" />
 
 13. 等大佬們審批通過，就全部完成啦！**版本發布後**，你的 GitHub 頭像將會自動進入到貢獻者列表名單中，非常感謝各位的無私奉獻！  
     ~~怎麽全是二次元啊，哦我也是啊，那沒事了~~
     ::: tip 貢獻 / 參與者
-    感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (*´▽｀)ノノ
+    感謝所有參與到開發 / 測試中的朋友們，是大家的幫助讓 MAA 越來越好！ (\*´▽｀)ノノ
 
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
@@ -194,7 +195,7 @@ icon: mingcute:git-pull-request-fill
     ::: warning
     這個操作會強制將你的個人倉庫同步到和主倉庫一模一樣的狀態，這是最簡單粗暴但行之有效的解決衝突的方法。但如果你的個人倉庫已經有額外的編輯了，會被直接刪掉！
     :::
-    如果確定不會造成衝突，請使用右側綠色的 `Update Branch` 按鈕  
+    如果確定不會造成衝突，請使用右側綠色的 `Update Branch` 按鈕
 
     如果你不清楚 / 不 care 我上面說的這一大堆，也請點擊左側的按鈕
 

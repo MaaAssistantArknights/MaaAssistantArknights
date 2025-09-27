@@ -15,15 +15,15 @@ You can quickly navigate to the section you want to see by searching for CI file
 
 Workflow files are all stored under `.github/workflows`, and each file can be categorized into the following functional parts:
 
-+ [Code Testing](#code-testing)
-+ [Code Building](#code-building)
-+ [Version Release](#version-release)
-+ [Resource Updates](#resource-updates)
-+ [Website Building](#website-building)
-+ [Issues Management](#issues-management)
-+ [Pull Requests Management](#pull-requests-management)
-+ [MirrorChyan Related](#mirrorchyan-related)
-+ [Others](#others)
+- [Code Testing](#code-testing)
+- [Code Building](#code-building)
+- [Version Release](#version-release)
+- [Resource Updates](#resource-updates)
+- [Website Building](#website-building)
+- [Issues Management](#issues-management)
+- [Pull Requests Management](#pull-requests-management)
+- [MirrorChyan Related](#mirrorchyan-related)
+- [Others](#others)
 
 Additionally, we use [pre-commit.ci](https://pre-commit.ci/) to implement automatic code formatting and image resource optimization, which runs automatically after creating PRs and generally requires no special attention.
 
@@ -51,10 +51,10 @@ This workflow runs automatically on any new commit and PR. When triggered by a r
 
 Version release is the necessary operation to publish updates to users, consisting of the following workflows:
 
-+ `release-nightly-ota.yml` Release nightly builds
-+ `release-ota.yml` Release stable/beta versions
-  + `gen-changelog.yml` Generate changelog for stable/beta versions
-  + `pr-auto-tag.yml` Generate tags for stable/beta versions
+- `release-nightly-ota.yml` Release nightly builds
+- `release-ota.yml` Release stable/beta versions
+  - `gen-changelog.yml` Generate changelog for stable/beta versions
+  - `pr-auto-tag.yml` Generate tags for stable/beta versions
 
 ::: tip
 The "ota" in the above file names stands for Over-the-Air, which is what we commonly call "incremental update packages". Therefore, MAA's release process actually includes building OTA packages for past versions.
@@ -82,9 +82,9 @@ The release process for these two channels is relatively more complex. We'll exp
 
 This section of workflows is mainly responsible for MAA's resource updates and optimization, with the following specific workflows:
 
-+ `res-update-game.yml` Executes periodically to pull game resources from specified repositories
-+ `sync-resource.yml` Syncs resources to the MaaResource repository for resource updates
-+ `optimize-templates.yml` Optimizes template image sizes
+- `res-update-game.yml` Executes periodically to pull game resources from specified repositories
+- `sync-resource.yml` Syncs resources to the MaaResource repository for resource updates
+- `optimize-templates.yml` Optimizes template image sizes
 
 ### Website Building
 
@@ -119,8 +119,8 @@ This workflow checks whether commit messages in PRs conform to [Conventional Com
 
 MirrorChyan is a paid update mirror service, with the following related workflows:
 
-+ `mirrorchyan.yml` Sync update packages to MirrorChyan
-+ `mirrorchyan_release_note.yml` Generate MirrorChyan Release Notes
+- `mirrorchyan.yml` Sync update packages to MirrorChyan
+- `mirrorchyan_release_note.yml` Generate MirrorChyan Release Notes
 
 ### Others
 

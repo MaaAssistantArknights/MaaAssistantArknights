@@ -72,79 +72,79 @@ icon: mingcute:git-pull-request-fill
 
 1. 首先进入 MAA 主仓库，点右上角这个按钮 Fork 一份代码
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/fork-light.png',
-        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/fork-light.png',
+       dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+     }
+   ]" />
 
 2. 然后直接点击 Create Fork
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+     }
+   ]" />
 
 3. 接下来来到了你的个人仓库，可以看到标题是 "你的名字/MaaAssistantArknights"，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （复制自 MAA 主仓库）
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
+     }
+   ]" />
 
 4. 找到你要改的文件，可以点 "Go to file" 进行全局搜索，也可以直接在下面的文件夹里翻（如果你知道文件在哪的话）
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
+     }
+   ]" />
 
 5. 打开文件后，直接点击文件右上角的 ✏️ 进行编辑
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
+     }
+   ]" />
 
 6. 开改！（如果是资源文件这种，我们建议先在你电脑上的 MAA 文件夹里测试修改，确认没问题了再粘贴到网页上，避免改错了）
 7. 改完了，点击右上角的 👇 这个按钮，打开提交页面，写一下你改了啥
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
+     }
+   ]" />
 
-    我们有一个简单的提交标题[命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，最好可以遵守一下，当然如果实在看不懂也可以先随便写
+   我们有一个简单的提交标题[命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)，最好可以遵守一下，当然如果实在看不懂也可以先随便写
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
+     }
+   ]" />
 
 8. 还有第二个文件要改的？改完了发现弄错了想再改改？都没关系！重复步骤 4-7 即可！
 9. 全改好了进行 PR ！直接点 Code 回到**个人仓库**的主页  
-    如果有 Compare & Pull Request 按钮，那最好，直接点他！  
-    如果没有也不用着急，点下面的 Contribute（贡献）按钮，再点 Open Pull Request 也是一样的
+   如果有 Compare & Pull Request 按钮，那最好，直接点他！  
+   如果没有也不用着急，点下面的 Contribute（贡献）按钮，再点 Open Pull Request 也是一样的
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
+     }
+   ]" />
 
 10. 这时候来到了主仓库的 PR 页面，请核对一下你要 PR 的是不是你想提交的  
     如图中，中间有个向左的箭头，是将右边的的 个人姓名/MAA 的 dev 分支，申请合并到 主仓库/MAA 的 dev 分支  

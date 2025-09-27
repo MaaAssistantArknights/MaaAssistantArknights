@@ -26,7 +26,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基於圖像辨識技術，一鍵完成全部日常任務！
 
-絕讚更新中  ✿✿ヽ(°▽°)ノ✿
+絕讚更新中 ✿✿ヽ(°▽°)ノ✿
 
 :::
 
@@ -137,9 +137,9 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 1. 下載預構建的第三方庫
 
-    ```cmd
-    python tools/maadeps-download.py
-    ```
+   ```cmd
+   python tools/maadeps-download.py
+   ```
 
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目
 3. VS 上方配置選擇 `RelWithDebInfo`, `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
@@ -193,9 +193,9 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 Discord 伺服器：[Discord](https://discord.gg/23DfZ9uA4V)  
 用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)  
-Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談  
+Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談
 
 技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！

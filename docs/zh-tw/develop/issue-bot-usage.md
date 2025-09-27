@@ -2,6 +2,7 @@
 order: 4
 icon: bxs:bot
 ---
+
 # Issue Bot 使用方法
 
 Issue Bot 使用的 action 為 [issue-checker](https://github.com/zzyyyl/issue-checker) ，配置文件為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) 。
@@ -46,7 +47,7 @@ Issue Bot 會對 Pull Request 標題的格式進行簡單審查。它會增加 `
 
 - `Skip {LABEL_NAME}` 可以保證不增加標籤。
 - `Skip labels` 可以保證不增加任何標籤。
-- 以下幾種方法可以為 issue 增加 `fixed` 標籤：<sup>1</sup>  
+- 以下幾種方法可以為 issue 增加 `fixed` 標籤：<sup>1</sup>
   - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
   - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
   - `{VERSION} fixed`

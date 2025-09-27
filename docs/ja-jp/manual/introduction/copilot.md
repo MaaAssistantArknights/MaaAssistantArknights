@@ -2,6 +2,7 @@
 order: 9
 icon: ph:sword-bold
 ---
+
 # 自動戦闘
 
 作業共有サイト [prts.plus](https://prts.plus) で作業ファイルをご利用・共有ください。

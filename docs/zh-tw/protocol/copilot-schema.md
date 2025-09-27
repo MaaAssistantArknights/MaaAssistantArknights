@@ -2,6 +2,7 @@
 order: 3
 icon: ph:sword-bold
 ---
+
 # 戰鬥流程協議
 
 `resource/copilot/*.json` 的使用方法及各欄位說明

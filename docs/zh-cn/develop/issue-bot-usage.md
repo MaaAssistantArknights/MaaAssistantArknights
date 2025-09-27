@@ -47,7 +47,7 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 
 - `Skip {LABEL_NAME}` 可以保证不增加标签。
 - `Skip labels` 可以保证不增加任何标签。
-- 以下几种方法可以为议题增加 `fixed` 标签：<sup>1</sup>  
+- 以下几种方法可以为议题增加 `fixed` 标签：<sup>1</sup>
   - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
   - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
   - `{VERSION} fixed`

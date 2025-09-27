@@ -21,47 +21,47 @@ icon: iconoir:developer
 2. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Fork → Create fork 클릭
 3. 본인 저장소의 dev 브랜치를 서브모듈 포함 클론:
 
-    ```bash
-    git clone --recurse-submodules <저장소 git 링크> -b dev
-    ```
+   ```bash
+   git clone --recurse-submodules <저장소 git 링크> -b dev
+   ```
 
-    ::: warning
-    Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
+   ::: warning
+   Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
 
-    ```bash
-    git submodule update --init
-    ```
+   ```bash
+   git submodule update --init
+   ```
 
-    :::
+   :::
 
 4. 사전 빌드된 외부 라이브러리 다운로드
 
-    **Python 환경 필요 (별도 설치 필요)**  
+   **Python 환경 필요 (별도 설치 필요)**
 
-    ```cmd
-    python tools/maadeps-download.py
-    ```
+   ```cmd
+   python tools/maadeps-download.py
+   ```
 
 5. 개발 환경 구성
 
-    - Visual Studio 2022 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
+   - Visual Studio 2022 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
 6. MAA.sln 파일 더블클릭 → Visual Studio에서 프로젝트 자동 로드
 7. VS 설정
 
-    - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
-    - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
+   - 상단 구성에서 RelWithDebInfo x64 선택 (릴리스 빌드/ARM 플랫폼 시 생략)
+   - MaaWpfGui 우클릭 → 속성 → 디버그 → 네이티브 디버깅 활성화 (C++ 코어 중단점 사용 가능)
 
 8. 이제 자유롭게 ~~개조~~ 개발 시작!
 9. 주기적 커밋 (메시지 필수 작성)  
    Git 초보자는 dev 브랜치 대신 새 브랜치 생성 권장:
 
-    ```bash
-    git branch your_own_branch
-    git checkout your_own_branch
-    ```
+   ```bash
+   git branch your_own_branch
+   git checkout your_own_branch
+   ```
 
-    dev 브랜치 업데이트 영향에서 자유로움
+   dev 브랜치 업데이트 영향에서 자유로움
 
 10. 개발 완료 후 변경사항 원격 저장소로 푸시:
 
@@ -74,27 +74,27 @@ icon: iconoir:developer
 
     1. 업스트림 저장소 추가:
 
-        ```bash
-        git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-        ```
+       ```bash
+       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+       ```
 
     2. 변경사항 가져오기:
 
-        ```bash
-        git fetch upstream
-        ```
+       ```bash
+       git fetch upstream
+       ```
 
     3. 리베이스(권장) 또는 병합:
 
-        ```bash
-        git rebase upstream/dev
-        ```
+       ```bash
+       git rebase upstream/dev
+       ```
 
-        또는
+       또는
 
-        ```bash
-        git merge
-        ```
+       ```bash
+       git merge
+       ```
 
     4. 단계 7, 8, 9, 10 반복 수행
 
@@ -110,11 +110,11 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 
 현재 활성화된 포매팅 도구는 다음과 같습니다:
 
-| 파일 유형 | 포매팅 도구 |
-| --- | --- |
-| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
-| Json/Yaml | [Prettier](https://prettier.io/) |
-| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| 파일 유형 | 포매팅 도구                                                     |
+| --------- | --------------------------------------------------------------- |
+| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
+| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Pre-commit Hooks를 사용하여 자동 포매팅을 활성화
 
@@ -122,10 +122,10 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 
 2. 프로젝트 루트 디렉터리에서 다음 명령을 실행하세요.
 
-    ```bash
-    pip install pre-commit
-    pre-commit install
-    ```
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
 
 pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가 PATH에 추가되었는지 확인하세요.
 
@@ -135,9 +135,9 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 
 1. clang-format 20.1.0 또는 그 이상 버전을 설치합니다.
 
-    ```bash
-    python -m pip install clang-format
-    ```
+   ```bash
+   python -m pip install clang-format
+   ```
 
 2. Everything 등의 도구를 사용하여 clang-format.exe의 설치 위치를 찾습니다. 참고로 Anaconda를 사용하는 경우 clang-format.exe는 YourAnacondaPath/Scripts/clang-format.exe에 설치됩니다.
 

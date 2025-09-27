@@ -2,6 +2,7 @@
 order: 8
 icon: solar:streets-map-point-linear
 ---
+
 # 生息演算
 
 ::: important Translation Required

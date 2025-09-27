@@ -5,8 +5,8 @@ icon: iconoir:code-brackets
 
 # Dedicated VSCode Extension Tutorial
 
-* [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
-* [Repository](https://github.com/neko-para/maa-support-extension)
+- [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
+- [Repository](https://github.com/neko-para/maa-support-extension)
 
 ## Installation
 
@@ -60,10 +60,10 @@ When enabling the `Maa` compatible mode, the extension will be able to recursive
 
 The extension supports scheduled scanning and diagnosing all tasks.
 
-* Check if contains task defs with same names.
-* Check if contains unknown task refs.
-* Check if contains unknown image refs.
-* Check if contains duplicated task refs in a single task.
+- Check if contains task defs with same names.
+- Check if contains unknown task refs.
+- Check if contains unknown image refs.
+- Check if contains duplicated task refs in a single task.
 
 #### Multiple paths resource support
 
@@ -83,11 +83,11 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 
 > Use `Ctrl+Shift+P` (`Command+Shift+P` on MacOS) to open command panel
 
-* After selecting and connecting to the controller, use `Screencap` button to obtain screenshots
-* Use `Upload` button to manually upload images.
-* Hold `Ctrl` key and select cropping area
-* Use wheels to zoom
-* After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
+- After selecting and connecting to the controller, use `Screencap` button to obtain screenshots
+- Use `Upload` button to manually upload images.
+- Hold `Ctrl` key and select cropping area
+- Use wheels to zoom
+- After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
 
 ### Bottom status bar
 
