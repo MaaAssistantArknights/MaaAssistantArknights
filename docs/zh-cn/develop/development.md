@@ -21,44 +21,42 @@ icon: iconoir:developer
 2. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，点击 `Fork`，继续点击 `Create fork`
 3. 克隆你自己仓库下的 dev 分支到本地，并拉取子模块
 
-    ```bash
-    git clone --recurse-submodules <你的仓库的 git 链接> -b dev
-    ```
+   ```bash
+   git clone --recurse-submodules <你的仓库的 git 链接> -b dev
+   ```
 
-    ::: warning
-    如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
-    :::
+   ::: warning
+   如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
+   :::
 
 4. 下载预构建的第三方库
 
-    **需要有 Python 环境，请自行搜索 Python 安装教程**  
+   **需要有 Python 环境，请自行搜索 Python 安装教程**
 
-    ```cmd
-    python tools/maadeps-download.py
-    ```
+   ```cmd
+   python tools/maadeps-download.py
+   ```
 
 5. 配置编程环境
-
-    - 下载并安装 `CMake`
-    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
+   - 下载并安装 `CMake`
+   - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
 
 6. 执行 cmake 项目配置
 
-    ```cmd
-    mkdir -p build
-    cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
-    ```
+   ```cmd
+   mkdir -p build
+   cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   ```
 
 7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。
 8. 设置 VS
-
-    - VS 上方配置选择 `Debug` `x64`
-    - 右键 `MaaWpfGui` - 设为启动项目
-    - 按 F5 运行
+   - VS 上方配置选择 `Debug` `x64`
+   - 右键 `MaaWpfGui` - 设为启动项目
+   - 按 F5 运行
 
 9. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
 10. 开发过程中，每一定数量，记得提交一个 Commit, 别忘了写上 Message  
-   假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
+    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
 
     ```bash
     git branch your_own_branch
@@ -75,30 +73,29 @@ icon: iconoir:developer
 
 12. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一个 Pull Request，等待管理员通过。别忘了你是在 dev 分支上修改，别提交到 master 分支去了
 13. 当 MAA 原仓库出现更改（别人做的），你可能需要把这些更改同步到你的分支
-
     1. 关联 MAA 原仓库
 
-        ```bash
-        git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-        ```
+       ```bash
+       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+       ```
 
     2. 从 MAA 原仓库拉取更新
 
-        ```bash
-        git fetch upstream
-        ```
+       ```bash
+       git fetch upstream
+       ```
 
     3. 变基（推荐）或者合并修改
 
-        ```bash
-        git rebase upstream/dev # 变基
-        ```
+       ```bash
+       git rebase upstream/dev # 变基
+       ```
 
-        或者
+       或者
 
-        ```bash
-        git merge # 合并
-        ```
+       ```bash
+       git merge # 合并
+       ```
 
     4. 重复上述 7, 8, 9, 10 中的操作
 
@@ -114,11 +111,11 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 目前启用的格式化工具如下：
 
-| 文件类型 | 格式化工具 |
-| --- | --- |
-| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
-| Json/Yaml | [Prettier](https://prettier.io/) |
-| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| 文件类型  | 格式化工具                                                      |
+| --------- | --------------------------------------------------------------- |
+| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
+| Json/Yaml | [Prettier](https://prettier.io/)                                |
+| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### 利用 Pre-commit Hooks 自动进行代码格式化
 
@@ -126,10 +123,10 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 2. 在项目根目录下执行以下命令
 
-    ```bash
-    pip install pre-commit
-    pre-commit install
-    ```
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
 
 如果pip安装后依然无法运行 Pre-commit，请确认 PIP 安装地址已被添加到 PATH
 
@@ -139,9 +136,9 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 1. 安装 clang-format 20.1.0 或更高版本
 
-    ```bash
-    python -m pip install clang-format
-    ```
+   ```bash
+   python -m pip install clang-format
+   ```
 
 2. 使用 Everything 等工具 找到 clang-format.exe 的安装位置。作为参考，若您使用了 Anaconda，clang-format.exe 将安装在 YourAnacondaPath/Scripts/clang-format.exe
 

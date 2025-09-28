@@ -59,7 +59,6 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 #### 1. 安装 MAA 动态库
 
 1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
-
    - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
@@ -75,7 +74,6 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 一栏
 
 2. ADB 工具调用
-
    - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 ADB 。可以直接在 `adb.exe` 一栏填写 ADB 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
    ```python
@@ -85,7 +83,6 @@ MAA WPF GUI 当前可以通过 Wine 运行。
    - 如果使用其他模拟器须先下载 ADB ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
 
 3. 模拟器 ADB 路径获取
-
    - 可以直接使用 ADB 工具： `$ adb路径 devices` ，例如：
 
    ```shell

@@ -15,15 +15,15 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 工作流的文件均存放在 `.github/workflows` 下，各个文件可以按功能分为以下几部分：
 
-+ [代码测试](#代码测试)
-+ [代码构建](#代码构建)
-+ [版本发布](#版本发布)
-+ [资源更新](#资源更新)
-+ [网站构建](#网站构建)
-+ [Issues 管理](#issues-管理)
-+ [Pull Requests 管理](#pull-requests-管理)
-+ [MirrorChyan 相关](#mirrorchyan-相关)
-+ [其他](#其他)
+- [代码测试](#代码测试)
+- [代码构建](#代码构建)
+- [版本发布](#版本发布)
+- [资源更新](#资源更新)
+- [网站构建](#网站构建)
+- [Issues 管理](#issues-管理)
+- [Pull Requests 管理](#pull-requests-管理)
+- [MirrorChyan 相关](#mirrorchyan-相关)
+- [其他](#其他)
 
 此外，我们还通过 [pre-commit.ci](https://pre-commit.ci/) 实现了代码的自动格式化和图片资源的自动优化，它在发起 PR 后会自动执行，一般无需特别在意。
 
@@ -51,10 +51,10 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 版本发布，简称发版，是向用户发布更新的必要操作，由以下工作流组成
 
-+ `release-nightly-ota.yml` 发布内测版
-+ `release-ota.yml` 发布正式版/公测版
-  + `gen-changelog.yml` 为正式版/公测版生成 changelog
-  + `pr-auto-tag.yml` 对正式版/公测版生成 tag
+- `release-nightly-ota.yml` 发布内测版
+- `release-ota.yml` 发布正式版/公测版
+  - `gen-changelog.yml` 为正式版/公测版生成 changelog
+  - `pr-auto-tag.yml` 对正式版/公测版生成 tag
 
 ::: tip
 上述文件名内的 ota 意为 Over-the-Air，也就是我们常说的“增量更新包”，因此 MAA 的发版过程实际上包含了对过往版本构建 OTA 包的步骤
@@ -82,9 +82,9 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 这部分工作流主要负责 MAA 的资源更新以及优化，具体工作流如下：
 
-+ `res-update-game.yml` 定期执行，从指定的仓库拉取游戏资源
-+ `sync-resource.yml` 将资源同步到 MaaResource 仓库，用于资源更新
-+ `optimize-templates.yml` 优化模板图大小
+- `res-update-game.yml` 定期执行，从指定的仓库拉取游戏资源
+- `sync-resource.yml` 将资源同步到 MaaResource 仓库，用于资源更新
+- `optimize-templates.yml` 优化模板图大小
 
 ### 网站构建
 
@@ -119,8 +119,8 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 MirrorChyan 是有偿的更新镜像服务，与其相关的工作流如下：
 
-+ `mirrorchyan.yml` 同步更新包到 MirrorChyan
-+ `mirrorchyan_release_note.yml` 生成 MirrorChyan 的 Release Note
+- `mirrorchyan.yml` 同步更新包到 MirrorChyan
+- `mirrorchyan_release_note.yml` 生成 MirrorChyan 的 Release Note
 
 ### 其他
 

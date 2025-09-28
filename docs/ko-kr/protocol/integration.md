@@ -335,7 +335,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "tools_to_craft": [
         string,                 // 자동으로 제작되는 아이템, 선택 사항, 기본값은 형광봉
         ...
-    ] 
+    ]
                                 // 부분 문자열을 채우는 것이 좋습니다
     "increment_mode": int,      // 클릭 유형, 선택 사항. 기본값은 0
                                 // 0 - 연속 클릭
@@ -344,7 +344,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `Custom`  
+- `Custom`
 
   사용자 정의 태스크
 
@@ -359,7 +359,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `SingleStep`  
+- `SingleStep`
 
   단일 단계 태스크 (현재로서는 Copilot만 지원)
 
@@ -378,7 +378,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-- `VideoRecognition`  
+- `VideoRecognition`
 
   비디오 인식, 현재로서는 전투 비디오만 지원합니다.
 

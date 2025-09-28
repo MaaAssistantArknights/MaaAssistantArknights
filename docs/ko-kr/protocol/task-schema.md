@@ -73,7 +73,7 @@ It is recommended to use [Visual Studio Code](https://code.visualstudio.com/) an
 
         "cache": false,                      // 선택 사항, 작업이 캐싱을 사용하는지 여부를 나타냅니다. 기본값은 false입니다.
                                             // 최초 인식 이후에는 해당 위치만 인식하며, 성능을 크게 개선할 수 있습니다.
-   
+
 
  // 단, 대상 인식 위치가 절대로 변하지 않을 작업에만 사용하세요. 대상 인식 위치가 항상 변하는 경우 false로 설정하세요.
 
@@ -215,13 +215,11 @@ It is recommended to use [Visual Studio Code](https://code.visualstudio.com/) an
 ```
 
 - 작업 "B@A"가 `tasks.json`에 정의되어 있다면
-
   1. `B@A`의 `algorithm` 필드가 `A`의 `algorithm`과 다른 경우, 파생된 클래스 매개변수는 상속되지 않습니다(단지 `TaskInfo`로 정의된 매개변수만 상속됨).
   2. 이미지 매칭 작업의 경우, 명시적으로 정의되지 않으면 `template`은 `B@A.png`가 됩니다(단지 "A" 작업의 `template` 이름을 상속하지 않음). 그렇지 않은 경우 다른 파생된 클래스 매개변수는 "A" 작업에서 직접 상속됩니다.
   3. `TaskInfo` 기본 클래스에 정의된 매개변수 (모든 유형의 작업에 해당하는 매개변수, 예를 들어 algorithm, roi, next 등)가 `B@A` 내에서 명시적으로 정의되지 않은 경우, 앞에서 언급한 `sub` 등 다섯 개의 필드를 제외한 나머지 매개변수는 `B@` 접두어가 추가된 상속시 추가됩니다. 그 외의 매개변수는 `A` 작업의 매개변수를 직접 상속합니다.
 
   > _참고: `"XXX#self"`는 `"#self"`와 동일한 의미를 갖습니다._
-  >
 
 ### 기반 작업
 

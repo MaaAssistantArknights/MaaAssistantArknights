@@ -16,8 +16,8 @@ Your pull request will be marked as `ambiguous` when you are not committing with
 ### Auto Notification
 
 - Adds labels to issues and pull requests, e.g., `module`, `Client`, `ambiguous`, `translation required`, etc.
-    Issue Bot will add categories based on keywords.
-    Please refer to the [configuration file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) for the keywords.
+  Issue Bot will add categories based on keywords.
+  Please refer to the [configuration file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) for the keywords.
 - Adds the `MAA Team` label to issues and pull requests for MAA public team members.
 
 #### Issues and Their Comments

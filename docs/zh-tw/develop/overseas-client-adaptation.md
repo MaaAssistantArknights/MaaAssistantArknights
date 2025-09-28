@@ -2,6 +2,7 @@
 order: 5
 icon: ri:earth-fill
 ---
+
 # 外服適配教學
 
 ## 準備工作
@@ -42,7 +43,7 @@ icon: ri:earth-fill
 
 例如完成一次裁剪後的輸出內容為：
 
-``` log
+```log
 src: Screenshot_xxx.png
 dst: Screenshot_xxx.png_426,272,177,201.png
 original roi: 476, 322, 77, 101,
@@ -115,7 +116,7 @@ amplified roi: 426, 272, 177, 201
 
 下面是一段日誌範例：
 
-``` log
+```log
 [2022-12-18 17:43:17.535][INF][Px7ec][Tx15c8] {"taskchain":"Award","details":{"to_be_recognized":["Award@ReturnTo","Award","ReceiveAward","DailyTask","WeeklyTask","Award@CloseAnno","Award@CloseAnnoTexas","Award@TodaysSupplies","Award@FromStageSN"],"cur_retry":10,"retry_times":20},"first":["AwardBegin"],"taskid":2,"class":"asst::ProcessTask","subtask":"ProcessTask","pre_task":"AwardBegin"}
 [2022-12-18 17:43:18.398][INF][Px7ec][Tx15c8] Call ` C:\Program Files\BlueStacks_nxt\.\HD-Adb.exe -s 127.0.0.1:5555 exec-out "screencap | gzip -1" ` ret 0 , cost 862 ms , stdout size: 2074904 , socket size: 0
 [2022-12-18 17:43:18.541][TRC][Px7ec][Tx15c8] OcrPack::recognize | roi: [ 500, 50, 300, 150 ]

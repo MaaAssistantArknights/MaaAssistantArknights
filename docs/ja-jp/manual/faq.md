@@ -57,8 +57,8 @@ Windows 7 の場合、上記の 2 つのランタイムライブラリをイン�
 
 1. [Windows 7 Service Pack 1](https://support.microsoft.com/ja-jp/windows/windows-7-service-pack-1-sp1-%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 コード署名：
-    - KB4474419：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-    - KB4490628：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+   - KB4474419：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+   - KB4490628：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
 3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[ダウンロードリンク1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[ダウンロードリンク2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### .NET 8 アプリケーションが Windows 7 で異常に動作する場合の緩和策 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
@@ -180,9 +180,8 @@ MAA はレジストリから `bluestacks.conf` の保存場所を読み取ろう
 :::
 
 1. Bluestacksエミュレータのデータディレクトリにある`bluestacks.conf`ファイルを探します
-
-    - グローバル版のデフォルトパス `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 中国版のデフォルトパス `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   - グローバル版のデフォルトパス `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+   - 中国版のデフォルトパス `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
 2. 初めて MAA を使用する場合は、一度 MAA を起動してください。MAAの `config` ディレクトリに `gui.json` が生成されます。
 
