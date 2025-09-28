@@ -137,6 +137,7 @@ amplified roi: 426, 272, 177, 201
 - `taskid` 是任務的編號。
 - `class` 和 `subtask` 分別代表任務的類別和子任務。
 - `pre_task` 代表前一個任務。
+
 此外，日誌中還會記錄命令的執行情況（如 `Call`）和 `OCR` 的資訊（如 `OcrPack::recognize`）。
 
 在這段日誌中 `"to_be_recognized"`,`"cur_retry":3,"retry_times":20` 表示已經重複辨識了 10 次，最大辨識次數為 20 次，到了最大辨識次數後會跳過該任務並報錯，繼續執行下一個任務。

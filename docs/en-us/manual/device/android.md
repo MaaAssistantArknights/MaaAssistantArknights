@@ -17,6 +17,7 @@ This method involves ADB command-line usage, has lower stability, and still requ
 3. Since MAA only supports `16:9` aspect ratios, devices with non-`16:9` or `9:16` screen ratios (including most modern devices) need to have their resolution forcibly changed. If your device's native screen ratio is `16:9` or `9:16`, you can skip the `Change Resolution` section.
 4. Switch your device's navigation method to something other than `Full Screen Gestures`, such as `Classic Navigation Keys`, to avoid accidental operations.
 5. Please set the `Notched Screen UI Adaptation` option in the game settings to 0 to avoid task errors.
+
 :::
 
 ::: tip

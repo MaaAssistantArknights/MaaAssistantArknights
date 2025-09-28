@@ -67,6 +67,7 @@ Split operators in different ***groups*** according to your understanding of the
 3. Please do not change the name of an existing group, as this may cause previous versions of the task to be unavailable when MAA is updated!
 
 4. Please try not to add new groups, instead try to implement new operators added to the task into existing groups according to their usage
+
 :::
 
 ::: tip
