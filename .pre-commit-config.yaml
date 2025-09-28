@@ -50,4 +50,4 @@ repos:
         files: ^docs/.*|^README\.md$
         types:
           - markdown
-        args: ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
+        args: ["--fix", "--config", "docs/.markdownlint.yaml"]

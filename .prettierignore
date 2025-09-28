@@ -1,4 +1,3 @@
-**/node_modules/
 **/pnpm-lock.yaml
 docs/**/*.md
 
@@ -7,12 +6,8 @@ MaaDeps/
 src/maa-cli
 src/MaaMacGui
 
-# website/
-# docs/
-
 resource/Arknights-Tile-Pos/
 tools/OptimizeTemplates/optimize_templates.json
 
 CITATION.cff
 CHANGELOG.md
-## FUCK FUCK
