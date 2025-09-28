@@ -1,0 +1,27 @@
+repo_path: "./"            # 代码根目录；如你想先针对某子目录，可改为子目录路径
+work_branch: "agent-lab2"
+base_branch: "dev"         # MaaAssistantArknights 默认分支是 dev
+llm:
+  provider: "openai"
+  model: "gpt-4o-mini"
+  api_key_env: "OPENAI_API_KEY"
+tools:
+  build_dir: "build"
+  cmake_config: "-DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+  cmake_build: "--config RelWithDebInfo --parallel"
+  clang_tidy_checks: "-*,bugprone-*,performance-*,readability-*,modernize-*"
+  clang_tidy_fixes: "clang-tidy-fixes.yaml"
+  clang_tidy_targets: ["./"]   # 初期全仓库可能较慢；你可改成具体目录以加速
+  cppcheck_xml: "cppcheck-report.xml"
+  cppcheck_enable: "warning,style,performance,portability"
+  cppcheck_includes: []
+  cppcheck_ignore: ["unusedFunction","missingIncludeSystem"]
+github:
+  enable_pr: true
+  repo_slug: "BLGchara/MaaAssistantArknights"
+  pr_base: "dev"
+  pr_title_prefix: "[Agent Fix]"
+  token_env: "GITHUB_TOKEN"
+policy:
+  auto_apply_patch: false
+  auto_open_pr: false
