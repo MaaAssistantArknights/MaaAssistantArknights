@@ -11,7 +11,7 @@
     "MiniGame@RebuildingMandate@StartExecution": {
         "action": "ClickSelf",
         "roi": [1040, 584, 240, 136],
-        "next": ["MiniGame@RebuildingMandate@NextStep", "#self"]
+        "next": ["MiniGame@RebuildingMandate@NextStep", "MiniGame@RebuildingMandate@StartBuildingProduction", "#self"]
     },
     "MiniGame@RebuildingMandate@NextStep": {
         "action": "ClickSelf",
