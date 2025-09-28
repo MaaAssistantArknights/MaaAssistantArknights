@@ -344,7 +344,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "tools_to_craft": [
         string,                 // 自動製造的物品，可選項，默認為荧光棒
         ...
-    ] 
+    ], 
                                 // 建議填寫子串
     "increment_mode": int,      // 點擊類型，可選項。默認為0
                                 // 0 - 連點
