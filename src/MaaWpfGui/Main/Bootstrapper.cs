@@ -328,7 +328,13 @@ namespace MaaWpfGui.Main
 
             if (!IsVCppInstalled())
             {
-                var ret = MessageBoxHelper.Show(LocalizationHelper.GetString("VC++NotInstalled"), "MAA", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                var ret = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("VC++NotInstalled"),
+                    "MAA",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information,
+                    ok: LocalizationHelper.GetString("Confirm"),
+                    cancel: LocalizationHelper.GetString("Cancel"));
                 if (ret == MessageBoxResult.OK)
                 {
                     var startInfo = new ProcessStartInfo
