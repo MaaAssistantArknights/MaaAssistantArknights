@@ -1,7 +1,7 @@
 repo_url: "https://github.com/BLGchara/MaaAssistantArknights.git"  # 改成你的 fork
 workdir: "./_work"
 branch_prefix: "agent/fix"
-default_base_branch: "master"  # MAA 主分支名可能是 master 或 main，请按实际修改
+default_base_branch: "dev"  # MAA 主分支名可能是 master 或 main，请按实际修改
 
 build:
   # 第一次先空着（只跑扫描+补丁）。确定依赖后再开启编译/测试。
