@@ -1,0 +1,8 @@
+rules:
+- id: cpp-null-deref-guard
+  patterns:
+    - pattern: |
+        $X->$F(...)
+  message: "Possible null dereference without guard"
+  languages: [cpp]
+  severity: WARNING
