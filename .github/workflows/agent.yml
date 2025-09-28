@@ -1,0 +1,28 @@
+name: Agent Lab (C++)
+on:
+  workflow_dispatch:
+  # 首次调试建议先注释掉定时任务，避免未配置好Secrets时自动跑
+  # schedule:
+  #   - cron: "0 18 * * *"
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang-tidy cppcheck python3-pip
+          python3 -m pip install -r requirements.txt
+      - name: Run agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 run.py --mode full
