@@ -1,5 +1,49 @@
 ## v5.26.0
 
+### 刺身鱼案，启动！ | Highlight
+
+这个版本我们上线了「次生预案」的初步支持，并且再次对自动肉鸽进行了大量优化。
+
+#### 次生预案部分
+
+你现在可以在【小工具】的“小游戏”部分找到“RM-次生预案”选项，在游戏的「次生预案」活动的“前哨支点”关卡列表里，找到最开始的教学关卡 RM-TR-1 荒地前哨，点击 MAA 的 Link Start! 按钮即可开始自动刷取。
+
+由于是~~十里坡剑神~~初版，功能还比较有限，目前仅支持自动通关教学关卡，只能刷取少量奖励代币，后续不排除牛牛不出新手村的可能，建议你还是在刷取足够的启动材料~~（把 ew 精 2 后）~~后往后面的关卡前进。
+
+#### 自动肉鸽部分
+
+本次我们对自动肉鸽的招募策略进行了较大幅度的调整，主要是为了提升肉鸽的通关率和稳定性。同时我们也修复了部分问题，比如傀影肉鸽无法识别四结局的问题。
+
+#### 其他方面
+
+我们重置了 MAA 的新手指引部分，现在应该不会再出现没看新手指引瞎设置的问题了吧。
+
+我们也对文档站进行了较大幅度的改版，增加了不少新功能，提升了阅读体验，欢迎你前往查看。
+
+----
+
+In this version, we've added initial support for the *Rebuilding Mandate* and made significant improvements to the *Auto I.S.*.
+
+#### [CN ONLY] *Rebuilding Mandate*
+
+You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate the tutorial stage *RM-TR-1* in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
+
+Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage and can only obtain a small amount of reward tokens. We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources (e.g., upgraded Wiš'adel to Elite II) you can try to attempt advanced stages.
+
+#### *Auto I.S.*
+
+We've made significant adjustments to the *Auto I.S.* recruitment strategy, primarily to improve the success rate and stability. We've also fixed some issues, such as the problem where the game couldn't recognize the Ending 4 in the *Phantom* Theme.
+
+#### Other Improvements
+
+We've revamped the Settings Guide. Hopefully, this will prevent users from making incorrect settings without reading the tutorial.
+
+We've also redesigned our documentation website, adding many new features and improving the user experience. Please check it out!
+
+----
+
+以下是详细内容：
+
 ### 新增 | New
 
 * 萨卡兹肉鸽 `待诉说的故事` 二次选择 (#14246) @Manicsteiner
