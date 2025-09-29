@@ -32,7 +32,7 @@ You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section o
 
 Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage and can only obtain a small amount of resource points (i.e. reward token, not enough to complete the reward list). We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources, you can try to attempt advanced stages, since elite promotion materials for operators are only available in later stages. ~~Don't expect MAA to help you get your Wiš'adel to Elite II.~~
 
-**Tip: Since *Rebuilding Mandate* is a game similar to *Loop Hero* (with resource-gathering gameplay), the sooner you set up your resource production system in the stage, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.**
+**Tip: Since *Rebuilding Mandate* is a gameplay similar to *Loop Hero* (with resource-gathering gameplay), the sooner you set up your resource production system in the stage, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.**
 
 #### *Auto I.S.*
 
