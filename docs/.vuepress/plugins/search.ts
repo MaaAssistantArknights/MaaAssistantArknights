@@ -1,7 +1,7 @@
 export default {
   provider: 'algolia' as const,
-  appId: '99JM20SIFG',
-  apiKey: '7596a5a8c95cd64d4cf3050c9a4f878e',
+  appId: '9ARM1N4899',
+  apiKey: 'f42bf1d18c786d5a46da30eccac5cb34',
   indexName: 'maa',
   locales: {
     '/zh-cn/': {
