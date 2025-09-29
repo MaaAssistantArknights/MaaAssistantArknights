@@ -17,6 +17,7 @@
 
 ### 修复 | Fix
 
+* 商店刷新两步走 (#14201) @Alan-Charred
 * 水月肉鸽商店刷新延迟不够 @Saratoga-Official
 * 按钮显示文字错误 @ABA2396
 * 次生预案模拟器卡了容易点过头 @Saratoga-Official
