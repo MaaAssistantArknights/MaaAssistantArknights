@@ -38,7 +38,11 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         m_config->get_mode() == RoguelikeMode::Exp) {
         // 点击刷新
         sleep(500);
-        if (ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run()) {
+        bool ret = ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run();
+        ret = ret && ProcessTask(*this, { theme + "@Roguelike@StageTraderRefreshConfirm" })
+                         .set_retry_times(RetryTimesDefault)
+                         .run();
+        if (ret) {
             buy_once();
         }
     }
