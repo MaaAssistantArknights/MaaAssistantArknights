@@ -21,7 +21,7 @@ server_list = {
     "YoStarJP": ["yostarjp", "jp", "日", "日服"],
     "YoStarEN": ["yostaren", "en", "美", "美服", "國際", "國際服"],
     "YoStarKR": ["yostarkr", "kr", "韓", "韓服"],
-    "txwy": ["txwy" "繁中", "繁中服"],
+    "txwy": ["txwy", "繁中", "繁中服"],
 }
 
 # Get the server name from argument
