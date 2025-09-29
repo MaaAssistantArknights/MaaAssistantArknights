@@ -8,7 +8,7 @@
 
 你现在可以在【小工具】的“小游戏”部分找到“RM-次生预案”选项，在游戏的「次生预案」活动的“前哨支点”关卡列表里，找到最开始的教学关卡 RM-TR-1 荒地前哨，点击 MAA 的 Link Start! 按钮即可开始自动刷取。
 
-由于是~~十里坡剑神~~初版，功能还比较有限，目前仅支持自动通关教学关卡，只能刷取少量奖励代币，后续不排除牛牛不出新手村的可能，建议你还是在刷取足够的启动材料后往后面的关卡推进，干员的精英化材料只在后续关卡产出。 ~~不要指望靠牛牛帮你精二 EW~~
+由于是~~十里坡剑神~~初版，功能还比较有限，目前仅支持自动通关教学关卡，只能刷取少量资源点数（不足以获得“建设促进计划”的所有奖励），后续不排除牛牛不出新手村的可能，建议你还是在刷取足够的启动材料后往后面的关卡推进，干员的精英化材料只在后续关卡产出。 ~~不要指望靠牛牛帮你精二 EW~~
 
 **提示：由于「次生预案」是类“循环勇士”玩法，也就是有种田要素，所以越早将关卡的生产产线布置好，就能越早开始挂机产出资源。不要等到最后一天再开始刷，会来不及的。**
 
@@ -30,7 +30,7 @@ In this version, we've added initial support for the *Rebuilding Mandate* and ma
 
 You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate the tutorial stage *RM-TR-1* in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
 
-Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage and can only obtain a small amount of reward tokens. We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources, you can try to attempt advanced stages, since elite promotion materials for operators are only available in later stages. ~~Don't expect MAA to help you get your Wiš'adel to Elite II.~~
+Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage and can only obtain a small amount of resource points (i.e. reward token, not enough to complete the reward list). We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources, you can try to attempt advanced stages, since elite promotion materials for operators are only available in later stages. ~~Don't expect MAA to help you get your Wiš'adel to Elite II.~~
 
 **Tip: Since *Rebuilding Mandate* is a game similar to *Loop Hero* (with resource-gathering gameplay), the sooner you set up your resource production system in the stage, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.**
 
