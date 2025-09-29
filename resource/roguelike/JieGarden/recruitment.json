@@ -29,13 +29,25 @@
             ]
         },
         {
+            "name": "电弧",
+            "opers": [
+                {
+                    "name": "电弧",
+                    "skill": 2,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority": 999,
+                    "promote_priority": 999
+                }
+            ]
+        },
+        {
             "name": "元素",
             "opers": [
                 {
                     "name": "酒神",
                     "skill": 2,
                     "is_key": true,
-                    "is_start": true,
                     "recruit_priority": 905,
                     "promote_priority": 950,
                     "recruit_priority_offsets": [
@@ -189,6 +201,11 @@
                     "name": "龙舌兰",
                     "skill": 2,
                     "promote_priority": 350
+                },
+                {
+                    "name": "聘风",
+                    "skill": 2,
+                    "promote_priority": 300
                 }
             ]
         },
@@ -1277,12 +1294,7 @@
             "name": "召唤",
             "opers": [
                 {
-                    "name": "电弧",
-                    "skill": 2,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority": 999,
-                    "promote_priority": 999
+                    "name": "电弧"
                 },
                 {
                     "name": "令",
@@ -3852,7 +3864,7 @@
                     "promote_priority": 602,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["凯尔希", "近卫", "重装"],
+                            "groups": ["凯尔希", "近卫", "重装", "情报官", "挡人先锋"],
                             "is_less": true,
                             "threshold": 1,
                             "offset": -500
@@ -3866,7 +3878,7 @@
                     "promote_priority": 440,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["凯尔希", "近卫", "重装"],
+                            "groups": ["凯尔希", "近卫", "重装", "情报官", "挡人先锋"],
                             "is_less": true,
                             "threshold": 1,
                             "offset": -600
@@ -3897,16 +3909,9 @@
                     "name": "伊桑",
                     "skill": 2,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 405,
-                    "promote_priority": 405,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["凯尔希", "近卫", "重装"],
-                            "is_less": true,
-                            "threshold": 1,
-                            "offset": -600
-                        }
-                    ]
+                    "promote_priority": 405
                 },
                 {
                     "name": "狮蝎",
@@ -3915,7 +3920,7 @@
                     "promote_priority": 400,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["凯尔希", "近卫", "重装"],
+                            "groups": ["凯尔希", "近卫", "重装", "情报官", "挡人先锋"],
                             "is_less": true,
                             "threshold": 1,
                             "offset": -600
