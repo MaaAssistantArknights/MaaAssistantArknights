@@ -8,7 +8,11 @@ icon: ph:sword-bold
 Welcome to use and share operation files on [prts.plus](https://prts.plus).
 
 ::: warning
-All features involving automatic combat require a stable game frame rate of at least 60 FPS, including but not limited to Auto Combat and Integrated Strategy.
+All features involving Copilot require the following prerequisites, including but not limited to Copilot and Auto I. S.
+
+- At least 60 frames of **stable** framerate
+- Touch mode set to Minitouch or MaaTouch
+
 :::
 
 ## Using Operations
