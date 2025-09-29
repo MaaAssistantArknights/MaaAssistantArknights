@@ -10,6 +10,8 @@
 
 由于是~~十里坡剑神~~初版，功能还比较有限，目前仅支持自动通关教学关卡，只能刷取少量奖励代币，后续不排除牛牛不出新手村的可能，建议你还是在刷取足够的启动材料 ~~（把 ew 精 2 后）~~ 后往后面的关卡前进。
 
+**提示：由于「次生预案」是类“循环勇士”玩法，也就是有种田要素，所以越早将关卡的生产产线布置好，就能越早开始挂机产出资源。不要等到最后一天再开始刷，会来不及的。**
+
 #### 自动肉鸽部分
 
 本次我们对自动肉鸽的招募策略进行了较大幅度的调整，主要是为了提升肉鸽的通关率和稳定性。同时我们也修复了部分问题，比如傀影肉鸽无法识别四结局的问题。
@@ -29,6 +31,8 @@ In this version, we've added initial support for the *Rebuilding Mandate* and ma
 You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate the tutorial stage *RM-TR-1* in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
 
 Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage and can only obtain a small amount of reward tokens. We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources (e.g., upgraded Wiš'adel to Elite II) you can try to attempt advanced stages.
+
+**Tip: Since *Rebuilding Mandate* is a game similar to *Loop Hero* (with resource-gathering gameplay), the sooner you set up your resource production system in the stage, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.**
 
 #### *Auto I.S.*
 
