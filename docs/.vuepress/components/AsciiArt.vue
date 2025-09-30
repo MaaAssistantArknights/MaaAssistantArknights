@@ -33,17 +33,17 @@ export default defineComponent({
     const adjustFont = () => {
       if (!wrapper.value || !pre.value || !basePreWidth.value) return
 
-      const wrapperWidth = wrapper.value.clientWidth
-      let scale = wrapperWidth / basePreWidth.value
+      const windowWidth = window.innerWidth
+      let scale = windowWidth / basePreWidth.value
       if (scale > 1) scale = 1 // 不放大超过原始宽度
 
       // 缩放字体大小
-      let newFontSize = baseFontSize.value * scale
+      const newFontSize = baseFontSize.value * scale
       pre.value.style.fontSize = newFontSize + 'px'
 
       // 按比例调整行高
-      const ratio = baseLineHeight.value / baseFontSize.value
-      pre.value.style.lineHeight = newFontSize * ratio + 'px'
+      const newLineHeight = baseLineHeight.value * scale
+      pre.value.style.lineHeight = newLineHeight + 'px'
     }
 
     onMounted(() => {
