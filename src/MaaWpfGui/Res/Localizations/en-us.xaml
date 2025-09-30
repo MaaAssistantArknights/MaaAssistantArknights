@@ -778,8 +778,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandate">RM-Secondary Plan</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandateTip">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
+    <system:String x:Key="MiniGame@RM-1">Secondary Plan RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip">Farm RM-TR-1 for about 3 hours. In the construction strategy, take the stone mining line to the bottom point,&#10;Special appointment specifies Wistoria, then try to E2 S3 as much as possible, carrying Skill 1,&#10;Bring a full 12 operators, the other 11's deployment costs need to be lower than Wistoria's,&#10;Each production module carries 1, manually enter the stage and exit,&#10;Place RM-1 in the center of the screen, run MAA.</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - Mikage Consultation Office - Mini Game</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">Start the task from the event screen (there is a ｢Open for Business｣ button in the bottom right corner).</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">Contest Channel: Green Grass City (Unofficial translation)</system:String>

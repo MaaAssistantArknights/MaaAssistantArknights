@@ -1,81 +1,187 @@
 {
-    "MiniGame@RebuildingMandate@Begin": {
+    "MiniGame@RM-TR-1@Begin": {
+        "docs": "RebuildingMandate, 次生预案",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@RebuildingMandate@StartExecution", "MiniGame@RebuildingMandate@StageName"]
+        "next": ["MiniGame@RM-TR-1@StartExecution", "MiniGame@RM-TR-1@StageName"]
     },
-    "MiniGame@RebuildingMandate@StageName": {
+    "MiniGame@RM-TR-1@StageName": {
         "action": "ClickSelf",
         "roi": [597, 348, 219, 128],
-        "next": ["MiniGame@RebuildingMandate@StartExecution", "#self"]
+        "next": ["MiniGame@RM-TR-1@StartExecution", "#self"]
     },
-    "MiniGame@RebuildingMandate@StartExecution": {
+    "MiniGame@RM-TR-1@StartExecution": {
         "action": "ClickSelf",
         "roi": [1040, 584, 240, 136],
-        "next": ["MiniGame@RebuildingMandate@NextStep", "MiniGame@RebuildingMandate@StartBuildingProduction", "#self"]
+        "next": ["MiniGame@RM-TR-1@NextStep", "MiniGame@RM-TR-1@StartBuildingProduction", "#self"]
     },
-    "MiniGame@RebuildingMandate@NextStep": {
+    "MiniGame@RM-TR-1@NextStep": {
         "action": "ClickSelf",
         "roi": [1086, 611, 194, 109],
-        "next": ["MiniGame@RebuildingMandate@StartBuildingProduction", "#self"]
+        "next": ["MiniGame@RM-TR-1@StartBuildingProduction", "#self"]
     },
-    "MiniGame@RebuildingMandate@StartBuildingProduction": {
+    "MiniGame@RM-TR-1@StartBuildingProduction": {
         "action": "ClickSelf",
         "roi": [1003, 609, 277, 111],
         "preDelay": 1000,
         "postDelay": 5000,
-        "next": ["#self", "MiniGame@RebuildingMandate@WaitSkip"]
+        "next": ["#self", "MiniGame@RM-TR-1@WaitSkip"]
     },
-    "MiniGame@RebuildingMandate@WaitSkip": {
+    "MiniGame@RM-TR-1@WaitSkip": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
-        "next": ["MiniGame@RebuildingMandate@Skip", "#self"]
+        "next": ["MiniGame@RM-TR-1@Skip", "#self"]
     },
-    "MiniGame@RebuildingMandate@Skip": {
+    "MiniGame@RM-TR-1@Skip": {
         "action": "ClickSelf",
         "roi": [1079, 0, 201, 144],
-        "next": ["MiniGame@RebuildingMandate@SkipConfirm", "#self"]
+        "next": ["MiniGame@RM-TR-1@SkipConfirm", "#self"]
     },
-    "MiniGame@RebuildingMandate@SkipConfirm": {
+    "MiniGame@RM-TR-1@SkipConfirm": {
         "action": "ClickSelf",
         "roi": [714, 284, 168, 155],
-        "next": ["#self", "MiniGame@RebuildingMandate@Lava"]
+        "next": ["#self", "MiniGame@RM-TR-1@DeployLava"]
     },
-    "MiniGame@RebuildingMandate@Lava": {
+    "MiniGame@RM-TR-1@DeployLava": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
         "specificRect": [1135, 656, 1, 1],
         "rectMove": [733, 303, 1, 1],
-        "next": ["MiniGame@RebuildingMandate@LavaConfirm"]
+        "next": ["MiniGame@RM-TR-1@DeployLavaConfirm"]
     },
-    "MiniGame@RebuildingMandate@LavaConfirm": {
+    "MiniGame@RM-TR-1@DeployLavaConfirm": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
         "specificRect": [733, 303, 1, 1],
         "rectMove": [533, 303, 1, 1],
-        "next": ["MiniGame@RebuildingMandate@DoubleSpeed"]
+        "next": ["MiniGame@RM-TR-1@DoubleSpeed"]
     },
-    "MiniGame@RebuildingMandate@DoubleSpeed": {
+    "MiniGame@RM-TR-1@DoubleSpeed": {
         "action": "ClickSelf",
         "roi": [1016, 0, 167, 166],
         "postDelay": 1000,
-        "next": ["#self", "MiniGame@RebuildingMandate@WaitForEnd"]
+        "next": ["#self", "MiniGame@RM-TR-1@WaitForEnd"]
     },
-    "MiniGame@RebuildingMandate@WaitForEnd": {
+    "MiniGame@RM-TR-1@WaitForEnd": {
         "roi": [1027, 499, 247, 125],
         "postDelay": 5000,
-        "next": ["MiniGame@RebuildingMandate@DoNotApply", "#self"]
+        "next": ["MiniGame@RM-TR-1@DoNotApply", "#self"]
     },
-    "MiniGame@RebuildingMandate@DoNotApply": {
+    "MiniGame@RM-TR-1@DoNotApply": {
         "action": "ClickSelf",
         "roi": [213, 574, 241, 143],
         "postDelay": 1000,
-        "next": ["MiniGame@RebuildingMandate@SettlementStageName", "#self"]
+        "next": ["MiniGame@RM-TR-1@SettlementStageName", "#self"]
     },
-    "MiniGame@RebuildingMandate@SettlementStageName": {
+    "MiniGame@RM-TR-1@SettlementStageName": {
         "action": "ClickSelf",
         "roi": [0, 572, 458, 148],
-        "next": ["#self", "MiniGame@RebuildingMandate@Begin"]
+        "next": ["#self", "MiniGame@RM-TR-1@Begin"]
+    },
+
+
+
+
+    
+    "MiniGame@RM-1@Begin": {
+        "docs": "RebuildingMandate, 次生预案",
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@RM-1@StartExecution", "MiniGame@RM-1@StageName"]
+    },
+    "MiniGame@RM-1@StageName": {
+        "action": "ClickSelf",
+        "roi": [200, 100, 900, 500],
+        "next": ["MiniGame@RM-1@StartExecution", "#self"]
+    },
+    "MiniGame@RM-1@StartExecution": {
+        "template": "MiniGame@RM-TR-1@StartExecution",
+        "action": "ClickSelf",
+        "roi": [1040, 584, 240, 136],
+        "next": ["MiniGame@RM-1@NextStep", "MiniGame@RM-1@StartBuildingProduction", "#self"]
+    },
+    "MiniGame@RM-1@NextStep": {
+        "template": "MiniGame@RM-TR-1@NextStep",
+        "action": "ClickSelf",
+        "roi": [1086, 611, 194, 109],
+        "next": ["MiniGame@RM-1@StartBuildingProduction", "#self"]
+    },
+    "MiniGame@RM-1@StartBuildingProduction": {
+        "template": "MiniGame@RM-TR-1@StartBuildingProduction",
+        "action": "ClickSelf",
+        "roi": [1003, 609, 277, 111],
+        "preDelay": 1000,
+        "postDelay": 5000,
+        "next": ["#self", "MiniGame@RM-1@BattleStart"]
+    },
+    "MiniGame@RM-1@BattleStart": {
+        "algorithm": "JustReturn",
+        "roi": [1165, 172, 115, 151],
+        "postDelay": 1000,
+        "next": ["MiniGame@RM-1@DoubleSpeed"]
+    },
+    "MiniGame@RM-1@DoubleSpeed": {
+        "action": "ClickSelf",
+        "roi": [1016, 0, 167, 166],
+        "postDelay": 8000,
+        "next": ["#self", "MiniGame@RM-1@DeployEW"]
+    },
+    "MiniGame@RM-1@DeployEW": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specialParams": [200, 0, 2, 0],
+        "specificRect": [886, 548, 1, 1],
+        "rectMove": [780, 400, 1, 1],
+        "next": ["MiniGame@RM-1@DeployEWConfirm"]
+    },
+    "MiniGame@RM-1@DeployEWConfirm": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specialParams": [200, 0, 2, 0],
+        "specificRect": [780, 400, 1, 1],
+        "rectMove": [358, 400, 1, 1],
+        "next": ["MiniGame@RM-1@Sleep"]
+    },
+    "MiniGame@RM-1@Sleep": {
+        "algorithm": "JustReturn",
+        "postDelay": 390000,
+        "next": ["MiniGame@RM-1@WaitForEnd", "MiniGame@RM-1@WaitForMax"]
+    },
+    "MiniGame@RM-1@WaitForEnd": {
+        "template": "MiniGame@RM-TR-1@WaitForEnd",
+        "roi": [1027, 499, 247, 125],
+        "postDelay": 5000,
+        "next": ["MiniGame@RM-1@DoNotApply", "#self"]
+    },
+    "MiniGame@RM-1@WaitForMax": {
+        "roi": [0, 134, 136, 136],
+        "next": ["MiniGame@RM-1@QuitBattle"]
+    },
+    "MiniGame@RM-1@QuitBattle": {
+        "action": "ClickSelf",
+        "roi": [2, 0, 154, 141],
+        "next": ["MiniGame@RM-1@QuitBattleConfirm", "#self"]
+    },
+    "MiniGame@RM-1@QuitBattleConfirm": {
+        "action": "ClickSelf",
+        "roi": [851, 375, 156, 151],
+        "next": ["MiniGame@RM-1@BattleFailedClick"]
+    },
+    "MiniGame@RM-1@BattleFailedClick": {
+        "action": "ClickSelf",
+        "roi": [228, 246, 329, 218],
+        "postDelay": 5000,
+        "next": ["MiniGame@RM-1@DoNotApply"]
+    },
+    "MiniGame@RM-1@DoNotApply": {
+        "action": "ClickSelf",
+        "roi": [213, 574, 241, 143],
+        "postDelay": 1000,
+        "next": ["MiniGame@RM-1@SettlementStageName", "#self"]
+    },
+    "MiniGame@RM-1@SettlementStageName": {
+        "action": "ClickSelf",
+        "roi": [0, 539, 258, 143],
+        "next": ["#self", "MiniGame@RM-1@Begin"]
     }
 }

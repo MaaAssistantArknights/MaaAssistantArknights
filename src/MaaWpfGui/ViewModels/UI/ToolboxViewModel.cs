@@ -1207,7 +1207,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
         [
-            new() { Display = LocalizationHelper.GetString("MiniGame@RebuildingMandate"), Value = "MiniGame@RebuildingMandate@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
@@ -1246,7 +1247,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             return name switch
             {
-                "MiniGame@RebuildingMandate@Begin" => LocalizationHelper.GetString("MiniGame@RebuildingMandateTip"),
+                "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),
+                "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
                 "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
                 "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
                 "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
