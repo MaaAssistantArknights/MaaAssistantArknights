@@ -13,11 +13,13 @@ ARG NODEJS_VERSION=24
 RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
-    cmake
+    cmake clangd-${CLANGD_VERSION}
+
+RUN sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-${CLANGD_VERSION} 100
 
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \
-    && bash ~/miniconda.sh -b -p $CONDA_DIR \
+    && bash ~/miniconda.sh -b -p ${CONDA_DIR} \
     && rm ~/miniconda.sh \
     && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
     && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
@@ -27,8 +29,8 @@ RUN eval "$(conda shell.bash hook)" \
     && conda create -n maa \
     && conda activate maa \
     && conda install -y \
-    python=$PYTHON_VERSION \
-    conda-forge::nodejs=$NODEJS_VERSION \
+    python=${PYTHON_VERSION} \
+    conda-forge::nodejs=${NODEJS_VERSION} \
     && pip install pre-commit black isort
 
 # Finalize conda setup
