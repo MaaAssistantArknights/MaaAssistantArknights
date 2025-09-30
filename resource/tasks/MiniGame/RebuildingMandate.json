@@ -108,9 +108,9 @@
         "roi": [1003, 609, 277, 111],
         "preDelay": 1000,
         "postDelay": 5000,
-        "next": ["#self", "MiniGame@RM-1@BattleStart"]
+        "next": ["#self", "MiniGame@RM-1@BattleBegin"]
     },
-    "MiniGame@RM-1@BattleStart": {
+    "MiniGame@RM-1@BattleBegin": {
         "roi": [1165, 172, 115, 151],
         "postDelay": 1000,
         "next": ["MiniGame@RM-1@DoubleSpeed"]
