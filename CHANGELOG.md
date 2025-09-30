@@ -18,7 +18,7 @@
 
 #### 其他方面
 
-我们重置了 MAA 的新手指引部分，现在应该不会再出现没看新手指引瞎设置的问题了吧。
+我们在设置指引中新增了两个新的引导，不管你以前是否看过老的指引，这次都会再次弹出，帮助你避免因未正确配置而导致的问题。~~这下就不会有人问为什么 Linkstart 是灰的点不了了~~
 
 我们也对文档站进行了较大幅度的改版，增加了不少新功能，提升了阅读体验，欢迎你前往查看。
 
@@ -40,7 +40,7 @@ We've made significant adjustments to the *Auto I.S.* recruitment strategy, prim
 
 #### Other Improvements
 
-We've revamped the Settings Guide. Hopefully, this will prevent users from making incorrect settings without reading the tutorial.
+We've added two new guides to the *Settings Guide*. No matter if you have already seen the old one before, these new guides will still pop up, helping you avoid incorrect configurations.
 
 We've also redesigned our documentation website, adding many new features and improving the user experience. Please check it out!
 
