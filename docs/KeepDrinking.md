@@ -1,16 +1,11 @@
 ---
-home: true
-pageInfo: false
-breadcrumb: false
+pageLayout: home
 navbar: false
-sidebar: false
-index: false
-lastUpdated: false
-editLink: false
-contributors: false
-prev: false
-next: false
+config:
+  - type: custom
 ---
+
+# Ciallo～ (∠・ω< )⌒★
 
                                                      !:           .7:~!.
                           :.                       :?55          ?5~::~J?:
