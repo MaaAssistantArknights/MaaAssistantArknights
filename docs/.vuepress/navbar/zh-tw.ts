@@ -1,4 +1,4 @@
-import { defineNavbarConfig } from 'vuepress-theme-plume';
+import { defineNavbarConfig } from 'vuepress-theme-plume'
 
 export const zhtwNavbar = defineNavbarConfig([
   {
@@ -16,4 +16,4 @@ export const zhtwNavbar = defineNavbarConfig([
     icon: 'basil:document-solid',
     link: '/zh-tw/protocol/integration.html',
   },
-]);
+])

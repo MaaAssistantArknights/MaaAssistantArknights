@@ -1,6 +1,6 @@
-import { defineThemeConfig } from 'vuepress-theme-plume';
-import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from './navbar';
-import { zhcnNotes, zhtwNotes, enusNotes, jajpNotes, kokrNotes } from './notes';
+import { defineThemeConfig } from 'vuepress-theme-plume'
+import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from './navbar'
+import { zhcnNotes, zhtwNotes, enusNotes, jajpNotes, kokrNotes } from './notes'
 
 export default defineThemeConfig({
   logo: '/images/maa-logo_512x512.png',
@@ -126,4 +126,4 @@ export default defineThemeConfig({
   //    },
   //  ],
   //},
-});
+})

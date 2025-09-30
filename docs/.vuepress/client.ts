@@ -1,19 +1,19 @@
-import { defineClientConfig } from 'vuepress/client';
+import { defineClientConfig } from 'vuepress/client'
 
-import { getAsciiArt } from './asciiArtService.mts';
+import { getAsciiArt } from './asciiArtService.mts'
 
-import AsciiArt from './components/AsciiArt.vue';
-import ImageGrid from './components/ImageGrid.vue';
+import AsciiArt from './components/AsciiArt.vue'
+import ImageGrid from './components/ImageGrid.vue'
 
-import './styles/index.scss';
+import './styles/index.scss'
 
 export default defineClientConfig({
   enhance: ({ app }) => {
-    app.component('AsciiArt', AsciiArt);
-    app.component('ImageGrid', ImageGrid);
+    app.component('AsciiArt', AsciiArt)
+    app.component('ImageGrid', ImageGrid)
 
     // 输出一个随机字符画
-    const art = getAsciiArt();
-    console.log('%c' + art, 'white-space: pre;');
+    const art = getAsciiArt()
+    console.log('%c' + art, 'white-space: pre;')
   },
-});
+})
