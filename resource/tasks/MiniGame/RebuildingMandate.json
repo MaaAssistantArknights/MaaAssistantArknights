@@ -79,7 +79,6 @@
         "roi": [0, 572, 458, 148],
         "next": ["#self", "MiniGame@RM-TR-1@Begin"]
     },
-
     "MiniGame@RM-1@Begin": {
         "docs": "RebuildingMandate, 次生预案",
         "algorithm": "JustReturn",
