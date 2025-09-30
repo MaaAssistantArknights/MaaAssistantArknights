@@ -619,7 +619,13 @@
         {
             "name": "待诉说的故事",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "next_event": "吸纳思维"
+        },
+        {
+            "name": "吸纳思维",
+            "option_num": 1,
+            "choose": 1
         },
         {
             "name": "魂灵见闻：以血还血",
