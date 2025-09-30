@@ -146,7 +146,12 @@
     },
     "MiniGame@RM-1@Sleep": {
         "algorithm": "JustReturn",
-        "postDelay": 390000,
+        "postDelay": 240000,
+        "next": ["MiniGame@RM-1@Wait"]
+    },
+    "MiniGame@RM-1@Wait": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
         "next": ["MiniGame@RM-1@WaitForEnd", "MiniGame@RM-1@WaitForMax"]
     },
     "MiniGame@RM-1@WaitForEnd": {
