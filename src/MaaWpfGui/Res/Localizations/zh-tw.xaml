@@ -777,8 +777,10 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛監控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生預案</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandateTip">完成新手教學後進入前哨支點，滑動到介面最左側。</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">次生預案 RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">完成新手教學後進入前哨支點，滑動到介面最左側。</system:String>
+    <system:String x:Key="MiniGame@RM-1">次生預案 RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">刷 RM-TR-1 大約 3 小時，營建策略中，石材開採 線點到底，&#10;特約任命指定維什戴爾，然後盡量精二專三，攜帶 1 技能，&#10;帶滿 12 個幹員，其餘 11 個的費用需要低於維什戴爾，&#10;生產模組各帶 1 個，手動進入關卡並退出，&#10;讓 RM-TR-1 位於螢幕中央，運行 MAA。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主介面（右下角有「開始營業」處）開始任務。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">爭鋒頻道：青草城</system:String>
