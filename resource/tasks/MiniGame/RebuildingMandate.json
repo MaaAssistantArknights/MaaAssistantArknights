@@ -184,7 +184,7 @@
     },
     "MiniGame@RM-1@SettlementStageName": {
         "action": "ClickSelf",
-        "roi": [0, 539, 258, 143],
+        "roi": [0, 574, 440, 146],
         "next": ["#self", "MiniGame@RM-1@Begin"]
     }
 }
