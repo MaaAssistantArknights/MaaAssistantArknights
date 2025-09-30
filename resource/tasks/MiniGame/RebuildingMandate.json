@@ -141,7 +141,7 @@
     },
     "MiniGame@RM-1@Sleep": {
         "algorithm": "JustReturn",
-        "postDelay": 240000,
+        "postDelay": 120000,
         "next": ["MiniGame@RM-1@Wait"]
     },
     "MiniGame@RM-1@Wait": {
