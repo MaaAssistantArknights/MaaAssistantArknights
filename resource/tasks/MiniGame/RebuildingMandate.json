@@ -66,6 +66,13 @@
     "MiniGame@RM-TR-1@WaitForEnd": {
         "roi": [1027, 499, 247, 125],
         "postDelay": 5000,
+        "next": ["MiniGame@RM-TR-1@DoNotApply", "#self", "MiniGame@RM-TR-1@BattleFailedClick"]
+    },
+    "MiniGame@RM-TR-1@BattleFailedClick": {
+        "template": "MiniGame@RM-1@BattleFailedClick",
+        "action": "ClickSelf",
+        "roi": [228, 246, 329, 218],
+        "postDelay": 5000,
         "next": ["MiniGame@RM-TR-1@DoNotApply", "#self"]
     },
     "MiniGame@RM-TR-1@DoNotApply": {
