@@ -36,5 +36,11 @@ module.exports = {
         tabWidth: 4,
       },
     },
+    {
+      files: ['**/*.md'],
+      options: {
+        embeddedLanguageFormatting: 'off',
+      },
+    },
   ],
 }

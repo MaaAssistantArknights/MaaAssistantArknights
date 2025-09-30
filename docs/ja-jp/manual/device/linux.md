@@ -25,7 +25,6 @@ icon: teenyicons:linux-alt-solid
 1. [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) セクションを見つける
 
 2. `adb` ツール呼び出し
-
    - エミュレータが `Android Studio` に `avd` を使用している場合は、 `adb` が付属します。 `adb.exe` の欄に直接 `adb` パスを記入することができ、一般的には `$HOME/Android/Sdk/platform-tools/` で見つけることができます。例：
 
    ```python
@@ -35,7 +34,6 @@ icon: teenyicons:linux-alt-solid
    - 他のエミュレータを使用する場合は、最初に `adb` をダウンロードして： `$ sudo apt install adb` 次に、パスを入力するか、 `PATH` 環境変数を使用して `adb` を直接入力します
 
 3. エミュレータの `adb` パス取得
-
    - adb ツールを直接使用できます： `$ adbパス devices` ，例：
 
    ```shell

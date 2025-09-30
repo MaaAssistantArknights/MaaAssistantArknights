@@ -199,7 +199,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 #### 자주 사용되는 `subtask` 필드 값
 
-- `ProcessTask`  
+- `ProcessTask`
 
   ```json
   // 상세 정보에 대한 예시
@@ -448,14 +448,14 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   ```
 
 - `RecruitNoPermit`  
-    모집 라이센스가 없습니다
+   모집 라이센스가 없습니다
 
-    ```json
-    // 상세 정보에 대한 예시
-    {
-        "continue": true,   // 계속 새로고침할지 말지
-    }
-    ```
+  ```json
+  // 상세 정보에 대한 예시
+  {
+      "continue": true,   // 계속 새로고침할지 말지
+  }
+  ```
 
 - `RecruitTagsSelected`  
   공개모집 태그 선택 완료

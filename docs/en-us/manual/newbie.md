@@ -11,31 +11,31 @@ Quick start guide!
 
 1. Confirm system version
 
-    MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
+   MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
 
-    Non-Windows users, please refer to [Emulator and Device Support](./device/).
+   Non-Windows users, please refer to [Emulator and Device Support](./device/).
 
 2. Download the correct version
 
-    The [MAA official website](https://maa.plus/) will automatically select the correct architecture for most users reading this article, which should be Windows x64.
+   The [MAA official website](https://maa.plus/) will automatically select the correct architecture for most users reading this article, which should be Windows x64.
 
 3. Extract correctly
 
-    Ensure the extraction is complete, and make sure to extract MAA to a separate folder. Do not extract MAA to paths requiring UAC permissions such as `C:\` or `C:\Program Files\`.
+   Ensure the extraction is complete, and make sure to extract MAA to a separate folder. Do not extract MAA to paths requiring UAC permissions such as `C:\` or `C:\Program Files\`.
 
 4. Install runtime libraries
 
-    MAA requires VCRedist x64 and .NET 8. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install them.
+   MAA requires VCRedist x64 and .NET 8. Please run `DependencySetup_依赖库安装.bat` in the MAA directory to install them.
 
-    For more information, please refer to the pinned section in [FAQ](./faq.md).
+   For more information, please refer to the pinned section in [FAQ](./faq.md).
 
 5. Confirm emulator support
 
-    Check [Emulator and Device Support](./device/) to verify the compatibility of your emulator.
+   Check [Emulator and Device Support](./device/) to verify the compatibility of your emulator.
 
 6. Set the correct emulator resolution
 
-    Emulator resolution should be landscape `1280x720` or `1920x1080`; for YostarEN players, it must be `1920x1080`.
+   Emulator resolution should be landscape `1280x720` or `1920x1080`; for YostarEN players, it must be `1920x1080`.
 
 ## Initial Configuration
 

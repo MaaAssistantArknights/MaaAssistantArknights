@@ -55,7 +55,6 @@ icon: mdi:plug
 ::: details 備選方案
 
 - 方案 1 : 使用 ADB 命令檢視模擬器埠
-
   1. 啟動**一個**模擬器，並確保沒有其他安卓裝置連接在此電腦上。
   2. 在存放有 ADB 可執行檔案的資料夾中啟動終端。
   3. 執行以下命令。
@@ -78,7 +77,6 @@ icon: mdi:plug
   使用 `127.0.0.1:<埠>` 或 `emulator-<四位數字>` 作為連接地址。
 
 - 方案 2 : 查詢已建立的 ADB 連接
-
   1. 執行方案 1。
   2. 按下 `Win+S` 開啟搜尋欄，輸入 `資源監視器` 並開啟。
   3. 切換到 `網路` 索引標籤，在 `接聽連接埠` 的名稱列中查詢模擬器程式名，如 `HD-Player.exe`。
@@ -123,7 +121,6 @@ MAA 現在會嘗試從登錄檔中讀取 `bluestacks.conf` 的儲存位置，當
 :::
 
 1. 在藍疊模擬器的資料目錄下找到 `bluestacks.conf` 這個檔案
-
    - 國際版預設路徑為 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - 中國版預設路徑為 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 

@@ -5,7 +5,7 @@ icon: mingcute:git-pull-request-fill
 
 # 純WebサイトのPRチュートリアル
 
-「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド (*´▽｀)ノノ
+「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド (\*´▽｀)ノノ
 
 この文書は機械翻訳です。もし可能であれば、中国語の文書を読んでください。もし誤りや修正の提案があれば、大変ありがたく思います。
 
@@ -75,79 +75,79 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 1. まず、MAAのメインリポジトリにアクセスして、コードをforkします。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/fork-light.png',
-        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/fork-light.png',
+       dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+     }
+   ]" />
 
 2. 「Copy the master branch only」オプションを外して、Create Forkをクリックします。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+     }
+   ]" />
 
 3. 次に、あなたの個人リポジトリに移動し、「あなたの名前/ MaaAssistantArknights」というタイトルが表示され、下に「MAAメインリポジトリから複製されたMaaAssistantArknights/MaaAssistantArknights」という文言が表示されます。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
+     }
+   ]" />
 
 4. 変更するファイルを探します。 "Go to file" をクリックしてグローバル検索を行うか、下のフォルダーから直接検索することもできます（ファイルの場所を知っている場合）。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
+     }
+   ]" />
 
 5. ファイルを開いたら、ファイルの右上隅にある✏️をクリックして編集を開始します。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
+     }
+   ]" />
 
 6. 変更を加えます！（もちろん、リソースファイルなどの場合は、まずMAAフォルダー内で変更をテストし、問題がないことを確認してから、ウェブページに貼り付けて変更を行ってください）
 7. 変更が完了したら、一番下までスクロールして、変更内容を記述します。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
+     }
+   ]" />
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
+     }
+   ]" />
 
 8. 変更するもう1つのファイルがある場合は、5-8を繰り返してください。
 9. 変更が完了したら、PRを行います！個人リポジトリのPull Requestタブをクリックします。  
-    「Compare & Pull Request」ボタンがある場合は、それをクリックしてください。ない場合は、「New Pull Request」をクリックしてください。
+   「Compare & Pull Request」ボタンがある場合は、それをクリックしてください。ない場合は、「New Pull Request」をクリックしてください。
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
+     }
+   ]" />
 
 10. これでメインリポジトリに移動します。PRする内容を確認してください。  
-    スクリーンショットのように、真ん中に左向きの矢印があり、右側の「個人名/MAA」のdevブランチを「メインリポジトリ/MAA」のdevブランチにマージすることを申請しています。  
+    スクリーンショットのように、真ん中に左向きの矢印があり、右側の「個人名/MAA」のdevブランチを「メインリポジトリ/MAA」のdevブランチにマージすることを申請しています。
 
     <ImageGrid :imageList="[
       {
@@ -166,25 +166,25 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
     ]" />
 
 11. MAAチームの大佬たちに承認していただきましょう！もちろん、意見を提供してくださることもあるかもしれません  
-  👇例えば（純粋に娯楽のために、本気にしないでください）
+    👇例えば（純粋に娯楽のために、本気にしないでください）
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
-      }
-    ]" />
+        {
+          light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
+          dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
+        }
+      ]" />
 
 12. 大佬たちがさらに小さな問題を修正するように言った場合、あなたの個人のリポジトリに戻って、以前のdevブランチに切り替え、手順3-9を繰り返すだけで大丈夫です！  
-  手順2（再度フォークする）を実行する必要はなく、手順10（再度プルリクエストする）を実行する必要もありません。現在のプルリクエストはまだ承認待ちの状態にあり、後続の変更はこのプルリクエストに直接反映されます。  
-  👇 以下は例です。最下部に「再度変更デモを変更」というメッセージが追加されたことがわかります。
+    手順2（再度フォークする）を実行する必要はなく、手順10（再度プルリクエストする）を実行する必要もありません。現在のプルリクエストはまだ承認待ちの状態にあり、後続の変更はこのプルリクエストに直接反映されます。  
+    👇 以下は例です。最下部に「再度変更デモを変更」というメッセージが追加されたことがわかります。
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
-      }
-    ]" />
+        {
+          light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
+          dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
+        }
+      ]" />
 
 13. 大佬たちの承認を得たら、すべて完了です！ バージョンがリリースされた後、あなたのGitHubプロフィールアイコンは自動的に貢献者リストに追加されます。皆様のご奉仕に深く感謝申し上げます！  
     ~~なんで全部二次元キャラなんだろう、あ、私も二次元好きだったわ。ま、いいか~~
@@ -194,7 +194,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
-14. 次回別のPRを提出する場合は、まずdevブランチに切り替えて、以下の図のように直接操作してください。  
+14. 次回別のPRを提出する場合は、まずdevブランチに切り替えて、以下の図のように直接操作してください。
 
     ::: warning
     この操作は、あなたの個人リポジトリをメインリポジトリとまったく同じ状態に強制的に同期するものであり、最も簡単で効果的な競合解消方法です。ただし、あなたの個人リポジトリにすでに追加されているものは削除されます！  

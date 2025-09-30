@@ -1,9 +1,9 @@
-from pandas import DataFrame
 from pathlib import Path
 
+from pandas import DataFrame
 from roguelike.config import Theme
 
-from .main import RecruitPriorityOffset, Oper, Configuration
+from .main import Configuration, Oper, RecruitPriorityOffset
 
 
 # contributed by Lancarus
@@ -23,7 +23,9 @@ def export_config(output_path: Path, theme: Theme, config: Configuration) -> Non
                     for offset_index in range(len(offset_list)):
                         offset = offset_list[offset_index]
                         for offset_field in offset.model_fields:
-                            oper_dict[f"{offset_field}_{offset_index + 1}"] = getattr(offset, offset_field)
+                            oper_dict[f"{offset_field}_{offset_index + 1}"] = getattr(
+                                offset, offset_field
+                            )
                 else:
                     oper_dict[oper_field] = getattr(oper, oper_field)
             table.append(oper_dict)

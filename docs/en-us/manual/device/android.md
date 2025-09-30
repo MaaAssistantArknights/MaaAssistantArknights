@@ -17,6 +17,7 @@ This method involves ADB command-line usage, has lower stability, and still requ
 3. Since MAA only supports `16:9` aspect ratios, devices with non-`16:9` or `9:16` screen ratios (including most modern devices) need to have their resolution forcibly changed. If your device's native screen ratio is `16:9` or `9:16`, you can skip the `Change Resolution` section.
 4. Switch your device's navigation method to something other than `Full Screen Gestures`, such as `Classic Navigation Keys`, to avoid accidental operations.
 5. Please set the `Notched Screen UI Adaptation` option in the game settings to 0 to avoid task errors.
+
 :::
 
 ::: tip
@@ -36,7 +37,6 @@ Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x108
    ```
 
 - When executed successfully, it will show connected USB debugging devices.
-
   - Example of a successful connection:
 
     ```bash
@@ -118,7 +118,6 @@ Strongly recommended to restore the default resolution **before** restarting you
    ```
 
 2. Rename the first file to `startup.bat` and the second to `finish.bat`.
-
    - If no confirmation dialog appears when changing the extension and the file icon doesn't change, search for "How to show file extensions in Windows."
 
 3. In MAA's `Settings` - `Connection Settings`, set `Start Script` to `startup.bat` and `End Script` to `finish.bat`.
@@ -149,7 +148,6 @@ Wired connections don't need IP addresses or ports - just the device serial numb
    ```
 
 2. Find your device's IP address:
-
    - Go to your phone's `Settings` - `Wi-Fi`, tap the connected network to view the IP address.
    - The location varies by manufacturer - search for instructions if needed.
 
@@ -165,7 +163,6 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 1. On your phone, go to Developer Options, tap `Wireless Debugging` and enable it. Tap `Pair device with pairing code` and keep the popup open until pairing completes.
 
 2. Complete the pairing:
-
    1. In the command prompt, type `adb pair <IP address and port shown in the device popup>` and press Enter.
    2. Enter the six-digit pairing code from the device popup and press Enter.
    3. When you see `Successfully paired to <IP:port>`, the device popup will close automatically, and your computer's name will appear in the paired devices list.

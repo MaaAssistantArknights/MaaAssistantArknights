@@ -26,22 +26,22 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 #### Return Value
 
 - `TaskId`  
-    以下の構成で、タスクの追加に成功した場合のタスクID;
-    タスクの追加に失敗した場合は0。
+   以下の構成で、タスクの追加に成功した場合のタスクID;
+  タスクの追加に失敗した場合は0。
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    Instance handle
+   Instance handle
 - `const char* type`  
-    Task type
+   Task type
 - `const char* params`  
-    Task parameters in JSON
+   Task parameters in JSON
 
 ##### List of Task Types
 
 - `StartUp`  
-    Start-up
+   Start-up
 
 ```json5
 // 対応するタスクのパラメータ
@@ -58,7 +58,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `CloseDown`  
-  ゲームを閉じる  
+  ゲームを閉じる
 
 ```json5
 // 対応するタスクのパラメータ
@@ -70,7 +70,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Fight`  
-    Operation
+   Operation
 
 ```json5
 // 対応するタスクのパラメータ
@@ -109,7 +109,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 いくつかの特別ステージ名もサポートしています、[組み込み例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/ja-jp.xaml#L230)をご参照ください
 
 - `Recruit`  
-    公開求人
+   公開求人
 
 ```json5
 // 対応するタスクのパラメータ
@@ -151,7 +151,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Infrast`  
-    基地シフト
+   基地シフト
 
 ```json5
 {
@@ -179,8 +179,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Mall`  
-    FPの回収と自動購入  
-    最初に `buy_first` にあるものを左から右に押して順番に一度購入し、次に左から右に2回購入して`blacklist` を回避し、FPオーバーフローの場合はブラックリストを無視して、オーバーフローしなくなるまで左から右に3回目に購入します。
+   FPの回収と自動購入  
+   最初に `buy_first` にあるものを左から右に押して順番に一度購入し、次に左から右に2回購入して`blacklist` を回避し、FPオーバーフローの場合はブラックリストを無視して、オーバーフローしなくなるまで左から右に3回目に購入します。
 
 ```json5
 // 対応するタスクのパラメータ
@@ -206,7 +206,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Award`  
-    報酬の受け取り  
+   報酬の受け取り
 
 ```json5
 // 対応するタスクのパラメータ
@@ -216,7 +216,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Roguelike`  
-    統合戦略  
+   統合戦略
 
 ```json5
 // 対応するタスクパラメータ
@@ -282,7 +282,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Copilot`  
-    自動戦闘  
+   自動戦闘
 
 ```json5
 {
@@ -295,7 +295,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 自動操縦JSONの詳細については、[自動戦闘API](./copilot-schema.md)を参照してください
 
 - `SSSCopilot`  
-  保全駐在の自動戦闘  
+  保全駐在の自動戦闘
 
 ```json5
 {
@@ -308,7 +308,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 保全駐在の自動操縦JSONの詳細については、[保全駐在API](./sss-schema.md)
 
 - `Depot`
-    倉庫アイテム認識
+  倉庫アイテム認識
 
 ```json5
 // 対応するタスクのパラメータ
@@ -318,7 +318,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `OperBox`  
-    カドレー識別  
+   カドレー識別
 
 ```json5
 // 対応するタスクのパラメータ
@@ -328,7 +328,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Reclamation`  
-    生息演算  
+   生息演算
 
 ```json5
 {
@@ -343,7 +343,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "tools_to_craft": [
         string,                 // 自動的に製造されるアイテム、オプション、デフォルトは螢光棒
         ...
-    ] 
+    ]
                                 // サブストリングを入力することをお勧めします
     "increment_mode": int,      // クリックタイプ、オプション、デフォルトは0
                                 // 0 - 連続クリック
@@ -353,7 +353,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `Custom`  
-  カスタム タスク  
+  カスタム タスク
 
 ```json5
 {
@@ -367,7 +367,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `SingleStep`  
-  シングル ステップ タスク（現在は戦闘でのみ利用可能）  
+  シングル ステップ タスク（現在は戦闘でのみ利用可能）
 
 ```json5
 {
@@ -385,7 +385,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 ```
 
 - `VideoRecognition`  
-  ビデオ認識、現在は作戦ビデオのみ対応  
+  ビデオ認識、現在は作戦ビデオのみ対応
 
 ```json5
 {
@@ -409,17 +409,17 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, TaskId id, const char* params)
 #### Return Value
 
 - `bool`  
-    パラメータが正常に設定されたかどうか。  
+   パラメータが正常に設定されたかどうか。
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    Instance handle
+   Instance handle
 - `TaskId task`  
-    Task ID, `AsstAppendTask` の値を返します
+   Task ID, `AsstAppendTask` の値を返します
 - `const char* params`  
-    JSONのタスクパラメーター, `AsstAppendTask` と同じ  
-    "動作中に変更はできません" と記載されていないフィールドはランタイム中に変更することができます. そうでなければ、タスクの実行中にこれらの変更は無視される.
+   JSONのタスクパラメーター, `AsstAppendTask` と同じ  
+   "動作中に変更はできません" と記載されていないフィールドはランタイム中に変更することができます. そうでなければ、タスクの実行中にこれらの変更は無視される.
 
 ### `AsstSetStaticOption`
 
@@ -436,14 +436,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### Return Value
 
 - `bool`  
-    設定が成功したかどうか
+   設定が成功したかどうか
 
 #### Parameter Description
 
 - `AsstStaticOptionKey key`  
-    key
+   key
 - `const char* value`  
-    value
+   value
 
 ##### List of Key and value
 
@@ -464,16 +464,16 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### Return Value
 
 - `bool`  
-    設定が成功したかどうか
+   設定が成功したかどうか
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    handle
+   handle
 - `AsstInstanceOptionKey key`  
-    key
+   key
 - `const char* value`  
-    value
+   value
 
 ##### List of Key and value
 

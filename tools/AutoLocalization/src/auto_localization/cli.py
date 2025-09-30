@@ -1,10 +1,11 @@
 import argparse
 import logging
 import os
-
-from shutil import copy
 from pathlib import Path
+from shutil import copy
+
 from dotenv import load_dotenv
+
 from .git import get_latest_file_content
 from .xaml_load import XamlParser
 
@@ -193,7 +194,9 @@ def update_by_language(test, path, language):
 
 
 def cli_ui(test=None):
-    parser = argparse.ArgumentParser(description="一个用于自动翻译本地化目录下不同语言文档的命令行工具。")
+    parser = argparse.ArgumentParser(
+        description="一个用于自动翻译本地化目录下不同语言文档的命令行工具。"
+    )
     subparsers = parser.add_subparsers()
     parser_init = subparsers.add_parser("init", help="初始化工具")
     parser_init.set_defaults(func=initiate)
@@ -202,7 +205,9 @@ def cli_ui(test=None):
         "create", help="初始化其他语言的文档,可选参数：-f --force, -t --test"
     )
     parser_create.set_defaults(func=create)
-    parser_create.add_argument("-f", "--force", action="store_true", help="强制覆盖已有的部分")
+    parser_create.add_argument(
+        "-f", "--force", action="store_true", help="强制覆盖已有的部分"
+    )
     parser_create.add_argument(
         "-t", "--test", action="store_true", help="测试更新情况（跳过chatgpt）"
     )
@@ -210,7 +215,9 @@ def cli_ui(test=None):
         "-l", "--language", help="指定语言，可选参数：en-us, zh-tw, ja-jp, ko-kr"
     )
 
-    parser_update = subparsers.add_parser("update", help="更新本地化翻译,可选参数：-t --test")
+    parser_update = subparsers.add_parser(
+        "update", help="更新本地化翻译,可选参数：-t --test"
+    )
     parser_update.set_defaults(func=update)
     parser_update.add_argument(
         "-t", "--test", action="store_true", help="测试更新情况（跳过chatgpt）"

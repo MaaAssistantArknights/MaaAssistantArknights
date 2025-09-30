@@ -7,6 +7,7 @@
     "author": "bakashigure <me@shigure.fun>",
     "license": "AGPL-3.0",
     "private": true,
+    "packageManager": "pnpm@10.17.1",
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
         "@vuepress/bundler-vite": "2.0.0-rc.24",

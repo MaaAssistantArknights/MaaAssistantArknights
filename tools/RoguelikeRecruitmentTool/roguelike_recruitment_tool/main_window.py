@@ -1,24 +1,47 @@
 from os import system
 from pathlib import Path
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QCheckBox, QComboBox, QDesktopWidget, QFileDialog, QHBoxLayout, QLabel, QLineEdit,
-                             QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy, QStyleFactory,
-                             QTabWidget, QVBoxLayout, QWidget)
-
 from pydantic import ValidationError
-
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QDesktopWidget,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QPlainTextEdit,
+    QPushButton,
+    QSizePolicy,
+    QStyleFactory,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+)
 from roguelike.config import Theme
 from roguelike.recruitment import Configuration, export_config
 
 from .models import VisualisationModel
-from .views import GroupListView, OffsetATableView, OffsetBTableView, OperListView, TabBar, TableView
+from .views import (
+    GroupListView,
+    OffsetATableView,
+    OffsetBTableView,
+    OperListView,
+    TabBar,
+    TableView,
+)
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, configurations: dict[Theme, Configuration],
-                 parent: QWidget = None,
-                 flags: Qt.WindowFlags = Qt.WindowFlags()):
+    def __init__(
+        self,
+        configurations: dict[Theme, Configuration],
+        parent: QWidget = None,
+        flags: Qt.WindowFlags = Qt.WindowFlags(),
+    ):
         super().__init__(parent, flags)
 
         self.configurations: list[Configuration] = configurations
@@ -70,7 +93,9 @@ class MainWindow(QMainWindow):
 
         self.group_list_view = GroupListView(self.visualisation_widget)
         self.group_list_view.setModel(self.visualisation_model.group_list_model)
-        self.group_list_view.selectionModel().selectionChanged.connect(self.visualisation_model.on_group_selection)
+        self.group_list_view.selectionModel().selectionChanged.connect(
+            self.visualisation_model.on_group_selection
+        )
         self.group_list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tmp_layout.addWidget(self.group_list_view)
 
@@ -91,7 +116,9 @@ class MainWindow(QMainWindow):
 
         self.oper_list_view = OperListView(self.visualisation_widget)
         self.oper_list_view.setModel(self.visualisation_model.oper_list_model)
-        self.oper_list_view.selectionModel().selectionChanged.connect(self.visualisation_model.on_oper_selection)
+        self.oper_list_view.selectionModel().selectionChanged.connect(
+            self.visualisation_model.on_oper_selection
+        )
         self.oper_list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tmp_layout.addWidget(self.oper_list_view)
 
@@ -144,8 +171,12 @@ class MainWindow(QMainWindow):
         self.style_combo_box = QComboBox(self.control_widget)
         for style_name in QStyleFactory.keys():
             self.style_combo_box.addItem(style_name, style_name)
-        self.style_combo_box.setCurrentIndex(QStyleFactory.keys().index(self.style().objectName()))
-        self.style_combo_box.currentIndexChanged.connect(lambda: self.set_style(self.style_combo_box.currentData()))
+        self.style_combo_box.setCurrentIndex(
+            QStyleFactory.keys().index(self.style().objectName())
+        )
+        self.style_combo_box.currentIndexChanged.connect(
+            lambda: self.set_style(self.style_combo_box.currentData())
+        )
         self.control_layout.addWidget(self.style_combo_box)
 
         # -------- theme_combo_box ---------------------------------------
@@ -155,7 +186,9 @@ class MainWindow(QMainWindow):
             self.theme_combo_box.addItem(theme, theme)
         self.theme_combo_box.setCurrentIndex(self.theme_combo_box.count() - 1)
         self.theme_combo_box.currentIndexChanged.connect(
-            lambda: self.visualisation_model.set_configuration(self.configurations[self.theme_combo_box.currentData()])
+            lambda: self.visualisation_model.set_configuration(
+                self.configurations[self.theme_combo_box.currentData()]
+            )
         )
         self.control_layout.addWidget(self.theme_combo_box)
 
@@ -217,7 +250,9 @@ class MainWindow(QMainWindow):
         self.load_button.clicked.connect(self.on_load)
         self.resource_dir_layout.addWidget(self.load_button)
 
-    def process_exception(self, e: Exception, heading: str = "", title: str | None = None):
+    def process_exception(
+        self, e: Exception, heading: str = "", title: str | None = None
+    ):
         if title is None:
             title = heading
         if isinstance(e, ValidationError):
@@ -246,8 +281,12 @@ class MainWindow(QMainWindow):
         for theme in Theme:
             self.log_widget.appendPlainText(f"Loading {theme} ...")
             try:
-                config_path = Path(
-                    self.resource_dir_line_widget.text()) / "roguelike" / theme / "recruitment.json"
+                config_path = (
+                    Path(self.resource_dir_line_widget.text())
+                    / "roguelike"
+                    / theme
+                    / "recruitment.json"
+                )
                 with open(config_path, encoding="utf-8") as fp:
                     self.configurations[theme] = Configuration.json2config(fp.read())
             except Exception as e:
@@ -262,7 +301,9 @@ class MainWindow(QMainWindow):
             else:
                 self.log_widget.insertPlainText("Succeeded!")
         else:
-            self.visualisation_model.set_configuration(self.configurations[self.theme_combo_box.currentData()])
+            self.visualisation_model.set_configuration(
+                self.configurations[self.theme_combo_box.currentData()]
+            )
             self.set_control_enabled(True)
             self.log_widget.appendPlainText(f"Done!")
 
@@ -284,26 +325,43 @@ class MainWindow(QMainWindow):
             return
         selected_group_index = self.visualisation_model.get_selected_group_index()
         selected_oper_index = self.visualisation_model.get_selected_oper_index()
-        group_index_begin: int = selected_group_index if selected_group_index is not None else 0
-        for group_index in range(group_index_begin, len(selected_configuration.priority)):
+        group_index_begin: int = (
+            selected_group_index if selected_group_index is not None else 0
+        )
+        for group_index in range(
+            group_index_begin, len(selected_configuration.priority)
+        ):
             tmp_selected_group: Group = selected_configuration.priority[group_index]
-            oper_index_begin: int = selected_oper_index + 1 \
-                if group_index == selected_group_index and selected_oper_index is not None \
+            oper_index_begin: int = (
+                selected_oper_index + 1
+                if group_index == selected_group_index
+                and selected_oper_index is not None
                 else 0
+            )
             for oper_index in range(oper_index_begin, len(tmp_selected_group.opers)):
                 tmp_selected_oper = tmp_selected_group.opers[oper_index]
                 if tmp_selected_oper.name == target_oper_name:
-                    group_model_index = self.visualisation_model.group_list_model.index(group_index)
+                    group_model_index = self.visualisation_model.group_list_model.index(
+                        group_index
+                    )
                     self.group_list_view.selectionModel().clearSelection()
                     self.group_list_view.selectionModel().select(
-                        group_model_index, self.group_list_view.selectionModel().Select)
-                    self.group_list_view.scrollTo(group_model_index, self.group_list_view.PositionAtCenter)
+                        group_model_index, self.group_list_view.selectionModel().Select
+                    )
+                    self.group_list_view.scrollTo(
+                        group_model_index, self.group_list_view.PositionAtCenter
+                    )
 
-                    oper_model_index = self.visualisation_model.oper_list_model.index(oper_index)
+                    oper_model_index = self.visualisation_model.oper_list_model.index(
+                        oper_index
+                    )
                     self.oper_list_view.selectionModel().clearSelection()
                     self.oper_list_view.selectionModel().select(
-                        oper_model_index, self.oper_list_view.selectionModel().Select)
-                    self.oper_list_view.scrollTo(oper_model_index, self.oper_list_view.PositionAtCenter)
+                        oper_model_index, self.oper_list_view.selectionModel().Select
+                    )
+                    self.oper_list_view.scrollTo(
+                        oper_model_index, self.oper_list_view.PositionAtCenter
+                    )
                     break
             else:
                 continue
@@ -327,8 +385,12 @@ class MainWindow(QMainWindow):
         for theme in Theme:
             self.log_widget.appendPlainText(f"Saving {theme} ...")
             try:
-                config_path = Path(
-                    self.resource_dir_line_widget.text()) / "roguelike" / theme / "recruitment.json"
+                config_path = (
+                    Path(self.resource_dir_line_widget.text())
+                    / "roguelike"
+                    / theme
+                    / "recruitment.json"
+                )
                 json_str = Configuration.config2json(self.configurations[theme])
                 with open(config_path, "w", encoding="utf-8") as fp:
                     fp.write(json_str)

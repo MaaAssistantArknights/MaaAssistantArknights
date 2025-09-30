@@ -2,6 +2,7 @@
 order: 3
 icon: teenyicons:linux-alt-solid
 ---
+
 # Linux 模擬器與容器
 
 ## 準備工作
@@ -17,7 +18,6 @@ icon: teenyicons:linux-alt-solid
 #### 1. 安裝 MAA 動態庫
 
 1. 在 [MAA 官網](https://maa.plus/) 下載 Linux 動態庫並解壓，或從軟體源安裝：
-
    - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安裝後的提示編輯檔案
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
@@ -33,30 +33,28 @@ icon: teenyicons:linux-alt-solid
 1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) 一欄
 
 2. `adb` 工具調用
-
    - 如果模擬器使用 `Android Studio` 的 `avd` ，其內建 `adb` 。可以直接在 `adb.exe` 一欄填寫 `adb` 路徑，一般在 `$HOME/Android/Sdk/platform-tools/` 裡面可以找到，例如：
 
-    ```python
-    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模擬器的 adb 地址"):
-    ```
+   ```python
+   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模擬器的 adb 地址"):
+   ```
 
    - 如果使用其他模擬器須先下載 `adb` ： `$ sudo apt install adb` 後填寫路徑或利用 `PATH` 環境變量直接填寫 `adb` 即可
 
 3. 模擬器 `adb` 路徑獲取
-
    - 可以直接使用 adb 工具： `$ adb路徑 devices` ，例如：
 
-    ```shell
-    $ /home/foo/Android/Sdk/platform-tools/adb devices
-    List of devices attached
-    emulator-5554 device
-    ```
+   ```shell
+   $ /home/foo/Android/Sdk/platform-tools/adb devices
+   List of devices attached
+   emulator-5554 device
+   ```
 
    - 返回的 `emulator-5554` 就是模擬器的 adb 地址，覆蓋掉 `127.0.0.1:5555` ，例如：
 
-    ```python
-    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
-    ```
+   ```python
+   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
+   ```
 
 4. 這時候可以測試下： `$ python3 sample.py` ，如果返回 `連接成功` 則基本成功了
 
@@ -70,11 +68,11 @@ icon: teenyicons:linux-alt-solid
 
 必選配置： 16:9 的螢幕解析度，且解析度需大於 720p
 
-推薦配置： x86\_64 的框架 (R - 30 - x86\_64 - Android 11.0) 配合 MAA 的 Linux x64 動態庫
+推薦配置： x86_64 的框架 (R - 30 - x86_64 - Android 11.0) 配合 MAA 的 Linux x64 動態庫
 
 ### ⚠️ [Genymotion](https://www.genymotion.com/)
 
-高版本安卓內建 x86\_64 框架，輕量但是執行明日方舟時易閃退
+高版本安卓內建 x86_64 框架，輕量但是執行明日方舟時易閃退
 
 暫未嚴格測試， adb 功能和路徑獲取沒有問題
 
