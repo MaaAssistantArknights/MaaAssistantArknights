@@ -22,6 +22,8 @@ export default defineComponent({
     const baseLineHeight = ref(0)
     const basePreWidth = ref(0)
 
+    const measureDelay = 100
+
     const updateBaseMetrics = () => {
       if (!pre.value) return
       const style = window.getComputedStyle(pre.value)
@@ -47,10 +49,10 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      nextTick(() => {
+      setTimeout(() => {
         updateBaseMetrics()
         adjustFont()
-      })
+      }, measureDelay)
       window.addEventListener('resize', adjustFont)
     })
 
@@ -59,10 +61,11 @@ export default defineComponent({
     })
 
     // 当 art 变化时重新记录宽度和基准
-    watch(art, async () => {
-      await nextTick()
-      updateBaseMetrics()
-      adjustFont()
+    watch(art, () => {
+      setTimeout(() => {
+        updateBaseMetrics()
+        adjustFont()
+      }, measureDelay)
     })
 
     return { wrapper, pre, art }
