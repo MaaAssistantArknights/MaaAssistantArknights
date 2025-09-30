@@ -131,16 +131,16 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
-        "specificRect": [886, 548, 1, 1],
-        "rectMove": [780, 400, 1, 1],
+        "specificRect": [1050, 675, 1, 1],
+        "rectMove": [925, 475, 1, 1],
         "next": ["MiniGame@RM-1@DeployEWConfirm"]
     },
     "MiniGame@RM-1@DeployEWConfirm": {
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specialParams": [200, 0, 2, 0],
-        "specificRect": [780, 400, 1, 1],
-        "rectMove": [358, 400, 1, 1],
+        "specificRect": [800, 375, 1, 1],
+        "rectMove": [500, 375, 1, 1],
         "next": ["MiniGame@RM-1@Sleep"]
     },
     "MiniGame@RM-1@Sleep": {
