@@ -2,7 +2,7 @@
     "stage_name": "明抢暗偷",
     "replacement_home": [
         {
-            "location": [7, 5],
+            "location": [5, 5],
             "direction": "left"
         }
     ],
@@ -11,6 +11,11 @@
         {
             "groups": ["益达", "焰苇", "水陈", "高台输出"],
             "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["召唤"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
@@ -39,7 +44,7 @@
             "direction": "left"
         },
         {
-            "groups": ["处决者"],
+            "groups": ["地面远程", "地面阻挡", "处决者", "其他地面"],
             "location": [7, 5],
             "direction": "left"
         },

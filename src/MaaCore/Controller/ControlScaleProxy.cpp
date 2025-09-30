@@ -114,10 +114,26 @@ bool asst::ControlScaleProxy::swipe(
     bool with_pause,
     bool high_resolution_swipe_fix)
 {
-    auto rand_p1 = rand_point_in_rect(r1);
-    auto rand_p2 = rand_point_in_rect(r2);
+    Point rand_p1, rand_p2;
+    bool precise1 = (r1.width == 1 && r1.height == 1);
+    bool precise2 = (r2.width == 1 && r2.height == 1);
 
-    if (m_controller_type == ControllerType::Adb) {
+    if (precise1) {
+        rand_p1 = Point(r1.x, r1.y);
+    }
+    else {
+        rand_p1 = rand_point_in_rect(r1);
+    }
+
+    if (precise2) {
+        rand_p2 = Point(r2.x, r2.y);
+    }
+    else {
+        rand_p2 = rand_point_in_rect(r2);
+    }
+
+    if (m_controller_type == ControllerType::Adb && !(precise1 && precise2)) {
+        // 只有不是精确点时才做ADB修正
         // 同样的参数 ADB 总是划过头，糊点屎进来
         // 外部调用 swipe(Point, Point) 时，说明是精确要求位置的，不能做这个调整
         // 所以屎没法糊在下面一层，只能糊在这里了（

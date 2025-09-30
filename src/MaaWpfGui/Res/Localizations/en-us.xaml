@@ -1199,7 +1199,7 @@ With save file: farm points through crafting (advanced).
 Please extract MAA into a separate new folder, or remove any DLL files that do not belong to MAA.
     </system:String>
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">Detected that Microsoft Visual C++ Redistributable 2015-2022 (x64) is NOT installed or the version is too low.
-Click "OK" to execute the installation script and exit MAA. Click "Cancel" to exit MAA directly.
+Click "{key=Confirm}" to execute the installation script and exit MAA. Click "{key=Cancel}" to exit MAA directly.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">Only one instance can be launched under the same path!
 If you want to run multiple MAA at the same time, please copy the whole MAA and start under different path with the same adb and different connect address.

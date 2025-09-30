@@ -430,6 +430,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -440,7 +441,6 @@
             "Mizuki@Roguelike@StageEmergencyTransportation",
             "Mizuki@Roguelike@StageRegionalCommissioning",
             "Mizuki@Roguelike@StageGambling",
-            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
@@ -454,6 +454,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -466,7 +467,6 @@
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5",
             "Mizuki@Roguelike@StageRegionalCommissioning",
-            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose"
@@ -478,6 +478,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
+            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
@@ -490,7 +491,6 @@
             "Mizuki@Roguelike@StageDreadfulFoe-5",
             "Mizuki@Roguelike@StageRegionalCommissioning",
             "Mizuki@Roguelike@StageGambling",
-            "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose"

@@ -338,7 +338,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: meta
-    runs-on: macos-latest
+    runs-on: macos-26
     strategy:
       matrix:
         arch: [arm64, x86_64]
@@ -396,7 +396,7 @@ jobs:
       github.event.pull_request.base.repo.full_name
 
     needs: [meta, macOS-Core]
-    runs-on: macos-latest
+    runs-on: macos-26
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -442,7 +442,7 @@ jobs:
           api-private-key: ${{ secrets.HGUANDL_APPSTORE_KEY }}
 
       - name: Setup Xcode Toolchain
-        if: true
+        if: false
         run: |
           sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 

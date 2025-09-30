@@ -1537,6 +1537,7 @@
         "action": "ClickSelf",
         "template": ["Roguelike@StageTraderRefreshWithDiceConfirm.png", "Roguelike@StageTraderRefreshConfirmNew.png"],
         "roi": [580, 375, 700, 230],
+        "postDelay": 5000,
         "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"]
     },
     "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {

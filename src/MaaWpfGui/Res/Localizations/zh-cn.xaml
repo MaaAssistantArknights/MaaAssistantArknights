@@ -1199,7 +1199,7 @@ C:\\leidian\\LDPlayer9。\n
 请将 MAA 解压到一个独立的新文件夹中，或移除不属于 MAA 的 DLL 文件。
     </system:String>
     <system:String x:Key="VC++NotInstalled" xml:space="preserve">检测到 Microsoft Visual C++ Redistributable 2015-2022 (x64) 未安装或版本过低,
-点击 "确定" 执行安装脚本并退出 MAA, 点击 "取消" 将直接退出.
+点击 "{key=Confirm}" 执行安装脚本并退出 MAA, 点击 "{key=Cancel}" 将直接退出.
     </system:String>
     <system:String x:Key="MultiInstanceUnderSamePath" xml:space="preserve">同一路径下只能启动一个实例！
 如需多开 MAA，请复制一份新的 MAA 到其他文件夹下，并设置使用不同的 MAA，相同的 adb 和不同的模拟器地址进行多开操作。
