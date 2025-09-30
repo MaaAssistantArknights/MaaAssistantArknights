@@ -11,12 +11,9 @@ export default defineClientConfig({
   enhance: ({ app }) => {
     app.component('AsciiArt', AsciiArt);
     app.component('ImageGrid', ImageGrid);
-    
+
     // 输出一个随机字符画
-    const art = getAsciiArt()
-    console.log(
-      '%c' + art,
-      'white-space: pre;'
-    )
+    const art = getAsciiArt();
+    console.log('%c' + art, 'white-space: pre;');
   },
 });
