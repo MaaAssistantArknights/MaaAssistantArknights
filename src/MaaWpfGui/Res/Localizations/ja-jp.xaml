@@ -779,9 +779,9 @@ C:\\leidian\\LDPlayer9
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生予案 RM-TR-1</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1Tip">チュートリアル終了後、前哨支点に入り、画面を一番左までスワイプしてください。</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">チュートリアル終了後、前哨支点に入り、画面を一番左までスワイプしてください。</system:String>
     <system:String x:Key="MiniGame@RM-1">次生予案 RM-1</system:String>
-    <system:String x:Key="MiniGame@RM-1Tip">RM-TR-1 を約3時間周回。建設戦略で、石材採掘ラインを最右点まで、&#10;特別任命でウィストリアを指定し、その後可能な限り精二専三、スキル1を携行、&#10;12体のオペレーターを満載、その他の11体の配置コストをウィストリアより低く、&#10;生産モジュール各1体携行、手動でステージに入って退出、&#10;RM-1 を画面中央に配置、MAA を実行。</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">RM-TR-1 を約3時間周回。建設戦略で、石材採掘ラインを最右点まで、&#10;特別任命でウィストリアを指定し、その後可能な限り精二専三、スキル1を携行、&#10;12体のオペレーターを満載、その他の11体の配置コストをウィストリアより低く、&#10;生産モジュール各1体携行、手動でステージに入って退出、&#10;RM-1 を画面中央に配置、MAA を実行。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT - 相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">イベント画面（右下角に ｢営業開始｣ ボタンがあります）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">対決チャンネル：グリーングラスシティ（非公式）</system:String>

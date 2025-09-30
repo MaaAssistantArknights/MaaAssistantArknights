@@ -779,9 +779,9 @@ C:\\leidian\\LDPlayer9。\n
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生预案 RM-TR-1</system:String>
-    <system:String x:Key="MiniGame@RM-TR-1Tip">过完新手教程后进入前哨支点，滑动到界面最左侧。</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">过完新手教程后进入前哨支点，滑动到界面最左侧。</system:String>
     <system:String x:Key="MiniGame@RM-1">次生预案 RM-1</system:String>
-    <system:String x:Key="MiniGame@RM-1Tip">刷 RM-TR-1 大约 3 小时，营建策略中，石材开采 线点到底，&#10;特约任命指定维什戴尔，然后尽量精二专三，携带 1 技能，&#10;带满 12 个干员，其余 11 个的费用需要低于 维什戴尔，&#10;生产模块各带 1 个，手动进入关卡并退出，&#10;让 RM-1 位于屏幕中央，运行 MAA。</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">刷 RM-TR-1 大约 3 小时，营建策略中，石材开采 线点到底，&#10;特约任命指定维什戴尔，然后尽量精二专三，携带 1 技能，&#10;带满 12 个干员，其余 11 个的费用需要低于 维什戴尔，&#10;生产模块各带 1 个，手动进入关卡并退出，&#10;让 RM-1 位于屏幕中央，运行 MAA。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相谈室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活动主界面（右下角有 ｢开始营业｣ 处）开始任务。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">争锋频道：青草城</system:String>
