@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 import argparse
-import os
-import sys
-import urllib.request
-import urllib.error
-import json
-import time
-import platform
-from pathlib import Path
-import shutil
 import http.client
+import json
+import os
+import platform
+import shutil
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
 
 TARGET_TAG = "v2.10.0-maa.1"
 basedir = Path(__file__).parent.parent
@@ -30,7 +30,7 @@ def detect_host_triplet():
         raise Exception("unsupported architecture: " + machine)
     if system in {"windows", "linux"}:
         pass
-    elif 'mingw' in system or 'cygwin' in system:
+    elif "mingw" in system or "cygwin" in system:
         system = "windows"
     elif system == "darwin":
         system = "osx"
@@ -62,7 +62,7 @@ class ProgressHook:
                     f"\r [{self.downloaded / total * 100.0:3.1f}%] ",
                     f"{format_size(self.downloaded)} / {format_size(total)}",
                     "      \r",
-                    end=''
+                    end="",
                 )
         if self.downloaded == total:
             print("")
@@ -71,9 +71,9 @@ class ProgressHook:
 def sanitize_filename(filename: str):
     system = platform.system()
     if system == "Windows":
-        filename = filename.translate(
-            str.maketrans("/\\:\"?*|\0", "________")
-        ).rstrip('.')
+        filename = filename.translate(str.maketrans('/\\:"?*|\0', "________")).rstrip(
+            "."
+        )
     elif system == "Darwin":
         filename = filename.translate(str.maketrans("/:\0", "___"))
     else:
@@ -84,12 +84,10 @@ def sanitize_filename(filename: str):
 def retry_urlopen(*args, **kwargs):
     for _ in range(5):
         try:
-            resp: http.client.HTTPResponse = urllib.request.urlopen(*args,
-                                                                    **kwargs)
+            resp: http.client.HTTPResponse = urllib.request.urlopen(*args, **kwargs)
             return resp
         except urllib.error.HTTPError as e:
-            if (e.status == 403 and
-                    e.headers.get("x-ratelimit-remaining") == "0"):
+            if e.status == 403 and e.headers.get("x-ratelimit-remaining") == "0":
                 # rate limit
                 t0 = time.time()
                 reset_time = t0 + 10
@@ -100,7 +98,7 @@ def retry_urlopen(*args, **kwargs):
                 reset_time = max(reset_time, t0 + 10)
                 print(
                     "rate limit exceeded, retrying after ",
-                    f"{reset_time - t0:.1f} seconds"
+                    f"{reset_time - t0:.1f} seconds",
                 )
                 time.sleep(reset_time - t0)
                 continue
@@ -111,8 +109,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("target_triplet", nargs="?", default=None)
     parser.add_argument("tag", nargs="?", default=None)
-    parser.add_argument("-f", "--force", action="store_true",
-                        help="force download even if already exists")
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="force download even if already exists",
+    )
     args = parser.parse_args()
 
     if args.target_triplet is not None:
@@ -126,16 +128,16 @@ def main():
         target_tag = TARGET_TAG
     print(
         "About to download prebuilt dependency libraries for",
-        f"{target_triplet} of {target_tag}"
+        f"{target_triplet} of {target_tag}",
     )
     if args.target_triplet is None:
         print(
             "to specify another triplet [and tag], ",
-            f"run `{sys.argv[0]} <target triplet> [tag]`"
+            f"run `{sys.argv[0]} <target triplet> [tag]`",
         )
         print(
             f"e.g. `{sys.argv[0]} arm64-windows` ",
-            f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`"
+            f"or `{sys.argv[0]} arm64-windows 2023-04-24-3`",
         )
 
     maadeps_dir = Path(basedir, "MaaDeps")
@@ -148,7 +150,7 @@ def main():
     if not args.force and versions.get(target_triplet) == target_tag:
         print(
             f"prebuilt dependencies for {target_triplet} of {target_tag} ",
-            "already exist, skipping download"
+            "already exist, skipping download",
         )
         print(f"to force download, run `{sys.argv[0]} -f`")
         return
@@ -163,13 +165,14 @@ def main():
     releases = json.loads(resp)
 
     def split_asset_name(name: str):
-        *remainder, component_suffix = name.rsplit('-', 1)
+        *remainder, component_suffix = name.rsplit("-", 1)
         component = component_suffix.split(".", 1)[0]
         if remainder:
             _, *target = remainder[0].split("-", 1)
             if target:
                 return target[0], component
         return None, None
+
     devel_asset = None
     runtime_asset = None
     for release in releases:
@@ -178,9 +181,9 @@ def main():
         for asset in release["assets"]:
             target, component = split_asset_name(asset["name"])
             if target == target_triplet:
-                if component == 'devel':
+                if component == "devel":
                     devel_asset = asset
-                elif component == 'runtime':
+                elif component == "runtime":
                     runtime_asset = asset
         if devel_asset and runtime_asset:
             break
@@ -191,16 +194,18 @@ def main():
         download_dir = Path(maadeps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
         try:
-            shutil.rmtree(maadeps_dir / "runtime" / f"maa-{target_triplet}",
-                          ignore_errors=True)
-            shutil.rmtree(maadeps_dir / "vcpkg" / "installed" /
-                          f"maa-{target_triplet}", ignore_errors=True)
+            shutil.rmtree(
+                maadeps_dir / "runtime" / f"maa-{target_triplet}", ignore_errors=True
+            )
+            shutil.rmtree(
+                maadeps_dir / "vcpkg" / "installed" / f"maa-{target_triplet}",
+                ignore_errors=True,
+            )
             for asset in [devel_asset, runtime_asset]:
-                url = asset['browser_download_url']
+                url = asset["browser_download_url"]
                 print("downloading from", url)
                 local_file = download_dir / sanitize_filename(asset["name"])
-                urllib.request.urlretrieve(url, local_file,
-                                           reporthook=ProgressHook())
+                urllib.request.urlretrieve(url, local_file, reporthook=ProgressHook())
                 print("extracting", asset["name"])
                 shutil.unpack_archive(local_file, maadeps_dir)
             versions[target_triplet] = target_tag

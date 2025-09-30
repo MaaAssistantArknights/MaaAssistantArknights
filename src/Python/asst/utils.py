@@ -1,5 +1,5 @@
-from typing import Union, Dict, List, Any, Type
-from enum import Enum, IntEnum, unique, auto
+from enum import Enum, IntEnum, auto, unique
+from typing import Any, Dict, List, Type, Union
 
 JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 
@@ -24,6 +24,7 @@ class Message(Enum):
 
     请参考 docs/回调消息.md
     """
+
     InternalError = 0
 
     InitFailed = auto()
@@ -64,6 +65,7 @@ class Version(Enum):
     """
     目标版本
     """
+
     Nightly = auto()
 
     Beta = auto()

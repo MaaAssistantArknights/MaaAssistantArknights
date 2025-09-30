@@ -72,21 +72,21 @@ Conflicts are somewhat troublesome to resolve. This section only explains the co
 
 1. First, enter MAA's main repository and click the Fork button in the upper right corner to fork a copy of the code
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/fork-light.png',
-        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/fork-light.png',
+       dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+     }
+   ]" />
 
 2. Then directly click "Create Fork"
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+     }
+   ]" />
 
 3. You'll arrive at your personal repository. You can see the title is "YourName/MaaAssistantArknights" with small text below saying "forked from MaaAssistantArknights/MaaAssistantArknights"
 
@@ -98,13 +98,13 @@ Conflicts are somewhat troublesome to resolve. This section only explains the co
 
 7. After editing, click the button in the upper right corner to open the commit page and write what you changed
 
-    We have a simple commit title [naming format](https://www.conventionalcommits.org/en/v1.0.0/). It's best to follow it, but if you really can't understand it, you can write something simple first.
+   We have a simple commit title [naming format](https://www.conventionalcommits.org/en/v1.0.0/). It's best to follow it, but if you really can't understand it, you can write something simple first.
 
 8. Have a second file to modify? Discovered an error after finishing? No problem! Just repeat steps 4-7!
 
 9. After all modifications are complete, make a PR! Click "Code" to return to your **personal repository's** homepage  
-    If there's a "Compare & Pull Request" button, that's great - click it directly!  
-    If not, don't worry - click the "Contribute" button below, then "Open Pull Request" - it's the same thing.
+   If there's a "Compare & Pull Request" button, that's great - click it directly!  
+   If not, don't worry - click the "Contribute" button below, then "Open Pull Request" - it's the same thing.
 
 10. You'll arrive at the main repository's PR page. Please verify that what you want to PR is what you intend to submit.  
     As shown in the image, there's a leftward arrow in the middle, requesting to merge the right side's PersonalName/MAA dev branch into the main repository/MAA dev branch.  

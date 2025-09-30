@@ -22,8 +22,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 返回值
 
 - `AsstTaskId`  
-    若添加成功，返回该任务 ID, 可用于后续设置任务参数；  
-    若添加失败，返回 0
+   若添加成功，返回该任务 ID, 可用于后续设置任务参数；  
+   若添加失败，返回 0
 
 #### 参数说明
 
@@ -42,7 +42,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ##### 任务类型一览
 
 - `StartUp`  
-  开始唤醒  
+  开始唤醒
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -68,7 +68,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::::
 
 - `CloseDown`  
-    关闭游戏  
+   关闭游戏
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -82,7 +82,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 ::::
 
 - `Fight`  
-    刷理智
+   刷理智
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -222,7 +222,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Infrast`  
-    基建换班
+   基建换班
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -242,7 +242,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`
 :::
-::: field name="drones" type="string" optional default="_NotUse"
+::: field name="drones" type="string" optional default="\_NotUse"
 无人机用途。`mode = 10000` 时该字段无效。
 <br>
 选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`
@@ -282,8 +282,8 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Mall`  
-    领取信用及商店购物。  
-    会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
+   领取信用及商店购物。  
+   会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -321,7 +321,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Award`  
-    领取各种奖励
+   领取各种奖励
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -348,7 +348,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Roguelike`  
-    无限刷肉鸽
+   无限刷肉鸽
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -502,7 +502,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
 
 - `Copilot`  
-    自动抄作业
+   自动抄作业
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -519,7 +519,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
 - `SSSCopilot`  
-    自动抄保全作业
+   自动抄保全作业
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -536,7 +536,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 保全作业 JSON 请参考 [保全派驻协议](./sss-schema.md)
 
 - `Depot`  
-    仓库识别
+   仓库识别
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -545,7 +545,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `OperBox`  
-    干员 box 识别
+   干员 box 识别
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -554,7 +554,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Reclamation`  
-    生息演算
+   生息演算
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -563,9 +563,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field name="theme" type="string" optional default="Fire"
 主题。
 <br>
-`Fire` - *沙中之火*
+`Fire` - _沙中之火_
 <br>
-`Tales` - *沙洲遗闻*
+`Tales` - _沙洲遗闻_
 :::
 ::: field name="mode" type="number" optional default="0"
 模式。
@@ -590,7 +590,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `Custom`  
-    自定义任务
+   自定义任务
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -602,7 +602,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::::
 
 - `SingleStep`  
-    单步任务（目前仅支持战斗）
+   单步任务（目前仅支持战斗）
 
 :::: field-group
 ::: field name="enable" type="boolean" optional default="true"
@@ -652,7 +652,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 返回值
 
 - `bool`  
-    返回是否设置成功
+   返回是否设置成功
 
 #### 参数说明
 
@@ -663,7 +663,7 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 ::: field name="task" type="AsstTaskId" required
 任务 ID, `AsstAppendTask` 接口的返回值
 :::
-::: field name="params" type="const char*" required
+::: field name="params" type="const char\*" required
 任务参数，json string，与 `AsstAppendTask` 接口相同。
 未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段
 :::
@@ -684,7 +684,7 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### 返回值
 
 - `bool`  
-    返回是否设置成功
+   返回是否设置成功
 
 #### 参数说明
 
@@ -692,7 +692,7 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 ::: field name="key" type="AsstStaticOptionKey" required
 键
 :::
-::: field name="value" type="const char*" required
+::: field name="value" type="const char\*" required
 值
 :::
 ::::
@@ -716,7 +716,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 返回值
 
 - `bool`  
-    返回是否设置成功
+   返回是否设置成功
 
 #### 参数说明
 
@@ -727,7 +727,7 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 ::: field name="key" type="AsstInstanceOptionKey" required
 键
 :::
-::: field name="value" type="const char*" required
+::: field name="value" type="const char\*" required
 值
 :::
 ::::

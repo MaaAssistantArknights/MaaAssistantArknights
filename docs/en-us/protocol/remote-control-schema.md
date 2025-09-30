@@ -88,6 +88,7 @@ The endpoint should be reentrant and repeatedly return tasks to execute, as MAA 
 - Settings-[SettingsName] task types include Settings-ConnectionAddress, Settings-Stage1
 - Settings series tasks still execute sequentially rather than immediately, queuing behind previous tasks
 - Multiple immediate execution tasks also execute in issued order, though since these tasks execute quickly, their order generally doesn't matter
+
 :::
 
 ## Task Reporting Endpoint

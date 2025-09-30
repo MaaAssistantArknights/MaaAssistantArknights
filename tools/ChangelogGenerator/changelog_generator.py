@@ -1,14 +1,14 @@
+import json
+import os
+import re
+import urllib.error
+import urllib.request
 from argparse import ArgumentParser
 from enum import Enum
-from typing import Tuple
 from pathlib import Path
-import os
-import json
-import re
-import urllib.request
-import urllib.error
+from typing import Tuple
 
-repo = "MaaAssistantArknights/MaaAssistantArknights" # Owner/RepoName
+repo = "MaaAssistantArknights/MaaAssistantArknights"  # Owner/RepoName
 cur_dir = Path(__file__).parent
 contributors_path = cur_dir / "contributors.json"
 changelog_path = cur_dir.parent.parent / "CHANGELOG.md"
@@ -17,7 +17,9 @@ with_hash = False
 with_commitizen = False
 committer_is_author = False
 merge_author = False
-commitizens = r"(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)"
+commitizens = (
+    r"(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)"
+)
 ignore_commitizens = r"(?:build|ci|style|debug)"
 
 contributors = {}
@@ -205,8 +207,8 @@ def build_commits_tree(commit_hash: str):
 
 
 def retry_urlopen(*args, **kwargs):
-    import time
     import http.client
+    import time
 
     for _ in range(5):
         try:
@@ -290,7 +292,9 @@ def main(tag_name=None, latest=None):
     # In case the check step fails in the workflow, prevent exit error 1
     if raw_gitlogs.strip():
         for raw_commit_info in raw_gitlogs.split("\n\n"):
-            commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
+            commit_hash, author, committer, message, parent = raw_commit_info.split(
+                "\n"
+            )
 
             author = convert_contributors_name(
                 name=author, commit_hash=commit_hash, name_type="author"
@@ -315,7 +319,9 @@ def main(tag_name=None, latest=None):
         for commit_hash in raw_gitlogs.split("\n"):
             if commit_hash not in raw_commits_info:
                 continue
-            git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
+            git_addition_command = (
+                rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
+            )
             addition = call_command(git_addition_command)
             coauthors = []
             for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
@@ -327,22 +333,20 @@ def main(tag_name=None, latest=None):
                     print(f"Cannot get coauthor: {coauthor}.")
             raw_commits_info[commit_hash]["coauthors"] = coauthors
 
-        git_skip_command = (
-            rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
-        )
+        git_skip_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
         raw_gitlogs = call_command(git_skip_command)
 
         for commit_hash in raw_gitlogs.split("\n\n"):
             if commit_hash not in raw_commits_info:
                 continue
-            git_show_command = (
-                rf'git show -s --format=%B%n {commit_hash}'
-            )
+            git_show_command = rf"git show -s --format=%B%n {commit_hash}"
             raw_git_shows = call_command(git_show_command)
             for commit_body in raw_git_shows.split("\n"):
-                if not commit_body.startswith("* ") and "[skip changelog]" in commit_body:
+                if (
+                    not commit_body.startswith("* ")
+                    and "[skip changelog]" in commit_body
+                ):
                     raw_commits_info[commit_hash]["skip"] = True
-
 
         # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
 
@@ -359,7 +363,9 @@ def main(tag_name=None, latest=None):
     # In case the check step fails in the workflow, prevent exit error 1
     else:
         print("No commits found.")
-        with open(os.getenv('GITHUB_OUTPUT'), 'a') as github_output: github_output.write("cancel_run=true\n")
+        with open(os.getenv("GITHUB_OUTPUT"), "a") as github_output:
+            github_output.write("cancel_run=true\n")
+
 
 def ArgParser():
     parser = ArgumentParser()

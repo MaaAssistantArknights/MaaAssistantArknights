@@ -22,22 +22,22 @@ Appends a task.
 #### Return Value
 
 - `TaskId`  
-    The task ID if the task is successfully appended, for the following configuration;
-    0 if the task is not successfully appended.
+   The task ID if the task is successfully appended, for the following configuration;
+  0 if the task is not successfully appended.
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    Instance handle
+   Instance handle
 - `const char* type`  
-    Task type
+   Task type
 - `const char* params`  
-    Task parameters in JSON
+   Task parameters in JSON
 
 ##### List of Task Types
 
 - `StartUp`  
-    Start-up
+   Start-up
 
 ```json5
 // Corresponding task parameters
@@ -54,7 +54,7 @@ Appends a task.
 ```
 
 - `CloseDown`  
-    Close Game Client  
+   Close Game Client
 
 ```json5
 // Corresponding task parameters
@@ -66,7 +66,7 @@ Appends a task.
 ```
 
 - `Fight`  
-    Operation
+   Operation
 
 ```json5
 // Corresponding task parameters
@@ -105,7 +105,7 @@ Appends a task.
 Supports some of the special stages, please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
 
 - `Recruit`  
-    Recruitment
+   Recruitment
 
 ```json5
 // Corresponding task parameters
@@ -149,7 +149,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
 ```
 
 - `Infrast`  
-    Infrastructure shifting
+   Infrastructure shifting
 
 ```json5
 {
@@ -182,8 +182,8 @@ Supports some of the special stages, please refer to [autoLocalization example](
 ```
 
 - `Mall`  
-    Collecting Credits and auto-purchasing.  
-    Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
+   Collecting Credits and auto-purchasing.  
+   Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
 ```json5
 // Corresponding task parameters
@@ -209,7 +209,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
 ```
 
 - `Award`  
-    Collecting various rewards
+   Collecting various rewards
 
 ```json5
 // Corresponding task parameters
@@ -225,7 +225,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
 ```
 
 - `Roguelike`  
-    Integrated Strategies
+   Integrated Strategies
 
 ```json5
 // Task parameters
@@ -250,7 +250,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
                      //   7 - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations
     "squad": string,                // Starting squad name, optional, default is "指挥分队" (Command Squad);
     "roles": string,                // Starting role group, optional, default is "取长补短" (Complementary Strength);
-    "core_char": string,            // Starting operator name, optional; supports only single operator **in Chinese**, regardless of server; 
+    "core_char": string,            // Starting operator name, optional; supports only single operator **in Chinese**, regardless of server;
                                     // leave empty or set to "" to auto-select based on level
     "use_support": bool,            // Whether the starting operator is a support operator, optional, default is false
     "use_nonfriend_support": bool,  // Whether non-friend support operators are allowed, optional, default is false; only effective when `use_support` is true
@@ -309,7 +309,7 @@ Supports some of the special stages, please refer to [autoLocalization example](
 For specific information about the Collapsal Paradigm farming feature, please refer to [Integrated Strategy Schema](./integrated-strategy-schema.md#sami-integrated-strategy-collapsal-paradigms)
 
 - `Copilot`  
-    Auto combat feature
+   Auto combat feature
 
 ```json5
 {
@@ -322,7 +322,7 @@ For specific information about the Collapsal Paradigm farming feature, please re
 For more details about auto-combat JSON, please refer to [Combat Operation Protocol](./copilot-schema.md)
 
 - `SSSCopilot`  
-    Auto combat feature for Stationary Security Service
+   Auto combat feature for Stationary Security Service
 
 ```json5
 {
@@ -335,7 +335,7 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 For more details about Stationary Security Service JSON, please refer to [SSS Schema](./sss-schema.md)
 
 - `Depot`
-    Depot recognition
+  Depot recognition
 
 ```json5
 // Corresponding task parameters
@@ -345,7 +345,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 ```
 
 - `OperBox`  
-    Operator box recognition
+   Operator box recognition
 
 ```json5
 // Corresponding task parameters
@@ -355,7 +355,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 ```
 
 - `Reclamation`  
-    Reclamation Algorithm
+   Reclamation Algorithm
 
 ```json5
 {
@@ -370,7 +370,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
     "tools_to_craft": [
         string,                 // Automatically crafted items, optional, glow stick by default
         ...
-    ] 
+    ]
                                 // Suggested to fill in the substring
     "increment_mode": int,      // Click type, optional. 0 by default
                                 // 0 - Rapid Click
@@ -380,7 +380,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 ```
 
 - `Custom`  
-    Custom Task
+   Custom Task
 
 ```json5
 {
@@ -394,7 +394,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 ```
 
 - `SingleStep`  
-    Single-step task (currently only supports copilot)
+   Single-step task (currently only supports copilot)
 
 ```json5
 {
@@ -412,7 +412,7 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 ```
 
 - `VideoRecognition`  
-    Video recognition, currently only supports operation (combat) video
+   Video recognition, currently only supports operation (combat) video
 
 ```json5
 {
@@ -436,17 +436,17 @@ Set task parameters
 #### Return Value
 
 - `bool`  
-    Whether the parameters are successfully set.
+   Whether the parameters are successfully set.
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    Instance handle
+   Instance handle
 - `TaskId task`  
-    Task ID, the return value of `AsstAppendTask`
+   Task ID, the return value of `AsstAppendTask`
 - `const char* params`  
-    Task parameter in JSON, same as `AsstAppendTask`
-    For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.
+   Task parameter in JSON, same as `AsstAppendTask`
+  For those fields that do not mention "Editing in run-time is not supported" can be changed during run-time. Otherwise these changes will be ignored when the task is running.
 
 ### `AsstSetStaticOption`
 
@@ -463,14 +463,14 @@ Set process-level parameters
 #### Return Value
 
 - `bool`  
-    Is the setup successful
+   Is the setup successful
 
 #### Parameter Description
 
 - `AsstStaticOptionKey key`  
-    key
+   key
 - `const char* value`  
-    value
+   value
 
 ##### List of Key and value
 
@@ -491,16 +491,16 @@ Set instance-level parameters
 #### Return Value
 
 - `bool`  
-    Is the setup successful
+   Is the setup successful
 
 #### Parameter Description
 
 - `AsstHandle handle`  
-    handle
+   handle
 - `AsstInstanceOptionKey key`  
-    key
+   key
 - `const char* value`  
-    value
+   value
 
 ##### List of Key and value
 

@@ -17,11 +17,12 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 
 # Configure conda environment
 RUN eval "$(conda shell.bash hook)" \
-    && conda create -n maa python=$PYTHON_VERSION -y \
+    && conda create -n maa \
     && conda activate maa \
-    && conda install -y conda-forge::nodejs=$NODEJS_VERSION \
-    && pip install pre-commit black \
-    && npm install -g pnpm
+    && conda install -y \
+    python=$PYTHON_VERSION \
+    conda-forge::nodejs=$NODEJS_VERSION \
+    && pip install pre-commit black isort
 
 # Finalize conda setup
 RUN conda init \
