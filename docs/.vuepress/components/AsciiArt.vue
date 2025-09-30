@@ -79,5 +79,6 @@ export default defineComponent({
   display: block;
   white-space: pre;
   margin: 0 auto;
+  line-height: 1.3;
 }
 </style>
