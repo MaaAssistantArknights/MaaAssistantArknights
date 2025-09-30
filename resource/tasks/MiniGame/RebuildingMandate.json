@@ -121,6 +121,7 @@
         "next": ["MiniGame@RM-1@DoubleSpeed"]
     },
     "MiniGame@RM-1@DoubleSpeed": {
+        "template": "MiniGame@RM-TR-1@DoubleSpeed",
         "action": "ClickSelf",
         "roi": [1016, 0, 167, 166],
         "postDelay": 8000,
@@ -174,6 +175,7 @@
         "next": ["MiniGame@RM-1@DoNotApply"]
     },
     "MiniGame@RM-1@DoNotApply": {
+        "template": "MiniGame@RM-TR-1@DoNotApply",
         "action": "ClickSelf",
         "roi": [213, 574, 241, 143],
         "postDelay": 1000,
