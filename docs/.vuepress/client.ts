@@ -1,6 +1,6 @@
 import { defineClientConfig } from 'vuepress/client';
 
-import { getAsciiArt } from './asciiArtService';
+import { getAsciiArt } from './asciiArtService.mts';
 
 import AsciiArt from './components/AsciiArt.vue';
 import ImageGrid from './components/ImageGrid.vue';
