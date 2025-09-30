@@ -161,7 +161,7 @@
     "MiniGame@RM-1@QuitBattleConfirm": {
         "action": "ClickSelf",
         "roi": [851, 375, 156, 151],
-        "next": ["MiniGame@RM-1@BattleFailedClick"]
+        "next": ["MiniGame@RM-1@BattleFailedClick", "MiniGame@RM-1@DoNotApply"]
     },
     "MiniGame@RM-1@BattleFailedClick": {
         "action": "ClickSelf",
