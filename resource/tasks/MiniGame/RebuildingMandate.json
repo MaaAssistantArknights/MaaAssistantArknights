@@ -133,6 +133,7 @@
         "specialParams": [200, 0, 2, 0],
         "specificRect": [1050, 675, 1, 1],
         "rectMove": [925, 475, 1, 1],
+        "postDelay": 1000,
         "next": ["MiniGame@RM-1@DeployEWConfirm"]
     },
     "MiniGame@RM-1@DeployEWConfirm": {
