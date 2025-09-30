@@ -111,7 +111,6 @@
         "next": ["#self", "MiniGame@RM-1@BattleStart"]
     },
     "MiniGame@RM-1@BattleStart": {
-        "algorithm": "JustReturn",
         "roi": [1165, 172, 115, 151],
         "postDelay": 1000,
         "next": ["MiniGame@RM-1@DoubleSpeed"]
