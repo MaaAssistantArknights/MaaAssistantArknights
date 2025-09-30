@@ -147,13 +147,7 @@
     "MiniGame@RM-1@Wait": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
-        "next": ["MiniGame@RM-1@WaitForEnd", "MiniGame@RM-1@WaitForMax"]
-    },
-    "MiniGame@RM-1@WaitForEnd": {
-        "template": "MiniGame@RM-TR-1@WaitForEnd",
-        "roi": [1027, 499, 247, 125],
-        "postDelay": 5000,
-        "next": ["MiniGame@RM-1@DoNotApply", "#self"]
+        "next": ["MiniGame@RM-1@DoNotApply", "MiniGame@RM-1@WaitForMax", "#self"]
     },
     "MiniGame@RM-1@WaitForMax": {
         "roi": [0, 134, 136, 136],
