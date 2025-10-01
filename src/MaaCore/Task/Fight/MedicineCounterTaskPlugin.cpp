@@ -119,9 +119,14 @@ bool asst::MedicineCounterTaskPlugin::_run()
             }
         }
         else if (!m_has_used_medicine && m_reduce_when_exceed) { // 直接减少药品使用
+            int procedure = 0;
             while (!need_exit() && *sanity_target >= *sanity_max) {
                 reduce_excess(*using_medicine, 1);
-                if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
+                if (++procedure > 20) {
+                    Log.error(__FUNCTION__, "reduce procedure exceed 20 times, break");
+                    return false;
+                }
+                else if (!refresh_medicine_count() || !analyze_sanity() || using_medicine->using_count <= 0) {
                     break;
                 }
             }
