@@ -19,25 +19,30 @@ const pre = ref<HTMLElement>()
 const art = computed(() => getAsciiArt(props.name))
 
 let observer: ResizeObserver | null = null
-let observerTmp: ResizeObserver | null = null
 
 function scaleFont(
   currentFontSize: number,
-  currentLineHeight: number,
   currentWidth: number,
   targetWidth: number,
-): { fontSize: number; lineHeight: number } {
+): { newFontSize: number; newLineHeight: number } {
+  // 注意：不要使用小数字号！
+  // iOS系统浏览器会用“这个小数字号”来渲染宽度，
+  // 但是会用“这个小数字号无条件舍去所得的整数”来渲染高度，
+  // 导致字符画变扁
   const ratio = targetWidth / currentWidth
+
+  // 无条件舍去
+  const newFontSize = Math.floor(currentFontSize * ratio)
   return {
-    fontSize: currentFontSize * ratio,
-    lineHeight: currentLineHeight * ratio,
+    newFontSize: newFontSize,
+    newLineHeight: newFontSize, // 字符画的行高与字体大小保持一致
   }
 }
 
 function waitForStableScrollWidth(
   el: HTMLElement,
-  stableThreshold: number,
-  timeoutThreshold: number,
+  stableThreshold: number, // 若连续 stableThreshold 次测量所得宽度值均相同，则认为已经稳定
+  timeoutThreshold: number, // 若在 timeoutThreshold 次测量后仍未稳定，则记为超时
 ): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
     let totalCount = 0
@@ -53,6 +58,7 @@ function waitForStableScrollWidth(
         lastWidth = currentWidth
         stableCount = 0
       }
+
       if (stableCount >= stableThreshold) {
         resolve(true)
         return
@@ -70,29 +76,31 @@ function waitForStableScrollWidth(
 onMounted(async () => {
   if (!wrapper.value || !pre.value) return
 
+  // 等待等宽字体加载完毕
+  // 若连续 11 次测量所得宽度值均相同，则认为已经稳定
+  // 若在 451 次测量后仍未稳定，则记为超时
+  // 这两个数字是“随机”拟定的
   const isStable = await waitForStableScrollWidth(pre.value, 11, 451)
   if (!isStable) {
+    // 超时则不调整字符画的字体大小
     pre.value.style.overflowX = 'auto'
     return
   }
 
-  // 监听 wrapper 宽度变化
+  // 监听 wrapper 的宽度或高度变化
   observer = new ResizeObserver(() => {
     if (!wrapper.value || !pre.value) return
 
-    // 初始字号和行高
-    const baseFontSize = parseFloat(getComputedStyle(pre.value).fontSize)
-    const baseLineHeight = parseFloat(getComputedStyle(pre.value).lineHeight)
-    const baseWidth = pre.value.scrollWidth
-
+    const currentFontSize = parseFloat(getComputedStyle(pre.value).fontSize)
+    const currentWidth = pre.value.scrollWidth
     const targetWidth = wrapper.value.clientWidth
 
-    // 用纯函数计算新的值
-    const { fontSize, lineHeight } = scaleFont(baseFontSize, baseLineHeight, baseWidth, targetWidth)
+    // 计算新的值
+    const { newFontSize, newLineHeight } = scaleFont(currentFontSize, currentWidth, targetWidth)
 
-    // 应用到 pre
-    pre.value.style.fontSize = fontSize + 'px'
-    pre.value.style.lineHeight = lineHeight + 'px'
+    // 应用到字符画元素
+    pre.value.style.fontSize = newFontSize + 'px'
+    pre.value.style.lineHeight = newLineHeight + 'px'
   })
 
   observer.observe(wrapper.value)
@@ -115,8 +123,9 @@ onBeforeUnmount(() => {
   display: block;
   white-space: pre;
   margin: 0 auto;
-  line-height: 1.3;
+  line-height: 1;
   max-width: 100%;
   overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
 }
 </style>
