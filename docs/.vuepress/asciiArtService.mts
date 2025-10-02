@@ -16,7 +16,11 @@ export function getAsciiArt(name?: string, theme: ThemeType = 'auto'): string {
   if (theme === 'disable') {
     targetTheme = ''
   } else if (theme === 'auto') {
-    targetTheme = '.' + document.documentElement.getAttribute('data-theme')
+    if (typeof document !== 'undefined') {
+      targetTheme = '.' + document.documentElement.getAttribute('data-theme')
+    } else {
+      targetTheme = ''
+    }
   } else {
     targetTheme = '.' + theme
   }
