@@ -29,10 +29,10 @@ function scaleFont(
   currentWidth: number,
   targetWidth: number,
 ): { newFontSize: number; newLineHeight: number } {
-  // 注意：不要使用小数字号！
-  // iOS系统浏览器会用“这个小数字号”来渲染宽度，
-  // 但是会用“这个小数字号无条件舍去所得的整数”来渲染高度，
-  // 导致字符画变扁
+  // 注意：font-size 不要使用小数！
+  // iOS系统浏览器会用“这个小数”来渲染宽度，
+  // 但是会用“这个小数无条件舍去所得的整数”来渲染高度，
+  // 导致字符画变扁。
   const ratio = targetWidth / currentWidth
 
   // 无条件舍去
