@@ -4,72 +4,105 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, onMounted, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { getAsciiArt } from '../asciiArtService'
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { getAsciiArt } from '../asciiArtService.mts'
 
-export default defineComponent({
-  name: 'AsciiArt',
-  props: {
-    name: { type: String, required: false },
-  },
-  setup(props) {
-    const wrapper = ref<HTMLElement>()
-    const pre = ref<HTMLElement>()
-    const art = computed(() => getAsciiArt(props.name))
+// -------- Props --------
+const props = defineProps<{ name?: string }>()
 
-    const baseFontSize = ref(0)
-    const baseLineHeight = ref(0)
-    const basePreWidth = ref(0)
+// -------- Refs --------
+const wrapper = ref<HTMLElement>()
+const pre = ref<HTMLElement>()
 
-    const measureDelay = 100
+// -------- Data --------
+const art = computed(() => getAsciiArt(props.name))
 
-    const updateBaseMetrics = () => {
-      if (!pre.value) return
-      const style = window.getComputedStyle(pre.value)
-      baseFontSize.value = parseFloat(style.fontSize)
-      baseLineHeight.value = parseFloat(style.lineHeight)
-      basePreWidth.value = pre.value.scrollWidth // 原始字符画宽度
+let observer: ResizeObserver | null = null
+let observerTmp: ResizeObserver | null = null
+
+function scaleFont(
+  currentFontSize: number,
+  currentLineHeight: number,
+  currentWidth: number,
+  targetWidth: number,
+): { fontSize: number; lineHeight: number } {
+  const ratio = targetWidth / currentWidth
+  return {
+    fontSize: currentFontSize * ratio,
+    lineHeight: currentLineHeight * ratio,
+  }
+}
+
+function waitForStableScrollWidth(
+  el: HTMLElement,
+  stableThreshold: number,
+  timeoutThreshold: number,
+): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    let totalCount = 0
+    let stableCount = 0
+    let lastWidth = -1
+
+    const stableCheck = () => {
+      totalCount++
+      const currentWidth = el.scrollWidth
+      if (currentWidth === lastWidth) {
+        stableCount++
+      } else {
+        lastWidth = currentWidth
+        stableCount = 0
+      }
+      if (stableCount >= stableThreshold) {
+        resolve(true)
+        return
+      }
+      if (totalCount >= timeoutThreshold) {
+        resolve(false)
+        return
+      }
+      requestAnimationFrame(stableCheck)
     }
+    requestAnimationFrame(stableCheck)
+  })
+}
 
-    const adjustFont = () => {
-      if (!wrapper.value || !pre.value || !basePreWidth.value) return
+onMounted(async () => {
+  if (!wrapper.value || !pre.value) return
 
-      const windowWidth = window.innerWidth
-      let scale = windowWidth / basePreWidth.value
-      if (scale > 1) scale = 1 // 不放大超过原始宽度
+  const isStable = await waitForStableScrollWidth(pre.value, 11, 451)
+  if (!isStable) {
+    pre.value.style.overflowX = 'auto'
+    return
+  }
 
-      // 缩放字体大小
-      const newFontSize = baseFontSize.value * scale
-      pre.value.style.fontSize = newFontSize + 'px'
+  // 监听 wrapper 宽度变化
+  observer = new ResizeObserver(() => {
+    if (!wrapper.value || !pre.value) return
 
-      // 按比例调整行高
-      const newLineHeight = baseLineHeight.value * scale
-      pre.value.style.lineHeight = newLineHeight + 'px'
-    }
+    // 初始字号和行高
+    const baseFontSize = parseFloat(getComputedStyle(pre.value).fontSize)
+    const baseLineHeight = parseFloat(getComputedStyle(pre.value).lineHeight)
+    const baseWidth = pre.value.scrollWidth
 
-    onMounted(() => {
-      setTimeout(() => {
-        updateBaseMetrics()
-        adjustFont()
-      }, measureDelay)
-      window.addEventListener('resize', adjustFont)
-    })
+    const targetWidth = wrapper.value.clientWidth
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', adjustFont)
-    })
+    // 用纯函数计算新的值
+    const { fontSize, lineHeight } = scaleFont(baseFontSize, baseLineHeight, baseWidth, targetWidth)
 
-    // 当 art 变化时重新记录宽度和基准
-    watch(art, () => {
-      setTimeout(() => {
-        updateBaseMetrics()
-        adjustFont()
-      }, measureDelay)
-    })
+    // 应用到 pre
+    pre.value.style.fontSize = fontSize + 'px'
+    pre.value.style.lineHeight = lineHeight + 'px'
+  })
 
-    return { wrapper, pre, art }
-  },
+  observer.observe(wrapper.value)
+})
+
+onBeforeUnmount(() => {
+  if (observer && wrapper.value) {
+    observer.unobserve(wrapper.value)
+    observer.disconnect()
+  }
 })
 </script>
 
@@ -83,5 +116,7 @@ export default defineComponent({
   white-space: pre;
   margin: 0 auto;
   line-height: 1.3;
+  max-width: 100%;
+  overflow: hidden;
 }
 </style>
