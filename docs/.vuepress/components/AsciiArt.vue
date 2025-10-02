@@ -6,17 +6,21 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import { getAsciiArt } from '../asciiArtService.mts'
+import { getAsciiArt, ThemeType } from '../asciiArtService.mts'
 
 // -------- Props --------
-const props = defineProps<{ name?: string }>()
+interface AsciiArtProps {
+  name?: string
+  theme?: ThemeType
+}
+const props = defineProps<AsciiArtProps>()
 
 // -------- Refs --------
 const wrapper = ref<HTMLElement>()
 const pre = ref<HTMLElement>()
 
 // -------- Data --------
-const art = computed(() => getAsciiArt(props.name))
+const art = computed(() => getAsciiArt(props.name, props.theme))
 
 let observer: ResizeObserver | null = null
 

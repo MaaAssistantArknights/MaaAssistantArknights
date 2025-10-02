@@ -8,7 +8,7 @@ config:
 # Ciallo～ (∠・ω< )⌒★
 
 <!-- Use a Random Ascii Art -->
-<!-- <AsciiArt /> -->
+<AsciiArt theme="auto" />
 
 <!-- Use a specific Ascii Art -->
-<AsciiArt name="maa-logo" />
+<!-- <AsciiArt name="maa-logo-with-endorsement" theme="disable" /> -->

@@ -12,8 +12,8 @@ export default defineClientConfig({
     app.component('AsciiArt', AsciiArt)
     app.component('ImageGrid', ImageGrid)
 
-    // 输出一个随机字符画
-    const art = getAsciiArt()
+    // 输出一个特定的字符画
+    const art = getAsciiArt('maa-logo-with-endorsement', 'disable')
     console.log('%c' + art, 'white-space: pre;')
   },
 })
