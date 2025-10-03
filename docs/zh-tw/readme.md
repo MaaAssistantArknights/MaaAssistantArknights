@@ -73,7 +73,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 功能介紹
 
-請參閱 [用戶手冊](./manual/)。
+請參閱 [用戶手冊](./manual/newbie.md)。
 
 ### 外服支援
 
