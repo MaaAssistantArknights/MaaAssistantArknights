@@ -48,8 +48,8 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     }
     else {
         cv::Mat bin3;
-        std::array arr_bin3 { bin, bin, bin };
-        cv::merge(arr_bin3, bin3);
+        cv::merge(std::array { bin, bin, bin }, bin3);
+        cv::bitwise_and(img_roi, bin3, bin3);
         ocr_analyzer = OCRer(bin3, bounding_rect);
     }
 
