@@ -24,23 +24,54 @@ const art = computed(() => getAsciiArt(props.name, props.theme))
 
 let observer: ResizeObserver | null = null
 
+// 锁定状态下不能增加 fontSize
+let isScaleLocked = false
+
 function scaleFont(
   currentFontSize: number,
   currentWidth: number,
   targetWidth: number,
 ): { newFontSize: number; newLineHeight: number } {
-  // 注意：font-size 不要使用小数！
-  // iOS系统浏览器会用“这个小数”来渲染宽度，
-  // 但是会用“这个小数无条件舍去所得的整数”来渲染高度，
-  // 导致字符画变扁。
-  const ratio = targetWidth / currentWidth
+  let newFontSize: number
 
-  // 无条件舍去
-  const newFontSize = Math.floor(currentFontSize * ratio)
+  if (isScaleLocked && currentWidth <= targetWidth) {
+    // 锁定状态不自动放大字号
+    newFontSize = currentFontSize
+  } else {
+    // 此次调整依旧
+    if (currentWidth > targetWidth) {
+      // 设置锁定状态防止立刻回弹
+      isScaleLocked = true
+    }
+    // 注意：font-size 不要使用小数！
+    // iOS系统浏览器会用“这个小数”来渲染宽度，
+    // 但是会用“这个小数无条件舍去所得的整数”来渲染高度，
+    // 导致字符画变扁。
+    const ratio = targetWidth / currentWidth
+
+    // 无条件舍去
+    newFontSize = ratio !== Infinity ? Math.floor(currentFontSize * ratio) : currentFontSize
+  }
+
   return {
     newFontSize: newFontSize,
     newLineHeight: newFontSize, // 字符画的行高与字体大小保持一致
   }
+}
+
+function adjustLayout() {
+  if (!wrapper.value || !pre.value) return
+
+  const currentFontSize = parseFloat(getComputedStyle(pre.value).fontSize)
+  const currentWidth = pre.value.scrollWidth
+  const targetWidth = wrapper.value.clientWidth
+
+  // 计算新的值
+  const { newFontSize, newLineHeight } = scaleFont(currentFontSize, currentWidth, targetWidth)
+
+  // 应用到字符画元素
+  pre.value.style.fontSize = newFontSize + 'px'
+  pre.value.style.lineHeight = newLineHeight + 'px'
 }
 
 function waitForStableScrollWidth(
@@ -59,13 +90,18 @@ function waitForStableScrollWidth(
       if (currentWidth === lastWidth) {
         stableCount++
       } else {
+        // 宽度每变一次就调整一次
+        adjustLayout()
         lastWidth = currentWidth
         stableCount = 0
       }
 
       if (stableCount >= stableThreshold) {
         resolve(true)
-        return
+        // 只resolve不return，继续监测直到超时
+        // 因为首次加载时，字体完全渲染可能需要较长时间
+        // 先继续初始化进程，同时持续监测，宽度变化后立即触发一次调整
+        // return
       }
       if (totalCount >= timeoutThreshold) {
         resolve(false)
@@ -92,22 +128,14 @@ onMounted(async () => {
   }
 
   // 监听 wrapper 的宽度或高度变化
-  observer = new ResizeObserver(() => {
-    if (!wrapper.value || !pre.value) return
-
-    const currentFontSize = parseFloat(getComputedStyle(pre.value).fontSize)
-    const currentWidth = pre.value.scrollWidth
-    const targetWidth = wrapper.value.clientWidth
-
-    // 计算新的值
-    const { newFontSize, newLineHeight } = scaleFont(currentFontSize, currentWidth, targetWidth)
-
-    // 应用到字符画元素
-    pre.value.style.fontSize = newFontSize + 'px'
-    pre.value.style.lineHeight = newLineHeight + 'px'
-  })
+  observer = new ResizeObserver(adjustLayout)
 
   observer.observe(wrapper.value)
+
+  window.addEventListener('resize', () => {
+    isScaleLocked = false
+    adjustLayout() // 解锁后立即尝试重新调整字体
+  })
 })
 
 onBeforeUnmount(() => {
