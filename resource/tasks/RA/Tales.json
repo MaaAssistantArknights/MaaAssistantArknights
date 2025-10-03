@@ -28,7 +28,7 @@
         "doc": "模板任务: 清空当前编队",
         "roi": [1150, 12, 47, 46],
         "action": "ClickSelf",
-        "next": ["Tales@RA@DialogConfirmRed", "Tales@RA@ClearSquad"]
+        "next": ["Tales@RA@DialogConfirmRed", "#self"]
     },
     "Tales@RA@ClickGatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
