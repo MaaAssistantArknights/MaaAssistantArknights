@@ -10,6 +10,7 @@ for (const path in modules) {
 }
 
 export type ThemeType = 'auto' | 'disable' | string
+export type AsciiArtScope = 'web' | 'console'
 
 function pickAsciiArt(arts: Record<string, string>, artFilter?: (key: string) => boolean): string {
   const keys = artFilter ? Object.keys(arts).filter(artFilter) : Object.keys(arts)
@@ -21,16 +22,16 @@ function pickAsciiArt(arts: Record<string, string>, artFilter?: (key: string) =>
   return arts[randomKey]
 }
 
-export function getAsciiArt(name?: string, theme: ThemeType = 'auto'): string {
+export function getAsciiArt(name?: string, theme: ThemeType = 'auto', scope: AsciiArtScope = 'web'): string {
   let resolvedTheme: ThemeType = theme
 
   // auto 模式
   if (theme === 'auto') {
     let current: string | null = null
-    if (typeof document !== 'undefined') {
+    if (scope === 'web' && typeof document !== 'undefined') {
       // 浏览器中读取 HTML data-theme
       current = document?.documentElement?.getAttribute('data-theme')
-    } else if (typeof window !== 'undefined' && window.matchMedia) {
+    } else if (scope === 'console' && typeof window !== 'undefined' && window.matchMedia) {
       // fallback: 检查系统首选主题
       current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
