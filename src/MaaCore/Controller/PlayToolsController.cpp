@@ -230,15 +230,17 @@ void asst::PlayToolsController::close()
 
     if (m_socket.is_open()) {
         try {
-            m_socket.shutdown(tcp::socket::shutdown_both); 
-        } catch (const std::exception& e) {
-            Log.warn("Error during socket shutdown in close():", e.what()); 
+            m_socket.shutdown(tcp::socket::shutdown_both);
         }
-        
+        catch (const std::exception& e) {
+            Log.warn("Error during socket shutdown in close():", e.what());
+        }
+
         try {
             m_socket.close();
-        } catch (const std::exception& e) {
-            Log.warn("Error during socket close() cleanup:", e.what()); 
+        }
+        catch (const std::exception& e) {
+            Log.warn("Error during socket close() cleanup:", e.what());
         }
     }
 }
