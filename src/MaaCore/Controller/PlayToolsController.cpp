@@ -229,8 +229,17 @@ void asst::PlayToolsController::close()
     m_screen_size = { 0, 0 };
 
     if (m_socket.is_open()) {
-        m_socket.shutdown(tcp::socket::shutdown_both);
-        m_socket.close();
+        try {
+            m_socket.shutdown(tcp::socket::shutdown_both); 
+        } catch (const std::exception& e) {
+            Log.warn("Error during socket shutdown in close():", e.what()); 
+        }
+        
+        try {
+            m_socket.close();
+        } catch (const std::exception& e) {
+            Log.warn("Error during socket close() cleanup:", e.what()); 
+        }
     }
 }
 
