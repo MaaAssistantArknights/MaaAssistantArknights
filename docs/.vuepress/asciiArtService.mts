@@ -9,43 +9,43 @@ for (const path in modules) {
   asciiArts[name] = modules[path]
 }
 
-export type ThemeType = 'light' | 'dark' | 'auto' | 'disable'
+export type ThemeType = 'auto' | 'disable' | string
+
+function pickAsciiArt(arts: Record<string, string>, artFilter?: (key: string) => boolean): string {
+  const keys = artFilter ? Object.keys(arts).filter(artFilter) : Object.keys(arts)
+
+  if (keys.length === 0) return ''
+  if (keys.length === 1) return arts[keys[0]]
+
+  const randomKey = keys[Math.floor(Math.random() * keys.length)]
+  return arts[randomKey]
+}
 
 export function getAsciiArt(name?: string, theme: ThemeType = 'auto'): string {
-  let targetTheme = ''
-  if (theme === 'disable') {
-    targetTheme = ''
-  } else if (theme === 'auto') {
+  let resolvedTheme: ThemeType = theme
+
+  // auto 模式
+  if (theme === 'auto') {
+    let current: string | null = null
     if (typeof document !== 'undefined') {
-      targetTheme = '.' + document.documentElement.getAttribute('data-theme')
-    } else {
-      targetTheme = ''
+      // 浏览器中读取 HTML data-theme
+      current = document?.documentElement?.getAttribute('data-theme')
+    } else if (typeof window !== 'undefined' && window.matchMedia) {
+      // fallback: 检查系统首选主题
+      current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
+    resolvedTheme = current ? current : 'disable'
+  }
+
+  if (resolvedTheme !== 'disable') {
+    // light/dark/... 模式
+    return name
+      ? pickAsciiArt(asciiArts, (k) => k === name + '.' + resolvedTheme)
+      : pickAsciiArt(asciiArts, (k) => k.endsWith('.' + resolvedTheme))
   } else {
-    targetTheme = '.' + theme
+    // disable 模式
+    return name
+      ? pickAsciiArt(asciiArts, (k) => k === name || k.startsWith(name + '.'))
+      : pickAsciiArt(asciiArts, () => true)
   }
-
-  // 如果指定了 name
-  if (name && asciiArts[name + targetTheme]) {
-    return asciiArts[name + targetTheme]
-  }
-
-  // 随机选取
-  const keys = Object.keys(asciiArts)
-
-  // 根据主题过滤
-  let filteredKeys: string[]
-  if (theme === 'disable') {
-    // 不做后缀过滤，直接用全部 keys
-    filteredKeys = keys
-  } else {
-    // 其它情况，只留下匹配到对应后缀的
-    filteredKeys = keys.filter((k) => k.endsWith(targetTheme))
-  }
-
-  // 如果过滤后没找到，就退回全部 keys
-  if (filteredKeys.length === 0) filteredKeys = keys
-
-  const randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)]
-  return asciiArts[randomKey]
 }
