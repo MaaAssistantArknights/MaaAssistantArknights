@@ -37,7 +37,7 @@ function(get_osx_architecture)
 endfunction()
 
 if(APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4) # for to_chars***
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 13.4) # for to_chars
     get_osx_architecture()
 endif(APPLE)
 
