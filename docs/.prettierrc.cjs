@@ -12,12 +12,6 @@ module.exports = {
 
   overrides: [
     {
-      files: ['**/*.ts'],
-      options: {
-        semi: true,
-      },
-    },
-    {
       files: ['**/*.*css'],
       options: {
         singleQuote: false,

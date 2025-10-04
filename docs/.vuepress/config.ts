@@ -1,11 +1,11 @@
-import { viteBundler } from '@vuepress/bundler-vite';
-import { defineUserConfig } from 'vuepress';
-import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
-import { plumeTheme } from 'vuepress-theme-plume';
+import { viteBundler } from '@vuepress/bundler-vite'
+import { defineUserConfig } from 'vuepress'
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
+import { plumeTheme } from 'vuepress-theme-plume'
 
-import DocSearchConfig from './plugins/search';
+import DocSearchConfig from './plugins/search'
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === 'production'
 
 export default defineUserConfig({
   base: '/',
@@ -132,4 +132,4 @@ export default defineUserConfig({
       id: 'G-FJQDKG394Z',
     }),
   ],
-});
+})
