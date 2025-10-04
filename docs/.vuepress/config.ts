@@ -1,9 +1,9 @@
-import { viteBundler } from '@vuepress/bundler-vite';
-import { defineUserConfig } from 'vuepress';
-import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
-import { plumeTheme } from 'vuepress-theme-plume';
+import { viteBundler } from '@vuepress/bundler-vite'
+import { defineUserConfig } from 'vuepress'
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
+import { plumeTheme } from 'vuepress-theme-plume'
 
-import { genSiteLocales } from './navigation/genLocales';
+import { genSiteLocales } from './navigation/genLocales'
 
 import DocSearchConfig from './plugins/search'
 

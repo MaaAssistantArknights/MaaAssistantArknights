@@ -1,5 +1,5 @@
-import { defineThemeConfig } from 'vuepress-theme-plume';
-import { genThemeLocales } from './navigation/genLocales';
+import { defineThemeConfig } from 'vuepress-theme-plume'
+import { genThemeLocales } from './navigation/genLocales'
 
 export default defineThemeConfig({
   logo: '/images/maa-logo_512x512.png',

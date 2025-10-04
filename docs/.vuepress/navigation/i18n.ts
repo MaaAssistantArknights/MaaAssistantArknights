@@ -1,9 +1,9 @@
 export interface Locale {
-  name: string;
-  // displayName: string;
-  htmlLang: string;
-  siteTitle: string;
-  siteDescription: string;
+  name: string
+  // displayName: string
+  htmlLang: string
+  siteTitle: string
+  siteDescription: string
 }
 
 export const locales: Locale[] = [
@@ -42,4 +42,4 @@ export const locales: Locale[] = [
     siteTitle: 'MAA 문서 사이트',
     siteDescription: '문서',
   },
-];
+]
