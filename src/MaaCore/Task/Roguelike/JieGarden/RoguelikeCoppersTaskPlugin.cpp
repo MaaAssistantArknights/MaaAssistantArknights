@@ -161,7 +161,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
 #ifdef ASST_DEBUG
     try {
         const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-        const auto relative_path = relative_dir / (utils::get_time_filestem() + "_choose_draw.png");
+        const auto relative_path = relative_dir / (std::format("{}_choose_draw.png", utils::format_now_for_filename()));
         Log.debug(__FUNCTION__, "| Saving choose mode debug image to ", relative_path);
         asst::imwrite(relative_path, image_draw);
     }
@@ -316,7 +316,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 #ifdef ASST_DEBUG
         try {
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-            const auto relative_path = relative_dir / (utils::get_time_filestem() + "_switch_draw.png");
+            const auto relative_path =
+                relative_dir / (std::format("{}_switch_draw.png", utils::format_now_for_filename()));
             Log.debug(__FUNCTION__, "| Saving switch mode debug image to ", relative_path);
             asst::imwrite(relative_path, image_draw);
         }
@@ -445,7 +446,8 @@ asst::RoguelikeCopper asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
                 //     cv::Scalar(0, 0, 255),
                 //     2);
                 const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
-                const auto relative_path = relative_dir / (utils::get_time_filestem() + "_unknown_copper.png");
+                const auto relative_path =
+                    relative_dir / (std::format("{}_unknown_draw.png", utils::format_now_for_filename()));
                 Log.debug(__FUNCTION__, "| Saving unknown copper debug image to ", relative_path);
                 asst::imwrite(relative_path, screen_draw);
             }
