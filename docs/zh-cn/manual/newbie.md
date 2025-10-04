@@ -13,7 +13,7 @@ icon: ri:guide-fill
 
    MAA 在 Windows 下仅支持 10 和 11，旧版 Windows 请参阅[常见问题](./faq.md#系统问题)中的系统问题部分。
 
-   非 Windows 用户请参阅[模拟器及设备支持](./device/windows.md)。
+   非 Windows 用户请参阅[模拟器及设备支持](./device/)。
 
 2. 下载正确的版本
 
@@ -31,7 +31,7 @@ icon: ri:guide-fill
 
 5. 确认模拟器支持
 
-   查阅[模拟器和设备支持](./device/windows.md)，确认正在使用的模拟器支持情况。
+   查阅[模拟器和设备支持](./device/)，确认正在使用的模拟器支持情况。
 
 6. 正确设置模拟器分辨率
 

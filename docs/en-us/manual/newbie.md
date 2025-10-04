@@ -13,7 +13,7 @@ Quick start guide!
 
    MAA on Windows only supports Windows 10 and 11. For older Windows versions, please refer to the system issues section in [FAQ](./faq.md#system-issues).
 
-   Non-Windows users, please refer to [Emulator and Device Support](./device/windows.md).
+   Non-Windows users, please refer to [Emulator and Device Support](./device/).
 
 2. Download the correct version
 
@@ -31,7 +31,7 @@ Quick start guide!
 
 5. Confirm emulator support
 
-   Check [Emulator and Device Support](./device/windows.md) to verify the compatibility of your emulator.
+   Check [Emulator and Device Support](./device/) to verify the compatibility of your emulator.
 
 6. Set the correct emulator resolution
 

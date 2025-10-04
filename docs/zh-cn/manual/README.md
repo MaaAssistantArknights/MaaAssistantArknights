@@ -6,4 +6,4 @@ dir:
   order: 1
 ---
 
-<Catalog base='/zh-cn/manual/' />
+<Redirect to="newbie" />

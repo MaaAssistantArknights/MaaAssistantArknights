@@ -6,4 +6,4 @@ dir:
   order: 5
 ---
 
-<Catalog base='/en-us/manual/device/' />
+<Redirect to="windows" />
