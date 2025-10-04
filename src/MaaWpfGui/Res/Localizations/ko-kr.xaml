@@ -489,7 +489,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
-    <system:String x:Key="UseExpiringMedicine">48시간 미만 남은 이성 회복제 사용</system:String>
+    <system:String x:Key="UseExpiringMedicineInDays">N일 이내에 만료되는 이성 회복약을 무한 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
@@ -967,7 +967,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">{0}일 이내에 만료되는 이성 회복약을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
