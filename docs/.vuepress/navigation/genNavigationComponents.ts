@@ -69,7 +69,7 @@ export function genNavigationComponents(
   type SidebarItem = ThemeNote | ThemeSidebarItem | string;
 
   interface IntermediateNavigationComponents {
-    navbar: NavbarItem[] | null;
+    navbar: NavbarItem[];
     notes: SidebarItem[];
   }
 
@@ -88,8 +88,8 @@ export function genNavigationComponents(
 
   // 递归获取目录和文件
   function getItems(dir: string, isRoot: boolean): IntermediateNavigationComponents {
-    let navbarItemsWithOrder: WrappedNavbarItem[] = [];
-    let sidebarItemsWithOrder: WrappedSidebarItem[] = [];
+    const navbarItemsWithOrder: WrappedNavbarItem[] = [];
+    const sidebarItemsWithOrder: WrappedSidebarItem[] = [];
 
     // 获取所有非隐藏文件和目录
     const entries = fs.readdirSync(dir, { withFileTypes: true }).filter((e) => !e.name.startsWith('.'))
@@ -127,7 +127,7 @@ export function genNavigationComponents(
           sidebarItem = {
             text: metaData.title,
             // 只有当目录设置了index: true时，才生成链接，否则点击时不跳转、只切换折叠状态
-            link: metaData.index ? `${metaData.baseName}/` : undefined,
+            link: metaData.index ? `${metaData.baseName}/` : null,
             icon: metaData.icon,
             // 目前没有文档使用了这个特性，故不处理
             // badge: undefined,
@@ -149,7 +149,7 @@ export function genNavigationComponents(
     }
     sidebarItemsWithOrder.sort((a, b) => a.order - b.order);
     return {
-      navbar: isRoot ? navbarItemsWithOrder.map((i) => i.content) : null,
+      navbar: navbarItemsWithOrder.map((i) => i.content),
       notes: sidebarItemsWithOrder.map((i) => i.content),
     };
   }
