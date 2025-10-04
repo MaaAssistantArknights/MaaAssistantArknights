@@ -6,4 +6,4 @@ dir:
   order: 1
 ---
 
-<Catalog base='/ko-kr/manual/' />
+<Redirect to="newbie" />
