@@ -1,9 +1,7 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import * as matterModule from 'gray-matter'
-import { defineNoteConfig, ThemeNote, ThemeSidebarItem } from 'vuepress-theme-plume'
-
-const matter = (matterModule as any).default
+import * as fs from 'fs';
+import * as path from 'path';
+import { default as matter } from 'gray-matter';
+import { defineNoteConfig, ThemeNote, ThemeSidebarItem } from 'vuepress-theme-plume';
 
 interface MetaData {
   baseName: string
