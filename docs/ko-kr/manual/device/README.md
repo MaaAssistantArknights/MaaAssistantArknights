@@ -6,4 +6,4 @@ dir:
   order: 5
 ---
 
-<Catalog base='/ko-kr/manual/device/' />
+<Redirect to="windows" />

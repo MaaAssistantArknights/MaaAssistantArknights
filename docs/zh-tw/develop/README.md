@@ -6,4 +6,4 @@ dir:
   order: 2
 ---
 
-<Catalog base='/zh-tw/develop/' />
+<Redirect to="development" />

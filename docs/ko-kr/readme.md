@@ -74,7 +74,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 기능 소개
 
-[사용자 매뉴얼](./manual/newbie.md)을 참조하세요.
+[사용자 매뉴얼](./manual/)을 참조하세요.
 
 ### 해외 서버 지원
 

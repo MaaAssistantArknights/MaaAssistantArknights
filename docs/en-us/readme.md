@@ -72,7 +72,7 @@ See it in action!
 
 ### Feature Introduction
 
-Please refer to the [User Manual](./manual/newbie.md).
+Please refer to the [User Manual](./manual/).
 
 ### Support for Overseas Clients
 

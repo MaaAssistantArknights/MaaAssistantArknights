@@ -6,4 +6,4 @@ dir:
   order: 2
 ---
 
-<Catalog base='/ja-jp/develop/' />
+<Redirect to="development" />
