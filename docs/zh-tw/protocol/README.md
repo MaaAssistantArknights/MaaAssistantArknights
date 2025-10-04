@@ -6,4 +6,4 @@ dir:
   order: 3
 ---
 
-<Catalog base='/zh-tw/protocol/' />
+<Redirect to="integration" />
