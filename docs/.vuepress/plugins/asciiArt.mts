@@ -1,4 +1,4 @@
-const modules = import.meta.glob<string>('../asciiArts/*.txt', { query: '?raw', import: 'default', eager: true })
+const modules = import.meta.glob<string>('../../asciiArts/*.txt', { query: '?raw', import: 'default', eager: true })
 
 const asciiArts: Record<string, string> = {}
 for (const path in modules) {

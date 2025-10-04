@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import { getAsciiArt, ThemeType } from '../asciiArtService.mts'
+import { getAsciiArt, ThemeType } from '../plugins/asciiArt.mts'
 
 // -------- Props --------
 interface AsciiArtProps {
