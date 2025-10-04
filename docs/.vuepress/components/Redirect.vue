@@ -13,13 +13,13 @@ const route = useRoute()
 const router = useRouter()
 
 function resolvePath(to: string) {
-    const target = new URL(to, 'http://example.com' + route.path) // 使用一个虚拟的基础 URL
-    return target.pathname
+  const target = new URL(to, 'http://example.com' + route.path) // 使用一个虚拟的基础 URL
+  return target.pathname
 }
 
 onMounted(() => {
-    if (!props.to) return
-    const targetPath = resolvePath(props.to)
-    router.replace(targetPath)
+  if (!props.to) return
+  const targetPath = resolvePath(props.to)
+  router.replace(targetPath)
 })
 </script>

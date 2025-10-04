@@ -1,7 +1,9 @@
-import { viteBundler } from '@vuepress/bundler-vite'
-import { defineUserConfig } from 'vuepress'
-import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
-import { plumeTheme } from 'vuepress-theme-plume'
+import { viteBundler } from '@vuepress/bundler-vite';
+import { defineUserConfig } from 'vuepress';
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
+import { plumeTheme } from 'vuepress-theme-plume';
+
+import { genSiteLocales } from './navigation/genLocales';
 
 import DocSearchConfig from './plugins/search'
 
@@ -15,33 +17,7 @@ export default defineUserConfig({
   host: '0.0.0.0',
   port: 3001,
 
-  locales: {
-    '/zh-cn/': {
-      lang: 'zh-CN',
-      title: 'MAA 文档站',
-      description: '文档',
-    },
-    '/zh-tw/': {
-      lang: 'zh-TW',
-      title: 'MAA 文件站',
-      description: '文件',
-    },
-    '/en-us/': {
-      lang: 'en-US',
-      title: 'MAA Documentation Site',
-      description: 'Documentation',
-    },
-    '/ja-jp/': {
-      lang: 'ja-JP',
-      title: 'MAA ドキュメントサイト',
-      description: 'ドキュメント',
-    },
-    '/ko-kr/': {
-      lang: 'ko-KR',
-      title: 'MAA 문서 사이트',
-      description: '문서',
-    },
-  },
+  locales: genSiteLocales(),
 
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],

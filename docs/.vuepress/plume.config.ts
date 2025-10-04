@@ -1,6 +1,5 @@
-import { defineThemeConfig } from 'vuepress-theme-plume'
-import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from './navbar'
-import { zhcnNotes, zhtwNotes, enusNotes, jajpNotes, kokrNotes } from './notes'
+import { defineThemeConfig } from 'vuepress-theme-plume';
+import { genThemeLocales } from './navigation/genLocales';
 
 export default defineThemeConfig({
   logo: '/images/maa-logo_512x512.png',
@@ -25,28 +24,7 @@ export default defineThemeConfig({
 
   footer: false,
 
-  locales: {
-    '/zh-cn/': {
-      navbar: zhcnNavbar,
-      notes: zhcnNotes,
-    },
-    '/zh-tw/': {
-      navbar: zhtwNavbar,
-      notes: zhtwNotes,
-    },
-    '/en-us/': {
-      navbar: enusNavbar,
-      notes: enusNotes,
-    },
-    '/ja-jp/': {
-      navbar: jajpNavbar,
-      notes: jajpNotes,
-    },
-    '/ko-kr/': {
-      navbar: kokrNavbar,
-      notes: kokrNotes,
-    },
-  },
+  locales: genThemeLocales(),
 
   autoFrontmatter: false,
 
