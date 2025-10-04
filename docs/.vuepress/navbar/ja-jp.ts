@@ -1,4 +1,4 @@
-import { defineNavbarConfig } from 'vuepress-theme-plume';
+import { defineNavbarConfig } from 'vuepress-theme-plume'
 
 export const jajpNavbar = defineNavbarConfig([
   {
@@ -16,4 +16,4 @@ export const jajpNavbar = defineNavbarConfig([
     icon: 'basil:document-solid',
     link: '/ja-jp/protocol/integration.html',
   },
-]);
+])

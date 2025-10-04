@@ -1,4 +1,4 @@
-import { defineNavbarConfig } from 'vuepress-theme-plume';
+import { defineNavbarConfig } from 'vuepress-theme-plume'
 
 export const kokrNavbar = defineNavbarConfig([
   {
@@ -16,4 +16,4 @@ export const kokrNavbar = defineNavbarConfig([
     icon: 'basil:document-solid',
     link: '/ko-kr/protocol/integration.html',
   },
-]);
+])

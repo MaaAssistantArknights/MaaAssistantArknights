@@ -1,4 +1,4 @@
-import { defineNavbarConfig } from 'vuepress-theme-plume';
+import { defineNavbarConfig } from 'vuepress-theme-plume'
 
 export const enusNavbar = defineNavbarConfig([
   {
@@ -16,4 +16,4 @@ export const enusNavbar = defineNavbarConfig([
     icon: 'basil:document-solid',
     link: '/en-us/protocol/integration.html',
   },
-]);
+])
