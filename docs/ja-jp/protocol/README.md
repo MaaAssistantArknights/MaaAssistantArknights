@@ -6,4 +6,4 @@ dir:
   order: 3
 ---
 
-<Catalog base='/ja-jp/protocol/' />
+<Redirect to="integration" />
