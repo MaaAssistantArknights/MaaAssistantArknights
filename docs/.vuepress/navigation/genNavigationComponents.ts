@@ -84,7 +84,7 @@ export function genNavigationComponents(
   }
 
   // 进入指定语言目录，即docs/<i18n>/
-  const langDir = path.join(baseDir, locale.dirName);
+  const langDir = path.join(baseDir, locale.name);
 
   // 递归获取目录和文件
   function getItems(dir: string, isRoot: boolean): IntermediateNavigationComponents {
@@ -111,7 +111,7 @@ export function genNavigationComponents(
           navbarItem = {
             text: metaData.title,
             icon: metaData.icon,
-            link: `/${locale.linkName}/${metaData.baseName}/`,
+            link: `/${locale.name}/${metaData.baseName}/`,
           };
           // 只在当前条件下，才会有navbarItem
           navbarItemsWithOrder.push({ content: navbarItem, order: metaData.order });

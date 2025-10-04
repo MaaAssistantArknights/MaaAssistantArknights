@@ -7,7 +7,7 @@ import { genNavigationComponents } from './genNavigationComponents';
 export function genSiteLocales(): SiteLocaleConfig {
   const siteLocales: SiteLocaleConfig = {};
   for (const locale of locales) {
-    siteLocales[`/${locale.linkName}/`] = {
+    siteLocales[`/${locale.name}/`] = {
       lang: locale.htmlLang,
       title: locale.siteTitle,
       description: locale.siteDescription,
@@ -20,11 +20,11 @@ export function genThemeLocales(): LocaleConfig<ThemeLocaleData> {
   const themeLocales: LocaleConfig<ThemeLocaleData> = {};
   for (const locale of locales) {
     const navigationComponents = genNavigationComponents(locale);
-    themeLocales[`/${locale.linkName}/`] = {
+    themeLocales[`/${locale.name}/`] = {
       navbar: navigationComponents.navbar,
       notes: {
-        dir: locale.dirName,
-        link: `/${locale.linkName}/`,
+        dir: locale.name,
+        link: `/${locale.name}/`,
         notes: navigationComponents.notes,
       },
     };

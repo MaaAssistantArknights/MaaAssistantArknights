@@ -1,6 +1,5 @@
 export interface Locale {
-  linkName: string;
-  dirName: string;
+  name: string;
   // displayName: string;
   htmlLang: string;
   siteTitle: string;
@@ -9,40 +8,35 @@ export interface Locale {
 
 export const locales: Locale[] = [
   {
-    linkName: 'zh-cn',
-    dirName: 'zh-cn',
+    name: 'zh-cn',
     // displayName: '简体中文',
     htmlLang: 'zh-CN',
     siteTitle: 'MAA 文档站',
     siteDescription: '文档',
   },
   {
-    linkName: 'zh-tw',
-    dirName: 'zh-tw',
+    name: 'zh-tw',
     // displayName: '繁體中文',
     htmlLang: 'zh-TW',
     siteTitle: 'MAA 文件站',
     siteDescription: '文件',
   },
   {
-    linkName: 'en-us',
-    dirName: 'en-us',
+    name: 'en-us',
     // displayName: 'English',
     htmlLang: 'en-US',
     siteTitle: 'MAA Documentation Site',
     siteDescription: 'Documentation',
   },
   {
-    linkName: 'ja-jp',
-    dirName: 'ja-jp',
+    name: 'ja-jp',
     // displayName: '日本語',
     htmlLang: 'ja-JP',
     siteTitle: 'MAA ドキュメントサイト',
     siteDescription: 'ドキュメント',
   },
   {
-    linkName: 'ko-kr',
-    dirName: 'ko-kr',
+    name: 'ko-kr',
     // displayName: '한국어',
     htmlLang: 'ko-KR',
     siteTitle: 'MAA 문서 사이트',
