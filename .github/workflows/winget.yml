@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install komac manually
+      - name: Install cargo binstall
+        uses: cargo-bins/cargo-binstall@268643a6b5ea099f5718ee5cd3ff7dc89a5eb49b
+
+      - name: Install komac
         run: |
-          wget -O komac.deb "https://github.com/russellbanks/Komac/releases/latest/download/komac_amd64.deb"
-          sudo dpkg -i komac.deb || sudo apt-get install -f -y
+          cargo binstall komac@2.11.2 -y
       
       - name: Determine latest version
         id: version
