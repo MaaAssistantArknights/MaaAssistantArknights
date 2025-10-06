@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install komac
+      - name: Install komac manually
         run: |
-          curl -L -o komac.deb "https://github.com/russellbanks/Komac/releases/latest/download/komac_amd64.deb"
-          sudo dpkg -i komac.deb
-
+          wget -O komac.deb "https://github.com/russellbanks/Komac/releases/latest/download/komac_amd64.deb"
+          sudo dpkg -i komac.deb || sudo apt-get install -f -y
+      
       - name: Determine latest version
         id: version
         run: |
@@ -29,7 +29,7 @@ jobs:
         env:
           KOMAC_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          komac update \
+          koac update \
             --id "MaaAssistantArknights.MaaAssistantArknights" \
             --version "$KOMAC_VERSION" \
             --urls "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-x64.zip,https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-arm64.zip" \
