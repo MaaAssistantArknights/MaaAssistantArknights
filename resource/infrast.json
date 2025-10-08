@@ -1684,6 +1684,20 @@
                 "name": ["盛餐的回报"],
                 "template": "Bskill_man_spd_double2.png"
             },
+            "bskill_man_spd_manu1": {
+                "desc": [
+                    "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个当前制造站内干员为当前制造站仓库容量上限+5"
+                ],
+                "name": ["科学改造"],
+                "template": "Bskill_man_spd_manu1.png"
+            },
+            "bskill_man_spd_manu2": {
+                "desc": [
+                    "进驻制造站时，当前制造站内其他干员提供的生产力全部归零（不包含根据设施数量提供加成的生产力），每个当前制造站内干员为当前制造站+10%生产力，仓库容量上限+5"
+                ],
+                "name": ["流程优化"],
+                "template": "Bskill_man_spd_manu2.png"
+            },
             "bskill_man_spd_reduce": {
                 "desc": ["进驻制造站时，生产力+30%，自身每有4点心情落差，生产力-5%"],
                 "efficient": {
@@ -3061,6 +3075,13 @@
         "maxNumOfOpers": 3,
         "products": ["Money", "SyntheticJade"],
         "skills": {
+            "bskill_ord_spd&tag1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+25%，基建内（不包含副手及活动室）每有一间进驻精英干员的设施，订单获取效率额外+2%（最多10间）"
+                ],
+                "name": ["精英小队"],
+                "template": "Bskill_ord_spd&tag1.png"
+            },
             "bskill_tra_Lappland1": {
                 "desc": ["当与德克萨斯在同一个贸易站时，心情每小时消耗-0.1，订单上限+2"],
                 "efficient": {

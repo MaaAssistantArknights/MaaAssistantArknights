@@ -5132,5 +5132,11 @@
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@WaitForEnd": "de0dd893e284f2c7e02990014e62e43a4d067500e014d99ce1e3f5a8e6d6a4e9",
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@NextStep": "d6d6720edb98862c6e5a081266f2221ea8574910d6ad4203565e898d80bf43ad",
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@DoNotApply": "de38fccebcdaa1d6175df33cd71391b1f711d3180f0d3be7d21e85e9055c634d",
-    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@SettlementStageName": "96b763372d2ffd52879c2346f972196ae32e088bb1a3e7f840cf647c989aa44f"
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RebuildingMandate@SettlementStageName": "96b763372d2ffd52879c2346f972196ae32e088bb1a3e7f840cf647c989aa44f",
+    "resource/template/items/itempack_main_2": "61e56426e6354324cd9156dad963003563be3952dd34e3648fa0885bac9e1ecc",
+    "resource/template/items/randomMaterial_12": "a0b79034ff8181567299d51cdc8537e3ca5fed4d794e4a935e5427162727051d",
+    "resource/template/items/act3mainss_token": "3006ef439cf8e0a3a5e39e2be03501b322e5879cbe80b61d16df99cd4ef9b6df",
+    "resource/template/infrast/Bskill_ord_spd&tag1": "dde13d2c97efa62a25dfee118500522beca66dffb197e48bb74960bd0928f516",
+    "resource/template/infrast/Bskill_man_spd_manu1": "7836a760adf1b117606005c2f2dd17ebcd6a44b10d5337d81bbfc4d3696cb948",
+    "resource/template/infrast/Bskill_man_spd_manu2": "f0b0bedc7a9a7d32a7251b33b60286a4a1b5a9a2106008f03724eee0a5905d9c"
 }

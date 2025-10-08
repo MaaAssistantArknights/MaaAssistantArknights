@@ -2087,6 +2087,14 @@
         "sortId": -10000,
         "usage": "用于兑换相应的阶段性活动奖励。"
     },
+    "act3mainss_token": {
+        "classifyType": "NONE",
+        "description": "打火石撞击的声响隐没在茫茫雪原中，黑暗无垠，唯有这一簇炽热燃烧的火苗。它静静跳动，远望着那无边的凛冽，于寒夜中融化冰雪，只待太阳再次升起。",
+        "icon": "act3mainss_token.png",
+        "name": "打火石",
+        "sortId": -10000,
+        "usage": "在乌萨斯野外必不可少的工具，取火后足以御寒，也足以短暂照亮黑夜。矿井内严禁火源，但依然阻止不了打火石在矿工们之间流通。"
+    },
     "act40side_token_yumyum": {
         "classifyType": "NONE",
         "description": "饭香不怕巷子深。平日肉眼不可见，沿街细嗅可闻到的缥缈香气，至饭馆前则扑面而来。循着百灶街头的饭菜香，自可走出一幅百灶盛景图。",
@@ -2455,6 +2463,14 @@
         "sortId": -10000,
         "usage": "装有一个应急理智小样与一份罗德岛物资补给。"
     },
+    "itempack_main_2": {
+        "classifyType": "NONE",
+        "description": "配发理智小样的材料补给箱，在恢复理智的同时能获得一种随机材料。",
+        "icon": "itempack_main_2.png",
+        "name": "罗德岛补给箱",
+        "sortId": -10000,
+        "usage": "装有一个应急理智小样与一份罗德岛物资补给。"
+    },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
         "description": "面对训练数据不足的问题，工程部生产了全新的芯片印刻仪以供干员们自行打印。",
@@ -2724,6 +2740,14 @@
         "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
         "icon": "randomMaterial_11.png",
         "name": "罗德岛物资补给VIII",
+        "sortId": 60110,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_12": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_12.png",
+        "name": "罗德岛物资补给IX",
         "sortId": 60110,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
