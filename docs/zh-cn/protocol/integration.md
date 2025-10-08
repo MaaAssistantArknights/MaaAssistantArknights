@@ -504,17 +504,41 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 - `Copilot`  
    自动抄作业
 
-:::: field-group
-::: field name="enable" type="boolean" optional default="true"
-是否启用本任务。
-:::
-::: field name="filename" type="string" required
-作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。
-:::
-::: field name="formation" type="boolean" optional default="false"
-是否进行 “快捷编队”。不支持运行期设置。
-:::
-::::
+```json5
+{
+    "enable": bool,               // 是否启用本任务，可选，默认值 true
+    "filename": string,           // 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可
+    "copilot_list": [             // 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list
+        {
+            "filename": string,   // 作业 JSON 文件的路径；相对路径与绝对路径均可
+            "stage_name": string, // 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
+            "is_raid": bool,      // 是否切换为突袭模式
+            "is_paradox": bool    // 是否为悖论模拟关卡
+        },
+        ...
+    ],
+    "loop_times": int,            // 循环次数，可选，默认值 1；仅在单一作业模式下（即指定 filename 时）有效
+    "use_sanity_potion": bool,    // 是否允许在剩余理智不足时使用理智药，可选，默认值 false
+    "formation": bool,            // 是否进行自动编队，可选，默认值 false
+    "formation_index": int        // 自动编队所使用的编队栏位的编号，可选，默认值 0；仅在 formation 为 true 时有效；
+                                  // 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队
+    "user_additional": [          // 自定义追加干员列表，可选，默认值 []；仅在 formation 为 true 时有效
+        {
+            "name": string,       // 干员名，可选，默认值 ""，若留空则忽视此干员
+            "skill": int          // 需要携带的技能，可选，默认值 1；为 1–3 的整数，若不在此范围内则遵从游戏内默认的技能选择
+        },
+        ...
+    ],
+    "add_trust": bool,            // 是否在自动编队时以信赖值升序自动填充空余栏位，可选，默认值 false；仅在 formation 为 true 时有效
+    "ignore_requirements": bool,  // 是否在自动编队时忽视干员属性要求，可选，默认值 false；仅在 formation 为 true 时有效
+    "support_unit_usage": int,    // 助战干员的使用模式，可选，默认值 0；为 0–3 的整数，其中 support_unit_name；仅在 formation 为 true 时有效
+                                  //   0 - 表示不使用助战干员
+                                  //   1 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则不使用助战干员
+                                  //   2 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
+                                  //   3 - 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
+    "support_unit_name": string   // 指定助战干员名，可选，默认值 ""；仅在 support_unit_usage 为 2 时有效
+}
+```
 
 作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
