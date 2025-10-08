@@ -22094,6 +22094,15 @@
         "stageId": "mem_bluep_1",
         "width": 11
     },
+    "mem_bobb_1-obt/memory/level_memory_bobb_1": {
+        "code": "mem_bobb_1",
+        "filename": "mem_bobb_1-obt-memory-level_memory_bobb_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_bobb_1",
+        "name": "温厚者的怒火",
+        "stageId": "mem_bobb_1",
+        "width": 11
+    },
     "mem_bpipe_1-obt/memory/level_memory_bpipe_1": {
         "code": "mem_bpipe_1",
         "filename": "mem_bpipe_1-obt-memory-level_memory_bpipe_1.json",
@@ -24009,6 +24018,15 @@
         "levelId": "obt/memory/level_memory_tinman_1",
         "name": "“快餐派对”",
         "stageId": "mem_tinman_1",
+        "width": 11
+    },
+    "mem_tippi_1-obt/memory/level_memory_tippi_1": {
+        "code": "mem_tippi_1",
+        "filename": "mem_tippi_1-obt-memory-level_memory_tippi_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_tippi_1",
+        "name": "片场危机",
+        "stageId": "mem_tippi_1",
         "width": 11
     },
     "mem_tknogi_1-obt/memory/level_memory_tknogi_1": {
