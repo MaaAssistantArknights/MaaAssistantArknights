@@ -28,7 +28,7 @@
         "doc": "模板任务: 清空当前编队",
         "roi": [1150, 12, 47, 46],
         "action": "ClickSelf",
-        "next": ["Tales@RA@DialogConfirmRed"]
+        "next": ["Tales@RA@DialogConfirmRed", "#self"]
     },
     "Tales@RA@ClickGatheringOfFeathers": {
         "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
@@ -447,6 +447,7 @@
             "Step 4: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回"
         ],
         "baseTask": "Tales@RA@EnterNode",
+        "postDelay": 800,
         "sub": ["Tales@RA@PNS-ClearSquadIfSizeGE7", "Tales@RA@PNS-ConfirmSquad"],
         "next": [
             "Tales@RA@PNS-LeaveNode",
