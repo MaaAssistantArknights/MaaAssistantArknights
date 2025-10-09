@@ -1,9 +1,5 @@
-// ...existing code...
-    /// <summary>
-    /// Gets or sets 最大持续小时数（定时下线）
-    /// </summary>
-    public int MaxDurationHours { get; set; }
-// ...existing code...
+
+    // 移除本地 MaxDurationHours 属性，仅用全局设置
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var taskParams = new JObject
