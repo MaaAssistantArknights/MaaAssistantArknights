@@ -377,7 +377,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     }
 
     // 定时下线（小时）全局设置
-    private int _maxTaskDurationHours = ConfigurationHelper.GetValue("MaxTaskDurationHours", 9999);
+    private int _maxTaskDurationHours = ConfigurationHelper.GetValue(ConfigurationKeys.MaxTaskDurationHours, 9999);
 
     public int MaxTaskDurationHours
     {
@@ -385,7 +385,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _maxTaskDurationHours, value);
-            ConfigurationHelper.SetValue("MaxTaskDurationHours", value.ToString());
+            ConfigurationHelper.SetValue(ConfigurationKeys.MaxTaskDurationHours, value.ToString());
         }
     }
 
