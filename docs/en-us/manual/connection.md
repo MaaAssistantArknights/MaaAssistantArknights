@@ -63,7 +63,6 @@ For other emulators, refer to [Zhao Qingqing's blog](https://www.cnblogs.com/zha
 ::: details Alternative methods
 
 - Method 1: Check emulator ports using ADB commands
-
   1. Launch **one** emulator and ensure no other Android devices are connected to your computer.
   2. Open a terminal in the folder containing the ADB executable.
   3. Run the following command:
@@ -86,7 +85,6 @@ For other emulators, refer to [Zhao Qingqing's blog](https://www.cnblogs.com/zha
   Use `127.0.0.1:<port>` or `emulator-<four digits>` as your connection address.
 
 - Method 2: Find established ADB connections
-
   1. Follow Method 1.
   2. Press `Windows key+S` to open search, type `Resource Monitor` and open it.
   3. Go to the `Network` tab and find the emulator process name in the `Listening Ports` name column, such as `HD-Player.exe`.
@@ -131,7 +129,6 @@ MAA now attempts to read the `bluestacks.conf` storage location from the registr
 :::
 
 1. Find the `bluestacks.conf` file in the BlueStacks data directory
-
    - International version default: `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
    - Chinese version default: `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 

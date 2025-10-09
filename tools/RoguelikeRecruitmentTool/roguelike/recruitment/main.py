@@ -4,6 +4,8 @@ from contextvars import ContextVar
 from copy import deepcopy
 from os import system
 from pathlib import Path
+from typing import Any, ClassVar, ForwardRef, Iterator
+
 from pydantic import (
     BaseModel,
     Field,
@@ -14,12 +16,10 @@ from pydantic import (
     ValidationInfo,
     conlist,
     model_serializer,
-    model_validator
+    model_validator,
 )
-from typing import Any, ClassVar, ForwardRef, Iterator
-from typing_extensions import Annotated, Self
-
 from roguelike.config import Theme
+from typing_extensions import Annotated, Self
 
 # ================================================================================
 # Context
@@ -42,7 +42,9 @@ def context(value: dict[str, Any]) -> Iterator[None]:
 # StrictStr is different from pydantic.types.StrictStr by "strip_whitespace=True"
 StrictStr = Annotated[str, StringConstraints(strip_whitespace=True, strict=True)]
 
-StrictNonEmptyStr = Annotated[str, StringConstraints(strip_whitespace=True, strict=True, min_length=1)]
+StrictNonEmptyStr = Annotated[
+    str, StringConstraints(strip_whitespace=True, strict=True, min_length=1)
+]
 
 
 # ================================================================================
@@ -88,26 +90,49 @@ class Oper(BaseModel, extra="forbid"):
     name: Annotated[StrictNonEmptyStr, Field(description="干员代号")]
     doc: StrictStr = ""
     skill: Annotated[StrictInt, Field(description="技能")] = 0
-    skill_usage: Annotated[StrictInt, Field(ge=0, le=3, validate_default=True), Field(description="技能使用模式")] = 1
+    skill_usage: Annotated[
+        StrictInt,
+        Field(ge=0, le=3, validate_default=True),
+        Field(description="技能使用模式"),
+    ] = 1
     skill_times: Annotated[StrictInt, Field(description="技能使用次数")] = 1
     alternate_skill: Annotated[StrictInt, Field(description="备选技能")] = 0
     alternate_skill_usage: Annotated[
-        StrictInt, Field(ge=0, le=3, validate_default=True), Field(description="备选技能使用技能")] = 1
-    alternate_skill_times: Annotated[StrictInt, Field(description="备选技能使用模式")] = 1
+        StrictInt,
+        Field(ge=0, le=3, validate_default=True),
+        Field(description="备选技能使用技能"),
+    ] = 1
+    alternate_skill_times: Annotated[
+        StrictInt, Field(description="备选技能使用模式")
+    ] = 1
     is_key: Annotated[StrictBool, Field(description="是否为关键干员")] = False
     is_start: Annotated[StrictBool, Field(description="是否为开局干员")] = False
     is_alternate: StrictBool = False
-    auto_retreat: Annotated[StrictInt, Field(description="部署后自动撤退间隔（秒）")] = 0
-    recruit_priority: Annotated[StrictInt, Field(
-        description="招募优先级")] = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
-    promote_priority: Annotated[StrictInt, Field(
-        description="进阶优先级")] = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
-    recruit_priority_when_team_full: StrictInt | None = None  # Annotated[StrictInt, Field(ge=0, le=1000)]
-    promote_priority_when_team_full: StrictInt | None = None  # Annotated[StrictInt, Field(ge=0, le=1000)]
+    auto_retreat: Annotated[
+        StrictInt, Field(description="部署后自动撤退间隔（秒）")
+    ] = 0
+    recruit_priority: Annotated[StrictInt, Field(description="招募优先级")] = (
+        0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
+    )
+    promote_priority: Annotated[StrictInt, Field(description="进阶优先级")] = (
+        0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
+    )
+    recruit_priority_when_team_full: StrictInt | None = (
+        None  # Annotated[StrictInt, Field(ge=0, le=1000)]
+    )
+    promote_priority_when_team_full: StrictInt | None = (
+        None  # Annotated[StrictInt, Field(ge=0, le=1000)]
+    )
     recruit_priority_offsets: conlist(
-        item_type=Annotated[RecruitPriorityOffset, Field(strict=True, validate_default=True)]) = list()
+        item_type=Annotated[
+            RecruitPriorityOffset, Field(strict=True, validate_default=True)
+        ]
+    ) = list()
     collection_priority_offsets: conlist(
-        item_type=Annotated[CollectionPriorityOffset, Field(strict=True, validate_default=True)]) = list()
+        item_type=Annotated[
+            CollectionPriorityOffset, Field(strict=True, validate_default=True)
+        ]
+    ) = list()
 
     _inherited_attributes: ClassVar[set[str]] = {
         "skill",
@@ -121,7 +146,7 @@ class Oper(BaseModel, extra="forbid"):
         "is_alternate",
         "auto_retreat",
         "recruit_priority",
-        "promote_priority"
+        "promote_priority",
     }
 
     def __init__(self, /, **data: Any) -> None:
@@ -132,11 +157,16 @@ class Oper(BaseModel, extra="forbid"):
             if key not in data and key in cache:
                 data[key] = cache[key]
         if "recruit_priority_when_team_full" not in data:
-            data["recruit_priority_when_team_full"] = data.get("recruit_priority", 0) - 100
+            data["recruit_priority_when_team_full"] = (
+                data.get("recruit_priority", 0) - 100
+            )
         if "promote_priority_when_team_full" not in data:
-            data["promote_priority_when_team_full"] = data.get("promote_priority", 0) + 300
-        data["recruit_priority_offsets"] = (cache.get("recruit_priority_offsets", list())
-                                            + data.get("recruit_priority_offsets", list()))
+            data["promote_priority_when_team_full"] = (
+                data.get("promote_priority", 0) + 300
+            )
+        data["recruit_priority_offsets"] = cache.get(
+            "recruit_priority_offsets", list()
+        ) + data.get("recruit_priority_offsets", list())
         if oper_name:
             oper_info_cache[oper_name] = deepcopy(data)
         super().__init__(**data)
@@ -166,7 +196,9 @@ class Oper(BaseModel, extra="forbid"):
                     setattr(tmp, key, Oper.model_fields[key].get_default())
             cache_len: int = len(getattr(cache, "recruit_priority_offsets"))
             assert len(tmp.recruit_priority_offsets) >= cache_len
-            assert tmp.recruit_priority_offsets[: cache_len] == getattr(cache, "recruit_priority_offsets")
+            assert tmp.recruit_priority_offsets[:cache_len] == getattr(
+                cache, "recruit_priority_offsets"
+            )
             tmp.recruit_priority_offsets = tmp.recruit_priority_offsets[cache_len:]
         # ————————————————————————————————————————————————————————————————
         oper_info_cache[self.name] = deepcopy(self)
@@ -181,7 +213,9 @@ class Oper(BaseModel, extra="forbid"):
     @classmethod
     def json2oper(cls, json_str: str) -> OperClass:
         with context({"oper_info_cache": dict()}):
-            config = cls.model_validate_json(json_str, context={"skip_validation": True})
+            config = cls.model_validate_json(
+                json_str, context={"skip_validation": True}
+            )
         return config
 
     @classmethod
@@ -238,7 +272,9 @@ ConfigurationClass = ForwardRef("Configuration")
 class Configuration(BaseModel, extra="forbid"):
     theme: Theme
     priority: conlist(item_type=Annotated[Group, Strict()], min_length=1)
-    team_complete_condition: conlist(item_type=Annotated[TeamCompleteCondition, Strict()])
+    team_complete_condition: conlist(
+        item_type=Annotated[TeamCompleteCondition, Strict()]
+    )
 
     @model_validator(mode="after")
     def sanity_check(self, info: ValidationInfo) -> Self:
@@ -259,19 +295,23 @@ class Configuration(BaseModel, extra="forbid"):
                     if set(offset.groups) - group_name_set:
                         raise AssertionError(
                             f"unknown group names {set(offset.groups) - group_name_set} "
-                            f"in recruit priority offset for operator {oper.name} in group {group.name}")
+                            f"in recruit priority offset for operator {oper.name} in group {group.name}"
+                        )
         # ————————————————————————————————————————————————————————————————
         for item in self.team_complete_condition:
             if set(item.groups) - group_name_set:
                 raise AssertionError(
-                    f"unknown group names {set(item.groups) - group_name_set} in team_complete_condition")
+                    f"unknown group names {set(item.groups) - group_name_set} in team_complete_condition"
+                )
         # ————————————————————————————————————————————————————————————————
         return self
 
     @classmethod
     def json2config(cls, json_str: str) -> ConfigurationClass:
         with context({"oper_info_cache": dict()}):
-            config = cls.model_validate_json(json_str, context={"skip_validation": True})
+            config = cls.model_validate_json(
+                json_str, context={"skip_validation": True}
+            )
         return config
 
     @classmethod
@@ -284,11 +324,15 @@ class Configuration(BaseModel, extra="forbid"):
 # ================================================================================
 # new_oper & new_group
 # ================================================================================
-def new_recruit_priority_offset(operator_name: str = "unnamed operator") -> RecruitPriorityOffset:
+def new_recruit_priority_offset(
+    operator_name: str = "unnamed operator",
+) -> RecruitPriorityOffset:
     return RecruitPriorityOffset(groups=[operator_name], offset=100)
 
 
-def new_collection_priority_offset(collection_name: str = "unnamed collectible") -> CollectionPriorityOffset:
+def new_collection_priority_offset(
+    collection_name: str = "unnamed collectible",
+) -> CollectionPriorityOffset:
     return CollectionPriorityOffset(collection=collection_name, offset=100)
 
 

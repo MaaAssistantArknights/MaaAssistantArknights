@@ -8,7 +8,6 @@ icon: hugeicons:brain-02
 ## General Settings
 
 - The `Use Sanity Potion` + `Use Originium` and `Perform Battles`+ `Material` options work as OR conditions - the task will stop when any of these conditions is met.
-
   - `Use Sanity Potion` specifies how many times to replenish sanity (may use multiple potions at once).
   - `Use Originium` specifies how many Originium to use (one at a time). Originium won't be used if sanity potions are available.
   - `Perform Battles` specifies the number of battles to complete (e.g., "stop after 15 runs").
@@ -19,19 +18,19 @@ icon: hugeicons:brain-02
 
 ::: details Examples
 
-| Use Sanity Potion | Use Originium | Perform Battles | Material | Result |
-| :---------------: | :-----------: | :-------------: | :------: | ------ |
-|                   |               |                 |          | Uses current sanity and stops. |
-| 2                 |               |                 |          | Uses current sanity, then uses sanity potions up to 2 times, then stops. |
-| _999_             | 2             |                 |          | Uses current sanity, then all sanity potions, then Originium up to 2 times, then stops. |
-|                   |               | 2               |          | Runs the selected stage 2 times, then stops. |
-|                   |               |                 | 2        | Farms until 2 of the specified material are obtained, then stops. |
-| 2                 |               | 4               |          | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed, then stops. |
-| 2                 |               |                 | 4        | Farms until 4 of the specified material are obtained, using up to 2 sanity potions if needed, then stops. |
-| 2                 |               | 4               | 8        | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed. Stops early if 8 of the specified material are obtained before reaching 4 runs. |
-| _999_             | 4             | 8               | 16       | Runs the selected stage up to 8 times, using all sanity potions and up to 4 Originium if needed. Stops early if 16 of the specified material are obtained before reaching 8 runs. |
-|                   | 2             |                 |          | Uses current sanity, then stops if any sanity potions are available. If no potions, uses up to 2 Originium. _Not MAA GUI behavior_ |
-| 2                 | 4             |                 |          | Uses current sanity, then up to 2 sanity potions. If potions remain, stops; if no potions remain after using ≤2 potions, uses up to 4 Originium. _Not MAA GUI behavior_ |
+| Use Sanity Potion | Use Originium | Perform Battles | Material | Result                                                                                                                                                                            |
+| :---------------: | :-----------: | :-------------: | :------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                   |               |                 |          | Uses current sanity and stops.                                                                                                                                                    |
+|         2         |               |                 |          | Uses current sanity, then uses sanity potions up to 2 times, then stops.                                                                                                          |
+|       _999_       |       2       |                 |          | Uses current sanity, then all sanity potions, then Originium up to 2 times, then stops.                                                                                           |
+|                   |               |        2        |          | Runs the selected stage 2 times, then stops.                                                                                                                                      |
+|                   |               |                 |    2     | Farms until 2 of the specified material are obtained, then stops.                                                                                                                 |
+|         2         |               |        4        |          | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed, then stops.                                                                                        |
+|         2         |               |                 |    4     | Farms until 4 of the specified material are obtained, using up to 2 sanity potions if needed, then stops.                                                                         |
+|         2         |               |        4        |    8     | Runs the selected stage up to 4 times, using up to 2 sanity potions if needed. Stops early if 8 of the specified material are obtained before reaching 4 runs.                    |
+|       _999_       |       4       |        8        |    16    | Runs the selected stage up to 8 times, using all sanity potions and up to 4 Originium if needed. Stops early if 16 of the specified material are obtained before reaching 8 runs. |
+|                   |       2       |                 |          | Uses current sanity, then stops if any sanity potions are available. If no potions, uses up to 2 Originium. _Not MAA GUI behavior_                                                |
+|         2         |       4       |                 |          | Uses current sanity, then up to 2 sanity potions. If potions remain, stops; if no potions remain after using ≤2 potions, uses up to 4 Originium. _Not MAA GUI behavior_           |
 
 :::
 
@@ -46,7 +45,6 @@ icon: hugeicons:brain-02
   - Skill summary, voucher, and carbon stages (level 5 only). Enter exact codes like `CA-5`, `AP-5`, or `SK-5`.
   - All chip stages. Enter complete stage codes like `PR-A-1`.
   - For Annihilation mode, use these specific values:
-  
     - Current annihilation: Annihilation
     - Chernobog: Chernobog@Annihilation
     - Lungmen Outskirts: LungmenOutskirts@Annihilation

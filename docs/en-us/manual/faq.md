@@ -22,6 +22,7 @@ Or manually download and install these <u>**two**</u> runtime libraries to solve
 
 - [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET Desktop Runtime 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+
 :::
 
 ## Software won't run/crashes/shows errors
@@ -46,7 +47,7 @@ We cannot provide repair solutions other than reinstalling your system. Please a
 
 #### Windows N/KN
 
-For Windows N/KN (European/Korean versions), you also need to install the [Media Feature Pack](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a).
+For Windows N/KN (European/Korean versions), you also need to install the [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a).
 
 #### Windows 7
 
@@ -54,7 +55,7 @@ For Windows N/KN (European/Korean versions), you also need to install the [Media
 
 For Windows 7, before installing the two runtime libraries mentioned above, check if these patches are installed:
 
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 code signing patches:
    - KB4474419: [Download link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [Download link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
    - KB4490628: [Download link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [Download link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)

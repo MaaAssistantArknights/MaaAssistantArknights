@@ -26,7 +26,7 @@ MAAは、MAA Assistant Arknightsです。
 
 画像認識技術に基づいて、ワンクリックですべてのデイリーリクエストを完了します！
 
-絶賛開発中  ✿✿ヽ(°▽°)ノ✿
+絶賛開発中 ✿✿ヽ(°▽°)ノ✿
 
 :::
 
@@ -47,7 +47,7 @@ MAAは、MAA Assistant Arknightsです。
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（中文）
 - C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
-UIを見れば使い方もすぐ分かる！  
+UIを見れば使い方もすぐ分かる！
 
 <ImageGrid :imageList="[
   {
@@ -182,9 +182,9 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 Discord サーバー: [Discord 招待リンク](https://discord.gg/23DfZ9uA4V)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
-Bilibili ライブ配信: [MrEO ライブ配信](https://live.bilibili.com/2808861) コーディング & [MAA-Official ライブ配信](https://live.bilibili.com/27548877) ゲーム/雑談  
+Bilibili ライブ配信: [MrEO ライブ配信](https://live.bilibili.com/2808861) コーディング & [MAA-Official ライブ配信](https://live.bilibili.com/27548877) ゲーム/雑談
 
 技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！

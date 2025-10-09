@@ -22,6 +22,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 - [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 - [.NET 桌面运行时 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+
 :::
 
 ## 软件无法运行/闪退/报错

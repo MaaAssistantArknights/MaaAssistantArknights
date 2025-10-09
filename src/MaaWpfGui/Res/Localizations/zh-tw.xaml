@@ -325,6 +325,7 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 類型與待下載的資源不匹配，請檢查 CDK 適用範圍。</system:String>
+    <system:String x:Key="MirrorChyanCdkBlocked">CDK 已被封禁，可能由於退款或非正常使用。</system:String>
     <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 還剩 {0} 天到期。</system:String>
     <system:String x:Key="MirrorChyanCdkFetchFailed">獲取 CDK 資訊失敗，已顯示上次成功查詢的結果。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
@@ -777,8 +778,10 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛監控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandate">RM-次生預案</system:String>
-    <system:String x:Key="MiniGame@RebuildingMandateTip">完成新手教學後進入前哨支點，滑動到介面最左側。</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1">次生預案 RM-TR-1</system:String>
+    <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">完成新手教學後進入前哨支點，滑動到介面最左側。</system:String>
+    <system:String x:Key="MiniGame@RM-1">次生預案 RM-1</system:String>
+    <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">刷 RM-TR-1 大約 3 小時，營建策略中，石材開採 線點到底，&#10;特約任命指定維什戴爾，然後盡量精二專三，攜帶 1 技能，&#10;帶滿 12 個幹員，其餘 11 個的費用需要低於維什戴爾，&#10;生產模組各帶 1 個，手動進入關卡並退出，&#10;讓 RM-TR-1 位於螢幕中央，運行 MAA。</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT-相談室</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">在活動主介面（右下角有「開始營業」處）開始任務。</system:String>
     <system:String x:Key="MiniGame@ALL@GreenGrass">爭鋒頻道：青草城</system:String>

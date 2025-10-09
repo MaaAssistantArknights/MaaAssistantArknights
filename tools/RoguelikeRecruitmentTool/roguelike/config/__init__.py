@@ -1,6 +1,3 @@
 from .main import Theme
 
-
-__all__ = [
-    "Theme"
-]
+__all__ = ["Theme"]

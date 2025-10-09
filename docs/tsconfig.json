@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
         "module": "nodenext",
-        "moduleResolution": "nodenext"
+        "moduleResolution": "nodenext",
+        "noEmit": true,
+        "allowImportingTsExtensions": true
     },
-    "include": [".vuepress/**/*.ts"]
+    "include": [".vuepress/**/*.*ts"]
 }

@@ -52,7 +52,7 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
 
 물론 "요청"이니까 승인이 필요합니다. MAA 팀의 분들이 당신의 변경 사항에 대해 몇 가지 의견을 제시할 수 있습니다. 물론 우리의 의견이 모두 옳은 것은 아니며, 합리적으로 논의합니다~
 
-👇  아래는 현재 전문가들이 제시한 PR을 대기 중인 상태입니다.
+👇 아래는 현재 전문가들이 제시한 PR을 대기 중인 상태입니다.
 
 <ImageGrid :imageList="[
   {
@@ -71,73 +71,73 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
 
 1. 먼저 MAA 주 저장소로 이동하여 코드를 fork합니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/fork-light.png',
-        dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/fork-light.png',
+       dark: 'images/zh-cn/pr-tutorial/fork-dark.png'
+     }
+   ]" />
 
 2. "마스터 브랜치만" 옵션을 해제한 다음 Fork를 클릭합니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-2-dark.png'
+     }
+   ]" />
 
 3. 이제 개인 저장소로 이동하면 제목이 "YourName/MaaAssistantArknights"이고 아래에 한 줄짜리 작은 글씨로 "forked from MaaAssistantArknights/MaaAssistantArknights" (MAA 주 저장소에서 복제됨)이라고 표시됩니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-3-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-3-dark.png'
+     }
+   ]" />
 
 4. 수정하려는 파일을 찾아 "Go to file"을 클릭하여 전역 검색을 수행하거나 아래 폴더에서 직접 찾을 수 있습니다. (파일의 위치를 알고 있다면)
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-4-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-4-dark.png'
+     }
+   ]" />
 
 5. 파일을 열면 파일 오른쪽 상단의 ✏️을 클릭하여 편집합니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-5-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-5-dark.png'
+     }
+   ]" />
 
 6. 수정하세요! (리소스 파일과 같은 경우 먼저 컴퓨터에있는 MAA 폴더에서 수정 사항을 테스트 한 다음 웹 페이지로 복사하여 잘못된 수정을 방지하세요)
 7. 수정이 완료되면 맨 아래로 스크롤하여 수정 내용을 적습니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-1-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-1-dark.png'
+     }
+   ]" />
 
-    우리는 간단한 커밋 제목 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)이 있으니 가능하면 지켜주세요. 물론 정말 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
+   우리는 간단한 커밋 제목 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)이 있으니 가능하면 지켜주세요. 물론 정말 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
 
-    <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
-      }
-    ]" />
+   <ImageGrid :imageList="[
+     {
+       light: 'images/zh-cn/pr-tutorial/pr-7-2-light.png',
+       dark: 'images/zh-cn/pr-tutorial/pr-7-2-dark.png'
+     }
+   ]" />
 
 8. 두 번째 파일을 수정해야합니까? 수정 후 오류가 발생하여 수정을 다시하고 싶습니까? 전혀 문제가되지 않습니다! 5-8을 반복하세요!
 9. 모두 완료되면 PR을 제출하세요! Pull Request 탭을 클릭합니다.
    Compare & Pull Request 버튼이 있으면 좋지만 없어도 걱정하지 마세요. 아래의 New Pull Request를 클릭하면 됩니다. (11단계 참조)
 
-    <ImageGrid :imageList="[
+   <ImageGrid :imageList="[
       {
         light: 'images/zh-cn/pr-tutorial/pr-9-light.png',
         dark: 'images/zh-cn/pr-tutorial/pr-9-dark.png'
@@ -145,45 +145,45 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     ]" />
 
 10. 이제 주 저장소로 이동하여 제출할 PR을 확인합니다.
-   아래 그림에서 화살표가 있는 곳은 오른쪽에 개인 이름/MAA의 dev 브랜치를 주 저장소/MAA의 dev 브랜치에 병합하는 것입니다.
+    아래 그림에서 화살표가 있는 곳은 오른쪽에 개인 이름/MAA의 dev 브랜치를 주 저장소/MAA의 dev 브랜치에 병합하는 것입니다.
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-10-1-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-10-1-dark.png'
-      }
-    ]" />
+       {
+         light: 'images/zh-cn/pr-tutorial/pr-10-1-light.png',
+         dark: 'images/zh-cn/pr-tutorial/pr-10-1-dark.png'
+       }
+     ]" />
 
     그런 다음 제목, 수정한 내용 등을 작성하고 확인을 클릭합니다.
     PR 제목도 [관례적 커밋](https://www.conventionalcommits.org/zh-hans/v1.0.0/)을 지켜주세요. 물론 여전히 이해가 안 된다면 일단 아무렇게나 써도 됩니다.
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-10-2-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-10-2-dark.png'
-      }
-    ]" />
+       {
+         light: 'images/zh-cn/pr-tutorial/pr-10-2-light.png',
+         dark: 'images/zh-cn/pr-tutorial/pr-10-2-dark.png'
+       }
+     ]" />
 
 11. MAA 팀의 전문가들의 검토를 기다립니다! 물론 그들도 의견을 제시 할 수 있습니다.
-   👇 예를 들어(오로지 오락을 위한 것이니 진지하게 받아들이지 마세요)
+    👇 예를 들어(오로지 오락을 위한 것이니 진지하게 받아들이지 마세요)
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
-      }
-    ]" />
+       {
+         light: 'images/zh-cn/pr-tutorial/pr-11-light.png',
+         dark: 'images/zh-cn/pr-tutorial/pr-11-dark.png'
+       }
+     ]" />
 
 12. 만약 전문가들이 몇 가지 작은 문제를 수정하라고 말한다면 개인 저장소로 돌아가 이전의 dev 브랜치로 이동하여 3-9 단계를 반복하세요!
-   당신의 현재 PR은 여전히 검토 대기 중이므로 나중에 수정 사항이 이 PR에 직접 반영됩니다.
-   👇 예를 들어 아래에서 "재수정 데모"라는 새로운 내용이 추가된 것을 볼 수 있습니다.
+    당신의 현재 PR은 여전히 검토 대기 중이므로 나중에 수정 사항이 이 PR에 직접 반영됩니다.
+    👇 예를 들어 아래에서 "재수정 데모"라는 새로운 내용이 추가된 것을 볼 수 있습니다.
 
     <ImageGrid :imageList="[
-      {
-        light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
-        dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
-      }
-    ]" />
+       {
+         light: 'images/zh-cn/pr-tutorial/pr-12-light.png',
+         dark: 'images/zh-cn/pr-tutorial/pr-12-dark.png'
+       }
+     ]" />
 
 13. 전문가들의 승인을 기다리면 모두 완료됩니다! 수정한 내용이 이미 MAA 메인 저장소에 들어갔습니다!
 

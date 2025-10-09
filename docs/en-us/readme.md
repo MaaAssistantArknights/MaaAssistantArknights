@@ -12,6 +12,7 @@ dir:
 ![MAA Logo =256x256](/images/maa-logo_512x512.png)
 
 <!-- markdownlint-restore -->
+
 # MAA
 
 ![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)  
@@ -25,7 +26,7 @@ An Arknights assistant
 
 Based on image recognition technology, complete all daily tasks with one click!
 
-Development actively in progress  ✿✿ヽ(°▽°)ノ✿
+Development actively in progress ✿✿ヽ(°▽°)ノ✿
 
 :::
 
@@ -194,9 +195,9 @@ User Exchange QQ Groups: [MAA Usage & Arknights Exchange QQ Group](https://api.m
 Discord Server: [Invite Link](https://discord.gg/23DfZ9uA4V)  
 User Exchange Telegram Group: [Telegram Group](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 Auto-battle JSON strategy sharing: [prts.plus](https://prts.plus)  
-Bilibili Live: [MrEO Live](https://live.bilibili.com/2808861) coding streams & [MAA-Official Live](https://live.bilibili.com/27548877) gaming/chat  
+Bilibili Live: [MrEO Live](https://live.bilibili.com/2808861) coding streams & [MAA-Official Live](https://live.bilibili.com/27548877) gaming/chat
 
 Technical Group (non-Arknights, no casual chat): [Internal Competition Hell! (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
-Developer Group: [QQ Group](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
+Developer Group: [QQ Group](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 If you find the software helpful, please give us a Star! ~ (the small star at the top right of the webpage), that's the biggest support

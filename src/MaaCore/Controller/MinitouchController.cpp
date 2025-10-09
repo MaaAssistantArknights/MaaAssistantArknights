@@ -133,7 +133,9 @@ bool asst::MinitouchController::click(const Point& p)
 {
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
-        return false;
+        if (!call_and_hup_minitouch()) {
+            return false;
+        }
     }
 
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
@@ -159,7 +161,9 @@ bool asst::MinitouchController::swipe(
 {
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
-        return false;
+        if (!call_and_hup_minitouch()) {
+            return false;
+        }
     }
 
     int x1 = p1.x, y1 = p1.y;
@@ -250,7 +254,9 @@ bool asst::MinitouchController::inject_input_event(const InputEvent& event)
 
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
-        return false;
+        if (!call_and_hup_minitouch()) {
+            return false;
+        }
     }
 
     switch (event.type) {

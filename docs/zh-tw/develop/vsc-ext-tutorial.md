@@ -5,8 +5,8 @@ icon: iconoir:code-brackets
 
 # 專用 VSCode 插件教學
 
-* [插件商店](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
-* [倉庫](https://github.com/neko-para/maa-support-extension)
+- [插件商店](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
+- [倉庫](https://github.com/neko-para/maa-support-extension)
 
 ## 安裝
 
@@ -60,10 +60,10 @@ icon: iconoir:code-brackets
 
 插件支持定時掃描並分析所有任務.
 
-* 檢查是否有重名任務定義
-* 檢查是否有未知任務引用
-* 檢查是否有未知圖片引用
-* 檢查單個任務中是否有重複的任務引用
+- 檢查是否有重名任務定義
+- 檢查是否有未知任務引用
+- 檢查是否有未知圖片引用
+- 檢查單個任務中是否有重複的任務引用
 
 #### 多路徑資源支持
 
@@ -83,11 +83,11 @@ icon: iconoir:code-brackets
 
 > 使用 `Ctrl+Shift+P` (MacOS 上則是 `Command+Shift+P`) 呼出命令面板
 
-* 選擇並連接控制器後, 可使用 `截圖` 按鈕直接獲取截圖
-* 可使用 `上傳` 按鈕手動上傳
-* 按住 `Ctrl` 鍵, 框選需要裁剪的區域
-* 使用滾輪可進行縮放
-* 裁剪完成後, 使用 `下載` 按鈕, 可自動將裁剪結果保存到啟用資源的最頂層的圖片目錄
+- 選擇並連接控制器後, 可使用 `截圖` 按鈕直接獲取截圖
+- 可使用 `上傳` 按鈕手動上傳
+- 按住 `Ctrl` 鍵, 框選需要裁剪的區域
+- 使用滾輪可進行縮放
+- 裁剪完成後, 使用 `下載` 按鈕, 可自動將裁剪結果保存到啟用資源的最頂層的圖片目錄
 
 ### 底部狀態欄
 
