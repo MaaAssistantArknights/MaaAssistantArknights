@@ -25,7 +25,8 @@ else
     # Build list of directories containing version.json
     version_json_dirs=()
     
-    for dir in "${directories[@]}"; do
+    for dir in $directories; do
+        echo "dir: $dir"
         # If this is Arknights-Tile-Pos folder, use parent directory
         if [[ "$dir" =~ /Arknights-Tile-Pos$ ]]; then
             version_json_dirs+=("$(dirname "$dir")")
@@ -39,7 +40,7 @@ else
     echo "version_json_dirs: $version_json_dirs"
     
     # Update all version.json files
-    for dir in "${version_json_dirs[@]}"; do
+    for dir in $version_json_dirs; do
         version_file="$dir/version.json"
         echo "version_file: $version_file"
         
