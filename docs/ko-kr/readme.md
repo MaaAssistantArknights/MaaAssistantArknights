@@ -26,7 +26,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 이미지 인식을 기반으로, 한 번의 클릭만으로 그날의 모든 작업을 끝내드립니다!
 
-개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿
+개발 진행 중입니다 ✿✿ヽ(°▽°)ノ✿
 
 :::
 
@@ -196,7 +196,7 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 Discord 서버: [Discord 링크](https://discord.gg/23DfZ9uA4V)  
 사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 [전략 JSON 공유](https://prts.plus)  
-Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담  
+Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담
 
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

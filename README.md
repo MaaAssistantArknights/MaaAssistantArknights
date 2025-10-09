@@ -144,6 +144,24 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 [GitHub Pull Request 流程简述](https://docs.maa.plus/zh-cn/develop/development.html#github-pull-request-流程简述)
 
+#### 想参与开发，但面对庞大的项目仓库望而却步？
+
+请使用 GitHub Codespaces 在线开发环境，尽情尝试！
+
+我们预置了多种不同的开发环境以供选择：
+
+- 空白环境，裸 Linux 容器（默认）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+  
+- 轻量环境，适合文档站前端开发
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+  
+- 全量环境，适合 MAA Core 相关开发
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
 #### Issue bot
 
 请参阅 [Issue Bot 使用方法](https://docs.maa.plus/zh-cn/develop/issue-bot-usage.html)

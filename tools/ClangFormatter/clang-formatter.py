@@ -1,15 +1,32 @@
-from argparse import ArgumentParser
 import json
 import os
+from argparse import ArgumentParser
+
 
 def ArgParser():
     parser = ArgumentParser()
     parser.add_argument("--input", help="input dir", metavar="I", dest="src")
-    parser.add_argument("--clang-format", help="the path of clang-format.exe", metavar="PATH", dest="exe", default="clang-format")
-    parser.add_argument("--style", help="clang-format style", dest="style", default="file")
-    parser.add_argument("--rule", help="json-style '.xxx' array", dest="rule", default="[\".c\", \".h\", \".cpp\", \".hpp\"]")
-    parser.add_argument("--ignore", help="json-style path array", dest="ignore", default="[]")
+    parser.add_argument(
+        "--clang-format",
+        help="the path of clang-format.exe",
+        metavar="PATH",
+        dest="exe",
+        default="clang-format",
+    )
+    parser.add_argument(
+        "--style", help="clang-format style", dest="style", default="file"
+    )
+    parser.add_argument(
+        "--rule",
+        help="json-style '.xxx' array",
+        dest="rule",
+        default='[".c", ".h", ".cpp", ".hpp"]',
+    )
+    parser.add_argument(
+        "--ignore", help="json-style path array", dest="ignore", default="[]"
+    )
     return parser
+
 
 if __name__ == "__main__":
     args = ArgParser().parse_args()
@@ -37,7 +54,12 @@ if __name__ == "__main__":
             print("Invalid rule!")
         else:
             for root, dirs, files in os.walk(input_path):
-                if any([os.path.normpath(root).startswith(ignore_dir) for ignore_dir in ignore_dirs]):
+                if any(
+                    [
+                        os.path.normpath(root).startswith(ignore_dir)
+                        for ignore_dir in ignore_dirs
+                    ]
+                ):
                     continue
                 for f in files:
                     file = os.path.join(root, f)
@@ -45,11 +67,11 @@ if __name__ == "__main__":
                         continue
                     if os.path.splitext(file)[-1] in rule_array:
                         print(file)
-                        os.system(f"{clang_format_exe} -i -style={args.style} \"{file}\"")
+                        os.system(f'{clang_format_exe} -i -style={args.style} "{file}"')
     elif os.path.isfile(input_path):
         file = input_path
         print(file)
-        os.system(f"{clang_format_exe} -i -style={args.style} \"{file}\"")
+        os.system(f'{clang_format_exe} -i -style={args.style} "{file}"')
     else:
         print("Invalid input_path!")
 

@@ -47,10 +47,10 @@ Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디�
 
 Windows 7의 경우, 위에서 언급한 두 개의 런타임 라이브러리를 설치하기 전에 다음 패치가 설치되어 있는지 확인해야 합니다:
 
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/ko-kr/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 코드 서명 패치:
-    - KB4474419：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-    - KB4490628：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+   - KB4474419：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+   - KB4490628：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[다운로드 링크 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
 3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1,KB2670838）：[다운로드 링크 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[다운로드 링크 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### .NET 8 애플리케이션이 Windows 7에서 비정상적으로 실행되는 문제 완화 조치 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
@@ -94,7 +94,7 @@ Windows 7에서 .NET 8 애플리케이션을 실행할 때 메모리 사용량�
 | 에뮬레이터 |     포트 기본값      |
 | ---------- | :------------------: |
 | MuMu 6/X   |         7555         |
-| MuMu    |        16384         |
+| MuMu       |        16384         |
 | NoxPlayer  |        62001         |
 | Memu       |        21503         |
 | BlueStacks |         5555         |
@@ -107,7 +107,7 @@ Windows 7에서 .NET 8 애플리케이션을 실행할 때 메모리 사용량�
 ### 기존 adb 프로세스 종료
 
 MAA를 종료한 후 작업 관리자에서 `세부 정보`에서 `adb`라는 이름을 포함한 프로세스가 있는지 확인하세요.있다면 종료한 후 다시 연결을 시도하세요.
- (일반적으로 앞서 입력한 adb 파일과 동일한 이름을 갖습니다)
+(일반적으로 앞서 입력한 adb 파일과 동일한 이름을 갖습니다)
 
 ### 여러 adb를 올바르게 사용하기
 
@@ -173,7 +173,6 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 위치를 읽으려고 
 :::
 
 1. 블루스택 에뮬레이터 데이터 디렉터리에서 `bluestacks.conf` 파일을 찾으세요.
-
    - 국제 버전의 기본 경로는 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`입니다.
    - 중국 본토 버전의 기본 경로는 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`입니다.
 

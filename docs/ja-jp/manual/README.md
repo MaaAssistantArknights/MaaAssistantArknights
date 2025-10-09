@@ -6,4 +6,4 @@ dir:
   order: 1
 ---
 
-<Catalog base='/ja-jp/manual/' />
+<Redirect to="newbie" />

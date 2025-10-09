@@ -3,12 +3,12 @@ import logging
 import os
 import re
 import time
-import openai
-
-from pathlib import Path
 from json import JSONDecodeError
+from pathlib import Path
+
+import openai
 from dotenv import load_dotenv
-from openai.error import RateLimitError, AuthenticationError
+from openai.error import AuthenticationError, RateLimitError
 from opencc import OpenCC
 
 logging.basicConfig(

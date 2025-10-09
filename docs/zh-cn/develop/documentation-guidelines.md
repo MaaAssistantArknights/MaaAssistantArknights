@@ -84,7 +84,7 @@ icon: jam:write-f
 
 **输入：**
 
-```md
+```markdown
 MaaAssistantArknight 是由 ==很多猪== 开发的
 ```
 
@@ -183,6 +183,7 @@ MaaAssistantArknight 是由 ==很多猪== 开发的
    :::
 
 4. 结束
+
 ::::
 
 ## 智能图片容器

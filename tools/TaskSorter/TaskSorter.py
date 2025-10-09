@@ -1,9 +1,9 @@
-
-import json
-import re
 import argparse
+import json
 import os
+import re
 from pathlib import Path
+
 
 def sort_tasks(res: dict[str, any]):
     classified_lists = {
@@ -20,7 +20,7 @@ def sort_tasks(res: dict[str, any]):
         "Reclamation@...": [],
         "Fire@Reclamation...": [],
         "Tales@RA...": [],
-        "...@Reclamation...": []
+        "...@Reclamation...": [],
     }
     unclassified_list = []
 
@@ -39,7 +39,7 @@ def sort_tasks(res: dict[str, any]):
         (r"^Fire@Reclamation", classified_lists["Fire@Reclamation..."]),
         (r"^Tales@RA", classified_lists["Tales@RA..."]),
         (r"^(\w+)@Reclamation", classified_lists["...@Reclamation..."]),
-        (r"", unclassified_list)
+        (r"", unclassified_list),
     ]
 
     for k in res.keys():
@@ -50,9 +50,10 @@ def sort_tasks(res: dict[str, any]):
 
     return {
         k: res[k]
-        for k in unclassified_list + sum([
-            sorted(target_list)
-            for target_list in classified_lists.values()], [])}
+        for k in unclassified_list
+        + sum([sorted(target_list) for target_list in classified_lists.values()], [])
+    }
+
 
 def raise_on_duplicate_keys(pairs):
     """检查重复键，存在时抛出 ValueError"""
@@ -63,12 +64,13 @@ def raise_on_duplicate_keys(pairs):
         seen[key] = value
     return seen
 
+
 # 示例JSON数据（包含重复键）
 json_str = '{"name": "Alice", "age": 30, "name": "Bob"}'
 
 
 def main(cn_base_path, global_resources):
-    
+
     cn_tasks = {}
     cn_order = {}
     # 使用 Path 处理路径，确保跨平台兼容
@@ -79,7 +81,9 @@ def main(cn_base_path, global_resources):
                 continue
             file_path = Path(root) / file
             with open(file_path, "r", encoding="utf8") as f:
-                cn_tasks[file_path.relative_to(cn_base_path)] = json.load(f, object_pairs_hook=raise_on_duplicate_keys)
+                cn_tasks[file_path.relative_to(cn_base_path)] = json.load(
+                    f, object_pairs_hook=raise_on_duplicate_keys
+                )
 
     for task_path, task in cn_tasks.items():
         cn_tasks[task_path] = sort_tasks(task)
@@ -91,7 +95,9 @@ def main(cn_base_path, global_resources):
                 continue
             for task in tasks:
                 if task in tasks1:
-                    raise ValueError(f"Duplicate task found: {task_path} and {task_path1} have the same task '{task}'")
+                    raise ValueError(
+                        f"Duplicate task found: {task_path} and {task_path1} have the same task '{task}'"
+                    )
 
     for task_path, task in cn_tasks.items():
         cn_tasks[task_path] = sort_tasks(task)
@@ -99,7 +105,11 @@ def main(cn_base_path, global_resources):
         with open(cn_base_path / task_path, "w", encoding="utf8", newline="\n") as f:
             json.dump(task, f, ensure_ascii=False, indent=4)
 
-    print("CN:", str(sum(len(tasks) for tasks in cn_order.values())).rjust(4, " "), "tasks")
+    print(
+        "CN:",
+        str(sum(len(tasks) for tasks in cn_order.values())).rjust(4, " "),
+        "tasks",
+    )
 
     for server, path in global_resources.items():
         overseas_path = Path(path)
@@ -120,10 +130,19 @@ def main(cn_base_path, global_resources):
                 tasks = {
                     k: {
                         x: tasks[k][x]
-                        for x in sorted(tasks[k].keys(),
-                                        key=lambda x: list(base_tasks[k].keys()).index(x) if k in base_tasks and x in base_tasks[k] else -1)
+                        for x in sorted(
+                            tasks[k].keys(),
+                            key=lambda x: (
+                                list(base_tasks[k].keys()).index(x)
+                                if k in base_tasks and x in base_tasks[k]
+                                else -1
+                            ),
+                        )
                     }
-                    for k in sorted(tasks.keys(), key=lambda k: base_order.index(k) if k in base_order else -1)
+                    for k in sorted(
+                        tasks.keys(),
+                        key=lambda k: base_order.index(k) if k in base_order else -1,
+                    )
                 }
 
                 with open(file_path, "w", encoding="utf8", newline="\n") as f:
@@ -131,10 +150,15 @@ def main(cn_base_path, global_resources):
                 count += len(tasks)
         print(server + ":", str(count).rjust(4, " "), "tasks")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Sort tasks in JSON files.")
     parser.add_argument("--cn", type=str, help="Path to the CN tasks JSON file.")
-    parser.add_argument("--overseas", type=str, help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.")
+    parser.add_argument(
+        "--overseas",
+        type=str,
+        help="Comma-separated paths to the global tasks JSON files in the format 'EN:path,JP:path,KR:path,TW:path'.",
+    )
     args = parser.parse_args()
 
     resource_dir = Path(__file__).parents[2] / "resource"
@@ -144,11 +168,14 @@ if __name__ == '__main__':
         "EN": resource_dir / "global/YoStarEN/resource/tasks",
         "JP": resource_dir / "global/YoStarJP/resource/tasks",
         "KR": resource_dir / "global/YoStarKR/resource/tasks",
-        "TW": resource_dir / "global/txwy/resource/tasks"
+        "TW": resource_dir / "global/txwy/resource/tasks",
     }
 
     global_resources = default_global_resources
     if args.overseas:
-        global_resources = {k: Path(v) for k, v in (item.split(':') for item in args.overseas.split(','))}
+        global_resources = {
+            k: Path(v)
+            for k, v in (item.split(":") for item in args.overseas.split(","))
+        }
 
     main(cn_task_path, global_resources)

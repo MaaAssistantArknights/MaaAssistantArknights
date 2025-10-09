@@ -149,6 +149,7 @@ namespace MaaWpfGui.Models
             {
                 _logger.Error("mirrorc failed");
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
                 return (CheckUpdateRetT.NetworkError, null, null);
             }
 
@@ -167,6 +168,7 @@ namespace MaaWpfGui.Models
             if (data is null)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
                 return (CheckUpdateRetT.UnknownError, null, null);
             }
 
@@ -189,6 +191,21 @@ namespace MaaWpfGui.Models
                 {
                     case MirrorChyanErrorCode.KeyExpired:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkExpired"));
+
+                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+
+                        // 有人会第一次就填过期的 cdk 吗
+                        if (SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime == 0)
+                        {
+                            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = 1;
+                        }
+
+                        // 如果上次查出来的时间比现在的还新，说明换了 cdk，重置过期时间
+                        if (!SettingsViewModel.VersionUpdateSettings.IsMirrorChyanCdkExpired)
+                        {
+                            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired ?? 1;
+                        }
+
                         break;
                     case MirrorChyanErrorCode.KeyInvalid:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
@@ -199,6 +216,9 @@ namespace MaaWpfGui.Models
                         break;
                     case MirrorChyanErrorCode.KeyMismatched:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
+                        break;
+                    case MirrorChyanErrorCode.KeyBlocked:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkBlocked"));
                         break;
                     case MirrorChyanErrorCode.InvalidParams:
                     case MirrorChyanErrorCode.ResourceNotFound:

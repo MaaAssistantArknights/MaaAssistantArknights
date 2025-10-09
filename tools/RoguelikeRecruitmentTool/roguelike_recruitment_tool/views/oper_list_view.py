@@ -1,11 +1,9 @@
 from typing import Optional
 
+from pydantic import ValidationError
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCursor, QDrag, QKeyEvent
 from PyQt5.QtWidgets import QAction, QApplication, QListView, QMenu, QToolTip
-
-from pydantic import ValidationError
-
 from roguelike.recruitment import Oper, new_oper
 
 from ..common import DocRole
@@ -49,11 +47,15 @@ class OperListView(QListView):
             selected_oper_index = selected_indices[0].row()
 
             insert_above_action = QAction("Insert Above", self)
-            insert_above_action.triggered.connect(lambda: self.create_oper(selected_oper_index))
+            insert_above_action.triggered.connect(
+                lambda: self.create_oper(selected_oper_index)
+            )
             context_menu.addAction(insert_above_action)
 
             insert_below_action = QAction("Insert Below", self)
-            insert_below_action.triggered.connect(lambda: self.create_oper(selected_oper_index + 1))
+            insert_below_action.triggered.connect(
+                lambda: self.create_oper(selected_oper_index + 1)
+            )
             context_menu.addAction(insert_below_action)
 
             copy_action = QAction("Copy", self)
@@ -62,15 +64,21 @@ class OperListView(QListView):
 
             if QApplication.clipboard().text():
                 paste_above_action = QAction("Paste Above", self)
-                paste_above_action.triggered.connect(lambda: self.paste_oper(selected_oper_index))
+                paste_above_action.triggered.connect(
+                    lambda: self.paste_oper(selected_oper_index)
+                )
                 context_menu.addAction(paste_above_action)
 
                 paste_below_action = QAction("Paste Below", self)
-                paste_below_action.triggered.connect(lambda: self.paste_oper(selected_oper_index + 1))
+                paste_below_action.triggered.connect(
+                    lambda: self.paste_oper(selected_oper_index + 1)
+                )
                 context_menu.addAction(paste_below_action)
 
             delete_action = QAction("Delete", self)
-            delete_action.triggered.connect(lambda: self.delete_oper(selected_oper_index))
+            delete_action.triggered.connect(
+                lambda: self.delete_oper(selected_oper_index)
+            )
             context_menu.addAction(delete_action)
         else:
             insert_action = QAction("Insert", self)
@@ -79,7 +87,9 @@ class OperListView(QListView):
 
             if QApplication.clipboard().text():
                 paste_action = QAction("Paste", self)
-                paste_action.triggered.connect(lambda: self.paste_oper(selected_oper_index))
+                paste_action.triggered.connect(
+                    lambda: self.paste_oper(selected_oper_index)
+                )
                 context_menu.addAction(paste_action)
 
         context_menu.exec_(self.viewport().mapToGlobal(pos))
@@ -88,10 +98,14 @@ class OperListView(QListView):
         oper_list = self.model().get_oper_list()
         oper_list.insert(index, new_oper())
         self.model().set_oper_list(oper_list)
-        self.selectionModel().select(self.model().index(index), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.model().index(index), self.selectionModel().Select
+        )
 
     def copy_oper(self, index: int) -> None:
-        QApplication.clipboard().setText(Oper.oper2json(self.model().get_oper_list()[index]))
+        QApplication.clipboard().setText(
+            Oper.oper2json(self.model().get_oper_list()[index])
+        )
 
     def paste_oper(self, index: int) -> None:
         json_str = QApplication.clipboard().text()
@@ -104,7 +118,9 @@ class OperListView(QListView):
             return
         oper_list.insert(index, pasted_oper)
         self.model().set_oper_list(oper_list)
-        self.selectionModel().select(self.model().index(index), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.model().index(index), self.selectionModel().Select
+        )
 
     def delete_oper(self, index: int) -> None:
         oper_list = self.model().get_oper_list()
@@ -122,4 +138,6 @@ class OperListView(QListView):
     def dropEvent(self, event):
         super().dropEvent(event)
         self.selectionModel().clearSelection()
-        self.selectionModel().select(self.indexAt(event.pos()), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.indexAt(event.pos()), self.selectionModel().Select
+        )

@@ -55,11 +55,11 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 對於 Windows 7，在安裝上文提到的兩個運行庫之前，還需檢查以下補丁是否已安裝：
 
-  1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-  2. SHA-2 代碼簽名修補程式：
-     - KB4474419：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-     - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-  3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-tw/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+2. SHA-2 代碼簽名修補程式：
+   - KB4474419：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+   - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### .NET 8 應用在 Windows 7 上運行異常的緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
@@ -88,21 +88,20 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
   針對模擬器單開情況，參考各個模擬器文件和網易遊戲高級遊戲開發工程師@趙青青的[博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)，常見安卓模擬器的 adb 通訊埠如下：
 
-    |模擬器|主模擬器預設通訊埠|
-    |-|:-:|
-    |網易 MuMu 模擬器 6/X|7555|
-    |網易 MuMu 模擬器 12|16384|
-    |夜神安卓模擬器|62001|
-    |逍遙安卓模擬器|21503|
-    |藍疊安卓模擬器|5555|
-    |雷電安卓模擬器 9|5555 / emulator-5554|
+  | 模擬器               |  主模擬器預設通訊埠  |
+  | -------------------- | :------------------: |
+  | 網易 MuMu 模擬器 6/X |         7555         |
+  | 網易 MuMu 模擬器 12  |        16384         |
+  | 夜神安卓模擬器       |        62001         |
+  | 逍遙安卓模擬器       |        21503         |
+  | 藍疊安卓模擬器       |         5555         |
+  | 雷電安卓模擬器 9     | 5555 / emulator-5554 |
 
-    純數字的預設通訊埠可以直接使用 `127.0.0.1:[port]` 來連接，雷電模擬器進行了封裝，也可以使用 `emulator-5554` 進行連接。
+  純數字的預設通訊埠可以直接使用 `127.0.0.1:[port]` 來連接，雷電模擬器進行了封裝，也可以使用 `emulator-5554` 進行連接。
 
-    在 Windows 與 Mac 的 `設定` - `連接設定` - `連接地址` 配置中，如果有情況需要修改則可以參照上表。
+  在 Windows 與 Mac 的 `設定` - `連接設定` - `連接地址` 配置中，如果有情況需要修改則可以參照上表。
 
 - 多開情況
-
   - 夜神模擬器第一個設備通訊埠為 `62001` ，第二個通訊埠從 `62025` 開始遞增。
   - 網易 MuMu 模擬器 12 版本多開時 adb 通訊埠無規律，可以通過點擊 MuMu 多開器 12，啟動需要執行的模擬器，點擊右上角的 ADB 圖示，即可查看目前正在執行的模擬器 adb 通訊埠資訊。
   - 雷電模擬器從 9 版本開始，模擬器 adb 從本地通訊埠 `5555` 開始逐個遞增 2 ，比如第二個模擬器本地通訊埠為 `5557`。
@@ -166,9 +165,8 @@ MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的儲存位置，當
 :::
 
 1. 在藍疊模擬器的數據目錄下找到 `bluestacks.conf` 這個檔案
-
-    - 國際版預設路徑為 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 中國內地版預設路徑為 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   - 國際版預設路徑為 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+   - 中國內地版預設路徑為 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
 2. 如果是第一次使用，請開啟一次 MAA，會在 MAA 的 `config` 目錄下產生 `gui.json`。
 

@@ -8,7 +8,7 @@ except ImportError:
     exit(1)
 
 from pathlib import Path
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 
 class RoiCropper:
@@ -106,7 +106,7 @@ class RoiCropper:
                     )
 
         # 添加操作提示
-        #self._draw_instructions(display)
+        # self._draw_instructions(display)
 
         cv2.imshow("ROI Cropper", display)
 

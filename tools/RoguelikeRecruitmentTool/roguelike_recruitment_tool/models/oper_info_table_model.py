@@ -1,5 +1,4 @@
-from PyQt5.QtCore import QAbstractTableModel, QModelIndex, QVariant, Qt
-
+from PyQt5.QtCore import QAbstractTableModel, QModelIndex, Qt, QVariant
 from roguelike.recruitment import Oper
 
 from ..common import DescriptionRole, parse_field
@@ -9,7 +8,7 @@ class OperInfoTableModel(QAbstractTableModel):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self._oper: Oper | None = None
-        self._field_list: list[str] = list(Oper.model_fields.keys())[: -2]
+        self._field_list: list[str] = list(Oper.model_fields.keys())[:-2]
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
         if self._oper is None:

@@ -6,4 +6,4 @@ dir:
   order: 2
 ---
 
-<Catalog base='/ko-kr/develop/' />
+<Redirect to="development" />

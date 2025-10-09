@@ -6,4 +6,4 @@ dir:
   order: 5
 ---
 
-<Catalog base='/zh-tw/manual/device/' />
+<Redirect to="windows" />

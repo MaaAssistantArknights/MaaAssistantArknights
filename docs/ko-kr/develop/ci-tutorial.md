@@ -15,15 +15,15 @@ MAA는 Github Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 워크플로우 파일들은 모두 `.github/workflows` 하위에 저장되어 있으며, 각 파일은 기능에 따라 다음과 같은 부분으로 나눌 수 있습니다:
 
-+ [코드 테스트](#코드-테스트)
-+ [코드 빌드](#코드-빌드)
-+ [버전 릴리즈](#버전-릴리즈)
-+ [리소스 업데이트](#리소스-업데이트)
-+ [웹사이트 구축](#웹사이트-구축)
-+ [Issues 관리](#issues-관리)
-+ [Pull Requests 관리](#pull-requests-관리)
-+ [MirrorChyan 관련](#mirrorchyan-관련)
-+ [기타](#기타)
+- [코드 테스트](#코드-테스트)
+- [코드 빌드](#코드-빌드)
+- [버전 릴리즈](#버전-릴리즈)
+- [리소스 업데이트](#리소스-업데이트)
+- [웹사이트 구축](#웹사이트-구축)
+- [Issues 관리](#issues-관리)
+- [Pull Requests 관리](#pull-requests-관리)
+- [MirrorChyan 관련](#mirrorchyan-관련)
+- [기타](#기타)
 
 또한 [pre-commit.ci](https://pre-commit.ci/)를 통해 코드의 자동 포맷팅과 이미지 리소스의 자동 최적화를 구현했으며, PR 생성 후 자동으로 실행되므로 특별히 신경 쓸 필요가 없습니다.
 
@@ -49,10 +49,10 @@ MAA는 Github Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 버전 릴리즈, 줄여서 릴리즈는 사용자에게 업데이트를 배포하는 필수 작업으로, 다음 워크플로우들로 구성됩니다:
 
-+ `release-nightly-ota.yml` 개발 버전 릴리즈
-+ `release-ota.yml` 정식 버전/공개 베타 버전 릴리즈
-  + `gen-changelog.yml` 정식 버전/공개 베타 버전용 changelog 생성
-  + `pr-auto-tag.yml` 정식 버전/공개 베타 버전용 tag 생성
+- `release-nightly-ota.yml` 개발 버전 릴리즈
+- `release-ota.yml` 정식 버전/공개 베타 버전 릴리즈
+  - `gen-changelog.yml` 정식 버전/공개 베타 버전용 changelog 생성
+  - `pr-auto-tag.yml` 정식 버전/공개 베타 버전용 tag 생성
 
 ::: tip
 위 파일명의 ota는 Over-the-Air를 의미하며, 우리가 흔히 말하는 "증분 업데이트 패키지"입니다. 따라서 MAA의 릴리즈 과정에는 실제로 이전 버전들에 대한 OTA 패키지 빌드 단계가 포함됩니다.
@@ -80,9 +80,9 @@ MAA는 Github Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 이 부분의 워크플로우는 주로 MAA의 리소스 업데이트와 최적화를 담당하며, 구체적인 워크플로우는 다음과 같습니다:
 
-+ `res-update-game.yml` 정기적으로 실행되어 지정된 저장소에서 게임 리소스를 가져옵니다
-+ `sync-resource.yml` 리소스를 MaaResource 저장소에 동기화하여 리소스 업데이트에 사용합니다
-+ `optimize-templates.yml` 템플릿 이미지 크기를 최적화합니다
+- `res-update-game.yml` 정기적으로 실행되어 지정된 저장소에서 게임 리소스를 가져옵니다
+- `sync-resource.yml` 리소스를 MaaResource 저장소에 동기화하여 리소스 업데이트에 사용합니다
+- `optimize-templates.yml` 템플릿 이미지 크기를 최적화합니다
 
 ## 웹사이트 구축
 
@@ -117,8 +117,8 @@ MAA는 Github Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 MirrorChyan은 유료 업데이트 미러 서비스이며, 관련 워크플로우는 다음과 같습니다:
 
-+ `mirrorchyan.yml` 업데이트 패키지를 MirrorChyan에 동기화
-+ `mirrorchyan_release_note.yml` MirrorChyan용 Release Note 생성
+- `mirrorchyan.yml` 업데이트 패키지를 MirrorChyan에 동기화
+- `mirrorchyan_release_note.yml` MirrorChyan용 Release Note 생성
 
 ## 기타
 

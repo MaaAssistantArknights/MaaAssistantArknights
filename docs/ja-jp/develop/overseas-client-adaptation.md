@@ -43,7 +43,7 @@ icon: ri:earth-fill
 
 例えば、切り取られた後の出力は次のようになる。
 
-``` log
+```log
 src: Screenshot_xxx.png
 dst: Screenshot_xxx.png_426,272,177,201.png
 original roi: 476, 322, 77, 101,
@@ -60,8 +60,8 @@ amplified roi: 426, 272, 177, 201
 
 例
 
-- ENクライアントのテンプレートイメージフォルダの場所は  `MaaAssistantArknights\resource\global\YoStarEN\resource\template`.
-- 大陸版クライアントのテンプレートイメージフォルダの場所は  `MaaAssistantArknights\resource\template`.
+- ENクライアントのテンプレートイメージフォルダの場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\template`.
+- 大陸版クライアントのテンプレートイメージフォルダの場所は `MaaAssistantArknights\resource\template`.
 
 task.json`ファイルに記載されているテンプレート画像を参照し、大陸版クライアントと海外クライアントのテンプレート画像を比較し、海外クライアントに不足しているテンプレートを特定します。
 
@@ -75,8 +75,8 @@ task.json`ファイルに記載されているテンプレート画像を参照�
 
 例
 
-- ENクライアントの `task.json` の場所は  `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
-- 大陸版クライアントの `task.json` の場所は  `MaaAssistantArknights\resource\tasks.json`.
+- ENクライアントの `task.json` の場所は `MaaAssistantArknights\resource\global\YoStarEN\resource\tasks.json`.
+- 大陸版クライアントの `task.json` の場所は `MaaAssistantArknights\resource\tasks.json`.
 
 テキストを変更するには、対応するタスクを探し、`text`フィールドを対応するサーバーに表示されている内容に変更します。特定された内容は、ゲーム内の完全な内容の部分文字列である可能性があることに留意してください。一般的には、純粋なASCII文字として認識されない限り、テキストを含む`text`はすべて置き換える必要があります。
 
@@ -108,7 +108,7 @@ ROIの範囲を変更するには
 
 ログを解析することは、プログラムに関する問題を特定するのに役立ちます。以下はログの例
 
-``` log
+```log
 [2022-12-18 17:43:17.535][INF][Px7ec][Tx15c8] {"taskchain":"Award","details":{"to_be_recognized":["Award@ReturnTo","Award","ReceiveAward","DailyTask","WeeklyTask","Award@CloseAnno","Award@CloseAnnoTexas","Award@TodaysSupplies","Award@FromStageSN"],"cur_retry":10,"retry_times":20},"first":["AwardBegin"],"taskid":2,"class":"asst::ProcessTask","subtask":"ProcessTask","pre_task":"AwardBegin"}
 [2022-12-18 17:43:18.398][INF][Px7ec][Tx15c8] Call ` C:\Program Files\BlueStacks_nxt\. \HD-Adb.exe -s 127.0.0.1:5555 exec-out "screencap | gzip -1" ` ret 0 , cost 862 ms , stdout size: 2074904 , socket size: 0
 [2022-12-18 17:43:18.541][TRC][Px7ec][Tx15c8] OcrPack::recognize | roi: [ 500, 50, 300, 150 ]
@@ -130,6 +130,7 @@ ROIの範囲を変更するには
 - `"taskid"` はタスク番号です。
 - `"class"` と `subtask` はそれぞれ、タスクのクラスとサブタスクを表す。
 - `"pre_task"` は一つ前のタスクを表す。
+
 さらに、コマンドの実行結果 (例: `Call`) と `OCR` の情報 (例: `OcrPack::recognize`) がログに記録されます。
 
 例えば、このログの `"to_be_recognized"`,`"cur_retry":3, "retry_times":20` は、タスクの認識を10回試行し、最大回数は20回であることを意味しています。最大回数に達すると、そのタスクはスキップされ、エラーが報告され、次のタスクが実行されます。前のタスクで問題がない場合、ここで認識に問題がある可能性があります。この問題をトラブルシューティングするには、ログに記載されているタスクに対応するテンプレートファイルがあるか、対応するタスクの `text` フィールドが正しくないか、タスク認識のための `roi` 範囲が正しくないかを確認し、必要な修正を加えてください。

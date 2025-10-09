@@ -202,7 +202,7 @@ Todo
 
 #### Common `subtask` Field Values
 
-- `ProcessTask`  
+- `ProcessTask`
 
   ```json
   // Corresponding details field example

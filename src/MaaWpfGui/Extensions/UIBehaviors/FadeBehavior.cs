@@ -52,10 +52,11 @@ public static class FadeBehavior
             return;
         }
 
+        element.BeginAnimation(UIElement.OpacityProperty, null);
+
         // 获取动画持续时间（使用附加属性或默认值）
         var duration = GetDuration(d);
 
-        var storyboard = new Storyboard();
         var animation = new DoubleAnimation
         {
             Duration = new(duration),
@@ -84,9 +85,6 @@ public static class FadeBehavior
             };
         }
 
-        Storyboard.SetTarget(animation, element);
-        Storyboard.SetTargetProperty(animation, new PropertyPath(UIElement.OpacityProperty));
-        storyboard.Children.Add(animation);
-        storyboard.Begin();
+        element.BeginAnimation(UIElement.OpacityProperty, animation);
     }
 }

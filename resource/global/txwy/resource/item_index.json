@@ -1775,6 +1775,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act2collection_point_token": {
+        "classifyType": "NONE",
+        "description": "為了激勵在各項集成戰略行動中表現傑出的外勤人員，羅德島發送了一定數量的特殊獎勵兌換點數，使用兌換點數可兌換急需的物資。",
+        "icon": "act2collection_point_token.png",
+        "name": "“戰略家”點數",
+        "sortId": -10000,
+        "usage": "用於兌換相應的階段性活動獎勵。"
+    },
     "act2vmulti_token_cap": {
         "classifyType": "NONE",
         "description": "參賽紀念的累積代表了賽事熱度的攀升，達到一定熱度等級即可獲取對應獎勵。",

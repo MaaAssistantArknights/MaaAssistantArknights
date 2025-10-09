@@ -6,4 +6,4 @@ dir:
   order: 2
 ---
 
-<Catalog base='/en-us/develop/' />
+<Redirect to="development" />

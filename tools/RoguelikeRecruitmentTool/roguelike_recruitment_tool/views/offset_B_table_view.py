@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QItemSelection, QModelIndex, Qt
 from PyQt5.QtGui import QDrag
 from PyQt5.QtWidgets import QAction, QMenu
-
 from roguelike.recruitment import new_collection_priority_offset
 
 from .table_view import TableView
@@ -34,15 +33,21 @@ class OffsetBTableView(TableView):
             selected_group_index = selected_indices[0].row()
 
             insert_above_action = QAction("Insert Above", self)
-            insert_above_action.triggered.connect(lambda: self.create_offset(selected_group_index))
+            insert_above_action.triggered.connect(
+                lambda: self.create_offset(selected_group_index)
+            )
             context_menu.addAction(insert_above_action)
 
             insert_below_action = QAction("Insert Below", self)
-            insert_below_action.triggered.connect(lambda: self.create_offset(selected_group_index + 1))
+            insert_below_action.triggered.connect(
+                lambda: self.create_offset(selected_group_index + 1)
+            )
             context_menu.addAction(insert_below_action)
 
             delete_action = QAction("Delete", self)
-            delete_action.triggered.connect(lambda: self.delete_offset(selected_group_index))
+            delete_action.triggered.connect(
+                lambda: self.delete_offset(selected_group_index)
+            )
             context_menu.addAction(delete_action)
         else:
             insert_action = QAction("Insert", self)
@@ -55,7 +60,9 @@ class OffsetBTableView(TableView):
         oper_list = self.model().get_oper_list()
         oper_list.insert(index, new_collection_priority_offset())
         self.model().set_oper_list(oper_list)
-        self.selectionModel().select(self.model().index(index), self.selectionModel().Select)
+        self.selectionModel().select(
+            self.model().index(index), self.selectionModel().Select
+        )
 
     def delete_offset(self, index: int) -> None:
         offset_list = self.model().get_offset_list()
@@ -71,12 +78,21 @@ class OffsetBTableView(TableView):
         drag.exec_(Qt.MoveAction)
 
     def dropEvent(self, event):
-        self.model().dropMimeData(event.mimeData(), event.proposedAction(), self.indexAt(event.pos()).row(),
-                                  self.indexAt(event.pos()).column(), QModelIndex())
+        self.model().dropMimeData(
+            event.mimeData(),
+            event.proposedAction(),
+            self.indexAt(event.pos()).row(),
+            self.indexAt(event.pos()).column(),
+            QModelIndex(),
+        )
 
         self.selectionModel().clearSelection()
         selected_row: int = self.indexAt(event.pos()).row()
         new_selection_top_left: QModelIndex = self.model().index(selected_row, 0)
-        new_selection_bottom_right: QModelIndex = self.model().index(selected_row, self.model().columnCount() - 1)
-        new_selection: QItemSelection = QItemSelection(new_selection_top_left, new_selection_bottom_right)
+        new_selection_bottom_right: QModelIndex = self.model().index(
+            selected_row, self.model().columnCount() - 1
+        )
+        new_selection: QItemSelection = QItemSelection(
+            new_selection_top_left, new_selection_bottom_right
+        )
         self.selectionModel().select(new_selection, self.selectionModel().Select)
