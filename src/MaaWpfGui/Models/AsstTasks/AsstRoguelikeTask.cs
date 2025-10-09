@@ -199,6 +199,11 @@ public class AsstRoguelikeTask : AsstBaseTask
     /// </summary>
     public bool StartWithSeed { get; set; }
 
+    /// <summary>
+    /// Gets or sets 最大持续小时数（定时下线）
+    /// </summary>
+    public int MaxDurationHours { get; set; }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var taskParams = new JObject
@@ -209,6 +214,13 @@ public class AsstRoguelikeTask : AsstBaseTask
             ["starts_count"] = Starts,
             ["investment_enabled"] = InvestmentEnabled,
         };
+
+        // 全局定时下线参数
+        var globalHours = MaaWpfGui.ViewModels.UserControl.Settings.GameSettingsUserControlModel.Instance.MaxTaskDurationHours;
+        if (globalHours > 0)
+        {
+            taskParams["max_duration_hours"] = globalHours;
+        }
 
         if (InvestmentEnabled)
         {
