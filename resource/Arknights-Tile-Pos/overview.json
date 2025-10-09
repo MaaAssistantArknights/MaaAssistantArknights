@@ -21770,6 +21770,294 @@
         "stageId": "main_15-18",
         "width": 14
     },
+    "main_16-01#s-obt/main/level_main_16-01": {
+        "code": "16-2",
+        "filename": "main_16-01#s-obt-main-level_main_16-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-01",
+        "name": "晨曦遥远",
+        "stageId": "main_16-01#s",
+        "width": 11
+    },
+    "main_16-01-obt/main/level_main_16-01": {
+        "code": "16-2",
+        "filename": "main_16-01-obt-main-level_main_16-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-01",
+        "name": "晨曦遥远",
+        "stageId": "main_16-01",
+        "width": 11
+    },
+    "main_16-02#s-obt/main/level_main_16-02": {
+        "code": "16-3",
+        "filename": "main_16-02#s-obt-main-level_main_16-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-02",
+        "name": "道路以目",
+        "stageId": "main_16-02#s",
+        "width": 11
+    },
+    "main_16-02-obt/main/level_main_16-02": {
+        "code": "16-3",
+        "filename": "main_16-02-obt-main-level_main_16-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-02",
+        "name": "道路以目",
+        "stageId": "main_16-02",
+        "width": 11
+    },
+    "main_16-03#s-obt/main/level_main_16-03": {
+        "code": "16-4",
+        "filename": "main_16-03#s-obt-main-level_main_16-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-03",
+        "name": "友人成众",
+        "stageId": "main_16-03#s",
+        "width": 11
+    },
+    "main_16-03-obt/main/level_main_16-03": {
+        "code": "16-4",
+        "filename": "main_16-03-obt-main-level_main_16-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-03",
+        "name": "友人成众",
+        "stageId": "main_16-03",
+        "width": 11
+    },
+    "main_16-04#s-obt/main/level_main_16-04": {
+        "code": "16-5",
+        "filename": "main_16-04#s-obt-main-level_main_16-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-04",
+        "name": "分水岭线",
+        "stageId": "main_16-04#s",
+        "width": 10
+    },
+    "main_16-04-obt/main/level_main_16-04": {
+        "code": "16-5",
+        "filename": "main_16-04-obt-main-level_main_16-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-04",
+        "name": "分水岭线",
+        "stageId": "main_16-04",
+        "width": 10
+    },
+    "main_16-05#s-obt/main/level_main_16-05": {
+        "code": "16-6",
+        "filename": "main_16-05#s-obt-main-level_main_16-05.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-05",
+        "name": "痛觉明灭",
+        "stageId": "main_16-05#s",
+        "width": 11
+    },
+    "main_16-05-obt/main/level_main_16-05": {
+        "code": "16-6",
+        "filename": "main_16-05-obt-main-level_main_16-05.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-05",
+        "name": "痛觉明灭",
+        "stageId": "main_16-05",
+        "width": 11
+    },
+    "main_16-06#s-obt/main/level_main_16-06": {
+        "code": "16-7",
+        "filename": "main_16-06#s-obt-main-level_main_16-06.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-06",
+        "name": "最后欢愉",
+        "stageId": "main_16-06#s",
+        "width": 12
+    },
+    "main_16-06-obt/main/level_main_16-06": {
+        "code": "16-7",
+        "filename": "main_16-06-obt-main-level_main_16-06.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-06",
+        "name": "最后欢愉",
+        "stageId": "main_16-06",
+        "width": 12
+    },
+    "main_16-07#s-obt/main/level_main_16-07": {
+        "code": "16-8",
+        "filename": "main_16-07#s-obt-main-level_main_16-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-07",
+        "name": "无处可寻",
+        "stageId": "main_16-07#s",
+        "width": 10
+    },
+    "main_16-07-obt/main/level_main_16-07": {
+        "code": "16-8",
+        "filename": "main_16-07-obt-main-level_main_16-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-07",
+        "name": "无处可寻",
+        "stageId": "main_16-07",
+        "width": 10
+    },
+    "main_16-08-obt/main/level_main_16-08": {
+        "code": "16-9",
+        "filename": "main_16-08-obt-main-level_main_16-08.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-08",
+        "name": "疯人的辩护",
+        "stageId": "main_16-08",
+        "width": 12
+    },
+    "main_16-09#s-obt/main/level_main_16-09": {
+        "code": "16-10",
+        "filename": "main_16-09#s-obt-main-level_main_16-09.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-09",
+        "name": "哭声渐息",
+        "stageId": "main_16-09#s",
+        "width": 11
+    },
+    "main_16-09-obt/main/level_main_16-09": {
+        "code": "16-10",
+        "filename": "main_16-09-obt-main-level_main_16-09.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-09",
+        "name": "哭声渐息",
+        "stageId": "main_16-09",
+        "width": 11
+    },
+    "main_16-10#s-obt/main/level_main_16-10": {
+        "code": "16-11",
+        "filename": "main_16-10#s-obt-main-level_main_16-10.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-10",
+        "name": "来到坟茔",
+        "stageId": "main_16-10#s",
+        "width": 11
+    },
+    "main_16-10-obt/main/level_main_16-10": {
+        "code": "16-11",
+        "filename": "main_16-10-obt-main-level_main_16-10.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-10",
+        "name": "来到坟茔",
+        "stageId": "main_16-10",
+        "width": 11
+    },
+    "main_16-11#s-obt/main/level_main_16-11": {
+        "code": "16-12",
+        "filename": "main_16-11#s-obt-main-level_main_16-11.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-11",
+        "name": "深埋地底",
+        "stageId": "main_16-11#s",
+        "width": 11
+    },
+    "main_16-11-obt/main/level_main_16-11": {
+        "code": "16-12",
+        "filename": "main_16-11-obt-main-level_main_16-11.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-11",
+        "name": "深埋地底",
+        "stageId": "main_16-11",
+        "width": 11
+    },
+    "main_16-12#s-obt/main/level_main_16-12": {
+        "code": "16-13",
+        "filename": "main_16-12#s-obt-main-level_main_16-12.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-12",
+        "name": "不曾遗忘",
+        "stageId": "main_16-12#s",
+        "width": 11
+    },
+    "main_16-12-obt/main/level_main_16-12": {
+        "code": "16-13",
+        "filename": "main_16-12-obt-main-level_main_16-12.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-12",
+        "name": "不曾遗忘",
+        "stageId": "main_16-12",
+        "width": 11
+    },
+    "main_16-13#s-obt/main/level_main_16-13": {
+        "code": "16-14",
+        "filename": "main_16-13#s-obt-main-level_main_16-13.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-13",
+        "name": "唯有坦途",
+        "stageId": "main_16-13#s",
+        "width": 11
+    },
+    "main_16-13-obt/main/level_main_16-13": {
+        "code": "16-14",
+        "filename": "main_16-13-obt-main-level_main_16-13.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_16-13",
+        "name": "唯有坦途",
+        "stageId": "main_16-13",
+        "width": 11
+    },
+    "main_16-14#s-obt/main/level_main_16-14": {
+        "code": "16-15",
+        "filename": "main_16-14#s-obt-main-level_main_16-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-14",
+        "name": "旷野轰鸣",
+        "stageId": "main_16-14#s",
+        "width": 12
+    },
+    "main_16-14-obt/main/level_main_16-14": {
+        "code": "16-15",
+        "filename": "main_16-14-obt-main-level_main_16-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-14",
+        "name": "旷野轰鸣",
+        "stageId": "main_16-14",
+        "width": 12
+    },
+    "main_16-15#s-obt/main/level_main_16-15": {
+        "code": "16-16",
+        "filename": "main_16-15#s-obt-main-level_main_16-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-15",
+        "name": "示我以真",
+        "stageId": "main_16-15#s",
+        "width": 30
+    },
+    "main_16-15-obt/main/level_main_16-15": {
+        "code": "16-16",
+        "filename": "main_16-15-obt-main-level_main_16-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_16-15",
+        "name": "示我以真",
+        "stageId": "main_16-15",
+        "width": 30
+    },
+    "main_16-16#s-obt/main/level_main_16-16": {
+        "code": "16-17",
+        "filename": "main_16-16#s-obt-main-level_main_16-16.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-16",
+        "name": "力竭声嘶",
+        "stageId": "main_16-16#s",
+        "width": 13
+    },
+    "main_16-16-obt/main/level_main_16-16": {
+        "code": "16-17",
+        "filename": "main_16-16-obt-main-level_main_16-16.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_16-16",
+        "name": "力竭声嘶",
+        "stageId": "main_16-16",
+        "width": 13
+    },
+    "main_16-17-obt/main/level_main_16-17": {
+        "code": "16-18",
+        "filename": "main_16-17-obt-main-level_main_16-17.json",
+        "height": 11,
+        "levelId": "obt/main/level_main_16-17",
+        "name": "红日留驻",
+        "stageId": "main_16-17",
+        "width": 15
+    },
     "mem_12fce_1-obt/memory/level_memory_12fce_1": {
         "code": "mem_12fce_1",
         "filename": "mem_12fce_1-obt-memory-level_memory_12fce_1.json",
@@ -31363,6 +31651,15 @@
         "name": "内在威胁",
         "stageId": "tr_26",
         "width": 10
+    },
+    "tr_27-obt/training/level_training_27": {
+        "code": "TR-27",
+        "filename": "tr_27-obt-training-level_training_27.json",
+        "height": 8,
+        "levelId": "obt/training/level_training_27",
+        "name": "迷踪",
+        "stageId": "tr_27",
+        "width": 11
     },
     "tr_s_1-obt/training/level_training_sub_1": {
         "code": "TR-S-1",
