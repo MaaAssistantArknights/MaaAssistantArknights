@@ -999,6 +999,7 @@ public class VersionUpdateViewModel : Screen
         if (response is null)
         {
             _logger.Error("mirrorc failed");
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             return CheckUpdateRetT.NetworkError;
         }
 
@@ -1016,6 +1017,7 @@ public class VersionUpdateViewModel : Screen
 
         if (data is null)
         {
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             return CheckUpdateRetT.UnknownError;
         }
 
@@ -1038,6 +1040,21 @@ public class VersionUpdateViewModel : Screen
             {
                 case MirrorChyanErrorCode.KeyExpired:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkExpired"));
+
+                    SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+
+                    // 有人会第一次就填过期的 cdk 吗
+                    if (SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime == 0)
+                    {
+                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = 1;
+                    }
+
+                    // 如果上次查出来的时间比现在的还新，说明换了 cdk，重置过期时间
+                    if (!SettingsViewModel.VersionUpdateSettings.IsMirrorChyanCdkExpired)
+                    {
+                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired ?? 1;
+                    }
+
                     break;
                 case MirrorChyanErrorCode.KeyInvalid:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
