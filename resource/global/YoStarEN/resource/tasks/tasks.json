@@ -963,7 +963,7 @@
         "roi": [13, 126, 386, 208]
     },
     "MedicineExpiringTime": {
-        "text": ["min", "hr", "1days"],
+        "text": ["min", "hr", "days"],
         "ocrReplace": [
             [".+hrs?", "hr"],
             [".+mins?", "min"],

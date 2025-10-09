@@ -35,9 +35,10 @@ bool asst::MedicineCounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    if (m_used_count >= m_max_count && !m_use_expiring) {
+    if (m_used_count >= m_max_count && !m_medicine_expiring_in_days) {
         LogTrace << __FUNCTION__ << "Needn't to use medicines"
-                 << ",used:" << m_used_count << ",max:" << m_max_count << "use_expiring:" << m_use_expiring;
+                 << ",used:" << m_used_count << ",max:" << m_max_count
+                 << "medicine_expiring_in_days:" << m_medicine_expiring_in_days;
         return true;
     }
 
@@ -81,7 +82,7 @@ bool asst::MedicineCounterTaskPlugin::_run()
             return false;
         }
     }
-    else if (m_used_count >= m_max_count && m_use_expiring) {
+    else if (m_used_count >= m_max_count && m_medicine_expiring_in_days) {
         bool changed = false;
         for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | std::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
@@ -162,6 +163,25 @@ bool asst::MedicineCounterTaskPlugin::_run()
     return true;
 }
 
+void asst::MedicineCounterTaskPlugin::set_medicine_expiring_in_days(int medicine_expiring_in_days)
+{
+    m_medicine_expiring_in_days = medicine_expiring_in_days;
+
+    static const auto& expiring_task = Task.get<OcrTaskInfo>("MedicineExpiringTime");
+    m_expiring_task = std::make_shared<OcrTaskInfo>(*expiring_task);
+    if (m_medicine_expiring_in_days) {
+        // 最后一个是“天”
+        const auto day_format_str = m_expiring_task->text.back();
+        m_expiring_task->text.pop_back();
+        // 在text插入“1天”、“2天”...“N天”
+        for (int i = 1; i < m_medicine_expiring_in_days; i++) {
+            m_expiring_task->text.emplace_back(std::to_string(i) + day_format_str);
+        }
+        LogTrace << __FUNCTION__ << "set medicine expiring in days to" << m_medicine_expiring_in_days
+                 << ", expiring ocr text size:" << m_expiring_task->text.size();
+    }
+}
+
 std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
     asst::MedicineCounterTaskPlugin::init_count(const cv::Mat& image) const
 {
@@ -176,14 +196,13 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
     std::vector<Medicine> medicines;
     static const auto& using_count_task = Task.get("UsingMedicineCount");
     static const auto& inventory_task = Task.get("MedicineInventory");
-    static const auto& expiring_task = Task.get("MedicineExpiringTime");
 
     auto match_result = multi_matcher.get_result();
     sort_by_horizontal_(match_result); // 排序以保证结果为从左到右
     for (const auto& result : match_result) {
         auto using_rect = result.rect.move(using_count_task->rect_move);
         auto inventory_rect = result.rect.move(inventory_task->rect_move);
-        auto expiring_rect = result.rect.move(expiring_task->rect_move);
+        auto expiring_rect = result.rect.move(m_expiring_task->rect_move);
 
         RegionOCRer using_count_ocr(image);
         using_count_ocr.set_task_info(using_count_task);
@@ -205,7 +224,7 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
         auto is_expiring = ExpiringStatus::UnSure;
         if (m_used_count >= m_max_count) {
             RegionOCRer expiring_ocr(image);
-            expiring_ocr.set_task_info(expiring_task);
+            expiring_ocr.set_task_info(m_expiring_task);
             expiring_ocr.set_roi(expiring_rect);
             if (expiring_ocr.analyze()) {
                 is_expiring = ExpiringStatus::Expiring;

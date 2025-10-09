@@ -12,7 +12,7 @@ public:
 
     void set_sidestory_name(std::string sidestory_name);
     void set_medicine(int medicine);
-    void set_expiring_medicine(int expiring_medicine);
+    void set_medicine_expiring_in_days(int medicine_expiring_in_days);
     void set_stone(int stone);
 
     bool set_enable_penguin(bool enable);
@@ -33,7 +33,7 @@ private:
 
     std::string m_sidestory_name; // 活动名简称：IC、CW等
     int m_medicine = 0;
-    int m_expiring_medicine = 0;
+    int m_medicine_expiring_in_days = 0;
     int m_stone = 0;
     int m_cur_medicine;               // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
     int m_cur_stone;                  // 已碎石数量。在每次任务开始前，通过clear()清空

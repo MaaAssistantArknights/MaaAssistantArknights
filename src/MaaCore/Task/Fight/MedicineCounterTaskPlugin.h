@@ -16,7 +16,7 @@ public:
 
     void set_count(int count) { m_max_count = count; }
 
-    void set_use_expiring(bool use_expiring) { m_use_expiring = use_expiring; }
+    void set_medicine_expiring_in_days(int medicine_expiring_in_days);
 
     void set_reduce_when_exceed(bool reduce) { m_reduce_when_exceed = reduce; }
 
@@ -69,7 +69,8 @@ private:
     // 减少药品使用
     void reduce_excess(const MedicineResult& using_medicine, int reduce);
 
-    bool m_use_expiring = false;
+    int m_medicine_expiring_in_days = 0; // 吃几天之内过期的药, 0表示不使用过期药品
+    asst::OcrTaskPtr m_expiring_task;
     bool m_dr_grandet = false;
     int m_used_count = 0;
     int m_max_count = 0;

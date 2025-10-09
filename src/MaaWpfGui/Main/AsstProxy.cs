@@ -1965,7 +1965,7 @@ namespace MaaWpfGui.Main
                     else
                     {
                         ExpiringMedicineUsedTimes += medicineCount;
-                        medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                        medicineLog = string.Format(LocalizationHelper.GetString("ExpiringMedicineUsed"), FightTask.Instance.UseExpiringMedicineInDays) + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
                         AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, medicineCount);
                         AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                     }
