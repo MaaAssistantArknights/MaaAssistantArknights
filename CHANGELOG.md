@@ -1,4 +1,4 @@
-## v5.26.0
+## v5.26.1
 
 ### 刺身鱼案，启动！ | Highlight
 
@@ -6,11 +6,11 @@
 
 #### 次生预案部分
 
-你现在可以在 ｢小工具 - 小游戏｣ 部分找到 ｢RM-次生预案｣ 选项，在游戏的「次生预案」活动的 ｢前哨支点｣ 关卡列表里，找到最开始的教学关卡 `RM-TR-1 荒地前哨`，点击 MAA 的 ｢Link Start!｣ 按钮即可开始自动刷取。
+你现在可以在 ｢小工具 - 小游戏｣ 部分找到 ｢RM-次生预案｣ 选项，在游戏的「次生预案」活动的 ｢前哨支点｣ 关卡列表里，找到 `RM-TR-1` 或 `RM-1`，点击 MAA 的 ｢Link Start!｣ 按钮即可开始自动刷取。
 
-由于是~~十里坡剑神~~初版，功能还比较有限，目前仅支持自动通关教学关卡，只能刷取少量资源点数（不足以获得 `建设促进计划` 的所有奖励）、培训手册（经验书）、技巧手册（技能书）、封装矿核（抽卡材料）、策略信标（科技树点数），后续不排除牛牛不出新手村的可能，建议你还是在刷取足够的启动材料后往后面的关卡推进，干员的精英化材料只在后续关卡产出。 ~~不要指望靠牛牛帮你精二 EW~~
+`RM-1` 支持更多资源产出，但需解锁前置要求，具体参考对应功能页描述。活动即将结束，建议尽快刷取足够启动材料并推进关卡。
 
-**提示：由于「次生预案」是类《循环勇士》玩法，也就是有种田要素，所以越早将关卡的生产产线布置好，就能越早开始挂机产出资源。不要等到最后一天再开始刷，会来不及的。**
+**提示：** 「次生预案」玩法类似《循环勇士》，带有种田要素，越早布置生产产线，就能越早挂机产出资源。不要等到最后一天再开始刷，会来不及。
 
 #### 自动肉鸽部分
 
@@ -28,11 +28,11 @@ In this version, we've added initial support for the *Rebuilding Mandate* and ma
 
 #### [CN ONLY] *Rebuilding Mandate*
 
-You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate the tutorial stage *RM-TR-1* in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
+You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate `RM-TR-1` or `RM-1` in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
 
-Since this is the initial version, the functionality is limited. Currently, it only supports automatically completing the tutorial stage. And it can only obtain a small amount of resource points (i.e. reward token, not enough to complete the reward list), training manual (for upgrading operator's level), Skill Manual (for upgrading operator's skill), Encapsulated Ore Core (for gacha) and Strategy Beacon (for upgrading technology tree). We can't guarantee that you'll be able to progress beyond the tutorial stage via MAA, so we recommend that after gathering enough resources, you can try to attempt advanced stages, since elite promotion materials for operators are only available in later stages. ~~Don't expect MAA to help you get your Wiš'adel to Elite II.~~
+`RM-1` supports higher resource output but requires unlocking certain prerequisites. Please refer to the corresponding feature page for details. The event is ending soon, so it is recommended to quickly gather enough starting materials and advance through the stages.
 
-**Tip: Since *Rebuilding Mandate* is a gameplay similar to *Loop Hero* (with resource-gathering gameplay), the sooner you set up your resource production system in the stage, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.**
+**Tip:** *Rebuilding Mandate* is similar to *Loop Hero*, with resource-gathering elements. The sooner you set up your resource production in the stages, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.
 
 #### *Auto I.S.*
 
@@ -47,6 +47,47 @@ We've also redesigned our documentation website, adding many new features and im
 ----
 
 以下是详细内容：
+
+### 新增 | New
+
+* 新增 cdk 被封禁的提示信息 @ABA2396
+* RM-1 (#14271) @Daydreamer114
+
+### 改进 | Improved
+
+* RegionOCRer 中 useRaw=false 时, 使用原图二值蒙版代替直接 OCR 二值图像 (#14276) @status102
+
+### 修复 | Fix
+
+* 游戏更新公招界面后无法确认招募 (#14335) @ABA2396
+* 第一次访问 mirror酱 失败时错误提示 cdk 已过期 @ABA2396
+* 手动关闭模拟器后未重启 MAA 时 minitouch 可能失效 @ABA2396
+* 尝试修复生息演算任务识别并删除编队时卡住的问题 (#14290) @Alan-Charred
+* 增强 playtools 关闭连接时的异常处理，确保套接字安全关闭 (#14280) @RainYangty
+* EN IS3 encounter ocr fix MAA, EN 服水月肉鸽 事件名识别错误 bug Fixes @Constrat
+* 理智药使用数量 ocr 不准确时中断使用 @status102
+* 使用理智药 执行减少次数循环在 asst_stop 时缺少中断判断 @status102
+* 修复因失败导致次生预算出错 (#14267) @Saratoga-Official
+
+### 文档 | Docs
+
+* 补充 CopilotTask 的文档 (#14319) @Alan-Charred
+* 添加目录自动跳转组件并使 locale 自动生成 (#14299) @lucienshawls
+* 文档站新增字符画组件 (#14270) @lucienshawls
+* 将文档中指向部分文档目录的链接改为指向对应目录下的第一篇文档 (#14292) @JasonHuang79
+
+### 其他 | Other
+
+* 使用 `BeginAnimation` 替代 `新建 Storyboard 并添加动画` @ABA2396
+* 将 mac 开发环境下的 cmake_osx 版本改为 13.4 (#14283) @Pylinx171
+* 完善容器配置及依赖安装 (#14208) @lucienshawls
+* run smoke test in lldb @horror-proton
+* YostarJP ocr fix @Saratoga-Official
+
+----
+----
+
+## v5.26.0
 
 ### 新增 | New
 
