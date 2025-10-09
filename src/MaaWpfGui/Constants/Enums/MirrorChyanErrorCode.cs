@@ -46,6 +46,11 @@ public enum MirrorChyanErrorCode
     KeyMismatched = 7004,
 
     /// <summary>
+    /// CDK 已被封禁
+    /// </summary>
+    KeyBlocked = 7005,
+
+    /// <summary>
     /// 对应架构和系统下的资源不存在
     /// </summary>
     ResourceNotFound = 8001,

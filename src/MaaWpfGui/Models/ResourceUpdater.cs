@@ -217,6 +217,9 @@ namespace MaaWpfGui.Models
                     case MirrorChyanErrorCode.KeyMismatched:
                         ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
                         break;
+                    case MirrorChyanErrorCode.KeyBlocked:
+                        ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkBlocked"));
+                        break;
                     case MirrorChyanErrorCode.InvalidParams:
                     case MirrorChyanErrorCode.ResourceNotFound:
                     case MirrorChyanErrorCode.InvalidOs:

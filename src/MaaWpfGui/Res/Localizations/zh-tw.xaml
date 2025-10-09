@@ -325,6 +325,7 @@
     <system:String x:Key="MirrorChyanCdkInvalid">CDK 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">CDK 今日下載次數已達上限，請明日再試。</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">CDK 類型與待下載的資源不匹配，請檢查 CDK 適用範圍。</system:String>
+    <system:String x:Key="MirrorChyanCdkBlocked">CDK 已被封禁，可能由於退款或非正常使用。</system:String>
     <system:String x:Key="MirrorChyanCdkRemainingDays">CDK 還剩 {0} 天到期。</system:String>
     <system:String x:Key="MirrorChyanCdkFetchFailed">獲取 CDK 資訊失敗，已顯示上次成功查詢的結果。</system:String>
     <system:String x:Key="NewVersionFoundTitle">檢測到新版本</system:String>
