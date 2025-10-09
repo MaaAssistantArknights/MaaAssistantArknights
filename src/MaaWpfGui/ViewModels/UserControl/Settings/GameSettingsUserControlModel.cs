@@ -385,7 +385,7 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         set
         {
             SetAndNotify(ref _maxTaskDurationHours, value);
-            ConfigurationHelper.SetValue("MaxTaskDurationHours", value);
+            ConfigurationHelper.SetValue("MaxTaskDurationHours", value.ToString());
         }
     }
 
