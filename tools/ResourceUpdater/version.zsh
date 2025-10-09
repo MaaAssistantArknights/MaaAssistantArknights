@@ -16,9 +16,11 @@ else
     
     # Filter out files in tasks directories
     modified_files=$(echo "$all_modified_files" | grep -v '^resource\(/global/[^/]*/resource\)\?/tasks/')
+    echo "all_modified_files: $all_modified_files"
     
     # Get unique directories
     directories=(${(f)$(echo "$modified_files" | xargs -I{} dirname {} | sort -u)})
+    echo "directories: $directories"
     
     # Build list of directories containing version.json
     version_json_dirs=()
@@ -34,10 +36,12 @@ else
     
     # Remove duplicates
     typeset -U version_json_dirs
+    echo "version_json_dirs: $version_json_dirs"
     
     # Update all version.json files
     for dir in "${version_json_dirs[@]}"; do
         version_file="$dir/version.json"
+        echo "version_file: $version_file"
         
         if [ -f "$version_file" ]; then
             # Use jq to update the JSON with proper 4-space indentation

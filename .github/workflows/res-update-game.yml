@@ -9,6 +9,9 @@ on:
         description: "Commit Message"
         type: string
         required: false
+  push:
+    branches:
+        - ci/fix_zsh
 
 jobs:
   clone-resources-official:
