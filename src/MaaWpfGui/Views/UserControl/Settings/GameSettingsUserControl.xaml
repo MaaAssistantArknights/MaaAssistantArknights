@@ -168,5 +168,14 @@
                 Minimum="1"
                 Value="{Binding ReminderIntervalMinutes}" />
         </StackPanel>
+        <!-- 定时下线（小时）全局设置 -->
+        <hc:NumericUpDown
+            Margin="5,0,5,10"
+            hc:InfoElement.Title="定时下线（小时）"
+            hc:TitleElement.TitlePlacement="Left"
+            Minimum="0"
+            Maximum="9999"
+            Value="{Binding MaxTaskDurationHours, Mode=TwoWay}"
+            ToolTip="达到此时长后自动停止所有任务并下线，0为不限时" />
     </StackPanel>
 </UserControl>
