@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
+
+/// <summary>
+/// MallSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class MallSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// MallSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="MallSettingsUserControl"/> class.
     /// </summary>
-    public partial class MallSettingsUserControl : System.Windows.Controls.UserControl
+    public MallSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MallSettingsUserControl"/> class.
-        /// </summary>
-        public MallSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

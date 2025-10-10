@@ -11,16 +11,15 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Services.HotKeys
+namespace MaaWpfGui.Services.HotKeys;
+
+public interface IMaaHotKeyManager
 {
-    public interface IMaaHotKeyManager
-    {
-        bool TryRegister(MaaHotKeyAction action, MaaHotKey hotKey);
+    bool TryRegister(MaaHotKeyAction action, MaaHotKey hotKey);
 
-        void UnRegister(MaaHotKeyAction action);
+    void UnRegister(MaaHotKeyAction action);
 
-        MaaHotKey GetOrNull(MaaHotKeyAction action);
+    MaaHotKey GetOrNull(MaaHotKeyAction action);
 
-        void Release();
-    }
+    void Release();
 }

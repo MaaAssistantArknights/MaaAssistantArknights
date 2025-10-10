@@ -19,68 +19,67 @@ using System.Windows.Controls;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
+
+/// <summary>
+/// RoguelikeSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class RoguelikeSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// RoguelikeSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="RoguelikeSettingsUserControl"/> class.
     /// </summary>
-    public partial class RoguelikeSettingsUserControl : System.Windows.Controls.UserControl
+    public RoguelikeSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RoguelikeSettingsUserControl"/> class.
-        /// </summary>
-        public RoguelikeSettingsUserControl()
-        {
-            InitializeComponent();
-            _current = this;
-        }
+        InitializeComponent();
+        _current = this;
+    }
 
-        private static RoguelikeSettingsUserControl _current;
-        private static bool _isValidResult;
+    private static RoguelikeSettingsUserControl _current;
+    private static bool _isValidResult;
 
-        internal static bool IsValidResult
+    internal static bool IsValidResult
+    {
+        get => _isValidResult;
+        set
         {
-            get => _isValidResult;
-            set
-            {
-                _isValidResult = value;
-                if (!IsValidResult)
-                {
-                    _current.StartingCoreCharComboBox.ItemsSource = DataHelper.CharacterNames;
-                }
-            }
-        }
-
-        private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
-        {
+            _isValidResult = value;
             if (!IsValidResult)
             {
-                return;
+                _current.StartingCoreCharComboBox.ItemsSource = DataHelper.CharacterNames;
             }
-
-            var name = StartingCoreCharComboBox.Text;
-            StartingCoreCharComboBox.ItemsSource = TaskQueueViewModel.RoguelikeTask.RoguelikeCoreCharList;
-            StartingCoreCharComboBox.Text = name;
         }
     }
 
-    public class StartingCoreCharRule : ValidationRule
+    private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        if (!IsValidResult)
         {
-            if (value is not string stringValue)
-            {
-                return new ValidationResult(false, HandyControl.Properties.Langs.Lang.FormatError);
-            }
-
-            if (!string.IsNullOrEmpty(stringValue) && DataHelper.GetCharacterByNameOrAlias(stringValue) is null)
-            {
-                RoguelikeSettingsUserControl.IsValidResult = false;
-                return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
-            }
-
-            RoguelikeSettingsUserControl.IsValidResult = true;
-            return ValidationResult.ValidResult;
+            return;
         }
+
+        var name = StartingCoreCharComboBox.Text;
+        StartingCoreCharComboBox.ItemsSource = TaskQueueViewModel.RoguelikeTask.RoguelikeCoreCharList;
+        StartingCoreCharComboBox.Text = name;
+    }
+}
+
+public class StartingCoreCharRule : ValidationRule
+{
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    {
+        if (value is not string stringValue)
+        {
+            return new ValidationResult(false, HandyControl.Properties.Langs.Lang.FormatError);
+        }
+
+        if (!string.IsNullOrEmpty(stringValue) && DataHelper.GetCharacterByNameOrAlias(stringValue) is null)
+        {
+            RoguelikeSettingsUserControl.IsValidResult = false;
+            return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
+        }
+
+        RoguelikeSettingsUserControl.IsValidResult = true;
+        return ValidationResult.ValidResult;
     }
 }

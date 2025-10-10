@@ -13,13 +13,12 @@
 
 using System.Threading.Tasks;
 
-namespace MaaWpfGui.Services.Notification
+namespace MaaWpfGui.Services.Notification;
+
+public class DummyNotificationProvider : IExternalNotificationProvider
 {
-    public class DummyNotificationProvider : IExternalNotificationProvider
+    public Task<bool> SendAsync(string title, string content)
     {
-        public Task<bool> SendAsync(string title, string content)
-        {
-            return Task.FromResult(true);
-        }
+        return Task.FromResult(true);
     }
 }

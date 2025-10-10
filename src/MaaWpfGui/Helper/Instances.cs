@@ -25,94 +25,93 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
 using StyletIoC;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+/// <summary>
+/// The instance manager.
+/// </summary>
+public static class Instances
 {
-    /// <summary>
-    /// The instance manager.
-    /// </summary>
-    public static class Instances
+    public static class Data
     {
-        public static class Data
+        public static int MedicineUsedTimes { get; set; }
+
+        public static int ExpiringMedicineUsedTimes { get; set; }
+
+        public static int StoneUsedTimes { get; set; }
+
+        public static bool HasPrintedScreencapWarning { get; set; }
+
+        public static void ClearCache()
         {
-            public static int MedicineUsedTimes { get; set; }
-
-            public static int ExpiringMedicineUsedTimes { get; set; }
-
-            public static int StoneUsedTimes { get; set; }
-
-            public static bool HasPrintedScreencapWarning { get; set; }
-
-            public static void ClearCache()
-            {
-                FightSettingsUserControlModel.SanityReport = null;
-                MedicineUsedTimes = 0;
-                ExpiringMedicineUsedTimes = 0;
-                StoneUsedTimes = 0;
-                HasPrintedScreencapWarning = false;
-            }
+            FightSettingsUserControlModel.SanityReport = null;
+            MedicineUsedTimes = 0;
+            ExpiringMedicineUsedTimes = 0;
+            StoneUsedTimes = 0;
+            HasPrintedScreencapWarning = false;
         }
+    }
 
-        public static IWindowManager WindowManager { get; private set; }
+    public static IWindowManager WindowManager { get; private set; }
 
-        public static TaskQueueViewModel TaskQueueViewModel { get; private set; }
+    public static TaskQueueViewModel TaskQueueViewModel { get; private set; }
 
-        public static ToolboxViewModel ToolboxViewModel { get; private set; }
+    public static ToolboxViewModel ToolboxViewModel { get; private set; }
 
-        public static SettingsViewModel SettingsViewModel { get; private set; }
+    public static SettingsViewModel SettingsViewModel { get; private set; }
 
-        public static CopilotViewModel CopilotViewModel { get; private set; }
+    public static CopilotViewModel CopilotViewModel { get; private set; }
 
-        public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
+    public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
 
-        public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
+    public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
 
-        public static AsstProxy AsstProxy { get; private set; }
+    public static AsstProxy AsstProxy { get; private set; }
 
-        public static StageManager StageManager { get; private set; }
+    public static StageManager StageManager { get; private set; }
 
-        public static HotKeyManager HotKeyManager { get; private set; }
+    public static HotKeyManager HotKeyManager { get; private set; }
 
-        public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
+    public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
 
-        public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
+    public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
 
-        // 别的地方有用到这个吗？
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public static RemoteControlService RemoteControlService { get; private set; }
+    // 别的地方有用到这个吗？
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public static RemoteControlService RemoteControlService { get; private set; }
 
-        public static IMainWindowManager MainWindowManager { get; private set; }
+    public static IMainWindowManager MainWindowManager { get; private set; }
 
-        public static IHttpService HttpService { get; private set; }
+    public static IHttpService HttpService { get; private set; }
 
-        public static IMaaApiService MaaApiService { get; private set; }
+    public static IMaaApiService MaaApiService { get; private set; }
 
-        public static void Instantiate(IContainer container)
-        {
-            WindowManager = container.Get<WindowManager>();
+    public static void Instantiate(IContainer container)
+    {
+        WindowManager = container.Get<WindowManager>();
 
-            // 这两实例化时存在依赖顺序
-            HttpService = container.Get<HttpService>();
-            MaaApiService = container.Get<MaaApiService>();
+        // 这两实例化时存在依赖顺序
+        HttpService = container.Get<HttpService>();
+        MaaApiService = container.Get<MaaApiService>();
 
-            VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
-            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
-            AsstProxy = container.Get<AsstProxy>();
-            TaskQueueViewModel = container.Get<TaskQueueViewModel>();
-            ToolboxViewModel = container.Get<ToolboxViewModel>();
-            SettingsViewModel = container.Get<SettingsViewModel>();
-            CopilotViewModel = container.Get<CopilotViewModel>();
+        VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+        AnnouncementViewModel = container.Get<AnnouncementViewModel>();
+        AsstProxy = container.Get<AsstProxy>();
+        TaskQueueViewModel = container.Get<TaskQueueViewModel>();
+        ToolboxViewModel = container.Get<ToolboxViewModel>();
+        SettingsViewModel = container.Get<SettingsViewModel>();
+        CopilotViewModel = container.Get<CopilotViewModel>();
 
-            RemoteControlService = container.Get<RemoteControlService>();
+        RemoteControlService = container.Get<RemoteControlService>();
 
-            StageManager = container.Get<StageManager>();
-            HotKeyManager = container.Get<HotKeyManager>();
-            MaaHotKeyManager = container.Get<MaaHotKeyManager>();
-            MaaHotKeyActionHandler = container.Get<MaaHotKeyActionHandler>();
-        }
+        StageManager = container.Get<StageManager>();
+        HotKeyManager = container.Get<HotKeyManager>();
+        MaaHotKeyManager = container.Get<MaaHotKeyManager>();
+        MaaHotKeyActionHandler = container.Get<MaaHotKeyActionHandler>();
+    }
 
-        public static void InstantiateOnRootViewDisplayed(IContainer container)
-        {
-            MainWindowManager = container.Get<MainWindowManager>();
-        }
+    public static void InstantiateOnRootViewDisplayed(IContainer container)
+    {
+        MainWindowManager = container.Get<MainWindowManager>();
     }
 }

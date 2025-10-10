@@ -14,24 +14,23 @@
 using System.ComponentModel;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Views.UI
-{
-    /// <summary>
-    /// AchievementListWindow.xaml 的交互逻辑
-    /// </summary>
-    public partial class AchievementListWindow
-    {
-        public AchievementListWindow()
-        {
-            InitializeComponent();
-            DataContext = AchievementTrackerHelper.Instance;
-            Closing += OnWindowClosing;
-        }
+namespace MaaWpfGui.Views.UI;
 
-        private static void OnWindowClosing(object sender, CancelEventArgs e)
-        {
-            // 关闭窗口时执行一次空搜索，重置可见性
-            AchievementTrackerHelper.Instance.Search();
-        }
+/// <summary>
+/// AchievementListWindow.xaml 的交互逻辑
+/// </summary>
+public partial class AchievementListWindow
+{
+    public AchievementListWindow()
+    {
+        InitializeComponent();
+        DataContext = AchievementTrackerHelper.Instance;
+        Closing += OnWindowClosing;
+    }
+
+    private static void OnWindowClosing(object sender, CancelEventArgs e)
+    {
+        // 关闭窗口时执行一次空搜索，重置可见性
+        AchievementTrackerHelper.Instance.Search();
     }
 }

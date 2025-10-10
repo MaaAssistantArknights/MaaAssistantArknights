@@ -14,55 +14,50 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MaaWpfGui.WineCompat
+namespace MaaWpfGui.WineCompat;
+
+internal class WineRuntimeInformation
 {
-    internal class WineRuntimeInformation
+    public static bool IsRunningUnderWine { get; }
+
+    public static string? WineVersion { get; }
+
+    public static string? HostSystemName { get; }
+
+    static unsafe WineRuntimeInformation()
     {
-        public static bool IsRunningUnderWine { get; }
-
-        public static string? WineVersion { get; }
-
-        public static string? HostSystemName { get; }
-
-        static unsafe WineRuntimeInformation()
+        var ntdll = NativeLibrary.Load("ntdll.dll");
+        try
         {
-            var ntdll = NativeLibrary.Load("ntdll.dll");
-            try
+            if (NativeLibrary.TryGetExport(ntdll, "wine_get_version", out var fn))
             {
-                if (NativeLibrary.TryGetExport(ntdll, "wine_get_version", out var fn))
+                var wine_get_version = (delegate* unmanaged[Cdecl]<nint>)fn;
+                var str = wine_get_version();
+                if (str != IntPtr.Zero)
                 {
-                    var wine_get_version = (delegate* unmanaged[Cdecl]<nint>)fn;
-                    var str = wine_get_version();
-                    if (str != IntPtr.Zero)
-                    {
-                        IsRunningUnderWine = true;
-                    }
-
-                    WineVersion = Marshal.PtrToStringUTF8(str);
-
-                    if (NativeLibrary.TryGetExport(ntdll, "wine_get_host_version", out fn))
-                    {
-                        var wine_get_host_version = (delegate* unmanaged[Cdecl]<nint*, nint*, void>)fn;
-                        nint sysname = 0, release = 0;
-                        wine_get_host_version(&sysname, &release);
-                        HostSystemName = Marshal.PtrToStringUTF8(sysname);
-                    }
+                    IsRunningUnderWine = true;
                 }
-                else
+
+                WineVersion = Marshal.PtrToStringUTF8(str);
+
+                if (NativeLibrary.TryGetExport(ntdll, "wine_get_host_version", out fn))
                 {
-                    IsRunningUnderWine = false;
+                    var wine_get_host_version = (delegate* unmanaged[Cdecl]<nint*, nint*, void>)fn;
+                    nint sysname = 0, release = 0;
+                    wine_get_host_version(&sysname, &release);
+                    HostSystemName = Marshal.PtrToStringUTF8(sysname);
                 }
             }
-            finally
+            else
             {
-                NativeLibrary.Free(ntdll);
+                IsRunningUnderWine = false;
             }
+        }
+        finally
+        {
+            NativeLibrary.Free(ntdll);
         }
     }
 }
