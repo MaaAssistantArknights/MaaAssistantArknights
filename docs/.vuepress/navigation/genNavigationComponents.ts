@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { default as matter } from 'gray-matter'
-import { defineNoteConfig, ThemeNavItem, ThemeNote, ThemeSidebarItem } from 'vuepress-theme-plume'
+import { ThemeCollectionItem, ThemeNavItem, ThemeSidebarItem } from 'vuepress-theme-plume'
 
 import { Locale } from './i18n'
 
@@ -15,8 +15,10 @@ interface MetaData {
 
 interface NavigationComponents {
   navbar: ThemeNavItem[]
-  notes: ThemeNote[]
+  collections: ThemeCollectionItem[]
 }
+
+type SidebarItem = ThemeSidebarItem | string
 
 function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
   const currentPath = path.join(dir, entry.name)
@@ -60,99 +62,100 @@ function getMetaData(dir: string, entry: fs.Dirent): MetaData | null {
   }
 }
 
+function getSidebarItems(dir: string): SidebarItem[] {
+  interface WrappedSidebarItem {
+    sidebarItem: SidebarItem
+    order: number
+  }
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true }).filter((e) => !e.name.startsWith('.'))
+
+  const sidebarItemsWithOrder: WrappedSidebarItem[] = []
+  for (const entry of entries) {
+    let sidebarItem: SidebarItem
+
+    const metaData = getMetaData(dir, entry)
+    if (!metaData) {
+      continue
+    }
+
+    if (entry.isDirectory()) {
+      const children = getSidebarItems(path.join(dir, entry.name))
+      // 可折叠的子目录
+      sidebarItem = {
+        text: metaData.title,
+        // 只有当目录设置了index: true时，才生成链接，否则点击时不跳转、只切换折叠状态
+        link: metaData.index ? `${metaData.baseName}/` : undefined,
+        icon: metaData.icon,
+        // 目前没有文档使用了badge这个特性，故不处理
+        // badge: undefined,
+        collapsed: true,
+        // 前面不能加斜杠，必须用相对路径
+        prefix: `${metaData.baseName}/`,
+        items: children,
+      }
+    } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name.toLowerCase() !== 'readme.md') {
+      // 普通文件，取完整文件名作为链接
+      sidebarItem = entry.name
+    }
+
+    sidebarItemsWithOrder.push({ sidebarItem: sidebarItem, order: metaData.order })
+  }
+  sidebarItemsWithOrder.sort((a, b) => a.order - b.order)
+  return sidebarItemsWithOrder.map((i) => i.sidebarItem)
+}
+
 export function genNavigationComponents(
   locale: Locale,
   baseDir = path.resolve(__dirname, '../../'),
 ): NavigationComponents {
-  // 将内容与对应顺序进行包装
-  type NavbarItem = ThemeNavItem
-  type SidebarItem = ThemeNote | ThemeSidebarItem | string
-
-  interface IntermediateNavigationComponents {
-    navbar: NavbarItem[]
-    notes: SidebarItem[]
-  }
-
-  interface WrappedNavbarItem {
-    content: NavbarItem
+  interface WrappedNavigationComponent {
+    navItem: ThemeNavItem
+    collectionItem: ThemeCollectionItem
     order: number
   }
 
-  interface WrappedSidebarItem {
-    content: SidebarItem
-    order: number
-  }
+  const navigationComponentsWithOrder: WrappedNavigationComponent[] = []
 
   // 进入指定语言目录，即docs/<i18n>/
   const langDir = path.join(baseDir, locale.name)
 
-  // 递归获取目录和文件
-  function getItems(dir: string, isRoot: boolean): IntermediateNavigationComponents {
-    const navbarItemsWithOrder: WrappedNavbarItem[] = []
-    const sidebarItemsWithOrder: WrappedSidebarItem[] = []
+  // 获取所有非隐藏文件和目录
+  const entries = fs.readdirSync(langDir, { withFileTypes: true }).filter((e) => !e.name.startsWith('.'))
 
-    // 获取所有非隐藏文件和目录
-    const entries = fs.readdirSync(dir, { withFileTypes: true }).filter((e) => !e.name.startsWith('.'))
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue
 
-    for (const entry of entries) {
-      const metaData = getMetaData(dir, entry)
-      if (!metaData) {
-        continue
-      }
-      let sidebarItem: SidebarItem
-      let navbarItem: NavbarItem
-
-      if (entry.isDirectory()) {
-        // 递归获取子目录内容
-        const children = getItems(path.join(dir, entry.name), false)
-
-        if (isRoot) {
-          // 一级目录，作为“专题”
-          navbarItem = {
-            text: metaData.title,
-            icon: metaData.icon,
-            link: `/${locale.name}/${metaData.baseName}/`,
-          }
-          // 只在当前条件下，才会有navbarItem
-          navbarItemsWithOrder.push({ content: navbarItem, order: metaData.order })
-
-          sidebarItem = defineNoteConfig({
-            dir: metaData.baseName,
-            link: `/${metaData.baseName}/`,
-            text: metaData.title,
-            sidebar: children.notes,
-          })
-        } else {
-          // 非一级目录，作为可折叠的子目录
-          sidebarItem = {
-            text: metaData.title,
-            // 只有当目录设置了index: true时，才生成链接，否则点击时不跳转、只切换折叠状态
-            link: metaData.index ? `${metaData.baseName}/` : null,
-            icon: metaData.icon,
-            // 目前没有文档使用了这个特性，故不处理
-            // badge: undefined,
-            collapsed: true,
-            // 前面不能加斜杠，必须用相对路径
-            prefix: `${metaData.baseName}/`,
-            items: children.notes,
-          }
-        }
-      } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name.toLowerCase() !== 'readme.md') {
-        // 普通文件，取完整文件名作为链接
-        sidebarItem = entry.name
-      }
-      sidebarItemsWithOrder.push({ content: sidebarItem, order: metaData.order })
+    const metaData = getMetaData(langDir, entry)
+    if (!metaData) {
+      continue
     }
-    // 当前dir的内容读取完毕，进行排序并返回，返回时丢弃order
-    if (isRoot) {
-      navbarItemsWithOrder.sort((a, b) => a.order - b.order)
+
+    const navbarItem: ThemeNavItem = {
+      text: metaData.title,
+      icon: metaData.icon,
+      link: `/${locale.name}/${metaData.baseName}/`,
     }
-    sidebarItemsWithOrder.sort((a, b) => a.order - b.order)
-    return {
-      navbar: navbarItemsWithOrder.map((i) => i.content),
-      notes: sidebarItemsWithOrder.map((i) => i.content),
+
+    const collectionItem: ThemeCollectionItem = {
+      type: 'doc',
+      title: metaData.title,
+      dir: metaData.baseName,
+      linkPrefix: `/${metaData.baseName}/`,
+      sidebar: getSidebarItems(path.join(langDir, entry.name)),
     }
+
+    navigationComponentsWithOrder.push({
+      navItem: navbarItem,
+      collectionItem: collectionItem,
+      order: metaData.order,
+    })
   }
-  // 递归起点，只有这里是一级目录，isRoot传true
-  return getItems(langDir, true) as NavigationComponents
+
+  navigationComponentsWithOrder.sort((a, b) => a.order - b.order)
+
+  return {
+    navbar: navigationComponentsWithOrder.map((i) => i.navItem),
+    collections: navigationComponentsWithOrder.map((i) => i.collectionItem),
+  }
 }
