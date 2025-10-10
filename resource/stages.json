@@ -21411,6 +21411,117 @@
     },
     {
         "apCost": 99,
+        "code": "罗德岛物资补给IX",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30013"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30023"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30043"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30053"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30063"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30073"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30083"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30093"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30103"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31013"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31023"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31033"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31043"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31053"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31063"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31073"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31083"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31093"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "randomMaterial_12"
+    },
+    {
+        "apCost": 99,
         "code": "岁过华灯",
         "dropInfos": [
             {
