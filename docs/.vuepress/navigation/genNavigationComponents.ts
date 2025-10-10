@@ -99,7 +99,7 @@ function getSidebarItems(dir: string): SidebarItem[] {
       sidebarItem = entry.name
     }
 
-    sidebarItemsWithOrder.push({sidebarItem: sidebarItem, order: metaData.order})
+    sidebarItemsWithOrder.push({ sidebarItem: sidebarItem, order: metaData.order })
   }
   sidebarItemsWithOrder.sort((a, b) => a.order - b.order)
   return sidebarItemsWithOrder.map((i) => i.sidebarItem)
@@ -148,7 +148,7 @@ export function genNavigationComponents(
     navigationComponentsWithOrder.push({
       navItem: navbarItem,
       collectionItem: collectionItem,
-      order: metaData.order
+      order: metaData.order,
     })
   }
 
