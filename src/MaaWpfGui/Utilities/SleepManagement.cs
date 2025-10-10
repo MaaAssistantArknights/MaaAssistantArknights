@@ -19,71 +19,70 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Serilog;
 
-namespace MaaWpfGui.Utilities
+namespace MaaWpfGui.Utilities;
+
+public static class SleepManagement
 {
-    public static class SleepManagement
+    [DllImport("kernel32.dll")]
+    private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
+
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
+
+    private static bool _allowBlockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+    private static bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+    private static bool _isBlockingSleep = false;
+
+    public static void SetBlockSleep(bool allowBlockSleep)
     {
-        [DllImport("kernel32.dll")]
-        private static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
+        _allowBlockSleep = allowBlockSleep;
+    }
 
-        private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
+    public static void SetBlockSleepWithScreenOn(bool blockSleepWithScreenOn)
+    {
+        _blockSleepWithScreenOn = blockSleepWithScreenOn;
+    }
 
-        private static bool _allowBlockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
-        private static bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
-        private static bool _isBlockingSleep = false;
+    [Flags]
+    private enum ExecutionState : uint
+    {
+        SystemRequired = 0x01,
+        DisplayRequired = 0x02,
+        Continuous = 0x80000000,
+    }
 
-        public static void SetBlockSleep(bool allowBlockSleep)
+    public static void AllowSleep()
+    {
+        if (!_isBlockingSleep)
         {
-            _allowBlockSleep = allowBlockSleep;
+            return;
         }
 
-        public static void SetBlockSleepWithScreenOn(bool blockSleepWithScreenOn)
+        _isBlockingSleep = false;
+
+        _logger.Information("Allowing system to sleep");
+        SetThreadExecutionState(ExecutionState.Continuous);
+    }
+
+    public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null)
+    {
+        if (!(allowBlockSleep ?? _allowBlockSleep))
         {
-            _blockSleepWithScreenOn = blockSleepWithScreenOn;
+            return;
         }
 
-        [Flags]
-        private enum ExecutionState : uint
-        {
-            SystemRequired = 0x01,
-            DisplayRequired = 0x02,
-            Continuous = 0x80000000,
-        }
+        _isBlockingSleep = true;
 
-        public static void AllowSleep()
-        {
-            if (!_isBlockingSleep)
-            {
-                return;
-            }
+        bool keepDisplayOn = blockSleepWithScreenOn ?? _blockSleepWithScreenOn;
+        _logger.Information("Blocking system from sleeping");
+        ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
+            (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
+        SetThreadExecutionState(state);
+    }
 
-            _isBlockingSleep = false;
-
-            _logger.Information("Allowing system to sleep");
-            SetThreadExecutionState(ExecutionState.Continuous);
-        }
-
-        public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null)
-        {
-            if (!(allowBlockSleep ?? _allowBlockSleep))
-            {
-                return;
-            }
-
-            _isBlockingSleep = true;
-
-            bool keepDisplayOn = blockSleepWithScreenOn ?? _blockSleepWithScreenOn;
-            _logger.Information("Blocking system from sleeping");
-            ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
-                (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
-            SetThreadExecutionState(state);
-        }
-
-        public static void ResetIdle(bool keepDisplayOn = true)
-        {
-            ExecutionState state = ExecutionState.SystemRequired |
-                (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
-            SetThreadExecutionState(state);
-        }
+    public static void ResetIdle(bool keepDisplayOn = true)
+    {
+        ExecutionState state = ExecutionState.SystemRequired |
+            (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
+        SetThreadExecutionState(state);
     }
 }

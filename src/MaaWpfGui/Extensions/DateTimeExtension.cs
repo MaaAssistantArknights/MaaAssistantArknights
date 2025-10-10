@@ -15,72 +15,70 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
-namespace MaaWpfGui.Extensions
+namespace MaaWpfGui.Extensions;
+
+public static class DateTimeExtension
 {
-    public static class DateTimeExtension
+    private const int YjDayStartHour = 4;
+
+    private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+
+    private static readonly Dictionary<string, int> _clientTypeTimezone = new()
     {
-        private const int YjDayStartHour = 4;
+        { string.Empty, 8 },
+        { "Official", 8 },
+        { "Bilibili", 8 },
+        { "txwy", 8 },
+        { "YoStarEN", -7 },
+        { "YoStarJP", 9 },
+        { "YoStarKR", 9 },
+    };
 
-        private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+    public static DateTime ToYjDateTime(this DateTime dt)
+    {
+        return dt.AddHours(_clientTypeTimezone[ClientType] - YjDayStartHour);
+    }
 
-        private static readonly Dictionary<string, int> _clientTypeTimezone = new()
+    public static DateTime ToYjDate(this DateTime dt)
+    {
+        return dt.ToYjDateTime().Date;
+    }
+
+    public static string ToFormattedString(this DateTime dt)
+    {
+        return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
+    }
+
+    public static bool IsAprilFoolsDay(this DateTime dt)
+    {
+        return dt is { Month: 4, Day: 1 };
+    }
+
+    public static CultureInfo CustomCultureInfo => LocalizationHelper.CustomCultureInfo;
+
+    public static string ToLocalTimeString(this DateTime dt, string? format = null)
+    {
+        var localTime = dt.Kind switch
         {
-            { string.Empty, 8 },
-            { "Official", 8 },
-            { "Bilibili", 8 },
-            { "txwy", 8 },
-            { "YoStarEN", -7 },
-            { "YoStarJP", 9 },
-            { "YoStarKR", 9 },
+            DateTimeKind.Utc => dt.ToLocalTime(),
+            DateTimeKind.Local => dt,
+            _ => DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToLocalTime(),
         };
 
-        public static DateTime ToYjDateTime(this DateTime dt)
+        if (!string.IsNullOrEmpty(format))
         {
-            return dt.AddHours(_clientTypeTimezone[ClientType] - YjDayStartHour);
+            return localTime.ToString(format, CustomCultureInfo);
         }
 
-        public static DateTime ToYjDate(this DateTime dt)
-        {
-            return dt.ToYjDateTime().Date;
-        }
+        var dateTimeFormat = LocalizationHelper.FormatDateTime(localTime);
+        return localTime.ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo);
+    }
 
-        public static string ToFormattedString(this DateTime dt)
-        {
-            return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
-        }
-
-        public static bool IsAprilFoolsDay(this DateTime dt)
-        {
-            return dt is { Month: 4, Day: 1 };
-        }
-
-        public static CultureInfo CustomCultureInfo => LocalizationHelper.CustomCultureInfo;
-
-        public static string ToLocalTimeString(this DateTime dt, string? format = null)
-        {
-            var localTime = dt.Kind switch
-            {
-                DateTimeKind.Utc => dt.ToLocalTime(),
-                DateTimeKind.Local => dt,
-                _ => DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToLocalTime(),
-            };
-
-            if (!string.IsNullOrEmpty(format))
-            {
-                return localTime.ToString(format, CustomCultureInfo);
-            }
-
-            var dateTimeFormat = LocalizationHelper.FormatDateTime(localTime);
-            return localTime.ToString($"{dateTimeFormat} HH:mm:ss", CustomCultureInfo);
-        }
-
-        public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
-        {
-            return DateTime.FromFileTime(((long)filetime.dwHighDateTime << 32) | (uint)filetime.dwLowDateTime);
-        }
+    public static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME filetime)
+    {
+        return DateTime.FromFileTime(((long)filetime.dwHighDateTime << 32) | (uint)filetime.dwLowDateTime);
     }
 }

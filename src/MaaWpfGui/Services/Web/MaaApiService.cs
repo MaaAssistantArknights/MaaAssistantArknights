@@ -20,92 +20,91 @@ using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui.Services.Web
+namespace MaaWpfGui.Services.Web;
+
+public class MaaApiService : IMaaApiService
 {
-    public class MaaApiService : IMaaApiService
+    private static readonly string CacheDir = PathsHelper.BaseDir + "/cache/";
+
+    public async Task<JObject?> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
     {
-        private static readonly string CacheDir = PathsHelper.BaseDir + "/cache/";
+        return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache);
+    }
 
-        public async Task<JObject?> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
+    private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
+    {
+        var json = await TryRequest(api, primaryBaseUrl, allowFallbackToCache);
+        if (json != null || string.IsNullOrEmpty(fallbackBaseUrl))
         {
-            return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache);
+            return json;
         }
 
-        private async Task<JObject?> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
-        {
-            var json = await TryRequest(api, primaryBaseUrl, allowFallbackToCache);
-            if (json != null || string.IsNullOrEmpty(fallbackBaseUrl))
-            {
-                return json;
-            }
+        return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
+    }
 
-            return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
+    private async Task<JObject?> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
+    {
+        var url = baseUrl + api;
+        var cache = CacheDir + api;
+
+        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
+        if (response == null)
+        {
+            return allowFallbackToCache ? LoadApiCache(api) : null;
         }
 
-        private async Task<JObject?> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
+        if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
         {
-            var url = baseUrl + api;
-            var cache = CacheDir + api;
-
-            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cache));
-            if (response == null)
-            {
-                return allowFallbackToCache ? LoadApiCache(api) : null;
-            }
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
-            {
-                return LoadApiCache(api);
-            }
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                return allowFallbackToCache ? LoadApiCache(api) : null;
-            }
-
-            var body = await HttpResponseHelper.GetStringAsync(response);
-            if (string.IsNullOrEmpty(body))
-            {
-                return LoadApiCache(api);
-            }
-
-            try
-            {
-                var json = (JObject?)JsonConvert.DeserializeObject(body);
-                string? directoryPath = Path.GetDirectoryName(cache);
-
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath!);
-                }
-
-                await File.WriteAllTextAsync(cache, body);
-                ETagCache.Set(response, url);
-
-                return json;
-            }
-            catch
-            {
-                return null;
-            }
+            return LoadApiCache(api);
         }
 
-        public JObject? LoadApiCache(string api)
+        if (response.StatusCode != System.Net.HttpStatusCode.OK)
         {
-            var cache = CacheDir + api;
-            if (!File.Exists(cache))
+            return allowFallbackToCache ? LoadApiCache(api) : null;
+        }
+
+        var body = await HttpResponseHelper.GetStringAsync(response);
+        if (string.IsNullOrEmpty(body))
+        {
+            return LoadApiCache(api);
+        }
+
+        try
+        {
+            var json = (JObject?)JsonConvert.DeserializeObject(body);
+            string? directoryPath = Path.GetDirectoryName(cache);
+
+            if (!Directory.Exists(directoryPath))
             {
-                return null;
+                Directory.CreateDirectory(directoryPath!);
             }
 
-            try
-            {
-                return (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(cache));
-            }
-            catch
-            {
-                return null;
-            }
+            await File.WriteAllTextAsync(cache, body);
+            ETagCache.Set(response, url);
+
+            return json;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public JObject? LoadApiCache(string api)
+    {
+        var cache = CacheDir + api;
+        if (!File.Exists(cache))
+        {
+            return null;
+        }
+
+        try
+        {
+            return (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(cache));
+        }
+        catch
+        {
+            return null;
         }
     }
 }

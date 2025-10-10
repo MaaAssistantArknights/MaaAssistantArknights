@@ -11,14 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Utilities.ValueType
+namespace MaaWpfGui.Utilities.ValueType;
+
+/// <summary>
+/// The <see cref="GenericCombinedData{TValueType}"/> with <see cref="string"/> as the value type.
+/// </summary>
+public class CombinedData : GenericCombinedData<string>
 {
-    /// <summary>
-    /// The <see cref="GenericCombinedData{TValueType}"/> with <see cref="string"/> as the value type.
-    /// </summary>
-    public class CombinedData : GenericCombinedData<string>
-    {
-        /// <inheritdoc/>
-        public override string ToString() => Display;
-    }
+    /// <inheritdoc/>
+    public override string ToString() => Display;
 }

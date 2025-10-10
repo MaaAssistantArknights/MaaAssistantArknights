@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// GUISettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class GuiSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// GUISettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="GuiSettingsUserControl"/> class.
     /// </summary>
-    public partial class GuiSettingsUserControl : System.Windows.Controls.UserControl
+    public GuiSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GuiSettingsUserControl"/> class.
-        /// </summary>
-        public GuiSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

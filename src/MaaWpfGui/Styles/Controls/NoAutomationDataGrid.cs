@@ -16,57 +16,56 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MaaWpfGui.Styles.Controls
+namespace MaaWpfGui.Styles.Controls;
+
+public class NoAutomationDataGrid : DataGrid
 {
-    public class NoAutomationDataGrid : DataGrid
+    protected override AutomationPeer OnCreateAutomationPeer()
     {
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return null;
-        }
+        return null;
+    }
 
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            base.OnPreviewKeyDown(e);
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        base.OnPreviewKeyDown(e);
 
-            // 因为干掉了 AutomationPeer，Tab 键无法正常切换焦点，这里手动实现 Tab 键切换行
-            if (e.Key == Key.Tab)
+        // 因为干掉了 AutomationPeer，Tab 键无法正常切换焦点，这里手动实现 Tab 键切换行
+        if (e.Key == Key.Tab)
+        {
+            e.Handled = true;
+
+            var items = ItemsSource?.Cast<object>().ToList();
+            if (items == null || items.Count == 0 || SelectedItem == null)
             {
-                e.Handled = true;
-
-                var items = ItemsSource?.Cast<object>().ToList();
-                if (items == null || items.Count == 0 || SelectedItem == null)
-                {
-                    return;
-                }
-
-                int currentIndex = items.IndexOf(SelectedItem);
-                int nextIndex;
-
-                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                {
-                    // Shift + Tab 往前
-                    nextIndex = currentIndex - 1;
-                    if (nextIndex < 0)
-                    {
-                        nextIndex = items.Count - 1;
-                    }
-                }
-                else
-                {
-                    // 普通 Tab 往后
-                    nextIndex = currentIndex + 1;
-                    if (nextIndex >= items.Count)
-                    {
-                        nextIndex = 0;
-                    }
-                }
-
-                var nextItem = items[nextIndex];
-
-                SelectedItem = nextItem;
-                ScrollIntoView(nextItem);
+                return;
             }
+
+            int currentIndex = items.IndexOf(SelectedItem);
+            int nextIndex;
+
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+            {
+                // Shift + Tab 往前
+                nextIndex = currentIndex - 1;
+                if (nextIndex < 0)
+                {
+                    nextIndex = items.Count - 1;
+                }
+            }
+            else
+            {
+                // 普通 Tab 往后
+                nextIndex = currentIndex + 1;
+                if (nextIndex >= items.Count)
+                {
+                    nextIndex = 0;
+                }
+            }
+
+            var nextItem = items[nextIndex];
+
+            SelectedItem = nextItem;
+            ScrollIntoView(nextItem);
         }
     }
 }

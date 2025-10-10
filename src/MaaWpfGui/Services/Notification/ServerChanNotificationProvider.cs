@@ -17,77 +17,75 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
-namespace MaaWpfGui.Services.Notification
+namespace MaaWpfGui.Services.Notification;
+
+public class ServerChanNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
-    public class ServerChanNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
+    private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
+
+    public async Task<bool> SendAsync(string title, string content)
     {
-        private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
+        // 去掉 title 中的换行符
+        title = title.Replace("\n", string.Empty);
 
-        public async Task<bool> SendAsync(string title, string content)
+        // 确保 title 的长度不超过 32 个字符
+        if (title.Length > 32)
         {
-            // 去掉 title 中的换行符
-            title = title.Replace("\n", string.Empty);
-
-            // 确保 title 的长度不超过 32 个字符
-            if (title.Length > 32)
-            {
-                title = title[..32]; // 截取前 32 个字符
-            }
-
-            var sendKey = SettingsViewModel.ExternalNotificationSettings.ServerChanSendKey;
-
-            try
-            {
-                var url = ConstructUrl(sendKey);
-                var postData = $"text={Uri.EscapeDataString(title)}&desp={Uri.EscapeDataString(content)}";
-
-                var response = await httpService.PostAsync(new(url), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                var responseRoot = JsonDocument.Parse(responseContent).RootElement;
-                if (responseRoot.TryGetProperty("code", out var codeElement) && codeElement.TryGetInt32(out var code))
-                {
-                    if (code == 0)
-                    {
-                        return true;
-                    }
-
-                    _logger.Warning("Failed to send ServerChan notification, code: {Value}", code);
-                }
-                else
-                {
-                    _logger.Warning("Failed to send ServerChan notification, unknown response: {ResponseContent}", responseContent);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Exception occurred while sending ServerChan notification.");
-            }
-
-            return false;
+            title = title[..32]; // 截取前 32 个字符
         }
 
-        private static string ConstructUrl(string sendKey)
+        var sendKey = SettingsViewModel.ExternalNotificationSettings.ServerChanSendKey;
+
+        try
         {
-            if (!sendKey.StartsWith("sctp"))
-            {
-                return $"https://sctapi.ftqq.com/{sendKey}.send";
-            }
+            var url = ConstructUrl(sendKey);
+            var postData = $"text={Uri.EscapeDataString(title)}&desp={Uri.EscapeDataString(content)}";
 
-            // Server酱3
-            var match = Regex.Match(sendKey, @"^sctp(\d+)t");
-            if (!match.Success)
-            {
-                throw new ArgumentException("Invalid key format for sctp.");
-            }
+            var response = await httpService.PostAsync(new(url), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-            var num = match.Groups[1].Value;
-            return $"https://{num}.push.ft07.com/send/{sendKey}.send";
+            var responseRoot = JsonDocument.Parse(responseContent).RootElement;
+            if (responseRoot.TryGetProperty("code", out var codeElement) && codeElement.TryGetInt32(out var code))
+            {
+                if (code == 0)
+                {
+                    return true;
+                }
+
+                _logger.Warning("Failed to send ServerChan notification, code: {Value}", code);
+            }
+            else
+            {
+                _logger.Warning("Failed to send ServerChan notification, unknown response: {ResponseContent}", responseContent);
+            }
         }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Exception occurred while sending ServerChan notification.");
+        }
+
+        return false;
+    }
+
+    private static string ConstructUrl(string sendKey)
+    {
+        if (!sendKey.StartsWith("sctp"))
+        {
+            return $"https://sctapi.ftqq.com/{sendKey}.send";
+        }
+
+        // Server酱3
+        var match = Regex.Match(sendKey, @"^sctp(\d+)t");
+        if (!match.Success)
+        {
+            throw new ArgumentException("Invalid key format for sctp.");
+        }
+
+        var num = match.Groups[1].Value;
+        return $"https://{num}.push.ft07.com/send/{sendKey}.send";
     }
 }

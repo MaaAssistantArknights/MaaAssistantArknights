@@ -20,357 +20,356 @@ using System.Windows.Media;
 using JetBrains.Annotations;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
-namespace MaaWpfGui.Styles.Properties
+namespace MaaWpfGui.Styles.Properties;
+
+/// <summary>
+/// The scroll viewer properties.
+/// </summary>
+public static class ScrollViewerBinding
 {
+    #region VerticalOffset attached property
+
     /// <summary>
-    /// The scroll viewer properties.
+    /// VerticalOffset attached property.
     /// </summary>
-    public static class ScrollViewerBinding
+    public static readonly DependencyProperty VerticalOffsetProperty =
+        DependencyProperty.RegisterAttached("VerticalOffset", typeof(double),
+        typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnVerticalOffsetPropertyChanged));
+
+    /// <summary>
+    /// Just a flag that the binding has been applied.
+    /// </summary>
+    private static readonly DependencyProperty _verticalOffsetBindingProperty =
+        DependencyProperty.RegisterAttached("_verticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
+
+    /// <summary>
+    /// Gets vertical offset property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <returns>The property value.</returns>
+    [UsedImplicitly]
+    public static double GetVerticalOffset(DependencyObject depObj)
     {
-        #region VerticalOffset attached property
-
-        /// <summary>
-        /// VerticalOffset attached property.
-        /// </summary>
-        public static readonly DependencyProperty VerticalOffsetProperty =
-            DependencyProperty.RegisterAttached("VerticalOffset", typeof(double),
-            typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnVerticalOffsetPropertyChanged));
-
-        /// <summary>
-        /// Just a flag that the binding has been applied.
-        /// </summary>
-        private static readonly DependencyProperty _verticalOffsetBindingProperty =
-            DependencyProperty.RegisterAttached("_verticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
-
-        /// <summary>
-        /// Gets vertical offset property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <returns>The property value.</returns>
-        [UsedImplicitly]
-        public static double GetVerticalOffset(DependencyObject depObj)
+        if (!(depObj is ScrollViewer))
         {
-            if (!(depObj is ScrollViewer))
-            {
-                return 0;
-            }
-
-            return (double)depObj.GetValue(VerticalOffsetProperty);
+            return 0;
         }
 
-        /// <summary>
-        /// Sets vertical offset property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <param name="value">The new property value.</param>
-        public static void SetVerticalOffset(DependencyObject depObj, double value)
-        {
-            if (!(depObj is ScrollViewer))
-            {
-                return;
-            }
-
-            depObj.SetValue(VerticalOffsetProperty, value);
-        }
-
-        private static void OnVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is ScrollViewer scrollViewer))
-            {
-                return;
-            }
-
-            BindVerticalOffset(scrollViewer);
-            scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
-        }
-
-        private static void BindVerticalOffset(ScrollViewer scrollViewer)
-        {
-            if (scrollViewer.GetValue(_verticalOffsetBindingProperty) != null)
-            {
-                return;
-            }
-
-            scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
-            scrollViewer.ScrollChanged += (s, se) =>
-            {
-                if (se.VerticalChange == 0)
-                {
-                    return;
-                }
-
-                SetVerticalOffset(scrollViewer, se.VerticalOffset);
-            };
-        }
-
-        #endregion VerticalOffset attached property
-
-        #region ViewportHeight attached property
-
-        /// <summary>
-        /// The viewport height property.
-        /// </summary>
-        public static readonly DependencyProperty ViewportHeightProperty =
-            DependencyProperty.RegisterAttached("ViewportHeight", typeof(double),
-            typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnViewportHeightPropertyChanged));
-
-        private static readonly DependencyProperty _viewportHeightBindingProperty =
-            DependencyProperty.RegisterAttached("_viewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
-
-        /// <summary>
-        /// Gets viewport height property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <returns>The property value.</returns>
-        [UsedImplicitly]
-        public static double GetViewportHeight(DependencyObject depObj)
-        {
-            if (!(depObj is ScrollViewer scrollViewer))
-            {
-                return double.NaN;
-            }
-
-            return scrollViewer.ViewportHeight;
-        }
-
-        /// <summary>
-        /// Sets viewport height property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <param name="value">The new property value.</param>
-        public static void SetViewportHeight(DependencyObject depObj, double value)
-        {
-            if (!(depObj is ScrollViewer))
-            {
-                return;
-            }
-
-            depObj.SetValue(ViewportHeightProperty, value);
-        }
-
-        private static void OnViewportHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is ScrollViewer scrollViewer))
-            {
-                return;
-            }
-
-            BindViewportHeight(scrollViewer);
-        }
-
-        private static void BindViewportHeight(ScrollViewer scrollViewer)
-        {
-            if (scrollViewer.GetValue(_viewportHeightBindingProperty) != null)
-            {
-                return;
-            }
-
-            scrollViewer.SetValue(_viewportHeightBindingProperty, true);
-
-            scrollViewer.Loaded += (s, se) =>
-            {
-                SetViewportHeight(scrollViewer, scrollViewer.ViewportHeight);
-            };
-
-            scrollViewer.ScrollChanged += (s, se) =>
-            {
-                SetViewportHeight(scrollViewer, se.ViewportHeight);
-            };
-        }
-
-        #endregion ViewportHeight attached property
-
-        #region ExtentHeight attached property
-
-        /// <summary>
-        /// The extent height property.
-        /// </summary>
-        public static readonly DependencyProperty ExtentHeightProperty =
-            DependencyProperty.RegisterAttached("ExtentHeight", typeof(double),
-            typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnExtentHeightPropertyChanged));
-
-        private static readonly DependencyProperty _extentHeightBindingProperty =
-            DependencyProperty.RegisterAttached("_extentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
-
-        /// <summary>
-        /// Gets extent height property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <returns>The property value.</returns>
-        [UsedImplicitly]
-        public static double GetExtentHeight(DependencyObject depObj)
-        {
-            if (!(depObj is ScrollViewer scrollViewer))
-            {
-                return double.NaN;
-            }
-
-            return scrollViewer.ExtentHeight;
-        }
-
-        /// <summary>
-        /// Sets extent height property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <param name="value">The new property value.</param>
-        public static void SetExtentHeight(DependencyObject depObj, double value)
-        {
-            if (!(depObj is ScrollViewer))
-            {
-                return;
-            }
-
-            depObj.SetValue(ExtentHeightProperty, value);
-        }
-
-        private static void OnExtentHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is ScrollViewer scrollViewer))
-            {
-                return;
-            }
-
-            BindExtentHeight(scrollViewer);
-        }
-
-        private static void BindExtentHeight(ScrollViewer scrollViewer)
-        {
-            if (scrollViewer.GetValue(_extentHeightBindingProperty) != null)
-            {
-                return;
-            }
-
-            scrollViewer.SetValue(_extentHeightBindingProperty, true);
-
-            scrollViewer.Loaded += (s, se) =>
-            {
-                SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
-            };
-        }
-
-        #endregion ExtentHeight attached property
-
-        #region DividerVerticalOffsetList attached property
-
-        /// <summary>
-        /// DividerIndex attached property.
-        /// </summary>
-        public static readonly DependencyProperty DividerVerticalOffsetListProperty =
-            DependencyProperty.RegisterAttached("DividerVerticalOffsetList",
-                typeof(List<double>),
-                typeof(ScrollViewerBinding),
-                new FrameworkPropertyMetadata(new List<double>(),
-                    FrameworkPropertyMetadataOptions.AffectsRender |
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    OnDividerVerticalOffsetListPropertyChanged));
-
-        /// <summary>
-        /// Just a flag that the binding has been applied.
-        /// </summary>
-        private static readonly DependencyProperty _dividerVerticalOffsetListBindingProperty =
-            DependencyProperty.RegisterAttached("_dividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
-
-        /// <summary>
-        /// Gets divider vertical offset property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <returns>The property value.</returns>
-        [UsedImplicitly]
-        public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
-        {
-            return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
-        }
-
-        /// <summary>
-        /// Sets divider vertical offset property.
-        /// </summary>
-        /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
-        /// <param name="value">The new property value.</param>
-        public static void SetDividerVerticalOffsetList(DependencyObject depObj, List<double> value)
-        {
-            if (depObj is not ScrollViewer)
-            {
-                return;
-            }
-
-            depObj.SetValue(DividerVerticalOffsetListProperty, value);
-        }
-
-        private static void OnDividerVerticalOffsetListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is not ScrollViewer scrollViewer)
-            {
-                return;
-            }
-
-            BindDividerVerticalOffsetList(scrollViewer);
-        }
-
-        private static void BindDividerVerticalOffsetList(ScrollViewer scrollViewer)
-        {
-            if (scrollViewer.GetValue(_dividerVerticalOffsetListBindingProperty) != null)
-            {
-                return;
-            }
-
-            scrollViewer.SetValue(_dividerVerticalOffsetListBindingProperty, true);
-
-            if (scrollViewer.Content is FrameworkElement content)
-            {
-                content.SizeChanged += (s, e) =>
-                {
-                    RefreshDividerOffsets(scrollViewer);
-                };
-            }
-        }
-
-        public static void RefreshDividerOffsets(ScrollViewer scrollViewer)
-        {
-            if (scrollViewer.Content is not Grid rootGrid)
-            {
-                return;
-            }
-
-            var point = new Point(10, scrollViewer.VerticalOffset);
-
-            var dividerOffsetList = (
-                from child in rootGrid.Children.OfType<Grid>()
-                orderby Grid.GetRow(child)
-                let divider = FindFirstDivider(child)
-                where divider != null
-                let pos = divider.TransformToVisual(scrollViewer).Transform(point)
-                select pos.Y).ToList();
-
-            SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
-        }
-
-        private static FrameworkElement FindFirstDivider(DependencyObject root)
-        {
-            int count = VisualTreeHelper.GetChildrenCount(root);
-            for (int i = 0; i < count; i++)
-            {
-                var child = VisualTreeHelper.GetChild(root, i);
-                if (child is HandyControl.Controls.Divider divider)
-                {
-                    return divider;
-                }
-
-                var found = FindFirstDivider(child);
-                if (found != null)
-                {
-                    return found;
-                }
-            }
-
-            return null;
-        }
-
-        #endregion DividerVerticalOffsetList attached property
+        return (double)depObj.GetValue(VerticalOffsetProperty);
     }
+
+    /// <summary>
+    /// Sets vertical offset property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <param name="value">The new property value.</param>
+    public static void SetVerticalOffset(DependencyObject depObj, double value)
+    {
+        if (!(depObj is ScrollViewer))
+        {
+            return;
+        }
+
+        depObj.SetValue(VerticalOffsetProperty, value);
+    }
+
+    private static void OnVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (!(d is ScrollViewer scrollViewer))
+        {
+            return;
+        }
+
+        BindVerticalOffset(scrollViewer);
+        scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+    }
+
+    private static void BindVerticalOffset(ScrollViewer scrollViewer)
+    {
+        if (scrollViewer.GetValue(_verticalOffsetBindingProperty) != null)
+        {
+            return;
+        }
+
+        scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
+        scrollViewer.ScrollChanged += (s, se) =>
+        {
+            if (se.VerticalChange == 0)
+            {
+                return;
+            }
+
+            SetVerticalOffset(scrollViewer, se.VerticalOffset);
+        };
+    }
+
+    #endregion VerticalOffset attached property
+
+    #region ViewportHeight attached property
+
+    /// <summary>
+    /// The viewport height property.
+    /// </summary>
+    public static readonly DependencyProperty ViewportHeightProperty =
+        DependencyProperty.RegisterAttached("ViewportHeight", typeof(double),
+        typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnViewportHeightPropertyChanged));
+
+    private static readonly DependencyProperty _viewportHeightBindingProperty =
+        DependencyProperty.RegisterAttached("_viewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+
+    /// <summary>
+    /// Gets viewport height property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <returns>The property value.</returns>
+    [UsedImplicitly]
+    public static double GetViewportHeight(DependencyObject depObj)
+    {
+        if (!(depObj is ScrollViewer scrollViewer))
+        {
+            return double.NaN;
+        }
+
+        return scrollViewer.ViewportHeight;
+    }
+
+    /// <summary>
+    /// Sets viewport height property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <param name="value">The new property value.</param>
+    public static void SetViewportHeight(DependencyObject depObj, double value)
+    {
+        if (!(depObj is ScrollViewer))
+        {
+            return;
+        }
+
+        depObj.SetValue(ViewportHeightProperty, value);
+    }
+
+    private static void OnViewportHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (!(d is ScrollViewer scrollViewer))
+        {
+            return;
+        }
+
+        BindViewportHeight(scrollViewer);
+    }
+
+    private static void BindViewportHeight(ScrollViewer scrollViewer)
+    {
+        if (scrollViewer.GetValue(_viewportHeightBindingProperty) != null)
+        {
+            return;
+        }
+
+        scrollViewer.SetValue(_viewportHeightBindingProperty, true);
+
+        scrollViewer.Loaded += (s, se) =>
+        {
+            SetViewportHeight(scrollViewer, scrollViewer.ViewportHeight);
+        };
+
+        scrollViewer.ScrollChanged += (s, se) =>
+        {
+            SetViewportHeight(scrollViewer, se.ViewportHeight);
+        };
+    }
+
+    #endregion ViewportHeight attached property
+
+    #region ExtentHeight attached property
+
+    /// <summary>
+    /// The extent height property.
+    /// </summary>
+    public static readonly DependencyProperty ExtentHeightProperty =
+        DependencyProperty.RegisterAttached("ExtentHeight", typeof(double),
+        typeof(ScrollViewerBinding), new FrameworkPropertyMetadata(double.NaN,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnExtentHeightPropertyChanged));
+
+    private static readonly DependencyProperty _extentHeightBindingProperty =
+        DependencyProperty.RegisterAttached("_extentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+
+    /// <summary>
+    /// Gets extent height property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <returns>The property value.</returns>
+    [UsedImplicitly]
+    public static double GetExtentHeight(DependencyObject depObj)
+    {
+        if (!(depObj is ScrollViewer scrollViewer))
+        {
+            return double.NaN;
+        }
+
+        return scrollViewer.ExtentHeight;
+    }
+
+    /// <summary>
+    /// Sets extent height property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <param name="value">The new property value.</param>
+    public static void SetExtentHeight(DependencyObject depObj, double value)
+    {
+        if (!(depObj is ScrollViewer))
+        {
+            return;
+        }
+
+        depObj.SetValue(ExtentHeightProperty, value);
+    }
+
+    private static void OnExtentHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (!(d is ScrollViewer scrollViewer))
+        {
+            return;
+        }
+
+        BindExtentHeight(scrollViewer);
+    }
+
+    private static void BindExtentHeight(ScrollViewer scrollViewer)
+    {
+        if (scrollViewer.GetValue(_extentHeightBindingProperty) != null)
+        {
+            return;
+        }
+
+        scrollViewer.SetValue(_extentHeightBindingProperty, true);
+
+        scrollViewer.Loaded += (s, se) =>
+        {
+            SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
+        };
+    }
+
+    #endregion ExtentHeight attached property
+
+    #region DividerVerticalOffsetList attached property
+
+    /// <summary>
+    /// DividerIndex attached property.
+    /// </summary>
+    public static readonly DependencyProperty DividerVerticalOffsetListProperty =
+        DependencyProperty.RegisterAttached("DividerVerticalOffsetList",
+            typeof(List<double>),
+            typeof(ScrollViewerBinding),
+            new FrameworkPropertyMetadata(new List<double>(),
+                FrameworkPropertyMetadataOptions.AffectsRender |
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                OnDividerVerticalOffsetListPropertyChanged));
+
+    /// <summary>
+    /// Just a flag that the binding has been applied.
+    /// </summary>
+    private static readonly DependencyProperty _dividerVerticalOffsetListBindingProperty =
+        DependencyProperty.RegisterAttached("_dividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
+
+    /// <summary>
+    /// Gets divider vertical offset property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <returns>The property value.</returns>
+    [UsedImplicitly]
+    public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
+    {
+        return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
+    }
+
+    /// <summary>
+    /// Sets divider vertical offset property.
+    /// </summary>
+    /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
+    /// <param name="value">The new property value.</param>
+    public static void SetDividerVerticalOffsetList(DependencyObject depObj, List<double> value)
+    {
+        if (depObj is not ScrollViewer)
+        {
+            return;
+        }
+
+        depObj.SetValue(DividerVerticalOffsetListProperty, value);
+    }
+
+    private static void OnDividerVerticalOffsetListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not ScrollViewer scrollViewer)
+        {
+            return;
+        }
+
+        BindDividerVerticalOffsetList(scrollViewer);
+    }
+
+    private static void BindDividerVerticalOffsetList(ScrollViewer scrollViewer)
+    {
+        if (scrollViewer.GetValue(_dividerVerticalOffsetListBindingProperty) != null)
+        {
+            return;
+        }
+
+        scrollViewer.SetValue(_dividerVerticalOffsetListBindingProperty, true);
+
+        if (scrollViewer.Content is FrameworkElement content)
+        {
+            content.SizeChanged += (s, e) =>
+            {
+                RefreshDividerOffsets(scrollViewer);
+            };
+        }
+    }
+
+    public static void RefreshDividerOffsets(ScrollViewer scrollViewer)
+    {
+        if (scrollViewer.Content is not Grid rootGrid)
+        {
+            return;
+        }
+
+        var point = new Point(10, scrollViewer.VerticalOffset);
+
+        var dividerOffsetList = (
+            from child in rootGrid.Children.OfType<Grid>()
+            orderby Grid.GetRow(child)
+            let divider = FindFirstDivider(child)
+            where divider != null
+            let pos = divider.TransformToVisual(scrollViewer).Transform(point)
+            select pos.Y).ToList();
+
+        SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
+    }
+
+    private static FrameworkElement FindFirstDivider(DependencyObject root)
+    {
+        int count = VisualTreeHelper.GetChildrenCount(root);
+        for (int i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is HandyControl.Controls.Divider divider)
+            {
+                return divider;
+            }
+
+            var found = FindFirstDivider(child);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    #endregion DividerVerticalOffsetList attached property
 }

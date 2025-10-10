@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// ExternalNotificationSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class ExternalNotificationSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// ExternalNotificationSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="ExternalNotificationSettingsUserControl"/> class.
     /// </summary>
-    public partial class ExternalNotificationSettingsUserControl : System.Windows.Controls.UserControl
+    public ExternalNotificationSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalNotificationSettingsUserControl"/> class.
-        /// </summary>
-        public ExternalNotificationSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

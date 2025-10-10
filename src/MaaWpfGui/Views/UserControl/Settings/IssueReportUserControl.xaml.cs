@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// Interaction logic for IssueReportUserControl.xaml
+/// </summary>
+public partial class IssueReportUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// Interaction logic for IssueReportUserControl.xaml
+    /// Initializes a new instance of the <see cref="IssueReportUserControl"/> class.
     /// </summary>
-    public partial class IssueReportUserControl : System.Windows.Controls.UserControl
+    public IssueReportUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IssueReportUserControl"/> class.
-        /// </summary>
-        public IssueReportUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

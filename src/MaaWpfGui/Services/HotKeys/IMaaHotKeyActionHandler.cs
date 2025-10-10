@@ -11,10 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Services.HotKeys
+namespace MaaWpfGui.Services.HotKeys;
+
+public interface IMaaHotKeyActionHandler
 {
-    public interface IMaaHotKeyActionHandler
-    {
-        void HandleKeyPressed(MaaHotKeyAction action);
-    }
+    void HandleKeyPressed(MaaHotKeyAction action);
 }

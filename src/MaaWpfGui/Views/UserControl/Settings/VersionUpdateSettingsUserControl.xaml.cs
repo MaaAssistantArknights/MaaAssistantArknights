@@ -26,126 +26,125 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 
-namespace MaaWpfGui.Views.UserControl.Settings
-{
-    /// <summary>
-    /// VersionUpdateSettingsUserControl.xaml 的交互逻辑
-    /// </summary>
-    public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
-    {
-        private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControl>();
+namespace MaaWpfGui.Views.UserControl.Settings;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VersionUpdateSettingsUserControl"/> class.
-        /// </summary>
-        public VersionUpdateSettingsUserControl()
+/// <summary>
+/// VersionUpdateSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
+{
+    private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControl>();
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VersionUpdateSettingsUserControl"/> class.
+    /// </summary>
+    public VersionUpdateSettingsUserControl()
+    {
+        InitializeComponent();
+        _timer.Tick += (s, e1) =>
         {
-            InitializeComponent();
-            _timer.Tick += (s, e1) =>
-            {
-                _easterEggsCount = 0;
-                _timer.IsEnabled = false;
-            };
+            _easterEggsCount = 0;
+            _timer.IsEnabled = false;
+        };
+    }
+
+    private readonly DispatcherTimer _timer = new()
+    {
+        Interval = new(0, 0, 6),
+    };
+
+    private void MaaVersionClick(object sender, MouseButtonEventArgs e)
+    {
+        CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\nCore Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\nBuild Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}");
+        EasterEggs();
+    }
+
+    private void CoreVersionClick(object sender, MouseButtonEventArgs e)
+    {
+        CopyToClipboardAsync("Core Version: " + VersionUpdateSettingsUserControlModel.CoreVersion);
+        EasterEggs();
+    }
+
+    private void UiVersionClick(object sender, MouseButtonEventArgs e)
+    {
+        CopyToClipboardAsync("UI Version: " + VersionUpdateSettingsUserControlModel.UiVersion);
+    }
+
+    private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
+    {
+        CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateSettings.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString}");
+    }
+
+    private static void CopyToClipboardAsync(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
         }
 
-        private readonly DispatcherTimer _timer = new()
+        try
         {
-            Interval = new(0, 0, 6),
+            var clipboardThread = new Thread(() =>
+            {
+                try
+                {
+                    System.Windows.Forms.Clipboard.Clear();
+                    System.Windows.Forms.Clipboard.SetDataObject(text, true);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Clipboard operation failed: " + e.Message);
+                }
+            });
+
+            clipboardThread.SetApartmentState(ApartmentState.STA);
+            clipboardThread.Start();
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Clipboard operation failed: " + e.Message);
+        }
+    }
+
+    private int _easterEggsCount;
+
+    private void EasterEggs()
+    {
+        if (!_timer.IsEnabled)
+        {
+            _timer.IsEnabled = true;
+        }
+
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.VersionClick);
+
+        if (_easterEggsCount < 5)
+        {
+            ++_easterEggsCount;
+            return;
+        }
+
+        MessageBoxInfo info = new()
+        {
+            Message = LocalizationHelper.GetString("EasterEggsRules"),
+            Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
+            IconKey = "EasterEggsRulesIcon",
+            IconBrushKey = "PrimaryTextBrush",
+            ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
+        };
+        MessageBoxHelper.Show(info);
+
+        AchievementTrackerHelper.Instance.Unlock(AchievementIds.Rules);
+
+        /*
+        var growlInfo = new GrowlInfo
+        {
+            IsCustom = true,
+            Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
+            IconKey = "EasterEggsRulesIcon",
+            IconBrushKey = "TextIconBrush",
         };
 
-        private void MaaVersionClick(object sender, MouseButtonEventArgs e)
-        {
-            CopyToClipboardAsync($"UI Version: {VersionUpdateSettingsUserControlModel.UiVersion}\nCore Version: {VersionUpdateSettingsUserControlModel.CoreVersion}\nBuild Time: {VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString}");
-            EasterEggs();
-        }
-
-        private void CoreVersionClick(object sender, MouseButtonEventArgs e)
-        {
-            CopyToClipboardAsync("Core Version: " + VersionUpdateSettingsUserControlModel.CoreVersion);
-            EasterEggs();
-        }
-
-        private void UiVersionClick(object sender, MouseButtonEventArgs e)
-        {
-            CopyToClipboardAsync("UI Version: " + VersionUpdateSettingsUserControlModel.UiVersion);
-        }
-
-        private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
-        {
-            CopyToClipboardAsync($"Resource Version: {SettingsViewModel.VersionUpdateSettings.ResourceVersion}\nResource Time: {SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString}");
-        }
-
-        private static void CopyToClipboardAsync(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return;
-            }
-
-            try
-            {
-                var clipboardThread = new Thread(() =>
-                {
-                    try
-                    {
-                        System.Windows.Forms.Clipboard.Clear();
-                        System.Windows.Forms.Clipboard.SetDataObject(text, true);
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.Error("Clipboard operation failed: " + e.Message);
-                    }
-                });
-
-                clipboardThread.SetApartmentState(ApartmentState.STA);
-                clipboardThread.Start();
-            }
-            catch (Exception e)
-            {
-                _logger.Error("Clipboard operation failed: " + e.Message);
-            }
-        }
-
-        private int _easterEggsCount;
-
-        private void EasterEggs()
-        {
-            if (!_timer.IsEnabled)
-            {
-                _timer.IsEnabled = true;
-            }
-
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.VersionClick);
-
-            if (_easterEggsCount < 5)
-            {
-                ++_easterEggsCount;
-                return;
-            }
-
-            MessageBoxInfo info = new()
-            {
-                Message = LocalizationHelper.GetString("EasterEggsRules"),
-                Caption = LocalizationHelper.GetString("EmployeeGuidelines"),
-                IconKey = "EasterEggsRulesIcon",
-                IconBrushKey = "PrimaryTextBrush",
-                ConfirmContent = LocalizationHelper.GetString("ConfirmExitText"),
-            };
-            MessageBoxHelper.Show(info);
-
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.Rules);
-
-            /*
-            var growlInfo = new GrowlInfo
-            {
-                IsCustom = true,
-                Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
-                IconKey = "EasterEggsRulesIcon",
-                IconBrushKey = "TextIconBrush",
-            };
-
-            Growl.Info(growlInfo);
-            */
-        }
+        Growl.Info(growlInfo);
+        */
     }
 }

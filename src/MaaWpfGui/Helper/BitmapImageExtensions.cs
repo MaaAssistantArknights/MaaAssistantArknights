@@ -15,44 +15,43 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 
-namespace MaaWpfGui.Helper
-{
-    public static class BitmapImageExtensions
-    {
-        public static bool IsEqual(this BitmapImage image1, BitmapImage image2)
-        {
-            if (image1 == null || image2 == null)
-            {
-                return false;
-            }
+namespace MaaWpfGui.Helper;
 
-            return image1.ToBytes().SequenceEqual(image2.ToBytes());
+public static class BitmapImageExtensions
+{
+    public static bool IsEqual(this BitmapImage image1, BitmapImage image2)
+    {
+        if (image1 == null || image2 == null)
+        {
+            return false;
         }
 
-        public static byte[] ToBytes(this BitmapImage image)
+        return image1.ToBytes().SequenceEqual(image2.ToBytes());
+    }
+
+    public static byte[] ToBytes(this BitmapImage image)
+    {
+        byte[] data = { };
+        if (image == null)
         {
-            byte[] data = { };
-            if (image == null)
-            {
-                return data;
-            }
+            return data;
+        }
 
-            try
-            {
-                var encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                using MemoryStream ms = new MemoryStream();
-                encoder.Save(ms);
-                data = ms.ToArray();
-
-                return data;
-            }
-            catch
-            {
-                // ignored
-            }
+        try
+        {
+            var encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            using MemoryStream ms = new MemoryStream();
+            encoder.Save(ms);
+            data = ms.ToArray();
 
             return data;
         }
+        catch
+        {
+            // ignored
+        }
+
+        return data;
     }
 }

@@ -13,21 +13,20 @@
 
 using System.Windows;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+internal static class ApplicationExtensions
 {
-    internal static class ApplicationExtensions
+    public static bool IsShuttingDown(this Application application)
     {
-        public static bool IsShuttingDown(this Application application)
+        try
         {
-            try
-            {
-                application.ShutdownMode = application.ShutdownMode;
-                return false;
-            }
-            catch
-            {
-                return true;
-            }
+            application.ShutdownMode = application.ShutdownMode;
+            return false;
+        }
+        catch
+        {
+            return true;
         }
     }
 }
