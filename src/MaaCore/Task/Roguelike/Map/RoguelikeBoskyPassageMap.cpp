@@ -91,7 +91,9 @@ void RoguelikeBoskyPassageMap::reset()
     for (auto& n : m_nodes) {
         n = Node {}; // reset
     }
+    m_curr_pos = 0;
     m_existing_count = 0;
+    m_target_subtype = RoguelikeBoskySubNodeType::Unknown;
 }
 
 std::vector<size_t>

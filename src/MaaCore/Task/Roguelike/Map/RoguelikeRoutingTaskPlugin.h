@@ -70,8 +70,7 @@ private:
     RoutingStrategy m_routing_strategy = RoutingStrategy::None;
     RoutingStrategy m_bosky_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
-    // 界园树洞平面地图 - 单例模式
-    RoguelikeBoskyPassageMap& m_bosky_map = RoguelikeBoskyPassageMap::get_instance();
+    // 界园树洞地图使用单例模式，通过 RoguelikeBoskyPassageMap::get_instance() 访问
     // 运行模式
     mutable RoguelikeRoutingTaskRunMode m_run_mode = RoguelikeRoutingTaskRunMode::Default;
     bool m_need_generate_map = true;
