@@ -2254,13 +2254,23 @@
     "VisitNext": {
         "action": "ClickSelf",
         "method": "HSVCount",
-        "colorScales": [[[8, 200, 205], [13, 255, 220]]],
+        "colorScales": [
+            [
+                [8, 200, 205],
+                [13, 255, 220]
+            ]
+        ],
         "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "VisitNextBlack": {
         "method": "HSVCount",
-        "colorScales": [[[0, 0, 40], [5, 5, 80]]],
+        "colorScales": [
+            [
+                [0, 0, 40],
+                [5, 5, 80]
+            ]
+        ],
         "roi": [1080, 570, 200, 130],
         "next": ["Home@ReturnButtons#next"]
     },

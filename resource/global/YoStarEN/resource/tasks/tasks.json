@@ -1029,6 +1029,9 @@
     "NoFriends": {
         "text": ["No friends"]
     },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
+    },
     "VisitNextOcr": {
         "text": ["Visit Next"]
     },
@@ -1037,9 +1040,6 @@
     },
     "VisitLimited": {
         "text": ["limit", "reached"]
-    },
-    "VisitNextBlack": {
-        "templThreshold": 0.85
     },
     "CreditShop-NoMoney": {
         "text": ["Insufficient Credit", "Unable to"]
