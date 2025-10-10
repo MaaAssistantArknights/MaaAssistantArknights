@@ -35,12 +35,10 @@ if __name__ == "__main__":
             maa_dir
             / "resource"
             / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe.png"
+            / "VisitNextBlack.png"
         )
     )
-    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
+    mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     show_image_mask(
         image, calc_mask_from_ranges(image, mask_ranges, "hsv", False), "hsv"
@@ -54,9 +52,7 @@ if __name__ == "__main__":
             maa_dir
             / "resource"
             / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe-5.png"
+            / "VisitNext.png"
         )
     )
     image2 = cv2.imread(
@@ -64,12 +60,10 @@ if __name__ == "__main__":
             maa_dir
             / "resource"
             / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe.png"
+            / "VisitNextBlack.png"
         )
     )
-    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
+    mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)
