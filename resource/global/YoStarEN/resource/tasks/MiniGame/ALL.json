@@ -1,0 +1,17 @@
+{
+    "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
+        "text": ["Join Event"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
+        "text": ["Solo Play"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
+        "text": ["Start", "Game"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
+        "text": ["Remaining Gifts"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@End": {
+        "text": ["Return to Home"]
+    }
+}
