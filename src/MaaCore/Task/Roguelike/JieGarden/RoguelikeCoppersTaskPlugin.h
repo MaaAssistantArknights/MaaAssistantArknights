@@ -34,7 +34,7 @@ private:
     void swipe_copper_list_right(int times, bool slowly = false) const;
     void click_copper_at_position(int col, int row) const;
 
-    RoguelikeCopper create_copper_from_name(
+    std::optional<RoguelikeCopper> create_copper_from_name(
         const std::string& name,
         int col = 0,
         int row = 0,

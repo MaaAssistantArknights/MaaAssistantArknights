@@ -94,10 +94,11 @@ public:
     {
         const auto& coppers = get_coppers(std::string(theme));
         for (const auto& copper : coppers) {
-            if (std::string(name).find(copper.name) != std::string::npos) {
+            if (name.find(copper.name) != std::string_view::npos) {
                 return copper;
             }
         }
+
         return std::nullopt;
     }
 

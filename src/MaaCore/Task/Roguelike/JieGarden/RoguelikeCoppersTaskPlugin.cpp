@@ -121,9 +121,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
         }
 
         Log.info(__FUNCTION__, "| found copper:", copper_name, "at position", i);
-        auto copper = create_copper_from_name(copper_name, 1, static_cast<int>(i), false, roi);
+        auto copper_opt = create_copper_from_name(copper_name, 1, static_cast<int>(i), false, roi);
+        if (!copper_opt) {
+            Log.error(__FUNCTION__, "| failed to create copper at position", i);
+            continue;
+        }
         Point click_point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-        m_pending_copper.emplace_back(std::move(copper), click_point);
+        m_pending_copper.emplace_back(std::move(*copper_opt), click_point);
 
 #ifdef ASST_DEBUG
         // 绘制识别出的通宝名称 - 不支持中文，所以只绘制score
@@ -294,7 +298,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
             Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
 
-            auto copper = create_copper_from_name(copper_name, col, static_cast<int>(row + 1), is_cast, roi);
+            auto copper_opt = create_copper_from_name(copper_name, col, static_cast<int>(row + 1), is_cast, roi);
+            if (!copper_opt) {
+                Log.error(__FUNCTION__, "| failed to create copper at (", col, ",", row, ")");
+                continue;
+            }
+
+            auto copper = std::move(*copper_opt);
             copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
 
             if (col == 0) {
@@ -403,17 +413,15 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
     sleep(300);
 }
 
-asst::RoguelikeCopper asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
+std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
     const std::string& name,
     int col,
     int row,
     bool is_cast,
     const Rect& pos) const
 {
-    RoguelikeCopper copper;
-
     if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
-        copper = *found_copper;
+        auto copper = *found_copper;
         copper.col = col;
         copper.row = row;
         copper.is_cast = is_cast;
@@ -427,35 +435,26 @@ asst::RoguelikeCopper asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
             copper.discard_priority,
             "/",
             copper.cast_discard_priority);
-    }
-    else {
-        Log.error(__FUNCTION__, "| copper not found in config:", name, "type:", static_cast<int>(copper.type));
-
-        try {
-            cv::Mat screen = ctrler()->get_image();
-            if (!screen.empty()) {
-                cv::Mat screen_draw = screen.clone();
-                cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
-                // const std::string label = "Unknown copper: " + name;
-                // cv::putText(
-                //     screen_draw,
-                //     label,
-                //     cv::Point(10, 30),
-                //     cv::FONT_HERSHEY_SIMPLEX,
-                //     0.8,
-                //     cv::Scalar(0, 0, 255),
-                //     2);
-                const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
-                const auto relative_path =
-                    relative_dir / (std::format("{}_unknown_draw.png", utils::format_now_for_filename()));
-                Log.debug(__FUNCTION__, "| Saving unknown copper debug image to ", relative_path);
-                asst::imwrite(relative_path, screen_draw);
-            }
-        }
-        catch (const std::exception& e) {
-            Log.error(__FUNCTION__, "| failed to save unknown copper debug image:", e.what());
-        }
+        return copper;
     }
 
-    return copper;
+    Log.error(__FUNCTION__, "| copper not found in config:", name);
+
+    try {
+        cv::Mat screen = ctrler()->get_image();
+        if (!screen.empty()) {
+            cv::Mat screen_draw = screen.clone();
+            cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
+            const auto relative_path =
+                relative_dir / (std::format("{}_unknown_draw.png", utils::format_now_for_filename()));
+            Log.debug(__FUNCTION__, "| Saving unknown copper debug image to", relative_path);
+            asst::imwrite(relative_path, screen_draw);
+        }
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| failed to save unknown copper debug image:", e.what());
+    }
+
+    return std::nullopt;
 }
