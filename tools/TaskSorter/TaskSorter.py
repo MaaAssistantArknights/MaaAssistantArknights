@@ -65,10 +65,6 @@ def raise_on_duplicate_keys(pairs):
     return seen
 
 
-# 示例JSON数据（包含重复键）
-json_str = '{"name": "Alice", "age": 30, "name": "Bob"}'
-
-
 def main(cn_base_path, global_resources):
 
     cn_tasks = {}
@@ -80,7 +76,7 @@ def main(cn_base_path, global_resources):
             if not file.endswith(".json"):  # 判断是否为 JSON 文件
                 continue
             file_path = Path(root) / file
-            with open(file_path, "r", encoding="utf8") as f:
+            with open(file_path, "r", encoding="utf-8-sig") as f:  # Changed to utf-8-sig
                 cn_tasks[file_path.relative_to(cn_base_path)] = json.load(
                     f, object_pairs_hook=raise_on_duplicate_keys
                 )
@@ -121,7 +117,7 @@ def main(cn_base_path, global_resources):
                     continue
                 file_path = Path(root) / file
                 relative_path = file_path.relative_to(overseas_path)
-                with open(file_path, "r", encoding="utf8") as f:
+                with open(file_path, "r", encoding="utf-8-sig") as f:  # Changed to utf-8-sig
                     tasks = json.load(f, object_pairs_hook=raise_on_duplicate_keys)
 
                 base_order = cn_order.get(relative_path, [])
