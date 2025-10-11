@@ -9,8 +9,8 @@ namespace asst
 
 enum class CoppersTaskRunMode
 {
-    CHOOSE, // 拾取掉落
-    SWITCH  // 交换通宝
+    PICKUP,  // 拾取掉落通宝
+    EXCHANGE // 交换已有通宝
 };
 
 class RoguelikeCoppersTaskPlugin : public AbstractRoguelikeTaskPlugin
@@ -27,8 +27,8 @@ protected:
     virtual bool _run() override;
 
 private:
-    bool handle_choose_mode();
-    bool handle_switch_mode();
+    bool handle_pickup_mode();
+    bool handle_exchange_mode();
 
     void swipe_copper_list_left(int times, bool slowly = false) const;
     void swipe_copper_list_right(int times, bool slowly = false) const;

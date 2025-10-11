@@ -34,12 +34,12 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
 
     const std::string task_name = details.get("details", "task", "");
     if (task_name.ends_with("Roguelike@CoppersTakeFlag")) {
-        m_run_mode = CoppersTaskRunMode::SWITCH;
-        Log.info(__FUNCTION__, "| plugin activated for SWITCH mode");
+        m_run_mode = CoppersTaskRunMode::EXCHANGE;
+        Log.info(__FUNCTION__, "| plugin activated for EXCHANGE mode");
     }
     else if (task_name.ends_with("Roguelike@GetDropSwitch")) {
-        m_run_mode = CoppersTaskRunMode::CHOOSE;
-        Log.info(__FUNCTION__, "| plugin activated for CHOOSE mode");
+        m_run_mode = CoppersTaskRunMode::PICKUP;
+        Log.info(__FUNCTION__, "| plugin activated for PICKUP mode");
     }
     else {
         return false;
@@ -66,11 +66,11 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
 
     bool success = false;
     switch (m_run_mode) {
-    case CoppersTaskRunMode::CHOOSE:
-        success = handle_choose_mode();
+    case CoppersTaskRunMode::PICKUP:
+        success = handle_pickup_mode();
         break;
-    case CoppersTaskRunMode::SWITCH:
-        success = handle_switch_mode();
+    case CoppersTaskRunMode::EXCHANGE:
+        success = handle_exchange_mode();
         break;
     }
 
@@ -78,8 +78,8 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
     return success;
 }
 
-// 处理掉落通宝的拾取 识别交换按钮，roi偏移来识别通宝名称
-bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
+// 处理掉落通宝的拾取 识别交换按钮,roi偏移来识别通宝名称
+bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 {
     MultiMatcher matcher;
     matcher.set_task_info("JieGarden@Roguelike@GetDropSwitch");
@@ -98,7 +98,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     auto match_results = matcher.get_result();
     sort_by_horizontal_(match_results);
 
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-ChooseNameOCR");
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR");
     RegionOCRer ocr(image);
 
     // 通过识别到的每个通宝类型来识别通宝名称
@@ -165,8 +165,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
 #ifdef ASST_DEBUG
     try {
         const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-        const auto relative_path = relative_dir / (std::format("{}_choose_draw.png", utils::format_now_for_filename()));
-        Log.debug(__FUNCTION__, "| Saving choose mode debug image to ", relative_path);
+        const auto relative_path = relative_dir / (std::format("{}_pickup_draw.png", utils::format_now_for_filename()));
+        Log.debug(__FUNCTION__, "| Saving pickup mode debug image to ", relative_path);
         asst::imwrite(relative_path, image_draw);
     }
     catch (const std::exception& e) {
@@ -177,14 +177,14 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_choose_mode()
     return true;
 }
 
-// 交换通宝 先识别通宝类型，然后roi偏移来OCR通宝名称和是否已投出
-bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
+// 交换通宝 先识别通宝类型,然后roi偏移来OCR通宝名称和是否已投出
+bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
     swipe_copper_list_left(2); // 有时候进去不在最左边
 
     MultiMatcher matcher;
     RegionOCRer ocr(ctrler()->get_image());
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-SwitchNameOCR");
+    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR");
     const auto cast_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-CastOCR");
 
 #ifdef ASST_DEBUG
@@ -327,8 +327,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
         try {
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
             const auto relative_path =
-                relative_dir / (std::format("{}_switch_draw.png", utils::format_now_for_filename()));
-            Log.debug(__FUNCTION__, "| Saving switch mode debug image to ", relative_path);
+                relative_dir / (std::format("{}_exchange_draw.png", utils::format_now_for_filename()));
+            Log.debug(__FUNCTION__, "| Saving exchange mode debug image to ", relative_path);
             asst::imwrite(relative_path, image_draw);
         }
         catch (const std::exception& e) {
@@ -349,11 +349,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_switch_mode()
 
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         Log.info(
-            "handle_switch_mode",
+            "handle_exchange_mode",
             "new copper (",
             m_new_copper.name,
             ") is worse than all existing coppers, abandoning exchange");
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonSwitch" }).run();
+        ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonExchange" }).run();
         return true;
     }
 
