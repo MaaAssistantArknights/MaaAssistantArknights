@@ -1,0 +1,17 @@
+{
+    "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
+        "text": ["경기진행"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
+        "text": ["혼자", "즐기기"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
+        "text": ["경기", "진행", "개시", "시작"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
+        "text": ["남은선물"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@End": {
+        "text": ["메인화면"]
+    }
+}
