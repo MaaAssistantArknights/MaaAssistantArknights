@@ -99,4 +99,19 @@
     <SolidColorBrush x:Key="BossIS" Color="#8a6d6d" />
     <SolidColorBrush x:Key="ExplorationAbandonedIS" Color="#7d8083" />
 
+    <!--  UiLogColor - Bosky Passage Nodes (JieGarden)  -->
+    <SolidColorBrush x:Key="BoskyOmissionsISRaw" Color="#98D8C8" />
+    <SolidColorBrush x:Key="BoskyLegendISRaw" Color="#00CED1" />
+    <SolidColorBrush x:Key="BoskyOldShopISRaw" Color="#FFB347" />
+    <SolidColorBrush x:Key="BoskySchemeISRaw" Color="#9370DB" />
+    <SolidColorBrush x:Key="BoskyPlaytimeISRaw" Color="#FFB6C1" />
+    <SolidColorBrush x:Key="BoskyDoubtsISRaw" Color="#F0E68C" />
+
+    <SolidColorBrush x:Key="BoskyOmissionsIS" Color="#79978f" />
+    <SolidColorBrush x:Key="BoskyLegendIS" Color="#6c9495" />
+    <SolidColorBrush x:Key="BoskyOldShopIS" Color="#998970" />
+    <SolidColorBrush x:Key="BoskySchemeIS" Color="#867a94" />
+    <SolidColorBrush x:Key="BoskyPlaytimeIS" Color="#998a8f" />
+    <SolidColorBrush x:Key="BoskyDoubtsIS" Color="#948f79" />
+
 </ResourceDictionary>

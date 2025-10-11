@@ -392,6 +392,12 @@ void asst::RoguelikeRoutingTaskPlugin::bosky_decide_and_click(const std::vector<
     RoguelikeBoskyPassageMap::get_instance().set_visited(chosen);
     RoguelikeBoskyPassageMap::get_instance().set_curr_pos(chosen);
 
+    // 发送节点类型到 WPF
+    std::string node_type_name = type2name(node_type);
+    auto node_info = basic_info_with_what("BoskyPassageNode");
+    node_info["details"]["node_type"] = node_type_name;
+    callback(AsstMsg::SubTaskExtraInfo, node_info);
+
     // 执行节点类型对应的任务
     const std::string& theme = m_config->get_theme();
     std::string node_name = type2name(node_type);

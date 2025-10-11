@@ -1090,6 +1090,26 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                 break;
 
+            case "BoskyPassageNode":
+                {
+                    var nodeType = subTaskDetails!["node_type"]?.ToString();
+                    var (localizedNodeType, logColor) = nodeType switch
+                    {
+                        "Omissions" => (LocalizationHelper.GetString("BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
+                        "Legend" => (LocalizationHelper.GetString("BoskyLegend"), UiLogColor.BoskyLegendIS),
+                        "OldShop" => (LocalizationHelper.GetString("BoskyOldShop"), UiLogColor.BoskyOldShopIS),
+                        "YiTrader" => (LocalizationHelper.GetString("BoskyYiTrader"), UiLogColor.TraderIS),
+                        "Scheme" => (LocalizationHelper.GetString("BoskyScheme"), UiLogColor.BoskySchemeIS),
+                        "Playtime" => (LocalizationHelper.GetString("BoskyPlaytime"), UiLogColor.BoskyPlaytimeIS),
+                        "Doubts" => (LocalizationHelper.GetString("BoskyDoubts"), UiLogColor.BoskyDoubtsIS),
+                        "Disaster" => (LocalizationHelper.GetString("BoskyDisaster"), UiLogColor.EmergencyIS),
+                        _ => (nodeType ?? "Unknown", UiLogColor.EventIS),
+                    };
+
+                    Instances.TaskQueueViewModel.AddLog(localizedNodeType, logColor);
+                    break;
+                }
+
             case "EncounterOcrError":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
                 break;

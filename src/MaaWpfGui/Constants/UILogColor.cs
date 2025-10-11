@@ -189,6 +189,38 @@ public static class UiLogColor
     /// </summary>
     public const string ExplorationAbandonedIS = "ExplorationAbandonedIS";
 
+    // Bosky Passage Node Colors (JieGarden Theme)
+
+    /// <summary>
+    /// The recommended color for Omissions node (拾遗).
+    /// </summary>
+    public const string BoskyOmissionsIS = "BoskyOmissionsIS";
+
+    /// <summary>
+    /// The recommended color for Legend node (传说).
+    /// </summary>
+    public const string BoskyLegendIS = "BoskyLegendIS";
+
+    /// <summary>
+    /// The recommended color for OldShop node (故肆).
+    /// </summary>
+    public const string BoskyOldShopIS = "BoskyOldShopIS";
+
+    /// <summary>
+    /// The recommended color for Scheme node (筹谋).
+    /// </summary>
+    public const string BoskySchemeIS = "BoskySchemeIS";
+
+    /// <summary>
+    /// The recommended color for Playtime node (常乐).
+    /// </summary>
+    public const string BoskyPlaytimeIS = "BoskyPlaytimeIS";
+
+    /// <summary>
+    /// The recommended color for Doubts node (杂疑).
+    /// </summary>
+    public const string BoskyDoubtsIS = "BoskyDoubtsIS";
+
     // 颜色在MaaWpfGui\Res\Themes中定义
     // Brush are defined in MaaWpfGui\Res\Themes
 }

@@ -1003,6 +1003,14 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
+    <system:String x:Key="BoskyOmissions">节点: 拾遗</system:String>
+    <system:String x:Key="BoskyLegend">节点: 传说</system:String>
+    <system:String x:Key="BoskyOldShop">节点: 故肆</system:String>
+    <system:String x:Key="BoskyYiTrader">节点: 易与</system:String>
+    <system:String x:Key="BoskyScheme">节点: 筹谋</system:String>
+    <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
+    <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
+    <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
