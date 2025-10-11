@@ -6,4 +6,4 @@ dir:
   order: 4
 ---
 
-<Catalog base='/en-us/manual/introduction/' />
+<Redirect to="startup" />

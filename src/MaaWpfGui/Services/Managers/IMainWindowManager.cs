@@ -14,57 +14,56 @@
 using System;
 using System.Windows;
 
-namespace MaaWpfGui.Services.Managers
+namespace MaaWpfGui.Services.Managers;
+
+/// <summary>
+/// Manager of the MAA main window
+/// </summary>
+public interface IMainWindowManager
 {
     /// <summary>
-    /// Manager of the MAA main window
+    /// Show the main window
     /// </summary>
-    public interface IMainWindowManager
-    {
-        /// <summary>
-        /// Show the main window
-        /// </summary>
-        void Show();
+    void Show();
 
-        /// <summary>
-        /// Force show the main window
-        /// </summary>
-        void ForceShow();
+    /// <summary>
+    /// Force show the main window
+    /// </summary>
+    void ForceShow();
 
-        /// <summary>
-        /// Collapse the main window
-        /// </summary>
-        void Collapse();
+    /// <summary>
+    /// Collapse the main window
+    /// </summary>
+    void Collapse();
 
-        /// <summary>
-        /// Show the main window if it collapsed and vice versa.
-        /// </summary>
-        void SwitchWindowState();
+    /// <summary>
+    /// Show the main window if it collapsed and vice versa.
+    /// </summary>
+    void SwitchWindowState();
 
-        /// <summary>
-        /// Get the current window state of the main window
-        /// </summary>
-        /// <returns>WindowState</returns>
-        WindowState GetWindowState();
+    /// <summary>
+    /// Get the current window state of the main window
+    /// </summary>
+    /// <returns>WindowState</returns>
+    WindowState GetWindowState();
 
-        /// <summary>
-        /// Sets whether to minimize to tray.
-        /// </summary>
-        /// <param name="shouldMinimizeToTray">Whether to minimize to taskBar.</param>
-        void SetMinimizeToTray(bool shouldMinimizeToTray);
+    /// <summary>
+    /// Sets whether to minimize to tray.
+    /// </summary>
+    /// <param name="shouldMinimizeToTray">Whether to minimize to taskBar.</param>
+    void SetMinimizeToTray(bool shouldMinimizeToTray);
 
-        /// <summary>
-        /// Sets whether to use the tray icon.
-        /// </summary>
-        /// <param name="useTrayIcon">Whether to use the tray icon.</param>
-        void SetUseTrayIcon(bool useTrayIcon);
+    /// <summary>
+    /// Sets whether to use the tray icon.
+    /// </summary>
+    /// <param name="useTrayIcon">Whether to use the tray icon.</param>
+    void SetUseTrayIcon(bool useTrayIcon);
 
-        /// <summary>
-        /// Get the main window if it is visible.
-        /// </summary>
-        /// <returns>The <see cref="Window"/> if it is visible, or null. </returns>
-        Window GetWindowIfVisible();
+    /// <summary>
+    /// Get the main window if it is visible.
+    /// </summary>
+    /// <returns>The <see cref="Window"/> if it is visible, or null. </returns>
+    Window GetWindowIfVisible();
 
-        event EventHandler WindowRestored;
-    }
+    event EventHandler WindowRestored;
 }

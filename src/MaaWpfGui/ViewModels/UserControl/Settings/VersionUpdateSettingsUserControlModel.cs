@@ -325,6 +325,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     // 时间戳
     private long _mirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
 
+    // 0 表示未设置，1 表示未设置且已过期
     public long MirrorChyanCdkExpiredTime
     {
         get => _mirrorChyanCdkExpiredTime;
@@ -366,10 +367,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// Gets 显示用的剩余时间提示
     /// </summary>
     public string MirrorChyanCdkRemainingText =>
-        IsMirrorChyanCdkExpired
+        MirrorChyanCdkExpiredTime != 0
+        ? IsMirrorChyanCdkExpired
             ? LocalizationHelper.GetString("MirrorChyanCdkExpired")
             : string.Format(LocalizationHelper.GetString("MirrorChyanCdkRemainingDays"),
-                            MirrorChyanCdkRemaining.TotalDays.ToString("F1"));
+                            MirrorChyanCdkRemaining.TotalDays.ToString("F1"))
+        : string.Empty;
 
     /// <summary>
     /// Gets uI 显示用颜色
@@ -399,6 +402,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         OnPropertyChanged(nameof(IsMirrorChyanCdkExpired));
         OnPropertyChanged(nameof(MirrorChyanCdkRemainingText));
         OnPropertyChanged(nameof(MirrorChyanCdkRemainingBrush));
+        OnPropertyChanged(nameof(MirrorChyanCdkExpiredLocalTime));
     }
 
     private bool _startupUpdateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, bool.TrueString));

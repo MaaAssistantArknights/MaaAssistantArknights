@@ -30,17 +30,8 @@ if __name__ == "__main__":
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(
-        str(
-            maa_dir
-            / "resource"
-            / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe.png"
-        )
-    )
-    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
+    image = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNextBlack.png"))
+    mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     show_image_mask(
         image, calc_mask_from_ranges(image, mask_ranges, "hsv", False), "hsv"
@@ -49,27 +40,9 @@ if __name__ == "__main__":
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(
-        str(
-            maa_dir
-            / "resource"
-            / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe-5.png"
-        )
-    )
-    image2 = cv2.imread(
-        str(
-            maa_dir
-            / "resource"
-            / "template"
-            / "Roguelike"
-            / "JieGarden"
-            / "JieGarden@Roguelike@StageDreadfulFoe.png"
-        )
-    )
-    mask_ranges = [[[100, 0, 40], [140, 220, 255]], [[0, 0, 230], [180, 30, 255]]]
+    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNext.png"))
+    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNextBlack.png"))
+    mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
     # compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv", True)

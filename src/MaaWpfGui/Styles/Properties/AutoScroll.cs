@@ -17,92 +17,91 @@ using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
 
-namespace MaaWpfGui.Styles.Properties
+namespace MaaWpfGui.Styles.Properties;
+
+/// <summary>
+/// The auto scroll property.
+/// </summary>
+public static class AutoScroll
 {
+    private static bool _autoScroll;
+
+    /// <summary>
+    /// Gets auto scroll property.
+    /// </summary>
+    /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+    /// <returns>The property value.</returns>
+    [UsedImplicitly]
+    public static bool GetAutoScroll(DependencyObject obj)
+    {
+        return (bool)obj.GetValue(AutoScrollProperty);
+    }
+
+    /// <summary>
+    /// Sets auto scroll property.
+    /// </summary>
+    /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+    /// <param name="value">The new property value.</param>
+    public static void SetAutoScroll(DependencyObject obj, bool value)
+    {
+        obj.SetValue(AutoScrollProperty, value);
+    }
+
     /// <summary>
     /// The auto scroll property.
     /// </summary>
-    public static class AutoScroll
+    public static readonly DependencyProperty AutoScrollProperty =
+        DependencyProperty.RegisterAttached("AutoScroll", typeof(bool), typeof(AutoScroll), new PropertyMetadata(false, AutoScrollPropertyChanged));
+
+    private static void AutoScrollPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        private static bool _autoScroll;
-
-        /// <summary>
-        /// Gets auto scroll property.
-        /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
-        /// <returns>The property value.</returns>
-        [UsedImplicitly]
-        public static bool GetAutoScroll(DependencyObject obj)
+        if (d is ScrollViewer scrollViewer)
         {
-            return (bool)obj.GetValue(AutoScrollProperty);
-        }
-
-        /// <summary>
-        /// Sets auto scroll property.
-        /// </summary>
-        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
-        /// <param name="value">The new property value.</param>
-        public static void SetAutoScroll(DependencyObject obj, bool value)
-        {
-            obj.SetValue(AutoScrollProperty, value);
-        }
-
-        /// <summary>
-        /// The auto scroll property.
-        /// </summary>
-        public static readonly DependencyProperty AutoScrollProperty =
-            DependencyProperty.RegisterAttached("AutoScroll", typeof(bool), typeof(AutoScroll), new PropertyMetadata(false, AutoScrollPropertyChanged));
-
-        private static void AutoScrollPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ScrollViewer scrollViewer)
+            bool alwaysScrollToEnd = (e.NewValue != null) && (bool)e.NewValue;
+            if (alwaysScrollToEnd)
             {
-                bool alwaysScrollToEnd = (e.NewValue != null) && (bool)e.NewValue;
-                if (alwaysScrollToEnd)
-                {
-                    scrollViewer.ScrollToEnd();
-                    scrollViewer.ScrollChanged += ScrollChanged;
-                }
-                else
-                {
-                    scrollViewer.ScrollChanged -= ScrollChanged;
-                }
-            }
-            else if (d is ListBox listBox)
-            {
-                INotifyCollectionChanged view = listBox.Items;
-                view.CollectionChanged += (sender, arg) =>
-                {
-                    switch (arg.Action)
-                    {
-                        case NotifyCollectionChangedAction.Add:
-                            listBox.ScrollIntoView(listBox.Items[arg.NewStartingIndex]);
-                            break;
-                    }
-                };
+                scrollViewer.ScrollToEnd();
+                scrollViewer.ScrollChanged += ScrollChanged;
             }
             else
             {
-                throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
+                scrollViewer.ScrollChanged -= ScrollChanged;
             }
         }
-
-        private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
+        else if (d is ListBox listBox)
         {
-            if (sender is not ScrollViewer scroll)
+            INotifyCollectionChanged view = listBox.Items;
+            view.CollectionChanged += (sender, arg) =>
             {
-                throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
-            }
+                switch (arg.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        listBox.ScrollIntoView(listBox.Items[arg.NewStartingIndex]);
+                        break;
+                }
+            };
+        }
+        else
+        {
+            throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
+        }
+    }
 
-            if (e.ExtentHeightChange == 0)
-            {
-                _autoScroll = Math.Abs(scroll.VerticalOffset - scroll.ScrollableHeight) < 1e-6;
-            }
+    private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        if (sender is not ScrollViewer scroll)
+        {
+            throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
+        }
 
-            if (_autoScroll && e.ExtentHeightChange != 0)
-            {
-                scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
-            }
+        if (e.ExtentHeightChange == 0)
+        {
+            _autoScroll = Math.Abs(scroll.VerticalOffset - scroll.ScrollableHeight) < 1e-6;
+        }
+
+        if (_autoScroll && e.ExtentHeightChange != 0)
+        {
+            scroll.ScrollToVerticalOffset(scroll.ExtentHeight);
         }
     }
 }

@@ -11,21 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Reflection;
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+/// <summary>
+/// RecruitSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class RecruitSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// RecruitSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="RecruitSettingsUserControl"/> class.
     /// </summary>
-    public partial class RecruitSettingsUserControl : System.Windows.Controls.UserControl
+    public RecruitSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RecruitSettingsUserControl"/> class.
-        /// </summary>
-        public RecruitSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

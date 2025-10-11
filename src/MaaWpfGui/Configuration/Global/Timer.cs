@@ -14,37 +14,36 @@
 using System.Text.Json.Serialization;
 using MaaWpfGui.Configuration.Factory;
 
-namespace MaaWpfGui.Configuration.Global
+namespace MaaWpfGui.Configuration.Global;
+
+public class Timer
 {
-    public class Timer
+    [JsonConstructor]
+    public Timer(bool enable, string config, int hour, int minute)
     {
-        [JsonConstructor]
-        public Timer(bool enable, string config, int hour, int minute)
-        {
-            Enable = enable;
-            Config = config;
-            Hour = hour;
-            Minute = minute;
-        }
-
-        public Timer()
-        {
-            Enable = false;
-            Config = ConfigFactory.Root.Current;
-            Hour = 0;
-            Minute = 0;
-        }
-
-        [JsonInclude]
-        public bool Enable { get; set; }
-
-        [JsonInclude]
-        public string Config { get; set; }
-
-        [JsonInclude]
-        public int Hour { get; set; }
-
-        [JsonInclude]
-        public int Minute { get; set; }
+        Enable = enable;
+        Config = config;
+        Hour = hour;
+        Minute = minute;
     }
+
+    public Timer()
+    {
+        Enable = false;
+        Config = ConfigFactory.Root.Current;
+        Hour = 0;
+        Minute = 0;
+    }
+
+    [JsonInclude]
+    public bool Enable { get; set; }
+
+    [JsonInclude]
+    public string Config { get; set; }
+
+    [JsonInclude]
+    public int Hour { get; set; }
+
+    [JsonInclude]
+    public int Minute { get; set; }
 }

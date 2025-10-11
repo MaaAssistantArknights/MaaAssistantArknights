@@ -6,4 +6,4 @@ dir:
   order: 3
 ---
 
-<Catalog base='/ko-kr/protocol/' />
+<Redirect to="integration" />

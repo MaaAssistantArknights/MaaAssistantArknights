@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl;
+
+/// <summary>
+/// ConfigurationMgrUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class ConfigurationMgrUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// ConfigurationMgrUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="ConfigurationMgrUserControl"/> class.
     /// </summary>
-    public partial class ConfigurationMgrUserControl : System.Windows.Controls.UserControl
+    public ConfigurationMgrUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigurationMgrUserControl"/> class.
-        /// </summary>
-        public ConfigurationMgrUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

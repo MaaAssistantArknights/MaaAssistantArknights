@@ -11,24 +11,21 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
-
 using static MaaWpfGui.WineCompat.MaaDesktopIntegration;
 
-namespace MaaWpfGui.WineCompat
+namespace MaaWpfGui.WineCompat;
+
+internal class GObject
 {
-    internal class GObject
+    public nint Handle { get; }
+
+    protected GObject(nint handle)
     {
-        public nint Handle { get; }
+        Handle = handle;
+    }
 
-        protected GObject(nint handle)
-        {
-            Handle = handle;
-        }
-
-        ~GObject()
-        {
-            g_object_unref(Handle);
-        }
+    ~GObject()
+    {
+        g_object_unref(Handle);
     }
 }

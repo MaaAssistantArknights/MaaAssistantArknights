@@ -18,111 +18,110 @@ using System.IO;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+public static class JsonDataHelper
 {
-    public static class JsonDataHelper
+    private static readonly object _lock = new();
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "JsonDataHelper");
+
+    /// <summary>
+    /// 从 data/{key}.json 读取对象，如果不存在则返回 defaultValue
+    /// </summary>
+    /// <typeparam name="T">要获取的数据类型</typeparam>
+    /// <param name="key">文件名</param>
+    /// <param name="defaultValue">数据类型</param>
+    /// <param name="dataDir">目标文件夹</param>
+    /// <returns>反序列化数据</returns>
+    public static T? Get<T>(string key, T? defaultValue = default, string? dataDir = null)
     {
-        private static readonly object _lock = new();
-        private static readonly ILogger _logger = Log.ForContext("SourceContext", "JsonDataHelper");
+        var filePath = Path.Combine(dataDir ?? PathsHelper.DataDir, $"{key}.json");
 
-        /// <summary>
-        /// 从 data/{key}.json 读取对象，如果不存在则返回 defaultValue
-        /// </summary>
-        /// <typeparam name="T">要获取的数据类型</typeparam>
-        /// <param name="key">文件名</param>
-        /// <param name="defaultValue">数据类型</param>
-        /// <param name="dataDir">目标文件夹</param>
-        /// <returns>反序列化数据</returns>
-        public static T? Get<T>(string key, T? defaultValue = default, string? dataDir = null)
+        if (!File.Exists(filePath))
         {
-            var filePath = Path.Combine(dataDir ?? PathsHelper.DataDir, $"{key}.json");
-
-            if (!File.Exists(filePath))
-            {
-                return defaultValue;
-            }
-
-            try
-            {
-                var json = File.ReadAllText(filePath);
-                if (typeof(T) == typeof(string))
-                {
-                    return (T)(object)json;
-                }
-
-                return JsonConvert.DeserializeObject<T>(json);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, $"Failed to load data file for key {key}");
-                return defaultValue;
-            }
+            return defaultValue;
         }
 
-        /// <summary>
-        /// 将对象写入 data/{key}.json
-        /// </summary>
-        /// <typeparam name="T">要写入的数据类型</typeparam>
-        /// <param name="key">文件名</param>
-        /// <param name="value">数据</param>
-        /// <param name="dataDir">目标文件夹</param>
-        /// <returns>是否设置成功</returns>
-        public static bool Set<T>(string key, T value, string? dataDir = null)
+        try
         {
-            var filePath = Path.Combine(dataDir ?? PathsHelper.DataDir, $"{key}.json");
-
-            lock (_lock)
+            var json = File.ReadAllText(filePath);
+            if (typeof(T) == typeof(string))
             {
-                try
-                {
-                    Directory.CreateDirectory(PathsHelper.DataDir);
-                    var json = JsonConvert.SerializeObject(value, Formatting.Indented);
-                    File.WriteAllText(filePath, json);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, $"Failed to save data file for key {key}");
-                    return false;
-                }
+                return (T)(object)json;
             }
+
+            return JsonConvert.DeserializeObject<T>(json);
         }
-
-        /// <summary>
-        /// 删除 data/{key}.json
-        /// </summary>
-        /// <param name="key">文件名</param>
-        /// <returns>是否成功删除</returns>
-        public static bool Delete(string key)
+        catch (Exception ex)
         {
-            var filePath = Path.Combine(PathsHelper.DataDir, $"{key}.json");
+            _logger.Error(ex, $"Failed to load data file for key {key}");
+            return defaultValue;
+        }
+    }
 
+    /// <summary>
+    /// 将对象写入 data/{key}.json
+    /// </summary>
+    /// <typeparam name="T">要写入的数据类型</typeparam>
+    /// <param name="key">文件名</param>
+    /// <param name="value">数据</param>
+    /// <param name="dataDir">目标文件夹</param>
+    /// <returns>是否设置成功</returns>
+    public static bool Set<T>(string key, T value, string? dataDir = null)
+    {
+        var filePath = Path.Combine(dataDir ?? PathsHelper.DataDir, $"{key}.json");
+
+        lock (_lock)
+        {
             try
             {
-                if (!File.Exists(filePath))
-                {
-                    return false;
-                }
-
-                File.Delete(filePath);
+                Directory.CreateDirectory(PathsHelper.DataDir);
+                var json = JsonConvert.SerializeObject(value, Formatting.Indented);
+                File.WriteAllText(filePath, json);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Failed to delete data file for key {key}");
+                _logger.Error(ex, $"Failed to save data file for key {key}");
                 return false;
             }
         }
+    }
 
-        /// <summary>
-        /// 判断 data/{key}.json 是否存在
-        /// </summary>
-        /// <param name="key">文件名</param>
-        /// <returns>是否存在</returns>
-        public static bool Exists(string key)
+    /// <summary>
+    /// 删除 data/{key}.json
+    /// </summary>
+    /// <param name="key">文件名</param>
+    /// <returns>是否成功删除</returns>
+    public static bool Delete(string key)
+    {
+        var filePath = Path.Combine(PathsHelper.DataDir, $"{key}.json");
+
+        try
         {
-            var filePath = Path.Combine(PathsHelper.DataDir, $"{key}.json");
-            return File.Exists(filePath);
+            if (!File.Exists(filePath))
+            {
+                return false;
+            }
+
+            File.Delete(filePath);
+            return true;
         }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, $"Failed to delete data file for key {key}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 判断 data/{key}.json 是否存在
+    /// </summary>
+    /// <param name="key">文件名</param>
+    /// <returns>是否存在</returns>
+    public static bool Exists(string key)
+    {
+        var filePath = Path.Combine(PathsHelper.DataDir, $"{key}.json");
+        return File.Exists(filePath);
     }
 }

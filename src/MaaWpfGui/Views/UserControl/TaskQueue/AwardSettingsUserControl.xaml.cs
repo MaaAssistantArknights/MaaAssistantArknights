@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
+
+/// <summary>
+/// AwardSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class AwardSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// AwardSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="AwardSettingsUserControl"/> class.
     /// </summary>
-    public partial class AwardSettingsUserControl : System.Windows.Controls.UserControl
+    public AwardSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AwardSettingsUserControl"/> class.
-        /// </summary>
-        public AwardSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

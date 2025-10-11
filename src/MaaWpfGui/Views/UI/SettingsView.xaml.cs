@@ -14,21 +14,20 @@
 using MaaWpfGui.Helper;
 using MaaWpfGui.Styles.Properties;
 
-namespace MaaWpfGui.Views.UI
-{
-    /// <summary>
-    /// 用于接收布局变化的广播事件
-    /// </summary>
-    public partial class SettingsView
-    {
-        public SettingsView()
-        {
-            InitializeComponent();
+namespace MaaWpfGui.Views.UI;
 
-            Instances.SettingsViewModel.RefreshDividerOffsetsRequested += (_, _) =>
-            {
-                ScrollViewerBinding.RefreshDividerOffsets(SettingsScrollViewer);
-            };
-        }
+/// <summary>
+/// 用于接收布局变化的广播事件
+/// </summary>
+public partial class SettingsView
+{
+    public SettingsView()
+    {
+        InitializeComponent();
+
+        Instances.SettingsViewModel.RefreshDividerOffsetsRequested += (_, _) =>
+        {
+            ScrollViewerBinding.RefreshDividerOffsets(SettingsScrollViewer);
+        };
     }
 }

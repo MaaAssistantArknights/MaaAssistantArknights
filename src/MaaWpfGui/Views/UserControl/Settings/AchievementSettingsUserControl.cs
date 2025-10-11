@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// AchievementSettings.xaml 的交互逻辑
+/// </summary>
+public partial class AchievementSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// AchievementSettings.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="AchievementSettingsUserControl"/> class.
     /// </summary>
-    public partial class AchievementSettingsUserControl : System.Windows.Controls.UserControl
+    public AchievementSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AchievementSettingsUserControl"/> class.
-        /// </summary>
-        public AchievementSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -11,22 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Text.RegularExpressions;
-using System.Windows.Input;
+namespace MaaWpfGui.Views.UserControl.Settings;
 
-namespace MaaWpfGui.Views.UserControl.Settings
+/// <summary>
+/// TimerSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class TimerSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// TimerSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="TimerSettingsUserControl"/> class.
     /// </summary>
-    public partial class TimerSettingsUserControl : System.Windows.Controls.UserControl
+    public TimerSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimerSettingsUserControl"/> class.
-        /// </summary>
-        public TimerSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
+
+/// <summary>
+/// StartUpTaskUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class StartUpTaskUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// StartUpTaskUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="StartUpTaskUserControl"/> class.
     /// </summary>
-    public partial class StartUpTaskUserControl : System.Windows.Controls.UserControl
+    public StartUpTaskUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StartUpTaskUserControl"/> class.
-        /// </summary>
-        public StartUpTaskUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

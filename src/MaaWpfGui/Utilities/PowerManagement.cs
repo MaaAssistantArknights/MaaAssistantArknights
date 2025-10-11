@@ -16,69 +16,68 @@ using System.Diagnostics;
 using Serilog;
 using Windows.Win32;
 
-namespace MaaWpfGui.Utilities
+namespace MaaWpfGui.Utilities;
+
+public class PowerManagement
 {
-    public class PowerManagement
+    private static readonly ILogger _logger = Log.ForContext<PowerManagement>();
+
+    /// <summary>
+    /// 关机，使用 shutdown.exe
+    /// </summary>
+    /// <param name="delaySeconds">等待关机时间</param>
+    public static void Shutdown(int delaySeconds = 70)
     {
-        private static readonly ILogger _logger = Log.ForContext<PowerManagement>();
-
-        /// <summary>
-        /// 关机，使用 shutdown.exe
-        /// </summary>
-        /// <param name="delaySeconds">等待关机时间</param>
-        public static void Shutdown(int delaySeconds = 70)
+        try
         {
-            try
-            {
-                _logger.Information("Scheduling shutdown in {DelaySeconds} seconds.", delaySeconds);
-                Process.Start("shutdown.exe", $"-s -t {delaySeconds}");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Shutdown failed: {ExMessage}", ex.Message);
-            }
+            _logger.Information("Scheduling shutdown in {DelaySeconds} seconds.", delaySeconds);
+            Process.Start("shutdown.exe", $"-s -t {delaySeconds}");
         }
-
-        /// <summary>
-        /// 取消正在进行的 shutdown.exe
-        /// </summary>
-        public static void AbortShutdown()
+        catch (Exception ex)
         {
-            try
-            {
-                _logger.Information("Aborting shutdown.");
-                Process.Start("shutdown.exe", "-a");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Abort shutdown failed: {ExMessage}", ex.Message);
-            }
+            _logger.Error("Shutdown failed: {ExMessage}", ex.Message);
         }
+    }
 
-        public static bool Hibernate()
+    /// <summary>
+    /// 取消正在进行的 shutdown.exe
+    /// </summary>
+    public static void AbortShutdown()
+    {
+        try
         {
-            try
-            {
-                return PInvoke.SetSuspendState(true, true, true);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Hibernate error: {ExMessage}", ex.Message);
-                return false;
-            }
+            _logger.Information("Aborting shutdown.");
+            Process.Start("shutdown.exe", "-a");
         }
-
-        public static bool Sleep()
+        catch (Exception ex)
         {
-            try
-            {
-                return PInvoke.SetSuspendState(false, true, true);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Sleep error: {ExMessage}", ex.Message);
-                return false;
-            }
+            _logger.Error("Abort shutdown failed: {ExMessage}", ex.Message);
+        }
+    }
+
+    public static bool Hibernate()
+    {
+        try
+        {
+            return PInvoke.SetSuspendState(true, true, true);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("Hibernate error: {ExMessage}", ex.Message);
+            return false;
+        }
+    }
+
+    public static bool Sleep()
+    {
+        try
+        {
+            return PInvoke.SetSuspendState(false, true, true);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("Sleep error: {ExMessage}", ex.Message);
+            return false;
         }
     }
 }

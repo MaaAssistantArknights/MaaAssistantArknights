@@ -327,6 +327,7 @@ You can cancel this popup by clicking the ï½¢{key=Settings} - {key=IssueReport}ï
     <system:String x:Key="MirrorChyanCdkInvalid">The CDK is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="MirrorChyanCdkQuotaExhausted">The CDK has reached the maximum download limit for today. Please try again tomorrow.</system:String>
     <system:String x:Key="MirrorChyanCdkMismatched">The CDK type does not match the resource to be downloaded. Please check the CDK's applicable scope.</system:String>
+    <system:String x:Key="MirrorChyanCdkBlocked">The CDK has been blocked, possibly due to a refund or abnormal usage.</system:String>
     <system:String x:Key="MirrorChyanCdkRemainingDays">CDK expires in {0} days.</system:String>
     <system:String x:Key="MirrorChyanCdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
@@ -518,7 +519,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
-MuMu V4.0.0 or later is required. Global version is not supported.
+MuMu V4.0.0 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
