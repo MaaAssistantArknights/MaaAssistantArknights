@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/smoke-testing.yml"
+      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
@@ -16,6 +17,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/smoke-testing.yml"
+      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
