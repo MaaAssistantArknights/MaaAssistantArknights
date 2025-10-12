@@ -37,6 +37,17 @@
             ["Hall of Desires", "_default"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "roi": [541, 5, 241, 71],
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_default"],
+            ["Sunset Courtyard", "_exit"],
+            ["Homeland Remnants", "_exit"],
+            ["Nightmare's Prelude", "_exit"],
+            ["Blood-soaked Corridor", "_exit"],
+            ["Hall of Desires", "_exit"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "roi": [541, 5, 241, 90],
         "ocrReplace": [
