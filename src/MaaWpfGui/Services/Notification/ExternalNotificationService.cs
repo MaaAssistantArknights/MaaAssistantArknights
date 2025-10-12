@@ -29,6 +29,7 @@ public static class ExternalNotificationService
     private static async Task SendAsync(string title, string content, bool isTest = false)
     {
         var enabledProviders = SettingsViewModel.ExternalNotificationSettings.EnabledExternalNotificationProviderList;
+        var sendToAllChannels = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendToAllChannels;
 
         foreach (var enabledProvider in enabledProviders)
         {
@@ -55,7 +56,8 @@ public static class ExternalNotificationService
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
-            if (isTest is false && result)
+            // 如果不是测试模式，且不是发送到所有渠道模式，且当前渠道发送成功，则直接返回
+            if (isTest is false && !sendToAllChannels && result)
             {
                 return;
             }

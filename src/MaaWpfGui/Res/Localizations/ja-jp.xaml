@@ -43,6 +43,7 @@
     <system:String x:Key="ExternalNotificationSendWhenComplete">タスク完了時に通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenError">タスクが失敗したときに通知を送信</system:String>
     <system:String x:Key="ExternalNotificationSendWhenTimeout">タスクがタイムアウトしたときに通知を送信する</system:String>
+    <system:String x:Key="ExternalNotificationSendToAllChannels">すべての通知チャンネルに送信</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
