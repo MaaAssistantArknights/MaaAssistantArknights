@@ -29,7 +29,6 @@ public static class ExternalNotificationService
     private static async Task SendAsync(string title, string content, bool isTest = false)
     {
         var enabledProviders = SettingsViewModel.ExternalNotificationSettings.EnabledExternalNotificationProviderList;
-        var sendToAllChannels = SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendToAllChannels;
 
         foreach (var enabledProvider in enabledProviders)
         {
@@ -56,9 +55,9 @@ public static class ExternalNotificationService
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
-            if (isTest is false && !sendToAllChannels && result)
+            if (!isTest && result)
             {
-                return;
+                continue;
             }
 
             ToastNotification.ShowDirect(

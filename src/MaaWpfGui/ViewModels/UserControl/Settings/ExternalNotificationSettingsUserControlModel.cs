@@ -93,18 +93,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
-    private bool _externalNotificationSendToAllChannels = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendToAllChannels, bool.FalseString));
-
-    public bool ExternalNotificationSendToAllChannels
-    {
-        get => _externalNotificationSendToAllChannels;
-        set
-        {
-            SetAndNotify(ref _externalNotificationSendToAllChannels, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendToAllChannels, value.ToString());
-        }
-    }
-
     public static readonly List<string> ExternalNotificationProviders =
         [
             "ServerChan",

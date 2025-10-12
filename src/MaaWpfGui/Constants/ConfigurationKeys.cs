@@ -276,7 +276,6 @@ public static class ConfigurationKeys
     public const string ExternalNotificationEnableDetails = "ExternalNotification.EnableDetails";
     public const string ExternalNotificationSendWhenError = "ExternalNotification.SendWhenError";
     public const string ExternalNotificationSendWhenTimeout = "ExternalNotification.SendWhenTimeout";
-    public const string ExternalNotificationSendToAllChannels = "ExternalNotification.SendToAllChannels";
     public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
     public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
     public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
