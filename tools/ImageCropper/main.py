@@ -1,14 +1,14 @@
-import cv2
 import os
 import sys
-import numpy as np
-import colormatcher
 from datetime import datetime
-from roimage import Roimage
 
+import colormatcher
+import cv2
+import numpy as np
+from maa.controller import AdbController, Controller, Win32Controller
 from maa.define import MaaAdbScreencapMethodEnum, MaaWin32ScreencapMethodEnum
-from maa.controller import AdbController, Win32Controller, Controller
 from maa.toolkit import Toolkit
+from roimage import Roimage
 
 # 初始化设备参数
 # device_serial = "127.0.0.1:16384"
@@ -47,19 +47,21 @@ def match_color(image) -> tuple[int, int, list[tuple[list[int]]]]:
 
 # -----------------------------------------------
 
-print("Usage: python3 main.py [device serial]\n"
-      "Put the images under ./src, and run this script, it will be auto converted to target size.\n"
-      "Hold down the left mouse button, drag mouse to select a ROI.\n"
-      "Hold down the right mouse button, drag mouse to move the image.\n"
-      "Use the mouse wheel to zoom the image.\n"
-      "press 'S' or 'ENTER' to save ROIs.\n"
-      "press 'F' to save a full standardized screenshot.\n"
-      "press 'R' to output only the ROI ranges, not save.\n"
-      "press 'c' or 'C' (with connected) to output the ROI ranges and colors, not save.\n"
-      "press 'Z' or 'DELETE' or 'BACKSPACE' to remove the latest ROI.\n"
-      "press '0' ~ '9' to resize the window.\n"
-      "press 'Q' or 'ESC' to quit.\n"
-      "The cropped images will be saved in ./dst.\n")
+print(
+    "Usage: python3 main.py [device serial]\n"
+    "Put the images under ./src, and run this script, it will be auto converted to target size.\n"
+    "Hold down the left mouse button, drag mouse to select a ROI.\n"
+    "Hold down the right mouse button, drag mouse to move the image.\n"
+    "Use the mouse wheel to zoom the image.\n"
+    "press 'S' or 'ENTER' to save ROIs.\n"
+    "press 'F' to save a full standardized screenshot.\n"
+    "press 'R' to output only the ROI ranges, not save.\n"
+    "press 'c' or 'C' (with connected) to output the ROI ranges and colors, not save.\n"
+    "press 'Z' or 'DELETE' or 'BACKSPACE' to remove the latest ROI.\n"
+    "press '0' ~ '9' to resize the window.\n"
+    "press 'Q' or 'ESC' to quit.\n"
+    "The cropped images will be saved in ./dst.\n"
+)
 
 
 # 解析命令行参数
@@ -73,9 +75,13 @@ def parse_args() -> Controller:
             address=device_serial,
         )
 
-    t = int(input("1 | AdbController\n"
-                  "2 | Win32Controller\n"
-                  "Please select the controller type (ENTER to pass): "))
+    t = int(
+        input(
+            "1 | AdbController\n"
+            "2 | Win32Controller\n"
+            "Please select the controller type (ENTER to pass): "
+        )
+    )
     if not 1 <= t <= 2:
         return None
     print("MaaToolkit search in progress...")
@@ -88,22 +94,38 @@ def parse_args() -> Controller:
             i = int(input("Please select the device (ENTER to pass): "))
             if 0 <= i < len(device_list):
                 device_serial = device_list[i].address
-                return AdbController(adb_path=device_list[i].adb_path,
-                                    address=device_serial,
-                                    screencap_methods=adb_screencap_method)
+                return AdbController(
+                    adb_path=device_list[i].adb_path,
+                    address=device_serial,
+                    screencap_methods=adb_screencap_method,
+                )
     elif t == 2:
         window_list = Toolkit.find_desktop_windows()
         if len(window_list):
             max_len = 40
             for i, w in enumerate(window_list):
-                c = w.class_name[:max_len - 3] + '...' if len(w.class_name) > max_len else w.class_name
+                c = (
+                    w.class_name[: max_len - 3] + "..."
+                    if len(w.class_name) > max_len
+                    else w.class_name
+                )
                 print(f"{w.hwnd:>19} {c:>{max_len}} | {i:>3} | {w.window_name}")
-            print(str.format("{:->19} {:->{}} | {:->3} | {}", " hWnd", " class name", max_len, "num", "window name"))
+            print(
+                str.format(
+                    "{:->19} {:->{}} | {:->3} | {}",
+                    " hWnd",
+                    " class name",
+                    max_len,
+                    "num",
+                    "window name",
+                )
+            )
         i = int(input("Please select the window (ENTER to pass): "))
         if 0 <= i < len(window_list):
             device_serial = window_list[i].window_name
-            return Win32Controller(hWnd=window_list[i].hwnd,
-                                   screencap_method=win32_screencap_method)
+            return Win32Controller(
+                hWnd=window_list[i].hwnd, screencap_method=win32_screencap_method
+            )
     return None
 
 
@@ -115,17 +137,20 @@ if controller:
 
 # 初始化 Roi
 std_roimage: Roimage = Roimage(window_size[0], window_size[1])  # 标准化截图
-win_roimage: Roimage = Roimage(0, 0, 0, 0, std_roimage)  # 相对 std_roimage ，窗口显示的区域
+win_roimage: Roimage = Roimage(
+    0, 0, 0, 0, std_roimage
+)  # 相对 std_roimage ，窗口显示的区域
 crop_list: list[Roimage] = []  # 相对 std_roimage ，需要裁剪的区域
 
 # 初始化参数
 win_name = "image"  # 窗口名
 trackbars_name = "trackbars"  # 轨迹条窗口名
 file_name = "image"  # 文件名
-files = [f for f in os.listdir("./src") if f.endswith('.png')]
+files = [f for f in os.listdir("./src") if f.endswith(".png")]
 
 
 # -----------------------------------------------
+
 
 # OpenCV 鼠标回调
 # -events 鼠标事件（如按下鼠标左键，释放鼠标左键，鼠标移动等）
@@ -147,7 +172,15 @@ trackbars_img = np.ones((100, 400, 3), dtype=np.uint8) * 255
 
 def show_roi(roi: Roimage):
     trackbars_img.fill(255)
-    cv2.putText(trackbars_img, f'{roi.rectangle}', (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+    cv2.putText(
+        trackbars_img,
+        f"{roi.rectangle}",
+        (0, 60),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (0, 0, 0),
+        2,
+    )
     cv2.imshow(trackbars_name, trackbars_img)
 
 
@@ -158,7 +191,8 @@ def count_draw_coordinate(rect_pts):
     x, y = win_roimage.point
     return (
         (int(rect_pts[0][0] * z - x), int(rect_pts[0][1] * z - y)),
-        (int(rect_pts[1][0] * z - x), int(rect_pts[1][1] * z - y)))
+        (int(rect_pts[1][0] * z - x), int(rect_pts[1][1] * z - y)),
+    )
 
 
 # 绘图
@@ -181,8 +215,10 @@ def crop(event, x, y, flags, param) -> None:
     if event == cv2.EVENT_LBUTTONDOWN:  # 按下左键
         # 记录（x,y）坐标
         crop_start = Roimage(0, 0, x, y, win_roimage)
-    elif crop_start is not None and (event == cv2.EVENT_LBUTTONUP or (
-        event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_LBUTTON))):  # 释放左键 或 按住左键拖曳
+    elif crop_start is not None and (
+        event == cv2.EVENT_LBUTTONUP
+        or (event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_LBUTTON))
+    ):  # 释放左键 或 按住左键拖曳
         # 修正（x,y）坐标
         w, h = win_roimage.size
         x = max(0, min(w - 1, x))
@@ -245,9 +281,13 @@ def move(event, x, y, flags, param) -> None:
     if event == cv2.EVENT_RBUTTONDOWN:
         move_start = (x, y)
         move_start_roi = win_roimage.point
-    elif event == cv2.EVENT_RBUTTONUP or (event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_RBUTTON)):
+    elif event == cv2.EVENT_RBUTTONUP or (
+        event == cv2.EVENT_MOUSEMOVE and (flags & cv2.EVENT_FLAG_RBUTTON)
+    ):
         x, y = count_move_coordinate(move_start_roi, move_start, (x, y))
-        win_roimage = Roimage(win_roimage.width, win_roimage.height, x, y, std_roimage, win_roimage.zoom)
+        win_roimage = Roimage(
+            win_roimage.width, win_roimage.height, x, y, std_roimage, win_roimage.zoom
+        )
         draw(crop_list)
 
 
@@ -287,7 +327,7 @@ def get_std_roimage() -> Roimage:
         file_name = file_name.split(".")[0]
     else:
         image = screenshot()
-        file_name = datetime.now().strftime('%H%M%S')  # '%Y%m%d%H%M%S'
+        file_name = datetime.now().strftime("%H%M%S")  # '%Y%m%d%H%M%S'
     if image is None:
         return None
     height, width, _ = image.shape
@@ -319,7 +359,7 @@ cv2.setMouseCallback(win_name, mouse)
 
 cv2.namedWindow(trackbars_name, cv2.WINDOW_NORMAL)
 cv2.setWindowProperty(trackbars_name, cv2.WND_PROP_TOPMOST, 1)
-cv2.createTrackbar('Scale', trackbars_name, 100, 200, trackbar_change)
+cv2.createTrackbar("Scale", trackbars_name, 100, 200, trackbar_change)
 
 cropping = False
 destroyedMainColors = True
@@ -340,15 +380,15 @@ while True:
         exit()
     # 0
     if key == 48:
-        cv2.setTrackbarPos('Scale', trackbars_name, 100)
+        cv2.setTrackbarPos("Scale", trackbars_name, 100)
         continue
     # 1 ~ 5
     if key in range(49, 54):
-        cv2.setTrackbarPos('Scale', trackbars_name, 100 + 15 * (key - 48))
+        cv2.setTrackbarPos("Scale", trackbars_name, 100 + 15 * (key - 48))
         continue
     # 6 ~ 9
     if key in range(54, 58):
-        cv2.setTrackbarPos('Scale', trackbars_name, 100 - 15 * (58 - key))
+        cv2.setTrackbarPos("Scale", trackbars_name, 100 - 15 * (58 - key))
         continue
     # z Z delete backspace
     if key in [ord("z"), ord("Z"), 0, 8]:
@@ -387,17 +427,28 @@ while True:
         if needSave:
             x1, y1, w1, h1 = roi.rectangle
             x2, y2, w2, h2 = get_amplified_roi_rectangle(roi)
-            dst_filename: str = f'{file_name}_{x1}_{y1}_{w1}_{h1}__{x2}_{y2}_{w2}_{h2}.png'
+            dst_filename: str = (
+                f"{file_name}_{x1}_{y1}_{w1}_{h1}__{x2}_{y2}_{w2}_{h2}.png"
+            )
             print(f"dst: {os.getcwd()}\dst\{dst_filename}")
-            cv2.imwrite('./dst/' + dst_filename, roi.image)
+            cv2.imwrite("./dst/" + dst_filename, roi.image)
 
-        print(f"original roi: {roi.rectangle}\n"
-              f"amplified roi: {get_amplified_roi_rectangle(roi)}")
+        print(
+            f"original roi: {roi.rectangle}\n"
+            f"amplified roi: {get_amplified_roi_rectangle(roi)}"
+        )
 
         if needColorMatch:
             method, reverse, colors = match_color(img)
-            ret = {"recognition": "ColorMatch", "roi": [], "method": method, "lower": [], "upper": [], "count": [],
-                   "connected": connected}
+            ret = {
+                "recognition": "ColorMatch",
+                "roi": [],
+                "method": method,
+                "lower": [],
+                "upper": [],
+                "count": [],
+                "connected": connected,
+            }
             mainColors = []
             for center, lower, upper in colors:
                 count = colormatcher.getCount(img, lower, upper, connected, method)
@@ -406,24 +457,49 @@ while True:
                 ret["count"].append(count)
                 mainColor = np.zeros((80, 200, 3), dtype=np.uint8)
                 mainColor[:28, :] = lower
-                mainColor[28: 58, :] = upper
+                mainColor[28:58, :] = upper
                 mainColor[58:, :] = center
                 if reverse is not None:
                     mainColor = cv2.cvtColor(mainColor, reverse)
-                cv2.putText(mainColor, f'{lower}', (0, 20), cv2.FONT_HERSHEY_SIMPLEX, .75, (0, 0, 0), 2)
-                cv2.putText(mainColor, f'{upper}', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255, 255), 2)
-                cv2.putText(mainColor, f'{count}', (66, 76), cv2.FONT_HERSHEY_SIMPLEX, .75, (127, 127, 127), 2)
+                cv2.putText(
+                    mainColor,
+                    f"{lower}",
+                    (0, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.75,
+                    (0, 0, 0),
+                    2,
+                )
+                cv2.putText(
+                    mainColor,
+                    f"{upper}",
+                    (0, 50),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.75,
+                    (255, 255, 255),
+                    2,
+                )
+                cv2.putText(
+                    mainColor,
+                    f"{count}",
+                    (66, 76),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.75,
+                    (127, 127, 127),
+                    2,
+                )
                 mainColors.append(mainColor)
             mains.append(cv2.hconcat(mainColors))
-            cv2.namedWindow('MainColors', cv2.WINDOW_NORMAL)
-            cv2.imshow('MainColors', cv2.vconcat(mains))
+            cv2.namedWindow("MainColors", cv2.WINDOW_NORMAL)
+            cv2.imshow("MainColors", cv2.vconcat(mains))
             destroyedMainColors = False
-            print(f"ColorMatch: {ret}"
-                  .replace("'", '"')
-                  .replace("False", "false")
-                  .replace("True", "true"))
-        elif is_window_visible('MainColors', destroyedMainColors):
-            cv2.destroyWindow('MainColors')
+            print(
+                f"ColorMatch: {ret}".replace("'", '"')
+                .replace("False", "false")
+                .replace("True", "true")
+            )
+        elif is_window_visible("MainColors", destroyedMainColors):
+            cv2.destroyWindow("MainColors")
             destroyedMainColors = True
 
         print("")

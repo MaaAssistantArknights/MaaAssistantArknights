@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 # 描述符基类,用于类型检查
 class Typed(object):
 
@@ -21,7 +22,8 @@ class Typed(object):
     def __delete__(self, instance):
         del instance.__dict__[self.name]
 
-#类装饰器，用来装饰自定义的类, 且将类属性设置为某特定类型的Typed实例
+
+# 类装饰器，用来装饰自定义的类, 且将类属性设置为某特定类型的Typed实例
 def typeassert(**kwargs):
     def decorate(cls):
         for name, expected_type in kwargs.items():
@@ -30,12 +32,28 @@ def typeassert(**kwargs):
             # 将名字name和iType，设置到cls中，作为对应cls.__dict__中的key，value
             setattr(cls, name, iTyped)
         return cls
+
     return decorate
 
-@typeassert(width=(float, int), height=(float, int), x=(float, int), y=(float, int), zoom=(float, int))
+
+@typeassert(
+    width=(float, int),
+    height=(float, int),
+    x=(float, int),
+    y=(float, int),
+    zoom=(float, int),
+)
 class Roi(object):
-    def __init__(self, width: float, height: float, x: float = 0 , y: float = 0, parent: Roi = None, zoom: float = 1) -> None:
-        '''感兴趣区域
+    def __init__(
+        self,
+        width: float,
+        height: float,
+        x: float = 0,
+        y: float = 0,
+        parent: Roi = None,
+        zoom: float = 1,
+    ) -> None:
+        """感兴趣区域
 
         相对于父 Roi，由宽、高、左上角顶点坐标所描述的一个感兴趣区域
 
@@ -56,12 +74,12 @@ class Roi(object):
 
         Returns:
             Roi
-        '''
+        """
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.zoom = zoom # 加了缩放系数之后，就开始烧脑了（
+        self.zoom = zoom  # 加了缩放系数之后，就开始烧脑了（
         self.__parent = parent
         self.__check()
 
@@ -92,36 +110,39 @@ class Roi(object):
 
     @property
     def parent(self) -> Roi:
-        '''Roi 父节点'''
+        """Roi 父节点"""
         return self.__parent
 
     @property
     def isRoot(self) -> bool:
-        '''是否是根节点'''
+        """是否是根节点"""
         return self.parent is None
 
     @property
     def point(self) -> tuple[int, int]:
-        '''Roi 左上角顶点坐标 (x, y)'''
+        """Roi 左上角顶点坐标 (x, y)"""
         return (int(self.x), int(self.y))
 
     @property
     def size(self) -> tuple[int, int]:
-        '''Roi 大小 (width, height)'''
+        """Roi 大小 (width, height)"""
         return (int(self.width), int(self.height))
 
     @property
     def rectangle(self) -> list[int]:
-        '''Roi 区域 [ x, y, width, height ]，由左上角顶点 (x, y) 和宽高描述'''
+        """Roi 区域 [ x, y, width, height ]，由左上角顶点 (x, y) 和宽高描述"""
         return [int(self.x), int(self.y), int(self.width), int(self.height)]
 
     @property
     def rectanglePoints(self) -> tuple[tuple[int, int], tuple[int, int]]:
-        '''Roi 区域 ( x1, y1, x2, y2 )，由左上角顶点 (x1, y1) 和右下角顶点 (x2, y2) 描述'''
-        return ((int(self.x), int(self.y)), (int(self.x + self.width - 1), int(self.y + self.height - 1)))
+        """Roi 区域 ( x1, y1, x2, y2 )，由左上角顶点 (x1, y1) 和右下角顶点 (x2, y2) 描述"""
+        return (
+            (int(self.x), int(self.y)),
+            (int(self.x + self.width - 1), int(self.y + self.height - 1)),
+        )
 
     def getZoomRoi(self, zoom: float) -> Roi:
-        '''
+        """
         获取相对于 parent，基于当前Roi，从 zoom 放大的一个新 Roi
 
         如果 self 为 root，则相对于 root
@@ -132,12 +153,19 @@ class Roi(object):
 
         Returns:
             Roi
-        '''
+        """
         parent = self if self.isRoot else self.parent
-        return self.__class__(self.width * zoom, self.height * zoom, self.x  * zoom, self.y * zoom, parent, zoom)
+        return self.__class__(
+            self.width * zoom,
+            self.height * zoom,
+            self.x * zoom,
+            self.y * zoom,
+            parent,
+            zoom,
+        )
 
     def getCropRoi(self, x: float, y: float) -> Roi:
-        '''
+        """
         获取相对于 parent，基于当前Roi，从坐标计算的一个新 Roi
 
         如果 self 为 root，则相对于 root
@@ -150,7 +178,7 @@ class Roi(object):
 
         Returns:
             Roi
-        '''
+        """
         parent = self if self.isRoot else self.parent
         if x > self.x:
             width = 1 + x - self.x
@@ -165,36 +193,43 @@ class Roi(object):
         return self.__class__(width, height, x, y, parent, self.zoom)
 
     def getRoiFromParent(self) -> Roi:
-        '''
+        """
         获取相对于 parent.parent，基于当前Roi，从父 Roi 坐标计算的一个新 Roi
 
         若 self 为 root，则返回 self
 
         Returns:
             Roi
-        '''
+        """
         if self.isRoot:
             return self
         if self.parent.isRoot and self.zoom == 1.0:
             return self
         x, y = self.parent.point
         p = self.parent if self.parent.isRoot else self.parent.parent
-        return self.__class__(self.width / self.zoom, self.height / self.zoom, x + self.x / self.zoom, y + self.y / self.zoom, p, self.parent.zoom)
+        return self.__class__(
+            self.width / self.zoom,
+            self.height / self.zoom,
+            x + self.x / self.zoom,
+            y + self.y / self.zoom,
+            p,
+            self.parent.zoom,
+        )
 
     def getRoiInRoot(self) -> Roi:
-        '''
+        """
         获取相对于 root，基于 self，从 root 坐标计算的一个新 Roi
 
         若 self 为 root，则返回 self
 
         Returns:
             Roi
-        '''
+        """
         roi = self.getRoiFromParent()
         return self if self is roi else roi.getRoiInRoot()
-    
+
     def copy(self, parent: Roi = None, zoom: float = None) -> Roi:
-        '''
+        """
         深复制 Roi
 
         Args:
@@ -205,7 +240,7 @@ class Roi(object):
 
         Returns:
             Roi
-        '''
+        """
         parent = self.parent if parent is None else parent
         zoom = self.zoom if zoom is None else zoom
         return self.__class__(self.width, self.height, self.x, self.y, parent, zoom)
