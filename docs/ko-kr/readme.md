@@ -93,8 +93,8 @@ MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에
 ### 주요 관련 프로젝트
 
 - New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- [전략 파일 저장소](https://prts.plus): Frontend [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [전략 파일 저장소](https://prts.plus): Backend [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [전략 파일 저장소](https://prts.plus): Frontend [zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
+- [전략 파일 저장소](https://prts.plus): Backend [ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
 - [공식 웹사이트](https://maa.plus): [frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
