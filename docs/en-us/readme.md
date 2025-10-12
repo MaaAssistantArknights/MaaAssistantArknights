@@ -92,8 +92,8 @@ MAA supports command-line interface (CLI) operation on Linux, macOS, and Windows
 ### Main Related Projects
 
 - New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- [Copilot Site](https://prts.plus) Frontend: [maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [Copilot Site](https://prts.plus) Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [Copilot Site](https://prts.plus) Frontend: [zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
+- [Copilot Site](https://prts.plus) Backend: [ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
 - [Official Website](https://maa.plus): [Frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
