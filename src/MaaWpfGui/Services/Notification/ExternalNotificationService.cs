@@ -56,7 +56,6 @@ public static class ExternalNotificationService
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
-            // 如果不是测试模式，且不是发送到所有渠道模式，且当前渠道发送成功，则直接返回
             if (isTest is false && !sendToAllChannels && result)
             {
                 return;
