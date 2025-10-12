@@ -21,6 +21,16 @@
             ["渇欲の大広間", "_default"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["迷霧の岐路", "_default"],
+            ["落陽の庭園", "_exit"],
+            ["凋落の故地", "_exit"],
+            ["悪夢の幕開け", "_exit"],
+            ["緋月の回廊", "_exit"],
+            ["渇欲の大広間", "_exit"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["迷霧の岐路", "_default"],

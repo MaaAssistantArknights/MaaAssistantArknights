@@ -21,6 +21,16 @@
             ["渴欲(大|太)廳", "_default"]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["迷霧歧途", "_default"],
+            ["落陽庭院", "_exit"],
+            ["故(土|士)殘軀", "_exit"],
+            ["噩夢之始", "_exit"],
+            ["血月長廊", "_exit"],
+            ["渴欲(大|太)廳", "_exit"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["迷霧歧途", "_default"],
