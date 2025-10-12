@@ -26,6 +26,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
