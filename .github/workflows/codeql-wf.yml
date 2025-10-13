@@ -25,12 +25,12 @@ jobs:
           show-progress: false
 
       - name: Setup CodeQL for GitHub Actions
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: actions
           build-mode: none
 
       - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:multi-none"
