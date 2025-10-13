@@ -30,7 +30,10 @@ let lastScaleRatio = 1
 function scaleAsciiArt() {
   if (!asciiArtWrapper.value || !asciiArt.value) return
 
-  const scaleRatio = asciiArtWrapper.value.clientWidth / asciiArt.value.scrollWidth
+  const scaleRatio = Math.min(
+    asciiArtWrapper.value.clientWidth / asciiArt.value.scrollWidth,
+    window.innerHeight / asciiArt.value.scrollHeight,
+  )
   // 锁定状态不允许放大
   if (scaleRatio > lastScaleRatio && isScaleUpLocked) return
 
