@@ -1009,7 +1009,8 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"]
+        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"],
+        "roi": [67, 69, 115, 219]
     },
     "OrundumActivitiesChoose": {
         "text": ["Choose", "spot", "Please select", "Wishing", "Tickets"]
@@ -1033,7 +1034,7 @@
         "doc_preDelay": "Sometimes a loading will appear after entering the home.",
         "preDelay": 500,
         "text": ["Exclusive", "Monthly", "Card"],
-        "roi": [66, 79, 103, 151]
+        "roi": [67, 69, 115, 219]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "Claim", "NOW", "Now"]
