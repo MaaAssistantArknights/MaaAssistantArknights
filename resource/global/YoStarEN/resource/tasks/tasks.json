@@ -1454,9 +1454,6 @@
     "OperBoxSortTabSelect": {
         "text": ["Level"]
     },
-    "OperBoxRoleTab": {
-        "roi": [1166, 0, 114, 124]
-    },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
         "rectMove": [0, 265, 128, 22],
