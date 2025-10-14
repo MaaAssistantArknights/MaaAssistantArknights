@@ -7,7 +7,7 @@
         "roi": [228, 594, 864, 78]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
-        "text": ["Join", "Event"]
+        "text": ["Start", "Game"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
         "text": ["Gifts", "Remaining"]
