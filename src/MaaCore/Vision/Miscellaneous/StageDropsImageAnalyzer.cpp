@@ -422,32 +422,25 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
 {
     LogTraceFunction;
 
-    constexpr int REF_ROI_OFFSET = 320;
-
-    const cv::Rect ref_roi = { m_image.cols - REF_ROI_OFFSET, 530, 280, 100 };
+    const cv::Rect ref_roi = { m_image.cols - 320, 530, 280, 100 };
     const cv::Rect overlay_rect = { 540, 500, 740, 220 };
 
-    // ref_roi.width <= REF_ROI_OFFSET 我们就不做额外检查了
-    // if (ref_roi.width > REF_ROI_OFFSET) {
-    //     Log.error("ref_roi has invalid dimension:", ref_roi);
-    //     return std::opt;
-    // }
-
     // 检查 m_image 的尺寸是否合理, 要求:
-    // 1. 足够裁剪下 ref_roi 的区域以进行重合区域识别
+    // 1. 足够裁剪下 ref_roi 以进行重合区域识别
     // 2. 纵向足够容纳下 overlay_rect 以进行拼接
-    const int old_strip_min_width = REF_ROI_OFFSET;
+    const int old_strip_min_width = ref_roi.br().x;
     const int old_strip_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
-    if (m_image.empty() || m_image.cols < old_strip_min_width || m_image.rows < old_strip_min_height) {
+    if (m_image.empty() || ref_roi.x < 0 || m_image.cols < old_strip_min_width || m_image.rows < old_strip_min_height) {
         Log.error("m_image is empty or has invalid dimensions:", m_image.size());
         return std::nullopt;
     }
 
     // 检查 new_img 的尺寸是否合理, 要求:
-    // 1. 足够容纳下 ref_roi 的大小以进行重合区域识别
-    // 2. 足够裁剪下 overlay_rect 的区域以进行拼接
+    // 1. 横向不小于 ref_roi.width 以进行重合区域识别
+    // 2. 纵向足够裁剪下 ref_roi 以进行重合区域识别
+    // 3. 足够裁剪下 overlay_rect 以进行拼接
     const int new_img_min_width = std::max<int>(ref_roi.width, overlay_rect.br().x);
-    const int new_img_min_height = std::max<int>(ref_roi.height, overlay_rect.br().y);
+    const int new_img_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
     if (new_img.empty() || new_img.cols < new_img_min_width || new_img.rows < new_img_min_height) {
         Log.error("new_img is empty or has invalid dimensions:", new_img.size());
         return std::nullopt;
