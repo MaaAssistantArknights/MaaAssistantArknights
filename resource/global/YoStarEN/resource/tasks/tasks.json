@@ -160,7 +160,7 @@
             ["Vermeil?", "红云"],
             ["Schwarz", "黑"],
             ["Catapult", "空爆"],
-            ["Exusiai?", "能天使"],
+            ["^Exusiai?$", "能天使"],
             ["Firewatch", "守林人"],
             ["Provence", "普罗旺斯"],
             ["Meteorite", "陨星"],
@@ -189,7 +189,7 @@
             ["Dur-nar", "坚雷"],
             ["Spot", "斑点"],
             ["Saria", "塞雷娅"],
-            ["Hoshiguma", "星熊"],
+            ["^Hoshiguma$", "星熊"],
             ["Vulcan", "火神"],
             ["Croissant", "可颂"],
             ["Liskarm", "雷蛇"],
@@ -1389,9 +1389,7 @@
         ]
     },
     "BattleQuickFormationExpandRole": {
-        "algorithm": "OcrDetect",
-        "text": ["JOD", "Job", "Class"],
-        "roi": [1207, 25, 42, 32]
+        "roi": [1166, 0, 114, 120]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["Deployment Cost"],
@@ -1457,8 +1455,7 @@
         "text": ["Level"]
     },
     "OperBoxRoleTab": {
-        "baseTask": "BattleQuickFormationExpandRole",
-        "action": "Stop"
+        "roi": [1166, 0, 114, 124]
     },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
