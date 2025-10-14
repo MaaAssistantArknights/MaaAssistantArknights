@@ -1,17 +1,18 @@
 {
     "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
-        "text": ["경기진행"]
+        "text": ["경기", "진행"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
         "text": ["혼자", "즐기기"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
-        "text": ["경기", "진행", "개시", "시작"]
+        "text": ["게임", "시작"],
+        "roi": [1155, 575, 60, 35]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
-        "text": ["남은선물"]
+        "text": ["남은", "선물"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@End": {
-        "text": ["메인화면"]
+        "text": ["메인", "매인", "화면"]
     }
 }
