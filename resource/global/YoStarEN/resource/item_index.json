@@ -1127,6 +1127,14 @@
         "sortId": 10009,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_6101": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_6101.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10027,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1583,6 +1591,14 @@
         "sortId": -10000,
         "usage": "Can be exchanged for the corresponding event stage reward."
     },
+    "act1enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Apparently, using it can send a fullscreen fireworks effect along with a message to the entire Duel Channel. But what the richie-riches who break the TOS to spam them in public chat all day might not know is that they can be blocked with a click of a button on the website.",
+        "icon": "act1enemyduel_milestone_point.png",
+        "name": "Grand Duel Fireworks",
+        "sortId": -10000,
+        "usage": "One of the more expensive Duel Channel gifts, and can be exchanged on the website for material rewards, with free shipping and home delivery."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",
@@ -1974,6 +1990,14 @@
         "name": "Broken Originium Lamp",
         "sortId": -10000,
         "usage": "A damaged Originium lamp found in the Dark Woods. Once Na Saoirsí's supply issues were resolved, the citizens spontaneously decided to organize, taking out the only supplies they had on hand to recover these relics of the war."
+    },
+    "act42side_token_pacifier": {
+        "classifyType": "NONE",
+        "description": "A pacifier soaked in saliva, with a miniature halo atop it. The child who threw it away is now wailing incessantly. Guide the way for the lost pacifier, and it will return to the child's side.",
+        "icon": "act42side_token_pacifier.png",
+        "name": "Enlightened Pacifier",
+        "sortId": -10000,
+        "usage": "The enlightenment of the Shrine of Nurtury has spread like wildfire, and both the living and the unliving have sprouted halos. The first pacifiers to receive them wandered off through the Shrine in their confusion, leaving countless babes to suffer restless nights. If you are able to return them to their posts, the beleaguered nurturers will be happy to give gifts as thanks."
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2582,6 +2606,14 @@
         "name": "Carnival Canister",
         "sortId": 60115,
         "usage": "Contains various supplies that can be used during Carnevale, including random materials."
+    },
+    "randomMaterial_act42side": {
+        "classifyType": "CONSUME",
+        "description": "'Waste material' is a foreign concept to Paganini's workshop. Any excess from the gun manufacturing process will be processed by his apprentice Vannini into little trinkets to be given as gifts to clients.",
+        "icon": "randomMaterial_act42side.png",
+        "name": "Firearms Workshop Giftbox",
+        "sortId": 60116,
+        "usage": "Contains various supplies from the firearms workshop, including random materials."
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",

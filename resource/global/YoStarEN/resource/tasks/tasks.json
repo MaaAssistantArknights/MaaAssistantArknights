@@ -908,7 +908,19 @@
             ["Active Sarkaz Caster Crystal", "活性态萨卡兹术师结晶"],
             ["'Shadow in the Snow'", "“风雪中的影子”"],
             ["Hot Drink Machine", "加热饮料机"],
-            ["Cold Drink Machine", "冰镇饮料机"]
+            ["Cold Drink Machine", "冰镇饮料机"],
+            ["Sacrament of Genesis", "寻根圣事"],
+            ["Shrine Nurturer Cosplayer", "圣堂保育员扮演者"],
+            ["Shrine Marksman Cosplayer", "圣堂射手扮演者"],
+            ["Saint Statue Cosplayer", "圣徒像扮演者"],
+            ["Nightwalker's Cloak Module", "夜行斗篷模块"],
+            ["Nightwalker's Hook Module", "夜行钩爪模块"],
+            ["Exusiai the New Covenant", "新约能天使"],
+            ["Sankta Miksaparato", "信仰搅拌机"],
+            ["Master Who Walks the Night Gear", "天工夜行套装"],
+            ["Delivery Coordinates", "投递坐标"],
+            ["Gracebearer", "聆音"],
+            ["Lemuen", "蕾缪安"]
         ]
     },
     "GameStartCheckResourceOCR": {
