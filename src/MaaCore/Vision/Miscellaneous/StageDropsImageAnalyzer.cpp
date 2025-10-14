@@ -422,7 +422,37 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
 {
     LogTraceFunction;
 
-    const cv::Rect ref_roi = { m_image.cols - 320, 530, 280, 100 };
+    constexpr int REF_ROI_OFFSET = 320;
+
+    const cv::Rect ref_roi = { m_image.cols - REF_ROI_OFFSET, 530, 280, 100 };
+    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
+
+    // ref_roi.width <= REF_ROI_OFFSET 我们就不做额外检查了
+    // if (ref_roi.width > REF_ROI_OFFSET) {
+    //     Log.error("ref_roi has invalid dimension:", ref_roi);
+    //     return std::opt;
+    // }
+
+    // 检查 m_image 的尺寸是否合理, 要求:
+    // 1. 足够裁剪下 ref_roi 的区域以进行重合区域识别
+    // 2. 纵向足够容纳下 overlay_rect 以进行拼接
+    const int old_strip_min_width = REF_ROI_OFFSET;
+    const int old_strip_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
+    if (m_image.empty() || m_image.cols < old_strip_min_width || m_image.rows < old_strip_min_height) {
+        Log.error("m_image is empty or has invalid dimensions:", m_image.size());
+        return std::nullopt;
+    }
+
+    // 检查 new_img 的尺寸是否合理, 要求:
+    // 1. 足够容纳下 ref_roi 的大小以进行重合区域识别
+    // 2. 足够裁剪下 overlay_rect 的区域以进行拼接
+    const int new_img_min_width = std::max<int>(ref_roi.width, overlay_rect.br().x);
+    const int new_img_min_height = std::max<int>(ref_roi.height, overlay_rect.br().y);
+    if (new_img.empty() || new_img.cols < new_img_min_width || new_img.rows < new_img_min_height) {
+        Log.error("new_img is empty or has invalid dimensions:", new_img.size());
+        return std::nullopt;
+    }
+
     Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
     offset_match.set_templ(m_image(ref_roi));
     offset_match.set_threshold(0.7);
@@ -435,39 +465,22 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
 
     const int rel_x = offset + m_image.cols - new_img.cols;
 
-    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
     cv::Rect overlay_rect_on_strip = overlay_rect;
     overlay_rect_on_strip.x += rel_x;
 
-    // 检查 overlay_rect_on_strip 是否越界
-    if (overlay_rect_on_strip.x < 0 || overlay_rect_on_strip.y < 0 || overlay_rect_on_strip.br().x > new_img.cols ||
-        overlay_rect_on_strip.br().y > new_img.rows) {
-        Log.error("overlay_rect_on_strip is out of bounds: ", overlay_rect_on_strip);
-        return std::nullopt;
-    }
-
-    // 检查 overlay_rect 是否越界
-    if (overlay_rect.x < 0 || overlay_rect.y < 0 || overlay_rect.br().x > new_img.cols ||
-        overlay_rect.br().y > new_img.rows) {
-        Log.error("overlay_rect is out of bounds: ", overlay_rect);
-        return std::nullopt;
-    }
-
-    // 检查 m_image 的尺寸是否合理
-    if (m_image.empty() || m_image.rows <= 0 || m_image.cols <= 0) {
-        Log.error("m_image is empty or has invalid dimensions: ", m_image.size());
+    // 检查 (即将创建的) new_strip 的长度, 若比 m_image 更短, 则放弃
+    if (overlay_rect_on_strip.br().x <= m_image.cols) {
+        Log.info(
+            "The width of new_strip",
+            overlay_rect_on_strip.br().x,
+            "is less than or equal to the original one",
+            m_image.cols);
+        Log.info("Cancel the image merging");
         return std::nullopt;
     }
 
     // 创建新的 new_strip
     cv::Mat new_strip = cv::Mat { m_image.rows, overlay_rect_on_strip.br().x, m_image.type(), cv::Scalar(0) };
-
-    // 检查 new_strip 的尺寸是否合理
-    if (new_strip.cols < m_image.cols || new_strip.rows < m_image.rows) {
-        Log.error("new_strip dimensions are invalid: ", new_strip.size());
-        return std::nullopt;
-    }
-
     m_image.copyTo(new_strip(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
     new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
 
