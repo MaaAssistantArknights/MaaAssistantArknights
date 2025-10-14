@@ -381,8 +381,7 @@
         },
         "char_1041_angel2": {
             "name": "新约能天使",
-            "name_en": "新约能天使",
-            "name_en_unavailable": true,
+            "name_en": "Exusiai the New Covenant",
             "name_jp": "新約エクシア",
             "name_kr": "엑시아 더 뉴 커버넌트",
             "name_tw": "新约能天使",
@@ -3646,8 +3645,7 @@
         },
         "char_4187_graceb": {
             "name": "聆音",
-            "name_en": "聆音",
-            "name_en_unavailable": true,
+            "name_en": "Gracebearer",
             "name_jp": "グレースベアラー",
             "name_kr": "그레이스베어러",
             "name_tw": "聆音",
@@ -3660,7 +3658,6 @@
         "char_4188_confes": {
             "name": "CONFESS-47",
             "name_en": "CONFESS-47",
-            "name_en_unavailable": true,
             "name_jp": "CONFESS-47",
             "name_kr": "CONFESS-47",
             "name_tw": "CONFESS-47",
@@ -3687,8 +3684,7 @@
         },
         "char_4193_lemuen": {
             "name": "蕾缪安",
-            "name_en": "蕾缪安",
-            "name_en_unavailable": true,
+            "name_en": "Lemuen",
             "name_jp": "レミュアン",
             "name_kr": "르무엔",
             "name_tw": "蕾缪安",
@@ -3700,8 +3696,7 @@
         },
         "char_4194_rmixer": {
             "name": "信仰搅拌机",
-            "name_en": "信仰搅拌机",
-            "name_en_unavailable": true,
+            "name_en": "Sankta Miksaparato",
             "name_jp": "サンクタ・ミキサー",
             "name_kr": "산크타 믹사파라토",
             "name_tw": "信仰搅拌机",
@@ -3745,7 +3740,6 @@
         "char_4198_christ": {
             "name": "Miss.Christine",
             "name_en": "Miss.Christine",
-            "name_en_unavailable": true,
             "name_jp": "ミス・クリスティーン",
             "name_kr": "미스 크리스틴",
             "name_tw": "Miss.Christine",
@@ -5358,8 +5352,7 @@
         },
         "token_10056_angel2_target": {
             "name": "投递坐标",
-            "name_en": "投递坐标",
-            "name_en_unavailable": true,
+            "name_en": "Delivery Coordinates",
             "name_jp": "配達先座標",
             "name_kr": "배달 좌표",
             "name_tw": "投递坐标",
@@ -8902,8 +8895,7 @@
         },
         "trap_213_dqore": {
             "name": "源石祭坛",
-            "name_en": "源石祭坛",
-            "name_en_unavailable": true,
+            "name_en": "Originium Altar",
             "name_jp": "源石祭壇",
             "name_kr": "오리지늄 제단",
             "name_tw": "源石祭坛",
@@ -8915,8 +8907,7 @@
         },
         "trap_214_dqballis": {
             "name": "弩炮",
-            "name_en": "弩炮",
-            "name_en_unavailable": true,
+            "name_en": "Turret",
             "name_jp": "バリスタ",
             "name_kr": "발리스타",
             "name_tw": "弩炮",
@@ -9177,8 +9168,7 @@
         },
         "trap_235_hlnpcm": {
             "name": "圣徒像扮演者",
-            "name_en": "圣徒像扮演者",
-            "name_en_unavailable": true,
+            "name_en": "Saint Statue Cosplayer",
             "name_jp": "聖徒像ごっこ",
             "name_kr": "성도 조각상 연기자",
             "name_tw": "圣徒像扮演者",
@@ -9190,8 +9180,7 @@
         },
         "trap_236_hlnpcs": {
             "name": "圣堂射手扮演者",
-            "name_en": "圣堂射手扮演者",
-            "name_en_unavailable": true,
+            "name_en": "Shrine Marksman Cosplayer",
             "name_jp": "聖堂射手ごっこ",
             "name_kr": "성당 저격수 연기자",
             "name_tw": "圣堂射手扮演者",
@@ -9203,8 +9192,7 @@
         },
         "trap_237_hlnpcb": {
             "name": "圣堂保育员扮演者",
-            "name_en": "圣堂保育员扮演者",
-            "name_en_unavailable": true,
+            "name_en": "Shrine Nurturer Cosplayer",
             "name_jp": "聖堂保育士ごっこ",
             "name_kr": "성당 보육사 연기자",
             "name_tw": "圣堂保育员扮演者",
@@ -9321,8 +9309,7 @@
         },
         "trap_250_hlctrl": {
             "name": "寻根圣事",
-            "name_en": "寻根圣事",
-            "name_en_unavailable": true,
+            "name_en": "Sacrament of Genesis",
             "name_jp": "根源を辿る儀式",
             "name_kr": "근원 탐구 성사",
             "name_tw": "寻根圣事",
@@ -11533,8 +11520,7 @@
         },
         "trap_780_supspt": {
             "name": "天工夜行套装",
-            "name_en": "天工夜行套装",
-            "name_en_unavailable": true,
+            "name_en": "Master Who Walks the Night Gear",
             "name_jp": "天工夜行セット",
             "name_kr": "천공 야행 세트",
             "name_tw": "天工夜行套装",
@@ -11546,8 +11532,7 @@
         },
         "trap_781_supspta": {
             "name": "夜行斗篷模块",
-            "name_en": "夜行斗篷模块",
-            "name_en_unavailable": true,
+            "name_en": "Nightwalker's Cloak Module",
             "name_jp": "夜行笠モジュール",
             "name_kr": "야행 망토 모듈",
             "name_tw": "夜行斗篷模块",
@@ -11559,8 +11544,7 @@
         },
         "trap_782_supsptb": {
             "name": "夜行钩爪模块",
-            "name_en": "夜行钩爪模块",
-            "name_en_unavailable": true,
+            "name_en": "Nightwalker's Hook Module",
             "name_jp": "夜行鉤爪モジュール",
             "name_kr": "야행 갈고리 모듈",
             "name_tw": "夜行钩爪模块",
