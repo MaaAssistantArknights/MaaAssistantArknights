@@ -92,7 +92,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch
     {
-        Theme.Phantom => SettingsViewModel.GameSettings.ClientType is "" or "Official" or "Bilibili" ? 15 : 0,
+        Theme.Phantom => SettingsViewModel.GameSettings.ClientType is not "txwy" ? 15 : 0,
         Theme.Mizuki => 18,
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
