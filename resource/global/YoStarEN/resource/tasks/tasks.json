@@ -1009,7 +1009,7 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar"]
+        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"]
     },
     "OrundumActivitiesChoose": {
         "text": ["Choose", "spot", "Please select", "Wishing", "Tickets"]
