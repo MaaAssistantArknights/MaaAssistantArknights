@@ -1022,10 +1022,10 @@
         "text": ["Free", "Roll"]
     },
     "RecruitingActivitiesConfirm": {
-        "text": ["Free", "Roll"]
+        "text": ["hrs", "mins"]
     },
     "RecruitingActivitiesRecruit": {
-        "text": ["Headhunt x1", "Headhunt"]
+        "text": ["Free Roll"]
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["Headhunt x1", "Headhunt"]
