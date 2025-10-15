@@ -9,9 +9,9 @@
         "text": ["試合", "開始"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
-        "text": ["ギフト所持数"]
+        "text": ["ギフト所持"]
     },
     "MiniGame@ALL@GreenGrass@DuelChannel@End": {
-        "text": ["ホーム画面へ"]
+        "text": ["ホーム", "画面へ"]
     }
 }
