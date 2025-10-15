@@ -543,7 +543,7 @@
     "Sami@Roguelike@MissionFailedFlag3": {
         "action": "ClickSelf",
         "roi": [504, 163, 480, 267],
-        "postDelay": 5000,
+        "postDelay": 10000,
         "next": ["Sami@Roguelike@MissionCompletedFlag"]
     },
     "Sami@Roguelike@MonthlySquad": {
