@@ -1,52 +1,65 @@
+## v5.26.2
+
+### Highlight
+
+Support for Masses' Travel event (global)
+Support for Duel Channel minigame (global)
+Fixes for IS2 Phantom difficulty update (global)
+Various fixes for global interface changes (global)
+
+### 新增 | New
+
+* 支持访问好友半透明界面 @ABA2396
+
+### 修复 | Fix
+
+* ReceptionMini for EN @Constrat
+* Various store OCR for EN IS @Constrat
+* MT minigame EN @Constrat
+* operbox, battlequick, infrast expand role EN @Constrat
+* Exusiai and Hoshiguma prepare for alters @Constrat
+* increase ROI for Orundum and SpecialAccess @Constrat
+* OrundumActivities MT event for EN @Constrat
+* update ChooseDifficulty for EN phantom @Constrat
+* revert IS2 EN StrategyChange changes @Constrat
+* add IS2 invest mode to EN, JP and txwy @Constrat
+* POSIX compliant @Constrat
+* preload Minigame EN @Constrat
+* python formatting @Constrat
+* KR monthly card reward @HX3N
+* task sorter UTF-8 BOM fix @Constrat
+* EN monthly card reward @Constrat
+* YostarKR update VisitNext @HX3N
+* update VisitNext ref #14357 @Constrat
+
+### 文档 | Docs
+
+* update prts.plus repo link @MistEO
+* 移除前端公招 @MistEO
+* 更新plume主题并适应新版的collections配置 (#14360) @lucienshawls
+
+### 其他 | Other
+
+* revert temp fix 715c2c13b5372dc769aa0b9efe2be551cd200192 for EN / JP and KR @Constrat
+* Enable phantom roguelike difficulty for Yostar servers (#14332) @Manicsteiner
+* update MT mini event EN @Constrat
+* YostarKR MT ocr edit (#14398) @HX3N
+* YostarKR MiniGame (#14395) @HX3N
+* YostarJP update VisitNext (#14390) @Manicsteiner
+* 调整Award模板阈值 @Saratoga-Official
+* auto run smoke testing on tools/SmokeTesting modifications @Constrat
+* YostarKR preload minigame (#14375) @HX3N
+* preload minigame for MT EN @Constrat
+* YostarJP MT stages and Duel channel (#14362) @Manicsteiner
+* KR MT navigation (#14365) @HX3N
+* 16-16地图 @status102
+* remove global info for mumu @Constrat
+* preload MT navigation EN @Constrat
+
+----
+----
+
 ## v5.26.1
-
-### 刺身鱼案，启动！ | Highlight
-
-这个版本我们上线了「次生预案」的初步支持，并且再次对自动肉鸽进行了大量优化。
-
-#### 次生预案部分
-
-你现在可以在 ｢小工具 - 小游戏｣ 部分找到 ｢RM-次生预案｣ 选项，在游戏的「次生预案」活动的 ｢前哨支点｣ 关卡列表里，找到 `RM-TR-1` 或 `RM-1`，点击 MAA 的 ｢Link Start!｣ 按钮即可开始自动刷取。
-
-`RM-1` 支持更多资源产出，但需解锁前置要求，具体参考对应功能页描述。活动即将结束，建议尽快刷取足够启动材料并推进关卡。
-
-**提示：** 「次生预案」玩法类似《循环勇士》，带有种田要素，越早布置生产产线，就能越早挂机产出资源。不要等到最后一天再开始刷，会来不及。
-
-#### 自动肉鸽部分
-
-本次我们对自动肉鸽的招募策略进行了较大幅度的调整，主要是为了提升肉鸽的通关率和稳定性。同时我们也修复了部分问题，比如傀影肉鸽无法识别四结局的问题。
-
-#### 其他方面
-
-我们在设置指引中新增了两个新的引导，不管你以前是否看过老的指引，这次都会再次弹出，帮助你避免因未正确配置而导致的问题。~~这下就不会有人问为什么 Linkstart 是灰的点不了了~~
-
-我们也对文档站进行了较大幅度的改版，增加了不少新功能，提升了阅读体验，欢迎你前往查看。
-
-----
-
-In this version, we've added initial support for the *Rebuilding Mandate* and made significant improvements to the *Auto I.S.*.
-
-#### [CN ONLY] *Rebuilding Mandate*
-
-You can now find the *RM-Rebuilding Mandate* option in the *Minigames* section of the *Toolbox* menu. Within the *Rebuilding Mandate* event, locate `RM-TR-1` or `RM-1` in the *Outpost Support Point* stage list and click the *Link Start!* button to begin automated gameplay.
-
-`RM-1` supports higher resource output but requires unlocking certain prerequisites. Please refer to the corresponding feature page for details. The event is ending soon, so it is recommended to quickly gather enough starting materials and advance through the stages.
-
-**Tip:** *Rebuilding Mandate* is similar to *Loop Hero*, with resource-gathering elements. The sooner you set up your resource production in the stages, the sooner you can start passively generating resources. Don't wait until the last day to start farming; it will be too late.
-
-#### *Auto I.S.*
-
-We've made significant adjustments to the *Auto I.S.* recruitment strategy, primarily to improve the success rate and stability. We've also fixed some issues, such as the problem where the game couldn't recognize the Ending 4 in the *Phantom* Theme.
-
-#### Other Improvements
-
-We've added two new guides to the *Settings Guide*. No matter if you have already seen the old one before, these new guides will still pop up, helping you avoid incorrect configurations.
-
-We've also redesigned our documentation website, adding many new features and improving the user experience. Please check it out!
-
-----
-
-以下是详细内容：
 
 ### 新增 | New
 
