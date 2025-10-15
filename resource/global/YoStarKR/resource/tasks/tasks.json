@@ -1079,10 +1079,10 @@
         "text": ["보너스"]
     },
     "RecruitingActivitiesConfirm": {
-        "text": ["보너스"]
+        "text": ["보너스", "시간"]
     },
     "RecruitingActivitiesRecruit": {
-        "text": ["진행"]
+        "text": ["진행", "보너스"]
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["진행"]
