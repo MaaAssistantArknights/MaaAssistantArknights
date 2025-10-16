@@ -52,6 +52,11 @@ function scaleAsciiArt() {
   asciiArtWrapper.value.style.height = `${contentHeight * scaleRatio}px`
 }
 
+function forceScaleAsciiArt() {
+  isScaleUpLocked = false
+  scaleAsciiArt()
+}
+
 onMounted(() => {
   if (!asciiArtWrapper.value || !asciiArt.value) return
 
@@ -59,16 +64,14 @@ onMounted(() => {
   observer.observe(asciiArt.value)
   observer.observe(asciiArtWrapper.value)
 
-  window.addEventListener('resize', () => {
-    isScaleUpLocked = false
-    scaleAsciiArt()
-  })
+  window.addEventListener('resize', forceScaleAsciiArt)
 })
 
 onBeforeUnmount(() => {
   if (observer) {
     observer.disconnect()
   }
+  window.removeEventListener('resize', forceScaleAsciiArt)
 })
 </script>
 
