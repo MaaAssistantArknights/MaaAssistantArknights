@@ -11,19 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// GameSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class PerformanceUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// GameSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="PerformanceUserControl"/> class.
     /// </summary>
-    public partial class PerformanceUserControl : System.Windows.Controls.UserControl
+    public PerformanceUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PerformanceUserControl"/> class.
-        /// </summary>
-        public PerformanceUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

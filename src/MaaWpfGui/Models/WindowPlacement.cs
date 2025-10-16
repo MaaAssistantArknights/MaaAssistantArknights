@@ -14,49 +14,48 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace MaaWpfGui.Models
+namespace MaaWpfGui.Models;
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public struct WindowPlacement
 {
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential)]
-    public struct WindowPlacement
+    public int Length;
+    public int Flags;
+    public int ShowCmd;
+    public Point MinPosition;
+    public Point MaxPosition;
+    public Rect NormalPosition;
+}
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public struct Rect
+{
+    public int Left;
+    public int Top;
+    public int Right;
+    public int Bottom;
+
+    public Rect(int left, int top, int right, int bottom)
     {
-        public int Length;
-        public int Flags;
-        public int ShowCmd;
-        public Point MinPosition;
-        public Point MaxPosition;
-        public Rect NormalPosition;
+        Left = left;
+        Top = top;
+        Right = right;
+        Bottom = bottom;
     }
+}
 
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Rect
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public struct Point
+{
+    public int X;
+    public int Y;
+
+    public Point(int x, int y)
     {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-
-        public Rect(int left, int top, int right, int bottom)
-        {
-            Left = left;
-            Top = top;
-            Right = right;
-            Bottom = bottom;
-        }
-    }
-
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential)]
-    public struct Point
-    {
-        public int X;
-        public int Y;
-
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
+        X = x;
+        Y = y;
     }
 }

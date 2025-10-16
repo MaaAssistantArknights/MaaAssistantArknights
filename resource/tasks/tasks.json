@@ -2093,6 +2093,7 @@
             "JieGarden/Task.png",
             "AveMujica/Task.png"
         ],
+        "templThreshold": 0.85,
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
@@ -2253,14 +2254,32 @@
     },
     "VisitNext": {
         "action": "ClickSelf",
-        "roi": [1080, 570, 195, 130],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [8, 200, 205],
+                [13, 255, 220]
+            ]
+        ],
+        "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
+    },
+    "VisitNextBlack": {
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 40],
+                [5, 5, 80]
+            ]
+        ],
+        "roi": [1080, 570, 200, 130],
+        "next": ["Home@ReturnButtons#next"]
     },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
         "text": ["访问下位"],
         "action": "ClickSelf",
-        "roi": [1080, 570, 195, 130],
+        "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "MallBegin": {
@@ -2327,10 +2346,6 @@
         "algorithm": "OcrDetect",
         "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
-        "next": ["Home@ReturnButtons#next"]
-    },
-    "VisitNextBlack": {
-        "roi": [1080, 570, 195, 130],
         "next": ["Home@ReturnButtons#next"]
     },
     "Home": {

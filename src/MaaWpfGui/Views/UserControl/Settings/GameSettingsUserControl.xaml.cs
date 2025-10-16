@@ -14,48 +14,47 @@
 using System.Windows;
 using MaaWpfGui.ViewModels.UI;
 
-namespace MaaWpfGui.Views.UserControl.Settings
+namespace MaaWpfGui.Views.UserControl.Settings;
+
+/// <summary>
+/// GameSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class GameSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// GameSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="GameSettingsUserControl"/> class.
     /// </summary>
-    public partial class GameSettingsUserControl : System.Windows.Controls.UserControl
+    public GameSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameSettingsUserControl"/> class.
-        /// </summary>
-        public GameSettingsUserControl()
+        InitializeComponent();
+    }
+
+    private void StartsWithScript_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
         {
-            InitializeComponent();
+            return;
         }
 
-        private void StartsWithScript_Drop(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                return;
-            }
+        // Note that you can have more than one file.
+        var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        SettingsViewModel.GameSettings.StartsWithScript = files?[0] ?? string.Empty;
+    }
 
-            // Note that you can have more than one file.
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            SettingsViewModel.GameSettings.StartsWithScript = files?[0] ?? string.Empty;
+    private void EndsWithScript_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return;
         }
 
-        private void EndsWithScript_Drop(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                return;
-            }
+        // Note that you can have more than one file.
+        var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        SettingsViewModel.GameSettings.EndsWithScript = files?[0] ?? string.Empty;
+    }
 
-            // Note that you can have more than one file.
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            SettingsViewModel.GameSettings.EndsWithScript = files?[0] ?? string.Empty;
-        }
-
-        private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-        }
+    private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
+    {
+        e.Handled = true;
     }
 }

@@ -14,12 +14,11 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui.Services.Web
-{
-    public interface IMaaApiService
-    {
-        Task<JObject> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true);
+namespace MaaWpfGui.Services.Web;
 
-        JObject LoadApiCache(string api);
-    }
+public interface IMaaApiService
+{
+    Task<JObject> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true);
+
+    JObject LoadApiCache(string api);
 }

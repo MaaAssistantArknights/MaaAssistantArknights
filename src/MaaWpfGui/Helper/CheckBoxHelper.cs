@@ -15,25 +15,24 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+public static class CheckBoxHelper
 {
-    public static class CheckBoxHelper
+    public static void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
     {
-        public static void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
+        if (e.ChangedButton != MouseButton.Right)
         {
-            if (e.ChangedButton != MouseButton.Right)
-            {
-                return;
-            }
-
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+            return;
         }
 
-        public static void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
-        {
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == true ? null : (bool?)false;
-        }
+        CheckBox checkBox = (CheckBox)sender;
+        checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+    }
+
+    public static void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
+    {
+        CheckBox checkBox = (CheckBox)sender;
+        checkBox.IsChecked = checkBox.IsChecked == true ? null : (bool?)false;
     }
 }

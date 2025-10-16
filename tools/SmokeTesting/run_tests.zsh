@@ -12,8 +12,7 @@ client_map=()
 
 for client in "${clients[@]}"; do
     echo "Starting test for $client"
-    lldb -o run -o 'bt all' -o kill -o quit \
-        -- ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
+    ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
     pids+=($!)
     client_map+=("$client")
 done
@@ -22,8 +21,7 @@ for i in {0..$(( ${#pids} - 1 ))}; do
     pid=${pids[$i]}
     client=${client_map[$i]}
     
-    wait $pid
-    if [[ -n "$client" ]] && ! grep 'exited with status = 0' "$log_dir/asst_${client}.log"; then
+    if ! wait $pid; then
         error_clients+=("$client")
     fi
 done

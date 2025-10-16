@@ -22,11 +22,7 @@ export function genThemeLocales(): LocaleConfig<ThemeLocaleData> {
     const navigationComponents = genNavigationComponents(locale)
     themeLocales[`/${locale.name}/`] = {
       navbar: navigationComponents.navbar,
-      notes: {
-        dir: locale.name,
-        link: `/${locale.name}/`,
-        notes: navigationComponents.notes,
-      },
+      collections: navigationComponents.collections,
     }
   }
   return themeLocales

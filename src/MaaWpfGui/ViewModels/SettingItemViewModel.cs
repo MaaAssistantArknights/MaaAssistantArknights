@@ -13,35 +13,34 @@
 
 using Stylet;
 
-namespace MaaWpfGui.ViewModels
+namespace MaaWpfGui.ViewModels;
+
+/// <summary>
+/// The view model of setting item.
+/// </summary>
+public class SettingItemViewModel(string key, string display, int value) : PropertyChangedBase
 {
-    /// <summary>
-    /// The view model of setting item.
-    /// </summary>
-    public class SettingItemViewModel(string key, string display, int value) : PropertyChangedBase
+    private string _key = key;
+
+    public string Key
     {
-        private string _key = key;
+        get => _key;
+        set => SetAndNotify(ref _key, value);
+    }
 
-        public string Key
-        {
-            get => _key;
-            set => SetAndNotify(ref _key, value);
-        }
+    private string _display = display;
 
-        private string _display = display;
+    public string Display
+    {
+        get => _display;
+        set => SetAndNotify(ref _display, value);
+    }
 
-        public string Display
-        {
-            get => _display;
-            set => SetAndNotify(ref _display, value);
-        }
+    private int _value = value;
 
-        private int _value = value;
-
-        public int Value
-        {
-            get => _value;
-            set => SetAndNotify(ref _value, value);
-        }
+    public int Value
+    {
+        get => _value;
+        set => SetAndNotify(ref _value, value);
     }
 }

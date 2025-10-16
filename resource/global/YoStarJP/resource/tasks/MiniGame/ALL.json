@@ -1,0 +1,17 @@
+{
+    "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
+        "text": ["試合観戦"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
+        "text": ["一人で観戦"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
+        "text": ["試合", "開始"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
+        "text": ["ギフト所持"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@End": {
+        "text": ["ホーム", "面へ"]
+    }
+}

@@ -16,36 +16,35 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using HandyControl.Tools;
 
-namespace MaaWpfGui.Views.UserControl
+namespace MaaWpfGui.Views.UserControl;
+
+/// <summary>
+/// TextDialogWithTimerUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class TextDialogWithTimerUserControl : System.Windows.Controls.Border
 {
     /// <summary>
-    /// TextDialogWithTimerUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="TextDialogWithTimerUserControl"/> class.
     /// </summary>
-    public partial class TextDialogWithTimerUserControl : System.Windows.Controls.Border
+    /// <param name="content">主要内容</param>
+    /// <param name="tipContent">提示内容</param>
+    /// <param name="buttonContent">按钮内容</param>
+    /// <param name="milliseconds">倒计时</param>
+    public TextDialogWithTimerUserControl(string content, string tipContent, string buttonContent, double milliseconds)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TextDialogWithTimerUserControl"/> class.
-        /// </summary>
-        /// <param name="content">主要内容</param>
-        /// <param name="tipContent">提示内容</param>
-        /// <param name="buttonContent">按钮内容</param>
-        /// <param name="milliseconds">倒计时</param>
-        public TextDialogWithTimerUserControl(string content, string tipContent, string buttonContent, double milliseconds)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            var animation = AnimationHelper.CreateAnimation(100, milliseconds);
-            animation.EasingFunction = null;
-            animation.Completed += (s, e) => Completed?.Invoke(s, e);
-            Button.Click += (s, e) => Click?.Invoke(s, e);
-            Button.Content = buttonContent;
-            Content.Text = content;
-            Tip.Text = tipContent;
-            ProgressBarTimer.BeginAnimation(RangeBase.ValueProperty, animation);
-        }
-
-        public event RoutedEventHandler Click;
-
-        public event EventHandler Completed;
+        var animation = AnimationHelper.CreateAnimation(100, milliseconds);
+        animation.EasingFunction = null;
+        animation.Completed += (s, e) => Completed?.Invoke(s, e);
+        Button.Click += (s, e) => Click?.Invoke(s, e);
+        Button.Content = buttonContent;
+        Content.Text = content;
+        Tip.Text = tipContent;
+        ProgressBarTimer.BeginAnimation(RangeBase.ValueProperty, animation);
     }
+
+    public event RoutedEventHandler Click;
+
+    public event EventHandler Completed;
 }

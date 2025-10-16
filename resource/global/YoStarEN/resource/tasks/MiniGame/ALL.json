@@ -1,0 +1,18 @@
+{
+    "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
+        "text": ["Join", "Event"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
+        "text": ["Solo", "Entertainment"],
+        "roi": [228, 594, 864, 78]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
+        "text": ["Start", "Game"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
+        "text": ["Gifts", "Remaining"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@End": {
+        "text": ["Back to Main"]
+    }
+}

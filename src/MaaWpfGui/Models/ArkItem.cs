@@ -14,27 +14,25 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace MaaWpfGui.Models
+namespace MaaWpfGui.Models;
+
+public class ArkItem
 {
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public class ArkItem
-    {
-        [JsonPropertyName("classifyType")]
-        public string ClassifyType { get; set; }
+    [JsonPropertyName("classifyType")]
+    public string ClassifyType { get; set; }
 
-        [JsonPropertyName("description")]
-        public string Description { get; set; }
+    [JsonPropertyName("description")]
+    public string Description { get; set; }
 
-        [JsonPropertyName("icon")]
-        public string Icon { get; set; }
+    [JsonPropertyName("icon")]
+    public string Icon { get; set; }
 
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-        [JsonPropertyName("sortId")]
-        public int SortId { get; set; }
+    [JsonPropertyName("sortId")]
+    public int SortId { get; set; }
 
-        [JsonPropertyName("usage")]
-        public string Usage { get; set; }
-    }
+    [JsonPropertyName("usage")]
+    public string Usage { get; set; }
 }

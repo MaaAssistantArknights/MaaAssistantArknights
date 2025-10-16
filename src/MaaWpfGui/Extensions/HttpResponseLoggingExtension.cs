@@ -16,30 +16,29 @@ using System.Net;
 using System.Net.Http;
 using Serilog;
 
-namespace MaaWpfGui.Extensions
+namespace MaaWpfGui.Extensions;
+
+public static class HttpResponseLoggingExtension
 {
-    public static class HttpResponseLoggingExtension
+    private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
+
+    public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query, double? elapsedMs = null)
     {
-        private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
+        var method = response?.RequestMessage?.Method;
+        var uri = response?.RequestMessage?.RequestUri;
+        var statusCode = response?.StatusCode.ToString();
+        var etag = response?.Headers.ETag?.Tag;
+        var lastModified = response?.Content?.Headers?.LastModified?.ToString("R"); // RFC1123
 
-        public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query, double? elapsedMs = null)
+        if (response != null && (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotModified))
         {
-            var method = response?.RequestMessage?.Method;
-            var uri = response?.RequestMessage?.RequestUri;
-            var statusCode = response?.StatusCode.ToString();
-            var etag = response?.Headers.ETag?.Tag;
-            var lastModified = response?.Content?.Headers?.LastModified?.ToString("R"); // RFC1123
-
-            if (response != null && (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotModified))
-            {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
-                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
-            }
-            else
-            {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
-                    statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
-            }
+            _logger.Information("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
+                statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
+        }
+        else
+        {
+            _logger.Warning("HTTP: {StatusCode} {Method} {Url} {ETag} {LastModified} {Elapsed:F3}ms",
+                statusCode, method, uri?.GetLeftPart(uriPartial), etag, lastModified, elapsedMs);
         }
     }
 }

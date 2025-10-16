@@ -13,19 +13,18 @@
 
 using System;
 
-namespace MaaWpfGui.Services.HotKeys
-{
-    [Flags]
-    public enum MaaHotKeyAction
-    {
-        /// <summary>
-        /// Shows the GUI.
-        /// </summary>
-        ShowGui,
+namespace MaaWpfGui.Services.HotKeys;
 
-        /// <summary>
-        /// Starts the link.
-        /// </summary>
-        LinkStart,
-    }
+[Flags]
+public enum MaaHotKeyAction
+{
+    /// <summary>
+    /// Shows the GUI.
+    /// </summary>
+    ShowGui,
+
+    /// <summary>
+    /// Starts the link.
+    /// </summary>
+    LinkStart,
 }
