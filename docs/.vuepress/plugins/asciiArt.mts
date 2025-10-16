@@ -16,7 +16,11 @@ interface AsciiArtData {
   text: string
 }
 
-function pickAsciiArt(arts: Record<string, string>, artFilter?: (key: string) => boolean, keyToName?: (key: string) => string): AsciiArtData {
+function pickAsciiArt(
+  arts: Record<string, string>,
+  artFilter?: (key: string) => boolean,
+  keyToName?: (key: string) => string,
+): AsciiArtData {
   const keys = artFilter ? Object.keys(arts).filter(artFilter) : Object.keys(arts)
 
   let asciiArtKey: string | null
@@ -59,12 +63,28 @@ export function getAsciiArt(name?: string, theme: ThemeType = 'auto', scope: Asc
   if (resolvedTheme !== 'disable') {
     // light/dark/... 模式
     return name
-      ? pickAsciiArt(asciiArts, (k) => k === name + '.' + resolvedTheme, () => name)
-      : pickAsciiArt(asciiArts, (k) => k.endsWith('.' + resolvedTheme), (k) => k.replace(new RegExp('\\.' + resolvedTheme + '$'), ''))
+      ? pickAsciiArt(
+          asciiArts,
+          (k) => k === name + '.' + resolvedTheme,
+          () => name,
+        )
+      : pickAsciiArt(
+          asciiArts,
+          (k) => k.endsWith('.' + resolvedTheme),
+          (k) => k.replace(new RegExp('\\.' + resolvedTheme + '$'), ''),
+        )
   } else {
     // disable 模式
     return name
-      ? pickAsciiArt(asciiArts, (k) => k === name || k.startsWith(name + '.'), () => name)
-      : pickAsciiArt(asciiArts, () => true, (k) => k)
+      ? pickAsciiArt(
+          asciiArts,
+          (k) => k === name || k.startsWith(name + '.'),
+          () => name,
+        )
+      : pickAsciiArt(
+          asciiArts,
+          () => true,
+          (k) => k,
+        )
   }
 }
