@@ -986,7 +986,7 @@
         "text": ["回無料", "時間", "分"]
     },
     "RecruitingActivitiesRecruit": {
-        "text": ["1回スカウト", "スカウト"]
+        "text": ["1回無料", "回無料"]
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["1回スカウト", "スカウト"]
