@@ -25,6 +25,7 @@ permissions:
 jobs:
   analyze-manual:
     name: Analyze MaaCore and MaaWpfGui
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     steps:
       - name: Checkout repository

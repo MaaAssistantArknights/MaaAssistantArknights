@@ -17,6 +17,7 @@ permissions:
 jobs:
   analyze-workflows:
     name: Analyze GitHub Workflows
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
