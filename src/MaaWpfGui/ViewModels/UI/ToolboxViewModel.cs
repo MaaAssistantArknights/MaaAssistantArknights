@@ -1214,7 +1214,7 @@ public class ToolboxViewModel : Screen
         new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@GreenGrass@HoneyFruit@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" },
     ];
 
