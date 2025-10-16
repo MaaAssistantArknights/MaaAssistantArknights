@@ -30,9 +30,17 @@ let lastScaleRatio = 1
 function scaleAsciiArt() {
   if (!asciiArtWrapper.value || !asciiArt.value) return
 
+  // 原始高度和宽度（无视scale）
+  const contentWidth = asciiArt.value.scrollWidth
+  const contentHeight = asciiArt.value.scrollHeight
+  if (contentWidth === 0 || contentHeight === 0) return
+
+  const targetWidth = asciiArtWrapper.value.clientWidth
+  const targetHeight = window.innerHeight
+
   const scaleRatio = Math.min(
-    asciiArtWrapper.value.clientWidth / asciiArt.value.scrollWidth,
-    window.innerHeight / asciiArt.value.scrollHeight,
+    targetWidth / contentWidth,
+    targetHeight / contentHeight,
   )
   // 锁定状态不允许放大
   if (scaleRatio > lastScaleRatio && isScaleUpLocked) return
@@ -41,7 +49,7 @@ function scaleAsciiArt() {
   isScaleUpLocked = true
 
   asciiArt.value.style.transform = `scale(${scaleRatio})`
-  asciiArtWrapper.value.style.height = `${asciiArt.value.scrollHeight * scaleRatio}px`
+  asciiArtWrapper.value.style.height = `${contentHeight * scaleRatio}px`
 }
 
 onMounted(() => {
