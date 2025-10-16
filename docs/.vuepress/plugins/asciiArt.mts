@@ -11,42 +11,80 @@ for (const path in modules) {
 
 export type ThemeType = 'auto' | 'disable' | string
 export type AsciiArtScope = 'web' | 'console'
-
-function pickAsciiArt(arts: Record<string, string>, artFilter?: (key: string) => boolean): string {
-  const keys = artFilter ? Object.keys(arts).filter(artFilter) : Object.keys(arts)
-
-  if (keys.length === 0) return ''
-  if (keys.length === 1) return arts[keys[0]]
-
-  const randomKey = keys[Math.floor(Math.random() * keys.length)]
-  return arts[randomKey]
+interface AsciiArtData {
+  name: string | null
+  text: string
 }
 
-export function getAsciiArt(name?: string, theme: ThemeType = 'auto', scope: AsciiArtScope = 'web'): string {
+function pickAsciiArt(
+  arts: Record<string, string>,
+  artFilter?: (key: string) => boolean,
+  keyToName?: (key: string) => string,
+): AsciiArtData {
+  const keys = artFilter ? Object.keys(arts).filter(artFilter) : Object.keys(arts)
+
+  let asciiArtKey: string | null
+  let asciiArtText: string
+
+  if (keys.length === 0) {
+    asciiArtKey = null
+    asciiArtText = ''
+  } else if (keys.length === 1) {
+    asciiArtKey = keys[0]
+    asciiArtText = arts[keys[0]]
+  } else {
+    const randomKey = keys[Math.floor(Math.random() * keys.length)]
+    asciiArtKey = randomKey
+    asciiArtText = arts[randomKey]
+  }
+  if (!asciiArtKey || !keyToName) {
+    return { name: asciiArtKey, text: asciiArtText }
+  } else {
+    return { name: keyToName(asciiArtKey), text: asciiArtText }
+  }
+}
+
+export function getAsciiArt(name?: string, theme: ThemeType = 'auto', scope: AsciiArtScope = 'web'): AsciiArtData {
   let resolvedTheme: ThemeType = theme
 
   // auto 模式
   if (theme === 'auto') {
-    let current: string | null = null
+    let currentTheme: string | null = null
     if (scope === 'web' && typeof document !== 'undefined') {
       // 浏览器中读取 HTML data-theme
-      current = document?.documentElement?.getAttribute('data-theme')
+      currentTheme = document?.documentElement?.getAttribute('data-theme')
     } else if (scope === 'console' && typeof window !== 'undefined' && window.matchMedia) {
       // fallback: 检查系统首选主题
-      current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
-    resolvedTheme = current ? current : 'disable'
+    resolvedTheme = currentTheme ? currentTheme : 'disable'
   }
 
   if (resolvedTheme !== 'disable') {
     // light/dark/... 模式
     return name
-      ? pickAsciiArt(asciiArts, (k) => k === name + '.' + resolvedTheme)
-      : pickAsciiArt(asciiArts, (k) => k.endsWith('.' + resolvedTheme))
+      ? pickAsciiArt(
+          asciiArts,
+          (k) => k === name + '.' + resolvedTheme,
+          () => name,
+        )
+      : pickAsciiArt(
+          asciiArts,
+          (k) => k.endsWith('.' + resolvedTheme),
+          (k) => k.replace(new RegExp('\\.' + resolvedTheme + '$'), ''),
+        )
   } else {
     // disable 模式
     return name
-      ? pickAsciiArt(asciiArts, (k) => k === name || k.startsWith(name + '.'))
-      : pickAsciiArt(asciiArts, () => true)
+      ? pickAsciiArt(
+          asciiArts,
+          (k) => k === name || k.startsWith(name + '.'),
+          () => name,
+        )
+      : pickAsciiArt(
+          asciiArts,
+          () => true,
+          (k) => k,
+        )
   }
 }

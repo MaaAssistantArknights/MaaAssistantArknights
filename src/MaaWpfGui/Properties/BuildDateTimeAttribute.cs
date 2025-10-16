@@ -13,11 +13,10 @@
 
 using System;
 
-namespace MaaWpfGui.Properties
+namespace MaaWpfGui.Properties;
+
+[AttributeUsage(AttributeTargets.Assembly)]
+public class BuildDateTimeAttribute(string date) : Attribute
 {
-    [AttributeUsage(AttributeTargets.Assembly)]
-    public class BuildDateTimeAttribute(string date) : Attribute
-    {
-        public DateTime BuildDateTime { get; } = DateTime.ParseExact(date, "O", null);
-    }
+    public DateTime BuildDateTime { get; } = DateTime.ParseExact(date, "O", null);
 }

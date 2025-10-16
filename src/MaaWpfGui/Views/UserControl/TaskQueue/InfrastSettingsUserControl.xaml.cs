@@ -11,23 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+/// <summary>
+/// InfrastSettingsUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class InfrastSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// InfrastSettingsUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
     /// </summary>
-    public partial class InfrastSettingsUserControl : System.Windows.Controls.UserControl
+    public InfrastSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
-        /// </summary>
-        public InfrastSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

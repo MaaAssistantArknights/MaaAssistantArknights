@@ -11,24 +11,18 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Reflection;
-using System.Windows;
-using System.Windows.Input;
-using MaaWpfGui.Helper;
+namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
-namespace MaaWpfGui.Views.UserControl.TaskQueue
+/// <summary>
+/// ParamSettingUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class FightSettingsUserControl : System.Windows.Controls.UserControl
 {
     /// <summary>
-    /// ParamSettingUserControl.xaml 的交互逻辑
+    /// Initializes a new instance of the <see cref="FightSettingsUserControl"/> class.
     /// </summary>
-    public partial class FightSettingsUserControl : System.Windows.Controls.UserControl
+    public FightSettingsUserControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FightSettingsUserControl"/> class.
-        /// </summary>
-        public FightSettingsUserControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

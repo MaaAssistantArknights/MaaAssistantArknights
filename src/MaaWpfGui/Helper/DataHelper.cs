@@ -19,461 +19,459 @@ using System.IO;
 using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+public static class DataHelper
 {
-    public static class DataHelper
+    public static readonly Dictionary<string, string> ClientDirectoryMapper = new()
     {
-        public static readonly Dictionary<string, string> ClientDirectoryMapper = new()
+        { "zh-tw", "txwy" },
+        { "en-us", "YoStarEN" },
+        { "ja-jp", "YoStarJP" },
+        { "ko-kr", "YoStarKR" },
+    };
+
+    public static readonly Dictionary<string, string> ClientLanguageMapper = new()
+    {
+        { string.Empty, "zh-cn" },
+        { "Official", "zh-cn" },
+        { "Bilibili", "zh-cn" },
+        { "YoStarEN", "en-us" },
+        { "YoStarJP", "ja-jp" },
+        { "YoStarKR", "ko-kr" },
+        { "txwy", "zh-tw" },
+    };
+
+    /// <summary>
+    /// Gets 储存角色信息的字典
+    /// </summary>
+    public static Dictionary<string, CharacterInfo> Characters { get; } = [];
+
+    public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtuallyOpers.Contains(oper.Key)).ToDictionary();
+
+    /// <summary>
+    /// Gets 当前语言与客户端类型下的干员名列表
+    /// </summary>
+    public static HashSet<string> CharacterNames { get; } = [];
+
+    public static Dictionary<string, (string DisplayName, string ClientName)> RecruitTags { get; private set; } = [];
+
+    public static List<MapInfo> MapData { get; private set; } = [];
+
+    static DataHelper()
+    {
+        InitRecruitTag();
+        Reload();
+    }
+
+    public static void Reload()
+    {
+        LoadBattleData();
+        LoadMapData();
+    }
+
+    private static void LoadBattleData()
+    {
+        string filePath = Path.Combine(PathsHelper.ResourceDir, "battle_data.json");
+        if (!File.Exists(filePath))
         {
-            { "zh-tw", "txwy" },
-            { "en-us", "YoStarEN" },
-            { "ja-jp", "YoStarJP" },
-            { "ko-kr", "YoStarKR" },
-        };
-
-        public static readonly Dictionary<string, string> ClientLanguageMapper = new()
-        {
-            { string.Empty, "zh-cn" },
-            { "Official", "zh-cn" },
-            { "Bilibili", "zh-cn" },
-            { "YoStarEN", "en-us" },
-            { "YoStarJP", "ja-jp" },
-            { "YoStarKR", "ko-kr" },
-            { "txwy", "zh-tw" },
-        };
-
-        /// <summary>
-        /// Gets 储存角色信息的字典
-        /// </summary>
-        public static Dictionary<string, CharacterInfo> Characters { get; } = [];
-
-        public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtuallyOpers.Contains(oper.Key)).ToDictionary();
-
-        /// <summary>
-        /// Gets 当前语言与客户端类型下的干员名列表
-        /// </summary>
-        public static HashSet<string> CharacterNames { get; } = [];
-
-        public static Dictionary<string, (string DisplayName, string ClientName)> RecruitTags { get; private set; } = [];
-
-        public static List<MapInfo> MapData { get; private set; } = [];
-
-        static DataHelper()
-        {
-            InitRecruitTag();
-            Reload();
-        }
-
-        public static void Reload()
-        {
-            LoadBattleData();
-            LoadMapData();
-        }
-
-        private static void LoadBattleData()
-        {
-            string filePath = Path.Combine(PathsHelper.ResourceDir, "battle_data.json");
-            if (!File.Exists(filePath))
-            {
-                return;
-            }
-
-            string jsonText = File.ReadAllText(filePath);
-            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
-
-            var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
-            var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
-
-            Characters.Clear();
-            CharacterNames.Clear();
-            foreach (var (key, value) in characterData)
-            {
-                value.Id = key;
-                Characters.Add(key, value);
-                if (!key.StartsWith("char_"))
-                {
-                    continue;
-                }
-
-                characterNamesLangAdd.Invoke(value);
-                characterNamesClientAdd.Invoke(value);
-            }
-
-            _nameToCharacterMap = BuildNameIndex();
-        }
-
-        private static void InitRecruitTag()
-        {
-            var clientType = GameSettingsUserControlModel.Instance.ClientType;
-            var clientPath = clientType switch
-            {
-                "" or "Official" or "Bilibili" => string.Empty,
-                _ => Path.Combine("global", clientType, "resource"),
-            };
-
-            var displayLanguage = GuiSettingsUserControlModel.Instance.Language;
-            var displayPath = displayLanguage switch
-            {
-                "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage], "resource"),
-                _ => string.Empty,
-            };
-
-            var clientTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir, clientPath, "recruitment.json"));
-            var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir,  displayPath, "recruitment.json"));
-
-            RecruitTags = clientTags.Keys
-                .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
-                    key,
-                    (displayTags.TryGetValue(key, out var displayTag)
-                        ? displayTag
-                        : string.Empty,
-                    clientTags.TryGetValue(key, out var clientTag)
-                        ? clientTag
-                        : string.Empty)))
-                .Where(i => !string.IsNullOrEmpty(i.Value.ClientName))
-                .Select(i => !string.IsNullOrEmpty(i.Value.DisplayName) ? i : new(i.Key, (i.Value.ClientName, i.Value.ClientName)))
-                .ToDictionary();
             return;
-
-            static Dictionary<string, string> ParseRecruit(string path)
-            {
-                Dictionary<string, string> clientTags = [];
-                if (!File.Exists(path))
-                {
-                    return clientTags;
-                }
-
-                var jObj = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(path));
-                if (jObj is null || !jObj.ContainsKey("tags") || jObj["tags"] is not JObject tags)
-                {
-                    return clientTags;
-                }
-
-                foreach (var item in tags)
-                {
-                    clientTags.Add(item.Key, item.Value?.ToString() ?? string.Empty);
-                }
-
-                return clientTags.Where(i => !string.IsNullOrEmpty(i.Value)).ToDictionary();
-            }
         }
 
-        private static void LoadMapData()
+        string jsonText = File.ReadAllText(filePath);
+        var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? [];
+
+        var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
+        var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+
+        Characters.Clear();
+        CharacterNames.Clear();
+        foreach (var (key, value) in characterData)
         {
-            MapData = [];
-            var path = Path.Combine(PathsHelper.ResourceDir, "Arknights-Tile-Pos", "overview.json");
+            value.Id = key;
+            Characters.Add(key, value);
+            if (!key.StartsWith("char_"))
+            {
+                continue;
+            }
+
+            characterNamesLangAdd.Invoke(value);
+            characterNamesClientAdd.Invoke(value);
+        }
+
+        _nameToCharacterMap = BuildNameIndex();
+    }
+
+    private static void InitRecruitTag()
+    {
+        var clientType = GameSettingsUserControlModel.Instance.ClientType;
+        var clientPath = clientType switch
+        {
+            "" or "Official" or "Bilibili" => string.Empty,
+            _ => Path.Combine("global", clientType, "resource"),
+        };
+
+        var displayLanguage = GuiSettingsUserControlModel.Instance.Language;
+        var displayPath = displayLanguage switch
+        {
+            "zh-tw" or "en-us" or "ja-jp" or "ko-kr" => Path.Combine("global", ClientDirectoryMapper[displayLanguage], "resource"),
+            _ => string.Empty,
+        };
+
+        var clientTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir, clientPath, "recruitment.json"));
+        var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir,  displayPath, "recruitment.json"));
+
+        RecruitTags = clientTags.Keys
+            .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
+                key,
+                (displayTags.TryGetValue(key, out var displayTag)
+                    ? displayTag
+                    : string.Empty,
+                clientTags.TryGetValue(key, out var clientTag)
+                    ? clientTag
+                    : string.Empty)))
+            .Where(i => !string.IsNullOrEmpty(i.Value.ClientName))
+            .Select(i => !string.IsNullOrEmpty(i.Value.DisplayName) ? i : new(i.Key, (i.Value.ClientName, i.Value.ClientName)))
+            .ToDictionary();
+        return;
+
+        static Dictionary<string, string> ParseRecruit(string path)
+        {
+            Dictionary<string, string> clientTags = [];
             if (!File.Exists(path))
             {
-                return;
+                return clientTags;
             }
 
-            try
+            var jObj = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(path));
+            if (jObj is null || !jObj.ContainsKey("tags") || jObj["tags"] is not JObject tags)
             {
-                var jObj = JsonConvert.DeserializeObject<Dictionary<string, MapInfo>>(File.ReadAllText(path));
-                if (jObj is not null && jObj.Count > 0)
-                {
-                    MapData = [.. jObj.Values];
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        public static MapInfo? FindMap(string mapId)
-            => MapData.FirstOrDefault(map => map.Code == mapId || map.Name == mapId || map.StageId == mapId || map.LevelId == mapId);
-
-        private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
-        {
-            return str switch
-            {
-                "zh-cn" or "Official" or "Bilibili" =>
-                    v => CharacterNames.Add(v.Name ?? string.Empty),
-                "zh-tw" or "txwy" =>
-                    v => CharacterNames.Add(v.NameTw ?? string.Empty),
-                "en-us" or "YoStarEN" =>
-                    v => CharacterNames.Add(v.NameEn ?? string.Empty),
-                "ja-jp" or "YoStarJP" =>
-                    v => CharacterNames.Add(v.NameJp ?? string.Empty),
-                "ko-kr" or "YoStarKR" =>
-                    v => CharacterNames.Add(v.NameKr ?? string.Empty),
-                _ =>
-                    v => CharacterNames.Add(v.Name ?? string.Empty),
-            };
-        }
-
-        private static Dictionary<string, CharacterInfo> _nameToCharacterMap = BuildNameIndex();
-
-        private static Dictionary<string, CharacterInfo> BuildNameIndex()
-        {
-            var dict = new Dictionary<string, CharacterInfo>(StringComparer.OrdinalIgnoreCase);
-            foreach (var character in Characters.Values)
-            {
-                TryAdd(character.Name);
-                TryAdd(character.NameEn);
-                TryAdd(character.NameJp);
-                TryAdd(character.NameKr);
-                TryAdd(character.NameTw);
-                continue;
-
-                void TryAdd(string? name)
-                {
-                    if (!string.IsNullOrWhiteSpace(name))
-                    {
-                        dict.TryAdd(name, character);
-                    }
-                }
+                return clientTags;
             }
 
-            return dict;
-        }
-
-        /// <summary>
-        /// 通过任意服务器中对应的干员名获取干员信息
-        /// </summary>
-        /// <param name="characterName">任意服务器中的干员名</param>
-        /// <returns>对应干员信息</returns>
-        public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
-        {
-            return _nameToCharacterMap.GetValueOrDefault(characterName);
-        }
-
-        /// <summary>
-        /// 通过任意服务器中对应的干员名获取指定语言的干员名
-        /// </summary>
-        /// <param name="characterName">任意服务器中的干员名</param>
-        /// <param name="language">指定语言，默认为当前语言</param>
-        /// <returns>指定语言干员名</returns>
-        public static string? GetLocalizedCharacterName(string? characterName, string? language = null)
-        {
-            return string.IsNullOrEmpty(characterName)
-                ? null
-                : GetLocalizedCharacterName(GetCharacterByNameOrAlias(characterName), language);
-        }
-
-        /// <summary>
-        /// 通过干员信息获取指定语言的干员名
-        /// </summary>
-        /// <param name="characterInfo">干员信息</param>
-        /// <param name="language">指定语言</param>
-        /// <returns>指定语言干员名</returns>
-        public static string? GetLocalizedCharacterName(CharacterInfo? characterInfo, string? language = null)
-        {
-            if (characterInfo?.Name == null)
+            foreach (var item in tags)
             {
-                return null;
+                clientTags.Add(item.Key, item.Value?.ToString() ?? string.Empty);
             }
 
-            language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
-            return language switch
-            {
-                "zh-cn" => characterInfo.Name,
-                "zh-tw" => characterInfo.NameTw ?? characterInfo.Name,
-                "en-us" => characterInfo.NameEn ?? characterInfo.Name,
-                "ja-jp" => characterInfo.NameJp ?? characterInfo.Name,
-                "ko-kr" => characterInfo.NameKr ?? characterInfo.Name,
-                _ => characterInfo.Name,
-            };
+            return clientTags.Where(i => !string.IsNullOrEmpty(i.Value)).ToDictionary();
         }
-
-        /// <summary>
-        /// 判断干员在指定客户端中是否可用
-        /// </summary>
-        /// <param name="character">干员信息</param>
-        /// <param name="clientType">客户端类型</param>
-        /// <returns>是否可用</returns>
-        public static bool IsCharacterAvailableInClient(CharacterInfo? character, string clientType)
-        {
-            if (character is null)
-            {
-                return false;
-            }
-
-            return clientType switch
-            {
-                "zh-tw" or "txwy" => !character.NameTwUnavailable,
-                "en-us" or "YoStarEN" => !character.NameEnUnavailable,
-                "ja-jp" or "YoStarJP" => !character.NameJpUnavailable,
-                "ko-kr" or "YoStarKR" => !character.NameKrUnavailable,
-                _ => true,
-            };
-        }
-
-        /// <summary>
-        /// 判断干员在指定客户端中是否可用
-        /// </summary>
-        /// <param name="characterName">干员名</param>
-        /// <param name="clientType">客户端类型</param>
-        /// <returns>是否可用</returns>
-        public static bool IsCharacterAvailableInClient(string characterName, string clientType)
-        {
-            var character = GetCharacterByNameOrAlias(characterName);
-            return character != null && IsCharacterAvailableInClient(character, clientType);
-        }
-
-        /// <summary>
-        /// 通过完整 ID 查询
-        /// </summary>
-        /// <param name="id">干员 id</param>
-        /// <returns>干员信息</returns>
-        public static CharacterInfo? GetCharacterById(string id)
-        {
-            return Characters.GetValueOrDefault(id);
-        }
-
-        /// <summary>
-        /// 通过代号查询（如 char_002_amiya 中的 amiya）
-        /// </summary>
-        /// <param name="codeName">干员代号</param>
-        /// <returns>干员信息</returns>
-        public static CharacterInfo? GetCharacterByCodeName(string codeName)
-        {
-            return Characters.Values.FirstOrDefault(character =>
-                character.CodeName.Equals(codeName, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public class CharacterInfo
-        {
-            [JsonIgnore]
-            public string Id { get; set; } = string.Empty;
-
-            [JsonProperty("name")]
-            public string? Name { get; set; }
-
-            [JsonProperty("name_en")]
-            public string? NameEn { get; set; }
-
-            [JsonProperty("name_en_unavailable")]
-            public bool NameEnUnavailable { get; set; } = false;
-
-            [JsonProperty("name_jp")]
-            public string? NameJp { get; set; }
-
-            [JsonProperty("name_jp_unavailable")]
-            public bool NameJpUnavailable { get; set; } = false;
-
-            [JsonProperty("name_kr")]
-            public string? NameKr { get; set; }
-
-            [JsonProperty("name_kr_unavailable")]
-            public bool NameKrUnavailable { get; set; } = false;
-
-            [JsonProperty("name_tw")]
-            public string? NameTw { get; set; }
-
-            [JsonProperty("name_tw_unavailable")]
-            public bool NameTwUnavailable { get; set; } = false;
-
-            [JsonProperty("position")]
-            public string? Position { get; set; }
-
-            [JsonProperty("profession")]
-            public OperatorRole Type { get; set; } = OperatorRole.Unknown;
-
-            [JsonProperty("rangeId")]
-            public List<string>? RangeId { get; set; }
-
-            [JsonProperty("rarity")]
-            public int Rarity { get; set; }
-
-            public bool IsOperator => Type is
-                OperatorRole.Caster or
-                OperatorRole.Medic or
-                OperatorRole.Pioneer or
-                OperatorRole.Sniper or
-                OperatorRole.Special or
-                OperatorRole.Support or
-                OperatorRole.Tank or
-                OperatorRole.Warrior;
-
-            [JsonIgnore]
-            public string CodeName => ExtractCodeName(Id);
-
-            private static string ExtractCodeName(string id)
-            {
-                if (string.IsNullOrEmpty(id))
-                {
-                    return string.Empty;
-                }
-
-                // 从"char_002_amiya"中提取"amiya"
-                var parts = id.Split('_');
-                return parts.Length >= 3 ? parts[2] : id;
-            }
-        }
-
-        public class MapInfo
-        {
-            // 1-7
-            [JsonProperty("code")]
-            public string? Code { get; set; }
-
-            // main_01-07#f#-obt-main-level_main_01-07.json
-            [JsonProperty("filename")]
-            public string? Filename { get; set; }
-
-            // obt/main/level_main_01-07
-            [JsonProperty("levelId")]
-            public string? LevelId { get; set; }
-
-            // 暴君
-            [JsonProperty("name")]
-            public string? Name { get; set; }
-
-            // main_01-07#f#, #f#是突袭关卡
-            [JsonProperty("stageId")]
-            public string? StageId { get; set; }
-
-            [JsonProperty("height")]
-            public int Height { get; set; }
-
-            [JsonProperty("width")]
-            public int Width { get; set; }
-        }
-
-        /// <summary>
-        /// 未实装干员，但在battle_data中，
-        /// </summary>
-        private static readonly HashSet<string?> _virtuallyOpers =
-        [
-            "char_504_rguard", // 预备干员-近战
-            "char_505_rcast",  // 预备干员-术师
-            "char_506_rmedic", // 预备干员-后勤
-            "char_507_rsnipe", // 预备干员-狙击
-            "char_508_aguard", // Sharp
-            "char_509_acast",  // Pith
-            "char_612_accast", // Pith
-            "char_510_amedic", // Touch
-            "char_613_acmedc", // Touch
-            "char_511_asnipe", // Stormeye
-            "char_611_acnipe", // Stormeye
-            "char_512_aprot",  // 暮落
-            "char_513_apionr", // 郁金香
-            "char_514_rdfend", // 预备干员-重装
-
-            // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
-            "char_600_cpione", // 预备干员-先锋 4★
-            "char_601_cguard", // 预备干员-近卫 4★
-            "char_602_cdfend", // 预备干员-重装 4★
-            "char_603_csnipe", // 预备干员-狙击 4★
-            "char_604_ccast", // 预备干员-术师 4★
-            "char_605_cmedic", // 预备干员-医疗 4★
-            "char_606_csuppo", // 预备干员-辅助 4★
-            "char_607_cspec", // 预备干员-特种 4★
-            "char_608_acpion", // 郁金香 6★
-            "char_609_acguad", // Sharp 6★
-            "char_610_acfend", // Mechanist
-            "char_614_acsupo", // Raidian
-            "char_615_acspec", // Misery
-
-            "char_1001_amiya2", // 阿米娅-WARRIOR
-            "char_1037_amiya3", // 阿米娅-MEDIC
-        ];
     }
+
+    private static void LoadMapData()
+    {
+        MapData = [];
+        var path = Path.Combine(PathsHelper.ResourceDir, "Arknights-Tile-Pos", "overview.json");
+        if (!File.Exists(path))
+        {
+            return;
+        }
+
+        try
+        {
+            var jObj = JsonConvert.DeserializeObject<Dictionary<string, MapInfo>>(File.ReadAllText(path));
+            if (jObj is not null && jObj.Count > 0)
+            {
+                MapData = [.. jObj.Values];
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    public static MapInfo? FindMap(string mapId)
+        => MapData.FirstOrDefault(map => map.Code == mapId || map.Name == mapId || map.StageId == mapId || map.LevelId == mapId);
+
+    private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
+    {
+        return str switch
+        {
+            "zh-cn" or "Official" or "Bilibili" =>
+                v => CharacterNames.Add(v.Name ?? string.Empty),
+            "zh-tw" or "txwy" =>
+                v => CharacterNames.Add(v.NameTw ?? string.Empty),
+            "en-us" or "YoStarEN" =>
+                v => CharacterNames.Add(v.NameEn ?? string.Empty),
+            "ja-jp" or "YoStarJP" =>
+                v => CharacterNames.Add(v.NameJp ?? string.Empty),
+            "ko-kr" or "YoStarKR" =>
+                v => CharacterNames.Add(v.NameKr ?? string.Empty),
+            _ =>
+                v => CharacterNames.Add(v.Name ?? string.Empty),
+        };
+    }
+
+    private static Dictionary<string, CharacterInfo> _nameToCharacterMap = BuildNameIndex();
+
+    private static Dictionary<string, CharacterInfo> BuildNameIndex()
+    {
+        var dict = new Dictionary<string, CharacterInfo>(StringComparer.OrdinalIgnoreCase);
+        foreach (var character in Characters.Values)
+        {
+            TryAdd(character.Name);
+            TryAdd(character.NameEn);
+            TryAdd(character.NameJp);
+            TryAdd(character.NameKr);
+            TryAdd(character.NameTw);
+            continue;
+
+            void TryAdd(string? name)
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    dict.TryAdd(name, character);
+                }
+            }
+        }
+
+        return dict;
+    }
+
+    /// <summary>
+    /// 通过任意服务器中对应的干员名获取干员信息
+    /// </summary>
+    /// <param name="characterName">任意服务器中的干员名</param>
+    /// <returns>对应干员信息</returns>
+    public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
+    {
+        return _nameToCharacterMap.GetValueOrDefault(characterName);
+    }
+
+    /// <summary>
+    /// 通过任意服务器中对应的干员名获取指定语言的干员名
+    /// </summary>
+    /// <param name="characterName">任意服务器中的干员名</param>
+    /// <param name="language">指定语言，默认为当前语言</param>
+    /// <returns>指定语言干员名</returns>
+    public static string? GetLocalizedCharacterName(string? characterName, string? language = null)
+    {
+        return string.IsNullOrEmpty(characterName)
+            ? null
+            : GetLocalizedCharacterName(GetCharacterByNameOrAlias(characterName), language);
+    }
+
+    /// <summary>
+    /// 通过干员信息获取指定语言的干员名
+    /// </summary>
+    /// <param name="characterInfo">干员信息</param>
+    /// <param name="language">指定语言</param>
+    /// <returns>指定语言干员名</returns>
+    public static string? GetLocalizedCharacterName(CharacterInfo? characterInfo, string? language = null)
+    {
+        if (characterInfo?.Name == null)
+        {
+            return null;
+        }
+
+        language ??= SettingsViewModel.GuiSettings.OperNameLocalization;
+        return language switch
+        {
+            "zh-cn" => characterInfo.Name,
+            "zh-tw" => characterInfo.NameTw ?? characterInfo.Name,
+            "en-us" => characterInfo.NameEn ?? characterInfo.Name,
+            "ja-jp" => characterInfo.NameJp ?? characterInfo.Name,
+            "ko-kr" => characterInfo.NameKr ?? characterInfo.Name,
+            _ => characterInfo.Name,
+        };
+    }
+
+    /// <summary>
+    /// 判断干员在指定客户端中是否可用
+    /// </summary>
+    /// <param name="character">干员信息</param>
+    /// <param name="clientType">客户端类型</param>
+    /// <returns>是否可用</returns>
+    public static bool IsCharacterAvailableInClient(CharacterInfo? character, string clientType)
+    {
+        if (character is null)
+        {
+            return false;
+        }
+
+        return clientType switch
+        {
+            "zh-tw" or "txwy" => !character.NameTwUnavailable,
+            "en-us" or "YoStarEN" => !character.NameEnUnavailable,
+            "ja-jp" or "YoStarJP" => !character.NameJpUnavailable,
+            "ko-kr" or "YoStarKR" => !character.NameKrUnavailable,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// 判断干员在指定客户端中是否可用
+    /// </summary>
+    /// <param name="characterName">干员名</param>
+    /// <param name="clientType">客户端类型</param>
+    /// <returns>是否可用</returns>
+    public static bool IsCharacterAvailableInClient(string characterName, string clientType)
+    {
+        var character = GetCharacterByNameOrAlias(characterName);
+        return character != null && IsCharacterAvailableInClient(character, clientType);
+    }
+
+    /// <summary>
+    /// 通过完整 ID 查询
+    /// </summary>
+    /// <param name="id">干员 id</param>
+    /// <returns>干员信息</returns>
+    public static CharacterInfo? GetCharacterById(string id)
+    {
+        return Characters.GetValueOrDefault(id);
+    }
+
+    /// <summary>
+    /// 通过代号查询（如 char_002_amiya 中的 amiya）
+    /// </summary>
+    /// <param name="codeName">干员代号</param>
+    /// <returns>干员信息</returns>
+    public static CharacterInfo? GetCharacterByCodeName(string codeName)
+    {
+        return Characters.Values.FirstOrDefault(character =>
+            character.CodeName.Equals(codeName, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public class CharacterInfo
+    {
+        [JsonIgnore]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonProperty("name")]
+        public string? Name { get; set; }
+
+        [JsonProperty("name_en")]
+        public string? NameEn { get; set; }
+
+        [JsonProperty("name_en_unavailable")]
+        public bool NameEnUnavailable { get; set; } = false;
+
+        [JsonProperty("name_jp")]
+        public string? NameJp { get; set; }
+
+        [JsonProperty("name_jp_unavailable")]
+        public bool NameJpUnavailable { get; set; } = false;
+
+        [JsonProperty("name_kr")]
+        public string? NameKr { get; set; }
+
+        [JsonProperty("name_kr_unavailable")]
+        public bool NameKrUnavailable { get; set; } = false;
+
+        [JsonProperty("name_tw")]
+        public string? NameTw { get; set; }
+
+        [JsonProperty("name_tw_unavailable")]
+        public bool NameTwUnavailable { get; set; } = false;
+
+        [JsonProperty("position")]
+        public string? Position { get; set; }
+
+        [JsonProperty("profession")]
+        public OperatorRole Type { get; set; } = OperatorRole.Unknown;
+
+        [JsonProperty("rangeId")]
+        public List<string>? RangeId { get; set; }
+
+        [JsonProperty("rarity")]
+        public int Rarity { get; set; }
+
+        public bool IsOperator => Type is
+            OperatorRole.Caster or
+            OperatorRole.Medic or
+            OperatorRole.Pioneer or
+            OperatorRole.Sniper or
+            OperatorRole.Special or
+            OperatorRole.Support or
+            OperatorRole.Tank or
+            OperatorRole.Warrior;
+
+        [JsonIgnore]
+        public string CodeName => ExtractCodeName(Id);
+
+        private static string ExtractCodeName(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return string.Empty;
+            }
+
+            // 从"char_002_amiya"中提取"amiya"
+            var parts = id.Split('_');
+            return parts.Length >= 3 ? parts[2] : id;
+        }
+    }
+
+    public class MapInfo
+    {
+        // 1-7
+        [JsonProperty("code")]
+        public string? Code { get; set; }
+
+        // main_01-07#f#-obt-main-level_main_01-07.json
+        [JsonProperty("filename")]
+        public string? Filename { get; set; }
+
+        // obt/main/level_main_01-07
+        [JsonProperty("levelId")]
+        public string? LevelId { get; set; }
+
+        // 暴君
+        [JsonProperty("name")]
+        public string? Name { get; set; }
+
+        // main_01-07#f#, #f#是突袭关卡
+        [JsonProperty("stageId")]
+        public string? StageId { get; set; }
+
+        [JsonProperty("height")]
+        public int Height { get; set; }
+
+        [JsonProperty("width")]
+        public int Width { get; set; }
+    }
+
+    /// <summary>
+    /// 未实装干员，但在battle_data中，
+    /// </summary>
+    private static readonly HashSet<string?> _virtuallyOpers =
+    [
+        "char_504_rguard", // 预备干员-近战
+        "char_505_rcast",  // 预备干员-术师
+        "char_506_rmedic", // 预备干员-后勤
+        "char_507_rsnipe", // 预备干员-狙击
+        "char_508_aguard", // Sharp
+        "char_509_acast",  // Pith
+        "char_612_accast", // Pith
+        "char_510_amedic", // Touch
+        "char_613_acmedc", // Touch
+        "char_511_asnipe", // Stormeye
+        "char_611_acnipe", // Stormeye
+        "char_512_aprot",  // 暮落
+        "char_513_apionr", // 郁金香
+        "char_514_rdfend", // 预备干员-重装
+
+        // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
+        "char_600_cpione", // 预备干员-先锋 4★
+        "char_601_cguard", // 预备干员-近卫 4★
+        "char_602_cdfend", // 预备干员-重装 4★
+        "char_603_csnipe", // 预备干员-狙击 4★
+        "char_604_ccast", // 预备干员-术师 4★
+        "char_605_cmedic", // 预备干员-医疗 4★
+        "char_606_csuppo", // 预备干员-辅助 4★
+        "char_607_cspec", // 预备干员-特种 4★
+        "char_608_acpion", // 郁金香 6★
+        "char_609_acguad", // Sharp 6★
+        "char_610_acfend", // Mechanist
+        "char_614_acsupo", // Raidian
+        "char_615_acspec", // Misery
+
+        "char_1001_amiya2", // 阿米娅-WARRIOR
+        "char_1037_amiya3", // 阿米娅-MEDIC
+    ];
 }

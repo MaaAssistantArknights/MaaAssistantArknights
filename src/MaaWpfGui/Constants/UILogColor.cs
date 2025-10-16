@@ -13,183 +13,182 @@
 
 using JetBrains.Annotations;
 
-namespace MaaWpfGui.Constants
+namespace MaaWpfGui.Constants;
+
+/// <summary>
+/// The recommended colors for logs.
+/// </summary>
+public static class UiLogColor
 {
+    public const string Text = "PrimaryTextBrush";
+
     /// <summary>
-    /// The recommended colors for logs.
+    /// The recommended color for success logs.
     /// </summary>
-    public static class UiLogColor
-    {
-        public const string Text = "PrimaryTextBrush";
+    public const string Success = "SuccessLogBrush";
 
-        /// <summary>
-        /// The recommended color for success logs.
-        /// </summary>
-        public const string Success = "SuccessLogBrush";
+    /// <summary>
+    /// The recommended color for error logs.
+    /// </summary>
+    public const string Error = "ErrorLogBrush";
 
-        /// <summary>
-        /// The recommended color for error logs.
-        /// </summary>
-        public const string Error = "ErrorLogBrush";
+    /// <summary>
+    /// The recommended color for warning logs.
+    /// </summary>
+    public const string Warning = "WarningLogBrush";
 
-        /// <summary>
-        /// The recommended color for warning logs.
-        /// </summary>
-        public const string Warning = "WarningLogBrush";
+    /// <summary>
+    /// The recommended color for info logs.
+    /// </summary>
+    public const string Info = "InfoLogBrush";
 
-        /// <summary>
-        /// The recommended color for info logs.
-        /// </summary>
-        public const string Info = "InfoLogBrush";
+    /// <summary>
+    /// The recommended color for trace logs.
+    /// </summary>
+    public const string Trace = "TraceLogBrush";
 
-        /// <summary>
-        /// The recommended color for trace logs.
-        /// </summary>
-        public const string Trace = "TraceLogBrush";
+    /// <summary>
+    /// The recommended color for message logs.
+    /// </summary>
+    public const string Message = "MessageLogBrush";
 
-        /// <summary>
-        /// The recommended color for message logs.
-        /// </summary>
-        public const string Message = "MessageLogBrush";
+    /// <summary>
+    /// The recommended color for rare operator logs.
+    /// </summary>
+    public const string RareOperator = "RareOperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for rare operator logs.
-        /// </summary>
-        public const string RareOperator = "RareOperatorLogBrush";
+    /// <summary>
+    /// The recommended color for robot operator logs.
+    /// </summary>
+    [UsedImplicitly]
+    public const string RobotOperator = "RobotOperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for robot operator logs.
-        /// </summary>
-        [UsedImplicitly]
-        public const string RobotOperator = "RobotOperatorLogBrush";
+    #region 公招
 
-        #region 公招
+    /// <summary>
+    /// The recommended color for 1-star operators (also used for robot operators).
+    /// </summary>
+    public const string Star1Operator = "Star1OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 1-star operators (also used for robot operators).
-        /// </summary>
-        public const string Star1Operator = "Star1OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 1-star operators when potential is full.
+    /// </summary>
+    public const string Star1OperatorPotentialFull = "Star1OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 1-star operators when potential is full.
-        /// </summary>
-        public const string Star1OperatorPotentialFull = "Star1OperatorLogBrushPotentialFull";
+    /// <summary>
+    /// The recommended color for 2-star operators.
+    /// </summary>
+    public const string Star2Operator = "Star2OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 2-star operators.
-        /// </summary>
-        public const string Star2Operator = "Star2OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 2-star operators when potential is full.
+    /// </summary>
+    public const string Star2OperatorPotentialFull = "Star2OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 2-star operators when potential is full.
-        /// </summary>
-        public const string Star2OperatorPotentialFull = "Star2OperatorLogBrushPotentialFull";
+    /// <summary>
+    /// The recommended color for 3-star operators.
+    /// </summary>
+    public const string Star3Operator = "Star3OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 3-star operators.
-        /// </summary>
-        public const string Star3Operator = "Star3OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 3-star operators when potential is full.
+    /// </summary>
+    public const string Star3OperatorPotentialFull = "Star3OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 3-star operators when potential is full.
-        /// </summary>
-        public const string Star3OperatorPotentialFull = "Star3OperatorLogBrushPotentialFull";
+    /// <summary>
+    /// The recommended color for 4-star operators.
+    /// </summary>
+    public const string Star4Operator = "Star4OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 4-star operators.
-        /// </summary>
-        public const string Star4Operator = "Star4OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 4-star operators when potential is full.
+    /// </summary>
+    public const string Star4OperatorPotentialFull = "Star4OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 4-star operators when potential is full.
-        /// </summary>
-        public const string Star4OperatorPotentialFull = "Star4OperatorLogBrushPotentialFull";
+    /// <summary>
+    /// The recommended color for 5-star operators.
+    /// </summary>
+    public const string Star5Operator = "Star5OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 5-star operators.
-        /// </summary>
-        public const string Star5Operator = "Star5OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 5-star operators when potential is full.
+    /// </summary>
+    public const string Star5OperatorPotentialFull = "Star5OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 5-star operators when potential is full.
-        /// </summary>
-        public const string Star5OperatorPotentialFull = "Star5OperatorLogBrushPotentialFull";
+    /// <summary>
+    /// The recommended color for 6-star operators.
+    /// </summary>
+    public const string Star6Operator = "Star6OperatorLogBrush";
 
-        /// <summary>
-        /// The recommended color for 6-star operators.
-        /// </summary>
-        public const string Star6Operator = "Star6OperatorLogBrush";
+    /// <summary>
+    /// The recommended color for 6-star operators when potential is full.
+    /// </summary>
+    public const string Star6OperatorPotentialFull = "Star6OperatorLogBrushPotentialFull";
 
-        /// <summary>
-        /// The recommended color for 6-star operators when potential is full.
-        /// </summary>
-        public const string Star6OperatorPotentialFull = "Star6OperatorLogBrushPotentialFull";
+    #endregion
 
-        #endregion
+    /// <summary>
+    /// The recommended color for file downloading or downloaded or download failed.
+    /// </summary>
+    public const string Download = "DownloadLogBrush";
 
-        /// <summary>
-        /// The recommended color for file downloading or downloaded or download failed.
-        /// </summary>
-        public const string Download = "DownloadLogBrush";
+    /// <summary>
+    /// The recommended color for MuMu special screenshot.
+    /// </summary>
+    public const string MuMuSpecialScreenshot = "MuMuSpecialScreenshot";
 
-        /// <summary>
-        /// The recommended color for MuMu special screenshot.
-        /// </summary>
-        public const string MuMuSpecialScreenshot = "MuMuSpecialScreenshot";
+    /// <summary>
+    /// The recommended color for LD special screenshot.
+    /// </summary>
+    public const string LdSpecialScreenshot = "LdSpecialScreenshot";
 
-        /// <summary>
-        /// The recommended color for LD special screenshot.
-        /// </summary>
-        public const string LdSpecialScreenshot = "LdSpecialScreenshot";
+    // I.S. Colors
 
-        // I.S. Colors
+    /// <summary>
+    /// The recommended color for success fights.
+    /// </summary>
+    public const string SuccessIS = "SuccessIS";
 
-        /// <summary>
-        /// The recommended color for success fights.
-        /// </summary>
-        public const string SuccessIS = "SuccessIS";
+    /// <summary>
+    /// The recommended color for Safe House events.
+    /// </summary>
+    public const string SafehouseIS = "SafehouseIS";
 
-        /// <summary>
-        /// The recommended color for Safe House events.
-        /// </summary>
-        public const string SafehouseIS = "SafehouseIS";
+    /// <summary>
+    /// The recommended color for Trader events.
+    /// </summary>
+    public const string TraderIS = "TraderIS";
 
-        /// <summary>
-        /// The recommended color for Trader events.
-        /// </summary>
-        public const string TraderIS = "TraderIS";
+    /// <summary>
+    /// The recommended color for standard events.
+    /// </summary>
+    public const string EventIS = "EventIS";
 
-        /// <summary>
-        /// The recommended color for standard events.
-        /// </summary>
-        public const string EventIS = "EventIS";
+    /// <summary>
+    /// The recommended color for truth events.
+    /// </summary>
+    public const string TruthIS = "TruthIS";
 
-        /// <summary>
-        /// The recommended color for truth events.
-        /// </summary>
-        public const string TruthIS = "TruthIS";
+    /// <summary>
+    /// The recommended color for standard fights.
+    /// </summary>
+    public const string CombatIS = "CombatIS";
 
-        /// <summary>
-        /// The recommended color for standard fights.
-        /// </summary>
-        public const string CombatIS = "CombatIS";
+    /// <summary>
+    /// The recommended color for emergency fights.
+    /// </summary>
+    public const string EmergencyIS = "EmergencyIS";
 
-        /// <summary>
-        /// The recommended color for emergency fights.
-        /// </summary>
-        public const string EmergencyIS = "EmergencyIS";
+    /// <summary>
+    /// The recommended color for boss fights.
+    /// </summary>
+    public const string BossIS = "BossIS";
 
-        /// <summary>
-        /// The recommended color for boss fights.
-        /// </summary>
-        public const string BossIS = "BossIS";
+    /// <summary>
+    /// The recommended color for abandoned.
+    /// </summary>
+    public const string ExplorationAbandonedIS = "ExplorationAbandonedIS";
 
-        /// <summary>
-        /// The recommended color for abandoned.
-        /// </summary>
-        public const string ExplorationAbandonedIS = "ExplorationAbandonedIS";
-
-        // 颜色在MaaWpfGui\Res\Themes中定义
-        // Brush are defined in MaaWpfGui\Res\Themes
-    }
+    // 颜色在MaaWpfGui\Res\Themes中定义
+    // Brush are defined in MaaWpfGui\Res\Themes
 }

@@ -11,11 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Constants
+namespace MaaWpfGui.Constants;
+
+public static class JsonDataKey
 {
-    public static class JsonDataKey
-    {
-        public const string OperBoxData = "OperBoxData";
-        public const string DepotData = "DepotData";
-    }
+    public const string OperBoxData = "OperBoxData";
+    public const string DepotData = "DepotData";
 }

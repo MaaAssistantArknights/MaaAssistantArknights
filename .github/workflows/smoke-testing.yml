@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/smoke-testing.yml"
+      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
@@ -16,6 +17,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/smoke-testing.yml"
+      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
       - "include/**"
       - "src/Cpp/**"
@@ -106,7 +108,7 @@ jobs:
 
       - name: Run tests
         run: |
-          ./tools/SmokeTesting/run_tests.zsh
+          sh ./tools/SmokeTesting/run_tests.sh
 
       - name: Save cache smoke-testing (only in dev)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'

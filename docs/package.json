@@ -7,7 +7,7 @@
     "author": "bakashigure <me@shigure.fun>",
     "license": "AGPL-3.0",
     "private": true,
-    "packageManager": "pnpm@10.17.1",
+    "packageManager": "pnpm@10.18.2",
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
         "@vuepress/bundler-vite": "2.0.0-rc.24",
@@ -21,12 +21,12 @@
         "markdown-it": "^14.1.0",
         "markdown-it-anchor": "^9.2.0",
         "prettier": "^3.6.2",
-        "sass-embedded": "^1.93.1",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.7",
-        "vue": "^3.5.21",
+        "sass-embedded": "^1.93.2",
+        "typescript": "^5.9.3",
+        "vite": "^7.1.9",
+        "vue": "^3.5.22",
         "vuepress": "2.0.0-rc.24",
-        "vuepress-theme-plume": "1.0.0-rc.164"
+        "vuepress-theme-plume": "1.0.0-rc.169"
     },
     "scripts": {
         "dev": "vuepress dev .",

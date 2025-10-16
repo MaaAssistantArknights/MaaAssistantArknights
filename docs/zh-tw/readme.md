@@ -82,11 +82,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 主要關聯項目
 
-**目前項目組非常缺前端大佬，若您有相關經驗，歡迎加入我們！**
-
 - 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
-- [作業站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [作業站](https://prts.plus) 後端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [作業站](https://prts.plus) 前端：[zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
+- [作業站](https://prts.plus) 後端：[ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
 - [官網](https://maa.plus) ： [前端](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
 - 深度學習：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 

@@ -15,25 +15,24 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+public struct WindowHandle
 {
-    public struct WindowHandle
+    public IntPtr Handle { get; private set; }
+
+    public static WindowHandle None => new WindowHandle() { Handle = IntPtr.Zero };
+
+    public static implicit operator WindowHandle(IntPtr h) => new WindowHandle() { Handle = h };
+
+    public static implicit operator WindowHandle(Window w)
     {
-        public IntPtr Handle { get; private set; }
-
-        public static WindowHandle None => new WindowHandle() { Handle = IntPtr.Zero };
-
-        public static implicit operator WindowHandle(IntPtr h) => new WindowHandle() { Handle = h };
-
-        public static implicit operator WindowHandle(Window w)
+        if (w == null)
         {
-            if (w == null)
-            {
-                return None;
-            }
-
-            var interop = new WindowInteropHelper(w);
-            return new WindowHandle { Handle = interop.Handle };
+            return None;
         }
+
+        var interop = new WindowInteropHelper(w);
+        return new WindowHandle { Handle = interop.Handle };
     }
 }

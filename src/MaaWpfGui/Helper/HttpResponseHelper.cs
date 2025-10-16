@@ -19,79 +19,78 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace MaaWpfGui.Helper
+namespace MaaWpfGui.Helper;
+
+public static class HttpResponseHelper
 {
-    public static class HttpResponseHelper
+    private static readonly ILogger _logger = Log.ForContext("SourceContext", "HttpResponseHelper");
+
+    public static async Task<bool> SaveResponseToFileAsync(HttpResponseMessage? response, string saveTo, bool saveAndDeleteTmp = true)
     {
-        private static readonly ILogger _logger = Log.ForContext("SourceContext", "HttpResponseHelper");
+        saveTo = Path.Combine(PathsHelper.BaseDir, saveTo);
 
-        public static async Task<bool> SaveResponseToFileAsync(HttpResponseMessage? response, string saveTo, bool saveAndDeleteTmp = true)
+        var tempFile = saveTo + ".tmp";
+        if (File.Exists(tempFile))
         {
-            saveTo = Path.Combine(PathsHelper.BaseDir, saveTo);
-
-            var tempFile = saveTo + ".tmp";
-            if (File.Exists(tempFile))
-            {
-                File.Delete(tempFile);
-            }
-
-            try
-            {
-                await using var stream = await GetStreamAsync(response);
-                await using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-                await stream!.CopyToAsync(fileStream).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to save response to file: ");
-                return false;
-            }
-
-            // ReSharper disable once InvertIf
-            if (saveAndDeleteTmp)
-            {
-                File.Copy(tempFile, saveTo, true);
-                File.Delete(tempFile);
-            }
-
-            return true;
+            File.Delete(tempFile);
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public static async Task<Stream?> GetStreamAsync(HttpResponseMessage? response)
+        try
         {
-            if (response == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to get response as stream: ");
-                return null;
-            }
+            await using var stream = await GetStreamAsync(response);
+            await using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+            await stream!.CopyToAsync(fileStream).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to save response to file: ");
+            return false;
         }
 
-        public static async Task<string> GetStringAsync(HttpResponseMessage? response)
+        // ReSharper disable once InvertIf
+        if (saveAndDeleteTmp)
         {
-            if (response == null)
-            {
-                return string.Empty;
-            }
+            File.Copy(tempFile, saveTo, true);
+            File.Delete(tempFile);
+        }
 
-            try
-            {
-                return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to get response as string: ");
-                return string.Empty;
-            }
+        return true;
+    }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    public static async Task<Stream?> GetStreamAsync(HttpResponseMessage? response)
+    {
+        if (response == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to get response as stream: ");
+            return null;
+        }
+    }
+
+    public static async Task<string> GetStringAsync(HttpResponseMessage? response)
+    {
+        if (response == null)
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to get response as string: ");
+            return string.Empty;
         }
     }
 }

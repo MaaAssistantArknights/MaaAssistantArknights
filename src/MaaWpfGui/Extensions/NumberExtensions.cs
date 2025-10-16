@@ -12,26 +12,25 @@
 // </copyright>
 
 #nullable enable
-namespace MaaWpfGui.Extensions
-{
-    public static class NumberExtensions
-    {
-        public static string FormatNumber(this int n, bool abbreviateK = true) => n switch
-        {
-            >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
-            >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
-            >= 10_000 => $"{n / 1_000.0:#.#}k",
-            >= 1_000 when abbreviateK => $"{n / 1_000.0:#.#}k",
-            _ => $"{n}",
-        };
+namespace MaaWpfGui.Extensions;
 
-        public static string FormatNumber(this long n, bool abbreviateK = true) => n switch
-        {
-            >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
-            >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
-            >= 10_000 => $"{n / 1_000.0:#.#}k",
-            >= 1_000 when abbreviateK => $"{n / 1_000.0:#.#}k",
-            _ => $"{n}",
-        };
-    }
+public static class NumberExtensions
+{
+    public static string FormatNumber(this int n, bool abbreviateK = true) => n switch
+    {
+        >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
+        >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
+        >= 10_000 => $"{n / 1_000.0:#.#}k",
+        >= 1_000 when abbreviateK => $"{n / 1_000.0:#.#}k",
+        _ => $"{n}",
+    };
+
+    public static string FormatNumber(this long n, bool abbreviateK = true) => n switch
+    {
+        >= 1_000_000_000 => $"{n / 1_000_000_000.0:#.#}B",
+        >= 1_000_000 => $"{n / 1_000_000.0:#.#}M",
+        >= 10_000 => $"{n / 1_000.0:#.#}k",
+        >= 1_000 when abbreviateK => $"{n / 1_000.0:#.#}k",
+        _ => $"{n}",
+    };
 }

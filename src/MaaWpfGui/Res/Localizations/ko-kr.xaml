@@ -785,9 +785,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@RM-1Tip" xml:space="preserve">RM-TR-1을 약 3시간 동안 클리어하세요. 건설 전략에서, 석재 채굴 라인을 최하단 지점까지,&#10;특별 임명으로 위스토리아 지정, 그 후 최대한 엘리트 2 전문 3, 스킬 1 탑재,&#10;12명 오퍼레이터 풀 탑재, 나머지 11명의 배치 비용은 위스토리아보다 낮아야 함,&#10;생산 모듈 각 1개 탑재, 수동으로 스테이지 진입 후 퇴장,&#10;RM-1을 화면 중앙에 배치, MAA 실행</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoom">AT (허) - 상담실 (비공식)</system:String>
     <system:String x:Key="MiniGame@AT@ConversationRoomTip" xml:space="preserve">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢영업 시작｣)</system:String>
-    <system:String x:Key="MiniGame@ALL@GreenGrass">대결 채널: 그린그래스 시티 (비공식)</system:String>
-    <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢이벤트 참가｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>
-    <system:String x:Key="MiniGame@ALL@HoneyFruit">대결 채널: (비공식)</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrass">듀얼 채널: 그린 그래스빌</system:String>
+    <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">튜토리얼 대화를 수동으로 건너뛴 후, 바로 종료할 수 있어요&#10;이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래 ｢경기 진행｣)&#10;&#10;덕로드만 믿고 따라가면 손해는 없을거에요</system:String>
+    <system:String x:Key="MiniGame@ALL@HoneyFruit">듀얼 채널: 허니 듀 (비공식)</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>

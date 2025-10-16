@@ -22,95 +22,94 @@ using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui.Models
+namespace MaaWpfGui.Models;
+
+public class Achievement
 {
-    public class Achievement
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string Id { get; set; } = string.Empty;
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool IsUnlocked { get; set; } = false;
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public DateTime? UnlockedTime { get; set; } = null;
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int Progress { get; set; } = 0; // 用于累计型成就
+
+    // 用法示例
+    // 记录上次打开时间
+    // achievement.CustomData["LastLaunchTime"] = DateTime.UtcNow;
+    // 读取时
+    // if (achievement.CustomData.TryGetValue("LastLaunchTime", out var token))
+    // {
+    //     var lastTime = token.ToObject<DateTime>();
+    // }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Dictionary<string, JToken>? CustomData { get; set; } = null;
+
+    [JsonIgnore]
+    public string Title => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
+
+    [JsonIgnore]
+    public string Description => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Description") : "???";
+
+    [JsonIgnore]
+    public string Conditions => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Conditions") : "???";
+
+    [JsonIgnore]
+    public DateTime? UnlockedTimeLocal => UnlockedTime?.ToLocalTime();
+
+    [JsonIgnore]
+    public bool IsHidden { get; set; } = false;
+
+    [JsonIgnore]
+    public bool CanShow => !IsHidden || IsUnlocked;
+
+    [JsonIgnore]
+    public bool IsProgressive => Target != 0;
+
+    [JsonIgnore]
+    public int Target { get; set; } = 0; // 可选目标值
+
+    [JsonIgnore]
+    public AchievementCategory Category { get; set; } // 分组
+
+    [JsonIgnore]
+    public bool IsRare { get; set; } = false;
+
+    [JsonIgnore]
+    public bool IsVisibleInSearch { get; set; } = true;
+
+    [JsonIgnore]
+    public string Group { get; set; } = string.Empty;
+
+    [JsonIgnore]
+    public string MedalBrushKey
     {
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Id { get; set; } = string.Empty;
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool IsUnlocked { get; set; } = false;
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DateTime? UnlockedTime { get; set; } = null;
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Progress { get; set; } = 0; // 用于累计型成就
-
-        // 用法示例
-        // 记录上次打开时间
-        // achievement.CustomData["LastLaunchTime"] = DateTime.UtcNow;
-        // 读取时
-        // if (achievement.CustomData.TryGetValue("LastLaunchTime", out var token))
-        // {
-        //     var lastTime = token.ToObject<DateTime>();
-        // }
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, JToken>? CustomData { get; set; } = null;
-
-        [JsonIgnore]
-        public string Title => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Title") : "???";
-
-        [JsonIgnore]
-        public string Description => IsUnlocked ? LocalizationHelper.GetString($"Achievement.{Id}.Description") : "???";
-
-        [JsonIgnore]
-        public string Conditions => CanShow ? LocalizationHelper.GetString($"Achievement.{Id}.Conditions") : "???";
-
-        [JsonIgnore]
-        public DateTime? UnlockedTimeLocal => UnlockedTime?.ToLocalTime();
-
-        [JsonIgnore]
-        public bool IsHidden { get; set; } = false;
-
-        [JsonIgnore]
-        public bool CanShow => !IsHidden || IsUnlocked;
-
-        [JsonIgnore]
-        public bool IsProgressive => Target != 0;
-
-        [JsonIgnore]
-        public int Target { get; set; } = 0; // 可选目标值
-
-        [JsonIgnore]
-        public AchievementCategory Category { get; set; } // 分组
-
-        [JsonIgnore]
-        public bool IsRare { get; set; } = false;
-
-        [JsonIgnore]
-        public bool IsVisibleInSearch { get; set; } = true;
-
-        [JsonIgnore]
-        public string Group { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public string MedalBrushKey
+        get
         {
-            get
+            if (!IsUnlocked)
             {
-                if (!IsUnlocked)
-                {
-                    return "LockedMedalBrush";
-                }
-
-                if (IsRare)
-                {
-                    return "AchievementBrush.Rare.LinearGradientBrush";
-                }
-
-                if (IsHidden)
-                {
-                    return "HiddenMedalBrush";
-                }
-
-                return $"AchievementBrush.{Category}";
+                return "LockedMedalBrush";
             }
-        }
 
-        // 新解锁的成就放前面，仅本次关闭前生效
-        [JsonIgnore]
-        public bool IsNewUnlock { get; set; } = false;
+            if (IsRare)
+            {
+                return "AchievementBrush.Rare.LinearGradientBrush";
+            }
+
+            if (IsHidden)
+            {
+                return "HiddenMedalBrush";
+            }
+
+            return $"AchievementBrush.{Category}";
+        }
     }
+
+    // 新解锁的成就放前面，仅本次关闭前生效
+    [JsonIgnore]
+    public bool IsNewUnlock { get; set; } = false;
 }
