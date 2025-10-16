@@ -541,7 +541,10 @@
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
     "Sami@Roguelike@MissionFailedFlag3": {
-        "baseTask": "Sami@Roguelike@MissionFailedFlag"
+        "action": "ClickSelf",
+        "roi": [504, 163, 480, 267],
+        "postDelay": 10000,
+        "next": ["Sami@Roguelike@MissionCompletedFlag"]
     },
     "Sami@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
