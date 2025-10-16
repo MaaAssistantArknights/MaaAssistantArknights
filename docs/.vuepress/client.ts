@@ -15,7 +15,7 @@ export default defineClientConfig({
     app.component('Redirect', Redirect)
 
     // 输出一个随机的字符画
-    const art = getAsciiArt(undefined, 'auto', 'console')
-    console.log('%c' + art, 'white-space: pre;')
+    const asciiArtData = getAsciiArt(undefined, 'auto', 'console')
+    console.log('%c' + asciiArtData.text, 'white-space: pre;')
   },
 })
