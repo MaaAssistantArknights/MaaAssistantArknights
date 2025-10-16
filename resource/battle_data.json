@@ -9394,6 +9394,21 @@
             "rangeId": ["x-7", "x-7", "x-7"],
             "rarity": 1
         },
+        "trap_258_rgcssm": {
+            "name": "古雕伥",
+            "name_en": "古雕伥",
+            "name_en_unavailable": true,
+            "name_jp": "古雕伥",
+            "name_jp_unavailable": true,
+            "name_kr": "古雕伥",
+            "name_kr_unavailable": true,
+            "name_tw": "古雕伥",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_270_spawnp": {
             "name": "隐蔽矿道",
             "name_en": "隐蔽矿道",
@@ -9433,6 +9448,21 @@
             "name_kr": "阻道岩壁",
             "name_kr_unavailable": true,
             "name_tw": "阻道岩壁",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_278_dyfgdd": {
+            "name": "狭路相逢",
+            "name_en": "狭路相逢",
+            "name_en_unavailable": true,
+            "name_jp": "狭路相逢",
+            "name_jp_unavailable": true,
+            "name_kr": "狭路相逢",
+            "name_kr_unavailable": true,
+            "name_tw": "狭路相逢",
             "name_tw_unavailable": true,
             "position": "NONE",
             "profession": "TRAP",
