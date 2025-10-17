@@ -1,7 +1,4 @@
 {
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
@@ -10,6 +7,18 @@
     },
     "ClickChapter3": {
         "text": ["殘陽"]
+    },
+    "ClickChapterNew": {
+        "text": ["樂章收錄"]
+    },
+    "ClickChapterNewOpenTime": {
+        "text": ["開啟時間"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "text": ["預設進度"]
+    },
+    "ClickChapterNewOverview": {
+        "text": ["樂章"]
     },
     "LevelOfDifficulty": {
         "text": ["環境", "PRTS"]
