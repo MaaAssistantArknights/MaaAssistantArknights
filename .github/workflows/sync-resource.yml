@@ -5,8 +5,8 @@ on:
     branches:
       - dev
     paths:
-      - "resource/**"
       - ".github/workflows/sync-resource.yml"
+      - "resource/**"
   workflow_dispatch:
 
 jobs:

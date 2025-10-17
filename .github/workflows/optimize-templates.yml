@@ -5,8 +5,8 @@ on:
     branches:
       - "dev"
     paths:
-      - "resource/**/*.png"
       - "docs/.vuepress/public/images/**"
+      - "resource/**/*.png"
       - "website/apps/web/public/**"
       - "website/apps/web/src/assets/links/**"
   workflow_dispatch:

@@ -4,29 +4,29 @@ on:
   push:
     paths:
       - ".github/workflows/smoke-testing.yml"
-      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/Cpp/**"
-      - "src/MaaCore/**"
-      - "resource/**"
-      - "!**/*.md"
       - "cmake/**"
       - "CMakeLists.txt"
+      - "include/**"
+      - "resource/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
       - "tools/maadeps-download.py"
+      - "tools/SmokeTesting/**"
+      - "!**/*.md"
   pull_request:
     paths:
       - ".github/workflows/smoke-testing.yml"
-      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/Cpp/**"
-      - "src/MaaCore/**"
-      - "resource/**"
-      - "!**/*.md"
       - "cmake/**"
       - "CMakeLists.txt"
+      - "include/**"
+      - "resource/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
       - "tools/maadeps-download.py"
+      - "tools/SmokeTesting/**"
+      - "!**/*.md"
   workflow_dispatch:
 
 jobs:
