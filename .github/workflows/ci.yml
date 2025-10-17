@@ -1,4 +1,4 @@
-name: ci
+name: Release Pipeline
 
 on:
   push:
@@ -34,6 +34,7 @@ concurrency:
 
 jobs:
   meta:
+    name: Gather Meta Information
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -68,7 +69,7 @@ jobs:
           echo tag=$(git describe --tags --match "v*" ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
-      - name: Judge pre-release
+      - name: Check if it is a pre-release
         id: set_pre
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
@@ -78,7 +79,7 @@ jobs:
             echo prerelease=true | tee -a $GITHUB_OUTPUT
           fi
 
-      - name: Generate changelog
+      - name: Finalize changelog
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
           this_tag=${{ steps.set_tag.outputs.tag }}
@@ -92,7 +93,7 @@ jobs:
           echo >> CHANGELOG.md
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
 
-      - name: Upload changelog to Github
+      - name: Upload changelog to GitHub
         uses: actions/upload-artifact@v4
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         with:
@@ -100,6 +101,7 @@ jobs:
           path: CHANGELOG.md
 
   windows:
+    name: Build for Windows
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -164,7 +166,7 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
-      - name: Taggify Version for csproj
+      - name: Taggify version for csproj
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
@@ -187,7 +189,7 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
-      - name: Organize Install Files
+      - name: Organize install files
         shell: bash
         run: |
           rm -rf install/*.pdb
@@ -201,13 +203,14 @@ jobs:
           cd install
           Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/*.zip
 
   ubuntu:
+    name: Build for Ubuntu
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -323,7 +326,7 @@ jobs:
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-linux-${{ matrix.arch }}
@@ -332,6 +335,7 @@ jobs:
             release/*.tar.gz
 
   macOS-Core:
+    name: Build Core for macOS
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -350,7 +354,7 @@ jobs:
           show-progress: false
 
       # ninja 1.13.1 is already installed and up-to-date.
-      # - name: Install Dependencies
+      # - name: Install dependencies
       #   run: |
       #     brew install ninja
 
@@ -383,13 +387,14 @@ jobs:
         run: |
           cmake --install build --prefix install --config Release
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAACore-macos-${{ matrix.arch }}
           path: "install/*.dylib"
 
   macOS-GUI:
+    name: Build GUI for macOS
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -403,7 +408,7 @@ jobs:
         with:
           show-progress: false
 
-      - name: Install Dependencies
+      - name: Install dependencies
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           brew install graphicsmagick imagemagick
@@ -413,13 +418,13 @@ jobs:
         run: |
           git submodule update --init --depth 1 src/MaaMacGui
 
-      - name: Download Arm64 MAA from Github
+      - name: Download MAA (arm64) from GitHub
         uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
-      - name: Download x64 MAA from Github
+      - name: Download MAA (x64) from GitHub
         uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-x86_64
@@ -441,19 +446,19 @@ jobs:
           api-key-id: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
           api-private-key: ${{ secrets.HGUANDL_APPSTORE_KEY }}
 
-      - name: Setup Xcode Toolchain
+      - name: Setup Xcode toolchain
         if: false
         run: |
           sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
-      - name: Build Universal Binaries
+      - name: Build universal binaries
         run: |
           mkdir build
           for LIB_NAME in $(ls install-arm64); do
             lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
 
-      - name: Archive Runtime Files
+      - name: Archive runtime files
         run: |
           mkdir runtime && cd runtime
           name='MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal'
@@ -465,7 +470,7 @@ jobs:
           cd .. || exit 1
           zip -yrX9 "$name.zip" "$name"
 
-      - name: Upload MAA runtime to Github
+      - name: Upload MAA runtime to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-runtime-universal
@@ -479,7 +484,7 @@ jobs:
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
         working-directory: build
 
-      - name: Setup GUI Version
+      - name: Setup GUI version
         run: |
           RELEASE_COUNT=$(git ls-remote --tags origin | grep refs/tags/v | awk 'END{print NR}')
           echo 'MARKETING_VERSION = ${{ needs.meta.outputs.tag }}' | tee src/MaaMacGui/Version.xcconfig
@@ -507,13 +512,13 @@ jobs:
           mv MAA*.dmg MAA.dmg
         working-directory: src/MaaMacGui
 
-      - name: Archive Debug Symbols
+      - name: Archive debug symbols
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
 
-      - name: Place Packages
+      - name: Place packages
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           GIT_TAG=${{ needs.meta.outputs.tag }}
@@ -523,7 +528,7 @@ jobs:
           mv src/MaaMacGui/MAA.dmg release/${APP_DMG}
           mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
 
-      - name: Notarize Image
+      - name: Notarize the image
         if: startsWith(github.ref, 'refs/tags/v')
         uses: nick-fields/retry@v3
         with:
@@ -546,13 +551,14 @@ jobs:
           xcrun stapler staple ${dmg}
         working-directory: release
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   release:
+    name: Publish Release
     # Prevent duplicate runs on organization branches with PRs
     if: (github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -561,7 +567,7 @@ jobs:
     needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
-      - name: Download MAA from Github
+      - name: Download MAA from GitHub
         uses: actions/download-artifact@v5
         with:
           path: assets
@@ -574,7 +580,7 @@ jobs:
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done
 
-      - name: Release to Github
+      - name: Publish release to GitHub
         uses: softprops/action-gh-release@v2.4.1
         with:
           body_path: CHANGELOG.md
@@ -582,14 +588,14 @@ jobs:
             assets/*
           prerelease: ${{ needs.meta.outputs.prerelease != 'false' }}
 
-      - name: Trigger MirrorChyan
+      - name: Trigger MirrorChyan-related workflows
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+      - name: Trigger OTA release workflow # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
         env:
