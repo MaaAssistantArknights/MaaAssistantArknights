@@ -1519,8 +1519,8 @@
         "text": ["확인"]
     },
     "SSSTeamConfirm": {
-        "text": ["확인"],
-        "preDelay": 1000
+        "preDelay": 1000,
+        "text": ["확인"]
     },
     "SSSStartFighting": {
         "ocrReplace": [
