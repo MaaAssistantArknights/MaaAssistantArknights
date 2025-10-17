@@ -423,6 +423,29 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     LogTraceFunction;
 
     const cv::Rect ref_roi = { m_image.cols - 320, 530, 280, 100 };
+    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
+
+    // 检查 m_image 的尺寸是否合理, 要求:
+    // 1. 足够裁剪下 ref_roi 以进行重合区域识别
+    // 2. 纵向足够容纳下 overlay_rect 以进行拼接
+    const int old_strip_min_width = ref_roi.br().x;
+    const int old_strip_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
+    if (m_image.empty() || ref_roi.x < 0 || m_image.cols < old_strip_min_width || m_image.rows < old_strip_min_height) {
+        Log.error("m_image is empty or has invalid dimensions:", m_image.size());
+        return std::nullopt;
+    }
+
+    // 检查 new_img 的尺寸是否合理, 要求:
+    // 1. 横向不小于 ref_roi.width 以进行重合区域识别
+    // 2. 纵向足够裁剪下 ref_roi 以进行重合区域识别
+    // 3. 足够裁剪下 overlay_rect 以进行拼接
+    const int new_img_min_width = std::max<int>(ref_roi.width, overlay_rect.br().x);
+    const int new_img_min_height = std::max<int>(ref_roi.br().y, overlay_rect.br().y);
+    if (new_img.empty() || new_img.cols < new_img_min_width || new_img.rows < new_img_min_height) {
+        Log.error("new_img is empty or has invalid dimensions:", new_img.size());
+        return std::nullopt;
+    }
+
     Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
     offset_match.set_templ(m_image(ref_roi));
     offset_match.set_threshold(0.7);
@@ -435,10 +458,21 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
 
     const int rel_x = offset + m_image.cols - new_img.cols;
 
-    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
     cv::Rect overlay_rect_on_strip = overlay_rect;
     overlay_rect_on_strip.x += rel_x;
 
+    // 检查 (即将创建的) new_strip 的长度, 若比 m_image 更短, 则放弃
+    if (overlay_rect_on_strip.br().x <= m_image.cols) {
+        Log.info(
+            "The width of new_strip",
+            overlay_rect_on_strip.br().x,
+            "is less than or equal to the original one",
+            m_image.cols);
+        Log.info("Cancel the image merging");
+        return std::nullopt;
+    }
+
+    // 创建新的 new_strip
     cv::Mat new_strip = cv::Mat { m_image.rows, overlay_rect_on_strip.br().x, m_image.type(), cv::Scalar(0) };
     m_image.copyTo(new_strip(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
     new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
