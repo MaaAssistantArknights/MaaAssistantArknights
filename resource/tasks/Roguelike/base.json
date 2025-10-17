@@ -512,7 +512,7 @@
         "action": "ClickRect",
         "specificRect": [261, 640, 31, 32],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033；有时光之末可以继续",
-        "postDelay": 800,
+        "postDelay": 1500,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore",
