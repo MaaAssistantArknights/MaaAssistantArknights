@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AbstractRoguelikeMap.h"
-#include "Utils/SingletonHolder.hpp"
-
 #include <array>
 #include <optional>
 #include <vector>
+
+#include "Config/Roguelike/RoguelikeMapConfig.h"
+#include "Utils/SingletonHolder.hpp"
 
 namespace asst
 {
@@ -17,6 +17,9 @@ enum class RoguelikeBoskySubNodeType
     Shu = 2,  // 黍 - 常乐 种因得果
     Nian = 3, // 年 - 常乐 三缺一
 };
+
+// 获取树篱之途子节点类型的字符串名称
+std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type);
 
 class RoguelikeBoskyPassageMap : public SingletonHolder<RoguelikeBoskyPassageMap>
 {

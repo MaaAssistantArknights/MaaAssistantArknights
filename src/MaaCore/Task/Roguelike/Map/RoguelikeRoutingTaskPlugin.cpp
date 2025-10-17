@@ -3,7 +3,6 @@
 #include <limits>
 #include <numeric>
 
-#include "AbstractRoguelikeMap.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"

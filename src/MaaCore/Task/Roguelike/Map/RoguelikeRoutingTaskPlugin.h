@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Common/AsstTypes.h"
-#include "Config/Roguelike/RoguelikeMapConfig.h"
 #include "RoguelikeBoskyPassageMap.h"
+#include "RoguelikeMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 #include "Utils/NoWarningCVMat.h"
 

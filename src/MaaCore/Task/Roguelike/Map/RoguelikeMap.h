@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AbstractRoguelikeMap.h"
-
 #include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
+
+#include "Config/Roguelike/RoguelikeMapConfig.h"
 
 namespace asst
 {

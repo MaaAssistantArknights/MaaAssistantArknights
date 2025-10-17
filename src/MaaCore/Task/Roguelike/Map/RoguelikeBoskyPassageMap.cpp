@@ -1,11 +1,27 @@
 #include "RoguelikeBoskyPassageMap.h"
-#include "AbstractRoguelikeMap.h"
-#include "Utils/Logger.hpp"
 
 #include <array>
 
+#include "Utils/Logger.hpp"
+
 namespace asst
 {
+std::string subtype2name(RoguelikeBoskySubNodeType node_subtype)
+{
+    // 界园树洞子节点类型映射表
+    static const std::unordered_map<RoguelikeBoskySubNodeType, std::string> NODE_SUBTYPE_MAPPING = {
+        { RoguelikeBoskySubNodeType::Unknown, "Unknown" },
+        { RoguelikeBoskySubNodeType::Ling, "Ling" }, // 令 - 常乐 掷地有声
+        { RoguelikeBoskySubNodeType::Shu, "Shu" },   // 黍 - 常乐 种因得果
+        { RoguelikeBoskySubNodeType::Nian, "Nian" }  // 年 - 常乐 三缺一
+    };
+
+    if (auto it = NODE_SUBTYPE_MAPPING.find(node_subtype); it != NODE_SUBTYPE_MAPPING.end()) {
+        return it->second;
+    }
+    return "Unnamed";
+}
+
 std::optional<size_t>
     RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
