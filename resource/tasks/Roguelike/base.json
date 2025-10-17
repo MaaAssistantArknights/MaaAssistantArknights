@@ -1742,6 +1742,9 @@
     "Roguelike@StrategyChange_mode10001": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
+    "Roguelike@StrategyChange_mode20001": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
