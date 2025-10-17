@@ -2093,7 +2093,7 @@
             "JieGarden/Task.png",
             "AveMujica/Task.png"
         ],
-        "templThreshold": 0.85,
+        "templThreshold": 0.9,
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
