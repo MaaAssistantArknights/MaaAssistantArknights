@@ -867,7 +867,7 @@
     "Sarkaz@Roguelike@StageFilterTruthLeave": {
         "action": "ClickSelf",
         "roi": [1046, 443, 234, 204],
-        "next": ["Sarkaz@Roguelike@StageFilterTruthLeaveConfirm", "Sarkaz@Roguelike@StageFilterTruthLeave"]
+        "next": ["Sarkaz@Roguelike@StageFilterTruthCloseCollection", "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm", "Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm": {
         "action": "ClickSelf",
