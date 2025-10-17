@@ -165,6 +165,12 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">燒水分隊</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">刷深入調查，盡可能穩定地打更多層數</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">目标常乐节点</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局{key=Operator}</system:String>
@@ -995,6 +1001,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
+    <system:String x:Key="BoskyOmissions">節點: 拾遺</system:String>
+    <system:String x:Key="BoskyLegend">節點: 傳說</system:String>
+    <system:String x:Key="BoskyOldShop">節點: 故肆</system:String>
+    <system:String x:Key="BoskyYiTrader">節點: 易與</system:String>
+    <system:String x:Key="BoskyScheme">節點: 籌謀</system:String>
+    <system:String x:Key="BoskyPlaytime">節點: 常樂</system:String>
+    <system:String x:Key="BoskyDoubts">節點: 雜疑</system:String>
+    <system:String x:Key="BoskyDisaster">節點: 災禍</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="EncounterOcrError">事件名辨識錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
