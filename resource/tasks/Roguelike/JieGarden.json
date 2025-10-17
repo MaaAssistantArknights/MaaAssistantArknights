@@ -324,6 +324,38 @@
         "action": "ClickSelf",
         "next": ["JieGarden@Roguelike@GiveUpOperation", "JieGarden@Roguelike@LeaveOperation"]
     },
+    "JieGarden@Roguelike@MapNodeDisaster": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeDoubts": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeLegend": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeOldShop": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeOmissions": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodePlaytime": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeScheme": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+    },
+    "JieGarden@Roguelike@MapNodeYiTrader": {
+        "template": "empty.png",
+        "next": ["JieGarden@Roguelike@RoutingAction-StageYiTraderEnter"]
+    },
     "JieGarden@Roguelike@MapObject": {
         "roi": [255, 491, 192, 119],
         "next": ["JieGarden@StartExplore@Roguelike@RecruitOther"]
@@ -404,6 +436,34 @@
             "JieGarden@Roguelike@NextLevel#next",
             "JieGarden@Roguelike@RecruitWithoutButton"
         ]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucher": {
+        "doc": "保留招募券 - hsv用来区分是否到达保留上限",
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "roi": [948, 5, 229, 56],
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [10, 255, 210]
+            ],
+            [
+                [170, 0, 50],
+                [180, 255, 210]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确认留存"],
+        "roi": [766, 572, 142, 49],
+        "action": "ClickSelf"
     },
     "JieGarden@Roguelike@RolesConfirm": {
         "template": "JieGarden@Roguelike@LastRewardConfirm.png"
@@ -506,6 +566,24 @@
         "template": "empty.png",
         "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 15]
     },
+    "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeOldShop.png",
+            "JieGarden@Roguelike@MapNodeScheme.png",
+            "JieGarden@Roguelike@MapNodeYiTrader.png",
+            "JieGarden@Roguelike@MapNodePlaytime.png",
+            "JieGarden@Roguelike@MapNodeOmissions.png",
+            "JieGarden@Roguelike@MapNodeOmissionsGrey.png",
+            "JieGarden@Roguelike@MapNodeLegend.png",
+            "JieGarden@Roguelike@MapNodeLegendGrey.png",
+            "JieGarden@Roguelike@MapNodeDoubts.png",
+            "JieGarden@Roguelike@MapNodeDoubtsGrey.png",
+            "JieGarden@Roguelike@MapNodeDisaster.png",
+            "JieGarden@Roguelike@MapNodeDisasterGrey.png"
+        ],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 300
+    },
     "JieGarden@Roguelike@RoutingBoskyPassagePriority_Default": {
         "doc": [
             "界园树洞节点优先级策略配置",
@@ -533,84 +611,6 @@
             "JieGarden@Roguelike@MapNodeYiTrader",
             "JieGarden@Roguelike@MapNodeScheme"
         ]
-    },
-    "JieGarden@Roguelike@MapNodeYiTrader": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageYiTraderEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeDisaster": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeOmissions": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeLegend": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeOldShop": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeScheme": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@MapNodePlaytime": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@MapNodeDoubts": {
-        "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@ReserveRecruitmentVoucher": {
-        "doc": "保留招募券 - hsv用来区分是否到达保留上限",
-        "algorithm": "MatchTemplate",
-        "method": "HSVCount",
-        "roi": [948, 5, 229, 56],
-        "colorScales": [
-            [
-                [0, 0, 50],
-                [10, 255, 210]
-            ],
-            [
-                [170, 0, 50],
-                [180, 255, 210]
-            ],
-            [
-                [0, 0, 230],
-                [180, 30, 255]
-            ]
-        ],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
-    },
-    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
-        "algorithm": "OcrDetect",
-        "text": ["确认留存"],
-        "roi": [766, 572, 142, 49],
-        "action": "ClickSelf"
-    },
-    "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeOmissionsGrey.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeLegendGrey.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDoubtsGrey.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png",
-            "JieGarden@Roguelike@MapNodeDisasterGrey.png"
-        ],
-        "roi": [0, 60, 1280, 575],
-        "postDelay": 300
     },
     "JieGarden@Roguelike@RoutingConfig": {
         "doc": [
