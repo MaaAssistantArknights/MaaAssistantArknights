@@ -218,7 +218,7 @@ jobs:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
-      - name: Download overseas
+      - name: Download Overseas
         id: download-overseas
         uses: actions/download-artifact@v5
         continue-on-error: true
