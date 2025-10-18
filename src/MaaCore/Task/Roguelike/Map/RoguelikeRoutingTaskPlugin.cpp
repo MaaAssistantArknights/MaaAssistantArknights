@@ -107,6 +107,78 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         }
         break;
+    case RoutingStrategy::JieGarden_FastPassWithBattle:
+        if (m_need_generate_map) {
+            // 向左滑动以检视前三列节点
+            ProcessTask(*this, { "RoguelikeRouting-SwipeRightToPeek" }).run();
+            cv::Mat image = ctrler()->get_image();
+            cv::Mat image_draw = image.clone();
+            update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
+#ifdef ASST_DEBUG
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
+            const auto relative_path = relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
+            Log.trace("Save image", relative_path);
+            asst::imwrite(relative_path, image_draw);
+#endif
+            m_need_generate_map = false;
+
+            // 根据第三列节点类型更新导航策略
+            const size_t sample_node_of_last_column = m_map.size() - 1;
+            const RoguelikeNodeType sample_node_type = m_map.get_node_type(sample_node_of_last_column);
+            Log.info("RoguelikeRouting | Type of last node:", type2name(sample_node_type));
+            if (sample_node_type == RoguelikeNodeType::RogueTrader) {
+                m_routing_strategy = RoutingStrategy::JieGarden_FastPassWithoutBattle;
+                m_config->set_skip_recruit_in_fast_pass(true);
+                return _run();
+            }
+        }
+        if (m_map.get_curr_pos() == RoguelikeMap::INIT_INDEX) {
+            // 规划路线
+            m_map.set_cost_fun([&](const RoguelikeNodePtr& node) {
+                if (node->type == RoguelikeNodeType::CombatOps) {
+                    return 10;
+                }
+                if (node->type == RoguelikeNodeType::EmergencyOps || node->type == RoguelikeNodeType::DreadfulFoe) {
+                    return 11;
+                }
+                return 0;
+            });
+            m_map.update_node_costs();
+            const size_t next_node = m_map.get_next_node();
+
+            // 若无法避免超过三场战斗则重开
+            if (m_map.get_node_cost(next_node) >= 30) {
+                callback(
+                    AsstMsg::TaskChainExtraInfo,
+                    json::object {
+                        { "what", "RoutingRestart" },
+                        { "why", "TooManyBattlesAhead" },
+                        { "node_cost", m_map.get_node_cost(next_node) },
+                    });
+
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+            }
+            else {
+                const int next_node_x = m_left_most_column_x_in_view;
+                const int next_node_y = m_map.get_node_y(next_node);
+                Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
+                ctrler()->click(next_node_center);
+                sleep(200);
+
+                Task.set_task_base(
+                    "JieGarden@Roguelike@RoutingAction",
+                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                m_map.set_curr_pos(next_node);
+            }
+        }
+        else {
+            // 执行默认的避战策略
+            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+        }
+        break;
+
     case RoutingStrategy::JieGarden_FastPassWithoutBattle:
         if (m_need_generate_map) {
             cv::Mat image = ctrler()->get_image();
@@ -144,10 +216,9 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                 Task.set_task_base(
                     "JieGarden@Roguelike@RoutingAction",
                     "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
-                reset_in_run_variables();
             }
             else {
-                const int next_node_x = m_origin_x;
+                const int next_node_x = m_left_most_column_x_in_view;
                 const int next_node_y = m_map.get_node_y(next_node);
                 Point next_node_center = Point(next_node_x + m_node_width / 2, next_node_y + m_node_height / 2);
                 ctrler()->click(next_node_center);
@@ -209,6 +280,7 @@ bool asst::RoguelikeRoutingTaskPlugin::update_map(
     }
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
     sort_by_vertical_(match_results); // 按照水平方向从左到右排序各列节点，同一列节点按照垂直方向从上到下排序
+    m_left_most_column_x_in_view = match_results.front().rect.x;
 
     const size_t old_num_columns = m_map.get_num_columns();
     for (const auto& [rect, score, templ_name] : match_results) {

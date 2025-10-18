@@ -257,6 +257,14 @@
         "specialParams_Doc": "助战刷新最大次数",
         "specialParams": [5]
     },
+    "RoguelikeRouting-SwipeRightToPeek": {
+        "doc": "在地图初始位置向左滑动以检视前三列节点",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [800, 360, 0, 0],
+        "specialParams": [200, 1, 2, 0]
+    },
     "RoguelikeSettlementConfirm": {
         "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
         "preDelay": 6000,
