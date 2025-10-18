@@ -96,8 +96,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (theme == RoguelikeTheme::JieGarden && squad == "指挥分队" && difficulty >= 3) {
         if (mode == RoguelikeMode::Investment ||
             (mode == RoguelikeMode::Collectible && m_config->get_run_for_collectible())) {
-            ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
-            return true;
+            if (m_config->get_skip_recruit_in_fast_pass()) {
+                ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+                return true;
+            }
         }
     }
 
