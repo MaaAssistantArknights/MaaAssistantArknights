@@ -496,19 +496,6 @@
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
-    "JieGarden@Roguelike@Routing_BoskyPassage": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png"
-        ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
-    },
     "JieGarden@Roguelike@Routing-FastInvestment": {
         "template": [
             "JieGarden@Roguelike@MapNodeCombatOps.png",
@@ -680,6 +667,19 @@
         "specificRect": [1000, 360, 0, 0],
         "rectMove": [570, 360, 0, 0],
         "specialParams": [200, 1]
+    },
+    "JieGarden@Roguelike@Routing_BoskyPassage": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeOldShop.png",
+            "JieGarden@Roguelike@MapNodeScheme.png",
+            "JieGarden@Roguelike@MapNodeYiTrader.png",
+            "JieGarden@Roguelike@MapNodePlaytime.png",
+            "JieGarden@Roguelike@MapNodeOmissions.png",
+            "JieGarden@Roguelike@MapNodeLegend.png",
+            "JieGarden@Roguelike@MapNodeDoubts.png",
+            "JieGarden@Roguelike@MapNodeDisaster.png"
+        ],
+        "next": ["JieGarden@Roguelike@RoutingAction"]
     },
     "JieGarden@Roguelike@SelectTheme": {
         "text": ["游园纪念"]
