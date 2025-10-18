@@ -1,0 +1,18 @@
+{
+  "RoguelikeRouting-Config": {
+    "algorithm": "JustReturn",
+    "doc": [
+      "RoguelikeRoutingTaskPlugin用参数",
+      "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+      "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+      "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+      "| specialParams[3]: 节点 Rect.width",
+      "| specialParams[4]: 节点 Rect.height",
+      "| specialParams[5]: 两列节点之间的距离",
+      "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+      "| specialParams[7]: roi 的 margin offset",
+      "| specialParams[8]: 节点间连线方向判定的阈值"
+    ],
+    "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+  }
+}

@@ -22,17 +22,17 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         return false;
     }
 
-    const std::shared_ptr<MatchTaskInfo> config = Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingConfig");
+    const TaskPtr config_task = Task.get("RoguelikeRouting-Config");
 
-    m_origin_x = config->special_params.at(0);
-    m_middle_x = config->special_params.at(1);
-    m_last_x = config->special_params.at(2);
-    m_node_width = config->special_params.at(3);
-    m_node_height = config->special_params.at(4);
-    m_column_offset = config->special_params.at(5);
-    m_nameplate_offset = config->special_params.at(6);
-    m_roi_margin = config->special_params.at(7);
-    m_direction_threshold = config->special_params.at(8);
+    m_origin_x = config_task->special_params.at(0);
+    m_middle_x = config_task->special_params.at(1);
+    m_last_x = config_task->special_params.at(2);
+    m_node_width = config_task->special_params.at(3);
+    m_node_height = config_task->special_params.at(4);
+    m_column_offset = config_task->special_params.at(5);
+    m_nameplate_offset = config_task->special_params.at(6);
+    m_roi_margin = config_task->special_params.at(7);
+    m_direction_threshold = config_task->special_params.at(8);
 
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
