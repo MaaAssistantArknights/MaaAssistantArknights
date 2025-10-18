@@ -1,4 +1,4 @@
-name: "Inactive Issues Closer"
+name: Issue Stale Check
 
 on:
   schedule:
@@ -11,6 +11,7 @@ env: # config
 
 jobs:
   stale:
+    name: Close Inactive Issues
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     permissions:

@@ -46,7 +46,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -110,7 +110,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -218,7 +218,7 @@ jobs:
         arch: [aarch64, x86_64]
       fail-fast: false
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -343,7 +343,7 @@ jobs:
         arch: [arm64, x86_64]
       fail-fast: false
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -398,7 +398,7 @@ jobs:
     needs: [meta, macOS-Core]
     runs-on: macos-26
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false

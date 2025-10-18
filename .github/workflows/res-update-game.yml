@@ -1,4 +1,4 @@
-name: Resource Updater
+name: Game Resource Update
 
 on:
   schedule:
@@ -12,6 +12,7 @@ on:
 
 jobs:
   clone-resources-official:
+    name: Download Official Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +36,7 @@ jobs:
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
 
-      - name: Upload Official
+      - name: Upload official resources
         uses: actions/upload-artifact@v4
         with:
           name: official
@@ -43,6 +44,7 @@ jobs:
           compression-level: 0
 
   clone-resources-overseas:
+    name: Download Overseas Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -77,7 +79,7 @@ jobs:
             /kr/gamedata/excel/roguelike_topic_table.json
             /kr/gamedata/excel/activity_table.json
 
-      - name: Upload Official
+      - name: Upload overseas resources
         uses: actions/upload-artifact@v4
         with:
           name: overseas
@@ -85,6 +87,7 @@ jobs:
           compression-level: 0
 
   clone-resources-txwy:
+    name: Download Taiwan Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +120,7 @@ jobs:
           done
           wait
 
-      - name: Upload Official
+      - name: Upload Taiwan resources
         uses: actions/upload-artifact@v4
         with:
           name: txwy
@@ -125,13 +128,14 @@ jobs:
           compression-level: 0
 
   update-game-resources:
+    name: Update Game Resources
     # In case of rate limitations on the runners/instances, add dependency, by removing the comment
 
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: macos-latest
     steps:
-      - name: Checkout MAA
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
@@ -214,7 +218,7 @@ jobs:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
-      - name: Download Overseas
+      - name: Download overseas
         id: download-overseas
         uses: actions/download-artifact@v5
         continue-on-error: true
@@ -222,19 +226,19 @@ jobs:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
-      - name: Delay Overseas
+      - name: Delay overseas
         if: steps.download-overseas.outcome == 'failure'
         run: |
           sleep 10
 
-      - name: Re-download Overseas
+      - name: Re-download overseas
         if: steps.download-overseas.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
-      - name: Download Official
+      - name: Download official
         id: download-official
         uses: actions/download-artifact@v5
         continue-on-error: true
@@ -242,23 +246,23 @@ jobs:
           name: official
           path: ./tools/ResourceUpdater/Official
 
-      - name: Delay Official
+      - name: Delay official
         if: steps.download-official.outcome == 'failure'
         run: |
           sleep 10
 
-      - name: Re-download Official
+      - name: Re-download official
         if: steps.download-official.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
           name: official
           path: ./tools/ResourceUpdater/Official
 
-      - name: Run Resource Updater
+      - name: Update resources
         run: |
           ./tools/ResourceUpdater/res_updater
 
-      - name: Task Sorting
+      - name: Sort tasks
         id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
@@ -280,7 +284,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache Python packages
+      - name: Cache python packages
         if: always() && steps.update_version.outputs.contains_png == 'True'
         id: cache_python
         uses: actions/cache@v4
@@ -299,12 +303,12 @@ jobs:
         with:
           crate: oxipng
 
-      - name: Run optimize_templates
+      - name: Optimize templates
         if: steps.update_version.outputs.contains_png == 'True'
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
-      - name: Add files to git
+      - name: Commit changes
         if: steps.update_version.outputs.changes == 'True'
         id: add_files
         run: |

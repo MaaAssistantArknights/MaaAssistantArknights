@@ -1,4 +1,4 @@
-name: release-nightly-ota
+name: Nightly OTA Release
 
 on:
   schedule:
@@ -26,6 +26,7 @@ on:
 
 jobs:
   build-win-nightly:
+    name: Build Nightly for Windows
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     strategy:
@@ -38,7 +39,8 @@ jobs:
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
       changelog: ${{ steps.read_changelog.outputs.content }}
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v5
         with:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
           #ref: ${{ inputs.ref }}
@@ -138,7 +140,7 @@ jobs:
 
           gh run watch ${{ github.run_id }}
 
-      - name: Generate Changelog
+      - name: Generate changelog
         id: generate_changelog
         run: |
           python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
@@ -160,7 +162,7 @@ jobs:
 
           gh run watch ${{ github.run_id }}
 
-      - name: Read Changelog to variable
+      - name: Read changelog to variable
         id: read_changelog
         uses: juliangruber/read-file-action@v1
         with:
@@ -208,7 +210,7 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
-      - name: Taggify Version for csproj
+      - name: Taggify version for csproj
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
@@ -230,7 +232,7 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
-      - name: Organize Install Files
+      - name: Organize install files
         shell: bash
         run: |
           rm -rf install/*.pdb
@@ -239,7 +241,7 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
@@ -257,11 +259,12 @@ jobs:
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
+    name: Push Tag to MaaRelease
     if: github.repository_owner == 'MaaAssistantArknights'
     needs: build-win-nightly
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch MaaRelease
+      - name: Checkout MaaRelease
         uses: actions/checkout@v5
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -280,6 +283,7 @@ jobs:
           git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
   make-ota:
+    name: Build and Upload Nightly OTA for Windows
     if: github.repository_owner == 'MaaAssistantArknights'
     needs: [build-win-nightly, push-tag]
     strategy:
@@ -287,24 +291,24 @@ jobs:
         target: [x64]
     runs-on: ubuntu-latest
     steps:
-      - name: Echo tag version
+      - name: Show tag version
         run: |
           echo ${{ needs.build-win-nightly.outputs.tag }}
 
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           path: MaaAssistantArknights
           token: ${{ secrets.MAARELEASE_RELEASE }}
           show-progress: false
 
-      - name: Download MAA from Github
+      - name: Download MAA from GitHub
         uses: actions/download-artifact@v5
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
 
-      - name: Fetch release info
+      - name: Fetch release information
         run: |
           mkdir -pv build-ota && cd build-ota
 

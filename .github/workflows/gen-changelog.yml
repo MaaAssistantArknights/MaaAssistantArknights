@@ -1,4 +1,4 @@
-name: gen-changelog
+name: Changelog Generation
 
 on:
   pull_request:
@@ -10,17 +10,18 @@ on:
 
 jobs:
   gen:
+    name: Generate Changelog
     # startsWith 表达式不区分大小写
     if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           show-progress: false
 
-      - name: Extract tag name
+      - name: Extract release information
         id: extract_tag
         env:
           PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
@@ -50,7 +51,7 @@ jobs:
 
           echo 'Target PR: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
           echo '' >> $PR_BODY
-          echo '<details><summary>Debug info</summary>' >> $PR_BODY
+          echo '<details><summary>Debug information</summary>' >> $PR_BODY
           echo '' >> $PR_BODY
           echo '```' >> $PR_BODY
           sed 's/=/: /1' $GITHUB_OUTPUT >> $PR_BODY
@@ -60,14 +61,14 @@ jobs:
 
           cat $PR_BODY
 
-      - name: Generate Changelog
+      - name: Generate changelog
         run: |
           git switch dev
           python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}" --latest "${{ steps.extract_tag.outputs.latest }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add files to git
+      - name: Commit changes
         run: |
           git status
 
@@ -75,10 +76,10 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
 
-          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
+          commit_msg="docs: auto-generate changelog for release ""${{ steps.extract_tag.outputs.tag_name }}"
           git commit -m "$commit_msg"
 
-      - name: Create PR
+      - name: Create changelog PR
         uses: peter-evans/create-pull-request@v7
         with:
           sign-commits: true
@@ -93,7 +94,7 @@ jobs:
           assignees: |
             AnnAngela
 
-      - name: Add reviewers to release PR
+      - name: Assign reviewers to release PR
         uses: kentaro-m/auto-assign-action@v2.0.0
         with:
           configuration-path: ".github/release_reviewers.yaml"

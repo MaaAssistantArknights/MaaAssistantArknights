@@ -1,4 +1,4 @@
-name: MaaWebsite Workflow
+name: Documentation Site
 
 on:
   push:
@@ -26,10 +26,11 @@ concurrency:
 
 jobs:
   build:
+    name: Build and Deploy Documentation Site
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -55,7 +56,7 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: "./docs"
 
-      - name: Build documentation
+      - name: Build documentation site
         run: pnpm run build
         working-directory: "./docs"
 

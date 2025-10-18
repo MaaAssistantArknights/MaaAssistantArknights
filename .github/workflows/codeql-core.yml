@@ -1,4 +1,4 @@
-name: "CodeQL MaaCore and MaaWpfGui Analysis"
+name: CodeQL Code Analysis
 
 on:
   pull_request:

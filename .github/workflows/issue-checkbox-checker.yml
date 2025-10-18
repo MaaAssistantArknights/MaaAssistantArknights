@@ -1,4 +1,4 @@
-name: Auto Close not reading issues or Fold checkboxes
+name: Issue Review
 
 on:
   issues:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   check-then-close-or-fold:
+    name: Review and Modify Issues
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -63,7 +64,7 @@ jobs:
               }
             }
 
-      - name: Check checkbox status
+      - name: Check for issue checkboxes
         id: unread-checkbox-check
         uses: actions/github-script@v8
         with:
@@ -86,7 +87,7 @@ jobs:
             'I have checked all the options without carefully reading the content and believe this will not affect issue resolution.'];
             return texts.some(text => new RegExp(`- \\[x\\]\\s*${text}`).test(context.payload.issue.body));
 
-      - name: Close and lock issue
+      - name: Close low-quality issue
         if: steps.unread-checkbox-check.outputs.result == 'true'
         uses: actions/github-script@v8
         with:

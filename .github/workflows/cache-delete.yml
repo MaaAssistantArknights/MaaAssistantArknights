@@ -1,4 +1,4 @@
-name: Delete Cache
+name: Cache Cleanup
 
 on:
   pull_request:
@@ -11,13 +11,14 @@ on:
 
 jobs:
   cache-delete:
+    name: Delete PR Cache
     # Run only on organization branches with PRs
     if: github.event_name == 'workflow_dispatch' ||
       github.event.pull_request.head.repo.full_name ==
       github.event.pull_request.base.repo.full_name
     runs-on: ubuntu-latest
     steps:
-      - name: Delete cache on PR merged
+      - name: Delete PR cache
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             PR_NUMBER=${{ github.event.inputs.pr_number }}
