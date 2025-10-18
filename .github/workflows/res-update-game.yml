@@ -79,7 +79,7 @@ jobs:
             /kr/gamedata/excel/roguelike_topic_table.json
             /kr/gamedata/excel/activity_table.json
 
-      - name: Upload overseas resources
+      - name: Upload Overseas resources
         uses: actions/upload-artifact@v4
         with:
           name: overseas
