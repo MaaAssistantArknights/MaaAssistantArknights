@@ -1,4 +1,4 @@
-name: Game Resource Update
+name: Game Resource Updater
 
 on:
   schedule:
