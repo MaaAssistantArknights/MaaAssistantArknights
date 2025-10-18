@@ -48,7 +48,7 @@ jobs:
         run: |
           echo "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
 
-      - name: Restore cache for smoke-test
+      - name: Restore cache for Smoke Test
         id: smoke-cache
         uses: actions/cache/restore@v4
         with:
