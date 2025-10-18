@@ -114,7 +114,7 @@
         "next": ["Sarkaz@RoguelikeRouting-ConfirmToContinue"]
     },
     "Sarkaz@RoguelikeRouting-ConfirmToContinue": {
-        "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
+        "Doc": "next 里的 RoguelikeRoutingNodeAnalyze 是为了确保回到地图",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [50, 360, 0, 0],
@@ -142,7 +142,7 @@
         ],
         "next": ["RoguelikeRoutingAction"]
     },
-    "JieGarden@Roguelike@RoutingNodeAnalyze": {
+    "JieGarden@RoguelikeRoutingNodeAnalyze": {
         "template": [
             "JieGarden@Roguelike@MapNodeCombatOps.png",
             "JieGarden@Roguelike@MapNodeCombatOpsGrey.png",
