@@ -41,8 +41,6 @@ jobs:
 
       - name: Run CodeQL
         uses: github/codeql-action/analyze@v4
-        with:
-          category: "/language:multi-manual"
 
       - name: Delete old caches
         shell: pwsh
