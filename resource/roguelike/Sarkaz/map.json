@@ -1,6 +1,6 @@
 {
     "theme": "Sarkaz",
-    "node": [
+    "nodes": [
         {
             "type": "CombatOps",
             "template": ["Sarkaz@Roguelike@MapNodeCombatOps.png", "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png"]

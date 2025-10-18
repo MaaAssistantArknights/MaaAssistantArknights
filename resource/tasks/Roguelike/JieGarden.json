@@ -496,7 +496,7 @@
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
-    "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden": {
+    "JieGarden@Roguelike@Routing_BoskyPassage": {
         "template": [
             "JieGarden@Roguelike@MapNodeOldShop.png",
             "JieGarden@Roguelike@MapNodeScheme.png",
@@ -1120,8 +1120,8 @@
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden",
-            "JieGarden@Roguelike@ClickRemainingCandleFlame"
+            "JieGarden@Roguelike@Routing_BoskyPassage",
+            "JieGarden@Roguelike@Stages_leaveBoskyPassage#next"
         ]
     },
     "JieGarden@Roguelike@Stages_default": {

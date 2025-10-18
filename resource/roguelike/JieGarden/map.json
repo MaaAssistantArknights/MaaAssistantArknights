@@ -1,6 +1,6 @@
 {
     "theme": "JieGarden",
-    "node": [
+    "nodes": [
         {
             "type": "CombatOps",
             "template": ["JieGarden@Roguelike@MapNodeCombatOps.png", "JieGarden@Roguelike@MapNodeCombatOpsGrey.png"]
