@@ -19,9 +19,10 @@ public:
     enum class RoutingStrategy
     {
         None,
-        FastInvestment_Sarkaz,
-        FastInvestment_JieGarden,
-        FastPass,
+        Sarkaz_FastPass,                 // 实验模式，暂未开放给用户
+        Sarkaz_FastInvestment,           // 点刺成锭分队快速投资
+        JieGarden_FastPassWithBattle,    // 指挥分队一战快速投资/烧水
+        JieGarden_FastPassWithoutBattle, // 指挥分队无战快速投资/烧水
     };
 
 protected:

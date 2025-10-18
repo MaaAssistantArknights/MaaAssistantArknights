@@ -37,8 +37,13 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
     const RoguelikeMode& mode = m_config->get_mode();
     const std::string squad = params.get("squad", "");
 
+    if (theme == RoguelikeTheme::Sarkaz && mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {
+        m_routing_strategy = RoutingStrategy::Sarkaz_FastPass;
+        return true;
+    }
+
     if (theme == RoguelikeTheme::Sarkaz && mode == RoguelikeMode::Investment && squad == "点刺成锭分队") {
-        m_routing_strategy = RoutingStrategy::FastInvestment_Sarkaz;
+        m_routing_strategy = RoutingStrategy::Sarkaz_FastInvestment;
         return true;
     }
 
@@ -46,14 +51,9 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         if (((mode == RoguelikeMode::Investment && squad == "指挥分队") ||
              (mode == RoguelikeMode::Collectible && params.get("collectible_mode_squad", squad) == "指挥分队")) &&
             m_config->get_difficulty() >= 3) {
-            m_routing_strategy = RoutingStrategy::FastInvestment_JieGarden;
+            m_routing_strategy = RoutingStrategy::JieGarden_FastPassWithBattle;
             return true;
         }
-    }
-
-    if (mode == RoguelikeMode::FastPass && squad == "蓝图测绘分队") {
-        m_routing_strategy = RoutingStrategy::FastPass;
-        return true;
     }
 
     return false;
@@ -92,7 +92,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     LogTraceFunction;
 
     switch (m_routing_strategy) {
-    case RoutingStrategy::FastInvestment_Sarkaz:
+    case RoutingStrategy::Sarkaz_FastInvestment:
         if (m_need_generate_map) {
             // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
             ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
@@ -107,7 +107,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         }
         break;
-    case RoutingStrategy::FastInvestment_JieGarden:
+    case RoutingStrategy::JieGarden_FastPassWithoutBattle:
         if (m_need_generate_map) {
             cv::Mat image = ctrler()->get_image();
             cv::Mat image_draw = image.clone();
@@ -164,7 +164,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
         }
         break;
-    case RoutingStrategy::FastPass:
+    case RoutingStrategy::Sarkaz_FastPass:
         if (m_need_generate_map) {
             generate_map();
             m_need_generate_map = false;

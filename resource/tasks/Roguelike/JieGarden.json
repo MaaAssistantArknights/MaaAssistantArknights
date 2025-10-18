@@ -496,7 +496,7 @@
         ],
         "next": ["JieGarden@Roguelike@RoutingAction"]
     },
-    "JieGarden@Roguelike@Routing-FastInvestment": {
+    "JieGarden@Roguelike@Routing-FastPass": {
         "template": [
             "JieGarden@Roguelike@MapNodeCombatOps.png",
             "JieGarden@Roguelike@MapNodeEmergencyOps.png",
@@ -1149,7 +1149,7 @@
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
-    "JieGarden@Roguelike@Stages_fastInvestment": {
+    "JieGarden@Roguelike@Stages_fastPass": {
         "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
@@ -1157,7 +1157,7 @@
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@Routing-FastInvestment"
+            "JieGarden@Roguelike@Routing-FastPass"
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
@@ -1209,23 +1209,6 @@
         "template": "JieGarden@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
-    "JieGarden@Roguelike@StrategyChange-FastInvestment": {
-        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_restart", "_leaveBoskyPassage"],
-        "ocrReplace": [
-            ["洪陆楼", "_fastInvestment"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28],
-        "withoutDet": true,
-        "binThreshold": [200, 255],
-        "useRaw": false
-    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
@@ -1263,6 +1246,23 @@
         "text": ["_default", "_restart", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28],
+        "withoutDet": true,
+        "binThreshold": [200, 255],
+        "useRaw": false
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_restart", "_leaveBoskyPassage"],
+        "ocrReplace": [
+            ["洪陆楼", "_fastPass"],
             ["山水阁", "_restart"],
             ["云(瓦)?(亭|亨)", "_restart"],
             ["汝吾(门)?", "_restart"],
@@ -1325,9 +1325,9 @@
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
         "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_exit", "_leaveBoskyPassage"],
+        "text": ["_fastPass", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
-            ["洪陆楼", "_fastInvestment"],
+            ["洪陆楼", "_fastPass"],
             ["山水阁", "_exit"],
             ["云(瓦)?(亭|亨)", "_exit"],
             ["汝吾(门)?", "_exit"],
