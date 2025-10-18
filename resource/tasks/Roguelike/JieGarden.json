@@ -1377,9 +1377,11 @@
         "template": "Roguelike@QuickFormation.png"
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
-        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
-        "roi": [848, 610, 140, 110],
-        "action": "ClickSelf"
+        "doc": [
+            "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
+            "界园的招募界面 UI 和其他主题略有不同，图标缩小且位置向左偏移"
+        ],
+        "roi": [891, 648, 58, 58]
     },
     "JieGarden@RoguelikeSettlementConfirm": {}
 }
