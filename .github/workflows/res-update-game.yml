@@ -246,7 +246,7 @@ jobs:
           name: official
           path: ./tools/ResourceUpdater/Official
 
-      - name: Delay official
+      - name: Delay Official
         if: steps.download-official.outcome == 'failure'
         run: |
           sleep 10
