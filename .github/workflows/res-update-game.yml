@@ -36,7 +36,7 @@ jobs:
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
 
-      - name: Upload official resources
+      - name: Upload Official resources
         uses: actions/upload-artifact@v4
         with:
           name: official
