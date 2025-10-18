@@ -1,4 +1,4 @@
-name: Release Tagging
+name: Release Version Tagging
 
 on:
   pull_request:
