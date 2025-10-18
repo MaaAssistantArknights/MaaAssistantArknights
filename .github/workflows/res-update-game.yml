@@ -238,7 +238,7 @@ jobs:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
-      - name: Download official
+      - name: Download Official
         id: download-official
         uses: actions/download-artifact@v5
         continue-on-error: true
