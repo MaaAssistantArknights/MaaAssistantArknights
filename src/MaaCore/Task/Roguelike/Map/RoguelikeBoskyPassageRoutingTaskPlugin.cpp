@@ -199,9 +199,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     if (!found) {
         Log.info(__FUNCTION__, "| no open unvisited nodes available");
-        Task.set_task_base(
-            "RoguelikeRoutingAction",
-            "JieGarden@RoguelikeRoutingAction-ClickRemainingCandleFlame");
+        Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-ClickRemainingCandleFlame");
         return;
     }
     int gx = RoguelikeBoskyPassageMap::get_instance().get_node_x(chosen);

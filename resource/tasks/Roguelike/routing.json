@@ -1,171 +1,171 @@
 {
-  "RoguelikeRouting-Config": {
-    "algorithm": "JustReturn",
-    "doc": [
-      "RoguelikeRoutingTaskPlugin用参数",
-      "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
-      "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
-      "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
-      "| specialParams[3]: 节点 Rect.width",
-      "| specialParams[4]: 节点 Rect.height",
-      "| specialParams[5]: 两列节点之间的距离",
-      "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-      "| specialParams[7]: roi 的 margin offset",
-      "| specialParams[8]: 节点间连线方向判定的阈值"
-    ],
-    "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
-  },
-  "RoguelikeRouting-MoveRightToPeek": {
-    "doc": "在地图初始位置向左滑动以检视前三列节点",
-    "algorithm": "JustReturn",
-    "action": "Swipe",
-    "specificRect": [1000, 360, 0, 0],
-    "rectMove": [800, 360, 0, 0],
-    "specialParams": [200, 1, 2, 0]
-  },
-  "RoguelikeRouting-MoveRight": {
-    "doc": "生成地图时向左滑动",
-    "algorithm": "JustReturn",
-    "action": "Swipe",
-    "specificRect": [1000, 360, 0, 0],
-    "rectMove": [570, 360, 0, 0],
-    "specialParams": [200, 1]
-  },
-  "RoguelikeRoutingAction": {
-    "algorithm": "JustReturn"
-  },
-  "Sarkaz@Roguelike@Routing": {
-    "template": [
-      "Sarkaz@Roguelike@StageCombatDps.png",
-      "Sarkaz@Roguelike@StageEmergencyDps.png",
-      "Sarkaz@Roguelike@StageDreadfulFoe.png",
-      "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
-      "Sarkaz@Roguelike@StageEncounter.png",
-      "Sarkaz@Roguelike@StageBoons.png",
-      "Sarkaz@Roguelike@StageSafeHouse.png",
-      "Sarkaz@Roguelike@StageSafeHouseCR.png",
-      "Sarkaz@Roguelike@StageSafeHouseHD.png",
-      "Sarkaz@Roguelike@StageGambling.png",
-      "Sarkaz@Roguelike@StageTrader.png",
-      "Sarkaz@Roguelike@StageTraderCR.png",
-      "Sarkaz@Roguelike@StageTraderHD.png",
-      "Sarkaz@Roguelike@StageWindAndRain.png",
-      "Sarkaz@Roguelike@StageEmergencyTransportation.png",
-      "Sarkaz@Roguelike@StageBoskyPassage.png",
-      "Sarkaz@Roguelike@StageProphecy.png",
-      "Sarkaz@Roguelike@StageFilterTruth.png",
-      "Sarkaz@Roguelike@StageFilterTruthCR.png",
-      "Sarkaz@Roguelike@StageFilterTruthHD.png",
-      "Sarkaz@Roguelike@StageConfrontation.png"
-    ],
-    "next": ["RoguelikeRoutingAction"]
-  },
-  "Sarkaz@Roguelike@Routing-FastInvestment": {
-    "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
-    "next": ["RoguelikeRoutingAction"]
-  },
-  "Sarkaz@RoguelikeRoutingNodeAnalyze": {
-    "template": [
-      "Sarkaz@Roguelike@MapNodeCombatOps.png",
-      "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png",
-      "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
-      "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png",
-      "Sarkaz@Roguelike@MapNodeEncounter.png",
-      "Sarkaz@Roguelike@MapNodeEncounterGrey.png",
-      "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
-    ],
-    "roi": [246, 60, 288, 575],
-    "postDelay": 300
-  },
-  "Sarkaz@RoguelikeRouting-CombatOps": {
-    "doc": "点击普通战斗节点",
-    "baseTask": "Sarkaz@Roguelike@StageCombatDps",
-    "template": "Sarkaz@Roguelike@StageCombatDps.png",
-    "next": []
-  },
-  "Sarkaz@RoguelikeRouting-RefreshNode": {
-    "roi": [796, 130, 50, 170],
-    "action": "ClickSelf",
-    "next": ["Sarkaz@RoguelikeRouting-ConfirmToRefreshNode"]
-  },
-  "Sarkaz@RoguelikeRouting-ConfirmToRefreshNode": {
-    "algorithm": "OcrDetect",
-    "roi": [993, 472, 53, 26],
-    "text": ["确定"],
-    "action": "ClickSelf",
-    "postDelay": 300,
-    "next": ["Sarkaz@RoguelikeRouting-WaitAfterRefreshNode", "Stop"]
-  },
-  "Sarkaz@RoguelikeRouting-WaitAfterRefreshNode": {
-    "baseTask": "LoadingText",
-    "postDelay": 300,
-    "next": ["#self", "Stop"]
-  },
-  "Sarkaz@RoguelikeRouting-ExitThenContinue": {
-    "template": "Roguelike@ExitThenAbandon.png",
-    "roi": [18, 8, 53, 53],
-    "action": "ClickSelf",
-    "next": ["Sarkaz@RoguelikeRouting-Continue"]
-  },
-  "Sarkaz@RoguelikeRouting-Continue": {
-    "template": "Sarkaz@Roguelike@Continue.png",
-    "roi": [1050, 550, 210, 100],
-    "action": "ClickSelf",
-    "next": ["Sarkaz@RoguelikeRouting-ConfirmToContinue"]
-  },
-  "Sarkaz@RoguelikeRouting-ConfirmToContinue": {
-    "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
-    "algorithm": "JustReturn",
-    "action": "ClickRect",
-    "specificRect": [50, 360, 0, 0],
-    "next": ["Sarkaz@RoguelikeRoutingNodeAnalyze", "#self"]
-  },
-  "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon": {
-    "algorithm": "JustReturn",
-    "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
-  },
-  "Sarkaz@RoguelikeRoutingAction-StageEncounterEnter": {
-    "algorithm": "JustReturn",
-    "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
-  },
-  "Sarkaz@RoguelikeRoutingAction-StageTraderEnter": {
-    "algorithm": "JustReturn",
-    "next": ["Sarkaz@Roguelike@StageTraderEnter"]
-  },
-  "JieGarden@Roguelike@Routing-FastPass": {
-    "template": [
-      "JieGarden@Roguelike@MapNodeCombatOps.png",
-      "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-      "JieGarden@Roguelike@MapNodeEncounter.png",
-      "JieGarden@Roguelike@MapNodeRogueTrader.png",
-      "JieGarden@Roguelike@MapNodeBoskyPassage.png"
-    ],
-    "next": ["RoguelikeRoutingAction"]
-  },
-  "JieGarden@Roguelike@RoutingNodeAnalyze": {
-    "template": [
-      "JieGarden@Roguelike@MapNodeCombatOps.png",
-      "JieGarden@Roguelike@MapNodeCombatOpsGrey.png",
-      "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-      "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
-      "JieGarden@Roguelike@MapNodeEncounter.png",
-      "JieGarden@Roguelike@MapNodeEncounterGrey.png",
-      "JieGarden@Roguelike@MapNodeBoons.png",
-      "JieGarden@Roguelike@MapNodeBoonsGrey.png",
-      "JieGarden@Roguelike@MapNodeRogueTrader.png",
-      "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
-      "JieGarden@Roguelike@MapNodeBoskyPassage.png",
-      "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
-    ],
-    "roi": [0, 60, 1280, 575],
-    "postDelay": 300
-  },
-  "JieGarden@RoguelikeRoutingAction-ExitThenAbandon": {
-    "algorithm": "JustReturn",
-    "next": ["JieGarden@Roguelike@ExitThenAbandon"]
-  },
-  "JieGarden@RoguelikeRoutingAction-StageCombatOpsEnterThenLeave": {
-    "algorithm": "JustReturn",
-    "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
-  }
+    "RoguelikeRouting-Config": {
+        "algorithm": "JustReturn",
+        "doc": [
+            "RoguelikeRoutingTaskPlugin用参数",
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 节点 Rect.width",
+            "| specialParams[4]: 节点 Rect.height",
+            "| specialParams[5]: 两列节点之间的距离",
+            "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "| specialParams[7]: roi 的 margin offset",
+            "| specialParams[8]: 节点间连线方向判定的阈值"
+        ],
+        "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+    },
+    "RoguelikeRouting-MoveRightToPeek": {
+        "doc": "在地图初始位置向左滑动以检视前三列节点",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [800, 360, 0, 0],
+        "specialParams": [200, 1, 2, 0]
+    },
+    "RoguelikeRouting-MoveRight": {
+        "doc": "生成地图时向左滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [570, 360, 0, 0],
+        "specialParams": [200, 1]
+    },
+    "RoguelikeRoutingAction": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@Routing": {
+        "template": [
+            "Sarkaz@Roguelike@StageCombatDps.png",
+            "Sarkaz@Roguelike@StageEmergencyDps.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
+            "Sarkaz@Roguelike@StageEncounter.png",
+            "Sarkaz@Roguelike@StageBoons.png",
+            "Sarkaz@Roguelike@StageSafeHouse.png",
+            "Sarkaz@Roguelike@StageSafeHouseCR.png",
+            "Sarkaz@Roguelike@StageSafeHouseHD.png",
+            "Sarkaz@Roguelike@StageGambling.png",
+            "Sarkaz@Roguelike@StageTrader.png",
+            "Sarkaz@Roguelike@StageTraderCR.png",
+            "Sarkaz@Roguelike@StageTraderHD.png",
+            "Sarkaz@Roguelike@StageWindAndRain.png",
+            "Sarkaz@Roguelike@StageEmergencyTransportation.png",
+            "Sarkaz@Roguelike@StageBoskyPassage.png",
+            "Sarkaz@Roguelike@StageProphecy.png",
+            "Sarkaz@Roguelike@StageFilterTruth.png",
+            "Sarkaz@Roguelike@StageFilterTruthCR.png",
+            "Sarkaz@Roguelike@StageFilterTruthHD.png",
+            "Sarkaz@Roguelike@StageConfrontation.png"
+        ],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "Sarkaz@Roguelike@Routing-FastInvestment": {
+        "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "Sarkaz@RoguelikeRoutingNodeAnalyze": {
+        "template": [
+            "Sarkaz@Roguelike@MapNodeCombatOps.png",
+            "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEncounter.png",
+            "Sarkaz@Roguelike@MapNodeEncounterGrey.png",
+            "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
+        ],
+        "roi": [246, 60, 288, 575],
+        "postDelay": 300
+    },
+    "Sarkaz@RoguelikeRouting-CombatOps": {
+        "doc": "点击普通战斗节点",
+        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
+        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "next": []
+    },
+    "Sarkaz@RoguelikeRouting-RefreshNode": {
+        "roi": [796, 130, 50, 170],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-ConfirmToRefreshNode"]
+    },
+    "Sarkaz@RoguelikeRouting-ConfirmToRefreshNode": {
+        "algorithm": "OcrDetect",
+        "roi": [993, 472, 53, 26],
+        "text": ["确定"],
+        "action": "ClickSelf",
+        "postDelay": 300,
+        "next": ["Sarkaz@RoguelikeRouting-WaitAfterRefreshNode", "Stop"]
+    },
+    "Sarkaz@RoguelikeRouting-WaitAfterRefreshNode": {
+        "baseTask": "LoadingText",
+        "postDelay": 300,
+        "next": ["#self", "Stop"]
+    },
+    "Sarkaz@RoguelikeRouting-ExitThenContinue": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "roi": [18, 8, 53, 53],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-Continue"]
+    },
+    "Sarkaz@RoguelikeRouting-Continue": {
+        "template": "Sarkaz@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-ConfirmToContinue"]
+    },
+    "Sarkaz@RoguelikeRouting-ConfirmToContinue": {
+        "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 360, 0, 0],
+        "next": ["Sarkaz@RoguelikeRoutingNodeAnalyze", "#self"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-StageEncounterEnter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-StageTraderEnter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter"]
+    },
+    "JieGarden@Roguelike@Routing-FastPass": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeCombatOps.png",
+            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
+            "JieGarden@Roguelike@MapNodeEncounter.png",
+            "JieGarden@Roguelike@MapNodeRogueTrader.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
+        ],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "JieGarden@Roguelike@RoutingNodeAnalyze": {
+        "template": [
+            "JieGarden@Roguelike@MapNodeCombatOps.png",
+            "JieGarden@Roguelike@MapNodeCombatOpsGrey.png",
+            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
+            "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
+            "JieGarden@Roguelike@MapNodeEncounter.png",
+            "JieGarden@Roguelike@MapNodeEncounterGrey.png",
+            "JieGarden@Roguelike@MapNodeBoons.png",
+            "JieGarden@Roguelike@MapNodeBoonsGrey.png",
+            "JieGarden@Roguelike@MapNodeRogueTrader.png",
+            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassage.png",
+            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
+        ],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 300
+    },
+    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@ExitThenAbandon"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageCombatOpsEnterThenLeave": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
+    }
 }

@@ -156,9 +156,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                         { "node_cost", m_map.get_node_cost(next_node) },
                     });
 
-                Task.set_task_base(
-                    "RoguelikeRoutingAction",
-                    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
+                Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
             }
             else {
                 const int next_node_x = m_left_most_column_x_in_view;
@@ -213,9 +211,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                         { "node_cost", m_map.get_node_cost(next_node) },
                     });
 
-                Task.set_task_base(
-                    "RoguelikeRoutingAction",
-                    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
+                Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
             }
             else {
                 const int next_node_x = m_left_most_column_x_in_view;
