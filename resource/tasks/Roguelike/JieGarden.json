@@ -24,7 +24,15 @@
             "roi": [1067, 255, 159, 154],
             "mask": []
         },
-        "roi": [1060, 250, 156, 152]
+        "roi": [1060, 250, 156, 152],
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [200, 0, 0],
+                [255, 100, 100]
+            ]
+        ]
     },
     "JieGarden@Roguelike@AbandonSwitch": {
         "Doc": "放弃交换通宝",
