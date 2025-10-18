@@ -27,7 +27,7 @@ jobs:
 
           git diff --quiet .git-blame-ignore-revs
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: ${{ steps.check_changes.outcome == 'failure' }}
         run: |
           git config user.name "github-actions[bot]"
