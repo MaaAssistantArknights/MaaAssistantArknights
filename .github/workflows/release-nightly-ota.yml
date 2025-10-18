@@ -1,4 +1,4 @@
-name: Nightly OTA Release
+name: Release Pipeline (Nightly OTA)
 
 on:
   schedule:

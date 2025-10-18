@@ -1,4 +1,4 @@
-name: OTA Release
+name: Release Pipeline (OTA)
 
 on:
   release:
