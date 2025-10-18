@@ -14,5 +14,8 @@
       "| specialParams[8]: 节点间连线方向判定的阈值"
     ],
     "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+  },
+  "RoguelikeRoutingAction": {
+    "algorithm": "JustReturn"
   }
 }

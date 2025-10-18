@@ -494,7 +494,7 @@
             "JieGarden@Roguelike@StageProphecy.png",
             "JieGarden@Roguelike@StageConfrontation.png"
         ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
+        "next": ["RoguelikeRoutingAction"]
     },
     "JieGarden@Roguelike@Routing-FastPass": {
         "template": [
@@ -504,10 +504,7 @@
             "JieGarden@Roguelike@MapNodeRogueTrader.png",
             "JieGarden@Roguelike@MapNodeBoskyPassage.png"
         ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
-    },
-    "JieGarden@Roguelike@RoutingAction": {
-        "algorithm": "JustReturn"
+        "next": ["RoguelikeRoutingAction"]
     },
     "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame": {
         "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
@@ -663,7 +660,7 @@
             "JieGarden@Roguelike@MapNodeDoubts.png",
             "JieGarden@Roguelike@MapNodeDisaster.png"
         ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
+        "next": ["RoguelikeRoutingAction"]
     },
     "JieGarden@Roguelike@SelectTheme": {
         "text": ["游园纪念"]

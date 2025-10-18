@@ -483,20 +483,17 @@
             "Sarkaz@Roguelike@StageFilterTruthHD.png",
             "Sarkaz@Roguelike@StageConfrontation.png"
         ],
-        "next": ["Sarkaz@Roguelike@RoutingAction"]
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "Sarkaz@Roguelike@Routing-FastInvestment": {
+        "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
+        "next": ["RoguelikeRoutingAction"]
     },
     "Sarkaz@Roguelike@Routing-CombatOps": {
         "doc": "点击普通战斗节点",
         "baseTask": "Sarkaz@Roguelike@StageCombatDps",
         "template": "Sarkaz@Roguelike@StageCombatDps.png",
         "next": []
-    },
-    "Sarkaz@Roguelike@Routing-FastInvestment": {
-        "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
-        "next": ["Sarkaz@Roguelike@RoutingAction"]
-    },
-    "Sarkaz@Roguelike@RoutingAction": {
-        "algorithm": "JustReturn"
     },
     "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon": {
         "doc": "用于替换 Sarkaz@Roguelike@RoutingAction 的 BaseTask",

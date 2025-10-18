@@ -200,7 +200,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     if (!found) {
         Log.info(__FUNCTION__, "| no open unvisited nodes available");
         Task.set_task_base(
-            "JieGarden@Roguelike@RoutingAction",
+            "RoguelikeRoutingAction",
             "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame");
         return;
     }
@@ -241,7 +241,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     const std::string node_task_name = theme + "@Roguelike@MapNode" + node_name;
     // 设置 next
-    Task.set_task_base("JieGarden@Roguelike@RoutingAction", node_task_name);
+    Task.set_task_base("RoguelikeRoutingAction", node_task_name);
 }
 
 std::vector<asst::RoguelikeNodeType>

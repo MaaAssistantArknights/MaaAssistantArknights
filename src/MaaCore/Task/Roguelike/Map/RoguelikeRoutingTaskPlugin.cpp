@@ -99,12 +99,12 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             // 刷新节点
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
             // 不识别了，进商店，Go!
-            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
             // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
             m_need_generate_map = false;
         }
         else {
-            Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         }
         break;
     case RoutingStrategy::JieGarden_FastPassWithBattle:
@@ -157,7 +157,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                     });
 
                 Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
+                    "RoguelikeRoutingAction",
                     "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
             }
             else {
@@ -168,14 +168,14 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                 sleep(200);
 
                 Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
+                    "RoguelikeRoutingAction",
                     "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
                 m_map.set_curr_pos(next_node);
             }
         }
         else {
             // 执行默认的避战策略
-            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+            Task.set_task_base("RoguelikeRoutingAction", "JieGarden@Roguelike@Stages_default");
         }
         break;
 
@@ -214,7 +214,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                     });
 
                 Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
+                    "RoguelikeRoutingAction",
                     "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
             }
             else {
@@ -225,14 +225,14 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                 sleep(200);
 
                 Task.set_task_base(
-                    "JieGarden@Roguelike@RoutingAction",
+                    "RoguelikeRoutingAction",
                     "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
                 m_map.set_curr_pos(next_node);
             }
         }
         else {
             // 执行默认的避战策略
-            Task.set_task_base("JieGarden@Roguelike@RoutingAction", "JieGarden@Roguelike@Stages_default");
+            Task.set_task_base("RoguelikeRoutingAction", "JieGarden@Roguelike@Stages_default");
         }
         break;
     case RoutingStrategy::Sarkaz_FastPass:
@@ -550,7 +550,7 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     const size_t next_node = m_map.get_next_node();
 
     if (m_map.get_node_cost(next_node) >= 1000) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         reset_in_run_variables();
         return;
     }
@@ -563,15 +563,15 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     sleep(200);
 
     if (m_map.get_node_type(next_node) == RoguelikeNodeType::Encounter) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter");
         m_map.set_curr_pos(next_node);
     }
     else if (m_map.get_node_type(next_node) == RoguelikeNodeType::RogueTrader) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
         reset_in_run_variables();
     }
     else {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
         reset_in_run_variables();
     }
 }
