@@ -114,8 +114,9 @@
         },
         {
             "name": "夕江对擂",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "烛堂",
@@ -268,8 +269,9 @@
         },
         {
             "name": "南武群英会",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "祠堂口",
