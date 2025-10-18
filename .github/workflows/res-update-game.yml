@@ -251,7 +251,7 @@ jobs:
         run: |
           sleep 10
 
-      - name: Re-download official
+      - name: Re-download Official
         if: steps.download-official.outcome == 'failure'
         uses: actions/download-artifact@v5
         with:
