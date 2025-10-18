@@ -334,35 +334,35 @@
     },
     "JieGarden@Roguelike@MapNodeDisaster": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter"]
+        "next": ["JieGarden@Roguelike@StageCombatDpsEnter"]
     },
     "JieGarden@Roguelike@MapNodeDoubts": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodeLegend": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodeOldShop": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodeOmissions": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodePlaytime": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodeScheme": {
         "template": "empty.png",
-        "next": ["JieGarden@Roguelike@RoutingAction-StageEncounterEnter"]
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
     "JieGarden@Roguelike@MapNodeYiTrader": {
         "template": "empty.png",
-        "next": ["JieGarden@RoguelikeRoutingAction-StageYiTraderEnter"]
+        "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
     },
     "JieGarden@Roguelike@MapObject": {
         "roi": [255, 491, 192, 119],
