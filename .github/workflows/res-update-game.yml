@@ -226,7 +226,7 @@ jobs:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
-      - name: Delay overseas
+      - name: Delay Overseas
         if: steps.download-overseas.outcome == 'failure'
         run: |
           sleep 10
