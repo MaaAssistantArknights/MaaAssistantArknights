@@ -7,7 +7,7 @@ repos:
     rev: v9.1.5
     hooks:
       - id: oxipng
-        name: Image Compression
+        name: PNG Image Compression
         args: ["-q", "-o", "2", "-s", "--ng"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v21.1.1
@@ -25,9 +25,6 @@ repos:
         types_or:
           - yaml
           - json
-  - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.6.2
-    hooks:
       - id: prettier
         name: Prettier (Documentation)
         files: ^docs/.*
