@@ -76,7 +76,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
 
-          commit_msg="docs: auto-generate changelog for release ""${{ steps.extract_tag.outputs.tag_name }}"
+          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
           git commit -m "$commit_msg"
 
       - name: Create changelog PR
