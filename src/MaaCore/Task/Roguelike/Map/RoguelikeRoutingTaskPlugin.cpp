@@ -95,22 +95,22 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
     case RoutingStrategy::Sarkaz_FastInvestment:
         if (m_need_generate_map) {
             // 随机点击一个第一列的节点，先随便写写，垃圾代码迟早要重构
-            ProcessTask(*this, { "Sarkaz@Roguelike@Routing-CombatOps" }).run();
+            ProcessTask(*this, { "Sarkaz@RoguelikeRouting-CombatOps" }).run();
             // 刷新节点
-            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
+            ProcessTask(*this, { "Sarkaz@RoguelikeRouting-RefreshNode" }).run();
             // 不识别了，进商店，Go!
-            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-StageTraderEnter");
             // 偷懒，直接用 m_need_generate_map 判断是否已进过商店
             m_need_generate_map = false;
         }
         else {
-            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+            Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon");
         }
         break;
     case RoutingStrategy::JieGarden_FastPassWithBattle:
         if (m_need_generate_map) {
             // 向左滑动以检视前三列节点
-            ProcessTask(*this, { "RoguelikeRouting-SwipeRightToPeek" }).run();
+            ProcessTask(*this, { "RoguelikeRouting-MoveRightToPeek" }).run();
             cv::Mat image = ctrler()->get_image();
             cv::Mat image_draw = image.clone();
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
@@ -158,7 +158,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
                 Task.set_task_base(
                     "RoguelikeRoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+                    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
             }
             else {
                 const int next_node_x = m_left_most_column_x_in_view;
@@ -169,7 +169,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
                 Task.set_task_base(
                     "RoguelikeRoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                    "JieGarden@RoguelikeRoutingAction-StageCombatOpsEnterThenLeave");
                 m_map.set_curr_pos(next_node);
             }
         }
@@ -215,7 +215,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
                 Task.set_task_base(
                     "RoguelikeRoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon");
+                    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon");
             }
             else {
                 const int next_node_x = m_left_most_column_x_in_view;
@@ -226,7 +226,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
 
                 Task.set_task_base(
                     "RoguelikeRoutingAction",
-                    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave");
+                    "JieGarden@RoguelikeRoutingAction-StageCombatOpsEnterThenLeave");
                 m_map.set_curr_pos(next_node);
             }
         }
@@ -273,7 +273,7 @@ bool asst::RoguelikeRoutingTaskPlugin::update_map(
     int curr_x = -m_node_width - 1; // 第一列节点将触发 rect.x >= curr_x + m_node_width 并更新 curr_col 与 curr_x
 
     MultiMatcher node_analyzer(image);
-    node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
+    node_analyzer.set_task_info(theme + "@RoguelikeRoutingNodeAnalyze");
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes are recognised");
         return false;
@@ -319,12 +319,12 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
 
     m_map.reset();
     size_t curr_col = RoguelikeMap::INIT_INDEX + 1;
-    Rect roi = Task.get<MatchTaskInfo>(theme + "@Roguelike@RoutingNodeAnalyze")->roi;
+    Rect roi = Task.get<MatchTaskInfo>(theme + "@RoguelikeRoutingNodeAnalyze")->roi;
 
     // 第一列节点
     cv::Mat image = ctrler()->get_image();
     MultiMatcher node_analyzer(image);
-    node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
+    node_analyzer.set_task_info(theme + "@RoguelikeRoutingNodeAnalyze");
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes found in the first column");
         return;
@@ -349,13 +349,13 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
             const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();
             generate_edges(node, image, rect.x);
         }
-        ProcessTask(*this, { theme + "@Roguelike@RoutingSwipeRight" }).run();
+        ProcessTask(*this, { "RoguelikeRouting-MoveRight" }).run();
         sleep(200);
         image = ctrler()->get_image();
         node_analyzer.set_image(image);
     }
 
-    ProcessTask(*this, { theme + "@Roguelike@RoutingExitThenContinue" }).run(); // 通过退出重进回到初始位置
+    ProcessTask(*this, { theme + "@RoguelikeRouting-ExitThenContinue" }).run(); // 通过退出重进回到初始位置
 }
 
 void asst::RoguelikeRoutingTaskPlugin::generate_edges(
@@ -508,12 +508,12 @@ void asst::RoguelikeRoutingTaskPlugin::refresh_following_combat_nodes()
         sleep(200);
 
         // 刷新节点
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@RoutingRefreshNode" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@RoguelikeRouting-RefreshNode" }).run();
         m_map.set_node_refresh_times(next_node, m_map.get_node_refresh_times(next_node) + 1);
 
         // 识别并更新节点类型
         Matcher node_analyzer(ctrler()->get_image());
-        node_analyzer.set_task_info(theme + "@Roguelike@RoutingNodeAnalyze");
+        node_analyzer.set_task_info(theme + "@RoguelikeRoutingNodeAnalyze");
         node_analyzer.set_roi(next_node_rect);
         if (node_analyzer.analyze()) {
             const Matcher::Result& match_results = node_analyzer.get_result();
@@ -550,7 +550,7 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     const size_t next_node = m_map.get_next_node();
 
     if (m_map.get_node_cost(next_node) >= 1000) {
-        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon");
         reset_in_run_variables();
         return;
     }
@@ -563,15 +563,15 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     sleep(200);
 
     if (m_map.get_node_type(next_node) == RoguelikeNodeType::Encounter) {
-        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageEncounterEnter");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-StageEncounterEnter");
         m_map.set_curr_pos(next_node);
     }
     else if (m_map.get_node_type(next_node) == RoguelikeNodeType::RogueTrader) {
-        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-StageTraderEnter");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-StageTraderEnter");
         reset_in_run_variables();
     }
     else {
-        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@Roguelike@RoutingAction-ExitThenAbandon");
+        Task.set_task_base("RoguelikeRoutingAction", "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon");
         reset_in_run_variables();
     }
 }
