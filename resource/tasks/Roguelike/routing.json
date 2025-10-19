@@ -36,11 +36,11 @@
     },
     "Sarkaz@Roguelike@Routing": {
         "template": [
-            "Sarkaz@Roguelike@StageCombatDps.png",
-            "Sarkaz@Roguelike@StageEmergencyDps.png",
+            "Sarkaz@Roguelike@MapNodeCombatOps.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
             "Sarkaz@Roguelike@StageDreadfulFoe.png",
             "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
-            "Sarkaz@Roguelike@StageEncounter.png",
+            "Sarkaz@Roguelike@MapNodeEncounter.png",
             "Sarkaz@Roguelike@StageBoons.png",
             "Sarkaz@Roguelike@StageSafeHouse.png",
             "Sarkaz@Roguelike@StageSafeHouseCR.png",
@@ -61,7 +61,7 @@
         "next": ["RoguelikeRoutingAction"]
     },
     "Sarkaz@Roguelike@Routing-FastInvestment": {
-        "template": ["Sarkaz@Roguelike@StageCombatDps.png"],
+        "template": ["Sarkaz@Roguelike@MapNodeCombatOps.png"],
         "next": ["RoguelikeRoutingAction"]
     },
     "Sarkaz@RoguelikeRoutingNodeAnalyze": {
@@ -137,6 +137,7 @@
             "JieGarden@Roguelike@MapNodeCombatOps.png",
             "JieGarden@Roguelike@MapNodeEmergencyOps.png",
             "JieGarden@Roguelike@MapNodeEncounter.png",
+            "JieGarden@Roguelike@MapNodeBoons.png",
             "JieGarden@Roguelike@MapNodeRogueTrader.png",
             "JieGarden@Roguelike@MapNodeBoskyPassage.png"
         ],
