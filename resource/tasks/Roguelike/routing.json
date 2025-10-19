@@ -114,7 +114,7 @@
         "next": ["Sarkaz@RoguelikeRouting-ConfirmToContinue"]
     },
     "Sarkaz@RoguelikeRouting-ConfirmToContinue": {
-        "Doc": "next 里的 RoguelikeRoutingNodeAnalyze 是为了确保回到地图",
+        "doc": "next 里的 RoguelikeRoutingNodeAnalyze 是为了确保回到地图",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [50, 360, 0, 0],
