@@ -11,8 +11,7 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
 {
     if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
         // ———————— 加载 BoskyPassage 配置 ————————
-        const TaskPtr bosky_config =
-            Task.get("JieGarden@RoguelikeRoutingConfig_BoskyPassage");
+        const TaskPtr bosky_config = Task.get("JieGarden@RoguelikeRoutingConfig_BoskyPassage");
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
@@ -250,42 +249,24 @@ std::vector<asst::RoguelikeNodeType>
     const std::string& theme = m_config->get_theme();
     const std::string config_name = theme + "@RoguelikeRouting-BoskyPassagePriority_" + strategy;
 
-    auto task_info = Task.get(config_name);
+    const auto& task_info = Task.get<MatchTaskInfo>(config_name);
     if (!task_info) {
         Log.error(__FUNCTION__, "| priority config not found:", config_name);
         return {};
     }
 
     // 从 next 字段中读取优先级配置
-    const auto& next_tasks = task_info->next;
-    if (next_tasks.empty()) {
+    const auto& template_list = task_info->templ_names;
+    if (template_list.empty()) {
         Log.warn(__FUNCTION__, "| Priority config is empty in:", config_name);
         return {};
     }
 
     // 从任务名称中解析节点类型
-    std::vector<RoguelikeNodeType> priority_order;
-    priority_order.reserve(next_tasks.size());
-
-    for (const std::string& task_name : next_tasks) {
-        // 解析类似 "JieGarden@Roguelike@MapNodeYiTrader" 这样的任务名 -> "YiTrader"
-        constexpr std::string_view map_node_prefix = "MapNode";
-        const size_t pos = task_name.rfind(map_node_prefix);
-        if (pos == std::string::npos) {
-            Log.warn(__FUNCTION__, "| Invalid task name in priority config:", task_name);
-            continue;
-        }
-
-        const std::string node_name = task_name.substr(pos + map_node_prefix.length());
-        RoguelikeNodeType node_type = name2type(node_name);
-        if (node_type != RoguelikeNodeType::Unknown) {
-            priority_order.push_back(node_type);
-            Log.debug(__FUNCTION__, "| Added priority node type:", type2name(node_type), "from task:", task_name);
-        }
-        else {
-            Log.warn(__FUNCTION__, "| Failed to parse node type from task:", task_name);
-        }
-    }
+    auto priority_order_view = template_list | std::views::transform([&](const std::string& templ_name) {
+                                   return RoguelikeMapInfo.templ2type(theme, templ_name);
+                               });
+    std::vector<RoguelikeNodeType> priority_order(priority_order_view.begin(), priority_order_view.end());
 
     Log.info(__FUNCTION__, "| Loaded", priority_order.size(), "node types from priority config");
     return priority_order;
