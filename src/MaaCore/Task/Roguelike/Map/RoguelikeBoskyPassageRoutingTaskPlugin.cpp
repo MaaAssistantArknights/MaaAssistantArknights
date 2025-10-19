@@ -11,8 +11,8 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
 {
     if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
         // ———————— 加载 BoskyPassage 配置 ————————
-        const std::shared_ptr<MatchTaskInfo> bosky_config =
-            Task.get<MatchTaskInfo>("JieGarden@Roguelike@RoutingBoskyPassageConfig");
+        const TaskPtr bosky_config =
+            Task.get("JieGarden@RoguelikeRoutingConfig_BoskyPassage");
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
@@ -106,7 +106,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
     }
 
     MultiMatcher node_analyzer(image);
-    node_analyzer.set_task_info("JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze");
+    node_analyzer.set_task_info("JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage");
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes are recognised");
         return;
@@ -248,7 +248,7 @@ std::vector<asst::RoguelikeNodeType>
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    const std::string config_name = theme + "@Roguelike@RoutingBoskyPassagePriority_" + strategy;
+    const std::string config_name = theme + "@RoguelikeRouting-BoskyPassagePriority_" + strategy;
 
     auto task_info = Task.get(config_name);
     if (!task_info) {

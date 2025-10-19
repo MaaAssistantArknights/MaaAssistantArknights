@@ -22,7 +22,7 @@ bool asst::RoguelikeRoutingTaskPlugin::load_params([[maybe_unused]] const json::
         return false;
     }
 
-    const TaskPtr config_task = Task.get("RoguelikeRouting-Config");
+    const TaskPtr config_task = Task.get("RoguelikeRoutingConfig");
 
     m_origin_x = config_task->special_params.at(0);
     m_middle_x = config_task->special_params.at(1);
