@@ -236,7 +236,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     const std::string& theme = m_config->get_theme();
     std::string node_name = type2name(node_type);
 
-    const std::string node_task_name = theme + "@Roguelike@MapNode" + node_name;
+    const std::string node_task_name = theme + "@RoguelikeRoutingAction-" + node_name + "Enter";
     // 设置 next
     Task.set_task_base("RoguelikeRoutingAction", node_task_name);
 }
