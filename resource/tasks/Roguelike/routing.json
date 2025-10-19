@@ -248,27 +248,27 @@
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@Stages_leaveBoskyPassage#next"]
     },
-    "JieGarden@RoguelikeRoutingAction-LegendEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageLegendEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-OmissionsEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageOmissionsEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-DoubtsEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageDoubtsEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-DisasterEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageDisasterEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageCombatDpsEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-PlaytimeEnter": {
+    "JieGarden@RoguelikeRoutingAction-StagePlaytimeEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-OldShopEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageOldShopEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     },
@@ -276,7 +276,7 @@
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
     },
-    "JieGarden@RoguelikeRoutingAction-SchemeEnter": {
+    "JieGarden@RoguelikeRoutingAction-StageSchemeEnter": {
         "algorithm": "JustReturn",
         "next": ["JieGarden@Roguelike@StageEncounterEnter"]
     }
