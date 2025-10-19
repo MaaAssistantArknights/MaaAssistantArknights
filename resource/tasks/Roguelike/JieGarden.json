@@ -24,12 +24,13 @@
             "roi": [1067, 255, 159, 154],
             "mask": []
         },
-        "roi": [1060, 250, 156, 152],
+        "template": ["JieGarden@Roguelike@Abandon.png", "JieGarden@Roguelike@Abandon2.png"],
+        "roi": [1118, 306, 43, 43],
         "maskRange": [1, 255],
         "method": "RGBCount",
         "colorScales": [
             [
-                [200, 0, 0],
+                [220, 0, 0],
                 [255, 100, 100]
             ]
         ]
