@@ -1057,6 +1057,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">モジュールが使用できません</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
+    <system:String x:Key="ElapsedTime">当前计时器: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
     <system:String x:Key="UseSkill">スキル使用</system:String>
     <system:String x:Key="Retreat">撤退</system:String>
