@@ -36,11 +36,11 @@
     },
     "Sarkaz@Roguelike@Routing": {
         "template": [
-            "Sarkaz@Roguelike@MapNodeCombatOps.png",
-            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
+            "Sarkaz@RoguelikeMapNode-CombatOps.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOps.png",
             "Sarkaz@Roguelike@StageDreadfulFoe.png",
             "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
-            "Sarkaz@Roguelike@MapNodeEncounter.png",
+            "Sarkaz@RoguelikeMapNode-Encounter.png",
             "Sarkaz@Roguelike@StageBoons.png",
             "Sarkaz@Roguelike@StageSafeHouse.png",
             "Sarkaz@Roguelike@StageSafeHouseCR.png",
@@ -61,18 +61,18 @@
         "next": ["RoguelikeRoutingAction"]
     },
     "Sarkaz@Roguelike@Routing-FastInvestment": {
-        "template": ["Sarkaz@Roguelike@MapNodeCombatOps.png"],
+        "template": ["Sarkaz@RoguelikeMapNode-CombatOps.png"],
         "next": ["RoguelikeRoutingAction"]
     },
     "Sarkaz@RoguelikeRoutingNodeAnalyze": {
         "template": [
-            "Sarkaz@Roguelike@MapNodeCombatOps.png",
-            "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png",
-            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
-            "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png",
-            "Sarkaz@Roguelike@MapNodeEncounter.png",
-            "Sarkaz@Roguelike@MapNodeEncounterGrey.png",
-            "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
+            "Sarkaz@RoguelikeMapNode-CombatOps.png",
+            "Sarkaz@RoguelikeMapNode-CombatOpsGrey.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOps.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOpsGrey.png",
+            "Sarkaz@RoguelikeMapNode-Encounter.png",
+            "Sarkaz@RoguelikeMapNode-EncounterGrey.png",
+            "Sarkaz@RoguelikeMapNode-RogueTraderGrey.png"
         ],
         "roi": [246, 60, 288, 575],
         "postDelay": 300
@@ -134,29 +134,29 @@
     },
     "JieGarden@Roguelike@Routing-FastPass": {
         "template": [
-            "JieGarden@Roguelike@MapNodeCombatOps.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-            "JieGarden@Roguelike@MapNodeEncounter.png",
-            "JieGarden@Roguelike@MapNodeBoons.png",
-            "JieGarden@Roguelike@MapNodeRogueTrader.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
+            "JieGarden@RoguelikeMapNode-CombatOps.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOps.png",
+            "JieGarden@RoguelikeMapNode-Encounter.png",
+            "JieGarden@RoguelikeMapNode-Boons.png",
+            "JieGarden@RoguelikeMapNode-RogueTrader.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassage.png"
         ],
         "next": ["RoguelikeRoutingAction"]
     },
     "JieGarden@RoguelikeRoutingNodeAnalyze": {
         "template": [
-            "JieGarden@Roguelike@MapNodeCombatOps.png",
-            "JieGarden@Roguelike@MapNodeCombatOpsGrey.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
-            "JieGarden@Roguelike@MapNodeEncounter.png",
-            "JieGarden@Roguelike@MapNodeEncounterGrey.png",
-            "JieGarden@Roguelike@MapNodeBoons.png",
-            "JieGarden@Roguelike@MapNodeBoonsGrey.png",
-            "JieGarden@Roguelike@MapNodeRogueTrader.png",
-            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassage.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
+            "JieGarden@RoguelikeMapNode-CombatOps.png",
+            "JieGarden@RoguelikeMapNode-CombatOpsGrey.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOps.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOpsGrey.png",
+            "JieGarden@RoguelikeMapNode-Encounter.png",
+            "JieGarden@RoguelikeMapNode-EncounterGrey.png",
+            "JieGarden@RoguelikeMapNode-Boons.png",
+            "JieGarden@RoguelikeMapNode-BoonsGrey.png",
+            "JieGarden@RoguelikeMapNode-RogueTrader.png",
+            "JieGarden@RoguelikeMapNode-RogueTraderGrey.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassage.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassageGrey.png"
         ],
         "roi": [0, 60, 1280, 575],
         "postDelay": 300
@@ -189,31 +189,31 @@
     },
     "JieGarden@Roguelike@Routing_BoskyPassage": {
         "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png"
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Playtime.png",
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-Doubts.png",
+            "JieGarden@RoguelikeMapNode-Disaster.png"
         ],
         "next": ["RoguelikeRoutingAction"]
     },
     "JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage": {
         "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeOmissionsGrey.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeLegendGrey.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDoubtsGrey.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png",
-            "JieGarden@Roguelike@MapNodeDisasterGrey.png"
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Playtime.png",
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-OmissionsGrey.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-LegendGrey.png",
+            "JieGarden@RoguelikeMapNode-Doubts.png",
+            "JieGarden@RoguelikeMapNode-DoubtsGrey.png",
+            "JieGarden@RoguelikeMapNode-Disaster.png",
+            "JieGarden@RoguelikeMapNode-DisasterGrey.png"
         ],
         "roi": [0, 60, 1280, 575],
         "postDelay": 300

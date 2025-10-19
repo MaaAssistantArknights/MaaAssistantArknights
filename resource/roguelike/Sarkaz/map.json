@@ -3,19 +3,19 @@
     "nodes": [
         {
             "type": "CombatOps",
-            "template": ["Sarkaz@Roguelike@MapNodeCombatOps.png", "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png"]
+            "template": ["Sarkaz@RoguelikeMapNode-CombatOps.png", "Sarkaz@RoguelikeMapNode-CombatOpsGrey.png"]
         },
         {
             "type": "EmergencyOps",
-            "template": ["Sarkaz@Roguelike@MapNodeEmergencyOps.png", "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png"]
+            "template": ["Sarkaz@RoguelikeMapNode-EmergencyOps.png", "Sarkaz@RoguelikeMapNode-EmergencyOpsGrey.png"]
         },
         {
             "type": "Encounter",
-            "template": ["Sarkaz@Roguelike@MapNodeEncounter.png", "Sarkaz@Roguelike@MapNodeEncounterGrey.png"]
+            "template": ["Sarkaz@RoguelikeMapNode-Encounter.png", "Sarkaz@RoguelikeMapNode-EncounterGrey.png"]
         },
         {
             "type": "RogueTrader",
-            "template": ["Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"]
+            "template": ["Sarkaz@RoguelikeMapNode-RogueTraderGrey.png"]
         }
     ]
 }
