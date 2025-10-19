@@ -246,9 +246,9 @@
             "JieGarden@Roguelike@MapNodeScheme"
         ]
     },
-    "JieGarden@RoguelikeRoutingAction-ClickRemainingCandleFlame": {
+    "JieGarden@RoguelikeRoutingAction-LeaveBoskyPassage": {
         "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
+        "next": ["JieGarden@Roguelike@Stages_leaveBoskyPassage#next"]
     },
     "JieGarden@RoguelikeRoutingAction-StageYiTraderEnter": {
         "algorithm": "JustReturn",
