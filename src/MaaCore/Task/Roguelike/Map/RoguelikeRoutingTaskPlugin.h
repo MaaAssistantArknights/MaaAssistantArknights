@@ -19,9 +19,10 @@ public:
     enum class RoutingStrategy
     {
         None,
-        FastInvestment_Sarkaz,
-        FastInvestment_JieGarden,
-        FastPass,
+        Sarkaz_FastPass,                 // 实验模式，暂未开放给用户
+        Sarkaz_FastInvestment,           // 点刺成锭分队快速投资
+        JieGarden_FastPassWithBattle,    // 指挥分队一战快速投资/烧水
+        JieGarden_FastPassWithoutBattle, // 指挥分队无战快速投资/烧水
     };
 
 protected:
@@ -57,6 +58,8 @@ private:
     void navigate_route();
     void update_selected_x();
 
+    inline static std::function<std::string(RoguelikeNodeType)> type2name = &RoguelikeMapConfig::type2name;
+
     // ———————— constants and variables ———————————————————————————————————————————————
     RoutingStrategy m_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
@@ -73,5 +76,8 @@ private:
     int m_nameplate_offset = 0;    // 节点 Rect 下边缘到节点铭牌下边缘的距离
     int m_roi_margin = 0;          // roi 的 margin offset
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
+
+    // view-related
+    int m_left_most_column_x_in_view = 0;
 };
 }

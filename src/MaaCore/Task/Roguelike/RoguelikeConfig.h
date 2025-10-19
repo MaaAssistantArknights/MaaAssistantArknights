@@ -129,6 +129,10 @@ public:
 
     bool get_run_for_collectible() const { return m_run_for_collectible; }
 
+    void set_skip_recruit_in_fast_pass(const bool value) { m_skip_recruit_in_fast_pass = value; }
+
+    bool get_skip_recruit_in_fast_pass() const { return m_skip_recruit_in_fast_pass; }
+
     // ------------------ 投资模式 ------------------
     void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
 
@@ -153,6 +157,7 @@ private:
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升
     bool m_only_start_with_elite_two = false; // 只凹开局干员精二直升且不进行作战
     bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
+    bool m_skip_recruit_in_fast_pass = false; // 是否可以在特定情况下跳过招募，是否真的跳过招募需要结合其他条件来判断
 
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分

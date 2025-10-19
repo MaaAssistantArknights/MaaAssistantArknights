@@ -1,0 +1,283 @@
+{
+    "RoguelikeRoutingConfig": {
+        "algorithm": "JustReturn",
+        "doc": [
+            "RoguelikeRoutingTaskPlugin用参数",
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 节点 Rect.width",
+            "| specialParams[4]: 节点 Rect.height",
+            "| specialParams[5]: 两列节点之间的距离",
+            "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "| specialParams[7]: roi 的 margin offset",
+            "| specialParams[8]: 节点间连线方向判定的阈值"
+        ],
+        "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+    },
+    "RoguelikeRouting-MoveRightToPeek": {
+        "doc": "在地图初始位置向左滑动以检视前三列节点",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [800, 360, 0, 0],
+        "specialParams": [200, 1, 2, 0]
+    },
+    "RoguelikeRouting-MoveRight": {
+        "doc": "生成地图时向左滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 360, 0, 0],
+        "rectMove": [570, 360, 0, 0],
+        "specialParams": [200, 1]
+    },
+    "RoguelikeRoutingAction": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@Routing": {
+        "template": [
+            "Sarkaz@RoguelikeMapNode-CombatOps.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOps.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe.png",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
+            "Sarkaz@RoguelikeMapNode-Encounter.png",
+            "Sarkaz@Roguelike@StageBoons.png",
+            "Sarkaz@Roguelike@StageSafeHouse.png",
+            "Sarkaz@Roguelike@StageSafeHouseCR.png",
+            "Sarkaz@Roguelike@StageSafeHouseHD.png",
+            "Sarkaz@Roguelike@StageGambling.png",
+            "Sarkaz@Roguelike@StageTrader.png",
+            "Sarkaz@Roguelike@StageTraderCR.png",
+            "Sarkaz@Roguelike@StageTraderHD.png",
+            "Sarkaz@Roguelike@StageWindAndRain.png",
+            "Sarkaz@Roguelike@StageEmergencyTransportation.png",
+            "Sarkaz@Roguelike@StageBoskyPassage.png",
+            "Sarkaz@Roguelike@StageProphecy.png",
+            "Sarkaz@Roguelike@StageFilterTruth.png",
+            "Sarkaz@Roguelike@StageFilterTruthCR.png",
+            "Sarkaz@Roguelike@StageFilterTruthHD.png",
+            "Sarkaz@Roguelike@StageConfrontation.png"
+        ],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "Sarkaz@Roguelike@Routing-FastInvestment": {
+        "template": ["Sarkaz@RoguelikeMapNode-CombatOps.png"],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "Sarkaz@RoguelikeRoutingNodeAnalyze": {
+        "template": [
+            "Sarkaz@RoguelikeMapNode-CombatOps.png",
+            "Sarkaz@RoguelikeMapNode-CombatOpsGrey.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOps.png",
+            "Sarkaz@RoguelikeMapNode-EmergencyOpsGrey.png",
+            "Sarkaz@RoguelikeMapNode-Encounter.png",
+            "Sarkaz@RoguelikeMapNode-EncounterGrey.png",
+            "Sarkaz@RoguelikeMapNode-RogueTraderGrey.png"
+        ],
+        "roi": [246, 60, 288, 575],
+        "postDelay": 300
+    },
+    "Sarkaz@RoguelikeRouting-CombatOps": {
+        "doc": "点击普通战斗节点",
+        "baseTask": "Sarkaz@Roguelike@StageCombatDps",
+        "template": "Sarkaz@Roguelike@StageCombatDps.png",
+        "next": []
+    },
+    "Sarkaz@RoguelikeRouting-RefreshNode": {
+        "roi": [796, 130, 50, 170],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-ConfirmToRefreshNode"]
+    },
+    "Sarkaz@RoguelikeRouting-ConfirmToRefreshNode": {
+        "algorithm": "OcrDetect",
+        "roi": [993, 472, 53, 26],
+        "text": ["确定"],
+        "action": "ClickSelf",
+        "postDelay": 300,
+        "next": ["Sarkaz@RoguelikeRouting-WaitAfterRefreshNode", "Stop"]
+    },
+    "Sarkaz@RoguelikeRouting-WaitAfterRefreshNode": {
+        "baseTask": "LoadingText",
+        "postDelay": 300,
+        "next": ["#self", "Stop"]
+    },
+    "Sarkaz@RoguelikeRouting-ExitThenContinue": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "roi": [18, 8, 53, 53],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-Continue"]
+    },
+    "Sarkaz@RoguelikeRouting-Continue": {
+        "template": "Sarkaz@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@RoguelikeRouting-ConfirmToContinue"]
+    },
+    "Sarkaz@RoguelikeRouting-ConfirmToContinue": {
+        "doc": "next 里的 RoguelikeRoutingNodeAnalyze 是为了确保回到地图",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 360, 0, 0],
+        "next": ["Sarkaz@RoguelikeRoutingNodeAnalyze", "#self"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-ExitThenAbandon": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-StageEncounterEnter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
+    },
+    "Sarkaz@RoguelikeRoutingAction-StageTraderEnter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter"]
+    },
+    "JieGarden@Roguelike@Routing-FastPass": {
+        "template": [
+            "JieGarden@RoguelikeMapNode-CombatOps.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOps.png",
+            "JieGarden@RoguelikeMapNode-Encounter.png",
+            "JieGarden@RoguelikeMapNode-Boons.png",
+            "JieGarden@RoguelikeMapNode-RogueTrader.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassage.png"
+        ],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "JieGarden@RoguelikeRoutingNodeAnalyze": {
+        "template": [
+            "JieGarden@RoguelikeMapNode-CombatOps.png",
+            "JieGarden@RoguelikeMapNode-CombatOpsGrey.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOps.png",
+            "JieGarden@RoguelikeMapNode-EmergencyOpsGrey.png",
+            "JieGarden@RoguelikeMapNode-Encounter.png",
+            "JieGarden@RoguelikeMapNode-EncounterGrey.png",
+            "JieGarden@RoguelikeMapNode-Boons.png",
+            "JieGarden@RoguelikeMapNode-BoonsGrey.png",
+            "JieGarden@RoguelikeMapNode-RogueTrader.png",
+            "JieGarden@RoguelikeMapNode-RogueTraderGrey.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassage.png",
+            "JieGarden@RoguelikeMapNode-BoskyPassageGrey.png"
+        ],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 300
+    },
+    "JieGarden@RoguelikeRoutingAction-ExitThenAbandon": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@ExitThenAbandon"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageCombatOpsEnterThenLeave": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
+    },
+    "JieGarden@RoguelikeRoutingConfig_BoskyPassage": {
+        "algorithm": "JustReturn",
+        "doc": [
+            "RoguelikeBoskyPassageRoutingTaskPlugin用参数",
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 第一行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[2]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 中间行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[4]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[5]: 最后行节点的默认纵坐标 (Rect.y)",
+            "| specialParams[6]: 节点 Rect.width",
+            "| specialParams[7]: 节点 Rect.height",
+            "| specialParams[8]: 两列节点之间的距离",
+            "| specialParams[9]: 两行节点之间的距离",
+            "| specialParams[10]: roi 的 margin offset"
+        ],
+        "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 15]
+    },
+    "JieGarden@Roguelike@Routing_BoskyPassage": {
+        "template": [
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Playtime.png",
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-Doubts.png",
+            "JieGarden@RoguelikeMapNode-Disaster.png"
+        ],
+        "next": ["RoguelikeRoutingAction"]
+    },
+    "JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage": {
+        "template": [
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Playtime.png",
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-OmissionsGrey.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-LegendGrey.png",
+            "JieGarden@RoguelikeMapNode-Doubts.png",
+            "JieGarden@RoguelikeMapNode-DoubtsGrey.png",
+            "JieGarden@RoguelikeMapNode-Disaster.png",
+            "JieGarden@RoguelikeMapNode-DisasterGrey.png"
+        ],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 300
+    },
+    "JieGarden@RoguelikeRouting-BoskyPassagePriority_Default": {
+        "doc": [
+            "界园树洞节点优先级策略配置",
+            "按优先级从高到低排列节点类型名称",
+            "拾遗>传说>故肆>易与>筹谋>常乐>杂疑(暂时取消)>灾祸(暂时取消)"
+        ],
+        "template": [
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png",
+            "JieGarden@RoguelikeMapNode-Playtime.png"
+        ]
+    },
+    "JieGarden@RoguelikeRouting-BoskyPassagePriority_FindPlaytime": {
+        "doc": ["常乐>拾遗>传说>故肆>易与>筹谋>杂疑(暂时取消)>灾祸(暂时取消)"],
+        "template": [
+            "JieGarden@RoguelikeMapNode-Playtime.png",
+            "JieGarden@RoguelikeMapNode-Omissions.png",
+            "JieGarden@RoguelikeMapNode-Legend.png",
+            "JieGarden@RoguelikeMapNode-OldShop.png",
+            "JieGarden@RoguelikeMapNode-YiTrader.png",
+            "JieGarden@RoguelikeMapNode-Scheme.png"
+        ]
+    },
+    "JieGarden@RoguelikeRoutingAction-LeaveBoskyPassage": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@Stages_leaveBoskyPassage#next"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageLegendEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageOmissionsEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageDoubtsEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageDisasterEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageCombatDpsEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StagePlaytimeEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageOldShopEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageYiTraderEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
+    },
+    "JieGarden@RoguelikeRoutingAction-StageSchemeEnter": {
+        "algorithm": "JustReturn",
+        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
+    }
+}

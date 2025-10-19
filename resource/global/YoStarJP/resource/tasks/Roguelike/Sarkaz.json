@@ -17,9 +17,6 @@
         "ocrReplace": [["虚[構横]の境[目E=]?", "虚構の境"]],
         "text": ["溶魂の端緒", "錬鉄の根系", "灰燼の迷城", "蓋然の異域", "虚構の境", "輝ける天上", "奇妙な断章"]
     },
-    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
-        "text": ["確定"]
-    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["仮説集"]
     },
