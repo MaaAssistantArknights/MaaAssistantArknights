@@ -17,9 +17,6 @@
     "Sarkaz@Roguelike@NextLevel": {
         "text": ["熔魂之始", "鍛鐵根須", "灰鑄迷城", "或然歧域", "虛實疆界", "輝光天頂", "詭譎斷章"]
     },
-    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
-        "text": ["確定"]
-    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假說輯錄", "假說", "輯錄"]
     },

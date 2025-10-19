@@ -11,8 +11,7 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
 {
     if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
         // ———————— 加载 BoskyPassage 配置 ————————
-        const std::shared_ptr<MatchTaskInfo> bosky_config =
-            Task.get<MatchTaskInfo>("JieGarden@Roguelike@RoutingBoskyPassageConfig");
+        const TaskPtr bosky_config = Task.get("JieGarden@RoguelikeRoutingConfig_BoskyPassage");
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
@@ -106,7 +105,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
     }
 
     MultiMatcher node_analyzer(image);
-    node_analyzer.set_task_info("JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze");
+    node_analyzer.set_task_info("JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage");
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes are recognised");
         return;
@@ -199,9 +198,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     if (!found) {
         Log.info(__FUNCTION__, "| no open unvisited nodes available");
-        Task.set_task_base(
-            "JieGarden@Roguelike@RoutingAction",
-            "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame");
+        Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-LeaveBoskyPassage");
         return;
     }
     int gx = RoguelikeBoskyPassageMap::get_instance().get_node_x(chosen);
@@ -239,9 +236,9 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     const std::string& theme = m_config->get_theme();
     std::string node_name = type2name(node_type);
 
-    const std::string node_task_name = theme + "@Roguelike@MapNode" + node_name;
+    const std::string node_task_name = theme + "@RoguelikeRoutingAction-Stage" + node_name + "Enter";
     // 设置 next
-    Task.set_task_base("JieGarden@Roguelike@RoutingAction", node_task_name);
+    Task.set_task_base("RoguelikeRoutingAction", node_task_name);
 }
 
 std::vector<asst::RoguelikeNodeType>
@@ -250,44 +247,26 @@ std::vector<asst::RoguelikeNodeType>
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    const std::string config_name = theme + "@Roguelike@RoutingBoskyPassagePriority_" + strategy;
+    const std::string config_name = theme + "@RoguelikeRouting-BoskyPassagePriority_" + strategy;
 
-    auto task_info = Task.get(config_name);
+    const auto& task_info = Task.get<MatchTaskInfo>(config_name);
     if (!task_info) {
         Log.error(__FUNCTION__, "| priority config not found:", config_name);
         return {};
     }
 
     // 从 next 字段中读取优先级配置
-    const auto& next_tasks = task_info->next;
-    if (next_tasks.empty()) {
+    const auto& template_list = task_info->templ_names;
+    if (template_list.empty()) {
         Log.warn(__FUNCTION__, "| Priority config is empty in:", config_name);
         return {};
     }
 
     // 从任务名称中解析节点类型
-    std::vector<RoguelikeNodeType> priority_order;
-    priority_order.reserve(next_tasks.size());
-
-    for (const std::string& task_name : next_tasks) {
-        // 解析类似 "JieGarden@Roguelike@MapNodeYiTrader" 这样的任务名 -> "YiTrader"
-        constexpr std::string_view map_node_prefix = "MapNode";
-        const size_t pos = task_name.rfind(map_node_prefix);
-        if (pos == std::string::npos) {
-            Log.warn(__FUNCTION__, "| Invalid task name in priority config:", task_name);
-            continue;
-        }
-
-        const std::string node_name = task_name.substr(pos + map_node_prefix.length());
-        RoguelikeNodeType node_type = name2type(node_name);
-        if (node_type != RoguelikeNodeType::Unknown) {
-            priority_order.push_back(node_type);
-            Log.debug(__FUNCTION__, "| Added priority node type:", type2name(node_type), "from task:", task_name);
-        }
-        else {
-            Log.warn(__FUNCTION__, "| Failed to parse node type from task:", task_name);
-        }
-    }
+    auto priority_order_view = template_list | std::views::transform([&](const std::string& templ_name) {
+                                   return RoguelikeMapInfo.templ2type(theme, templ_name);
+                               });
+    std::vector<RoguelikeNodeType> priority_order(priority_order_view.begin(), priority_order_view.end());
 
     Log.info(__FUNCTION__, "| Loaded", priority_order.size(), "node types from priority config");
     return priority_order;
