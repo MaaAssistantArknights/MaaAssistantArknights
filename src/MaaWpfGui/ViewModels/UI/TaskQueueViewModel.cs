@@ -443,6 +443,7 @@ public class TaskQueueViewModel : Screen
             InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
 
             await HandleTimerLogic(currentTime);
+            await CheckMaxDuration();
         }
         catch
         {
@@ -1434,6 +1435,54 @@ public class TaskQueueViewModel : Screen
         get => _roguelikeInCombatAndShowWait;
         set => SetAndNotify(ref _roguelikeInCombatAndShowWait, value);
     }
+
+    /// <summary>
+    /// 检查任务是否超过最大运行时长
+    /// </summary>
+    private async Task CheckMaxDuration()
+    {
+        // 检查任务开始时间是否有效
+        if (_taskStartTime == null || _runningState.GetIdle() || _runningState.GetStopping())
+        {
+            return;
+        }
+
+        // 获取最大任务时长设置（小时）
+        int maxDurationHours = GameSettingsUserControlModel.Instance.MaxTaskDurationHours;
+        if (maxDurationHours <= 0)
+        {
+            return; // 0表示不限时
+        }
+
+        // 计算任务已运行时间
+        var duration = DateTime.Now - _taskStartTime.Value;
+        if (duration.TotalHours >= maxDurationHours)
+        {
+            _logger.Information($"Max duration reached ({maxDurationHours} hours), stopping tasks and simulating completion");
+            AddLog(LocalizationHelper.GetString("MaxDurationReached"), UiLogColor.Info);
+
+            // 停止任务
+            await Stop();
+            SetStopped();
+
+            // 显示任务完成通知
+            var allTaskCompleteTitle = LocalizationHelper.GetString("AllTaskComplete");
+            var logs = string.Join("\n", LogItemViewModels.TakeLast(20).Select(item => $"[{item.Time}] {item.Content}"));
+
+            // 发送外部通知
+            ExternalNotificationService.Send(allTaskCompleteTitle, logs);
+
+            // 显示toast通知
+            using (var toast = new ToastNotification(allTaskCompleteTitle))
+            {
+                toast.Show();
+            }
+
+            // 调用任务完成后的处理方法，执行后续操作
+            await CheckAfterCompleted();
+        }
+    }
+
 
     public void SetStopped()
     {

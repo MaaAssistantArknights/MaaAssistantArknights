@@ -1523,4 +1523,5 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
     <!--  !BadModules  -->
+        <system:String x:Key="MaxDurationReached">已达到设定的最大运行时长，任务已自动停止</system:String>
 </ResourceDictionary>
