@@ -81,6 +81,11 @@ const notSupport = shuffleArray([
         link: 'https://play.google.com/googleplaygames',
         note: '不支持，[玩家客户端](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)无法连接 ADB。',
     },
+    { 
+        name: '腾讯应用宝', 
+        link: 'https://sj.qq.com/',
+        note: '不支持，腾讯应用宝没有给出adb连接选项，无法连接 ADB。',
+    },
 ]);
 
 const md = new MarkdownIt();
