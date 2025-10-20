@@ -24,11 +24,13 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 1. 下载编译所需的依赖
    ::: code-tabs
    @tab:active Ubuntu/Debian
+
    ```bash :no-line-numbers
    sudo apt install cmake
    ```
 
    @tab Arch
+
    ```bash :no-line-numbers
    sudo pacman -S --needed cmake
    ```
@@ -79,7 +81,6 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
    ```
 
 4. 结束，你应该能在目录下看到构建文件了
-
 
 ::::
 

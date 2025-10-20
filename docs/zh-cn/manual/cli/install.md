@@ -18,11 +18,13 @@ Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArk
 ::: code-tabs
 
 @tab:active 稳定版
+
 ```bash :no-line-numbers
 brew install MaaAssistantArknights/tap/maa-cli
 ```
 
 @tab 不稳定版/预发行版
+
 ```bash :no-line-numbers
 brew install MaaAssistantArknights/tap/maa-cli-beta
 ```
@@ -33,36 +35,40 @@ brew install MaaAssistantArknights/tap/maa-cli-beta
 
 我们目前为 Arch 和 Nix 用户提供预编译基于包管理器的分发支持
 
-#### Arch Linux 
+#### Arch Linux
 
 可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/)：
 
 ::: code-tabs
 
 @tab:active paru
+
 ```bash :no-line-numbers
 paru -S maa-cli
 ```
 
 @tab yay
+
 ```bash :no-line-numbers
 yay -S maa-cli
 ```
 
 :::
 
-#### ❄️ Nix 
+#### ❄️ Nix
 
 用户可以直接运行:
 
 ::: code-tabs
 
 @tab:active 稳定版
+
 ```bash :no-line-numbers
 nix run nixpkgs#maa-cli
 ```
 
 @tab 每夜构建
+
 ```bash :no-line-numbers
 nix run github:Cryolitia/nur-packages#maa-cli-nightly
 ```
@@ -90,13 +96,15 @@ nix run github:Cryolitia/nur-packages#maa-cli-nightly
 
 @tab Linux
 请选择你的架构
-+ [x64/x86_64/amd64](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-unknown-linux-gnu.tar.gz)
-+ [aarch64/arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-unknown-linux-gnu.tar.gz)
+
+- [x64/x86_64/amd64](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-unknown-linux-gnu.tar.gz)
+- [aarch64/arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-unknown-linux-gnu.tar.gz)
 
 @tab Windows
 请选择你的架构
-+ [x64/x86_64/amd64](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-pc-windows-msvc.zip)
-+ [aarch64/arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-pc-windows-msvc.zip)
+
+- [x64/x86_64/amd64](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-pc-windows-msvc.zip)
+- [aarch64/arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-pc-windows-msvc.zip)
 
 :::
 
@@ -109,11 +117,13 @@ Rust 开发者可以通过 `cargo` 自行编译安装 maa-cli：
 ::: code-tabs
 
 @tab:active 稳定版本
+
 ```bash :no-line-numbers
 cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --tag stable --locked
 ```
 
 @tab 开发版本
+
 ```bash :no-line-numbers
 cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --locked
 ```
@@ -157,24 +167,28 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 @tab Homebrew
 你可以直接通过 Homebrew 安装 maa-core
+
 ```bash :no-line-numbers
 brew install MaaAssistantArknights/tap/maa-core
 ```
 
 @tab Arch
-  你可以通过 [AUR](https://aur.archlinux.org/packages/maa-assistant-arknights/) 安装 maa-core
-  ::: code-tabs
+你可以通过 [AUR](https://aur.archlinux.org/packages/maa-assistant-arknights/) 安装 maa-core
+::: code-tabs
 
-  @tab:active paru
-  ```bash :no-line-numbers
-  paru -S maa-assistant-arknights
-  ```
+@tab:active paru
 
-  @tab yay
-  ```bash :no-line-numbers
-  yay -S maa-assistant-arknights
-  ```
-  :::
+```bash :no-line-numbers
+paru -S maa-assistant-arknights
+```
+
+@tab yay
+
+```bash :no-line-numbers
+yay -S maa-assistant-arknights
+```
+
+:::
 
 @tab Nix
 Nix 上的 maa-cli 强制依赖 MaaCore，因此 Nix 用户无需，也不应该手动安装 MaaCore

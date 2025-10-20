@@ -197,7 +197,7 @@ jobs:
           title: "Failed make release OTA for macos"
           body: |
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
+
   release:
     needs:
       - make-ota

@@ -31,15 +31,15 @@
 
 1. 把他丢进 Maa 文件夹下,形成如下文件结构.备注: 启动脚本[Maa-HTTP-Server-startup.bat](Maa-HTTP-Server-startup.bat).
 
-    ```text
-    MaaCoreArknights_v3.9.0-beta.8
-    │   MAA.exe
-    │   MaaCore.dll
-    │   ...
-    └───Java-HTTP
-        │   Maa-HTTP-0.0.1.jar
-        │   Maa-HTTP-Server-startup.bat
-    ```
+   ```text
+   MaaCoreArknights_v3.9.0-beta.8
+   │   MAA.exe
+   │   MaaCore.dll
+   │   ...
+   └───Java-HTTP
+       │   Maa-HTTP-0.0.1.jar
+       │   Maa-HTTP-Server-startup.bat
+   ```
 
 2. 双击Maa-HTTP-Server-startup.bat启动.
 3. 默认端口号8848钛金端口,如需修改,请修改 Maa-HTTP-Server-startup.bat 中的-port=8848 .
@@ -86,11 +86,11 @@
 
 ```json
 {
-    "data": {
-        "version": "v3.9.0-beta"
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "version": "v3.9.0-beta"
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -108,9 +108,9 @@
 
 ```json
 {
-    "adbPath": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
-    "host": "127.0.0.1:62001",
-    "detailJson": ""
+  "adbPath": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
+  "host": "127.0.0.1:62001",
+  "detailJson": ""
 }
 ```
 
@@ -126,12 +126,12 @@
 
 ```json
 {
-    "data": {
-        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-        "result": true
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "result": true
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -158,11 +158,11 @@
 
 ```json
 {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "type": "Fight",
-    "params": {
-        "stage": "LastBattle"
-    }
+  "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+  "type": "Fight",
+  "params": {
+    "stage": "LastBattle"
+  }
 }
 ```
 
@@ -178,12 +178,12 @@
 
 ```json
 {
-    "data": {
-        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-        "taskId": 0
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "taskId": 0
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -208,12 +208,12 @@
 
 ```json
 {
-    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-    "type": "Fight",
-    "taskId": 0,
-    "params": {
-        "stage": "LastBattle"
-    }
+  "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+  "type": "Fight",
+  "taskId": 0,
+  "params": {
+    "stage": "LastBattle"
+  }
 }
 ```
 
@@ -230,12 +230,12 @@
 
 ```json
 {
-    "data": {
-        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-        "result": false
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "result": false
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -260,7 +260,7 @@
 
 ```json
 {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
@@ -274,12 +274,12 @@
 
 ```json
 {
-    "data": {
-        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-        "result": true
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+    "result": true
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -304,7 +304,7 @@
 
 ```json
 {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
@@ -318,12 +318,12 @@
 
 ```json
 {
-    "data": {
-        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-        "result": true
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+    "result": true
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -348,7 +348,7 @@
 
 ```json
 {
-    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
+  "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3"
 }
 ```
 
@@ -362,12 +362,12 @@
 
 ```json
 {
-    "data": {
-        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-        "result": true
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+    "result": true
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -394,19 +394,19 @@
 
 ```json
 {
-    "data": {
-        "list": [
-            {
-                "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
-                "host": "127.0.0.1:62026",
-                "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
-                "uuid": "",
-                "status": 0
-            }
-        ]
-    },
-    "code": 0,
-    "message": "success"
+  "data": {
+    "list": [
+      {
+        "id": "ccd76e0c367511158ca774ff951a22e8bb62f5d3",
+        "host": "127.0.0.1:62026",
+        "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
+        "uuid": "",
+        "status": 0
+      }
+    ]
+  },
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -468,9 +468,9 @@
 
 ```json
 {
-    "command": "getVersion",
-    "msgId": 114514,
-    "data": {}
+  "command": "getVersion",
+  "msgId": 114514,
+  "data": {}
 }
 ```
 
@@ -484,13 +484,13 @@
 
 ```json
 {
-    "data": {
-        "version": "v3.9.0-beta"
-    },
-    "command": "getVersion",
-    "msgId": 114514,
-    "code": 0,
-    "message": "success"
+  "data": {
+    "version": "v3.9.0-beta"
+  },
+  "command": "getVersion",
+  "msgId": 114514,
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -506,12 +506,12 @@
 
 ```json
 {
-    "command": "connect",
-    "msgId": 114514,
-    "data": {
-        "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
-        "host": "127.0.0.1:62001"
-    }
+  "command": "connect",
+  "msgId": 114514,
+  "data": {
+    "adbPath": "C:\\Users\\atmzx\\Desktop\\MaaCoreArknights3\\platform-tools\\adb.exe",
+    "host": "127.0.0.1:62001"
+  }
 }
 ```
 
@@ -525,14 +525,14 @@
 
 ```json
 {
-    "data": {
-        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-        "result": true
-    },
-    "command": "connect",
-    "msgId": 114514,
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "result": true
+  },
+  "command": "connect",
+  "msgId": 114514,
+  "code": 0,
+  "message": "success"
 }
 ```
 
@@ -552,27 +552,27 @@ appendTask setTaskParams start stop等接口不再描述，均可遵循以上规
 
 ```json
 {
-    "data": {
-        "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
-        "logId": 1,
-        "msg": 2,
-        "details": {
-            "uuid": "",
-            "details": {
-                "adb": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
-                "address": "127.0.0.1:62001",
-                "config": "General",
-                "width": 1280,
-                "height": 720
-            },
-            "what": "ResolutionGot",
-            "why": ""
-        }
-    },
-    "command": "callBack",
-    "msgId": 0,
-    "code": 0,
-    "message": "success"
+  "data": {
+    "id": "46b9d5cd60382f100b336b17d6817f8eda255f73",
+    "logId": 1,
+    "msg": 2,
+    "details": {
+      "uuid": "",
+      "details": {
+        "adb": "C:\\MaaCoreArknights3\\platform-tools\\adb.exe",
+        "address": "127.0.0.1:62001",
+        "config": "General",
+        "width": 1280,
+        "height": 720
+      },
+      "what": "ResolutionGot",
+      "why": ""
+    }
+  },
+  "command": "callBack",
+  "msgId": 0,
+  "code": 0,
+  "message": "success"
 }
 ```
 

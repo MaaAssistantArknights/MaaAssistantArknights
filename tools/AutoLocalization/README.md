@@ -55,25 +55,25 @@ Enjoy!
 
 1. 不要破坏缩进（包括空行不带空格）
 2. `<ResourceDictionary x:Uid="KeyName">` 如果能在资源字典找到Uid对应的Key，把对应的Value作为注释写入，像这样（注意注释中的空格）：
-    ```xml
-            <!--  设置  -->
-    <ResourceDictionary x:Uid="Settings">
-    </ResourceDictionary>
-    ```
+   ```xml
+           <!--  设置  -->
+   <ResourceDictionary x:Uid="Settings">
+   </ResourceDictionary>
+   ```
 3. 由于字典被拆分了，重复的键要交给脚本检查
 4. 因为zh-cn可能会混入一些中文梗，所以ja-jp、ko-kr尽量由en-us翻译
 
-    ```code
-    check duplicate Key()
-    if exist duplicate Key:
-        throw (or raise) an exception
+   ```code
+   check duplicate Key()
+   if exist duplicate Key:
+       throw (or raise) an exception
 
-    zh-cn -> zh-tw
-    if exist en-us:
-        en-us -> ja-jp
-        en-us -> ko-kr
-    else:
-        zh-cn -> ja-jp
-        zh-cn -> ko-kr
-        zh-cn -> en-us
-    ```
+   zh-cn -> zh-tw
+   if exist en-us:
+       en-us -> ja-jp
+       en-us -> ko-kr
+   else:
+       zh-cn -> ja-jp
+       zh-cn -> ko-kr
+       zh-cn -> en-us
+   ```
