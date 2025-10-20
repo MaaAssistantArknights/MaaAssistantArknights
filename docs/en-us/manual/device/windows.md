@@ -28,7 +28,7 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu Emulator',
         link: 'https://www.mumuglobal.com/',
-        note: 'Fully compatible, with additional support for [Screenshot Enhanced Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally have issues. If you encounter problems, please report them to MuMu\'s official support.\n- When running multiple instances, you need to check the port information of each instance through the ADB button in MuMu Multi-Instance Manager, then change the port number in MAA `Settings` - `Connection Settings` to match the corresponding port.\n\n- Please do not set the `Graphics Memory Usage Policy` to `Lower Resource Consumption`.',
+        note: 'Fully compatible, with additional support for [Screenshot Enhanced Mode](../connection.html#mumu-screenshot-enhanced-mode). Known to be compatible with Hyper-V.\n\n- The "Exit emulator when done" function may occasionally have issues. If you encounter problems, please report them to MuMu\'s official support.\n- When running multiple instances, you need to check the port information of each instance through the ADB button in MuMu Multi-Instance Manager, then change the port number in MAA `Settings` - `Connection Settings` to match the corresponding port.\n- Do NOT set the `Graphics Memory Usage Policy` to `Lower Resource Consumption`.',
     },
     {
         name: 'LDPlayer',

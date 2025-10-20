@@ -28,7 +28,7 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu 模擬器',
         link: 'https://mumu.163.com/',
-        note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- “完成後退出模擬器”功能可能偶現異常，如果遇到請向 MuMu 官方反饋。\n\n- 請勿將 `視訊記憶體使用策略` 設置為 `資源占用更小`。',
+        note: '完美支援，且額外支援[截圖增強模式](../connection.html#mumu-截圖增強模式)。已知相容 Hyper-V。\n\n- “完成後退出模擬器”功能可能偶現異常，如果遇到請向 MuMu 官方反饋。\n- 請勿將 `視訊記憶體使用策略` 設置為 `資源占用更小`。',
     },
     {
         name: '雷電模擬器',
