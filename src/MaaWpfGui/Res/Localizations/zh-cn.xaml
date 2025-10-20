@@ -1231,6 +1231,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="TaskTimeoutMinutes">任务超时时间（分钟）</system:String>
     <system:String x:Key="ReminderIntervalMinutes">提醒间隔时间（分钟）</system:String>
     <system:String x:Key="TaskTimeoutWarning">任务已运行超过 {0} 分钟（当前已运行 {1} 分钟）。如果长时间无进一步日志更新，可能需要手动干预。</system:String>
+    <system:String x:Key="MaxDurationReached">已达到设定的最大运行时长，任务已自动停止</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 达成成就</system:String>
@@ -1523,5 +1524,4 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相关问题，请尝试将 MAA 加入相关软件的排除名单，或卸载相关软件后检查问题是否仍然存在。</system:String>
     <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再显示此警告</system:String>
     <!--  !BadModules  -->
-        <system:String x:Key="MaxDurationReached">已达到设定的最大运行时长，任务已自动停止</system:String>
 </ResourceDictionary>
