@@ -2114,7 +2114,7 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["CloseTaskAwardDouble"],
-        "postDelay": 1500
+        "postDelay": 1000
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -2122,7 +2122,8 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["WeeklyTask", "AwardFinished", "CloseTaskAwardDouble"],
-        "maxTimes": 10
+        "maxTimes": 10,
+        "postDelay": 500
     },
     "AwardFinished": {
         "action": "Stop",
