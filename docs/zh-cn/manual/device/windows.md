@@ -33,7 +33,7 @@ const fullySupport = shuffleArray([
     {
         name: 'MuMu 模拟器',
         link: 'https://mumu.163.com/',
-        note: '完美支持，且额外支持[截图增强模式](../connection.html#mumu-截图增强模式)。已知兼容 Hyper-V。\n\n- “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。',
+        note: '完美支持，且额外支持[截图增强模式](../connection.html#mumu-截图增强模式)。已知兼容 Hyper-V。\n\n- “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。\n\n- 请勿将 `显存使用策略` 设置为 `资源占用更小`。',
     },
     {
         name: '雷电模拟器',

@@ -113,6 +113,7 @@ Emulator updates may overwrite the ADB file. If the issue returns after an updat
 - If auto-combat frequently pauses without deploying operators, disable `Matchstick Mode` in `Settings` - `Operation Settings`.
 - If auto-squad formation can't recognize operators correctly, remove special focus from those operators.
 - `Adb Input` touch mode is naturally slow; try switching to other modes for functions like auto-combat.
+- When using the MuMu emulator, please do not set the `Graphics Memory Usage Policy` to `Lower Resource Consumption`.
 
 ### "Screenshot takes too long" message
 
