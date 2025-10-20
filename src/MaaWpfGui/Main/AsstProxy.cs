@@ -2381,15 +2381,20 @@ public class AsstProxy
 
     private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
     {
-        if (id == 0)
+        if (id <= 0)
         {
             return false;
         }
 
         if (_tasksStatus.TryGetValue(id, out var value))
         {
+            if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
+            {
+                RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
+            }
+
             value.Status = status;
-            if (value.Status == TaskStatus.InProgress)
+            if (status == TaskStatus.InProgress)
             {
                 TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
             }
