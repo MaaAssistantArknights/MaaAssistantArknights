@@ -1157,7 +1157,7 @@ public class AsstProxy
         }
     }
 
-    private static void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    private void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
         // 下面几行注释暂时没用到，先注释起来...
         // string taskChain = details["taskchain"].ToString();
@@ -1215,9 +1215,10 @@ public class AsstProxy
         }
     }
 
-    private static void ProcSubTaskError(JObject details)
+    private void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
+        AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
         switch (subTask)
         {
             case "StartGameTask":
@@ -1242,6 +1243,15 @@ public class AsstProxy
             case "ReportToPenguinStats":
                 {
                     var why = details["why"]!.ToString();
+
+                    // 剿灭放弃上传企鹅物流的特殊处理
+                    _tasksStatus.TryGetValue(taskId, out var value);
+                    if (value is { Type: TaskType.Fight } && TaskQueueViewModel.FightTask.Stage == "Annihilation")
+                    {
+                        Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
+                        break;
+                    }
+
                     Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Warning);
                     break;
                 }
