@@ -73,6 +73,7 @@ export default defineUserConfig({
     },
 
     markdown: {
+      annotation: true, 
       image: {
         lazyload: true,
         mark: true,
