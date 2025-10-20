@@ -2656,12 +2656,12 @@
         "roi": [1180, 500, 100, 100],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneAssistTrade": {
         "action": "ClickSelf",
         "roi": [250, 430, 460, 120],
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneMax": {
         "action": "ClickSelf",
