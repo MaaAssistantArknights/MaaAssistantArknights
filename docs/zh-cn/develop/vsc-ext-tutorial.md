@@ -5,12 +5,20 @@ icon: iconoir:code-brackets
 
 # 专用 VSCode 插件教程
 
-- [插件商店](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
-- [仓库](https://github.com/neko-para/maa-support-extension)
+该插件针对 MaaAssistantArknights/MaaFramework 提供了一系列方便开发的能力，包括但不限于以下功能：
++ tasks.json 支持，包含 `template 预览`，`next 跳转`，`任务引用` 等等
++ 截取/裁剪图片
+
+具体内容可以前往 [插件商店](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 或是 [仓库](https://github.com/neko-para/maa-support-extension) 查看
 
 ## 安装
 
-推荐直接在 VSCode 的插件列表中搜索 `Maa` 来安装.
+推荐直接在 VSCode 的插件列表中搜索 `Maa` 来安装
+
+::: tip
+首次使用时, 插件会自动下载预设版本的资源
+搜索命令 `Maa: 选择下载源`, 可切换下载源 (npm / cnpm)
+::: 
 
 ## 功能
 
@@ -91,14 +99,14 @@ icon: iconoir:code-brackets
 
 ### 底部状态栏
 
-#### MaaSupport \[插件版本\]
+#### MaaSupport [+MaaSupport]
 
-点击可聚焦控制面板
+[+MaaSupport]: 插件版本
 
-#### MaaFramework \[MaaFw版本\]
+点击可聚焦控制面板 
+
+#### MaaFramework [+MaaFramework]
+
+[+MaaFramework]: MaaFw版本
 
 点击可切换插件使用的 `MaaFramework` 版本
-
-> 首次使用时, 插件会自动下载预设版本.
->
-> 搜索命令 `Maa: 选择下载源`, 可切换下载源 (npm / cnpm)
