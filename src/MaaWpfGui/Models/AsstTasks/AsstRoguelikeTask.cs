@@ -14,8 +14,6 @@
 #nullable enable
 using System.Collections.Generic;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants;
-using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
@@ -211,13 +209,6 @@ public class AsstRoguelikeTask : AsstBaseTask
             ["starts_count"] = Starts,
             ["investment_enabled"] = InvestmentEnabled,
         };
-
-        // 全局定时下线参数
-        var globalHours = ConfigurationHelper.GetValue(ConfigurationKeys.MaxTaskDurationHours, 0);
-        if (globalHours > 0)
-        {
-            taskParams["max_duration_hours"] = globalHours;
-        }
 
         if (InvestmentEnabled)
         {

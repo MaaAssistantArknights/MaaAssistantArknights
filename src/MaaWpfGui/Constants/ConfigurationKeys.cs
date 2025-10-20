@@ -241,7 +241,6 @@ public static class ConfigurationKeys
 
     public const string TaskTimeoutMinutes = "TimeOut.Timer.TaskTimeoutMinutes";
     public const string ReminderIntervalMinutes = "TimeOut.Timer.ReminderIntervalMinutes";
-
     public const string MaxTaskDurationHours = "MaxTaskDurationHours";
     
     public const string BluestacksConfigPath = "Bluestacks.Config.Path";
