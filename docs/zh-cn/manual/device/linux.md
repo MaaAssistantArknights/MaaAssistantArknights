@@ -56,52 +56,52 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 ### 使用 Python
 
-#### 1. 安装 MAA 动态库
+:::: steps
 
-1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
-   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
-   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+1. 安装 MAA 动态库
+   1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
+      - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
+      - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+   2. 进入 `./MAA-v{版本号}-linux-{架构}/Python/` 目录下打开 `sample.py` 文件
 
-2. 进入 `./MAA-v{版本号}-linux-{架构}/Python/` 目录下打开 `sample.py` 文件
+   ::: tip
+   预编译的版本包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库，如果您系统中的 libstdc++ 版本较老，可能遇到 ABI 不兼容的问题
+   可以参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译或使用容器运行
+   :::
 
-::: tip
-预编译的版本包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库，如果您系统中的 libstdc++ 版本较老，可能遇到 ABI 不兼容的问题
-可以参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译或使用容器运行
-:::
+2. ADB 配置
+   1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 一栏
+   2. ADB 工具调用
+      - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 ADB 。可以直接在 `adb.exe` 一栏填写 ADB 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
-#### 2. ADB 配置
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 ADB 地址"):
+      ```
 
-1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 一栏
+      - 如果使用其他模拟器须先下载 ADB ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
 
-2. ADB 工具调用
-   - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 ADB 。可以直接在 `adb.exe` 一栏填写 ADB 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
+   3. 模拟器 ADB 路径获取
+      - 可以直接使用 ADB 工具： `$ adb路径 devices` ，例如：
 
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 ADB 地址"):
-   ```
+      ```shell
+      $ /home/foo/Android/Sdk/platform-tools/adb devices
+      List of devices attached
+      emulator-5554 device
+      ```
 
-   - 如果使用其他模拟器须先下载 ADB ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
+      - 返回的 `emulator-5554` 就是模拟器的 ADB 地址，覆盖掉 `127.0.0.1:5555` ，例如：
 
-3. 模拟器 ADB 路径获取
-   - 可以直接使用 ADB 工具： `$ adb路径 devices` ，例如：
+      ```python
+      if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
+      ```
 
-   ```shell
-   $ /home/foo/Android/Sdk/platform-tools/adb devices
-   List of devices attached
-   emulator-5554 device
-   ```
+   4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了。
 
-   - 返回的 `emulator-5554` 就是模拟器的 ADB 地址，覆盖掉 `127.0.0.1:5555` ，例如：
-
-   ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
-   ```
-
-4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了。
-
-#### 3. 任务配置
+3. 任务配置
 
 自定义任务： 根据需要参考 [集成文档](../../protocol/integration.md) 对 `sample.py` 的 [`# 任务及参数请参考 docs/integration.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
+
+::::
 
 ## 模拟器支持
 
