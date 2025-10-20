@@ -17,6 +17,8 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
 
 ## 编译过程
 
+:::: steps
+
 1. 下载编译所需的依赖
    - Ubuntu/Debian
 
@@ -72,6 +74,11 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译。建议�
    ```bash
    cmake --install build --prefix <target_directory>
    ```
+
+4. 结束，你应该能在目录下看到构建文件了
+
+
+::::
 
 ## 集成文档
 
