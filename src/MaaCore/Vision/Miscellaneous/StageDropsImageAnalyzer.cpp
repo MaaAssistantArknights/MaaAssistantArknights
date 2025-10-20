@@ -54,16 +54,38 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    RegionOCRer analyzer(m_image);
-    analyzer.set_task_info("StageDrops-StageName");
-    if (!analyzer.analyze()) {
-        return false;
+    std::string stage_code;
+    Rect text_rect;
+
+    // 先用默认 char 模型识别
+    {
+        RegionOCRer analyzer(m_image);
+        analyzer.set_task_info("StageDrops-StageName");
+        if (analyzer.analyze()) {
+            stage_code = analyzer.get_result().text;
+            text_rect = analyzer.get_result().rect;
+            Log.info(__FUNCTION__, "stage_code", stage_code);
+        }
     }
-    m_stage_code = analyzer.get_result().text;
-    Log.info(__FUNCTION__, "stage_code", m_stage_code);
+
+    // 如果不带 '-'，用非 char 模型再识别一次（适配剿灭/活动等特殊关卡码）
+    if (stage_code.find('-') == std::string::npos) {
+        RegionOCRer analyzer(m_image);
+        analyzer.set_task_info("StageDrops-StageName");
+        analyzer.set_use_char_model(false);
+        if (analyzer.analyze()) {
+            std::string non_char_model_stage_code = analyzer.get_result().text;
+            if (!non_char_model_stage_code.empty()) {
+                stage_code = non_char_model_stage_code;
+                text_rect = analyzer.get_result().rect;
+                Log.info(__FUNCTION__, "stage_code (Non-ASCII model)", stage_code);
+            }
+        }
+    }
+
+    m_stage_code = stage_code;
 
 #ifdef ASST_DEBUG
-    const Rect& text_rect = analyzer.get_result().rect;
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(
         m_image_draw,
