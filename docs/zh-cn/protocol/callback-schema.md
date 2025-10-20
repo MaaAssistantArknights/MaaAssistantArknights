@@ -66,13 +66,13 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 :::: field-group
 ::: field name="what" type="string" required
 错误类型。
-:::
+:::  
 ::: field name="why" type="string" required
 错误原因。
-:::
+:::  
 ::: field name="details" type="object" required
 错误详情。
-:::
+:::  
 ::::
 
 ### ConnectionInfo
