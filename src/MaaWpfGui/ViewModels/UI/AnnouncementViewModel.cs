@@ -110,7 +110,7 @@ public class AnnouncementViewModel : Screen
         sections.Insert(0, new()
         {
             Title = "ALL~ the Announcements",
-            Content = markdown.Replace(NewString, string.Empty, StringComparison.OrdinalIgnoreCase).Trim(),
+            Content = markdown.Replace(NewString, "*", StringComparison.OrdinalIgnoreCase).Trim(),
         });
 
         return [.. sections];
