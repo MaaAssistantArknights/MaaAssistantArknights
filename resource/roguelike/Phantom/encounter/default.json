@@ -100,22 +100,22 @@
         {
             "name": "受缚之血",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "幽影狂言",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "艺术与疯狂",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "鸭爵主演",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "鸭爵的宴会",
@@ -170,7 +170,7 @@
         {
             "name": "疯狂玩偶",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "解脱",
@@ -185,7 +185,7 @@
         {
             "name": "追随者集会",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "别打扰他们",

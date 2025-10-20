@@ -160,7 +160,7 @@
             ["Vermeil?", "红云"],
             ["Schwarz", "黑"],
             ["Catapult", "空爆"],
-            ["Exusiai?", "能天使"],
+            ["^Exusiai?$", "能天使"],
             ["Firewatch", "守林人"],
             ["Provence", "普罗旺斯"],
             ["Meteorite", "陨星"],
@@ -189,7 +189,7 @@
             ["Dur-nar", "坚雷"],
             ["Spot", "斑点"],
             ["Saria", "塞雷娅"],
-            ["Hoshiguma", "星熊"],
+            ["^Hoshiguma$", "星熊"],
             ["Vulcan", "火神"],
             ["Croissant", "可颂"],
             ["Liskarm", "雷蛇"],
@@ -908,7 +908,19 @@
             ["Active Sarkaz Caster Crystal", "活性态萨卡兹术师结晶"],
             ["'Shadow in the Snow'", "“风雪中的影子”"],
             ["Hot Drink Machine", "加热饮料机"],
-            ["Cold Drink Machine", "冰镇饮料机"]
+            ["Cold Drink Machine", "冰镇饮料机"],
+            ["Sacrament of Genesis", "寻根圣事"],
+            ["Shrine Nurturer Cosplayer", "圣堂保育员扮演者"],
+            ["Shrine Marksman Cosplayer", "圣堂射手扮演者"],
+            ["Saint Statue Cosplayer", "圣徒像扮演者"],
+            ["Nightwalker's Cloak Module", "夜行斗篷模块"],
+            ["Nightwalker's Hook Module", "夜行钩爪模块"],
+            ["Exusiai the New Covenant", "新约能天使"],
+            ["Sankta Miksaparato", "信仰搅拌机"],
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
+            ["Delivery Coordinates", "投递坐标"],
+            ["Gracebearer", "聆音"],
+            ["Lemuen", "蕾缪安"]
         ]
     },
     "GameStartCheckResourceOCR": {
@@ -997,7 +1009,8 @@
         "text": ["Provisional", "Mining", "Permit"]
     },
     "OrundumActivities": {
-        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar"]
+        "text": ["Lucky Strips", "Wishing", "Lucky", "Wall", "Bazaar", "Shrine", "Nurtury", "Wish", "Board"],
+        "roi": [67, 69, 115, 219]
     },
     "OrundumActivitiesChoose": {
         "text": ["Choose", "spot", "Please select", "Wishing", "Tickets"]
@@ -1009,10 +1022,10 @@
         "text": ["Free", "Roll"]
     },
     "RecruitingActivitiesConfirm": {
-        "text": ["Free", "Roll"]
+        "text": ["hrs", "mins"]
     },
     "RecruitingActivitiesRecruit": {
-        "text": ["Headhunt x1", "Headhunt"]
+        "text": ["Free Roll"]
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["Headhunt x1", "Headhunt"]
@@ -1021,7 +1034,7 @@
         "doc_preDelay": "Sometimes a loading will appear after entering the home.",
         "preDelay": 500,
         "text": ["Exclusive", "Monthly", "Card"],
-        "roi": [66, 79, 103, 151]
+        "roi": [67, 69, 115, 219]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["CLAIM", "Claim", "NOW", "Now"]
@@ -1376,9 +1389,7 @@
         ]
     },
     "BattleQuickFormationExpandRole": {
-        "algorithm": "OcrDetect",
-        "text": ["JOD", "Job", "Class"],
-        "roi": [1207, 25, 42, 32]
+        "roi": [1166, 0, 114, 120]
     },
     "BattleQuickFormationFilter-Cost": {
         "text": ["Deployment Cost"],
@@ -1443,10 +1454,6 @@
     "OperBoxSortTabSelect": {
         "text": ["Level"]
     },
-    "OperBoxRoleTab": {
-        "baseTask": "BattleQuickFormationExpandRole",
-        "action": "Stop"
-    },
     "OperBoxNameOCR": {
         "rectMove_doc": "for overwidth",
         "rectMove": [0, 265, 128, 22],
@@ -1482,7 +1489,8 @@
             ["Security Talent Agreement", "保全人才合作协议"],
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
-            ["Lightweight Range[finder]*", "轻型瞄准测距仪"]
+            ["Lightweight Range[finder]*", "轻型瞄准测距仪"],
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"]
         ]
     },
     "SSSBuffChooseConfirm": {

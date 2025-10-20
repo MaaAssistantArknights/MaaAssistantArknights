@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Common/AsstTypes.h"
-#include "Config/Roguelike/RoguelikeMapConfig.h"
-#include "RoguelikeBoskyPassageMap.h"
+#include "RoguelikeMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 #include "Utils/NoWarningCVMat.h"
 
@@ -20,10 +19,10 @@ public:
     enum class RoutingStrategy
     {
         None,
-        FastInvestment_Sarkaz,
-        FastInvestment_JieGarden,
-        FastPass,
-        BoskyPassage_JieGarden
+        Sarkaz_FastPass,                 // 实验模式，暂未开放给用户
+        Sarkaz_FastInvestment,           // 点刺成锭分队快速投资
+        JieGarden_FastPassWithBattle,    // 指挥分队一战快速投资/烧水
+        JieGarden_FastPassWithoutBattle, // 指挥分队无战快速投资/烧水
     };
 
 protected:
@@ -59,11 +58,11 @@ private:
     void navigate_route();
     void update_selected_x();
 
+    inline static std::function<std::string(RoguelikeNodeType)> type2name = &RoguelikeMapConfig::type2name;
+
     // ———————— constants and variables ———————————————————————————————————————————————
     RoutingStrategy m_routing_strategy = RoutingStrategy::None;
     RoguelikeMap m_map;
-    // 界园树洞平面地图
-    RoguelikeBoskyPassageMap m_bosky_map;
     bool m_need_generate_map = true;
     size_t m_selected_column = 0;  // 当前选中节点所在列
     int m_selected_x = 0;          // 当前选中节点的横坐标 (Rect.x)
@@ -78,10 +77,7 @@ private:
     int m_roi_margin = 0;          // roi 的 margin offset
     int m_direction_threshold = 0; // 节点间连线方向判定的阈值
 
-    // ==================== BoskyPassage (JieGarden) 专用 ====================
-    void bosky_update_map();       // 从当前截图识别所有可见节点并更新/创建
-    void bosky_decide_and_click(); // 策略
-
-    RoguelikeBoskyPassageMap::BoskyPassageMapConfig m_bosky_config;
+    // view-related
+    int m_left_most_column_x_in_view = 0;
 };
 }

@@ -34,7 +34,10 @@ enum class RoguelikeMode
     CLP_PDS = 5, // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
 
     // ------------------ 萨卡兹主题专用模式 ------------------
-    FastPass = 10001 // 10001 - 快速通过第一层
+    FastPass = 10001, // 10001 - 快速通过第一层
+
+    // ------------------ 界园主题专用模式 ------------------
+    FindPlaytime = 20001 // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
 };
 
 struct RoguelikeOper
@@ -92,7 +95,8 @@ public:
         return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible ||
                mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||
                (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
-               (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
+               (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz) ||
+               (mode == RoguelikeMode::FindPlaytime && theme == RoguelikeTheme::JieGarden);
     }
 
     bool verify_and_load_params(const json::value& params);
@@ -125,6 +129,10 @@ public:
 
     bool get_run_for_collectible() const { return m_run_for_collectible; }
 
+    void set_skip_recruit_in_fast_pass(const bool value) { m_skip_recruit_in_fast_pass = value; }
+
+    bool get_skip_recruit_in_fast_pass() const { return m_skip_recruit_in_fast_pass; }
+
     // ------------------ 投资模式 ------------------
     void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
 
@@ -133,6 +141,11 @@ public:
     void set_collectible_mode_shopping(bool value) { m_collectible_mode_shopping = value; }
 
     bool get_collectible_mode_shopping() const { return m_collectible_mode_shopping; }
+
+    // ------------------ 刷常乐节点模式 ------------------
+    void set_find_playTime_target(int target) { m_find_playTime_target = target; }
+
+    int get_find_playTime_target() const { return m_find_playTime_target; }
 
 private:
     std::string m_theme;                       // 主题
@@ -144,12 +157,16 @@ private:
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升
     bool m_only_start_with_elite_two = false; // 只凹开局干员精二直升且不进行作战
     bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
+    bool m_skip_recruit_in_fast_pass = false; // 是否可以在特定情况下跳过招募，是否真的跳过招募需要结合其他条件来判断
 
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分
 
     // ------------------ 刷开局模式 ------------------
     bool m_collectible_mode_shopping = false; // 刷开局模式下进入商店时购物
+
+    // ------------------ 刷常乐节点模式 ------------------
+    int m_find_playTime_target = 0; // 目标常乐节点子类型 (1=令, 2=黍, 3=年)
 
 private:
     // =========================== 萨米主题专用参数 ===========================

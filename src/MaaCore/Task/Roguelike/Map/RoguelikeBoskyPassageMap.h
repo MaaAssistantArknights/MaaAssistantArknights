@@ -1,17 +1,29 @@
 #pragma once
 
-#include "AbstractRoguelikeMap.h"
-
 #include <array>
 #include <optional>
 #include <vector>
 
+#include "Config/Roguelike/RoguelikeMapConfig.h"
+#include "Utils/SingletonHolder.hpp"
+
 namespace asst
 {
-class RoguelikeBoskyPassageMap
+
+enum class RoguelikeBoskySubNodeType
+{
+    Unknown = 0,
+    Ling = 1, // 令 - 常乐 掷地有声
+    Shu = 2,  // 黍 - 常乐 种因得果
+    Nian = 3, // 年 - 常乐 三缺一
+};
+
+// 获取树篱之途子节点类型的字符串名称
+std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type);
+
+class RoguelikeBoskyPassageMap : public SingletonHolder<RoguelikeBoskyPassageMap>
 {
 public:
-    RoguelikeBoskyPassageMap();
     ~RoguelikeBoskyPassageMap() = default;
 
     // ===================== 创建/更新 =====================
@@ -23,6 +35,8 @@ public:
     void set_visited(size_t index);
 
     void set_node_type(size_t index, RoguelikeNodeType type);
+
+    void set_curr_pos(size_t index) { m_curr_pos = index; }
 
     void reset();
 
@@ -38,6 +52,8 @@ public:
         get_open_unvisited_nodes(std::optional<RoguelikeNodeType> type_filter = std::nullopt) const;
     // 全部开放节点（包含已通关）
     [[nodiscard]] std::vector<size_t> get_open_nodes(std::optional<RoguelikeNodeType> type_filter = std::nullopt) const;
+
+    [[nodiscard]] size_t get_curr_pos() const { return m_curr_pos; }
 
     [[nodiscard]] RoguelikeNodeType get_node_type(size_t index) const;
     [[nodiscard]] bool get_node_exists(size_t index) const;
@@ -102,6 +118,18 @@ public:
         bool is_open,
         RoguelikeNodeType type = RoguelikeNodeType::Unknown);
 
+    // 设置子类型
+    void set_node_subtype(size_t index, RoguelikeBoskySubNodeType sub_type);
+
+    // 获取子类型
+    [[nodiscard]] RoguelikeBoskySubNodeType get_node_subtype(size_t index) const;
+
+    // 设置目标子类型
+    void set_target_subtype(RoguelikeBoskySubNodeType target) { m_target_subtype = target; }
+
+    // 获取目标子类型
+    [[nodiscard]] RoguelikeBoskySubNodeType get_target_subtype() const { return m_target_subtype; }
+
     // 中心节点 index
     static constexpr int CENTER_X = 3;
     static constexpr int CENTER_Y = 2;
@@ -117,13 +145,16 @@ private:
     struct Node
     {
         RoguelikeNodeType type = RoguelikeNodeType::Unknown;
+        RoguelikeBoskySubNodeType sub_type = RoguelikeBoskySubNodeType::Unknown;
         bool exists = false;  // 是否已创建
         bool is_open = false; // 是否开放可探索
         bool visited = false; // 是否已访问
     };
 
     std::array<Node, WIDTH * HEIGHT> m_nodes {}; // 直接按 y*WIDTH + x 索引
+    size_t m_curr_pos = 0;
     size_t m_existing_count = 0;
+    RoguelikeBoskySubNodeType m_target_subtype = RoguelikeBoskySubNodeType::Unknown;
 
     // 辅助函数：获取有效的节点引用，如果索引无效或节点不存在则返回 nullptr
     [[nodiscard]] Node* get_valid_node(size_t index);

@@ -80,6 +80,17 @@
                 ItemsSource="{Binding RoguelikeRolesList}"
                 SelectedValue="{Binding RoguelikeRoles}"
                 SelectedValuePath="Value" />
+            <hc:ComboBox
+                Margin="0,5"
+                d:Visibility="Visible"
+                hc:InfoElement.Title="{DynamicResource RoguelikeFindPlaytimeTarget}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                ItemsSource="{Binding RoguelikeFindPlaytimeTargetList}"
+                SelectedValue="{Binding RoguelikeFindPlaytimeTarget}"
+                SelectedValuePath="Value"
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.FindPlaytime and RoguelikeTheme == task:RoguelikeTheme.JieGarden',
+                                       Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
             <StackPanel Margin="0,5">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource StartingCoreChar}" />

@@ -114,8 +114,9 @@
         },
         {
             "name": "夕江对擂",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "烛堂",
@@ -153,10 +154,11 @@
         },
         {
             "name": "同心-选择",
-            "option_num": 3,
+            "option_num": 5,
             "choose": 1,
             "fallback_choices": [
                 [4, 1],
+                [3, 1],
                 [2, 1]
             ]
         },
@@ -267,8 +269,9 @@
         },
         {
             "name": "南武群英会",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 3,
+            "choose": 3,
+            "fallback_choices": [[2, 2]]
         },
         {
             "name": "祠堂口",
@@ -342,11 +345,17 @@
         },
         {
             "name": "存形失意",
-            "option_num": 3,
-            "choose": 3
+            "option_num": 4,
+            "choose": 4,
+            "fallback_choices": [[3, 3]]
         },
         {
             "name": "执棋",
+            "option_num": 4,
+            "choose": 4
+        },
+        {
+            "name": "移时换物",
             "option_num": 4,
             "choose": 4
         }

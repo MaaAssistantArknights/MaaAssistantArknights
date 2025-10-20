@@ -1,7 +1,4 @@
 {
-    "StageTheme": {
-        "roi": [200, 640, 300, 60]
-    },
     "ClickChapter1": {
         "text": ["覺醒"]
     },
@@ -11,6 +8,18 @@
     "ClickChapter3": {
         "text": ["殘陽"]
     },
+    "ClickChapterNew": {
+        "text": ["樂章收錄"]
+    },
+    "ClickChapterNewOpenTime": {
+        "text": ["開啟時間"]
+    },
+    "ClickChapterNewDefaultProgress": {
+        "text": ["預設進度"]
+    },
+    "ClickChapterNewOverview": {
+        "text": ["樂章"]
+    },
     "LevelOfDifficulty": {
         "text": ["環境", "PRTS"]
     },
@@ -19,9 +28,6 @@
     },
     "EnterChapterDifficultyNormal": {
         "text": ["進入", "作戰"]
-    },
-    "StageResource": {
-        "roi": [600, 600, 250, 110]
     },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用，先全字符串匹配再部分匹配",
@@ -648,7 +654,15 @@
             ["尋瀾", "寻澜"],
             ["廢棄火灶", "废弃火灶"],
             ["餘", "余"],
-            ["燭煌", "烛煌"]
+            ["燭煌", "烛煌"],
+            ["舊日之火", "旧日之火"],
+            ["盾與牆", "盾与墙"],
+            ["礦石“殺手”", "矿石“杀手”"],
+            ["悲歎的僕役", "悲叹的仆役"],
+            ["水燈心", "水灯心"],
+            ["空殼", "空壳"],
+            ["樹叢", "树丛"],
+            ["鉬鉛", "钼铅"]
         ]
     },
     "GameStartCheckResourceOCR": {

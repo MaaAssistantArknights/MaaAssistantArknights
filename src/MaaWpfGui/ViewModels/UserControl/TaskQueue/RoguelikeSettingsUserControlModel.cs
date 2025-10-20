@@ -28,9 +28,11 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Mode = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeMode;
+using RoguelikeBoskySubNodeType = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeBoskySubNodeType;
 using Theme = MaaWpfGui.Configuration.Single.MaaTask.RoguelikeTheme;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
+
 public class RoguelikeSettingsUserControlModel : TaskViewModel
 {
     static RoguelikeSettingsUserControlModel()
@@ -92,7 +94,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     private static int GetMaxDifficultyForTheme(Theme theme) => theme switch
     {
-        Theme.Phantom => SettingsViewModel.GameSettings.ClientType is "" or "Official" or "Bilibili" ? 15 : 0,
+        Theme.Phantom => SettingsViewModel.GameSettings.ClientType is not "txwy" ? 15 : 0,
         Theme.Mizuki => 18,
         Theme.Sami => 15,
         Theme.Sarkaz => 18,
@@ -111,6 +113,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
                     new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
+                    new() { Display = LocalizationHelper.GetString("RoguelikeStrategyFindPlaytime"), Value = Mode.FindPlaytime },
                 ];
                 break;
 
@@ -918,6 +921,36 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private RoguelikeBoskySubNodeType _roguelikeFindPlaytimeTarget = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, RoguelikeBoskySubNodeType.Ling);
+
+    /// <summary>
+    /// Gets or sets the target playtime subnode type for FindPlaytime mode.
+    /// </summary>
+    public RoguelikeBoskySubNodeType RoguelikeFindPlaytimeTarget
+    {
+        get => _roguelikeFindPlaytimeTarget;
+        set
+        {
+            SetAndNotify(ref _roguelikeFindPlaytimeTarget, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, value.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Gets the list of available playtime target options for FindPlaytime mode.
+    /// </summary>
+    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } = new()
+    {
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeLing"), Value = RoguelikeBoskySubNodeType.Ling },
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeShu"), Value = RoguelikeBoskySubNodeType.Shu },
+        new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeNian"), Value = RoguelikeBoskySubNodeType.Nian },
+    };
+
+    /// <summary>
+    /// Gets a value indicating whether the FindPlaytime target selection should be visible.
+    /// </summary>
+    public bool RoguelikeFindPlaytimeTargetVisible => RoguelikeMode == Mode.FindPlaytime && RoguelikeTheme == Theme.JieGarden;
+
     private bool _roguelikeStopAtMaxLevel = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, bool.FalseString));
 
     /// <summary>
@@ -1057,9 +1090,43 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                 break;
 
+            case "BoskyPassageNode":
+                {
+                    var nodeType = subTaskDetails!["node_type"]?.ToString();
+                    var (localizedNodeType, logColor) = nodeType switch
+                    {
+                        "Omissions" => (LocalizationHelper.GetString("BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
+                        "Legend" => (LocalizationHelper.GetString("BoskyLegend"), UiLogColor.BoskyLegendIS),
+                        "OldShop" => (LocalizationHelper.GetString("BoskyOldShop"), UiLogColor.BoskyOldShopIS),
+                        "YiTrader" => (LocalizationHelper.GetString("BoskyYiTrader"), UiLogColor.TraderIS),
+                        "Scheme" => (LocalizationHelper.GetString("BoskyScheme"), UiLogColor.BoskySchemeIS),
+                        "Playtime" => (LocalizationHelper.GetString("BoskyPlaytime"), UiLogColor.BoskyPlaytimeIS),
+                        "Doubts" => (LocalizationHelper.GetString("BoskyDoubts"), UiLogColor.BoskyDoubtsIS),
+                        "Disaster" => (LocalizationHelper.GetString("BoskyDisaster"), UiLogColor.EmergencyIS),
+                        _ => (nodeType ?? "Unknown", UiLogColor.EventIS),
+                    };
+
+                    Instances.TaskQueueViewModel.AddLog(localizedNodeType, logColor);
+                    break;
+                }
+
             case "EncounterOcrError":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
                 break;
+
+            case "RoguelikeJieGardenTargetFound":
+                {
+                    var targetSubtype = subTaskDetails!["target_subtype"]?.ToString();
+                    var localizedTarget = targetSubtype switch
+                    {
+                        "Ling" => LocalizationHelper.GetString("RoguelikePlaytimeLing"),
+                        "Shu" => LocalizationHelper.GetString("RoguelikePlaytimeShu"),
+                        "Nian" => LocalizationHelper.GetString("RoguelikePlaytimeNian"),
+                        _ => targetSubtype ?? "Unknown",
+                    };
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeJieGardenTargetFound"), localizedTarget), UiLogColor.Success);
+                    break;
+                }
 
             case "FoldartalGainOcrNextLevel":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
@@ -1138,6 +1205,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             // 深入探索
             DeepExplorationAutoIterate = RoguelikeDeepExplorationAutoIterate,
+
+            // 刷常乐节点
+            FindPlaytimeTarget = RoguelikeFindPlaytimeTarget,
 
             SamiFirstFloorFoldartal = RoguelikeTheme == Theme.Sami && RoguelikeMode == Mode.Collectible && Roguelike3FirstFloorFoldartal,
             SamiStartFloorFoldartal = Roguelike3FirstFloorFoldartals,

@@ -44,6 +44,8 @@ public class AnnouncementViewModel : Screen
     {
         public string Title { get; set; }
 
+        public bool IsNew { get; set; }
+
         public string Content { get; set; }
     }
 
@@ -85,13 +87,22 @@ public class AnnouncementViewModel : Screen
 
     private static ObservableCollection<AnnouncementSection> ParseAnnouncementInfo(string markdown)
     {
+        const string NewString = "(NEW!!!)";
         var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
             .Select(section =>
             {
                 var lines = section.Split('\n');
+                bool isNew = false;
+                if (lines.Length > 0 && lines[0].Contains(NewString, StringComparison.OrdinalIgnoreCase))
+                {
+                    isNew = true;
+                    lines[0] = lines[0].Replace(NewString, string.Empty, StringComparison.OrdinalIgnoreCase).Trim();
+                }
+
                 return new AnnouncementSection
                 {
                     Title = lines.FirstOrDefault(),
+                    IsNew = isNew,
                     Content = "### " + string.Join("\n", lines).Trim([' ', '\n', '-']),
                 };
             }).ToList();
@@ -99,7 +110,7 @@ public class AnnouncementViewModel : Screen
         sections.Insert(0, new()
         {
             Title = "ALL~ the Announcements",
-            Content = markdown,
+            Content = markdown.Replace(NewString, string.Empty, StringComparison.OrdinalIgnoreCase).Trim(),
         });
 
         return [.. sections];

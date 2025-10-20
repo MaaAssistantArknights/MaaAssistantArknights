@@ -1,67 +1,67 @@
 {
     "theme": "JieGarden",
-    "node": [
+    "nodes": [
         {
             "type": "CombatOps",
-            "template": ["JieGarden@Roguelike@MapNodeCombatOps.png", "JieGarden@Roguelike@MapNodeCombatOpsGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-CombatOps.png", "JieGarden@RoguelikeMapNode-CombatOpsGrey.png"]
         },
         {
             "type": "EmergencyOps",
             "template": [
-                "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-                "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png"
+                "JieGarden@RoguelikeMapNode-EmergencyOps.png",
+                "JieGarden@RoguelikeMapNode-EmergencyOpsGrey.png"
             ]
         },
         {
             "type": "Encounter",
-            "template": ["JieGarden@Roguelike@MapNodeEncounter.png", "JieGarden@Roguelike@MapNodeEncounterGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Encounter.png", "JieGarden@RoguelikeMapNode-EncounterGrey.png"]
         },
         {
             "type": "Boons",
-            "template": ["JieGarden@Roguelike@MapNodeBoons.png", "JieGarden@Roguelike@MapNodeBoonsGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Boons.png", "JieGarden@RoguelikeMapNode-BoonsGrey.png"]
         },
         {
             "type": "RogueTrader",
-            "template": ["JieGarden@Roguelike@MapNodeRogueTrader.png", "JieGarden@Roguelike@MapNodeRogueTraderGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-RogueTrader.png", "JieGarden@RoguelikeMapNode-RogueTraderGrey.png"]
         },
         {
             "type": "BoskyPassage",
             "template": [
-                "JieGarden@Roguelike@MapNodeBoskyPassage.png",
-                "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
+                "JieGarden@RoguelikeMapNode-BoskyPassage.png",
+                "JieGarden@RoguelikeMapNode-BoskyPassageGrey.png"
             ]
         },
         {
             "type": "Legend",
-            "template": ["JieGarden@Roguelike@MapNodeLegend.png", "JieGarden@Roguelike@MapNodeLegendGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Legend.png", "JieGarden@RoguelikeMapNode-LegendGrey.png"]
         },
         {
             "type": "Omissions",
-            "template": ["JieGarden@Roguelike@MapNodeOmissions.png", "JieGarden@Roguelike@MapNodeOmissionsGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Omissions.png", "JieGarden@RoguelikeMapNode-OmissionsGrey.png"]
         },
         {
             "type": "Doubts",
-            "template": ["JieGarden@Roguelike@MapNodeDoubts.png", "JieGarden@Roguelike@MapNodeDoubtsGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Doubts.png", "JieGarden@RoguelikeMapNode-DoubtsGrey.png"]
         },
         {
             "type": "Disaster",
-            "template": ["JieGarden@Roguelike@MapNodeDisaster.png", "JieGarden@Roguelike@MapNodeDisasterGrey.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Disaster.png", "JieGarden@RoguelikeMapNode-DisasterGrey.png"]
         },
         {
             "type": "Playtime",
-            "template": ["JieGarden@Roguelike@MapNodePlaytime.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Playtime.png"]
         },
         {
             "type": "OldShop",
-            "template": ["JieGarden@Roguelike@MapNodeOldShop.png"]
+            "template": ["JieGarden@RoguelikeMapNode-OldShop.png"]
         },
         {
             "type": "YiTrader",
-            "template": ["JieGarden@Roguelike@MapNodeYiTrader.png"]
+            "template": ["JieGarden@RoguelikeMapNode-YiTrader.png"]
         },
         {
             "type": "Scheme",
-            "template": ["JieGarden@Roguelike@MapNodeScheme.png"]
+            "template": ["JieGarden@RoguelikeMapNode-Scheme.png"]
         }
     ]
 }
