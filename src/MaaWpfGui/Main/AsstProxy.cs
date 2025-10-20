@@ -23,7 +23,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -1157,7 +1156,7 @@ public class AsstProxy
         }
     }
 
-    private void ProcSubTaskMsg(AsstMsg msg, JObject details)
+    private static void ProcSubTaskMsg(AsstMsg msg, JObject details)
     {
         // 下面几行注释暂时没用到，先注释起来...
         // string taskChain = details["taskchain"].ToString();
@@ -1215,7 +1214,7 @@ public class AsstProxy
         }
     }
 
-    private void ProcSubTaskError(JObject details)
+    private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
         AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
@@ -1245,7 +1244,7 @@ public class AsstProxy
                     var why = details["why"]!.ToString();
 
                     // 剿灭放弃上传企鹅物流的特殊处理
-                    _tasksStatus.TryGetValue(taskId, out var value);
+                    Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
                     if (value is { Type: TaskType.Fight } && TaskQueueViewModel.FightTask.Stage == "Annihilation")
                     {
                         Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
