@@ -95,6 +95,23 @@ Mobile screen resolution is specified as `short edge × long edge`, not `long ed
 Strongly recommended to restore the default resolution **before** restarting your device. Otherwise, depending on your device, unpredictable consequences may occur, ~~including layout chaos, touch misalignment, app crashes, inability to unlock, etc~~.
 :::
 
+::: danger Warning
+
+It is known that the `Account Switching` feature may not work properly on some physical devices. MAA primarily works in PC emulator environments, so there are no plans to fix this issue.
+
+If you encounter this problem, you can modify the screen density (DPI) through any of the following methods (recommended value range: `[100-800]`):
+
+- Use the command `adb shell wm density <DPI>` to directly modify the DPI
+- Adjust `Developer Options → Minimum Width` to indirectly modify the DPI by changing the `Minimum Width`
+
+  Note: `DPI` and `Minimum Width` are inversely proportional, with the conversion formula: `Minimum Width = Screen Width(px) / (DPI / 160)`
+
+**Be aware that this operation carries risks and may cause the device to malfunction. Please ensure you know what you are doing. You are responsible for any device failures.**
+
+It is strongly recommended to revert these changes **before the next device reboot**. If you forget the default values, regardless of which method was used to modify them, you can always use the command `adb shell wm density reset` to restore them.
+
+:::
+
 ## Automate Resolution Changes
 
 1. Create two text files in the MAA directory with the following content:
