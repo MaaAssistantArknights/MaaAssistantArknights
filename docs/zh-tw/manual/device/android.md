@@ -100,8 +100,8 @@ icon: mingcute:android-fill
 
 如果你遇到這個問題，可以透過以下任意一種方式調整顯示 DPI（建議取值為 `[100–800]`）：
 
-- 使用指令 `adb shell wm density <DPI>` 直接修改 DPI  
-- 調整 `開發人員選項 → 最小寬度`，透過修改 `最小寬度` 間接改變 DPI  
+- 使用指令 `adb shell wm density <DPI>` 直接修改 DPI
+- 調整 `開發人員選項 → 最小寬度`，透過修改 `最小寬度` 間接改變 DPI
 
   注：`DPI` 與 `最小寬度` 呈反比，換算關係為 `最小寬度 = 螢幕寬度(px) / (DPI / 160)`
 
