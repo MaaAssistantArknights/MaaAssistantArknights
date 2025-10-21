@@ -17,14 +17,14 @@ bool asst::RoguelikeCoppersConfig::parse(const json::value& json)
         copper.name = copper_json.at("name").as_string();
 
         // 解析稀有度
-        if (const std::string& rarity_str = copper_json.at("rarity").as_string(); rarity_str == "mid") {
-            copper.rarity = CopperRarity::Mid;
+        if (const std::string& rarity_str = copper_json.at("rarity").as_string(); rarity_str == "RARE") {
+            copper.rarity = CopperRarity::RARE;
         }
-        else if (rarity_str == "high") {
-            copper.rarity = CopperRarity::High;
+        else if (rarity_str == "SUPER_RARE") {
+            copper.rarity = CopperRarity::SUPER_RARE;
         }
         else {
-            copper.rarity = CopperRarity::Low;
+            copper.rarity = CopperRarity::NORMAL;
         }
 
         copper.type = get_type_from_name(copper.name);
