@@ -344,6 +344,8 @@ public class TaskQueueViewModel : Screen
         });
     }
 
+
+
     protected override void OnInitialActivate()
     {
         base.OnInitialActivate();
@@ -1161,8 +1163,6 @@ public class TaskQueueViewModel : Screen
         }
     }
 
-    private DateTime? _taskStartTime;
-
     /// <summary>
     /// Starts.
     /// </summary>
@@ -1174,8 +1174,7 @@ public class TaskQueueViewModel : Screen
             _logger.Information("Not idle, return.");
             return;
         }
-
-        _taskStartTime = DateTime.Now;
+        // _runningState.StartTimeoutTimer() 会在 SetIdle(false) 时自动调用，不需要在这里记录时间
 
         ClearLog();
 
@@ -1354,16 +1353,7 @@ public class TaskQueueViewModel : Screen
         _ = Stop();
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.TacticalRetreat);
 
-        if (_taskStartTime is null)
-        {
-            return;
-        }
-
-        var duration = DateTime.Now - _taskStartTime.Value;
-        if (duration.TotalSeconds < 5)
-        {
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.TaskStartCancel);
-        }
+        // 移除冗余的时间计算，RunningState已经负责任务开始时间的管理
     }
 
     /// <summary>

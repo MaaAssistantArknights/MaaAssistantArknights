@@ -61,7 +61,7 @@ public class RunningState
     private readonly System.Timers.Timer _timeoutReminderTimer = new();
     private DateTime? _taskStartTime;
 
-    public int TaskTimeoutMinutes { get; set; } = SettingsViewModel.GameSettings.TaskTimeoutMinutes;
+    public int TaskTimeoutMinutes { get; set; } = SettingsViewModel.GameSettings.MaxTaskDurationHours * 60;
 
     private int _reminderIntervalMinutes = SettingsViewModel.GameSettings.ReminderIntervalMinutes;
 
@@ -81,7 +81,7 @@ public class RunningState
         }
     }
 
-    // 超时事件
+    // 超时提醒事件
     public event EventHandler<string>? TimeoutOccurred;
 
     public void StartTimeoutTimer()
@@ -130,7 +130,16 @@ public class RunningState
 
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.LongTaskTimeout);
 
+        // 触发超时提醒事件
         TimeoutOccurred?.Invoke(this, message);
+        
+        // 检查最大任务持续时间并停止任务
+        var maxDurationHours = ConfigurationHelper.GetValue(ConfigurationKeys.MaxTaskDurationHours, 9999);
+        if (maxDurationHours > 0)
+        {
+            _logger.Warning("Task exceeded maximum duration, stopping...");
+            Stopping = true;
+        }
     }
 
     private bool _idle = true;
