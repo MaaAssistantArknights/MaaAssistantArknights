@@ -21,6 +21,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -31,7 +33,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using Windows.ApplicationModel;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Services.RemoteControl;
@@ -377,7 +378,7 @@ public class RemoteControlService
                         Instances.TaskQueueViewModel.AddLog(startLogStr);
                         await Execute.OnUIThreadAsync(() =>
                         {
-                           _ = Instances.TaskQueueViewModel.LinkStart();
+                            _ = Instances.TaskQueueViewModel.LinkStart();
                         });
                         await _runningState.UntilIdleAsync();
 
@@ -609,8 +610,8 @@ public class RemoteControlService
         await Execute.OnUIThreadAsync(async () =>
         {
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
-            Instances.TaskQueueViewModel.TaskItemSelectionChanged();
-            TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
+            // Instances.TaskQueueViewModel.TaskItemSelectionChanged();
+            // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
 
             InvokeInstanceMethod(Instances.TaskQueueViewModel, "ClearLog");
 
@@ -647,36 +648,108 @@ public class RemoteControlService
                 switch (item)
                 {
                     case "Base":
-                        taskRet &= Instances.TaskQueueViewModel.AppendInfrast();
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<InfrastTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= InfrastSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "WakeUp":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.StartUp, StartUpSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<StartUpTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= StartUpSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Combat":
-                        taskRet &= Instances.TaskQueueViewModel.AppendFight();
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= FightSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Recruiting":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Recruit, RecruitSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RecruitTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= RecruitSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Mall":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Mall, MallSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<MallTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= MallSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Mission":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Award, AwardSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<AwardTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= AwardSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "AutoRoguelike":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Roguelike, RoguelikeSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<RoguelikeTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= RoguelikeSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     case "Reclamation":
-                        taskRet &= Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Reclamation, ReclamationSettingsUserControlModel.Instance.Serialize());
-                        break;
+                        {
+                            var tasks = ConfigFactory.CurrentConfig.TaskQueue.OfType<ReclamationTask>().ToList();
+                            if (tasks.Count == 1)
+                            {
+                                taskRet &= ReclamationSettingsUserControlModel.Instance.SerializeTask(tasks[0]) ?? false;
+                                break;
+                            }
+
+                            taskRet = false;
+                            break;
+                        }
 
                     default:
                         --count;

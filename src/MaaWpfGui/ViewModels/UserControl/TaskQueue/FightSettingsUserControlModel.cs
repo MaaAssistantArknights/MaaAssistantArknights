@@ -18,8 +18,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
+using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities;
@@ -28,13 +30,14 @@ using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
+using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 /// <summary>
 /// 刷理智
 /// </summary>
-public class FightSettingsUserControlModel : TaskViewModel
+public class FightSettingsUserControlModel : TaskSettingsViewModel
 {
     public static FightTimes? FightReport { get; set; }
 
@@ -47,24 +50,11 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public static FightSettingsUserControlModel Instance { get; }
 
-    private ObservableCollection<CombinedData> _stageList = [];
-
     /// <summary>
     /// Gets or private sets the list of stages.
     /// </summary>
-    public ObservableCollection<CombinedData> StageList
-    {
-        get => _stageList;
-        private set => SetAndNotify(ref _stageList, value);
-    }
-
-    private ObservableCollection<CombinedData> _remainingSanityStageList = [];
-
-    public ObservableCollection<CombinedData> RemainingSanityStageList
-    {
-        get => _remainingSanityStageList;
-        private set => SetAndNotify(ref _remainingSanityStageList, value);
-    }
+    public ObservableCollection<CombinedData> StageList =>
+        new(GetTaskConfig<FightTask>().StageList.Select<FightTask.Stage, CombinedData>(t => new() { Display = t.Display, Value = t.Value }));
 
     /// <summary>
     /// Gets the stage.
@@ -73,7 +63,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     {
         get
         {
-            Stage1 ??= _stage1Fallback;
+            Stage1 ??= Stage1Fallback;
 
             if (!UseAlternateStage)
             {
@@ -117,22 +107,19 @@ public class FightSettingsUserControlModel : TaskViewModel
             { "炭", "SK-5" },
         };
 
-    public string?[] Stages => [Stage1, Stage2, Stage3, Stage4];
-
     // Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
-    private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
-
-    private string? _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
+    public string Stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage1.
     /// </summary>
-    public string? Stage1
+    public string Stage1
     {
-        get => _stage1;
+        get => GetTaskConfig<FightTask>().Stage1;
         set
         {
-            if (_stage1 == value)
+            var stage = GetTaskConfig<FightTask>().Stage1;
+            if (stage == value)
             {
                 return;
             }
@@ -140,176 +127,122 @@ public class FightSettingsUserControlModel : TaskViewModel
             if (CustomStageCode)
             {
                 // 从后往前删
-                if (_stage1?.Length != 3 && value != null)
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage1, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage1, value);
+            SetTaskConfig<FightTask>(t => t.Stage1 == value, t => t.Stage1 = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
-
-    private string? _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage2.
     /// </summary>
-    public string? Stage2
+    public string Stage2
     {
-        get => _stage2;
+        get => GetTaskConfig<FightTask>().Stage2;
         set
         {
-            if (_stage2 == value)
+            var stage = GetTaskConfig<FightTask>().Stage2;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage2?.Length != 3 && value != null)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage2, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage2, value);
+            SetTaskConfig<FightTask>(t => t.Stage2 == value, t => t.Stage2 = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
-
-    private string? _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage3.
     /// </summary>
-    public string? Stage3
+    public string Stage3
     {
-        get => _stage3;
+        get => GetTaskConfig<FightTask>().Stage3;
         set
         {
-            if (_stage3 == value)
+            var stage = GetTaskConfig<FightTask>().Stage3;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage3?.Length != 3 && value != null)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage3, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage3, value);
+            SetTaskConfig<FightTask>(t => t.Stage3 == value, t => t.Stage3 = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
-
-    private string? _stage4 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage4, string.Empty) ?? string.Empty;
 
     /// <summary>
     /// Gets or sets the stage4.
     /// </summary>
-    public string? Stage4
+    public string Stage4
     {
-        get => _stage4;
+        get => GetTaskConfig<FightTask>().Stage4;
         set
         {
-            if (_stage4 == value)
+            var stage = GetTaskConfig<FightTask>().Stage4;
+            if (stage == value)
             {
                 return;
             }
 
             if (CustomStageCode)
             {
-                if (_stage4?.Length != 3 && value != null)
+                // 从后往前删
+                if (stage.Length != 3)
                 {
                     value = ToUpperAndCheckStage(value);
                 }
             }
 
-            SetAndNotify(ref _stage4, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.Stage4, value);
+            SetTaskConfig<FightTask>(t => t.Stage4 == value, t => t.Stage4 = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
             Instances.TaskQueueViewModel.UpdateDatePrompt();
         }
     }
-
-    private bool _useRemainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true);
-
-    public bool UseRemainingSanityStage
-    {
-        get => _useRemainingSanityStage;
-        set
-        {
-            SetAndNotify(ref _useRemainingSanityStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
-        }
-    }
-
-    private bool _customStageCode = ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom stage code.
     /// </summary>
     public bool CustomStageCode
     {
-        get => _customStageCode;
+        get => GetTaskConfig<FightTask>().IsStageManually;
         set
         {
             if (!value)
             {
-                RemoveNonExistStage();
+                Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+                Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+                Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
             }
 
-            SetAndNotify(ref _customStageCode, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
-        }
-    }
-
-    /// <summary>
-    /// 移除不在关卡列表中的关卡，关闭自定义和刷新关卡列表时调用
-    /// </summary>
-    public void RemoveNonExistStage()
-    {
-        Stage1 = StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
-        Stage2 = StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
-        Stage3 = StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
-        Stage4 = StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
-        RemainingSanityStage = RemainingSanityStageList.FirstOrDefault(x => x.Value == RemainingSanityStage)?.Value ?? string.Empty;
-    }
-
-    private string? _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
-
-    public string? RemainingSanityStage
-    {
-        get => _remainingSanityStage;
-        set
-        {
-            if (_remainingSanityStage == value)
-            {
-                return;
-            }
-
-            if (CustomStageCode)
-            {
-                if (_remainingSanityStage?.Length != 3 && value != null)
-                {
-                    value = ToUpperAndCheckStage(value);
-                }
-            }
-
-            SetAndNotify(ref _remainingSanityStage, value);
-            TaskQueueViewModel.SetFightRemainingSanityParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.RemainingSanityStage, value);
+            SetTaskConfig<FightTask>(t => t.IsStageManually == value, t => t.IsStageManually = value);
         }
     }
 
@@ -324,45 +257,42 @@ public class FightSettingsUserControlModel : TaskViewModel
         IsSpecifiedDrops ??= false;
     }
 
-    private bool? _useMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, false);
-
     /// <summary>
     /// Gets or sets a value indicating whether to use medicine with null.
     /// </summary>
     public bool? UseMedicine
     {
-        get => _useMedicine;
+        get => GetTaskConfig<FightTask>().UseMedicine;
         set
         {
-            SetAndNotify(ref _useMedicine, value);
+            if (!SetTaskConfig<FightTask>(t => t.UseMedicine == value, t => t.UseMedicine = value))
+            {
+                return;
+            }
+
             if (value == false)
             {
                 UseStoneDisplay = false;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
-
-    private int _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, 999);
 
     /// <summary>
     /// Gets or sets the amount of medicine used.
     /// </summary>
     public int MedicineNumber
     {
-        get => _medicineNumber;
+        get => GetTaskConfig<FightTask>().MedicineCount;
         set
         {
-            if (!SetAndNotify(ref _medicineNumber, value))
+            if (!SetTaskConfig<FightTask>(t => t.MedicineCount == value, t => t.MedicineCount = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
@@ -376,7 +306,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool? UseStone
     {
-        get => _useStone;
+        get => GetTaskConfig<FightTask>().UseStone;
         set
         {
             if (!AllowUseStoneSave && value == true)
@@ -384,7 +314,6 @@ public class FightSettingsUserControlModel : TaskViewModel
                 value = null;
             }
 
-            SetAndNotify(ref _useStone, value);
             if (value != false)
             {
                 MedicineNumber = 999;
@@ -394,10 +323,10 @@ public class FightSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            if (AllowUseStoneSave)
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
+            if (GetTaskConfig<FightTask>().UseStoneAllowSave)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseStone, (value ?? false).ToString());
+                SetTaskConfig<FightTask>(t => t.UseStone == value, t => t.UseStone = value);
             }
         }
     }
@@ -413,60 +342,54 @@ public class FightSettingsUserControlModel : TaskViewModel
         set => UseStone = value;
     }
 
-    private int _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, 0);
-
     /// <summary>
     /// Gets or sets the amount of originiums used.
     /// </summary>
     public int StoneNumber
     {
-        get => _stoneNumber;
+        get => GetTaskConfig<FightTask>().StoneCount;
         set
         {
-            if (!SetAndNotify(ref _stoneNumber, value))
+            if (!SetTaskConfig<FightTask>(t => t.StoneCount == value, t => t.StoneCount = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
-
-    private bool? _hasTimesLimited = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the number of times is limited with null.
     /// </summary>
     public bool? HasTimesLimited
     {
-        get => _hasTimesLimited;
+        get => GetTaskConfig<FightTask>().EnableTimesLimit;
         set
         {
-            SetAndNotify(ref _hasTimesLimited, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimited, value.ToString());
+            if (!SetTaskConfig<FightTask>(t => t.EnableTimesLimit == value, t => t.EnableTimesLimit = value))
+            {
+                return;
+            }
+
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
-
-    private int _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, 5);
 
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
     public int MaxTimes
     {
-        get => _maxTimes;
+        get => GetTaskConfig<FightTask>().TimesLimit;
         set
         {
-            if (!SetAndNotify(ref _maxTimes, value))
+            if (!SetTaskConfig<FightTask>(t => t.TimesLimit == value, t => t.TimesLimit = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
@@ -482,58 +405,39 @@ public class FightSettingsUserControlModel : TaskViewModel
         { LocalizationHelper.GetString("NotSwitch"), -1 },
     };
 
-    private int _series = InitFightSeries();
-
-    private static int InitFightSeries()
-    {
-        var series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, 0);
-        if (SeriesList.ContainsValue(series))
-        {
-            return series;
-        }
-
-        ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, "0");
-        return 0;
-    }
-
     /// <summary>
     /// Gets or sets the max number of times.
     /// </summary>
     public int Series
     {
-        get => _series;
+        get => GetTaskConfig<FightTask>().Series;
         set
         {
-            if (!SetAndNotify(ref _series, value))
+            if (!SetTaskConfig<FightTask>(t => t.Series == value, t => t.Series = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
     #region Drops
-
-    private bool? _isSpecifiedDrops = ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the drops are specified.
     /// </summary>
     public bool? IsSpecifiedDrops
     {
-        get => _isSpecifiedDrops;
+        get => GetTaskConfig<FightTask>().EnableTargetDrop;
         set
         {
-            if (!SetAndNotify(ref _isSpecifiedDrops, value))
+            if (!SetTaskConfig<FightTask>(t => t.EnableTargetDrop == value, t => t.EnableTargetDrop = value))
             {
                 return;
             }
 
-            Instances.TaskQueueViewModel.SetFightParams();
-            value ??= false;
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
@@ -563,7 +467,7 @@ public class FightSettingsUserControlModel : TaskViewModel
         "30165", // 重相位对映体
     ];
 
-    public void InitDrops()
+    private void InitDrops()
     {
         AllDrops.Add(new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty });
         foreach (var (val, value) in ItemListHelper.ArkItems)
@@ -604,19 +508,16 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public ObservableCollection<CombinedData> DropsList { get; private set; } = [];
 
-    private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty) ?? string.Empty;
-
     /// <summary>
     /// Gets or sets the item ID of drops.
     /// </summary>
     public string DropsItemId
     {
-        get => _dropsItemId;
+        get => GetTaskConfig<FightTask>().DropId;
         set
         {
-            SetAndNotify(ref _dropsItemId, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemId, DropsItemId);
+            SetTaskConfig<FightTask>(t => t.DropId == value, t => t.DropId = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
@@ -641,19 +542,16 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private int _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, 5);
-
     /// <summary>
     /// Gets or sets the quantity of drops.
     /// </summary>
     public int DropsQuantity
     {
-        get => _dropsQuantity;
+        get => GetTaskConfig<FightTask>().DropCount;
         set
         {
-            SetAndNotify(ref _dropsQuantity, value);
-            Instances.TaskQueueViewModel.SetFightParams();
-            ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
+            SetTaskConfig<FightTask>(t => t.DropCount == value, t => t.DropCount = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
 
@@ -667,57 +565,36 @@ public class FightSettingsUserControlModel : TaskViewModel
         { LocalizationHelper.GetString("LungmenDowntown"), "LungmenDowntown@Annihilation" },
     };
 
-    private bool _useCustomAnnihilation = ConfigurationHelper.GetValue(ConfigurationKeys.UseCustomAnnihilation, false);
-
     public bool UseCustomAnnihilation
     {
-        get => _useCustomAnnihilation;
-        set
-        {
-            SetAndNotify(ref _useCustomAnnihilation, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().UseCustomAnnihilation;
+        set => SetTaskConfig<FightTask>(t => t.UseCustomAnnihilation == value, t => t.UseCustomAnnihilation = value);
     }
-
-    private string _annihilationStage = ConfigurationHelper.GetValue(ConfigurationKeys.AnnihilationStage, "Annihilation");
 
     public string AnnihilationStage
     {
-        get => _annihilationStage;
-        set
-        {
-            SetAndNotify(ref _annihilationStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
-        }
+        get => GetTaskConfig<FightTask>().AnnihilationStage;
+        set => SetTaskConfig<FightTask>(t => t.AnnihilationStage == value, t => t.AnnihilationStage = value);
     }
-
-    private bool _isDrGrandet = ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use DrGrandet mode.
     /// </summary>
     public bool IsDrGrandet
     {
-        get => _isDrGrandet;
-        set
-        {
-            SetAndNotify(ref _isDrGrandet, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.IsDrGrandet, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().IsDrGrandet;
+        set => SetTaskConfig<FightTask>(t => t.IsDrGrandet == value, t => t.IsDrGrandet = value);
     }
-
-    private bool _useAlternateStage = ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to use alternate stage.
     /// </summary>
     public bool UseAlternateStage
     {
-        get => _useAlternateStage;
+        get => GetTaskConfig<FightTask>().UseOptionalStage;
         set
         {
-            SetAndNotify(ref _useAlternateStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
+            SetTaskConfig<FightTask>(t => t.UseOptionalStage == value, t => t.UseOptionalStage = value);
             if (value)
             {
                 HideUnavailableStage = false;
@@ -725,11 +602,9 @@ public class FightSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool _allowUseStoneSave = ConfigurationHelper.GetValue(ConfigurationKeys.AllowUseStoneSave, false);
-
     public bool AllowUseStoneSave
     {
-        get => _allowUseStoneSave;
+        get => GetTaskConfig<FightTask>().UseStoneAllowSave;
         set
         {
             if (value)
@@ -748,59 +623,45 @@ public class FightSettingsUserControlModel : TaskViewModel
                 }
             }
 
-            SetAndNotify(ref _allowUseStoneSave, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.AllowUseStoneSave, value.ToString());
+            SetTaskConfig<FightTask>(t => t.UseStoneAllowSave == value, t => t.UseStoneAllowSave = value);
         }
     }
-
-    private bool _useExpiringMedicine = ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, false);
 
     public bool UseExpiringMedicine
     {
-        get => _useExpiringMedicine;
+        get => GetTaskConfig<FightTask>().UseExpiringMedicine;
         set
         {
-            SetAndNotify(ref _useExpiringMedicine, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
-            Instances.TaskQueueViewModel.SetFightParams();
+            SetTaskConfig<FightTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
+            SerializeTask(TaskSettingVisibilityInfo.CurrentTask, TaskSettingVisibilityInfo.CurrentTask.TaskId);
         }
     }
-
-    private bool _hideUnavailableStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, bool.TrueString));
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide unavailable stages.
     /// </summary>
     public bool HideUnavailableStage
     {
-        get => _hideUnavailableStage;
+        get => GetTaskConfig<FightTask>().HideUnavailableStage;
         set
         {
-            SetAndNotify(ref _hideUnavailableStage, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
-
+            SetTaskConfig<FightTask>(t => t.HideUnavailableStage == value, t => t.HideUnavailableStage = value);
             if (value)
             {
                 UseAlternateStage = false;
             }
 
-            UpdateStageList();
+            UpdateStageList(GetTaskConfig<FightTask>());
         }
     }
-
-    private bool _hideSeries = ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, false);
 
     /// <summary>
     /// Gets or sets a value indicating whether to hide series.
     /// </summary>
     public bool HideSeries
     {
-        get => _hideSeries;
-        set
-        {
-            SetAndNotify(ref _hideSeries, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
-        }
+        get => GetTaskConfig<FightTask>().HideSeries;
+        set => SetTaskConfig<FightTask>(t => t.HideSeries == value, t => t.HideSeries = value);
     }
 
     private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, bool.TrueString));
@@ -844,6 +705,16 @@ public class FightSettingsUserControlModel : TaskViewModel
         return value;
     }
 
+    public override void RefreshUI(BaseTask baseTask)
+    {
+        if (baseTask is FightTask)
+        {
+            InitDrops();
+            Refresh();
+        }
+    }
+
+    [Obsolete]
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var task = new AsstFightTask()
@@ -876,21 +747,48 @@ public class FightSettingsUserControlModel : TaskViewModel
         return task.Serialize();
     }
 
-    #region 双入口设置可见性
-
-    private bool _customInfrastPlanShowInFightSettings = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, false);
-
-    public bool CustomInfrastPlanShowInFightSettings
+    public override bool? SerializeTask(BaseTask baseTask, int? taskId = null)
     {
-        get => _customInfrastPlanShowInFightSettings;
-        set
+        if (baseTask is not FightTask fight)
         {
-            SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
-            ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
+            return null;
         }
-    }
 
-    #endregion
+        var list = new List<string>() { fight.Stage1, fight.Stage2, fight.Stage3, fight.Stage4 };
+        string stage = !fight.UseOptionalStage ? list.First() : (list.FirstOrDefault(Instances.TaskQueueViewModel.IsStageOpen) ?? list.First());
+        var task = new AsstFightTask()
+        {
+            Stage = stage,
+            Medicine = fight.UseMedicine != false ? fight.MedicineCount : 0,
+            Stone = fight.UseStone != false ? fight.StoneCount : 0,
+            Series = fight.Series,
+            MaxTimes = fight.EnableTimesLimit != false ? fight.TimesLimit : int.MaxValue,
+            ExpiringMedicine = fight.UseExpiringMedicine ? 9999 : 0,
+            IsDrGrandet = fight.IsDrGrandet,
+            ReportToPenguin = SettingsViewModel.GameSettings.EnablePenguin,
+            ReportToYituliu = SettingsViewModel.GameSettings.EnableYituliu,
+            PenguinId = SettingsViewModel.GameSettings.PenguinId,
+            YituliuId = SettingsViewModel.GameSettings.PenguinId,
+            ServerType = Instances.SettingsViewModel.ServerType,
+            ClientType = SettingsViewModel.GameSettings.ClientType,
+        };
+
+        if (stage == "Annihilation" && fight.UseCustomAnnihilation)
+        {
+            task.Stage = fight.AnnihilationStage;
+        }
+
+        if (fight.EnableTargetDrop != false && !string.IsNullOrEmpty(fight.DropId))
+        {
+            task.Drops.Add(fight.DropId, fight.DropCount);
+        }
+
+        return taskId switch
+        {
+            int id => Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task),
+            _ => Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Fight, task),
+        };
+    }
 
     #region 关卡列表更新
 
@@ -902,29 +800,25 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// 啥都不选时，更新关卡列表，关卡选择为未开放的关卡时在关卡列表中添加对应未开放关卡，避免清空导致进入上次关卡
     /// 除手动输入外所有情况下，如果剩余理智为未开放的关卡，会被清空
     /// </summary>
+    /// <param name="fight">修改stageList的task</param>
     // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
     // 这个函数被列为public可见，意味着他注入对象前被调用
-    public void UpdateStageList()
+    public void UpdateStageList(FightTask fight)
     {
         Execute.PostToUIThreadAsync(() =>
         {
-            var hideUnavailableStage = HideUnavailableStage;
+            var hideUnavailableStage = fight.HideUnavailableStage;
 
-            Instances.TaskQueueViewModel.EnableSetFightParams = false;
+            var stage1 = fight.Stage1 ?? string.Empty;
+            var stage2 = fight.Stage2 ?? string.Empty;
+            var stage3 = fight.Stage3 ?? string.Empty;
+            var stage4 = fight.Stage4 ?? string.Empty;
 
-            var stage1 = Stage1 ?? string.Empty;
-            var stage2 = Stage2 ?? string.Empty;
-            var stage3 = Stage3 ?? string.Empty;
-            var stage4 = Stage4 ?? string.Empty;
-            var rss = RemainingSanityStage ?? string.Empty;
-
-            var tempStageList = hideUnavailableStage
+            List<CombinedData> tempStageList = hideUnavailableStage
                 ? Instances.StageManager.GetStageList(Instances.TaskQueueViewModel.CurDayOfWeek).ToList()
                 : Instances.StageManager.GetStageList().ToList();
 
-            var tempRemainingSanityStageList = Instances.StageManager.GetStageList().ToList();
-
-            if (CustomStageCode)
+            if (fight.IsStageManually)
             {
                 // 7%
                 // 使用自定义的时候不做处理
@@ -932,73 +826,59 @@ public class FightSettingsUserControlModel : TaskViewModel
             else if (hideUnavailableStage)
             {
                 // 15%
-                stage1 = Instances.TaskQueueViewModel.GetValidStage(stage1);
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                stage1 = Instances.TaskQueueViewModel.IsStageOpen(stage1) ? stage1 : string.Empty;
+                stage2 = Instances.TaskQueueViewModel.IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = Instances.TaskQueueViewModel.IsStageOpen(stage3) ? stage3 : string.Empty;
+                stage4 = Instances.TaskQueueViewModel.IsStageOpen(stage4) ? stage4 : string.Empty;
             }
-            else if (UseAlternateStage)
+            else if (fight.UseOptionalStage)
             {
                 // 11%
-                AddStagesIfNotExist([stage1, stage2, stage3, stage4], tempStageList);
+                AddStagesIfNotExist(tempStageList, stage1, stage2, stage3, stage4);
             }
             else
             {
                 // 啥都没选
-                AddStageIfNotExist(stage1, tempStageList);
+                AddStagesIfNotExist(tempStageList, stage1);
 
                 // 避免关闭了使用备用关卡后，始终添加备用关卡中的未开放关卡
-                stage2 = Instances.TaskQueueViewModel.GetValidStage(stage2);
-                stage3 = Instances.TaskQueueViewModel.GetValidStage(stage3);
-                stage4 = Instances.TaskQueueViewModel.GetValidStage(stage4);
+                stage2 = Instances.TaskQueueViewModel.IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = Instances.TaskQueueViewModel.IsStageOpen(stage3) ? stage3 : string.Empty;
+                stage4 = Instances.TaskQueueViewModel.IsStageOpen(stage4) ? stage4 : string.Empty;
             }
 
-            // rss 如果结束后还选择了不开放的关卡，刷理智任务会报错
-            rss = Instances.TaskQueueViewModel.IsStageOpen(rss) ? rss : string.Empty;
-
-            if (tempRemainingSanityStageList.Any(item => item.Value == string.Empty))
+            fight.StageList = tempStageList.Select<CombinedData, FightTask.Stage>(t => new(t.Display, t.Value)).ToList();
+            if (fight == TaskSettingVisibilityInfo.CurrentTask)
             {
-                var itemToRemove = tempRemainingSanityStageList.First(item => item.Value == string.Empty);
-                tempRemainingSanityStageList.Remove(itemToRemove);
+                NotifyOfPropertyChange(nameof(StageList));
             }
 
-            tempRemainingSanityStageList.Insert(0, new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty });
-
-            UpdateObservableCollection(StageList, tempStageList);
-            UpdateObservableCollection(RemainingSanityStageList, tempRemainingSanityStageList);
-
-            _stage1Fallback = stage1;
-            Stage1 = stage1;
-            Stage2 = stage2;
-            Stage3 = stage3;
-            Stage4 = stage4;
-            RemainingSanityStage = rss;
-            if (!CustomStageCode)
+            fight.Stage1 = stage1;
+            fight.Stage2 = stage2;
+            fight.Stage3 = stage3;
+            fight.Stage4 = stage4;
+            if (!fight.IsStageManually)
             {
-                RemoveNonExistStage();
+                Stage1 = fight.StageList.FirstOrDefault(x => x.Value == Stage1)?.Value ?? string.Empty;
+                Stage2 = fight.StageList.FirstOrDefault(x => x.Value == Stage2)?.Value ?? string.Empty;
+                Stage3 = fight.StageList.FirstOrDefault(x => x.Value == Stage3)?.Value ?? string.Empty;
+                Stage4 = fight.StageList.FirstOrDefault(x => x.Value == Stage4)?.Value ?? string.Empty;
             }
-
-            Instances.TaskQueueViewModel.EnableSetFightParams = true;
         });
     }
 
-    private void AddStagesIfNotExist(IEnumerable<string> stages, List<CombinedData> stageList)
+    private void AddStagesIfNotExist(List<CombinedData> stageList, params string[] stages)
     {
         foreach (var stage in stages)
         {
-            AddStageIfNotExist(stage, stageList);
-        }
-    }
+            if (stageList.Any(x => x.Value == stage))
+            {
+                return;
+            }
 
-    private void AddStageIfNotExist(string stage, List<CombinedData> stageList)
-    {
-        if (stageList.Any(x => x.Value == stage))
-        {
-            return;
+            var stageInfo = Instances.StageManager.GetStageInfo(stage);
+            stageList.Add(stageInfo);
         }
-
-        var stageInfo = Instances.StageManager.GetStageInfo(stage);
-        stageList.Add(stageInfo);
     }
 
     /// <summary>
