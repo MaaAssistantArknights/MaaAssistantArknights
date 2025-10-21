@@ -5197,5 +5197,9 @@
     "resource/template/Roguelike/routing/JieGarden/BoskyPassage/JieGarden@RoguelikeMapNode-Scheme": "5e1652b841d08628aae72116b648f1820ac58b85b26e0aa94ecb7e961af42911",
     "resource/template/Roguelike/routing/JieGarden/BoskyPassage/JieGarden@RoguelikeMapNode-YiTrader": "715e2e2eb1d66d7788974dfbea7f4b64203f6772644118f990bbef6624dd87bc",
     "resource/template/Roguelike/routing/JieGarden/BoskyPassage/JieGarden@RoguelikeMapNode-Doubts": "8ef0bd6dfff3a172d8512d4331992806f690cf2e2eb2ed35e338e4734458c71a",
-    "resource/template/Roguelike/base/RoguelikeRecruit-GiveUp": "74db74a0780b0e8e33100b995bf137b401647d3f739a5609bc1e5e918bc49aba"
+    "resource/template/Roguelike/base/RoguelikeRecruit-GiveUp": "74db74a0780b0e8e33100b995bf137b401647d3f739a5609bc1e5e918bc49aba",
+    "official/SwitchTheme@SelectLightTheme": "8fb11654d16f68ed05076aba2486b1413d1f3550997fffc08b13459e6c887505",
+    "official/SwitchTheme@ConfirmThemeChange": "9ba7629b022c8fc91cf49744110e5cf886293bbc41096b54ea29cb9efca9de64",
+    "official/SwitchTheme@ChangeTheme": "28451b65af3f9955467421dbc7db6d2da3ce2f070926a118795ad917264cb499",
+    "official/SwitchTheme@ToggleSettingsMenu": "ea2816b96ff11be8c0b08bb266a94402ac58bc18559a8a7258303605de2521cf"
 }
