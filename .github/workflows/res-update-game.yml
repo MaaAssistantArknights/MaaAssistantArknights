@@ -209,7 +209,7 @@ jobs:
       - name: Delay for txwy
         if: steps.download-txwy.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -229,7 +229,7 @@ jobs:
       - name: Delay for Overseas
         if: steps.download-overseas.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download Overseas
         if: steps.download-overseas.outcome == 'failure'
@@ -249,7 +249,7 @@ jobs:
       - name: Delay for Official
         if: steps.download-official.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download Official
         if: steps.download-official.outcome == 'failure'
