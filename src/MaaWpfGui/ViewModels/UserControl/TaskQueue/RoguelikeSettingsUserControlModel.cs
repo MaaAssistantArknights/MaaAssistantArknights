@@ -672,7 +672,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     public bool RoguelikeInvestmentEnabled
     {
         get => GetTaskConfig<RoguelikeTask>().Investment;
-        set => SetTaskConfig<RoguelikeTask>(t => t.Investment == value, t => t.Investment = value);        }
+        set => SetTaskConfig<RoguelikeTask>(t => t.Investment == value, t => t.Investment = value);
     }
 
     /// <summary>
@@ -681,7 +681,7 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     public bool RoguelikeInvestmentWithMoreScoreRaw
     {
         get => GetTaskConfig<RoguelikeTask>().InvestWithMoreScore;
-        set => SetTaskConfig<RoguelikeTask>(t => t.InvestWithMoreScore == value, t => t.InvestWithMoreScore = value);        }
+        set => SetTaskConfig<RoguelikeTask>(t => t.InvestWithMoreScore == value, t => t.InvestWithMoreScore = value);
     }
 
     /// <summary>
@@ -773,12 +773,12 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
     /// <summary>
     /// Gets the list of available playtime target options for FindPlaytime mode.
     /// </summary>
-    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } = new()
-    {
+    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } =
+    [
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeLing"), Value = RoguelikeBoskySubNodeType.Ling },
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeShu"), Value = RoguelikeBoskySubNodeType.Shu },
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeNian"), Value = RoguelikeBoskySubNodeType.Nian },
-    };
+    ];
 
     /// <summary>
     /// Gets a value indicating whether the FindPlaytime target selection should be visible.
@@ -1168,3 +1168,4 @@ public class RoguelikeSettingsUserControlModel : TaskSettingsViewModel
         };
     }
 }
+

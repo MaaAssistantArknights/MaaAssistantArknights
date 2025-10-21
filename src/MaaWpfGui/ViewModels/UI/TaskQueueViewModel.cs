@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -61,7 +62,7 @@ public class TaskQueueViewModel : Screen
     /// <summary>
     /// Gets or private sets the view models of task items.
     /// </summary>
-    public ObservableCollection<TaskItemViewModelmViewModel> TaskItemViewModels { get; private set; } = [];
+    public ObservableCollection<TaskItemViewModel> TaskItemViewModels { get; private set; } = [];
 
     /// <summary>
     /// Gets the visibility of task setting views.
@@ -780,6 +781,7 @@ public class TaskQueueViewModel : Screen
     {
         var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
+        // Closed activity stages
         // TODO 依旧需要修复
         // [Stage1, Stage2, Stage3, Stage4]
         foreach (var stage in new[] { FightTask.Stage1, FightTask.Stage2, FightTask.Stage3, FightTask.Stage4 })
@@ -1242,7 +1244,6 @@ public class TaskQueueViewModel : Screen
                 --count;
             }
         }
-
 
         if (count == 0)
         {
