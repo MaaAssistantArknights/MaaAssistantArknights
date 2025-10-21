@@ -3738,6 +3738,7 @@
         "char_4198_christ": {
             "name": "Miss.Christine",
             "name_en": "Miss.Christine",
+            "name_en_unavailable": true,
             "name_jp": "Miss.Christine",
             "name_jp_unavailable": true,
             "name_kr": "Miss.Christine",
@@ -8916,8 +8917,7 @@
         },
         "trap_215_dqcrsbow": {
             "name": "解雇者清债程序",
-            "name_en": "解雇者清债程序",
-            "name_en_unavailable": true,
+            "name_en": "Post-Firing Debt Relief Program",
             "name_jp": "解雇者清算プログラム",
             "name_kr": "해고자 채무 탕감 프로그램",
             "name_tw": "解雇者清债程序",
@@ -8929,8 +8929,7 @@
         },
         "trap_216_dqelec": {
             "name": "梅什科线圈",
-            "name_en": "梅什科线圈",
-            "name_en_unavailable": true,
+            "name_en": "Mieszko Coil",
             "name_jp": "ミェシュココイル",
             "name_kr": "미에슈코 코일",
             "name_tw": "梅什科线圈",
