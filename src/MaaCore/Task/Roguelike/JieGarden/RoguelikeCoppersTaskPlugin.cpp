@@ -237,7 +237,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
         m_origin_y = match_results.front().rect.y;
 
-        m_row_offset = match_results.size() > 1 ? match_results[1].rect.y - match_results[0].rect.y : 0;
+        if (match_results.size() > 1) {
+            m_row_offset = match_results[1].rect.y - match_results[0].rect.y;
+        }
 
         // 处理当前列的匹配结果
         for (size_t row = 0; row < match_results.size(); ++row) {
@@ -403,11 +405,27 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
     int x = col == m_col ? m_last_x : m_origin_x;
     Point click_point(x, m_origin_y + (row - 1) * m_row_offset);
 
+    Log.debug(
+        __FUNCTION__,
+        "| clicking copper at (",
+        col,
+        ",",
+        row,
+        ") -> point (",
+        click_point.x,
+        ",",
+        m_origin_y,
+        "+",
+        (row - 1),
+        "*",
+        m_row_offset,
+        ")");
+
     // 滑动回到最左边
     swipe_copper_list_left(m_col);
     sleep(300);
 
-    swipe_copper_list_right(col - 1);
+    swipe_copper_list_right(col - 1, true);
 
     ctrler()->click(click_point);
     sleep(300);
