@@ -355,13 +355,25 @@ jobs:
       #   run: |
       #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
-      - name: Create issue if failed
-        if: failure()
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "create-issue"
-          title: "Failed to Update Game Resources"
-          body: |
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Comment on issue if failed
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/dev'
+        run: |
+          # Minimize old failure comments
+          comments=$(gh api repos/${{ github.repository }}/issues/14489/comments --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("${{ github.server_url }}/${{ github.repository }}/actions/runs/")) | .node_id')
+          for node_id in $comments; do
+            gh api graphql -f query='
+              mutation {
+                minimizeComment(input: {subjectId: "'"$node_id"'", classifier: OUTDATED}) {
+                  minimizedComment {
+                    isMinimized
+                  }
+                }
+              }'
+          done
+          
+          # Add new failure comment
+          gh issue comment 14489 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            @MistEO @ABA2396 @Constrat
+          MistEO ABA2396 Constrat"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
