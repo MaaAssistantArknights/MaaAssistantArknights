@@ -5156,5 +5156,7 @@
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@BattleFailedClick": "9c745de15bbb0f69d2a90bc346ec14365301a5d240beaae5af149c0008b8c7d0",
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@QuitBattleConfirm": "cb6f9555c9b91ae69170344edbbf2dbe847e8cd42d1b092a98608d0b5950ad7a",
     "resource/template/MiniGame/RebuildingMandate/MiniGame@RM-1@StageName": "a00783a85cad9e3d860d330d2d94372eb71a9c9ccc4453b8967c1cbfe8e37210",
-    "resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@WaitForEnd": "de0dd893e284f2c7e02990014e62e43a4d067500e014d99ce1e3f5a8e6d6a4e9"
+    "resource/template/MiniGame/RebuildingMandate/MiniGame@RM-TR-1@WaitForEnd": "de0dd893e284f2c7e02990014e62e43a4d067500e014d99ce1e3f5a8e6d6a4e9",
+    "resource/template/items/act2multi_token_cap": "0c50c06d23199986982b4fedca13f6a91edb3615818c891170d6ea856d1439fc",
+    "resource/template/items/act1teamquest_point": "114ef1381ce59887fa1299444332c76b5b1e3dfbc8b372c2e8f95c1ed79f5719"
 }
