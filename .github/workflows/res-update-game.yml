@@ -356,10 +356,10 @@ jobs:
       #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
       - name: Comment on issue if failed
-        if: always() && (failure() || cancelled()) && github.ref == 'refs/heads/dev'
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/dev'
         run: |
           # Minimize old failure comments
-          comments=$(gh api repos/${{ github.repository }}/issues/14489/comments --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("${{ github.server_url }}/${{ github.repository }}/actions/runs/")) | .node_id')
+          comments=$(gh api repos/${{ github.repository }}/issues/14493/comments --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("${{ github.server_url }}/${{ github.repository }}/actions/runs/")) | .node_id')
           for node_id in $comments; do
             gh api graphql -f query='
               mutation {
@@ -372,7 +372,7 @@ jobs:
           done
           
           # Add new failure comment
-          gh issue comment 14489 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          gh issue comment 14493 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
           MistEO ABA2396 Constrat"
         env:
