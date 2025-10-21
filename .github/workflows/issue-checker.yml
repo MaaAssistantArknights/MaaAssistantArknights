@@ -1,4 +1,4 @@
-name: "Issue Checker"
+name: Issue Triage
 
 on:
   issues:
@@ -15,9 +15,11 @@ permissions:
 
 jobs:
   triage:
+    name: Triage Issues and PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: MaaAssistantArknights/issue-checker@v1.14
+      - name: Label issues and PRs Automatically
+        uses: MaaAssistantArknights/issue-checker@v1.14
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/issue-checker.yml

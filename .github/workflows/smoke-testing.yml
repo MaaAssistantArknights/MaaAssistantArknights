@@ -1,43 +1,44 @@
-name: smoke-testing
+name: Smoke Test
 
 on:
   push:
     paths:
       - ".github/workflows/smoke-testing.yml"
-      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/Cpp/**"
-      - "src/MaaCore/**"
-      - "resource/**"
-      - "!**/*.md"
       - "cmake/**"
       - "CMakeLists.txt"
+      - "include/**"
+      - "resource/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
       - "tools/maadeps-download.py"
+      - "tools/SmokeTesting/**"
+      - "!**/*.md"
   pull_request:
     paths:
       - ".github/workflows/smoke-testing.yml"
-      - "tools/SmokeTesting/**"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/Cpp/**"
-      - "src/MaaCore/**"
-      - "resource/**"
-      - "!**/*.md"
       - "cmake/**"
       - "CMakeLists.txt"
+      - "include/**"
+      - "resource/**"
+      - "src/Cpp/**"
+      - "src/MaaCore/**"
       - "tools/maadeps-download.py"
+      - "tools/SmokeTesting/**"
+      - "!**/*.md"
   workflow_dispatch:
 
 jobs:
   smoke-testing:
+    name: Run Smoke Test
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
       github.event.pull_request.base.repo.full_name
     runs-on: macos-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -47,7 +48,7 @@ jobs:
         run: |
           echo "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
 
-      - name: Restore cache smoke-testing
+      - name: Restore cache for Smoke Test
         id: smoke-cache
         uses: actions/cache/restore@v4
         with:
@@ -101,7 +102,7 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install --config Debug
 
-      - name: Make link for cache smoke-testing
+      - name: Make link to Smoke Test cache
         if: steps.smoke-cache.outputs.cache-hit == 'true'
         run: |
           ln -s "$(pwd)/resource" install/resource
@@ -110,7 +111,7 @@ jobs:
         run: |
           sh ./tools/SmokeTesting/run_tests.sh
 
-      - name: Save cache smoke-testing (only in dev)
+      - name: Save cache for Smoke Test (only in dev)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
         with:

@@ -1,26 +1,27 @@
-name: sync-resource
+name: Resource Sync
 
 on:
   push:
     branches:
       - dev
     paths:
-      - "resource/**"
       - ".github/workflows/sync-resource.yml"
+      - "resource/**"
   workflow_dispatch:
 
 jobs:
   sync-resource:
+    name: Sync Resource to MaaResource
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout MaaAssistantArknights
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
 
-      - name: Setup Git
+      - name: Configure git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'

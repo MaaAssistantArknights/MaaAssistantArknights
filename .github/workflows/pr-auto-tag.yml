@@ -1,4 +1,4 @@
-name: Auto Tag Release PR
+name: Release Version Tagging
 
 on:
   pull_request:
@@ -15,22 +15,23 @@ on:
 
 jobs:
   auto_tag_release:
+    name: Tag Release
     if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
 
-      - name: Git config
+      - name: Configure git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Extract tag name
+      - name: Determine tag name
         id: extract_tag
         run: |
           if ${{ github.event_name != 'workflow_dispatch' }}; then
@@ -40,12 +41,12 @@ jobs:
             echo "tag_name=${{ inputs.tag }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create release tag and push
+      - name: Create and push release tag
         run: |
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
           git push origin "${{ steps.extract_tag.outputs.tag_name }}"
 
-      - name: Merge into dev and push
+      - name: Merge tag into dev and push
         run: |
           git switch dev
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
