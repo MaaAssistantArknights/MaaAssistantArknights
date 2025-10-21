@@ -129,9 +129,9 @@ public static class ConfigurationKeys
     public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex"; // 已迁移
     public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings"; // 已废弃
 
-    public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
-    public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
-    public const string RemainingSanityStage = "Fight.RemainingSanityStage";
+    public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage"; // 已迁移
+    public const string UseExpiringMedicine = "Fight.UseExpiringMedicine"; // 已迁移
+    public const string RemainingSanityStage = "Fight.RemainingSanityStage"; // 已迁移
 
     public const string RoguelikeTheme = "Roguelike.RoguelikeTheme"; // 已迁移
     public const string RoguelikeDifficulty = "Roguelike.Difficulty"; // 已迁移
