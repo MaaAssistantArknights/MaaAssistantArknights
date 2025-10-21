@@ -5202,5 +5202,6 @@
     "official/SwitchTheme@ConfirmThemeChange": "9ba7629b022c8fc91cf49744110e5cf886293bbc41096b54ea29cb9efca9de64",
     "official/SwitchTheme@ChangeTheme": "28451b65af3f9955467421dbc7db6d2da3ce2f070926a118795ad917264cb499",
     "official/SwitchTheme@ToggleSettingsMenu": "ea2816b96ff11be8c0b08bb266a94402ac58bc18559a8a7258303605de2521cf",
-    "YoStarEN/SwitchTheme@ConfirmThemeChange": "704b96cbcd7ce13d564325166be6f75ae2b9e0520021a462607fabb9948149b9"
+    "YoStarEN/SwitchTheme@ConfirmThemeChange": "704b96cbcd7ce13d564325166be6f75ae2b9e0520021a462607fabb9948149b9",
+    "YoStarKR/SwitchTheme@ConfirmThemeChange": "d6477d18385a29b64ce40c8b023eb3f786881d113caf331ea4f1ea6ea262584e"
 }
