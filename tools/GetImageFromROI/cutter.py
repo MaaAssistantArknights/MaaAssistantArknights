@@ -91,15 +91,17 @@ if __name__ == "__main__":
         image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
         for i in task_list:
+            filename = ""
             if "template" not in tasks[i]:
                 filename = i + ".png"
             elif isinstance(tasks[i]["template"], str):
                 filename = tasks[i]["template"]
             elif isinstance(tasks[i]["template"], list):
-                # this is for multi-temSplate:
-                filename = (
-                    tasks[i]["template"][0].split(".")[0] + raw_image.stem + ".png"
-                )
+                # this is for multi-template:
+                filename = f"{raw_image.stem}/{tasks[i]['template'][0]}"
+                
+                if "Default" in filename:
+                    filename = filename.split("Default")[-1][1:]
 
             crop_doc = tasks[i].get("crop_doc", {})
             roi = crop_doc.get("roi", tasks[i]["roi"])
@@ -115,7 +117,7 @@ if __name__ == "__main__":
                     (0, 0, 0),
                     -1,
                 )
-
+            
             print("Saving", dst_path / filename)
             cv2.imwrite(str(dst_path / filename), cropped)
 
