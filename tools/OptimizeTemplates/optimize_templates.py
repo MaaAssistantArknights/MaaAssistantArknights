@@ -55,10 +55,6 @@ def get_file_id(file_path: str):
     m = re.search(r"docs/.vuepress/public/images/(.*)\.png", file_id)
     if m:
         return f"docs/{m.group(1)}"
-    # website\\apps\\web\\PATH\\TO\\xxx.png -> web/PATH/TO/xxx
-    m = re.search(r"website/apps/web/(.*)\.png", file_id)
-    if m:
-        return f"web/{m.group(1)}"
 
     return None
 
@@ -204,13 +200,11 @@ if __name__ == "__main__":
 
     if len(paths) == 0:
         docs_dir = cur_dir.parent.parent / "docs"
-        website_dir = cur_dir.parent.parent / "website"
         resource_dir = cur_dir.parent.parent / "resource"
         paths = [
             str(resource_dir / "global"),
             str(resource_dir / "template"),
             str(docs_dir),
-            str(website_dir),
         ]
         print("no path specified, use default paths:", paths)
 

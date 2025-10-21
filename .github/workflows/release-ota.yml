@@ -1,4 +1,4 @@
-name: release-ota
+name: Release Pipeline (OTA)
 
 on:
   release:
@@ -22,9 +22,10 @@ env:
 
 jobs:
   create-tag:
+    name: Create OTA Release Tag in MaaRelease
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch MaaRelease
+      - name: Checkout MaaRelease
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -33,7 +34,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
 
-      - name: Fetch release info
+      - name: Fetch release information
         id: fetchReleaseInfo
         run: |
           mkdir -pv build-ota && cd build-ota
@@ -86,6 +87,7 @@ jobs:
       release_tag: ${{ steps.fetchReleaseInfo.outputs.release_tag }}
 
   make-ota:
+    name: Build and Upload OTA for Windows
     needs: create-tag
     runs-on: ubuntu-latest
     strategy:
@@ -99,7 +101,7 @@ jobs:
           name: MaaReleaseConfig
           path: ./MaaReleaseConfig
 
-      - name: Fetch MaaRelease
+      - name: Checkout MaaRelease
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -108,7 +110,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
 
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -142,15 +144,16 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: "create-issue"
-          title: "Failed make release OTA for Windows"
+          title: "Failed to make OTA release for Windows"
           body: |
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   make-ota-mac:
+    name: Build and Upload OTA for macOS
     needs: create-tag
     runs-on: macos-14
     steps:
-      - name: Fetch release info
+      - name: Fetch release information
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
 
       - name: Download release packages
@@ -166,7 +169,7 @@ jobs:
         run: |
           gh release download --repo 'sparkle-project/Sparkle' --clobber -O - -p 'Sparkle-*.tar.xz' | tar xf -
 
-      - name: Generate Update Packages
+      - name: Generate update packages
         run: |
           if [ $(head -n 1 release_maa.txt | awk '{ print $2 }') = 'Pre-release' ]; then
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --channel beta --ed-key-file - ./packages
@@ -174,7 +177,7 @@ jobs:
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
 
-      - name: Cleanup files
+      - name: Clean up files
         run: |
           find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
 
@@ -194,11 +197,12 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: "create-issue"
-          title: "Failed make release OTA for macos"
+          title: "Failed to make OTA release for macOS"
           body: |
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   release:
+    name: Publish to Release Mirrors
     needs:
       - make-ota
       - make-ota-mac

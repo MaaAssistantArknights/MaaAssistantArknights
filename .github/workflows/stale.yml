@@ -1,4 +1,4 @@
-name: "Inactive Issues Closer"
+name: Issue Staleness Management
 
 on:
   schedule:
@@ -11,6 +11,7 @@ env: # config
 
 jobs:
   stale:
+    name: Handle Stale Issues
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     permissions:
@@ -20,7 +21,7 @@ jobs:
       pull-requests: none
       contents: none
     steps:
-      - name: Close inactive issues
+      - name: Handle stale issues
         uses: actions/stale@v10
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
