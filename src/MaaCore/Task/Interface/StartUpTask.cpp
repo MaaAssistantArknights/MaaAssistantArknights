@@ -17,7 +17,8 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst) :
     LogTraceFunction;
 
     // 前两项认为用户已手动启动至首页，如果识别到了切换但不认为在首页说明主题不支持
-    m_start_up_task_ptr->set_tasks({ "StartAtHome", "StartWithSanity", "SwitchTheme@ToggleSettingsMenu", "StartUpBegin" })
+    m_start_up_task_ptr
+        ->set_tasks({ "StartAtHome", "StartWithSanity", "SwitchTheme@ToggleSettingsMenu", "StartUpBegin" })
         .set_task_delay(Config.get_options().task_delay * 2)
         .set_retry_times(50);
     m_account_switch_task_ptr->set_retry_times(0);
