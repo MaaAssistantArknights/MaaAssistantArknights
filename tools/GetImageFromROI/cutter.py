@@ -99,7 +99,7 @@ if __name__ == "__main__":
             elif isinstance(tasks[i]["template"], list):
                 # this is for multi-template:
                 filename = f"{raw_image.stem}/{tasks[i]['template'][0]}"
-                
+
                 if "Default" in filename:
                     filename = filename.split("Default")[-1][1:]
 
@@ -117,7 +117,7 @@ if __name__ == "__main__":
                     (0, 0, 0),
                     -1,
                 )
-            
+
             print("Saving", dst_path / filename)
             cv2.imwrite(str(dst_path / filename), cropped)
 
