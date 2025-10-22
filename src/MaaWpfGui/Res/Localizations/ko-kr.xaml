@@ -301,6 +301,7 @@
     <system:String x:Key="UpdateCheckNow">소프트웨어 업데이트</system:String>
     <system:String x:Key="ShowChangelog">변경 내역</system:String>
     <system:String x:Key="ResourceUpdate">리소스 업데이트</system:String>
+    <system:String x:Key="ResourceUpdateTip">작업 중 업데이트된 리소스는 시스템이 유휴 상태일 때 자동으로 로드되며, 다음 작업부터 적용됩니다.</system:String>
     <system:String x:Key="ResourceRepository">리소스 저장소</system:String>
     <system:String x:Key="UpdateSource">업데이트 소스</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">

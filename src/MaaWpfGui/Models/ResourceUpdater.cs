@@ -98,7 +98,10 @@ public static class ResourceUpdater
         }
 
         SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
-        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("GameResourceUpdated"));
+        OutputDownloadProgress(
+            downloading: false,
+            output: LocalizationHelper.GetString("GameResourceUpdated"),
+            toolTip: LocalizationHelper.GetString("ResourceUpdateTip"));
         return true;
 
         static void Fail()
@@ -328,7 +331,10 @@ public static class ResourceUpdater
 
         SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = string.Empty;
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanFirstUse);
-        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("GameResourceUpdated"));
+        OutputDownloadProgress(
+            downloading: false,
+            output: LocalizationHelper.GetString("GameResourceUpdated"),
+            toolTip: LocalizationHelper.GetString("ResourceUpdateTip"));
 
         return true;
 
@@ -393,7 +399,7 @@ public static class ResourceUpdater
         var ret = await CheckAndDownloadResourceUpdate();
         if (ret == CheckUpdateRetT.OnlyGameResourceUpdated)
         {
-            ResourceReload();
+            _ = ResourceReloadWhenIdleAsync();
         }
     }
 
@@ -403,6 +409,24 @@ public static class ResourceUpdater
         DataHelper.Reload();
         SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
         ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+    }
+
+    private static bool _isReloading = false;
+
+    public static async Task ResourceReloadWhenIdleAsync()
+    {
+        if (_isReloading)
+        {
+            _logger.Information("Resource is already reloading, skip this request.");
+            return;
+        }
+
+        _isReloading = true;
+        await Instances.AsstProxy.LoadResourceWhenIdleAsync();
+        DataHelper.Reload();
+        SettingsViewModel.VersionUpdateSettings.ResourceInfoUpdate();
+        ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdated"));
+        _isReloading = false;
     }
 
     private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo, bool globalSource)

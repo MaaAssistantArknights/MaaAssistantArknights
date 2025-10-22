@@ -436,6 +436,30 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 异步加载资源
+    /// </summary>
+    /// <returns>是否成功。</returns>
+    public async Task<bool> LoadResourceAsync()
+    {
+        return await Task.Run(() => LoadResource());
+    }
+
+    /// <summary>
+    /// 等待系统空闲时异步加载资源，并返回操作是否成功的值。
+    /// Asynchronously loads the resource when the system is idle and returns a value indicating whether the operation succeeded.
+    /// </summary>
+    /// <returns>
+    /// 表示在系统空闲时异步加载操作的任务。如果资源加载成功，任务结果为 <see langword="true"/>；否则为 <see langword="false"/>。
+    /// A task that represents the asynchronous load operation when the system is idle. The task result is <see langword="true"/> if the
+    /// resource was loaded successfully; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> LoadResourceWhenIdleAsync()
+    {
+        await _runningState.UntilIdleAsync();
+        return await LoadResourceAsync();
+    }
+
+    /// <summary>
     /// 初始化。
     /// </summary>
     public void Init()
