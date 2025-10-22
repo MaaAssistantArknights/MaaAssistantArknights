@@ -20,10 +20,6 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "nekosu.maa-support",
-                "ms-python.python",
-                "ms-python.black-formatter",
-                "ms-python.isort",
                 "esbenp.prettier-vscode",
                 "DavidAnson.vscode-markdownlint",
                 "yzhang.markdown-all-in-one",
@@ -34,22 +30,6 @@
                 // Editor formatting
                 "editor.formatOnSave": true,
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
-
-                // Language-specific formatting
-                "[python]": {
-                    "editor.defaultFormatter": "ms-python.black-formatter",
-                    "editor.codeActionsOnSave": {
-                        "source.organizeImports": "explicit"
-                    }
-                },
-
-                // Python formatting and linting
-                "isort.args": ["--profile", "black"],
-
-                // Python runtime
-                "python.terminal.launchArgs": ["-u"],
-                "python.defaultInterpreterPath": "/home/vscode/miniconda/envs/maa/bin/python",
-                "python.terminal.activateEnvironment": false,
 
                 // Performance optimizations
                 "search.exclude": {
