@@ -178,7 +178,7 @@ public class StageManager
 
         await Task.Run(() =>
         {
-            Instances.AsstProxy.LoadResource();
+            _ = Instances.AsstProxy.LoadResourceWhenIdleAsync();
         });
         return activityJson;
     }

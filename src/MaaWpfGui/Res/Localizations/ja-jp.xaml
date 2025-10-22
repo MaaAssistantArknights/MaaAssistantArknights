@@ -302,6 +302,7 @@
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
+    <system:String x:Key="ResourceUpdateTip">タスク実行中に更新されたリソースは、システムがアイドル状態の時に自動的にロードされ、次のタスクから有効になります。</system:String>
     <system:String x:Key="ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
