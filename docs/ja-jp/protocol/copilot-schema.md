@@ -62,7 +62,7 @@ JSONファイルはコメントをサポートしておらず、テキスト内�
     "actions": [                    // 順番に行動、必須. 順次実行されます
         {
             "type": "Deploy",       // 行動タイプ、オプション、デフォルトは "Deploy"
-                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetTimer"
+                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
                                     // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
                                     // 英語と中国語のみサポート
                                     // "Deploy" はコストが補充されるまで待つ（タイムアウトしない限り）
@@ -72,7 +72,7 @@ JSONファイルはコメントをサポートしておらず、テキスト内�
                                     // "Output" は、ドキュメントの内容をプリントアウト（字幕などのため）
                                     // "SkillDaemon" は、スキルの準備ができるとスキルを使用し、終了まで何もしない
                                     // "MoveCamera" は「導灯の試練」モードで使用され、distanceフィールドにも入力する必要があります
-                                    // "ResetTimer" — グローバルタイマーをリセットします。「time_elapsed」条件を参照してください。
+                                    // "ResetStopwatch" — グローバルタイマーをリセットします。「time_elapsed」条件を参照してください。
 
             // 以下の5つのフィールドの関係は AND, 例 &&
             "kills": 0,             // 必要なキル数に達するまで待機、オプション、デフォルトは 0
@@ -90,8 +90,8 @@ JSONファイルはコメントをサポートしておらず、テキスト内�
             "cooling": 2,           // オペレーターの CD が指定数になるまで待つ, オプション, "ignore" の場合デフォルトは -1.
 
             "time_elapsed": 1000,   // ミリ秒単位のグローバルタイマー条件。指定時間に達していない場合は待機し続けます。省略可能で、デフォルトは 0（すぐに実行）。
-                                    // 注意：この時間は直前の type:ResetTimer アクションの実行時点から計測されます。
-                                    // 使用する前に必ず type:ResetTimer アクションでタイマーをリセットしておく必要があります。そうしないと動作が停止します。
+                                    // 注意：この時間は直前の type:ResetStopwatch アクションの実行時点から計測されます。
+                                    // 使用する前に必ず type:ResetStopwatch アクションでタイマーをリセットしておく必要があります。そうしないと動作が停止します。
 
             // TODO: Other conditions
             // TODO: "condition_type": 0,    // 条件集約型, オプション, デフォルトは 0

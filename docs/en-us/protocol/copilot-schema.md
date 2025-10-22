@@ -61,7 +61,7 @@ Please note that JSON files do not support comments. The comments in this docume
         // Combat operations. Ordered, executes the next one only after completing the previous one. Required
         {
             "type": "部署", // Operation type, optional, default is "Deploy" ("部署" = "Deploy")
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetTimer"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
             // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
             // Both English and Chinese are supported (e.g., "部署" for "Deploy")
             // For "Deploy", waits until enough DP is available (unless timeout)
@@ -74,7 +74,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Output" doesn't show this step in UI, used only to output doc content (for subtitles, etc.)
             // "SkillDaemon" only uses "use when ready" skills, does nothing else until battle ends
             // "MoveCamera" for Guide mode, requires the distance field
-            // "ResetTimer" — Resets the global timer. Please refer to the “time_elapsed” condition.
+            // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “time_elapsed” condition.
             // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
@@ -87,8 +87,8 @@ Please note that JSON files do not support comments. The comments in this docume
             // Recognition is more accurate for two-digit DP; three-digit DP may be misrecognized, not recommended
             "cooling": 2, // Number of operators on cooldown condition, waits until reached. Optional, default is -1, no recognition
             "time_elapsed": 1000, // Global timing condition in milliseconds. If the specified time has not elapsed, the action will keep waiting. Optional, default is 0, executes immediately
-            // Note: the time is measured from the last action with type: ResetTimer
-            // You must execute an action with type: ResetTimer beforehand to reset the timer; otherwise, it will get stuck.
+            // Note: the time is measured from the last action with type: ResetStopwatch
+            // You must execute an action with type: ResetStopwatch beforehand to reset the stopwatch; otherwise, it will get stuck.
             // TODO: Other conditions
             // TODO: "condition_type": 0,    // Relationship between execution conditions, optional, default is 0
             //                        // 0 - AND; 1 - OR

@@ -61,7 +61,7 @@ icon: ph:sword-bold
         // 战斗中的操作。有序，执行完前一个才会去执行下一个。必选
         {
             "type": "部署", // 操作类型，可选，默认为 "Deploy"
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetTimer"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
             // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
             // 中英文皆可，效果相同
             // 若为 "部署", 当费用不够时，会一直等待到费用够（除非 timeout）
@@ -87,8 +87,8 @@ icon: ph:sword-bold
             // 另外仅在费用是两位数的时候识别的比较准，三位数的费用可能会识别错，不推荐使用
             "cooling": 2, // CD 中干员数量条件，如果没达到就一直等待。可选，默认为 -1，不识别
             "time_elapsed": 1000, // 以毫秒为单位全局计时条件，如果没达到就一直等待。可选，默认为 0，直接执行
-            // 注意是从上一次执行 type:ResetTimer 的 action 开始计算的
-            // 使用前必须执行过 type:ResetTimer 的 action 重置计时器，不然会卡住
+            // 注意是从上一次执行 type:ResetStopwatch 的 action 开始计算的
+            // 使用前必须执行过 type:ResetStopwatch 的 action 重置计时器，不然会卡住
             // TODO: 其他条件
             // TODO: "condition_type": 0,    // 执行条件间的关系，可选，默认为 0
             //                        // 0 - 且； 1 - 或

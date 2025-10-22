@@ -60,7 +60,7 @@ icon: ph:sword-bold
     "actions": [                    // 순차적으로 실행되는 작업들로 이루어진 목록입니다. 필수 입력 항목입니다.
         {
             "type": "部署",         // 작업 유형, 선택 사항, 기본값은 "Deploy"입니다.
-                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetTimer"
+                                    // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
                                     // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
                                     // 영어와 중국어 모두 지원됩니다.
                                     // "Deploy"는 비용이 충분해질 때까지 대기합니다 (타임아웃이 아닌 한).
@@ -70,7 +70,7 @@ icon: ph:sword-bold
                                     // "Output"은 문서의 내용을 출력합니다(자막 등).
                                     // "SkillDaemon"은 스킬을 사용 가능할 때 사용하고, 끝까지 아무 작업도 수행하지 않습니다.
                                     // "MoveCamera" — “파일럿 시험(引航者试炼)” 모드에서 사용되며, distance 필드도 함께 입력해야 합니다.
-                                    // "ResetTimer" — 전역 타이머를 초기화합니다. “time_elapsed” 조건을 참고하세요.
+                                    // "ResetStopwatch" — 전역 타이머를 초기화합니다. “time_elapsed” 조건을 참고하세요.
 
             // 다음 다섯 가지 필드 사이의 관계는 AND(논리곱)입니다, 즉 &&
             "kills": 0,             // 필요한 킬 수에 도달할 때까지 대기합니다. 선택 사항, 기본값은 0입니다.
@@ -86,8 +86,8 @@ icon: ph:sword-bold
             "cooling": 2,           // 스킬 쿨타임에 있는 오퍼레이터의 수가 특정 숫자에 도달할 때까지 대기합니다. 선택 사항, 기본값은 "ignore"(-1)입니다.
 
             "time_elapsed": 1000,   // 밀리초(ms) 단위의 전역 타이머 조건입니다. 지정된 시간이 지나지 않으면 계속 대기합니다. 선택 항목이며, 기본값은 0으로 즉시 실행됩니다.
-                                    // 주의: 이 시간은 마지막으로 실행된 type:ResetTimer 액션부터 계산됩니다.
-                                    // 사용하기 전에 반드시 type:ResetTimer 액션을 실행해 타이머를 초기화해야 합니다. 그렇지 않으면 멈춰버립니다.
+                                    // 주의: 이 시간은 마지막으로 실행된 type:ResetStopwatch 액션부터 계산됩니다.
+                                    // 사용하기 전에 반드시 type:ResetStopwatch 액션을 실행해 타이머를 초기화해야 합니다. 그렇지 않으면 멈춰버립니다.
 
             // TODO: 다른 조건
             // TODO: "condition_type": 0,    // 조건 집계 유형, 선택 사항, 기본값은 0입니다.
