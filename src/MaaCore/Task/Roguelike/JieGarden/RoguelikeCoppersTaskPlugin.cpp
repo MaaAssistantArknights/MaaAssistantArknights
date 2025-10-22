@@ -164,10 +164,12 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 
 #ifdef ASST_DEBUG
     try {
+        const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
         const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-        const auto relative_path = relative_dir / (std::format("{}_pickup_draw.png", utils::format_now_for_filename()));
+        const auto relative_path =
+            relative_dir / (std::format("{}_pickup_draw.jpeg", utils::format_now_for_filename()));
         Log.debug(__FUNCTION__, "| Saving pickup mode debug image to ", relative_path);
-        asst::imwrite(relative_path, image_draw);
+        asst::imwrite(relative_path, image_draw, jpeg_params);
     }
     catch (const std::exception& e) {
         Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
@@ -327,11 +329,12 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
 #ifdef ASST_DEBUG
         try {
+            const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
             const auto relative_path =
-                relative_dir / (std::format("{}_exchange_draw.png", utils::format_now_for_filename()));
+                relative_dir / (std::format("{}_exchange_draw.jpeg", utils::format_now_for_filename()));
             Log.debug(__FUNCTION__, "| Saving exchange mode debug image to ", relative_path);
-            asst::imwrite(relative_path, image_draw);
+            asst::imwrite(relative_path, image_draw, jpeg_params);
         }
         catch (const std::exception& e) {
             Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
@@ -467,12 +470,13 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         cv::Mat screen = ctrler()->get_image();
         if (!screen.empty()) {
             cv::Mat screen_draw = screen.clone();
+            const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
             const auto relative_path =
-                relative_dir / (std::format("{}_unknown_draw.png", utils::format_now_for_filename()));
+                relative_dir / (std::format("{}_unknown_draw.jpeg", utils::format_now_for_filename()));
             Log.debug(__FUNCTION__, "| Saving unknown copper debug image to", relative_path);
-            asst::imwrite(relative_path, screen_draw);
+            asst::imwrite(relative_path, screen_draw, jpeg_params);
         }
     }
     catch (const std::exception& e) {
