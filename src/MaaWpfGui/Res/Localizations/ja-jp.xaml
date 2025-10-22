@@ -1036,6 +1036,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>

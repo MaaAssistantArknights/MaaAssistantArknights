@@ -1126,6 +1126,15 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     break;
                 }
 
+            case "RoguelikeCoppersExchangeInfo":
+                {
+                    var toDiscard = subTaskDetails!["to_discard"]?.ToString() ?? "Unknown";
+                    var toPickup = subTaskDetails["to_pickup"]?.ToString() ?? "Unknown";
+                    var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersExchange"), toDiscard, toPickup);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.EventIS);
+                    break;
+                }
+
             case "EncounterOcrError":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
                 break;

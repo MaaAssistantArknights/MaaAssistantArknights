@@ -371,8 +371,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         "->",
         m_new_copper.name);
 
-    // 点击通宝后执行确认交换任务
+    // 发送通宝替换信息到 WPF
+    auto copper_info = basic_info_with_what("RoguelikeCoppersExchangeInfo");
+    copper_info["details"]["to_discard"] = std::format("{} ({},{})", worst_it->name, worst_it->col, worst_it->row);
+    copper_info["details"]["to_pickup"] = m_new_copper.name;
+    callback(AsstMsg::SubTaskExtraInfo, copper_info);
 
+    // 点击通宝后执行确认交换任务
     click_copper_at_position(worst_it->col, worst_it->row);
 
     ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
