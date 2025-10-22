@@ -35,8 +35,8 @@ public class AsstMallTask : AsstBaseTask
     /// <summary>
     /// Gets or sets a value indicating whether 信用战斗选择编队
     /// </summary>
-    [JsonProperty("select_formation")]
-    public int SelectFormation { get; set; }
+    [JsonProperty("formation_index")]
+    public int FormationIndex { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 是否访问好友
