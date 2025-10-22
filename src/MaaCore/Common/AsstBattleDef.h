@@ -217,15 +217,15 @@ using OperUsageGroups = std::vector<OperUsageGroup>;
 
 enum class ActionType
 {
-    Deploy,      // 部署干员
-    UseSkill,    // 开技能
-    Retreat,     // 撤退干员
-    SkillUsage,  // 技能用法
-    SwitchSpeed, // 切换二倍速
-    BulletTime,  // 使用 1/5 的速度
-    Output,      // 仅输出，什么都不操作，界面上也不显示
-    SkillDaemon, // 什么都不做，有技能开技能，直到战斗结束
-    ResetTimer,  // 重置全局计时器 (试验性功能)
+    Deploy,         // 部署干员
+    UseSkill,       // 开技能
+    Retreat,        // 撤退干员
+    SkillUsage,     // 技能用法
+    SwitchSpeed,    // 切换二倍速
+    BulletTime,     // 使用 1/5 的速度
+    Output,         // 仅输出，什么都不操作，界面上也不显示
+    SkillDaemon,    // 什么都不做，有技能开技能，直到战斗结束
+    ResetStopwatch, // 重置全局计时器 (试验性功能)
 
     /* for TRN */
     MoveCamera, // 引航者试炼，移动镜头
