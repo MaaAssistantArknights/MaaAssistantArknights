@@ -205,7 +205,8 @@
             ["衡-露.*", "衡-霹雳"],
             ["厉-安硕.*", "厉-安硕鼷"],
             ["花-圣迢封神", "花-圣诏封神"],
-            ["衡-军.*", "衡-军屯垦"]
+            ["衡-军.*", "衡-军屯垦"],
+            ["衡-早热", "衡-旱热"]
         ]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
@@ -244,7 +245,7 @@
     "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
         "Doc": "通宝名称识别 - EXCHANGE 模式 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
-        "roi": [32, -5, 160, 40]
+        "roi": [29, -5, 160, 40]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
         "Doc": "通宝名称识别 - PICKUP 模式 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
