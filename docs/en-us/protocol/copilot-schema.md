@@ -61,8 +61,8 @@ Please note that JSON files do not support comments. The comments in this docume
         // Combat operations. Ordered, executes the next one only after completing the previous one. Required
         {
             "type": "部署", // Operation type, optional, default is "Deploy" ("部署" = "Deploy")
-            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera"
-            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头"
+            // "Deploy" | "Skill" | "Retreat" | "SpeedUp" | "BulletTime" | "SkillUsage" | "Output" | "SkillDaemon" | "MoveCamera" | "ResetStopwatch"
+            // "部署"   |  "技能"  |  "撤退"   | "二倍速"   |  "子弹时间"  |  "技能用法"   | "打印"  |  "摆完挂机" | "移动镜头" | "重置全局计时器"
             // Both English and Chinese are supported (e.g., "部署" for "Deploy")
             // For "Deploy", waits until enough DP is available (unless timeout)
             // For "Skill", waits until skill is ready (unless timeout)
@@ -74,7 +74,8 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Output" doesn't show this step in UI, used only to output doc content (for subtitles, etc.)
             // "SkillDaemon" only uses "use when ready" skills, does nothing else until battle ends
             // "MoveCamera" for Guide mode, requires the distance field
-            // Currently the four conditions below use AND relationship
+            // "ResetStopwatch" — Resets the global stopwatch. Please refer to the “time_elapsed” condition.
+            // Currently the five conditions below use AND relationship
             "kills": 0, // Kill count condition, waits until reached. Optional, default is 0, executes immediately
             "costs": 50, // DP condition, waits until reached. Optional, default is 0, executes immediately
             // DP can be affected by potential, may not be entirely accurate, suitable for battles with loose timing requirements.
@@ -85,6 +86,9 @@ Please note that JSON files do not support comments. The comments in this docume
             // Supports negative values (e.g., when operators like Jaye reduce DP)
             // Recognition is more accurate for two-digit DP; three-digit DP may be misrecognized, not recommended
             "cooling": 2, // Number of operators on cooldown condition, waits until reached. Optional, default is -1, no recognition
+            "time_elapsed": 1000, // Global timing condition in milliseconds. If the specified time has not elapsed, the action will keep waiting. Optional, default is 0, executes immediately
+            // Note: the time is measured from the last action with type: ResetStopwatch
+            // You must execute an action with type: ResetStopwatch beforehand to reset the stopwatch; otherwise, it will get stuck.
             // TODO: Other conditions
             // TODO: "condition_type": 0,    // Relationship between execution conditions, optional, default is 0
             //                        // 0 - AND; 1 - OR
@@ -101,6 +105,7 @@ Please note that JSON files do not support comments. The comments in this docume
             // "Left" | "Right" | "Up" | "Down" | "None"
             // "左"   |  "右"   | "上"  | "下"   |  "无"
             // Both English and Chinese are supported (e.g., "左" for "Left")
+            "skip_if_not_ready": false, // Only effective when type is "Skill". Allows skipping the current action if the skill is not ready, mainly used to disable unfinished ammo skills. Optional, defaults to false.
             "skill_usage": 1, // Change skill usage method. Required when type is "SkillUsage"
             // Example: Initially need Myrtle to help attack without using skill, later need auto skill activation
             // Can set to 1 at the appropriate time

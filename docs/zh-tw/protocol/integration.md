@@ -288,9 +288,37 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ```json5
 {
-    "enable": bool,             // 是否啟用本任務，可選，預設為 true
-    "filename": string,         // 作業 JSON 的檔案路徑，絕對、相對路徑均可。不支援執行中設定
-    "formation": bool           // 是否進行 “快捷編隊”，可選，預設否。不支援執行中設定
+    "enable": bool,               // 是否啟用本任務，可選，預設值 true
+    "filename": string,           // 單一作業 JSON 文件的路徑，與 copilot_list 二選一（必填）；相對路徑與絕對路徑均可
+    "copilot_list": [             // 作業列表，與 filename 二選一（必填）；當 filename 與 copilot_list 同時存在時，忽視 copilot_list
+        {
+            "filename": string,   // 作業 JSON 文件的路徑；相對路徑與絕對路徑均可
+            "stage_name": string, // 關卡名，具體請參考 [PRTS.Map](https://map.ark-nights.com)
+            "is_raid": bool,      // 是否切換為突襲模式
+            "is_paradox": bool    // 是否為悖論模擬關卡
+        },
+        ...
+    ],
+    "loop_times": int,            // 循環次數，可選，預設值 1；僅在單一作業模式下（即指定 filename 時）有效
+    "use_sanity_potion": bool,    // 是否允許在剩餘理智不足時使用理智藥，可選，預設值 false
+    "formation": bool,            // 是否進行自動編隊，可選，預設值 false
+    "formation_index": int        // 自動編隊所使用的編隊欄位的編號，可選，預設值 0；僅在 formation 為 true 時有效；
+                                  // 為 0–4 的整數，其中 0 表示選擇當前編隊，1-4 分別表示第一、二、三、四編隊
+    "user_additional": [          // 自訂追加幹員列表，可選，預設值 []；僅在 formation 為 true 時有效
+        {
+            "name": string,       // 幹員名，可選，預設值 ""，若留空則忽視此幹員
+            "skill": int          // 需要攜帶的技能，可選，預設值 1；為 1–3 的整數，若不在此範圍內則遵從遊戲內預設的技能選擇
+        },
+        ...
+    ],
+    "add_trust": bool,            // 是否在自動編隊時以信賴值升序自動填充空餘欄位，可選，預設值 false；僅在 formation 為 true 時有效
+    "ignore_requirements": bool,  // 是否在自動編隊時忽視幹員屬性要求，可選，預設值 false；僅在 formation 為 true 時有效
+    "support_unit_usage": int,    // 助戰幹員的使用模式，可選，預設值 0；為 0–3 的整數，其中 support_unit_name；僅在 formation 為 true 時有效
+                                  //   0 - 表示不使用助戰幹員
+                                  //   1 - 如果有且僅有一名缺失幹員則嘗試尋找助戰幹員補齊編隊，如果無缺失幹員則不使用助戰幹員
+                                  //   2 - 如果有且僅有一名缺失幹員則嘗試尋找助戰幹員補齊編隊，如果無缺失幹員則使用指定助戰幹員
+                                  //   3 - 如果有且僅有一名缺失幹員則嘗試尋找助戰幹員補齊編隊，如果無缺失幹員則使用隨機助戰幹員
+    "support_unit_name": string   // 指定助戰幹員名，可選，預設值 ""；僅在 support_unit_usage 為 2 時有效
 }
 ```
 
