@@ -120,9 +120,9 @@
     "SwitchTheme@ConfirmThemeChange": {
         "action": "ClickSelf",
         "roi": [1070, 620, 200, 90],
-        "next": ["SwitchTheme@ReturnButton"]
+        "next": ["SwitchTheme@ReturnTheme"]
     },
-    "SwitchTheme@ReturnButton": {
+    "SwitchTheme@ReturnTheme": {
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
         "next": ["#next"]
