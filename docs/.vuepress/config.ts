@@ -69,7 +69,7 @@ export default defineUserConfig({
     search: DocSearchConfig,
 
     codeHighlighter: {
-      themes: { light: 'one-light', dark: 'one-dark-pro' },
+      themes: { light: 'snazzy-light', dark: 'night-owl' },
     },
 
     markdown: {
