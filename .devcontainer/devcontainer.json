@@ -1,5 +1,13 @@
 {
     "name": "Plain Env (Nothing Installed)",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "postCreateCommand": "git config --global --add safe.directory \"$(pwd)\" && git submodule foreach --recursive 'git config --global --add safe.directory \"$toplevel/$path\"'"
+    "postCreateCommand": "git config --global --add safe.directory \"$(pwd)\" && git submodule foreach --recursive 'git config --global --add safe.directory \"$toplevel/$path\"'",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                // Color theme
+                "workbench.colorTheme": "Default Dark Modern"
+            }
+        }
+    }
 }

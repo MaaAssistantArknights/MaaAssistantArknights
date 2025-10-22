@@ -27,6 +27,9 @@
                 "mkxml.vscode-filesize"
             ],
             "settings": {
+                // Color theme
+                "workbench.colorTheme": "Default Dark Modern",
+
                 // Editor formatting
                 "editor.formatOnSave": true,
                 "editor.defaultFormatter": "esbenp.prettier-vscode",
