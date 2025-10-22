@@ -1,7 +1,7 @@
 {
     "name": "Plain Env (Nothing Installed)",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "postCreateCommand": "git config --global --add safe.directory \"$(pwd)\" && git submodule foreach --recursive 'git config --global --add safe.directory \"$toplevel/$path\"'",
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
     "customizations": {
         "vscode": {
             "settings": {
