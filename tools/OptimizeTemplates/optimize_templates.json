@@ -5205,5 +5205,14 @@
     "YoStarEN/SwitchTheme@ConfirmThemeChange": "704b96cbcd7ce13d564325166be6f75ae2b9e0520021a462607fabb9948149b9",
     "YoStarKR/SwitchTheme@ConfirmThemeChange": "d6477d18385a29b64ce40c8b023eb3f786881d113caf331ea4f1ea6ea262584e",
     "YoStarJP/SwitchTheme@ConfirmThemeChange": "f2356cf0d1c1c3f908dfa54bd007047c770d8a459bec563d91f0678e631eac76",
-    "official/SS@Store@GetCloth": "4014aedc715d24c2acfbec2382be24a339f3b299b3b41f7b9f5576b0b67c4acd"
+    "official/SS@Store@GetCloth": "4014aedc715d24c2acfbec2382be24a339f3b299b3b41f7b9f5576b0b67c4acd",
+    "resource/template/UiTheme/Together/Task": "d9c6a4b5829299c47eb080b15459ec42956d086ca6e7beffe680ed6fbe78987c",
+    "resource/template/UiTheme/Together/EnterInfrast": "2ad49a41d7754d9aee674ac23811d131cae958b0bbd8d88658b798059265dda7",
+    "resource/template/UiTheme/Together/Terminal": "f5ad199f37f2820df357cd5f8a30d44f1c8ee9a2f43b984b4d8852b905ef4376",
+    "resource/template/UiTheme/Together/Mall": "82965d9f5fbc50a655555c5cfb6cfc81036a61d84985d3946f34e25f3e7a44b9",
+    "resource/template/UiTheme/Together/GachaEnter": "01a52da011b11ea7a982061780a3700ba383d4c948ac496959398b806643b838",
+    "resource/template/UiTheme/Together/Recruit": "a54dfe6c7b4e9cbd3262674ba048777ab105176d5c32966a0bd083296d0e18bd",
+    "resource/template/UiTheme/Together/DepotEnter": "355e45f6f3f103e7019a7f05ce94978a0f7467ee1da77597144b75433110124f",
+    "resource/template/UiTheme/Together/OperBoxEnter": "649d3d015065a9a97afa369685b4fb676e0cd987879d5856a457e75dabe44b53",
+    "resource/template/UiTheme/Together/Friends": "e04cbb31cb5906189444ce5b7e9816210eca64d55636451ac417dc27335ca083"
 }
