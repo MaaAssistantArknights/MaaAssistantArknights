@@ -119,8 +119,8 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
-    bool m_timer_enabled = false;
-    std::chrono::steady_clock::time_point m_baseline_time;
+    bool m_stopwatch_enabled = false;
+    std::chrono::steady_clock::time_point m_stopwatch_start_time;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

@@ -264,9 +264,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         ret = move_camera(action.distance);
         break;
 
-    case ActionType::ResetTimer:
-        m_baseline_time = std::chrono::steady_clock::now();
-        m_timer_enabled = true;
+    case ActionType::ResetStopwatch:
+        m_stopwatch_start_time = std::chrono::steady_clock::now();
+        m_stopwatch_enabled = true;
         break;
 
     case ActionType::SkillDaemon:
@@ -306,7 +306,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
-        { ActionType::Deploy, "ResetTimer" },
+        { ActionType::ResetStopwatch, "ResetStopwatch" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
@@ -401,7 +401,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
 
     // 等待全局计时器
     if (action.elapsed_time > 0) {
-        if (m_timer_enabled) {
+        if (m_stopwatch_enabled) {
             update_image_if_empty();
             while (!need_exit()) {
                 if (elapsed_time() >= action.elapsed_time) {
