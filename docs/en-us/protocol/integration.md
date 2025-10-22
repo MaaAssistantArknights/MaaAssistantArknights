@@ -313,9 +313,37 @@ For specific information about the Collapsal Paradigm farming feature, please re
 
 ```json5
 {
-    "enable": bool,             // Whether to enable this task, optional, by default true
-    "filename": string,         // Filename and path of the task JSON, supporting absolute/relative paths. Editing in run-time is not supported.
-    "formation": bool           // Whether to "quick build", optional, by default false. Editing in run-time is not supported.
+    "enable": bool,               // Whether to enable this task. Optional, default is true.
+    "filename": string,           // Path to a single job JSON file. Required (mutually exclusive with copilot_list). Both relative and absolute paths are supported.
+    "copilot_list": [             // List of jobs. Required (mutually exclusive with filename). When both filename and copilot_list are present, copilot_list will be ignored.
+        {
+            "filename": string,   // Path to the job JSON file. Both relative and absolute paths are supported.
+            "stage_name": string, // Stage name. Refer to [PRTS.Map](https://map.ark-nights.com) for details.
+            "is_raid": bool,      // Whether to switch to Challenge Mode (Raid).
+            "is_paradox": bool    // Whether this is a Paradox Simulation stage.
+        },
+        ...
+    ],
+    "loop_times": int,            // Number of loops. Optional, default is 1. Effective only in single job mode (i.e., when filename is specified).
+    "use_sanity_potion": bool,    // Whether to use sanity potions when sanity is insufficient. Optional, default is false.
+    "formation": bool,            // Whether to enable auto formation. Optional, default is false.
+    "formation_index": int,       // The index of the formation slot to use in auto formation. Optional, default is 0.
+                                  // An integer between 0–4: 0 means the current formation, 1–4 refer to the 1st–4th formations.
+    "user_additional": [          // Custom additional operators list. Optional, default is []. Effective only when formation is true.
+        {
+            "name": string,       // Operator name. Optional, default is "". If left empty, this operator will be ignored.
+            "skill": int          // Skill to bring. Optional, default is 1. Must be an integer between 1–3; otherwise, follows the in-game default.
+        },
+        ...
+    ],
+    "add_trust": bool,            // Whether to auto-fill empty slots by ascending trust value during auto formation. Optional, default is false. Effective only when formation is true.
+    "ignore_requirements": bool,  // Whether to ignore operator attribute requirements during auto formation. Optional, default is false. Effective only when formation is true.
+    "support_unit_usage": int,    // Support operator usage mode. Optional, default is 0. Integer between 0–3. Effective only when formation is true.
+                                  //   0 - Do not use support operators.
+                                  //   1 - Use support operator only if exactly one operator is missing; otherwise, do not use support.
+                                  //   2 - Use support operator if one is missing; otherwise, use the specified support operator.
+                                  //   3 - Use support operator if one is missing; otherwise, use a random support operator.
+    "support_unit_name": string   // Specified support operator name. Optional, default is "". Effective only when support_unit_usage = 2.
 }
 ```
 
