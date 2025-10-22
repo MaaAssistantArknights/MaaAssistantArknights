@@ -3738,11 +3738,8 @@
         "char_4198_christ": {
             "name": "Miss.Christine",
             "name_en": "Miss.Christine",
-            "name_en_unavailable": true,
-            "name_jp": "Miss.Christine",
-            "name_jp_unavailable": true,
-            "name_kr": "Miss.Christine",
-            "name_kr_unavailable": true,
+            "name_jp": "ミス・クリスティーン",
+            "name_kr": "미스 크리스틴",
             "name_tw": "Miss.Christine",
             "name_tw_unavailable": true,
             "position": "RANGED",
