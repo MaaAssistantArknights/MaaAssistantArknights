@@ -491,7 +491,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
             "is less than or equal to the original one",
             m_image.cols);
         Log.info("Cancel the image merging");
-        return std::nullopt;
+        return offset;
     }
 
     // 创建新的 new_strip
