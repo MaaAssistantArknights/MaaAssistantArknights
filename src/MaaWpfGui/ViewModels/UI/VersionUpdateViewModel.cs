@@ -1172,7 +1172,7 @@ public class VersionUpdateViewModel : Screen
 
     private static ObservableCollection<LogItemViewModel>? _logItemViewModels;
 
-    public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
+    public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1, string? toolTip = null)
     {
         string progress = $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB ({value * 100.0 / maximum:F}%)";
 
@@ -1182,12 +1182,12 @@ public class VersionUpdateViewModel : Screen
             ? $"{speedInKiBPerSecond / 1024.0:F} MiB/s"
             : $"{speedInKiBPerSecond:F} KiB/s";
 
-        OutputDownloadProgress(progress + $" {speedDisplay}");
+        OutputDownloadProgress(progress + $" {speedDisplay}", toolTip: toolTip);
     }
 
     private static bool _globalSource = true;
 
-    public static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
+    public static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null, string? toolTip = null)
     {
         globalSource ??= _globalSource;
         _globalSource = globalSource.Value;
@@ -1219,10 +1219,9 @@ public class VersionUpdateViewModel : Screen
             fullText = output;
         }
 
-        var log = new LogItemViewModel(fullText, UiLogColor.Download);
-
         Execute.OnUIThread(() =>
         {
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip());
             if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
             {
                 if (!string.IsNullOrEmpty(output))

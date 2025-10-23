@@ -55,9 +55,9 @@ public static class ExternalNotificationService
                 _logger.Error(ex, "Failed to send External Notifications");
             }
 
-            if (isTest is false && result)
+            if (!isTest && result)
             {
-                return;
+                continue;
             }
 
             ToastNotification.ShowDirect(

@@ -30,6 +30,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
@@ -601,7 +602,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         if (success)
         {
-            ResourceUpdater.ResourceReload();
+            _ = ResourceUpdater.ResourceReloadWhenIdleAsync();
         }
         else
         {

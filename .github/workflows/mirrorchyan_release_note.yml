@@ -1,5 +1,4 @@
-name: mirrorchyan_release_note
-
+name: Release Note Distribution
 on:
   workflow_dispatch:
   release:
@@ -7,10 +6,11 @@ on:
 
 jobs:
   mirrorchyan:
+    name: Upload to MirrorChyan
     runs-on: macos-latest
 
     steps:
-      - name: Release Note for MAA
+      - name: Upload release notes to MirrorChyan
         uses: MirrorChyan/release-note-action@v1
         with:
           mirrorchyan_rid: MAA

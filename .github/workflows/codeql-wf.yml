@@ -1,4 +1,4 @@
-name: "CodeQL Workflows Analysis"
+name: CodeQL Workflow Analysis
 
 on:
   pull_request:

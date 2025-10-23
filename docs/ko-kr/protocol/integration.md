@@ -278,9 +278,37 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 
 ```json5
 {
-    "enable": bool,             // 이 작업을 활성화할지 여부, 선택 사항, 기본값은 true
-    "filename": string,         // 작업 JSON의 파일명과 경로, 절대/상대 경로를 지원합니다. 실행 중에 편집할 수 없습니다.
-    "formation": bool           // "빠른 배치"을 할지 여부(ESC키 PAUSE 배치), 선택 사항, 기본값은 false입니다. 실행 중에 편집할 수 없습니다.
+    "enable": bool,               // 이 작업을 활성화할지 여부. 선택 사항, 기본값은 true.
+    "filename": string,           // 단일 작업 JSON 파일 경로. 필수 (copilot_list와 상호 배타). 상대 경로 및 절대 경로 모두 가능.
+    "copilot_list": [             // 작업 목록. 필수 (filename과 상호 배타). filename과 copilot_list가 모두 존재하면 copilot_list는 무시됩니다.
+        {
+            "filename": string,   // 작업 JSON 파일 경로. 상대 경로 및 절대 경로 모두 가능.
+            "stage_name": string, // 스테이지 이름. 자세한 내용은 [PRTS.Map](https://map.ark-nights.com) 참고.
+            "is_raid": bool,      // 토벌(도전) 모드로 전환할지 여부.
+            "is_paradox": bool    // 역설 시뮬레이션 스테이지인지 여부.
+        },
+        ...
+    ],
+    "loop_times": int,            // 반복 횟수. 선택 사항, 기본값은 1. 단일 작업 모드(filename 지정 시)에서만 유효.
+    "use_sanity_potion": bool,    // 이성이 부족할 때 회복제를 사용할지 여부. 선택 사항, 기본값은 false.
+    "formation": bool,            // 자동 편성을 사용할지 여부. 선택 사항, 기본값은 false.
+    "formation_index": int,       // 자동 편성에 사용할 편성 슬롯 번호. 선택 사항, 기본값은 0.
+                                  // 0~4 정수. 0은 현재 편성, 1–4는 1~4번째 편성을 의미.
+    "user_additional": [          // 사용자 지정 추가 오퍼레이터 목록. 선택 사항, 기본값은 []. formation이 true일 때만 유효.
+        {
+            "name": string,       // 오퍼레이터 이름. 선택 사항, 기본값은 "". 비워두면 무시됩니다.
+            "skill": int          // 사용할 스킬. 선택 사항, 기본값은 1. 1~3 사이의 정수. 범위를 벗어나면 게임 내 기본 스킬을 따름.
+        },
+        ...
+    ],
+    "add_trust": bool,            // 자동 편성 시 신뢰도 오름차순으로 빈 슬롯을 채울지 여부. 선택 사항, 기본값은 false. formation이 true일 때만 유효.
+    "ignore_requirements": bool,  // 자동 편성 시 오퍼레이터 속성 요구 조건을 무시할지 여부. 선택 사항, 기본값은 false. formation이 true일 때만 유효.
+    "support_unit_usage": int,    // 서포트 오퍼레이터 사용 모드. 선택 사항, 기본값은 0. 0~3 정수. formation이 true일 때만 유효.
+                                  //   0 - 서포트 오퍼레이터 사용 안 함.
+                                  //   1 - 결원이 한 명일 경우만 서포트로 채움. 결원이 없으면 사용 안 함.
+                                  //   2 - 결원이 한 명일 경우 서포트로 채움. 결원이 없으면 지정된 서포트를 사용.
+                                  //   3 - 결원이 한 명일 경우 서포트로 채움. 결원이 없으면 랜덤 서포트를 사용.
+    "support_unit_name": string   // 지정된 서포트 오퍼레이터 이름. 선택 사항, 기본값은 "". support_unit_usage = 2일 때만 유효.
 }
 ```
 

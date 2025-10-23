@@ -1,0 +1,87 @@
+{
+    "stage_name": "玩具兵将",
+    "replacement_home": [
+        {
+            "location": [5, 5],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["召唤"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [5, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [4, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达", "提丰", "焰苇", "高台输出"],
+            "location": [4, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["地面远程", "地面阻挡", "处决者", "回费", "其他地面"],
+            "location": [3, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [4, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [3, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [5, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [5, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [4, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [2, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [2, 3],
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [5, 1],
+            "condition": [5, 7]
+        }
+    ]
+}

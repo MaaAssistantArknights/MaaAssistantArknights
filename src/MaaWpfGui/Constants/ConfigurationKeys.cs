@@ -165,6 +165,7 @@ public static class ConfigurationKeys
     public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
     public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";
     public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate";
+    public const string RoguelikeFindPlaytimeTarget = "Roguelike.FindPlaytimeTarget";
     public const string ReclamationTheme = "Reclamation.Theme";
     public const string ReclamationMode = "Reclamation.Mode";
     public const string ReclamationToolToCraft = "Reclamation.ToolToCraft";

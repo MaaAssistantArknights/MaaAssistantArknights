@@ -93,6 +93,40 @@
         "next": ["#next"],
         "maxTimes": 20
     },
+    "SwitchTheme@ToggleSettingsMenu": {
+        "action": "ClickSelf",
+        "roi": [227, 327, 159, 152],
+        "next": ["SwitchTheme@ChangeTheme"]
+    },
+    "SwitchTheme@ChangeTheme": {
+        "action": "ClickSelf",
+        "roi": [563, 566, 132, 132],
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@SelectLightTheme": {
+        "action": "ClickSelf",
+        "roi": [0, 99, 430, 180],
+        "next": ["SwitchTheme@ConfirmThemeChange"]
+    },
+    "SwitchTheme@SwipeToLightTheme": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [200, 170, 10, 10],
+        "rectMove": [200, 600, 10, 10],
+        "specialParams": [150, 0, 1, 1],
+        "postDelay": 500,
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@ConfirmThemeChange": {
+        "action": "ClickSelf",
+        "roi": [1070, 620, 200, 90],
+        "next": ["SwitchTheme@ReturnTheme"]
+    },
+    "SwitchTheme@ReturnTheme": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": ["#next"]
+    },
     "StageTheme": {
         "action": "ClickSelf",
         "roi": [243, 598, 147, 122],
@@ -591,7 +625,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maxTimes": 3,
         "exceededNext": ["Stop"],
@@ -793,7 +828,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "baseTask": "StartUp",
         "next": ["Settings"]
@@ -951,7 +987,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction"
-        ]
+        ],
+        "onErrorNext": ["StartUpBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "GameStart": {
         "action": "ClickSelf",
@@ -1016,7 +1053,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
@@ -1046,7 +1084,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maskRange": [1, 255],
         "roi": [844, 58, 268, 272],
@@ -1136,7 +1175,8 @@
             "ReturnButton@LoadingIcon",
             "ReturnButton@LoadingText",
             "CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["SwitchTheme@ToggleSettingsMenu"]
     },
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
@@ -1239,7 +1279,8 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
+        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"],
+        "onErrorNext": ["StageBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
@@ -1250,7 +1291,8 @@
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
-        ]
+        ],
+        "onErrorNext": ["FightBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1263,7 +1305,8 @@
             "Fight",
             "Fight@CloseAnnos#next",
             "Fight@PRTS#next"
-        ]
+        ],
+        "onErrorNext": ["LastOrCurBattleBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "UsePrts": {
         "action": "ClickSelf",
@@ -1688,7 +1731,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -1712,7 +1756,8 @@
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
-        ]
+        ],
+        "onErrorNext": ["RecruitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Recruit": {
         "template": [
@@ -1728,10 +1773,11 @@
             "Dreamland/DreamlandDefault/Recruit.png",
             "Dreamland/DreamlandDark/Recruit.png",
             "JieGarden/Recruit.png",
-            "AveMujica/Recruit.png"
+            "AveMujica/Recruit.png",
+            "Together/Recruit.png"
         ],
         "action": "ClickSelf",
-        "roi": [900, 450, 200, 150],
+        "roi": [925, 425, 200, 150],
         "crop_doc": {
             "roi": [935, 480, 145, 61],
             "mask": [125, 0, 25, 20]
@@ -1795,7 +1841,8 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
-        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"]
+        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
+        "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1813,7 +1860,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "next": ["MiningActivities", "Stop"]
     },
@@ -1843,7 +1891,8 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
-        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"]
+        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
+        "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1861,7 +1910,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "next": ["OrundumActivities", "Stop"]
     },
@@ -1929,7 +1979,8 @@
             "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivitiesReturnHome",
             "RecruitingActivities"
-        ]
+        ],
+        "onErrorNext": ["RecruitingActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "RecruitingActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1947,7 +1998,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "next": ["RecruitingActivities", "Stop"]
     },
@@ -2014,7 +2066,8 @@
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
             "SpecialAccessActivities"
-        ]
+        ],
+        "onErrorNext": ["SpecialAccessActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "SpecialAccessActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2032,7 +2085,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "next": ["SpecialAccessActivities", "Stop"]
     },
@@ -2075,7 +2129,8 @@
             "DailyTask",
             "WeeklyTask",
             "Award@CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["AwardBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Award": {
         "template": [
@@ -2091,9 +2146,10 @@
             "Dreamland/DreamlandDefault/Task.png",
             "Dreamland/DreamlandDark/Task.png",
             "JieGarden/Task.png",
-            "AveMujica/Task.png"
+            "AveMujica/Task.png",
+            "Together/Task.png"
         ],
-        "templThreshold": 0.85,
+        "templThreshold": 0.9,
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
@@ -2114,7 +2170,7 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["CloseTaskAwardDouble"],
-        "postDelay": 500
+        "postDelay": 1000
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -2122,7 +2178,8 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["WeeklyTask", "AwardFinished", "CloseTaskAwardDouble"],
-        "maxTimes": 10
+        "maxTimes": 10,
+        "postDelay": 500
     },
     "AwardFinished": {
         "action": "Stop",
@@ -2142,7 +2199,8 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"]
+        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"],
+        "onErrorNext": ["MailBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
@@ -2159,7 +2217,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "action": "DoNothing",
         "next": ["Mail", "MailWithoutAward"]
@@ -2204,7 +2263,8 @@
             "VisitNextBlack",
             "Visit@ReturnButtons#next",
             "Visit@CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["VisitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Visit": {
         "template": [
@@ -2220,7 +2280,8 @@
             "Dreamland/DreamlandDefault/Friends.png",
             "Dreamland/DreamlandDark/Friends.png",
             "JieGarden/Friends.png",
-            "AveMujica/Friends.png"
+            "AveMujica/Friends.png",
+            "Together/Friends.png"
         ],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
@@ -2284,7 +2345,8 @@
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"],
+        "onErrorNext": ["MallBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Mall": {
         "doc": "请同步更新 Store@EnterStore 的 template",
@@ -2301,7 +2363,8 @@
             "Dreamland/DreamlandDefault/Mall.png",
             "Dreamland/DreamlandDark/Mall.png",
             "JieGarden/Mall.png",
-            "AveMujica/Mall.png"
+            "AveMujica/Mall.png",
+            "Together/Mall.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -2362,7 +2425,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maskRange": [1, 255],
         "action": "Stop",
@@ -2551,7 +2615,8 @@
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
-        ]
+        ],
+        "onErrorNext": ["InfrastBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Infrast@MainThemes": {
         "next": ["InfrastBegin#next"]
@@ -2576,7 +2641,8 @@
             "Dreamland/DreamlandDefault/EnterInfrast.png",
             "Dreamland/DreamlandDark/EnterInfrast.png",
             "JieGarden/EnterInfrast.png",
-            "AveMujica/EnterInfrast.png"
+            "AveMujica/EnterInfrast.png",
+            "Together/EnterInfrast.png"
         ],
         "maskRange": [1, 255],
         "roi": [930, 540, 230, 180],
@@ -2655,12 +2721,12 @@
         "roi": [1180, 500, 100, 100],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneAssistTrade": {
         "action": "ClickSelf",
         "roi": [250, 430, 460, 120],
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneMax": {
         "action": "ClickSelf",
@@ -4353,7 +4419,8 @@
             "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnButtons#next"
-        ]
+        ],
+        "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "DepotEnter": {
         "action": "ClickSelf",
@@ -4370,7 +4437,8 @@
             "Dreamland/DreamlandDefault/DepotEnter.png",
             "Dreamland/DreamlandDark/DepotEnter.png",
             "JieGarden/DepotEnter.png",
-            "AveMujica/DepotEnter.png"
+            "AveMujica/DepotEnter.png",
+            "Together/DepotEnter.png"
         ],
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
@@ -4448,7 +4516,8 @@
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
             "OperBoxEnter@ReturnButtons#next"
-        ]
+        ],
+        "onErrorNext": ["OperBoxBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "OperBoxEnter": {
         "template": [
@@ -4464,7 +4533,8 @@
             "Dreamland/DreamlandDefault/OperBoxEnter.png",
             "Dreamland/DreamlandDark/OperBoxEnter.png",
             "JieGarden/OperBoxEnter.png",
-            "AveMujica/OperBoxEnter.png"
+            "AveMujica/OperBoxEnter.png",
+            "Together/OperBoxEnter.png"
         ],
         "action": "ClickSelf",
         "maskRange": [1, 255],
@@ -5025,7 +5095,8 @@
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
-        ]
+        ],
+        "onErrorNext": ["GachaBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "GachaEnter": {
         "action": "ClickSelf",
@@ -5042,10 +5113,11 @@
             "Dreamland/DreamlandDefault/GachaEnter.png",
             "Dreamland/DreamlandDark/GachaEnter.png",
             "JieGarden/GachaEnter.png",
-            "AveMujica/GachaEnter.png"
+            "AveMujica/GachaEnter.png",
+            "Together/GachaEnter.png"
         ],
         "maskRange": [1, 255],
-        "roi": [1052, 443, 228, 156],
+        "roi": [1052, 426, 228, 174],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
         "crop_doc": {
             "roi": [1095, 497, 167, 56],
@@ -5129,7 +5201,8 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+        "next": ["Store@EnterStore", "Store@EnterTicketStore"],
+        "onErrorNext": ["Store@Begin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",
@@ -5146,7 +5219,8 @@
             "Dreamland/DreamlandDefault/Mall.png",
             "Dreamland/DreamlandDark/Mall.png",
             "JieGarden/Mall.png",
-            "AveMujica/Mall.png"
+            "AveMujica/Mall.png",
+            "Together/Mall.png"
         ],
         "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },

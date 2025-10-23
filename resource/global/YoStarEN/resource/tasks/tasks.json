@@ -917,7 +917,7 @@
             ["Nightwalker's Hook Module", "夜行钩爪模块"],
             ["Exusiai the New Covenant", "新约能天使"],
             ["Sankta Miksaparato", "信仰搅拌机"],
-            ["Master Who Walks the Night Gear", "天工夜行套装"],
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
             ["Delivery Coordinates", "投递坐标"],
             ["Gracebearer", "聆音"],
             ["Lemuen", "蕾缪安"]
@@ -1489,7 +1489,8 @@
             ["Security Talent Agreement", "保全人才合作协议"],
             ["Cloudstepper", "攀云机"],
             ["Pinnacle Insights? Port", "尖端研究成果共享终端"],
-            ["Lightweight Range[finder]*", "轻型瞄准测距仪"]
+            ["Lightweight Range[finder]*", "轻型瞄准测距仪"],
+            ["Master Who Walks the[ Night Gear]*", "天工夜行套装"]
         ]
     },
     "SSSBuffChooseConfirm": {

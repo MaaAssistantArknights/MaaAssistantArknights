@@ -128,66 +128,6 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 如果這樣也無法正常使用，可將 `連接設定` - `觸控模式` 從 `Minitouch` 切換到 `MaaTouch` 再次嘗試。由於 `Adb Input` 操作過於緩慢，請僅將其作為萬不得已的模式。
 
-## 藍疊模擬器每次啟動通訊埠號都不一樣（Hyper-V）
-
-打開 MAA，在 `設定` - `連接設定` 中設定 `連接配置` 為 `藍疊模擬器` ，隨後勾選 `自動檢測連接` 和 `每次重新檢測` （或是在主界面 `開始喚醒` 旁的設定中勾選這兩項）
-
-通常情況下這樣設定就能連上了。如果沒能連上，可能是你安裝了多個模擬器核心或是該功能出現問題，可以根據下面的指導來進行額外設定
-
-### 指定 `Bluestacks.Config.Keyword`
-
-::: info 注意
-如果你啟用了多開功能或是安裝了多個模擬器核心，那麼你需要進行額外設定來指定使用的模擬器編號
-:::
-
-在 `gui.json` 中添加 `Bluestacks.Config.Keyword` 欄位，內容為 `"bst.instance.模擬器編號.status.adb_port"`，模擬器編號可在模擬器路徑的 `BlueStacks_nxt\Engine` 中看到
-
-::: details 範例
-
-Nougat64 核心：
-
-```json
-"Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
-```
-
-Pie64_2 核心：（核心名稱後的數字代表這是一個多開核心）
-
-```json
-"Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
-```
-
-:::
-
-### 指定 `Bluestacks.Config.Path`
-
-::: info 注意
-MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的儲存位置，當該功能失效或出錯時，你需要手動指定配置檔案路徑
-:::
-
-1. 在藍疊模擬器的數據目錄下找到 `bluestacks.conf` 這個檔案
-   - 國際版預設路徑為 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-   - 中國內地版預設路徑為 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
-
-2. 如果是第一次使用，請開啟一次 MAA，會在 MAA 的 `config` 目錄下產生 `gui.json`。
-
-3. **先關閉** MAA，**然後** 打開 `gui.json`，找到 `Configurations` 下的目前配置名欄位（可在 設定 - 切換配置 中查看，預設為 `Default`），在其中新增一個欄位 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路徑。（注意斜槓要用轉義 `\\`）
-
-::: details 範例
-以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例
-
-```json
-{
-    "Configurations": {
-        "Default": {
-            "Bluestacks.Config.Path":"C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf",
-            // 其餘配置欄位，不要手動輸入修改
-        }
-    }
-}
-```
-
-:::
-
 ## 連接正常，但是操作卡頓、異常或頻繁出錯
 
 - 若使用了 `異形螢幕 UI 適配`，請將其調整為 0。
@@ -196,6 +136,7 @@ MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的儲存位置，當
 - 若自動戰鬥頻繁暫停且不下幹員，請關閉 `設置` - `運行設置` 中的 `劃火柴模式`。
 - 若自動編隊無法正常識別幹員，請取消對應幹員的特別關注。
 - `Adb Input` 觸控模式操作緩慢為正常情況，如需自動戰鬥等請嘗試切換其他模式。
+- 若正在使用 MuMu 模擬器，請勿將 `視訊記憶體使用策略` 設置為 `資源占用更小`。
 
 ### 提示截圖用時較長 / 過長
 

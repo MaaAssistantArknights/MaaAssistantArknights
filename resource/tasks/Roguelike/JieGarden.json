@@ -24,7 +24,16 @@
             "roi": [1067, 255, 159, 154],
             "mask": []
         },
-        "roi": [1060, 250, 156, 152]
+        "template": ["JieGarden@Roguelike@Abandon.png", "JieGarden@Roguelike@Abandon2.png"],
+        "roi": [1118, 306, 43, 43],
+        "maskRange": [1, 255],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [220, 0, 0],
+                [255, 100, 100]
+            ]
+        ]
     },
     "JieGarden@Roguelike@AbandonSwitch": {
         "Doc": "放弃交换通宝",
@@ -405,186 +414,38 @@
             "JieGarden@Roguelike@RecruitWithoutButton"
         ]
     },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucher": {
+        "doc": "保留招募券 - hsv用来区分是否到达保留上限",
+        "algorithm": "MatchTemplate",
+        "method": "HSVCount",
+        "roi": [948, 5, 229, 56],
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [10, 255, 210]
+            ],
+            [
+                [170, 0, 50],
+                [180, 255, 210]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
+        "action": "ClickSelf",
+        "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确认留存"],
+        "roi": [766, 572, 142, 49],
+        "action": "ClickSelf"
+    },
     "JieGarden@Roguelike@RolesConfirm": {
         "template": "JieGarden@Roguelike@LastRewardConfirm.png"
     },
     "JieGarden@Roguelike@RolesDefault": {},
-    "JieGarden@Roguelike@Routing": {
-        "template": [
-            "JieGarden@Roguelike@StageCombatDps.png",
-            "JieGarden@Roguelike@StageEmergencyDps.png",
-            "JieGarden@Roguelike@StageDreadfulFoe.png",
-            "JieGarden@Roguelike@StageDreadfulFoe-5.png",
-            "JieGarden@Roguelike@StageEncounter.png",
-            "JieGarden@Roguelike@StageBoons.png",
-            "JieGarden@Roguelike@StageGuidance.png",
-            "JieGarden@Roguelike@StageSafeHouse.png",
-            "JieGarden@Roguelike@StageTrader.png",
-            "JieGarden@Roguelike@StageWindAndRain.png",
-            "JieGarden@Roguelike@StageEmergencyTransportation.png",
-            "JieGarden@Roguelike@StageBoskyPassage.png",
-            "JieGarden@Roguelike@StageProphecy.png",
-            "JieGarden@Roguelike@StageConfrontation.png"
-        ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
-    },
-    "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png"
-        ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
-    },
-    "JieGarden@Roguelike@Routing-FastInvestment": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeCombatOps.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-            "JieGarden@Roguelike@MapNodeEncounter.png",
-            "JieGarden@Roguelike@MapNodeRogueTrader.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassage.png"
-        ],
-        "next": ["JieGarden@Roguelike@RoutingAction"]
-    },
-    "JieGarden@Roguelike@RoutingAction": {
-        "algorithm": "JustReturn"
-    },
-    "JieGarden@Roguelike@RoutingAction-ClickRemainingCandleFlame": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ClickRemainingCandleFlame"]
-    },
-    "JieGarden@Roguelike@RoutingAction-ExitThenAbandon": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@ExitThenAbandon"]
-    },
-    "JieGarden@Roguelike@RoutingAction-StageCombatDpsEnter": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageCombatDpsEnter"]
-    },
-    "JieGarden@Roguelike@RoutingAction-StageCombatOpsEnterThenLeave": {
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageCombatOpsEnterThenLeave"]
-    },
-    "JieGarden@Roguelike@RoutingAction-StageEncounterEnter": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageEncounterEnter"]
-    },
-    "JieGarden@Roguelike@RoutingAction-StageTraderEnter": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageTraderEnter"]
-    },
-    "JieGarden@Roguelike@RoutingAction-StageYiTraderEnter": {
-        "doc": "用于替换 JieGarden@Roguelike@RoutingAction 的 BaseTask",
-        "algorithm": "JustReturn",
-        "next": ["JieGarden@Roguelike@StageYiTraderEnter"]
-    },
-    "JieGarden@Roguelike@RoutingBoskyPassageConfig": {
-        "doc": [
-            "RoguelikeRoutingTaskPlugin用参数",
-            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
-            "| specialParams[1]: 第一行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[2]: 中间列节点的默认横坐标 (Rect.x)",
-            "| specialParams[3]: 中间行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[4]: 最后列节点的默认横坐标 (Rect.x)",
-            "| specialParams[5]: 最后行节点的默认纵坐标 (Rect.y)",
-            "| specialParams[6]: 节点 Rect.width",
-            "| specialParams[7]: 节点 Rect.height",
-            "| specialParams[8]: 两列节点之间的距离",
-            "| specialParams[9]: 两行节点之间的距离",
-            "| specialParams[10]: roi 的 margin offset"
-        ],
-        "template": "empty.png",
-        "specialParams": [188, 107, 608, 321, 1028, 535, 64, 57, 140, 107, 15]
-    },
-    "JieGarden@Roguelike@RoutingBoskyPassageNodeAnalyze": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeOldShop.png",
-            "JieGarden@Roguelike@MapNodeScheme.png",
-            "JieGarden@Roguelike@MapNodeYiTrader.png",
-            "JieGarden@Roguelike@MapNodePlaytime.png",
-            "JieGarden@Roguelike@MapNodeOmissions.png",
-            "JieGarden@Roguelike@MapNodeOmissionsGrey.png",
-            "JieGarden@Roguelike@MapNodeLegend.png",
-            "JieGarden@Roguelike@MapNodeLegendGrey.png",
-            "JieGarden@Roguelike@MapNodeDoubts.png",
-            "JieGarden@Roguelike@MapNodeDoubtsGrey.png",
-            "JieGarden@Roguelike@MapNodeDisaster.png",
-            "JieGarden@Roguelike@MapNodeDisasterGrey.png"
-        ],
-        "roi": [0, 60, 1280, 575],
-        "postDelay": 300
-    },
-    "JieGarden@Roguelike@RoutingConfig": {
-        "doc": [
-            "RoguelikeRoutingTaskPlugin用参数",
-            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
-            "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
-            "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
-            "| specialParams[3]: 节点 Rect.width",
-            "| specialParams[4]: 节点 Rect.height",
-            "| specialParams[5]: 两列节点之间的距离",
-            "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "| specialParams[7]: roi 的 margin offset",
-            "| specialParams[8]: 节点间连线方向判定的阈值"
-        ],
-        "template": "empty.png",
-        "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
-    },
-    "JieGarden@Roguelike@RoutingContinue": {
-        "template": "JieGarden@Roguelike@Continue.png",
-        "roi": [1008, 523, 265, 197],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@RoutingContinueConfirm"]
-    },
-    "JieGarden@Roguelike@RoutingContinueConfirm": {
-        "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [50, 360, 0, 0],
-        "next": ["JieGarden@Roguelike@RoutingNodeAnalyze", "JieGarden@Roguelike@RoutingContinueConfirm"]
-    },
-    "JieGarden@Roguelike@RoutingExitThenContinue": {
-        "template": "Roguelike@ExitThenAbandon.png",
-        "roi": [18, 8, 53, 53],
-        "action": "ClickSelf",
-        "next": ["JieGarden@Roguelike@RoutingContinue"]
-    },
-    "JieGarden@Roguelike@RoutingNodeAnalyze": {
-        "template": [
-            "JieGarden@Roguelike@MapNodeCombatOps.png",
-            "JieGarden@Roguelike@MapNodeCombatOpsGrey.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOps.png",
-            "JieGarden@Roguelike@MapNodeEmergencyOpsGrey.png",
-            "JieGarden@Roguelike@MapNodeEncounter.png",
-            "JieGarden@Roguelike@MapNodeEncounterGrey.png",
-            "JieGarden@Roguelike@MapNodeBoons.png",
-            "JieGarden@Roguelike@MapNodeBoonsGrey.png",
-            "JieGarden@Roguelike@MapNodeRogueTrader.png",
-            "JieGarden@Roguelike@MapNodeRogueTraderGrey.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassage.png",
-            "JieGarden@Roguelike@MapNodeBoskyPassageGrey.png"
-        ],
-        "roi": [0, 60, 1280, 575],
-        "postDelay": 300
-    },
-    "JieGarden@Roguelike@RoutingSwipeRight": {
-        "doc": "生成地图时向左滑动",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [1000, 360, 0, 0],
-        "rectMove": [570, 360, 0, 0],
-        "specialParams": [200, 1]
-    },
     "JieGarden@Roguelike@SelectTheme": {
         "text": ["游园纪念"]
     },
@@ -1024,8 +885,8 @@
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@Routing-BoskyPassage_JieGarden",
-            "JieGarden@Roguelike@ClickRemainingCandleFlame"
+            "JieGarden@Roguelike@Routing_BoskyPassage",
+            "JieGarden@Roguelike@Stages_leaveBoskyPassage#next"
         ]
     },
     "JieGarden@Roguelike@Stages_default": {
@@ -1053,7 +914,7 @@
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
-    "JieGarden@Roguelike@Stages_fastInvestment": {
+    "JieGarden@Roguelike@Stages_fastPass": {
         "doc": "指挥分队专用投资策略，调用 RoguelikeRoutingTaskPlugin",
         "algorithm": "JustReturn",
         "next": [
@@ -1061,7 +922,7 @@
             "JieGarden@Roguelike@RandomPickAfterNextLevel",
             "JieGarden@Roguelike@CloseCollectionContinue",
             "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@Routing-FastInvestment"
+            "JieGarden@Roguelike@Routing-FastPass"
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
@@ -1095,40 +956,12 @@
         ],
         "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
     },
-    "JieGarden@Roguelike@Stages_routing": {
-        "algorithm": "JustReturn",
-        "next": [
-            "JieGarden@Roguelike@NextLevel",
-            "JieGarden@Roguelike@RandomPickAfterNextLevel",
-            "JieGarden@Roguelike@CloseCollectionContinue",
-            "JieGarden@Roguelike@CloseCollectionClose",
-            "JieGarden@Roguelike@Routing"
-        ],
-        "onErrorNext": ["JieGarden@Roguelike@ExitThenAbandon"]
-    },
     "JieGarden@Roguelike@StartExplore": {
         "roi": [1001, 524, 273, 196]
     },
     "JieGarden@Roguelike@StartExplore-EnterCheck": {
         "template": "JieGarden@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
-    },
-    "JieGarden@Roguelike@StrategyChange-FastInvestment": {
-        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_restart", "_leaveBoskyPassage"],
-        "ocrReplace": [
-            ["洪陆楼", "_fastInvestment"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28],
-        "withoutDet": true,
-        "binThreshold": [200, 255],
-        "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
@@ -1179,16 +1012,50 @@
         "binThreshold": [200, 255],
         "useRaw": false
     },
-    "JieGarden@Roguelike@StrategyChange_mode10001": {
-        "text": ["_routing", "_exit", "_leaveBoskyPassage"],
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_restart", "_leaveBoskyPassage"],
         "ocrReplace": [
-            ["洪陆楼", "_routing"],
-            ["山水阁", "_exit"],
-            ["云(瓦)?(亭|亨)", "_exit"],
-            ["汝吾(门)?", "_exit"],
-            ["见字祠", "_exit"],
-            ["始末陵", "_exit"],
+            ["洪陆楼", "_fastPass"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28],
+        "withoutDet": true,
+        "binThreshold": [200, 255],
+        "useRaw": false
+    },
+    "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_restart", "_leaveBoskyPassage"],
+        "ocrReplace": [
+            ["洪陆楼", "_fastPass"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28],
+        "withoutDet": true,
+        "binThreshold": [200, 255],
+        "useRaw": false
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "text": ["_default", "_restart", "_boskyPassageDefault"],
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_boskyPassageDefault"]
         ],
         "roi": [627, 14, 71, 28],
         "withoutDet": true,
@@ -1213,9 +1080,9 @@
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
         "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
-        "text": ["_fastInvestment", "_exit", "_leaveBoskyPassage"],
+        "text": ["_fastPass", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
-            ["洪陆楼", "_fastInvestment"],
+            ["洪陆楼", "_fastPass"],
             ["山水阁", "_exit"],
             ["云(瓦)?(亭|亨)", "_exit"],
             ["汝吾(门)?", "_exit"],
@@ -1265,9 +1132,11 @@
         "template": "Roguelike@QuickFormation.png"
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
-        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
-        "roi": [848, 610, 140, 110],
-        "action": "ClickSelf"
+        "doc": [
+            "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
+            "界园的招募界面 UI 和其他主题略有不同，图标缩小且位置向左偏移"
+        ],
+        "roi": [891, 648, 58, 58]
     },
     "JieGarden@RoguelikeSettlementConfirm": {}
 }

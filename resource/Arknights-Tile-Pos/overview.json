@@ -9989,6 +9989,402 @@
         "stageId": "act2enemyduel_01b",
         "width": 15
     },
+    "act2multi_01-activities/act2multi/level_act2multi_01": {
+        "code": "IG-1",
+        "filename": "act2multi_01-activities-act2multi-level_act2multi_01.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_01",
+        "name": "无声的默契",
+        "stageId": "act2multi_01",
+        "width": 12
+    },
+    "act2multi_02-activities/act2multi/level_act2multi_02": {
+        "code": "IG-2",
+        "filename": "act2multi_02-activities-act2multi-level_act2multi_02.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_02",
+        "name": "火热捉迷藏",
+        "stageId": "act2multi_02",
+        "width": 12
+    },
+    "act2multi_03-activities/act2multi/level_act2multi_03": {
+        "code": "IG-3",
+        "filename": "act2multi_03-activities-act2multi-level_act2multi_03.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_03",
+        "name": "暗夜微光",
+        "stageId": "act2multi_03",
+        "width": 11
+    },
+    "act2multi_04-activities/act2multi/level_act2multi_04": {
+        "code": "IG-5",
+        "filename": "act2multi_04-activities-act2multi-level_act2multi_04.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_04",
+        "name": "聚光灯下",
+        "stageId": "act2multi_04",
+        "width": 13
+    },
+    "act2multi_05-activities/act2multi/level_act2multi_05": {
+        "code": "IG-6",
+        "filename": "act2multi_05-activities-act2multi-level_act2multi_05.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_05",
+        "name": "急速撤离",
+        "stageId": "act2multi_05",
+        "width": 12
+    },
+    "act2multi_06-activities/act2multi/level_act2multi_06": {
+        "code": "IG-7",
+        "filename": "act2multi_06-activities-act2multi-level_act2multi_06.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_06",
+        "name": "助威团之争",
+        "stageId": "act2multi_06",
+        "width": 13
+    },
+    "act2multi_07-activities/act2multi/level_act2multi_07": {
+        "code": "IG-9",
+        "filename": "act2multi_07-activities-act2multi-level_act2multi_07.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_07",
+        "name": "爆炸性新闻",
+        "stageId": "act2multi_07",
+        "width": 12
+    },
+    "act2multi_08-activities/act2multi/level_act2multi_08": {
+        "code": "IG-10",
+        "filename": "act2multi_08-activities-act2multi-level_act2multi_08.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_08",
+        "name": "冰爽速递",
+        "stageId": "act2multi_08",
+        "width": 12
+    },
+    "act2multi_09-activities/act2multi/level_act2multi_09": {
+        "code": "IG-12",
+        "filename": "act2multi_09-activities-act2multi-level_act2multi_09.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_09",
+        "name": "大巴扎巡礼",
+        "stageId": "act2multi_09",
+        "width": 13
+    },
+    "act2multi_10-activities/act2multi/level_act2multi_10": {
+        "code": "IG-13",
+        "filename": "act2multi_10-activities-act2multi-level_act2multi_10.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_10",
+        "name": "踏浪匪盗",
+        "stageId": "act2multi_10",
+        "width": 15
+    },
+    "act2multi_ex-raft-activities/act2multi/level_act2multi_raft_ex_basic": {
+        "code": "IG-OR-2",
+        "filename": "act2multi_ex-raft-activities-act2multi-level_act2multi_raft_ex_basic.json",
+        "height": 40,
+        "levelId": "activities/act2multi/level_act2multi_raft_ex_basic",
+        "name": "全动力航行",
+        "stageId": "act2multi_ex-raft",
+        "width": 40
+    },
+    "act2multi_ex01-activities/act2multi/level_act2multi_01": {
+        "code": "IG-EX-1",
+        "filename": "act2multi_ex01-activities-act2multi-level_act2multi_01.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_01",
+        "name": "无声的默契",
+        "stageId": "act2multi_ex01",
+        "width": 12
+    },
+    "act2multi_ex02-activities/act2multi/level_act2multi_02": {
+        "code": "IG-EX-2",
+        "filename": "act2multi_ex02-activities-act2multi-level_act2multi_02.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_02",
+        "name": "火热捉迷藏",
+        "stageId": "act2multi_ex02",
+        "width": 12
+    },
+    "act2multi_ex03-activities/act2multi/level_act2multi_03": {
+        "code": "IG-EX-3",
+        "filename": "act2multi_ex03-activities-act2multi-level_act2multi_03.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_03",
+        "name": "暗夜微光",
+        "stageId": "act2multi_ex03",
+        "width": 11
+    },
+    "act2multi_ex04-activities/act2multi/level_act2multi_04": {
+        "code": "IG-EX-5",
+        "filename": "act2multi_ex04-activities-act2multi-level_act2multi_04.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_04",
+        "name": "聚光灯下",
+        "stageId": "act2multi_ex04",
+        "width": 13
+    },
+    "act2multi_ex05-activities/act2multi/level_act2multi_05": {
+        "code": "IG-EX-6",
+        "filename": "act2multi_ex05-activities-act2multi-level_act2multi_05.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_05",
+        "name": "急速撤离",
+        "stageId": "act2multi_ex05",
+        "width": 12
+    },
+    "act2multi_ex06-activities/act2multi/level_act2multi_06": {
+        "code": "IG-EX-7",
+        "filename": "act2multi_ex06-activities-act2multi-level_act2multi_06.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_06",
+        "name": "助威团之争",
+        "stageId": "act2multi_ex06",
+        "width": 13
+    },
+    "act2multi_ex07-activities/act2multi/level_act2multi_07": {
+        "code": "IG-EX-9",
+        "filename": "act2multi_ex07-activities-act2multi-level_act2multi_07.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_07",
+        "name": "爆炸性新闻",
+        "stageId": "act2multi_ex07",
+        "width": 12
+    },
+    "act2multi_ex08-activities/act2multi/level_act2multi_08": {
+        "code": "IG-EX-10",
+        "filename": "act2multi_ex08-activities-act2multi-level_act2multi_08.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_08",
+        "name": "冰爽速递",
+        "stageId": "act2multi_ex08",
+        "width": 12
+    },
+    "act2multi_ex09-activities/act2multi/level_act2multi_09": {
+        "code": "IG-EX-12",
+        "filename": "act2multi_ex09-activities-act2multi-level_act2multi_09.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_09",
+        "name": "大巴扎巡礼",
+        "stageId": "act2multi_ex09",
+        "width": 13
+    },
+    "act2multi_ex10-activities/act2multi/level_act2multi_10": {
+        "code": "IG-EX-13",
+        "filename": "act2multi_ex10-activities-act2multi-level_act2multi_10.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_10",
+        "name": "踏浪匪盗",
+        "stageId": "act2multi_ex10",
+        "width": 15
+    },
+    "act2multi_fortress-01-activities/act2multi/level_act2multi_fortress_01": {
+        "code": "IG-DF-1",
+        "filename": "act2multi_fortress-01-activities-act2multi-level_act2multi_fortress_01.json",
+        "height": 10,
+        "levelId": "activities/act2multi/level_act2multi_fortress_01",
+        "name": "小心踩踏",
+        "stageId": "act2multi_fortress-01",
+        "width": 24
+    },
+    "act2multi_fortress-02-activities/act2multi/level_act2multi_fortress_02": {
+        "code": "IG-DF-2",
+        "filename": "act2multi_fortress-02-activities-act2multi-level_act2multi_fortress_02.json",
+        "height": 15,
+        "levelId": "activities/act2multi/level_act2multi_fortress_02",
+        "name": "风洞实验室",
+        "stageId": "act2multi_fortress-02",
+        "width": 20
+    },
+    "act2multi_fortress-ex-01-activities/act2multi/level_act2multi_fortress_01": {
+        "code": "IG-DF-4",
+        "filename": "act2multi_fortress-ex-01-activities-act2multi-level_act2multi_fortress_01.json",
+        "height": 10,
+        "levelId": "activities/act2multi/level_act2multi_fortress_01",
+        "name": "小心踩踏",
+        "stageId": "act2multi_fortress-ex-01",
+        "width": 24
+    },
+    "act2multi_fortress-ex-02-activities/act2multi/level_act2multi_fortress_02": {
+        "code": "IG-DF-5",
+        "filename": "act2multi_fortress-ex-02-activities-act2multi-level_act2multi_fortress_02.json",
+        "height": 15,
+        "levelId": "activities/act2multi/level_act2multi_fortress_02",
+        "name": "风洞实验室",
+        "stageId": "act2multi_fortress-ex-02",
+        "width": 20
+    },
+    "act2multi_fortress-ex-rm01-activities/act2multi/level_act2multi_fortress_rm01": {
+        "code": "IG-DF-6",
+        "filename": "act2multi_fortress-ex-rm01-activities-act2multi-level_act2multi_fortress_rm01.json",
+        "height": 14,
+        "levelId": "activities/act2multi/level_act2multi_fortress_rm01",
+        "name": "湿地跨栏",
+        "stageId": "act2multi_fortress-ex-rm01",
+        "width": 22
+    },
+    "act2multi_fortress-hard-01-activities/act2multi/level_act2multi_fortress-hard-01": {
+        "code": "IG-S-5",
+        "filename": "act2multi_fortress-hard-01-activities-act2multi-level_act2multi_fortress-hard-01.json",
+        "height": 12,
+        "levelId": "activities/act2multi/level_act2multi_fortress-hard-01",
+        "name": "无限制越野",
+        "stageId": "act2multi_fortress-hard-01",
+        "width": 27
+    },
+    "act2multi_fortress-rm01-activities/act2multi/level_act2multi_fortress_rm01": {
+        "code": "IG-DF-3",
+        "filename": "act2multi_fortress-rm01-activities-act2multi-level_act2multi_fortress_rm01.json",
+        "height": 14,
+        "levelId": "activities/act2multi/level_act2multi_fortress_rm01",
+        "name": "湿地跨栏",
+        "stageId": "act2multi_fortress-rm01",
+        "width": 22
+    },
+    "act2multi_hard-01-activities/act2multi/level_act2multi_hard-01": {
+        "code": "IG-S-1",
+        "filename": "act2multi_hard-01-activities-act2multi-level_act2multi_hard-01.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_hard-01",
+        "name": "甲板风云",
+        "stageId": "act2multi_hard-01",
+        "width": 12
+    },
+    "act2multi_hard-02-activities/act2multi/level_act2multi_hard-02": {
+        "code": "IG-S-2",
+        "filename": "act2multi_hard-02-activities-act2multi-level_act2multi_hard-02.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_hard-02",
+        "name": "黄沙急行",
+        "stageId": "act2multi_hard-02",
+        "width": 12
+    },
+    "act2multi_hard-03-activities/act2multi/level_act2multi_hard-03": {
+        "code": "IG-S-3",
+        "filename": "act2multi_hard-03-activities-act2multi-level_act2multi_hard-03.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_hard-03",
+        "name": "压轴大戏",
+        "stageId": "act2multi_hard-03",
+        "width": 13
+    },
+    "act2multi_hard-raft-activities/act2multi/level_act2multi_raft_hard_basic": {
+        "code": "IG-S-4",
+        "filename": "act2multi_hard-raft-activities-act2multi-level_act2multi_raft_hard_basic.json",
+        "height": 40,
+        "levelId": "activities/act2multi/level_act2multi_raft_hard_basic",
+        "name": "全动力航行",
+        "stageId": "act2multi_hard-raft",
+        "width": 40
+    },
+    "act2multi_raft-activities/act2multi/level_act2multi_raft_normal_basic": {
+        "code": "IG-OR-1",
+        "filename": "act2multi_raft-activities-act2multi-level_act2multi_raft_normal_basic.json",
+        "height": 40,
+        "levelId": "activities/act2multi/level_act2multi_raft_normal_basic",
+        "name": "全动力航行",
+        "stageId": "act2multi_raft",
+        "width": 40
+    },
+    "act2multi_rm-ex01-activities/act2multi/level_act2multi_rm01": {
+        "code": "IG-EX-4",
+        "filename": "act2multi_rm-ex01-activities-act2multi-level_act2multi_rm01.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm01",
+        "name": "逃离火线",
+        "stageId": "act2multi_rm-ex01",
+        "width": 12
+    },
+    "act2multi_rm-ex02-activities/act2multi/level_act2multi_rm02": {
+        "code": "IG-EX-8",
+        "filename": "act2multi_rm-ex02-activities-act2multi-level_act2multi_rm02.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm02",
+        "name": "当意外来敲门",
+        "stageId": "act2multi_rm-ex02",
+        "width": 13
+    },
+    "act2multi_rm-ex03-activities/act2multi/level_act2multi_rm03": {
+        "code": "IG-EX-11",
+        "filename": "act2multi_rm-ex03-activities-act2multi-level_act2multi_rm03.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_rm03",
+        "name": "密探有专车接送",
+        "stageId": "act2multi_rm-ex03",
+        "width": 12
+    },
+    "act2multi_rm-ex04-activities/act2multi/level_act2multi_rm04": {
+        "code": "IG-EX-14",
+        "filename": "act2multi_rm-ex04-activities-act2multi-level_act2multi_rm04.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm04",
+        "name": "移动靶射击练习",
+        "stageId": "act2multi_rm-ex04",
+        "width": 13
+    },
+    "act2multi_rm01-activities/act2multi/level_act2multi_rm01": {
+        "code": "IG-4",
+        "filename": "act2multi_rm01-activities-act2multi-level_act2multi_rm01.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm01",
+        "name": "逃离火线",
+        "stageId": "act2multi_rm01",
+        "width": 12
+    },
+    "act2multi_rm02-activities/act2multi/level_act2multi_rm02": {
+        "code": "IG-8",
+        "filename": "act2multi_rm02-activities-act2multi-level_act2multi_rm02.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm02",
+        "name": "当意外来敲门",
+        "stageId": "act2multi_rm02",
+        "width": 13
+    },
+    "act2multi_rm03-activities/act2multi/level_act2multi_rm03": {
+        "code": "IG-11",
+        "filename": "act2multi_rm03-activities-act2multi-level_act2multi_rm03.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_rm03",
+        "name": "密探有专车接送",
+        "stageId": "act2multi_rm03",
+        "width": 12
+    },
+    "act2multi_rm04-activities/act2multi/level_act2multi_rm04": {
+        "code": "IG-14",
+        "filename": "act2multi_rm04-activities-act2multi-level_act2multi_rm04.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_rm04",
+        "name": "移动靶射击练习",
+        "stageId": "act2multi_rm04",
+        "width": 13
+    },
+    "act2multi_tr01-activities/act2multi/level_act2multi_tr01": {
+        "code": "IG-TR-1",
+        "filename": "act2multi_tr01-activities-act2multi-level_act2multi_tr01.json",
+        "height": 8,
+        "levelId": "activities/act2multi/level_act2multi_tr01",
+        "name": "规则教学-常规项目",
+        "stageId": "act2multi_tr01",
+        "width": 10
+    },
+    "act2multi_tr02-activities/act2multi/level_act2multi_raft_tr_basic": {
+        "code": "IG-TR-2",
+        "filename": "act2multi_tr02-activities-act2multi-level_act2multi_raft_tr_basic.json",
+        "height": 40,
+        "levelId": "activities/act2multi/level_act2multi_raft_tr_basic",
+        "name": "规则教学-障碍漂航",
+        "stageId": "act2multi_tr02",
+        "width": 40
+    },
+    "act2multi_tr03-activities/act2multi/level_act2multi_tr03": {
+        "code": "IG-TR-3",
+        "filename": "act2multi_tr03-activities-act2multi-level_act2multi_tr03.json",
+        "height": 9,
+        "levelId": "activities/act2multi/level_act2multi_tr03",
+        "name": "规则教学-堡垒守御",
+        "stageId": "act2multi_tr03",
+        "width": 20
+    },
     "act2vmulti-01-activities/act2vmulti/level_act2vmulti_01": {
         "code": "IG-1",
         "filename": "act2vmulti-01-activities-act2vmulti-level_act2vmulti_01.json",

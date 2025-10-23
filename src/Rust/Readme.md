@@ -21,9 +21,9 @@
 
 ```json
 {
-    "core": "2022-07-24-16-43-52-8218e7f",
-    "result": 0,
-    "server": "v0.0.1"
+  "core": "2022-07-24-16-43-52-8218e7f",
+  "result": 0,
+  "server": "v0.0.1"
 }
 ```
 
@@ -44,8 +44,8 @@
 
 ```json
 {
-    "id": 1,
-    "result": 0
+  "id": 1,
+  "result": 0
 }
 ```
 
@@ -65,7 +65,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -77,7 +77,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -95,8 +95,8 @@
 
 ```json
 {
-    "instances": [1],
-    "result": 0
+  "instances": [1],
+  "result": 0
 }
 ```
 
@@ -116,10 +116,10 @@
 
 ```json
 {
-    "id": 1,
-    "adb_path": "adb.exe",
-    "target": "127.0.0.1:62025",
-    "config": null
+  "id": 1,
+  "adb_path": "adb.exe",
+  "target": "127.0.0.1:62025",
+  "config": null
 }
 ```
 
@@ -134,7 +134,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -150,7 +150,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -162,8 +162,8 @@
 
 ```json
 {
-    "result": 0,
-    "target": "127.0.0.1:62025"
+  "result": 0,
+  "target": "127.0.0.1:62025"
 }
 ```
 
@@ -183,8 +183,8 @@
 
 ```json
 {
-    "uuid": "af01fba4f43da740\r\n",
-    "nums": 5
+  "uuid": "af01fba4f43da740\r\n",
+  "nums": 5
 }
 ```
 
@@ -197,23 +197,23 @@
 
 ```json
 {
-    "msgs": [
-        {
-            "body": {
-                "details": {
-                    "adb": "adb.exe",
-                    "address": "127.0.0.1:62025",
-                    "config": "General"
-                },
-                "uuid": "af01fba4f43da740",
-                "what": "Connected",
-                "why": ""
-            },
-            "time": 1658687213962,
-            "type": 2
-        }
-    ],
-    "result": 0
+  "msgs": [
+    {
+      "body": {
+        "details": {
+          "adb": "adb.exe",
+          "address": "127.0.0.1:62025",
+          "config": "General"
+        },
+        "uuid": "af01fba4f43da740",
+        "what": "Connected",
+        "why": ""
+      },
+      "time": 1658687213962,
+      "type": 2
+    }
+  ],
+  "result": 0
 }
 ```
 
@@ -236,7 +236,7 @@
 
 ```json
 {
-    "uuid": "af01fba4f43da740\r\n"
+  "uuid": "af01fba4f43da740\r\n"
 }
 ```
 
@@ -248,7 +248,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -266,8 +266,8 @@
 
 ```json
 {
-    "result": 0,
-    "uuid": ["af01fba4f43da740"]
+  "result": 0,
+  "uuid": ["af01fba4f43da740"]
 }
 ```
 
@@ -287,7 +287,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -299,8 +299,8 @@
 
 ```json
 {
-    "result": 0,
-    "uuid": "af01fba4f43da740\r\n"
+  "result": 0,
+  "uuid": "af01fba4f43da740\r\n"
 }
 ```
 
@@ -320,9 +320,9 @@
 
 ```json
 {
-    "id": 1,
-    "types": "StartUp",
-    "params": {}
+  "id": 1,
+  "types": "StartUp",
+  "params": {}
 }
 ```
 
@@ -336,8 +336,8 @@
 
 ```json
 {
-    "result": 0,
-    "task_id": 1
+  "result": 0,
+  "task_id": 1
 }
 ```
 
@@ -357,9 +357,9 @@
 
 ```json
 {
-    "id": 1,
-    "task_id": 1,
-    "params": {}
+  "id": 1,
+  "task_id": 1,
+  "params": {}
 }
 ```
 
@@ -373,7 +373,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -389,7 +389,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -401,13 +401,13 @@
 
 ```json
 {
-    "result": 0,
-    "tasks": {
-        "1": {
-            "params": "{}",
-            "type": "StartUp"
-        }
+  "result": 0,
+  "tasks": {
+    "1": {
+      "params": "{}",
+      "type": "StartUp"
     }
+  }
 }
 ```
 
@@ -427,7 +427,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -439,7 +439,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -455,7 +455,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -467,7 +467,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 
@@ -483,7 +483,7 @@
 
 ```json
 {
-    "id": 1
+  "id": 1
 }
 ```
 
@@ -509,9 +509,9 @@
 
 ```json
 {
-    "id": 1,
-    "x": 114,
-    "y": 514
+  "id": 1,
+  "x": 114,
+  "y": 514
 }
 ```
 
@@ -525,7 +525,7 @@
 
 ```json
 {
-    "result": 0
+  "result": 0
 }
 ```
 

@@ -26,10 +26,6 @@
         ],
         "roi": [513, 564, 248, 63]
     },
-    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
-        "roi": [993, 472, 90, 34],
-        "text": ["Confirm"]
-    },
     "Sarkaz@Roguelike@SelectTheme": {
         "ocrReplace": [["Hypothese.*", "Hypotheses Compilation"]],
         "text": ["Hypotheses Compilation"]

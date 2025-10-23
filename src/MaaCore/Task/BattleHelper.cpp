@@ -54,6 +54,7 @@ void asst::BattleHelper::clear()
     m_in_battle = false;
     m_kills = 0;
     m_total_kills = 0;
+    m_stopwatch_enabled = false;
     m_cur_deployment_opers.clear();
     m_battlefield_opers.clear();
     m_used_tiles.clear();
@@ -1030,6 +1031,20 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
     }
 
     return oper_iter->rect;
+}
+
+int asst::BattleHelper::elapsed_time()
+{
+    if (!m_stopwatch_enabled) {
+        return -1;
+    }
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_stopwatch_start_time).count();
+    if (elapsed_ms > std::numeric_limits<int>::max()) {
+        Log.error(__FUNCTION__, "| elapsed time exceeds int maximum");
+        return std::numeric_limits<int>::max();
+    }
+    return static_cast<int>(elapsed_ms);
 }
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)

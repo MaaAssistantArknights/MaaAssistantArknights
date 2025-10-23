@@ -1,0 +1,110 @@
+{
+    "stage_name": "救援行动",
+    "replacement_home": [
+        {
+            "location": [8, 2],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["召唤"],
+            "location": [8, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [5, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [3, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达", "提丰", "焰苇", "高台输出"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [6, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [8, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [3, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["地刺"],
+            "location": [2, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面远程", "地面阻挡", "处决者", "回费", "其他地面"],
+            "location": [3, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [3, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡", "回费", "处决者", "其他地面"],
+            "location": [2, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["单奶", "群奶", "益达", "提丰", "焰苇", "高台输出"],
+            "location": [3, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["鱼"],
+            "location": [3, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [4, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["补给站"],
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["处决者"],
+            "location": [5, 4],
+            "direction": "up"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [5, 4],
+            "condition": [3, 5]
+        },
+        {
+            "location": [6, 1],
+            "condition": [4, 6]
+        },
+        {
+            "location": [8, 2],
+            "condition": [5, 7]
+        }
+    ]
+}
