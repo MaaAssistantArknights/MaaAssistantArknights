@@ -154,10 +154,9 @@
         },
         {
             "name": "同心-选择",
-            "option_num": 5,
+            "option_num": 4,
             "choose": 1,
             "fallback_choices": [
-                [4, 1],
                 [3, 1],
                 [2, 1]
             ]
