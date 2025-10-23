@@ -16,7 +16,7 @@ asst::RoguelikeMap::RoguelikeMap()
 // ————————————————————————————————————————————————————————————————————————————————
 
 std::optional<size_t>
-    asst::RoguelikeMap::create_and_insert_node(const RoguelikeNodeType& type, const size_t& column, const int& y)
+    asst::RoguelikeMap::create_and_insert_node(const RoguelikeNodeType type, const size_t& column, const int& y)
 {
     const RoguelikeNodePtr node = std::make_shared<RoguelikeNode>(type, column, y);
     return insert_node(node, column);

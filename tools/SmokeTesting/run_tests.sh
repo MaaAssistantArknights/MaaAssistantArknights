@@ -9,7 +9,8 @@ mkdir -p "$log_dir"
 
 pids=""
 for client in $clients; do
-    ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
+    lldb -o run -o 'bt all' -o kill -o quit \
+        -- ./install/smoke_test "$client" > "$log_dir/asst_${client}.log" 2>&1 &
     pid=$!
     pids="$pids $pid"
 

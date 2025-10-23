@@ -166,6 +166,12 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">月間小隊をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">深層探索をグラインドし、できるだけ多くの層をクリア</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">目标常乐节点</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
@@ -296,6 +302,7 @@
     <system:String x:Key="UpdateCheckNow">ソフト更新</system:String>
     <system:String x:Key="ShowChangelog">変更履歴</system:String>
     <system:String x:Key="ResourceUpdate">リソース更新</system:String>
+    <system:String x:Key="ResourceUpdateTip">タスク実行中に更新されたリソースは、システムがアイドル状態の時に自動的にロードされ、次のタスクから有効になります。</system:String>
     <system:String x:Key="ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="UpdateSource">更新ソース</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
@@ -997,6 +1004,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
+    <system:String x:Key="BoskyOmissions">节点: 拾遗</system:String>
+    <system:String x:Key="BoskyLegend">节点: 传说</system:String>
+    <system:String x:Key="BoskyOldShop">节点: 故肆</system:String>
+    <system:String x:Key="BoskyYiTrader">节点: 易与</system:String>
+    <system:String x:Key="BoskyScheme">节点: 筹谋</system:String>
+    <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
+    <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
+    <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
@@ -1043,6 +1058,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">モジュールが使用できません</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
+    <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
     <system:String x:Key="UseSkill">スキル使用</system:String>
     <system:String x:Key="Retreat">撤退</system:String>

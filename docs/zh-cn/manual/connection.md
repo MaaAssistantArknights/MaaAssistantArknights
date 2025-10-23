@@ -99,60 +99,66 @@ MAA 可以通过当前**正在运行的单个模拟器**自动检测并填充 AD
 
 通常情况下这样就可以连接。如果无法连接，可能是存在多个模拟器核心或出现了问题，请阅读下文进行额外设置。
 
-#### 指定 `Bluestacks.Config.Keyword`
+:::: steps
 
-::: info 注意
-如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
-:::
+1. 指定 `Bluestacks.Config.Keyword`
 
-在 `.\config\gui.json` 中搜索 `Bluestacks.Config.Keyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中看到
+   ::: info 注意
+   如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
+   :::
 
-::: details 示例
-Nougat64 核心：
+   在 `.\config\gui.json` 中搜索 `Bluestacks.Config.Keyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中 看到
 
-```json
-"Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
-```
+   ::: details 示例
+   Nougat64 核心：
 
-Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
+   ```json
+   "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
+   ```
 
-```json
-"Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
-```
+   Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 
-:::
+   ```json
+   "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
+   ```
 
-#### 指定 `Bluestacks.Config.Path`
+   :::
 
-::: info 注意
-MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
-:::
+2. 指定 `Bluestacks.Config.Path`
 
-1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件
-   - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-   - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   ::: info 注意
+   MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
+   :::
+   1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件
+      - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+      - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
-   注：`C:\ProgramData`为隐藏目录，必要时请在文件资源管理器的地址栏中直接粘贴该地址，以便进入目录并进行寻找。
+      注：`C:\ProgramData`为隐藏目录，必要时请在文件资源管理器的地址栏中直接粘贴该地址，以便进入目录并进行寻找。
 
-2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
+   2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
+   3. **先关闭** MAA，**然后**打开 `gui.json`，找到 `Configurations` 下的当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`），在其中搜索字段 `Bluestacks.Config.Path`， 填 入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
 
-3. **先关闭** MAA，**然后**打开 `gui.json`，找到 `Configurations` 下的当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`），在其中搜索字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
+   ::: details 示例
+   以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例
 
-::: details 示例
-以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例
+   ```json
+   {
+     "Configurations": {
+       "Default": {
+         "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+         // 其余配置字段，不要手动输入修改
+       }
+     }
+   }
+   ```
 
-```json
-{
-  "Configurations": {
-    "Default": {
-      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-      // 其余配置字段，不要手动输入修改
-    }
-  }
-}
-```
+   :::
 
-:::
+3. 返回 MAA 并测试
+
+   你可以使用 `设置-运行设置` 中的 `截图测试` 功能来检查连接到的是否为预期的模拟器核心
+
+::::
 
 ## 连接配置
 

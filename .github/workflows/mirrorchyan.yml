@@ -1,10 +1,11 @@
-name: mirrorchyan
+name: Release Package Distribution
 
 on:
   workflow_dispatch:
 
 jobs:
   mirrorchyan:
+    name: Upload to MirrorChyan
     runs-on: macos-latest
 
     steps:

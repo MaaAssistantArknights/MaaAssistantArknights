@@ -310,7 +310,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         var task = new AsstMallTask()
         {
             CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
-            SelectFormation = CreditFightSelectFormation,
+            FormationIndex = CreditFightSelectFormation,
             VisitFriends = CreditVisitFriendsEnabled,
             WithShopping = CreditShopping,
             FirstList = CreditFirstList.Split(';').Select(s => s.Trim()).ToList(),
@@ -362,7 +362,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         var task = new AsstMallTask()
         {
             CreditFight = creditFight && !fightStage,
-            SelectFormation = mall.CreditFightFormation,
+            FormationIndex = mall.CreditFightFormation,
             VisitFriends = visitFriends,
             WithShopping = mall.Shopping,
             FirstList = [.. mall.FirstList.Split(';').Select(s => s.Trim())],

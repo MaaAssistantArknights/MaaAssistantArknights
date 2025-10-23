@@ -34,8 +34,11 @@
 #include "Task/Roguelike/Sami/RoguelikeFoldartalUseTaskPlugin.h"
 
 // ------------------ 萨卡兹主题专用配置及插件 ------------------
-#include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInputSeedTaskPlugin.h"
+
+// ------------------ 导航相关配置及插件 ------------------
+#include "Task/Roguelike/Map/RoguelikeBoskyPassageRoutingTaskPlugin.h"
+#include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -95,8 +98,11 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // ------------------ 萨卡兹主题专用插件 ------------------
-    m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeInputSeedTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    // ------------------ 导航相关插件 ------------------
+    m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeBoskyPassageRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
 
     m_subtasks.emplace_back(m_roguelike_task_ptr);
 }

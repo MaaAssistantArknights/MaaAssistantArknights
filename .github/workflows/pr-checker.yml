@@ -1,4 +1,4 @@
-name: PR Checker
+name: PR Commit Check
 
 on:
   pull_request_target:
@@ -6,10 +6,11 @@ on:
 
 jobs:
   check_commit_name_in_pr:
+    name: Check Commits in PR
     if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Cleanup Previous Comment
+      - name: Clean up previous comment
         uses: actions/github-script@v8
         with:
           script: |
@@ -27,7 +28,7 @@ jobs:
                 comment_id: previousComment.id
               });
             }
-      - name: Check Commits
+      - name: Check commits
         uses: actions/github-script@v8
         with:
           script: |

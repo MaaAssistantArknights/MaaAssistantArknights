@@ -75,12 +75,16 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         if (m_theme == "JieGarden") {
             if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange-FastInvestment");
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode1-FastPass");
             }
             if (m_mode == RoguelikeMode::Collectible &&
                 params.get("collectible_mode_squad", params.get("squad", "")) == "指挥分队" && m_difficulty >= 3) {
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode4-FastPass");
+            }
+            if (m_mode == RoguelikeMode::FindPlaytime) {
+                // 启用刷常乐节点策略，联动 RoguelikeRoutingTaskPlugin
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
             }
         }
     }
@@ -99,6 +103,14 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     if (m_mode == RoguelikeMode::Collectible && !m_only_start_with_elite_two) {
         m_run_for_collectible = true; // 烧开水模式下，如果不是只凹直升，第一轮游戏先烧水
+    }
+
+    if (m_mode == RoguelikeMode::FindPlaytime) {
+        m_find_playTime_target = params.get("find_playTime_target", 0);
+        if (m_find_playTime_target < 1 || m_find_playTime_target > 3) {
+            Log.error(__FUNCTION__, "| Invalid find_playTime_target", m_find_playTime_target);
+            return false;
+        }
     }
 
     return true;

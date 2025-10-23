@@ -96,6 +96,8 @@ protected:
     std::string analyze_detail_page_oper_name(const cv::Mat& image);
     std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
+    int elapsed_time();
+
     // 从场上干员和已占用格子中移除冷却中的干员
     void remove_cooling_from_battlefield(const battle::DeploymentOper& oper);
 
@@ -117,6 +119,8 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    bool m_stopwatch_enabled = false;
+    std::chrono::steady_clock::time_point m_stopwatch_start_time;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

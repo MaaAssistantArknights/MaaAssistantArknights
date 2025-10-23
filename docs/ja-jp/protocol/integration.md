@@ -286,9 +286,37 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 
 ```json5
 {
-    "enable": bool,             // このタスクを有効にするかどうか、オプション、デフォルトは true
-    "filename": string,         // タスクのJSONのファイル名とパス、絶対/相対 パスのサポート。動作中に変更はできません。
-    "formation": bool           // "自動編成" を行うかどうか、オプション、デフォルトは false。動作中に変更はできません。
+    "enable": bool,               // このタスクを有効にするかどうか。任意、デフォルトは true。
+    "filename": string,           // 単一作業の JSON ファイルパス。必須（copilot_list と排他）。相対パス・絶対パスどちらも使用可能。
+    "copilot_list": [             // 作業リスト。必須（filename と排他）。filename と copilot_list が同時に存在する場合、copilot_list は無視されます。
+        {
+            "filename": string,   // 作業 JSON ファイルのパス。相対パス・絶対パスどちらも使用可能。
+            "stage_name": string, // ステージ名。[PRTS.Map](https://map.ark-nights.com) を参照。
+            "is_raid": bool,      // 突襲モード（チャレンジモード）に切り替えるかどうか。
+            "is_paradox": bool    // パラドックスシミュレーションステージかどうか。
+        },
+        ...
+    ],
+    "loop_times": int,            // ループ回数。任意、デフォルトは 1。単一作業モード（filename 指定時）のみ有効。
+    "use_sanity_potion": bool,    // 理性が不足した場合に理性回復剤を使用するかどうか。任意、デフォルトは false。
+    "formation": bool,            // 自動編成を行うかどうか。任意、デフォルトは false。
+    "formation_index": int,       // 自動編成で使用する編成スロット番号。任意、デフォルトは 0。
+                                  // 0〜4 の整数。0 は現在の編成、1〜4 はそれぞれ第1〜第4編成を意味します。
+    "user_additional": [          // カスタム追加オペレーターリスト。任意、デフォルトは []。formation が true の場合のみ有効。
+        {
+            "name": string,       // オペレーター名。任意、デフォルトは ""。空の場合は無視されます。
+            "skill": int          // 使用スキル。任意、デフォルトは 1。1〜3 の整数。範囲外の場合はゲーム内のデフォルトを使用。
+        },
+        ...
+    ],
+    "add_trust": bool,            // 自動編成時に信頼値の昇順で空き枠を自動補充するか。任意、デフォルトは false。formation が true の場合のみ有効。
+    "ignore_requirements": bool,  // 自動編成時にオペレーターの属性要件を無視するか。任意、デフォルトは false。formation が true の場合のみ有効。
+    "support_unit_usage": int,    // サポートオペレーターの使用モード。任意、デフォルトは 0。0〜3 の整数。formation が true の場合のみ有効。
+                                  //   0 - サポートオペレーターを使用しない。
+                                  //   1 - 欠員が1人のみの場合サポートで補う。欠員がなければ使用しない。
+                                  //   2 - 欠員が1人の場合サポートで補う。欠員がない場合は指定サポートを使用。
+                                  //   3 - 欠員が1人の場合サポートで補う。欠員がない場合はランダムサポートを使用。
+    "support_unit_name": string   // 指定サポートオペレーター名。任意、デフォルトは ""。support_unit_usage = 2 の場合のみ有効。
 }
 ```
 

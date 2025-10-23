@@ -96,7 +96,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (theme == RoguelikeTheme::JieGarden && squad == "指挥分队" && difficulty >= 3) {
         if (mode == RoguelikeMode::Investment ||
             (mode == RoguelikeMode::Collectible && m_config->get_run_for_collectible())) {
-            ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+            if (m_config->get_skip_recruit_in_fast_pass()) {
+                ProcessTask(*this, { "JieGarden@RoguelikeRecruit-GiveUp" }).run();
+                return true;
+            }
+        }
+    }
+
+    // 刷常乐节点保存路上招募券
+    // 只在非开局招募时保存招募券
+    if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
+        bool ret = ProcessTask(*this, { "JieGarden@Roguelike@ReserveRecruitmentVoucher" }).run();
+        if (ret) {
             return true;
         }
     }

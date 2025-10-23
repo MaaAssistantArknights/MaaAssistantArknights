@@ -166,6 +166,12 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, clear as far as possible</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Investigation, clear as far as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">目标常乐节点</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting {key=Operator}</system:String>
@@ -296,6 +302,7 @@ You can cancel this popup by clicking the ｢{key=Settings} - {key=IssueReport}�
     <system:String x:Key="UpdateCheckNow">Software update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
+    <system:String x:Key="ResourceUpdateTip">Resource updated during a task will be automatically loaded when the system is idle and will take effect from the next task.</system:String>
     <system:String x:Key="ResourceRepository">Resource Repository</system:String>
     <system:String x:Key="UpdateSource">Update Source</system:String>
     <system:String x:Key="UpdateSourceTip" xml:space="preserve">
@@ -997,6 +1004,14 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
+    <system:String x:Key="BoskyOmissions">节点: 拾遗</system:String>
+    <system:String x:Key="BoskyLegend">节点: 传说</system:String>
+    <system:String x:Key="BoskyOldShop">节点: 故肆</system:String>
+    <system:String x:Key="BoskyYiTrader">节点: 易与</system:String>
+    <system:String x:Key="BoskyScheme">节点: 筹谋</system:String>
+    <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
+    <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
+    <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
@@ -1043,6 +1058,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">Module unavailable</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
+    <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>
     <system:String x:Key="UseSkill">Use Skill</system:String>
     <system:String x:Key="Retreat">Retreat</system:String>

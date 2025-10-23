@@ -1,21 +1,32 @@
 #include "RoguelikeBoskyPassageMap.h"
-#include "Utils/Logger.hpp"
 
 #include <array>
 
+#include "Utils/Logger.hpp"
+
 namespace asst
 {
-
-RoguelikeBoskyPassageMap::RoguelikeBoskyPassageMap()
+std::string subtype2name(RoguelikeBoskySubNodeType node_subtype)
 {
-    reset();
+    // 界园树洞子节点类型映射表
+    static const std::unordered_map<RoguelikeBoskySubNodeType, std::string> NODE_SUBTYPE_MAPPING = {
+        { RoguelikeBoskySubNodeType::Unknown, "Unknown" },
+        { RoguelikeBoskySubNodeType::Ling, "Ling" }, // 令 - 常乐 掷地有声
+        { RoguelikeBoskySubNodeType::Shu, "Shu" },   // 黍 - 常乐 种因得果
+        { RoguelikeBoskySubNodeType::Nian, "Nian" }  // 年 - 常乐 三缺一
+    };
+
+    if (auto it = NODE_SUBTYPE_MAPPING.find(node_subtype); it != NODE_SUBTYPE_MAPPING.end()) {
+        return it->second;
+    }
+    return "Unnamed";
 }
 
 std::optional<size_t>
     RoguelikeBoskyPassageMap::create_and_insert_node(int x, int y, RoguelikeNodeType type, bool is_open)
 {
     if (!in_bounds(x, y)) {
-        Log.warn(__FUNCTION__, "| Coordinates (", x, ", ", y, ") out of bounds");
+        Log.warn(__FUNCTION__, "| Coordinates (", x, ",", y, ") out of bounds");
         return std::nullopt;
     }
 
@@ -36,7 +47,7 @@ std::optional<size_t>
         return idx;
     }
     else {
-        Log.warn(__FUNCTION__, "| Node already exists at (", x, ", ", y, ")");
+        Log.warn(__FUNCTION__, "| Node already exists at (", x, ",", y, ")");
         return std::nullopt;
     }
 }
@@ -68,11 +79,35 @@ void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType typ
     n->type = type;
 }
 
+void RoguelikeBoskyPassageMap::set_node_subtype(size_t index, RoguelikeBoskySubNodeType sub_type)
+{
+    Node* n = get_valid_node(index);
+    if (!n || !n->exists) {
+        Log.warn(__FUNCTION__, "| Invalid index or node doesn't exist:", index);
+        return;
+    }
+    n->sub_type = sub_type;
+    Log.info(__FUNCTION__, "| Set node", index, "subtype to", subtype2name(sub_type));
+}
+
+RoguelikeBoskySubNodeType RoguelikeBoskyPassageMap::get_node_subtype(size_t index) const
+{
+    if (index >= m_nodes.size()) {
+        return RoguelikeBoskySubNodeType::Unknown;
+    }
+    const Node& n = m_nodes[index];
+    if (!n.exists) {
+        return RoguelikeBoskySubNodeType::Unknown;
+    }
+    return n.sub_type;
+}
+
 void RoguelikeBoskyPassageMap::reset()
 {
     for (auto& n : m_nodes) {
         n = Node {}; // reset
     }
+    m_curr_pos = 0;
     m_existing_count = 0;
 }
 
@@ -213,10 +248,10 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
     }
 
     auto [gx, gy] = pixel_to_grid_coords(px, py, config);
-    Log.info(__FUNCTION__, "| analyzing node (", px, ", ", py, ") -> (", gx, ", ", gy, ")");
+    Log.info(__FUNCTION__, "| analyzing node (", px, ",", py, ") -> (", gx, ",", gy, ")");
 
     if (!in_bounds(gx, gy)) {
-        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ", ", gy, ") out of bounds");
+        Log.warn(__FUNCTION__, "| Grid coordinates (", gx, ",", gy, ") out of bounds");
         return std::nullopt;
     }
 

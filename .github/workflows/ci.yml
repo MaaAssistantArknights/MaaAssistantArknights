@@ -1,4 +1,4 @@
-name: ci
+name: Release Pipeline
 
 on:
   push:
@@ -7,25 +7,26 @@ on:
     branches-ignore:
       - "master"
     paths:
+      - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/**"
       - "cmake/**"
       - "CMakeLists.txt"
-      - ".github/workflows/ci.yml"
-      - "!**/*.md"
+      - "include/**"
+      - "src/**"
       - "tools/maadeps-download.py"
+      - "!**/*.md"
   pull_request:
     branches:
       - "dev"
     paths:
+      - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
-      - "include/**"
-      - "src/**"
       - "cmake/**"
       - "CMakeLists.txt"
-      - "!**/*.md"
+      - "include/**"
+      - "src/**"
       - "tools/maadeps-download.py"
+      - "!**/*.md"
   workflow_dispatch:
 
 concurrency:
@@ -34,6 +35,7 @@ concurrency:
 
 jobs:
   meta:
+    name: Gather Meta Information
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -44,42 +46,36 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          path: temp
+          fetch-depth: 0
           show-progress: false
-
-      - name: Fetch history
-        if: ${{ !startsWith(github.ref, 'refs/pull/') }}
-        run: |
-          git init
-          cp $GITHUB_WORKSPACE/temp/.git/config ./.git
-          rm -rf $GITHUB_WORKSPACE/temp
-          # git config remote.origin.fetch '+refs/*:refs/*'
-          git fetch --filter=tree:0 # --update-head-ok
-          git reset --hard origin/$(git branch --show-current) || true
-          git checkout ${{ github.ref_name }}
 
       - name: Set tag
         id: set_tag
         run: |
-          ${{ startsWith(github.ref, 'refs/pull/') && 'cd temp' || '' }}
-          echo tag=$(git describe --tags --match "v*" ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
-          exit ${PIPESTATUS[0]}
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            # For tag pushes, use the tag name
+            tag="${{ github.ref_name }}"
+          else
+            # For PRs and branch pushes, use git describe or fallback
+            tag=$(git describe --tags --match "v*" HEAD 2>/dev/null || echo "v0.0.1-$(git rev-parse --short HEAD)")
+          fi
+          echo "tag=${tag}" | tee -a $GITHUB_OUTPUT
 
-      - name: Judge pre-release
+      - name: Check if it is a pre-release
         id: set_pre
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           if [[ '${{ steps.set_tag.outputs.tag }}' =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo prerelease=false | tee -a $GITHUB_OUTPUT
+            echo "prerelease=false" | tee -a $GITHUB_OUTPUT
           else
-            echo prerelease=true | tee -a $GITHUB_OUTPUT
+            echo "prerelease=true" | tee -a $GITHUB_OUTPUT
           fi
 
-      - name: Generate changelog
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      - name: Finalize changelog
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           this_tag=${{ steps.set_tag.outputs.tag }}
           if [[ '${{ steps.set_pre.outputs.prerelease }}' != 'false' ]]; then
@@ -92,14 +88,15 @@ jobs:
           echo >> CHANGELOG.md
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
 
-      - name: Upload changelog to Github
+      - name: Upload changelog to GitHub
         uses: actions/upload-artifact@v4
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        if: startsWith(github.ref, 'refs/tags/v')
         with:
           name: changelog
           path: CHANGELOG.md
 
   windows:
+    name: Build for Windows
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -113,7 +110,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -164,7 +161,7 @@ jobs:
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
-      - name: Taggify Version for csproj
+      - name: Taggify version for csproj
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
@@ -187,7 +184,7 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
-      - name: Organize Install Files
+      - name: Organize install files
         shell: bash
         run: |
           rm -rf install/*.pdb
@@ -201,13 +198,14 @@ jobs:
           cd install
           Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/*.zip
 
   ubuntu:
+    name: Build for Ubuntu
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -220,7 +218,7 @@ jobs:
         arch: [aarch64, x86_64]
       fail-fast: false
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
@@ -266,7 +264,7 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install --config Release
 
-      - name: Setup Cross Compile Toolchains for CLI
+      - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
         with:
           os: ubuntu-latest
@@ -323,7 +321,7 @@ jobs:
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-linux-${{ matrix.arch }}
@@ -332,6 +330,7 @@ jobs:
             release/*.tar.gz
 
   macOS-Core:
+    name: Build Core for macOS
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -344,13 +343,13 @@ jobs:
         arch: [arm64, x86_64]
       fail-fast: false
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
 
       # ninja 1.13.1 is already installed and up-to-date.
-      # - name: Install Dependencies
+      # - name: Install dependencies
       #   run: |
       #     brew install ninja
 
@@ -383,13 +382,14 @@ jobs:
         run: |
           cmake --install build --prefix install --config Release
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAACore-macos-${{ matrix.arch }}
           path: "install/*.dylib"
 
   macOS-GUI:
+    name: Build GUI for macOS
     # Prevent duplicate runs on organization branches with PRs
     if: github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -398,12 +398,12 @@ jobs:
     needs: [meta, macOS-Core]
     runs-on: macos-26
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           show-progress: false
 
-      - name: Install Dependencies
+      - name: Install dependencies
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           brew install graphicsmagick imagemagick
@@ -413,26 +413,26 @@ jobs:
         run: |
           git submodule update --init --depth 1 src/MaaMacGui
 
-      - name: Download Arm64 MAA from Github
+      - name: Download MAA (arm64) from GitHub
         uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
-      - name: Download x64 MAA from Github
+      - name: Download MAA (x64) from GitHub
         uses: actions/download-artifact@v5
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
 
-      - name: Install Developer ID Certificate
+      - name: Install Developer ID certificate
         if: startsWith(github.ref, 'refs/tags/v')
         uses: apple-actions/import-codesign-certs@v5
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
 
-      - name: Download Provisioning Profiles
+      - name: Download provisioning profiles
         if: startsWith(github.ref, 'refs/tags/v')
         uses: apple-actions/download-provisioning-profiles@v4
         with:
@@ -441,19 +441,19 @@ jobs:
           api-key-id: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
           api-private-key: ${{ secrets.HGUANDL_APPSTORE_KEY }}
 
-      - name: Setup Xcode Toolchain
+      - name: Setup Xcode toolchain
         if: false
         run: |
           sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
-      - name: Build Universal Binaries
+      - name: Build universal binaries
         run: |
           mkdir build
           for LIB_NAME in $(ls install-arm64); do
             lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
 
-      - name: Archive Runtime Files
+      - name: Archive runtime files
         run: |
           mkdir runtime && cd runtime
           name='MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal'
@@ -465,7 +465,7 @@ jobs:
           cd .. || exit 1
           zip -yrX9 "$name.zip" "$name"
 
-      - name: Upload MAA runtime to Github
+      - name: Upload MAA runtime to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-runtime-universal
@@ -479,7 +479,7 @@ jobs:
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
         working-directory: build
 
-      - name: Setup GUI Version
+      - name: Setup GUI version
         run: |
           RELEASE_COUNT=$(git ls-remote --tags origin | grep refs/tags/v | awk 'END{print NR}')
           echo 'MARKETING_VERSION = ${{ needs.meta.outputs.tag }}' | tee src/MaaMacGui/Version.xcconfig
@@ -500,20 +500,20 @@ jobs:
           xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
         working-directory: src/MaaMacGui
 
-      - name: Create Disk Image
+      - name: Create disk image
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           create-dmg Export/MAA.app
           mv MAA*.dmg MAA.dmg
         working-directory: src/MaaMacGui
 
-      - name: Archive Debug Symbols
+      - name: Archive debug symbols
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
 
-      - name: Place Packages
+      - name: Place packages
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           GIT_TAG=${{ needs.meta.outputs.tag }}
@@ -523,7 +523,7 @@ jobs:
           mv src/MaaMacGui/MAA.dmg release/${APP_DMG}
           mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
 
-      - name: Notarize Image
+      - name: Notarize image
         if: startsWith(github.ref, 'refs/tags/v')
         uses: nick-fields/retry@v3
         with:
@@ -539,20 +539,21 @@ jobs:
           APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
           ISSUER_ID: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
 
-      - name: Attach Notarization Tickets
+      - name: Attach notarization tickets
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           dmg="MAA-${{ needs.meta.outputs.tag }}-macos-universal.dmg"
           xcrun stapler staple ${dmg}
         working-directory: release
 
-      - name: Upload MAA to Github
+      - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   release:
+    name: Publish Release
     # Prevent duplicate runs on organization branches with PRs
     if: (github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name !=
@@ -561,12 +562,12 @@ jobs:
     needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
-      - name: Download MAA from Github
+      - name: Download MAA from GitHub
         uses: actions/download-artifact@v5
         with:
           path: assets
 
-      - name: Cleanup files
+      - name: Clean up files
         run: |
           mv -vf assets/changelog/* .
           rm -rf assets/MAACore-macos-*
@@ -574,7 +575,7 @@ jobs:
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done
 
-      - name: Release to Github
+      - name: Publish release to GitHub
         uses: softprops/action-gh-release@v2.4.1
         with:
           body_path: CHANGELOG.md
@@ -582,16 +583,16 @@ jobs:
             assets/*
           prerelease: ${{ needs.meta.outputs.prerelease != 'false' }}
 
-      - name: Trigger MirrorChyan
+      - name: Trigger MirrorChyan-related workflows
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan.yml
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+      - name: Trigger OTA release workflow # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY release-ota
+          gh workflow run --repo $GITHUB_REPOSITORY release-ota.yml
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
 
@@ -600,6 +601,6 @@ jobs:
         uses: actions-cool/issues-helper@v3
         with:
           actions: "create-issue"
-          title: "Failed Release"
+          title: "Errors occured during release ${{ needs.meta.outputs.tag }}"
           body: |
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

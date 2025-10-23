@@ -125,6 +125,11 @@
         "algorithm": "JustReturn",
         "postDelay": 100
     },
+    "RoguelikeRecruit-GiveUp": {
+        "doc": "在集成战略模式招募干员界面点击右下角 <放弃> 文字左侧图标位置，放弃招募机会",
+        "roi": [912, 648, 58, 58],
+        "action": "ClickSelf"
+    },
     "RoguelikeRecruitElite": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -512,7 +517,7 @@
         "action": "ClickRect",
         "specificRect": [261, 640, 31, 32],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033；有时光之末可以继续",
-        "postDelay": 800,
+        "postDelay": 1500,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore",
@@ -1740,6 +1745,9 @@
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_mode10001": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode20001": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_mode4": {

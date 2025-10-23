@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AbstractRoguelikeMap.h"
-
 #include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
+
+#include "Config/Roguelike/RoguelikeMapConfig.h"
 
 namespace asst
 {
@@ -21,10 +21,10 @@ struct RoguelikeNode
     // –––––––– 萨卡兹主题引入 ––––––––––––––––––––––––
     int refresh_times = 0;
 
-    RoguelikeNode(const RoguelikeNodeType _t, const size_t _c, const int _y) :
-        type(_t),
-        column(_c),
-        y(_y)
+    RoguelikeNode(const RoguelikeNodeType type_, const size_t column_, const int y_) :
+        type(type_),
+        column(column_),
+        y(y_)
     {
     }
 };
@@ -45,7 +45,7 @@ public:
 
     // ———————— update map ————————————————————————————————————————————————————————————
     // 创建并插入一个 node，返回新 node 的 index
-    std::optional<size_t> create_and_insert_node(const RoguelikeNodeType& type, const size_t& column, const int& y);
+    std::optional<size_t> create_and_insert_node(RoguelikeNodeType type, const size_t& column, const int& y);
 
     void add_edge(const size_t& source, const size_t& target);
     void set_curr_pos(const size_t& node_index);

@@ -1,4 +1,4 @@
-name: Resource Updater
+name: Game Resource Update
 
 on:
   schedule:
@@ -12,6 +12,7 @@ on:
 
 jobs:
   clone-resources-official:
+    name: Download Official Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +36,7 @@ jobs:
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
 
-      - name: Upload Official
+      - name: Upload Official resources
         uses: actions/upload-artifact@v4
         with:
           name: official
@@ -43,6 +44,7 @@ jobs:
           compression-level: 0
 
   clone-resources-overseas:
+    name: Download Overseas Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -77,7 +79,7 @@ jobs:
             /kr/gamedata/excel/roguelike_topic_table.json
             /kr/gamedata/excel/activity_table.json
 
-      - name: Upload Official
+      - name: Upload Overseas resources
         uses: actions/upload-artifact@v4
         with:
           name: overseas
@@ -85,6 +87,7 @@ jobs:
           compression-level: 0
 
   clone-resources-txwy:
+    name: Download Taiwan Resources
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +120,7 @@ jobs:
           done
           wait
 
-      - name: Upload Official
+      - name: Upload Taiwan resources
         uses: actions/upload-artifact@v4
         with:
           name: txwy
@@ -125,13 +128,14 @@ jobs:
           compression-level: 0
 
   update-game-resources:
+    name: Update Game Resources
     # In case of rate limitations on the runners/instances, add dependency, by removing the comment
 
     # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: macos-latest
     steps:
-      - name: Checkout MAA
+      - name: Checkout repository
         uses: actions/checkout@v5
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
@@ -202,10 +206,10 @@ jobs:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
-      - name: Delay txwy
+      - name: Delay for txwy
         if: steps.download-txwy.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download txwy
         if: steps.download-txwy.outcome == 'failure'
@@ -222,10 +226,10 @@ jobs:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
-      - name: Delay Overseas
+      - name: Delay for Overseas
         if: steps.download-overseas.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download Overseas
         if: steps.download-overseas.outcome == 'failure'
@@ -242,10 +246,10 @@ jobs:
           name: official
           path: ./tools/ResourceUpdater/Official
 
-      - name: Delay Official
+      - name: Delay for Official
         if: steps.download-official.outcome == 'failure'
         run: |
-          sleep 10
+          sleep 30
 
       - name: Re-download Official
         if: steps.download-official.outcome == 'failure'
@@ -254,11 +258,11 @@ jobs:
           name: official
           path: ./tools/ResourceUpdater/Official
 
-      - name: Run Resource Updater
+      - name: Update resources
         run: |
           ./tools/ResourceUpdater/res_updater
 
-      - name: Task Sorting
+      - name: Sort tasks
         id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
@@ -280,7 +284,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache Python packages
+      - name: Cache python packages
         if: always() && steps.update_version.outputs.contains_png == 'True'
         id: cache_python
         uses: actions/cache@v4
@@ -299,12 +303,12 @@ jobs:
         with:
           crate: oxipng
 
-      - name: Run optimize_templates
+      - name: Optimize png images
         if: steps.update_version.outputs.contains_png == 'True'
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
-      - name: Add files to git
+      - name: Commit changes
         if: steps.update_version.outputs.changes == 'True'
         id: add_files
         run: |
@@ -349,15 +353,27 @@ jobs:
       # - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
       #   if: steps.add_files.outputs.have_commits == 'True'
       #   run: |
-      #     gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
+      #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
-      - name: Create issue if failed
-        if: failure()
-        uses: actions-cool/issues-helper@v3
-        with:
-          actions: "create-issue"
-          title: "Failed to Update Game Resources"
-          body: |
-            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Comment on issue if failed
+        if: failure() && github.ref == 'refs/heads/dev'
+        run: |
+          # Minimize old failure comments
+          comments=$(gh api repos/${{ github.repository }}/issues/14493/comments --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("${{ github.server_url }}/${{ github.repository }}/actions/runs/")) | .node_id')
+          for node_id in $comments; do
+            gh api graphql -f query='
+              mutation {
+                minimizeComment(input: {subjectId: "'"$node_id"'", classifier: OUTDATED}) {
+                  minimizedComment {
+                    isMinimized
+                  }
+                }
+              }'
+          done
+          
+          # Add new failure comment
+          gh issue comment 14493 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            @MistEO @ABA2396 @Constrat
+          @MistEO @ABA2396 @Constrat"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

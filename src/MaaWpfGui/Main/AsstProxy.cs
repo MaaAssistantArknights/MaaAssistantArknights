@@ -23,7 +23,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -434,6 +433,30 @@ public class AsstProxy
                 _logger.Error("Failed to move tasks.json: {ExMessage}", ex.Message);
             }
         }
+    }
+
+    /// <summary>
+    /// 异步加载资源
+    /// </summary>
+    /// <returns>是否成功。</returns>
+    public async Task<bool> LoadResourceAsync()
+    {
+        return await Task.Run(() => LoadResource());
+    }
+
+    /// <summary>
+    /// 等待系统空闲时异步加载资源，并返回操作是否成功的值。
+    /// Asynchronously loads the resource when the system is idle and returns a value indicating whether the operation succeeded.
+    /// </summary>
+    /// <returns>
+    /// 表示在系统空闲时异步加载操作的任务。如果资源加载成功，任务结果为 <see langword="true"/>；否则为 <see langword="false"/>。
+    /// A task that represents the asynchronous load operation when the system is idle. The task result is <see langword="true"/> if the
+    /// resource was loaded successfully; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> LoadResourceWhenIdleAsync()
+    {
+        await _runningState.UntilIdleAsync();
+        return await LoadResourceAsync();
     }
 
     /// <summary>
@@ -1218,6 +1241,7 @@ public class AsstProxy
     private static void ProcSubTaskError(JObject details)
     {
         string subTask = details["subtask"]?.ToString() ?? string.Empty;
+        AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
         switch (subTask)
         {
             case "StartGameTask":
@@ -1242,6 +1266,15 @@ public class AsstProxy
             case "ReportToPenguinStats":
                 {
                     var why = details["why"]!.ToString();
+
+                    // 剿灭放弃上传企鹅物流的特殊处理
+                    Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var value);
+                    if (value is { Type: TaskType.Fight } && TaskQueueViewModel.FightTask.Stage == "Annihilation")
+                    {
+                        Instances.TaskQueueViewModel.AddLog("AnnihilationStage, " + LocalizationHelper.GetString("GiveUpUploadingPenguins"));
+                        break;
+                    }
+
                     Instances.TaskQueueViewModel.AddLog(why + ", " + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Warning);
                     break;
                 }
@@ -1814,6 +1847,12 @@ public class AsstProxy
                             LocalizationHelper.GetString(actionString),
                             DataHelper.GetLocalizedCharacterName(target) ?? target));
 
+                    var elapsed_time_str = subTaskDetails!["elapsed_time"]?.ToString();
+                    if (int.TryParse(elapsed_time_str, out int elapsed_time_int) && elapsed_time_int >= 0)
+                    {
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("ElapsedTime"), elapsed_time_int), UiLogColor.Message);
+                    }
+
                     break;
                 }
 
@@ -2366,15 +2405,20 @@ public class AsstProxy
 
     private bool TaskStatusUpdate(AsstTaskId id, TaskStatus status)
     {
-        if (id == 0)
+        if (id <= 0)
         {
             return false;
         }
 
         if (_tasksStatus.TryGetValue(id, out var value))
         {
+            if (value.Status == TaskStatus.Idle && status == TaskStatus.InProgress)
+            {
+                RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
+            }
+
             value.Status = status;
-            if (value.Status == TaskStatus.InProgress)
+            if (status == TaskStatus.InProgress)
             {
                 TaskSettingVisibilityInfo.Instance.CurrentTask = value.Type.ToString();
             }

@@ -228,7 +228,9 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::UseSkill:
-        ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(name) : use_skill(location));
+        ret = m_in_bullet_time ? click_skill(!action.skip_if_not_ready)
+                               : (location.empty() ? use_skill(name, !action.skip_if_not_ready)
+                                                   : use_skill(location, !action.skip_if_not_ready));
         if (ret) {
             m_in_bullet_time = false;
         }
@@ -260,6 +262,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::MoveCamera:
         ret = move_camera(action.distance);
+        break;
+
+    case ActionType::ResetStopwatch:
+        m_stopwatch_start_time = std::chrono::steady_clock::now();
+        m_stopwatch_enabled = true;
         break;
 
     case ActionType::SkillDaemon:
@@ -299,15 +306,15 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::ResetStopwatch, "ResetStopwatch" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
-    info["details"] |= json::object {
-        { "action", ActionNames.at(action.type) },
-        { "target", action.name },
-        { "doc", action.doc },
-        { "doc_color", action.doc_color },
-    };
+    info["details"] |= json::object { { "action", ActionNames.at(action.type) },
+                                      { "target", action.name },
+                                      { "doc", action.doc },
+                                      { "doc_color", action.doc_color },
+                                      { "elapsed_time", elapsed_time() } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
@@ -389,6 +396,25 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
                 break;
             }
             do_strategy_and_update_image();
+        }
+    }
+
+    // 等待全局计时器
+    if (action.elapsed_time > 0) {
+        if (m_stopwatch_enabled) {
+            update_image_if_empty();
+            while (!need_exit()) {
+                if (elapsed_time() >= action.elapsed_time) {
+                    break;
+                }
+                if (!check_in_battle(image)) {
+                    return false;
+                }
+                do_strategy_and_update_image();
+            }
+        }
+        else {
+            Log.warn(__FUNCTION__, "| Timer not enabled. Reset required before use.");
         }
     }
 
