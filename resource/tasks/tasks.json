@@ -1777,7 +1777,7 @@
             "Together/Recruit.png"
         ],
         "action": "ClickSelf",
-        "roi": [900, 386, 200, 150],
+        "roi": [925, 425, 200, 150],
         "crop_doc": {
             "roi": [935, 480, 145, 61],
             "mask": [125, 0, 25, 20]
