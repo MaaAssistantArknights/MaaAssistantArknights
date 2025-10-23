@@ -767,7 +767,7 @@
     },
     "Sami@Roguelike@StageMysteriousPresageEnter": {
         "baseTask": "Sami@Roguelike@StageEnter",
-        "templThreshold": 0.9,
+        "templThreshold": 0.85,
         "postDelay": 1000,
         "next": ["Sami@Roguelike@TraderCheck", "Sami@Roguelike@StageEncounterJudgeClick"]
     },
