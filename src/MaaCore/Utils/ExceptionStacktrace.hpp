@@ -180,7 +180,7 @@ public:
 
         result += "Current Stack Trace:\n";
 
-        for (USHORT i = 0; i < frames; i++) {
+        for (USHORT i = 0; i < frames && i < 64; i++) {
             DWORD64 address = (DWORD64)(stack[i]);
 
             // 获取符号信息
@@ -243,7 +243,7 @@ public:
         }
 
         // 解析并格式化每一帧
-        for (int i = 0; i < frames; i++) {
+        for (int i = 0; i < frames && i < 64; i++) {
             result += std::format("  #{:2}: ", i);
 
             // 尝试解析符号名称
