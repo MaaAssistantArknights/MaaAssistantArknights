@@ -1138,5 +1138,39 @@
         ],
         "roi": [891, 648, 58, 58]
     },
-    "JieGarden@RoguelikeSettlementConfirm": {}
+    "JieGarden@RoguelikeSettlementConfirm": {},
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "doc": [
+            "用于识别选项",
+            "| specialParams[0]: Offset 匹配用 Rect.width, 同时也是 templ 截取长度, 要求可以覆盖选项文字",
+            "| specialParams[1]: Offset 匹配用 Rect.height, 同时也是 templ 截取宽度, 要求可以覆盖选项文字"
+        ],
+        "template": [
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43.png",
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48.png"
+        ],
+        "roi": [835, 50, 40, 585],
+        "maskRange": [1, 255],
+        "specialParams": [200, 43]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "template": [
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43.png",
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48.png"
+        ],
+        "roi": [0, 0, 40, 43],
+        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [80, 0, 100],
+                [100, 255, 180]
+            ]
+        ]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 200, 43],
+        "text": []
+    }
 }
