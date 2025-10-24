@@ -1,0 +1,314 @@
+#pragma once
+
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#define NOMINMAX
+#include <dbghelp.h>
+#include <windows.h>
+#include <winsock2.h>
+#pragma comment(lib, "dbghelp.lib")
+#undef NOMINMAX
+#elif defined(__unix__) || defined(__APPLE__)
+#include <cxxabi.h>
+#include <dlfcn.h>
+#include <execinfo.h>
+#include <unistd.h>
+#endif
+
+#include <format>
+#include <iostream>
+#include <string>
+
+#include "Logger.hpp"
+
+namespace asst::utils
+{
+class ExceptionStacktrace
+{
+public:
+#ifdef _WIN32
+    // Windows 异常堆栈跟踪实现
+    static std::string capture_exception_stack_trace(PEXCEPTION_POINTERS pExceptionInfo)
+    {
+        std::string result;
+
+        HANDLE process = GetCurrentProcess();
+        HANDLE thread = GetCurrentThread();
+
+        // 初始化符号处理器
+        SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+        if (!SymInitialize(process, NULL, TRUE)) {
+            return "Failed to initialize symbol handler";
+        }
+
+        // 设置上下文
+        CONTEXT* context = pExceptionInfo->ContextRecord;
+        STACKFRAME64 frame = {};
+        DWORD imageType;
+
+#ifdef _M_IX86
+        imageType = IMAGE_FILE_MACHINE_I386;
+        frame.AddrPC.Offset = context->Eip;
+        frame.AddrPC.Mode = AddrModeFlat;
+        frame.AddrFrame.Offset = context->Ebp;
+        frame.AddrFrame.Mode = AddrModeFlat;
+        frame.AddrStack.Offset = context->Esp;
+        frame.AddrStack.Mode = AddrModeFlat;
+#elif _M_X64
+        imageType = IMAGE_FILE_MACHINE_AMD64;
+        frame.AddrPC.Offset = context->Rip;
+        frame.AddrPC.Mode = AddrModeFlat;
+        frame.AddrFrame.Offset = context->Rsp;
+        frame.AddrFrame.Mode = AddrModeFlat;
+        frame.AddrStack.Offset = context->Rsp;
+        frame.AddrStack.Mode = AddrModeFlat;
+#elif _M_IA64
+        imageType = IMAGE_FILE_MACHINE_IA64;
+        frame.AddrPC.Offset = context->StIIP;
+        frame.AddrPC.Mode = AddrModeFlat;
+        frame.AddrFrame.Offset = context->IntSp;
+        frame.AddrFrame.Mode = AddrModeFlat;
+        frame.AddrBStore.Offset = context->RsBSP;
+        frame.AddrBStore.Mode = AddrModeFlat;
+        frame.AddrStack.Offset = context->IntSp;
+        frame.AddrStack.Mode = AddrModeFlat;
+#else
+        return "Unsupported platform for stack walking";
+#endif
+
+        // 分配符号信息结构
+        constexpr int MAX_NAME_LEN = 256;
+        BYTE symbolBuffer[sizeof(SYMBOL_INFO) + MAX_NAME_LEN];
+        PSYMBOL_INFO symbol = (PSYMBOL_INFO)symbolBuffer;
+        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        symbol->MaxNameLen = MAX_NAME_LEN;
+
+        // 行号信息
+        IMAGEHLP_LINE64 line = {};
+        line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+
+        result += std::format("Exception Code: 0x{:08X}\n", pExceptionInfo->ExceptionRecord->ExceptionCode);
+        result +=
+            std::format("Exception Address: 0x{:016X}\n", (ULONG_PTR)pExceptionInfo->ExceptionRecord->ExceptionAddress);
+        result += "Call Stack:\n";
+
+        int frameNum = 0;
+        while (StackWalk64(
+            imageType,
+            process,
+            thread,
+            &frame,
+            context,
+            NULL,
+            SymFunctionTableAccess64,
+            SymGetModuleBase64,
+            NULL)) {
+            if (frame.AddrPC.Offset == 0) {
+                break;
+            }
+
+            // 获取符号信息
+            DWORD64 displacement = 0;
+            bool hasSymbol = SymFromAddr(process, frame.AddrPC.Offset, &displacement, symbol);
+
+            // 获取行号信息
+            DWORD lineDisplacement = 0;
+            bool hasLine = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
+
+            // 获取模块信息
+            IMAGEHLP_MODULE64 moduleInfo = {};
+            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
+            bool hasModule = SymGetModuleInfo64(process, frame.AddrPC.Offset, &moduleInfo);
+
+            result += std::format("  #{:2}: ", frameNum);
+
+            if (hasSymbol) {
+                result += std::format("{}+0x{:X}", symbol->Name, displacement);
+            }
+            else {
+                result += "<unknown>";
+            }
+
+            if (hasLine) {
+                result += std::format(" at {}:{}", line.FileName, line.LineNumber);
+            }
+
+            if (hasModule) {
+                result += std::format(" [{}]", moduleInfo.ModuleName);
+            }
+
+            result += std::format(" (0x{:016X})\n", frame.AddrPC.Offset);
+
+            frameNum++;
+            if (frameNum > 64) { // 防止无限循环
+                break;
+            }
+        }
+
+        SymCleanup(process);
+        return result;
+    }
+
+    // 在异常抛出点捕获堆栈跟踪
+    static std::string capture_current_stack_trace()
+    {
+        std::string result;
+
+        HANDLE process = GetCurrentProcess();
+
+        // 初始化符号处理器
+        SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+        if (!SymInitialize(process, NULL, TRUE)) {
+            return "Failed to initialize symbol handler";
+        }
+
+        // 捕获当前堆栈
+        void* stack[64];
+        USHORT frames = CaptureStackBackTrace(0, 64, stack, NULL);
+
+        // 分配符号信息结构
+        constexpr int MAX_NAME_LEN = 256;
+        BYTE symbolBuffer[sizeof(SYMBOL_INFO) + MAX_NAME_LEN];
+        PSYMBOL_INFO symbol = (PSYMBOL_INFO)symbolBuffer;
+        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        symbol->MaxNameLen = MAX_NAME_LEN;
+
+        // 行号信息
+        IMAGEHLP_LINE64 line = {};
+        line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+
+        result += "Current Stack Trace:\n";
+
+        for (USHORT i = 0; i < frames; i++) {
+            DWORD64 address = (DWORD64)(stack[i]);
+
+            // 获取符号信息
+            DWORD64 displacement = 0;
+            bool hasSymbol = SymFromAddr(process, address, &displacement, symbol);
+
+            // 获取行号信息
+            DWORD lineDisplacement = 0;
+            bool hasLine = SymGetLineFromAddr64(process, address, &lineDisplacement, &line);
+
+            // 获取模块信息
+            IMAGEHLP_MODULE64 moduleInfo = {};
+            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
+            bool hasModule = SymGetModuleInfo64(process, address, &moduleInfo);
+
+            result += std::format("  #{:2}: ", i);
+
+            if (hasSymbol) {
+                result += std::format("{}+0x{:X}", symbol->Name, displacement);
+            }
+            else {
+                result += "<unknown>";
+            }
+
+            if (hasLine) {
+                result += std::format(" at {}:{}", line.FileName, line.LineNumber);
+            }
+
+            if (hasModule) {
+                result += std::format(" [{}]", moduleInfo.ModuleName);
+            }
+
+            result += std::format(" (0x{:016X})\n", address);
+        }
+
+        SymCleanup(process);
+        return result;
+    }
+
+#elif defined(__unix__) || defined(__APPLE__)
+    // Unix/Linux/macOS 堆栈跟踪实现
+    static std::string capture_current_stack_trace()
+    {
+        std::string result;
+        result += "Current Stack Trace:\n";
+
+        // 捕获堆栈帧
+        constexpr int MAX_FRAMES = 64;
+        void* buffer[MAX_FRAMES];
+        int frames = backtrace(buffer, MAX_FRAMES);
+
+        if (frames <= 0) {
+            return "Failed to capture stack trace";
+        }
+
+        // 获取符号信息
+        char** symbols = backtrace_symbols(buffer, frames);
+        if (!symbols) {
+            return "Failed to get symbol information";
+        }
+
+        // 解析并格式化每一帧
+        for (int i = 0; i < frames; i++) {
+            result += std::format("  #{:2}: ", i);
+
+            // 尝试解析符号名称
+            std::string frame_info = demangle_symbol(symbols[i], buffer[i]);
+            result += frame_info;
+            result += "\n";
+        }
+
+        free(symbols);
+        return result;
+    }
+
+private:
+    // 辅助函数：解析和 demangle 符号名称
+    static std::string demangle_symbol(const char* symbol_raw, void* address)
+    {
+        std::string result;
+
+        // 尝试使用 dladdr 获取更详细的信息
+        Dl_info info;
+        if (dladdr(address, &info)) {
+            // 获取模块名称
+            if (info.dli_fname) {
+                const char* fname = std::strrchr(info.dli_fname, '/');
+                result += fname ? (fname + 1) : info.dli_fname;
+                result += " ";
+            }
+
+            // 获取函数名称并 demangle
+            if (info.dli_sname) {
+                int status = 0;
+                char* demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
+
+                if (status == 0 && demangled) {
+                    result += demangled;
+                    free(demangled);
+                }
+                else {
+                    result += info.dli_sname;
+                }
+
+                // 计算偏移量
+                if (info.dli_saddr) {
+                    ptrdiff_t offset = static_cast<char*>(address) - static_cast<char*>(info.dli_saddr);
+                    result += std::format("+0x{:X}", static_cast<size_t>(offset));
+                }
+            }
+            else {
+                result += "<unknown>";
+            }
+
+            // 添加地址
+            result += std::format(" (0x{:016X})", reinterpret_cast<uintptr_t>(address));
+        }
+        else {
+            // 如果 dladdr 失败，使用原始符号信息
+            result = symbol_raw;
+        }
+
+        return result;
+    }
+
+#else
+    // 不支持的平台
+    static std::string capture_current_stack_trace() { return "Stack trace not supported on this platform"; }
+#endif
+};
+} // namespace asst::utils
