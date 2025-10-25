@@ -228,7 +228,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 matched = 1.0f;
             }
 
-            cv::multiply(matched, count_result, matched);                 // 最终结果是数色和模板匹配的点积
+            cv::multiply(matched, count_result, matched); // 最终结果是数色和模板匹配的点积
         }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
