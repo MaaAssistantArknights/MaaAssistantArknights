@@ -181,23 +181,12 @@ public:
         result += "Current Stack Trace:\n";
 
         for (USHORT i = 0; i < frames && i < 64; i++) {
+            result += std::format("  #{:2}: ", i);
             DWORD64 address = (DWORD64)(stack[i]);
 
             // 获取符号信息
             DWORD64 displacement = 0;
             bool hasSymbol = SymFromAddr(process, address, &displacement, symbol);
-
-            // 获取行号信息
-            DWORD lineDisplacement = 0;
-            bool hasLine = SymGetLineFromAddr64(process, address, &lineDisplacement, &line);
-
-            // 获取模块信息
-            IMAGEHLP_MODULE64 moduleInfo = {};
-            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
-            bool hasModule = SymGetModuleInfo64(process, address, &moduleInfo);
-
-            result += std::format("  #{:2}: ", i);
-
             if (hasSymbol) {
                 result += std::format("{}+0x{:X}", symbol->Name, displacement);
             }
@@ -205,10 +194,17 @@ public:
                 result += "<unknown>";
             }
 
+            // 获取行号信息
+            DWORD lineDisplacement = 0;
+            bool hasLine = SymGetLineFromAddr64(process, address, &lineDisplacement, &line);
             if (hasLine) {
                 result += std::format(" at {}:{}", line.FileName, line.LineNumber);
             }
 
+            // 获取模块信息
+            IMAGEHLP_MODULE64 moduleInfo = {};
+            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
+            bool hasModule = SymGetModuleInfo64(process, address, &moduleInfo);
             if (hasModule) {
                 result += std::format(" [{}]", moduleInfo.ModuleName);
             }
