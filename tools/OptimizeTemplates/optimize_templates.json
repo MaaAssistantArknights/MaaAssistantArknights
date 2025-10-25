@@ -5214,5 +5214,6 @@
     "resource/template/UiTheme/Together/Recruit": "a54dfe6c7b4e9cbd3262674ba048777ab105176d5c32966a0bd083296d0e18bd",
     "resource/template/UiTheme/Together/DepotEnter": "355e45f6f3f103e7019a7f05ce94978a0f7467ee1da77597144b75433110124f",
     "resource/template/UiTheme/Together/OperBoxEnter": "649d3d015065a9a97afa369685b4fb676e0cd987879d5856a457e75dabe44b53",
-    "resource/template/UiTheme/Together/Friends": "e04cbb31cb5906189444ce5b7e9816210eca64d55636451ac417dc27335ca083"
+    "resource/template/UiTheme/Together/Friends": "e04cbb31cb5906189444ce5b7e9816210eca64d55636451ac417dc27335ca083",
+    "resource/template/items/randomMaterial_6d5": "2ff7b913c4491eb7387de353bcaa9ae98978edbbb029cf614bdce5f39f5043be"
 }
