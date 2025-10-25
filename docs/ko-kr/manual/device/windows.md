@@ -19,33 +19,39 @@ const shuffleArray = (array) => {
     return array;
 }
 
-const fullySupport = shuffleArray([
+// Sort by [support for screenshot enhancement → perfect support → less testing].
+const fullySupport = [
+    ...shuffleArray([
+        {
+            name: 'MuMu 에뮬레이터',
+            link: 'https://mumu.163.com/',
+            note: '완전히 호환되며, [스크린샷 향상 모드](../connection.html#mumu-스크린샷-향상-모드)에 대한 추가 지원이 있습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- "완료 시 에뮬레이터 종료" 기능이 간혹 비정상적일 수 있습니다. 이런 경우 MuMu 공식 채널에 피드백을 주세요;\n- 둘 이상의 인스턴스를 열 때는 MuMu 다중 실행기의 ADB 버튼을 통해 해당 인스턴스의 포트 정보를 확인하고, MAA `설정` - `연결 설정`에서 연결 주소의 포트 번호를 해당 포트로 변경해야 합니다.\n- `메모리 사용 정책`을 `리소스 사용량 감소`로 설정하지 마십시오.',
+        },
+        {
+            name: 'LDPlayer',
+            link: 'https://kr.ldplayer.net/',
+            note: '완전히 호환되며, [스크린샷 향상 모드](../connection.html#ld-스크린샷-향상-모드)에 대한 추가 지원이 있습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- LDPlayer 9 설치 프로그램은 설치 과정 중 자동으로 Hyper-V를 비활성화합니다. 관련 요구 사항이 있다면 주의하세요.',
+        },
+    ]),
+    // keep internal sorting for bluestacks.
     {
         name: 'Bluestacks 5',
         link: 'https://www.bluestacks.com/ko/',
         note: '완전히 호환됩니다. 에뮬레이터의 `설정` - `고급 설정`에서 `ADB 기능`을 켜야 합니다. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- 느리고 번들로 제공되는 설치를 피하기 위해 [오프라인 설치 프로그램](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer)을 다운로드하는 것이 좋습니다; [Android 11](https://support.bluestacks.com/hc/en-us/articles/4402611273485-BlueStacks-5-offline-installer#:~:text=To%20install%20BlueStacks%205%20Android%2011) 버전 설치를 권장합니다; 제거하려면 공식 [제거 도구](https://support.bluestacks.com/hc/en-us/articles/360057724751-How-to-uninstall-BlueStacks-5-BlueStacks-X-and-BlueStacks-Services-completely-from-your-PC)를 사용하여 잔여물을 제거하세요.\n- adb 포트 번호가 계속 불규칙하게 변경되고 시작할 때마다 다르다면 컴퓨터에 [Hyper-V](https://support.bluestacks.com/hc/en-us/articles/4415238471053-System-requirements-for-BlueStacks-5-on-Hyper-V-enabled-Windows-10-and-11)가 활성화되어 있기 때문일 수 있습니다. MAA는 이제 BlueStacks 에뮬레이터 구성 파일 내에서 포트 번호를 자동으로 읽으려고 시도할 것입니다. 이 방법이 작동하지 않거나 다중 실행/둘 이상의 에뮬레이터 커널이 설치된 경우 [연결 (TODO)](../faq.html#블루스택-에뮬레이터가-매번-시작될-때마다-포트-번호가-다릅니다-hyper-v)을 참조하여 변경하세요. Hyper-V는 관리자로 실행되므로 에뮬레이터 자동 종료, 자동 연결 감지 등 adb와 관련 없는 작업도 MAA를 관리자로 실행해야 합니다.',
     },
-    {
-        name: 'MuMu 에뮬레이터',
-        link: 'https://mumu.163.com/',
-        note: '완전히 호환되며, [스크린샷 향상 모드](../connection.html#mumu-스크린샷-향상-모드)에 대한 추가 지원이 있습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- "완료 시 에뮬레이터 종료" 기능이 간혹 비정상적일 수 있습니다. 이런 경우 MuMu 공식 채널에 피드백을 주세요;\n- 둘 이상의 인스턴스를 열 때는 MuMu 다중 실행기의 ADB 버튼을 통해 해당 인스턴스의 포트 정보를 확인하고, MAA `설정` - `연결 설정`에서 연결 주소의 포트 번호를 해당 포트로 변경해야 합니다.\n- `메모리 사용 정책`을 `리소스 사용량 감소`로 설정하지 마십시오.',
-    },
-    {
-        name: 'LDPlayer',
-        link: 'https://kr.ldplayer.net/',
-        note: '완전히 호환되며, [스크린샷 향상 모드](../connection.html#ld-스크린샷-향상-모드)에 대한 추가 지원이 있습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.\n\n- LDPlayer 9 설치 프로그램은 설치 과정 중 자동으로 Hyper-V를 비활성화합니다. 관련 요구 사항이 있다면 주의하세요.',
-    },
-    {
-        name: 'Nox',
-        link: 'https://kr.bignox.com/',
-        note: '완전히 호환되지만 테스트가 덜 되었습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.',
-    },
-    {
-        name: 'Memu',
-        link: 'https://www.memuplay.com/ko/',
-        note: '완전히 호환되지만 테스트가 덜 되었습니다.',
-    },
-]);
+    ...shuffleArray([
+        {
+            name: 'Nox',
+            link: 'https://kr.bignox.com/',
+            note: '완전히 호환되지만 테스트가 덜 되었습니다. Hyper-V와 호환되는 것으로 알려져 있습니다.',
+        },
+        {
+            name: 'Memu',
+            link: 'https://www.memuplay.com/ko/',
+            note: '완전히 호환되지만 테스트가 덜 되었습니다.',
+        },
+    ]),
+];
 
 const partiallySupport = shuffleArray([
 {
