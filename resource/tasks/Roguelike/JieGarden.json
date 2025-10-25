@@ -25,7 +25,16 @@
             "mask": []
         },
         "template": ["JieGarden@Roguelike@Abandon.png", "JieGarden@Roguelike@Abandon2.png"],
-        "roi": [1118, 306, 43, 43]
+        "roi": [1118, 306, 43, 43],
+        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [0, 200, 200],
+                [50, 255, 255]
+            ]
+        ]
     },
     "JieGarden@Roguelike@AbandonSwitch": {
         "Doc": "放弃交换通宝",
