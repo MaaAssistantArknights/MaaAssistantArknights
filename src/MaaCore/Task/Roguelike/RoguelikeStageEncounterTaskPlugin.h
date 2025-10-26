@@ -25,10 +25,15 @@ protected:
     int hp(const cv::Mat& image) const;
 
 private:
-    OptionAnalyzer::ResultOpt analyze_options(const std::string& theme);
-    bool choose_analyzed_option(const OptionAnalyzer::Result& options, int index);
+    void reset_option_analysis_data();
+    bool analyze_options(const std::string& theme);
+    bool choose_analyzed_option(int index);
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
+
+    OptionAnalyzer::Result m_analyzed_options;
+    int m_num_analyzed_options = 0;
+    cv::Mat m_merged_option_image;
 
     int MAX_SWIPE_TIMES = 1;
 };

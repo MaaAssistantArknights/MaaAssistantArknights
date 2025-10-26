@@ -11,11 +11,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
-using namespace asst;
-using Config = RoguelikeStageEncounterConfig;
-using OptionAnalyzer = RoguelikeEncounterOptionAnalyzer;
-
-bool RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     // 安全屋，掷骰子之类的带选项的也都是视为不期而遇了
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -40,7 +36,7 @@ bool RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& d
     }
 }
 
-bool RoguelikeStageEncounterTaskPlugin::_run()
+bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
@@ -85,7 +81,7 @@ bool RoguelikeStageEncounterTaskPlugin::_run()
     return true;
 }
 
-std::optional<std::string> RoguelikeStageEncounterTaskPlugin::handle_single_event(const std::string& event_name)
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_single_event(const std::string& event_name)
 {
     const std::string& theme = m_config->get_theme();
     const RoguelikeMode& mode = m_config->get_mode();
@@ -169,17 +165,15 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::handle_single_even
 
     // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
     if (theme == RoguelikeTheme::JieGarden) {
-        if (OptionAnalyzer::ResultOpt ret = analyze_options(theme)) {
-            OptionAnalyzer::Result options = ret.value();
-            int num_options = static_cast<int>(options.size());
-
+        reset_option_analysis_data();
+        if (analyze_options(theme)) {
             int choice_index = -1;
-            if (event.option_num == num_options) {
+            if (event.option_num == m_num_analyzed_options) {
                 choice_index = choose_option - 1;
             }
             else {
                 for (const auto& [total, item] : event.fallback_choices) {
-                    if (total == num_options) {
+                    if (total == m_num_analyzed_options) {
                         choice_index = item - 1;
                         break;
                     }
@@ -189,15 +183,15 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::handle_single_even
                 Log.error(
                     std::format(
                         "RoguelikeEncounter | Failed to find choice for scenario with {} options",
-                        num_options));
+                        m_num_analyzed_options));
             }
-            else if (choose_analyzed_option(options, choice_index)) {
+            else if (choose_analyzed_option(choice_index)) {
                 return next_event(event);
             }
 
             // 兜底：从下到上依次选择
-            for (choice_index = num_options - 1; choice_index >= 0; --choice_index) {
-                if (options[choice_index].enabled && choose_analyzed_option(options, choice_index)) {
+            for (choice_index = m_num_analyzed_options - 1; choice_index >= 0; --choice_index) {
+                if (m_analyzed_options[choice_index].enabled && choose_analyzed_option(choice_index)) {
                     return next_event(event);
                 }
             }
@@ -275,7 +269,7 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::handle_single_even
     return event.next_event.empty() ? std::nullopt : std::optional { event.next_event };
 }
 
-bool RoguelikeStageEncounterTaskPlugin::satisfies_condition(
+bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
     const Config::ChoiceRequire& requirement,
     const int special_val)
 {
@@ -313,7 +307,7 @@ bool RoguelikeStageEncounterTaskPlugin::satisfies_condition(
     return true;
 }
 
-int RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
+int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
 {
     for (const auto& requirement : event.choice_require) {
         if (requirement.choose == -1) {
@@ -326,7 +320,7 @@ int RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent
     return event.default_choose;
 }
 
-int RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
+int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 {
     LogTraceFunction;
 
@@ -363,8 +357,23 @@ int RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
     return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
 }
 
-OptionAnalyzer::ResultOpt RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string& theme)
+void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_data()
 {
+    m_analyzed_options.clear();
+    m_num_analyzed_options = 0;
+    m_merged_option_image.release();
+}
+
+bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string& theme)
+{
+    // sanity check
+    if (!m_merged_option_image.empty() || !m_analyzed_options.empty() || m_num_analyzed_options != 0) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            "Residual data from the previous analysis detected; call reset_option_analysis_data() before proceeding");
+        return false;
+    }
+
     // 不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动
     ProcessTask(*this, { theme + "@RoguelikeEncounter-InitialMoveUp" }).run();
 
@@ -378,29 +387,40 @@ OptionAnalyzer::ResultOpt RoguelikeStageEncounterTaskPlugin::analyze_options(con
         ret = analyzer.merge_image(ctrler()->get_image());
         if (!ret) {
             Log.error(__FUNCTION__, "| Failed to analyze options");
-            return std::nullopt;
+            return false;
         }
     } while (ret.value() > 0 && swipe_times < MAX_SWIPE_TIMES && !need_exit());
 
 #ifdef ASST_DEBUG
-    analyzer.save_img(utils::path("debug") / utils::path("roguelikeEncounter"));
+    save_img(analyzer.get_img(), "merged option image");
 #endif
 
-    analyzer.analyze();
-    return analyzer.get_result();
+    if (analyzer.analyze()) {
+        return false;
+    }
+
+    m_analyzed_options = analyzer.get_result();
+    m_num_analyzed_options = static_cast<int>(m_analyzed_options.size());
+    m_merged_option_image = analyzer.get_img();
+    return true;
 }
 
-bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnalyzer::Result& options, int index)
+bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(int index)
 {
     LogTraceFunction;
 
     // sanity check
-    int num_options = static_cast<int>(options.size());
-    if (index < 0 || index >= num_options) {
-        Log.error(__FUNCTION__, std::format("| Attempt to choose option {} out of {}", index + 1, num_options));
+    if (m_analyzed_options.empty() || m_num_analyzed_options == 0) [[unlikely]] {
+        Log.error(__FUNCTION__, "| Attempt to choose option before analyzing");
         return false;
     }
-    if (!options[index].enabled) {
+    if (index < 0 || index >= m_num_analyzed_options) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format("| Attempt to choose option {} out of {}", index + 1, m_num_analyzed_options));
+        return false;
+    }
+    if (!m_analyzed_options[index].enabled) {
         Log.info(__FUNCTION__, std::format("| Attempt to choose disabled option {}", index + 1));
         return false;
     }
@@ -414,7 +434,7 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
 
     // find option
     Matcher choice_finder;
-    choice_finder.set_templ(options[index].templ);
+    choice_finder.set_templ(m_analyzed_options[index].templ);
     choice_finder.set_threshold(0.7);
     choice_finder.set_method(MatchMethod::Ccoeff);
     Matcher::ResultOpt ret;
@@ -426,13 +446,16 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
              ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run() && !need_exit());
 
     if (!ret) {
-        Log.error(__FUNCTION__, std::format("| Failed to find option {}: {}", index + 1, options[index].text));
-        save_img(options[index].templ, "option template");
+        Log.error(
+            __FUNCTION__,
+            std::format("| Failed to find option {}: {}", index + 1, m_analyzed_options[index].text));
+        save_img(m_merged_option_image, "merged option image");
+        save_img(m_analyzed_options[index].templ, "option template");
         return false;
     }
 
     // click option
-    Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, options[index].text));
+    Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_analyzed_options[index].text));
     const Rect& choice_rect = choice_finder.get_result().rect;
     Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
     click_rect.y = choice_rect.y + choice_rect.height / 2;
@@ -450,7 +473,7 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
     return false;
 }
 
-std::optional<std::string> RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
 {
     if (event.next_event.empty()) {
         return std::nullopt;
@@ -474,9 +497,9 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::next_event(const C
     return std::nullopt;
 }
 
-bool RoguelikeStageEncounterTaskPlugin::save_img(const cv::Mat& image, const std::string_view description)
+bool asst::RoguelikeStageEncounterTaskPlugin::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("roguelikeEncounter");
+    const auto relative_dir = utils::path("debug") / utils::path("roguelike") / utils::path("encounter");
     const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
     Log.info(std::format("Save {} to {}", description, relative_path.string()));
     return imwrite(relative_path, image);
