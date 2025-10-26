@@ -27,7 +27,7 @@ protected:
 private:
     void reset_option_analysis_data();
     bool analyze_options(const std::string& theme);
-    bool choose_analyzed_option(size_t index);
+    bool select_analyzed_option(size_t index);
     void report_analyzed_options();
 
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);

@@ -185,13 +185,13 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
                         "RoguelikeEncounter | Failed to find choice for scenario with {} options",
                         m_analyzed_options.size()));
             }
-            else if (choose_analyzed_option(choice - 1)) {
+            else if (select_analyzed_option(choice - 1)) {
                 return next_event(event);
             }
 
             // 兜底：从下到上依次选择
             for (choice = m_analyzed_options.size(); choice > 0; --choice) {
-                if (m_analyzed_options[choice - 1].enabled && choose_analyzed_option(choice - 1)) {
+                if (m_analyzed_options[choice - 1].enabled && select_analyzed_option(choice - 1)) {
                     return next_event(event);
                 }
             }
@@ -406,23 +406,23 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     return true;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(size_t index)
+bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
 {
     LogTraceFunction;
 
     // sanity check
     if (m_analyzed_options.empty()) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Attempt to choose option before analysis");
+        Log.error(__FUNCTION__, "| Attempt to select option before analysis");
         return false;
     }
     if (index >= m_analyzed_options.size()) [[unlikely]] {
         Log.error(
             __FUNCTION__,
-            std::format("| Attempt to choose option {} out of {}", index + 1, m_analyzed_options.size()));
+            std::format("| Attempt to select option {} out of {}", index + 1, m_analyzed_options.size()));
         return false;
     }
     if (!m_analyzed_options[index].enabled) {
-        Log.info(__FUNCTION__, std::format("| Attempt to choose disabled option {}", index + 1));
+        Log.info(__FUNCTION__, std::format("| Attempt to select disabled option {}", index + 1));
         return false;
     }
 
