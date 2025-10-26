@@ -32,7 +32,7 @@ public:
 
 private:
     void set_last_option_y(int last_option_y);
-    static bool save_img(const cv::Mat& image);
+    static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     std::string m_theme;
     int m_last_option_y = 0;

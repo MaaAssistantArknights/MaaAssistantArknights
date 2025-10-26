@@ -59,7 +59,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         }
         else {
             Log.error(__FUNCTION__, "Failed to recognise option text");
-            save_img(option.templ);
+            save_img(option.templ, "option template");
         }
 
         Log.info(
@@ -179,8 +179,8 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
 
     if (!overlap_matcher.analyze()) {
         Log.error(__FUNCTION__, "Overlap match failed; failed to merge images");
-        save_img(m_image);
-        save_img(new_img);
+        save_img(m_image, "m_image");
+        save_img(new_img, "new_img");
         return std::nullopt;
     }
 
@@ -221,10 +221,10 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y
     Log.info("RoguelikeEncounterOptionAnalyzer | m_last_option y set to", last_option_y);
 }
 
-bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image)
+bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("roguelikeEncounter");
+    const auto relative_dir = utils::path("debug") / utils::path("roguelike) / utils::path(Encounter");
     const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
-    Log.trace("Save image", relative_path);
+    Log.info(std::format("Save {} to {}", description, relative_path.string()));
     return imwrite(relative_path, image);
 }
