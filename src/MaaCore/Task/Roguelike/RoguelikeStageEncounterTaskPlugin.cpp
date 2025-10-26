@@ -167,31 +167,31 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     if (theme == RoguelikeTheme::JieGarden) {
         reset_option_analysis_data();
         if (analyze_options(theme)) {
-            int choice_index = -1;
-            if (event.option_num == m_num_analyzed_options) {
-                choice_index = choose_option - 1;
+            size_t choice = 0; // 以 0 作为 无效 index
+            if (event.option_num == m_analyzed_options.size()) {
+                choice = choose_option;
             }
             else {
                 for (const auto& [total, item] : event.fallback_choices) {
-                    if (total == m_num_analyzed_options) {
-                        choice_index = item - 1;
+                    if (total == m_analyzed_options.size()) {
+                        choice = item;
                         break;
                     }
                 }
             }
-            if (choice_index == -1) {
+            if (choice == 0) {
                 Log.error(
                     std::format(
                         "RoguelikeEncounter | Failed to find choice for scenario with {} options",
-                        m_num_analyzed_options));
+                        m_analyzed_options.size()));
             }
-            else if (choose_analyzed_option(choice_index)) {
+            else if (choose_analyzed_option(choice - 1)) {
                 return next_event(event);
             }
 
             // 兜底：从下到上依次选择
-            for (choice_index = m_num_analyzed_options - 1; choice_index >= 0; --choice_index) {
-                if (m_analyzed_options[choice_index].enabled && choose_analyzed_option(choice_index)) {
+            for (choice = m_analyzed_options.size(); choice > 0; --choice) {
+                if (m_analyzed_options[choice - 1].enabled && choose_analyzed_option(choice - 1)) {
                     return next_event(event);
                 }
             }
@@ -360,7 +360,6 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_data()
 {
     m_analyzed_options.clear();
-    m_num_analyzed_options = 0;
     m_merged_option_image.release();
 }
 
@@ -369,7 +368,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     LogTraceFunction;
 
     // sanity check
-    if (!m_merged_option_image.empty() || !m_analyzed_options.empty() || m_num_analyzed_options != 0) [[unlikely]] {
+    if (!m_analyzed_options.empty() || !m_merged_option_image.empty()) [[unlikely]] {
         Log.error(
             __FUNCTION__,
             "Residual data from the previous analysis detected; call reset_option_analysis_data() before proceeding");
@@ -402,25 +401,24 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     }
 
     m_analyzed_options = analyzer.get_result();
-    m_num_analyzed_options = static_cast<int>(m_analyzed_options.size());
     m_merged_option_image = analyzer.get_img();
     report_analyzed_options();
     return true;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(int index)
+bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(size_t index)
 {
     LogTraceFunction;
 
     // sanity check
-    if (m_analyzed_options.empty() || m_num_analyzed_options == 0) [[unlikely]] {
+    if (m_analyzed_options.empty()) [[unlikely]] {
         Log.error(__FUNCTION__, "| Attempt to choose option before analysis");
         return false;
     }
-    if (index < 0 || index >= m_num_analyzed_options) [[unlikely]] {
+    if (index >= m_analyzed_options.size()) [[unlikely]] {
         Log.error(
             __FUNCTION__,
-            std::format("| Attempt to choose option {} out of {}", index + 1, m_num_analyzed_options));
+            std::format("| Attempt to choose option {} out of {}", index + 1, m_analyzed_options.size()));
         return false;
     }
     if (!m_analyzed_options[index].enabled) {
@@ -479,7 +477,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(int index)
 void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
 {
     // sanity check
-    if (m_analyzed_options.empty() || m_num_analyzed_options == 0) [[unlikely]] {
+    if (m_analyzed_options.empty()) [[unlikely]] {
         Log.error(__FUNCTION__, "| Attempt to report options before analysis");
         return;
     }
