@@ -28,7 +28,10 @@ private:
     void reset_option_analysis_data();
     bool analyze_options(const std::string& theme);
     bool choose_analyzed_option(int index);
+    void report_analyzed_options();
+
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
+
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     OptionAnalyzer::Result m_analyzed_options;

@@ -67,7 +67,6 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
     }
 
     m_result = std::move(result);
-    print_result();
 
     return true;
 }
@@ -224,15 +223,4 @@ bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image)
     const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
     Log.trace("Save image", relative_path);
     return imwrite(relative_path, image);
-}
-
-void asst::RoguelikeEncounterOptionAnalyzer::print_result()
-{
-    Log.info(std::string(40, '-'));
-    Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
-    Log.info(std::string(40, '-'));
-    for (const auto& [enabled, templ, text] : m_result) {
-        Log.info(std::format("{:^9} | {}", enabled ? "Y" : "N", text));
-    }
-    Log.info(std::string(40, '-'));
 }

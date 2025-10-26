@@ -366,6 +366,8 @@ void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_data()
 
 bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string& theme)
 {
+    LogTraceFunction;
+
     // sanity check
     if (!m_merged_option_image.empty() || !m_analyzed_options.empty() || m_num_analyzed_options != 0) [[unlikely]] {
         Log.error(
@@ -402,6 +404,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     m_analyzed_options = analyzer.get_result();
     m_num_analyzed_options = static_cast<int>(m_analyzed_options.size());
     m_merged_option_image = analyzer.get_img();
+    report_analyzed_options();
     return true;
 }
 
@@ -411,7 +414,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(int index)
 
     // sanity check
     if (m_analyzed_options.empty() || m_num_analyzed_options == 0) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Attempt to choose option before analyzing");
+        Log.error(__FUNCTION__, "| Attempt to choose option before analysis");
         return false;
     }
     if (index < 0 || index >= m_num_analyzed_options) [[unlikely]] {
@@ -473,8 +476,39 @@ bool asst::RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(int index)
     return false;
 }
 
+void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
+{
+    // sanity check
+    if (m_analyzed_options.empty() || m_num_analyzed_options == 0) [[unlikely]] {
+        Log.error(__FUNCTION__, "| Attempt to report options before analysis");
+        return;
+    }
+
+    std::vector<json::value> options;
+
+    Log.info(std::string(40, '-'));
+    Log.info("Analyzed Options");
+    Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
+    Log.info(std::string(40, '-'));
+    for (const auto& [enabled, templ, text] : m_analyzed_options) {
+        json::value option = json::object {
+            { "enabled", enabled },
+            { "text", text },
+        };
+        options.emplace_back(std::move(option));
+        Log.info(std::format("{:^9} | {}", enabled ? "Y" : "N", text));
+    }
+    Log.info(std::string(40, '-'));
+
+    json::value info = basic_info_with_what("RoguelikeEncounterOptions");
+    info["details"]["options"] = std::move(options);
+    callback(AsstMsg::SubTaskExtraInfo, info);
+}
+
 std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
 {
+    LogTraceFunction;
+
     if (event.next_event.empty()) {
         return std::nullopt;
     }
