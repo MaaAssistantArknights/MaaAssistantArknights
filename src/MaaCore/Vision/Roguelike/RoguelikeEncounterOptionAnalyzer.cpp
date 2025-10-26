@@ -57,6 +57,10 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         if (ocrer.analyze()) {
             option.text = ocrer.get_result().text;
         }
+        else {
+            Log.error(__FUNCTION__, "Failed to recognise option text");
+            save_img(option.templ);
+        }
 
         Log.info(
             "RoguelikeEncounterOptionAnalyzer | Found",
