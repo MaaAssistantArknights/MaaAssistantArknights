@@ -197,7 +197,7 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::handle_single_even
 
             // 兜底：从下到上依次选择
             for (choice_index = num_options - 1; choice_index >= 0; --choice_index) {
-                if (choose_analyzed_option(options, choice_index)) {
+                if (options[choice_index].enabled && choose_analyzed_option(options, choice_index)) {
                     return next_event(event);
                 }
             }
@@ -399,6 +399,10 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
     int num_options = static_cast<int>(options.size());
     if (index < 0 || index >= num_options) {
         Log.error(__FUNCTION__, std::format("| Attempt to choose option {} out of {}", index + 1, num_options));
+        return false;
+    }
+    if (!options[index].enabled) {
+        Log.info(__FUNCTION__, std::format("| Attempt to choose disabled option {}", index + 1));
         return false;
     }
 
