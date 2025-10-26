@@ -22,6 +22,7 @@ public:
     bool analyze();
 
     [[nodiscard]] const Result& get_result() const { return m_result; };
+    [[nodiscard]] const cv::Mat& get_img() const { return m_image; };
 
     void set_theme(const std::string& theme);
     std::optional<int> merge_image(const cv::Mat& new_img);
