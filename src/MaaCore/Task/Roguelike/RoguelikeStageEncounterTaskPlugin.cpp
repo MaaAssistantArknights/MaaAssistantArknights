@@ -368,7 +368,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     LogTraceFunction;
 
     // sanity check
-    if (!m_analyzed_options.empty() || !m_merged_option_image.empty()) [[unlikely]] {
+    if (option_analyzed()) [[unlikely]] {
         Log.error(
             __FUNCTION__,
             "Residual data from the previous analysis detected; call reset_option_analysis_data() before proceeding");
@@ -406,10 +406,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
     return true;
 }
 
-void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
+void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
 {
     // sanity check
-    if (m_analyzed_options.empty()) [[unlikely]] {
+    if (!option_analyzed()) [[unlikely]] {
         Log.error(__FUNCTION__, "| Attempt to report options before analysis");
         return;
     }
@@ -435,12 +435,17 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
+bool asst::RoguelikeStageEncounterTaskPlugin::option_analyzed() const
+{
+    return !m_analyzed_options.empty() && !m_merged_option_image.empty();
+}
+
 bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
 {
     LogTraceFunction;
 
     // sanity check
-    if (m_analyzed_options.empty()) [[unlikely]] {
+    if (!option_analyzed()) [[unlikely]] {
         Log.error(__FUNCTION__, "| Attempt to select option before analysis");
         return false;
     }
