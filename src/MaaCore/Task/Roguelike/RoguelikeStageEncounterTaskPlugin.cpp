@@ -427,7 +427,7 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
 
     if (!ret) {
         Log.error(__FUNCTION__, std::format("| Failed to find option {}: {}", index + 1, options[index].text));
-        save_img(options[index].templ);
+        save_img(options[index].templ, "option template");
         return false;
     }
 
@@ -445,7 +445,7 @@ bool RoguelikeStageEncounterTaskPlugin::choose_analyzed_option(const OptionAnaly
     }
 
     Log.error(__FUNCTION__, "| The option doesn't respond to click");
-    save_img(ctrler()->get_image());
+    save_img(ctrler()->get_image(), "current screenshot");
 
     return false;
 }
@@ -474,10 +474,10 @@ std::optional<std::string> RoguelikeStageEncounterTaskPlugin::next_event(const C
     return std::nullopt;
 }
 
-bool RoguelikeStageEncounterTaskPlugin::save_img(const cv::Mat& image)
+bool RoguelikeStageEncounterTaskPlugin::save_img(const cv::Mat& image, const std::string_view description)
 {
     const auto relative_dir = utils::path("debug") / utils::path("roguelikeEncounter");
     const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
-    Log.trace("Save image", relative_path);
+    Log.info(std::format("Save {} to {}", description, relative_path));
     return imwrite(relative_path, image);
 }

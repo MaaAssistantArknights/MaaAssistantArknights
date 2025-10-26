@@ -28,7 +28,7 @@ private:
     OptionAnalyzer::ResultOpt analyze_options(const std::string& theme);
     bool choose_analyzed_option(const OptionAnalyzer::Result& options, int index);
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
-    static bool save_img(const cv::Mat& image);
+    static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     int MAX_SWIPE_TIMES = 1;
 };
