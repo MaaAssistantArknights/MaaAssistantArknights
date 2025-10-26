@@ -1172,5 +1172,26 @@
         "algorithm": "OcrDetect",
         "roi": [0, 0, 200, 43],
         "text": []
+    },
+    "JieGarden@RoguelikeEncounter-ClickOption": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 0, 100, 60]
+    },
+    "JieGarden@RoguelikeEncounter-MoveDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 360, 1, 1],
+        "rectMove": [750, 200, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
+    },
+    "JieGarden@RoguelikeEncounter-MoveUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 200, 1, 1],
+        "rectMove": [750, 360, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
     }
 }
