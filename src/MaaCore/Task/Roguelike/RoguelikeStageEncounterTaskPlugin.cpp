@@ -365,9 +365,8 @@ int RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 
 OptionAnalyzer::ResultOpt RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string& theme)
 {
-    for (int i = 0; i < MAX_SWIPE_TIMES; ++i) {
-        ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
-    }
+    // 不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动
+    ProcessTask(*this, { theme + "@RoguelikeEncounter-InitialMoveUp" }).run();
 
     RoguelikeEncounterOptionAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_theme(theme);

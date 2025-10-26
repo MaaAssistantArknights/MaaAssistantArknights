@@ -1141,7 +1141,7 @@
     "JieGarden@RoguelikeSettlementConfirm": {},
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
         "doc": [
-            "用于识别选项",
+            "识别不期而遇选项",
             "| specialParams[0]: Offset 匹配用 Rect.width, 同时也是 templ 截取长度, 要求可以覆盖选项文字",
             "| specialParams[1]: Offset 匹配用 Rect.height, 同时也是 templ 截取宽度, 要求可以覆盖选项文字"
         ],
@@ -1154,6 +1154,7 @@
         "specialParams": [200, 43]
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "doc": "判断不期而遇选项是否可选",
         "template": [
             "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43.png",
             "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48.png"
@@ -1169,16 +1170,19 @@
         ]
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "doc": "识别不期而遇选项文字",
         "algorithm": "OcrDetect",
         "roi": [0, 0, 200, 43],
         "text": []
     },
     "JieGarden@RoguelikeEncounter-ClickOption": {
+        "doc": "不期而遇点击选项",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1175, 0, 100, 60]
     },
     "JieGarden@RoguelikeEncounter-MoveDown": {
+        "doc": "不期而遇滑动选项列表",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [750, 360, 1, 1],
@@ -1187,6 +1191,16 @@
         "postDelay": 500
     },
     "JieGarden@RoguelikeEncounter-MoveUp": {
+        "doc": "不期而遇滑动选项列表",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 200, 1, 1],
+        "rectMove": [750, 360, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
+    },
+    "JieGarden@RoguelikeEncounter-InitialMoveUp": {
+        "doc": "不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [750, 200, 1, 1],
