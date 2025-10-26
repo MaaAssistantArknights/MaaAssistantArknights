@@ -7,7 +7,7 @@
 
 using namespace asst;
 
-PixelAnalyzer::ResultsVecOpt PixelAnalyzer::analyze()
+bool PixelAnalyzer::analyze()
 {
     const cv::Mat croppedImage = make_roi(m_image, m_roi);
     cv::Mat tempImage;
@@ -30,17 +30,17 @@ PixelAnalyzer::ResultsVecOpt PixelAnalyzer::analyze()
     cv::findNonZero(binaryImage, pixelPoints);
 
     if (pixelPoints.empty()) {
-        return std::nullopt;
+        return false;
     }
 
     auto transform_view = pixelPoints | std::views::transform([](const cv::Point& p) { return Point(p.x, p.y); });
-    ResultsVec results(std::ranges::begin(transform_view), std::ranges::end(transform_view));
+    Result result(std::ranges::begin(transform_view), std::ranges::end(transform_view));
 
     if (m_log_tracing) {
-        Log.trace("analyze_bright_points | num:", results.size());
+        Log.trace("analyze_bright_points | num:", result.size());
     }
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    m_result = std::move(results);
-    return m_result;
+    m_result = std::move(result);
+    return true;
 }

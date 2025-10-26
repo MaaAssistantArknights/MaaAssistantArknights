@@ -14,17 +14,15 @@ public:
         HSV
     };
 
-    using Result = Point;
-    using ResultsVec = std::vector<Result>;
-    using ResultsVecOpt = std::optional<ResultsVec>;
+    using Result = std::vector<Point>;
 
     using VisionHelper::VisionHelper;
     virtual ~PixelAnalyzer() override = default;
 
-    ResultsVecOpt analyze();
+    bool analyze();
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    [[nodiscard]] const auto& get_result() const noexcept { return m_result; }
+    [[nodiscard]] const auto& get_result() const { return m_result; }
 
     void set_filter(const Filter filter) { m_filter = filter; }
 
@@ -52,6 +50,6 @@ private:
     int m_gray_ub = 255;
     cv::Scalar m_lb = { 0, 0, 0 };
     cv::Scalar m_ub = { 0, 0, 0 };
-    ResultsVec m_result;
+    Result m_result;
 };
 }
