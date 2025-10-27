@@ -1191,7 +1191,7 @@
         "doc": "不期而遇滑动选项列表",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [750, 360, 1, 1],
+        "specificRect": [750, 500, 1, 1],
         "rectMove": [750, 200, 1, 1],
         "specialParams": [150, 0, 2, 0],
         "postDelay": 500
@@ -1201,7 +1201,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [750, 200, 1, 1],
-        "rectMove": [750, 360, 1, 1],
+        "rectMove": [750, 500, 1, 1],
         "specialParams": [150, 0, 2, 0],
         "postDelay": 500
     },
@@ -1210,7 +1210,7 @@
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [750, 200, 1, 1],
-        "rectMove": [750, 360, 1, 1],
+        "rectMove": [750, 500, 1, 1],
         "specialParams": [150, 0, 2, 0],
         "postDelay": 500
     }
