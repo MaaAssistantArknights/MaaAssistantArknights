@@ -476,14 +476,15 @@ void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t ind
 
     const std::string& theme = m_config->get_theme();
 
+    Log.info(__FUNCTION__, std::format("Moving to option {}: {}", index + 1, m_analyzed_options[index].text));
     while (!need_exit()) {
         if (index < m_view_begin) {
-            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run();
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
             update_view();
             continue;
         }
         if (index >= m_view_end) {
-            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run();
             update_view();
             continue;
         }
@@ -519,6 +520,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view()
             m_option_y_in_view[i] = view_analyzer.get_result().rect.y;
         }
     }
+    Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
 }
 
 void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
