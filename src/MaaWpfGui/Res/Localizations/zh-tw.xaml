@@ -1011,6 +1011,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BoskyDoubts">節點: 雜疑</system:String>
     <system:String x:Key="BoskyDisaster">節點: 災禍</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">識別到 {} 個選項:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">可選選項: {}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">不可選選項: {}</system:String>
     <system:String x:Key="EncounterOcrError">事件名辨識錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>

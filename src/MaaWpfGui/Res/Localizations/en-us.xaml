@@ -1013,6 +1013,9 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">Detected {} options:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">Unavailable option: {}</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>

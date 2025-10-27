@@ -1090,6 +1090,16 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                 break;
 
+            case "RoguelikeEncounterOptions":
+                var options = subTaskDetails!["options"]! ?? new JArray();
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS)
+                foreach (var option in options) {
+                    string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
+                    var text = option["text"]!.ToString();
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString(messageKey), text), UiLogColor.EventIS);
+                }
+                break;
+
             case "BoskyPassageNode":
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();
