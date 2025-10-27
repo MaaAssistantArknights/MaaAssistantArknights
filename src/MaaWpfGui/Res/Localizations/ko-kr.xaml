@@ -218,6 +218,9 @@
     <system:String x:Key="IS5NewSquad3">방문객 분대 (游客分队)</system:String>
     <system:String x:Key="IS5NewSquad4">사세대 분대 (司岁台分队)</system:String>
     <system:String x:Key="IS5NewSquad5">천사부 분대 (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대 (特勤分队)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
