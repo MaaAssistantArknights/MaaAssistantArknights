@@ -407,8 +407,8 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
 {
     std::vector<json::value> options;
 
-    Log.info(std::string(40, '-'));
     Log.info("Analyzed Options");
+    Log.info(std::string(40, '-'));
     Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
     Log.info(std::string(40, '-'));
     for (const auto& [enabled, templ, text] : m_analyzed_options) {
@@ -505,7 +505,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view()
     reset_view();
 
     Matcher view_analyzer(ctrler()->get_image());
-    view_analyzer.set_task_info(m_config->get_theme() + "RoguelikeEncounter-UpdateView");
+    view_analyzer.set_task_info(m_config->get_theme() + "@RoguelikeEncounter-UpdateView");
     for (size_t i = 0; i < m_analyzed_options.size(); ++i) {
         const auto& [enabled, templ, text] = m_analyzed_options[i];
         view_analyzer.set_templ(templ);
