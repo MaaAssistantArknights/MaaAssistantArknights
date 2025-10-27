@@ -486,6 +486,13 @@ void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t ind
             update_view();
             continue;
         }
+        if (m_option_y_in_view[index] == -1) {
+            Log.error(__FUNCTION__, "| y for option {} in view is not updated", index + 1);
+            save_img(ctrler()->get_image(), "current screenshot");
+            save_img(m_analyzed_options[index].templ, "option template");
+            update_view();
+            continue;
+        }
         break;
     }
 }
