@@ -124,6 +124,11 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
                                             // 数色时是否先用闭运算处理掩码范围。
                                             // 闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false
 
+        "pureColor": false,                 // 可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 false
+                                            // 如果为 true，则忽略模板匹配得分，完全依赖颜色匹配结果
+                                            // 适用于颜色特征明显但模板匹配效果不佳的场景
+                                            // 使用此选项时建议相应提高 templThreshold 阈值
+
         "method": "Ccoeff",                 // 可选项，模板匹配算法，可以是列表
                                             // 不填写时默认为 Ccoeff
                                             //      - Ccoeff:       对颜色不敏感的模板匹配算法，对应 cv::TM_CCOEFF_NORMED

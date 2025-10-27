@@ -249,6 +249,11 @@
                     "default": true,
                     "description": "Optional when method is HSVCount or RGBCount, default true\nWhether to use morphological closing on mask range for color counting\nClosing fills small black dots, generally improves color matching but set false for text"
                 },
+                "pureColor": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional when method is HSVCount or RGBCount, default false\nWhether to use only color counting without template matching\nSuitable for scenarios with obvious color features but poor template matching performance\nWhen using this option, it is recommended to appropriately increase the templThreshold threshold"
+                },
                 "method": {
                     "oneOf": [
                         {
