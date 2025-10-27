@@ -33,6 +33,11 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
 
     MultiMatcher option_analyzer(m_image);
     option_analyzer.set_task_info(option_analyze_task);
+
+    Rect option_analyze_roi = option_analyze_task->roi;
+    option_analyze_roi.height = m_image.rows - option_analyze_roi.y;
+    option_analyzer.set_roi(option_analyze_roi);
+
     if (!option_analyzer.analyze()) {
         return false;
     }
