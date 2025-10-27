@@ -236,43 +236,70 @@
                 Text="{Binding Roguelike3FirstFloorFoldartals}"
                 Visibility="{c:Binding 'Roguelike3FirstFloorFoldartal and RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
-            <CheckBox
+            <StackPanel
                 Margin="0,10"
-                IsChecked="{Binding Roguelike3NewSquad2StartingFoldartal}"
+                Orientation="Horizontal"
                 Visibility="{c:Binding RoguelikeSquadIsFoldartal}">
-                <TextBlock
-                    Block.TextAlignment="Left"
-                    Text="{DynamicResource Roguelike3NewSquad2StartingFoldartal}"
-                    TextWrapping="Wrap" />
-            </CheckBox>
+                <CheckBox Grid.Column="0" IsChecked="{Binding Roguelike3NewSquad2StartingFoldartal}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource Roguelike3NewSquad2StartingFoldartal}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Roguelike3NewSquad2StartingFoldartalTip}" />
+            </StackPanel>
+
             <TextBox
                 IsReadOnly="{c:Binding !Idle,
                                        Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
                 Text="{Binding Roguelike3NewSquad2StartingFoldartals}"
-                ToolTip="{DynamicResource Roguelike3NewSquad2StartingFoldartalTip}"
                 Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartal and RoguelikeSquadIsFoldartal'}" />
-            <hc:TextBox
-                d:Visibility="Visible"
-                hc:InfoElement.Title="{DynamicResource RoguelikeCollapseList}"
-                IsReadOnly="{c:Binding !Idle,
-                                       Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-                Text="{Binding RoguelikeExpectedCollapsalParadigms}"
-                ToolTip="{DynamicResource RoguelikeCollapseListTip}"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.CLP_PDS',
-                                       Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox
-                        Margin="0,10"
-                        IsChecked="{Binding RoguelikeUseSupportUnit}"
-                        IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
-                        <TextBlock
-                            Block.TextAlignment="Left"
-                            Text="{DynamicResource RoguelikeUseSupportUnit}"
-                            TextWrapping="Wrap" />
-                    </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
+
+            <Grid d:Visibility="Visible" Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.CLP_PDS', Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Grid.Row="0"
+                    Margin="0,0,0,5"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        MaxWidth="{c:Binding '220 - 8 - ActualWidth',
+                                             ElementName=RoguelikeCollapseListTipTooltipBlock}"
+                        Margin="8,0,0,0"
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeCollapseList}"
+                        TextWrapping="Wrap" />
+                    <controls:TooltipBlock x:Name="RoguelikeCollapseListTipTooltipBlock" TooltipText="{DynamicResource RoguelikeCollapseListTip}" />
                 </StackPanel>
+                <hc:TextBox
+                    Grid.Row="1"
+                    IsReadOnly="{c:Binding !Idle,
+                                           Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                    Text="{Binding RoguelikeExpectedCollapsalParadigms}" />
+            </Grid>
+
+            <StackPanel Orientation="Horizontal">
+                <CheckBox
+                    Grid.Column="0"
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=RoguelikeRequireStartingCoreCharTooltipBlock}"
+                    Margin="0,10"
+                    IsChecked="{Binding RoguelikeUseSupportUnit}"
+                    IsEnabled="{c:Binding 'RoguelikeCoreChar != &quot;&quot;'}">
+                    <TextBlock
+                        Block.TextAlignment="Left"
+                        Text="{DynamicResource RoguelikeUseSupportUnit}"
+                        TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock
+                    x:Name="RoguelikeRequireStartingCoreCharTooltipBlock"
+                    Grid.Column="1"
+                    TooltipText="{DynamicResource RoguelikeRequireStartingCoreChar}" />
+            </StackPanel>
+            <StackPanel>
+
                 <CheckBox
                     Margin="0,10"
                     IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
