@@ -274,7 +274,7 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y
 cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& image)
 {
     if (image.empty()) [[unlikely]] {
-        return cv::Mat();
+        return {};
     }
 
     cv::Mat image_gray;
