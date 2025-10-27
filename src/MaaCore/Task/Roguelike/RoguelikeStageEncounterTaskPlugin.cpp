@@ -182,7 +182,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             if (choice == 0) {
                 Log.error(
                     std::format(
-                        "RoguelikeEncounter | Failed to find choice for scenario with {} options",
+                        "RoguelikeEncounter | Failed to find choice for scenario with {} option(s)",
                         m_analyzed_options.size()));
             }
             else if (select_analyzed_option(choice - 1)) {
