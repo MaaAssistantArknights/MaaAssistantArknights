@@ -1188,7 +1188,7 @@
         "doc": "不期而遇点击选项",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1175, 0, 100, 60]
+        "specificRect": [1175, 0, 100, 43]
     },
     "JieGarden@RoguelikeEncounter-MoveDown": {
         "doc": "不期而遇滑动选项列表",
