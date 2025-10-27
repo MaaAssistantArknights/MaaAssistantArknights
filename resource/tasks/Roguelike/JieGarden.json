@@ -1151,7 +1151,7 @@
         ],
         "roi": [835, 50, 40, 585],
         "maskRange": [1, 255],
-        "specialParams": [200, 43]
+        "specialParams": [300, 43]
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
         "doc": "判断不期而遇选项是否可选",
@@ -1172,13 +1172,13 @@
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "doc": "识别不期而遇选项文字",
         "algorithm": "OcrDetect",
-        "roi": [0, 0, 200, 43],
+        "roi": [0, 0, 300, 43],
         "text": [],
         "withoutDet": true
     },
     "JieGarden@RoguelikeEncounter-UpdateView": {
         "template": "empty.png",
-        "roi": [835, 50, 200, 585],
+        "roi": [835, 50, 300, 585],
         "templThreshold": 0.7
     },
     "JieGarden@RoguelikeEncounter-ClickOption": {

@@ -505,19 +505,21 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view()
 
     reset_view();
 
+    MatchTaskPtr update_view_task = Task.get<MatchTaskInfo>(m_config->get_theme() + "@RoguelikeEncounter-UpdateView");
+
     Matcher view_analyzer(ctrler()->get_image());
-    view_analyzer.set_task_info(m_config->get_theme() + "@RoguelikeEncounter-UpdateView");
+    view_analyzer.set_task_info(update_view_task);
     for (size_t i = 0; i < m_analyzed_options.size(); ++i) {
         const auto& [enabled, templ, text] = m_analyzed_options[i];
         view_analyzer.set_templ(templ);
         if (view_analyzer.analyze()) {
             if (i < m_view_begin) {
-                i = m_view_begin;
+                m_view_begin = i;
             }
             if (i >= m_view_end) {
                 m_view_end = i + 1;
             }
-            m_option_y_in_view[i] = view_analyzer.get_result().rect.y;
+            m_option_y_in_view[i] = view_analyzer.get_result().rect.y + update_view_task->roi.y;
         }
     }
     Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
