@@ -407,7 +407,8 @@
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
-        ]
+        ],
+        "onErrorNext": ["Roguelike@Begin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Roguelike@CheckLevel": {
         "Doc": "base_task 进入肉鸽等级界面",
