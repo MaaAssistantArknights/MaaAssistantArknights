@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -37,10 +36,11 @@ crop_start: Optional[Roimage] = None  # 相对 win_roimage ，正在裁剪的区
 crop_end = Roimage(0, 0, 0, 0, win_roimage).getRoiInRoot()
 
 # 初始化参数
-win_name = "image"  # 窗口名
-trackbars_name = "trackbars"  # 轨迹条窗口名
-file_name = "image"  # 文件名
-files = [f for f in os.listdir("./src") if f.endswith(".png")]
+win_name = "image"
+trackbars_name = "trackbars"
+file_name = "image"
+src_path = Path("./src")
+files = [f.name for f in src_path.glob("*.png")] if src_path.exists() else []
 
 # 显示 Roi
 trackbars_img = np.ones((100, 400, 3), dtype=np.uint8) * 255
@@ -223,11 +223,10 @@ def trackbar_change(pos) -> None:
     cv2.resizeWindow(win_name, w, h)  # resize a window
 
 
-# 读取文件
-# -file 文件名
 def readfile(file: str):
-    print("src:", rf"{os.getcwd()}\src\{file}")
-    return cv2.imread("./src/" + file)
+    file_path = src_path / file
+    print("src:", file_path.absolute())
+    return cv2.imread(str(file_path))
 
 
 # 截图
@@ -388,8 +387,9 @@ if __name__ == "__main__":
                 dst_filename: str = (
                     f"{file_name}_{x1}_{y1}_{w1}_{h1}__{x2}_{y2}_{w2}_{h2}.png"
                 )
-                print(rf"dst: {os.getcwd()}\dst\{dst_filename}")
-                cv2.imwrite("./dst/" + dst_filename, roi.image)
+                dst_file_path = dst_path / dst_filename
+                print(rf"dst: {dst_file_path.absolute()}")
+                cv2.imwrite(str(dst_file_path), roi.image)
 
             print(
                 f"original roi: {roi.rectangle}\n"
