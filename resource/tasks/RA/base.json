@@ -2,7 +2,11 @@
     "RA@Navigation": {
         "doc": "导航到 <生息演算>",
         "algorithm": "JustReturn",
-        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"],
+        "next": [
+            "RA@Navigation-RecogniseTheme",
+            "RA@Navigation@ReturnButtons#next",
+            "RA@Navigation@StartUpThemes#next"
+        ],
         "onErrorNext": ["RA@Navigation@SwitchTheme@ToggleSettingsMenu"]
     },
     "RA@Navigation-RecogniseTheme": {
