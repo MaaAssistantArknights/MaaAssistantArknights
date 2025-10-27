@@ -1173,7 +1173,8 @@
         "doc": "识别不期而遇选项文字",
         "algorithm": "OcrDetect",
         "roi": [0, 0, 200, 43],
-        "text": []
+        "text": [],
+        "withoutDet": true
     },
     "JieGarden@RoguelikeEncounter-ClickOption": {
         "doc": "不期而遇点击选项",
