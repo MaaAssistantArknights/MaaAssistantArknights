@@ -375,7 +375,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
         swipe_times++;
         ret = analyzer.merge_image(ctrler()->get_image());
         if (!ret) {
-            Log.error(__FUNCTION__, "| Failed to analyze options");
+            Log.error(__FUNCTION__, "| Failed to merge images");
             return false;
         }
     } while (ret.value() > 0 && swipe_times < MAX_SWIPE_TIMES && !need_exit());
@@ -384,7 +384,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
     save_img(analyzer.get_img(), "merged option image");
 #endif
 
-    if (analyzer.analyze()) {
+    if (!analyzer.analyze()) {
+        Log.error(__FUNCTION__, "| Failed to analyze options");
         return false;
     }
 
