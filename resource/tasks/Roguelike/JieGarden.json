@@ -27,11 +27,12 @@
         "template": ["JieGarden@Roguelike@Abandon.png", "JieGarden@Roguelike@Abandon2.png"],
         "roi": [1118, 306, 43, 43],
         "maskRange": [1, 255],
-        "method": "RGBCount",
+        "method": "HSVCount",
+        "pureColor": true,
         "colorScales": [
             [
-                [220, 0, 0],
-                [255, 100, 100]
+                [0, 200, 200],
+                [10, 220, 255]
             ]
         ]
     },
