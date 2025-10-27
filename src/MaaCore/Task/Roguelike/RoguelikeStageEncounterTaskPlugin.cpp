@@ -392,7 +392,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
     m_analyzed_options = analyzer.get_result();
     m_merged_option_image = analyzer.get_img();
     report_analyzed_options();
-    reset_view();
+    update_view();
     return true;
 }
 

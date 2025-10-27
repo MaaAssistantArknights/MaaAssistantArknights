@@ -238,7 +238,10 @@ cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& 
     cv::Mat thresh;
     cv::threshold(image_gray, thresh, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 
-    return thresh;
+    cv::Mat thresh_bgr;
+    cv::cvtColor(thresh, thresh_bgr, cv::COLOR_GRAY2BGR);
+
+    return thresh_bgr;
 }
 
 bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
