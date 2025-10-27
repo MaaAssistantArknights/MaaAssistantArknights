@@ -166,7 +166,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
     if (theme == RoguelikeTheme::JieGarden) {
         reset_option_analysis_data();
-        if (analyze_options(theme)) {
+        if (analyze_options()) {
             size_t choice = 0; // 以 0 作为 无效 index
             if (event.option_num == m_analyzed_options.size()) {
                 choice = choose_option;
@@ -363,7 +363,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_data()
     m_merged_option_image.release();
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string& theme)
+bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
 {
     LogTraceFunction;
 
@@ -374,6 +374,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options(const std::string&
             "Residual data from the previous analysis detected; call reset_option_analysis_data() before proceeding");
         return false;
     }
+
+    const std::string& theme = m_config->get_theme();
 
     // 不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动
     ProcessTask(*this, { theme + "@RoguelikeEncounter-InitialMoveUp" }).run();
