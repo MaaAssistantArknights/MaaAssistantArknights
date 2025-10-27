@@ -402,7 +402,7 @@ void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_and_view_dat
     reset_view();
 }
 
-void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
+void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
 {
     std::vector<json::value> options;
 

@@ -27,7 +27,7 @@ protected:
 private:
     bool analyze_options();
     void reset_option_analysis_and_view_data();
-    void report_analyzed_options() const;
+    void report_analyzed_options();
     bool select_analyzed_option(size_t index);
     void move_to_analyzed_option(size_t index);
     void update_view();
