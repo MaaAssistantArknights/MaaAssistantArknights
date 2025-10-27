@@ -1177,10 +1177,7 @@
         "withoutDet": true
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-Option": {
-        "doc": [
-            "匹配不期而遇选项",
-            "| specificRect: 选项 templ 截取用 rect"
-        ],
+        "doc": ["匹配不期而遇选项", "| specificRect: 选项 templ 截取用 rect"],
         "template": "empty.png",
         "roi": [835, 50, 300, 585],
         "templThreshold": 0.7,
