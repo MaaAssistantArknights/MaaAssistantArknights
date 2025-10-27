@@ -113,7 +113,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    int choose_option = process_task(event, special_val);
+    size_t choose_option = process_task(event, special_val);
     Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
 
     auto info = basic_info_with_what("RoguelikeEvent");
@@ -198,7 +198,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    const auto click_option_task_name = [&](int item, int total) {
+    const auto click_option_task_name = [&](size_t item, size_t total) {
         if (item > total) {
             Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);
             item = total;
@@ -239,9 +239,9 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     }
 
     // 兜底处理，从 option_num-option_num 点到 1-1
-    int max_time = event.option_num;
+    size_t max_time = event.option_num;
     while (max_time > 0) {
-        for (int i = max_time; i > 0; --i) {
+        for (size_t i = max_time; i > 0; --i) {
             bool ret =
                 ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).set_retry_times(3).run();
             if (ret) {
@@ -307,7 +307,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
     return true;
 }
 
-int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
+size_t asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
 {
     for (const auto& requirement : event.choice_require) {
         if (requirement.choose == -1) {

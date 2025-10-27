@@ -21,7 +21,7 @@ protected:
 
     std::optional<std::string> handle_single_event(const std::string& event_name);
     static bool satisfies_condition(const Config::ChoiceRequire& requirement, int special_val);
-    static int process_task(const Config::RoguelikeEvent& event, int special_val);
+    static size_t process_task(const Config::RoguelikeEvent& event, int special_val);
     int hp(const cv::Mat& image) const;
 
 private:
