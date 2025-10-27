@@ -37,7 +37,6 @@ private:
 
     std::string m_theme;
     int m_last_option_y = 0;
-    size_t m_num_options = 0;
     Result m_result;
 };
 } // namespace asst
