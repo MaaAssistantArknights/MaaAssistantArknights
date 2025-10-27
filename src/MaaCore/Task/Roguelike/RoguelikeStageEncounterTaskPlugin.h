@@ -28,7 +28,6 @@ private:
     void reset_option_analysis_data();
     bool analyze_options();
     void report_analyzed_options() const;
-    bool option_analyzed() const;
     bool select_analyzed_option(size_t index);
 
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
@@ -36,7 +35,6 @@ private:
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     OptionAnalyzer::Result m_analyzed_options;
-    int m_num_analyzed_options = 0;
     cv::Mat m_merged_option_image;
 
     int MAX_SWIPE_TIMES = 1;

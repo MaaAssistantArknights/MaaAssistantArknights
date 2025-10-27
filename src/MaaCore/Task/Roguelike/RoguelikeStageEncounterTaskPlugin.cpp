@@ -367,14 +367,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
 {
     LogTraceFunction;
 
-    // sanity check
-    if (option_analyzed()) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            "Residual data from the previous analysis detected; call reset_option_analysis_data() before proceeding");
-        return false;
-    }
-
     const std::string& theme = m_config->get_theme();
 
     // 不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动
@@ -410,12 +402,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
 
 void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
 {
-    // sanity check
-    if (!option_analyzed()) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Attempt to report options before analysis");
-        return;
-    }
-
     std::vector<json::value> options;
 
     Log.info(std::string(40, '-'));
@@ -435,11 +421,6 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
     json::value info = basic_info_with_what("RoguelikeEncounterOptions");
     info["details"]["options"] = std::move(options);
     callback(AsstMsg::SubTaskExtraInfo, info);
-}
-
-bool asst::RoguelikeStageEncounterTaskPlugin::option_analyzed() const
-{
-    return !m_analyzed_options.empty() && !m_merged_option_image.empty();
 }
 
 bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
