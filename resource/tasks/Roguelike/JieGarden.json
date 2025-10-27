@@ -1176,6 +1176,11 @@
         "text": [],
         "withoutDet": true
     },
+    "JieGarden@RoguelikeEncounter-UpdateView": {
+        "template": "empty.png",
+        "roi": [835, 50, 200, 585],
+        "templThreshold": 0.7
+    },
     "JieGarden@RoguelikeEncounter-ClickOption": {
         "doc": "不期而遇点击选项",
         "algorithm": "JustReturn",

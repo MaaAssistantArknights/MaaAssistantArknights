@@ -25,10 +25,13 @@ protected:
     int hp(const cv::Mat& image) const;
 
 private:
-    void reset_option_analysis_data();
     bool analyze_options();
+    void reset_option_analysis_and_view_data();
     void report_analyzed_options() const;
     bool select_analyzed_option(size_t index);
+    void move_to_analyzed_option(size_t index);
+    void update_view();
+    void reset_view();
 
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
 
@@ -36,6 +39,9 @@ private:
 
     OptionAnalyzer::Result m_analyzed_options;
     cv::Mat m_merged_option_image;
+    size_t m_view_begin = 0;
+    size_t m_view_end = 0;
+    std::vector<int> m_option_y_in_view;
 
     int MAX_SWIPE_TIMES = 1;
 };

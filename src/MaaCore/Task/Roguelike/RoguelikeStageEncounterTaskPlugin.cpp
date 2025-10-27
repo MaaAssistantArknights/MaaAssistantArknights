@@ -165,7 +165,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
     if (theme == RoguelikeTheme::JieGarden) {
-        reset_option_analysis_data();
+        reset_option_analysis_and_view_data();
         if (analyze_options()) {
             size_t choice = 0; // 以 0 作为 无效 index
             if (event.option_num == m_analyzed_options.size()) {
@@ -357,12 +357,6 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
     return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
 }
 
-void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_data()
-{
-    m_analyzed_options.clear();
-    m_merged_option_image.release();
-}
-
 bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
 {
     LogTraceFunction;
@@ -397,7 +391,15 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
     m_analyzed_options = analyzer.get_result();
     m_merged_option_image = analyzer.get_img();
     report_analyzed_options();
+    reset_view();
     return true;
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_and_view_data()
+{
+    m_analyzed_options.clear();
+    m_merged_option_image.release();
+    reset_view();
 }
 
 void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
@@ -410,9 +412,9 @@ void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options() const
     Log.info(std::string(40, '-'));
     for (const auto& [enabled, templ, text] : m_analyzed_options) {
         json::value option = json::object {
-                { "enabled", enabled },
-                { "text", text },
-            };
+            { "enabled", enabled },
+            { "text", text },
+        };
         options.emplace_back(std::move(option));
         Log.info(std::format("{:^9} | {}", enabled ? "Y" : "N", text));
     }
@@ -428,10 +430,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
     LogTraceFunction;
 
     // sanity check
-    if (!option_analyzed()) [[unlikely]] {
-        Log.error(__FUNCTION__, "| Attempt to select option before analysis");
-        return false;
-    }
     if (index >= m_analyzed_options.size()) [[unlikely]] {
         Log.error(
             __FUNCTION__,
@@ -443,40 +441,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
         return false;
     }
 
-    // reset view
-    const std::string& theme = m_config->get_theme();
-
-    for (int i = 0; i < MAX_SWIPE_TIMES; ++i) {
-        ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
-    }
-
-    // find option
-    Matcher choice_finder;
-    choice_finder.set_templ(m_analyzed_options[index].templ);
-    choice_finder.set_threshold(0.7);
-    choice_finder.set_method(MatchMethod::Ccoeff);
-    Matcher::ResultOpt ret;
-    int swipe_times = 0;
-    do {
-        choice_finder.set_image(ctrler()->get_image());
-        ret = choice_finder.analyze();
-    } while (!ret && swipe_times++ < MAX_SWIPE_TIMES &&
-             ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run() && !need_exit());
-
-    if (!ret) {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Failed to find option {}: {}", index + 1, m_analyzed_options[index].text));
-        save_img(m_merged_option_image, "merged option image");
-        save_img(m_analyzed_options[index].templ, "option template");
-        return false;
-    }
+    move_to_analyzed_option(index);
 
     // click option
     Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_analyzed_options[index].text));
-    const Rect& choice_rect = choice_finder.get_result().rect;
     Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
-    click_rect.y = choice_rect.y + choice_rect.height / 2;
+    click_rect.y = m_option_y_in_view[index];
     for (int j = 0; j < 2; ++j) {
         ctrler()->click(click_rect);
         sleep(300);
@@ -489,6 +459,65 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
     save_img(ctrler()->get_image(), "current screenshot");
 
     return false;
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t index)
+{
+    LogTraceFunction;
+
+    // sanity check
+    if (index >= m_analyzed_options.size()) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format("| Attempt to move to option {} out of {}", index + 1, m_analyzed_options.size()));
+        return;
+    }
+
+    const std::string& theme = m_config->get_theme();
+
+    while (!need_exit()) {
+        if (index < m_view_begin) {
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run();
+            update_view();
+            continue;
+        }
+        if (index >= m_view_end) {
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
+            update_view();
+            continue;
+        }
+        break;
+    }
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::update_view()
+{
+    LogTraceFunction;
+
+    reset_view();
+
+    Matcher view_analyzer(ctrler()->get_image());
+    view_analyzer.set_task_info(m_config->get_theme() + "RoguelikeEncounter-UpdateView");
+    for (size_t i = 0; i < m_analyzed_options.size(); ++i) {
+        const auto& [enabled, templ, text] = m_analyzed_options[i];
+        view_analyzer.set_templ(templ);
+        if (view_analyzer.analyze()) {
+            if (i < m_view_begin) {
+                i = m_view_begin;
+            }
+            if (i >= m_view_end) {
+                m_view_end = i + 1;
+            }
+            m_option_y_in_view[i] = view_analyzer.get_result().rect.y;
+        }
+    }
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
+{
+    m_view_begin = m_analyzed_options.size();
+    m_view_end = 0;
+    m_option_y_in_view.assign(m_analyzed_options.size(), -1);
 }
 
 std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
