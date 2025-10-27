@@ -444,6 +444,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t inde
         ctrler()->click(click_rect);
         sleep(300);
     }
+    sleep(1500);
+
     if (hp(ctrler()->get_image()) < 0) {
         return true;
     }
