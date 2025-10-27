@@ -228,7 +228,7 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y
 
 bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("roguelike) / utils::path(Encounter");
+    const auto relative_dir = utils::path("debug") / utils::path("roguelike") / utils::path("encounter");
     const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
     Log.info(std::format("Save {} to {}", description, relative_path.string()));
     return imwrite(relative_path, image);
