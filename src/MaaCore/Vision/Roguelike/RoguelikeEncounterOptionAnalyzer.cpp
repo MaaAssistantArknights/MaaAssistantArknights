@@ -57,7 +57,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         option_rect.width = option_analyze_task->special_params[0];
         option.templ = make_roi(m_image, option_rect);
 
-        RegionOCRer ocrer(option.templ);
+        RegionOCRer ocrer(option.enabled ? option.templ : binarize_for_ocr(option.templ));
         ocrer.set_task_info(option_text_analyze_task);
         if (ocrer.analyze()) {
             option.text = ocrer.get_result().text;
@@ -224,6 +224,21 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y
 {
     m_last_option_y = last_option_y;
     Log.info("RoguelikeEncounterOptionAnalyzer | m_last_option y set to", last_option_y);
+}
+
+cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& image)
+{
+    if (image.empty()) [[unlikely]] {
+        return cv::Mat();
+    }
+
+    cv::Mat image_gray;
+    cv::cvtColor(image, image_gray, cv::COLOR_BGR2GRAY);
+
+    cv::Mat thresh;
+    cv::threshold(image_gray, thresh, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+
+    return thresh;
 }
 
 bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
