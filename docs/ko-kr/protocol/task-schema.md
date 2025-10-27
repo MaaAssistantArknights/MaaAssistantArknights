@@ -124,6 +124,11 @@ It is recommended to use [Visual Studio Code](https://code.visualstudio.com/) an
                                             // 색상 수를 세는 동안 마스크 범위에 먼저 닫힘 연산을 적용할지 여부.
                                             // 닫힘 연산은 작은 검은 점을 메울 수 있으며, 일반적으로 색상 수 세기 매칭 효과를 향상시키지만 이미지에 텍스트가 포함된 경우 false로 설정하는 것이 좋습니다
 
+        "pureColor": false,                 // 선택 사항, method가 HSVCount 또는 RGBCount일 때 유효, 기본값은 false
+                                            // true인 경우 템플릿 매칭 점수를 무시하고 색상 매칭 결과에만 의존
+                                            // 색상 특징이 뚜렷하지만 템플릿 매칭 효과가 좋지 않은 시나리오에 적합
+                                            // 이 옵션 사용 시 templThreshold를 상향 조정하는 것이 권장됨
+
         "method": "Ccoeff",                 // 선택 사항, 템플릿 매칭 알고리즘, 목록 형태일 수 있음
                                             // 지정하지 않을 경우 기본값은 Ccoeff
                                             //      - Ccoeff:       색상에 민감하지 않은 템플릿 매칭 알고리즘, cv::TM_CCOEFF_NORMED에 해당

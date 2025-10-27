@@ -631,6 +631,7 @@ struct MatchTaskInfo : public TaskInfo
     Ranges mask_ranges;                   // 匹配掩码范围，TaskData 仅允许 array<int, 2>，但保留彩色掩码支持
     Ranges color_scales;                  // 数色掩码范围
     bool color_close = true;              // 数色时是否使用闭运算处理
+    bool pure_color = false;              // 数色时是否忽略模板匹配结果
 };
 
 using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;

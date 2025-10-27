@@ -247,7 +247,12 @@
                 "colorWithClose": {
                     "type": "boolean",
                     "default": true,
-                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true\n数色时是否先用闭运算处理掩码范围。\n闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false"
+                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true\n数色时是否先用闭运算处理掩码范围\n闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false"
+                },
+                "pureColor": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 false\n是否只使用数色匹配而不使用模板匹配\n适用于颜色特征明显但模板匹配效果不佳的场景\n使用此选项时建议相应提高 templThreshold 阈值"
                 },
                 "method": {
                     "oneOf": [
