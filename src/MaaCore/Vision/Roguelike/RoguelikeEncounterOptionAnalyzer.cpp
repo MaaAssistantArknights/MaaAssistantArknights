@@ -30,6 +30,9 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         save_img(m_image, "m_image");
         return false;
     }
+#ifdef ASST_DEBUG
+    save_img(m_image, "m_image");
+#endif
     MultiMatcher::ResultsVec option_analyze_result = option_analyze_ret.value();
     sort_by_horizontal_(option_analyze_result); // 按照垂直方向从上到下排序各列节点
 
