@@ -228,6 +228,7 @@
     "13@EnterEpisodeNew": {},
     "14@EnterEpisodeNew": {},
     "15@EnterEpisodeNew": {},
+    "16@EnterEpisodeNew": {},
     "EnterEpisode": {
         "Doc": "base_task",
         "baseTask": "EpisodeOcrReplace",
@@ -527,6 +528,10 @@
     },
     "Episode15": {
         "baseTask": "15@EpisodeNew",
+        "sub": ["ToChapterNew@StageTheme"]
+    },
+    "Episode16": {
+        "baseTask": "16@EpisodeNew",
         "sub": ["ToChapterNew@StageTheme"]
     },
     "1-7": {
