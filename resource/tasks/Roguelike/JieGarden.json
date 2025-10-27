@@ -1176,10 +1176,16 @@
         "text": [],
         "withoutDet": true
     },
-    "JieGarden@RoguelikeEncounter-UpdateView": {
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-Option": {
+        "doc": [
+            "匹配不期而遇选项",
+            "| specificRect: 选项 templ 截取用 rect"
+        ],
         "template": "empty.png",
         "roi": [835, 50, 300, 585],
-        "templThreshold": 0.7
+        "templThreshold": 0.7,
+        "action": "ClickRect",
+        "specificRect": [835, 0, 300, 43]
     },
     "JieGarden@RoguelikeEncounter-ClickOption": {
         "doc": "不期而遇点击选项",

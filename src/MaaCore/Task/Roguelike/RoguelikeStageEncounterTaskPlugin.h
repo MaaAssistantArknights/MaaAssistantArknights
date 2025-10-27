@@ -38,7 +38,6 @@ private:
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
     OptionAnalyzer::Result m_analyzed_options;
-    cv::Mat m_merged_option_image;
     size_t m_view_begin = 0;
     size_t m_view_end = 0;
     std::vector<int> m_option_y_in_view;

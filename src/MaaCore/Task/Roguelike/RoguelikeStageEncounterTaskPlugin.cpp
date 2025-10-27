@@ -375,22 +375,15 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
         swipe_times++;
         ret = analyzer.merge_image(ctrler()->get_image());
         if (!ret) {
-            Log.error(__FUNCTION__, "| Failed to merge images");
             return false;
         }
     } while (ret.value() > 0 && swipe_times < MAX_SWIPE_TIMES && !need_exit());
 
-#ifdef ASST_DEBUG
-    save_img(analyzer.get_img(), "merged option image");
-#endif
-
     if (!analyzer.analyze()) {
-        Log.error(__FUNCTION__, "| Failed to analyze options");
         return false;
     }
 
     m_analyzed_options = analyzer.get_result();
-    m_merged_option_image = analyzer.get_img();
     report_analyzed_options();
     update_view();
     return true;
@@ -399,7 +392,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
 void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_and_view_data()
 {
     m_analyzed_options.clear();
-    m_merged_option_image.release();
     reset_view();
 }
 
@@ -505,23 +497,23 @@ void asst::RoguelikeStageEncounterTaskPlugin::update_view()
 
     reset_view();
 
-    MatchTaskPtr update_view_task = Task.get<MatchTaskInfo>(m_config->get_theme() + "@RoguelikeEncounter-UpdateView");
+    cv::Mat image = ctrler()->get_image();
 
-    Matcher view_analyzer(ctrler()->get_image());
-    view_analyzer.set_task_info(update_view_task);
     for (size_t i = 0; i < m_analyzed_options.size(); ++i) {
         const auto& [enabled, templ, text] = m_analyzed_options[i];
-        view_analyzer.set_templ(templ);
-        if (view_analyzer.analyze()) {
+        Matcher::ResultOpt option_match_ret =
+            RoguelikeEncounterOptionAnalyzer::match_option(m_config->get_theme(), image, templ);
+        if (option_match_ret) {
             if (i < m_view_begin) {
                 m_view_begin = i;
             }
             if (i >= m_view_end) {
                 m_view_end = i + 1;
             }
-            m_option_y_in_view[i] = view_analyzer.get_result().rect.y + update_view_task->roi.y;
+            m_option_y_in_view[i] = option_match_ret.value().rect.y;
         }
     }
+
     Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
 }
 
