@@ -9,6 +9,10 @@ icon: iconoir:developer
 本ページは主に PR プロセスおよび MAA のファイルフォーマット要件について説明します。MAA の実行ロジックを変更する具体的な方法については、[プロトコル文書](../protocol/)を参照してください。
 :::
 
+::: tip
+[DeepWiki に質問して](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)、MAA プロジェクトの全体的なアーキテクチャを概要的に理解することができます。
+:::
+
 ## プログラミングの仕方がわからないので、JSONファイルやドキュメントなどを少し変更したいのですが、どうすればいいですか？
 
 [「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド](./pr-tutorial.md)へようこそ（純WebサイトのPRチュートリアル）

@@ -9,6 +9,10 @@ icon: iconoir:developer
 本頁面主要描述了 PR 流程以及 MAA 的檔案格式化要求，如果你想要具體了解如何對 MAA 的運行邏輯做出更改，請參看 [協議文檔](../protocol/)
 :::
 
+::: tip
+你可以 [向 DeepWiki 詢問](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 專案的整體架構。
+:::
+
 ## 我不懂寫程式，只是想改一點點 JSON 文件/文件等，要怎麼操作？
 
 歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 Github.com）

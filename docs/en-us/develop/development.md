@@ -9,6 +9,10 @@ icon: iconoir:developer
 This page mainly describes the PR workflow and MAA's file formatting requirements. If you want to learn specifically how to make changes to MAA's operational logic, please refer to the [Protocol Documentation](../protocol/)
 :::
 
+::: tip
+You can [Ask DeepWiki](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) to learn about the overall architecture of the MAA project.
+:::
+
 ## I don't know programming but just want to modify some JSON files/documents, how can I do it?
 
 Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
