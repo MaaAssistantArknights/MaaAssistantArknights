@@ -3,19 +3,35 @@ order: 1
 icon: iconoir:developer
 ---
 
-# Getting Started with Development
+# Development Guide
 
 ::: tip
 This page mainly describes the PR workflow and MAA's file formatting requirements. If you want to learn specifically how to make changes to MAA's operational logic, please refer to the [Protocol Documentation](../protocol/)
 :::
 
-## Introduction to GitHub Pull Request Flow
-
-### I don't know programming but just want to modify some JSON files/documents, how can I do it?
+## I don't know programming but just want to modify some JSON files/documents, how can I do it?
 
 Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
 
-### I can program, but I've never used GitHub/C++/..., how do I get started?
+## I want to make simple modifications to a few lines of code, but configuring the environment is too tedious and pure web editing is difficult to use. What should I do?
+
+Use the GitHub Codespaces online development environment and try it out!
+
+We've preset several different development environments for you to choose from:
+
+- Blank environment with a bare Linux container (default)
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- Lightweight environment, suitable for documentation site frontend development
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- Full environment, suitable for MAA Core related development (not recommended, suggest local development with full environment setup. See next section)
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+## Complete Environment Setup (Windows)
 
 1. If you forked the repository long ago, first delete it via your repository's `Settings` at the bottom.
 2. Visit the [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights), click `Fork`, then `Create fork`.

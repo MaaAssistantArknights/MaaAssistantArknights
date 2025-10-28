@@ -103,15 +103,9 @@ MAA uses Chinese (Simplified) as its primary language, and all translation entri
 
 ### Development Participation
 
-#### Windows
+Please refer to the [Development Guide](./develop/development.md).
 
-Please refer to the [Development Prerequisites](./develop/development.md).
-
-#### Linux | macOS
-
-Please refer to the [Linux Build Tutorial](./develop/linux-tutorial.md).
-
-#### APIs
+### APIs
 
 - [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
 - [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
@@ -127,15 +121,11 @@ Please refer to the [Linux Build Tutorial](./develop/linux-tutorial.md).
 - [Task Workflow Protocol](./protocol/task-schema.md)
 - [Auto-Copilot Protocol](./protocol/copilot-schema.md)
 
-#### Overseas Clients Adaptation
+### Overseas Clients Adaptation
 
 Please refer to the [Overseas Clients Adaptation Guide](./develop/overseas-client-adaptation.md). For features already supported in the CN server, most adaptation work for overseas clients only requires screenshots + simple JSON modifications.
 
-#### Want to contribute but not familiar with GitHub?
-
-[GitHub Pull Request Process Overview](./develop/development.md#introduction-to-github-pull-request-flow)
-
-#### Issue Bot
+### Issue Bot
 
 Please refer to the [Issue Bot Usage Guide](./develop/issue-bot-usage.md)
 
