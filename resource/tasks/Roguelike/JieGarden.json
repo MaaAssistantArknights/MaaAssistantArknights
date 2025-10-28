@@ -152,7 +152,7 @@
         "Doc": "通宝列表缓慢向右滑动",
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
-        "rectMove": [635, 340, 20, 20],
+        "rectMove": [645, 340, 20, 20],
         "postDelay": 500
     },
     "JieGarden@Roguelike@CoppersListSwipeToTheLeft": {
