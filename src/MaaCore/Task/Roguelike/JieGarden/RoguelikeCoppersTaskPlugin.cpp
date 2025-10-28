@@ -101,10 +101,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
 
-        Log.info(__FUNCTION__, "| found copper:", detection.name, "at position", i);
+        Log.info(__FUNCTION__, std::format("| found copper: {} at position {}", detection.name, i));
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
-            Log.error(__FUNCTION__, "| failed to create copper at position", i);
+            Log.error(__FUNCTION__, std::format("| failed to create copper at position {}", i));
             continue;
         }
 
@@ -128,10 +128,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 
     Log.info(
         __FUNCTION__,
-        "| selecting copper:",
-        max_pickup_it->first.name,
-        "with priority:",
-        max_pickup_it->first.pickup_priority);
+        std::format(
+            "| selecting copper: {} with priority: {}",
+            max_pickup_it->first.name,
+            max_pickup_it->first.pickup_priority));
     ctrler()->click(max_pickup_it->second);
 
 #ifdef ASST_DEBUG
@@ -170,7 +170,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     for (size_t row = 0; row < left_detections.size(); ++row) {
         const auto& detection = left_detections[row];
 
-        Log.info(__FUNCTION__, "| found copper:", detection.name, "at (", 0, ",", row, ")", "is_cast:", false);
+        Log.info(__FUNCTION__, std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, 0, row, false));
 
 #ifdef ASST_DEBUG
         draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
@@ -179,7 +179,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         auto copper_opt =
             create_copper_from_name(detection.name, 0, static_cast<int>(row + 1), false, detection.name_roi);
         if (!copper_opt) {
-            Log.error(__FUNCTION__, "| failed to create copper at (", 0, ",", row, ")");
+            Log.error(__FUNCTION__, std::format("| failed to create copper at ({},{})", 0, row));
             continue;
         }
 
@@ -212,13 +212,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                                                                 : RoguelikeCoppersAnalyzer::ColumnRole::Middle;
         RoguelikeCoppersAnalyzer column_analyzer(image);
         if (!column_analyzer.analyze_column(role, true)) {
-            Log.error(__FUNCTION__, "| no coppers recognized in column", col);
+            Log.error(__FUNCTION__, std::format("| no coppers recognized in column {}", col));
             continue;
         }
 
         const auto& detections = column_analyzer.get_detections();
         if (detections.empty()) {
-            Log.error(__FUNCTION__, "| no coppers recognized in column", col);
+            Log.error(__FUNCTION__, std::format("| no coppers recognized in column {}", col));
             continue;
         }
 
@@ -240,15 +240,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
             Log.info(
                 __FUNCTION__,
-                "| found copper:",
-                detection.name,
-                "at (",
-                col,
-                ",",
-                row,
-                ")",
-                "is_cast:",
-                detection.is_cast);
+                std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, col, row, detection.is_cast));
 
 #ifdef ASST_DEBUG
             draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
@@ -261,7 +253,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 detection.is_cast,
                 detection.name_roi);
             if (!copper_opt) {
-                Log.error(__FUNCTION__, "| failed to create copper at (", col, ",", row, ")");
+                Log.error(__FUNCTION__, std::format("| failed to create copper at ({},{})", col, row));
                 continue;
             }
 
@@ -282,7 +274,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 #endif
         if (is_last_col) {
             m_col = col;
-            Log.info(__FUNCTION__, "| total columns detected:", m_col);
+            Log.info(__FUNCTION__, std::format("| total columns detected: {}", m_col));
             break;
         }
     }
@@ -300,24 +292,19 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         Log.info(
             "handle_exchange_mode",
-            "new copper (",
-            m_new_copper.name,
-            ") is worse than all existing coppers, abandoning exchange");
+            std::format("new copper ({}) is worse than all existing coppers, abandoning exchange", m_new_copper.name));
         ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonExchange" }).run();
         return true;
     }
 
     Log.info(
         __FUNCTION__,
-        "| exchanging copper:",
-        worst_it->name,
-        "(",
-        worst_it->col,
-        ",",
-        worst_it->row,
-        ")",
-        "->",
-        m_new_copper.name);
+        std::format(
+            "| exchanging copper: {} ({},{}) -> {}",
+            worst_it->name,
+            worst_it->col,
+            worst_it->row,
+            m_new_copper.name));
 
     // 发送通宝替换信息到 WPF
     auto copper_info = basic_info_with_what("RoguelikeCoppersExchangeInfo");
@@ -364,19 +351,14 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
 
     Log.debug(
         __FUNCTION__,
-        "| clicking copper at (",
-        col,
-        ",",
-        row,
-        ") -> point (",
-        click_point.x,
-        ",",
-        m_origin_y,
-        "+",
-        (row - 1),
-        "*",
-        m_row_offset,
-        ")");
+        std::format(
+            "| clicking copper at ({},{}) -> point ({},{},{},{})",
+            col,
+            row,
+            click_point.x,
+            m_origin_y,
+            (row - 1),
+            m_row_offset));
 
     // 滑动回到最左边
     swipe_copper_list_left(m_col);
@@ -402,18 +384,16 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         copper.is_cast = is_cast;
         Log.info(
             __FUNCTION__,
-            "| created copper:",
-            name,
-            "priority:",
-            copper.pickup_priority,
-            "/",
-            copper.discard_priority,
-            "/",
-            copper.cast_discard_priority);
+            std::format(
+                "| created copper: {} priority: {}/{}/{}",
+                name,
+                copper.pickup_priority,
+                copper.discard_priority,
+                copper.cast_discard_priority));
         return copper;
     }
 
-    Log.error(__FUNCTION__, "| copper not found in config:", name);
+    Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
 
     try {
         cv::Mat screen = ctrler()->get_image();
@@ -429,7 +409,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         }
     }
     catch (const std::exception& e) {
-        Log.error(__FUNCTION__, "| failed to save unknown copper debug image:", e.what());
+        Log.error(__FUNCTION__, std::format("| failed to save unknown copper debug image: {}", e.what()));
     }
 
     return std::nullopt;
@@ -450,7 +430,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
         2);
     cv::putText(
         image,
-        "score: " + std::to_string(detection.name_score),
+        std::format("score: {}", detection.name_score),
         cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
         cv::FONT_HERSHEY_SIMPLEX,
         0.45,
@@ -466,7 +446,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
             2);
         cv::putText(
             image,
-            "cast_score: " + std::to_string(detection.cast_score),
+            std::format("cast_score: {}", detection.cast_score),
             cv::Point(detection.cast_roi.x, std::max(0, detection.cast_roi.y + detection.cast_roi.height + 16)),
             cv::FONT_HERSHEY_SIMPLEX,
             0.45,
