@@ -21,6 +21,9 @@
     <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
+<div>
+    <a href="https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+</div>
 <br>
 
 <!-- markdownlint-restore -->
@@ -144,7 +147,9 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 #### 想参与开发，但面对庞大的项目仓库望而却步？
 
-请使用 GitHub Codespaces 在线开发环境，尽情尝试！
+你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) 来初步了解 MAA 这个项目的总体架构；
+
+在此之后，请使用 [GitHub Codespaces](https://github.com/codespaces) 在线开发环境，尽情尝试！
 
 我们预置了多种不同的开发环境以供选择：
 
