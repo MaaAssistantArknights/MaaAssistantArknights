@@ -142,8 +142,8 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
 
         OCRer::ResultsVec ocr_results1 = analyzer1.get_result();
         OCRer::ResultsVec ocr_results2 = analyzer2.get_result();
-        sort_by_vertical_(ocr_results1); // 按照垂直方向排序（从上到下）
-        sort_by_vertical_(ocr_results2); // 按照垂直方向排序（从上到下）
+        sort_by_horizontal_(ocr_results1); // 按照垂直方向排序（从上到下）
+        sort_by_horizontal_(ocr_results2); // 按照垂直方向排序（从上到下）
 
         auto result_it1 = ocr_results1.begin();
         auto result_it2 = ocr_results2.begin();
@@ -264,7 +264,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         }
 
         // 将 OCRer::Result 按照垂直方向排序（从上到下）并转换为坍缩范式名称
-        sort_by_vertical_(ocr_results);
+        sort_by_horizontal_(ocr_results);
         std::ranges::transform(ocr_results, std::back_inserter(cur_clp_pds), [](const OCRer::Result& x) {
             return x.text;
         });
