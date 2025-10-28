@@ -1,4 +1,5 @@
 #include "RoguelikeCoppersTaskPlugin.h"
+#include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -193,22 +194,99 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     cv::Mat image_draw;
 #endif
 
+    // 拆出 col == 0时的情况
+    // -----------------------------------------------------
+    // 识别左侧新拾取的通宝
+    matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-LeftType");
+    auto image = ctrler()->get_image();
+
+#ifdef ASST_DEBUG
+    image_draw = image.clone();
+#endif
+    matcher.set_image(image);
+    ocr.set_image(image);
+
+    if (!matcher.analyze()) {
+        Log.error(__FUNCTION__, "| no coppers recognized in column 0");
+        return false;
+    }
+
+    auto match_results = matcher.get_result();
+    if (match_results.empty()) {
+        Log.error(__FUNCTION__, "| no coppers recognized in column 0");
+        return false;
+    }
+
+    // 处理当前列的匹配结果
+    for (size_t row = 0; row < match_results.size(); ++row) {
+        bool is_cast = false;
+
+        const auto& match_result = match_results[row];
+
+        Rect roi = match_result.rect.move(name_task->roi);
+        ocr.set_roi(roi);
+        ocr.set_replace(name_task->replace_map, name_task->replace_full);
+
+        if (!ocr.analyze()) {
+            Log.error(__FUNCTION__, "| failed to recognize copper name at (", 0, ",", row, ")");
+            continue;
+        }
+
+        const std::string copper_name = ocr.get_result().text;
+        if (copper_name.empty()) {
+            Log.error(__FUNCTION__, "| empty copper name at (", 0, ",", row, ")");
+            continue;
+        }
+
+#ifdef ASST_DEBUG
+        cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            image_draw,
+            "score: " + std::to_string(ocr.get_result().score),
+            cv::Point(roi.x, std::max(0, roi.y - 6)),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.45,
+            cv::Scalar(0, 0, 255),
+            1);
+#endif
+
+        Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", 0, ",", row, ")", "is_cast:", is_cast);
+
+        auto copper_opt = create_copper_from_name(copper_name, 0, static_cast<int>(row + 1), is_cast, roi);
+        if (!copper_opt) {
+            Log.error(__FUNCTION__, "| failed to create copper at (", 0, ",", row, ")");
+            continue;
+        }
+
+        auto copper = std::move(*copper_opt);
+        copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
+
+        m_new_copper = std::move(copper);
+    }
+
+    // -----------------------------------------------------
+
     // 扫描所有列的通宝
-    for (int col = 0; col <= 999; ++col) {
-        bool is_last_col = ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).run();
+    for (int col = 1; col <= 999; ++col) {
+        // 识别上次点击的右侧的通宝是否被滑动到中间，识别到了则说明被滑动到中间，即不是最后一列。
+        bool is_last_col =
+            col == 1
+                ? false
+                : !ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).set_retry_times(2).run();
+
+        // 点击右侧上方的通宝作为滑动成功的标注
+        Point click_point(990, 180);
+        ctrler()->click(click_point);
 
         // 根据列位置设置匹配任务
-        if (col == 0) { // 识别左侧新拾取的通宝
-            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-LeftType");
-        }
-        else if (is_last_col) { // 被选中的通宝没有被滑到屏幕左侧，说明已经滑到最右侧列
+        if (is_last_col) { // 被选中的通宝没有被滑到屏幕左侧，说明已经滑到最右侧列
             matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType");
         }
         else { // 中间列
             matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
         }
 
-        auto image = ctrler()->get_image();
+        image = ctrler()->get_image();
 #ifdef ASST_DEBUG
         image_draw = image.clone();
 #endif
@@ -217,26 +295,20 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
         if (!matcher.analyze()) {
             Log.error(__FUNCTION__, "| no coppers recognized in column", col);
-            if (col == 0) {
-                return false;
-            }
             continue;
         }
 
-        auto match_results = matcher.get_result();
+        match_results = matcher.get_result();
         if (match_results.empty()) {
             Log.error(__FUNCTION__, "| no coppers recognized in column", col);
-            if (col == 0) {
-                return false;
-            }
             continue;
         }
         sort_by_vertical_(match_results);
 
-        if (col > 0 && !is_last_col) {
+        if (!is_last_col) {
             m_origin_x = match_results.front().rect.x;
         }
-        else if (col > 0 && is_last_col) { // 最右侧列
+        else if (is_last_col) { // 最右侧列
             m_last_x = match_results.front().rect.x;
         }
         m_origin_y = match_results.front().rect.y;
@@ -278,28 +350,26 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 1);
 #endif
 
-            if (col != 0) {
-                // 识别是否已投出
-                Rect cast_roi = match_result.rect.move(cast_task->roi);
-                ocr.set_roi(cast_roi);
-                if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
-                    is_cast = true;
+            // 识别是否已投出
+            Rect cast_roi = match_result.rect.move(cast_task->roi);
+            ocr.set_roi(cast_roi);
+            if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
+                is_cast = true;
 #ifdef ASST_DEBUG
-                    cv::rectangle(
-                        image_draw,
-                        cv::Rect(cast_roi.x, cast_roi.y, cast_roi.width, cast_roi.height),
-                        cv::Scalar(0, 0, 255),
-                        2);
-                    cv::putText(
-                        image_draw,
-                        "score: " + std::to_string(ocr.get_result().score),
-                        cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 16)),
-                        cv::FONT_HERSHEY_SIMPLEX,
-                        0.45,
-                        cv::Scalar(0, 0, 255),
-                        1);
+                cv::rectangle(
+                    image_draw,
+                    cv::Rect(cast_roi.x, cast_roi.y, cast_roi.width, cast_roi.height),
+                    cv::Scalar(0, 0, 255),
+                    2);
+                cv::putText(
+                    image_draw,
+                    "score: " + std::to_string(ocr.get_result().score),
+                    cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 16)),
+                    cv::FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    cv::Scalar(0, 0, 255),
+                    1);
 #endif
-                }
             }
 
             Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
@@ -313,24 +383,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             auto copper = std::move(*copper_opt);
             copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
 
-            if (col == 0) {
-                m_new_copper = std::move(copper);
-            }
-            else {
-                m_copper_list.emplace_back(std::move(copper));
-            }
-        }
-
-        // 识别一列通宝后，点击中间的通宝作为滑动成功的标注
-        if (col != 0 && !is_last_col && !match_results.empty()) {
-            const auto& mid_rect = match_results[match_results.size() / 2].rect;
-            Point click_point(mid_rect.x + mid_rect.width / 2, mid_rect.y + mid_rect.height / 2);
-            ctrler()->click(click_point);
-            sleep(300);
+            m_copper_list.emplace_back(std::move(copper));
         }
 
         // 在中间列之间滑动
-        if (col != 0 && !is_last_col) {
+        if (!is_last_col) {
             // 将列表向右滑动一列
             swipe_copper_list_right(1, true);
         }
