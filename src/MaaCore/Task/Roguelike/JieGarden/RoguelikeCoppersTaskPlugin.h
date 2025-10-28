@@ -3,6 +3,9 @@
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
+#include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
+
+#include <opencv2/core.hpp>
 
 namespace asst
 {
@@ -40,6 +43,15 @@ private:
         int row = 0,
         bool is_cast = false,
         const Rect& pos = Rect()) const;
+
+#ifdef ASST_DEBUG
+    // 调试绘制辅助函数
+    void draw_detection_debug(
+        cv::Mat& image,
+        const RoguelikeCoppersAnalyzer::CopperDetection& detection,
+        const cv::Scalar& color) const;
+    void save_debug_image(const cv::Mat& image, const std::string& suffix) const;
+#endif
 
     mutable asst::CoppersTaskRunMode m_run_mode;
     // 记录当前通宝列表的状态

@@ -111,20 +111,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         m_pending_copper.emplace_back(std::move(*copper_opt), detection.click_point);
 
 #ifdef ASST_DEBUG
-        // 绘制识别出的通宝名称 - 不支持中文，所以只绘制score
-        cv::rectangle(
-            image_draw,
-            cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
-            cv::Scalar(0, 255, 0),
-            2);
-        cv::putText(
-            image_draw,
-            "score: " + std::to_string(detection.name_score),
-            cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
-            cv::FONT_HERSHEY_SIMPLEX,
-            0.5,
-            cv::Scalar(0, 255, 0),
-            1);
+        draw_detection_debug(image_draw, detection, cv::Scalar(0, 255, 0));
 #endif
     }
 
@@ -148,17 +135,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     ctrler()->click(max_pickup_it->second);
 
 #ifdef ASST_DEBUG
-    try {
-        const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
-        const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-        const auto relative_path =
-            relative_dir / (std::format("{}_pickup_draw.jpeg", utils::format_now_for_filename()));
-        Log.debug(__FUNCTION__, "| Saving pickup mode debug image to ", relative_path);
-        asst::imwrite(relative_path, image_draw, jpeg_params);
-    }
-    catch (const std::exception& e) {
-        Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
-    }
+    save_debug_image(image_draw, "pickup");
 #endif
 
     return true;
@@ -193,23 +170,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     for (size_t row = 0; row < left_detections.size(); ++row) {
         const auto& detection = left_detections[row];
 
-#ifdef ASST_DEBUG
-        cv::rectangle(
-            image_draw,
-            cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
-            cv::Scalar(0, 0, 255),
-            2);
-        cv::putText(
-            image_draw,
-            "score: " + std::to_string(detection.name_score),
-            cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
-            cv::FONT_HERSHEY_SIMPLEX,
-            0.45,
-            cv::Scalar(0, 0, 255),
-            1);
-#endif
-
         Log.info(__FUNCTION__, "| found copper:", detection.name, "at (", 0, ",", row, ")", "is_cast:", false);
+
+#ifdef ASST_DEBUG
+        draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
+#endif
 
         auto copper_opt =
             create_copper_from_name(detection.name, 0, static_cast<int>(row + 1), false, detection.name_roi);
@@ -227,7 +192,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     // -----------------------------------------------------
 
     // 扫描所有列的通宝
-    for (int col = 1; col <= 999; ++col) {
+    for (int col = 1; col <= 999; ++col) { // 总不可能超过999列(2997个)通宝吧
         // 识别上次点击的右侧的通宝是否被滑动到中间，识别到了则说明被滑动到中间，即不是最后一列。
         bool is_last_col =
             col == 1
@@ -235,6 +200,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 : !ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).set_retry_times(2).run();
 
         // 点击右侧上方的通宝作为滑动成功的标注
+        // FIXME: 修改此硬编码坐标
         Point click_point(990, 180);
         ctrler()->click(click_point);
 
@@ -272,45 +238,6 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         for (size_t row = 0; row < detections.size(); ++row) {
             const auto& detection = detections[row];
 
-#ifdef ASST_DEBUG
-            cv::rectangle(
-                image_draw,
-                cv::Rect(
-                    detection.name_roi.x,
-                    detection.name_roi.y,
-                    detection.name_roi.width,
-                    detection.name_roi.height),
-                cv::Scalar(0, 0, 255),
-                2);
-            cv::putText(
-                image_draw,
-                "score: " + std::to_string(detection.name_score),
-                cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
-                cv::FONT_HERSHEY_SIMPLEX,
-                0.45,
-                cv::Scalar(0, 0, 255),
-                1);
-            if (detection.cast_recognized) {
-                cv::rectangle(
-                    image_draw,
-                    cv::Rect(
-                        detection.cast_roi.x,
-                        detection.cast_roi.y,
-                        detection.cast_roi.width,
-                        detection.cast_roi.height),
-                    cv::Scalar(0, 0, 255),
-                    2);
-                cv::putText(
-                    image_draw,
-                    "score: " + std::to_string(detection.cast_score),
-                    cv::Point(detection.cast_roi.x, std::max(0, detection.cast_roi.y + detection.cast_roi.height + 16)),
-                    cv::FONT_HERSHEY_SIMPLEX,
-                    0.45,
-                    cv::Scalar(0, 0, 255),
-                    1);
-            }
-#endif
-
             Log.info(
                 __FUNCTION__,
                 "| found copper:",
@@ -322,6 +249,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 ")",
                 "is_cast:",
                 detection.is_cast);
+
+#ifdef ASST_DEBUG
+            draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
+#endif
 
             auto copper_opt = create_copper_from_name(
                 detection.name,
@@ -347,17 +278,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
 
 #ifdef ASST_DEBUG
-        try {
-            const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
-            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
-            const auto relative_path =
-                relative_dir / (std::format("{}_exchange_draw.jpeg", utils::format_now_for_filename()));
-            Log.debug(__FUNCTION__, "| Saving exchange mode debug image to ", relative_path);
-            asst::imwrite(relative_path, image_draw, jpeg_params);
-        }
-        catch (const std::exception& e) {
-            Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
-        }
+        save_debug_image(image_draw, "exchange");
 #endif
         if (is_last_col) {
             m_col = col;
@@ -513,3 +434,59 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
 
     return std::nullopt;
 }
+
+#ifdef ASST_DEBUG
+// 调试绘制辅助函数实现
+void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
+    cv::Mat& image,
+    const RoguelikeCoppersAnalyzer::CopperDetection& detection,
+    const cv::Scalar& color) const
+{
+    // 绘制名称识别区域
+    cv::rectangle(
+        image,
+        cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
+        color,
+        2);
+    cv::putText(
+        image,
+        "score: " + std::to_string(detection.name_score),
+        cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
+        cv::FONT_HERSHEY_SIMPLEX,
+        0.45,
+        color,
+        1);
+
+    // 如果有已投出状态识别，绘制已投出区域
+    if (detection.cast_recognized) {
+        cv::rectangle(
+            image,
+            cv::Rect(detection.cast_roi.x, detection.cast_roi.y, detection.cast_roi.width, detection.cast_roi.height),
+            color,
+            2);
+        cv::putText(
+            image,
+            "cast_score: " + std::to_string(detection.cast_score),
+            cv::Point(detection.cast_roi.x, std::max(0, detection.cast_roi.y + detection.cast_roi.height + 16)),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.45,
+            color,
+            1);
+    }
+}
+
+void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, const std::string& suffix) const
+{
+    try {
+        const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+        const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+        const auto relative_path =
+            relative_dir / (std::format("{}_{}_draw.jpeg", utils::format_now_for_filename(), suffix));
+        Log.debug(__FUNCTION__, "| Saving debug image to ", relative_path);
+        asst::imwrite(relative_path, image, jpeg_params);
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
+    }
+}
+#endif
