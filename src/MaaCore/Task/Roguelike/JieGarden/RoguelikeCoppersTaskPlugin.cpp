@@ -190,6 +190,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     }
 
     // -----------------------------------------------------
+    auto image_last = ctrler()->get_image();
 
     // 扫描所有列的通宝
     for (int col = 1; col <= 999; ++col) { // 总不可能超过999列(2997个)通宝吧
@@ -205,6 +206,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
 
         image = ctrler()->get_image();
+        if (image_last.data == image.data) {
+            Log.error(__FUNCTION__, std::format("| image not updated after swipe at column {}", col));
+            break;
+        }
+        image_last = image;
 #ifdef ASST_DEBUG
         image_draw = image.clone();
 #endif
