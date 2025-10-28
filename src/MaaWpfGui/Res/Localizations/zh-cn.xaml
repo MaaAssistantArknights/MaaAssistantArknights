@@ -558,6 +558,8 @@ C:\\leidian\\LDPlayer9\\dnplayer.exe
 C:\\leidian\\LDPlayer9。\n
 实例编号可在雷电多开器中查看，
 主多开为 0，其他多开为 版本/编号 ID 后的数字。\n
+截图增强功能强制要求模拟器分辨率设置为横屏模式，且在连接过程中请勿翻转屏幕。
+如在竖屏状态下启动游戏后切换为横屏，可能导致画面撕裂等问题。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 安装路径</system:String>
     <system:String x:Key="LdManualSetIndex">手动填写 ｢{key=LdIndex}｣</system:String>
