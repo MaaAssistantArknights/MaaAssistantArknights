@@ -19,21 +19,21 @@ icon: iconoir:developer
 
 ## 我只想簡單修改幾行代碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
 
-請使用 GitHub Codespaces 在線開發環境，盡情嘗試！
+請使用 [GitHub Codespaces](https://github.com/codespaces) 在線開發環境，盡情嘗試！
 
 我們預置了多種不同的開發環境以供選擇：
 
 - 空白環境，裸 Linux 容器（默認）
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 - 輕量環境，適合文檔站前端開發
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
 - 全量環境，適合 MAA Core 相關開發（不推薦使用，建議本地開發，完整配置相關環境。詳見下一章節）
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
 ## 完整環境配置流程（Windows）
 
