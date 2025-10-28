@@ -820,10 +820,16 @@ MAA 使用以下方法识别和处理通宝：
 3. 识别通宝是否处于"已投出"状态
 4. 在通宝交换界面中自动滑动列表，扫描所有通宝进行比较
 
+#### 识别流程示意
+
+![image](/images/zh-cn/copper-explanation-1.png)
+![image](/images/zh-cn/copper-explanation-2.png)
+
 ::: info 注意
 
 - 如果 OCR 识别的通宝名称在配置文件中未找到，MAA 会保存调试图像到 `debug/roguelikeCoppers/` 目录，以供排查
-  :::
+
+:::
 
 ## 希望实现的逻辑（TODO）
 
