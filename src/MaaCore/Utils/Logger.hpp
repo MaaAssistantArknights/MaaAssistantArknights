@@ -20,6 +20,7 @@
 #include "Common/AsstVersion.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
+#include "NullStreambuf.hpp"
 #include "Platform.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
@@ -942,16 +943,32 @@ private:
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)
     {
+        static utils::NullStreambuf null_buf;
+        static std::ostream null_stream { &null_buf };
+
         rotate();
+        if (lv.is_enabled()) {
 #ifdef ASST_DEBUG
-        return LogStream(
-            std::unique_lock { m_trace_mutex },
-            ostreams { console_ostream(std::cout), m_of },
-            lv,
-            std::forward<args_t>(args)...);
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                ostreams { console_ostream(std::cout), m_of },
+                lv,
+                std::forward<args_t>(args)...);
 #else
-        return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
+            return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
 #endif
+        }
+        else {
+#ifdef ASST_DEBUG
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                ostreams { console_ostream(std::cout), null_stream },
+                lv,
+                std::forward<args_t>(args)...);
+#else
+            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
+#endif
+        }
     }
 
     detail::scope_slice m_scopes;
