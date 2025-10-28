@@ -33,7 +33,6 @@ icon: iconoir:developer
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
-
 ### 我会编程，但没接触过 GitHub/C++/……，要怎么操作？
 
 1. 如果很久以前 Fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
