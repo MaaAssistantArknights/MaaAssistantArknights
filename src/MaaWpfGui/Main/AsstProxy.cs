@@ -362,7 +362,7 @@ public class AsstProxy
 
         string mainRes = PathsHelper.ResourceDir;
         string globalRes = Path.Combine(mainRes, "global", clientType, "resource");
-        string mainCacheRes = PathsHelper.CacheDir;
+        string mainCacheRes = PathsHelper.CacheResourceDir;
         string globalCacheRes = Path.Combine(mainCacheRes, "global", clientType, "resource");
 
         bool loaded;
