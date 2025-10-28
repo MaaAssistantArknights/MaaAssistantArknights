@@ -13,6 +13,7 @@ namespace asst
 {
 enum class CopperRarity
 {
+    NONE = -1,
     NORMAL,
     RARE,
     SUPER_RARE
@@ -29,7 +30,7 @@ enum class CopperType
 struct RoguelikeCopper
 {
     std::string name;
-    CopperRarity rarity = CopperRarity::NORMAL;
+    CopperRarity rarity = CopperRarity::NONE;
     CopperType type = CopperType::Unknown;
     int pickup_priority = 0;        // 拾取优先级
     int discard_priority = 1000;    // 丢弃优先级

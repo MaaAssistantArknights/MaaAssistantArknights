@@ -768,19 +768,27 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
     "coppers": [                                             //通宝列表
         {
             "name": "大炎通宝",                              //通宝名称
-            "description": "普通又空白，什么也没有",          //通宝效果描述（仅作注释，不影响程序运行）
-            "rarity": "mid",                                //稀有度：low/mid/high（仅作注释，不影响程序运行）
+            "desc": "普通又空白，什么也没有",                //通宝效果描述（仅作注释，不影响程序运行）
+            "rarity": "NORMAL",                             //稀有度：NONE/NORMAL/RARE/SUPER_RARE（仅作注释，不影响程序运行）
             "pickup_priority": 0,                           //拾取优先级，在掉落选择时使用，数值越高越优先拾取
             "discard_priority": 1000                        //丢弃优先级，在交换时使用，数值越高越优先被丢弃
         },
         {
             "name": "衡-奇土生金",
-            "description": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
-            "rarity": "mid",
+            "desc": "投出时，立即获得源石锭+4（下次投钱前变化为-大炎通宝）",
+            "rarity": "NORMAL",
             "pickup_priority": 200,
             "discard_priority": 800,
             "cast_discard_priority": 999                    //可选字段，已投出时的丢弃优先级，仅在已投出且值>=0时替代 discard_priority
                                                             //这通常适用于一些投出后效果发生变化的通宝（如变为大炎通宝的通宝）
+        },
+        {
+            "name": "厉-西廉贞",
+            "desc": "投出时，精英及领袖敌人的生命值、攻击力+10%，在险路恶敌及岁兽残识中攻击力、生命值额外+20％",
+            "rarity": "NORMAL",
+            "pickup_priority": 0,
+            "discard_priority": 1998,
+            "cast_discard_priority": 2098                   //同上，有时也会用在一些投出后带来负面效果的通宝
         },
         ...
     ]
