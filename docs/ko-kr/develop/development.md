@@ -148,9 +148,3 @@ pip 설치 후에도 Pre-commit을 실행할 수 없다면, PIP 설치 경로가
 또한 프로젝트 루트에서 `tools\ClangFormatter\clang-formatter.py`를 실행하여 직접 clang-format을 호출하여 포맷팅할 수도 있습니다.
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
-
-## GitHub codespace를 사용하여 온라인으로 개발하기
-
-GitHub codespace를 사용하여 자동으로 C++ 개발 환경을 구성하세요.
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
