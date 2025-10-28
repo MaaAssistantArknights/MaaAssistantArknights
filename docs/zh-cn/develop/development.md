@@ -15,6 +15,25 @@ icon: iconoir:developer
 
 欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 Github.com）
 
+### 我只想简单修改几行代码，但配置环境太麻烦，纯网页编辑又很难用，怎么办？
+
+请使用 GitHub Codespaces 在线开发环境，尽情尝试！
+
+我们预置了多种不同的开发环境以供选择：
+
+- 空白环境，裸 Linux 容器（默认）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- 轻量环境，适合文档站前端开发
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- 全量环境，适合 MAA Core 相关开发（不推荐使用，建议本地开发，完整配置相关环境。详见下一章节）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+
 ### 我会编程，但没接触过 GitHub/C++/……，要怎么操作？
 
 1. 如果很久以前 Fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
