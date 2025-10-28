@@ -15902,6 +15902,15 @@
         "stageId": "camp_r_29",
         "width": 13
     },
+    "camp_r_30-obt/campaign/level_camp_r_30": {
+        "code": "阿戈尔",
+        "filename": "camp_r_30-obt-campaign-level_camp_r_30.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_30",
+        "name": "暗流巢窟 ",
+        "stageId": "camp_r_30",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",

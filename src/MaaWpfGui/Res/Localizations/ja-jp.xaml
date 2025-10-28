@@ -218,6 +218,9 @@
     <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
@@ -555,13 +558,15 @@ C:\\leidian\\LDPlayer9
 と入力してください。\n
 インスタンス番号は雷電マルチインスタンスマネージャーで確認できます。
 メインインスタンスは 0 で、その他のインスタンスはバージョン/IDの後の番号です。\n
+スクリーンショット拡張機能は、エミュレータの解像度を横画面モードに設定することを必須とし、接続中に画面の回転をしないでください。
+縦画面状態でゲームを起動した後、横画面に切り替えると、画面の乱れ（ティアリング）などの問題が発生する可能性があります。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD エミュレータパス</system:String>
     <system:String x:Key="LdManualSetIndex">「{key=LdIndex}」を手動で入力</system:String>
     <system:String x:Key="LdIndex">インスタンス番号</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB接続が失敗した場合、エミュレータの起動を試みる</system:String>
-    <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">再接続に失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">エミュレータのパスが空です！「{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}」を入力してから再度選択してください。</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
@@ -1013,6 +1018,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">選択不可の選択肢: {0}</system:String>
     <system:String x:Key="EncounterOcrError">イベント名認識失敗</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>

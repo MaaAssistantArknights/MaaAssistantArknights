@@ -27,11 +27,12 @@
         "template": ["JieGarden@Roguelike@Abandon.png", "JieGarden@Roguelike@Abandon2.png"],
         "roi": [1118, 306, 43, 43],
         "maskRange": [1, 255],
-        "method": "RGBCount",
+        "method": "HSVCount",
+        "pureColor": true,
         "colorScales": [
             [
-                [220, 0, 0],
-                [255, 100, 100]
+                [0, 200, 200],
+                [10, 220, 255]
             ]
         ]
     },
@@ -1130,6 +1131,79 @@
     "JieGarden@Roguelike@TodoEnter": {},
     "JieGarden@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "JieGarden@RoguelikeEncounter-ClickOption": {
+        "doc": "点击选项右侧位置以选择事件选项，再次点击可以确认选择",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 0, 100, 43]
+    },
+    "JieGarden@RoguelikeEncounter-InitialMoveUp": {
+        "doc": "事件选项列表的默认视图可能位于列表中间；为了从上到下依次检视所有选项，需要先向下滑动屏幕，使视图移动到列表顶部",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 200, 1, 1],
+        "rectMove": [750, 500, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
+    },
+    "JieGarden@RoguelikeEncounter-MoveDown": {
+        "doc": "向上滑动屏幕，使事件选项列表视图向下移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 500, 1, 1],
+        "rectMove": [750, 200, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
+    },
+    "JieGarden@RoguelikeEncounter-MoveUp": {
+        "doc": "向下滑动屏幕，使事件选项列表视图向上移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 200, 1, 1],
+        "rectMove": [750, 500, 1, 1],
+        "specialParams": [150, 0, 2, 0],
+        "postDelay": 500
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-Option": {
+        "doc": ["匹配事件选项时，应用于 Matcher 的配置任务", "| specificRect: 截取事件选项的 templ 时所使用的 rect"],
+        "template": "empty.png",
+        "roi": [835, 50, 300, 585],
+        "templThreshold": 0.7,
+        "action": "ClickRect",
+        "specificRect": [835, 0, 300, 43]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "doc": "识别事件选项时，应用于 MultiMatcher 的配置任务",
+        "template": [
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43.png",
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48.png"
+        ],
+        "roi": [835, 50, 40, 585],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "doc": "判断事件选项是否可选时，应用于 Matcher 的配置任务",
+        "template": [
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43.png",
+            "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48.png"
+        ],
+        "roi": [0, 0, 40, 43],
+        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [80, 0, 100],
+                [100, 255, 180]
+            ]
+        ]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "doc": "识别事件选项文字时，应用于 RegionOCRer 的配置任务",
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 300, 43],
+        "text": [],
+        "withoutDet": true
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
         "doc": [

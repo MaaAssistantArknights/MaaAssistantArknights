@@ -114,5 +114,8 @@ bool asst::StageNavigationTask::swipe_and_find_stage()
     std::string replace_m_stage_code = m_stage_code;
     utils::string_replace_all_in_place(replace_m_stage_code, { { "-", "" } });
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code, replace_m_stage_code };
-    return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).set_retry_times(RetryTimesDefault).run();
+
+    return ProcessTask(*this, { m_stage_code + "@ClickStageName", m_stage_code + "@StageNavigationBegin" })
+        .set_retry_times(RetryTimesDefault)
+        .run();
 }

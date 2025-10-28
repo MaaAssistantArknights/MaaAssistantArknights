@@ -1567,6 +1567,14 @@
         "sortId": -10000,
         "usage": "羅德島醫療部研製出的新型藥劑，能夠在天災和戰場等活性化的源石環境中起到暫時抑制礦石病惡化的作用。本藥品會對身體造成極大負擔，請謹慎使用。"
     },
+    "act1multi_token_cap": {
+        "classifyType": "NONE",
+        "description": "羅德島促融共競的參賽認證。“留在賽場上的是汗水，從賽場帶走的是友誼。”",
+        "icon": "act1multi_token_cap.png",
+        "name": "參賽認證-S1",
+        "sortId": -10000,
+        "usage": "參賽認證的累積代表著賽事熱度的攀升，達到一定熱度等級即可獲得對應獎勵。"
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "生息繁榮，代代相傳，以此為證。",
@@ -2126,6 +2134,14 @@
         "name": "通用憑證",
         "sortId": 10006,
         "usage": "代表幹員擁有中堅能力的憑證，可用於兌換稀有物資。"
+    },
+    "emoticon_originium_slug": {
+        "classifyType": "NONE",
+        "description": "“別再硬扯嘴角擺出這種僵硬的微笑了。試著像源石蟲那樣，敞開甲殼、舒展軟體組織……相信我，只要這麼做，你們很快就不會再覺得尷尬了。”",
+        "icon": "emoticon_originium_slug.png",
+        "name": "表情套組：蟲動",
+        "sortId": 2000002,
+        "usage": "根據源石蟲的動作設計的表情套組，用於協作者之間的溝通交流。"
     },
     "et_ObsidianPass": {
         "classifyType": "NONE",

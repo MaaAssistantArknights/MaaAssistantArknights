@@ -217,6 +217,9 @@
     <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -553,13 +556,15 @@ C:\\leidian\\LDPlayer9\\dnplayer.exe
 C:\\leidian\\LDPlayer9。\n
 實例編號可在雷電多開器中查看，
 主多開為 0，其他多開為版本 / 編號 ID 後的數字。\n
+截圖增強功能強制要求模擬器解析度設定為橫屏模式，且在連線過程中請勿翻轉螢幕。
+如在豎屏狀態下啟動遊戲後切換為橫屏，可能導致畫面撕裂等問題。
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 模擬器路徑</system:String>
     <system:String x:Key="LdManualSetIndex">手動填寫 ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">實例號碼</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 截圖增強未生效，請檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
-    <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">重連失敗後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
@@ -1011,6 +1016,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BoskyDoubts">節點: 雜疑</system:String>
     <system:String x:Key="BoskyDisaster">節點: 災禍</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">識別到 {0} 個選項:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">可選選項: {0}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">不可選選項: {0}</system:String>
     <system:String x:Key="EncounterOcrError">事件名辨識錯誤</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>

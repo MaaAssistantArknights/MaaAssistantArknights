@@ -3,19 +3,39 @@ order: 1
 icon: iconoir:developer
 ---
 
-# 开发前须知
+# 开发指南
 
 ::: tip
 本页面主要描述了 PR 流程以及 MAA 的文件格式化要求，如果你想要具体了解如何对 MAA 的运行逻辑做出更改，请参看 [协议文档](../protocol/)
 :::
 
-## Github Pull Request 流程简述
+::: tip
+你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 项目的总体架构。
+:::
 
-### 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
+## 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
 
 欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 Github.com）
 
-### 我会编程，但没接触过 GitHub/C++/……，要怎么操作？
+## 我只想简单修改几行代码，但配置环境太麻烦，纯网页编辑又很难用，怎么办？
+
+请使用 [GitHub Codespaces](https://github.com/codespaces) 在线开发环境，尽情尝试！
+
+我们预置了多种不同的开发环境以供选择：
+
+- 空白环境，裸 Linux 容器（默认）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- 轻量环境，适合文档站前端开发
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- 全量环境，适合 MAA Core 相关开发（不推荐使用，建议本地开发，完整配置相关环境。详见下一章节）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+## 完整环境配置流程（Windows）
 
 1. 如果很久以前 Fork 过，先在自己仓库的 `Settings` 里，翻到最下面，删除
 2. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，点击 `Fork`，继续点击 `Create fork`
@@ -152,9 +172,3 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 你也可以使用 `tools\ClangFormatter\clang-formatter.py` 来直接调用你的 clang-format 来进行格式化，只需要在项目根目录下执行：
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
-
-## 使用 GitHub Codespace 进行在线开发
-
-创建 GitHub Codespace 自动配置 C++ 开发环境
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

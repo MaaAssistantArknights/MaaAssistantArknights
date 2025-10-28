@@ -218,6 +218,9 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad3">Tourist Squad (游客分队)</system:String>
     <system:String x:Key="IS5NewSquad4">Sisuitai Squad (司岁台分队)</system:String>
     <system:String x:Key="IS5NewSquad5">Tianshifu Squad (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">Special Service Squad (特勤分队)</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
@@ -555,13 +558,15 @@ then it should be filled in as
 C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
+The screenshot enhancement feature requires the emulator resolution to be set to landscape mode and the screen orientation not to be changed during connection.
+If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
     <system:String x:Key="LdIndex">Instance Index</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
-    <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after failed reconnect attempt, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
@@ -1013,6 +1018,9 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">Unavailable option: {0}</system:String>
     <system:String x:Key="EncounterOcrError">Event Name OCR Failed</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">Foldartal Foresee:&#160;</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>

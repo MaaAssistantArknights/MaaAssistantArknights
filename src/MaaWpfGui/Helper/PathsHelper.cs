@@ -44,6 +44,13 @@ public static class PathsHelper
     /// </summary>
     public static string CacheDir => _cache ??= Path.Combine(BaseDir, "cache");
 
+    private static string? _cacheResource;
+
+    /// <summary>
+    /// Gets the full path to the directory used for caching resource files.
+    /// </summary>
+    public static string CacheResourceDir => _cacheResource ??= Path.Combine(CacheDir, "resource");
+
     private static string? _config;
 
     /// <summary>

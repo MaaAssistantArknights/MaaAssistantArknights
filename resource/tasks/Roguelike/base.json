@@ -13,7 +13,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",
@@ -406,7 +407,8 @@
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
-        ]
+        ],
+        "onErrorNext": ["Roguelike@Begin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Roguelike@CheckLevel": {
         "Doc": "base_task 进入肉鸽等级界面",

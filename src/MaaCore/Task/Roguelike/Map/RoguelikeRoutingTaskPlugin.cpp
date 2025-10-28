@@ -326,7 +326,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
         return;
     }
     MultiMatcher::ResultsVec match_results = node_analyzer.get_result();
-    sort_by_vertical_(match_results); // 按照垂直方向排序（从上到下）
+    sort_by_horizontal_(match_results); // 按照垂直方向排序（从上到下）
     for (const auto& [rect, score, templ_name] : match_results) {
         const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
         const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();
@@ -339,7 +339,7 @@ void asst::RoguelikeRoutingTaskPlugin::generate_map()
     while (!need_exit() && node_analyzer.analyze()) {
         ++curr_col;
         match_results = node_analyzer.get_result();
-        sort_by_vertical_(match_results);
+        sort_by_horizontal_(match_results);
         for (const auto& [rect, score, templ_name] : match_results) {
             const RoguelikeNodeType type = RoguelikeMapInfo.templ2type(theme, templ_name);
             const size_t node = m_map.create_and_insert_node(type, curr_col, rect.y).value();

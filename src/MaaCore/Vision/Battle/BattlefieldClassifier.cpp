@@ -174,12 +174,16 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         switch (class_id) {
         case 2:
             subfolder = "y";
+            break;
         case 1:
             subfolder = "n";
+            break;
         case 0:
             subfolder = "c";
+            break;
         default:
             subfolder = "unknown";
+            break;
         }
 
         std::string filename = std::format(

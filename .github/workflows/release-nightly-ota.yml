@@ -242,7 +242,7 @@ jobs:
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install
@@ -303,7 +303,7 @@ jobs:
           show-progress: false
 
       - name: Download MAA from GitHub
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
