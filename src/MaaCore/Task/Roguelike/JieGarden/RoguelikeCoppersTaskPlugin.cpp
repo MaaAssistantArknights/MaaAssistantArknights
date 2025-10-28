@@ -439,7 +439,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
         2);
     cv::putText(
         image,
-        std::format("score: {}", detection.name_score),
+        std::format("score: {:.6f}", detection.name_score),
         cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
         cv::FONT_HERSHEY_SIMPLEX,
         0.45,
@@ -455,7 +455,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
             2);
         cv::putText(
             image,
-            std::format("cast_score: {}", detection.cast_score),
+            std::format("cast_score: {:.6f}", detection.cast_score),
             cv::Point(detection.cast_roi.x, std::max(0, detection.cast_roi.y + detection.cast_roi.height + 16)),
             cv::FONT_HERSHEY_SIMPLEX,
             0.45,
