@@ -91,13 +91,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 
 ### 開発への参加
 
-#### Windows
-
-[開発関連](./develop/development.md)を参照してください。
-
-### Linux | macOS
-
-[Linuxチュートリアル](./develop/linux-tutorial.md)を参照してください。
+[開発ガイド](./develop/development.md)を参照してください。
 
 ### API
 
@@ -118,10 +112,6 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 ### グローバル版を含む海外クライアントの対応について
 
 [海外版クライアントの対応について](./develop/overseas-client-adaptation.md)をご覧ください。大陸版で既にサポートされている機能を他地域クライアントへ移植するための必要作業の大半は、簡単なJSONの修正と（作業に必要な）スクリーンショットの提出で済みます。。
-
-### 開発に参加したいがGitHubの使い方がよくわかりません
-
-[Githubプルリクエストのプロセス](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 

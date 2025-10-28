@@ -104,13 +104,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 
 ### 개발 참여 및 기여
 
-#### Windows
-
-[개발 전 필수 사항](./develop/development.md)을 참조하세요.
-
-### Linux | macOS
-
-[Linux 가이드](./develop/linux-tutorial.md)을 참조하세요
+[개발 가이드](./develop/development.md)을 참조하세요.
 
 ### API
 
@@ -131,10 +125,6 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 ### 해외 서버 현지화
 
 [해외 클라이언트 현지화](./develop/overseas-client-adaptation.md)를 참조하세요. 대부분은 스크린샷 + 간단한 json 수정만 필요합니다.
-
-### 개발에 기여를 원하지만, GitHub 사용이 어려운 경우?
-
-[GitHub Pull Request 가이드](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 

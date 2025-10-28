@@ -110,15 +110,9 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ### 参与开发
 
-#### Windows
+请参阅 [开发指南](https://docs.maa.plus/zh-cn/develop/development.html)。
 
-请参阅 [开始开发](https://docs.maa.plus/zh-cn/develop/development.html)。
-
-#### Linux | macOS
-
-请参阅 [Linux 编译教程](https://docs.maa.plus/zh-cn/develop/linux-tutorial.html)。
-
-#### API
+### API
 
 - [C 接口](include/AsstCaller.h)：[集成示例](src/Cpp/main.cpp)
 - [Python 接口](src/Python/asst/asst.py)：[集成示例](src/Python/sample.py)
@@ -134,15 +128,11 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [任务流程协议](https://docs.maa.plus/zh-cn/protocol/task-schema.html)
 - [自动抄作业协议](https://docs.maa.plus/zh-cn/protocol/copilot-schema.html)
 
-#### 外服适配
+### 外服适配
 
 请参阅 [外服适配教程](https://docs.maa.plus/zh-cn/develop/overseas-client-adaptation.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
-#### 想参与开发，但不太会用 GitHub?
-
-[GitHub Pull Request 流程简述](https://docs.maa.plus/zh-cn/develop/development.html#github-pull-request-流程简述)
-
-#### Issue bot
+### Issue bot
 
 请参阅 [Issue Bot 使用方法](https://docs.maa.plus/zh-cn/develop/issue-bot-usage.html)
 
