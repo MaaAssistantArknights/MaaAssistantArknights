@@ -558,6 +558,8 @@ C:\\leidian\\LDPlayer9
 을 입력해야 합니다。\n
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
+스크린샷 향상 기능은 에뮬레이터 해상도를 가로 모드로 설정해야 하며, 연결 과정에서 화면을 회전시키지 마십시오.
+세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣  수동 입력</system:String>

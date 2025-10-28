@@ -558,6 +558,8 @@ then it should be filled in as
 C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
+The screenshot enhancement feature requires the emulator resolution to be set to landscape mode and the screen orientation not to be changed during connection.
+If the game is launched in portrait mode and then switched to landscape, it may cause screen tearing or other issues.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdManualSetIndex">Manually enter ｢{key=LdIndex}｣</system:String>
