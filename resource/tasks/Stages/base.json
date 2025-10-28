@@ -66,6 +66,8 @@
         "next": ["SS@Store@RecruitSkipClick"]
     },
     "SS@Store@RecruitSkip": {
+        "doc": "SS@Store@RecruitSkip.png 为招募动画 Skip；SS@Store@CostumeSkip.png 为购买时装动画 Skip",
+        "template": ["SS@Store@RecruitSkip.png", "SS@Store@CostumeSkip.png"],
         "roi": [1143, 0, 137, 150],
         "next": ["SS@Store@RecruitSkipClick"]
     },
