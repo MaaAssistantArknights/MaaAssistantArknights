@@ -19,7 +19,7 @@ icon: iconoir:developer
 
 ## 몇 줄의 코드만 간단하게 수정하고 싶지만 환경 설정이 너무 복잡하고, 순수 웹 편집도 불편해요. 어떻게 해야 하나요?
 
-GitHub Codespaces 온라인 개발 환경을 사용해보세요!
+[GitHub Codespaces](https://github.com/codespaces) 온라인 개발 환경을 사용해보세요!
 
 다음과 같은 다양한 개발 환경을 사전에 설정했습니다：
 

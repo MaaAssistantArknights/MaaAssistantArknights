@@ -19,7 +19,7 @@ icon: iconoir:developer
 
 ## 我只想简单修改几行代码，但配置环境太麻烦，纯网页编辑又很难用，怎么办？
 
-请使用 GitHub Codespaces 在线开发环境，尽情尝试！
+请使用 [GitHub Codespaces](https://github.com/codespaces) 在线开发环境，尽情尝试！
 
 我们预置了多种不同的开发环境以供选择：
 

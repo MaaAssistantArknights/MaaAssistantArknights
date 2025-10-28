@@ -19,7 +19,7 @@ icon: iconoir:developer
 
 ## 数行のコードを少しだけ変更したいが、環境設定が面倒。純粋なWeb編集も使いにくい。どうすればよいですか？
 
-GitHub Codespacesオンライン開発環境をご利用ください！
+[GitHub Codespaces](https://github.com/codespaces)オンライン開発環境をご利用ください！
 
 次のような、異なる開発環境を事前に準備しています：
 

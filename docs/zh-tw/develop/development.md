@@ -19,7 +19,7 @@ icon: iconoir:developer
 
 ## 我只想簡單修改幾行代碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
 
-請使用 GitHub Codespaces 在線開發環境，盡情嘗試！
+請使用 [GitHub Codespaces](https://github.com/codespaces) 在線開發環境，盡情嘗試！
 
 我們預置了多種不同的開發環境以供選擇：
 

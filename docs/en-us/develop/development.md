@@ -19,7 +19,7 @@ Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can underst
 
 ## I want to make simple modifications to a few lines of code, but configuring the environment is too tedious and pure web editing is difficult to use. What should I do?
 
-Use the GitHub Codespaces online development environment and try it out!
+Use the [GitHub Codespaces](https://github.com/codespaces) online development environment and try it out!
 
 We've preset several different development environments for you to choose from:
 
