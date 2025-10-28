@@ -200,9 +200,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 : !ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).set_retry_times(2).run();
 
         // 点击右侧上方的通宝作为滑动成功的标注
-        // FIXME: 修改此硬编码坐标
-        Point click_point(990, 180);
-        ctrler()->click(click_point);
+        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeFlagClick" }).run();
 
         image = ctrler()->get_image();
 #ifdef ASST_DEBUG
@@ -223,16 +221,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
 
         const auto& metrics = column_analyzer.get_column_metrics();
-        if (!is_last_col) {
-            m_origin_x = metrics.origin_x;
-        }
-        else {
-            m_last_x = metrics.origin_x;
-        }
-        m_origin_y = metrics.origin_y;
-        if (metrics.row_offset != 0) {
-            m_row_offset = metrics.row_offset;
-        }
+
+        // 根据列类型更新坐标基准点
+        update_column_coordinates(metrics, is_last_col);
 
         // 处理当前列的匹配结果
         for (size_t row = 0; row < detections.size(); ++row) {
@@ -291,7 +282,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         Log.info(
-            "handle_exchange_mode",
+            __FUNCTION__,
             std::format("new copper ({}) is worse than all existing coppers, abandoning exchange", m_new_copper.name));
         ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonExchange" }).run();
         return true;
@@ -368,6 +359,22 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
 
     ctrler()->click(click_point);
     sleep(300);
+}
+
+// 辅助函数：根据列类型更新坐标基准点
+void asst::RoguelikeCoppersTaskPlugin::update_column_coordinates(
+    const RoguelikeCoppersAnalyzer::ColumnMetrics& metrics,
+    bool is_last_col)
+{
+    // 根据列类型更新X坐标基准点：非最后一列使用origin_x，最后一列记录last_x用于点击计算
+    m_origin_x = !is_last_col ? metrics.origin_x : m_origin_x;
+    m_last_x = is_last_col ? metrics.origin_x : m_last_x;
+
+    // 更新统一的Y坐标基准点和行偏移量
+    m_origin_y = metrics.origin_y;
+    if (metrics.row_offset != 0) {
+        m_row_offset = metrics.row_offset;
+    }
 }
 
 std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(

@@ -37,6 +37,9 @@ private:
     bool swipe_copper_list_right(int times, bool slowly = false) const;
     void click_copper_at_position(int col, int row) const;
 
+    // 辅助函数：根据列类型更新坐标基准点
+    void update_column_coordinates(const RoguelikeCoppersAnalyzer::ColumnMetrics& metrics, bool is_last_col);
+
     std::optional<RoguelikeCopper> create_copper_from_name(
         const std::string& name,
         int col = 0,
@@ -61,7 +64,7 @@ private:
     // 待拾取的通宝及其坐标
     std::vector<std::pair<RoguelikeCopper, Point>> m_pending_copper;
 
-    int m_col = 4;        // 列数 (col)
+    int m_col = 0;        // 列数 (col)
     int m_origin_x = 0;   // 第一列节点的默认横坐标 (Rect.x)
     int m_last_x = 0;     // 最后一列节点的默认横坐标 (Rect.x)
     int m_origin_y = 0;   // 第一行节点的默认纵坐标 (Rect.y)

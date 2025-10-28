@@ -234,6 +234,17 @@
             "JieGarden@Roguelike@CoppersTypeHuaSelected"
         ]
     },
+    "JieGarden@Roguelike@CoppersListSwipeFlagClick": {
+        "Doc": "通宝列表滑动确认 - 点击右侧上方的通宝作为滑动成功的标注",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [848, 97, 400, 90],
+        "postDelay": 200
+    },
     "JieGarden@Roguelike@CoppersTypeHengSelected": {
         "method": "HSVCount",
         "roi": [366, 103, 450, 80],
