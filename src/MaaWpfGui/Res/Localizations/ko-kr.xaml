@@ -218,6 +218,9 @@
     <system:String x:Key="IS5NewSquad3">방문객 분대 (游客分队)</system:String>
     <system:String x:Key="IS5NewSquad4">사세대 분대 (司岁台分队)</system:String>
     <system:String x:Key="IS5NewSquad5">천사부 분대 (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
     <system:String x:Key="SpecialForceSquad">특근 분대 (特勤分队)</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
@@ -555,13 +558,15 @@ C:\\leidian\\LDPlayer9
 을 입력해야 합니다。\n
 인스턴스 번호는 LD플레이어 멀티 인스턴스 매니저에서 확인할 수 있습니다.
 메인 인스턴스는 0이고, 다른 인스턴스는 버전/ID 뒤에 오는 숫자입니다。\n
+스크린샷 향상 기능은 에뮬레이터 해상도를 가로 모드로 설정해야 하며, 연결 과정에서 화면을 회전시키지 마십시오.
+세로 화면 상태에서 게임을 실행한 후 가로 화면으로 전환하면 화면 찢어짐 등의 문제가 발생할 수 있습니다.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD 에뮬레이터 경로</system:String>
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣  수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>
-    <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
+    <system:String x:Key="RetryOnDisconnectedTip">재연결을 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 를 입력한 후 다시 선택하세요.</system:String>
     <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작 시도</system:String>
     <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작 시도</system:String>
@@ -1013,6 +1018,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
+    <system:String x:Key="RoguelikeEncounterOptions">{0}개의 옵션이 감지되었습니다:</system:String>
+    <system:String x:Key="RoguelikeEncounterEnabledOption">선택 가능한 옵션: {0}</system:String>
+    <system:String x:Key="RoguelikeEncounterDisabledOption">선택 불가 옵션: {0}</system:String>
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>

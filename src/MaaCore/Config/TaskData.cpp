@@ -749,6 +749,13 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(
         match_task_info_ptr->color_close,
         default_ptr->color_close);
 
+    utils::get_and_check_value_or(
+        name,
+        task_json,
+        "pureColor",
+        match_task_info_ptr->pure_color,
+        default_ptr->pure_color);
+
     return match_task_info_ptr;
 }
 
@@ -1056,6 +1063,7 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               // specific
               "cache",         "colorScales",   "colorWithClose",  "maskRange",      "method",
               "rectMove",      "roi",           "specialParams",   "templThreshold", "template",
+              "pureColor",
           } },
         { AlgorithmType::OcrDetect,
           {

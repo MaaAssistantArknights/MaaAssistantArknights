@@ -2,7 +2,12 @@
     "RA@Navigation": {
         "doc": "导航到 <生息演算>",
         "algorithm": "JustReturn",
-        "next": ["RA@Navigation-RecogniseTheme", "RA@Navigation@ReturnButtons#next", "RA@Navigation@StartUpThemes#next"]
+        "next": [
+            "RA@Navigation-RecogniseTheme",
+            "RA@Navigation@ReturnButtons#next",
+            "RA@Navigation@StartUpThemes#next"
+        ],
+        "onErrorNext": ["RA@Navigation@SwitchTheme@ToggleSettingsMenu"]
     },
     "RA@Navigation-RecogniseTheme": {
         "doc": "通过识别右下角 <开始演算> 或 <继续演算> 文字判断是否已到达主题入口界面",
@@ -29,7 +34,8 @@
             "Dreamland/DreamlandDefault/Terminal.png",
             "Dreamland/DreamlandDark/Terminal.png",
             "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png"
+            "AveMujica/Terminal.png",
+            "Together/Terminal.png"
         ],
         "maskRange": [1, 255],
         "action": "ClickSelf",

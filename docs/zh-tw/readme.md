@@ -131,22 +131,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ## 開發相關
 
-### Windows
-
-1. 下載預構建的第三方庫
-
-   ```cmd
-   python tools/maadeps-download.py
-   ```
-
-2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目
-3. VS 上方配置選擇 `RelWithDebInfo`, `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
-4. 右鍵 `MaaWpfGui` - 屬性 - 偵錯 - 啟用本地偵錯（這樣就能把斷點掛到 C++ Core 那邊了）
-5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./develop/development.md#在-visual-studio-中啟用-clang-format)
-
-### Linux | macOS
-
-請參考 [Linux 編譯教學](./develop/linux-tutorial.md)
+請參考 [開發指南](./develop/development.md)
 
 ### API
 
@@ -166,10 +151,6 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 ### 外服適配
 
 請參考 [外服適配教學](./develop/overseas-client-adaptation.md)，對於陸服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
-
-### 想參與開發，但不太會用 Github?
-
-[Github Pull Request 流程簡述](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 

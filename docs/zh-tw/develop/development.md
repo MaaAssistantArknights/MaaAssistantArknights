@@ -3,15 +3,39 @@ order: 1
 icon: iconoir:developer
 ---
 
-# 開發前須知
+# 開發指南
 
-## Github Pull Request 流程簡述
+::: tip
+本頁面主要描述了 PR 流程以及 MAA 的檔案格式化要求，如果你想要具體了解如何對 MAA 的運行邏輯做出更改，請參看 [協議文檔](../protocol/)
+:::
 
-### 我不懂寫程式，只是想改一點點 JSON 文件/文件等，要怎麼操作？
+::: tip
+你可以 [向 DeepWiki 詢問](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 專案的整體架構。
+:::
+
+## 我不懂寫程式，只是想改一點點 JSON 文件/文件等，要怎麼操作？
 
 歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作 Github.com）
 
-### 我會寫程式，但沒接觸過 GitHub/C++/……，要怎麼操作？
+## 我只想簡單修改幾行代碼，但配置環境太麻煩，純網頁編輯又很難用，怎麼辦？
+
+請使用 [GitHub Codespaces](https://github.com/codespaces) 在線開發環境，盡情嘗試！
+
+我們預置了多種不同的開發環境以供選擇：
+
+- 空白環境，裸 Linux 容器（默認）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- 輕量環境，適合文檔站前端開發
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- 全量環境，適合 MAA Core 相關開發（不推薦使用，建議本地開發，完整配置相關環境。詳見下一章節）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+## 完整環境配置流程（Windows）
 
 1. 如果很久以前 Fork 過，先在自己倉庫的 `Settings` 裡，翻到最下面，刪除
 2. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，點擊 `Fork`，繼續點擊 `Create fork`
@@ -139,9 +163,3 @@ MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件�
 你也可以使用 `tools\ClangFormatter\clang-formatter.py` 來直接調用你的 clang-format 來進行格式化，只需要在項目根目錄下執行：
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
-
-## 使用 GitHub codespace 進行在線開發
-
-創建 GitHub codespace 自動配置 C++ 開發環境
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

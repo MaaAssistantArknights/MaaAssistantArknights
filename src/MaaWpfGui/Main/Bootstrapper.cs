@@ -193,6 +193,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 message.AppendLine();
                 message.AppendLine(LocalizationHelper.GetString("ErrorCrashMessageHelpTip"));
 
+                _logger.Warning(message.ToString());
+
                 MessageBoxHelper.Show(
                     message.ToString(),
                     LocalizationHelper.GetString("ErrorCrashDialogTitle"),

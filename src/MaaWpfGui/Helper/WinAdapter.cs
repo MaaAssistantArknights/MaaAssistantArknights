@@ -107,13 +107,13 @@ public class WinAdapter
     public static List<string> GetAdbAddresses(string adbPath)
     {
         string output = ExecuteAdbCommand(adbPath, "devices");
+        _logger.Information(output);
         var lines = output.Split('\r', '\n');
-        return lines
+        return [.. lines
             .Where(line => !line.StartsWith("List of devices attached") &&
                            !string.IsNullOrWhiteSpace(line) &&
                            line.Contains("device"))
-            .Select(line => line.Split('\t')[0])
-            .ToList();
+            .Select(line => line.Split('\t')[0])];
     }
 
     /// <summary>

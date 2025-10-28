@@ -20,6 +20,7 @@ public:
         bool mask_close = false;            // 匹配时是否使用闭运算处理
         MatchTaskInfo::Ranges color_scales; // 数色时的颜色掩码范围
         bool color_close = true;            // 数色时是否使用闭运算处理
+        bool pure_color = false;            // 数色时是否忽略模板匹配结果
     };
 
 public:
@@ -38,6 +39,7 @@ public:
     void set_mask_range(int lower, int upper, bool mask_src = false, bool mask_close = false);
     void set_mask_ranges(MatchTaskInfo::Ranges mask_ranges, bool mask_src = false, bool mask_close = false);
     void set_color_scales(MatchTaskInfo::Ranges color_scales, bool color_close = true);
+    void set_pure_color(bool pure_color) noexcept;
     void set_method(MatchMethod method) noexcept;
 
 protected:

@@ -217,6 +217,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             ("IS5NewSquad3", "游客分队"),
             ("IS5NewSquad4", "司岁台分队"),
             ("IS5NewSquad5", "天师府分队"),
+            ("IS5NewSquad6", "花团锦簇分队"),
+            ("IS5NewSquad7", "棋行险着分队"),
+            ("IS5NewSquad8", "岁影回音分队"),
         ],
     };
 
@@ -1088,6 +1091,18 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
             case "RoguelikeEvent":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
+                break;
+
+            case "RoguelikeEncounterOptions":
+                var options = (subTaskDetails!["options"]! as JArray) ?? new JArray();
+                Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS));
+                foreach (var option in options)
+                {
+                    string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
+                    var text = option["text"]!.ToString();
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString(messageKey), text), UiLogColor.EventIS);
+                }
+
                 break;
 
             case "BoskyPassageNode":

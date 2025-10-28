@@ -85,12 +85,12 @@ icon: jam:write-f
 **输入：**
 
 ```markdown
-MaaAssistantArknight 是由 ==很多猪== 开发的
+MaaAssistantArknights 是由 ==很多猪== 开发的
 ```
 
 **输出：**
 
-MaaAssistantArknight 是由 ==很多猪== 开发的
+MaaAssistantArknights 是由 ==很多猪== 开发的
 
 主题还内置了以下的配色方案：
 

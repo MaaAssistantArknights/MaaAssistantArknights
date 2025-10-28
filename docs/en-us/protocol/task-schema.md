@@ -125,6 +125,11 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Whether to use morphological closing on mask range for color counting
                                             // Closing fills small black dots, generally improves color matching but set false for text
 
+        "pureColor": false,                 // Optional when method is HSVCount or RGBCount, default false
+                                            // If true, ignore template matching score and rely solely on color matching results
+                                            // Suitable for scenarios where color features are distinct but template matching performs poorly
+                                            // When using this option, it is recommended to correspondingly increase the templThreshold
+
         "method": "Ccoeff",                 // Optional, template matching algorithm, can be list
                                             // Default is Ccoeff when not specified
                                             //      - Ccoeff:       Color-insensitive template matching, corresponds to cv::TM_CCOEFF_NORMED
