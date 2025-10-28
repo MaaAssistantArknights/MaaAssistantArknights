@@ -9,6 +9,10 @@ icon: iconoir:developer
 본 페이지는 주로 PR 과정 및 MAA의 파일 포맷 요구사항을 설명합니다. MAA의 실행 로직 변경에 대한 구체적인 내용은 [프로토콜 문서](../protocol/)를 참고하세요.
 :::
 
+::: tip
+[DeepWiki에 문의하여](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) MAA 프로젝트의 전체적인 아키텍처를 개략적으로 이해할 수 있습니다.
+:::
+
 ## 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
 
 [웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (GitHub.com 웹사이트에서만 가능합니다)
