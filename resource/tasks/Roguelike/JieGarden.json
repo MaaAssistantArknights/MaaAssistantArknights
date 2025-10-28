@@ -222,7 +222,8 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [436, 109, 400, 498]
+        "roi": [436, 109, 400, 498],
+        "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected": {
         "Doc": "被选中的通宝类型识别 - 中间列区域",
@@ -289,7 +290,8 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [867, 109, 312, 498]
+        "roi": [867, 109, 312, 498],
+        "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-LeftType": {
         "Doc": "通宝类型识别 - 左侧新拾取通宝区域 (EXCHANGE 模式)",
@@ -298,7 +300,8 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [0, 396, 353, 235]
+        "roi": [0, 396, 353, 235],
+        "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
         "Doc": "通宝名称识别 - EXCHANGE 模式 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
