@@ -142,6 +142,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 }
 
 // 交换通宝 先识别通宝类型,然后roi偏移来OCR通宝名称和是否已投出
+// 图片示意请看 文档(docs\zh-cn\protocol\integrated-strategy-schema.md) 或 #13835
 bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
     bool ret = swipe_copper_list_left(2); // 有时候进去不在最左边
