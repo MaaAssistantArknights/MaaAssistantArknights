@@ -124,11 +124,11 @@ MAAは、リポジトリ内のコードとリソースファイルが美しく�
 
 現在有効になっているフォーマットツールは次のとおりです：
 
-| ファイルタイプ | フォーマットツール                                                  |
-| --------- | --------------------------------------------------------------- |
-| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| Json/Yaml | [Prettier](https://prettier.io/)                                |
-| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| ファイルタイプ | フォーマットツール                                              |
+| -------------- | --------------------------------------------------------------- |
+| C++            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
+| Json/Yaml      | [Prettier](https://prettier.io/)                                |
+| Markdown       | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
 
 ### Pre-commit Hooksを使用してコードを自動フォーマット
 
