@@ -42,15 +42,13 @@
         "roi": [878, 397, 82, 48]
     },
     "SS@Store@Purchase": {
-        "doc": "获得新时装后有数秒动画，next 中最后一项是为了确保延迟识别而设置",
         "text": ["支付"],
         "roi": [772, 476, 292, 144],
         "next": [
             "SS@Store@PurchasedConfirm",
             "SS@Store@RecruitSkip",
-            "SS@Store@GetCloth",
-            "SS@Store@Underfunded",
-            "SS@Store@Purchase@NextAfterMerelyWaiting"
+            "SS@Store@WearCostume",
+            "SS@Store@Underfunded"
         ]
     },
     "SS@Store@Underfunded": {
@@ -60,7 +58,7 @@
         "colorScales": [[250, 255]],
         "next": ["Stop"]
     },
-    "SS@Store@GetCloth": {
+    "SS@Store@WearCostume": {
         "doc": ["获得新时装后，识别画面右下角按钮中 “穿戴” 文字左侧的衣架图标"],
         "roi": [1146, 595, 210, 44],
         "next": ["SS@Store@RecruitSkipClick"]
