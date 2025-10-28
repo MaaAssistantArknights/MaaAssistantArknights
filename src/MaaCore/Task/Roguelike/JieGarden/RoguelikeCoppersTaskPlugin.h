@@ -30,8 +30,8 @@ private:
     bool handle_pickup_mode();
     bool handle_exchange_mode();
 
-    void swipe_copper_list_left(int times, bool slowly = false) const;
-    void swipe_copper_list_right(int times, bool slowly = false) const;
+    bool swipe_copper_list_left(int times, bool slowly = false) const;
+    bool swipe_copper_list_right(int times, bool slowly = false) const;
     void click_copper_at_position(int col, int row) const;
 
     std::optional<RoguelikeCopper> create_copper_from_name(

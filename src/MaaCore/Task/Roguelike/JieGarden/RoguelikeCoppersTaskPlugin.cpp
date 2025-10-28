@@ -182,7 +182,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 // 交换通宝 先识别通宝类型,然后roi偏移来OCR通宝名称和是否已投出
 bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
-    swipe_copper_list_left(2); // 有时候进去不在最左边
+    bool ret = swipe_copper_list_left(2); // 有时候进去不在最左边
 
     MultiMatcher matcher;
     RegionOCRer ocr(ctrler()->get_image());
@@ -383,29 +383,33 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     // 点击通宝后执行确认交换任务
     click_copper_at_position(worst_it->col, worst_it->row);
 
-    ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
+    ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
 
-    return true;
+    return ret;
 }
 
-void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool slowly) const
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool slowly) const
 {
+    bool ret = true;
     for (int i = 0; i < times; ++i) {
         std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
 
-        ProcessTask(*this, { task_name }).run();
+        ret &= ProcessTask(*this, { task_name }).run();
     }
+    return ret;
 }
 
-void asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool slowly) const
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool slowly) const
 {
+    bool ret = true;
     for (int i = 0; i < times; ++i) {
         std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
 
-        ProcessTask(*this, { task_name }).run();
+        ret &= ProcessTask(*this, { task_name }).run();
     }
+    return ret;
 }
 
 void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row) const
