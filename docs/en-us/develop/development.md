@@ -142,9 +142,3 @@ You are all set with the clang-format integrated in Visual Studio supporting c++
 You can also format with `tools\ClangFormatter\clang-formatter.py` directly, by executing in the root folder of the project:
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
-
-## Develop in cloud using GitHub codespace
-
-Create GitHub codespace with pre-configured C++ dev environments:
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
