@@ -1,9 +1,11 @@
 #include "RoguelikeStageEncounterTaskPlugin.h"
 
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
@@ -70,10 +72,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     // 处理主事件及其链式 next_event
     while (!current_event_name.empty()) {
         auto next = handle_single_event(current_event_name);
-        if (!next.has_value()) {
+        if (!next) {
             break;
         }
-        current_event_name = *next;
+        current_event_name = next.value();
     }
 
     return true;
@@ -111,7 +113,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    int choose_option = process_task(event, special_val);
+    size_t choose_option = process_task(event, special_val);
     Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
 
     auto info = basic_info_with_what("RoguelikeEvent");
@@ -161,7 +163,42 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         }
     }
 
-    const auto click_option_task_name = [&](int item, int total) {
+    // 界园肉鸽实验性功能 -- 识别选项数量后调整选项
+    if (theme == RoguelikeTheme::JieGarden) {
+        reset_option_analysis_and_view_data();
+        if (analyze_options()) {
+            size_t choice = 0; // 以 0 作为 无效 index
+            if (event.option_num == m_analyzed_options.size()) {
+                choice = choose_option;
+            }
+            else {
+                for (const auto& [total, item] : event.fallback_choices) {
+                    if (total == m_analyzed_options.size()) {
+                        choice = item;
+                        break;
+                    }
+                }
+            }
+            if (choice == 0) {
+                Log.error(
+                    std::format(
+                        "RoguelikeEncounter | Failed to find choice for scenario with {} option(s)",
+                        m_analyzed_options.size()));
+            }
+            else if (select_analyzed_option(choice - 1)) {
+                return next_event(event);
+            }
+
+            // 兜底：从下到上依次选择
+            for (choice = m_analyzed_options.size(); choice > 0; --choice) {
+                if (m_analyzed_options[choice - 1].enabled && select_analyzed_option(choice - 1)) {
+                    return next_event(event);
+                }
+            }
+        }
+    }
+
+    const auto click_option_task_name = [&](size_t item, size_t total) {
         if (item > total) {
             Log.warn("Event:", event.name, "Total:", total, "Choice", item, "out of range, switch to choice", total);
             item = total;
@@ -198,31 +235,13 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
     }
 
     if (hp_disappeared) {
-        if (event.next_event.empty()) {
-            return std::nullopt;
-        }
-
-        const auto& task = Task.get("Roguelike@StageEncounterJudgeClick");
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 2; ++j) {
-                ctrler()->click(task->specific_rect);
-                sleep(500);
-            }
-            image = ctrler()->get_image();
-            if (hp(image) >= 0) {
-                Log.debug("HP restored, going to next_event:", event.next_event);
-                // 多点一次，确保选项恢复
-                ctrler()->click(task->specific_rect);
-                sleep(500);
-                return event.next_event;
-            }
-        }
+        return next_event(event);
     }
 
     // 兜底处理，从 option_num-option_num 点到 1-1
-    int max_time = event.option_num;
+    size_t max_time = event.option_num;
     while (max_time > 0) {
-        for (int i = max_time; i > 0; --i) {
+        for (size_t i = max_time; i > 0; --i) {
             bool ret =
                 ProcessTask(*this, { "Roguelike@TutorialButton" }).set_reusable_image(image).set_retry_times(3).run();
             if (ret) {
@@ -288,7 +307,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
     return true;
 }
 
-int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
+size_t asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
 {
     for (const auto& requirement : event.choice_require) {
         if (requirement.choose == -1) {
@@ -336,4 +355,207 @@ int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image) const
 
     int hp_val;
     return utils::chars_to_number(res_vec_opt->text, hp_val) ? hp_val : 0;
+}
+
+bool asst::RoguelikeStageEncounterTaskPlugin::analyze_options()
+{
+    LogTraceFunction;
+
+    const std::string& theme = m_config->get_theme();
+
+    // 不期而遇默认位置会在选项列表中央, 为了从上到下检视选项列表, 需要先向上滑动
+    ProcessTask(*this, { theme + "@RoguelikeEncounter-InitialMoveUp" }).run();
+
+    RoguelikeEncounterOptionAnalyzer analyzer(ctrler()->get_image());
+    analyzer.set_theme(theme);
+    std::optional<int> ret;
+    int swipe_times = 0;
+    do {
+        ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run();
+        swipe_times++;
+        ret = analyzer.merge_image(ctrler()->get_image());
+        if (!ret) {
+            return false;
+        }
+    } while (ret.value() > 0 && swipe_times < MAX_SWIPE_TIMES && !need_exit());
+
+    if (!analyzer.analyze()) {
+        return false;
+    }
+
+    m_analyzed_options = analyzer.get_result();
+    report_analyzed_options();
+    update_view();
+    return true;
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::reset_option_analysis_and_view_data()
+{
+    m_analyzed_options.clear();
+    reset_view();
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::report_analyzed_options()
+{
+    std::vector<json::value> options;
+
+    Log.info("Analyzed Options");
+    Log.info(std::string(40, '-'));
+    Log.info(std::format("{:^9} | {}", "Enabled", "Text"));
+    Log.info(std::string(40, '-'));
+    for (const auto& [enabled, templ, text] : m_analyzed_options) {
+        json::value option = json::object {
+            { "enabled", enabled },
+            { "text", text },
+        };
+        options.emplace_back(std::move(option));
+        Log.info(std::format("{:^9} | {}", enabled ? "Y" : "N", text));
+    }
+    Log.info(std::string(40, '-'));
+
+    json::value info = basic_info_with_what("RoguelikeEncounterOptions");
+    info["details"]["options"] = std::move(options);
+    callback(AsstMsg::SubTaskExtraInfo, info);
+}
+
+bool asst::RoguelikeStageEncounterTaskPlugin::select_analyzed_option(size_t index)
+{
+    LogTraceFunction;
+
+    // sanity check
+    if (index >= m_analyzed_options.size()) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format("| Attempt to select option {} out of {}", index + 1, m_analyzed_options.size()));
+        return false;
+    }
+    if (!m_analyzed_options[index].enabled) {
+        Log.info(__FUNCTION__, std::format("| Attempt to select disabled option {}", index + 1));
+        return false;
+    }
+
+    move_to_analyzed_option(index);
+
+    // click option
+    Log.info(__FUNCTION__, std::format("| Clicking option {}: {}", index + 1, m_analyzed_options[index].text));
+    Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
+    click_rect.y = m_option_y_in_view[index];
+    for (int j = 0; j < 2; ++j) {
+        ctrler()->click(click_rect);
+        sleep(300);
+    }
+    sleep(1500);
+
+    if (hp(ctrler()->get_image()) < 0) {
+        return true;
+    }
+
+    Log.error(__FUNCTION__, "| The option doesn't respond to click");
+    save_img(ctrler()->get_image(), "current screenshot");
+
+    return false;
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::move_to_analyzed_option(size_t index)
+{
+    LogTraceFunction;
+
+    // sanity check
+    if (index >= m_analyzed_options.size()) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format("| Attempt to move to option {} out of {}", index + 1, m_analyzed_options.size()));
+        return;
+    }
+
+    const std::string& theme = m_config->get_theme();
+
+    Log.info(__FUNCTION__, std::format("Moving to option {}: {}", index + 1, m_analyzed_options[index].text));
+    while (!need_exit()) {
+        if (index < m_view_begin) {
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveUp" }).run();
+            update_view();
+            continue;
+        }
+        if (index >= m_view_end) {
+            ProcessTask(*this, { theme + "@RoguelikeEncounter-MoveDown" }).run();
+            update_view();
+            continue;
+        }
+        if (m_option_y_in_view[index] == -1) {
+            Log.error(__FUNCTION__, "| y for option {} in view is not updated", index + 1);
+            save_img(ctrler()->get_image(), "current screenshot");
+            save_img(m_analyzed_options[index].templ, "option template");
+            update_view();
+            continue;
+        }
+        break;
+    }
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::update_view()
+{
+    LogTraceFunction;
+
+    reset_view();
+
+    cv::Mat image = ctrler()->get_image();
+
+    for (size_t i = 0; i < m_analyzed_options.size(); ++i) {
+        const auto& [enabled, templ, text] = m_analyzed_options[i];
+        Matcher::ResultOpt option_match_ret =
+            RoguelikeEncounterOptionAnalyzer::match_option(m_config->get_theme(), image, templ);
+        if (option_match_ret) {
+            if (i < m_view_begin) {
+                m_view_begin = i;
+            }
+            if (i >= m_view_end) {
+                m_view_end = i + 1;
+            }
+            m_option_y_in_view[i] = option_match_ret.value().rect.y;
+        }
+    }
+
+    Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
+}
+
+void asst::RoguelikeStageEncounterTaskPlugin::reset_view()
+{
+    m_view_begin = m_analyzed_options.size();
+    m_view_end = 0;
+    m_option_y_in_view.assign(m_analyzed_options.size(), -1);
+}
+
+std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::next_event(const Config::RoguelikeEvent& event)
+{
+    LogTraceFunction;
+
+    if (event.next_event.empty()) {
+        return std::nullopt;
+    }
+
+    const auto& task = Task.get("Roguelike@StageEncounterJudgeClick");
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            ctrler()->click(task->specific_rect);
+            sleep(500);
+        }
+        if (hp(ctrler()->get_image()) >= 0) {
+            Log.debug("HP restored, going to next_event:", event.next_event);
+            // 多点一次，确保选项恢复
+            ctrler()->click(task->specific_rect);
+            sleep(500);
+            return event.next_event;
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool asst::RoguelikeStageEncounterTaskPlugin::save_img(const cv::Mat& image, const std::string_view description)
+{
+    const auto relative_dir = utils::path("debug") / utils::path("roguelike") / utils::path("encounter");
+    const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
+    Log.info(std::format("Save {} to {}", description, relative_path.string()));
+    return imwrite(relative_path, image);
 }
