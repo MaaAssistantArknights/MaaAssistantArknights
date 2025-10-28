@@ -3,15 +3,35 @@ order: 1
 icon: iconoir:developer
 ---
 
-# 開発を開始
+# 開発ガイド
 
-## Github Pull Request プロセス概要
+::: tip
+本ページは主に PR プロセスおよび MAA のファイルフォーマット要件について説明します。MAA の実行ロジックを変更する具体的な方法については、[プロトコル文書](../protocol/)を参照してください。
+:::
 
-### プログラミングの仕方がわからないので、JSONファイルやドキュメントなどを少し変更したいのですが、どうすればいいですか？
+## プログラミングの仕方がわからないので、JSONファイルやドキュメントなどを少し変更したいのですが、どうすればいいですか？
 
 [「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド](./pr-tutorial.md)へようこそ（純WebサイトのPRチュートリアル）
 
-### プログラミングの仕方を知っていますが、GitHub/C++/...... に触れたことがありません、どうすればいいですか？
+## 数行のコードを少しだけ変更したいが、環境設定が面倒。純粋なWeb編集も使いにくい。どうすればよいですか？
+
+GitHub Codespacesオンライン開発環境をご利用ください！
+
+次のような、異なる開発環境を事前に準備しています：
+
+- 空白環境（裸のLinuxコンテナ）（デフォルト）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- 軽量環境：ドキュメントサイトのフロントエンド開発に適している
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- 完全環境：MAA Core関連の開発に適している（使用は推奨しません。ローカル開発を推奨します。関連環境を完全に設定。次のセクションを参照）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+## 完全な環境セットアップ（Windows）
 
 1. かなり前にフォークした場合は、まず自分のリポジトリの `Settings` の一番下で削除します
 2. [MAA メインリポジトリ](https://github.com/MaaAssistantArknights/MaaAssistantArknights)を開き、`Fork` → `Create fork` をクリック
@@ -96,7 +116,36 @@ icon: iconoir:developer
 Visual Studio 起動後、Git 操作は「Git 変更」画面からコマンドライン不要で可能
 :::
 
-## Visual Studioでclang-formatを有効にする
+## MAAのファイルフォーマット要件
+
+MAAは、リポジトリ内のコードとリソースファイルが美しく統一されるよう、一連のフォーマットツールを使用してメンテナンスと読み取りを容易にしています。
+
+提出する前にフォーマットするか、または[Pre-commit Hooksを使用してコードを自動フォーマット](#pre-commit-hooksを使用してコードを自動フォーマット)してください。
+
+現在有効になっているフォーマットツールは次のとおりです：
+
+| ファイルタイプ | フォーマットツール                                              |
+| -------------- | --------------------------------------------------------------- |
+| C++            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
+| Json/Yaml      | [Prettier](https://prettier.io/)                                |
+| Markdown       | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+
+### Pre-commit Hooksを使用してコードを自動フォーマット
+
+1. コンピュータにPython環境とNode環境があることを確認してください。
+
+2. プロジェクトのルートディレクトリで次のコマンドを実行します：
+
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+
+pipインストール後もPre-commitを実行できない場合は、PIPインストールパスがPATHに追加されていることを確認してください。
+
+次に、提出するたびにフォーマットツールが自動的に実行され、コード形式がスタイルガイドに準拠していることを確認します。
+
+### Visual Studioでclang-formatを有効にする
 
 1. clang-format バージョン20.1.0以上をインストールします。
 

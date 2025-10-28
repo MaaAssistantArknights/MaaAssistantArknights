@@ -3,19 +3,35 @@ order: 1
 icon: iconoir:developer
 ---
 
-# 개발 환경 구축
+# 개발 가이드
 
 ::: tip
 본 페이지는 주로 PR 과정 및 MAA의 파일 포맷 요구사항을 설명합니다. MAA의 실행 로직 변경에 대한 구체적인 내용은 [프로토콜 문서](../protocol/)를 참고하세요.
 :::
 
-## Github Pull Request 진행 과정
-
-### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
+## 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
 
 [웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (GitHub.com 웹사이트에서만 가능합니다)
 
-### 프로그래밍을 할 줄 알지만 GitHub/C++/...에 익숙하지 않아요. 어떻게 해야 하나요?
+## 몇 줄의 코드만 간단하게 수정하고 싶지만 환경 설정이 너무 복잡하고, 순수 웹 편집도 불편해요. 어떻게 해야 하나요?
+
+GitHub Codespaces 온라인 개발 환경을 사용해보세요!
+
+다음과 같은 다양한 개발 환경을 사전에 설정했습니다：
+
+- 빈 환경（벌거숭이 Linux 컨테이너）（기본값）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+- 경량 환경，문서 사이트 프론트엔드 개발에 적합
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+
+- 전체 환경，MAA Core 관련 개발에 적합（사용 권장하지 않음，로컬 개발 권장，관련 환경을 완전히 설정，다음 섹션 참조）
+
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+
+## 완전한 환경 설정 (Windows)
 
 1. 이전에 fork 한 기록이 있다면 저장소 Settings 맨 아래에서 삭제
 2. [MAA 메인 저장소](https://github.com/MaaAssistantArknights/MaaAssistantArknights)에서 Fork → Create fork 클릭
