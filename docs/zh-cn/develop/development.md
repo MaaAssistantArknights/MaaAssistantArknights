@@ -10,7 +10,7 @@ icon: iconoir:developer
 :::
 
 ::: tip
-你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) 来初步了解 MAA 这个项目的总体架构。
+你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 项目的总体架构。
 :::
 
 ## 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？

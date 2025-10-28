@@ -10,7 +10,7 @@ This page mainly describes the PR workflow and MAA's file formatting requirement
 :::
 
 ::: tip
-You can [Ask DeepWiki](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) learn about the overall architecture of the MAA project.
+You can [Ask DeepWiki](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) to learn about the overall architecture of the MAA project.
 :::
 
 ## I don't know programming but just want to modify some JSON files/documents, how can I do it?
