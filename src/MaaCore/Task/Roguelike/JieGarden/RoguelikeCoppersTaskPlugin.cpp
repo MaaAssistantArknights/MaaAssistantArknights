@@ -200,7 +200,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 : !ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).set_retry_times(2).run();
 
         // 点击右侧上方的通宝作为滑动成功的标注
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeFlagClick" }).run();
+        if (!is_last_col) {
+            ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeFlagClick" }).run();
+        }
 
         image = ctrler()->get_image();
 #ifdef ASST_DEBUG

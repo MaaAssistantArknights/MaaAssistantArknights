@@ -242,7 +242,8 @@
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
         "action": "ClickSelf",
-        "roi": [848, 97, 400, 90],
+        "roi": [830, 97, 450, 90],
+        "maskRange": [1, 255],
         "postDelay": 200
     },
     "JieGarden@Roguelike@CoppersTypeHengSelected": {
