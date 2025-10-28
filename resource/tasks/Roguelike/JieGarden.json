@@ -152,7 +152,7 @@
         "Doc": "通宝列表缓慢向右滑动",
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
-        "rectMove": [670, 340, 20, 20],
+        "rectMove": [650, 340, 20, 20],
         "postDelay": 500
     },
     "JieGarden@Roguelike@CoppersListSwipeToTheLeft": {
@@ -223,6 +223,68 @@
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
         "roi": [436, 109, 400, 498]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected": {
+        "Doc": "被选中的通宝类型识别 - 中间列区域",
+        "algorithm": "JustReturn",
+        "next": [
+            "JieGarden@Roguelike@CoppersTypeLiSelected",
+            "JieGarden@Roguelike@CoppersTypeHengSelected",
+            "JieGarden@Roguelike@CoppersTypeHuaSelected"
+        ],
+        "maxTimes": 1
+    },
+    "JieGarden@Roguelike@CoppersTypeHengSelected": {
+        "method": "HSVCount",
+        "roi": [368, 269, 496, 90],
+        "colorScales": [
+            [
+                [88, 128, 177],
+                [100, 255, 230]
+            ]
+        ],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "JieGarden@Roguelike@CoppersTypeHuaSelected": {
+        "method": "RGBCount",
+        "roi": [368, 269, 496, 90],
+        "colorScales": [
+            [
+                [99, 193, 229],
+                [107, 193, 230]
+            ],
+            [
+                [98, 126, 174],
+                [107, 194, 230]
+            ],
+            [
+                [97, 126, 171],
+                [109, 194, 230]
+            ]
+        ],
+        "maskRange": [1, 255],
+        "maxTimes": 1
+    },
+    "JieGarden@Roguelike@CoppersTypeLiSelected": {
+        "method": "RGBCount",
+        "roi": [368, 269, 496, 90],
+        "colorScales": [
+            [
+                [99, 193, 222],
+                [107, 193, 230]
+            ],
+            [
+                [64, 100, 144],
+                [108, 194, 230]
+            ],
+            [
+                [60, 97, 141],
+                [63, 101, 230]
+            ]
+        ],
+        "maskRange": [1, 255],
+        "maxTimes": 1
     },
     "JieGarden@Roguelike@CoppersAnalyzer-RightType": {
         "Doc": "通宝类型识别 - 最右侧列区域",

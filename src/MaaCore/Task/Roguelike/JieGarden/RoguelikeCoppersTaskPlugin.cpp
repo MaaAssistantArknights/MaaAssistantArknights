@@ -194,15 +194,17 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 #endif
 
     // 扫描所有列的通宝
-    for (int col = 0; col <= m_col; ++col) {
+    for (int col = 0; col <= 999; ++col) {
+        bool is_last_col = ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).run();
+
         // 根据列位置设置匹配任务
-        if (col == 0) {
+        if (col == 0) { // 识别左侧新拾取的通宝
             matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-LeftType");
         }
-        else if (col == m_col) {
+        else if (is_last_col) { // 被选中的通宝没有被滑到屏幕左侧，说明已经滑到最右侧列
             matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType");
         }
-        else {
+        else { // 中间列
             matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
         }
 
@@ -231,10 +233,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
         sort_by_vertical_(match_results);
 
-        if (col > 0 && col < m_col) {
+        if (col > 0 && !is_last_col) {
             m_origin_x = match_results.front().rect.x;
         }
-        else if (col == m_col) {
+        else if (col > 0 && is_last_col) { // 最右侧列
             m_last_x = match_results.front().rect.x;
         }
         m_origin_y = match_results.front().rect.y;
@@ -319,10 +321,16 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             }
         }
 
+        // 识别一列通宝后，点击中间的通宝作为滑动成功的标注
+        if (col != 0 && !is_last_col && !match_results.empty()) {
+            const auto& mid_rect = match_results[match_results.size() / 2].rect;
+            Point click_point(mid_rect.x + mid_rect.width / 2, mid_rect.y + mid_rect.height / 2);
+            ctrler()->click(click_point);
+            sleep(300);
+        }
+
         // 在中间列之间滑动
-        if (col != 0 && col != m_col) {
-            // col = 0 在识别左边新拾取的通宝
-            // col = m_col 在识别最右边一列的通宝
+        if (col != 0 && !is_last_col) {
             // 将列表向右滑动一列
             swipe_copper_list_right(1, true);
         }
@@ -340,6 +348,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
         }
 #endif
+        if (is_last_col) {
+            m_col = col;
+            Log.info(__FUNCTION__, "| total columns detected:", m_col);
+            break;
+        }
     }
 
     if (m_copper_list.empty()) {
