@@ -139,9 +139,3 @@ MAA 使用一系列的格式化工具來保證倉庫中的代碼和資源文件�
 你也可以使用 `tools\ClangFormatter\clang-formatter.py` 來直接調用你的 clang-format 來進行格式化，只需要在項目根目錄下執行：
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
-
-## 使用 GitHub codespace 進行在線開發
-
-創建 GitHub codespace 自動配置 C++ 開發環境
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
