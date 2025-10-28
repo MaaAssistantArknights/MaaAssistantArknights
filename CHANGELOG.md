@@ -18,6 +18,7 @@
 
 ### 修复 | Fix
 
+* 无法加载 cache 资源 @ABA2396
 * 改用 CustomeSkip 来跳过新时装动画 (#14566) @Alan-Charred
 * 调换使用错误的排序函数 (#14555) @Alan-Charred
 * 给生息演算点击 "开始行动" 的任务加点延迟，防止错过确认弹窗 @Alan-Charred
