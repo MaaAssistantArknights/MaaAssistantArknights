@@ -19,21 +19,21 @@ icon: iconoir:developer
 
 ## 数行のコードを少しだけ変更したいが、環境設定が面倒。純粋なWeb編集も使いにくい。どうすればよいですか？
 
-GitHub Codespacesオンライン開発環境をご利用ください！
+[GitHub Codespaces](https://github.com/codespaces)オンライン開発環境をご利用ください！
 
 次のような、異なる開発環境を事前に準備しています：
 
 - 空白環境（裸のLinuxコンテナ）（デフォルト）
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 - 軽量環境：ドキュメントサイトのフロントエンド開発に適している
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
 
 - 完全環境：MAA Core関連の開発に適している（使用は推奨しません。ローカル開発を推奨します。関連環境を完全に設定。次のセクションを参照）
 
-  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)
 
 ## 完全な環境セットアップ（Windows）
 
