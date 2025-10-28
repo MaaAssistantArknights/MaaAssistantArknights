@@ -44,12 +44,7 @@
     "SS@Store@Purchase": {
         "text": ["支付"],
         "roi": [772, 476, 292, 144],
-        "next": [
-            "SS@Store@PurchasedConfirm",
-            "SS@Store@RecruitSkip",
-            "SS@Store@WearCostume",
-            "SS@Store@Underfunded"
-        ]
+        "next": ["SS@Store@PurchasedConfirm", "SS@Store@RecruitSkip", "SS@Store@WearCostume", "SS@Store@Underfunded"]
     },
     "SS@Store@Underfunded": {
         "template": "ReceivedAllMail.png",
