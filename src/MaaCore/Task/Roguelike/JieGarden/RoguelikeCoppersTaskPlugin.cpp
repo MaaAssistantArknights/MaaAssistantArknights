@@ -1,14 +1,11 @@
 #include "RoguelikeCoppersTaskPlugin.h"
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatcher.h"
-#include "Vision/RegionOCRer.h"
-#include "Vision/VisionHelper.h"
+#include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
 
 bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -82,61 +79,48 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
 // 处理掉落通宝的拾取 识别交换按钮,roi偏移来识别通宝名称
 bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 {
-    MultiMatcher matcher;
-    matcher.set_task_info("JieGarden@Roguelike@GetDropSwitch");
     auto image = ctrler()->get_image();
-    matcher.set_image(image);
 
 #ifdef ASST_DEBUG
     cv::Mat image_draw = image.clone();
 #endif
 
-    if (!matcher.analyze()) {
+    RoguelikeCoppersAnalyzer analyzer(image);
+    if (!analyzer.analyze_pickup()) {
         Log.error(__FUNCTION__, "| failed to analyze GetDropSwitch");
         return false;
     }
 
-    auto match_results = matcher.get_result();
-    sort_by_horizontal_(match_results);
-
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR");
-    RegionOCRer ocr(image);
+    const auto& detections = analyzer.get_detections();
+    if (detections.empty()) {
+        Log.error(__FUNCTION__, "| no detections returned for pickup mode");
+        return false;
+    }
 
     // 通过识别到的每个通宝类型来识别通宝名称
-    for (size_t i = 0; i < match_results.size(); ++i) {
-        const auto& [rect, score, templ_name] = match_results[i];
+    for (size_t i = 0; i < detections.size(); ++i) {
+        const auto& detection = detections[i];
 
-        Rect roi = rect.move(name_task->roi);
-        ocr.set_roi(roi);
-        ocr.set_replace(name_task->replace_map, name_task->replace_full);
-
-        if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "| failed to recognize copper name at position", i);
-            continue;
-        }
-
-        const std::string copper_name = ocr.get_result().text;
-        if (copper_name.empty()) {
-            Log.error(__FUNCTION__, "| empty copper name at position", i);
-            continue;
-        }
-
-        Log.info(__FUNCTION__, "| found copper:", copper_name, "at position", i);
-        auto copper_opt = create_copper_from_name(copper_name, 1, static_cast<int>(i), false, roi);
+        Log.info(__FUNCTION__, "| found copper:", detection.name, "at position", i);
+        auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
             Log.error(__FUNCTION__, "| failed to create copper at position", i);
             continue;
         }
-        Point click_point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-        m_pending_copper.emplace_back(std::move(*copper_opt), click_point);
+
+        m_pending_copper.emplace_back(std::move(*copper_opt), detection.click_point);
 
 #ifdef ASST_DEBUG
         // 绘制识别出的通宝名称 - 不支持中文，所以只绘制score
-        cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 255, 0), 2);
+        cv::rectangle(
+            image_draw,
+            cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
+            cv::Scalar(0, 255, 0),
+            2);
         cv::putText(
             image_draw,
-            "score: " + std::to_string(ocr.get_result().score),
-            cv::Point(roi.x, std::max(0, roi.y - 6)),
+            "score: " + std::to_string(detection.name_score),
+            cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
             cv::FONT_HERSHEY_SIMPLEX,
             0.5,
             cv::Scalar(0, 255, 0),
@@ -185,81 +169,57 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
     bool ret = swipe_copper_list_left(2); // 有时候进去不在最左边
 
-    MultiMatcher matcher;
-    RegionOCRer ocr(ctrler()->get_image());
-    const auto name_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR");
-    const auto cast_task = Task.get<OcrTaskInfo>("JieGarden@Roguelike@CoppersAnalyzer-CastOCR");
-
-#ifdef ASST_DEBUG
-    cv::Mat image_draw;
-#endif
-
     // 拆出 col == 0时的情况
     // -----------------------------------------------------
     // 识别左侧新拾取的通宝
-    matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-LeftType");
     auto image = ctrler()->get_image();
 
 #ifdef ASST_DEBUG
-    image_draw = image.clone();
+    cv::Mat image_draw = image.clone();
 #endif
-    matcher.set_image(image);
-    ocr.set_image(image);
-
-    if (!matcher.analyze()) {
+    RoguelikeCoppersAnalyzer left_analyzer(image);
+    if (!left_analyzer.analyze_column(RoguelikeCoppersAnalyzer::ColumnRole::Leftmost, false)) {
         Log.error(__FUNCTION__, "| no coppers recognized in column 0");
         return false;
     }
 
-    auto match_results = matcher.get_result();
-    if (match_results.empty()) {
+    const auto& left_detections = left_analyzer.get_detections();
+    if (left_detections.empty()) {
         Log.error(__FUNCTION__, "| no coppers recognized in column 0");
         return false;
     }
 
     // 处理当前列的匹配结果
-    for (size_t row = 0; row < match_results.size(); ++row) {
-        bool is_cast = false;
-
-        const auto& match_result = match_results[row];
-
-        Rect roi = match_result.rect.move(name_task->roi);
-        ocr.set_roi(roi);
-        ocr.set_replace(name_task->replace_map, name_task->replace_full);
-
-        if (!ocr.analyze()) {
-            Log.error(__FUNCTION__, "| failed to recognize copper name at (", 0, ",", row, ")");
-            continue;
-        }
-
-        const std::string copper_name = ocr.get_result().text;
-        if (copper_name.empty()) {
-            Log.error(__FUNCTION__, "| empty copper name at (", 0, ",", row, ")");
-            continue;
-        }
+    for (size_t row = 0; row < left_detections.size(); ++row) {
+        const auto& detection = left_detections[row];
 
 #ifdef ASST_DEBUG
-        cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(
+            image_draw,
+            cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
+            cv::Scalar(0, 0, 255),
+            2);
         cv::putText(
             image_draw,
-            "score: " + std::to_string(ocr.get_result().score),
-            cv::Point(roi.x, std::max(0, roi.y - 6)),
+            "score: " + std::to_string(detection.name_score),
+            cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
             cv::FONT_HERSHEY_SIMPLEX,
             0.45,
             cv::Scalar(0, 0, 255),
             1);
 #endif
 
-        Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", 0, ",", row, ")", "is_cast:", is_cast);
+        Log.info(__FUNCTION__, "| found copper:", detection.name, "at (", 0, ",", row, ")", "is_cast:", false);
 
-        auto copper_opt = create_copper_from_name(copper_name, 0, static_cast<int>(row + 1), is_cast, roi);
+        auto copper_opt =
+            create_copper_from_name(detection.name, 0, static_cast<int>(row + 1), false, detection.name_roi);
         if (!copper_opt) {
             Log.error(__FUNCTION__, "| failed to create copper at (", 0, ",", row, ")");
             continue;
         }
 
         auto copper = std::move(*copper_opt);
-        copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
+        copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
         m_new_copper = std::move(copper);
     }
@@ -278,110 +238,104 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         Point click_point(990, 180);
         ctrler()->click(click_point);
 
-        // 根据列位置设置匹配任务
-        if (is_last_col) { // 被选中的通宝没有被滑到屏幕左侧，说明已经滑到最右侧列
-            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-RightType");
-        }
-        else { // 中间列
-            matcher.set_task_info("JieGarden@Roguelike@CoppersAnalyzer-Type");
-        }
-
         image = ctrler()->get_image();
 #ifdef ASST_DEBUG
         image_draw = image.clone();
 #endif
-        matcher.set_image(image);
-        ocr.set_image(image);
-
-        if (!matcher.analyze()) {
+        RoguelikeCoppersAnalyzer::ColumnRole role = is_last_col ? RoguelikeCoppersAnalyzer::ColumnRole::Rightmost
+                                                                : RoguelikeCoppersAnalyzer::ColumnRole::Middle;
+        RoguelikeCoppersAnalyzer column_analyzer(image);
+        if (!column_analyzer.analyze_column(role, true)) {
             Log.error(__FUNCTION__, "| no coppers recognized in column", col);
             continue;
         }
 
-        match_results = matcher.get_result();
-        if (match_results.empty()) {
+        const auto& detections = column_analyzer.get_detections();
+        if (detections.empty()) {
             Log.error(__FUNCTION__, "| no coppers recognized in column", col);
             continue;
         }
-        sort_by_vertical_(match_results);
 
+        const auto& metrics = column_analyzer.get_column_metrics();
         if (!is_last_col) {
-            m_origin_x = match_results.front().rect.x;
+            m_origin_x = metrics.origin_x;
         }
-        else if (is_last_col) { // 最右侧列
-            m_last_x = match_results.front().rect.x;
+        else {
+            m_last_x = metrics.origin_x;
         }
-        m_origin_y = match_results.front().rect.y;
-
-        if (match_results.size() > 1) {
-            m_row_offset = match_results[1].rect.y - match_results[0].rect.y;
+        m_origin_y = metrics.origin_y;
+        if (metrics.row_offset != 0) {
+            m_row_offset = metrics.row_offset;
         }
 
         // 处理当前列的匹配结果
-        for (size_t row = 0; row < match_results.size(); ++row) {
-            bool is_cast = false;
-
-            const auto& match_result = match_results[row];
-
-            Rect roi = match_result.rect.move(name_task->roi);
-            ocr.set_roi(roi);
-            ocr.set_replace(name_task->replace_map, name_task->replace_full);
-
-            if (!ocr.analyze()) {
-                Log.error(__FUNCTION__, "| failed to recognize copper name at (", col, ",", row, ")");
-                continue;
-            }
-
-            const std::string copper_name = ocr.get_result().text;
-            if (copper_name.empty()) {
-                Log.error(__FUNCTION__, "| empty copper name at (", col, ",", row, ")");
-                continue;
-            }
+        for (size_t row = 0; row < detections.size(); ++row) {
+            const auto& detection = detections[row];
 
 #ifdef ASST_DEBUG
-            cv::rectangle(image_draw, cv::Rect(roi.x, roi.y, roi.width, roi.height), cv::Scalar(0, 0, 255), 2);
+            cv::rectangle(
+                image_draw,
+                cv::Rect(
+                    detection.name_roi.x,
+                    detection.name_roi.y,
+                    detection.name_roi.width,
+                    detection.name_roi.height),
+                cv::Scalar(0, 0, 255),
+                2);
             cv::putText(
                 image_draw,
-                "score: " + std::to_string(ocr.get_result().score),
-                cv::Point(roi.x, std::max(0, roi.y - 6)),
+                "score: " + std::to_string(detection.name_score),
+                cv::Point(detection.name_roi.x, std::max(0, detection.name_roi.y - 6)),
                 cv::FONT_HERSHEY_SIMPLEX,
                 0.45,
                 cv::Scalar(0, 0, 255),
                 1);
-#endif
-
-            // 识别是否已投出
-            Rect cast_roi = match_result.rect.move(cast_task->roi);
-            ocr.set_roi(cast_roi);
-            if (ocr.analyze() && ocr.get_result().text.find("已投出") != std::string::npos) {
-                is_cast = true;
-#ifdef ASST_DEBUG
+            if (detection.cast_recognized) {
                 cv::rectangle(
                     image_draw,
-                    cv::Rect(cast_roi.x, cast_roi.y, cast_roi.width, cast_roi.height),
+                    cv::Rect(
+                        detection.cast_roi.x,
+                        detection.cast_roi.y,
+                        detection.cast_roi.width,
+                        detection.cast_roi.height),
                     cv::Scalar(0, 0, 255),
                     2);
                 cv::putText(
                     image_draw,
-                    "score: " + std::to_string(ocr.get_result().score),
-                    cv::Point(cast_roi.x, std::max(0, cast_roi.y + cast_roi.height + 16)),
+                    "score: " + std::to_string(detection.cast_score),
+                    cv::Point(detection.cast_roi.x, std::max(0, detection.cast_roi.y + detection.cast_roi.height + 16)),
                     cv::FONT_HERSHEY_SIMPLEX,
                     0.45,
                     cv::Scalar(0, 0, 255),
                     1);
-#endif
             }
+#endif
 
-            Log.info(__FUNCTION__, "| found copper:", copper_name, "at (", col, ",", row, ")", "is_cast:", is_cast);
+            Log.info(
+                __FUNCTION__,
+                "| found copper:",
+                detection.name,
+                "at (",
+                col,
+                ",",
+                row,
+                ")",
+                "is_cast:",
+                detection.is_cast);
 
-            auto copper_opt = create_copper_from_name(copper_name, col, static_cast<int>(row + 1), is_cast, roi);
+            auto copper_opt = create_copper_from_name(
+                detection.name,
+                col,
+                static_cast<int>(row + 1),
+                detection.is_cast,
+                detection.name_roi);
             if (!copper_opt) {
                 Log.error(__FUNCTION__, "| failed to create copper at (", col, ",", row, ")");
                 continue;
             }
 
             auto copper = std::move(*copper_opt);
-            copper.type = RoguelikeCoppersConfig::get_type_from_template(match_result.templ_name);
+            copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
             m_copper_list.emplace_back(std::move(copper));
         }
