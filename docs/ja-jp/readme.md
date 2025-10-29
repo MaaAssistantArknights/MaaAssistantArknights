@@ -41,9 +41,9 @@ MAAは、MAA Assistant Arknightsです。
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)へ公開求人データのアップロード。
 - 高スターの公開求人を選択するのに便利な公開求人のパネルの手動認識をサポートします。~~（この上級エリートとCost回復はシージかシージか）~~
 - オペレーターリストを認識し、所持および未所持のオペレーターと潜在能力を集計し、公開求人認識時に表示します。
-- 養成材料を認識し、[PenguinStats プランナー](https://penguin-stats.io/planner)、[アークナイツ ツールボックス](https://arkntools.app/#/material)、[ARK-NIGHTS オペレーター育成表](https://ark-nights.com/settings)へエクスポートできます。
+- 育成素材を認識し、[PenguinStats プランナー](https://penguin-stats.io/planner)、[アークナイツ ツールボックス](https://arkntools.app/#/material)、[ARK-NIGHTS オペレーター育成表](https://ark-nights.com/settings)へエクスポートできます。
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！
-- 統合戦略全自動で源石錐とレベルをファーム、自動で沸騰と直接アップグレード、オペレーターとレベルを認識します。
+- 統合戦略全自動で源石錐とレベルをファーム、自動で電気ケトルを取得とオペレーター直接アップグレード、オペレーターとレベルを自動認識します。
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（中文）
 - C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
