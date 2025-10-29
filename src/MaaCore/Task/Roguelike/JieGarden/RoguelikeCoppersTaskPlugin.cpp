@@ -519,7 +519,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
         1);
 
     // 如果有已投出状态识别，也绘制相应的区域和置信度
-    if (detection.cast_recognized) {
+    if (detection.is_cast) {
         cv::rectangle(
             image,
             cv::Rect(detection.cast_roi.x, detection.cast_roi.y, detection.cast_roi.width, detection.cast_roi.height),
