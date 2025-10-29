@@ -94,7 +94,7 @@ MAA supports command-line interface (CLI) operation on Linux, macOS, and Windows
 - New Framework: [MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - [Copilot Site](https://prts.plus) Frontend: [zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
 - [Copilot Site](https://prts.plus) Backend: [ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
-- [Official Website](https://maa.plus): [Frontend](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
+- [Official Website](https://maa.plus): [Frontend](https://github.com/MaaAssistantArknights/maa-website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### Multilingual Support (i18n)
@@ -105,7 +105,7 @@ MAA uses Chinese (Simplified) as its primary language, and all translation entri
 
 Please refer to the [Development Guide](./develop/development.md).
 
-### APIs
+### API
 
 - [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
 - [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
@@ -125,7 +125,7 @@ Please refer to the [Development Guide](./develop/development.md).
 
 Please refer to the [Overseas Clients Adaptation Guide](./develop/overseas-client-adaptation.md). For features already supported in the CN server, most adaptation work for overseas clients only requires screenshots + simple JSON modifications.
 
-### Issue Bot
+### Issue bot
 
 Please refer to the [Issue Bot Usage Guide](./develop/issue-bot-usage.md)
 

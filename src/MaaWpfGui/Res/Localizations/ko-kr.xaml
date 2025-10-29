@@ -282,6 +282,7 @@
     <system:String x:Key="SpecifiedDropsTip">이 기능은 최적의 스테이지를 자동으로 계산하지 않습니다</system:String>
     <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
     <system:String x:Key="UpdateAutoDownload">업데이트 자동 다운로드</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">업데이트 패키지 자동 설치</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
@@ -1517,10 +1518,17 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">인간 초월</system:String>
     <system:String x:Key="Achievement.RoguelikeN12.Description">저보다 더 잘하는거 같은데요?</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 12승천 이상 클리어</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">｢{key=AutoRoguelike}｣ 기능으로 임의의 통합전략 N12 난이도 이상 클리어</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN15.Title">프로 선수</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">MAA, 완전 프로같았어요</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 15승천 이상 클리어</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ 기능으로 임의의 통합전략 N15 난이도 이상 클리어</system:String>
     <!--  !Achievement  -->
+
+    <!--  BadModules  -->
+    <system:String x:Key="BadModules.Warning.Heading">호환성 경고</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">다음 DLL이 MAA에 주입되면 MAA가 충돌하거나 UI 렌더링에 문제가 발생할 수 있습니다：</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog">MAA에서 관련 문제가 발생하는 경우, 관련 소프트웨어의 제외 목록에 MAA를 추가하거나 관련 소프트웨어를 제거한 후 문제가 계속 발생하는지 확인하세요.</system:String>
+    <system:String x:Key="BadModules.Warning.DoNotShowAgain">이 경고를 다시 표시하지 않음</system:String>
+    <!--  !BadModules  -->
 </ResourceDictionary>
