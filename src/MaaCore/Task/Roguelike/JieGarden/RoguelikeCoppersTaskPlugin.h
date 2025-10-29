@@ -75,12 +75,12 @@ private:
 
     mutable asst::CoppersTaskRunMode m_run_mode; // 当前运行模式
 
-    // 运行时状态变量
+    // ———————— 运行时状态变量 ——————————————————————————————————
     std::vector<RoguelikeCopper> m_copper_list;                      // 当前钱盒中的通宝列表
     RoguelikeCopper m_new_copper;                                    // 新拾取的通宝
     std::vector<std::pair<RoguelikeCopper, Point>> m_pending_copper; // 待拾取的通宝及其坐标
 
-    // 坐标计算相关变量
+    // ———————— 坐标计算相关变量 ——————————————————————————————————
     int m_col = 0;        // 列数
     int m_origin_x = 0;   // 第一列节点的默认横坐标 (Rect.x)
     int m_last_x = 0;     // 最后一列节点的默认横坐标 (Rect.x)

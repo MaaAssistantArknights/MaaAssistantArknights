@@ -61,6 +61,13 @@ void asst::RoguelikeCoppersTaskPlugin::reset_in_run_variables()
     m_copper_list.clear();
     m_new_copper = RoguelikeCopper();
     m_pending_copper.clear();
+
+    // 重置坐标计算相关变量
+    m_col = 0;
+    m_origin_x = 0;
+    m_last_x = 0;
+    m_origin_y = 0;
+    m_row_offset = 0;
 }
 
 // 执行插件主要逻辑，根据当前运行模式处理通宝拾取或交换
@@ -87,6 +94,8 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
 // 处理掉落通宝的拾取：识别交换按钮，ROI偏移来识别通宝名称
 bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 {
+    LogTraceFunction;
+
     auto image = ctrler()->get_image();
 
 #ifdef ASST_DEBUG
