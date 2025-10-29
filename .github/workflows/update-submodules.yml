@@ -11,6 +11,8 @@ jobs:
     if: github.repository_owner == 'MaaAssistantArknights'
     steps:
       - uses: actions/checkout@v5
+        with:
+          submodules: true
 
       - run: |
           git submodule update --remote src/MaaMacGui
@@ -21,4 +23,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: "feat: Update Submodules MaaMacGui, maa-cli"
-          branch: dev
+          branch: ${{ github.ref }}
