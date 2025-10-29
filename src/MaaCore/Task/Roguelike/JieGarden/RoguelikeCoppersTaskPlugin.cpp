@@ -217,6 +217,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     // =================================================
     auto image_last = ctrler()->get_image();
 
+    // 预分配10个通宝的空间
+    m_copper_list.reserve(10);
+
     // 总不可能超过999列(2997个)通宝吧
     for (int col = 1; col <= 999; ++col) {
         // 检查是否是最后一列：尝试识别右侧通宝是否滑动到中间位置

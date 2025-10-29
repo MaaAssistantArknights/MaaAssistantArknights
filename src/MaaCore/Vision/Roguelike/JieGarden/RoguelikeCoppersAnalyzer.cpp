@@ -148,6 +148,9 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
     m_detections.clear();
     m_metrics = {};
 
+    // 预分配空间以避免多次内存分配
+    m_detections.reserve(match_results.size());
+
     // 遍历每个匹配结果，进行OCR识别
     for (const auto& match_result : match_results) {
         // 计算名称识别区域
