@@ -87,10 +87,10 @@ MAA 支援命令列介面（CLI）操作，支援 Linux，macOS 和 Windows，�
 
 ### 主要關聯項目
 
-- 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - [作業站](https://prts.plus) 前端：[zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
 - [作業站](https://prts.plus) 後端：[ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
-- [官網](https://maa.plus) ： [前端](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/website)
+- [官網](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度學習：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ### 多語言 (i18n)
@@ -147,15 +147,9 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 
 ### 參與開發
 
-#### Windows
+請參閱 [開發指南](./develop/development.md)。
 
-請參閱 [開發前須知](./develop/development.md)。
-
-#### Linux | macOS
-
-請參閱 [Linux 編譯教程](./develop/linux-tutorial.md)。
-
-#### API
+### API
 
 - [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
 - [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py)：[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
@@ -171,15 +165,11 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 - [任務流程協議](./protocol/task-schema.md)
 - [自動抄作業協議](./protocol/copilot-schema.md)
 
-#### 外服適配
+### 外服適配
 
 請參閱 [外服適配教程](./develop/overseas-client-adaptation.md)，對於國服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
-#### 想參與開發，但不太會用 GitHub?
-
-[GitHub Pull Request 流程簡述](./develop/development.md#github-pull-request-流程簡述)
-
-#### Issue bot
+### Issue bot
 
 請參閱 [Issue Bot 使用方法](./develop/issue-bot-usage.md)
 
