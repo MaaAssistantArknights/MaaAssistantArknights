@@ -1,4 +1,4 @@
-name: Changelog Generation
+name: Release Preparation
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  gen:
+  generate-changelog:
     name: Generate Changelog
     # startsWith 表达式不区分大小写
     if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
@@ -98,3 +98,10 @@ jobs:
         uses: kentaro-m/auto-assign-action@v2.0.0
         with:
           configuration-path: ".github/release_reviewers.yaml"
+
+  update-submodules:
+    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          gh workflow run --repo $GITHUB_REPOSITORY update-submodules.yml
