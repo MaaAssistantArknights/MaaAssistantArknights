@@ -652,7 +652,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
-    <!--<system:String x:Key="CurrentStage">目前關卡</system:String> -->
+    <!--<system:String x:Key="CurrentStage">目前關卡</system:String>-->
     <!--<system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">目前/上次</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
