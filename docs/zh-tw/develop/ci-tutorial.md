@@ -17,6 +17,7 @@ MAA 借助 Github Action 完成了大量的自動化工作，包括網站的構�
 
 - [代碼測試](#代碼測試)
 - [代碼構建](#代碼構建)
+- [代碼安全檢查](#代碼安全檢查)
 - [版本發布](#版本發布)
 - [資源更新](#資源更新)
 - [網站構建](#網站構建)
@@ -47,17 +48,33 @@ MAA 借助 Github Action 完成了大量的自動化工作，包括網站的構�
 
 該工作流在出現任何新 Commit 以及 PR 時都會自動運行，且當該工作流由發版 PR 觸發時，本次的構建產物將會直接用於發版，並且會創建一個 Release。
 
+### 代碼安全檢查
+
+代碼安全檢查通過 CodeQL 對代碼和工作流進行安全分析，具體工作流如下：
+
+`codeql-core.yml`
+
+本工作流負責對 MaaCore 和 MaaWpfGui 的 C++ 和 C# 代碼進行安全分析，檢測潛在的安全漏洞。
+
+該工作流在修改相關源代碼的 PR 時自動運行，同時每天 UTC 時間 11:45 自動執行定期檢查。
+
+`codeql-wf.yml`
+
+本工作流負責對 GitHub Actions 工作流文件本身進行安全分析，確保 CI/CD 流程的安全性。
+
+該工作流在修改工作流文件的 PR 時自動運行，同時每天 UTC 時間 12:00 自動執行定期檢查。
+
 ### 版本發布
 
 版本發布，簡稱發版，是向用戶發布更新的必要操作，由以下工作流組成：
 
 - `release-nightly-ota.yml` 發布內測版
 - `release-ota.yml` 發布正式版/公測版
-  - `gen-changelog.yml` 為正式版/公測版生成 changelog
+  - `release-preparation.yml` 為正式版/公測版生成 changelog 和準備發布
   - `pr-auto-tag.yml` 對正式版/公測版生成 tag
 
 ::: tip
-上述文件名內的 ota 意為 Over-the-Air，也就是我們常說的「增量更新包」，因此 MAA 的發版過程實際上包含瞭對過往版本構建 OTA 包的步驟
+上述文件名內的 ota 意為 Over-the-Air，也就是我們常說的「增量更新包」，因此 MAA 的發版過程實際上包含了對過往版本構建 OTA 包的步驟
 :::
 
 #### 內測版
@@ -73,7 +90,7 @@ MAA 借助 Github Action 完成了大量的自動化工作，包括網站的構�
 這兩個通道的發版流程相對複雜一點，我們通過模擬一次發版步驟來解釋各工作流的作用：
 
 1. 建立由 `dev` 到 `master` 分支的 pr，且該 pr 的名字需要為 `Release v******`
-2. `gen-changelog.yml` 會生成最近的正式版/公測版到當前版本的 changelog（以一個新 pr 的形式）
+2. `release-preparation.yml` 會生成最近的正式版/公測版到當前版本的 changelog（以一個新 pr 的形式）
 3. 對 changelog 進行手動調整，並且添加簡要描述
 4. 合併 pr，觸發 `pr-auto-tag.yml`，創建 tag 並且同步分支
 5. Release 事件觸發 `release-ota.yml`，對 master 打完 tag 後進行 ota 包的構建以及附件上傳
@@ -134,3 +151,7 @@ MirrorChyan 是有償的更新鏡像服務，與其相關的工作流如下：
 `cache-delete.yml`
 
 在 PR 合併後清理相關的緩存，以此來節省緩存用量。
+
+`update-submodules.yml`
+
+定期更新 MaaMacGui 和 maa-cli 等子模組到最新版本。該工作流每天 UTC 時間 21:50 自動執行（在每日內測版發布之前），確保子模組保持最新狀態。

@@ -17,6 +17,7 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 - [代码测试](#代码测试)
 - [代码构建](#代码构建)
+- [代码安全检查](#代码安全检查)
 - [版本发布](#版本发布)
 - [资源更新](#资源更新)
 - [网站构建](#网站构建)
@@ -47,13 +48,29 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 该工作流在出现任何新 Commit 以及 PR 时都会自动运行，且当该工作流由发版 PR 触发时，本次的构建产物将会直接用于发版，并且会创建一个 Release。
 
+### 代码安全检查
+
+代码安全检查通过 CodeQL 对代码和工作流进行安全分析，具体工作流如下：
+
+`codeql-core.yml`
+
+本工作流负责对 MaaCore 和 MaaWpfGui 的 C++ 和 C# 代码进行安全分析，检测潜在的安全漏洞。
+
+该工作流在修改相关源代码的 PR 时自动运行，同时每天 UTC 时间 11:45 自动执行定期检查。
+
+`codeql-wf.yml`
+
+本工作流负责对 GitHub Actions 工作流文件本身进行安全分析，确保 CI/CD 流程的安全性。
+
+该工作流在修改工作流文件的 PR 时自动运行，同时每天 UTC 时间 12:00 自动执行定期检查。
+
 ### 版本发布
 
 版本发布，简称发版，是向用户发布更新的必要操作，由以下工作流组成：
 
 - `release-nightly-ota.yml` 发布内测版
 - `release-ota.yml` 发布正式版/公测版
-  - `gen-changelog.yml` 为正式版/公测版生成 changelog
+  - `release-preparation.yml` 为正式版/公测版生成 changelog 和准备发布
   - `pr-auto-tag.yml` 对正式版/公测版生成 tag
 
 ::: tip
@@ -73,7 +90,7 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 这两个通道的发版流程相对复杂一点，我们通过模拟一次发版步骤来解释各工作流的作用：
 
 1. 建立由 `dev` 到 `master` 分支的 pr，且该 pr 的名字需要为 `Release v******`
-2. `gen-changelog.yml` 会生成最近的正式版/公测版到当前版本的 changelog（以一个新 pr 的形式）
+2. `release-preparation.yml` 会生成最近的正式版/公测版到当前版本的 changelog（以一个新 pr 的形式）
 3. 对 changelog 进行手动调整，并且添加简要描述
 4. 合并 pr，触发 `pr-auto-tag.yml`，创建 tag 并且同步分支
 5. Release 事件触发 `release-ota.yml`，对 master 打完 tag 后进行 ota 包的构建以及附件上传
@@ -134,3 +151,7 @@ MirrorChyan 是有偿的更新镜像服务，与其相关的工作流如下：
 `cache-delete.yml`
 
 在 PR 合并后清理相关的缓存，以此来节省缓存用量。
+
+`update-submodules.yml`
+
+定期更新 MaaMacGui 和 maa-cli 等子模块到最新版本。该工作流每天 UTC 时间 21:50 自动执行（在每日内测版发布之前），确保子模块保持最新状态。
