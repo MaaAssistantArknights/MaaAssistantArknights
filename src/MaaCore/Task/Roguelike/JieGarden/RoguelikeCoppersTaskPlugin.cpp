@@ -21,6 +21,7 @@ bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::
 
 bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
+    // 只处理子任务开始消息且为ProcessTask类型
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
@@ -31,6 +32,8 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
     }
 
     const std::string task_name = details.get("details", "task", "");
+
+    // 根据任务名称确定运行模式
     if (task_name.ends_with("Roguelike@CoppersTakeFlag")) {
         m_run_mode = CoppersTaskRunMode::EXCHANGE;
         Log.info(__FUNCTION__, "| plugin activated for EXCHANGE mode");
@@ -40,9 +43,10 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
         Log.info(__FUNCTION__, "| plugin activated for PICKUP mode");
     }
     else {
-        return false;
+        return false; // 不支持的任务类型
     }
 
+    // 投资模式下需要额外检查是否启用购物功能
     const auto mode = m_config->get_mode();
     if (mode == RoguelikeMode::Investment) {
         return m_config->get_invest_with_more_score();
@@ -51,6 +55,7 @@ bool asst::RoguelikeCoppersTaskPlugin::verify(AsstMsg msg, const json::value& de
     return true;
 }
 
+// 重置运行时变量，为新一轮执行做准备
 void asst::RoguelikeCoppersTaskPlugin::reset_in_run_variables()
 {
     m_copper_list.clear();
@@ -58,11 +63,13 @@ void asst::RoguelikeCoppersTaskPlugin::reset_in_run_variables()
     m_pending_copper.clear();
 }
 
+// 执行插件主要逻辑，根据当前运行模式处理通宝拾取或交换
 bool asst::RoguelikeCoppersTaskPlugin::_run()
 {
     LogTraceFunction;
 
     bool success = false;
+    // 根据运行模式调用相应的处理函数
     switch (m_run_mode) {
     case CoppersTaskRunMode::PICKUP:
         success = handle_pickup_mode();
@@ -72,11 +79,12 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
         break;
     }
 
+    // 执行完成后重置变量
     reset_in_run_variables();
     return success;
 }
 
-// 处理掉落通宝的拾取 识别交换按钮,roi偏移来识别通宝名称
+// 处理掉落通宝的拾取：识别交换按钮，ROI偏移来识别通宝名称
 bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 {
     auto image = ctrler()->get_image();
@@ -85,6 +93,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     cv::Mat image_draw = image.clone();
 #endif
 
+    // 使用Analyzer识别拾取界面中的通宝
     RoguelikeCoppersAnalyzer analyzer(image);
     if (!analyzer.analyze_pickup()) {
         Log.error(__FUNCTION__, "| failed to analyze GetDropSwitch");
@@ -97,20 +106,24 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         return false;
     }
 
-    // 通过识别到的每个通宝类型来识别通宝名称
+    // 遍历每个检测到的通宝，创建通宝对象
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
 
         Log.info(__FUNCTION__, std::format("| found copper: {} at position {}", detection.name, i));
+
+        // 根据识别到的名称创建通宝对象
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
             Log.error(__FUNCTION__, std::format("| failed to create copper at position {}", i));
             continue;
         }
 
+        // 将通宝及其点击坐标保存到待选列表
         m_pending_copper.emplace_back(std::move(*copper_opt), detection.click_point);
 
 #ifdef ASST_DEBUG
+        // 调试模式下在图像上绘制检测结果（绿色表示拾取模式）
         draw_detection_debug(image_draw, detection, cv::Scalar(0, 255, 0));
 #endif
     }
@@ -120,7 +133,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         return false;
     }
 
-    // 寻找 m_pending_copper 中 pickup_priority 最大的
+    // 从待选通宝中选择拾取优先级最高的
     auto max_pickup_it =
         std::max_element(m_pending_copper.begin(), m_pending_copper.end(), [](const auto& a, const auto& b) {
             return a.first.pickup_priority < b.first.pickup_priority;
@@ -132,29 +145,35 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
             "| selecting copper: {} with priority: {}",
             max_pickup_it->first.name,
             max_pickup_it->first.pickup_priority));
+
+    // 点击选择的最优通宝
     ctrler()->click(max_pickup_it->second);
 
 #ifdef ASST_DEBUG
+    // 保存调试图像
     save_debug_image(image_draw, "pickup");
 #endif
 
     return true;
 }
 
-// 交换通宝 先识别通宝类型,然后roi偏移来OCR通宝名称和是否已投出
+// 交换通宝：先识别通宝类型，然后ROI偏移来OCR通宝名称和是否已投出
 // 图片示意请看 文档(docs\zh-cn\protocol\integrated-strategy-schema.md) 或 #13835
 bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
-    bool ret = swipe_copper_list_left(2); // 有时候进去不在最左边
+    // 确保列表滑动到最左边（有时候进入界面不在最左边）
+    bool ret = swipe_copper_list_left(2);
 
-    // 拆出 col == 0时的情况
-    // -----------------------------------------------------
-    // 识别左侧新拾取的通宝
+    // =================================================
+    // 第一步：识别左侧新拾取的通宝（col == 0）
+    // =================================================
     auto image = ctrler()->get_image();
 
 #ifdef ASST_DEBUG
     cv::Mat image_draw = image.clone();
 #endif
+
+    // 分析左侧新拾取通宝列（不检测已投出状态）
     RoguelikeCoppersAnalyzer left_analyzer(image);
     if (!left_analyzer.analyze_column(RoguelikeCoppersAnalyzer::ColumnRole::Leftmost, false)) {
         Log.error(__FUNCTION__, "| no coppers recognized in column 0");
@@ -167,16 +186,18 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         return false;
     }
 
-    // 处理当前列的匹配结果
+    // 处理左侧列的检测结果
     for (size_t row = 0; row < left_detections.size(); ++row) {
         const auto& detection = left_detections[row];
 
         Log.info(__FUNCTION__, std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, 0, row, false));
 
 #ifdef ASST_DEBUG
+        // 调试模式下绘制检测结果（红色表示新拾取的通宝）
         draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
 #endif
 
+        // 创建新拾取的通宝对象
         auto copper_opt =
             create_copper_from_name(detection.name, 0, static_cast<int>(row + 1), false, detection.name_roi);
         if (!copper_opt) {
@@ -185,39 +206,47 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
 
         auto copper = std::move(*copper_opt);
+        // 根据模板确定通宝类型
         copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
         m_new_copper = std::move(copper);
     }
 
-    // -----------------------------------------------------
+    // =================================================
+    // 第二步：扫描所有现有通宝列
+    // =================================================
     auto image_last = ctrler()->get_image();
 
-    // 扫描所有列的通宝
-    for (int col = 1; col <= 999; ++col) { // 总不可能超过999列(2997个)通宝吧
-        // 识别上次点击的右侧的通宝是否被滑动到中间，识别到了则说明被滑动到中间，即不是最后一列。
+    // 总不可能超过999列(2997个)通宝吧
+    for (int col = 1; col <= 999; ++col) {
+        // 检查是否是最后一列：尝试识别右侧通宝是否滑动到中间位置
         bool is_last_col =
             col == 1
                 ? false
                 : !ProcessTask(*this, { "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected" }).set_retry_times(2).run();
 
-        // 点击右侧上方的通宝作为滑动成功的标注
+        // 如果不是最后一列，点击右侧上方的通宝作为滑动成功的标志
         if (!is_last_col) {
             ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeFlagClick" }).run();
         }
 
+        // 获取新图像并检查是否滑动成功
         image = ctrler()->get_image();
         if (image_last.data == image.data) {
             Log.error(__FUNCTION__, std::format("| image not updated after swipe at column {}", col));
             break;
         }
         image_last = image;
+
 #ifdef ASST_DEBUG
         image_draw = image.clone();
 #endif
+
+        // 根据是否是最后一列选择识别中间列或右侧列
         RoguelikeCoppersAnalyzer::ColumnRole role = is_last_col ? RoguelikeCoppersAnalyzer::ColumnRole::Rightmost
                                                                 : RoguelikeCoppersAnalyzer::ColumnRole::Middle;
         RoguelikeCoppersAnalyzer column_analyzer(image);
+        // 分析当前列，检测已投出状态
         if (!column_analyzer.analyze_column(role, true)) {
             Log.error(__FUNCTION__, std::format("| no coppers recognized in column {}", col));
             continue;
@@ -229,12 +258,11 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             continue;
         }
 
+        // 获取列的度量信息用于坐标计算
         const auto& metrics = column_analyzer.get_column_metrics();
-
-        // 根据列类型更新坐标基准点
         update_column_coordinates(metrics, is_last_col);
 
-        // 处理当前列的匹配结果
+        // 处理当前列的所有通宝
         for (size_t row = 0; row < detections.size(); ++row) {
             const auto& detection = detections[row];
 
@@ -246,6 +274,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
 #endif
 
+            // 从OCR结果创建通宝对象
             auto copper_opt = create_copper_from_name(
                 detection.name,
                 col,
@@ -260,18 +289,20 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
             auto copper = std::move(*copper_opt);
             copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
+            // 添加到现有通宝列表
             m_copper_list.emplace_back(std::move(copper));
         }
 
-        // 在中间列之间滑动
+        // 如果不是最后一列，向右滑动一列继续扫描
         if (!is_last_col) {
-            // 将列表向右滑动一列
             swipe_copper_list_right(1, true);
         }
 
 #ifdef ASST_DEBUG
         save_debug_image(image_draw, "exchange");
 #endif
+
+        // 如果是最后一列，记录总列数并结束扫描
         if (is_last_col) {
             m_col = col;
             Log.info(__FUNCTION__, std::format("| total columns detected: {}", m_col));
@@ -279,16 +310,22 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
     }
 
+    // 检查是否找到任何现有通宝
     if (m_copper_list.empty()) {
         Log.error(__FUNCTION__, "| no coppers found in list for comparison");
         return false;
     }
 
-    // 决定是否交换并执行
+    // =================================================
+    // 第三步：决定是否交换并执行
+    // =================================================
+
+    // 找到现有通宝中丢弃优先级最高的（最不重要的）
     auto worst_it = std::max_element(m_copper_list.begin(), m_copper_list.end(), [](const auto& a, const auto& b) {
         return a.get_copper_discard_priority() < b.get_copper_discard_priority();
     });
 
+    // 如果新通宝的丢弃优先级低于最差现有通宝，则放弃交换
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         Log.info(
             __FUNCTION__,
@@ -297,6 +334,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         return true;
     }
 
+    // 执行交换
     Log.info(
         __FUNCTION__,
         std::format(
@@ -312,18 +350,21 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     copper_info["details"]["to_pickup"] = m_new_copper.name;
     callback(AsstMsg::SubTaskExtraInfo, copper_info);
 
-    // 点击通宝后执行确认交换任务
+    // 点击要替换的通宝
     click_copper_at_position(worst_it->col, worst_it->row);
 
+    // 执行确认交换任务
     ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
 
     return ret;
 }
 
+// 向左滑动通宝列表指定次数
 bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool slowly) const
 {
     bool ret = true;
     for (int i = 0; i < times; ++i) {
+        // 根据是否慢速选择相应的滑动任务
         std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
 
@@ -332,10 +373,12 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool sl
     return ret;
 }
 
+// 向右滑动通宝列表指定次数
 bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool slowly) const
 {
     bool ret = true;
     for (int i = 0; i < times; ++i) {
+        // 根据是否慢速选择相应的滑动任务
         std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
 
@@ -344,9 +387,12 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
     return ret;
 }
 
+// 根据行列位置计算并点击指定位置的通宝
 void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row) const
 {
+    // 根据列数选择X坐标：最后一列使用last_x，其他列使用origin_x
     int x = col == m_col ? m_last_x : m_origin_x;
+    // 计算Y坐标：基于行偏移量
     Point click_point(x, m_origin_y + (row - 1) * m_row_offset);
 
     Log.debug(
@@ -360,12 +406,14 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
             (row - 1),
             m_row_offset));
 
-    // 滑动回到最左边
+    // 先滑动回最左边
     swipe_copper_list_left(m_col);
     sleep(300);
 
+    // 再滑动到目标列
     swipe_copper_list_right(col - 1, true);
 
+    // 执行点击
     ctrler()->click(click_point);
     sleep(300);
 }
@@ -386,6 +434,7 @@ void asst::RoguelikeCoppersTaskPlugin::update_column_coordinates(
     }
 }
 
+// 根据识别到的名称创建通宝对象
 std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_copper_from_name(
     const std::string& name,
     int col,
@@ -393,6 +442,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     bool is_cast,
     const Rect& pos) const
 {
+    // 从配置中查找通宝信息
     if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
         auto copper = *found_copper;
         copper.col = col;
@@ -411,11 +461,13 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
 
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
 
+    // 如果通宝不在配置中，保存调试图像
     try {
         cv::Mat screen = ctrler()->get_image();
         if (!screen.empty()) {
             cv::Mat screen_draw = screen.clone();
             const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+            // 在图像上绘制红色矩形标记未知通宝位置
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike");
             const auto relative_path =
@@ -432,18 +484,19 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
 }
 
 #ifdef ASST_DEBUG
-// 调试绘制辅助函数实现
+// 调试绘制辅助函数：在图像上绘制检测结果
 void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
     cv::Mat& image,
     const RoguelikeCoppersAnalyzer::CopperDetection& detection,
     const cv::Scalar& color) const
 {
-    // 绘制名称识别区域
+    // 绘制名称识别区域的矩形框
     cv::rectangle(
         image,
         cv::Rect(detection.name_roi.x, detection.name_roi.y, detection.name_roi.width, detection.name_roi.height),
         color,
         2);
+    // 在矩形框上方显示名称识别置信度
     cv::putText(
         image,
         std::format("score: {:.6f}", detection.name_score),
@@ -453,7 +506,7 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
         color,
         1);
 
-    // 如果有已投出状态识别，绘制已投出区域
+    // 如果有已投出状态识别，也绘制相应的区域和置信度
     if (detection.cast_recognized) {
         cv::rectangle(
             image,
@@ -471,10 +524,12 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
     }
 }
 
+// 保存调试图像到文件
 void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, const std::string& suffix) const
 {
     try {
         const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
+        // 保存到debug/roguelikeCoppers目录
         const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
         const auto relative_path =
             relative_dir / (std::format("{}_{}_draw.jpeg", utils::format_now_for_filename(), suffix));

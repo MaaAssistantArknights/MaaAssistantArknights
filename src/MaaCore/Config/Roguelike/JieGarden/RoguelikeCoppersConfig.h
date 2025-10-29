@@ -11,14 +11,16 @@
 
 namespace asst
 {
+// 通宝稀有度枚举
 enum class CopperRarity
 {
-    NONE = -1,
-    NORMAL,
-    RARE,
-    SUPER_RARE
+    NONE = -1, // 无稀有度
+    NORMAL,    // 普通
+    RARE,      // 稀有
+    SUPER_RARE // 超稀有
 };
 
+// 通宝类型枚举，表示三种不同的通宝类型
 enum class CopperType
 {
     Unknown = -1, // 未知类型
@@ -27,18 +29,20 @@ enum class CopperType
     Hua = 2       // 花钱 - 能带来稳定收益
 };
 
+// 通宝信息结构体，存储单个通宝的完整信息
 struct RoguelikeCopper
 {
-    std::string name;
-    CopperRarity rarity = CopperRarity::NONE;
-    CopperType type = CopperType::Unknown;
-    int pickup_priority = 0;        // 拾取优先级
-    int discard_priority = 1000;    // 丢弃优先级
-    int cast_discard_priority = -1; // 可选，已投出时的丢弃优先级，优先级>=0且is_cast=true时替代discard_priority
-    int col = 0;
-    int row = 0;
-    bool is_cast = false;
+    std::string name;                         // 通宝名称
+    CopperRarity rarity = CopperRarity::NONE; // 稀有度
+    CopperType type = CopperType::Unknown;    // 类型
+    int pickup_priority = 0;                  // 拾取优先级，数值越高越优先拾取
+    int discard_priority = 1000;              // 丢弃优先级，数值越高越优先被丢弃
+    int cast_discard_priority = -1;           // 已投出时的丢弃优先级，优先级>=0且is_cast=true时替代discard_priority
+    int col = 0;                              // 在列表中的列位置
+    int row = 0;                              // 在列表中的行位置
+    bool is_cast = false;                     // 是否已投出
 
+    // 获取实际的丢弃优先级，已投出状态下使用特殊优先级
     int get_copper_discard_priority() const
     {
         if (is_cast && cast_discard_priority >= 0) {
@@ -48,11 +52,13 @@ struct RoguelikeCopper
     }
 };
 
+// RoguelikeCoppersConfig 类管理界园肉鸽通宝的配置信息
 class RoguelikeCoppersConfig final : public SingletonHolder<RoguelikeCoppersConfig>, public AbstractConfig
 {
 public:
     ~RoguelikeCoppersConfig() override = default;
 
+    // 获取指定主题的所有通宝列表
     const std::vector<RoguelikeCopper>& get_coppers(const std::string& theme) const
     {
         static const std::vector<RoguelikeCopper> empty;
@@ -60,37 +66,34 @@ public:
         return it != m_coppers.end() ? it->second : empty;
     }
 
+    // 根据模板文件名获取通宝类型
     static CopperType get_type_from_template(std::string_view templ_name)
     {
-        using enum CopperType;
-        if (templ_name == "JieGarden@Roguelike@CoppersTypeLi.png") {
-            return Li;
-        }
-        if (templ_name == "JieGarden@Roguelike@CoppersTypeHeng.png") {
-            return Heng;
-        }
-        if (templ_name == "JieGarden@Roguelike@CoppersTypeHua.png") {
-            return Hua;
-        }
-        return Heng;
+        static const std::unordered_map<std::string, CopperType> template_map = {
+            { "JieGarden@Roguelike@CoppersTypeLi.png", CopperType::Li },
+            { "JieGarden@Roguelike@CoppersTypeHeng.png", CopperType::Heng },
+            { "JieGarden@Roguelike@CoppersTypeHua.png", CopperType::Hua }
+        };
+        auto it = template_map.find(std::string(templ_name));
+        return it != template_map.end() ? it->second : CopperType::Unknown;
     }
 
+    // 根据通宝名称获取通宝类型
     static CopperType get_type_from_name(std::string_view name)
     {
-        using enum CopperType;
         if (name.starts_with("厉-")) {
-            return Li;
+            return CopperType::Li;
         }
         if (name.starts_with("衡-") || name.find("大炎通宝") != std::string::npos) {
-            return Heng;
+            return CopperType::Heng;
         }
         if (name.starts_with("花-")) {
-            return Hua;
+            return CopperType::Hua;
         }
-        return Unknown;
+        return CopperType::Unknown;
     }
 
-    // 根据名称查找通宝信息
+    // 根据名称查找通宝信息，支持模糊匹配
     std::optional<RoguelikeCopper> find_copper(std::string_view theme, std::string_view name) const
     {
         const auto& coppers = get_coppers(std::string(theme));
@@ -104,11 +107,16 @@ public:
     }
 
 private:
+    // 解析JSON配置文件
     bool parse(const json::value& json) override;
+
+    // 清空配置数据
     void clear();
 
+    // 存储按主题分组的通宝配置数据
     std::unordered_map<std::string, std::vector<RoguelikeCopper>> m_coppers;
 };
 
+// 全局单例实例访问器
 inline static auto& RoguelikeCoppers = RoguelikeCoppersConfig::get_instance();
 }
