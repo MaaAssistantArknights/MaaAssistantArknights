@@ -22,5 +22,9 @@ jobs:
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: "feat: Update Submodules MaaMacGui, maa-cli"
+          message: "feat: Update Submodules MaaMacGui, maa-cli
+
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            [skip changelog]"
           branch: ${{ github.ref }}
