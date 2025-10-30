@@ -233,8 +233,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     // 预分配10个通宝的空间
     m_copper_list.reserve(10);
 
-    // 总不可能超过999列(2997个)通宝吧
-    for (int col = 1; col <= 999; ++col) {
+    // 总不可能超过20列(60个)通宝吧
+    for (int col = 1; col <= 20; ++col) {
         // 检查是否是最后一列：尝试识别右侧通宝是否滑动到中间位置
         bool is_last_col =
             col == 1
