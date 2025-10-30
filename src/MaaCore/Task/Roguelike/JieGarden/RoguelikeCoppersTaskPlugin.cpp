@@ -65,8 +65,9 @@ void asst::RoguelikeCoppersTaskPlugin::reset_in_run_variables()
     // 重置坐标计算相关变量
     m_col = 0;
     m_origin_x = 0;
+    m_x = 0;
     m_last_x = 0;
-    m_origin_y = 0;
+    m_y = 0;
     m_row_offset = 0;
 }
 
@@ -272,7 +273,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
         // 获取列的度量信息用于坐标计算
         const auto& metrics = column_analyzer.get_column_metrics();
-        update_column_coordinates(metrics, is_last_col);
+        update_column_coordinates(metrics, col, is_last_col);
 
         // 处理当前列的所有通宝
         for (size_t row = 0; row < detections.size(); ++row) {
@@ -402,10 +403,10 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
 // 根据行列位置计算并点击指定位置的通宝
 void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row) const
 {
-    // 根据列数选择X坐标：最后一列使用last_x，其他列使用origin_x
-    int x = col == m_col ? m_last_x : m_origin_x;
+    // 根据列数选择X坐标：最后一列使用last_x，其他列使用m_x
+    int x = col == m_col ? m_last_x : m_x;
     // 计算Y坐标：基于行偏移量
-    Point click_point(x, m_origin_y + (row - 1) * m_row_offset);
+    Point click_point(x, m_y + (row - 1) * m_row_offset);
 
     Log.debug(
         __FUNCTION__,
@@ -414,7 +415,7 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
             col,
             row,
             click_point.x,
-            m_origin_y,
+            m_y,
             (row - 1),
             m_row_offset));
 
@@ -433,16 +434,21 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
 // 辅助函数：根据列类型更新坐标基准点
 void asst::RoguelikeCoppersTaskPlugin::update_column_coordinates(
     const RoguelikeCoppersAnalyzer::ColumnMetrics& metrics,
+    int col,
     bool is_last_col)
 {
-    // 根据列类型更新X坐标基准点：非最后一列使用origin_x，最后一列记录last_x用于点击计算
-    m_origin_x = !is_last_col ? metrics.origin_x : m_origin_x;
-    m_last_x = is_last_col ? metrics.origin_x : m_last_x;
+    // 根据列类型更新X坐标基准点：非最后一列使用m_x，最后一列记录last_x用于点击计算
+    m_x = !is_last_col ? metrics.m_x : m_x;
+    m_last_x = is_last_col ? metrics.m_x : m_last_x;
 
     // 更新统一的Y坐标基准点和行偏移量
-    m_origin_y = metrics.origin_y;
+    m_y = metrics.m_y;
     if (metrics.row_offset != 0) {
         m_row_offset = metrics.row_offset;
+    }
+
+    if (col == 1) {
+        m_origin_x = m_x;
     }
 }
 

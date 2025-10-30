@@ -51,7 +51,7 @@ private:
     void click_copper_at_position(int col, int row) const;
 
     // 辅助函数：根据列类型更新坐标基准点
-    void update_column_coordinates(const RoguelikeCoppersAnalyzer::ColumnMetrics& metrics, bool is_last_col);
+    void update_column_coordinates(const RoguelikeCoppersAnalyzer::ColumnMetrics& metrics, int col, bool is_last_col);
 
     // 根据识别到的名称创建通宝对象
     std::optional<RoguelikeCopper> create_copper_from_name(
@@ -83,8 +83,9 @@ private:
     // ———————— 坐标计算相关变量 ——————————————————————————————————
     int m_col = 0;        // 列数
     int m_origin_x = 0;   // 第一列节点的默认横坐标 (Rect.x)
-    int m_last_x = 0;     // 最后一列节点的默认横坐标 (Rect.x)
-    int m_origin_y = 0;   // 第一行节点的默认纵坐标 (Rect.y)
+    int m_x = 0;          // 当前屏幕中第一列节点实时识别的横坐标 (Rect.x)
+    int m_last_x = 0;     // 最后一列节点的横坐标 (Rect.x)
+    int m_y = 0;          // 当前屏幕中第一行节点实时识别的纵坐标 (Rect.y)
     int m_row_offset = 0; // 两行节点之间的距离
 };
 

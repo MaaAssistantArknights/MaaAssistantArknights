@@ -202,8 +202,8 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
 
     // 计算垂直排序的度量信息
     if (sort_strategy == SortStrategy::Vertical) {
-        m_metrics.origin_x = m_detections.front().match_rect.x;
-        m_metrics.origin_y = m_detections.front().match_rect.y;
+        m_metrics.m_x = m_detections.front().match_rect.x;
+        m_metrics.m_y = m_detections.front().match_rect.y;
         if (m_detections.size() > 1U) {
             m_metrics.row_offset = m_detections[1].match_rect.y - m_detections[0].match_rect.y;
         }

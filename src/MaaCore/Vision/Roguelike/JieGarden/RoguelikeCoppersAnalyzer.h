@@ -19,8 +19,8 @@ public:
     // 列度量信息，用于记录通宝列表的坐标基准点
     struct ColumnMetrics
     {
-        int origin_x = 0;   // 第一列节点的默认横坐标
-        int origin_y = 0;   // 第一行节点的默认纵坐标
+        int m_x = 0;        // 第一列节点的横坐标
+        int m_y = 0;        // 第一行节点的纵坐标
         int row_offset = 0; // 两行节点之间的距离
     };
 
