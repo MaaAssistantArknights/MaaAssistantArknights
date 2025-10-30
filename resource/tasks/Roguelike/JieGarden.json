@@ -149,10 +149,10 @@
         "postDelay": 500
     },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight": {
-        "Doc": "通宝列表缓慢向右滑动",
+        "Doc": "通宝列表缓慢向右滑动 (460+35+30px)",
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
-        "rectMove": [645, 340, 20, 20],
+        "rectMove": [625, 340, 20, 20],
         "postDelay": 500
     },
     "JieGarden@Roguelike@CoppersListSwipeToTheLeft": {
@@ -243,6 +243,17 @@
         ],
         "action": "ClickSelf",
         "roi": [830, 97, 450, 90],
+        "maskRange": [1, 255],
+        "postDelay": 200
+    },
+    "JieGarden@Roguelike@CoppersListSwipeErrorRecognition": {
+        "Doc": "通宝列表滑动效果确认 - 识别滑动距离的误差",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "roi": [397, 113, 460, 60],
         "maskRange": [1, 255],
         "postDelay": 200
     },

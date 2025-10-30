@@ -5,7 +5,9 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
+#include <cstdlib>
 
 bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -382,6 +384,28 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool sl
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
 
         ret &= ProcessTask(*this, { task_name }).run();
+
+        // 识别滑动效果，误差较大时额外滑动一次进行校准
+        Matcher matcher;
+        matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+        auto image = ctrler()->get_image();
+        matcher.set_image(image);
+        if (matcher.analyze()) {
+            int cur_x = matcher.get_result().rect.x;
+            if (abs(m_origin_x - cur_x) >= 90) {
+                Point origin_point = Point(m_origin_x, m_y);
+                Point cur_point = Point(cur_x, m_y);
+                ctrler()->swipe(cur_point, origin_point, 150);
+                Log.debug(
+                    __FUNCTION__,
+                    std::format(
+                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                        m_origin_x,
+                        cur_x,
+                        abs(m_origin_x - cur_x)));
+                sleep(100);
+            }
+        }
     }
     return ret;
 }
@@ -396,6 +420,28 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
                                        : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
 
         ret &= ProcessTask(*this, { task_name }).run();
+
+        // 识别滑动效果，误差较大时额外滑动一次进行校准
+        Matcher matcher;
+        matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+        auto image = ctrler()->get_image();
+        matcher.set_image(image);
+        if (matcher.analyze()) {
+            int cur_x = matcher.get_result().rect.x;
+            if (abs(m_origin_x - cur_x) >= 90) {
+                Point origin_point = Point(m_origin_x, m_y);
+                Point cur_point = Point(cur_x, m_y);
+                ctrler()->swipe(cur_point, origin_point, 150);
+                Log.debug(
+                    __FUNCTION__,
+                    std::format(
+                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                        m_origin_x,
+                        cur_x,
+                        abs(m_origin_x - cur_x)));
+                sleep(100);
+            }
+        }
     }
     return ret;
 }
