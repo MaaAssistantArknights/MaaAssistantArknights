@@ -161,6 +161,12 @@
         "specificRect": [500, 340, 20, 20],
         "rectMove": [980, 340, 20, 20]
     },
+    "JieGarden@Roguelike@CoppersListSwipeToTheRight": {
+        "Doc": "通宝列表快速向右滑动",
+        "baseTask": "SwipeToTheRight",
+        "specificRect": [1150, 340, 20, 20],
+        "rectMove": [670, 340, 20, 20]
+    },
     "JieGarden@Roguelike@CoppersTakeFlag": {
         "Doc": "交换通宝界面 - 拿取通宝按钮 (本任务注册了插件 RoguelikeCoppersTaskPlugin EXCHANGE 模式)",
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",

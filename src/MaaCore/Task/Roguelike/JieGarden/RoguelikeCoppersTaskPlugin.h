@@ -49,6 +49,7 @@ private:
     bool swipe_copper_list_right(int times) const;
 
     bool swipe_copper_list_to_leftmost(int times) const;
+    bool swipe_copper_list_to_rightmost(int times) const;
 
     // 根据行列位置计算并点击通宝
     void click_copper_at_position(int col, int row) const;

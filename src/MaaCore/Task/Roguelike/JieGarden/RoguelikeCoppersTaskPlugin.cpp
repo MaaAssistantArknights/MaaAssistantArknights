@@ -1,6 +1,7 @@
 #include "RoguelikeCoppersTaskPlugin.h"
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
@@ -244,6 +245,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         if (!is_last_col) {
             ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeFlagClick" }).run();
         }
+        else {
+            // 最后一列时先滑动到最右侧再识别
+            swipe_copper_list_to_rightmost(2);
+        }
 
         // 获取新图像并检查是否滑动成功
         image = ctrler()->get_image();
@@ -377,6 +382,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 // 滑动通宝列表指定次数
 bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left) const
 {
+    const int ERROR_THRESHOLD = 50; // 误差阈值，超过则进行校正滑动
     bool ret = true;
     for (int i = 0; i < times; ++i) {
         std::string task_name = to_left ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
@@ -387,14 +393,24 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left
         // 识别滑动效果，误差较大时额外滑动一次进行校准
         Matcher matcher;
         matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+
         auto image = ctrler()->get_image();
         matcher.set_image(image);
         if (matcher.analyze()) {
             int cur_x = matcher.get_result().rect.x;
-            if (abs(m_origin_x - cur_x) >= 90) {
+            // m_origin_x 经典值: 572
+            // cur_x 硬限制: [400,631]
+            if (abs(m_origin_x - cur_x) >= ERROR_THRESHOLD) {
                 Point origin_point = Point(m_origin_x, m_y);
                 Point cur_point = Point(cur_x, m_y);
-                ret &= ctrler()->swipe(cur_point, origin_point, 150);
+                auto swipe_task = Task.get("SlowlySwipeToTheRight");
+                ret &= ctrler()->swipe(
+                    cur_point,
+                    origin_point,
+                    swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
+                    (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
+                    (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
+                    (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
                 Log.debug(
                     __FUNCTION__,
                     std::format(
@@ -426,6 +442,16 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_to_leftmost(int times) 
     bool ret = true;
     for (int i = 0; i < times; ++i) {
         std::string task_name = "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
+        ret &= ProcessTask(*this, { task_name }).run();
+    }
+    return ret;
+}
+
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_to_rightmost(int times) const
+{
+    bool ret = true;
+    for (int i = 0; i < times; ++i) {
+        std::string task_name = "JieGarden@Roguelike@CoppersListSwipeToTheRight";
         ret &= ProcessTask(*this, { task_name }).run();
     }
     return ret;
