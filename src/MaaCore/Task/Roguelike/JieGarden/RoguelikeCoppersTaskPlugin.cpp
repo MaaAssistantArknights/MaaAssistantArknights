@@ -174,7 +174,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 {
     // 确保列表滑动到最左边（有时候进入界面不在最左边）
-    bool ret = swipe_copper_list_left(2);
+    bool ret = swipe_copper_list_to_leftmost(2);
 
     // =================================================
     // 第一步：识别左侧新拾取的通宝（col == 0）
@@ -310,7 +310,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
         // 如果不是最后一列，向右滑动一列继续扫描
         if (!is_last_col) {
-            swipe_copper_list_right(1, true);
+            swipe_copper_list_right(1);
         }
 
 #ifdef ASST_DEBUG
@@ -374,78 +374,59 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     return ret;
 }
 
-// 向左滑动通宝列表指定次数
-bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool slowly) const
+// 滑动通宝列表指定次数
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left) const
 {
     bool ret = true;
     for (int i = 0; i < times; ++i) {
-        // 根据是否慢速选择相应的滑动任务
-        std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
-                                       : "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
+        std::string task_name = to_left ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft"
+                                        : "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight";
 
         ret &= ProcessTask(*this, { task_name }).run();
 
         // 识别滑动效果，误差较大时额外滑动一次进行校准
-        if (slowly) {
-            Matcher matcher;
-            matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
-            auto image = ctrler()->get_image();
-            matcher.set_image(image);
-            if (matcher.analyze()) {
-                int cur_x = matcher.get_result().rect.x;
-                if (abs(m_origin_x - cur_x) >= 90) {
-                    Point origin_point = Point(m_origin_x, m_y);
-                    Point cur_point = Point(cur_x, m_y);
-                    ctrler()->swipe(cur_point, origin_point, 150);
-                    Log.debug(
-                        __FUNCTION__,
-                        std::format(
-                            "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
-                            m_origin_x,
-                            cur_x,
-                            abs(m_origin_x - cur_x)));
-                    sleep(100);
-                }
+        Matcher matcher;
+        matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+        auto image = ctrler()->get_image();
+        matcher.set_image(image);
+        if (matcher.analyze()) {
+            int cur_x = matcher.get_result().rect.x;
+            if (abs(m_origin_x - cur_x) >= 90) {
+                Point origin_point = Point(m_origin_x, m_y);
+                Point cur_point = Point(cur_x, m_y);
+                ret &= ctrler()->swipe(cur_point, origin_point, 150);
+                Log.debug(
+                    __FUNCTION__,
+                    std::format(
+                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                        m_origin_x,
+                        cur_x,
+                        abs(m_origin_x - cur_x)));
+                ret &= sleep(100);
             }
         }
     }
     return ret;
 }
 
+// 向左滑动通宝列表指定次数
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times) const
+{
+    return swipe_copper_list(times, true);
+}
+
 // 向右滑动通宝列表指定次数
-bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool slowly) const
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times) const
+{
+    return swipe_copper_list(times, false);
+}
+
+bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_to_leftmost(int times) const
 {
     bool ret = true;
     for (int i = 0; i < times; ++i) {
-        // 根据是否慢速选择相应的滑动任务
-        std::string task_name = slowly ? "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight"
-                                       : "JieGarden@Roguelike@CoppersListSwipeToTheRight";
-
+        std::string task_name = "JieGarden@Roguelike@CoppersListSwipeToTheLeft";
         ret &= ProcessTask(*this, { task_name }).run();
-
-        // 识别滑动效果，误差较大时额外滑动一次进行校准
-        if (slowly) {
-            Matcher matcher;
-            matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
-            auto image = ctrler()->get_image();
-            matcher.set_image(image);
-            if (matcher.analyze()) {
-                int cur_x = matcher.get_result().rect.x;
-                if (abs(m_origin_x - cur_x) >= 90) {
-                    Point origin_point = Point(m_origin_x, m_y);
-                    Point cur_point = Point(cur_x, m_y);
-                    ctrler()->swipe(cur_point, origin_point, 150);
-                    Log.debug(
-                        __FUNCTION__,
-                        std::format(
-                            "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
-                            m_origin_x,
-                            cur_x,
-                            abs(m_origin_x - cur_x)));
-                    sleep(100);
-                }
-            }
-        }
     }
     return ret;
 }
@@ -470,11 +451,11 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
             m_row_offset));
 
     // 先滑动回最左边
-    swipe_copper_list_left(m_col + 1);
+    swipe_copper_list_to_leftmost(m_col + 1);
     sleep(300);
 
     // 再滑动到目标列
-    swipe_copper_list_right(col - 1, true);
+    swipe_copper_list_right(col - 1);
 
     // 执行点击
     ctrler()->click(click_point);

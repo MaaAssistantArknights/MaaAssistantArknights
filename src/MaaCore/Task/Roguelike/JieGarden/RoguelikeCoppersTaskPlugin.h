@@ -44,8 +44,11 @@ private:
     bool handle_exchange_mode();
 
     // 滑动通宝列表的辅助函数
-    bool swipe_copper_list_left(int times, bool slowly = false) const;
-    bool swipe_copper_list_right(int times, bool slowly = false) const;
+    bool swipe_copper_list(int times, bool to_left) const;
+    bool swipe_copper_list_left(int times) const;
+    bool swipe_copper_list_right(int times) const;
+
+    bool swipe_copper_list_to_leftmost(int times) const;
 
     // 根据行列位置计算并点击通宝
     void click_copper_at_position(int col, int row) const;

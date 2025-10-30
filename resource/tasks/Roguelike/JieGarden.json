@@ -145,27 +145,21 @@
         "Doc": "通宝列表缓慢向左滑动 (每次滑动至少多出一列,不跳过列,通宝每列间距 460px)",
         "baseTask": "SlowlySwipeToTheLeft",
         "specificRect": [500, 340, 20, 20],
-        "rectMove": [980, 340, 20, 20],
-        "postDelay": 500
+        "rectMove": [1025, 340, 20, 20],
+        "postDelay": 300
     },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight": {
-        "Doc": "通宝列表缓慢向右滑动 (460+35+30px)",
+        "Doc": "通宝列表缓慢向右滑动",
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
         "rectMove": [625, 340, 20, 20],
-        "postDelay": 500
+        "postDelay": 300
     },
     "JieGarden@Roguelike@CoppersListSwipeToTheLeft": {
         "Doc": "通宝列表快速向左滑动",
         "baseTask": "SwipeToTheLeft",
         "specificRect": [500, 340, 20, 20],
         "rectMove": [980, 340, 20, 20]
-    },
-    "JieGarden@Roguelike@CoppersListSwipeToTheRight": {
-        "Doc": "通宝列表快速向右滑动",
-        "baseTask": "SwipeToTheRight",
-        "specificRect": [1150, 340, 20, 20],
-        "rectMove": [670, 340, 20, 20]
     },
     "JieGarden@Roguelike@CoppersTakeFlag": {
         "Doc": "交换通宝界面 - 拿取通宝按钮 (本任务注册了插件 RoguelikeCoppersTaskPlugin EXCHANGE 模式)",
@@ -242,7 +236,7 @@
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
         "action": "ClickSelf",
-        "roi": [830, 97, 450, 90],
+        "roi": [830, 113, 450, 60],
         "maskRange": [1, 255],
         "postDelay": 200
     },
