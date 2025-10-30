@@ -386,24 +386,26 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_left(int times, bool sl
         ret &= ProcessTask(*this, { task_name }).run();
 
         // 识别滑动效果，误差较大时额外滑动一次进行校准
-        Matcher matcher;
-        matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
-        auto image = ctrler()->get_image();
-        matcher.set_image(image);
-        if (matcher.analyze()) {
-            int cur_x = matcher.get_result().rect.x;
-            if (abs(m_origin_x - cur_x) >= 90) {
-                Point origin_point = Point(m_origin_x, m_y);
-                Point cur_point = Point(cur_x, m_y);
-                ctrler()->swipe(cur_point, origin_point, 150);
-                Log.debug(
-                    __FUNCTION__,
-                    std::format(
-                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
-                        m_origin_x,
-                        cur_x,
-                        abs(m_origin_x - cur_x)));
-                sleep(100);
+        if (slowly) {
+            Matcher matcher;
+            matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+            auto image = ctrler()->get_image();
+            matcher.set_image(image);
+            if (matcher.analyze()) {
+                int cur_x = matcher.get_result().rect.x;
+                if (abs(m_origin_x - cur_x) >= 90) {
+                    Point origin_point = Point(m_origin_x, m_y);
+                    Point cur_point = Point(cur_x, m_y);
+                    ctrler()->swipe(cur_point, origin_point, 150);
+                    Log.debug(
+                        __FUNCTION__,
+                        std::format(
+                            "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                            m_origin_x,
+                            cur_x,
+                            abs(m_origin_x - cur_x)));
+                    sleep(100);
+                }
             }
         }
     }
@@ -422,24 +424,26 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list_right(int times, bool s
         ret &= ProcessTask(*this, { task_name }).run();
 
         // 识别滑动效果，误差较大时额外滑动一次进行校准
-        Matcher matcher;
-        matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
-        auto image = ctrler()->get_image();
-        matcher.set_image(image);
-        if (matcher.analyze()) {
-            int cur_x = matcher.get_result().rect.x;
-            if (abs(m_origin_x - cur_x) >= 90) {
-                Point origin_point = Point(m_origin_x, m_y);
-                Point cur_point = Point(cur_x, m_y);
-                ctrler()->swipe(cur_point, origin_point, 150);
-                Log.debug(
-                    __FUNCTION__,
-                    std::format(
-                        "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
-                        m_origin_x,
-                        cur_x,
-                        abs(m_origin_x - cur_x)));
-                sleep(100);
+        if (slowly) {
+            Matcher matcher;
+            matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
+            auto image = ctrler()->get_image();
+            matcher.set_image(image);
+            if (matcher.analyze()) {
+                int cur_x = matcher.get_result().rect.x;
+                if (abs(m_origin_x - cur_x) >= 90) {
+                    Point origin_point = Point(m_origin_x, m_y);
+                    Point cur_point = Point(cur_x, m_y);
+                    ctrler()->swipe(cur_point, origin_point, 150);
+                    Log.debug(
+                        __FUNCTION__,
+                        std::format(
+                            "| correcting swipe error: origin_x = {}, cur_x = {}, diff = {}",
+                            m_origin_x,
+                            cur_x,
+                            abs(m_origin_x - cur_x)));
+                    sleep(100);
+                }
             }
         }
     }
@@ -466,7 +470,7 @@ void asst::RoguelikeCoppersTaskPlugin::click_copper_at_position(int col, int row
             m_row_offset));
 
     // 先滑动回最左边
-    swipe_copper_list_left(m_col);
+    swipe_copper_list_left(m_col + 1);
     sleep(300);
 
     // 再滑动到目标列
