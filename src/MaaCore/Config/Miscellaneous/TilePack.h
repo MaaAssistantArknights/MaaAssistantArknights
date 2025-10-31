@@ -3,10 +3,11 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/AbstractConfig.h"
+#include "MaaUtils/Conf.h"
 
-ASST_SUPPRESS_CV_WARNINGS_START
+MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include <Arknights-Tile-Pos/TileDef.hpp>
-ASST_SUPPRESS_CV_WARNINGS_END
+MAA_SUPPRESS_CV_WARNINGS_END
 
 namespace asst
 {
