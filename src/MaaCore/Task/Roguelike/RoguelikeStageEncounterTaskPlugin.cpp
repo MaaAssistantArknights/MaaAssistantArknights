@@ -4,10 +4,10 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
 #include "Utils/Logger.hpp"
-#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 

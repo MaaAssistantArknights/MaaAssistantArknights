@@ -2,8 +2,8 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 
 namespace asst
 {

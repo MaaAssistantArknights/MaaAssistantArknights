@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Common/AsstTypes.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "RoguelikeMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
-#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {

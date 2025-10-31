@@ -1,8 +1,8 @@
 #include "FeatureMatcher.h"
 
 #include "Config/TemplResource.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 #include <format>
 
 // MAA_SUPPRESS_CV_WARNINGS_BEGIN

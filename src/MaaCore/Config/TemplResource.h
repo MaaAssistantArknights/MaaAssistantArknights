@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "MaaUtils/SingletonHolder.hpp"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {

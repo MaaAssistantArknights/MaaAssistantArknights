@@ -5,8 +5,8 @@
 #include <string_view>
 
 #include "MaaUtils/ImageIo.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
 {

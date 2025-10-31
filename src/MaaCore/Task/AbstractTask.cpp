@@ -6,8 +6,8 @@
 #include <thread>
 #include <utility>
 
-#include "Utils/Demangle.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Demangle.hpp"
 
 #include "AbstractTaskPlugin.h"
 #include "Assistant.h"

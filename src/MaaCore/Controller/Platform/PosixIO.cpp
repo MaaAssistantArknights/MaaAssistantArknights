@@ -16,8 +16,8 @@
 #include <chrono>
 
 #include "Common/AsstTypes.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 
 asst::PosixIO::PosixIO(Assistant* inst) :
     InstHelper(inst)

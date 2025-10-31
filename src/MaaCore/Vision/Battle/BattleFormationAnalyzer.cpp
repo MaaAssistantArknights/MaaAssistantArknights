@@ -2,8 +2,8 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 

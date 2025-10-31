@@ -2,8 +2,8 @@
 
 #include <ranges>
 
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 
 using namespace asst;
 

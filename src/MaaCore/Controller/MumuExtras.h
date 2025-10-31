@@ -8,8 +8,8 @@
 
 #include "Mumu/external_renderer_ipc/external_renderer_ipc.h"
 
-#include "Utils/LibraryHolder.hpp"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "Utils/LibraryHolder.hpp"
 
 namespace asst
 {

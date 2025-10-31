@@ -3,8 +3,8 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 
 bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)

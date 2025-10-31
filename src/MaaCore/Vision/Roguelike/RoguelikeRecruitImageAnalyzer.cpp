@@ -1,8 +1,8 @@
 #include "RoguelikeRecruitImageAnalyzer.h"
 
 #include "Config/TaskData.h"
-#include "Utils/Logger.hpp"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"

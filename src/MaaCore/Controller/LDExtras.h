@@ -9,8 +9,8 @@
 
 #include "LD/dnopengl/dnopengl.h"
 
-#include "Utils/LibraryHolder.hpp"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "Utils/LibraryHolder.hpp"
 
 namespace asst
 {
