@@ -37,7 +37,7 @@ if(WIN32)
         TARGET res_updater
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-        "${MAA_PROJECT_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
+        "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
         $<TARGET_FILE_DIR:res_updater>
         COMMAND_EXPAND_LISTS)
 endif()

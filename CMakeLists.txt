@@ -53,6 +53,3 @@ if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
     add_subdirectory(src/Cpp)
 endif()
 
-maadeps_install(.)
-install(TARGETS MaaUtils ${MaaCore_install_flatten_args})
-install(TARGETS MaaCore ${MaaCore_install_flatten_args})
