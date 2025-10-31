@@ -5,8 +5,8 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Task/ProcessTask.h"
 #include "MaaUtils/ImageIo.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"

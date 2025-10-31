@@ -1,9 +1,9 @@
 #include "RoguelikeParameterAnalyzer.h"
 
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
-#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 
 /* bool asst::RoguelikeParameterAnalyzer::analyze()

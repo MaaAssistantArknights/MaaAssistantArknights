@@ -1,8 +1,8 @@
 #include "RoguelikeEncounterOptionAnalyzer.h"
 
 #include "Config/TaskData.h"
-#include "Task/Roguelike/RoguelikeConfig.h"
 #include "MaaUtils/ImageIo.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
 

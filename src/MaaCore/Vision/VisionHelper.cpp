@@ -5,9 +5,9 @@
 #include "Assistant.h"
 #include "InstHelper.h"
 #include "MaaUtils/ImageIo.h"
+#include "MaaUtils/Time.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
-#include "MaaUtils/Time.hpp"
 
 using namespace asst;
 

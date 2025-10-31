@@ -13,8 +13,8 @@
 #include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/Controller.h"
-#include "ProcessTask.h"
 #include "MaaUtils/ImageIo.h"
+#include "ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 

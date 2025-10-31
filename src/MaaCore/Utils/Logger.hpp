@@ -19,11 +19,11 @@
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
 #include "Locale.hpp"
+#include "MaaUtils/Time.hpp"
 #include "Meta.hpp"
 #include "NullStreambuf.hpp"
 #include "Platform.hpp"
 #include "SingletonHolder.hpp"
-#include "MaaUtils/Time.hpp"
 #include "Utils/ExceptionStacktrace.hpp"
 #include "WorkingDir.hpp"
 
