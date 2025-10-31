@@ -105,3 +105,5 @@ jobs:
     steps:
       - run: |
           gh workflow run --repo $GITHUB_REPOSITORY update-submodules.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
