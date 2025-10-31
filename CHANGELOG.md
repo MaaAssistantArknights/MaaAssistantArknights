@@ -28,7 +28,7 @@ Due to recent updates to *Arknights* introducing some incompatible changes (such
 
 Of course, this update coincides with the upcoming thank-you celebration update, so if this update also introduces new incompatible changes, MAA may not be able to adapt immediately. Please stay tuned for future updates.
 
-~~Breaking News: *Arknights: Endfield* has started its third closed beta test! (ALL content, but not for everyone)~~
+~~Breaking News: *Arknights: Endfield* has started its third closed beta test! (ALL content, but not for ALL you)~~
 
 #### *Auto I.S.*
 
