@@ -114,7 +114,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #else
 #define AsyncLoadConfig(Res, Filename)        \
     {                                         \
-        add_load_queue(Res, path / Filename); \
+        add_load_queue(Res::get_instance(), path / Filename); \
     }
 #endif // ASST_DEBUG
 
