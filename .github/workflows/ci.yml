@@ -253,7 +253,7 @@ jobs:
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' \
-            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
+            -DCMAKE_TOOLCHAIN_FILE=src/MaaUtils/MaaDeps/cmake/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
 
       - name: Build
         run: |
