@@ -248,6 +248,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         else {
             // 最后一列时先滑动到最右侧再识别
             swipe_copper_list_to_rightmost(2);
+            // 点击中间的通宝避免干扰右侧识别
+            ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersListSwipeRightMostClick" }).run();
         }
 
         // 获取新图像并检查是否滑动成功

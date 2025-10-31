@@ -130,6 +130,7 @@
         "roi": [859, 605, 226, 115],
         "postDelay": 1000,
         "templThreshold": 0.85,
+        "cache": true,
         "next": ["JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
     },
     "JieGarden@Roguelike@CoppersExchangeConfirm": {
@@ -139,6 +140,7 @@
         "roi": [832, 406, 311, 160],
         "postDelay": 1000,
         "templThreshold": 0.85,
+        "cache": true,
         "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]
     },
     "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft": {
@@ -171,6 +173,7 @@
         "Doc": "交换通宝界面 - 拿取通宝按钮 (本任务注册了插件 RoguelikeCoppersTaskPlugin EXCHANGE 模式)",
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
         "roi": [1031, 606, 249, 114],
+        "cache": true,
         "next": [
             "JieGarden@Roguelike@CoppersAbandonExchange",
             "JieGarden@Roguelike@DropsFlag",
@@ -184,6 +187,7 @@
         "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
         "roi": [1031, 606, 249, 114],
         "postDelay": 500,
+        "cache": true,
         "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
@@ -222,7 +226,7 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [436, 109, 400, 498],
+        "roi": [380, 118, 325, 392],
         "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected": {
@@ -243,6 +247,18 @@
         ],
         "action": "ClickSelf",
         "roi": [830, 113, 450, 60],
+        "maskRange": [1, 255],
+        "postDelay": 200
+    },
+    "JieGarden@Roguelike@CoppersListSwipeRightMostClick": {
+        "Doc": "通宝列表滑动确认 - 识别最后一列时点击中间的通宝避免干扰识别",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [400, 113, 450, 60],
         "maskRange": [1, 255],
         "postDelay": 200
     },
@@ -313,7 +329,7 @@
             "JieGarden@Roguelike@CoppersTypeHeng.png",
             "JieGarden@Roguelike@CoppersTypeHua.png"
         ],
-        "roi": [867, 109, 312, 498],
+        "roi": [825, 118, 335, 392],
         "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-LeftType": {
