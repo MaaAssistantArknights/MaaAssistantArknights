@@ -112,9 +112,8 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
     }
 
     // 执行模板匹配
-    MultiMatcher matcher;
+    MultiMatcher matcher(m_image);
     matcher.set_task_info(matcher_task);
-    matcher.set_image(m_image);
 
     if (!matcher.analyze()) {
         Log.error(__FUNCTION__, "| matcher analyze failed for task ", matcher_task);

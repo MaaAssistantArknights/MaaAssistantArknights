@@ -393,11 +393,8 @@ bool asst::RoguelikeCoppersTaskPlugin::swipe_copper_list(int times, bool to_left
         ret &= ProcessTask(*this, { task_name }).run();
 
         // 识别滑动效果，误差较大时额外滑动一次进行校准
-        Matcher matcher;
+        Matcher matcher(ctrler()->get_image());
         matcher.set_task_info("JieGarden@Roguelike@CoppersListSwipeErrorRecognition");
-
-        auto image = ctrler()->get_image();
-        matcher.set_image(image);
         if (matcher.analyze()) {
             int cur_x = matcher.get_result().rect.x;
             // m_origin_x 经典值: 572
@@ -546,8 +543,8 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
             const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
             // 在图像上绘制红色矩形标记未知通宝位置
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
-            const std::filesystem::path& relative_dir =
-                utils::path("debug") / utils::path("roguelikeCoppers") / utils::path("unknown");
+            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike") /
+                                                        utils::path("roguelikeCoppers") / utils::path("unknown");
             const auto relative_path =
                 relative_dir / (std::format("{}_unknown_draw.jpeg", utils::format_now_for_filename()));
             Log.debug(__FUNCTION__, "| Saving unknown copper debug image to", relative_path);
@@ -608,7 +605,8 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
     try {
         const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
         // 保存到debug/roguelikeCoppers目录
-        const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeCoppers");
+        const std::filesystem::path& relative_dir =
+            utils::path("debug") / utils::path("roguelike") / utils::path("roguelikeCoppers");
         const auto relative_path =
             relative_dir / (std::format("{}_{}_draw.jpeg", utils::format_now_for_filename(), suffix));
         Log.debug(__FUNCTION__, "| Saving debug image to ", relative_path);
