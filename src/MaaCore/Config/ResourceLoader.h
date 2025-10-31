@@ -7,8 +7,8 @@
 #include <memory>
 
 #include "AbstractConfigWithTempl.h"
-#include "TemplResource.h"
 #include "MaaUtils/SingletonHolder.hpp"
+#include "TemplResource.h"
 
 namespace asst
 {

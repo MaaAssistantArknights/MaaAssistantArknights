@@ -21,8 +21,8 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
-#include "Utils/NoWarningCVMat.h"
 #include "MaaUtils/SingletonHolder.hpp"
+#include "Utils/NoWarningCVMat.h"
 #include "adb-lite/client.hpp"
 
 namespace asst

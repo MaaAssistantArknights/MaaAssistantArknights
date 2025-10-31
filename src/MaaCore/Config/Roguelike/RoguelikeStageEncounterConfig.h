@@ -10,7 +10,9 @@
 
 namespace asst
 {
-class RoguelikeStageEncounterConfig final : public MAA_NS::SingletonHolder<RoguelikeStageEncounterConfig>, public AbstractConfig
+class RoguelikeStageEncounterConfig final :
+    public MAA_NS::SingletonHolder<RoguelikeStageEncounterConfig>,
+    public AbstractConfig
 {
 public:
     virtual ~RoguelikeStageEncounterConfig() override = default;
