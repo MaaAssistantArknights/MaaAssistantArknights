@@ -476,6 +476,11 @@
                 "name": ["精密计算"],
                 "template": "Bskill_ctrl_t_limit&spd.png"
             },
+            "bskill_ctrl_t_limit&spd3": {
+                "desc": ["进驻控制中枢时，每个存在3名谢拉格干员的贸易站，订单获取效率+10%"],
+                "name": ["商业版图"],
+                "template": "Bskill_ctrl_t_limit&spd3.png"
+            },
             "bskill_ctrl_t_limit&spd_tmoris": {
                 "desc": ["进驻控制中枢时，每个进驻在贸易站的叙拉古干员，订单获取效率+5%"],
                 "efficient": {
@@ -796,12 +801,13 @@
             },
             "bskill_dorm_one": {
                 "desc": [
+                    "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05",
                     "进驻宿舍时，自身心情每小时恢复+0.7；如果该宿舍内有其他干员，则每人额外为自身心情每小时恢复+0.05"
                 ],
                 "efficient": {
                     "all": 0
                 },
-                "name": ["“独处”"],
+                "name": ["“独处”", "赋格融汇"],
                 "template": "Bskill_dorm_one.png"
             },
             "bskill_dorm_one1": {
@@ -1319,6 +1325,11 @@
                 "name": ["掘进工程"],
                 "template": "Bskill_man_limit&cost5.png"
             },
+            "bskill_man_limit1": {
+                "desc": ["进驻制造站时，当前制造站内每个莱茵科技类技能为自身+5的仓库上限容量"],
+                "name": ["勘探背包"],
+                "template": "Bskill_man_limit1.png"
+            },
             "bskill_man_marcille1": {
                 "desc": ["进驻制造站时，生产力+20%"],
                 "efficient": {
@@ -1395,6 +1406,16 @@
                 },
                 "name": ["量体裁衣"],
                 "template": "Bskill_man_spd&cost1.png"
+            },
+            "bskill_man_spd&cost2": {
+                "desc": ["进驻制造站时，生产力+20%，心情每小时消耗+0.25"],
+                "name": ["虔信"],
+                "template": "Bskill_man_spd&cost2.png"
+            },
+            "bskill_man_spd&cost3": {
+                "desc": ["进驻制造站时，生产力+30%，心情每小时消耗+0.25"],
+                "name": ["独当一面"],
+                "template": "Bskill_man_spd&cost3.png"
             },
             "bskill_man_spd&dorm1": {
                 "desc": ["进驻制造站时，每间宿舍每级为贵金属类配方的生产力+1%"],
@@ -2288,6 +2309,13 @@
                 "name": ["内幕"],
                 "template": "Bskill_hire_spd&blacksteel2.png"
             },
+            "bskill_hire_spd&char1": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+35%，心情每小时消耗-0.25，如果凛御银灰进驻在控制中枢，则人脉资源的联络速度额外+10%"
+                ],
+                "name": ["雪境归心"],
+                "template": "Bskill_hire_spd&char1.png"
+            },
             "bskill_hire_spd&clue": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+35%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度",
@@ -2365,6 +2393,11 @@
                 },
                 "name": ["威权谕使", "踏坊寻味·β"],
                 "template": "Bskill_hire_spd&cost6.png"
+            },
+            "bskill_hire_spd&cost7": {
+                "desc": ["进驻人力办公室时，人脉资源的联络速度+20%，心情每小时消耗-0.25"],
+                "name": ["圣女声望"],
+                "template": "Bskill_hire_spd&cost7.png"
             },
             "bskill_hire_spd&dorm1": {
                 "desc": ["进驻人力办公室时，人脉资源的联络速度+5%，每间宿舍每级额外+1%人脉资源的联络速度"],
@@ -2529,6 +2562,7 @@
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
+                    "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%"
                 ],
                 "efficient": {
@@ -2542,12 +2576,14 @@
                     "挽歌充能·α",
                     "灵河充能·α",
                     "充能中",
-                    "雷法专精"
+                    "雷法专精",
+                    "澎湃紊流"
                 ],
                 "template": "Bskill_pow_spd1.png"
             },
             "bskill_pow_spd2": {
                 "desc": [
+                    "进驻发电站时，无人机充能速度+15%",
                     "进驻发电站时，无人机充能速度+15%",
                     "进驻发电站时，无人机充能速度+15%",
                     "进驻发电站时，无人机充能速度+15%",
@@ -2568,7 +2604,8 @@
                     "脉冲电弧·α",
                     "聚能",
                     "灯塔供能模块",
-                    "穹顶物流管理·α"
+                    "穹顶物流管理·α",
+                    "澎湃紊流"
                 ],
                 "template": "Bskill_pow_spd2.png"
             },
