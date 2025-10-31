@@ -3,7 +3,7 @@
 #include "Common/AsstTypes.h"
 #include "RoguelikeMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {

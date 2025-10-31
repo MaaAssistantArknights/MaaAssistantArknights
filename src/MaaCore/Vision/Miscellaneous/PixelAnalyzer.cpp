@@ -3,7 +3,7 @@
 #include <ranges>
 
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 using namespace asst;
 

@@ -3,7 +3,7 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst

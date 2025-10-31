@@ -3,7 +3,7 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 

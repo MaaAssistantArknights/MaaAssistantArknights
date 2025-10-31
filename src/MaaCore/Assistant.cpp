@@ -1,6 +1,6 @@
 #include "Assistant.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
 #include <ranges>
 

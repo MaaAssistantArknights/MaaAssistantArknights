@@ -6,7 +6,7 @@
 #include <future>
 #include <unordered_map>
 
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"

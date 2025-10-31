@@ -5,7 +5,7 @@
 #include "Config/TaskData.h"
 #include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"

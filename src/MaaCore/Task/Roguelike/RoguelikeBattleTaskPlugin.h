@@ -8,7 +8,7 @@
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/BattleHelper.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {

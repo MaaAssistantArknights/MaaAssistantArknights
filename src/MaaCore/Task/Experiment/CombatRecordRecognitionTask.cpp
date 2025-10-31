@@ -9,7 +9,7 @@
 #include "Config/TaskData.h"
 #include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/Battle/BattleFormationAnalyzer.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldDetector.h"

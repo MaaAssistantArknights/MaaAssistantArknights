@@ -1,6 +1,6 @@
 #include "DepotImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"

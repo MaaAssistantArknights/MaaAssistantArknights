@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Common/AsstConf.h"
-
 #if ASST_WITH_EMULATOR_EXTRAS
 
 #include "Utils/Platform/SafeWindows.h"
@@ -12,7 +10,7 @@
 #include "LD/dnopengl/dnopengl.h"
 
 #include "Utils/LibraryHolder.hpp"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst
 {

@@ -2,7 +2,7 @@
 
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include <format>
 
 // MAA_SUPPRESS_CV_WARNINGS_BEGIN

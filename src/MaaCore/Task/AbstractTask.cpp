@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "Utils/Demangle.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "AbstractTaskPlugin.h"
 #include "Assistant.h"

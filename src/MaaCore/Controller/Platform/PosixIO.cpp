@@ -17,7 +17,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 asst::PosixIO::PosixIO(Assistant* inst) :
     InstHelper(inst)

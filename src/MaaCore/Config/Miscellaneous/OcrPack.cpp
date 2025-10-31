@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 ASST_SUPPRESS_CV_WARNINGS_START
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
 #include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"

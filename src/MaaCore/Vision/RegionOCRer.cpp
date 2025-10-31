@@ -1,6 +1,6 @@
 #include "RegionOCRer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 using namespace asst;
 

@@ -1,6 +1,6 @@
 #include "VisionHelper.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Assistant.h"
 #include "InstHelper.h"
