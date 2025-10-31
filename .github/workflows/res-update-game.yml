@@ -159,7 +159,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ./MaaDeps
+            ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-arm64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps

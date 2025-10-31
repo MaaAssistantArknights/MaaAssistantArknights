@@ -457,7 +457,7 @@ tools/RoguelikeRecruitmentTool/output
 .lycheecache
 
 # MaaDeps
-/MaaDeps/*
+src/MaaUtils/*
 
 # ResourceUpdater workflow
 /original/*

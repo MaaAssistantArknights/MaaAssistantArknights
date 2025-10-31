@@ -125,7 +125,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ./MaaDeps
+            ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
@@ -234,7 +234,7 @@ jobs:
         id: cache-maadeps
         uses: actions/cache@v4
         with:
-          path: ./MaaDeps
+          path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
@@ -359,7 +359,7 @@ jobs:
         id: cache-maadeps
         uses: actions/cache@v4
         with:
-          path: ./MaaDeps
+          path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
