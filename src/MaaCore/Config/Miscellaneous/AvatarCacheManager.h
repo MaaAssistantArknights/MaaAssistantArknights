@@ -13,7 +13,7 @@
 
 namespace asst
 {
-class AvatarCacheManager final : public SingletonHolder<AvatarCacheManager>, public AbstractResource
+class AvatarCacheManager final : public MAA_NS::SingletonHolder<AvatarCacheManager>, public AbstractResource
 {
 public:
     using AvatarsMap = std::unordered_map<std::string, cv::Mat>;

@@ -8,11 +8,11 @@
 
 #include "AbstractConfigWithTempl.h"
 #include "TemplResource.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {
-class ResourceLoader final : public SingletonHolder<ResourceLoader>, public AbstractResource
+class ResourceLoader final : public MAA_NS::SingletonHolder<ResourceLoader>, public AbstractResource
 {
 public:
     virtual ~ResourceLoader() override;
@@ -30,7 +30,7 @@ public:
 private:
     void load_thread_func();
 
-    template <Singleton T>
+    template <MAA_NS::Singleton T>
     requires std::is_base_of_v<AbstractResource, T>
     bool load_resource(const std::filesystem::path& path)
     {
@@ -40,7 +40,7 @@ private:
         return SingletonHolder<T>::get_instance().load(path);
     }
 
-    template <Singleton T>
+    template <MAA_NS::Singleton T>
     requires std::is_base_of_v<AbstractConfigWithTempl, T>
     bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
     {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Platform.hpp"
-#include "SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {
@@ -12,7 +12,7 @@ enum class WorkingDirType
 };
 
 template <WorkingDirType type>
-class WorkingDir : public SingletonHolder<WorkingDir<type>>
+class WorkingDir : public MAA_NS::SingletonHolder<WorkingDir<type>>
 {
 public:
     bool empty() const noexcept { return dir_.empty(); }

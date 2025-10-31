@@ -6,11 +6,11 @@
 #include <unordered_set>
 
 #include "Utils/NoWarningCVMat.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {
-class TemplResource final : public SingletonHolder<TemplResource>, public AbstractResource
+class TemplResource final : public MAA_NS::SingletonHolder<TemplResource>, public AbstractResource
 {
 public:
     virtual ~TemplResource() override = default;

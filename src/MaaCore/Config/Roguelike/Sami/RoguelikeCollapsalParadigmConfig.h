@@ -17,7 +17,7 @@ struct CollapsalParadigmClass
 };
 
 class RoguelikeCollapsalParadigmConfig final :
-    public SingletonHolder<RoguelikeCollapsalParadigmConfig>,
+    public MAA_NS::SingletonHolder<RoguelikeCollapsalParadigmConfig>,
     public AbstractConfig
 {
 public:

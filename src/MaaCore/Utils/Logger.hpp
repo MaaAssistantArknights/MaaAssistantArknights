@@ -23,7 +23,7 @@
 #include "Meta.hpp"
 #include "NullStreambuf.hpp"
 #include "Platform.hpp"
-#include "SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 #include "Utils/ExceptionStacktrace.hpp"
 #include "WorkingDir.hpp"
 
@@ -346,7 +346,7 @@ public:
 template <typename... Args>
 ostreams(Args&&...) -> ostreams<to_reference_wrapper_t<Args>...>;
 
-class Logger : public SingletonHolder<Logger>
+class Logger : public MAA_NS::SingletonHolder<Logger>
 {
 public:
     struct separator

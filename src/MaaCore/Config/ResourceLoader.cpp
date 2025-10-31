@@ -88,21 +88,21 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     std::unique_lock<std::mutex> lock(m_entry_mutex);
 
-#define LoadResourceAndCheckRet(Config, FilenameExpr)                              \
+#define LoadResourceAndCheckRet(Res, FilenameExpr)                              \
     {                                                                              \
         auto filename = FilenameExpr;                                              \
         auto full_path = path / filename;                                          \
-        bool ret = load_resource<Config>(full_path);                               \
+        bool ret = load_resource<Res>(full_path);                               \
         if (!ret) {                                                                \
-            Log.error(#Config, " load failed, path:", full_path);                  \
+            Log.error(#Res, " load failed, path:", full_path);                  \
             return false;                                                          \
         }                                                                          \
         auto custom_path = path / (full_path.stem().string() + "_custom.json");    \
         if (std::filesystem::exists(custom_path)) {                                \
-            ret = load_resource<Config>(custom_path);                              \
-            Log.info("Loading custom file for ", #Config, ", path:", custom_path); \
+            ret = load_resource<Res>(custom_path);                              \
+            Log.info("Loading custom file for ", #Res, ", path:", custom_path); \
             if (!ret) {                                                            \
-                Log.error(#Config, " load failed, path:", custom_path);            \
+                Log.error(#Res, " load failed, path:", custom_path);            \
                 return false;                                                      \
             }                                                                      \
         }                                                                          \
@@ -110,32 +110,32 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
 #ifdef ASST_DEBUG
     // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
-#define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
+#define AsyncLoadConfig(Res, Filename) LoadResourceAndCheckRet(Res, Filename)
 #else
-#define AsyncLoadConfig(Config, Filename)                                         \
+#define AsyncLoadConfig(Res, Filename)                                         \
     {                                                                             \
-        add_load_queue(SingletonHolder<Config>::get_instance(), path / Filename); \
+        add_load_queue(Res, path / Filename); \
     }
 #endif // ASST_DEBUG
 
-#define LoadResourceWithTemplAndCheckRet(Config, Filename, TemplDir)                             \
+#define LoadResourceWithTemplAndCheckRet(Res, Filename, TemplDir)                             \
     {                                                                                            \
         auto full_path = path / Filename;                                                        \
         auto full_templ_dir = path / TemplDir;                                                   \
-        bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
+        bool ret = load_resource_with_templ<Res>(full_path, full_templ_dir);                  \
         if (!ret) {                                                                              \
-            Log.error(#Config, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
+            Log.error(#Res, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
             return false;                                                                        \
         }                                                                                        \
     }
 
-#define LoadCacheWithoutRet(Config, Dir)                         \
+#define LoadCacheWithoutRet(Res, Dir)                         \
     {                                                            \
         auto full_path = UserDir.get() / "cache"_p / Dir;        \
         if (!std::filesystem::exists(full_path)) {               \
             std::filesystem::create_directories(full_path);      \
         }                                                        \
-        SingletonHolder<Config>::get_instance().load(full_path); \
+        Res::get_instance().load(full_path); \
     }
 
     LogTraceFunction;

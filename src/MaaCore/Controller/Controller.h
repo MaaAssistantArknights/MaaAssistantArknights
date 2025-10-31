@@ -22,7 +22,7 @@
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 #include "adb-lite/client.hpp"
 
 namespace asst
