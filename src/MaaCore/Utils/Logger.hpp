@@ -730,7 +730,7 @@ public:
     }
 
 private:
-    friend class SingletonHolder<Logger>;
+    friend class MAA_NS::SingletonHolder<Logger>;
 
     Logger() :
         m_directory(UserDir.get()),
