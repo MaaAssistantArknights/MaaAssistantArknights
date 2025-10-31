@@ -1,12 +1,54 @@
 ## v5.27.0
 
-### 亮点 | Highlights
+### 难道说？ | Highlights
 
-* 新增「齐聚」界面主题，视觉效果更佳
-* 界园肉鸽 DLC2 完整支持，包括新关卡战斗逻辑和不期而遇选项识别
-* 新增主线 16 章导航，自动推图更方便
-* 支持剿灭关卡名识别，刷本更智能
-* 集成 MaaUtils 工具库，底层更强大
+由于近期《明日方舟》的更新引入了部分不兼容的改动（比如公开招募界面的部分按钮改动，界园肉鸽的部分按钮改动），所以**旧版本可能无法使用自动公招、自动肉鸽等功能，建议更新到最新版本**。
+
+当然，本次版本更新恰逢即将到来的半周年更新，所以如果半周年更新也引入了新的不兼容改动，MAA 可能无法第一时间适配，敬请关注后续更新。
+
+~~号外：《明日方舟：终末地》开启三测啦！（内容全面，资格就不全面.jpg）~~
+
+#### 自动肉鸽方面
+
+本次更新，我们支持了界园肉鸽新 DLC 的新关卡、新通宝、新不期而遇等，添加了“刷常乐节点”策略。
+
+我们也添加了萨米肉鸽的“刷稀有坍缩范式”策略，欢迎你尝试~
+
+#### 界面主题方面
+
+我们在这个版本正式适配了新的界面主题「齐聚」。并且，在部分自动任务中，如果当前的界面主题无法识别，牛牛会尝试自动切换到日间主题。~~这就是机械革命~~
+
+#### 其他方面
+
+我们继续修复了大量 bug，例如外部通知功能现在会正确地将消息发送到所有渠道了。如果还有漏网之鱼，欢迎你来反馈。
+
+----
+
+Due to recent updates to *Arknights* introducing some incompatible changes (such as changes to some buttons in the *Recruitment* interface and some in the *Sui's Garden Of Grotesqueries*), **older versions may not be able to use features like *Auto Recruit* and *Auto I.S.*. We recommend updating to the latest version.**
+
+Of course, this update coincides with the upcoming thank-you celebration update, so if this update also introduces new incompatible changes, MAA may not be able to adapt immediately. Please stay tuned for future updates.
+
+~~Breaking News: *Arknights: Endfield* has started its third closed beta test! (ALL content, but not ALL qualifications.jpg)~~
+
+#### *Auto I.S.*
+
+[CN ONLY] In this update, we support new stages, new *Tongbaos*, and new *Encounters* in the *Sui's Garden Of Grotesqueries* Expansion I, and added the "Farm playtime(常乐) nodes" strategy.
+
+We have also added the "Farm collapse paradigms" strategy for *Sarkaz's Furnaceside Fables*. Feel free to try it out!
+
+#### Interface Theme
+
+[CN ONLY] We have officially adapted the new interface theme "Gathering(齐聚)" in this version.
+
+Furthermore, in some automated tasks, if the current interface theme cannot be recognized, NiuNiu will attempt to automatically switch to *Day* theme. ~~This is Mechanic Revolution~~
+
+#### Others
+
+We have continued to fix numerous bugs; for example, the external notification function now correctly sends messages to all channels. If there are any bugs that have been missed, please feel free to provide feedback.
+
+----
+
+以下是详细内容：
 
 ### 新增 | New
 
