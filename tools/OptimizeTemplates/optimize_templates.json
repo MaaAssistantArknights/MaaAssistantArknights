@@ -4561,7 +4561,7 @@
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePass": "2a158b66669870a12ea69281170aa6c7d5578e8878efd84ce09372ed6414baef",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapNodeEncounter": "10c97e14858f24d54be4a3d628af5ee95ac50786aee7af60760246518060c293",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageBoons": "dcca3cc7fb311995c62b998347728632b2a5cccaf872502eb98d7c45a5f923a0",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "75cb87f75da8b39acbdc71314f57a71188289c3a4b1bf70c1f88a549205e153a",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "dd97418a0ba6f6f6eb0c21abbeb40734a2ce65bf1298801f89ebe09dc6ba55a2",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageEncounterLeaveConfirm": "a1bb8d2a9bdbf3f26552174b26133166dc2accd5fb2890adf22c717e1d3373a3",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageTrader": "13d3244f0aea5027d89fb7e3e405bb9fbddd3290dd4fbc79498c47058b1b4a1f",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@AbandonSwitchConfirm": "4d32ed68dce74e003dce161625ade7105f87923521cb7e381b1d231fd776dc62",
@@ -5164,7 +5164,7 @@
     "resource/global/txwy/resource/template/Roguelike/routing/Sarkaz/Sarkaz@RoguelikeRouting-RefreshNode": "068b5fecad3d1ce9b7e5e5ac813467277aadf94c4d4f1c722b41923b10cd4921",
     "resource/global/YoStarEN/resource/template/Roguelike/routing/Sarkaz/Sarkaz@RoguelikeRouting-RefreshNode": "70b6224cfe7ab08a73fa757ff4d5b81138ed8dde68478f487c205a2a6552ff8b",
     "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@ReserveRecruitmentVoucher": "6a0fc9bd28b5d6d6bd4bf22bd3352ab8938cd49cb0c35e3ff817882d46bf5708",
-    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon2": "34a55736abe8137b82cb38f939633ea0de70db6f368d421bc1c14fdb55c5fa31",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon2": "42cc414519164679e9f58038a743285be36d9b26d2e5bf0bfec65564868cf62c",
     "resource/template/Roguelike/routing/Sarkaz/Sarkaz@RoguelikeRouting-RefreshNode": "2636c583faf726b2647d978463354a5f3f3fd067116179c45eed23847b79b409",
     "resource/template/Roguelike/routing/Sarkaz/Sarkaz@RoguelikeMapNode-EmergencyOps": "f7e6bac4401e57029ec7b26e2ae8c2e553e3556ad2b07eac8f078fe6eac3fdf0",
     "resource/template/Roguelike/routing/Sarkaz/Sarkaz@RoguelikeMapNode-EmergencyOpsGrey": "5d732288fb776df0daf3eec5700449ae7d84540e63f97682d36eef5364d09927",
@@ -5223,5 +5223,9 @@
     "resource/template/infrast/Bskill_man_limit1": "ed6db3a1357dd4ce74666dbf586667a68cddf7b0d472766ad7aa8cf5964cc4ea",
     "resource/template/infrast/Bskill_man_spd&cost2": "20a685e0e06bdd13d7b5a1cdca96de1bda5d1ed0e0af82d6045a230fe8774100",
     "resource/template/infrast/Bskill_man_spd&cost3": "857507cfc0e5687d8048383a24b138c03ec668e327e7f229a3dcd09676657c3c",
-    "resource/template/infrast/Bskill_hire_spd&cost7": "5be226806559d5a753a2ea8758a12582ea0cc66198a04dbfc052dc1d468dbdd8"
+    "resource/template/infrast/Bskill_hire_spd&cost7": "5be226806559d5a753a2ea8758a12582ea0cc66198a04dbfc052dc1d468dbdd8",
+    "official/SS@Store@CostumeSkip": "35027fca490c49265d0d991bacdc3429ba97ba57be710816d0bc378bdbc42bf6",
+    "official/SS@Store@WearCostume": "4014aedc715d24c2acfbec2382be24a339f3b299b3b41f7b9f5576b0b67c4acd",
+    "resource/template/Roguelike/JieGarden/JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43": "fdc8e8fdea4024e2d8bcbf9bf7a9fa83a23caad7d8dd48b5fa00d39841f7a788",
+    "resource/template/Roguelike/JieGarden/JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48": "bb8ebd8f3a7cc192168726b7373c3f8b228807f358e1d98f93d7f733e1b69040"
 }
