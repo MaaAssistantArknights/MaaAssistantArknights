@@ -5,7 +5,8 @@ from pathlib import Path
 sub_path = Path(__file__).parent.parent / "src" / "MaaUtils" / "tools"
 sys.path.append(str(sub_path))
 
-from maadeps_download import main as download_main, detect_host_triplet
+from maadeps_download import detect_host_triplet
+from maadeps_download import main as download_main
 
 REPO = "MaaAssistantArknights/MaaDeps"
 VERSION = "v2.10.0-maa.1"
