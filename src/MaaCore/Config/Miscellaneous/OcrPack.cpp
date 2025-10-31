@@ -10,7 +10,6 @@ ASST_SUPPRESS_CV_WARNINGS_START
 ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Demangle.hpp"
-#include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
