@@ -117,6 +117,7 @@ jobs:
 
       - name: Fetch submodules
         run: |
+          git submodule update --init --depth 1 src/MaaUtils
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
 
       - name: Cache MaaDeps
@@ -124,7 +125,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            ./MaaDeps
+            ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
@@ -225,6 +226,7 @@ jobs:
 
       - name: Fetch submodules
         run: |
+          git submodule update --init --depth 1 src/MaaUtils
           git submodule update --init --depth 1 3rdparty/EmulatorExtras
           git submodule update --init --depth 1 src/maa-cli
 
@@ -232,7 +234,7 @@ jobs:
         id: cache-maadeps
         uses: actions/cache@v4
         with:
-          path: ./MaaDeps
+          path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
@@ -251,7 +253,7 @@ jobs:
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' \
-            -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
+            -DCMAKE_TOOLCHAIN_FILE=src/MaaUtils/MaaDeps/cmake/maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux-toolchain.cmake
 
       - name: Build
         run: |
@@ -348,6 +350,10 @@ jobs:
         with:
           show-progress: false
 
+      - name: Fetch submodules
+        run: |
+          git submodule update --init --depth 1 src/MaaUtils
+
       # ninja 1.13.1 is already installed and up-to-date.
       # - name: Install dependencies
       #   run: |
@@ -357,13 +363,12 @@ jobs:
         id: cache-maadeps
         uses: actions/cache@v4
         with:
-          path: ./MaaDeps
+          path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
 
       - name: Bootstrap MaaDeps
         run: |
-          [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
-          python3 tools/maadeps-download.py ${triplet}
+          python3 tools/maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-osx
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -14,7 +14,8 @@ endif()
 target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
 
 target_include_directories(MaaCore PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE .)
-target_link_libraries(MaaCore HeaderOnlyLibraries ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
+add_dependencies(MaaCore MaaUtils)
+target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastdeploy_ppocr ONNXRuntime::ONNXRuntime ZLIB::ZLIB Boost::system)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
@@ -27,16 +28,6 @@ endif()
 file(GLOB_RECURSE MaaCore_PUBLIC_HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
 target_sources(MaaCore PUBLIC ${MaaCore_PUBLIC_HEADERS})
 set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}")
-
-if(WIN32)
-    add_custom_command(
-        TARGET MaaCore
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
-        "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
-        $<TARGET_FILE_DIR:MaaCore>
-        COMMAND_EXPAND_LISTS)
-endif()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 
@@ -51,5 +42,16 @@ elseif(UNIX)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
 endif()
 
-install(TARGETS MaaCore ${MaaCore_install_flatten_args})
 maadeps_install(.)
+install(TARGETS MaaUtils ${MaaCore_install_flatten_args})
+install(TARGETS MaaCore ${MaaCore_install_flatten_args})
+
+if(WIN32)
+    add_custom_command(
+        TARGET MaaCore
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+        "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/$<$<CONFIG:Debug>:msvc-debug/>"
+        $<TARGET_FILE_DIR:MaaCore>
+        COMMAND_EXPAND_LISTS)
+endif()
