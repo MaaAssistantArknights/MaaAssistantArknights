@@ -63,7 +63,7 @@ jobs:
       - name: Fetch submodules
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         run: |
-          git submodule update --init --depth 1 3rdparty/EmulatorExtras
+          git submodule update --init --depth 1 src/MaaUtils
 
       - name: Cache MaaDeps
         if: steps.smoke-cache.outputs.cache-hit != 'true'
