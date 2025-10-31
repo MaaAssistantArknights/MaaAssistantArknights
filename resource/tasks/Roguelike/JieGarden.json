@@ -1216,7 +1216,13 @@
         "algorithm": "OcrDetect",
         "roi": [0, 0, 300, 43],
         "text": [],
-        "withoutDet": true
+        "withoutDet": true,
+        "ocrReplace": [
+            ["[_—,，\\.]+$", ""],
+            ["^[_—,，\\.]+", ""],
+            ["^儡+", ""],
+            ["想要时的", "想要亥时的"]
+        ]
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
         "doc": [
