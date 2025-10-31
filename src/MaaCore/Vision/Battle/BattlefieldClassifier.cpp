@@ -8,7 +8,7 @@
 
 #include "Config/OnnxSessions.h"
 #include "Config/TaskData.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 
 using namespace asst;
@@ -201,7 +201,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         last_save_time = now;
 
         Log.trace("Save image", relative_path);
-        asst::imwrite(relative_path, image);
+        MAA_NS::imwrite(relative_path, image);
     }
 
     return result;

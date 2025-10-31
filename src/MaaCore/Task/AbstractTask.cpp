@@ -14,7 +14,7 @@
 #include "Config/GeneralConfig.h"
 #include "Controller/Controller.h"
 #include "ProcessTask.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -175,7 +175,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
 
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
-    return asst::imwrite(relative_path, image);
+    return MAA_NS::imwrite(relative_path, image);
 }
 
 size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files)

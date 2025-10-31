@@ -4,7 +4,7 @@
 
 #include "Assistant.h"
 #include "InstHelper.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "MaaUtils/Time.hpp"
@@ -134,10 +134,10 @@ bool VisionHelper::save_img(const std::filesystem::path& relative_dir)
     std::string stem = MAA_NS::format_now_for_filename();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
-    bool ret = imwrite(relative_path, m_image);
+    bool ret = MAA_NS::imwrite(relative_path, m_image);
 
 #ifdef ASST_DEBUG
-    imwrite(relative_dir / (stem + "_draw.png"), m_image_draw);
+    MAA_NS::imwrite(relative_dir / (stem + "_draw.png"), m_image_draw);
 #endif
 
     return ret;

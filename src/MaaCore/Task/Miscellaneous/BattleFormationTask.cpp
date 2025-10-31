@@ -10,7 +10,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "UseSupportUnitTaskPlugin.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"

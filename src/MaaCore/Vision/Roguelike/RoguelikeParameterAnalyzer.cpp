@@ -3,7 +3,7 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 
 /* bool asst::RoguelikeParameterAnalyzer::analyze()

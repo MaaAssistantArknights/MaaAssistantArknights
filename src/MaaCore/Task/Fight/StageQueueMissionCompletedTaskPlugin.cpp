@@ -4,7 +4,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "StageDropsTaskPlugin.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"

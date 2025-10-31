@@ -11,7 +11,7 @@
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
