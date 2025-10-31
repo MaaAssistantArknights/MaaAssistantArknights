@@ -6,19 +6,20 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
 endif ()
 
+set(BUILD_MAA_UTILS OFF)
 set(MAA_PROJECT_DIR "${CMAKE_SOURCE_DIR}/../../")
 include(${MAA_PROJECT_DIR}/src/MaaUtils/MaaUtils.cmake)
 
 add_executable(res_updater main.cpp)
-add_dependencies(res_updater MaaUtils)
-target_link_libraries(res_updater MaaUtils ${OpenCV_LIBS}) # Boost::system
+
+target_include_directories(res_updater PRIVATE ${MAA_PROJECT_DIR}/src/MaaCore) # For Utils
+target_link_libraries(res_updater ${OpenCV_LIBS}) # Boost::system
 if(LINUX)
     target_link_libraries(res_updater pthread)
 endif()
 
-install(TARGETS MaaUtils DESTINATION .)
-install(TARGETS res_updater DESTINATION .)
 maadeps_install(.)
+install(TARGETS res_updater DESTINATION .)
 
 if(WIN32)
     add_custom_command(
