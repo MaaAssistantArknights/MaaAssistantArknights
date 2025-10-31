@@ -10,3 +10,6 @@
 [submodule "3rdparty/EmulatorExtras"]
 	path = 3rdparty/EmulatorExtras
 	url = https://github.com/MaaXYZ/EmulatorExtras.git
+[submodule "src/MaaUtils"]
+	path = src/MaaUtils
+	url = https://github.com/MaaXYZ/MaaUtils

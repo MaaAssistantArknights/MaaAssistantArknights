@@ -50,6 +50,3 @@ if(APPLE)
 elseif(UNIX)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
 endif()
-
-install(TARGETS MaaCore ${MaaCore_install_flatten_args})
-maadeps_install(.)
