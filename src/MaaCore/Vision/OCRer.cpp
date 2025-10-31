@@ -6,7 +6,7 @@
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
-#include "Utils/Encoding.h"
+#include "MaaUtils/Encoding.h"
 #include "Utils/Logger.hpp"
 
 using namespace asst;
@@ -73,10 +73,10 @@ void OCRer::postproc_replace_(Result& res) const
         return;
     }
 
-    std::wstring text_u16 = asst::utils::to_u16(res.text);
+    std::wstring text_u16 = MAA_NS::to_u16(res.text);
     for (const auto& [regex, new_str] : m_params.replace) {
-        std::wstring regex_u16 = asst::utils::to_u16(regex);
-        std::wstring new_str_u16 = asst::utils::to_u16(new_str);
+        std::wstring regex_u16 = MAA_NS::to_u16(regex);
+        std::wstring new_str_u16 = MAA_NS::to_u16(new_str);
         if (m_params.replace_full) {
             if (std::regex_search(text_u16, std::wregex(regex_u16))) {
                 text_u16 = new_str_u16;
@@ -86,7 +86,7 @@ void OCRer::postproc_replace_(Result& res) const
             text_u16 = std::regex_replace(text_u16, std::wregex(regex_u16), new_str_u16);
         }
     }
-    res.text = asst::utils::from_u16(text_u16);
+    res.text = MAA_NS::from_u16(text_u16);
 }
 
 bool OCRer::filter_and_replace_by_required_(Result& res) const
