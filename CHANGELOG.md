@@ -8,6 +8,16 @@
 * 剿灭关卡现在能认出名字了，刷本更聪明了呢！
 * 集成了 MaaUtils 工具库，底层变得更强大啦喵✨
 
+----
+
+In this version, we've added support for the *Reunion* theme and brought full support for *Mizuki & Caerula Arbor* DLC2!
+
+* The *Reunion* theme is now available~ The interface looks more beautiful!
+* *Mizuki & Caerula Arbor* DLC2 is fully supported! New stage combat logic and Fortuitous Encounter option recognition are all working~
+* Chapter 16 main story navigation has arrived! Auto-clearing stages is now easier~
+* Annihilation stages can now recognize stage names, making farming smarter!
+* Integrated MaaUtils library, making the underlying system more powerful✨
+
 ### 新增 | New
 
 * 界面主题「齐聚」 @SherkeyXD
