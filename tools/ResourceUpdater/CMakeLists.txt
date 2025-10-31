@@ -10,6 +10,7 @@ set(MAA_PROJECT_DIR "${CMAKE_SOURCE_DIR}/../../")
 include(${MAA_PROJECT_DIR}/src/MaaUtils/MaaUtils.cmake)
 
 add_executable(res_updater main.cpp)
+add_dependencies(res_updater MaaUtils)
 target_link_libraries(res_updater MaaUtils ${OpenCV_LIBS}) # Boost::system
 if(LINUX)
     target_link_libraries(res_updater pthread)
