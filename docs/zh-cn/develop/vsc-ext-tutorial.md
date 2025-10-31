@@ -100,14 +100,10 @@ icon: iconoir:code-brackets
 
 ### 底部状态栏
 
-#### MaaSupport [+MaaSupport]
-
-[+MaaSupport]: 插件版本
+#### MaaSupport <插件版本>
 
 点击可聚焦控制面板
 
-#### MaaFramework [+MaaFramework]
-
-[+MaaFramework]: MaaFw版本
+#### MaaFramework <MaaFw版本>
 
 点击可切换插件使用的 `MaaFramework` 版本
