@@ -28,7 +28,7 @@ Due to recent updates to *Arknights* introducing some incompatible changes (such
 
 Of course, this update coincides with the upcoming thank-you celebration update, so if this update also introduces new incompatible changes, MAA may not be able to adapt immediately. Please stay tuned for future updates.
 
-~~Breaking News: *Arknights: Endfield* has started its third closed beta test! (ALL content, but not ALL qualifications.jpg)~~
+~~Breaking News: *Arknights: Endfield* has started its third closed beta test! (ALL content, but not for everyone)~~
 
 #### *Auto I.S.*
 
@@ -40,7 +40,7 @@ We have also added the "Farm collapse paradigms" strategy for *Sarkaz's Furnaces
 
 [CN ONLY] We have officially adapted the new interface theme "Gathering(齐聚)" in this version.
 
-Furthermore, in some automated tasks, if the current interface theme cannot be recognized, NiuNiu will attempt to automatically switch to *Day* theme. ~~This is Mechanic Revolution~~
+Furthermore, in some automated tasks, if the current interface theme cannot be recognized, MAA will attempt to automatically switch to the *Light* theme. ~~This is Mechanic Revolution~~
 
 #### Others
 
