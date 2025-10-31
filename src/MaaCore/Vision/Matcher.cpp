@@ -58,7 +58,7 @@ Matcher::ResultOpt Matcher::analyze() const
                                                               cv::IMWRITE_JPEG_OPTIMIZE,
                                                               1 };
                 asst::imwrite(
-                    utils::path(std::format("debug/hsv/{}_{}.jpg", text, utils::format_now_for_filename())),
+                    utils::path(std::format("debug/hsv/{}_{}.jpg", text, MAA_NS::format_now_for_filename())),
                     cropped,
                     jpeg_params);
             }

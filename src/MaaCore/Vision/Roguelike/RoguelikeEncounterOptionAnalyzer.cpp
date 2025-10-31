@@ -304,7 +304,7 @@ cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& 
 bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
     const auto relative_dir = utils::path("debug") / utils::path("roguelike") / utils::path("encounter");
-    const auto relative_path = relative_dir / (std::format("{}_raw.png", utils::format_now_for_filename()));
+    const auto relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
     Log.info(std::format("Save {} to {}", description, relative_path.string()));
     return imwrite(relative_path, image);
 }

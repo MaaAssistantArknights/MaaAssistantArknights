@@ -167,7 +167,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
 #ifdef ASST_DEBUG
     const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-    const auto relative_path = relative_dir / (std::format("{}_bosky_draw.png", utils::format_now_for_filename()));
+    const auto relative_path = relative_dir / (std::format("{}_bosky_draw.png", MAA_NS::format_now_for_filename()));
     Log.debug(__FUNCTION__, "| Saving bosky map image to", relative_path);
     asst::imwrite(relative_path, image_draw);
 #endif

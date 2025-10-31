@@ -12,7 +12,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Utils/Time.hpp"
+#include "MaaUtils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
@@ -895,7 +895,7 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
     if (!top_view.empty()) {
         using namespace asst::utils::path_literals;
         asst::imwrite(
-            asst::utils::path(std::format("debug/skill/{}_{}.png", m_stage_name, utils::format_now_for_filename())),
+            asst::utils::path(std::format("debug/skill/{}_{}.png", m_stage_name, MAA_NS::format_now_for_filename())),
             top_view);
     }
 #endif

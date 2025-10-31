@@ -189,7 +189,7 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
         std::string filename = std::format(
             "debug/skill_ready/{}/{}_{}_{}(c{:3f})(n{:3f})(y{:3f}).png",
             subfolder,
-            utils::format_now_for_filename(),
+            MAA_NS::format_now_for_filename(),
             m_base_point.x,
             m_base_point.y,
             prob[0],

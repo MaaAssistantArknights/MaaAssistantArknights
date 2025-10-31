@@ -23,7 +23,7 @@
 #include "NullStreambuf.hpp"
 #include "Platform.hpp"
 #include "SingletonHolder.hpp"
-#include "Time.hpp"
+#include "MaaUtils/Time.hpp"
 #include "Utils/ExceptionStacktrace.hpp"
 #include "WorkingDir.hpp"
 
@@ -478,7 +478,7 @@ public:
 #endif
                 auto tid = static_cast<uint16_t>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
 
-                s << std::format("[{}][{}][Px{}][Tx{}]", utils::format_now(), v.str, pid, tid);
+                s << std::format("[{}][{}][Px{}][Tx{}]", MAA_NS::format_now(), v.str, pid, tid);
             }
             else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
                 s << asst::enum_to_string(std::forward<T>(v));

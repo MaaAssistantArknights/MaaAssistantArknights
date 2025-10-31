@@ -43,7 +43,7 @@ bool asst::FightTimesTaskPlugin::_run()
     LogTraceFunction;
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     json::value fight = basic_info_with_what("FightTimes");
-    sanity_info["details"]["report_time"] = utils::format_now();
+    sanity_info["details"]["report_time"] = MAA_NS::format_now();
     // {"sanity_current": 100, "sanity_max": 135, "report_time": "2023-09-01 09:31:53.527"}
     auto image = ctrler()->get_image();
     auto sanity = analyze_sanity_remain(image);

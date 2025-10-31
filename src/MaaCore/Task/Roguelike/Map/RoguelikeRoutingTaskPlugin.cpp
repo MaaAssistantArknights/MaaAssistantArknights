@@ -116,7 +116,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            const auto relative_path = relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
+            const auto relative_path = relative_dir / (std::format("{}_draw.png", MAA_NS::format_now_for_filename()));
             Log.trace("Save image", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
@@ -184,7 +184,7 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
 #ifdef ASST_DEBUG
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            const auto relative_path = relative_dir / (std::format("{}_draw.png", utils::format_now_for_filename()));
+            const auto relative_path = relative_dir / (std::format("{}_draw.png", MAA_NS::format_now_for_filename()));
             Log.trace("Save image", relative_path);
             asst::imwrite(relative_path, image_draw);
 #endif
