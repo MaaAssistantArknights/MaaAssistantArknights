@@ -10,11 +10,9 @@
 
 ----
 
-In this version, we've added support for the *Reunion* theme and brought full support for *Mizuki & Caerula Arbor* DLC2!
-
-* The *Reunion* theme is now available~ The interface looks more beautiful!
-* *Mizuki & Caerula Arbor* DLC2 is fully supported! New stage combat logic and Fortuitous Encounter option recognition are all working~
-* Chapter 16 main story navigation has arrived! Auto-clearing stages is now easier~
+* [CN] The *Reunion* theme is now available The interface looks more beautiful!
+* [CN] *Mizuki & Caerula Arbor* DLC2 is fully supported! New stage combat logic and Fortuitous Encounter option recognition are all working~
+* [CN] Chapter 16 main story navigation has arrived! Auto-clearing stages is now easier
 * Annihilation stages can now recognize stage names, making farming smarter!
 * Integrated MaaUtils library, making the underlying system more powerful✨
 
