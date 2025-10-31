@@ -2,7 +2,7 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
-#include "Utils/Platform/SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #include <filesystem>
 #include <optional>
 #include <string>

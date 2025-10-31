@@ -3,7 +3,7 @@
 #ifdef _WIN32
 #include "PlatformIO.h"
 
-#include "Utils/Platform/SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #include <mswsock.h>
 
 #include "Common/AsstTypes.h"

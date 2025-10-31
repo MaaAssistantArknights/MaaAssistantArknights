@@ -9,7 +9,7 @@
 
 #ifdef _WIN32
 #include "PlatformWin32.h"
-#include "SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #else
 #include "PlatformPosix.h"
 #endif //  _WIN32

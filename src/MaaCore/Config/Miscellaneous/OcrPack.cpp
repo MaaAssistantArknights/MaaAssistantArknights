@@ -3,11 +3,11 @@
 #include <filesystem>
 
 #include "MaaUtils/NoWarningCV.hpp"
-ASST_SUPPRESS_CV_WARNINGS_START
+MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
 #include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
-ASST_SUPPRESS_CV_WARNINGS_END
+MAA_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
