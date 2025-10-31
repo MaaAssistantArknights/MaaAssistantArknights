@@ -112,8 +112,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Res, Filename) LoadResourceAndCheckRet(Res, Filename)
 #else
-#define AsyncLoadConfig(Res, Filename)        \
-    {                                         \
+#define AsyncLoadConfig(Res, Filename)                        \
+    {                                                         \
         add_load_queue(Res::get_instance(), path / Filename); \
     }
 #endif // ASST_DEBUG
