@@ -4,6 +4,12 @@ if (BUILD_XCFRAMEWORK)
         COMMAND xcodebuild -create-xcframework -library libMaaCore.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MaaCore.xcframework
         DEPENDS MaaCore
     )
+    
+    add_custom_command(OUTPUT MaaCore.xcframework
+        COMMAND rm -rf MaaCore.xcframework
+        COMMAND xcodebuild -create-xcframework -library libMaaUtils.dylib -output libMaaUtils.xcframework
+        DEPENDS MaaCore
+    )
 
     add_custom_command(OUTPUT OpenCV.xcframework
         COMMAND rm -rf OpenCV.xcframework
