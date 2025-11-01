@@ -156,3 +156,27 @@ We have continued to fix numerous bugs; for example, the external notification f
 * polish PixelAnalyzer a bit (#14538) @Alan-Charred
 * remove global templates for 3294b29f54dadc4198a40538e85b71902c79c875 @Constrat
 * remove cancelled() and add mentions @Constrat
+
+## v5.27.1
+
+### 新增 | New
+
+* SideStory「雪山降临1101」导航 @SherkeyXD
+
+### 修复 | Fix
+
+* macos GUI缺少MaaUtils库导致无法启动 @hguandl @MistEO
+* 关卡复核错误 @ABA2396
+
+### 文档 | Docs
+
+* fix boolean capitalization in C# documentation comments (#14599) @Copilot @lucienshawls
+
+### 其他 | Other
+
+* 繁中服第十五章 & 重複訪問好友 text (#14594) @momomochi987
+* Apply suggestion from @Copilot @MistEO @Copilot
+* KR varius translations (#14591) @HX3N
+* 调整devcontainer环境构建流程，使其适应MaaUtils (#14580) @lucienshawls
+* ClickStageName 同步 ClickedCorrectStage ocrReplace @ABA2396
+

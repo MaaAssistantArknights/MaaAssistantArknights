@@ -22,7 +22,7 @@ if(WIN32)
 endif()
 
 if(LINUX)
-    target_link_libraries(MaaCore pthread)
+    target_link_libraries(MaaCore pthread dl)
 endif()
 
 file(GLOB_RECURSE MaaCore_PUBLIC_HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)

@@ -396,8 +396,17 @@
         "isAscii": true,
         "text": [],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
+        "ocrReplaceDoc": "和 ClickedCorrectStage 同步，但去除 OPERATION",
         "ocrReplace": [
             ["-\\]", "-1"],
+            [" ", ""],
+            ["s", "S"],
+            ["c", "C"],
+            ["o", "O"],
+            [":", ""],
+            ["'", ""],
+            ["(H\\d+)O(?=-)", "$010"],
+            ["(-\\d+)O", "$010"],
             [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ]
     },
@@ -418,15 +427,19 @@
         "fullMatch": true,
         "isAscii": true,
         "text": [],
+        "ocrReplaceDoc": "和 ClickedCorrectStage 同步",
         "ocrReplace": [
             ["OPERATION", ""],
+            ["-\\]", "-1"],
             [" ", ""],
             ["s", "S"],
             ["c", "C"],
+            ["o", "O"],
             [":", ""],
             ["'", ""],
             ["(H\\d+)O(?=-)", "$010"],
-            ["(-\\d+)O", "$010"]
+            ["(-\\d+)O", "$010"],
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ],
         "roi": [845, 72, 220, 50]
     },
