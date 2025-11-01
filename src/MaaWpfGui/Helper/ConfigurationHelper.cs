@@ -313,7 +313,7 @@ public class ConfigurationHelper
     /// <summary>
     /// Load configuration file
     /// </summary>
-    /// <returns>True if success, false if failed</returns>
+    /// <returns>True if succeeded, False if failed</returns>
     public static bool Load()
     {
         EnsureConfigDirectoryExists();

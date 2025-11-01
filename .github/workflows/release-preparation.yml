@@ -100,10 +100,12 @@ jobs:
           configuration-path: ".github/release_reviewers.yaml"
 
   update-submodules:
+    name: Update Submodules
     if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          gh workflow run --repo $GITHUB_REPOSITORY update-submodules.yml
+      - name: Trigger submodule update workflow
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run --repo $GITHUB_REPOSITORY update-submodules.yml
