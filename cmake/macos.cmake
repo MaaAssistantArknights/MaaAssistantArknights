@@ -8,7 +8,7 @@ if (BUILD_XCFRAMEWORK)
     add_custom_command(OUTPUT MaaUtils.xcframework
         COMMAND rm -rf MaaUtils.xcframework
         COMMAND xcodebuild -create-xcframework -library libMaaUtils.dylib -output MaaUtils.xcframework
-        DEPENDS MaaCore
+        DEPENDS MaaUtils
     )
 
     add_custom_command(OUTPUT OpenCV.xcframework
