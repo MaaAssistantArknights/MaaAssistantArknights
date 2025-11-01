@@ -17,6 +17,7 @@ Workflow files are all stored under `.github/workflows`, and each file can be ca
 
 - [Code Testing](#code-testing)
 - [Code Building](#code-building)
+- [Code Security Scanning](#code-security-scanning)
 - [Version Release](#version-release)
 - [Resource Updates](#resource-updates)
 - [Website Building](#website-building)
@@ -47,13 +48,29 @@ In addition to the necessary MaaCore, Windows build artifacts include MaaWpfGui,
 
 This workflow runs automatically on any new commit and PR. When triggered by a release PR, the build artifacts from this run will be used directly for release and will create a Release.
 
+### Code Security Scanning
+
+Code security scanning uses CodeQL to analyze code and workflows for security vulnerabilities, with the following workflows:
+
+`codeql-core.yml`
+
+This workflow performs security analysis on the C++ and C# code of MaaCore and MaaWpfGui, detecting potential security vulnerabilities.
+
+It runs automatically on PRs that modify relevant source code, and also executes daily scheduled checks at 11:45 UTC.
+
+`codeql-wf.yml`
+
+This workflow performs security analysis on GitHub Actions workflow files themselves, ensuring the security of the CI/CD processes.
+
+It runs automatically on PRs that modify workflow files, and also executes daily scheduled checks at 12:00 UTC.
+
 ### Version Release
 
 Version release is the necessary operation to publish updates to users, consisting of the following workflows:
 
 - `release-nightly-ota.yml` Release nightly builds
 - `release-ota.yml` Release stable/beta versions
-  - `gen-changelog.yml` Generate changelog for stable/beta versions
+  - `release-preparation.yml` Generate changelog and prepare release for stable/beta versions
   - `pr-auto-tag.yml` Generate tags for stable/beta versions
 
 ::: tip
@@ -73,7 +90,7 @@ Note that nightly builds are only released for Windows users; macOS and Linux us
 The release process for these two channels is relatively more complex. We'll explain the role of each workflow by simulating a release process:
 
 1. Create a PR from `dev` to `master` branch, and the PR name must be `Release v******`
-2. `gen-changelog.yml` generates a changelog from the most recent stable/beta version to the current version (as a new PR)
+2. `release-preparation.yml` generates a changelog from the most recent stable/beta version to the current version (as a new PR)
 3. Manually adjust the changelog and add brief descriptions
 4. Merge the PR, triggering `pr-auto-tag.yml` to create tags and sync branches
 5. The Release event triggers `release-ota.yml`, which builds OTA packages and uploads attachments after tagging master
@@ -90,9 +107,9 @@ This section of workflows is mainly responsible for MAA's resource updates and o
 
 `website-workflow.yml`
 
-This workflow is mainly responsible for building and publishing MAA's official website, including both the main page and documentation components.
+This workflow is mainly responsible for building and publishing MAA's documentation site.
 
-Please note that website publishing is tightly bound to releases. Regular modifications to web components only trigger builds to ensure no errors occur, and actual deployment to Azure only happens during releases.
+Please note that website publishing is tightly bound to releases. Regular modifications to web components only trigger builds to ensure no errors occur, and actual deployment to GitHub Pages only happens during releases.
 
 ### Issues Management
 
@@ -135,3 +152,7 @@ Automatically ignores commits with commit messages containing `blame ignore` to 
 `cache-delete.yml`
 
 Cleans up related caches after PR merges to save cache usage.
+
+`update-submodules.yml`
+
+Periodically updates submodules such as MaaMacGui and maa-cli to their latest versions. This workflow runs automatically at 21:50 UTC daily (before the nightly release), ensuring submodules remain up to date.

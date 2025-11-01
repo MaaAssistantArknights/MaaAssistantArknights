@@ -26,6 +26,7 @@
     <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">更新設定</system:String>
+    <system:String x:Key="AchievementSettings">成就設定</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
     <system:String x:Key="IssueReport">問題回饋</system:String>
     <system:String x:Key="MaaVersion">軟體版本</system:String>
@@ -281,6 +282,7 @@
     <system:String x:Key="SpecifiedDropsTip">此選項不會自動計算最優關卡</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdateAutoCheck">定時檢查更新</system:String>
+    <system:String x:Key="UpdateAutoCheckTip">04:00 / 22:00 Server Time</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新檔</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自動安裝更新檔</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
@@ -650,8 +652,8 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="NoUse">不選擇</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
-    <!--<system:String x:Key="CurrentStage">目前關卡</system:String>
-    <system:String x:Key="LastBattle">上次作戰</system:String>-->
+    <!--<system:String x:Key="CurrentStage">目前關卡</system:String>-->
+    <!--<system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">目前/上次</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
     <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
@@ -816,6 +818,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  Copilot  -->
     <system:String x:Key="Operator">幹員</system:String>
     <system:String x:Key="Copilot">自動戰鬥</system:String>
+    <system:String x:Key="SSSCopilot">SSS ｢{key=Copilot}｣</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
     <system:String x:Key="CopilotTaskName">關卡名</system:String>
     <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>
@@ -1216,8 +1219,6 @@ C:\\leidian\\LDPlayer9。\n
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想進步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">透過製造刷點數</system:String>
-    <system:String x:Key="Reclamation2ExProductTip">支援道具名稱</system:String>
-    <system:String x:Key="Reclamation2ExProductPlaceholder">螢光棒</system:String>
     <system:String x:Key="ReclamationToolToCraftTip">支援道具名稱</system:String>
     <system:String x:Key="ReclamationToolToCraftPlaceholder">螢光棒</system:String>
     <!--  !Reclamation  -->
@@ -1524,6 +1525,12 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="Achievement.RoguelikeN15.Title">仙術杯選手</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Description">仙術牛牛真仙術。</system:String>
     <system:String x:Key="Achievement.RoguelikeN15.Conditions">使用 ｢{key=AutoRoguelike}｣ 通關任意肉鴿 N15 及以上難度</system:String>
-
     <!--  !Achievement  -->
+
+    <!--  BadModules  -->
+    <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
+    <system:String x:Key="BadModules.Warning.Prolog">以下注入到 MAA 的 DLL 可能會導致 MAA 閃退或界面渲染異常：</system:String>
+    <system:String x:Key="BadModules.Warning.Epilog">如果您注意到 MAA 存在相關問題，請嘗試將 MAA 加入相關軟體的排除名單，或卸載相關軟體後檢查問題是否仍然存在。</system:String>
+    <system:String x:Key="BadModules.Warning.DoNotShowAgain">不再顯示此警告</system:String>
+    <!--  !BadModules  -->
 </ResourceDictionary>

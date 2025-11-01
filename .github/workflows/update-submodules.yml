@@ -1,0 +1,33 @@
+name: Submodules Update
+
+on:
+  schedule:
+    - cron: "50 21 * * *" # Runs daily at 21:50 UTC (before `Release Pipeline (Nightly OTA)`)
+  workflow_dispatch:
+
+jobs:
+  update-submodules:
+    name: Update Submodules
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'MaaAssistantArknights'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Update submodules
+        run: |
+          git submodule update --remote src/MaaMacGui
+          git submodule update --remote src/maa-cli
+
+      - name: Commit and push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: "feat: Update Submodules MaaMacGui, maa-cli
+
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            [skip changelog]"
+          branch: ${{ github.ref }}

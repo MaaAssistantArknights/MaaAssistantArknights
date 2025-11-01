@@ -20,9 +20,11 @@
 #include "Common/AsstVersion.h"
 #include "Locale.hpp"
 #include "Meta.hpp"
+#include "NullStreambuf.hpp"
 #include "Platform.hpp"
 #include "SingletonHolder.hpp"
 #include "Time.hpp"
+#include "Utils/ExceptionStacktrace.hpp"
 #include "WorkingDir.hpp"
 
 #if defined(__APPLE__) || defined(__linux__)
@@ -735,9 +737,7 @@ private:
         m_buff(nullptr),
         m_of(&m_buff)
     {
-#ifndef ASST_DEBUG
         initialize_exception_handlers();
-#endif
 
         try {
             std::filesystem::create_directories(m_log_path.parent_path());
@@ -829,17 +829,23 @@ private:
         trace("-----------------------------");
     }
 
-#ifndef ASST_DEBUG
-
     inline static std::atomic<const char*> g_last_signal_reason { nullptr };
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4996)
-#endif
     static void write_crash_file(const char* reason, const char* detail = nullptr) noexcept
     {
-        FILE* f = fopen("crash.log", "a");
+        FILE* f = nullptr;
+#ifdef ASST_DEBUG
+        auto path = (UserDir.get() / "debug" / "crash.log").string();
+#else
+        auto path = (UserDir.get() / "crash.log").string();
+#endif // ASST_DEBUG
+#ifdef _WIN32
+        if (fopen_s(&f, path.c_str(), "a") != 0) {
+            return;
+        }
+#else
+        f = fopen(path.c_str(), "a");
+#endif // _WIN32
         if (!f) {
             return;
         }
@@ -851,10 +857,32 @@ private:
             fprintf(f, "Detail: %s\n", detail);
         }
         fprintf(f, "===================\n\n");
+        fflush(f);
         fclose(f);
     }
-#ifdef _MSC_VER
-#pragma warning(pop)
+
+#ifdef _WIN32
+    // SEH 未处理异常过滤器
+    static LONG WINAPI unhandled_exception_filter(PEXCEPTION_POINTERS pExceptionInfo)
+    {
+        try {
+            auto& logger = Logger::get_instance();
+            std::string exception_details = utils::ExceptionStacktrace::capture_exception_stack_trace(pExceptionInfo);
+            logger.error("=== UNHANDLED EXCEPTION ===");
+            logger.error("Exception details with stack trace:");
+            logger.error(exception_details);
+            logger.error("============================");
+            logger.flush();
+            write_crash_file("Unhandled Exception with Stack Trace", exception_details.c_str());
+        }
+        catch (...) {
+            // 如果日志记录失败，直接写入文件
+            write_crash_file("Unhandled Exception", "Failed to capture stack trace");
+        }
+
+        // 返回 EXCEPTION_EXECUTE_HANDLER 让程序正常终止
+        return EXCEPTION_CONTINUE_EXECUTION;
+    }
 #endif
 
     static void custom_terminate_handler() noexcept
@@ -878,20 +906,28 @@ private:
 
             // 再处理 C++ 异常
             std::string exception_info = "Unknown exception";
+            std::string stack_trace;
             if (auto eptr = std::current_exception()) {
                 try {
                     std::rethrow_exception(eptr);
                 }
                 catch (const std::exception& e) {
                     exception_info = std::string("std::exception: ") + e.what() + " (type: " + typeid(e).name() + ")";
+                    stack_trace = utils::ExceptionStacktrace::capture_current_stack_trace();
                 }
                 catch (...) {
                     exception_info = "Unknown exception type";
+                    stack_trace = utils::ExceptionStacktrace::capture_current_stack_trace();
                 }
             }
 
             logger.error("=== FATAL ERROR ===");
             logger.error("Unhandled exception caught:", exception_info);
+            if (!stack_trace.empty()) {
+                logger.error("Exception stack trace:");
+                logger.error(stack_trace);
+                write_crash_file("Unhandled exception stack trace:", stack_trace.c_str());
+            }
             logger.error("Program terminating...");
             logger.error("===================");
             logger.flush();
@@ -932,26 +968,52 @@ private:
 
     static void initialize_exception_handlers()
     {
+#ifdef _WIN32
+        // Windows: 设置未处理异常过滤器
+        SetUnhandledExceptionFilter(unhandled_exception_filter);
+#endif
+
         std::signal(SIGSEGV, signal_handler);
         std::signal(SIGABRT, signal_handler);
         std::signal(SIGFPE, signal_handler);
         std::signal(SIGILL, signal_handler);
+#ifdef ASST_DEBUG
+        const auto& path = UserDir.get() / "debug" / "crash.log";
+        if (std::filesystem::exists(path)) {
+            std::filesystem::remove(path);
+        }
+#endif // ASST_DEBUG
     }
-#endif
 
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)
     {
+        static utils::NullStreambuf null_buf;
+        static std::ostream null_stream { &null_buf };
+
         rotate();
+        if (lv.is_enabled()) {
 #ifdef ASST_DEBUG
-        return LogStream(
-            std::unique_lock { m_trace_mutex },
-            ostreams { console_ostream(std::cout), m_of },
-            lv,
-            std::forward<args_t>(args)...);
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                ostreams { console_ostream(std::cout), m_of },
+                lv,
+                std::forward<args_t>(args)...);
 #else
-        return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
+            return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
 #endif
+        }
+        else {
+#ifdef ASST_DEBUG
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                ostreams { console_ostream(std::cout), null_stream },
+                lv,
+                std::forward<args_t>(args)...);
+#else
+            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
+#endif
+        }
     }
 
     detail::scope_slice m_scopes;
