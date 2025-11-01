@@ -13,9 +13,7 @@ ARG NODEJS_VERSION=24
 RUN sudo apt update \
     && sudo apt upgrade -y \
     && sudo apt install -y \
-    cmake clangd-${CLANGD_VERSION}
-
-RUN sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-${CLANGD_VERSION} 100
+    cmake
 
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh \

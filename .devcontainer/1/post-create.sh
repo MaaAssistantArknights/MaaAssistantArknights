@@ -44,4 +44,4 @@ echo "Installing MaaDeps..."
 python tools/maadeps-download.py
 # Link clang-format & clangd to /usr/local/bin for easy access
 sudo ln -s $WORKSPACE/src/MaaUtils/MaaDeps/x-tools/llvm/bin/clang-format /usr/local/bin/clang-format
-# sudo ln -s $WORKSPACE/src/MaaUtils/MaaDeps/x-tools/llvm/bin/clangd /usr/local/bin/clangd
+sudo ln -s $WORKSPACE/src/MaaUtils/MaaDeps/x-tools/llvm/bin/clangd /usr/local/bin/clangd
