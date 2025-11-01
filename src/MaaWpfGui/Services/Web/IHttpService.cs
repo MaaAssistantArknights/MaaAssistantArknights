@@ -97,6 +97,6 @@ public interface IHttpService
     /// <param name="uri">The URI of the file</param>
     /// <param name="fileName">On disk filename</param>
     /// <param name="contentType">File content type</param>
-    /// <returns>True if success, False if failed</returns>
+    /// <returns>True if succeeded, False if failed</returns>
     Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null);
 }
