@@ -1,4 +1,4 @@
-## v5.27.0
+## v5.27.2
 
 ### 难道说？ | Highlights
 
@@ -177,6 +177,16 @@ We have continued to fix numerous bugs; for example, the external notification f
 * 繁中服第十五章 & 重複訪問好友 text (#14594) @momomochi987
 * Apply suggestion from @Copilot @MistEO @Copilot
 * KR varius translations (#14591) @HX3N
-* 调整devcontainer环境构建流程，使其适应MaaUtils (#14580) @lucienshawls
+* 调整 devcontainer 环境构建流程，使其适应 MaaUtils (#14580) @lucienshawls
 * ClickStageName 同步 ClickedCorrectStage ocrReplace @ABA2396
 
+## v5.27.2
+
+### 修复 | Fix
+
+* 无法迁移旧资源路径文件 @ABA2396
+* erosion resistant device regex fix for EN @Constrat
+
+### 其他 | Other
+
+* SideStoryStage ocrReplace @ABA2396
