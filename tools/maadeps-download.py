@@ -9,7 +9,7 @@ from maadeps_download import detect_host_triplet
 from maadeps_download import main as download_main
 
 REPO = "MaaAssistantArknights/MaaDeps"
-VERSION = "v2.10.0-maa.1"
+VERSION = "v2.10.1-maa.1"
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
