@@ -359,7 +359,7 @@ jobs:
       #   run: |
       #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
-      - name: Comment on issue if failed
+      - name: Add a comment on failure
         if: failure() && github.ref == 'refs/heads/dev'
         run: |
           # Minimize old failure comments
@@ -374,7 +374,7 @@ jobs:
                 }
               }'
           done
-          
+
           # Add new failure comment
           gh issue comment 14493 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 

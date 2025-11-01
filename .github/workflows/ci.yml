@@ -601,7 +601,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
 
-      - name: Create issue if failed
+      - name: Create issue on failure
         if: failure()
         uses: actions-cool/issues-helper@v3
         with:
