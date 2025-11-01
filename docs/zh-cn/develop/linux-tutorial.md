@@ -57,7 +57,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
      git clone https://github.com/MaaAssistantArknights/MaaDeps
      cd MaaDeps
      # 如果系统环境过低无法使用我们预构建的 llvm 20, 请考虑不使用交叉编译, 直接使用本地编译环境.
-     # 需要调整 MaaDeps/cmake 中的 toolchain 配置.
+     # 需要调整 src/MaaUtils/MaaDeps/cmake 中的 toolchain 配置.
      python linux-toolchain-download.py
      python build.py
      ```
@@ -68,7 +68,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
    cmake -B build \
        -DINSTALL_RESOURCE=ON \
        -DINSTALL_PYTHON=ON \
-       -DCMAKE_TOOLCHAIN_FILE=MaaDeps/cmake/maa-x64-linux-toolchain.cmake
+       -DCMAKE_TOOLCHAIN_FILE=src/MaaUtils/MaaDeps/cmake/maa-x64-linux-toolchain.cmake
    cmake --build build
    ```
 

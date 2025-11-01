@@ -15002,6 +15002,105 @@
         "stageId": "act45side_tr01",
         "width": 9
     },
+    "act46side_01-activities/act46side/level_act46side_01": {
+        "code": "OS-1",
+        "filename": "act46side_01-activities-act46side-level_act46side_01.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_01",
+        "name": "呼号声中",
+        "stageId": "act46side_01",
+        "width": 10
+    },
+    "act46side_02-activities/act46side/level_act46side_02": {
+        "code": "OS-2",
+        "filename": "act46side_02-activities-act46side-level_act46side_02.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_02",
+        "name": "甜蜜的邻人",
+        "stageId": "act46side_02",
+        "width": 9
+    },
+    "act46side_03-activities/act46side/level_act46side_03": {
+        "code": "OS-3",
+        "filename": "act46side_03-activities-act46side-level_act46side_03.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_03",
+        "name": "雪灌木中",
+        "stageId": "act46side_03",
+        "width": 11
+    },
+    "act46side_04-activities/act46side/level_act46side_04": {
+        "code": "OS-4",
+        "filename": "act46side_04-activities-act46side-level_act46side_04.json",
+        "height": 7,
+        "levelId": "activities/act46side/level_act46side_04",
+        "name": "并蒂生",
+        "stageId": "act46side_04",
+        "width": 12
+    },
+    "act46side_05-activities/act46side/level_act46side_05": {
+        "code": "OS-5",
+        "filename": "act46side_05-activities-act46side-level_act46side_05.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_05",
+        "name": "雪夜独行",
+        "stageId": "act46side_05",
+        "width": 11
+    },
+    "act46side_06-activities/act46side/level_act46side_06": {
+        "code": "OS-6",
+        "filename": "act46side_06-activities-act46side-level_act46side_06.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_06",
+        "name": "绿翡翠",
+        "stageId": "act46side_06",
+        "width": 12
+    },
+    "act46side_07-activities/act46side/level_act46side_07": {
+        "code": "OS-7",
+        "filename": "act46side_07-activities-act46side-level_act46side_07.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_07",
+        "name": "焚心灼影",
+        "stageId": "act46side_07",
+        "width": 11
+    },
+    "act46side_08-activities/act46side/level_act46side_08": {
+        "code": "OS-8",
+        "filename": "act46side_08-activities-act46side-level_act46side_08.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_08",
+        "name": "宣告在途",
+        "stageId": "act46side_08",
+        "width": 12
+    },
+    "act46side_09-activities/act46side/level_act46side_09": {
+        "code": "OS-9",
+        "filename": "act46side_09-activities-act46side-level_act46side_09.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_09",
+        "name": "凛刃出匣",
+        "stageId": "act46side_09",
+        "width": 12
+    },
+    "act46side_10-activities/act46side/level_act46side_10": {
+        "code": "OS-10",
+        "filename": "act46side_10-activities-act46side-level_act46side_10.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_10",
+        "name": "耶拉冈德在上",
+        "stageId": "act46side_10",
+        "width": 21
+    },
+    "act46side_tr01-activities/act46side/level_act46side_tr01": {
+        "code": "OS-TR-1",
+        "filename": "act46side_tr01-activities-act46side-level_act46side_tr01.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_tr01",
+        "name": "第一片雪",
+        "stageId": "act46side_tr01",
+        "width": 10
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
@@ -22805,6 +22904,15 @@
         "stageId": "mem_blemsh_1",
         "width": 10
     },
+    "mem_blkkgt_1-obt/memory/level_memory_blkkgt_1": {
+        "code": "mem_blkkgt_1",
+        "filename": "mem_blkkgt_1-obt-memory-level_memory_blkkgt_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_blkkgt_1",
+        "name": "路在脚下",
+        "stageId": "mem_blkkgt_1",
+        "width": 11
+    },
     "mem_blkngt_1-obt/memory/level_memory_blkngt_1": {
         "code": "mem_blkngt_1",
         "filename": "mem_blkngt_1-obt-memory-level_memory_blkngt_1.json",
@@ -22974,6 +23082,15 @@
         "levelId": "obt/memory/level_memory_cerber_1",
         "name": "打坏人的诀窍",
         "stageId": "mem_cerber_1",
+        "width": 11
+    },
+    "mem_cetsyr_1-obt/memory/level_memory_cetsyr_1": {
+        "code": "mem_cetsyr_1",
+        "filename": "mem_cetsyr_1-obt-memory-level_memory_cetsyr_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_cetsyr_1",
+        "name": "一段未完演练",
+        "stageId": "mem_cetsyr_1",
         "width": 11
     },
     "mem_ceylon_1-obt/memory/level_memory_ceylon_1": {
@@ -23750,6 +23867,15 @@
         "stageId": "mem_kazema_1",
         "width": 12
     },
+    "mem_kichi_1-obt/memory/level_memory_kichi_1": {
+        "code": "mem_kichi_1",
+        "filename": "mem_kichi_1-obt-memory-level_memory_kichi_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_kichi_1",
+        "name": "奖励时刻",
+        "stageId": "mem_kichi_1",
+        "width": 11
+    },
     "mem_kirara_1-obt/memory/level_memory_kirara_1": {
         "code": "mem_kirara_1",
         "filename": "mem_kirara_1-obt-memory-level_memory_kirara_1.json",
@@ -23785,6 +23911,15 @@
         "name": "次品处理",
         "stageId": "mem_lasher_1",
         "width": 11
+    },
+    "mem_lava2_1-obt/memory/level_memory_lava2_1": {
+        "code": "mem_lava2_1",
+        "filename": "mem_lava2_1-obt-memory-level_memory_lava2_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_lava2_1",
+        "name": "训练成果",
+        "stageId": "mem_lava2_1",
+        "width": 13
     },
     "mem_lava_1-obt/memory/level_memory_lava_1": {
         "code": "mem_lava_1",

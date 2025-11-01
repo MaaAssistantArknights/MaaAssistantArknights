@@ -1583,6 +1583,14 @@
         "sortId": -10000,
         "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
+    "act1break_milestone_point": {
+        "classifyType": "NONE",
+        "description": "평범한 안내판. 원형 의자 레이싱 대회에서 가속 표지판으로 사용된 이후, 이 경기에 관심을 가진 오퍼레이터들의 사랑을 받으며, 어느샌가 하나의 소장품이 되었다.",
+        "icon": "act1break_milestone_point.png",
+        "name": "'미끄럼 주의'",
+        "sortId": -10000,
+        "usage": "돌파 마일스톤에서 보상을 교환할 수 있다."
+    },
     "act1collection_point_token": {
         "classifyType": "NONE",
         "description": "스바트 아르살란에 기지를 건설하러 나가는 외근 오퍼레이터를 위해 로도스 아일랜드에서 발급한 특별 교환 포인트. 포인트로 긴급 필요 물자를 교환할 수 있다.",

@@ -37,7 +37,7 @@ bool run_parallel_tasks(
     const std::filesystem::path& resource_dir,
     const std::filesystem::path& official_data_dir,
     const std::filesystem::path& overseas_data_dir,
-    const std::unordered_map<fs::path, std::string>& global_dirs);
+    const std::unordered_map<std::string, std::string>& global_dirs);
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs = true);
 bool cvt_single_item_template(const fs::path& input, const fs::path& output);
@@ -79,7 +79,7 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto overseas_data_dir = cur_path / "Overseas";
     const auto resource_dir = solution_dir / "resource";
 
-    std::unordered_map<fs::path, std::string> global_dirs = {
+    std::unordered_map<std::string, std::string> global_dirs = {
         { "en", "YoStarEN" },
         { "jp", "YoStarJP" },
         { "kr", "YoStarKR" },
@@ -111,7 +111,7 @@ bool run_parallel_tasks(
     const std::filesystem::path& resource_dir,
     const std::filesystem::path& official_data_dir,
     const std::filesystem::path& overseas_data_dir,
-    const std::unordered_map<fs::path, std::string>& global_dirs)
+    const std::unordered_map<std::string, std::string>& global_dirs)
 {
     std::atomic<bool> error_occurred(false);
 
