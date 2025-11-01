@@ -27,7 +27,7 @@ if (BUILD_XCFRAMEWORK)
     )
 
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework fastdeploy_ppocr.xcframework
+        DEPENDS MaaCore MaaCore.xcframework MaaUtils MaaUtils.xcframework OpenCV.xcframework ONNXRuntime.xcframework fastdeploy_ppocr.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 
