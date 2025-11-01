@@ -1,0 +1,58 @@
+{
+    "OS-4": {
+        "algorithm": "JustReturn",
+        "sub": ["OS-4@OS-OpenOpt"],
+        "next": ["OS-4@SideStoryStage", "OS-4@SwipeToStage"]
+    },
+    "OS-4@SideStoryStage": {
+        "text": ["OS-4"]
+    },
+    "OS-7": {
+        "algorithm": "JustReturn",
+        "sub": ["OS-7@OS-OpenOpt"],
+        "next": ["OS-7@SideStoryStage", "OS-7@SwipeToStage"]
+    },
+    "OS-7@SideStoryStage": {
+        "text": ["OS-7"]
+    },
+    "OS-8": {
+        "algorithm": "JustReturn",
+        "sub": ["OS-8@OS-OpenOpt"],
+        "next": ["OS-8@SideStoryStage", "OS-8@SwipeToStage"]
+    },
+    "OS-8@SideStoryStage": {
+        "text": ["OS-8"]
+    },
+    "OS-9": {
+        "algorithm": "JustReturn",
+        "sub": ["OS-9@OS-OpenOpt"],
+        "next": ["OS-9@SideStoryStage", "OS-9@SwipeToStage"]
+    },
+    "OS-9@SideStoryStage": {
+        "text": ["OS-9"]
+    },
+    "OS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["OS-OpenOcr", "OS-Open"]
+    },
+    "OS-Open": {
+        "baseTask": "SS-Open",
+        "postDelay": 3000,
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "next": ["OSChapterToOS"]
+    },
+    "OS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "postDelay": 3000,
+        "text": ["雪山降临1101", "变革之路", "喀兰之心"],
+        "next": ["OSChapterToOS"]
+    },
+    "OSChapterToOS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["圣巡之旅"],
+        "postDelay": 2000,
+        "roi": [878, 592, 104, 33],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    }
+}

@@ -4,6 +4,12 @@ if (BUILD_XCFRAMEWORK)
         COMMAND xcodebuild -create-xcframework -library libMaaCore.dylib -headers ${PROJECT_SOURCE_DIR}/include -output MaaCore.xcframework
         DEPENDS MaaCore
     )
+    
+    add_custom_command(OUTPUT MaaUtils.xcframework
+        COMMAND rm -rf MaaUtils.xcframework
+        COMMAND xcodebuild -create-xcframework -library libMaaUtils.dylib -output MaaUtils.xcframework
+        DEPENDS MaaUtils
+    )
 
     add_custom_command(OUTPUT OpenCV.xcframework
         COMMAND rm -rf OpenCV.xcframework
@@ -21,7 +27,7 @@ if (BUILD_XCFRAMEWORK)
     )
 
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework fastdeploy_ppocr.xcframework
+        DEPENDS MaaCore MaaCore.xcframework MaaUtils MaaUtils.xcframework OpenCV.xcframework ONNXRuntime.xcframework fastdeploy_ppocr.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 
