@@ -5,9 +5,9 @@ if (BUILD_XCFRAMEWORK)
         DEPENDS MaaCore
     )
     
-    add_custom_command(OUTPUT MaaCore.xcframework
-        COMMAND rm -rf MaaCore.xcframework
-        COMMAND xcodebuild -create-xcframework -library libMaaUtils.dylib -output libMaaUtils.xcframework
+    add_custom_command(OUTPUT MaaUtils.xcframework
+        COMMAND rm -rf MaaUtils.xcframework
+        COMMAND xcodebuild -create-xcframework -library libMaaUtils.dylib -output MaaUtils.xcframework
         DEPENDS MaaCore
     )
 
