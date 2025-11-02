@@ -680,8 +680,15 @@
         "isAscii": true,
         "text": [],
         "ocrReplace": [
+            [" ", ""],
+            ["s", "S"],
+            ["c", "C"],
+            ["o", "O"],
+            [":", ""],
+            ["'", ""],
             [" (\\d)", "-$1"],
-            ["-1O$", "-10$"]
+            ["-1O$", "-10$"],
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ],
         "roi": [0, 60, 1280, 550]
     },
@@ -3841,17 +3848,17 @@
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [110, 385, 1, 100]
+        "specificRect": [106, 385, 1, 100]
     },
     "BattleQuickFormationSkill2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [110, 560, 1, 30]
+        "specificRect": [106, 560, 1, 30]
     },
     "BattleQuickFormationSkill3": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [110, 650, 1, 30]
+        "specificRect": [106, 650, 1, 30]
     },
     "BattleQuickFormationModulePage": {
         "algorithm": "OcrDetect",

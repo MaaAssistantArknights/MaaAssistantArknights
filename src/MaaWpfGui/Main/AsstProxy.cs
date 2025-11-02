@@ -406,12 +406,12 @@ public class AsstProxy
         }
 
         // 新的目录结构为 tasks/tasks.json，api 为了兼容，仍然存在 resource/tasks.json
-        static void CopyTasksJson(string oldPath)
+        static void CopyTasksJson(string oldResPath)
         {
             try
             {
-                string tasksJsonPath = Path.Combine(oldPath, @"resource\tasks.json");
-                string tasksFolderPath = Path.Combine(oldPath, @"resource\tasks");
+                string tasksJsonPath = Path.Combine(oldResPath, @"tasks.json");
+                string tasksFolderPath = Path.Combine(oldResPath, @"tasks");
                 string newTasksJsonPath = Path.Combine(tasksFolderPath, "tasks.json");
 
                 if (!File.Exists(tasksJsonPath))
