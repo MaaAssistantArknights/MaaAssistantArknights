@@ -52,6 +52,7 @@ We have continued to fix numerous bugs; for example, the external notification f
 
 ### 新增 | New
 
+* OS-喀兰贸易研发部 小游戏 (#14615) @ABA2396
 * 界面主题「齐聚」 @SherkeyXD
 * 界园DLC新关卡战斗逻辑 @Saratoga-Official
 * 界园 dlc2 通宝数据更新 @SherkeyXD
@@ -110,6 +111,9 @@ We have continued to fix numerous bugs; for example, the external notification f
 * cleanup ifdef + fix AsstDestroy missed calls + lldb @Constrat
 * precommit maacore @Constrat
 * change default issue + remove always as not necessary、add always() @Constrat
+* 无法迁移旧资源路径文件 @ABA2396
+* 肉鸽商店投资界面加一点延迟 @Saratoga-Official
+* Ines regex EN @Constrat
 
 ### 文档 | Docs
 
@@ -156,6 +160,7 @@ We have continued to fix numerous bugs; for example, the external notification f
 * polish PixelAnalyzer a bit (#14538) @Alan-Charred
 * remove global templates for 3294b29f54dadc4198a40538e85b71902c79c875 @Constrat
 * remove cancelled() and add mentions @Constrat
+* SideStoryStage ocrReplace @ABA2396
 
 ## v5.27.1
 
@@ -179,20 +184,3 @@ We have continued to fix numerous bugs; for example, the external notification f
 * KR varius translations (#14591) @HX3N
 * 调整 devcontainer 环境构建流程，使其适应 MaaUtils (#14580) @lucienshawls
 * ClickStageName 同步 ClickedCorrectStage ocrReplace @ABA2396
-
-## v5.27.2
-
-### 新增 | New
-
-* OS-喀兰贸易研发部 小游戏 (#14615) @ABA2396
-
-### 修复 | Fix
-
-* 无法迁移旧资源路径文件 @ABA2396
-* 肉鸽商店投资界面加一点延迟 @Saratoga-Official
-* erosion resistant device regex fix for EN @Constrat
-* Ines regex EN @Constrat
-
-### 其他 | Other
-
-* SideStoryStage ocrReplace @ABA2396
