@@ -5,7 +5,7 @@
 #include <ranges>
 #include <thread>
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -13,9 +13,9 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Algorithm.hpp"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"

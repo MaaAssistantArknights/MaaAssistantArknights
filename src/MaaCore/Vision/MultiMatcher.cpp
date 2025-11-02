@@ -3,7 +3,7 @@
 #include <ranges>
 #include <utility>
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"

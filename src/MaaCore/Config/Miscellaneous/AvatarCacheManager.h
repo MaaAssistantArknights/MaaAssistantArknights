@@ -6,14 +6,14 @@
 #include <future>
 #include <unordered_map>
 
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 
 namespace asst
 {
-class AvatarCacheManager final : public SingletonHolder<AvatarCacheManager>, public AbstractResource
+class AvatarCacheManager final : public MAA_NS::SingletonHolder<AvatarCacheManager>, public AbstractResource
 {
 public:
     using AvatarsMap = std::unordered_map<std::string, cv::Mat>;

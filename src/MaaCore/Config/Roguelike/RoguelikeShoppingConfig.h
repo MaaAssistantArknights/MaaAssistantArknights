@@ -19,7 +19,7 @@ struct RoguelikeGoods
     bool decrease_collapse = false;
 };
 
-class RoguelikeShoppingConfig final : public SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig
+class RoguelikeShoppingConfig final : public MAA_NS::SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig
 {
 public:
     virtual ~RoguelikeShoppingConfig() override = default;

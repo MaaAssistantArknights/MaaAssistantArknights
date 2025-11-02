@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Config/Roguelike/RoguelikeMapConfig.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {
@@ -21,7 +21,7 @@ enum class RoguelikeBoskySubNodeType
 // 获取树篱之途子节点类型的字符串名称
 std::string subtype2name(RoguelikeBoskySubNodeType sub_node_type);
 
-class RoguelikeBoskyPassageMap : public SingletonHolder<RoguelikeBoskyPassageMap>
+class RoguelikeBoskyPassageMap : public MAA_NS::SingletonHolder<RoguelikeBoskyPassageMap>
 {
 public:
     ~RoguelikeBoskyPassageMap() = default;

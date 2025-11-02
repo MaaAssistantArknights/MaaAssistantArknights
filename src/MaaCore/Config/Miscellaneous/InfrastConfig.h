@@ -8,7 +8,7 @@
 
 namespace asst
 {
-class InfrastConfig final : public SingletonHolder<InfrastConfig>, public AbstractConfigWithTempl
+class InfrastConfig final : public MAA_NS::SingletonHolder<InfrastConfig>, public AbstractConfigWithTempl
 {
 public:
     virtual ~InfrastConfig() override = default;

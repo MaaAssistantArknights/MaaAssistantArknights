@@ -1,6 +1,6 @@
 #include "Hasher.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Utils/Logger.hpp"
 

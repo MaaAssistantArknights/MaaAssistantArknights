@@ -11,7 +11,7 @@
 #include "Meta.hpp"
 
 #ifdef _WIN32
-#include "Platform/SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #include <io.h>
 #include <locale.h>
 
