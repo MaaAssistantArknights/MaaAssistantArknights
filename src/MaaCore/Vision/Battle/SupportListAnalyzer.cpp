@@ -1,7 +1,7 @@
 #include "SupportListAnalyzer.h"
 
 #include "Config/TaskData.h"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"

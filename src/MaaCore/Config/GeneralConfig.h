@@ -90,7 +90,7 @@ struct AdbCfg
     json::object extras;
 };
 
-class GeneralConfig final : public SingletonHolder<GeneralConfig>, public AbstractConfig
+class GeneralConfig final : public MAA_NS::SingletonHolder<GeneralConfig>, public AbstractConfig
 {
 public:
     virtual ~GeneralConfig() override = default;

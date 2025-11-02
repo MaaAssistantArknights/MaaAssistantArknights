@@ -7,8 +7,7 @@
 #include <vector>
 
 #include "Assistant.h"
-#include "Common/AsstConf.h"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push)

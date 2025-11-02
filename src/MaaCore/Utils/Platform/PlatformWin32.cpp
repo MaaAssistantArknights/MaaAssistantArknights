@@ -5,6 +5,7 @@
 #include <atomic>
 #include <format>
 #include <mbctype.h>
+#include <winioctl.h>
 
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"

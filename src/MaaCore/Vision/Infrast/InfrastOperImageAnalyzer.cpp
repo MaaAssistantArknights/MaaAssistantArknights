@@ -1,6 +1,6 @@
 #include "InfrastOperImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include <ranges>
 
 #include "Config/Miscellaneous/InfrastConfig.h"

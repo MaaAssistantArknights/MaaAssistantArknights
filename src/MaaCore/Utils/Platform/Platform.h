@@ -8,8 +8,8 @@
 #include <utility>
 
 #ifdef _WIN32
+#include "MaaUtils/SafeWindows.hpp"
 #include "PlatformWin32.h"
-#include "SafeWindows.h"
 #else
 #include "PlatformPosix.h"
 #endif //  _WIN32

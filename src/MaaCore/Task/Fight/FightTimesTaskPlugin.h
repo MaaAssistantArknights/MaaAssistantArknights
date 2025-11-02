@@ -1,7 +1,7 @@
 #pragma once
 #include "Common/AsstTypes.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTaskPlugin.h"
-#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {

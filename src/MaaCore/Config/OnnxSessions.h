@@ -14,7 +14,7 @@
 
 namespace asst
 {
-class OnnxSessions final : public SingletonHolder<OnnxSessions>, public AbstractResource
+class OnnxSessions final : public MAA_NS::SingletonHolder<OnnxSessions>, public AbstractResource
 {
 public:
     virtual ~OnnxSessions();

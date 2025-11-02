@@ -7,9 +7,9 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattleFormationAnalyzer.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldDetector.h"
@@ -90,7 +90,7 @@ bool asst::CombatRecordRecognitionTask::_run()
         "MaaAI_{}_{}_{}.json",
         m_stage_name,
         utils::path_to_utf8_string(m_video_path.stem()),
-        utils::format_now_for_filename());
+        MAA_NS::format_now_for_filename());
     auto filepath = UserDir.get() / "cache" / "CombatRecord" / utils::path(filename);
     std::filesystem::create_directories(filepath.parent_path());
     std::ofstream osf(filepath);
@@ -154,7 +154,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         m_copilot_json["opers"].emplace(std::move(oper_json));
 
         cb_formation.emplace(name);
-        asst::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
+        MAA_NS::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
     }
     callback(AsstMsg::SubTaskCompleted, cb_info);
 
@@ -218,7 +218,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
     m_copilot_json["minimum_required"] = "v4.0.0";
     m_copilot_json["doc"]["title"] = "MAA AI - " + m_stage_name;
     m_copilot_json["doc"]["details"] =
-        "Built at: " + utils::format_now() + "\n" + utils::path_to_utf8_string(m_video_path);
+        "Built at: " + MAA_NS::format_now() + "\n" + utils::path_to_utf8_string(m_video_path);
 
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("OcrStage"));
     return true;

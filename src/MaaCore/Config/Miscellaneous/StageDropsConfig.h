@@ -70,7 +70,7 @@ struct StageDropInfo
     int quantity = 0;
 };
 
-class StageDropsConfig final : public SingletonHolder<StageDropsConfig>, public AbstractConfig
+class StageDropsConfig final : public MAA_NS::SingletonHolder<StageDropsConfig>, public AbstractConfig
 {
 public:
     virtual ~StageDropsConfig() override = default;

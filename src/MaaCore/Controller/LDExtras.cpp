@@ -2,9 +2,9 @@
 
 #if ASST_WITH_EMULATOR_EXTRAS
 
+#include "MaaUtils/NoWarningCV.hpp"
+#include "MaaUtils/SafeWindows.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
-#include "Utils/Platform/SafeWindows.h"
 #include <Controller/AdbController.h>
 #include <sstream>
 #include <string>

@@ -1,18 +1,16 @@
 #pragma once
 
-#include "Common/AsstConf.h"
-
 #if ASST_WITH_EMULATOR_EXTRAS
 
-#include "Utils/Platform/SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #include <filesystem>
 #include <optional>
 #include <string>
 
 #include "LD/dnopengl/dnopengl.h"
 
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/LibraryHolder.hpp"
-#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {

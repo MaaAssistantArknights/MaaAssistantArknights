@@ -2,15 +2,14 @@
 
 #include <filesystem>
 
-#include "Utils/NoWarningCV.h"
-ASST_SUPPRESS_CV_WARNINGS_START
+#include "MaaUtils/NoWarningCV.hpp"
+MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
 #include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
-ASST_SUPPRESS_CV_WARNINGS_END
+MAA_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Demangle.hpp"
-#include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"

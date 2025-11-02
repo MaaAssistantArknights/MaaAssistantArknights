@@ -4,7 +4,7 @@
 
 namespace asst
 {
-class SSSCopilotConfig : public SingletonHolder<SSSCopilotConfig>, public AbstractConfig
+class SSSCopilotConfig : public MAA_NS::SingletonHolder<SSSCopilotConfig>, public AbstractConfig
 {
 public:
     virtual ~SSSCopilotConfig() override = default;

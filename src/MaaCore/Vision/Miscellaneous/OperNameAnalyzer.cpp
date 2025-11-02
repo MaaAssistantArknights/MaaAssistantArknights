@@ -1,6 +1,6 @@
 #include "OperNameAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Vision/RegionOCRer.h"
 
 asst::OperNameAnalyzer::ResultOpt asst::OperNameAnalyzer::analyze() const

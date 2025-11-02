@@ -8,11 +8,11 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
+#include "MaaUtils/Time.hpp"
 #include "Task/ProcessTask.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
-#include "Utils/Time.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
@@ -779,7 +779,7 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
         suffix = "-" + std::to_string(m_camera_count);
     }
     std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 50, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
-    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".jpeg"), draw, jpeg_params);
+    MAA_NS::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".jpeg"), draw, jpeg_params);
 }
 
 bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
@@ -894,8 +894,8 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 #ifdef ASST_DEBUG
     if (!top_view.empty()) {
         using namespace asst::utils::path_literals;
-        asst::imwrite(
-            asst::utils::path(std::format("debug/skill/{}_{}.png", m_stage_name, utils::format_now_for_filename())),
+        MAA_NS::imwrite(
+            asst::utils::path(std::format("debug/skill/{}_{}.png", m_stage_name, MAA_NS::format_now_for_filename())),
             top_view);
     }
 #endif

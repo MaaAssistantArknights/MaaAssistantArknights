@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 
 #include "Config/GeneralConfig.h"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 using boost::asio::ip::tcp;
 namespace socket_ops = boost::asio::detail::socket_ops;

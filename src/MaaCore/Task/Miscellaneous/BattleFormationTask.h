@@ -2,8 +2,8 @@
 #include <set>
 
 #include "Common/AsstBattleDef.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
-#include "Utils/NoWarningCVMat.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst

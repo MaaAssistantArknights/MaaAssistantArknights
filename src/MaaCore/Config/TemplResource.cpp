@@ -4,9 +4,9 @@
 #include <filesystem>
 #include <string_view>
 
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
 {
@@ -92,7 +92,7 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
 #endif
         }
 
-        cv::Mat templ = asst::imread(path_iter->second);
+        cv::Mat templ = MAA_NS::imread(path_iter->second);
         m_templs.emplace(name, std::move(templ));
     }
     return m_templs.at(name);

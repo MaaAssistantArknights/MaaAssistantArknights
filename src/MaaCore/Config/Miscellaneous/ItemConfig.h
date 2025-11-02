@@ -8,7 +8,7 @@
 
 namespace asst
 {
-class ItemConfig final : public SingletonHolder<ItemConfig>, public AbstractConfigWithTempl
+class ItemConfig final : public MAA_NS::SingletonHolder<ItemConfig>, public AbstractConfigWithTempl
 {
 public:
     virtual ~ItemConfig() override = default;

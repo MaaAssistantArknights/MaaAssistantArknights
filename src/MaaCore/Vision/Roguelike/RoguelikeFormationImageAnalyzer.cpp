@@ -1,6 +1,6 @@
 #include "RoguelikeFormationImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"

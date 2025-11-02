@@ -6,8 +6,8 @@
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "Task/ReportDataTask.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 

@@ -58,22 +58,6 @@ inline constexpr void
     }
 }
 
-#ifdef ASST_USE_RANGES_RANGE_V3
-// workaround for P2210R2
-template <std::ranges::forward_range Rng>
-requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), std::ranges::distance(rng)); })
-inline auto make_string_view(Rng&& rng)
-{
-    return std::basic_string_view(std::addressof(*rng.begin()), std::ranges::distance(rng));
-}
-
-template <std::forward_iterator It, std::sized_sentinel_for<It> End>
-requires(requires(It beg, End end) { std::basic_string_view(std::addressof(*beg), std::distance(beg, end)); })
-inline auto make_string_view(It beg, End end)
-{
-    return std::basic_string_view(std::addressof(*beg), std::distance(beg, end));
-}
-#else
 inline auto make_string_view(std::ranges::contiguous_range auto&& rng)
 {
     return std::basic_string_view(rng.begin(), rng.end());
@@ -85,7 +69,6 @@ inline auto make_string_view(It beg, End end)
 {
     return std::basic_string_view(beg, end);
 }
-#endif
 
 template <IsSomeKindOfString StringT>
 [[nodiscard]] inline constexpr auto

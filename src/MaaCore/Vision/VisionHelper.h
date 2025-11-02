@@ -2,7 +2,7 @@
 
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/Platform.hpp"
 #include <ranges>
 
