@@ -182,10 +182,16 @@ We have continued to fix numerous bugs; for example, the external notification f
 
 ## v5.27.2
 
+### 新增 | New
+
+* OS-喀兰贸易研发部 小游戏 (#14615) @ABA2396
+
 ### 修复 | Fix
 
 * 无法迁移旧资源路径文件 @ABA2396
+* 肉鸽商店投资界面加一点延迟 @Saratoga-Official
 * erosion resistant device regex fix for EN @Constrat
+* Ines regex EN @Constrat
 
 ### 其他 | Other
 
