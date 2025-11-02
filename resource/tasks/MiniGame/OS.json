@@ -1,0 +1,69 @@
+{
+    "MiniGame@OS@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@OS@StartRebuild"]
+    },
+    "MiniGame@OS@StartRebuild": {
+        "action": "ClickSelf",
+        "roi": [1022, 501, 226, 213],
+        "next": ["#self", "MiniGame@OS@PlayFirstCard"]
+    },
+    "MiniGame@OS@PlayFirstCard": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [75, 620, 20, 20],
+        "next": [
+            "MiniGame@OS@Combo",
+            "MiniGame@OS@CollectAction",
+            "MiniGame@OS@MoveAction",
+            "MiniGame@OS@CheckPointsUsed",
+            "#self"
+        ]
+    },
+    "MiniGame@OS@CollectAction": {
+        "action": "ClickSelf",
+        "roi": [1036, 482, 231, 209],
+        "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@Combo", "MiniGame@OS@PlayFirstCard"]
+    },
+    "MiniGame@OS@Combo": {
+        "action": "ClickSelf",
+        "roi": [0, 415, 738, 305],
+        "next": ["MiniGame@OS@CollectAction", "#self"]
+    },
+    "MiniGame@OS@MoveAction": {
+        "action": "ClickSelf",
+        "roi": [877, 472, 186, 221],
+        "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@PlayFirstCard"]
+    },
+    "MiniGame@OS@CheckPointsUsed": {
+        "roi": [127, 550, 406, 134],
+        "next": ["MiniGame@OS@EndTurn"]
+    },
+    "MiniGame@OS@EndTurn": {
+        "action": "ClickSelf",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 65],
+                [10, 220, 255]
+            ]
+        ],
+        "roi": [1026, 341, 249, 142],
+        "postDelay": 4000,
+        "next": ["#self", "MiniGame@OS@ClickToContinue", "MiniGame@OS@PlayFirstCard"]
+    },
+    "MiniGame@OS@ClickToContinue": {
+        "action": "ClickSelf",
+        "roi": [1010, 584, 270, 136],
+        "postDelay": 2000,
+        "next": [
+            "MiniGame@OS@CheckAchieved",
+            "MiniGame@OS@StartRebuild",
+            "#self"
+        ]
+    },
+    "MiniGame@OS@CheckAchieved": {
+        "roi": [45, 628, 217, 92],
+        "next": ["Stop"]
+    }
+}

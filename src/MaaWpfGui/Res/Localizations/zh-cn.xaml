@@ -791,6 +791,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGame@OS">OS-喀兰贸易技术研发部</system:String>
+    <system:String x:Key="MiniGame@OSTip">在活动主界面（右下角有 ｢开始重建｣ 处）开始任务。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生预案 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">过完新手教程后进入前哨支点，滑动到界面最左侧。</system:String>
     <system:String x:Key="MiniGame@RM-1">次生预案 RM-1</system:String>

@@ -1207,12 +1207,17 @@ public class ToolboxViewModel : Screen
 
     public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
     [
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" },
+
+        // 固定
         new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
+
+        // 活动
+        new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
+        new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" },
         new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@GreenGrass@HoneyFruit@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" },
@@ -1247,12 +1252,16 @@ public class ToolboxViewModel : Screen
     {
         return name switch
         {
-            "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),
-            "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
+            // 固定
             "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
             "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
             "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
             "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
+
+            // 活动
+            "MiniGame@OS@Begin" => LocalizationHelper.GetString("MiniGame@OSTip"),
+            "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),
+            "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
             "MiniGame@AT@ConversationRoom" => LocalizationHelper.GetString("MiniGame@AT@ConversationRoomTip"),
             "MiniGame@ALL@GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@GreenGrassTip"),
             _ => string.Empty,
