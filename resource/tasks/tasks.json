@@ -3848,17 +3848,17 @@
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [105, 385, 1, 100]
+        "specificRect": [106, 385, 1, 100]
     },
     "BattleQuickFormationSkill2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [105, 560, 1, 30]
+        "specificRect": [106, 560, 1, 30]
     },
     "BattleQuickFormationSkill3": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [105, 650, 1, 30]
+        "specificRect": [106, 650, 1, 30]
     },
     "BattleQuickFormationModulePage": {
         "algorithm": "OcrDetect",
