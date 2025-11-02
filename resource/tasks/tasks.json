@@ -1764,7 +1764,7 @@
         "roi": [844, 58, 268, 272],
         "exceededNext": ["Fight@TodaysSupplies", "Fight@CloseAnnos#next", "Stop"],
         "next": ["Fight@GoLastBattle", "Fight", "Fight@CloseAnnos#next", "Stop"],
-        "postDelay": 3000
+        "postDelay": 5000
     },
     "GoLastBattle": {
         "algorithm": "OcrDetect",
