@@ -1474,6 +1474,7 @@
         "templThreshold": 0.75,
         "action": "ClickSelf",
         "roi": [360, 51, 450, 450],
+        "postDelay": 500,
         "exceededNext": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"],
         "next": [
             "Roguelike@StageTraderInvestSystemEnter",
