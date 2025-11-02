@@ -792,6 +792,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
+    <system:String x:Key="MiniGame@OS">OS-칼란 무역 기술 연구 개발부</system:String>
+    <system:String x:Key="MiniGame@OSTip">이벤트 메인 화면(오른쪽 아래에 '재건 시작'이 있는 곳)에서 임무를 시작합니다.</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">차생예안 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">튜토리얼을 완료한 후 전초 거점에 들어가 화면을 왼쪽 끝까지 밀어주세요.</system:String>
     <system:String x:Key="MiniGame@RM-1">차생예안 RM-1</system:String>

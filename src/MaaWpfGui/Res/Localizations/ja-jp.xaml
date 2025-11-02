@@ -791,6 +791,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGame@OS">OS-カラン貿易技術開発部</system:String>
+    <system:String x:Key="MiniGame@OSTip">イベントメイン画面（右下に「再建開始」がある場所）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生予案 RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">チュートリアル終了後、前哨支点に入り、画面を一番左までスワイプしてください。</system:String>
     <system:String x:Key="MiniGame@RM-1">次生予案 RM-1</system:String>

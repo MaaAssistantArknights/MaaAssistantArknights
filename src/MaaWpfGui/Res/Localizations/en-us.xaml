@@ -791,6 +791,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
+    <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
     <system:String x:Key="MiniGame@RM-TR-1Tip" xml:space="preserve">After finishing the tutorial, enter the Outpost Support Point and swipe to the far left of the screen.</system:String>
     <system:String x:Key="MiniGame@RM-1">Secondary Plan RM-1</system:String>
