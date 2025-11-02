@@ -36,6 +36,8 @@
         "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@PlayFirstCard"]
     },
     "MiniGame@OS@CheckPointsUsed": {
+        "algorithm": "OcrDetect",
+        "text": ["所有点数", "结束本回合"],
         "roi": [127, 550, 406, 134],
         "next": ["MiniGame@OS@EndTurn"]
     },
