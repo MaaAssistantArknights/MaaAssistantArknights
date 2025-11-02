@@ -188,6 +188,7 @@ We have continued to fix numerous bugs; for example, the external notification f
 
 ### 修复 | Fix
 
+* 技能点击范围会点到装备应变 (#14611) @Saratoga-Official @ABA2396
 * 无法迁移旧资源路径文件 @ABA2396
 * 肉鸽商店投资界面加一点延迟 @Saratoga-Official
 * erosion resistant device regex fix for EN @Constrat
