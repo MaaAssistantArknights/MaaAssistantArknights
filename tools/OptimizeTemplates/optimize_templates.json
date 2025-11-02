@@ -5227,5 +5227,13 @@
     "official/SS@Store@CostumeSkip": "35027fca490c49265d0d991bacdc3429ba97ba57be710816d0bc378bdbc42bf6",
     "official/SS@Store@WearCostume": "4014aedc715d24c2acfbec2382be24a339f3b299b3b41f7b9f5576b0b67c4acd",
     "resource/template/Roguelike/JieGarden/JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-43": "fdc8e8fdea4024e2d8bcbf9bf7a9fa83a23caad7d8dd48b5fa00d39841f7a788",
-    "resource/template/Roguelike/JieGarden/JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48": "bb8ebd8f3a7cc192168726b7373c3f8b228807f358e1d98f93d7f733e1b69040"
+    "resource/template/Roguelike/JieGarden/JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-48": "bb8ebd8f3a7cc192168726b7373c3f8b228807f358e1d98f93d7f733e1b69040",
+    "resource/template/MiniGame/OS/MiniGame@OS@CollectAction": "b6efc4870894d3313c8b7a1faef88108c40df14f3ba46f43a8af0356cb97650a",
+    "resource/template/MiniGame/OS/MiniGame@OS@CheckAchieved": "2417de3d0a34a8ff252b1d298b7a7c1e264b2e9e3a4b1f2bdc27217c0997d803",
+    "resource/template/MiniGame/OS/MiniGame@OS@ClickToContinue": "bc3216956d0965e55171e50fca9c341a5011f3083907ddbd022d917b80aeefa5",
+    "resource/template/MiniGame/OS/MiniGame@OS@EndTurn": "877a2fc8cf6bcf068ad2be7aa5335b4c584d14854b1afbbad59a2671138dda0b",
+    "resource/template/MiniGame/OS/MiniGame@OS@StartRebuild": "d8159590b46dbde69914b0b87cc0601526420f1a9c70cd806127b3dd8422ad0e",
+    "resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "f67c29d5658fbe8d1af562e7272d6b36652e18769e79eb709cbcf418195f4102",
+    "resource/template/MiniGame/OS/MiniGame@OS@CheckPointsUsed": "3a4d15b2779b55d0c310fc434b18a9e1b2ab3c7a316bfd65e46254f9d576d60a",
+    "resource/template/MiniGame/OS/MiniGame@OS@Combo": "18bce3dfa762ced4027dcccfedc1a55a3d0d8d93a980280a4095a920b592cacb"
 }
