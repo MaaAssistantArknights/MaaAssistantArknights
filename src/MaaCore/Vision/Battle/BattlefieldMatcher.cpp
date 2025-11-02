@@ -36,8 +36,12 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
     Result result;
 
     if (m_object_of_interest.flag) {
-        result.pause_button = pause_button_analyze();
-        if (!result.pause_button && !hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
+        bool is_pausing = false;
+        result.pause_button = pause_button_analyze(is_pausing);
+        if (result.pause_button) {
+            result.is_pasuing = is_pausing;
+        }
+        else if (!hp_flag_analyze() && !kills_flag_analyze() && !cost_symbol_analyze()) {
             // flag 表明当前画面是在战斗场景的，不在的就没必要识别了
             return std::nullopt;
         }
@@ -410,19 +414,53 @@ bool asst::BattlefieldMatcher::hit_costs_cache() const
     return mark > threshold;
 }
 
-bool BattlefieldMatcher::pause_button_analyze() const
+bool BattlefieldMatcher::pause_button_analyze(bool& is_pausing) const
 {
     auto task_ptr = Task.get("BattleHasStarted");
-    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
-    cv::Mat roi_gray;
-    cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
-    cv::Mat bin;
     const int value_threshold = task_ptr->special_params[0];
-    cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
-    int count = cv::countNonZero(bin);
     const int count_threshold = task_ptr->special_params[1];
-    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
+    cv::Mat roi_gray, bin;
+    int count;
 
+    if (m_object_of_interest.pause_button_init) {
+        cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
+        cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
+        count = cv::countNonZero(bin);
+    }
+    else {
+        cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2HSV);
+        cv::inRange(roi_gray, cv::Scalar { 0, 0, 120 }, cv::Scalar { 130, 30, 255 }, bin);
+        count = cv::countNonZero(bin);
+    }
+
+    // 区分暂停和恢复按钮
+    // 暂停按钮是两条竖线，左右两侧会有较多的白点
+    // 恢复按钮是一个三角形，右侧会有较多的白点，左侧较少
+    // 将ROI区域分为左右两部分进行分析
+    int width = bin.cols;
+    int left_half = width / 2;
+
+    cv::Mat left_region = bin(cv::Rect(0, 0, left_half, bin.rows));
+    cv::Mat right_region = bin(cv::Rect(left_half, 0, width - left_half, bin.rows));
+
+    int left_count = cv::countNonZero(left_region);
+    int right_count = cv::countNonZero(right_region);
+    float left_right_ratio = left_count / (float)(right_count + 1); // 避免除零
+    LogTrace << __FUNCTION__ << "count" << count << "threshold" << count_threshold << "left count" << left_count
+             << "right count" << right_count << "ratio" << left_right_ratio;
+
+    // 根据左右非零像素比例判断按钮状态
+    // 左右两边都有较多点，可能是暂停按钮（两条竖线）
+    // 左边点较少，右边点较多，可能是恢复按钮（三角形）
+    if (count > count_threshold) {
+        // 阈值roi强关联, 2025.05.19 测试值: 暂停按钮0.99, 恢复按钮>3.3
+        is_pausing = left_right_ratio > 2.0f;
+    }
+
+    if (count > 800) {
+        Log.warn("怪怪的");
+    }
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
     cv::putText(
