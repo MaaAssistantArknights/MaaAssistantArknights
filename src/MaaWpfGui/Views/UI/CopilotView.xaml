@@ -119,7 +119,7 @@
                         MinWidth="30"
                         Padding="0,5"
                         hc:BorderElement.CornerRadius="0,4,4,0"
-                        hc:IconElement.Geometry="{StaticResource AddCopilotSet}"
+                        hc:IconElement.Geometry="{StaticResource ClipboardLinkSet20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboardCopilotSet}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled) and (ActiveTabIndex == 0 or ActiveTabIndex == 2)'}" />
