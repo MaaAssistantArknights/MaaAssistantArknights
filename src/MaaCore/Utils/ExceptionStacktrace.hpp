@@ -108,21 +108,11 @@ public:
                 break;
             }
 
+            result += std::format("  #{:2}: ", frameNum);
+
             // 获取符号信息
             DWORD64 displacement = 0;
             bool hasSymbol = SymFromAddr(process, frame.AddrPC.Offset, &displacement, symbol);
-
-            // 获取行号信息
-            DWORD lineDisplacement = 0;
-            bool hasLine = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
-
-            // 获取模块信息
-            IMAGEHLP_MODULE64 moduleInfo = {};
-            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
-            bool hasModule = SymGetModuleInfo64(process, frame.AddrPC.Offset, &moduleInfo);
-
-            result += std::format("  #{:2}: ", frameNum);
-
             if (hasSymbol) {
                 result += std::format("{}+0x{:X}", symbol->Name, displacement);
             }
@@ -130,10 +120,17 @@ public:
                 result += "<unknown>";
             }
 
+            // 获取行号信息
+            DWORD lineDisplacement = 0;
+            bool hasLine = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
             if (hasLine) {
                 result += std::format(" at {}:{}", line.FileName, line.LineNumber);
             }
 
+            // 获取模块信息
+            IMAGEHLP_MODULE64 moduleInfo = {};
+            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
+            bool hasModule = SymGetModuleInfo64(process, frame.AddrPC.Offset, &moduleInfo);
             if (hasModule) {
                 result += std::format(" [{}]", moduleInfo.ModuleName);
             }
@@ -154,7 +151,6 @@ public:
     static std::string capture_current_stack_trace()
     {
         std::string result;
-
         HANDLE process = GetCurrentProcess();
 
         // 初始化符号处理器
