@@ -887,7 +887,7 @@ C:\\leidian\\LDPlayer9。\n
         4. {key=ParadoxSimulation}: 選好技能後，在技能選擇介面存在 ｢開始模擬｣ 按鈕的介面啟動，1/2 星{key=Operator}（無技能）在右下角存在 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表啟動。\n\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
         6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除關注，或在報錯後關閉 ｢{key=AutoSquad}｣，依據提示手動補充缺少的{key=Operator}。\n\n
-        7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：左鍵單擊=加入作業，右鍵單擊=加入作業集。\n\n
+        7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：左鍵點選第2個按鈕 / 直接貼上到輸入框 => 新增作業，點選第3個按鈕 => 新增作業集。\n\n
         8. {key=UseCopilotList}:\n
         - 選擇作業後，檢查下方關卡名是否正確 (例: CV-EX-1)。\n
         - 加入: 左鍵=普通難度，右鍵=突襲難度。\n

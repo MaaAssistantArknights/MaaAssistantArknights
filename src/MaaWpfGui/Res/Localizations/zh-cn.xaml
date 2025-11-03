@@ -886,7 +886,7 @@ C:\\leidian\\LDPlayer9。\n
         4. {key=ParadoxSimulation}: 选好技能后，在技能选择界面存在 ｢开始模拟｣ 按钮界面启动，1/2 星{key=Operator}（无技能）在右下角存在 ｢开始模拟｣ 按钮界面开始。若使用 ｢{key=UseCopilotList}｣，请从{key=Operator}列表启动。\n\n
         5. 使用好友助战时，请关闭 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手动选择{key=Operator}后，在编队界面右下角存在 ｢开始行动｣ 按钮界面启动。\n\n
         6. {key=Operator}若被标记为 ｢特别关注｣，可能影响 ｢{key=AutoSquad}｣ 的识别与选择。建议使用 ｢{key=AutoSquad}｣ 时移除关注，或在报错后关闭 ｢{key=AutoSquad}｣，根据提示手动补充缺失的{key=Operator}。\n\n
-        7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：左键单击=添加作业，右键单击=添加作业集。\n\n
+        7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：左键单击第2个按钮 / 直接粘贴到输入框 => 添加作业，单击第3个按钮 => 添加作业集。\n\n
         8. {key=UseCopilotList}:\n
         - 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
         - 添加: 左键=普通难度，右键=突袭难度。\n
