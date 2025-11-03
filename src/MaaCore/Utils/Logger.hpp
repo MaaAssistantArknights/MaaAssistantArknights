@@ -923,10 +923,14 @@ private:
 
             logger.error("=== FATAL ERROR ===");
             logger.error("Unhandled exception caught:", exception_info);
+            logger.error("Exception stack trace:");
             if (!stack_trace.empty()) {
-                logger.error("Exception stack trace:");
                 logger.error(stack_trace);
                 write_crash_file("Unhandled exception stack trace:", stack_trace.c_str());
+            }
+            else {
+                logger.error("empty");
+                write_crash_file("empty");
             }
             logger.error("Program terminating...");
             logger.error("===================");
