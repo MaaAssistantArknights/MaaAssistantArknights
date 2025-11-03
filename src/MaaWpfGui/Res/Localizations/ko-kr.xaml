@@ -844,7 +844,9 @@ C:\\leidian\\LDPlayer9
   2. {key=SideStory}: 현재 페이지 내에서 이동 (일반/EX/S 간 이동 불가)
   3. {key=StoryCollection}: 현재 페이지 내에서 이동
   4. {key=ParadoxSimulation}: {key=Operator} 목록에서 시작
-해당 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.</system:String>
+해당 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.
+
+- ｢{key=UseCopilotList}｣ 가 활성화되면 개별 작업이 자동으로 ｢{key=UseCopilotList}｣ 에 추가됩니다.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>

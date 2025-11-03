@@ -843,7 +843,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
   2. {key=SideStory}: Navigate within the current page (cannot jump between Normal/EX/S)
   3. {key=StoryCollection}: Navigate within the current page
   4. {key=ParadoxSimulation}: Start from the {key=Operator} list
-Please start from the corresponding screen. Cross-chapter navigation is not supported.</system:String>
+Please start from the corresponding screen. Cross-chapter navigation is not supported.
+
+- When ｢{key=UseCopilotList}｣ is enabled, individual copilot will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>

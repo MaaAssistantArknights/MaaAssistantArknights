@@ -843,7 +843,9 @@ C:\\leidian\\LDPlayer9
   2. {key=SideStory}: 現在のページ内でのナビゲーション（Normal/EX/S 間の移動は不可）
   3. {key=StoryCollection}: 現在のページ内でのナビゲーション
   4. {key=ParadoxSimulation}: {key=Operator}リストから起動
-対応する画面から開始してください。章間のナビゲーションはサポートされていません。</system:String>
+対応する画面から開始してください。章間のナビゲーションはサポートされていません。
+
+- 「{key=UseCopilotList}」を有効にすると、個々のジョブが自動的に「{key=UseCopilotList}」に追加されます。</system:String>
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
