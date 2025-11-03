@@ -96,7 +96,8 @@
     "SwitchTheme@ToggleSettingsMenu": {
         "action": "ClickSelf",
         "roi": [227, 327, 159, 152],
-        "next": ["SwitchTheme@ChangeTheme"]
+        "postDelay": 1000,
+        "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
     },
     "SwitchTheme@ChangeTheme": {
         "action": "ClickSelf",
@@ -115,6 +116,7 @@
         "rectMove": [200, 600, 10, 10],
         "specialParams": [150, 0, 1, 1],
         "postDelay": 500,
+        "maxTime": 10,
         "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
     },
     "SwitchTheme@ConfirmThemeChange": {
