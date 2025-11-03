@@ -825,7 +825,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">粘贴剪贴板，右键添加作业集</system:String>
+    <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>
+    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">为添加作业集新增了独立的按钮, 使用右键添加作业集的行为将在未来移除</system:String>
+    <system:String x:Key="PasteClipboardCopilotSetTip">读取剪贴板并添加为作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>

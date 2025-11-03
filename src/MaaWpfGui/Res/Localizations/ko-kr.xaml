@@ -826,7 +826,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예시: 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기，오른쪽 클릭하여 작업 세트 추가하기</system:String>
+    <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
+    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">할당 세트를 추가하기 위한 별도의 버튼이 추가되었습니다. 마우스 오른쪽 버튼을 클릭하여 할당 세트를 추가하는 동작은 향후에 제거될 예정입니다.</system:String>
+    <system:String x:Key="PasteClipboardCopilotSetTip">클립보드를 읽고 작업 세트로 추가합니다.</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
