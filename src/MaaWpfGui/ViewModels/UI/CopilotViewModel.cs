@@ -515,7 +515,7 @@ public partial class CopilotViewModel : Screen
     /// <returns>Task</returns>
     [UsedImplicitly]
     public async Task PasteClipboardCopilotSetOld()
-    {
+    { // 将在未来进行移除, 连带PasteClipboardToAddCopilotSetWarning一同. This function would be removed in the future with PasteClipboardToAddCopilotSetWarning string.
         await PasteClipboardCopilotSet();
         AddLog(LocalizationHelper.GetString("PasteClipboardToAddCopilotSetWarning"), UiLogColor.Warning);
     }
