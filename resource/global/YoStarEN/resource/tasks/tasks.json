@@ -1387,6 +1387,10 @@
             ["Motorized Squad", "机动队"]
         ]
     },
+    "BattleQuickFormationClear": {
+        "algorithm": "OcrDetect",
+        "text": ["Deselect All", "Clear selection"]
+    },
     "BattleQuickFormationExpandRole": {
         "roi": [1166, 0, 114, 120]
     },
