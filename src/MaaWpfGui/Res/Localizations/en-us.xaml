@@ -825,7 +825,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
-    <system:String x:Key="PasteClipboardTip">Paste Clipboard, right click to add a copilot set</system:String>
+    <system:String x:Key="PasteClipboardTip">Read the clipboard and add it as a job</system:String>
+    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">A separate button has been added for adding assignment sets; the behavior of adding assignment sets by right-clicking will be removed in the future.</system:String>
+    <system:String x:Key="PasteClipboardCopilotSetTip">Read the clipboard and add it as a job set</system:String>
     <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
@@ -883,10 +885,12 @@ Right-click to clear inactive tasks</system:String>
         1. Before using, please confirm the task file matches your selected stage type.\n\n
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: Please start from the screen where the blue "Start" button appears in the bottom right corner.\n\n
         3. {key=SSS}: Multiple built-in files are in the resource/copilot folder. First create your squad manually, then start from the screen where the "Start Deployment" button appears in the bottom right. Can be used with ｢{key=LoopTimes}｣.\n\n
-        4. {key=ParadoxSimulation}: After selecting skills, start from the skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the {key=Operator} list page.\n\n
+        4. {key=ParadoxSimulation}: After selecting skills, start from the skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
         5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
         6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
-        7. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box: left-click to add a single job, right-click to add the entire job set.\n\n
+        7. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box:\n
+        - click the second button = Add a single job.\n
+        - click the third button = Add a job set.\n\n
         8. {key=UseCopilotList}:\n
         - After selecting a task, check that the stage name below is correct (e.g.: CV-EX-1).\n
         - Add: Left-click for normal difficulty, right-click for challenge mode.\n

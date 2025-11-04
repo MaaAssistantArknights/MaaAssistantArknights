@@ -81,6 +81,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ComboBox
                         Grid.Column="0"
@@ -95,6 +96,7 @@
                         Grid.Column="1"
                         Height="30"
                         MinWidth="30"
+                        Padding="0,5"
                         hc:BorderElement.CornerRadius="0"
                         hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                         BorderThickness="0,1,1,1"
@@ -104,12 +106,23 @@
                         Grid.Column="2"
                         Height="30"
                         MinWidth="30"
-                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        Padding="0,5"
+                        hc:BorderElement.CornerRadius="0"
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
-                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSet}" />
+                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSetOld}" />
+                    <Button
+                        Grid.Column="3"
+                        Height="30"
+                        MinWidth="30"
+                        Padding="0,5"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        hc:IconElement.Geometry="{StaticResource ClipboardLinkSet20Regular}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action PasteClipboardCopilotSet}"
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled) and (ActiveTabIndex == 0 or ActiveTabIndex == 2)'}" />
                     <controls:TooltipBlock
                         Grid.Column="1"
                         HorizontalAlignment="Right"
@@ -124,6 +137,13 @@
                         MouseLeftButtonDown="{s:Action PasteClipboard}"
                         NormalOpacity="0.25"
                         TooltipText="{DynamicResource PasteClipboardTip}" />
+                    <controls:TooltipBlock
+                        Grid.Column="3"
+                        Margin="0,0,-2,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        NormalOpacity="0.25"
+                        TooltipText="{DynamicResource PasteClipboardCopilotSetTip}" />
                 </Grid>
             </StackPanel>
 

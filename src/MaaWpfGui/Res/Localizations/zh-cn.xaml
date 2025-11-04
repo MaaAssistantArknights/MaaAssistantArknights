@@ -825,7 +825,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">粘贴剪贴板，右键添加作业集</system:String>
+    <system:String x:Key="PasteClipboardTip">读取剪贴板并添加为作业</system:String>
+    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">为添加作业集新增了独立的按钮, 使用右键添加作业集的行为将在未来移除</system:String>
+    <system:String x:Key="PasteClipboardCopilotSetTip">读取剪贴板并添加为作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
@@ -883,14 +885,16 @@ C:\\leidian\\LDPlayer9。\n
         1. 使用前请确认作业与所选的关卡类型一致。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 请在关卡界面的右下角存在 ｢开始行动｣ 按钮界面启动。\n\n
         3. {key=SSS}: resource/copilot 文件夹内置多份作业。请先手动编队，在右下角存在 ｢开始部署｣ 按钮界面启动，可配合 ｢{key=LoopTimes}｣。\n\n
-        4. {key=ParadoxSimulation}: 选好技能后，在技能选择界面存在 ｢开始模拟｣ 按钮界面启动，1/2 星{key=Operator}（无技能）在右下角存在 ｢开始模拟｣ 按钮界面开始。若使用 ｢{key=UseCopilotList}｣，请从{key=Operator}列表启动。\n\n
+        4. {key=ParadoxSimulation}: 选好技能后，在技能选择界面存在 ｢开始模拟｣ 按钮界面启动，1/2 星{key=Operator}（无技能）在右下角存在 ｢开始模拟｣ 按钮界面开始。若使用 ｢{key=UseCopilotList}｣，请从{key=Operator}列表 ｢等级/稀有度｣ 筛选下启动。\n\n
         5. 使用好友助战时，请关闭 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手动选择{key=Operator}后，在编队界面右下角存在 ｢开始行动｣ 按钮界面启动。\n\n
         6. {key=Operator}若被标记为 ｢特别关注｣，可能影响 ｢{key=AutoSquad}｣ 的识别与选择。建议使用 ｢{key=AutoSquad}｣ 时移除关注，或在报错后关闭 ｢{key=AutoSquad}｣，根据提示手动补充缺失的{key=Operator}。\n\n
-        7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：左键单击=添加作业，右键单击=添加作业集。\n\n
+        7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：\n
+        - 单击第 2 个按钮 = 添加作业。\n
+        - 单击第 3 个按钮 = 添加作业集。\n\n
         8. {key=UseCopilotList}:\n
         - 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
-        - 添加: 左键=普通难度，右键=突袭难度。\n
-        - 清除: 左键=全部清空，右键=仅移除未激活任务。\n
+        - 添加: 左键 = 普通难度，右键 = 突袭难度。\n
+        - 清除: 左键 = 全部清空，右键 = 仅移除未激活任务。\n
         - 请在能看到目标关卡名的界面启动，不支持跨章节导航。\n
         - 遇到理智不足、战斗失败、未能三星结算时将自动中止。
     </system:String>

@@ -825,7 +825,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け、右クリックで自動戦闘コレクションを追加</system:String>
+    <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、ジョブとして追加します</system:String>
+    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">割り当てセットを追加するための別のボタンが追加されました。右クリックによる割り当てセットの追加の動作は将来的に削除される予定です。</system:String>
+    <system:String x:Key="PasteClipboardCopilotSetTip">クリップボードを読み取り、ジョブセットとして追加します</system:String>
     <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
@@ -883,10 +885,12 @@ C:\\leidian\\LDPlayer9
         1. この機能を使用前に、攻略ファイルと選択したステージタイプが一致していることを確認してください。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 右下の「行動開始」ボタン画面で開始してください。\n\n
         3. {key=SSS}: resource/copilot フォルダー内に複数の課題があります。まず手動で編成を行い、右下の「配置開始」ボタン画面で開始してください。「{key=LoopTimes}」と連携することもできます。\n\n
-        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、{key=Operator}リストから開始してください。\n\n
+        4. {key=ParadoxSimulation}: スキルを選択した後、スキル選択画面に「演算開始」ボタンが表示され、1/2 星{key=Operator}（スキルなし）が右下に「演算開始」ボタンを表示されて開始します。「{key=UseCopilotList}」を使用する場合、{key=Operator}リストの｢レベル/レアリティ｣タブから開始してください。\n\n
         5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
         6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
-        7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます。左クリックで単一のジョブを貼り付け、右クリックでジョブセット全体を貼り付けます。\n\n
+        7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
+        - 2番目のボタンをクリック = 割り当てを追加。\n
+        - 3番目のボタンをクリック = 割り当てセットを追加。\n\n
         8. {key=UseCopilotList}:\n
         - 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
         - 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
