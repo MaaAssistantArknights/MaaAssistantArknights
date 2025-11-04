@@ -102,5 +102,194 @@
             ]
         ],
         "rectMove": [40, -437, 20, 38]
+    },
+    "SupportList-RoleSelected": {
+        "doc": "模版任务: 招募助战干员时通过深色背景的职业图标判断当前职业是否正确，Ccoeff 应该够用，若出问题可以考虑换为 RGBCount",
+        "template": "empty.png",
+        "roi": [20, 93, 73, 608]
+    },
+    "SupportList-SelectRole": {
+        "doc": "模版任务: 招募助战干员时通过点击浅色背景的职业图标切换职业",
+        "template": "empty.png",
+        "roi": [20, 93, 73, 608],
+        "action": "ClickSelf",
+        "next": ["SupportList-SelectRole@NextAfterLoadingText", "SupportList-RoleSelected", "SupportList-SelectRole"]
+    },
+    "Caster@SupportList-RoleSelected": {},
+    "Caster@SupportList-SelectRole": {},
+    "Medic@SupportList-RoleSelected": {},
+    "Medic@SupportList-SelectRole": {},
+    "Pioneer@SupportList-RoleSelected": {},
+    "Pioneer@SupportList-SelectRole": {},
+    "Sniper@SupportList-RoleSelected": {},
+    "Sniper@SupportList-SelectRole": {},
+    "Special@SupportList-RoleSelected": {},
+    "Special@SupportList-SelectRole": {},
+    "Support@SupportList-RoleSelected": {},
+    "Support@SupportList-SelectRole": {},
+    "Tank@SupportList-RoleSelected": {},
+    "Tank@SupportList-SelectRole": {},
+    "Warrior@SupportList-RoleSelected": {},
+    "Warrior@SupportList-SelectRole": {},
+    "SupportList-RefreshAfterCooldown": {
+        "doc": "更新助战列表，若识别到冷却倒计时则等待倒计时结束后再点击 <更新列表> 按钮",
+        "algorithm": "JustReturn",
+        "next": ["SupportList-Refresh", "SupportList-RefreshCooldown"]
+    },
+    "SupportList-Refresh": {
+        "doc": "识别并点击助战列表右上角 <更新列表> 按钮上的 Icon",
+        "roi": [1096, 15, 65, 45],
+        "preDelay": 500,
+        "action": "ClickSelf",
+        "next": ["SupportList-Refresh@NextAfterLoadingText", "Stop"]
+    },
+    "SupportList-RefreshCooldown": {
+        "doc": "识别助战列表右上角更新列表冷却倒计时左侧 Icon",
+        "roi": [1094, 13, 58, 50],
+        "postDelay": 1000,
+        "next": ["SupportList-RefreshAfterCooldown#next"]
+    },
+    "SupportList-MoveToHead": {
+        "doc": "向右滑动屏幕，使助战列表视图向左移动到列表头部",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [500, 680, 1, 1],
+        "rectMove": [200, 680, 1, 1],
+        "specialParams": [150, 1, 2, 0],
+        "postDelay": 500
+    },
+    "SupportList-MoveRight": {
+        "doc": "向左滑动屏幕，使助战列表视图向右移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [500, 680, 1, 1],
+        "rectMove": [200, 680, 1, 1],
+        "specialParams": [150, 1, 2, 0],
+        "postDelay": 500
+    },
+    "SupportList-MoveLeft": {
+        "doc": "向右滑动屏幕，使助战列表视图向左移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [500, 680, 1, 1],
+        "rectMove": [200, 680, 1, 1],
+        "specialParams": [150, 1, 2, 0],
+        "postDelay": 500
+    },
+    "SupportList-DetailPanel-Flag": {
+        "doc": "识别并点击助战干员详情界面 <招募助战> 文字左侧的 Icon",
+        "roi": [677, 557, 70, 85]
+    },
+    "SupportList-DetailPanel-Confirm": {
+        "doc": "识别并点击助战干员详情界面 <招募助战> 文字左侧的 Icon",
+        "baseTask": "SupportList-DetailPanel-Flag",
+        "template": "SupportList-DetailPanel-Flag.png",
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "SupportList-DetailPanel-Leave": {
+        "doc": "若识别到助战干员详情界面 <招募助战> 文字左侧的 Icon 则点击屏幕下方空白处退出详情界面",
+        "baseTask": "SupportList-DetailPanel-Flag",
+        "template": "SupportList-DetailPanel-Flag.png",
+        "action": "ClickRect",
+        "specificRect": [640, 680, 0, 0],
+        "postDelay": 500
+    },
+    "SupportList-DetailPanel-SkillLevel": {
+        "doc": [
+            "在助战干员详情界面识别技能等级",
+            "| specialParams[0]: 识别一技能所用的 roi.x",
+            "| specialParams[1]: 识别二技能所用的 roi.x",
+            "| specialParams[2]: 识别三技能所用的 roi.x"
+        ],
+        "template": [
+            "SupportList-DetailPanel-SkillLevel-1.png",
+            "SupportList-DetailPanel-SkillLevel-2.png",
+            "SupportList-DetailPanel-SkillLevel-3.png",
+            "SupportList-DetailPanel-SkillLevel-4.png",
+            "SupportList-DetailPanel-SkillLevel-5.png",
+            "SupportList-DetailPanel-SkillLevel-6.png",
+            "SupportList-DetailPanel-SkillLevel-7.png",
+            "SupportList-DetailPanel-SkillLevel-8.png",
+            "SupportList-DetailPanel-SkillLevel-9.png",
+            "SupportList-DetailPanel-SkillLevel-10.png"
+        ],
+        "roi": [735, 249, 26, 26],
+        "specialParams": [735, 850, 965]
+    },
+    "SupportList-DetailPanel-SkillSelected": {
+        "doc": [
+            "在助战干员详情界面识别已被选择技能右上角的图案",
+            "| specialParams[0]: 识别一技能所用的 roi.x",
+            "| specialParams[1]: 识别二技能所用的 roi.x",
+            "| specialParams[2]: 识别三技能所用的 roi.x"
+        ],
+        "template": "SupportList-DetailPanel-Selected",
+        "roi": [1052, 256, 18, 16],
+        "maskRange": [1, 255],
+        "specialParams": [822, 937, 1052]
+    },
+    "SupportList-DetailPanel-ModuleLevel": {
+        "doc": "在助战干员详情界面识别模组等级，roi 为后续检查选择状态留了空间",
+        "template": [
+            "SupportList-DetailPanel-ModuleLevel-1.png",
+            "SupportList-DetailPanel-ModuleLevel-2.png",
+            "SupportList-DetailPanel-ModuleLevel-3.png"
+        ],
+        "roi": [741, 432, 243, 26]
+    },
+    "SupportList-DetailPanel-Module": {
+        "doc": [
+            "在助战干员详情界面识别已被选择模组编号（希腊字母）",
+            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组编号识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "   其中 m 为本任务的 rectMove"
+        ],
+        "template": [
+            "SupportList-DetailPanel-Module-Chi_1.png",
+            "SupportList-DetailPanel-Module-Chi_2.png",
+            "SupportList-DetailPanel-Module-Upsilon_1.png",
+            "SupportList-DetailPanel-Module-Upsilon_2.png",
+            "SupportList-DetailPanel-Module-Delta.png",
+            "SupportList-DetailPanel-Module-Alpha.png",
+            "SupportList-DetailPanel-Module-Beta.png"
+        ],
+        "roi": [741, 498, 340, 25],
+        "rectMove": [9, 66, 82, 25]
+    },
+    "SupportList-DetailPanel-SelectOriginalModule": {
+        "doc": ["在助战干员详情界面，当视图处于模组列表头部时，识别并点选 Original 模组"],
+        "roi": [750, 498, 82, 25],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "SupportList-DetailPanel-ModuleSelected": {
+        "doc": [
+            "在助战干员详情界面识别已被选择模组右上角的图案",
+            "｜ 当视图处于模组列表头部时，roi 可用于检查 Original 的选择状态",
+            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组选择状态识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "   其中 m 为本任务的 rectMove"
+        ],
+        "template": "SupportList-DetailPanel-Selected",
+        "roi": [820, 433, 18, 16],
+        "maskRange": [1, 255],
+        "rectMove": [79, 1, 18, 16]
+    },
+    "SupportList-DetailPanel-SelectModule-MoveToHead": {
+        "doc": "在助战干员详情界面向右滑动屏幕，使模组列表向左移动到列表头部",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1000, 530, 1, 1],
+        "rectMove": [700, 530, 1, 1],
+        "specialParams": [150, 1, 2, 0],
+        "postDelay": 500
+    },
+    "SupportList-DetailPanel-SelectModule-MoveRight": {
+        "doc": "在助战干员详情界面向右滑动屏幕，使模组列表向左移动到列表头部",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [700, 530, 1, 1],
+        "rectMove": [1000, 530, 1, 1],
+        "specialParams": [150, 1, 2, 0],
+        "postDelay": 500
     }
 }
