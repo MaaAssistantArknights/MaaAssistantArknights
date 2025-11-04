@@ -834,6 +834,9 @@ public partial class CopilotViewModel : Screen
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
+        else if (ActiveTabIndex is 1)
+        { // 保全不使用多作业列表
+        }
         else if (copilotList)
         {
             switch (copilot.Difficulty)

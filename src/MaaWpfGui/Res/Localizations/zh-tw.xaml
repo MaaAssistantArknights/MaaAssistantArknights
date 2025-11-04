@@ -843,7 +843,9 @@ C:\\leidian\\LDPlayer9。\n
   2. {key=SideStory}: 當前頁面內導航（普通/EX/S 不能互跳）
   3. {key=StoryCollection}: 當前頁面內導航
   4. {key=ParadoxSimulation}: 從{key=Operator}列表啟動
-請在對應介面啟動，不支援跨章節導航</system:String>
+請在對應介面啟動，不支援跨章節導航
+
+- 當 ｢{key=UseCopilotList}｣ 啟用後, 選擇單一作業時會自動新增至 ｢{key=UseCopilotList}｣</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
