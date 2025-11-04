@@ -509,6 +509,19 @@ public partial class CopilotViewModel : Screen
     }
 
     /// <summary>
+    /// Paste clipboard contents.
+    /// UI 绑定的方法
+    /// </summary>
+    /// <returns>Task</returns>
+    /// TODO: 移除该方法后连带移除 PasteClipboardToAddCopilotSetWarning
+    [UsedImplicitly]
+    public async Task PasteClipboardCopilotSetOld()
+    {
+        await PasteClipboardCopilotSet();
+        AddLog(LocalizationHelper.GetString("PasteClipboardToAddCopilotSetWarning"), UiLogColor.Warning);
+    }
+
+    /// <summary>
     /// 批量导入作业
     /// UI 绑定的方法
     /// </summary>
