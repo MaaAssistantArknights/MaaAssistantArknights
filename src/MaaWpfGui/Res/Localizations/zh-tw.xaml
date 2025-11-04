@@ -884,7 +884,7 @@ C:\\leidian\\LDPlayer9。\n
         1. 使用前請確認作業與所選擇的關卡類型一致。\n\n
         2. {key=MainStage}、{key=StoryCollection}、{key=SideStory}: 請在關卡介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
         3. {key=SSS}: resource/copilot 資料夾內建多份作業。請先手動編隊，在右下角存在 ｢開始部署｣ 按鈕的介面啟動，可配合 ｢{key=LoopTimes}｣。\n\n
-        4. {key=ParadoxSimulation}: 選好技能後，在技能選擇介面存在 ｢開始模擬｣ 按鈕的介面啟動，1/2 星{key=Operator}（無技能）在右下角存在 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表啟動。\n\n
+        4. {key=ParadoxSimulation}: 選好技能後，在技能選擇介面存在 ｢開始模擬｣ 按鈕的介面啟動，1/2 星{key=Operator}（無技能）在右下角存在 ｢開始模擬｣ 按鈕的介面啟動。若使用 ｢{key=UseCopilotList}｣，請從{key=Operator}列表的「等級/稀有度」標籤頁啟動。\n\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
         6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除關注，或在報錯後關閉 ｢{key=AutoSquad}｣，依據提示手動補充缺少的{key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
