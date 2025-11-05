@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Config/AbstractConfig.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 #include <optional>
 #include <string>
@@ -53,7 +53,7 @@ struct RoguelikeCopper
 };
 
 // RoguelikeCoppersConfig 类管理界园肉鸽通宝的配置信息
-class RoguelikeCoppersConfig final : public SingletonHolder<RoguelikeCoppersConfig>, public AbstractConfig
+class RoguelikeCoppersConfig final : public MAA_NS::SingletonHolder<RoguelikeCoppersConfig>, public AbstractConfig
 {
 public:
     ~RoguelikeCoppersConfig() override = default;

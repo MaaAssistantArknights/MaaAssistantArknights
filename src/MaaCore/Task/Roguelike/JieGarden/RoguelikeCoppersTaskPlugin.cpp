@@ -3,8 +3,8 @@
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
@@ -546,9 +546,9 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
             const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike") /
                                                         utils::path("roguelikeCoppers") / utils::path("unknown");
             const auto relative_path =
-                relative_dir / (std::format("{}_unknown_draw.jpeg", utils::format_now_for_filename()));
+                relative_dir / (std::format("{}_unknown_draw.jpeg", MAA_NS::format_now_for_filename()));
             Log.debug(__FUNCTION__, "| Saving unknown copper debug image to", relative_path);
-            asst::imwrite(relative_path, screen_draw, jpeg_params);
+            MAA_NS::imwrite(relative_path, screen_draw, jpeg_params);
         }
     }
     catch (const std::exception& e) {
@@ -608,9 +608,9 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         const std::filesystem::path& relative_dir =
             utils::path("debug") / utils::path("roguelike") / utils::path("roguelikeCoppers");
         const auto relative_path =
-            relative_dir / (std::format("{}_{}_draw.jpeg", utils::format_now_for_filename(), suffix));
+            relative_dir / (std::format("{}_{}_draw.jpeg", MAA_NS::format_now_for_filename(), suffix));
         Log.debug(__FUNCTION__, "| Saving debug image to ", relative_path);
-        asst::imwrite(relative_path, image, jpeg_params);
+        MAA_NS::imwrite(relative_path, image, jpeg_params);
     }
     catch (const std::exception& e) {
         Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
