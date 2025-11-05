@@ -32,5 +32,5 @@
         "vuepress": "2.0.0-rc.24",
         "vuepress-theme-plume": "1.0.0-rc.169"
     },
-    "packageManager": "pnpm@10.18.2"
+    "packageManager": "pnpm@10.20.0"
 }
