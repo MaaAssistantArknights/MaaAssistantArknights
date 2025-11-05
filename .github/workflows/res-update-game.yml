@@ -98,7 +98,6 @@ jobs:
           repository: arkntools/arknights-data-tw-for-maa
           ref: main
           path: ./excel
-          token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
       - name: Download stages.json from Penguin Stats
         run: |
