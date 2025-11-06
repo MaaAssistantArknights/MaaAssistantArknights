@@ -31,15 +31,39 @@ icon: ri:earth-fill
 3. 确保截图中不包含任何无关内容，例如任务栏、状态栏、通知栏等。
 4. 确保截图中包含所有需要识别的内容。
 
-为了裁剪图片并获取文本/图片 `roi`，你需要安装 `python` 和 `opencv`，并下载 `MaaAssistantArknights/tools/CropRoi/main.py` 文件。
+为了裁剪图片并获取文本/图片 `roi`，你需要使用 `MaaAssistantArknights/tools/ImageCropper` 工具。
 
-然后，按照以下步骤操作：
+**ImageCropper** 是一个强大的截图工具，支持对预先准备好的截图或通过 ADB 连接设备进行 ROI 区域的截取、保存、取色操作。
 
-1. 在 `main.py` 同目录下新建 `src` 和 `dst` 文件夹。
-2. 将需要修改大小或获取文本/图片 `roi` 的 **完整截图** 放入 `src` 文件夹。
-3. 运行 `main.py`。
-4. 使用鼠标拖动选择目标范围，尽量不要包含无关内容。
-5. 确定范围后，按 `S` 键保存，按 `Q` 键退出。裁剪后的图像将被保存在 `dst` 文件夹。
+### 环境配置
+
+需要 `python` 环境，推荐版本为 `3.11`，最低版本为 `3.9` 以上。
+
+### 安装依赖
+
+Windows 用户推荐直接运行 `install.bat`，或手动安装：
+
+```shell
+python -m pip install -r requirements.txt
+```
+
+### 使用步骤
+
+1. 如果有预先准备好的截图，需保存到 `./src/` 路径下
+2. 运行 `start.bat` 或 `python main.py [device serial]`（设备地址为可选）
+   - 工具会自动搜索已连接的 ADB 设备，根据提示选择设备（按 ENTER 跳过选择）
+   - 也可以直接使用 `python main.py [device serial]` 连接指定设备
+3. 在弹窗中左键选择目标区域，滚轮缩放图片，右键移动图片
+4. 使用快捷键操作：
+   - 按 `S` 或 `ENTER` 保存目标区域
+   - 按 `F` 保存全屏标准化截图
+   - 按 `R` 不保存，只输出 ROI 范围
+   - 按 `C` 不保存，输出 ROI 范围和 ColorMatch 的所需字段
+   - 按 `Z`、`DELETE` 或 `BACKSPACE` 撤销
+   - 按 `0` ~ `9` 缩放窗口
+   - 按 `Q` 或 `ESC` 退出
+   - 按任意键跳过/刷新当前截图
+5. 目标区域截图保存在 `./dst/` 路径下
 
 例如完成一次裁剪后的输出内容为：
 
