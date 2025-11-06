@@ -14,11 +14,11 @@
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
-        "@vuepress/bundler-vite": "2.0.0-rc.24",
-        "@vuepress/helper": "2.0.0-rc.112",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.112",
-        "@vuepress/plugin-git": "2.0.0-rc.112",
-        "@vuepress/plugin-google-analytics": "2.0.0-rc.112",
+        "@vuepress/bundler-vite": "2.0.0-rc.26",
+        "@vuepress/helper": "2.0.0-rc.118",
+        "@vuepress/plugin-docsearch": "2.0.0-rc.118",
+        "@vuepress/plugin-git": "2.0.0-rc.118",
+        "@vuepress/plugin-google-analytics": "2.0.0-rc.118",
         "@vueuse/core": "^13.9.0",
         "bcrypt-ts": "^7.1.0",
         "gray-matter": "^4.0.3",
@@ -28,9 +28,9 @@
         "sass-embedded": "^1.93.3",
         "typescript": "^5.9.3",
         "vite": "^7.2.0",
-        "vue": "^3.5.22",
-        "vuepress": "2.0.0-rc.24",
-        "vuepress-theme-plume": "1.0.0-rc.169"
+        "vue": "^3.5.23",
+        "vuepress": "2.0.0-rc.26",
+        "vuepress-theme-plume": "1.0.0-rc.175"
     },
     "packageManager": "pnpm@10.20.0"
 }
