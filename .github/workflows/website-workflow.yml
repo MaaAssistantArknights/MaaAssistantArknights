@@ -24,6 +24,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+permissions:
+  # required for peaceiris/actions-gh-pages
+  contents: write
+
 jobs:
   build:
     name: Build and Deploy
