@@ -30,17 +30,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}
   cancel-in-progress: true
 
 jobs:
   meta:
     name: Gather Meta Information
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
@@ -97,11 +92,6 @@ jobs:
 
   windows:
     name: Build for Windows
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     strategy:
       matrix:
@@ -207,11 +197,6 @@ jobs:
 
   ubuntu:
     name: Build for Ubuntu
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     runs-on: ubuntu-latest
     strategy:
@@ -333,11 +318,6 @@ jobs:
 
   macOS-Core:
     name: Build Core for macOS
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     runs-on: macos-26
     strategy:
@@ -395,11 +375,6 @@ jobs:
 
   macOS-GUI:
     name: Build GUI for macOS
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: [meta, macOS-Core]
     runs-on: macos-26
     steps:
@@ -560,11 +535,7 @@ jobs:
 
   release:
     name: Publish Release
-    # Prevent duplicate runs on organization branches with PRs
-    if: (github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name) && startsWith(github.ref, 'refs/tags/v')
-
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
