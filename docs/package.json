@@ -2,35 +2,35 @@
     "name": "docs",
     "version": "2.0.0",
     "description": "manual for MaaAssistantArknights",
-    "main": "index.js",
+    "type": "module",
     "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
     "author": "bakashigure <me@shigure.fun>",
     "license": "AGPL-3.0",
     "private": true,
-    "packageManager": "pnpm@10.18.2",
+    "scripts": {
+        "dev": "vuepress dev .",
+        "build": "vuepress build .",
+        "clean": "vuepress dev . --clean-cache"
+    },
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
-        "@vuepress/bundler-vite": "2.0.0-rc.24",
-        "@vuepress/helper": "2.0.0-rc.112",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.112",
-        "@vuepress/plugin-git": "2.0.0-rc.112",
-        "@vuepress/plugin-google-analytics": "2.0.0-rc.112",
+        "@vuepress/bundler-vite": "2.0.0-rc.26",
+        "@vuepress/helper": "2.0.0-rc.118",
+        "@vuepress/plugin-docsearch": "2.0.0-rc.118",
+        "@vuepress/plugin-git": "2.0.0-rc.118",
+        "@vuepress/plugin-google-analytics": "2.0.0-rc.118",
         "@vueuse/core": "^13.9.0",
         "bcrypt-ts": "^7.1.0",
         "gray-matter": "^4.0.3",
         "markdown-it": "^14.1.0",
         "markdown-it-anchor": "^9.2.0",
         "prettier": "^3.6.2",
-        "sass-embedded": "^1.93.2",
+        "sass-embedded": "^1.93.3",
         "typescript": "^5.9.3",
-        "vite": "^7.1.9",
-        "vue": "^3.5.22",
-        "vuepress": "2.0.0-rc.24",
-        "vuepress-theme-plume": "1.0.0-rc.169"
+        "vite": "^7.2.0",
+        "vue": "^3.5.23",
+        "vuepress": "2.0.0-rc.26",
+        "vuepress-theme-plume": "1.0.0-rc.175"
     },
-    "scripts": {
-        "dev": "vuepress dev .",
-        "build": "vuepress build .",
-        "clean": "vuepress dev . --clean-cache"
-    }
+    "packageManager": "pnpm@10.20.0"
 }
