@@ -28,6 +28,7 @@ internal class BadModules
     private static readonly string[] _names = [
         "NahimicOSD.dll",
         "AudioDevProps2.dll",
+        "GTII-OSD64.dll",
         "GTIII-OSD64.dll"
     ];
 
