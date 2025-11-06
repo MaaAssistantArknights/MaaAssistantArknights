@@ -185,12 +185,11 @@ asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& r)
     for (int i = 0; i < kMaxAttempts; ++i) {
         const int x = static_cast<int>(std::round(dist_x(m_rand_engine)));
         const int y = static_cast<int>(std::round(dist_y(m_rand_engine)));
-        const Point sampled { x, y };
         if (x < r.x || x >= r.x + r.width || y < r.y || y >= r.y + r.height) {
             continue;
         }
 
-        return sampled;
+        return { x, y };
     }
 
     // 返回中心点
