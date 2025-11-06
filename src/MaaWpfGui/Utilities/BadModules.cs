@@ -25,7 +25,11 @@ namespace MaaWpfGui.Utilities;
 
 internal class BadModules
 {
-    private static readonly string[] _names = ["NahimicOSD.dll", "AudioDevProps2.dll"];
+    private static readonly string[] _names = [
+        "NahimicOSD.dll",
+        "AudioDevProps2.dll",
+        "GTIII-OSD64.dll"
+    ];
 
     public static unsafe string[] GetBadInjectedModules()
     {
@@ -49,7 +53,7 @@ internal class BadModules
             }
         }
 
-        return result.ToArray();
+        return [.. result];
     }
 
     private class WpfWin32Window(System.Windows.Window w) : IWin32Window, System.Windows.Interop.IWin32Window
