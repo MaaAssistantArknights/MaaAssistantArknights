@@ -109,8 +109,6 @@ private:
 
     AsstCallback m_callback = nullptr;
 
-    std::minstd_rand m_rand_engine;
-
     PlatformType m_platform_type = PlatformType::Native;
 
     ControllerType m_controller_type = ControllerType::Minitouch;

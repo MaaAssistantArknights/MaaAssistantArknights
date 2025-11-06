@@ -105,8 +105,6 @@ protected:
 
     AsstCallback m_callback;
 
-    std::minstd_rand m_rand_engine;
-
     std::mutex m_callcmd_mutex;
 
     std::shared_ptr<asst::PlatformIO> m_platform_io = nullptr;
