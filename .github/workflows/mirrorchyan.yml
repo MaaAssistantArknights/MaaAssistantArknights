@@ -18,6 +18,9 @@ on:
         required: false
         default: true
 
+permissions:
+  contents: read
+
 env:
   RELEASE_TAG: ${{ github.event.inputs.release_tag }}
 
