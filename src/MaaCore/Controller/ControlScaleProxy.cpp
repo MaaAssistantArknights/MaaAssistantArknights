@@ -181,7 +181,7 @@ asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& r)
     std::normal_distribution<double> dist_y(r.y + r.height / 2.0, std_dev_y);
 
     // 优先进行有限次拒绝采样
-    const int kMaxAttempts = 8;
+    constexpr int kMaxAttempts = 8;
     for (int i = 0; i < kMaxAttempts; ++i) {
         const int x = static_cast<int>(std::round(dist_x(m_rand_engine)));
         const int y = static_cast<int>(std::round(dist_y(m_rand_engine)));
