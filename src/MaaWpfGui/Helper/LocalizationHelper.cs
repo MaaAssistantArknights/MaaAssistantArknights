@@ -212,6 +212,23 @@ public static class LocalizationHelper
     /// Gets a formatted localized string.
     /// </summary>
     /// <param name="key">The key of the string.</param>
+    /// <param name="args">The args of string.Format</param>
+    /// <returns>The string.Format result.</returns>
+    public static string GetStringFormat(string key, params object[] args)
+    {
+        if (_culture == "pallas")
+        {
+            return GetPallasString();
+        }
+
+        var rawString = GetString(key);
+        return string.Format(rawString, args);
+    }
+
+    /// <summary>
+    /// Gets a formatted localized string.
+    /// </summary>
+    /// <param name="key">The key of the string.</param>
     /// <param name="culture">The language of the string</param>
     /// <returns>The formatted string.</returns>
     private static string GetFormattedString(string key, string? culture = null)
