@@ -2,10 +2,26 @@ name: Release Package Distribution
 
 on:
   workflow_dispatch:
+    inputs:
+      maa_version:
+        description: 'MAA Version (without "v" prefix)'
+        type: string
+        required: false
+      mirrorchyan:
+        description: "Upload to MirrorChyan"
+        type: boolean
+        required: false
+        default: true
+      winget:
+        description: "Upload to WinGet"
+        type: boolean
+        required: false
+        default: true
 
 jobs:
   mirrorchyan:
     name: Upload to MirrorChyan
+    if: ${{ github.event.inputs.mirrorchyan != false }}
     runs-on: macos-latest
 
     steps:
@@ -70,3 +86,23 @@ jobs:
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: macos
           arch: x64
+
+  winget:
+    name: Upload to WinGet
+    if: ${{ github.event.inputs.winget != false }}
+    runs-on: windows-latest
+
+    steps:
+      - name: Upload MAA to WinGet
+        if: ${{ github.event.inputs.winget != false }}
+        env:
+          MAA_VERSION: ${{ github.event.inputs.maa_version }}
+        uses: vedantmgoyal9/winget-releaser@main
+        with:
+          identifier: MaaAssistantArknights.MaaAssistantArknights
+          version: ${{ env.MAA_VERSION }}
+          installers-regex: "-win-"
+          max-versions-to-keep: 0
+          release-tag: "v${{ env.MAA_VERSION }}"
+          fork-user: lucienshawls
+          token: ${{ secrets.LUCIENSHAWLS_WINGET }}
