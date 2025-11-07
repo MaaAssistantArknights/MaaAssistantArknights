@@ -4,9 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: "Release Tag"
+        description: "Release Tag (empty for latest)"
         type: string
         required: false
+        default: ""
       mirrorchyan:
         description: "Upload to MirrorChyan"
         type: boolean
