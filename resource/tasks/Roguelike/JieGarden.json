@@ -345,6 +345,21 @@
     "JieGarden@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
     },
+    "JieGarden@Roguelike@ClickToStartPoint": {
+        "next": [
+            "JieGarden@Roguelike@MissionCompletedFlag",
+            "JieGarden@Roguelike@MissionFailedFlag2",
+            "JieGarden@Roguelike@StartExplore",
+            "JieGarden@Roguelike@Stages#next",
+            "JieGarden@Roguelike@GamePass",
+            "JieGarden@Roguelike@TodoEnter",
+            "JieGarden@Roguelike@Continue",
+            "JieGarden@Roguelike@ReturnButtons#next",
+            "JieGarden@Roguelike@ReturnConfirm",
+            "JieGarden@Roguelike@StartUpThemes#next",
+            "JieGarden@Roguelike@ClickToStartPoint"
+        ]
+    },
     "JieGarden@Roguelike@MonthlySquadComms": {
         "template": "Roguelike@MonthlySquadComms.png",
         "roi": [560, 420, 190, 60]
