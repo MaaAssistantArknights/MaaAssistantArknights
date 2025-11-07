@@ -192,6 +192,7 @@ asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& r)
         return { x, y };
     }
 
+    LogWarn << "Too many sampling attempts";
     // 返回中心点
     return { r.x + r.width / 2, r.y + r.height / 2 };
 }
