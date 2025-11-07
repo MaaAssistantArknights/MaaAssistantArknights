@@ -31,8 +31,7 @@ jobs:
         env:
           KOMAC_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          komac update \
-            --id "MaaAssistantArknights.MaaAssistantArknights" \
+          komac update "MaaAssistantArknights.MaaAssistantArknights" \
             --version "$KOMAC_VERSION" \
             --urls "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-x64.zip,https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-arm64.zip" \
             --submit \
