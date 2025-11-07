@@ -106,21 +106,13 @@ jobs:
     continue-on-error: true
 
     steps:
-      - name: Get trimmed version
-        id: trim_version
-        run: |
-          $VERSION = "$env:RELEASE_TAG" -replace '^v', ''
-          echo "VERSION=$VERSION" >> $env:GITHUB_OUTPUT
-
       - name: Upload MAA to WinGet
         uses: vedantmgoyal9/winget-releaser@main
-        env:
-          VERSION: ${{ steps.trim_version.outputs.VERSION }}
         with:
           identifier: MaaAssistantArknights.MaaAssistantArknights
-          version: ${{ env.VERSION }}
+          version: ""
           installers-regex: "-win-"
           max-versions-to-keep: 0
-          release-tag: ${{ env.RELEASE_TAG }}
+          release-tag: ${{ env.RELEASE_TAG || 'latest' }}
           fork-user: lucienshawls
           token: ${{ secrets.LUCIENSHAWLS_WINGET }}
