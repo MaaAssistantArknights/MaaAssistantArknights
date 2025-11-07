@@ -525,7 +525,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
             if (list.Any(i => i.Period.Count > 0) && list.Any(p => p.Period.Count == 0))
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileSomePlanNoPeriod"), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Warning);
             }
 
             CustomInfrastPlanList = [.. list];
