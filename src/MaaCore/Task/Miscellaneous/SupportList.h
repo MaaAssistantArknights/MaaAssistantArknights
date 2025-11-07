@@ -15,6 +15,7 @@ public:
 
     using AbstractTask::AbstractTask;
     virtual ~SupportList() override = default;
+
     virtual bool _run() override { return true; };
 
     /// <summary>

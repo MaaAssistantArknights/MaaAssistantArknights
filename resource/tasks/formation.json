@@ -311,7 +311,6 @@
         "template": ["SupportList-Refresh.png", "SupportList-RefreshCooldown.png"],
         "roi": [1094, 13, 67, 50],
         "next": ["Formation-AddSupportUnit-ReturnButton"]
-
     },
     "Formation-AddSupportUnit-ReturnButton": {
         "baseTask": "ReturnButton",
