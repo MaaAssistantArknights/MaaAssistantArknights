@@ -194,17 +194,17 @@ public partial class CopilotViewModel : Screen
         set => SetAndNotify(ref _startEnabled, value);
     }
 
-    private int _activeTabIndex = 0;
+    private int _copilotTabIndex = 0;
 
     /// <summary>
     /// Gets or sets 作业类型，0：主线/故事集/SS 1：保全派驻 2：悖论模拟 3：其他活动
     /// </summary>
-    public int ActiveTabIndex
+    public int CopilotTabIndex
     {
-        get => _activeTabIndex;
+        get => _copilotTabIndex;
         set
         {
-            if (!SetAndNotify(ref _activeTabIndex, value))
+            if (!SetAndNotify(ref _copilotTabIndex, value))
             {
                 return;
             }
@@ -492,7 +492,7 @@ public partial class CopilotViewModel : Screen
     [UsedImplicitly]
     public async Task PasteClipboardCopilotSet()
     {
-        if (ActiveTabIndex is 1 or 3)
+        if (CopilotTabIndex is 1 or 3)
         {
             return;
         }
@@ -847,7 +847,7 @@ public partial class CopilotViewModel : Screen
         if (!writeToCache)
         {// 现在是暂时将所有本地作业不添加到列表
         }
-        else if (ActiveTabIndex is 1)
+        else if (CopilotTabIndex is 1)
         { // 保全不使用多作业列表
         }
         else if (copilotList)
@@ -1177,7 +1177,7 @@ public partial class CopilotViewModel : Screen
             return false;
         }
 
-        if (ActiveTabIndex == 2)
+        if (CopilotTabIndex == 2)
         {
             string? name = null;
             if (stageId?.Length > 6)
@@ -1285,13 +1285,24 @@ public partial class CopilotViewModel : Screen
             return;
         }
 
-        if (_taskType == AsstTaskType.Copilot && UseCopilotList && !await VerifyCopilotListTask())
+        if (_taskType != AsstTaskType.Copilot)
         {
-            // 校验作业合法性
-            _runningState.SetIdle(true);
-            return;
         }
-        else if (_taskType == AsstTaskType.Copilot && !UseCopilotList && _copilotCache is null)
+        else if (UseCopilotList)
+        {
+            if (!await VerifyCopilotListTask())
+            {
+                // 校验作业合法性
+                _runningState.SetIdle(true);
+                return;
+            }
+            else if (CopilotTabIndex == 2 && !VerifyParadoxTasks())
+            {
+                _runningState.SetIdle(true);
+                return;
+            }
+        }
+        else if (!UseCopilotList && _copilotCache is null)
         {
             AddLog(LocalizationHelper.GetString("CopilotEmptyError"), UiLogColor.Error, showTime: false);
             _runningState.SetIdle(true);
@@ -1336,7 +1347,7 @@ public partial class CopilotViewModel : Screen
                 var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
                 {
                     _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = ActiveTabIndex == 2, };
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = CopilotTabIndex == 2, };
                 });
 
                 var task = new AsstCopilotTask()
@@ -1529,6 +1540,21 @@ public partial class CopilotViewModel : Screen
         }
 
         return true;
+    }
+
+    private bool VerifyParadoxTasks()
+    {
+        bool ret = true;
+        foreach (var task in CopilotItemViewModels.Where(i => i.IsChecked))
+        {
+            if (!DataHelper.Operators.Any(op => op.Value.Name == task.Name))
+            {
+                AddLog("illegal oper name: " + task.Name, UiLogColor.Error);
+                ret = false;
+            }
+        }
+
+        return ret;
     }
 
     /// <summary>
