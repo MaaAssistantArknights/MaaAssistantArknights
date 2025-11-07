@@ -562,8 +562,10 @@ jobs:
 
       - name: Trigger release distribution workflows
         run: |
-          echo WORKFLOW_INPUT='{"release_tag": "${{ needs.meta.outputs.tag }}", "mirrorchyan": true, "winget": ${{ needs.meta.outputs.prerelease == 'false' }}}'
-          echo $WORKFLOW_INPUT | gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan.yml --json
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan.yml \
+            -f release_tag="${{ needs.meta.outputs.tag }}" \
+            -f mirrorchyan=true \
+            -f winget=${{ needs.meta.outputs.prerelease == 'false' }}
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
