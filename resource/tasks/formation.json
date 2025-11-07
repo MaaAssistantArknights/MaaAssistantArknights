@@ -291,5 +291,31 @@
         "rectMove": [1000, 530, 1, 1],
         "specialParams": [150, 1, 2, 0],
         "postDelay": 500
+    },
+    "Formation-AddSupportUnit-EnterSupportList": {
+        "doc": "通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战列表",
+        "roi": [1023, 314, 46, 50],
+        "action": "ClickSelf",
+        "next": [
+            "Formation-AddSupportUnit-EnterSupportList@NextAfterLoadingText",
+            "Formation-AddSupportUnit-InSupportList"
+        ]
+    },
+    "Formation-AddSupportUnit-InSupportList": {
+        "doc": "通过识别右上角 <更新列表> 按钮上的 Icon 或冷却倒计时左侧 Icon 判断是否已进入助战列表",
+        "template": ["SupportList-Refresh.png", "SupportList-RefreshCooldown.png"],
+        "roi": [1094, 13, 67, 50]
+    },
+    "Formation-AddSupportUnit-LeaveSupportList": {
+        "doc": "如果已经进入助战列表则点击左上角箭头图标返回编队界面",
+        "template": ["SupportList-Refresh.png", "SupportList-RefreshCooldown.png"],
+        "roi": [1094, 13, 67, 50],
+        "next": ["Formation-AddSupportUnit-ReturnButton"]
+
+    },
+    "Formation-AddSupportUnit-ReturnButton": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png"],
+        "next": ["Formation-AddSupportUnit-LeaveSupportList", "Stop"]
     }
 }
