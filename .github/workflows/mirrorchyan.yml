@@ -28,6 +28,7 @@ env:
 jobs:
   meta:
     name: Define Release Tag
+    if: ${{ github.repository_owner == 'MaaAssistantArknights'}}
     runs-on: ubuntu-latest
 
     outputs:
@@ -39,6 +40,8 @@ jobs:
         if: ${{ env.RELEASE_TAG_RAW == 'latest' }}
         uses: pozetroninc/github-action-get-latest-release@master
         with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Define release tag
