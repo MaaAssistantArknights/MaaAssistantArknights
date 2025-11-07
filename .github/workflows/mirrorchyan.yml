@@ -24,7 +24,7 @@ env:
 jobs:
   mirrorchyan:
     name: Upload to MirrorChyan
-    if: ${{ github.event.inputs.mirrorchyan }}
+    if: ${{ github.event.inputs.mirrorchyan == 'true' }}
     runs-on: macos-latest
     continue-on-error: true
 
@@ -97,7 +97,7 @@ jobs:
 
   winget:
     name: Upload to WinGet
-    if: ${{ github.event.inputs.winget }}
+    if: ${{ github.event.inputs.winget == 'true' }}
     runs-on: windows-latest
     continue-on-error: true
 
@@ -109,7 +109,6 @@ jobs:
           echo "VERSION=$VERSION" >> $env:GITHUB_OUTPUT
 
       - name: Upload MAA to WinGet
-        if: ${{ github.event.inputs.winget }}
         uses: vedantmgoyal9/winget-releaser@main
         env:
           VERSION: ${{ steps.trim_version.outputs.VERSION }}
