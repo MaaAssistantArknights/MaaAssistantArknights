@@ -117,7 +117,11 @@ bool asst::BattleFormationTask::_run()
                 required_opers.emplace_back(m_specific_support_unit);
                 break;
             }
-            required_opers.emplace_back(BattleData.get_role(oper.name), oper.name, oper.skill);
+            required_opers.emplace_back(
+                RequiredOper { .role = BattleData.get_role(oper.name),
+                               .name = oper.name,
+                               .skill = oper.skill,
+                               .module = static_cast<OperModule>(oper.requirements.module) });
         }
 
         // 先退出去招募助战再回来，好蠢
@@ -844,7 +848,6 @@ bool asst::BattleFormationTask::add_support_unit_from_support_list(
 {
     LogTraceFunction;
 
-    using OperModule = battle::OperModule;
     using SupportUnit = battle::SupportUnit;
 
     support_list.update();

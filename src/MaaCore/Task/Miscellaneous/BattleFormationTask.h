@@ -132,9 +132,10 @@ protected:
     // ————————————————————————————————
     // 助战干员选择相关
     // ————————————————————————————————
-    using Role = battle::Role;
-    using RequiredOper = battle::RequiredOper;
     using Friendship = battle::Friendship;
+    using Role = battle::Role;
+    using OperModule = battle::OperModule;
+    using RequiredOper = battle::RequiredOper;
 
     bool add_support_unit(
         const std::vector<RequiredOper>& required_opers = {},
