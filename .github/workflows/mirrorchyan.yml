@@ -3,8 +3,8 @@ name: Release Package Distribution
 on:
   workflow_dispatch:
     inputs:
-      maa_version:
-        description: 'MAA Version (without "v" prefix)'
+      release_tag:
+        description: "Release Tag"
         type: string
         required: false
       mirrorchyan:
@@ -18,19 +18,24 @@ on:
         required: false
         default: true
 
+env:
+  RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+
 jobs:
   mirrorchyan:
     name: Upload to MirrorChyan
-    if: ${{ github.event.inputs.mirrorchyan != false }}
+    if: ${{ github.event.inputs.mirrorchyan }}
     runs-on: macos-latest
+    continue-on-error: true
 
     steps:
       - name: Upload MAA win x64
         uses: MirrorChyan/uploading-action@v1
-        if: always()
+        continue-on-error: true
         with:
           filetype: latest-release
           filename: "*MAA-*-win-x64.zip"
+          tag: ${{ env.RELEASE_TAG }}
           mirrorchyan_rid: MAA
 
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,10 +47,11 @@ jobs:
 
       - name: Upload MAA win arm64
         uses: MirrorChyan/uploading-action@v1
-        if: always()
+        continue-on-error: true
         with:
           filetype: latest-release
           filename: "*MAA-*-win-arm64.zip"
+          tag: ${{ env.RELEASE_TAG }}
           mirrorchyan_rid: MAA
 
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -57,11 +63,12 @@ jobs:
 
       - name: Upload MAA macos arm64
         uses: MirrorChyan/uploading-action@v1
-        if: always()
+        continue-on-error: true
         with:
           filetype: latest-release
           filename: "MAA-*-macos-universal.dmg"
           extra_zip: true
+          tag: ${{ env.RELEASE_TAG }}
           mirrorchyan_rid: MAA
 
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -73,11 +80,12 @@ jobs:
 
       - name: Upload MAA macos x64
         uses: MirrorChyan/uploading-action@v1
-        if: always()
+        continue-on-error: true
         with:
           filetype: latest-release
           filename: "MAA-*-macos-universal.dmg"
           extra_zip: true
+          tag: ${{ env.RELEASE_TAG }}
           mirrorchyan_rid: MAA
 
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -89,20 +97,27 @@ jobs:
 
   winget:
     name: Upload to WinGet
-    if: ${{ github.event.inputs.winget != false }}
+    if: ${{ github.event.inputs.winget }}
     runs-on: windows-latest
+    continue-on-error: true
 
     steps:
+      - name: Get trimmed version
+        id: trim_version
+        run: |
+          $VERSION = "$env:RELEASE_TAG" -replace '^v', ''
+          echo "VERSION=$VERSION" >> $env:GITHUB_OUTPUT
+
       - name: Upload MAA to WinGet
-        if: ${{ github.event.inputs.winget != false }}
-        env:
-          MAA_VERSION: ${{ github.event.inputs.maa_version }}
+        if: ${{ github.event.inputs.winget }}
         uses: vedantmgoyal9/winget-releaser@main
+        env:
+          VERSION: ${{ steps.trim_version.outputs.VERSION }}
         with:
           identifier: MaaAssistantArknights.MaaAssistantArknights
-          version: ${{ env.MAA_VERSION }}
+          version: ${{ env.VERSION }}
           installers-regex: "-win-"
           max-versions-to-keep: 0
-          release-tag: "v${{ env.MAA_VERSION }}"
+          release-tag: ${{ env.RELEASE_TAG }}
           fork-user: lucienshawls
           token: ${{ secrets.LUCIENSHAWLS_WINGET }}
