@@ -869,6 +869,9 @@ private:
             auto& logger = Logger::get_instance();
             std::string exception_details = utils::ExceptionStacktrace::capture_exception_stack_trace(pExceptionInfo);
             logger.error("=== UNHANDLED EXCEPTION ===");
+            logger.error("Version", asst::Version);
+            logger.error("Built at", __DATE__, __TIME__);
+            logger.error("User Dir", UserDir.get());
             logger.error("Exception details with stack trace:");
             logger.error(exception_details);
             logger.error("============================");
@@ -922,6 +925,9 @@ private:
             }
 
             logger.error("=== FATAL ERROR ===");
+            logger.error("Version", asst::Version);
+            logger.error("Built at", __DATE__, __TIME__);
+            logger.error("User Dir", UserDir.get());
             logger.error("Unhandled exception caught:", exception_info);
             logger.error("Exception stack trace:");
             if (!stack_trace.empty()) {
