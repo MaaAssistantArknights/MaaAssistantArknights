@@ -29,8 +29,7 @@
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst) :
     InstHelper(inst),
-    m_callback(callback),
-    m_rand_engine(std::random_device {}())
+    m_callback(callback)
 {
     LogTraceFunction;
 }

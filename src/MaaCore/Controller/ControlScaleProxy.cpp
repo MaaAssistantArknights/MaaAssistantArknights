@@ -165,34 +165,35 @@ std::pair<int, int> asst::ControlScaleProxy::get_scale_size() const noexcept
     return m_scale_size;
 }
 
-asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& rect)
+asst::Point asst::ControlScaleProxy::rand_point_in_rect(const Rect& r)
 {
-    int x = 0, y = 0;
-    if (rect.width == 0) {
-        Log.warn("click rect width is 0");
-        x = rect.x;
-    }
-    else {
-        int x_rand;
-        do {
-            x_rand = std::poisson_distribution<int>(rect.width / 2.)(m_rand_engine);
-        } while (x_rand < 0 || x_rand >= rect.width);
-        x = x_rand + rect.x;
+    // 过小矩形直接返回中心点，避免死循环
+    if (r.width <= 2 || r.height <= 2) {
+        return { r.x + r.width / 2, r.y + r.height / 2 };
     }
 
-    if (rect.height == 0) {
-        Log.warn("click rect height is 0");
-        y = rect.y;
-    }
-    else {
-        int y_rand;
-        do {
-            y_rand = std::poisson_distribution<int>(rect.height / 2.)(m_rand_engine);
-        } while (y_rand < 0 || y_rand >= rect.height);
-        y = y_rand + rect.y;
+    constexpr double kStdDevFactor = 3.0;
+
+    const double std_dev_x = r.width / kStdDevFactor;
+    const double std_dev_y = r.height / kStdDevFactor;
+
+    std::normal_distribution<double> dist_x(r.x + r.width / 2.0, std_dev_x);
+    std::normal_distribution<double> dist_y(r.y + r.height / 2.0, std_dev_y);
+
+    // 优先进行有限次拒绝采样
+    constexpr int kMaxAttempts = 8;
+    for (int i = 0; i < kMaxAttempts; ++i) {
+        const int x = static_cast<int>(std::round(dist_x(m_rand_engine)));
+        const int y = static_cast<int>(std::round(dist_y(m_rand_engine)));
+        if (x < r.x || x >= r.x + r.width || y < r.y || y >= r.y + r.height) {
+            continue;
+        }
+
+        return { x, y };
     }
 
-    return { x, y };
+    // 返回中心点
+    return { r.x + r.width / 2, r.y + r.height / 2 };
 }
 
 void asst::ControlScaleProxy::callback(const json::object& details)
