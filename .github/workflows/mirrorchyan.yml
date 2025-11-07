@@ -23,14 +23,42 @@ permissions:
   contents: read
 
 env:
-  RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+  RELEASE_TAG_RAW: ${{ github.event.inputs.release_tag || 'latest' }}
 
 jobs:
+  meta:
+    name: Define Release Tag
+    runs-on: ubuntu-latest
+
+    outputs:
+      RELEASE_TAG: ${{ steps.define_release_tag.outputs.RELEASE_TAG }}
+
+    steps:
+      - name: Get latest release tag
+        id: get_latest
+        if: ${{ env.RELEASE_TAG_RAW == 'latest' }}
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Define release tag
+        id: define_release_tag
+        run: |
+          if [ "${{ env.RELEASE_TAG_RAW }}" == "latest" ]; then
+            echo "RELEASE_TAG=${{ steps.get_latest.outputs.release }}" >> $GITHUB_OUTPUT
+          else
+            echo "RELEASE_TAG=${{ env.RELEASE_TAG_RAW }}" >> $GITHUB_OUTPUT
+          fi
+
   mirrorchyan:
     name: Upload to MirrorChyan
+    needs: meta
     if: ${{ github.event.inputs.mirrorchyan == 'true' }}
     runs-on: macos-latest
     continue-on-error: true
+
+    env:
+      RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
 
     steps:
       - name: Upload MAA win x64
@@ -101,9 +129,13 @@ jobs:
 
   winget:
     name: Upload to WinGet
+    needs: meta
     if: ${{ github.event.inputs.winget == 'true' }}
     runs-on: windows-latest
     continue-on-error: true
+
+    env:
+      RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
 
     steps:
       - name: Upload MAA to WinGet
@@ -113,6 +145,6 @@ jobs:
           version: ""
           installers-regex: "-win-"
           max-versions-to-keep: 0
-          release-tag: ${{ env.RELEASE_TAG || 'latest' }}
+          release-tag: ${{ env.RELEASE_TAG }}
           fork-user: lucienshawls
           token: ${{ secrets.LUCIENSHAWLS_WINGET }}
