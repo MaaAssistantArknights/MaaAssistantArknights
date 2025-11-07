@@ -28,7 +28,7 @@ env:
 jobs:
   meta:
     name: Define Release Tag
-    if: ${{ github.repository_owner == 'MaaAssistantArknights'}}
+    if: ${{ github.repository_owner == 'MaaAssistantArknights' }}
     runs-on: ubuntu-latest
 
     outputs:
