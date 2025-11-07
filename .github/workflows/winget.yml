@@ -1,0 +1,39 @@
+name: Update MAA in Winget
+
+on:
+  workflow_dispatch: 
+  schedule:
+    - cron: '0 12 * * *'
+  release:
+    types: [published] 
+
+jobs:
+  update-winget:
+    name: Update MAA in Winget Repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install cargo binstall
+        uses: cargo-bins/cargo-binstall@268643a6b5ea099f5718ee5cd3ff7dc89a5eb49b
+
+      - name: Install komac
+        run: |
+          cargo binstall komac@2.11.2 -y
+      
+      - name: Determine latest version
+        id: version
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest | jq -r .tag_name | sed 's/^v//')
+          echo "Latest version: $LATEST_VERSION"
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update Winget manifest
+        env:
+          KOMAC_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          komac update \
+            --id "MaaAssistantArknights.MaaAssistantArknights" \
+            --version "$KOMAC_VERSION" \
+            --urls "https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-x64.zip,https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/download/v$KOMAC_VERSION/MAA-v$KOMAC_VERSION-win-arm64.zip" \
+            --submit \
+            --token "${{ secrets.WINGET_GITHUB_TOKEN }}"
