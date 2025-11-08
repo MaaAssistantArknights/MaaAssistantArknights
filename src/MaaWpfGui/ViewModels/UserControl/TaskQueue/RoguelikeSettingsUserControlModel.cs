@@ -585,7 +585,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets a value indicating whether only need with elite two's core char.
     /// </summary>
-    public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
+    [PropertyDependsOn(nameof(RoguelikeOnlyStartWithEliteTwoRaw), nameof(RoguelikeStartWithEliteTwo), nameof(RoguelikeSquadIsProfessional))]
+    public bool RoguelikeOnlyStartWithEliteTwo => RoguelikeOnlyStartWithEliteTwoRaw && RoguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
 
     /// <summary>
     /// Gets the available start with rewards dictionary based on current theme.
