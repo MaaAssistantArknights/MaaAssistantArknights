@@ -15092,6 +15092,150 @@
         "stageId": "act46side_10",
         "width": 21
     },
+    "act46side_ex01#f#-activities/act46side/level_act46side_ex01": {
+        "code": "OS-EX-1",
+        "filename": "act46side_ex01#f#-activities-act46side-level_act46side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_ex01",
+        "name": "饮净水",
+        "stageId": "act46side_ex01#f#",
+        "width": 17
+    },
+    "act46side_ex01-activities/act46side/level_act46side_ex01": {
+        "code": "OS-EX-1",
+        "filename": "act46side_ex01-activities-act46side-level_act46side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_ex01",
+        "name": "饮净水",
+        "stageId": "act46side_ex01",
+        "width": 17
+    },
+    "act46side_ex02#f#-activities/act46side/level_act46side_ex02": {
+        "code": "OS-EX-2",
+        "filename": "act46side_ex02#f#-activities-act46side-level_act46side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act46side/level_act46side_ex02",
+        "name": "敬友邻",
+        "stageId": "act46side_ex02#f#",
+        "width": 11
+    },
+    "act46side_ex02-activities/act46side/level_act46side_ex02": {
+        "code": "OS-EX-2",
+        "filename": "act46side_ex02-activities-act46side-level_act46side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act46side/level_act46side_ex02",
+        "name": "敬友邻",
+        "stageId": "act46side_ex02",
+        "width": 11
+    },
+    "act46side_ex03#f#-activities/act46side/level_act46side_ex03": {
+        "code": "OS-EX-3",
+        "filename": "act46side_ex03#f#-activities-act46side-level_act46side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex03",
+        "name": "御外敌",
+        "stageId": "act46side_ex03#f#",
+        "width": 11
+    },
+    "act46side_ex03-activities/act46side/level_act46side_ex03": {
+        "code": "OS-EX-3",
+        "filename": "act46side_ex03-activities-act46side-level_act46side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex03",
+        "name": "御外敌",
+        "stageId": "act46side_ex03",
+        "width": 11
+    },
+    "act46side_ex04#f#-activities/act46side/level_act46side_ex04": {
+        "code": "OS-EX-4",
+        "filename": "act46side_ex04#f#-activities-act46side-level_act46side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex04",
+        "name": "熟食而止",
+        "stageId": "act46side_ex04#f#",
+        "width": 11
+    },
+    "act46side_ex04-activities/act46side/level_act46side_ex04": {
+        "code": "OS-EX-4",
+        "filename": "act46side_ex04-activities-act46side-level_act46side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex04",
+        "name": "熟食而止",
+        "stageId": "act46side_ex04",
+        "width": 11
+    },
+    "act46side_ex05#f#-activities/act46side/level_act46side_ex05": {
+        "code": "OS-EX-5",
+        "filename": "act46side_ex05#f#-activities-act46side-level_act46side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex05",
+        "name": "皮毛加身",
+        "stageId": "act46side_ex05#f#",
+        "width": 11
+    },
+    "act46side_ex05-activities/act46side/level_act46side_ex05": {
+        "code": "OS-EX-5",
+        "filename": "act46side_ex05-activities-act46side-level_act46side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex05",
+        "name": "皮毛加身",
+        "stageId": "act46side_ex05",
+        "width": 11
+    },
+    "act46side_ex06#f#-activities/act46side/level_act46side_ex06": {
+        "code": "OS-EX-6",
+        "filename": "act46side_ex06#f#-activities-act46side-level_act46side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex06",
+        "name": "顺时耕作",
+        "stageId": "act46side_ex06#f#",
+        "width": 12
+    },
+    "act46side_ex06-activities/act46side/level_act46side_ex06": {
+        "code": "OS-EX-6",
+        "filename": "act46side_ex06-activities-act46side-level_act46side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex06",
+        "name": "顺时耕作",
+        "stageId": "act46side_ex06",
+        "width": 12
+    },
+    "act46side_ex07#f#-activities/act46side/level_act46side_ex07": {
+        "code": "OS-EX-7",
+        "filename": "act46side_ex07#f#-activities-act46side-level_act46side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex07",
+        "name": "以石取石",
+        "stageId": "act46side_ex07#f#",
+        "width": 11
+    },
+    "act46side_ex07-activities/act46side/level_act46side_ex07": {
+        "code": "OS-EX-7",
+        "filename": "act46side_ex07-activities-act46side-level_act46side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_ex07",
+        "name": "以石取石",
+        "stageId": "act46side_ex07",
+        "width": 11
+    },
+    "act46side_ex08#f#-activities/act46side/level_act46side_ex08": {
+        "code": "OS-EX-8",
+        "filename": "act46side_ex08#f#-activities-act46side-level_act46side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_ex08",
+        "name": "以人的名",
+        "stageId": "act46side_ex08#f#",
+        "width": 13
+    },
+    "act46side_ex08-activities/act46side/level_act46side_ex08": {
+        "code": "OS-EX-8",
+        "filename": "act46side_ex08-activities-act46side-level_act46side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_ex08",
+        "name": "以人的名",
+        "stageId": "act46side_ex08",
+        "width": 13
+    },
     "act46side_tr01-activities/act46side/level_act46side_tr01": {
         "code": "OS-TR-1",
         "filename": "act46side_tr01-activities-act46side-level_act46side_tr01.json",
