@@ -531,6 +531,7 @@ void asst::SupportList::update_view(
             Log.error(
                 __FUNCTION__,
                 std::format("| New support unit found: {}; skipping to the next one", support_unit.name));
+            continue;
         }
         const size_t index = it->second;
         if (index < m_view_begin) {
