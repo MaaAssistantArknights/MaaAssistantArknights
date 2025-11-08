@@ -2552,7 +2552,7 @@
     "SelectSupportConfirmToFormationPage": {
         "baseTask": "BattleQuickFormationConfirm",
         "template": "BattleQuickFormationConfirm.png",
-        "next": ["UseSupportUnit-Enter"]
+        "next": ["Formation-AddSupportUnit-EnterSupportList"]
     },
     "RecruitRefresh": {
         "action": "ClickSelf",

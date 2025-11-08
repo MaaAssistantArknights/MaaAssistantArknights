@@ -258,6 +258,7 @@
     },
     "SupportList-DetailPanel-SelectOriginalModule": {
         "doc": ["在助战干员详情界面，当视图处于模组列表头部时，识别并点选 Original 模组"],
+        "template": "SupportList-DetailPanel-Module-Original.png",
         "roi": [750, 498, 82, 25],
         "action": "ClickSelf",
         "postDelay": 500
