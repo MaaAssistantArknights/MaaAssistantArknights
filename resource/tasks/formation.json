@@ -153,8 +153,8 @@
         "doc": "向右滑动屏幕，使助战列表视图向左移动到列表头部",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [500, 680, 1, 1],
-        "rectMove": [200, 680, 1, 1],
+        "specificRect": [200, 680, 1, 1],
+        "rectMove": [500, 680, 1, 1],
         "specialParams": [150, 1, 2, 0],
         "postDelay": 500
     },
@@ -171,8 +171,8 @@
         "doc": "向右滑动屏幕，使助战列表视图向左移动",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [500, 680, 1, 1],
-        "rectMove": [200, 680, 1, 1],
+        "specificRect": [200, 680, 1, 1],
+        "rectMove": [500, 680, 1, 1],
         "specialParams": [150, 1, 2, 0],
         "postDelay": 500
     },
@@ -279,8 +279,8 @@
         "doc": "在助战干员详情界面向右滑动屏幕，使模组列表向左移动到列表头部",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [1000, 530, 1, 1],
-        "rectMove": [700, 530, 1, 1],
+        "specificRect": [741, 500, 1, 1],
+        "rectMove": [1081, 500, 1, 1],
         "specialParams": [150, 1, 2, 0],
         "postDelay": 500
     },
@@ -288,8 +288,8 @@
         "doc": "在助战干员详情界面向右滑动屏幕，使模组列表向左移动到列表头部",
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "specificRect": [700, 530, 1, 1],
-        "rectMove": [1000, 530, 1, 1],
+        "specificRect": [1081, 500, 1, 1],
+        "rectMove": [741, 500, 1, 1],
         "specialParams": [150, 1, 2, 0],
         "postDelay": 500
     },
