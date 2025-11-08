@@ -35,21 +35,26 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
 #endif
     MultiMatcher::ResultsVec option_analyze_result = option_analyze_ret.value();
 
+    const MatchTaskPtr enabled_task_ptr =
+        Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled");
+    const MatchTaskPtr templ_task_ptr = Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-Option");
+    const OcrTaskPtr text_task_ptr =
+        Task.get<OcrTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text");
+
     Result result;
     for (const auto& [rect, score, templ_name] : option_analyze_result) {
         Option option;
 
         Matcher enabled_analyzer(make_roi(m_image, rect));
-        enabled_analyzer.set_task_info(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled");
+        enabled_analyzer.set_task_info(enabled_task_ptr);
         option.enabled = enabled_analyzer.analyze().has_value();
 
-        Rect option_rect = Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-Option")->specific_rect;
-        option_rect.x = rect.x;
-        option_rect.y = rect.y;
-        option.templ = make_roi(m_image, option_rect);
+        Rect templ_rect = templ_task_ptr->specific_rect;
+        templ_rect.y = rect.y;
+        option.templ = make_roi(m_image, templ_rect);
 
         RegionOCRer ocrer(option.enabled ? option.templ : binarize_for_ocr(option.templ));
-        ocrer.set_task_info(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text");
+        ocrer.set_task_info(text_task_ptr);
         if (ocrer.analyze()) {
             option.text = ocrer.get_result().text;
         }
@@ -102,7 +107,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
         Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
         m_image = new_img;
         set_last_option_y(last_option_y_in_new_img);
-        return new_img.cols;
+        return new_img.rows;
     }
 
     if (new_img.cols != m_image.cols) [[unlikely]] {
@@ -125,7 +130,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
             Log.warn(__FUNCTION__, "| No option is recognised in m_image; replace m_image with new_img");
             m_image = new_img;
             set_last_option_y(last_option_y_in_new_img);
-            return new_img.cols;
+            return new_img.rows;
         }
         set_last_option_y(last_option_y);
     }
@@ -264,17 +269,13 @@ int asst::RoguelikeEncounterOptionAnalyzer::get_last_option_y(const cv::Mat& ima
 {
     LogTraceFunction;
 
-    const MatchTaskPtr option_analyze_task =
-        Task.get<MatchTaskInfo>(m_theme + "@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar");
-
-    MultiMatcher::ResultsVecOpt option_analyze_ret = analyze_options(image);
+    const MultiMatcher::ResultsVecOpt option_analyze_ret = analyze_options(image);
     if (!option_analyze_ret) {
         Log.error("get_last_option_y | Fail to recognise any option");
         save_img(image);
         return UNDEFINED;
     }
-    MultiMatcher::ResultsVec option_analyze_result = option_analyze_ret.value();
-    return option_analyze_result.back().rect.y;
+    return option_analyze_ret.value().back().rect.y;
 }
 
 void asst::RoguelikeEncounterOptionAnalyzer::set_last_option_y(int last_option_y)
