@@ -1,10 +1,9 @@
 #include "SupportListAnalyzer.h"
 
 #include "Config/TaskData.h"
+#include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/PixelAnalyzer.h"
-#include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
 bool asst::SupportListAnalyzer::analyze(const battle::Role role)
@@ -13,15 +12,20 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 
     const auto& flag_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Flag");
 
-    MultiMatcher flag_analyzer(m_image);
-    flag_analyzer.set_task_info(flag_task_ptr);
-    if (!flag_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "| No support unit detected");
-        save_img(utils::path("debug") / utils::path("SupportListAnalyzer"));
+    MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(m_image);
+    if (!support_unit_analyze_ret) {
+        Log.error(__FUNCTION__, "| Failed to recognise any support unit");
+        save_img(m_image, "m_image");
         return false;
     }
-    MultiMatcher::ResultsVec flag_analyze_result = flag_analyzer.get_result();
-    sort_by_vertical_(flag_analyze_result); // 按照水平方向排序（从左到右）
+#ifdef ASST_DEBUG
+    save_img(m_image, "m_image");
+#endif
+    MultiMatcher::ResultsVec support_unit_analyze_result = support_unit_analyze_ret.value();
+
+#ifndef ASST_DEBUG
+    bool need_save_img = false;
+#endif
 
     const OcrTaskPtr name_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-NameOcr");
     const MatchTaskPtr elite_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Elite");
@@ -29,15 +33,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
     const MatchTaskPtr potential_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Potential");
     const MatchTaskPtr module_status_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-ModuleDisabled");
     const MatchTaskPtr friendship_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Friendship");
-
-    RegionOCRer ocr_analyzer(m_image);
-    Matcher match_analyzer(m_image);
-#ifndef ASST_DEBUG
-    bool need_save_img = false;
-#endif
+    const MatchTaskPtr templ_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit");
 
     std::vector<SupportUnit> results;
-    for (const auto& [rect, score, templ_name] : flag_analyze_result) {
+    for (const auto& [rect, score, templ_name] : support_unit_analyze_result) {
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 255, 0), 2);
 #endif
@@ -50,9 +49,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(name_roi), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        ocr_analyzer.set_task_info(name_task_ptr);
-        ocr_analyzer.set_roi(name_roi);
-        if (!ocr_analyzer.analyze()) [[unlikely]] {
+        RegionOCRer name_analyzer(m_image);
+        name_analyzer.set_task_info(name_task_ptr);
+        name_analyzer.set_roi(name_roi);
+        if (!name_analyzer.analyze()) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer | Failed to recognise the current support unit's name; skipping to the next one");
 #ifndef ASST_DEBUG
@@ -62,7 +62,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
 
         // canonical_oper_name 函数根据 role 对干员名进行消歧义，目前仅用于区分不同升变形态下的阿米娅
-        const std::string name = canonical_oper_name(role, ocr_analyzer.get_result().text);
+        const std::string name = canonical_oper_name(role, name_analyzer.get_result().text);
 
         // ————————————————————————————————————————————————————————————————
         // Elite
@@ -72,9 +72,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(elite_roi), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        match_analyzer.set_task_info(elite_task_ptr);
-        match_analyzer.set_roi(elite_roi);
-        if (!match_analyzer.analyze()) [[unlikely]] {
+        Matcher elite_analyzer(m_image);
+        elite_analyzer.set_task_info(elite_task_ptr);
+        elite_analyzer.set_roi(elite_roi);
+        if (!elite_analyzer.analyze()) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer | Failed to analyze the current support unit's elite; skipping to the next one");
 #ifndef ASST_DEBUG
@@ -82,7 +83,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 #endif
             continue;
         }
-        std::optional<int> ret = get_suffix_num(match_analyzer.get_result().templ_name);
+        std::optional<int> ret = get_suffix_num(elite_analyzer.get_result().templ_name);
         if (!ret) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer",
@@ -99,9 +100,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(level_roi), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        ocr_analyzer.set_task_info(level_task_ptr);
-        ocr_analyzer.set_roi(level_roi);
-        if (!ocr_analyzer.analyze()) [[unlikely]] {
+        RegionOCRer level_analyzer(m_image);
+        level_analyzer.set_task_info(level_task_ptr);
+        level_analyzer.set_roi(level_roi);
+        if (!level_analyzer.analyze()) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer | Failed to recognise the current support unit's level; skipping to the next one");
 #ifndef ASST_DEBUG
@@ -110,8 +112,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
             continue;
         }
         int level = 0;
-        if (!utils::chars_to_number(ocr_analyzer.get_result().text, level)) {
-            Log.error("SupportListAnalyzer | Failed to convert text", ocr_analyzer.get_result().text, "to number");
+        if (!utils::chars_to_number(level_analyzer.get_result().text, level)) {
+            Log.error("SupportListAnalyzer | Failed to convert text", level_analyzer.get_result().text, "to number");
             Log.error(
                 "SupportListAnalyzer | Failed to analyze the current support unit's level; skipping to the next one");
 #ifndef ASST_DEBUG
@@ -157,9 +159,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(module_status_roi), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        match_analyzer.set_task_info(module_status_task_ptr);
-        match_analyzer.set_roi(module_status_roi);
-        const bool module_enabled = !match_analyzer.analyze();
+        Matcher module_analyzer(m_image);
+        module_analyzer.set_task_info(module_status_task_ptr);
+        module_analyzer.set_roi(module_status_roi);
+        const bool module_enabled = !module_analyzer.analyze();
 
         // ————————————————————————————————————————————————————————————————
         // Friendship
@@ -192,8 +195,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
 
         // ————————————————————————————————————————————————————————————————
+        Rect templ_rect = templ_task_ptr->specific_rect;
+        templ_rect.x = rect.x;
 
-        SupportUnit support_unit { .rect = rect,
+        SupportUnit support_unit { .templ = make_roi(m_image, templ_rect),
                                    .name = name,
                                    .elite = elite,
                                    .level = level,
@@ -228,6 +233,161 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
     return !m_result.empty();
 }
 
+std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img)
+{
+    LogTraceFunction;
+
+    // ————————————————————————————————————————————————————————————————
+    // handle special cases
+    // ————————————————————————————————————————————————————————————————
+    const int last_support_unit_x_in_new_img = get_last_support_unit_x(new_img);
+    if (last_support_unit_x_in_new_img == UNDEFINED) [[unlikely]] {
+        Log.error(__FUNCTION__, "| No support unit is recognised in new_img; failed to merge images");
+        save_img(new_img, "new_img");
+        return std::nullopt;
+    }
+
+    if (m_image.empty()) {
+        Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
+        m_image = new_img;
+        set_last_support_unit_x(last_support_unit_x_in_new_img);
+        return new_img.cols;
+    }
+
+    if (new_img.rows != m_image.rows) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format(
+                "| new_img height ({}) does not match m_image height ({}); failed to merge images",
+                new_img.rows,
+                m_image.rows));
+        return std::nullopt;
+    }
+
+    // ————————————————————————————————————————————————————————————————
+    // initialise m_last_support_unit_x when needed
+    // ————————————————————————————————————————————————————————————————
+    if (m_last_support_unit_x == UNDEFINED) {
+        Log.info(__FUNCTION__, "| Initialising m_last_support_unit_x...");
+        const int last_support_unit_x = get_last_support_unit_x(m_image);
+        if (last_support_unit_x == UNDEFINED) {
+            Log.warn(__FUNCTION__, "| No support unit is recognised in m_image; replace m_image with new_img");
+            m_image = new_img;
+            set_last_support_unit_x(last_support_unit_x_in_new_img);
+            return new_img.cols;
+        }
+        set_last_support_unit_x(last_support_unit_x);
+    }
+
+    // ————————————————————————————————————————————————————————————————
+    // calculate offset and rel_x
+    // ————————————————————————————————————————————————————————————————
+    Rect overlap_rect_in_m_image =
+        Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit")->specific_rect;
+    overlap_rect_in_m_image.y = m_last_support_unit_x;
+    cv::Mat overlap_option_templ = make_roi(m_image, overlap_rect_in_m_image);
+
+    Matcher::ResultOpt overlap_match_ret = match_support_unit(new_img, overlap_option_templ);
+    if (!overlap_match_ret) {
+        Log.error(__FUNCTION__, "Overlap match failed; failed to merge images");
+        save_img(m_image, "m_image");
+        save_img(new_img, "new_img");
+        save_img(overlap_option_templ, "overlap_option_templ");
+        return std::nullopt;
+    }
+    const Rect& overlap_rect_in_new_img = overlap_match_ret.value().rect;
+
+    const int offset = (new_img.cols - overlap_rect_in_new_img.x) - (m_image.cols - overlap_rect_in_m_image.x);
+    if (offset <= 0) {
+        Log.info("The offset", offset, "is less than or equal to zero; cancel the image merging");
+        return offset;
+    }
+    const int rel_x = m_image.cols + offset - new_img.cols;
+
+    // ————————————————————————————————————————————————————————————————
+    // prepare overlay rects
+    // ————————————————————————————————————————————————————————————————
+    cv::Rect overlay_rect { overlap_rect_in_new_img.x,
+                            overlap_rect_in_new_img.y,
+                            new_img.cols - overlap_rect_in_new_img.x,
+                            new_img.rows - overlap_rect_in_new_img.y };
+    cv::Rect overlay_rect_in_merged_image = overlay_rect;
+    overlay_rect_in_merged_image.x = m_last_support_unit_x;
+
+    // ————————————————————————————————————————————————————————————————
+    // merge images
+    // ————————————————————————————————————————————————————————————————
+    cv::Mat merged_image = cv::Mat { m_image.rows, m_image.cols + offset, m_image.type(), cv::Scalar(0) };
+    m_image.copyTo(merged_image(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
+    new_img(overlay_rect).copyTo(merged_image(overlay_rect_in_merged_image));
+
+    m_image = merged_image;
+    set_last_support_unit_x(last_support_unit_x_in_new_img + rel_x);
+
+    return offset;
+}
+
+asst::Matcher::ResultOpt asst::SupportListAnalyzer::match_support_unit(
+    const cv::Mat& image,
+    const cv::Mat& support_unit_templ)
+{
+    LogTraceFunction;
+
+    const MatchTaskPtr support_unit_match_task = Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit");
+
+    Matcher support_unit_matcher(image);
+    support_unit_matcher.set_task_info(support_unit_match_task);
+    support_unit_matcher.set_templ(support_unit_templ);
+
+    Rect support_unit_match_roi = support_unit_match_task->roi;
+    support_unit_match_roi.width = image.cols - (WindowWidthDefault - support_unit_match_roi.width);
+    support_unit_matcher.set_roi(support_unit_match_roi);
+
+    return support_unit_matcher.analyze();
+}
+
+asst::MultiMatcher::ResultsVecOpt asst::SupportListAnalyzer::analyze_support_units(const cv::Mat& image)
+{
+    LogTraceFunction;
+
+    const MatchTaskPtr support_unit_analyze_task = Task.get<MatchTaskInfo>("SupportListAnalyzer-Flag");
+
+    MultiMatcher support_unit_analyzer(image);
+    support_unit_analyzer.set_task_info(support_unit_analyze_task);
+
+    Rect support_unit_analyze_roi = support_unit_analyze_task->roi;
+    support_unit_analyze_roi.width = image.cols - (WindowWidthDefault - support_unit_analyze_roi.width);
+    support_unit_analyzer.set_roi(support_unit_analyze_roi);
+
+    if (!support_unit_analyzer.analyze()) {
+        return std::nullopt;
+    }
+
+    MultiMatcher::ResultsVec support_unit_analyze_result = support_unit_analyzer.get_result();
+    sort_by_vertical_(support_unit_analyze_result); // 按照水平方向排序（从左到右）
+
+    return support_unit_analyze_result;
+}
+
+int asst::SupportListAnalyzer::get_last_support_unit_x(const cv::Mat& image)
+{
+    LogTraceFunction;
+
+    const MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(image);
+    if (!support_unit_analyze_ret) {
+        Log.error("get_last_support_unit_x | Fail to recognise any support unit");
+        save_img(image);
+        return UNDEFINED;
+    }
+    return support_unit_analyze_ret.value().back().rect.x;
+}
+
+void asst::SupportListAnalyzer::set_last_support_unit_x(const int last_support_unit_x)
+{
+    m_last_support_unit_x = last_support_unit_x;
+    Log.info("SupportListAnalyzer | m_last_support_unit_x set to", last_support_unit_x);
+}
+
 std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& s, const char delimiter)
 {
     const size_t pos = s.rfind(delimiter);
@@ -248,4 +408,12 @@ std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& 
     }
 
     return num;
+}
+
+bool asst::SupportListAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
+{
+    const auto relative_dir = utils::path("debug") / utils::path("supportListAnalyzer");
+    const auto relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
+    Log.info(std::format("Save {} to {}", description, relative_path.string()));
+    return MAA_NS::imwrite(relative_path, image);
 }
