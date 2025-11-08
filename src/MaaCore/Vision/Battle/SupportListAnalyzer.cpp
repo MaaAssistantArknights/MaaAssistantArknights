@@ -128,9 +128,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(potential_roi), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        match_analyzer.set_task_info(potential_task_ptr);
-        match_analyzer.set_roi(potential_roi);
-        if (!match_analyzer.analyze()) {
+        MultiMatcher potential_analyzer(m_image);
+        potential_analyzer.set_task_info(potential_task_ptr);
+        potential_analyzer.set_roi(potential_roi);
+        if (!potential_analyzer.analyze()) {
             Log.error(
                 "SupportListAnalyzer",
                 "| Failed to analyze the current support unit's potential; skipping to the next one");
@@ -139,7 +140,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 #endif
             continue;
         }
-        ret = get_suffix_num(match_analyzer.get_result().templ_name);
+        ret = get_suffix_num(potential_analyzer.get_result().front().templ_name);
         if (!ret) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer",
