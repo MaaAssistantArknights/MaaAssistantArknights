@@ -10,8 +10,6 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 {
     LogTraceFunction;
 
-    const auto& flag_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Flag");
-
     MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(m_image);
     if (!support_unit_analyze_ret) {
         Log.error(__FUNCTION__, "| Failed to recognise any support unit");
@@ -27,6 +25,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
     bool need_save_img = false;
 #endif
 
+    const MatchTaskPtr flag_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Flag");
     const OcrTaskPtr name_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-NameOcr");
     const MatchTaskPtr elite_task_ptr = Task.get<MatchTaskInfo>("SupportListAnalyzer-Elite");
     const OcrTaskPtr level_task_ptr = Task.get<OcrTaskInfo>("SupportListAnalyzer-LevelOcr");
@@ -283,7 +282,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     // calculate offset and rel_x
     // ————————————————————————————————————————————————————————————————
     Rect overlap_rect_in_m_image = Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit")->specific_rect;
-    overlap_rect_in_m_image.y = m_last_support_unit_x;
+    overlap_rect_in_m_image.x = m_last_support_unit_x;
     cv::Mat overlap_option_templ = make_roi(m_image, overlap_rect_in_m_image);
 
     Matcher::ResultOpt overlap_match_ret = match_support_unit(new_img, overlap_option_templ);
