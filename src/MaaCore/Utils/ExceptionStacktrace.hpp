@@ -14,6 +14,18 @@
 #include <dlfcn.h>
 #include <execinfo.h>
 #include <unistd.h>
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <mach-o/loader.h>
+#endif
+#elif defined(__linux__)
+#include <fstream>
+#include <sstream>
+#endif
+
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <mach-o/loader.h>
 #endif
 
 #include <format>
@@ -36,7 +48,7 @@ public:
         const struct mach_header* header = _dyld_get_image_header(0);
         return reinterpret_cast<uintptr_t>(header);
 #else // Linux and other Unix-like systems
-      // 从/proc/self/maps读取基址
+        // 从/proc/self/maps读取基址
         std::ifstream maps("/proc/self/maps");
         std::string line;
         if (std::getline(maps, line)) {
