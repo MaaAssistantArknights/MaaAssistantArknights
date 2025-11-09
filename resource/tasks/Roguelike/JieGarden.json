@@ -434,7 +434,7 @@
                 [180, 125, 255]
             ]
         ],
-        "action": "DoNothing",
+        "action": "ClickSelf",
         "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
