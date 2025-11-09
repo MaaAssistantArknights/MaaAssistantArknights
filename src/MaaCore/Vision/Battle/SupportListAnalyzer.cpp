@@ -248,7 +248,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
 
     if (m_image.empty()) {
         Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
-        m_image = new_img;
+        set_image(new_img);
         set_last_support_unit_x(last_support_unit_x_in_new_img);
         return new_img.cols;
     }
@@ -271,7 +271,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
         const int last_support_unit_x = get_last_support_unit_x(m_image);
         if (last_support_unit_x == UNDEFINED) {
             Log.warn(__FUNCTION__, "| No support unit is recognised in m_image; replace m_image with new_img");
-            m_image = new_img;
+            set_image(new_img);
             set_last_support_unit_x(last_support_unit_x_in_new_img);
             return new_img.cols;
         }
@@ -319,7 +319,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     m_image.copyTo(merged_image(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
     new_img(overlay_rect).copyTo(merged_image(overlay_rect_in_merged_image));
 
-    m_image = merged_image;
+    set_image(merged_image);
     set_last_support_unit_x(last_support_unit_x_in_new_img + rel_x);
 
     return offset;
