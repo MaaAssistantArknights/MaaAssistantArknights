@@ -105,7 +105,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
 
     if (m_image.empty()) {
         Log.info(__FUNCTION__, "| m_image is empty; replace m_image with new_img");
-        m_image = new_img;
+        set_image(new_img);
         set_last_option_y(last_option_y_in_new_img);
         return new_img.rows;
     }
@@ -128,7 +128,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
         const int last_option_y = get_last_option_y(m_image);
         if (last_option_y == UNDEFINED) {
             Log.warn(__FUNCTION__, "| No option is recognised in m_image; replace m_image with new_img");
-            m_image = new_img;
+            set_image(new_img);
             set_last_option_y(last_option_y_in_new_img);
             return new_img.rows;
         }
@@ -177,7 +177,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
     m_image.copyTo(merged_image(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
     new_img(overlay_rect).copyTo(merged_image(overlay_rect_in_merged_image));
 
-    m_image = merged_image;
+    set_image(merged_image);
     set_last_option_y(last_option_y_in_new_img + rel_y);
 
     return offset;
