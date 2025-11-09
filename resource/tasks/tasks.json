@@ -1380,6 +1380,7 @@
         "baseTask": "FightSeries-Icon",
         "template": "FightSeries-Icon.png",
         "action": "ClickSelf",
+        "rectMove": [0, 0, 0, 0],
         "sub": ["FightSeries-Opened"],
         "next": ["Stop"]
     },
