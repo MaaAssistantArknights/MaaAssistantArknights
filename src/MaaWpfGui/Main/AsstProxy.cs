@@ -482,9 +482,9 @@ public class AsstProxy
             }
 
             // Check if driver date is over two years old
-            if (info?.DriverDate.HasValue == true)
+            if (info is { DriverDate: { HasValue: true, Value: var driverDate } })
             {
-                var driverDate = info.DriverDate.Value;
+                // driverDate is guaranteed non-null here
                 var twoYearsAgo = DateTime.Now.AddYears(-2);
                 if (driverDate < twoYearsAgo)
                 {
