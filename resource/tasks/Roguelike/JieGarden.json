@@ -434,6 +434,7 @@
                 [180, 30, 255]
             ]
         ],
+        "colorWithClose": false,
         "action": "ClickSelf",
         "next": ["JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm", "#self"]
     },
