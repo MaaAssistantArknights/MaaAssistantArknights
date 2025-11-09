@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Common/AsstConf.h"
-
 #if ASST_WITH_EMULATOR_EXTRAS
 
 #include <filesystem>
@@ -10,8 +8,8 @@
 
 #include "Mumu/external_renderer_ipc/external_renderer_ipc.h"
 
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/LibraryHolder.hpp"
-#include "Utils/NoWarningCVMat.h"
 
 namespace asst
 {

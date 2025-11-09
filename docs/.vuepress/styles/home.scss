@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
 
-  .container {
+  .doc-hero-container {
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -36,5 +36,25 @@
   .name {
     font-size: var(--vp-home-hero-name-font-size) !important;
     line-height: var(--vp-home-hero-name-line-height) !important;
+  }
+
+  /* 首页标题 */
+  .name.clip {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 按钮组容器 */
+  .actions .action {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* 按钮 */
+  .actions .action .vp-button {
+    margin: 0.5rem;
+    min-width: 7em;
   }
 }

@@ -1,6 +1,6 @@
 #include "RoguelikeSkillSelectionImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"

@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <meojson/json.hpp>
 
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {

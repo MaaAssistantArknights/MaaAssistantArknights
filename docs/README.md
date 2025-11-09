@@ -1,5 +1,5 @@
 ---
-pageLayout: home
+home: true
 title: 首页
 config:
   - type: doc-hero

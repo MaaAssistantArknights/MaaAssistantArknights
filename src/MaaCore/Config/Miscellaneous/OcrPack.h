@@ -62,13 +62,13 @@ protected:
     std::optional<int> m_gpu_id = std::nullopt;
 };
 
-class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
+class WordOcr final : public MAA_NS::SingletonHolder<WordOcr>, public OcrPack
 {
-    friend class SingletonHolder<WordOcr>;
+    friend class MAA_NS::SingletonHolder<WordOcr>;
 };
 
-class CharOcr final : public SingletonHolder<CharOcr>, public OcrPack
+class CharOcr final : public MAA_NS::SingletonHolder<CharOcr>, public OcrPack
 {
-    friend class SingletonHolder<CharOcr>;
+    friend class MAA_NS::SingletonHolder<CharOcr>;
 };
 }

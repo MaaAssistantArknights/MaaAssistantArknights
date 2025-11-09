@@ -4,9 +4,9 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
@@ -31,7 +31,7 @@ void asst::DebugTask::test_drops()
     size_t total = 0;
     size_t success = 0;
     for (const auto& entry : std::filesystem::directory_iterator("../../test/drops/screenshots/zh_cn")) {
-        cv::Mat image = asst::imread(entry.path());
+        cv::Mat image = MAA_NS::imread(entry.path());
         if (image.empty()) {
             continue;
         }
@@ -51,7 +51,7 @@ void asst::DebugTask::test_skill_ready()
 
     // 测试 y 类别（预期为 ready，即 true）
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/y)")) {
-        cv::Mat image = imread(entry.path().string());
+        cv::Mat image = MAA_NS::imread(entry.path());
         BattlefieldClassifier analyzer(image);
         analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
@@ -75,7 +75,7 @@ void asst::DebugTask::test_skill_ready()
 
     // 测试 n 类别（预期为 not ready，即 false）
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/n)")) {
-        cv::Mat image = imread(entry.path().string());
+        cv::Mat image = MAA_NS::imread(entry.path());
         BattlefieldClassifier analyzer(image);
         analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
@@ -98,7 +98,7 @@ void asst::DebugTask::test_skill_ready()
 
     // 测试 c 类别（同样预期为 not ready）
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/c)")) {
-        cv::Mat image = imread(entry.path().string());
+        cv::Mat image = MAA_NS::imread(entry.path());
         BattlefieldClassifier analyzer(image);
         analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
@@ -124,7 +124,7 @@ void asst::DebugTask::test_skill_ready()
 
 void asst::DebugTask::test_battle_image()
 {
-    cv::Mat image = asst::imread(utils::path("1.png"));
+    cv::Mat image = MAA_NS::imread(utils::path("1.png"));
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
     BattlefieldMatcher analyzer(resized);
@@ -135,7 +135,7 @@ void asst::DebugTask::test_battle_image()
 void asst::DebugTask::test_match_template()
 {
     auto test_task = [](const std::string& path, const std::string& task_name) -> double {
-        cv::Mat image = imread(utils::path(path));
+        cv::Mat image = MAA_NS::imread(utils::path(path));
         cv::Mat resized;
         cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
         Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));

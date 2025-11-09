@@ -36,21 +36,16 @@
         "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@PlayFirstCard"]
     },
     "MiniGame@OS@CheckPointsUsed": {
+        "algorithm": "OcrDetect",
+        "text": ["所有点数", "结束本回合"],
         "roi": [127, 550, 406, 134],
         "next": ["MiniGame@OS@EndTurn"]
     },
     "MiniGame@OS@EndTurn": {
         "action": "ClickSelf",
-        "method": "HSVCount",
-        "colorScales": [
-            [
-                [0, 0, 65],
-                [10, 220, 255]
-            ]
-        ],
         "roi": [1026, 341, 249, 142],
         "postDelay": 4000,
-        "next": ["#self", "MiniGame@OS@ClickToContinue", "MiniGame@OS@PlayFirstCard"]
+        "next": ["MiniGame@OS@CheckPointsUsed", "MiniGame@OS@ClickToContinue", "MiniGame@OS@PlayFirstCard"]
     },
     "MiniGame@OS@ClickToContinue": {
         "action": "ClickSelf",

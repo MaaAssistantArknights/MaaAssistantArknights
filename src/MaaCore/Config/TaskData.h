@@ -10,7 +10,7 @@
 
 namespace asst
 {
-class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigWithTempl
+class TaskData final : public MAA_NS::SingletonHolder<TaskData>, public AbstractConfigWithTempl
 {
 private:
     static MatchTaskConstPtr _default_match_task_info();

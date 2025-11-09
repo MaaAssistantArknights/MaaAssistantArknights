@@ -21,8 +21,8 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
-#include "Utils/NoWarningCVMat.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/NoWarningCVMat.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 #include "adb-lite/client.hpp"
 
 namespace asst
@@ -108,8 +108,6 @@ private:
     void sync_params();
 
     AsstCallback m_callback = nullptr;
-
-    std::minstd_rand m_rand_engine;
 
     PlatformType m_platform_type = PlatformType::Native;
 

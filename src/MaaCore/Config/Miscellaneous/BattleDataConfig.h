@@ -8,7 +8,7 @@
 
 namespace asst
 {
-class BattleDataConfig final : public SingletonHolder<BattleDataConfig>, public AbstractConfig
+class BattleDataConfig final : public MAA_NS::SingletonHolder<BattleDataConfig>, public AbstractConfig
 {
 public:
     virtual ~BattleDataConfig() override = default;

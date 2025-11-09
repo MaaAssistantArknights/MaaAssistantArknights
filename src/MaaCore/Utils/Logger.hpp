@@ -6,6 +6,7 @@
 #endif
 #include <csignal>
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -19,11 +20,11 @@
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
 #include "Locale.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
+#include "MaaUtils/Time.hpp"
 #include "Meta.hpp"
 #include "NullStreambuf.hpp"
 #include "Platform.hpp"
-#include "SingletonHolder.hpp"
-#include "Time.hpp"
 #include "Utils/ExceptionStacktrace.hpp"
 #include "WorkingDir.hpp"
 
@@ -346,7 +347,7 @@ public:
 template <typename... Args>
 ostreams(Args&&...) -> ostreams<to_reference_wrapper_t<Args>...>;
 
-class Logger : public SingletonHolder<Logger>
+class Logger : public MAA_NS::SingletonHolder<Logger>
 {
 public:
     struct separator
@@ -478,7 +479,7 @@ public:
 #endif
                 auto tid = static_cast<uint16_t>(std::hash<std::thread::id> {}(std::this_thread::get_id()));
 
-                s << std::format("[{}][{}][Px{}][Tx{}]", utils::format_now(), v.str, pid, tid);
+                s << std::format("[{}][{}][Px{}][Tx{}]", MAA_NS::format_now(), v.str, pid, tid);
             }
             else if constexpr (std::is_enum_v<T> && enum_could_to_string<T>) {
                 s << asst::enum_to_string(std::forward<T>(v));
@@ -730,7 +731,7 @@ public:
     }
 
 private:
-    friend class SingletonHolder<Logger>;
+    friend class MAA_NS::SingletonHolder<Logger>;
 
     Logger() :
         m_directory(UserDir.get()),
@@ -869,6 +870,11 @@ private:
             auto& logger = Logger::get_instance();
             std::string exception_details = utils::ExceptionStacktrace::capture_exception_stack_trace(pExceptionInfo);
             logger.error("=== UNHANDLED EXCEPTION ===");
+            logger.error("Version", asst::Version);
+            logger.error("Built at", __DATE__, __TIME__);
+            logger.error("User Dir", UserDir.get());
+            logger.error(
+                std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_module_base_address()));
             logger.error("Exception details with stack trace:");
             logger.error(exception_details);
             logger.error("============================");
@@ -922,11 +928,20 @@ private:
             }
 
             logger.error("=== FATAL ERROR ===");
+            logger.error("Version", asst::Version);
+            logger.error("Built at", __DATE__, __TIME__);
+            logger.error("User Dir", UserDir.get());
+            logger.error(
+                std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_module_base_address()));
             logger.error("Unhandled exception caught:", exception_info);
+            logger.error("Exception stack trace:");
             if (!stack_trace.empty()) {
-                logger.error("Exception stack trace:");
                 logger.error(stack_trace);
                 write_crash_file("Unhandled exception stack trace:", stack_trace.c_str());
+            }
+            else {
+                logger.error("empty");
+                write_crash_file("empty");
             }
             logger.error("Program terminating...");
             logger.error("===================");

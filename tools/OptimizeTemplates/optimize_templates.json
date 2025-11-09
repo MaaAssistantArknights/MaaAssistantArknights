@@ -5235,5 +5235,6 @@
     "resource/template/MiniGame/OS/MiniGame@OS@StartRebuild": "d8159590b46dbde69914b0b87cc0601526420f1a9c70cd806127b3dd8422ad0e",
     "resource/template/MiniGame/OS/MiniGame@OS@MoveAction": "f67c29d5658fbe8d1af562e7272d6b36652e18769e79eb709cbcf418195f4102",
     "resource/template/MiniGame/OS/MiniGame@OS@CheckPointsUsed": "3a4d15b2779b55d0c310fc434b18a9e1b2ab3c7a316bfd65e46254f9d576d60a",
-    "resource/template/MiniGame/OS/MiniGame@OS@Combo": "18bce3dfa762ced4027dcccfedc1a55a3d0d8d93a980280a4095a920b592cacb"
+    "resource/template/MiniGame/OS/MiniGame@OS@Combo": "18bce3dfa762ced4027dcccfedc1a55a3d0d8d93a980280a4095a920b592cacb",
+    "official/SwitchTheme@CancelThemeChange": "655d031a3df980ea6552a8866996f2e70afbe292ed8b61546fc31e0d09defd5e"
 }

@@ -1,0 +1,7 @@
+.venv/
+venv/
+__pycache__
+dst/*
+!dst/.gitkeep
+src/*
+!src/.gitkeep

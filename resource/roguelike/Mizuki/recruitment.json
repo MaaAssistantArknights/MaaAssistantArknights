@@ -447,6 +447,22 @@
                     ]
                 },
                 {
+                    "name": "圣聆初雪",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达", "玛恩纳", "号角"],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "荒芜拉普兰德",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -1492,6 +1508,9 @@
                     "name": "野鬃"
                 },
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 }
             ]
@@ -1558,6 +1577,21 @@
                     "is_key": true,
                     "recruit_priority": 707,
                     "promote_priority": 330,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["异德", "刺客"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "凛御银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["异德", "刺客"],
@@ -2476,6 +2510,9 @@
                     "skill": 1
                 },
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -2702,6 +2739,9 @@
                 },
                 {
                     "name": "烈夏"
+                },
+                {
+                    "name": "凛御银灰"
                 },
                 {
                     "name": "伊内丝"
@@ -2941,6 +2981,9 @@
             "name": "回费",
             "opers": [
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3028,6 +3071,9 @@
                 },
                 {
                     "name": "逻各斯"
+                },
+                {
+                    "name": "圣聆初雪"
                 },
                 {
                     "name": "荒芜拉普兰德"
@@ -3491,6 +3537,14 @@
             "opers": [
                 {
                     "name": "雪雉的安全起重机"
+                }
+            ]
+        },
+        {
+            "name": "风雪之眼",
+            "opers": [
+                {
+                    "name": "风雪之眼"
                 }
             ]
         },

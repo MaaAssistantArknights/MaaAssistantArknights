@@ -45,7 +45,7 @@
                 <TabControl
                     HorizontalAlignment="Center"
                     BorderThickness="0"
-                    SelectedIndex="{Binding ActiveTabIndex}"
+                    SelectedIndex="{Binding CopilotTabIndex}"
                     Style="{StaticResource TabControlSliding}">
                     <TabControl.Template>
                         <ControlTemplate TargetType="{x:Type TabControl}">
@@ -81,6 +81,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ComboBox
                         Grid.Column="0"
@@ -95,6 +96,7 @@
                         Grid.Column="1"
                         Height="30"
                         MinWidth="30"
+                        Padding="0,5"
                         hc:BorderElement.CornerRadius="0"
                         hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                         BorderThickness="0,1,1,1"
@@ -104,12 +106,23 @@
                         Grid.Column="2"
                         Height="30"
                         MinWidth="30"
-                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        Padding="0,5"
+                        hc:BorderElement.CornerRadius="0"
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
-                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSet}" />
+                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSetOld}" />
+                    <Button
+                        Grid.Column="3"
+                        Height="30"
+                        MinWidth="30"
+                        Padding="0,5"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        hc:IconElement.Geometry="{StaticResource ClipboardLinkSet20Regular}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action PasteClipboardCopilotSet}"
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled) and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}" />
                     <controls:TooltipBlock
                         Grid.Column="1"
                         HorizontalAlignment="Right"
@@ -124,6 +137,13 @@
                         MouseLeftButtonDown="{s:Action PasteClipboard}"
                         NormalOpacity="0.25"
                         TooltipText="{DynamicResource PasteClipboardTip}" />
+                    <controls:TooltipBlock
+                        Grid.Column="3"
+                        Margin="0,0,-2,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        NormalOpacity="0.25"
+                        TooltipText="{DynamicResource PasteClipboardCopilotSetTip}" />
                 </Grid>
             </StackPanel>
 
@@ -150,7 +170,7 @@
                     <StackPanel
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
-                        Visibility="{c:Binding 'ActiveTabIndex == 0 or ActiveTabIndex == 3'}">
+                        Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 3'}">
                         <StackPanel
                             Margin="2.5,5"
                             HorizontalAlignment="Center"
@@ -182,7 +202,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'Form and (ActiveTabIndex == 0 or ActiveTabIndex == 3)'}">
+                    <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
                         <CheckBox
                             Margin="2.5,5"
                             HorizontalAlignment="Center"
@@ -228,7 +248,7 @@
                             Margin="2.5,5"
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
-                            Visibility="{c:Binding 'ActiveTabIndex == 0 or ActiveTabIndex == 2'}">
+                            Visibility="{c:Binding 'CopilotTabIndex == 0 or CopilotTabIndex == 2'}">
                             <CheckBox Content="{DynamicResource UseCopilotList}" IsChecked="{Binding UseCopilotList}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource UseCopilotListTip}" />
                         </StackPanel>
@@ -236,7 +256,7 @@
                             Margin="2.5,5"
                             Content="{DynamicResource UseSanityPotion}"
                             IsChecked="{Binding UseSanityPotion}"
-                            Visibility="{c:Binding 'UseCopilotList and ActiveTabIndex == 0'}" />
+                            Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel
@@ -244,7 +264,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    Visibility="{c:Binding '!UseCopilotList and ActiveTabIndex != 2'}">
+                    Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 2'}">
                     <CheckBox
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource LoopTimes}"
@@ -265,7 +285,7 @@
                 Grid.Row="2"
                 Width="200"
                 Margin="0,7,0,0"
-                Visibility="{c:Binding 'UseCopilotList and (ActiveTabIndex == 0 or ActiveTabIndex == 2)'}">
+                Visibility="{c:Binding 'UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />

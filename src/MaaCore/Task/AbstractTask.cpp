@@ -6,15 +6,15 @@
 #include <thread>
 #include <utility>
 
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Demangle.hpp"
-#include "Utils/NoWarningCV.h"
 
 #include "AbstractTaskPlugin.h"
 #include "Assistant.h"
 #include "Config/GeneralConfig.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "ProcessTask.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -160,7 +160,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
     if (image.empty()) {
         return false;
     }
-    std::string stem = utils::format_now_for_filename();
+    std::string stem = MAA_NS::format_now_for_filename();
 
     if (auto_clean) {
         // 第1次或每执行 debug.clean_files_freq(50) 次后执行清理
@@ -175,7 +175,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
 
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
-    return asst::imwrite(relative_path, image);
+    return MAA_NS::imwrite(relative_path, image);
 }
 
 size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files)

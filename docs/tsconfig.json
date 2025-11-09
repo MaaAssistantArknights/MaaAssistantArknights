@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "bundler",
+        "types": ["vite/client"],
+        "strict": true,
         "noEmit": true,
         "allowImportingTsExtensions": true
     },

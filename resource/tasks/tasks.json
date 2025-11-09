@@ -96,7 +96,8 @@
     "SwitchTheme@ToggleSettingsMenu": {
         "action": "ClickSelf",
         "roi": [227, 327, 159, 152],
-        "next": ["SwitchTheme@ChangeTheme"]
+        "postDelay": 1000,
+        "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
     },
     "SwitchTheme@ChangeTheme": {
         "action": "ClickSelf",
@@ -106,7 +107,9 @@
     "SwitchTheme@SelectLightTheme": {
         "action": "ClickSelf",
         "roi": [0, 99, 430, 180],
-        "next": ["SwitchTheme@ConfirmThemeChange"]
+        "maxTimes": 10,
+        "exceededNext": ["SwitchTheme@CancelThemeChange"],
+        "next": ["SwitchTheme@ConfirmThemeChange", "SwitchTheme@SelectLightTheme"]
     },
     "SwitchTheme@SwipeToLightTheme": {
         "algorithm": "JustReturn",
@@ -115,11 +118,17 @@
         "rectMove": [200, 600, 10, 10],
         "specialParams": [150, 0, 1, 1],
         "postDelay": 500,
+        "maxTimes": 10,
         "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
     },
     "SwitchTheme@ConfirmThemeChange": {
         "action": "ClickSelf",
         "roi": [1070, 620, 200, 90],
+        "next": ["SwitchTheme@ReturnTheme"]
+    },
+    "SwitchTheme@CancelThemeChange": {
+        "action": "ClickSelf",
+        "roi": [918, 645, 66, 38],
         "next": ["SwitchTheme@ReturnTheme"]
     },
     "SwitchTheme@ReturnTheme": {
@@ -821,7 +830,7 @@
             ["^宝箱的肉.*", "宝箱的肉？"],
             [".*维多利亚$", "维娜·维多利亚"],
             ["^盥心$", "塑心"],
-            ["^钳铅$", "钼铅"],
+            ["^(钳|钥)铅$", "钼铅"],
             [".*NFESS-47$", "CONFESS-47"],
             ["^焰影苇.*", "焰影苇草"],
             ["Miss\\.[Cc]hristine", "Miss.Christine"],
@@ -2174,7 +2183,7 @@
             "AveMujica/Task.png",
             "Together/Task.png"
         ],
-        "templThreshold": 0.9,
+        "templThreshold": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 0.8],
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
@@ -2746,6 +2755,8 @@
         "roi": [1180, 500, 100, 100],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
+        "Doc2": "怎么 maxTime 还 #self 啊，加个 preDelay 得了",
+        "preDelay": 500,
         "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneAssistTrade": {
@@ -4160,7 +4171,7 @@
         "preDelay": 400,
         "postDelay": 150,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
-        "specialParams": [400, 100, 2, 0, 100],
+        "specialParams": [400, 100, 2, 0, 300],
         "specialParamsDoc": [
             "设置朝向时的滑动距离",
             "补偿距离上限",

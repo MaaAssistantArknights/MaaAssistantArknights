@@ -30,17 +30,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.ref == 'refs/heads/dev' && github.sha }}
   cancel-in-progress: true
 
 jobs:
   meta:
     name: Gather Meta Information
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
@@ -97,11 +92,6 @@ jobs:
 
   windows:
     name: Build for Windows
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     strategy:
       matrix:
@@ -138,16 +128,16 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}' -DBUILD_WPF_GUI=OFF
 
       - name: Build
         run: |
-          cmake --build build --config Release --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --build build --config RelWithDebInfo --parallel $env:NUMBER_OF_PROCESSORS
 
       - name: Install
         run: |
           mkdir -p install
-          cmake --install build --prefix install --config Release
+          cmake --install build --prefix install --config RelWithDebInfo
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -185,6 +175,12 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
+      - name: Upload PDB files
+        uses: actions/upload-artifact@v5
+        with:
+          name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
+          path: install/*.pdb
+
       - name: Organize install files
         shell: bash
         run: |
@@ -207,11 +203,6 @@ jobs:
 
   ubuntu:
     name: Build for Ubuntu
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     runs-on: ubuntu-latest
     strategy:
@@ -248,7 +239,7 @@ jobs:
         run: |
           mkdir -p build
           cmake -B build \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DMAADEPS_TRIPLET='maa-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux' \
             -DINSTALL_RESOURCE=ON \
             -DINSTALL_PYTHON=ON \
@@ -257,14 +248,14 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build --config Release --parallel $(nproc)
+          cmake --build build --config RelWithDebInfo --parallel $(nproc)
         env:
           CLICOLOR_FORCE: 1
 
       - name: Install
         run: |
           mkdir -p install
-          cmake --install build --prefix install --config Release
+          cmake --install build --prefix install --config RelWithDebInfo
 
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
@@ -333,11 +324,6 @@ jobs:
 
   macOS-Core:
     name: Build Core for macOS
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: meta
     runs-on: macos-26
     strategy:
@@ -375,17 +361,17 @@ jobs:
       - name: Config cmake
         run: |
           cmake -B build -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
 
       - name: Build
         run: |
-          cmake --build build --config Release --parallel $(sysctl -n hw.logicalcpu)
+          cmake --build build --config RelWithDebInfo --parallel $(sysctl -n hw.logicalcpu)
 
       - name: Install
         run: |
-          cmake --install build --prefix install --config Release
+          cmake --install build --prefix install --config RelWithDebInfo
 
       - name: Upload MAA to GitHub
         uses: actions/upload-artifact@v5
@@ -395,11 +381,6 @@ jobs:
 
   macOS-GUI:
     name: Build GUI for macOS
-    # Prevent duplicate runs on organization branches with PRs
-    if: github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name
-
     needs: [meta, macOS-Core]
     runs-on: macos-26
     steps:
@@ -560,11 +541,7 @@ jobs:
 
   release:
     name: Publish Release
-    # Prevent duplicate runs on organization branches with PRs
-    if: (github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name !=
-      github.event.pull_request.base.repo.full_name) && startsWith(github.ref, 'refs/tags/v')
-
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [meta, windows, ubuntu, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:

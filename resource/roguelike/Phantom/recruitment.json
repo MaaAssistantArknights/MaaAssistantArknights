@@ -166,6 +166,22 @@
                     ]
                 },
                 {
+                    "name": "圣聆初雪",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达"],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "荒芜拉普兰德",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2119,6 +2135,21 @@
             "name": "情报官",
             "opers": [
                 {
+                    "name": "凛御银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 3,
+                            "offset": -100
+                        }
+                    ]
+                },
+                {
                     "name": "伊内丝",
                     "skill": 2,
                     "is_key": true,
@@ -2193,6 +2224,9 @@
             "opers": [
                 {
                     "name": "澄闪"
+                },
+                {
+                    "name": "圣聆初雪"
                 },
                 {
                     "name": "荒芜拉普兰德"
@@ -2809,6 +2843,9 @@
                     "name": "洋灰"
                 },
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3013,6 +3050,9 @@
                     "skill": 2
                 },
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3113,6 +3153,9 @@
             "name": "回费",
             "opers": [
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3194,6 +3237,9 @@
                 },
                 {
                     "name": "蕾缪安"
+                },
+                {
+                    "name": "圣聆初雪"
                 },
                 {
                     "name": "荒芜拉普兰德"
@@ -3629,6 +3675,14 @@
                 },
                 {
                     "name": "雷鸣地雷"
+                }
+            ]
+        },
+        {
+            "name": "风雪之眼",
+            "opers": [
+                {
+                    "name": "风雪之眼"
                 }
             ]
         },

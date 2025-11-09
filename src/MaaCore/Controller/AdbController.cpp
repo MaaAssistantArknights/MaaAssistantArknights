@@ -1,8 +1,7 @@
 #include "AdbController.h"
 
 #include "Assistant.h"
-#include "Common/AsstConf.h"
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 #include <cstdint>
 #include <numeric>
 

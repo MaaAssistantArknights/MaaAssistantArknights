@@ -7,7 +7,7 @@
 
 namespace asst
 {
-class RoguelikeCopilotConfig final : public SingletonHolder<RoguelikeCopilotConfig>, public AbstractConfig
+class RoguelikeCopilotConfig final : public MAA_NS::SingletonHolder<RoguelikeCopilotConfig>, public AbstractConfig
 {
 public:
     virtual ~RoguelikeCopilotConfig() override = default;
