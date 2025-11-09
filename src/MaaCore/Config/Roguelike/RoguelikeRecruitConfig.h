@@ -65,7 +65,7 @@ struct RoguelikeGroupInfo
     std::vector<std::shared_ptr<RoguelikeOperInfo>> opers_in_order; // 未初始化，暂不可用
 };
 
-class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
+class RoguelikeRecruitConfig final : public MAA_NS::SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
 {
 public:
     virtual ~RoguelikeRecruitConfig() override = default;

@@ -39,7 +39,7 @@ enum class RoguelikeNodeType
     Scheme,    // 筹谋
 };
 
-class RoguelikeMapConfig final : public SingletonHolder<RoguelikeMapConfig>, public AbstractConfig
+class RoguelikeMapConfig final : public MAA_NS::SingletonHolder<RoguelikeMapConfig>, public AbstractConfig
 {
 public:
     virtual ~RoguelikeMapConfig() override = default;

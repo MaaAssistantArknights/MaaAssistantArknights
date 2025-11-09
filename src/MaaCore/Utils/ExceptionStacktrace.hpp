@@ -16,6 +16,11 @@
 #include <unistd.h>
 #endif
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#include <mach-o/loader.h>
+#endif
+
 #include <format>
 #include <iostream>
 #include <string>
@@ -27,6 +32,31 @@ namespace asst::utils
 class ExceptionStacktrace
 {
 public:
+    static uintptr_t get_module_base_address()
+    {
+#ifdef _WIN32
+        return reinterpret_cast<uintptr_t>(GetModuleHandleA(NULL));
+#elif defined(__APPLE__)
+        // MacOS: 使用_dyld_get_image_header(0)获取主模块基址
+        const struct mach_header* header = _dyld_get_image_header(0);
+        return reinterpret_cast<uintptr_t>(header);
+#else // Linux and other Unix-like systems
+      // 从/proc/self/maps读取基址
+        std::ifstream maps("/proc/self/maps");
+        std::string line;
+        if (std::getline(maps, line)) {
+            // 第一行包含主模块的基址范围
+            uintptr_t start_addr = 0;
+            std::istringstream iss(line);
+            std::string addr_range;
+            iss >> addr_range;
+            // 解析形如"00400000-00801000"的地址范围
+            start_addr = std::stoull(addr_range.substr(0, addr_range.find('-')), nullptr, 16);
+            return start_addr;
+        }
+        return 0;
+#endif
+    }
 #ifdef _WIN32
     // Windows 异常堆栈跟踪实现
     static std::string capture_exception_stack_trace(PEXCEPTION_POINTERS pExceptionInfo)
@@ -108,21 +138,11 @@ public:
                 break;
             }
 
+            result += std::format("  #{:2}: ", frameNum);
+
             // 获取符号信息
             DWORD64 displacement = 0;
             bool hasSymbol = SymFromAddr(process, frame.AddrPC.Offset, &displacement, symbol);
-
-            // 获取行号信息
-            DWORD lineDisplacement = 0;
-            bool hasLine = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
-
-            // 获取模块信息
-            IMAGEHLP_MODULE64 moduleInfo = {};
-            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
-            bool hasModule = SymGetModuleInfo64(process, frame.AddrPC.Offset, &moduleInfo);
-
-            result += std::format("  #{:2}: ", frameNum);
-
             if (hasSymbol) {
                 result += std::format("{}+0x{:X}", symbol->Name, displacement);
             }
@@ -130,10 +150,17 @@ public:
                 result += "<unknown>";
             }
 
+            // 获取行号信息
+            DWORD lineDisplacement = 0;
+            bool hasLine = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
             if (hasLine) {
                 result += std::format(" at {}:{}", line.FileName, line.LineNumber);
             }
 
+            // 获取模块信息
+            IMAGEHLP_MODULE64 moduleInfo = {};
+            moduleInfo.SizeOfStruct = sizeof(moduleInfo);
+            bool hasModule = SymGetModuleInfo64(process, frame.AddrPC.Offset, &moduleInfo);
             if (hasModule) {
                 result += std::format(" [{}]", moduleInfo.ModuleName);
             }
@@ -154,7 +181,6 @@ public:
     static std::string capture_current_stack_trace()
     {
         std::string result;
-
         HANDLE process = GetCurrentProcess();
 
         // 初始化符号处理器

@@ -95,10 +95,9 @@ jobs:
         uses: actions/checkout@v5
         with:
           show-progress: false
-          repository: arkntools/arknights-toolbox-update
-          ref: data-tw
+          repository: arkntools/arknights-data-tw-for-maa
+          ref: main
           path: ./excel
-          token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
       - name: Download stages.json from Penguin Stats
         run: |

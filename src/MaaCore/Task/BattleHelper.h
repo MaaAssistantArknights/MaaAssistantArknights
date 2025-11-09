@@ -5,7 +5,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "InstHelper.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/Platform.hpp"
 #include "Utils/WorkingDir.hpp"
 #include "Vision/BestMatcher.h"

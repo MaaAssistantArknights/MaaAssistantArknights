@@ -31,15 +31,39 @@ To get high-quality screenshots, please follow these guidelines:
 3. Ensure screenshots don't contain any irrelevant content, such as taskbar, status bar, notification bar, etc.
 4. Ensure screenshots contain all content that needs to be recognized.
 
-To crop images and get text/image `roi`, you need to install `python` and `opencv`, and download the `MaaAssistantArknights/tools/CropRoi/main.py` file.
+To crop images and get text/image `roi`, you need to use the `MaaAssistantArknights/tools/ImageCropper` tool.
 
-Then follow these steps:
+**ImageCropper** is a powerful screenshot tool that supports cropping, saving, and color picking operations for ROI regions from pre-prepared screenshots or devices connected via ADB.
 
-1. Create new `src` and `dst` folders in the same directory as `main.py`.
-2. Place **complete screenshots** that need resizing or text/image `roi` extraction into the `src` folder.
-3. Run `main.py`.
-4. Use mouse drag to select target range, try not to include irrelevant content.
-5. After determining the range, press `S` to save, press `Q` to exit. Cropped images will be saved in the `dst` folder.
+### Environment Setup
+
+Requires `python` environment, recommended version is `3.11`, minimum version is `3.9` or above.
+
+### Install Dependencies
+
+Windows users are recommended to run `install.bat` directly, or install manually:
+
+```shell
+python -m pip install -r requirements.txt
+```
+
+### Usage Steps
+
+1. If you have pre-prepared screenshots, save them to the `./src/` directory
+2. Run `start.bat` or `python main.py [device serial]` (device address is optional)
+   - The tool will automatically search for connected ADB devices, follow the prompts to select a device (press ENTER to skip)
+   - You can also directly use `python main.py [device serial]` to connect to a specific device
+3. In the popup window, left-click to select the target area, scroll wheel to zoom, right-click to move the image
+4. Use keyboard shortcuts:
+   - Press `S` or `ENTER` to save the target area
+   - Press `F` to save full-screen standardized screenshot
+   - Press `R` to output ROI range only (without saving)
+   - Press `C` to output ROI range and ColorMatch fields (without saving)
+   - Press `Z`, `DELETE` or `BACKSPACE` to undo
+   - Press `0` ~ `9` to zoom the window
+   - Press `Q` or `ESC` to exit
+   - Press any other key to skip/refresh current screenshot
+5. Target area screenshots are saved in the `./dst/` directory
 
 For example, output after completing one crop:
 

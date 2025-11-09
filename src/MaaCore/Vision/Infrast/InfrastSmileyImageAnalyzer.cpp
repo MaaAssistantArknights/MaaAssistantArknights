@@ -1,6 +1,6 @@
 #include "InfrastSmileyImageAnalyzer.h"
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Utils/StringMisc.hpp"
 #include "Vision/MultiMatcher.h"

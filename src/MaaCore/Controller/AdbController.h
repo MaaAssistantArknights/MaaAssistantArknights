@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Common/AsstConf.h"
-
 #include "ControllerAPI.h"
 
 #include <deque>
@@ -104,8 +102,6 @@ protected:
     static bool convert_lf(std::string& data);
 
     AsstCallback m_callback;
-
-    std::minstd_rand m_rand_engine;
 
     std::mutex m_callcmd_mutex;
 

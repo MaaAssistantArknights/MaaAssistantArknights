@@ -1,7 +1,7 @@
 #include "InfrastClueVacancyImageAnalyzer.h"
 
+#include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
 
 bool asst::InfrastClueVacancyImageAnalyzer::analyze()

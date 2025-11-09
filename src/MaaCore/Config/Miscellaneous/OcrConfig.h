@@ -13,7 +13,7 @@
 
 namespace asst
 {
-class OcrConfig final : public SingletonHolder<OcrConfig>, public AbstractConfig
+class OcrConfig final : public MAA_NS::SingletonHolder<OcrConfig>, public AbstractConfig
 {
 public:
     virtual ~OcrConfig() override = default;

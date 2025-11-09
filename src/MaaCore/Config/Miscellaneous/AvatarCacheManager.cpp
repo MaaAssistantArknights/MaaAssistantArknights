@@ -2,7 +2,7 @@
 
 #include "../TaskData.h"
 #include "BattleDataConfig.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 
 bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
@@ -76,7 +76,7 @@ void asst::AvatarCacheManager::set_avatar(
     auto path = m_save_path / utils::path(name + CacheExtension);
     Log.info(path.lexically_relative(UserDir.get()));
 
-    asst::imwrite(path, avatar);
+    MAA_NS::imwrite(path, avatar);
 }
 
 void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
@@ -98,7 +98,7 @@ void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
             Log.trace(__FUNCTION__, name, filepath.lexically_relative(UserDir.get()));
 #endif
 
-            auto avatar = asst::imread(filepath);
+            auto avatar = MAA_NS::imread(filepath);
 
             if (avatar.empty()) {
                 Log.error("load failed", filepath.lexically_relative(UserDir.get()));

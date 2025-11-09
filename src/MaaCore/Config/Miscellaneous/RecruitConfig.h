@@ -57,7 +57,7 @@ enum class ExtraTagsMode
     ExtraOnlyRare, // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
 };
 
-class RecruitConfig final : public SingletonHolder<RecruitConfig>, public AbstractConfig
+class RecruitConfig final : public MAA_NS::SingletonHolder<RecruitConfig>, public AbstractConfig
 {
 public:
     using TagId = std::string;

@@ -73,8 +73,8 @@ pids+=($!)
     echo -e "\narknights-toolbox-update - Taiwan"
     mkdir -p Overseas/tw/gamedata/excel
     cd Overseas/tw/gamedata/excel
-    git clone --filter=blob:none --no-checkout --depth 1 -b data-tw \
-        "https://github.com/arkntools/arknights-toolbox-update" .
+    git clone --filter=blob:none --no-checkout --depth 1 -b main \
+        "https://github.com/arkntools/arknights-data-tw-for-maa" .
     git checkout
 } &
 pids+=($!)

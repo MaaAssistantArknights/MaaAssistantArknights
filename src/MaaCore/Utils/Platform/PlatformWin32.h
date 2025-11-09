@@ -1,7 +1,7 @@
 #pragma once
 #ifdef _WIN32
 
-#include "SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 
 #include <filesystem>
 

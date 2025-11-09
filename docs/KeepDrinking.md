@@ -1,5 +1,5 @@
 ---
-pageLayout: home
+home: true
 navbar: false
 config:
   - type: custom

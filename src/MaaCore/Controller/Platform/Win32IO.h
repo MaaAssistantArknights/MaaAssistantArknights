@@ -3,12 +3,12 @@
 #ifdef _WIN32
 #include "PlatformIO.h"
 
-#include "Utils/Platform/SafeWindows.h"
+#include "MaaUtils/SafeWindows.hpp"
 #include <mswsock.h>
 
 #include "Common/AsstTypes.h"
 #include "InstHelper.h"
-#include "Utils/SingletonHolder.hpp"
+#include "MaaUtils/SingletonHolder.hpp"
 
 namespace asst
 {
@@ -42,9 +42,9 @@ public:
 
 private:
     // for Windows socket
-    class WsaHelper : public SingletonHolder<WsaHelper>
+    class WsaHelper : public MAA_NS::SingletonHolder<WsaHelper>
     {
-        friend class SingletonHolder<WsaHelper>;
+        friend class MAA_NS::SingletonHolder<WsaHelper>;
 
     public:
         virtual ~WsaHelper() override { WSACleanup(); }

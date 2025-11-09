@@ -353,14 +353,15 @@
             ["Nethersea Brand", "溟痕"],
             ["Erato", "埃拉托"],
             ["Tuba", "低音号"],
+            ["Resonator", "共振装置"],
             ["Resonator", "谐振器"],
+            ["'Resonator'", "“谐振器”"],
             ["Czerny", "车尔尼"],
             ["Hibiscus the Purifier", "濯尘芙蓉"],
             ["Ebenholz", "黑键"],
             ["L-7 'Whisperer'", "L-7 “回音壁”"],
             ["Contaminated Mineral", "污染晶石"],
             ["Preparation Area Transmitter", "预备区发讯器"],
-            ["'Resonator'", "“谐振器”"],
             ["Remnants of Days Past", "旧日残影"],
             ["'Tuba'", "“低音号”"],
             [".*Equipment Activation Valve.*", "战备激活阀"],
@@ -385,7 +386,6 @@
             ["Astgenne", "星源"],
             ["(L? *ight *t* *n?[ifGg]?re?v?y *th?n?er?|Greyy the Lightningbe[arer]*)", "承曦格雷伊"],
             ["Dorothy", "多萝西"],
-            ["Resonator", "共振装置"],
             ["R-31 Heavy Power Armor", "R-31重型动力装甲"],
             ["R-11 Assault Power Armor", "R-11突击动力装甲"],
             ["R-11a Assault Power Armor", "R-11a突击动力装甲"],
@@ -914,7 +914,7 @@
             ["Saint Statue Cosplayer", "圣徒像扮演者"],
             ["Nightwalker's Cloak Module", "夜行斗篷模块"],
             ["Nightwalker's Hook Module", "夜行钩爪模块"],
-            ["Exusiai the New Covenant", "新约能天使"],
+            ["Exusiai t?he New Covenant", "新约能天使"],
             ["Sankta Miksaparato", "信仰搅拌机"],
             ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
             ["Delivery Coordinates", "投递坐标"],
@@ -1386,6 +1386,10 @@
             ["Dense Jungle", "丛林密布"],
             ["Motorized Squad", "机动队"]
         ]
+    },
+    "BattleQuickFormationClear": {
+        "algorithm": "OcrDetect",
+        "text": ["Deselect All", "Clear selection"]
     },
     "BattleQuickFormationExpandRole": {
         "roi": [1166, 0, 114, 120]

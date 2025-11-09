@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "AsstTypes.h"
-#include "Utils/NoWarningCVMat.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
 
 namespace asst::battle
 {

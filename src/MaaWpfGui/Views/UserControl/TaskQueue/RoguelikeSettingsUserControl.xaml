@@ -215,7 +215,7 @@
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding RoguelikeStartAwards}"
                 SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwoRaw',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwo',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
             <CheckBox
                 Margin="0,10"

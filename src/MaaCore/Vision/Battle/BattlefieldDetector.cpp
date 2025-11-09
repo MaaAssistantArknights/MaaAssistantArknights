@@ -4,7 +4,7 @@
 #include <array>
 #include <cmath>
 
-#include "Utils/NoWarningCV.h"
+#include "MaaUtils/NoWarningCV.hpp"
 
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/OnnxSessions.h"

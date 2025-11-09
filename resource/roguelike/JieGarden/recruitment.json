@@ -213,6 +213,21 @@
             "name": "伊内丝",
             "opers": [
                 {
+                    "name": "凛御银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["挡人先锋", "情报官", "投锋"],
+                            "threshold": 3,
+                            "offset": -100
+                        }
+                    ]
+                },
+                {
                     "name": "伊内丝",
                     "skill": 2,
                     "is_key": true,
@@ -2262,6 +2277,9 @@
             "name": "情报官",
             "opers": [
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -2330,12 +2348,42 @@
             "name": "术师",
             "opers": [
                 {
+                    "name": "圣聆初雪",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 900,
+                    "promote_priority": 950
+                },
+                {
                     "name": "荒芜拉普兰德",
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 690,
+                    "recruit_priority": 700,
                     "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "波纹之手",
+                            "offset": 300
+                        }
+                    ]
+                },
+                {
+                    "name": "澄闪",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 695,
+                    "promote_priority": 841,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["术师"],
@@ -2357,27 +2405,6 @@
                     "is_key": true,
                     "recruit_priority": 692,
                     "promote_priority": 841
-                },
-                {
-                    "name": "澄闪",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 683,
-                    "promote_priority": 841,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["术师"],
-                            "threshold": 1,
-                            "offset": -120
-                        }
-                    ],
-                    "collection_priority_offsets": [
-                        {
-                            "collection": "波纹之手",
-                            "offset": 300
-                        }
-                    ]
                 },
                 {
                     "name": "艾雅法拉",
@@ -2718,6 +2745,21 @@
                     ]
                 },
                 {
+                    "name": "溯光星源",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 450,
+                    "promote_priority": 600,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 2,
+                            "offset": 80
+                        }
+                    ]
+                },
+                {
                     "name": "灵知",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -3028,6 +3070,9 @@
                     "name": "洋灰"
                 },
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3260,6 +3305,9 @@
                 },
                 {
                     "name": "乌尔比安"
+                },
+                {
+                    "name": "凛御银灰"
                 },
                 {
                     "name": "伊内丝"
@@ -3523,6 +3571,9 @@
             "name": "回费",
             "opers": [
                 {
+                    "name": "凛御银灰"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -3601,6 +3652,9 @@
                 },
                 {
                     "name": "维什戴尔"
+                },
+                {
+                    "name": "圣聆初雪"
                 },
                 {
                     "name": "逻各斯"
@@ -4142,6 +4196,14 @@
             "opers": [
                 {
                     "name": "雪雉的安全起重机"
+                }
+            ]
+        },
+        {
+            "name": "风雪之眼",
+            "opers": [
+                {
+                    "name": "风雪之眼"
                 }
             ]
         },

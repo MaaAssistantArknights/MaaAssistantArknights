@@ -3,7 +3,7 @@
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Utils/ImageIo.hpp"
+#include "MaaUtils/ImageIo.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -166,7 +166,7 @@ void asst::RoguelikeSettlementTaskPlugin::save_img(
             (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
     }
 
-    auto relative_path = relative_dir / (std::format("{}_{}.png", utils::format_now_for_filename(), name));
+    auto relative_path = relative_dir / (std::format("{}_{}.png", MAA_NS::format_now_for_filename(), name));
     Log.trace("Save image", relative_path);
-    asst::imwrite(relative_path, image);
+    MAA_NS::imwrite(relative_path, image);
 }

@@ -21,7 +21,7 @@ struct RoguelikeFoldartalCombination
     std::vector<FoldartalPair> pairs; // 适用的板子组合
 };
 
-class RoguelikeFoldartalConfig final : public SingletonHolder<RoguelikeFoldartalConfig>, public AbstractConfig
+class RoguelikeFoldartalConfig final : public MAA_NS::SingletonHolder<RoguelikeFoldartalConfig>, public AbstractConfig
 {
 public:
     virtual ~RoguelikeFoldartalConfig() override = default;
