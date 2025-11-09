@@ -118,9 +118,7 @@ bool asst::BattleFormationTask::_run()
                 break;
             }
             required_opers.emplace_back(
-                RequiredOper { .role = BattleData.get_role(oper.name),
-                               .name = oper.name,
-                               .skill = oper.skill });
+                RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
         }
 
         // 先退出去招募助战再回来，好蠢
