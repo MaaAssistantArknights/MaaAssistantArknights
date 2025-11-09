@@ -170,12 +170,12 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             size_t choice = 0; // 以 0 作为 无效 index
             if (!event.option_text.empty()) {
                 for (const std::string& event_text : event.option_text) {
-                    const auto it =
+                    const auto option_it =
                         std::ranges::find_if(m_option_list, [&event_text](const OptionAnalyzer::Option& option) {
                             return option.text == event_text;
                         });
-                    if (it != m_option_list.end()) {
-                        choice = std::distance(m_option_list.begin(), it) + 1;
+                    if (option_it != m_option_list.end()) {
+                        choice = std::distance(m_option_list.begin(), option_it) + 1;
                         break;
                     }
                 }
