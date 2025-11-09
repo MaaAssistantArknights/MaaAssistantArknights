@@ -280,16 +280,16 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,               // 이 작업을 활성화할지 여부. 선택 사항, 기본값은 true.
     "filename": string,           // 단일 작업 JSON 파일 경로. 필수 (copilot_list와 상호 배타). 상대 경로 및 절대 경로 모두 가능.
-    "copilot_list": [             // 작업 목록. 필수 (filename과 상호 배타). filename과 copilot_list가 모두 존재하면 copilot_list는 무시됩니다.
+    "copilot_list": [             // 작업 목록. 필수 (filename과 상호 배타). filename과 copilot_list가 모두 존재하면 copilot_list는 무시됩니다；이 매개변수가 유효할 때 set_params는 한 번만 실행 가능.
         {
             "filename": string,   // 작업 JSON 파일 경로. 상대 경로 및 절대 경로 모두 가능.
             "stage_name": string, // 스테이지 이름. 자세한 내용은 [PRTS.Map](https://map.ark-nights.com) 참고.
-            "is_raid": bool,      // 토벌(도전) 모드로 전환할지 여부.
-            "is_paradox": bool    // 역설 시뮬레이션 스테이지인지 여부.
+            "is_raid": bool,      // 토벌(도전) 모드로 전환할지 여부. 선택 사항, 기본값 false.
+            "is_paradox": bool    // 역설 시뮬레이션 스테이지인지 여부. 선택 사항, 기본값 false；실험적 매개변수.
         },
         ...
     ],
-    "loop_times": int,            // 반복 횟수. 선택 사항, 기본값은 1. 단일 작업 모드(filename 지정 시)에서만 유효.
+    "loop_times": int,            // 반복 횟수. 선택 사항, 기본값은 1. 단일 작업 모드(filename 지정 시)에서만 유효；이 매개변수가 유효할 때 set_params는 한 번만 실행 가능.
     "use_sanity_potion": bool,    // 이성이 부족할 때 회복제를 사용할지 여부. 선택 사항, 기본값은 false.
     "formation": bool,            // 자동 편성을 사용할지 여부. 선택 사항, 기본값은 false.
     "formation_index": int,       // 자동 편성에 사용할 편성 슬롯 번호. 선택 사항, 기본값은 0.

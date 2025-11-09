@@ -290,16 +290,16 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 {
     "enable": bool,               // 是否啟用本任務，可選，預設值 true
     "filename": string,           // 單一作業 JSON 文件的路徑，與 copilot_list 二選一（必填）；相對路徑與絕對路徑均可
-    "copilot_list": [             // 作業列表，與 filename 二選一（必填）；當 filename 與 copilot_list 同時存在時，忽視 copilot_list
+    "copilot_list": [             // 作業列表，與 filename 二選一（必填）；當 filename 與 copilot_list 同時存在時，忽視 copilot_list；此參數生效時僅可執行 set_params 一次
         {
             "filename": string,   // 作業 JSON 文件的路徑；相對路徑與絕對路徑均可
             "stage_name": string, // 關卡名，具體請參考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切換為突襲模式
-            "is_paradox": bool    // 是否為悖論模擬關卡
+            "is_raid": bool,      // 是否切換為突襲模式，可選, 預設值 false
+            "is_paradox": bool    // 是否為悖論模擬關卡, 可選, 預設值 false；測試中參數
         },
         ...
     ],
-    "loop_times": int,            // 循環次數，可選，預設值 1；僅在單一作業模式下（即指定 filename 時）有效
+    "loop_times": int,            // 循環次數，可選，預設值 1；僅在單一作業模式下（即指定 filename 時）有效；此參數生效時僅可執行 set_params 一次
     "use_sanity_potion": bool,    // 是否允許在剩餘理智不足時使用理智藥，可選，預設值 false
     "formation": bool,            // 是否進行自動編隊，可選，預設值 false
     "formation_index": int        // 自動編隊所使用的編隊欄位的編號，可選，預設值 0；僅在 formation 為 true 時有效；

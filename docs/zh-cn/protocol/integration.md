@@ -508,16 +508,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 {
     "enable": bool,               // 是否启用本任务，可选，默认值 true
     "filename": string,           // 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可
-    "copilot_list": [             // 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list
+    "copilot_list": [             // 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次
         {
             "filename": string,   // 作业 JSON 文件的路径；相对路径与绝对路径均可
             "stage_name": string, // 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切换为突袭模式
-            "is_paradox": bool    // 是否为悖论模拟关卡
+            "is_raid": bool,      // 是否切换为突袭模式，可选, 默认值 false
+            "is_paradox": bool    // 是否为悖论模拟关卡, 可选, 默认值 false；测试中参数
         },
         ...
     ],
-    "loop_times": int,            // 循环次数，可选，默认值 1；仅在单一作业模式下（即指定 filename 时）有效
+    "loop_times": int,            // 循环次数，可选，默认值 1；仅在单一作业模式下（即指定 filename 时）有效；此参数生效时仅可执行 set_params 一次
     "use_sanity_potion": bool,    // 是否允许在剩余理智不足时使用理智药，可选，默认值 false
     "formation": bool,            // 是否进行自动编队，可选，默认值 false
     "formation_index": int        // 自动编队所使用的编队栏位的编号，可选，默认值 0；仅在 formation 为 true 时有效；
