@@ -282,8 +282,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     // ————————————————————————————————————————————————————————————————
     // calculate offset and rel_x
     // ————————————————————————————————————————————————————————————————
-    Rect overlap_rect_in_m_image =
-        Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit")->specific_rect;
+    Rect overlap_rect_in_m_image = Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit")->specific_rect;
     overlap_rect_in_m_image.y = m_last_support_unit_x;
     cv::Mat overlap_option_templ = make_roi(m_image, overlap_rect_in_m_image);
 
@@ -327,9 +326,8 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     return offset;
 }
 
-asst::Matcher::ResultOpt asst::SupportListAnalyzer::match_support_unit(
-    const cv::Mat& image,
-    const cv::Mat& support_unit_templ)
+asst::Matcher::ResultOpt
+    asst::SupportListAnalyzer::match_support_unit(const cv::Mat& image, const cv::Mat& support_unit_templ)
 {
     LogTraceFunction;
 

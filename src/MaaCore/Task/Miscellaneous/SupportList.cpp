@@ -438,7 +438,8 @@ void asst::SupportList::update_view(const cv::Mat& image)
     cv::Mat img = image.empty() ? ctrler()->get_image() : image;
 
     for (size_t i = 0; i < m_list.size(); ++i) {
-        if (const Matcher::ResultOpt support_unit_match_ret = SupportListAnalyzer::match_support_unit(img, m_list[i].templ)) {
+        if (const Matcher::ResultOpt support_unit_match_ret =
+                SupportListAnalyzer::match_support_unit(img, m_list[i].templ)) {
             if (i < m_view_begin) {
                 m_view_begin = i;
             }
