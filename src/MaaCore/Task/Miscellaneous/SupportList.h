@@ -124,14 +124,6 @@ private:
     bool update_selected_role(const cv::Mat& image);
 
     /// <summary>
-    /// 获取当前助战列表页截图并以此更新助战列表信息记录。
-    /// </summary>
-    /// <returns>
-    /// 若操作成功，则返回新增助战栏位数量，反之则返回 <c>std::nullopt</c>。
-    /// </returns>
-    std::optional<size_t> update_page();
-
-    /// <summary>
     /// 重置已记录的助战列表信息。
     /// </summary>
     void reset_list_and_view_data();
@@ -139,14 +131,10 @@ private:
     void report_support_list();
 
     /// <summary>
-    /// 根据 support_units_in_view 更新当前助战列表视图，若 <c>support_units_in_view == std::nullopt</c>
-    /// 则使用 <c>image</c> 或主动截图，生成助战栏位序列后再更新。
+    /// 使用 <c>image</c> 或主动截图，更新当前助战列表视图。
     /// </summary>
-    /// <param name="support_units_in_view">当前助战列表视图内的助战栏位序列，仅需要 <c>rect</c> 与
-    /// <c>name</c>。</param> <param name="image">当前助战列表视图的截图。</param>
-    void update_view(
-        const std::optional<std::vector<SupportUnit>>& support_units_in_view = std::nullopt,
-        const cv::Mat& image = cv::Mat());
+    /// <param name="image">当前助战列表视图的截图。</param>
+    void update_view(const cv::Mat& image = cv::Mat());
 
     /// <summary>
     /// 重置视图。
@@ -211,14 +199,6 @@ private:
     std::vector<SupportUnit> m_list;
 
     /// <summary>
-    /// 干员名称到 <c>m_list</c> 索引的映射。
-    /// </summary>
-    /// <remarks>
-    /// 基于“每位干员在当前助战列表中最多出现一次”的假设。
-    /// </remarks>
-    std::unordered_map<std::string, size_t> m_name2index;
-
-    /// <summary>
     /// 当前助战列表视图起始位置。视图内助战栏位的索引范围为 <c>m_view_begin</c>–<c>m_view_end - 1</c>。
     /// </summary>
     /// <remarks>
@@ -236,19 +216,22 @@ private:
     /// </remarks>
     size_t m_view_end = 0;
 
+    std::vector<int> m_support_unit_x_in_view;
+
     /// <summary>
     /// 当前是否位于助战干员详情界面。
     /// </summary>
     bool m_in_support_unit_detail_panel = false;
 
     /// <summary>
-    /// 助战列表的总页数。
+    /// 识别助战列表时向右最大滑动次数。
     /// </summary>
     /// <remarks>
-    /// 助战列表共有 9 个栏位，一页即一屏，屏幕上最多只能同时完整显示 8 名助战干员，因而总页数为 2。
-    /// 注意助战列表页之间的内容重叠。
+    /// 助战列表共有 9 个栏位，屏幕上最多只能同时完整显示 8 名助战干员，因而最大滑动次数为 2。
     /// </remarks>
-    static constexpr size_t MAX_NUM_PAGES = 2;
+    static constexpr size_t MAX_SWIPE_TIMES = 1;
+
+    static constexpr int UNDEFINED = -1;
 
     /// <summary>
     /// 助战干员可选职业。

@@ -75,24 +75,27 @@ bool asst::SupportList::update()
 
     move_to_list_head();
 
-    for (size_t page = 0; page < MAX_NUM_PAGES && !need_exit(); ++page) {
-        // 更新助战列表失败
-        if (const std::optional<size_t> ret = update_page(); !ret.has_value()) [[unlikely]] {
-            Log.error(__FUNCTION__, "| Failed to update list with current page");
+    SupportListAnalyzer analyzer(ctrler()->get_image());
+
+    for (size_t swipe_times = 0; swipe_times < MAX_SWIPE_TIMES && !need_exit(); ++swipe_times) {
+        move_forward();
+
+        const std::optional<int> ret = analyzer.merge_image(ctrler()->get_image());
+        if (!ret) {
             return false;
         }
-        // 没有新的助战栏位
-        else if (ret.value() == 0) {
-            Log.info(__FUNCTION__, "| No new support units were added; end of support list reached");
+        if (ret.value() <= 0) {
             break;
-        }
-
-        if (page < MAX_NUM_PAGES - 1) {
-            move_forward();
         }
     }
 
+    if (!analyzer.analyze(m_selected_role)) {
+        return false;
+    }
+    m_list = analyzer.get_result();
     report_support_list();
+
+    update_view();
 
     return true;
 }
@@ -118,7 +121,12 @@ bool asst::SupportList::select_support_unit(const size_t index)
     }
 
     move_to_support_unit(index);
-    ctrler()->click(m_list.at(index).rect);
+
+    // click support unit
+    Log.info(__FUNCTION__, std::format("| Clicking support unit {}: {}", index + 1, m_list[index].name));
+    Rect click_rect = Task.get("SupportList-ClickSupportUnit")->specific_rect;
+    click_rect.x = m_support_unit_x_in_view[index];
+    ctrler()->click(click_rect);
     sleep(Config.get_options().task_delay);
 
     if (!ProcessTask(*this, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
@@ -376,88 +384,9 @@ bool asst::SupportList::update_selected_role(const cv::Mat& image)
     return false;
 }
 
-std::optional<size_t> asst::SupportList::update_page()
-{
-    LogTraceFunction;
-
-    // 获取助战列表页内栏位信息
-    cv::Mat image = ctrler()->get_image();
-    SupportListAnalyzer analyzer(image);
-    if (!analyzer.analyze(m_selected_role)) [[unlikely]] {
-        // 未识别到任何助战干员，极有可能当前已不在助战列表界面
-        Log.error(__FUNCTION__, "| No support unit found; failed to update page");
-        return std::nullopt;
-    }
-    const std::vector<SupportUnit>& support_units = analyzer.get_result();
-
-    // 我们假设 support_units 为一段从左往右连续编号的助战栏位序列，且所有已知助战栏位在前、新助战栏位在后
-    // 设置 support_units 的起点索引以供检查
-    size_t index = m_list.size();
-    const std::string& head_name = support_units.front().name;
-    if (const auto it = m_name2index.find(head_name); it != m_name2index.end()) {
-        index = it->second;
-    }
-
-    size_t num_new_items = 0; // 新增助战栏位记数
-
-    for (const SupportUnit& support_unit : support_units) {
-        // 基于“助战列表中不会有重复名字的干员”的假设，通过干员名判断是否为新助战栏位
-        if (const auto it = m_name2index.find(support_unit.name); it == m_name2index.end()) // 新助战栏位
-        {
-            Log.info(__FUNCTION__, "| New support unit found:", support_unit.name);
-            // sanity check for index
-            // 期望插入的助战栏位的索引：index；实际即将插入的助战栏位的索引：m_list.size()
-            if (index != m_list.size()) [[unlikely]] {
-                // 若 index < m_list.size()，则可能出现了新助战栏位排在已知助战栏位前，即 ...NEW, OLD...
-                // 不可能出现 index > m_list.size()
-                Log.error(
-                    __FUNCTION__,
-                    std::format(
-                        "| Sanity check for index failed; expected {}; got {}; failed to update page",
-                        index,
-                        m_list.size()));
-                save_img(image, "page screenshot");
-                return std::nullopt;
-            }
-            // 添加新助战栏位
-            m_list.emplace_back(support_unit);
-            m_name2index.emplace(support_unit.name, index);
-            // 更新新增助战栏位记数
-            ++num_new_items;
-        }
-        else { // 已知助战栏位
-            Log.info(__FUNCTION__, "| Existing support unit found:", support_unit.name);
-            // sanity check for index
-            // 期望更新的助战栏位的索引：index；实际更新的助战栏位的索引：it->second
-            if (index != it->second) [[unlikely]] {
-                // 若 index < it->second，则可能跳过了某已知助战栏位，即 ...index - 1, (index), it->second...
-                // 若 index > it->second，则可能出现了已知助战栏位排在新助战栏位后，即 ...NEW, OLD...
-                Log.error(
-                    __FUNCTION__,
-                    std::format(
-                        "| Sanity check for index failed; expected {}; got {}; failed to update page",
-                        index,
-                        it->second));
-                save_img(image, "page screenshot");
-                return std::nullopt;
-            }
-        }
-        ++index;
-    }
-    Log.info(
-        __FUNCTION__,
-        "Updated support units with indices",
-        std::to_string(m_view_begin) + "–" + std::to_string(m_view_end));
-
-    update_view(support_units);
-
-    return num_new_items;
-}
-
 void asst::SupportList::reset_list_and_view_data()
 {
     m_list.clear();
-    m_name2index.clear();
     reset_view();
 }
 
@@ -500,47 +429,24 @@ void asst::SupportList::report_support_list()
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-void asst::SupportList::update_view(
-    const std::optional<std::vector<SupportUnit>>& support_units_in_view,
-    const cv::Mat& image)
+void asst::SupportList::update_view(const cv::Mat& image)
 {
     LogTraceFunction;
 
     reset_view();
 
-    // 获取助战列表视图内栏位信息
-    std::vector<SupportUnit> support_units;
-    if (support_units_in_view) {
-        support_units = support_units_in_view.value();
-    }
-    else {
-        Log.info(__FUNCTION__, "| Support unit list not provided, generating...");
-        SupportListAnalyzer analyzer(image.empty() ? ctrler()->get_image() : image);
+    cv::Mat img = image.empty() ? ctrler()->get_image() : image;
 
-        if (!analyzer.analyze(m_selected_role)) [[unlikely]] {
-            // 未识别到任何助战干员，极有可能当前已不在助战列表界面
-            Log.error(__FUNCTION__, "| No support unit found; failed to update view");
-            return;
+    for (size_t i = 0; i < m_list.size(); ++i) {
+        if (const Matcher::ResultOpt support_unit_match_ret = SupportListAnalyzer::match_support_unit(img, m_list[i].templ)) {
+            if (i < m_view_begin) {
+                m_view_begin = i;
+            }
+            if (i >= m_view_end) {
+                m_view_end = i + 1;
+            }
+            m_support_unit_x_in_view[i] = support_unit_match_ret.value().rect.x;
         }
-        support_units = analyzer.get_result();
-    }
-
-    for (const SupportUnit& support_unit : support_units) {
-        const auto it = m_name2index.find(support_unit.name);
-        if (it == m_name2index.end()) {
-            Log.error(
-                __FUNCTION__,
-                std::format("| New support unit found: {}; skipping to the next one", support_unit.name));
-            continue;
-        }
-        const size_t index = it->second;
-        if (index < m_view_begin) {
-            m_view_begin = index;
-        }
-        if (index >= m_view_end) {
-            m_view_end = index + 1;
-        }
-        m_list[it->second].rect = support_unit.rect;
     }
 
     Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
@@ -548,38 +454,45 @@ void asst::SupportList::update_view(
 
 void asst::SupportList::reset_view()
 {
-    std::ranges::for_each(m_list, [](SupportUnit& support_unit) { support_unit.rect = { 0, 0, 0, 0 }; });
     m_view_begin = m_list.size();
     m_view_end = 0;
+    m_support_unit_x_in_view.assign(m_list.size(), UNDEFINED);
 }
 
 void asst::SupportList::move_to_support_unit(const size_t index)
 {
     LogTraceFunction;
 
+    // sanity check
+    if (index >= m_list.size()) [[unlikely]] {
+        Log.error(
+            __FUNCTION__,
+            std::format("| Attempt to move to support unit {} out of {}", index + 1, m_list.size()));
+        return;
+    }
+
+    Log.info(__FUNCTION__, std::format("Moving to support unit {}: {}", index + 1, m_list[index].name));
+
     cv::Mat image;
     while (!need_exit()) {
         if (index < m_view_begin) {
             move_backward();
             image = ctrler()->get_image();
-            update_view(std::nullopt, image);
+            update_view(image);
             continue;
         }
         if (index >= m_view_end) {
             move_forward();
             image = ctrler()->get_image();
-            update_view(std::nullopt, image);
+            update_view(image);
             continue;
         }
-        if (m_list[index].rect.empty()) [[unlikely]] {
-            Log.error(
-                __FUNCTION__,
-                "| rect for support unit {}: {} in view is not updated",
-                index + 1,
-                m_list[index].name);
-            save_img(image, "lastly used view screenshot");
+        if (m_support_unit_x_in_view[index] == UNDEFINED) [[unlikely]] {
+            Log.error(__FUNCTION__, "| rect for support unit {} in view is not updated", index + 1);
+            save_img(image, "lastly used screenshot");
+            save_img(m_list[index].templ, "support unit template");
             image = ctrler()->get_image();
-            update_view(std::nullopt, image);
+            update_view(image);
             continue;
         }
         break;

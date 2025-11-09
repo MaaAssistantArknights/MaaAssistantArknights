@@ -158,6 +158,12 @@
         "postDelay": 1000,
         "next": ["SupportList-RefreshAfterCooldown#next"]
     },
+    "SupportList-ClickSupportUnit": {
+        "doc": "点击助战干员栏位底部的 Icon 以选择该助战干员",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [0, 606, 129, 50]
+    },
     "SupportList-MoveToHead": {
         "doc": "向右滑动屏幕，使助战列表视图向左移动到列表头部",
         "algorithm": "JustReturn",

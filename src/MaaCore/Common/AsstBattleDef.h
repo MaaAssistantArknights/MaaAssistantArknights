@@ -291,7 +291,7 @@ enum class Friendship
 /// </summary>
 struct SupportUnit
 {
-    Rect rect;
+    cv::Mat templ;
 
     /// <summary>
     /// 助战干员名称。
