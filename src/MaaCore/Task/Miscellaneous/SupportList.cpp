@@ -548,6 +548,7 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
         const int module_level = ret.value();
 
         Matcher module_analyzer(image);
+        module_analyzer.set_task_info(module_task);
         const Rect module_roi = rect.move(module_task->rect_move);
         module_analyzer.set_roi(module_roi);
         if (!module_analyzer.analyze()) {
