@@ -168,7 +168,19 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         reset_option_list_and_view_data();
         if (update_option_list()) {
             size_t choice = 0; // 以 0 作为 无效 index
-            if (event.option_num == m_option_list.size()) {
+            if (!event.option_text.empty()) {
+                for (const std::string& event_text : event.option_text) {
+                    const auto it =
+                        std::ranges::find_if(m_option_list, [&event_text](const OptionAnalyzer::Option& option) {
+                            return option.text == event_text;
+                        });
+                    if (it != m_option_list.end()) {
+                        choice = std::distance(m_option_list.begin(), it) + 1;
+                        break;
+                    }
+                }
+            }
+            else if (event.option_num == m_option_list.size()) {
                 choice = choose_option;
             }
             else {
