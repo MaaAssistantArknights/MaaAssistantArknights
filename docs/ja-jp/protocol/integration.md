@@ -288,16 +288,16 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,               // このタスクを有効にするかどうか。任意、デフォルトは true。
     "filename": string,           // 単一作業の JSON ファイルパス。必須（copilot_list と排他）。相対パス・絶対パスどちらも使用可能。
-    "copilot_list": [             // 作業リスト。必須（filename と排他）。filename と copilot_list が同時に存在する場合、copilot_list は無視されます。
+    "copilot_list": [             // 作業リスト。必須（filename と排他）。filename と copilot_list が同時に存在する場合、copilot_list は無視されます；このパラメータが有効な場合、set_params は一度だけ実行可能。
         {
             "filename": string,   // 作業 JSON ファイルのパス。相対パス・絶対パスどちらも使用可能。
             "stage_name": string, // ステージ名。[PRTS.Map](https://map.ark-nights.com) を参照。
-            "is_raid": bool,      // 突襲モード（チャレンジモード）に切り替えるかどうか。
-            "is_paradox": bool    // パラドックスシミュレーションステージかどうか。
+            "is_raid": bool,      // 突襲モード（チャレンジモード）に切り替えるかどうか。任意、デフォルトは false。
+            "is_paradox": bool    // パラドックスシミュレーションステージかどうか。任意、デフォルトは false；実験的パラメータ。
         },
         ...
     ],
-    "loop_times": int,            // ループ回数。任意、デフォルトは 1。単一作業モード（filename 指定時）のみ有効。
+    "loop_times": int,            // ループ回数。任意、デフォルトは 1。単一作業モード（filename 指定時）のみ有効；このパラメータが有効な場合、set_params は一度だけ実行可能。
     "use_sanity_potion": bool,    // 理性が不足した場合に理性回復剤を使用するかどうか。任意、デフォルトは false。
     "formation": bool,            // 自動編成を行うかどうか。任意、デフォルトは false。
     "formation_index": int,       // 自動編成で使用する編成スロット番号。任意、デフォルトは 0。

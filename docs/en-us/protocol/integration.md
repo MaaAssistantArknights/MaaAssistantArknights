@@ -315,16 +315,16 @@ For specific information about the Collapsal Paradigm farming feature, please re
 {
     "enable": bool,               // Whether to enable this task. Optional, default is true.
     "filename": string,           // Path to a single job JSON file. Required (mutually exclusive with copilot_list). Both relative and absolute paths are supported.
-    "copilot_list": [             // List of jobs. Required (mutually exclusive with filename). When both filename and copilot_list are present, copilot_list will be ignored.
+    "copilot_list": [             // List of jobs. Required (mutually exclusive with filename). When both filename and copilot_list are present, copilot_list will be ignored; set_params can only be executed once when this parameter is in effect.
         {
             "filename": string,   // Path to the job JSON file. Both relative and absolute paths are supported.
             "stage_name": string, // Stage name. Refer to [PRTS.Map](https://map.ark-nights.com) for details.
-            "is_raid": bool,      // Whether to switch to Challenge Mode (Raid).
-            "is_paradox": bool    // Whether this is a Paradox Simulation stage.
+            "is_raid": bool,      // Whether to switch to Challenge Mode (Raid), optional, default false.
+            "is_paradox": bool    // Whether this is a Paradox Simulation stage, optional, default false; experimental parameter.
         },
         ...
     ],
-    "loop_times": int,            // Number of loops. Optional, default is 1. Effective only in single job mode (i.e., when filename is specified).
+    "loop_times": int,            // Number of loops. Optional, default is 1. Effective only in single job mode (i.e., when filename is specified); set_params can only be executed once when this parameter is in effect.
     "use_sanity_potion": bool,    // Whether to use sanity potions when sanity is insufficient. Optional, default is false.
     "formation": bool,            // Whether to enable auto formation. Optional, default is false.
     "formation_index": int,       // The index of the formation slot to use in auto formation. Optional, default is 0.
