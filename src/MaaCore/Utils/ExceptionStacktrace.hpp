@@ -14,13 +14,6 @@
 #include <dlfcn.h>
 #include <execinfo.h>
 #include <unistd.h>
-#ifdef __APPLE__
-#include <mach-o/dyld.h>
-#include <mach-o/loader.h>
-#endif
-#elif defined(__linux__)
-#include <fstream>
-#include <sstream>
 #endif
 
 #ifdef __APPLE__
