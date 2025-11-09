@@ -127,15 +127,17 @@ bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
         Log.error(__FUNCTION__, "unable to open series list");
         const auto relative_dir = utils::path("debug") / utils::path("fightSeries");
 
-        auto relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
-        Log.info(std::format("Save screenshot to {}", relative_path.string()));
-        MAA_NS::imwrite(relative_path, ctrler()->get_image());
+        std::filesystem::path relative_path;
 
         if (!image.empty()) {
             relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
             Log.info(std::format("Save reusable image to {}", relative_path.string()));
             MAA_NS::imwrite(relative_path, image);
         }
+
+        relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
+        Log.info(std::format("Save current screenshot to {}", relative_path.string()));
+        MAA_NS::imwrite(relative_path, ctrler()->get_image());
 
         return false;
     }
