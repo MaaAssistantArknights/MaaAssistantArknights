@@ -1772,8 +1772,15 @@
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "exceededNext": ["Fight@TodaysSupplies", "Fight@CloseAnnos#next", "Stop"],
-        "next": ["Fight@GoLastBattle", "Fight", "Fight@CloseAnnos#next", "Stop"],
+        "next": ["Fight@GoLastBattle", "Fight", "Fight@CloseAnnos#next", "Fight@GoTerminalStopflag", "Fight@ReturnButtons#next"],
         "postDelay": 3000
+    },
+    "GoTerminalStopflag": {
+        "template": "StageResource.png",
+        "Doc": "看到资源关卡图标说明在终端",
+        "templThreshold": 0.77,
+        "roi": [462, 600, 140, 120],
+        "action": "Stop"
     },
     "GoLastBattle": {
         "algorithm": "OcrDetect",
