@@ -837,6 +837,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的{key=Operator}</system:String>
+    <system:String x:Key="SupportUnitUsage">助战干员借用策略</system:String>
+    <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">仅用于补漏</system:String>
+    <system:String x:Key="SupportUnitUsage.Random">随机</system:String>
     <system:String x:Key="AddTrust">补充低信赖{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}属性要求</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
