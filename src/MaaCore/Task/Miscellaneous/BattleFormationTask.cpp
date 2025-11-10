@@ -136,7 +136,7 @@ bool asst::BattleFormationTask::_run()
     }
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
-    bool has_missing = std::ranges::any_of(m_formation, [&](const auto& pair) {
+    bool has_missing = !m_used_support_unit && std::ranges::any_of(m_formation, [&](const auto& pair) {
         return std::ranges::any_of(pair.second /* role, groups */, [&](const OperGroup& group) {
             return !has_oper_selected(group.second);
         });
@@ -806,13 +806,11 @@ bool asst::BattleFormationTask::add_support_unit(
                 break;
             }
             const Role role = required_opers[i].role;
-            if (last_selected_role != Role::Unknown) {
-                if (role != last_selected_role) {
-                    support_list.select_role(role);
-                }
-                else {
-                    support_list.refresh_list();
-                }
+            if (role != last_selected_role) {
+                support_list.select_role(role);
+            }
+            else {
+                support_list.refresh_list();
             }
             last_selected_role = role;
 
