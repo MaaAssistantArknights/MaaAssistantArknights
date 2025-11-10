@@ -107,7 +107,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
-    auto is_paradox_opt = params.find<bool>("is_paradox"); 
+    auto is_paradox_opt = params.find<bool>("is_paradox");
     if (is_paradox_opt) {
         m_paradox_task_ptr->set_enable(*is_paradox_opt);
     }
