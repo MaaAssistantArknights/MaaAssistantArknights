@@ -128,7 +128,7 @@ bool asst::BattleFormationTask::_run()
             m_used_support_unit = true;
         }
         // 再到快速编队页面
-        if (!enter_selection_page()) {
+        if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
             save_img(utils::path("debug") / utils::path("other"));
             return false;
         }

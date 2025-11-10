@@ -1,4 +1,11 @@
 {
+    "Formation-EnterQuickFormation": {
+        "template": "BattleQuickFormation.png",
+        "action": "ClickSelf",
+        "roi": [816, 0, 404, 149],
+        "postDelay": 1000,
+        "next": ["BattleQuickFormationExpandRole", "Formation-EnterQuickFormation", "Stop"]
+    },
     "SupportListAnalyzer-SupportUnit": {
         "doc": ["匹配助战干员时，应用于 Matcher 的配置任务", "| specificRect: 截取助战干员的 templ 时所使用的 rect"],
         "template": "empty.png",
@@ -268,7 +275,7 @@
         "rectMove": [9, 66, 82, 25]
     },
     "SupportList-DetailPanel-SelectOriginalModule": {
-        "doc": ["在助战干员详情界面，当视图处于模组列表头部时，识别并点选 Original 模组"],
+        "doc": "在助战干员详情界面，当视图处于模组列表头部时，识别并点选 Original 模组",
         "template": "SupportList-DetailPanel-Module-Original.png",
         "roi": [750, 498, 82, 25],
         "action": "ClickSelf",
