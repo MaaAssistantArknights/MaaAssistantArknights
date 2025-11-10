@@ -4086,7 +4086,7 @@
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [150, 0, 1000, 60],
+        "specificRect": [630, 0, 20, 20],
         "postDelay": 500
     },
     "BattleAvatarData": {
