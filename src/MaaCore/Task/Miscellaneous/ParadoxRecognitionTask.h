@@ -21,7 +21,7 @@ private:
 public:
     using AbstractTask::AbstractTask;
     virtual ~ParadoxRecognitionTask() override = default;
-    void set_navigate_name(const std::string& navigate_name);
+    void add_oper(const std::string& navigate_name);
 
 private:
     virtual bool _run() override;
@@ -34,6 +34,7 @@ private:
     static std::string standardize_name(const std::string& navigate_name);
     void enter_paradox(int skill_num, int rarity) const; // 进悖论模拟
 
+    std::vector<std::string> m_paradox_opers;
     OperName m_oper_name;
     std::string m_navigate_name;
     asst::Rect m_navigate_rect;

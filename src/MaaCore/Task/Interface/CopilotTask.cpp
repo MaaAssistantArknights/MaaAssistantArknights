@@ -27,7 +27,6 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst) :
 
     m_multi_copilot_plugin_ptr->set_retry_times(0);
     m_multi_copilot_plugin_ptr->set_battle_task_ptr(m_battle_task_ptr);
-    m_multi_copilot_plugin_ptr->set_paradox_task_ptr(m_paradox_task_ptr);
     m_subtasks.emplace_back(m_multi_copilot_plugin_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
@@ -137,6 +136,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
                     Log.warn("================  DEPRECATED  ================");
                     Log.warn("`is_paradox` has been deprecated since v5.27.3; Please move it to root");
                     Log.warn("================  DEPRECATED  ================");
+                    is_paradox_opt = old_paradox_opt;
+                    m_paradox_task_ptr->set_enable(*is_paradox_opt);
+                    break;
                 }
             }
         }
@@ -152,6 +154,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
             m_stage_name = Copilot.get_stage_name();
             if (auto result = Tile.find(m_stage_name); !result || !json::open(result->second)) {
                 return false;
+            }
+            if (is_paradox_opt && *is_paradox_opt) {
+                m_paradox_task_ptr->add_oper(m_stage_name);
             }
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.nav_name = stage_name;

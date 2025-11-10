@@ -7,8 +7,15 @@
 bool asst::ParadoxRecognitionTask::_run()
 {
     LogTraceFunction;
-    const auto& all_oper_names = BattleData.get_all_oper_names();
+    if (m_paradox_opers.empty()) {
+        LogError << __FUNCTION__ << "no paradox oper set";
+        return false;
+    }
+    m_navigate_name = standardize_name(m_paradox_opers.front());
+    LogInfo << __FUNCTION__ << "navigate name:" << m_navigate_name;
+    m_paradox_opers.erase(m_paradox_opers.begin());
 
+    const auto& all_oper_names = BattleData.get_all_oper_names();
     const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const std::string& name) {
         return BattleData.get_id(name).ends_with(m_navigate_name); // 应该没重复吧
     });
@@ -67,9 +74,9 @@ void asst::ParadoxRecognitionTask::enter_paradox(const int skill_num, const int 
     }
 }
 
-void asst::ParadoxRecognitionTask::set_navigate_name(const std::string& navigate_name)
+void asst::ParadoxRecognitionTask::add_oper(const std::string& navigate_name)
 {
-    m_navigate_name = standardize_name(navigate_name);
+    m_paradox_opers.emplace_back(navigate_name);
 }
 
 void asst::ParadoxRecognitionTask::swipe_page() const
