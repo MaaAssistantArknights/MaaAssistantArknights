@@ -89,6 +89,10 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 - Use wheels to zoom
 - After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
 
+### 로그 보기 기능
+
+VSCode 명령 팔레트에서 `Maa: Open Plugin Log`를 검색하여 실행하면 디버깅 중에 생성된 `maa.log` 로그를 볼 수 있습니다.
+
 ### Bottom status bar
 
 #### MaaSupport \[Extension Version\]
