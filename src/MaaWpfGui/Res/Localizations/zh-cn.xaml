@@ -424,6 +424,9 @@
     <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界园</system:String>
     <system:String x:Key="RoguelikeDifficulty">难度</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">解锁 ｢界园｣ 相关科技后，指挥分队在进行 N3 及以上难度 的探索时，会额外携带一个 ｢时光之末｣，可以利用其进行 ｢一战一跳｣ 的存钱策略。
+若尚未解锁该科技，请不要选择 N3 及以上难度（包括 ｢MAX｣）进行探索；
+若希望启用此机制，请确保选择的难度为 N3 及以上（不包括 ｢{key=NotSwitch} (-1)｣）。</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>

@@ -424,6 +424,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">界ガーデン（占位）</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する技術を解放すると、指揮分隊が N3 以上の難易度で探索を行う際、「時の終わり」を追加で携帯し、「一戦一跳」の貯蓄戦略を行うことができます。
+この技術をまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
+この機能を有効にするには、N3 以上の難易度を選択してください（「{key=NotSwitch} (-1)」は除く）。</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
