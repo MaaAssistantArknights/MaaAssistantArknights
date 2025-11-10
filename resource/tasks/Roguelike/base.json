@@ -19,7 +19,13 @@
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
-        "next": ["Roguelike", "Roguelike@CloseAnnos#next", "Roguelike@TodoEnter", "Roguelike@IntegratedStrategies", "Roguelike@ReturnButtons#next"],
+        "next": [
+            "Roguelike",
+            "Roguelike@CloseAnnos#next",
+            "Roguelike@TodoEnter",
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@ReturnButtons#next"
+        ],
         "postDelay": 3000
     },
     "RoguelikeBattleAbandon": {

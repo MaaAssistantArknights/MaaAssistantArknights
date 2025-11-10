@@ -1772,7 +1772,13 @@
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
         "exceededNext": ["Fight@TodaysSupplies", "Fight@CloseAnnos#next", "Stop"],
-        "next": ["Fight@GoLastBattle", "Fight", "Fight@CloseAnnos#next", "Fight@GoTerminalStopflag", "Fight@ReturnButtons#next"],
+        "next": [
+            "Fight@GoLastBattle",
+            "Fight",
+            "Fight@CloseAnnos#next",
+            "Fight@GoTerminalStopflag",
+            "Fight@ReturnButtons#next"
+        ],
         "postDelay": 3000
     },
     "GoTerminalStopflag": {
