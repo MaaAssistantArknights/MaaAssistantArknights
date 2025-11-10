@@ -38,11 +38,7 @@
             "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英阶段识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
             "其中 m 为本任务的 rectMove"
         ],
-        "template": [
-            "SupportListAnalyzer-Elite-2.png",
-            "SupportListAnalyzer-Elite-1.png",
-            "SupportListAnalyzer-Elite-0.png"
-        ],
+        "template": ["SupportListAnalyzer-Elite-2.png", "SupportListAnalyzer-Elite-1.png"],
         "templThreshold": 0.7,
         "maskRange": [1, 255],
         "method": "RGBCount",

@@ -74,22 +74,17 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         Matcher elite_analyzer(m_image);
         elite_analyzer.set_task_info(elite_task_ptr);
         elite_analyzer.set_roi(elite_roi);
-        if (!elite_analyzer.analyze()) [[unlikely]] {
-            Log.error(
-                "SupportListAnalyzer | Failed to analyze the current support unit's elite; skipping to the next one");
-#ifndef ASST_DEBUG
-            need_save_img = true;
-#endif
-            continue;
+        int elite = 0;
+        if (elite_analyzer.analyze()) {
+            std::optional<int> ret = get_suffix_num(elite_analyzer.get_result().templ_name);
+            if (!ret) [[unlikely]] {
+                Log.error(
+                    "SupportListAnalyzer",
+                    "| Failed to analyze the current support unit's elite; skipping to the next one");
+                continue;
+            }
+            elite = ret.value();
         }
-        std::optional<int> ret = get_suffix_num(elite_analyzer.get_result().templ_name);
-        if (!ret) [[unlikely]] {
-            Log.error(
-                "SupportListAnalyzer",
-                "| Failed to analyze the current support unit's elite; skipping to the next one");
-            continue;
-        }
-        const int elite = ret.value();
 
         // ————————————————————————————————————————————————————————————————
         // Level
@@ -141,7 +136,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 #endif
             continue;
         }
-        ret = get_suffix_num(potential_analyzer.get_result().front().templ_name);
+        std::optional<int> ret = get_suffix_num(potential_analyzer.get_result().front().templ_name);
         if (!ret) [[unlikely]] {
             Log.error(
                 "SupportListAnalyzer",
