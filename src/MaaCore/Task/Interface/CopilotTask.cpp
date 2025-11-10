@@ -106,9 +106,11 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     auto filename_opt = params.find<std::string>("filename");
-    auto multi_tasks_opt = params.find<json::value>("copilot_list"); // 多任务列表
-    bool is_paradox = params.get("is_paradox", false);
-    m_paradox_task_ptr->set_enable(is_paradox);
+    auto multi_tasks_opt = params.find<json::array>("copilot_list"); // 多任务列表
+    auto is_paradox_opt = params.find<bool>("is_paradox"); 
+    if (is_paradox_opt) {
+        m_paradox_task_ptr->set_enable(*is_paradox_opt);
+    }
     if (!filename_opt && !multi_tasks_opt) {
         Log.error("CopilotTask set_params failed, stage_name or filename not found");
         return false;
@@ -129,6 +131,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
     else if (multi_tasks_opt) {
         m_multi_copilot_plugin_ptr->set_enable(true); // 启用多任务插件, 自动覆盖Copilot中的配置
         m_battle_task_ptr->set_wait_until_end(true);
+        if (!is_paradox_opt) {
+            for (const auto& item : *multi_tasks_opt) {
+                if (auto old_paradox_opt = item.find<bool>("is_paradox"); old_paradox_opt) {
+                    Log.warn("================  DEPRECATED  ================");
+                    Log.warn("`is_paradox` has been deprecated since v5.27.3; Please move it to root");
+                    Log.warn("================  DEPRECATED  ================");
+                }
+            }
+        }
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
 
