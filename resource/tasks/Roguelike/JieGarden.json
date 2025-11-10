@@ -133,14 +133,19 @@
         "cache": true,
         "next": ["JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
     },
-    "JieGarden@Roguelike@CoppersExchangeConfirm": {
-        "Doc": "确认放弃/交换通宝的确认按钮",
-        "template": "JieGarden@Roguelike@CoppersExchangeConfirm.png",
+    "JieGarden@Roguelike@CoppersListDialogConfirm": {
+        "Doc": "通宝列表界面弹出的确认按钮",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
         "action": "ClickSelf",
         "roi": [832, 406, 311, 160],
         "postDelay": 1000,
         "templThreshold": 0.85,
-        "cache": true,
+        "cache": true
+    },
+    "JieGarden@Roguelike@CoppersExchangeConfirm": {
+        "Doc": "确认放弃/交换通宝的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
         "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
@@ -352,6 +357,52 @@
             ]
         ],
         "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersBox": {
+        "Doc": "钱盒按钮",
+        "template": "empty.png",
+        "roi": [348, 640, 465, 80],
+        "action": "ClickSelf"
+    },
+    "JieGarden@Roguelike@CoppersOpenBox": {
+        "Doc": "打开钱盒，可能出现在左下角或下方中间偏右",
+        "baseTask": "JieGarden@Roguelike@CoppersBox"
+    },
+    "JieGarden@Roguelike@CoppersCloseBox": {
+        "Doc": "关闭钱盒",
+        "baseTask": "JieGarden@Roguelike@CoppersBox"
+    },
+    "JieGarden@Roguelike@CoppersRecast": {
+        "Doc": "重新投钱",
+        "method": "HSVCount",
+        "roi": [1196, 70, 80, 56],
+        "colorScales": [
+            [
+                [0, 0, 160],
+                [10, 255, 255]
+            ],
+            [
+                [65, 0, 160],
+                [100, 255, 255]
+            ]
+        ],
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "next": ["JieGarden@Roguelike@CoppersRecastConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastConfirm": {
+        "Doc": "重新投钱的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "postDelay": 3000,
+        "next": ["JieGarden@Roguelike@CoppersRecastResult", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastResult": {
+        "Doc": "点击投钱结果界面的对号",
+        "action": "ClickSelf",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "postDelay": 500,
+        "roi": [1033, 462, 153, 155]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
         "algorithm": "OcrDetect",
