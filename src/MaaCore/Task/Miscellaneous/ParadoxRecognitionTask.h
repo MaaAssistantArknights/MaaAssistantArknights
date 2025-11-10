@@ -8,6 +8,16 @@ namespace asst
 {
 class ParadoxRecognitionTask : public AbstractTask
 {
+private:
+    struct OperName
+    {
+        std::string name;
+        std::string name_en;
+        std::string name_jp;
+        std::string name_kr;
+        std::string name_tw;
+    };
+
 public:
     using AbstractTask::AbstractTask;
     virtual ~ParadoxRecognitionTask() override = default;
@@ -24,7 +34,7 @@ private:
     static std::string standardize_name(const std::string& navigate_name);
     void enter_paradox(int skill_num, int rarity) const; // 进悖论模拟
 
-    json::object m_oper_name;
+    OperName m_oper_name;
     std::string m_navigate_name;
     asst::Rect m_navigate_rect;
     int m_skill_num;

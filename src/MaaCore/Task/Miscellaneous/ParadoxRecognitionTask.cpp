@@ -9,17 +9,17 @@ bool asst::ParadoxRecognitionTask::_run()
     LogTraceFunction;
     const auto& all_oper_names = BattleData.get_all_oper_names();
 
-    for (const auto& name : all_oper_names) {
-        if (BattleData.get_id(name).ends_with(m_navigate_name)) { // 应该没重复吧
-            m_oper_name = json::object {
-                { "name", name },
-                { "name_en", BattleData.get_en(name) },
-                { "name_jp", BattleData.get_jp(name) },
-                { "name_kr", BattleData.get_kr(name) },
-                { "name_tw", BattleData.get_tw(name) },
-            };
-            break;
-        }
+    const auto& it = std::find_if(all_oper_names.begin(), all_oper_names.end(), [&](const std::string& name) {
+        return BattleData.get_id(name).ends_with(m_navigate_name); // 应该没重复吧
+    });
+
+    if (it != all_oper_names.end()) {
+        const auto& name = *it;
+        m_oper_name = { name,
+                        BattleData.get_en(name),
+                        BattleData.get_jp(name),
+                        BattleData.get_kr(name),
+                        BattleData.get_tw(name) };
     }
 
     // 设置技能
@@ -37,7 +37,7 @@ bool asst::ParadoxRecognitionTask::_run()
     }
 
     return_initial_oper(); // 回干员列表（默认在最左侧）
-    const auto name = m_oper_name["name"].as_string();
+    const auto& name = m_oper_name.name;
     const auto role = BattleData.get_role(name);
     if (!click_role_table(role)) {
         return_initial_oper();
@@ -167,6 +167,6 @@ std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const 
 
 bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)
 {
-    return m_oper_name["name"] == name || m_oper_name["name_en"] == name || m_oper_name["name_jp"] == name ||
-           m_oper_name["name_kr"] == name || m_oper_name["name_tw"] == name;
+    return m_oper_name.name == name || m_oper_name.name_en == name || m_oper_name.name_jp == name ||
+           m_oper_name.name_kr == name || m_oper_name.name_tw == name;
 }
