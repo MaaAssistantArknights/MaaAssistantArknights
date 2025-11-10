@@ -107,6 +107,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     auto filename_opt = params.find<std::string>("filename");
     auto multi_tasks_opt = params.find<json::value>("copilot_list"); // 多任务列表
+    bool is_paradox = params.get("is_paradox", false);
+    m_paradox_task_ptr->set_enable(is_paradox);
     if (!filename_opt && !multi_tasks_opt) {
         Log.error("CopilotTask set_params failed, stage_name or filename not found");
         return false;
@@ -130,7 +132,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
         auto configs = static_cast<std::vector<MultiCopilotConfig>>(*multi_tasks_opt);
         std::vector<MultiCopilotTaskPlugin::MultiCopilotConfig> configs_cvt;
 
-        for (const auto& [filename, stage_name, is_raid, is_paradox] : configs) {
+        for (const auto& [filename, stage_name, is_raid] : configs) {
             MultiCopilotTaskPlugin::MultiCopilotConfig config_cvt;
             auto copilot_opt = parse_copilot_filename(filename);
             if (!copilot_opt) {
@@ -143,8 +145,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             config_cvt.copilot_file = *copilot_opt;
             config_cvt.nav_name = stage_name;
             config_cvt.is_raid = is_raid;
-            config_cvt.is_paradox = is_paradox;
-            m_paradox_task_ptr->set_enable(is_paradox);
             configs_cvt.emplace_back(std::move(config_cvt));
         }
 

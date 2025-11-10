@@ -16,7 +16,6 @@ public:
         std::filesystem::path copilot_file; // 文件名
         std::string nav_name;               // 关卡名
         bool is_raid = false;               // 是否是突袭
-        bool is_paradox = false;            // 是否是悖论模拟
     };
 
 public:

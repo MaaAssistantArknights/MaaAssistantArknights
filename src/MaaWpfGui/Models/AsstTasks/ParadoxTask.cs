@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
@@ -33,10 +32,11 @@ public class ParadoxTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 多作业列表, 导航至关卡 (启用自动战斗序列、取消代理), 不得与FileName同时使用
     /// </summary>
+    [JsonProperty("copilot_list")]
     public List<MultiTask> MultiTasks { get; set; } = [];
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
-        throw new NotImplementedException();
+        return (TaskType, JObject.FromObject(this));
     }
 }
