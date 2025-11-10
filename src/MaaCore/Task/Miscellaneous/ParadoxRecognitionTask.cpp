@@ -162,7 +162,7 @@ bool asst::ParadoxRecognitionTask::swipe_and_analyze()
     return false;
 }
 
-std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result)
+std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const std::vector<OperBoxInfo>& result) const
 {
     for (const auto& box_info : result) {
         if (match_oper(box_info.name)) {
@@ -172,7 +172,7 @@ std::optional<asst::Rect> asst::ParadoxRecognitionTask::match_from_result(const 
     return std::nullopt;
 }
 
-bool asst::ParadoxRecognitionTask::match_oper(const std::string& name)
+bool asst::ParadoxRecognitionTask::match_oper(const std::string& name) const
 {
     return m_oper_name.name == name || m_oper_name.name_en == name || m_oper_name.name_jp == name ||
            m_oper_name.name_kr == name || m_oper_name.name_tw == name;
