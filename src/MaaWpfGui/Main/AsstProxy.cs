@@ -1805,6 +1805,10 @@ public class AsstProxy
                             .Where(oper => !string.IsNullOrEmpty(oper))) + "]");
                 break;
 
+            case "BattleFormationParseFailed":
+                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationParseFailed"));
+                break;
+
             case "BattleFormationSelected":
                 {
                     var oper_name = DataHelper.GetLocalizedCharacterName(subTaskDetails!["selected"]?.ToString());
