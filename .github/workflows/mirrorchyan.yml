@@ -150,4 +150,4 @@ jobs:
           max-versions-to-keep: 0
           release-tag: ${{ env.RELEASE_TAG }}
           fork-user: MaaAssistantArknights
-          token: ${{ secrets.MAA_WINGET }}
+          token: ${{ secrets.MAABOT_WINGET_TOKEN }}
