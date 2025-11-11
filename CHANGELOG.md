@@ -1,4 +1,4 @@
-## v5.27.3
+## v5.27.4
 
 ### 难道说？ | Highlights
 
@@ -249,7 +249,7 @@ We have continued to fix numerous bugs; for example, the external notification f
 
 * 自动战斗新增组名重复检查 (#14710) @status102
 * 增加界园指挥分队存钱难度选择 tip @ABA2396
-* 喀兰小游戏界面提示、mac 小游戏 @hguandl @ABA2396
+* mac 增加小游戏入口 @hguandl @ABA2396
 
 ### 改进 | Improved
 
@@ -258,9 +258,8 @@ We have continued to fix numerous bugs; for example, the external notification f
 ### 修复 | Fix
 
 * 月度小队无法自动切换 @ABA2396
-* 小游戏 @hguandl
-* 齐聚也干了 @Saratoga-Official
-* 肉鸽中取消选中状态可能会点到二倍速、肉鸽ClickToDrops可能会点到藏品栏 @Saratoga-Official
+* 优化 ｢齐聚｣ 主题识别匹配 @Saratoga-Official @ABA2396
+* 肉鸽中取消选中状态可能会点到二倍速、肉鸽 ClickToDrops 可能会点到藏品栏 @Saratoga-Official
 
 ### 其他 | Other
 
