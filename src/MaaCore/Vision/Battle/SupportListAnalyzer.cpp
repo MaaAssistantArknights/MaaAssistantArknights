@@ -173,9 +173,10 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
             pixel_analyzer.set_roi(friendship_roi);
             pixel_analyzer.set_filter(PixelAnalyzer::Filter::HSV);
 
-            MatchTaskInfo::ColorRange color_range = std::get<MatchTaskInfo::ColorRange>(flag_task_ptr->color_scales[0]);
+            MatchTaskInfo::ColorRange color_range =
+                std::get<MatchTaskInfo::ColorRange>(friendship_task_ptr->color_scales[0]);
             pixel_analyzer.set_lb(color_range.first);
-            pixel_analyzer.set_lb(color_range.second);
+            pixel_analyzer.set_ub(color_range.second);
 
             if (pixel_analyzer.analyze()) {
                 friendship = Friendship::BestFriend;

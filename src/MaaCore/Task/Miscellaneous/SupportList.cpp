@@ -227,6 +227,7 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
                 "failed to select skill",
                 skill_level,
                 minimum_skill_level));
+        return false;
     }
 
     // ————————————————————————————————————————————————————————————————
