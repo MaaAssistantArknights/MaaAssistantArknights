@@ -565,13 +565,24 @@
         "next": ["JieGarden@Roguelike@StageEncounterEnter", "JieGarden@Roguelike@Stages#next"]
     },
     "JieGarden@Roguelike@StageDreadfulFoe": {
+        "Doc": "boss战 紫色系",
+        "method": "HSVCount",
+        "colorWithClose": false,
+        "colorScales": [
+            [
+                [100, 0, 40],
+                [140, 220, 255]
+            ],
+            [
+                [0, 0, 230],
+                [180, 30, 255]
+            ]
+        ],
         "roi": [705, 224, 307, 173]
     },
     "JieGarden@Roguelike@StageDreadfulFoe-5": {
-        "baseTask": "JieGarden@Roguelike@Stage",
+        "baseTask": "JieGarden@Roguelike@StageDreadfulFoe",
         "Doc": "boss战 红色系",
-        "method": "HSVCount",
-        "colorWithClose": false,
         "colorScales": [
             [
                 [0, 0, 50],
