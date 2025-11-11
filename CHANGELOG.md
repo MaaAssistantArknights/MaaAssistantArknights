@@ -1,4 +1,4 @@
-## v5.27.3
+## v5.27.4
 
 ### 难道说？ | Highlights
 
@@ -242,3 +242,26 @@ We have continued to fix numerous bugs; for example, the external notification f
 * use MaaUtils instead of Utils (#14579) @MistEO
 * add logs @MistEO
 * remove expired token @Constrat
+
+## v5.27.4
+
+### 新增 | New
+
+* 自动战斗新增组名重复检查 (#14710) @status102
+* 增加界园指挥分队存钱难度选择 tip @ABA2396
+* mac 增加小游戏入口 @hguandl @ABA2396
+
+### 改进 | Improved
+
+* 更新 243 极限效率一天三换排班表（20251111 修订） (#14708) @Zsm1n
+
+### 修复 | Fix
+
+* 月度小队无法自动切换 @ABA2396
+* 优化 ｢齐聚｣ 主题识别匹配 @Saratoga-Official @ABA2396
+* 肉鸽中取消选中状态可能会点到二倍速、肉鸽 ClickToDrops 可能会点到藏品栏 @Saratoga-Official
+
+### 其他 | Other
+
+* update dependabot with ci members @Constrat
+* preload AD for Global (#14700) @Constrat
