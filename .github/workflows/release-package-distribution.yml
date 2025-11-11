@@ -19,9 +19,6 @@ on:
         required: false
         default: true
 
-permissions:
-  contents: read
-
 env:
   RELEASE_TAG_RAW: ${{ github.event.inputs.release_tag || 'latest' }}
 
