@@ -682,6 +682,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
 
 bool asst::BattleFormationTask::parse_formation()
 {
+    std::set<std::string> group_names;
     json::value info = basic_info_with_what("BattleFormation");
     auto& details = info["details"];
     auto& formation = details["formation"];
@@ -700,6 +701,10 @@ bool asst::BattleFormationTask::parse_formation()
             continue;
         }
         formation.emplace(name);
+        if (!group_names.emplace(name).second) {
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("BattleFormationParseFailed"));
+            return false;
+        }
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
