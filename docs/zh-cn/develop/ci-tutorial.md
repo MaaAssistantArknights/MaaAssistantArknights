@@ -135,7 +135,7 @@ MAA 借助 Github Action 完成了大量的自动化工作，包括网站的构�
 
 MirrorChyan 是有偿的更新镜像服务，与其相关的工作流如下：
 
-- `mirrorchyan.yml` 同步更新包到 MirrorChyan
+- `release-package-distribution.yml` 同步更新包到 MirrorChyan
 - `mirrorchyan_release_note.yml` 生成 MirrorChyan 的 Release Note
 
 ### 其他

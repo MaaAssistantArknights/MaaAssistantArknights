@@ -1,0 +1,153 @@
+name: Release Package Distribution
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release Tag (empty for latest)"
+        type: string
+        required: false
+        default: ""
+      mirrorchyan:
+        description: "Upload to MirrorChyan"
+        type: boolean
+        required: false
+        default: true
+      winget:
+        description: "Upload to WinGet"
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+env:
+  RELEASE_TAG_RAW: ${{ github.event.inputs.release_tag || 'latest' }}
+
+jobs:
+  meta:
+    name: Define Release Tag
+    if: ${{ github.repository_owner == 'MaaAssistantArknights' }}
+    runs-on: ubuntu-latest
+
+    outputs:
+      RELEASE_TAG: ${{ steps.define_release_tag.outputs.RELEASE_TAG }}
+
+    steps:
+      - name: Get latest release tag
+        id: get_latest
+        if: ${{ env.RELEASE_TAG_RAW == 'latest' }}
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Define release tag
+        id: define_release_tag
+        run: |
+          if [ "${{ env.RELEASE_TAG_RAW }}" == "latest" ]; then
+            echo "RELEASE_TAG=${{ steps.get_latest.outputs.release }}" >> $GITHUB_OUTPUT
+          else
+            echo "RELEASE_TAG=${{ env.RELEASE_TAG_RAW }}" >> $GITHUB_OUTPUT
+          fi
+
+  mirrorchyan:
+    name: Upload to MirrorChyan
+    needs: meta
+    if: ${{ github.event.inputs.mirrorchyan == 'true' }}
+    runs-on: macos-latest
+    continue-on-error: true
+
+    env:
+      RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
+
+    steps:
+      - name: Upload MAA win x64
+        uses: MirrorChyan/uploading-action@v1
+        continue-on-error: true
+        with:
+          filetype: latest-release
+          filename: "*MAA-*-win-x64.zip"
+          tag: ${{ env.RELEASE_TAG }}
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: win
+          arch: x64
+
+      - name: Upload MAA win arm64
+        uses: MirrorChyan/uploading-action@v1
+        continue-on-error: true
+        with:
+          filetype: latest-release
+          filename: "*MAA-*-win-arm64.zip"
+          tag: ${{ env.RELEASE_TAG }}
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: win
+          arch: arm64
+
+      - name: Upload MAA macos arm64
+        uses: MirrorChyan/uploading-action@v1
+        continue-on-error: true
+        with:
+          filetype: latest-release
+          filename: "MAA-*-macos-universal.dmg"
+          extra_zip: true
+          tag: ${{ env.RELEASE_TAG }}
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: macos
+          arch: arm64
+
+      - name: Upload MAA macos x64
+        uses: MirrorChyan/uploading-action@v1
+        continue-on-error: true
+        with:
+          filetype: latest-release
+          filename: "MAA-*-macos-universal.dmg"
+          extra_zip: true
+          tag: ${{ env.RELEASE_TAG }}
+          mirrorchyan_rid: MAA
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: macos
+          arch: x64
+
+  winget:
+    name: Upload to WinGet
+    needs: meta
+    if: ${{ github.event.inputs.winget == 'true' }}
+    runs-on: windows-latest
+    continue-on-error: true
+
+    env:
+      RELEASE_TAG: ${{ needs.meta.outputs.RELEASE_TAG }}
+
+    steps:
+      - name: Upload MAA to WinGet
+        uses: vedantmgoyal9/winget-releaser@main
+        with:
+          identifier: MaaAssistantArknights.MaaAssistantArknights
+          version: ""
+          installers-regex: "-win-"
+          max-versions-to-keep: 0
+          release-tag: ${{ env.RELEASE_TAG }}
+          fork-user: MaaAssistantArknights
+          token: ${{ secrets.MAABOT_WINGET_TOKEN }}
