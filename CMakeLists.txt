@@ -4,10 +4,6 @@ project(MAA)
 
 include(src/MaaUtils/MaaUtils.cmake)
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
-endif()
-
 option(BUILD_WPF_GUI "build MaaWpfGui" ${WIN32})
 option(BUILD_DEBUG_DEMO "build debug demo" OFF)
 option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)

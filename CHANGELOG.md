@@ -1,4 +1,4 @@
-## v5.27.2
+## v5.27.4
 
 ### 难道说？ | Highlights
 
@@ -49,6 +49,8 @@ We have continued to fix numerous bugs; for example, the external notification f
 ----
 
 以下是详细内容：
+
+# 5.27.0
 
 ### 新增 | New
 
@@ -197,3 +199,69 @@ We have continued to fix numerous bugs; for example, the external notification f
 ### 其他 | Other
 
 * SideStoryStage ocrReplace @ABA2396
+
+## v5.27.3
+
+### 新增 | New
+
+* 肉鸽添加凛御银灰圣聆初雪招募逻辑 @Saratoga-Official
+* MaaCore 记录 Exception 时额外记录模块基址、Wpf i18n 字符串支持直接 string.Frmat @status102
+* 增加华硕 GTII、GTIII 显卡超频工具注入导致崩溃提示 @ABA2396
+* 战斗列表启用时, 浏览单个作业时自动添加到战斗列表 (#14625) @status102
+
+### 改进 | Improved
+
+* asst 增加 crash 时额外输出 core 版本, build 时间, 路径、空 stack trace 输出 @status102
+* 优化切换主题逻辑/流程 @ABA2396
+* 更好的随机点分布 (#14652) @MistEO
+
+### 修复 | Fix
+
+* 修复界园保留招募券在1080p下识别异常 (#14637) @travellerse
+* 提高干员部署滑动的最小时长，减少因模拟器丢帧导致的部署失败 @ABA2396
+* 肉鸽刷开局期望奖励无法动态隐藏/显示 @ABA2396
+* 给 mujica 擦屁股 @ABA2396
+* 部分情况下 钼铅 识别错误 @ABA2396
+* OS 小游戏回合结束改用 ocr @ABA2396
+* 结束回合按钮怎么还会闪烁啊 @ABA2396
+* 动画或卡顿导致概率无法使用无人机 @ABA2396
+* Wpf 增加悖论模拟模式非悖论作业检测 @status102
+* 界园入暂亭 ocrfix @Saratoga-Official
+* update to new data repo @Constrat
+* move to public arkntools repo for txwy @Constrat
+* update Sami floor regex fix 14630 (hopeful) @Constrat
+* move from Template to OcrDetect for BattleQuickFormationClear @Constrat
+* Exusiai Alter ocr regex for EN @Constrat
+* Dorothy S2 ocr regex @Constrat
+* JP 1ns ocr @Daydreamer114
+
+### 其他 | Other
+
+* wpf 拆分添加作业和作业集按钮 (#14624) @status102 @ABA2396
+* CropRoi -> ImageCropper (#14379) (#14647) @MistEO @lucienshawls
+* use MaaUtils instead of Utils (#14579) @MistEO
+* add logs @MistEO
+* remove expired token @Constrat
+
+## v5.27.4
+
+### 新增 | New
+
+* 自动战斗新增组名重复检查 (#14710) @status102
+* 增加界园指挥分队存钱难度选择 tip @ABA2396
+* mac 增加小游戏入口 @hguandl @ABA2396
+
+### 改进 | Improved
+
+* 更新 243 极限效率一天三换排班表（20251111 修订） (#14708) @Zsm1n
+
+### 修复 | Fix
+
+* 月度小队无法自动切换 @ABA2396
+* 优化 ｢齐聚｣ 主题识别匹配 @Saratoga-Official @ABA2396
+* 肉鸽中取消选中状态可能会点到二倍速、肉鸽 ClickToDrops 可能会点到藏品栏 @Saratoga-Official
+
+### 其他 | Other
+
+* update dependabot with ci members @Constrat
+* preload AD for Global (#14700) @Constrat

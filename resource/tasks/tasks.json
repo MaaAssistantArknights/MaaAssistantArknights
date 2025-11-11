@@ -2183,7 +2183,7 @@
             "AveMujica/Task.png",
             "Together/Task.png"
         ],
-        "templThreshold": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 0.8],
+        "templThreshold": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 0.9],
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
@@ -4086,7 +4086,7 @@
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [150, 0, 1000, 60],
+        "specificRect": [630, 0, 20, 20],
         "postDelay": 500
     },
     "BattleAvatarData": {
@@ -4171,7 +4171,7 @@
         "preDelay": 400,
         "postDelay": 150,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
-        "specialParams": [400, 100, 2, 0, 100],
+        "specialParams": [400, 100, 2, 0, 300],
         "specialParamsDoc": [
             "设置朝向时的滑动距离",
             "补偿距离上限",

@@ -500,7 +500,7 @@
     "Roguelike@ClickToDrops": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 50, 50],
+        "specificRect": [600, 600, 1, 1],
         "postDelay": 500,
         "next": [
             "Roguelike@DropsFlag",
@@ -1486,10 +1486,12 @@
     "Roguelike@StageTraderInvestSystemEnter": {
         "action": "ClickSelf",
         "roi": [417, 228, 502, 247],
+        "postDelay": 500,
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestConfirm",
-            "Roguelike@StageTraderInvestCancel"
+            "Roguelike@StageTraderInvestCancel",
+            "#self"
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {

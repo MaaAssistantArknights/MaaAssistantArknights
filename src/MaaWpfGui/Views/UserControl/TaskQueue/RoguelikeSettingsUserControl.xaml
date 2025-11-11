@@ -32,15 +32,23 @@
                 ItemsSource="{Binding RoguelikeThemeList}"
                 SelectedValue="{Binding RoguelikeTheme}"
                 SelectedValuePath="Value" />
-            <hc:ComboBox
-                Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource RoguelikeDifficulty}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Path=Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
-                ItemsSource="{Binding RoguelikeDifficultyList}"
-                ScrollViewer.CanContentScroll="False"
-                SelectedValue="{Binding RoguelikeDifficulty}"
-                SelectedValuePath="Value" />
+            <StackPanel Margin="0,5">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource RoguelikeDifficulty}" />
+                    <controls:TooltipBlock
+                        d:Visibility="Visible"
+                        TooltipText="{DynamicResource RoguelikeJieGardenDifficultyTip}"
+                        Visibility="{c:Binding '(RoguelikeMode == task:RoguelikeMode.Investment) and (RoguelikeTheme == task:RoguelikeTheme.JieGarden)',
+                                               Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
+                </StackPanel>
+                <hc:ComboBox
+                    DisplayMemberPath="Display"
+                    IsHitTestVisible="{Binding Path=Idle, Source={x:Static setting:TaskQueueViewModel.TaskSettingDataContext}}"
+                    ItemsSource="{Binding RoguelikeDifficultyList}"
+                    ScrollViewer.CanContentScroll="False"
+                    SelectedValue="{Binding RoguelikeDifficulty}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
@@ -215,7 +223,7 @@
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding RoguelikeStartAwards}"
                 SelectedValuePath="Value"
-                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwoRaw',
+                Visibility="{c:Binding 'RoguelikeMode == task:RoguelikeMode.Collectible and !RoguelikeOnlyStartWithEliteTwo',
                                        Source={x:Static ui:RoguelikeSettingsUserControlModel.Instance}}" />
             <CheckBox
                 Margin="0,10"
