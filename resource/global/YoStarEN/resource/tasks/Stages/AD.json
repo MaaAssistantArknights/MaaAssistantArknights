@@ -1,0 +1,8 @@
+{
+    "AD-OpenOcr": {
+        "text": ["Act", "Die", "Drama", "Eternity"]
+    },
+    "ADChapterToAD": {
+        "text": ["Performance", "PERFORMANCE", "Begins", "BEGINS"]
+    }
+}

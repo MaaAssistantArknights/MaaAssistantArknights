@@ -7,8 +7,8 @@
 
 bool asst::RoguelikeIterateDeepExplorationPlugin::load_params([[maybe_unused]] const json::value& params)
 {
-    auto iterateDE = params.find<bool>("deep_exploration_auto_iterate");
-    return m_config->get_mode() == RoguelikeMode::Exploration && iterateDE.value_or(false);
+    m_iterateDE = params.find<bool>("deep_exploration_auto_iterate").value_or(false);
+    return m_config->get_mode() == RoguelikeMode::Exploration;
 }
 
 bool asst::RoguelikeIterateDeepExplorationPlugin::verify(AsstMsg msg, const json::value& details) const

@@ -424,6 +424,9 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢JieGarden｣ technology, squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-jump｣ strategy.
+If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
+To enable this feature, make sure to select a difficulty of N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
@@ -1070,6 +1073,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>
     <system:String x:Key="Current">Current</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
+    <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">Module unavailable</system:String>

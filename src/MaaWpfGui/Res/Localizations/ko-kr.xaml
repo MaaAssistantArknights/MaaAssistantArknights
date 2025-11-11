@@ -424,6 +424,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「계원」 관련 기술을 해제하면, 지휘 분대가 N3 이상 난이도로 탐색할 때 추가로 「시간의 끝」을 휴대하여 「한 전투 한 점프」 저축 전략을 사용할 수 있습니다.
+아직 해당 기술을 해제하지 않았다면 N3 이상 난이도(「MAX」 포함)를 선택하지 마세요.
+이 기능을 사용하려면 N3 이상 난이도를 선택해야 합니다(「{key=NotSwitch} (-1)」제외).</system:String>
     <system:String x:Key="Strategy">전략</system:String>
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
@@ -1071,6 +1074,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="UseFormation">편성 사용</system:String>
     <system:String x:Key="Current">현재</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
+    <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
     <system:String x:Key="BattleFormationModuleUnavailable">모듈 사용 불가</system:String>
