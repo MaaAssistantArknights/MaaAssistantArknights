@@ -1486,10 +1486,12 @@
     "Roguelike@StageTraderInvestSystemEnter": {
         "action": "ClickSelf",
         "roi": [417, 228, 502, 247],
+        "postDelay": 500,
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestConfirm",
-            "Roguelike@StageTraderInvestCancel"
+            "Roguelike@StageTraderInvestCancel",
+            "#self"
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {
