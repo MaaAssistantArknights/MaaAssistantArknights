@@ -149,5 +149,5 @@ jobs:
           installers-regex: "-win-"
           max-versions-to-keep: 0
           release-tag: ${{ env.RELEASE_TAG }}
-          fork-user: lucienshawls
-          token: ${{ secrets.LUCIENSHAWLS_WINGET }}
+          fork-user: MaaAssistantArknights
+          token: ${{ secrets.MAA_WINGET }}
