@@ -40,6 +40,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          excludes: "draft"
 
       - name: Define release tag
         id: define_release_tag
