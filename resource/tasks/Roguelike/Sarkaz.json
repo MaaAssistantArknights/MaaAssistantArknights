@@ -468,10 +468,12 @@
         "roi": [848, 686, 46, 26]
     },
     "Sarkaz@Roguelike@SquadConfirm": {
+        "doc": "注意：在部分深入调查条目（如傀影主题的 <地面推进>）中有可能跳过招募组合直接开始初始招募",
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
         "next": [
             "Sarkaz@Roguelike@LastReward-EnterPoint",
             "Sarkaz@Roguelike@RolesDefault",
+            "Sarkaz@Roguelike@RecruitMain",
             "Sarkaz@Roguelike@CloseCollection",
             "Sarkaz@Roguelike@MapObject"
         ]
