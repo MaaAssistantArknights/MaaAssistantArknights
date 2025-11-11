@@ -562,7 +562,7 @@ jobs:
 
       - name: Trigger release distribution workflows
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan.yml \
+          gh workflow run --repo $GITHUB_REPOSITORY release-package-distribution.yml \
             -f release_tag="${{ needs.meta.outputs.tag }}" \
             -f mirrorchyan=true \
             -f winget=${{ needs.meta.outputs.prerelease == 'false' }}

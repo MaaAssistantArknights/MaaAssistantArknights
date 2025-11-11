@@ -136,7 +136,7 @@ This workflow checks whether commit messages in PRs conform to [Conventional Com
 
 MirrorChyan is a paid update mirror service, with the following related workflows:
 
-- `mirrorchyan.yml` Sync update packages to MirrorChyan
+- `release-package-distribution.yml` Sync update packages to MirrorChyan
 - `mirrorchyan_release_note.yml` Generate MirrorChyan Release Notes
 
 ### Others
