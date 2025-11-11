@@ -16,6 +16,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,10 +34,12 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using RecastConstants = MaaWpfGui.Constants.RecastConstants;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI;
@@ -48,6 +51,12 @@ public class ToolboxViewModel : Screen
 {
     private readonly RunningState _runningState;
     private static readonly ILogger _logger = Log.ForContext<ToolboxViewModel>();
+
+    /// <summary>
+    /// Gets the mini game recast settings model.
+    /// 小游戏重新投钱设置 model
+    /// </summary>
+    public static MiniGameRecastUserControlModel MiniGameRecastSettings { get; } = MiniGameRecastUserControlModel.Instance;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ToolboxViewModel"/> class.
@@ -1233,6 +1242,9 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
+    /// <summary>
+    /// Gets the list of available mini game tasks.
+    /// </summary>
     public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
     [
         new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" }, // 活动商店
@@ -1246,6 +1258,7 @@ public class ToolboxViewModel : Screen
         if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
         {
             AddIfNotExists("MiniGame@SPA", "MiniGame@SPA@Begin");
+            AddIfNotExists("MiniGame@CoppersRecast", "MiniGame@CoppersRecast@Begin");
         }
         else if (SettingsViewModel.GameSettings.ClientType is "YoStarEN" or "YoStarJP" or "YoStarKR")
         {
@@ -1299,6 +1312,11 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _miniGameTip, value);
     }
 
+    /// <summary>
+    /// Gets the tip text for the specified mini game task name.
+    /// </summary>
+    /// <param name="name">The mini game task name.</param>
+    /// <returns>The localized tip text for the mini game, or empty string if not found.</returns>
     private static string GetMiniGameTip(string name)
     {
         if (string.IsNullOrEmpty(name) || !MiniGameTaskList.Any(item => item.Value == name))
@@ -1323,15 +1341,27 @@ public class ToolboxViewModel : Screen
             "MiniGame@AT@ConversationRoom" => LocalizationHelper.GetString("MiniGame@AT@ConversationRoomTip"),
             "MiniGame@ALL@GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@GreenGrassTip"),
             "MiniGame@ALL@HoneyFruit@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@HoneyFruitTip"),
+
+            // 界园肉鸽重新投钱
+            "MiniGame@CoppersRecast@Begin" => LocalizationHelper.GetString("MiniGameNameRoguelikeCoppersRecastTip"),
             _ => string.Empty,
         };
     }
 
+    /// <summary>
+    /// Starts the mini game task.
+    /// UI 绑定的方法
+    /// </summary>
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
     }
 
+    /// <summary>
+    /// Starts the mini game task asynchronously.
+    /// If the task is RoguelikeCoppersRecast, it will pass the recast conditions to the task.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     private async Task StartMiniGameAsync()
     {
         if (!Idle)
@@ -1354,12 +1384,34 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
+        // If it's the recast task, pass the condition parameters
+        // 如果是重新投钱任务,传递条件参数
+        if (MiniGameTaskName == RecastConstants.TaskName)
+        {
+            caught = Instances.AsstProxy.AsstMiniGameWithConditions(MiniGameTaskName, MiniGameRecastSettings.RecastConditions.ToList());
+        }
+        else
+        {
+            caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
+        }
+
         if (!caught)
         {
             _runningState.SetIdle(true);
         }
     }
+
+    /// <summary>
+    /// Gets the list of recast metrics. This is a reference to the shared list in MiniGameRecastUserControlModel.
+    /// 重新投钱条件管理 - 指标列表
+    /// </summary>
+    public static ObservableCollection<CombinedData> RecastMetricList => MiniGameRecastUserControlModel.RecastMetricList;
+
+    /// <summary>
+    /// Gets the list of recast comparators. This is a reference to the shared list in MiniGameRecastUserControlModel.
+    /// 重新投钱条件管理 - 比较器列表
+    /// </summary>
+    public static ObservableCollection<CombinedData> RecastComparatorList => MiniGameRecastUserControlModel.RecastComparatorList;
 
     #endregion
 }
