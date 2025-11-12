@@ -288,7 +288,7 @@
             "｜ 若模组左上角等级的 Rect 为 r, 则干员模组选择状态识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
             "   其中 m 为本任务的 rectMove"
         ],
-        "template": "SupportList-DetailPanel-Selected",
+        "template": "SupportList-DetailPanel-Selected.png",
         "roi": [820, 433, 18, 16],
         "maskRange": [1, 255],
         "rectMove": [79, 1, 18, 16]
