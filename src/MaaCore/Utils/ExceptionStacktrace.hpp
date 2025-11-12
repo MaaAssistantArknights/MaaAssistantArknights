@@ -180,7 +180,6 @@ public:
     // 在异常抛出点捕获堆栈跟踪
     static std::string capture_current_stack_trace()
     {
-        std::string result;
         HANDLE process = GetCurrentProcess();
 
         // 初始化符号处理器
@@ -204,27 +203,31 @@ public:
         IMAGEHLP_LINE64 line = {};
         line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
 
-        result += "Current Stack Trace:\n";
-
+        std::vector<std::string> frame_strings;
+        int index = 0;
         for (USHORT i = 0; i < frames && i < 64; i++) {
-            result += std::format("  #{:2}: ", i);
+            std::string frame;
             DWORD64 address = (DWORD64)(stack[i]);
 
             // 获取符号信息
             DWORD64 displacement = 0;
             bool hasSymbol = SymFromAddr(process, address, &displacement, symbol);
             if (hasSymbol) {
-                result += std::format("{}+0x{:X}", symbol->Name, displacement);
+                frame = std::format("{}+0x{:X}", symbol->Name, displacement);
             }
             else {
-                result += "<unknown>";
+                frame = "<unknown>";
+            }
+
+            if (frame.starts_with("abort") || frame.starts_with("terminate")) {
+                index = i;
             }
 
             // 获取行号信息
             DWORD lineDisplacement = 0;
             bool hasLine = SymGetLineFromAddr64(process, address, &lineDisplacement, &line);
             if (hasLine) {
-                result += std::format(" at {}:{}", line.FileName, line.LineNumber);
+                frame += std::format(" at {}:{}", line.FileName, line.LineNumber);
             }
 
             // 获取模块信息
@@ -232,13 +235,18 @@ public:
             moduleInfo.SizeOfStruct = sizeof(moduleInfo);
             bool hasModule = SymGetModuleInfo64(process, address, &moduleInfo);
             if (hasModule) {
-                result += std::format(" [{}]", moduleInfo.ModuleName);
+                frame += std::format(" [{}]", moduleInfo.ModuleName);
             }
 
-            result += std::format(" (0x{:016X})\n", address);
+            frame += std::format(" (0x{:016X})\n", address);
+            frame_strings.emplace_back(std::move(frame));
         }
 
         SymCleanup(process);
+        std::string result = "Current Stack Trace:\n";
+        for (int i = index; i < frames; i++) {
+            result += std::format("  #{:2}: {}", i - index, frame_strings[i]);
+        }
         return result;
     }
 
