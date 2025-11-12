@@ -72,13 +72,7 @@ internal class BadModules
         }
 
         var allBadModules = GetBadInjectedModules();
-        var prevFound = ConfigFactory.Root.GUI.FoundBadModules.Split(";", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var suppressed = ConfigFactory.Root.GUI.SuppressedBadModules.Split(";", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        var newFoundBadModules = allBadModules.Where(x => !prevFound.Contains(x, StringComparer.InvariantCultureIgnoreCase)).ToArray();
-        var notSuppressedBadModules = allBadModules.Where(x => !suppressed.Contains(x, StringComparer.InvariantCultureIgnoreCase)).ToArray();
-        ConfigFactory.Root.GUI.FoundBadModules = string.Join(";", [.. prevFound, .. newFoundBadModules]);
-
-        if (notSuppressedBadModules.Length <= 0)
+        if (allBadModules.Length == 0)
         {
             return;
         }
@@ -104,26 +98,9 @@ internal class BadModules
             SizeToContent = true,
         };
 
-        if (newFoundBadModules.Length == 0)
-        {
-            // only show the "Do not show again" checkbox on the second time
-            page.Verification = new()
-            {
-                Text = LocalizationHelper.GetString("BadModules.Warning.DoNotShowAgain"),
-                Checked = false,
-            };
-        }
-
         TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
 
-        if (page.Verification?.Checked ?? false)
-        {
-            ConfigFactory.Root.GUI.SuppressedBadModules = string.Join(";", allBadModules);
-        }
-
-        return;
-
-        string BreakLongPath(string path, int maxLen)
+        static string BreakLongPath(string path, int maxLen)
         {
             if (path.Length <= maxLen)
             {
