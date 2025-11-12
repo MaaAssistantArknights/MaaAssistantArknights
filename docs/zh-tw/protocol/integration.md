@@ -290,12 +290,12 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 {
     "enable": bool,               // 是否啟用本任務，可選，預設值 true
     "filename": string,           // 單一作業 JSON 文件的路徑，與 copilot_list 二選一（必填）；相對路徑與絕對路徑均可
+    "is_paradox": bool,           // 是否為悖論模擬關卡
     "copilot_list": [             // 作業列表，與 filename 二選一（必填）；當 filename 與 copilot_list 同時存在時，忽視 copilot_list
         {
             "filename": string,   // 作業 JSON 文件的路徑；相對路徑與絕對路徑均可
             "stage_name": string, // 關卡名，具體請參考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切換為突襲模式
-            "is_paradox": bool    // 是否為悖論模擬關卡
+            "is_raid": bool       // 是否切換為突襲模式
         },
         ...
     ],

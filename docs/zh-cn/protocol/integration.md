@@ -508,12 +508,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 {
     "enable": bool,               // 是否启用本任务，可选，默认值 true
     "filename": string,           // 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可
+    "is_paradox": bool,           // 是否为悖论模拟关卡
     "copilot_list": [             // 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list
         {
             "filename": string,   // 作业 JSON 文件的路径；相对路径与绝对路径均可
             "stage_name": string, // 关卡名，具体请参考 [PRTS.Map](https://map.ark-nights.com)
-            "is_raid": bool,      // 是否切换为突袭模式
-            "is_paradox": bool    // 是否为悖论模拟关卡
+            "is_raid": bool       // 是否切换为突袭模式
         },
         ...
     ],

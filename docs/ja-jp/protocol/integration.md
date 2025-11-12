@@ -288,12 +288,12 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,               // このタスクを有効にするかどうか。任意、デフォルトは true。
     "filename": string,           // 単一作業の JSON ファイルパス。必須（copilot_list と排他）。相対パス・絶対パスどちらも使用可能。
+    "is_paradox": bool,           // パラドックスシミュレーションステージかどうか。
     "copilot_list": [             // 作業リスト。必須（filename と排他）。filename と copilot_list が同時に存在する場合、copilot_list は無視されます。
         {
             "filename": string,   // 作業 JSON ファイルのパス。相対パス・絶対パスどちらも使用可能。
             "stage_name": string, // ステージ名。[PRTS.Map](https://map.ark-nights.com) を参照。
-            "is_raid": bool,      // 突襲モード（チャレンジモード）に切り替えるかどうか。
-            "is_paradox": bool    // パラドックスシミュレーションステージかどうか。
+            "is_raid": bool       // 突襲モード（チャレンジモード）に切り替えるかどうか。
         },
         ...
     ],

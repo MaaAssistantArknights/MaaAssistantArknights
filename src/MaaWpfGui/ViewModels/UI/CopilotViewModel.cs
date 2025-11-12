@@ -1340,30 +1340,7 @@ public partial class CopilotViewModel : Screen
         bool ret = true;
         try
         {
-            if (UseCopilotList)
-            {
-                _copilotIdList.Clear();
-
-                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
-                {
-                    _copilotIdList.Add(i.CopilotId);
-                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, IsParadox = CopilotTabIndex == 2, };
-                });
-
-                var task = new AsstCopilotTask()
-                {
-                    MultiTasks = [.. t],
-                    Formation = _form,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    UseSanityPotion = _useSanityPotion,
-                };
-
-                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
-                ret = ret && Instances.AsstProxy.AsstStart();
-            }
-            else
+            if (!UseCopilotList)
             {
                 if (IsDataFromWeb)
                 {
@@ -1391,6 +1368,48 @@ public partial class CopilotViewModel : Screen
                     FormationIndex = UseFormation ? _formationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
+                ret = ret && Instances.AsstProxy.AsstStart();
+            }
+            else if (CopilotTabIndex == 2) // 悖论作业特殊处理
+            {
+                _copilotIdList.Clear();
+
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
+                {
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name, };
+                });
+
+                var task = new ParadoxTask()
+                {
+                    IsParadox = true,
+                    MultiTasks = [.. t],
+                };
+
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
+                ret = ret && Instances.AsstProxy.AsstStart();
+            }
+            else
+            {
+                _copilotIdList.Clear();
+
+                var t = CopilotItemViewModels.Where(i => i.IsChecked).Select(i =>
+                {
+                    _copilotIdList.Add(i.CopilotId);
+                    return new MultiTask { FileName = i.FilePath, IsRaid = i.IsRaid, StageName = i.Name };
+                });
+
+                var task = new AsstCopilotTask()
+                {
+                    MultiTasks = [.. t],
+                    Formation = _form,
+                    AddTrust = _addTrust,
+                    IgnoreRequirements = _ignoreRequirements,
+                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    UseSanityPotion = _useSanityPotion,
+                };
+
+                ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
                 ret = ret && Instances.AsstProxy.AsstStart();
             }
         }

@@ -280,12 +280,12 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 {
     "enable": bool,               // 이 작업을 활성화할지 여부. 선택 사항, 기본값은 true.
     "filename": string,           // 단일 작업 JSON 파일 경로. 필수 (copilot_list와 상호 배타). 상대 경로 및 절대 경로 모두 가능.
+    "is_paradox": bool,           // 역설 시뮬레이션 스테이지인지 여부.
     "copilot_list": [             // 작업 목록. 필수 (filename과 상호 배타). filename과 copilot_list가 모두 존재하면 copilot_list는 무시됩니다.
         {
             "filename": string,   // 작업 JSON 파일 경로. 상대 경로 및 절대 경로 모두 가능.
             "stage_name": string, // 스테이지 이름. 자세한 내용은 [PRTS.Map](https://map.ark-nights.com) 참고.
-            "is_raid": bool,      // 토벌(도전) 모드로 전환할지 여부.
-            "is_paradox": bool    // 역설 시뮬레이션 스테이지인지 여부.
+            "is_raid": bool       // 토벌(도전) 모드로 전환할지 여부.
         },
         ...
     ],
