@@ -607,11 +607,13 @@
         "text": []
     },
     "Sami@Roguelike@SquadConfirm": {
+        "doc": "注意：在部分深入调查条目（如傀影主题的 <地面推进>）中有可能跳过招募组合直接开始初始招募",
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
             "Sami@Roguelike@LastReward-EnterPoint",
             "Sami@Roguelike@GetLUD",
             "Sami@Roguelike@RolesDefault",
+            "Sami@Roguelike@RecruitMain",
             "Sami@Roguelike@CloseCollection",
             "Sami@Roguelike@MapObject",
             "Sami@Roguelike@FoldartalGain"

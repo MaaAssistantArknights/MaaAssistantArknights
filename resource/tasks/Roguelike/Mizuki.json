@@ -307,10 +307,12 @@
         "text": ["生态谱系"]
     },
     "Mizuki@Roguelike@SquadConfirm": {
+        "doc": "注意：在部分深入调查条目（如傀影主题的 <地面推进>）中有可能跳过招募组合直接开始初始招募",
         "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward-EnterPoint",
             "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@RecruitMain",
             "Mizuki@Roguelike@CloseCollection",
             "Mizuki@Roguelike@MapObject"
         ]
