@@ -10,9 +10,11 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
 {
     LogTraceFunction;
 
+    static constexpr std::string_view LOG_PREFIX = "SupportListAnalyzer";
+
     MultiMatcher::ResultsVecOpt support_unit_analyze_ret = analyze_support_units(m_image);
     if (!support_unit_analyze_ret) {
-        Log.error(__FUNCTION__, "| Failed to recognise any support unit");
+        Log.error(LOG_PREFIX, "| Failed to recognise any support unit");
         save_img(m_image, "m_image");
         return false;
     }
@@ -52,8 +54,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         name_analyzer.set_task_info(name_task_ptr);
         name_analyzer.set_roi(name_roi);
         if (!name_analyzer.analyze()) [[unlikely]] {
-            Log.error(
-                "SupportListAnalyzer | Failed to recognise the current support unit's name; skipping to the next one");
+            Log.error(LOG_PREFIX,"| Failed to recognise the current support unit's name; skipping to the next one");
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -78,9 +79,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         if (elite_analyzer.analyze()) {
             std::optional<int> ret = get_suffix_num(elite_analyzer.get_result().templ_name);
             if (!ret) [[unlikely]] {
-                Log.error(
-                    "SupportListAnalyzer",
-                    "| Failed to analyze the current support unit's elite; skipping to the next one");
+                Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's elite; skipping to the next one");
                 continue;
             }
             elite = ret.value();
@@ -98,8 +97,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         level_analyzer.set_task_info(level_task_ptr);
         level_analyzer.set_roi(level_roi);
         if (!level_analyzer.analyze()) [[unlikely]] {
-            Log.error(
-                "SupportListAnalyzer | Failed to recognise the current support unit's level; skipping to the next one");
+            Log.error(LOG_PREFIX, "| Failed to recognise the current support unit's level; skipping to the next one");
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -107,9 +105,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
         int level = 0;
         if (!utils::chars_to_number(level_analyzer.get_result().text, level)) {
-            Log.error("SupportListAnalyzer | Failed to convert text", level_analyzer.get_result().text, "to number");
-            Log.error(
-                "SupportListAnalyzer | Failed to analyze the current support unit's level; skipping to the next one");
+            Log.error(LOG_PREFIX, "| Failed to convert text", level_analyzer.get_result().text, "to number");
+            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's level; skipping to the next one");
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -127,10 +124,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         MultiMatcher potential_analyzer(m_image);
         potential_analyzer.set_task_info(potential_task_ptr);
         potential_analyzer.set_roi(potential_roi);
-        if (!potential_analyzer.analyze()) {
-            Log.error(
-                "SupportListAnalyzer",
-                "| Failed to analyze the current support unit's potential; skipping to the next one");
+        if (!potential_analyzer.analyze()) [[unlikely]] {
+            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's potential; skipping to the next one");
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
@@ -138,9 +133,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
         std::optional<int> ret = get_suffix_num(potential_analyzer.get_result().front().templ_name);
         if (!ret) [[unlikely]] {
-            Log.error(
-                "SupportListAnalyzer",
-                "| Failed to analyze the current support unit's potential; skipping to the next one");
+            Log.error(LOG_PREFIX, "| Failed to analyze the current support unit's potential; skipping to the next one");
             continue;
         }
         const int potential = ret.value();
