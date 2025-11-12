@@ -17,8 +17,8 @@
     "SupportListAnalyzer-Flag": {
         "doc": [
             "识别助战栏位时，应用于 MultiMatcher 的配置任务",
-            "识别每个助战干员栏位底部的 Icon，后续根据相对位置识别其他信息",
-            "模版列表首项表示好友助战: .from_friend = (templ_name == flag_task_ptr->templ_names.at(0))"
+            "识别每个助战栏位底部的 Icon，后续根据相对位置识别其他信息",
+            "匹配模版为模版列表首项时，该助战干员提供者为好友；后续可利用 SupportListAnalyzer-Friendship 进一步识别是否为挚友"
         ],
         "template": ["SupportListAnalyzer-Flag-Friend.png", "SupportListAnalyzer-Flag-Stranger.png"],
         "roi": [95, 606, 1185, 50],
