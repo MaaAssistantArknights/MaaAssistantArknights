@@ -31,6 +31,26 @@ set_target_properties(MaaCore PROPERTIES PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 
+# 收集resource/tasks目录下的所有文件作为资源
+file(GLOB_RECURSE TASKS_RESOURCE_FILES 
+    "${PROJECT_SOURCE_DIR}/resource/tasks/*"
+)
+
+# 将资源文件添加到MaaCore目标，但不参与编译
+target_sources(MaaCore PRIVATE ${TASKS_RESOURCE_FILES})
+
+# 设置这些文件的属性，使它们不参与编译
+set_source_files_properties(${TASKS_RESOURCE_FILES} PROPERTIES
+    HEADER_FILE_ONLY TRUE
+    VS_TOOL_OVERRIDE "None"
+)
+
+# 使用source_group创建正确的文件夹结构
+source_group(TREE "${PROJECT_SOURCE_DIR}/resource/tasks" 
+    PREFIX "Resource Files/tasks/CN" 
+    FILES ${TASKS_RESOURCE_FILES}
+)
+
 if(WIN32)
     # 注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
     target_compile_definitions(MaaCore PRIVATE ASST_DLL_EXPORTS _UNICODE UNICODE)
