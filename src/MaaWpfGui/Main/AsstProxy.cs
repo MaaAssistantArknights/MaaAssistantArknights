@@ -926,9 +926,16 @@ public class AsstProxy
                     else
                     {
                         var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                        Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error);
-                        ToastNotification.ShowDirect(log);
+                        Task.Run(async () =>
+                        {
+                            var screenshot = await AsstGetImageAsync();
+                            Execute.OnUIThread(() =>
+                            {
+                                Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip());
+                            });
+                        });
 
+                        ToastNotification.ShowDirect(log);
                         if (SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenError)
                         {
                             ExternalNotificationService.Send(log, log);
