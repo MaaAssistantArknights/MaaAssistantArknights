@@ -242,7 +242,7 @@
             "| specialParams[1]: 识别二技能所用的 roi.x",
             "| specialParams[2]: 识别三技能所用的 roi.x"
         ],
-        "template": "SupportList-DetailPanel-Selected",
+        "template": "SupportList-DetailPanel-Selected.png",
         "roi": [1052, 256, 18, 16],
         "maskRange": [1, 255],
         "specialParams": [822, 937, 1052]
