@@ -42,9 +42,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(rect), cv::Scalar(0, 255, 0), 2);
 #endif
 
-        // ————————————————————————————————————————————————————————————————
-        // Name
-        // ————————————————————————————————————————————————————————————————
+        // ——————————————————————————————————————————————————— name ———————————————————————————————————————————————————
         const Rect name_roi = rect.move(name_task_ptr->rect_move);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(name_roi), cv::Scalar(0, 255, 0), 2);
@@ -64,9 +62,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         // canonical_oper_name 函数根据 role 对干员名进行消歧义，目前仅用于区分不同升变形态下的阿米娅
         const std::string name = canonical_oper_name(role, name_analyzer.get_result().text);
 
-        // ————————————————————————————————————————————————————————————————
-        // Elite
-        // ————————————————————————————————————————————————————————————————
+        // —————————————————————————————————————————————————— elite ——————————————————————————————————————————————————
         const Rect elite_roi = rect.move(elite_task_ptr->rect_move);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(elite_roi), cv::Scalar(0, 255, 0), 2);
@@ -85,9 +81,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
             elite = ret.value();
         }
 
-        // ————————————————————————————————————————————————————————————————
-        // Level
-        // ————————————————————————————————————————————————————————————————
+        // —————————————————————————————————————————————————— level ——————————————————————————————————————————————————
         const Rect level_roi = rect.move(level_task_ptr->rect_move);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(level_roi), cv::Scalar(0, 255, 0), 2);
@@ -113,9 +107,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
             continue;
         }
 
-        // ————————————————————————————————————————————————————————————————
-        // Potential
-        // ————————————————————————————————————————————————————————————————
+        // ———————————————————————————————————————————————— potential ————————————————————————————————————————————————
         const Rect potential_roi = rect.move(potential_task_ptr->rect_move);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(potential_roi), cv::Scalar(0, 255, 0), 2);
@@ -138,9 +130,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         }
         const int potential = ret.value();
 
-        // ————————————————————————————————————————————————————————————————
-        // Module Status
-        // ————————————————————————————————————————————————————————————————
+        // —————————————————————————————————————————————— module status ——————————————————————————————————————————————
         const Rect module_status_roi = rect.move(module_status_task_ptr->rect_move);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(module_status_roi), cv::Scalar(0, 255, 0), 2);
@@ -151,9 +141,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         module_analyzer.set_roi(module_status_roi);
         const bool module_enabled = !module_analyzer.analyze();
 
-        // ————————————————————————————————————————————————————————————————
-        // Friendship
-        // ————————————————————————————————————————————————————————————————
+        // ———————————————————————————————————————————————— friendship ————————————————————————————————————————————————
         Friendship friendship;
 
         if (templ_name == flag_task_ptr->templ_names[0]) {
@@ -181,8 +169,8 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         else {
             friendship = Friendship::Stranger;
         }
+        // ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-        // ————————————————————————————————————————————————————————————————
         Rect templ_rect = templ_task_ptr->specific_rect;
         templ_rect.x = rect.x;
 
@@ -225,9 +213,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
 {
     LogTraceFunction;
 
-    // ————————————————————————————————————————————————————————————————
-    // handle special cases
-    // ————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————— handle special cases —————————————————————————————————————————————
     const int last_support_unit_x_in_new_img = get_last_support_unit_x(new_img);
     if (last_support_unit_x_in_new_img == UNDEFINED) [[unlikely]] {
         Log.error(__FUNCTION__, "| No support unit is recognised in new_img; failed to merge images");
@@ -252,9 +238,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
         return std::nullopt;
     }
 
-    // ————————————————————————————————————————————————————————————————
-    // initialise m_last_support_unit_x when needed
-    // ————————————————————————————————————————————————————————————————
+    // ————————————————————————————————— initialise m_last_support_unit_x when needed —————————————————————————————————
     if (m_last_support_unit_x == UNDEFINED) {
         Log.info(__FUNCTION__, "| Initialising m_last_support_unit_x...");
         const int last_support_unit_x = get_last_support_unit_x(m_image);
@@ -267,9 +251,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
         set_last_support_unit_x(last_support_unit_x);
     }
 
-    // ————————————————————————————————————————————————————————————————
-    // calculate offset and rel_x
-    // ————————————————————————————————————————————————————————————————
+    // —————————————————————————————————————————— calculate offset and rel_x ——————————————————————————————————————————
     Rect overlap_rect_in_m_image = Task.get<MatchTaskInfo>("SupportListAnalyzer-SupportUnit")->specific_rect;
     overlap_rect_in_m_image.x = m_last_support_unit_x;
     cv::Mat overlap_option_templ = make_roi(m_image, overlap_rect_in_m_image);
@@ -291,9 +273,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     }
     const int rel_x = m_image.cols + offset - new_img.cols;
 
-    // ————————————————————————————————————————————————————————————————
-    // prepare overlay rects
-    // ————————————————————————————————————————————————————————————————
+    // ———————————————————————————————————————————— prepare overlay rects ————————————————————————————————————————————
     cv::Rect overlay_rect { overlap_rect_in_new_img.x,
                             overlap_rect_in_new_img.y,
                             new_img.cols - overlap_rect_in_new_img.x,
@@ -301,9 +281,7 @@ std::optional<int> asst::SupportListAnalyzer::merge_image(const cv::Mat& new_img
     cv::Rect overlay_rect_in_merged_image = overlay_rect;
     overlay_rect_in_merged_image.x = m_last_support_unit_x;
 
-    // ————————————————————————————————————————————————————————————————
-    // merge images
-    // ————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————— merge images —————————————————————————————————————————————————
     cv::Mat merged_image = cv::Mat { m_image.rows, m_image.cols + offset, m_image.type(), cv::Scalar(0) };
     m_image.copyTo(merged_image(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
     new_img(overlay_rect).copyTo(merged_image(overlay_rect_in_merged_image));

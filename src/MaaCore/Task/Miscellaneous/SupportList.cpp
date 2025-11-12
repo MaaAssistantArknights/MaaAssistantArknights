@@ -197,9 +197,7 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
         return false;
     }
 
-    // ————————————————————————————————————————————————————————————————
-    // Check Skill Level
-    // ————————————————————————————————————————————————————————————————
+    // —————————————————————————————————————————————— check skill level ——————————————————————————————————————————————
     MatchTaskPtr skill_level_task = Task.get<MatchTaskInfo>("SupportList-DetailPanel-SkillLevel");
     Matcher skill_level_analyzer(ctrler()->get_image());
     skill_level_analyzer.set_task_info(skill_level_task);
@@ -230,9 +228,7 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
         return false;
     }
 
-    // ————————————————————————————————————————————————————————————————
-    // Select Skill
-    // ————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————— select skill —————————————————————————————————————————————————
     ctrler()->click(skill_level_analyzer.get_result().rect);
     sleep(Config.get_options().task_delay);
 
@@ -269,9 +265,7 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
         return false;
     }
 
-    // ————————————————————————————————————————————————————————————————
-    // Find Module
-    // ————————————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————— find module —————————————————————————————————————————————————
     ProcessTask(*this, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
 
     if (module == OperModule::Original) {
@@ -299,9 +293,7 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
             if (module_ != module) {
                 continue;
             }
-            // ————————————————————————————————————————————————————————————————
-            // Check Module Level
-            // ————————————————————————————————————————————————————————————————
+            // —————————————————————————————————————————— check module level ——————————————————————————————————————————
             if (module_level < minimum_module_level) {
                 Log.info(
                     __FUNCTION__,
@@ -314,9 +306,7 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
                 return false;
             }
 
-            // ————————————————————————————————————————————————————————————————
-            // Select Module
-            // ————————————————————————————————————————————————————————————————
+            // ———————————————————————————————————————————— select module ————————————————————————————————————————————
             ctrler()->click(rect);
             sleep(Config.get_options().task_delay);
 
