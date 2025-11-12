@@ -35,21 +35,41 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${maa_src})
 file(GLOB_RECURSE TASKS_RESOURCE_FILES 
     "${PROJECT_SOURCE_DIR}/resource/tasks/*"
 )
+file(GLOB_RECURSE GLOBAL_TASKS_RESOURCE_FILES 
+    "${PROJECT_SOURCE_DIR}/resource/global/*/resource/tasks/*"
+)
 
 # 将资源文件添加到MaaCore目标，但不参与编译
 target_sources(MaaCore PRIVATE ${TASKS_RESOURCE_FILES})
-
-# 设置这些文件的属性，使它们不参与编译
-set_source_files_properties(${TASKS_RESOURCE_FILES} PROPERTIES
-    HEADER_FILE_ONLY TRUE
-    VS_TOOL_OVERRIDE "None"
-)
+target_sources(MaaCore PRIVATE ${GLOBAL_TASKS_RESOURCE_FILES})
 
 # 使用source_group创建正确的文件夹结构
 source_group(TREE "${PROJECT_SOURCE_DIR}/resource/tasks" 
     PREFIX "Resource Files/tasks/CN" 
     FILES ${TASKS_RESOURCE_FILES}
 )
+
+# 为GLOBAL_TASKS_RESOURCE_FILES创建特殊的文件夹结构
+foreach(GLOBAL_FILE ${GLOBAL_TASKS_RESOURCE_FILES})
+    # 从完整路径中提取A部分：${PROJECT_SOURCE_DIR}/resource/global/A/resource/tasks/xxx
+    string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/resource/global/([^/]+)/resource/tasks/.*" "\\1" FOLDER_NAME "${GLOBAL_FILE}")
+    
+    # 获取相对于resource/tasks的文件路径部分
+    string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/resource/global/[^/]+/resource/tasks/(.*)" "\\1" REL_FILE_PATH "${GLOBAL_FILE}")
+    
+    # 获取文件的目录部分
+    get_filename_component(FILE_DIR "${REL_FILE_PATH}" DIRECTORY)
+    
+    # 构建VS中的显示路径
+    if(FILE_DIR)
+        set(VS_GROUP "Resource Files/tasks/${FOLDER_NAME}/${FILE_DIR}")
+    else()
+        set(VS_GROUP "Resource Files/tasks/${FOLDER_NAME}")
+    endif()
+    
+    # 设置单个文件的source_group
+    source_group("${VS_GROUP}" FILES "${GLOBAL_FILE}")
+endforeach()
 
 if(WIN32)
     # 注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
