@@ -35,7 +35,7 @@ private:
     void enter_paradox(int skill_num, int rarity) const; // 进悖论模拟
 
     std::vector<std::string> m_paradox_opers;
-    OperName m_oper_name;
+    OperName m_oper_name {};
     std::string m_navigate_name;
     asst::Rect m_navigate_rect;
     int m_skill_num;
