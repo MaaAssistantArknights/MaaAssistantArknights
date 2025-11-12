@@ -334,19 +334,15 @@ struct SupportUnit
 inline static std::string canonical_oper_name(battle::Role role, const std::string& literal_name)
 {
     using battle::Role;
-    static const std::unordered_map<std::string, std::unordered_map<Role, std::string>> CanonicalOperNameDict {
-        { "阿米娅",
-          {
-              { Role::Caster, "阿米娅" },
-              { Role::Warrior, "阿米娅-WARRIOR" },
-              { Role::Medic, "阿米娅-MEDIC" },
-          } },
-    };
+    static const std::unordered_map<std::pair<Role, std::string>, std::string, std::pair_hash<Role, std::string>>
+        CanonicalOperNameDict {
+            { { Role::Caster, "阿米娅" }, "阿米娅" },
+            { { Role::Warrior, "阿米娅" }, "阿米娅-WARRIOR" },
+            { { Role::Medic, "阿米娅" }, "阿米娅-MEDIC" },
+        };
 
-    if (const auto iter = CanonicalOperNameDict.find(literal_name); iter != CanonicalOperNameDict.end()) {
-        if (const auto role_iter = iter->second.find(role); role_iter != iter->second.end()) {
-            return role_iter->second;
-        }
+    if (const auto iter = CanonicalOperNameDict.find({ role, literal_name }); iter != CanonicalOperNameDict.end()) {
+        return iter->second;
     }
 
     return literal_name;
