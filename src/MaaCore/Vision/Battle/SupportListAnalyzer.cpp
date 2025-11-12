@@ -52,7 +52,7 @@ bool asst::SupportListAnalyzer::analyze(const battle::Role role)
         name_analyzer.set_task_info(name_task_ptr);
         name_analyzer.set_roi(name_roi);
         if (!name_analyzer.analyze()) [[unlikely]] {
-            Log.error(LOG_PREFIX,"| Failed to recognise the current support unit's name; skipping to the next one");
+            Log.error(LOG_PREFIX, "| Failed to recognise the current support unit's name; skipping to the next one");
 #ifndef ASST_DEBUG
             need_save_img = true;
 #endif
