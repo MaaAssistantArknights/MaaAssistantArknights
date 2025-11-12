@@ -260,7 +260,6 @@ jobs:
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
         with:
-          os: ubuntu-latest
           target_arch: ${{ matrix.arch }}
 
       - name: Build CLI
