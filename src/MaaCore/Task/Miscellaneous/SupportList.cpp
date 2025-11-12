@@ -236,14 +236,9 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
     ctrler()->click(skill_level_analyzer.get_result().rect);
     sleep(Config.get_options().task_delay);
 
-    const MatchTaskPtr skill_selected_task = Task.get<MatchTaskInfo>("SupportList-DetailPanel-SkillSelected");
     Matcher skill_selected_analyzer(ctrler()->get_image());
-    skill_selected_analyzer.set_task_info(skill_selected_task);
-    Rect skill_selected_roi = skill_selected_task->roi;
-    skill_selected_roi.x = skill_selected_task->special_params[skill - 1];
-    skill_selected_analyzer.set_roi(skill_selected_roi);
-
-    if (!skill_selected_analyzer.analyze()) {
+    skill_selected_analyzer.set_task_info("SupportList-DetailPanel-SkillSelected-" + std::to_string(skill));
+    if (!skill_selected_analyzer.analyze()) [[unlikely]] {
         Log.error(__FUNCTION__, std::format("| Skill {} did not respond to the click; failed to select skill", skill));
         return false;
     }

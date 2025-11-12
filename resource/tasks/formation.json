@@ -17,8 +17,7 @@
     "SupportListAnalyzer-Flag": {
         "doc": [
             "识别助战栏位时，应用于 MultiMatcher 的配置任务",
-            "识别每个助战干员栏位底部的 Icon，后续根据相对位置识别其他信息",
-            "模版列表首项表示好友助战: .from_friend = (templ_name == flag_task_ptr->templ_names.at(0))"
+            "识别每个助战干员底部的 Icon, 图片为 template[0] 时为好友助战"
         ],
         "template": ["SupportListAnalyzer-Flag-Friend.png", "SupportListAnalyzer-Flag-Stranger.png"],
         "roi": [95, 606, 1185, 50],
@@ -235,17 +234,24 @@
         "roi": [735, 249, 26, 26],
         "specialParams": [735, 850, 965]
     },
-    "SupportList-DetailPanel-SkillSelected": {
-        "doc": [
-            "在助战干员详情界面识别已被选择技能右上角的图案",
-            "| specialParams[0]: 识别一技能所用的 roi.x",
-            "| specialParams[1]: 识别二技能所用的 roi.x",
-            "| specialParams[2]: 识别三技能所用的 roi.x"
-        ],
-        "template": "SupportList-DetailPanel-Selected",
-        "roi": [1052, 256, 18, 16],
+    "SupportList-DetailPanel-SkillSelected-1": {
+        "doc": "在助战干员详情界面识别已被选择技能右上角的图案",
+        "template": "SupportList-DetailPanel-Selected.png",
+        "roi": [822, 256, 18, 16],
         "maskRange": [1, 255],
         "specialParams": [822, 937, 1052]
+    },
+    "SupportList-DetailPanel-SkillSelected-2": {
+        "baseTask": "SupportList-DetailPanel-SkillSelected-1",
+        "template": "SupportList-DetailPanel-Selected.png",
+        "roi": [937, 256, 18, 16],
+        "maskRange": [1, 255]
+    },
+    "SupportList-DetailPanel-SkillSelected-3": {
+        "baseTask": "SupportList-DetailPanel-SkillSelected-1",
+        "template": "SupportList-DetailPanel-Selected.png",
+        "roi": [1052, 256, 18, 16],
+        "maskRange": [1, 255]
     },
     "SupportList-DetailPanel-ModuleLevel": {
         "doc": "在助战干员详情界面识别模组等级，roi 为后续检查选择状态留了空间",
@@ -259,8 +265,7 @@
     "SupportList-DetailPanel-Module": {
         "doc": [
             "在助战干员详情界面识别已被选择模组编号（希腊字母）",
-            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组编号识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
-            "   其中 m 为本任务的 rectMove"
+            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组编号识别用 roi 为 r.move(me.rectMove) = [r.x + me.x, r.y + me,y, me.w, me.h]"
         ],
         "template": [
             "SupportList-DetailPanel-Module-Chi_1.png",
@@ -285,8 +290,7 @@
         "doc": [
             "在助战干员详情界面识别已被选择模组右上角的图案",
             "｜ 当视图处于模组列表头部时，roi 可用于检查 Original 的选择状态",
-            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组选择状态识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
-            "   其中 m 为本任务的 rectMove"
+            "｜ 若模组左上角等级的 Rect 为 r, 则干员模组选择状态识别用 roi 为 r.move(me.rectMove) = [r.x + me.x, r.y + me,y, me.w, me.h]"
         ],
         "template": "SupportList-DetailPanel-Selected.png",
         "roi": [820, 433, 18, 16],
