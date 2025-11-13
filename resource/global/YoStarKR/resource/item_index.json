@@ -2007,6 +2007,14 @@
         "sortId": -10000,
         "usage": "양육 신전의 계성 작업이 활발히 진행됨에 따라, 생명체와 무생물 모두에게 광륜이 생겨났다. 처음 광륜을 얻은 쪽쪽이는 양육 신전을 떠돌아다니며 수많은 아기들이 잠을 이루지 못하게 하고 있다. 당신이 그것들을 원래 자리로 돌아가게 한다면, 애먹고 있는 보육사들은 흔쾌히 답례를 선물할 것이다."
     },
+    "act43side_token_phantom": {
+        "classifyType": "NONE",
+        "description": "저건 도대체 뭐지? 유령? 소품? 환각? 아니면 어떤 *랭크우드 촬영장 은어*가 키우는 애완동물? 아무도 알지 못한다. 미스 크리스틴은 그저 두 갈래 꼬리를 살랑이며 한가롭게 일광욕을 즐길 뿐이다.",
+        "icon": "act43side_token_phantom.png",
+        "name": "촬영장 검은 그림자",
+        "sortId": -10000,
+        "usage": "스케줄이 촉박하고 촬영장에 압박감이 가득한 가운데, '수상한 검은 그림자'가 수시로 나타나 가뜩이나 정신없는 스태프들을 점점 의심과 혼란에 빠뜨린다. 만약 이 검은 그림자를 찾아낸다면, 그들은 굉장히 고마워할 것이다."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -2030,6 +2038,22 @@
         "name": "유효정보데이터",
         "sortId": -10000,
         "usage": "로도스 아일랜드 정보 처리 시스템의 기본적인 데이터량. 정보 처리 과정의 진행에 따라 누적된다."
+    },
+    "act5bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act5bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act5bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act5bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
     "act5d0_point_medal": {
         "classifyType": "NONE",
