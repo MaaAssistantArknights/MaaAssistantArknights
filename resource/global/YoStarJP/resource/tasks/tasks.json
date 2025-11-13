@@ -1323,6 +1323,7 @@
         "text": ["職分"]
     },
     "BattleStartPre": {
+        "ocrReplace": [["算.*", ""]],
         "text": ["行動開始", "開始", "試練", "挑戦", "作戦", "推論"]
     },
     "BattleStartOCR": {

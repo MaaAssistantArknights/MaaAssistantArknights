@@ -1547,7 +1547,7 @@ public partial class CopilotViewModel : Screen
         bool ret = true;
         foreach (var task in CopilotItemViewModels.Where(i => i.IsChecked))
         {
-            if (!DataHelper.Operators.Any(op => op.Value.Name == task.Name))
+            if (!DataHelper.Operators.Any(op => op.Value.Name == DataHelper.GetLocalizedCharacterName(task.Name, "zh-cn")))
             {
                 AddLog("illegal oper name: " + task.Name, UiLogColor.Error);
                 ret = false;
