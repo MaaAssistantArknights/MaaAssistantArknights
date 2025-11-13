@@ -919,7 +919,13 @@
             ["Master Who Walks the[ Night Gear]*", "天工夜行套装"],
             ["Delivery Coordinates", "投递坐标"],
             ["Gracebearer", "聆音"],
-            ["Lemuen", "蕾缪安"]
+            ["Lemuen", "蕾缪安"],
+            ["Lighting Prop", "打光道具"],
+            ["Camera", "摄影机"],
+            ["Cage of Chaos", "迷狂牢笼"],
+            ["Blood's Whisper", "本能的召唤"],
+            ["Tippi", "蒂比"],
+            ["Tragodia", "酒神"]
         ]
     },
     "GameStartCheckResourceOCR": {
