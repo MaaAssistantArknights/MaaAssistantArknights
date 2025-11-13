@@ -765,7 +765,7 @@
         "Doc": "诡秘的预感",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.9,
-        "next": ["Sami@Roguelike@StageMysteriousPresageEnter", "Sami@Roguelike@Stages#next"]
+        "next": ["Sami@Roguelike@StageMysteriousPresageEnter", "#self"]
     },
     "Sami@Roguelike@StageMysteriousPresageEnter": {
         "baseTask": "Sami@Roguelike@StageEnter",
