@@ -394,8 +394,7 @@
         },
         "char_1042_phatm2": {
             "name": "酒神",
-            "name_en": "酒神",
-            "name_en_unavailable": true,
+            "name_en": "Tragodia",
             "name_jp": "トラゴーディア",
             "name_kr": "트라고디아",
             "name_tw": "酒神",
@@ -3740,8 +3739,7 @@
         },
         "char_4191_tippi": {
             "name": "蒂比",
-            "name_en": "蒂比",
-            "name_en_unavailable": true,
+            "name_en": "Tippi",
             "name_jp": "ティッピ",
             "name_kr": "티피",
             "name_tw": "蒂比",
@@ -5400,8 +5398,7 @@
         },
         "token_10054_phatm2_encdool": {
             "name": "本能的召唤",
-            "name_en": "本能的召唤",
-            "name_en_unavailable": true,
+            "name_en": "Blood's Whisper",
             "name_jp": "本能の召喚",
             "name_kr": "본능의 부름",
             "name_tw": "本能的召唤",
@@ -5413,8 +5410,7 @@
         },
         "token_10055_phatm2_mndclv": {
             "name": "迷狂牢笼",
-            "name_en": "迷狂牢笼",
-            "name_en_unavailable": true,
+            "name_en": "Cage of Chaos",
             "name_jp": "彷徨の檻",
             "name_kr": "광란의 감옥",
             "name_tw": "迷狂牢笼",
@@ -9368,8 +9364,7 @@
         },
         "trap_247_crfilm": {
             "name": "摄影机",
-            "name_en": "摄影机",
-            "name_en_unavailable": true,
+            "name_en": "Camera",
             "name_jp": "撮影カメラ",
             "name_kr": "카메라",
             "name_tw": "摄影机",
@@ -9381,8 +9376,7 @@
         },
         "trap_248_crprop": {
             "name": "打光道具",
-            "name_en": "打光道具",
-            "name_en_unavailable": true,
+            "name_en": "Lighting Prop",
             "name_jp": "照明機材",
             "name_kr": "조명 도구",
             "name_tw": "打光道具",
