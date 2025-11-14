@@ -43,6 +43,11 @@ public class AsstCopilotTask : AsstBaseTask
     public bool Formation { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 自动编队
+    /// </summary>
+    public int SupportUnitUsage { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 追加信赖干员
     /// </summary>
     public bool AddTrust { get; set; }
@@ -77,6 +82,7 @@ public class AsstCopilotTask : AsstBaseTask
         var taskParams = new JObject
         {
             ["formation"] = Formation,
+            ["support_unit_usage"] = SupportUnitUsage,
             ["add_trust"] = AddTrust,
             ["ignore_requirements"] = IgnoreRequirements,
             ["loop_times"] = LoopTimes,

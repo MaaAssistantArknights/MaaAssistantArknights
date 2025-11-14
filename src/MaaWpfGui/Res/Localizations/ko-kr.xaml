@@ -838,6 +838,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
+    <system:String x:Key="SupportUnitUsage">지원 오퍼레이터 차용 전략</system:String>
+    <system:String x:Key="SupportUnitUsage.None">차용 안 함</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">보완용으로만</system:String>
+    <system:String x:Key="SupportUnitUsage.Random">랜덤</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 요구 사항 무시</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
@@ -1077,7 +1081,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">편성 분석에 실패했습니다</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}를 선택: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">사용 불가 {key=Operator}: {0}, 사유: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">모듈 사용 불가</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">필요한 모듈이 잠금 해제되지 않음</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">경과 시간: {0}ms</system:String>
     <system:String x:Key="Deploy">배치</system:String>

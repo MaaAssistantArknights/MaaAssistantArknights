@@ -4,16 +4,16 @@
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
+#include "Task/Miscellaneous/SupportList.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
 {
-class UseSupportUnitTaskPlugin;
 
 class BattleFormationTask : public AbstractTask
 {
 public:
-    BattleFormationTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+    using AbstractTask::AbstractTask;
     virtual ~BattleFormationTask() override = default;
 
     enum class Filter
@@ -132,7 +132,21 @@ protected:
     // ————————————————————————————————
     // 助战干员选择相关
     // ————————————————————————————————
-    std::shared_ptr<UseSupportUnitTaskPlugin> m_use_support_unit_task_ptr = nullptr;
+    using Friendship = battle::Friendship;
+    using Role = battle::Role;
+    using OperModule = battle::OperModule;
+    using RequiredOper = battle::RequiredOper;
+
+    bool add_support_unit(
+        const std::vector<RequiredOper>& required_opers = {},
+        size_t max_refresh_times = 5,
+        Friendship friendship = Friendship::Stranger);
+
+    bool add_support_unit_from_support_list(
+        SupportList& support_list,
+        const std::vector<RequiredOper>& required_opers,
+        Friendship friendship = Friendship::Stranger);
+
     SupportUnitUsage m_support_unit_usage = SupportUnitUsage::None;
     bool m_used_support_unit = false; // 是否已经招募助战干员
     // ———————— 以下变量为指定助战干员设置，仅当 m_support_unit_usage == SupportUnitUsage::Specific 时有效 ————————
