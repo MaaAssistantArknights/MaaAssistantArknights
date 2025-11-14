@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static MaaWpfGui.Models.AsstTasks.AsstCopilotTask;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
@@ -24,16 +23,10 @@ public class ParadoxTask : AsstBaseTask
     public override AsstTaskType TaskType => AsstTaskType.Copilot;
 
     /// <summary>
-    /// Gets or sets a value indicating whether 悖论模拟
-    /// </summary>
-    [JsonProperty("is_paradox")]
-    public bool IsParadox { get; set; }
-
-    /// <summary>
     /// Gets or sets 多作业列表, 导航至关卡 (启用自动战斗序列、取消代理), 不得与FileName同时使用
     /// </summary>
-    [JsonProperty("copilot_list")]
-    public List<MultiTask> MultiTasks { get; set; } = [];
+    [JsonProperty("paradox_list")]
+    public List<string> MultiTasks { get; set; } = [];
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
