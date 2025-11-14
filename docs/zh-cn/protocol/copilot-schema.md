@@ -34,7 +34,8 @@ icon: ph:sword-bold
                 "level": 90, // 干员等级。可选，默认为 0
                 "skill_level": 10, // 技能等级。可选，默认为 0
                 "module": 1, // 模组编号。可选，默认为 0
-                "potentiality": 1 // 潜能要求。可选，默认为 0
+                "module_level": 3, // 模组等级，可选，默认为 0
+                "potential": 1 // 潜能要求。可选，默认为 0
             }
         }
     ],

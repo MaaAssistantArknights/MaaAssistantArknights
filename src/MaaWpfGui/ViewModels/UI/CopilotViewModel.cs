@@ -350,6 +350,25 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 0);
+
+    public int SupportUnitUsage
+    {
+        get => _supportUnitUsage;
+        set
+        {
+            SetAndNotify(ref _supportUnitUsage, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSupportUnitUsage, value.ToString());
+        }
+    }
+
+    public List<GenericCombinedData<int>> SupportUnitUsageList { get; } =
+    [
+        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 },
+        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = 1 },
+        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = 3 },
+    ];
+
     private bool _useCopilotList;
 
     /// <summary>
@@ -1354,10 +1373,12 @@ public partial class CopilotViewModel : Screen
                 {
                     MultiTasks = [.. t],
                     Formation = _form,
+                    SupportUnitUsage = _supportUnitUsage,
                     AddTrust = _addTrust,
                     IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
                     UseSanityPotion = _useSanityPotion,
+                    FormationIndex = UseFormation ? _formationIndex : 0,
                 };
 
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
@@ -1383,6 +1404,7 @@ public partial class CopilotViewModel : Screen
                 {
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                     Formation = _form,
+                    SupportUnitUsage = _supportUnitUsage,
                     AddTrust = _addTrust,
                     IgnoreRequirements = _ignoreRequirements,
                     UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],

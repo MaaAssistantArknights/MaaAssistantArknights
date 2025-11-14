@@ -838,6 +838,10 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的{key=Operator}</system:String>
+    <system:String x:Key="SupportUnitUsage">助戰幹員借用策略</system:String>
+    <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">僅用於補漏</system:String>
+    <system:String x:Key="SupportUnitUsage.Random">隨機</system:String>
     <system:String x:Key="AddTrust">補充低信賴{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}屬性要求</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
@@ -1077,7 +1081,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormationParseFailed">編隊解析失敗</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇{key=Operator}: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}不可用: {0}, 原因: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">模組不可用</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">所需模組未解鎖</system:String>
     <system:String x:Key="CurrentSteps">目前步驟: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">經過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">部署</system:String>

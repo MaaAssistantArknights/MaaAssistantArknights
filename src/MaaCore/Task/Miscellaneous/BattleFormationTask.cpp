@@ -10,20 +10,10 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
-#include "UseSupportUnitTaskPlugin.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/OperNameAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
-
-asst::BattleFormationTask::BattleFormationTask(
-    const AsstCallback& callback,
-    Assistant* inst,
-    std::string_view task_chain) :
-    AbstractTask(callback, inst, task_chain),
-    m_use_support_unit_task_ptr(std::make_shared<UseSupportUnitTaskPlugin>(callback, inst, task_chain))
-{
-}
 
 bool asst::BattleFormationTask::set_specific_support_unit(const std::string& name)
 {
@@ -127,17 +117,18 @@ bool asst::BattleFormationTask::_run()
                 required_opers.emplace_back(m_specific_support_unit);
                 break;
             }
-            required_opers.emplace_back(BattleData.get_role(oper.name), oper.name, oper.skill);
+            required_opers.emplace_back(
+                RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
         }
 
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
         Log.info(__FUNCTION__, "| Left quick formation scene");
-        if (m_use_support_unit_task_ptr->try_add_support_unit(required_opers, 5, true)) {
+        if (add_support_unit(required_opers)) {
             m_used_support_unit = true;
         }
         // 再到快速编队页面
-        if (!enter_selection_page()) {
+        if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
             save_img(utils::path("debug") / utils::path("other"));
             return false;
         }
@@ -145,7 +136,7 @@ bool asst::BattleFormationTask::_run()
     }
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
-    bool has_missing = std::ranges::any_of(m_formation, [&](const auto& pair) {
+    bool has_missing = !m_used_support_unit && std::ranges::any_of(m_formation, [&](const auto& pair) {
         return std::ranges::any_of(pair.second /* role, groups */, [&](const OperGroup& group) {
             return !has_oper_selected(group.second);
         });
@@ -191,10 +182,10 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
-        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({ m_specific_support_unit }, 5, true);
+        m_used_support_unit = add_support_unit({ m_specific_support_unit });
     }
     else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
-        m_used_support_unit = m_use_support_unit_task_ptr->try_add_support_unit({}, 5, false);
+        m_used_support_unit = add_support_unit();
     }
 
     return true;
@@ -784,4 +775,133 @@ bool asst::BattleFormationTask::is_formation_valid(const cv::Mat& img) const
     ProcessTask task(*this, { "BattleFormationInvalid", valid_task });
     task.set_reusable_image(img);
     return task.run() && task.get_last_task_name() == valid_task;
+}
+
+bool asst::BattleFormationTask::add_support_unit(
+    const std::vector<RequiredOper>& required_opers,
+    const size_t max_refresh_times,
+    const Friendship friendship)
+{
+    LogTraceFunction;
+
+    // 通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战干员选择界面
+    ProcessTask(*this, { "Formation-AddSupportUnit-EnterSupportList" }).run();
+
+    SupportList support_list(m_callback, m_inst, m_task_chain);
+
+    if (required_opers.empty()) { // 随机模式
+        for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
+            if (add_support_unit_from_support_list(support_list, required_opers, friendship)) {
+                return true;
+            }
+            if (refresh_times < max_refresh_times) {
+                support_list.refresh_list();
+            }
+        }
+    }
+    else { // 非随机模式
+        Role last_selected_role = Role::Unknown;
+        for (size_t i = 0; i < 3; ++i) {
+            if (i >= required_opers.size()) {
+                break;
+            }
+            const Role role = required_opers[i].role;
+            if (role != last_selected_role) {
+                support_list.select_role(role);
+            }
+            else {
+                support_list.refresh_list();
+            }
+            last_selected_role = role;
+
+            auto filtered_view =
+                required_opers | std::views::take(i + 1) |
+                std::views::filter([role](const RequiredOper& required_oper) { return required_oper.role == role; });
+            const std::vector<RequiredOper> filtered_required_opers(filtered_view.begin(), filtered_view.end());
+
+            for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
+                if (add_support_unit_from_support_list(support_list, filtered_required_opers, friendship)) {
+                    return true;
+                }
+                if (refresh_times < max_refresh_times) {
+                    support_list.refresh_list();
+                }
+            }
+        }
+    }
+
+    // 未找到符合要求的助战干员，手动退出助战列表
+    Log.info(__FUNCTION__, "| Fail to find any qualified support operator");
+    ProcessTask(*this, { "Formation-AddSupportUnit-LeaveSupportList" }).run();
+    return false;
+}
+
+bool asst::BattleFormationTask::add_support_unit_from_support_list(
+    SupportList& support_list,
+    const std::vector<RequiredOper>& required_opers,
+    const Friendship friendship)
+{
+    LogTraceFunction;
+
+    using SupportUnit = battle::SupportUnit;
+
+    support_list.update();
+    const std::vector<SupportUnit> support_units = support_list.get_list();
+
+    if (required_opers.empty()) {
+        auto it = std::ranges::find_if(support_units, [friendship](const SupportUnit& support_unit) {
+            return static_cast<int>(support_unit.friendship) >= static_cast<int>(friendship);
+        });
+        if (it == support_units.end()) {
+            return false;
+        }
+
+        const size_t support_unit_index = std::distance(support_units.begin(), it);
+        if (!support_list.select_support_unit(support_unit_index)) {
+            return false;
+        }
+
+        if (!support_list.confirm_to_use_support_unit()) {
+            support_list.leave_support_unit_detail_panel();
+            return false;
+        }
+
+        return true;
+    }
+
+    for (const RequiredOper& required_oper : required_opers) {
+        auto it = std::ranges::find_if(support_units, [friendship, &required_oper](const SupportUnit& support_unit) {
+            return support_unit.name == battle::canonical_oper_name(required_oper.role, required_oper.name) &&
+                   (support_unit.elite > required_oper.elite ||
+                    (support_unit.elite == required_oper.elite && support_unit.level >= required_oper.level)) &&
+                   support_unit.potential >= required_oper.potential &&
+                   (required_oper.module == OperModule::Unspecified || required_oper.module == OperModule::Original ||
+                    support_unit.module_enabled) &&
+                   static_cast<int>(support_unit.friendship) >= static_cast<int>(friendship);
+        });
+        if (it != support_units.end()) {
+            const size_t support_unit_index = std::distance(support_units.begin(), it);
+            const SupportUnit& support_unit = *it;
+            if (!support_list.select_support_unit(support_unit_index)) {
+                continue;
+            }
+            if (required_oper.skill != 0 &&
+                !support_list.select_skill(required_oper.skill, required_oper.skill_level)) {
+                support_list.leave_support_unit_detail_panel();
+                continue;
+            }
+            if (required_oper.module != OperModule::Unspecified && support_unit.module_enabled &&
+                !support_list.select_module(required_oper.module, required_oper.module_level)) {
+                support_list.leave_support_unit_detail_panel();
+                continue;
+            }
+            if (!support_list.confirm_to_use_support_unit()) {
+                support_list.leave_support_unit_detail_panel();
+                continue;
+            }
+            return true;
+        }
+    }
+
+    return false;
 }
