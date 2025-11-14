@@ -52,7 +52,7 @@ public static class DataHelper
     /// </summary>
     public static Dictionary<string, CharacterInfo> Characters { get; } = [];
 
-    public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtuallyOpers.Contains(oper.Key)).ToDictionary();
+    public static IReadOnlyDictionary<string, CharacterInfo> Operators => Characters.Where(oper => oper.Value.IsOperator && !_virtualOperators.Contains(oper.Key)).ToDictionary();
 
     /// <summary>
     /// Gets 当前语言与客户端类型下的干员名列表
@@ -124,7 +124,7 @@ public static class DataHelper
         };
 
         var clientTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir, clientPath, "recruitment.json"));
-        var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir,  displayPath, "recruitment.json"));
+        var displayTags = ParseRecruit(Path.Combine(PathsHelper.ResourceDir, displayPath, "recruitment.json"));
 
         RecruitTags = clientTags.Keys
             .Select(key => new KeyValuePair<string, (string DisplayName, string ClientName)>(
@@ -437,21 +437,17 @@ public static class DataHelper
     }
 
     /// <summary>
-    /// 未实装干员，但在battle_data中，
+    /// 未实装干员，但在 battle_data 中，
     /// </summary>
-    private static readonly HashSet<string?> _virtuallyOpers =
-    [
+    private static readonly HashSet<string?> _virtualOperators = [
         "char_504_rguard", // 预备干员-近战
         "char_505_rcast",  // 预备干员-术师
         "char_506_rmedic", // 预备干员-后勤
         "char_507_rsnipe", // 预备干员-狙击
         "char_508_aguard", // Sharp
         "char_509_acast",  // Pith
-        "char_612_accast", // Pith
         "char_510_amedic", // Touch
-        "char_613_acmedc", // Touch
         "char_511_asnipe", // Stormeye
-        "char_611_acnipe", // Stormeye
         "char_512_aprot",  // 暮落
         "char_513_apionr", // 郁金香
         "char_514_rdfend", // 预备干员-重装
@@ -461,15 +457,20 @@ public static class DataHelper
         "char_601_cguard", // 预备干员-近卫 4★
         "char_602_cdfend", // 预备干员-重装 4★
         "char_603_csnipe", // 预备干员-狙击 4★
-        "char_604_ccast", // 预备干员-术师 4★
+        "char_604_ccast",  // 预备干员-术师 4★
         "char_605_cmedic", // 预备干员-医疗 4★
         "char_606_csuppo", // 预备干员-辅助 4★
-        "char_607_cspec", // 预备干员-特种 4★
+        "char_607_cspec",  // 预备干员-特种 4★
         "char_608_acpion", // 郁金香 6★
         "char_609_acguad", // Sharp 6★
-        "char_610_acfend", // Mechanist
-        "char_614_acsupo", // Raidian
-        "char_615_acspec", // Misery
+        "char_610_acfend", // Mechanist 6★
+        "char_611_acnipe", // Stormeye 6★
+        "char_612_accast", // Pith 6★
+        "char_613_acmedc", // Touch 6★
+        "char_614_acsupo", // Raidian 6★
+        "char_615_acspec", // Misery 6★
+        "char_616_pithst", // 盟约·辅助干员
+        "char_617_sharp2", // 领主·Sharp
 
         "char_1001_amiya2", // 阿米娅-WARRIOR
         "char_1037_amiya3", // 阿米娅-MEDIC
