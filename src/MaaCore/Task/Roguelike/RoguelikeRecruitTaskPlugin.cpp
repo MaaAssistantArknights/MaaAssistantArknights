@@ -555,9 +555,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             if (it != chars.cend()) {
                 // !get_run_for_collectible() 即当前没有在烧开水/水已经烧好了
                 // 需要凹直升且，要么已经烧好了水，要么只需要凹直升不需要烧水
-                if (start_with_elite_two && (!m_config->get_run_for_collectible() || only_start_with_elite_two)) {
+                // 凹直升只对第一位招募的干员生效
+                if (start_with_elite_two && (!m_config->get_run_for_collectible() || only_start_with_elite_two) &&
+                    m_recruit_count == 1) {
                     if (it->elite == 2) {
-                        m_task_ptr->set_enable(false);
+                        if (m_config->get_first_floor_foldartal()) {
+                            select_oper(*it); // 放心选择精二，之后还要继续凹密文板
+                        }
+                        else {
+                            m_task_ptr->set_enable(false); // 仅当之后没有东西要凹了才停止
+                        }
                     }
                     else {
                         // 非只凹直升时，重新烧水
