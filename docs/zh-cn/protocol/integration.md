@@ -50,7 +50,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 :::  
 ::: field name="client_type" type="string" required  
 客户端版本。  
-<br>  
+<br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::: field name="start_game_enabled" type="boolean" optional default="false"  
@@ -58,11 +58,11 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 :::  
 ::: field name="account_name" type="string" optional  
 切换账号，默认不切换。  
-<br>  
+<br>
 仅支持切换至已登录的账号，使用登录名进行查找，保证输入内容在所有已登录账号唯一即可。  
-<br>  
+<br>
 官服：`123****4567`，可输入 `123****4567`、`4567`、`123`、`3****4567`  
-<br>  
+<br>
 B服：`张三`，可输入 `张三`、`张`、`三`  
 :::  
 ::::
@@ -76,7 +76,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="client_type" type="string" required  
 客户端版本，填空则不执行。  
-<br>  
+<br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::::
@@ -90,13 +90,13 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="stage" type="string" optional  
 关卡名，默认为空，识别当前/上次的关卡。不支持运行中设置。  
-<br>  
+<br>
 支持全部主线关卡，如 `"1-7"`、`"S3-2"`等。  
-<br>  
+<br>
 可在关卡结尾输入`Normal`/`Hard`表示需要切换标准与磨难难度。  
-<br>  
+<br>
 剿灭作战，必须输入 `"Annihilation"`。  
-<br>  
+<br>
 当期 SS 活动 后三关，必须输入完整关卡编号。  
 :::  
 ::: field name="medicine" type="number" optional default="0"  
@@ -113,18 +113,18 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="series" type="number" optional  
 连战次数, -1~6。  
-<br>  
+<br>
 `-1` 为禁用切换。  
-<br>  
+<br>
 `0` 为自动切换为当前可用的最大次数, 如当前理智不够6次, 则选择最低可用次数。  
-<br>  
+<br>
 `1~6` 为指定连战次数。  
 :::  
 ::: field name="drops" type="object" optional  
 指定掉落数量，默认不指定。key 为 item_id, value 为数量。key 可参考 `resource/item_index.json` 文件。  
-<br>  
+<br>
 例如: `{ "30011": 10, "30062": 5 }`  
-<br>  
+<br>
 以上全部是或的关系，即任一达到即停止任务。  
 :::  
 ::: field name="report_to_penguin" type="boolean" optional default="false"  
@@ -135,17 +135,17 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="server" type="string" optional default="CN"  
 服务器，会影响掉落识别及上传。  
-<br>  
+<br>
 选项：`CN` | `US` | `JP` | `KR`  
 :::  
 ::: field name="client_type" type="string" optional  
 客户端版本，默认为空。用于游戏崩溃时重启并连回去继续刷，若为空则不启用该功能。  
-<br>  
+<br>
 选项：`Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::: field name="DrGrandet" type="boolean" optional default="false"  
 节省理智碎石模式，仅在可能产生碎石效果时生效。  
-<br>  
+<br>
 在碎石确认界面等待，直到当前的 1 点理智恢复完成后再立刻碎石。  
 :::  
 ::::  
@@ -169,16 +169,16 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="first_tags" type="array<string>" optional  
 首选 Tags，仅在 Tag 等级为 3 时有效。默认为空。  
-<br>  
+<br>
 当 Tag 等级为 3 时，会尽可能多地选择这里的 Tags（如果有），而且是强制选择，也就是会忽略所有“让 3 星 Tag 不被选择”的设置。  
 :::  
 ::: field name="extra_tags_mode" type="number" optional default="0"  
 选择更多的 Tags。  
-<br>  
+<br>
 `0` - 默认行为  
-<br>  
+<br>
 `1` - 选 3 个 Tags, 即使可能冲突  
-<br>  
+<br>
 `2` - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突  
 :::  
 ::: field name="times" type="number" optional default="0"  
@@ -198,7 +198,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field name="recruitment_time" type="object" optional  
 Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟，默认值都为 540（即 09:00:00）。  
-<br>  
+<br>
 例如: `{ "3": 540, "4": 540 }`  
 :::  
 ::: field name="report_to_penguin" type="boolean" optional default="false"  
@@ -215,7 +215,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="server" type="string" optional default="CN"  
 服务器，会影响上传。  
-<br>  
+<br>
 选项：`CN` | `US` | `JP` | `KR`  
 :::  
 ::::
@@ -229,28 +229,28 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="mode" type="number" optional default="0"  
 换班工作模式。  
-<br>  
+<br>
 `0` - `Default`: 默认换班模式，单设施最优解。  
-<br>  
+<br>
 `10000` - `Custom`: 自定义换班模式，读取用户配置，可参考 [基建排班协议](./base-scheduling-schema.md)。  
-<br>  
+<br>
 `20000` - `Rotation`: 一键轮换模式，会跳过控制中枢、发电站、宿舍以及办公室，其余设施不进行换班但保留基本操作（如使用无人机、会客室逻辑）。  
 :::  
 ::: field name="facility" type="array<string>" required  
 要换班的设施（有序）。不支持运行中设置。  
-<br>  
+<br>
 设施名：`Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Dorm` | `Processing` | `Training`  
 :::  
 ::: field name="drones" type="string" optional default="\_NotUse"  
 无人机用途。`mode = 10000` 时该字段无效。  
-<br>  
+<br>
 选项：`_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
 ::: field name="threshold" type="number" optional default="0.3"  
 工作心情阈值，取值范围 [0, 1.0]。  
-<br>  
+<br>
 `mode = 10000` 时该字段仅针对 "autofill" 有效。  
-<br>  
+<br>
 `mode = 20000` 时该字段无效。  
 :::  
 ::: field name="replenish" type="boolean" optional default="false"  
@@ -270,12 +270,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="filename" type="string" required  
 自定义配置路径。不支持运行中设置。  
-<br>  
+<br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
 ::: field name="plan_index" type="number" required  
 使用配置中的方案序号。不支持运行中设置。  
-<br>  
+<br>
 <Badge type="warning" text="仅在 mode = 10000 时生效" />  
 :::  
 ::::
@@ -314,7 +314,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="formation_index" type="number" optional default="0"  
 打 OF-1 时所使用的编队栏位的编号。  
-<br>  
+<br>
 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
 :::  
 ::::
@@ -355,34 +355,34 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="theme" type="string" optional default="Phantom"  
 主题。  
-<br>  
+<br>
 `Phantom` - 傀影与猩红血钻  
-<br>  
+<br>
 `Mizuki` - 水月与深蓝之树  
-<br>  
+<br>
 `Sami` - 探索者的银凇止境  
-<br>  
+<br>
 `Sarkaz` - 萨卡兹的无终奇语  
-<br>  
+<br>
 `JieGarden` - 界园  
 :::  
 ::: field name="mode" type="number" optional default="0"  
 模式。  
-<br>  
+<br>
 `0` - 刷分/奖励点数，尽可能稳定地打更多层数。  
-<br>  
+<br>
 `1` - 刷源石锭，第一层投资完就退出。  
-<br>  
+<br>
 `2` - <Badge type="danger" text="已弃用" /> 兼顾模式 0 与 1，投资过后再退出，没有投资就继续往后打。  
-<br>  
+<br>
 `3` - 开发中...  
-<br>  
+<br>
 `4` - 凹开局，先在 0 难度下到达第三层后重开，再到指定难度下凹开局奖励，若不为热水壶或希望则回到 0 难度下重新来过；若在 Phantom 主题下则不切换难度，仅在当前难度下尝试到达第三层、重开、凹开局。  
-<br>  
+<br>
 `5` - 刷坍缩范式；仅适用于 Sami 主题；通过战斗漏怪等方式加快坍缩值积累，若遇到的第一个的坍缩范式在 `expected_collapsal_paradigms` 列表中则停止任务，否则重开。  
-<br>  
+<br>
 `6` - 刷月度小队蚊子腿，除了针对模式的适配以外和模式0相同。  
-<br>  
+<br>
 `7` - 刷深入调查蚊子腿，除了针对模式的适配以外和模式0相同。  
 :::  
 ::: field name="squad" type="string" optional default="指挥分队"  
@@ -438,28 +438,28 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="start_foldartal_list" type="array<string>" optional default="[]"  
 凹开局时希望在开局奖励阶段得到的密文板。仅在主题为 Sami 且模式为 4 时有效。  
-<br>  
+<br>
 仅当开局拥有列表中所有的密文板时才算凹开局成功。  
-<br>  
+<br>
 注意，此参数须与 “生活至上分队” 同时使用，其他分队在开局奖励阶段不会获得密文板。  
 :::  
 ::: field name="collectible_mode_start_list" type="object" optional  
 凹开局时期望的奖励，默认全为 false。仅在模式为 4 时有效。  
-<br>  
+<br>
 `hot_water`: 热水壶奖励，常用于触发烧水机制（通用）。  
-<br>  
+<br>
 `shield`: 护盾奖励，约等于额外生命值（通用）。  
-<br>  
+<br>
 `ingot`: 源石锭奖励（通用）。  
-<br>  
+<br>
 `hope`: 希望奖励（通用，注意：JieGarden 主题下无 hope 奖励）。  
-<br>  
+<br>
 `random`: 随机奖励选项：游戏中指“消耗所有源石锭换一个随机收藏品”（通用）。  
-<br>  
+<br>
 `key`: 钥匙奖励，仅在 Mizuki 主题时有效。  
-<br>  
+<br>
 `dice`: 骰子奖励，仅在 Mizuki 主题时有效。  
-<br>  
+<br>
 `ideas`: 2 构想奖励，仅在 Sarkaz 主题时有效。  
 :::  
 ::: field name="use_foldartal" type="boolean" optional  
@@ -491,9 +491,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="start_with_seed" type="boolean" optional default="false"  
 使用种子刷钱。  
-<br>  
+<br>
 仅在 Sarkaz 主题，Investment 模式，“点刺成锭分队” or “后勤分队” 时可能为 true。  
-<br>  
+<br>
 使用固定种子。  
 :::  
 ::::  
@@ -583,16 +583,16 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="theme" type="string" optional default="Fire"  
 主题。  
-<br>  
+<br>
 `Fire` - _沙中之火_  
-<br>  
+<br>
 `Tales` - _沙洲遗闻_  
 :::  
 ::: field name="mode" type="number" optional default="0"  
 模式。  
-<br>  
+<br>
 `0` - 刷分与建造点，进入战斗直接退出。  
-<br>  
+<br>
 `1` - 沙中之火：刷赤金，联络员买水后基地锻造；沙洲遗闻：自动制造物品并读档刷货币。  
 :::  
 ::: field name="tools_to_craft" type="array<string>" optional default="['荧光棒']"  
@@ -600,9 +600,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="increment_mode" type="number" optional default="0"  
 点击类型。  
-<br>  
+<br>
 `0` - 连点  
-<br>  
+<br>
 `1` - 长按  
 :::  
 ::: field name="num_craft_batches" type="number" optional default="16"  
@@ -634,11 +634,11 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field name="subtask" type="string" required  
 子任务类型。  
-<br>  
+<br>
 `stage` - 设置关卡名，需要 `"details": { "stage": "xxxx" }`。  
-<br>  
+<br>
 `start` - 开始作战，无 `details`。  
-<br>  
+<br>
 `action` - 单步作战操作，`details` 需为作战协议中的单个 action，例如：`"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`，详情参考 [战斗流程协议](./copilot-schema.md)。  
 :::  
 ::: field name="details" type="object" optional  
