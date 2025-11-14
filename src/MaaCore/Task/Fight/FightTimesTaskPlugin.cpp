@@ -3,6 +3,7 @@
 #include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Vision/Matcher.h"
@@ -119,7 +120,29 @@ bool asst::FightTimesTaskPlugin::_run()
 
 bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
 {
-    return ProcessTask(*this, { "FightSeries-Opened", "FightSeries-Open" }).set_reusable_image(image).run();
+    if (!ProcessTask(*this, { "FightSeries-Opened", "FightSeries-Open" })
+             .set_reusable_image(image)
+             .set_retry_times(10)
+             .run()) {
+        Log.error(__FUNCTION__, "unable to open series list");
+        const auto relative_dir = utils::path("debug") / utils::path("fightSeries");
+
+        std::filesystem::path relative_path;
+
+        if (!image.empty()) {
+            relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
+            Log.info(std::format("Save reusable image to {}", relative_path.string()));
+            MAA_NS::imwrite(relative_path, image);
+        }
+
+        relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
+        Log.info(std::format("Save current screenshot to {}", relative_path.string()));
+        MAA_NS::imwrite(relative_path, ctrler()->get_image());
+
+        return false;
+    }
+
+    return true;
 }
 
 void asst::FightTimesTaskPlugin::close_series_list(const cv::Mat& image)
@@ -157,7 +180,6 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
 std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only)
 {
     if (!open_series_list()) {
-        Log.error(__FUNCTION__, "unable to open series list");
         return std::nullopt;
     }
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
@@ -187,7 +209,6 @@ std::optional<int> asst::FightTimesTaskPlugin::select_series(bool available_only
 bool asst::FightTimesTaskPlugin::select_series(int times)
 {
     if (!open_series_list()) {
-        Log.error(__FUNCTION__, "unable to open series list");
         return false;
     }
 
