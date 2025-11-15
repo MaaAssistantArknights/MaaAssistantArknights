@@ -795,8 +795,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
     <system:String x:Key="MiniGame@SPA">Guard Protocol: Covenant</system:String>
-    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where "Independent Simulation" is located)
-Only level rewards can be farmed; to get the Engraved Medal, all "Key Objectives" must be completed</system:String>
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where ｢Independent Simulation｣ is located)
+Completing ｢Standard Simulation｣ manually allows faster score farming
+Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
     <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
     <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
