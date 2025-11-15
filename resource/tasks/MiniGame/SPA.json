@@ -72,7 +72,7 @@
     "MiniGame@SPA@DecisionClick": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [300, 200, 50, 50], 
+        "specificRect": [300, 200, 50, 50],
         "next": ["MiniGame@SPA@DecisionConfirmSelect"]
     },
     "MiniGame@SPA@DecisionConfirmSelect": {
