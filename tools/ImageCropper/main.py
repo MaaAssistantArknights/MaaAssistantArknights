@@ -79,16 +79,17 @@ def get_adb_devices_list() -> Optional[Controller]:
     if len(device_list):
         for i, d in enumerate(device_list):
             print(f"{i:>3} | {d.address:>21} | {d.name}")
-        i = int(input("Please select the device (ENTER to pass): "))
-        if 0 <= i < len(device_list):
-            device_serial = device_list[i].address
-            return AdbController(
-                adb_path=device_list[i].adb_path,
-                address=device_serial,
-                screencap_methods=adb_screencap_method,
-            )
-        else:
-            return None
+
+        _input = input("Please select the device (ENTER to pass): ")
+        if _input:
+            i = int(_input)
+            if 0 <= i < len(device_list):
+                device_serial = device_list[i].address
+                return AdbController(
+                    adb_path=device_list[i].adb_path,
+                    address=device_serial,
+                    screencap_methods=adb_screencap_method,
+                )
 
 
 # OpenCV 鼠标回调
@@ -245,6 +246,7 @@ def screenshot() -> Optional[np.ndarray]:
 # 获取标准化的 Roimage
 def get_std_roimage() -> Optional[Roimage]:
     global file_name
+    image: Optional[np.ndarray] = None
     if len(files):
         file_name = files.pop(0)
         image = readfile(file_name)
