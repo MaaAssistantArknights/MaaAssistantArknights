@@ -147,6 +147,17 @@ public partial class CopilotViewModel : Screen
     {
         Execute.OnUIThread(() =>
         {
+            foreach (var log in LogItemViewModels)
+            {
+                if (log.ToolTip is ToolTip t)
+                {
+                    t.IsOpen = false;
+                    t.Content = null;
+                    ToolTipService.SetPlacementTarget(t, null);
+                    t.PlacementTarget = null;
+                }
+            }
+
             LogItemViewModels.Clear();
             AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         });
