@@ -173,7 +173,7 @@ jobs:
       - name: Publish WPF GUI
         continue-on-error: true
         run: |
-          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
+          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -p:Platform=${{ matrix.arch == 'arm64' && 'ARM64' || 'x64' }} -o install
 
       - name: Upload PDB files
         uses: actions/upload-artifact@v5
@@ -260,7 +260,6 @@ jobs:
       - name: Setup cross compile toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
         with:
-          os: ubuntu-latest
           target_arch: ${{ matrix.arch }}
 
       - name: Build CLI
@@ -566,9 +565,12 @@ jobs:
             assets/*
           prerelease: ${{ needs.meta.outputs.prerelease != 'false' }}
 
-      - name: Trigger MirrorChyan-related workflows
+      - name: Trigger release distribution workflows
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan.yml
+          gh workflow run --repo $GITHUB_REPOSITORY release-package-distribution.yml \
+            -f release_tag="${{ needs.meta.outputs.tag }}" \
+            -f mirrorchyan=true \
+            -f winget=${{ needs.meta.outputs.prerelease == 'false' }}
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

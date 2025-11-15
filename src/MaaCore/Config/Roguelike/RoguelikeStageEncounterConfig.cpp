@@ -29,6 +29,8 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         if (std::find(event_names.begin(), event_names.end(), event.name) == event_names.end()) {
             event_names.emplace_back(event.name);
         }
+        event.option_text =
+            static_cast<std::vector<std::string>>(event_json.get("option_text", std::vector<std::string> {}));
         if (int num_options = event_json.get("option_num", 0); num_options >= 0) {
             event.option_num = static_cast<size_t>(num_options);
         }

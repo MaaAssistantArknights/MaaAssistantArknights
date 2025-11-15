@@ -20,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MaaWpfGui.Extensions;
 
 namespace MaaWpfGui.Helper;
@@ -75,6 +76,26 @@ public static class ToolTipHelper
         };
 
         return tb.CreateTooltip(placementMode);
+    }
+
+    /// <summary>
+    /// 通过 BitmapImage 创建 Tooltip。
+    /// </summary>
+    /// <param name="image">BitmapImage 实例</param>
+    /// <param name="placementMode">位置模式</param>
+    /// <param name="width">图片宽度，默认 640</param>
+    /// <param name="height">图片高度，默认 360</param>
+    /// <returns>ToolTip</returns>
+    public static ToolTip CreateTooltip(this BitmapImage image, PlacementMode? placementMode = null, double width = 640, double height = 360)
+    {
+        var img = new Image
+        {
+            Source = image,
+            Width = width,
+            Height = height,
+            Stretch = Stretch.Uniform,
+        };
+        return img.CreateTooltip(placementMode);
     }
 
     public static ToolTip CreateTooltip(this IEnumerable<Inline> inlines, PlacementMode? placementMode = null, int maxWidth = 750)

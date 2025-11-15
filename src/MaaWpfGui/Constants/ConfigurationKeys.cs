@@ -209,6 +209,7 @@ public static class ConfigurationKeys
     public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
     public const string CopilotUserAdditional = "Copilot.UserAdditional";
     public const string CopilotSelectFormation = "Copilot.SelectFormation";
+    public const string CopilotSupportUnitUsage = "Copilot.SupportUnitUsage";
     public const string CopilotLoopTimes = "Copilot.LoopTimes";
     public const string CopilotTaskList = "Copilot.CopilotTaskList";
     public const string UpdateProxy = "VersionUpdate.Proxy";

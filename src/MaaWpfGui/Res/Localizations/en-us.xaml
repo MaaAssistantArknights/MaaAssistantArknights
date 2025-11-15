@@ -794,6 +794,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGame@SPA">Stronghold Protocol: Alliance</system:String>
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where ｢Independent Simulation｣ is located)
+Completing ｢Standard Simulation｣ manually allows faster score farming
+Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
     <system:String x:Key="MiniGame@OS">OS-Karlan Trade Technology R&amp;D Department</system:String>
     <system:String x:Key="MiniGame@OSTip">Start the task at the main event interface (where there is "Start Rebuild" in the lower right corner).</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">Secondary Plan RM-TR-1</system:String>
@@ -837,6 +841,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
+    <system:String x:Key="SupportUnitUsage">Support Unit Borrowing Strategy</system:String>
+    <system:String x:Key="SupportUnitUsage.None">Don't Borrow</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">Only for Filling Gaps</system:String>
+    <system:String x:Key="SupportUnitUsage.Random">Random</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
@@ -1076,7 +1084,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator} unavailable: {0}, reason: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">Module unavailable</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">Required module not unlocked</system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">Elapsed time: {0}ms</system:String>
     <system:String x:Key="Deploy">Deploy</system:String>

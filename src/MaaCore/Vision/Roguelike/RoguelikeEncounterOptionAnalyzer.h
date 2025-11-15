@@ -57,9 +57,9 @@ public:
     /// </summary>
     /// <param name="theme">集成战略主题；目前只适配了界园主题。</param>
     /// <param name="image">目标图像。</param>
-    /// <param name="option_templ">要匹配的时间选项的模版。</param>
+    /// <param name="option_templ">要匹配的事件选项的模版。</param>
     /// <returns>
-    /// 匹配结果；若匹配失败或遇到不支持的 <c>theme</c>，则返回 <c>std::nullopt</c>。
+    /// 匹配结果；若匹配失败或遇到不支持的 <c>theme</c> 则返回 <c>std::nullopt</c>。
     /// </returns>
     /// <remarks>
     /// 为了方便调用，此函数不依赖 <c>m_theme</c>，而是需要将 <c>theme</c> 作为参数传入。
@@ -112,7 +112,7 @@ private:
     /// <param name="image">要保存的图像。</param>
     /// <param name="description">填入日志信息中的描述图像的字符串。</param>
     /// <returns>
-    /// 若文件写入成功，则返回 <c>true</c>，反之则返回 <c>false</c>。
+    /// 若文件写入成功，则返回 <c>true</c>，否则返回 <c>false</c>。
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 

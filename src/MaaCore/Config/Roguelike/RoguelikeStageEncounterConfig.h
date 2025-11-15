@@ -53,6 +53,7 @@ public:
     struct RoguelikeEvent
     {
         std::string name;
+        std::vector<std::string> option_text;
         size_t option_num = 0;
         size_t default_choose = 0;
         std::vector<ChoiceRequire> choice_require;

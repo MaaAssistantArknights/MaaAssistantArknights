@@ -794,6 +794,10 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGame@SPA">ガードプロトコル：盟約</system:String>
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（「独立シミュレーション」の場所）からタスクを開始
+「スタンダードシミュレーション」を手動でクリアすると、より早くスコアを稼げます
+レベル報酬のみ取得可能。「刻印章」を入手するには全ての「重要目標」をクリアする必要があります</system:String>
     <system:String x:Key="MiniGame@OS">OS-カラン貿易技術開発部</system:String>
     <system:String x:Key="MiniGame@OSTip">イベントメイン画面（右下に「再建開始」がある場所）でタスクを開始します。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生予案 RM-TR-1</system:String>
@@ -837,6 +841,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」{key=Operator}を認識できません</system:String>
+    <system:String x:Key="SupportUnitUsage">支援要員借用戦略</system:String>
+    <system:String x:Key="SupportUnitUsage.None">借用しない</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">補完のみ</system:String>
+    <system:String x:Key="SupportUnitUsage.Random">ランダム</system:String>
     <system:String x:Key="AddTrust">信頼度低の{key=Operator}追加</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator}要件を無視</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
@@ -1076,7 +1084,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BattleFormationParseFailed">フォーメーション解析に失敗しました</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">{key=Operator}を選択: </system:String>
     <system:String x:Key="BattleFormationOperUnavailable" xml:space="preserve">{key=Operator}が使用できません: {0}、理由: {1}</system:String>
-    <system:String x:Key="BattleFormationModuleUnavailable">モジュールが使用できません</system:String>
+    <system:String x:Key="BattleFormationModuleUnavailable">必要なモジュールが未解除</system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="ElapsedTime">経過時間: {0}ms</system:String>
     <system:String x:Key="Deploy">配置</system:String>
