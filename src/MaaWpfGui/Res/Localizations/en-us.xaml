@@ -794,7 +794,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
-    <system:String x:Key="MiniGame@SPA">Stronghold Protocol: Covenant</system:String>
+    <system:String x:Key="MiniGame@SPA">Stronghold Protocol: Alliance</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where ｢Independent Simulation｣ is located)
 Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
