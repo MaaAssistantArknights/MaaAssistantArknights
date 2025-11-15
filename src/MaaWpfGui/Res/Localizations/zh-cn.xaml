@@ -794,6 +794,10 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGame@SPA">卫戍协议：盟约</system:String>
+    <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活动主界面（有 ｢独立模拟｣ 处开始任务）
+手动通关 ｢标准模拟｣ 可以更快的刷分
+只能刷等级奖励，拿蚀刻章得打完所有的 ｢关键目标｣</system:String>
     <system:String x:Key="MiniGame@OS">OS-喀兰贸易技术研发部</system:String>
     <system:String x:Key="MiniGame@OSTip">在活动主界面（右下角有 ｢开始重建｣ 处）开始任务。</system:String>
     <system:String x:Key="MiniGame@RM-TR-1">次生预案 RM-TR-1</system:String>
