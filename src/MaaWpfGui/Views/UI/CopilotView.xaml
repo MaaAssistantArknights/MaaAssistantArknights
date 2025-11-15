@@ -241,18 +241,16 @@
                                 <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" Visibility="{c:Binding AddUserAdditional}" />
                             </StackPanel>
                         </StackPanel>
+                        <hc:ComboBox
+                            Width="210"
+                            Margin="2.5,5"
+                            hc:InfoElement.Title="{DynamicResource SupportUnitUsage}"
+                            hc:InfoElement.TitlePlacement="Left"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding SupportUnitUsageList}"
+                            SelectedValue="{Binding SupportUnitUsage}"
+                            SelectedValuePath="Value" />
                     </StackPanel>
-
-                    <hc:ComboBox
-                        Width="210"
-                        Margin="2.5,5"
-                        hc:InfoElement.Title="{DynamicResource SupportUnitUsage}"
-                        hc:InfoElement.TitlePlacement="Left"
-                        DisplayMemberPath="Display"
-                        ItemsSource="{Binding SupportUnitUsageList}"
-                        SelectedValue="{Binding SupportUnitUsage}"
-                        SelectedValuePath="Value"
-                        Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}" />
 
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel
