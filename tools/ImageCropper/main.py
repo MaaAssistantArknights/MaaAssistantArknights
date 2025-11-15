@@ -80,9 +80,8 @@ def get_adb_devices_list() -> Optional[Controller]:
         for i, d in enumerate(device_list):
             print(f"{i:>3} | {d.address:>21} | {d.name}")
 
-        _input = input("Please select the device (ENTER to pass): ")
-        if _input:
-            i = int(_input)
+        if device_input := input("Please select the device (ENTER to pass): "):
+            i = int(device_input)
             if 0 <= i < len(device_list):
                 device_serial = device_list[i].address
                 return AdbController(
