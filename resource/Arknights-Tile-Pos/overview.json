@@ -5930,6 +5930,69 @@
         "stageId": "act1arcade_m4_03",
         "width": 12
     },
+    "act1autochess_m01-activities/act1autochess/level_act1autochess_m01": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m01-activities-act1autochess-level_act1autochess_m01.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m01",
+        "name": "AC-3",
+        "stageId": "act1autochess_m01",
+        "width": 21
+    },
+    "act1autochess_m02-activities/act1autochess/level_act1autochess_m02": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m02-activities-act1autochess-level_act1autochess_m02.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m02",
+        "name": "AC-4",
+        "stageId": "act1autochess_m02",
+        "width": 21
+    },
+    "act1autochess_m03-activities/act1autochess/level_act1autochess_m03": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m03-activities-act1autochess-level_act1autochess_m03.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m03",
+        "name": "AC-5",
+        "stageId": "act1autochess_m03",
+        "width": 21
+    },
+    "act1autochess_m04-activities/act1autochess/level_act1autochess_m04": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m04-activities-act1autochess-level_act1autochess_m04.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m04",
+        "name": "AC-6",
+        "stageId": "act1autochess_m04",
+        "width": 21
+    },
+    "act1autochess_m05-activities/act1autochess/level_act1autochess_m05": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m05-activities-act1autochess-level_act1autochess_m05.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m05",
+        "name": "AC-7",
+        "stageId": "act1autochess_m05",
+        "width": 21
+    },
+    "act1autochess_m06-activities/act1autochess/level_act1autochess_m06": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m06-activities-act1autochess-level_act1autochess_m06.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m06",
+        "name": "AC-8",
+        "stageId": "act1autochess_m06",
+        "width": 21
+    },
+    "act1autochess_m07-activities/act1autochess/level_act1autochess_m07": {
+        "code": "卫戍协议·盟约",
+        "filename": "act1autochess_m07-activities-act1autochess-level_act1autochess_m07.json",
+        "height": 19,
+        "levelId": "activities/act1autochess/level_act1autochess_m07",
+        "name": "AC-9",
+        "stageId": "act1autochess_m07",
+        "width": 21
+    },
     "act1bossrush_01-activities/act1bossrush/level_bossrush1_01": {
         "code": "TN-1",
         "filename": "act1bossrush_01-activities-act1bossrush-level_bossrush1_01.json",
@@ -15235,6 +15298,96 @@
         "name": "以人的名",
         "stageId": "act46side_ex08",
         "width": 13
+    },
+    "act46side_s01#f#-activities/act46side/level_act46side_sub-1-1": {
+        "code": "OS-S-1",
+        "filename": "act46side_s01#f#-activities-act46side-level_act46side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-1",
+        "name": "打雪仗",
+        "stageId": "act46side_s01#f#",
+        "width": 12
+    },
+    "act46side_s01-activities/act46side/level_act46side_sub-1-1": {
+        "code": "OS-S-1",
+        "filename": "act46side_s01-activities-act46side-level_act46side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-1",
+        "name": "打雪仗",
+        "stageId": "act46side_s01",
+        "width": 12
+    },
+    "act46side_s02#f#-activities/act46side/level_act46side_sub-1-2": {
+        "code": "OS-S-2",
+        "filename": "act46side_s02#f#-activities-act46side-level_act46side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-2",
+        "name": "堆雪人",
+        "stageId": "act46side_s02#f#",
+        "width": 12
+    },
+    "act46side_s02-activities/act46side/level_act46side_sub-1-2": {
+        "code": "OS-S-2",
+        "filename": "act46side_s02-activities-act46side-level_act46side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-2",
+        "name": "堆雪人",
+        "stageId": "act46side_s02",
+        "width": 12
+    },
+    "act46side_s03#f#-activities/act46side/level_act46side_sub-1-3": {
+        "code": "OS-S-3",
+        "filename": "act46side_s03#f#-activities-act46side-level_act46side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_sub-1-3",
+        "name": "雪孩子",
+        "stageId": "act46side_s03#f#",
+        "width": 13
+    },
+    "act46side_s03-activities/act46side/level_act46side_sub-1-3": {
+        "code": "OS-S-3",
+        "filename": "act46side_s03-activities-act46side-level_act46side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act46side/level_act46side_sub-1-3",
+        "name": "雪孩子",
+        "stageId": "act46side_s03",
+        "width": 13
+    },
+    "act46side_s04#f#-activities/act46side/level_act46side_sub-1-4": {
+        "code": "OS-S-4",
+        "filename": "act46side_s04#f#-activities-act46side-level_act46side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-4",
+        "name": "雪中歌谣",
+        "stageId": "act46side_s04#f#",
+        "width": 11
+    },
+    "act46side_s04-activities/act46side/level_act46side_sub-1-4": {
+        "code": "OS-S-4",
+        "filename": "act46side_s04-activities-act46side-level_act46side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-4",
+        "name": "雪中歌谣",
+        "stageId": "act46side_s04",
+        "width": 11
+    },
+    "act46side_s05#f#-activities/act46side/level_act46side_sub-1-5": {
+        "code": "OS-S-5",
+        "filename": "act46side_s05#f#-activities-act46side-level_act46side_sub-1-5.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-5",
+        "name": "雪与我与雪",
+        "stageId": "act46side_s05#f#",
+        "width": 12
+    },
+    "act46side_s05-activities/act46side/level_act46side_sub-1-5": {
+        "code": "OS-S-5",
+        "filename": "act46side_s05-activities-act46side-level_act46side_sub-1-5.json",
+        "height": 8,
+        "levelId": "activities/act46side/level_act46side_sub-1-5",
+        "name": "雪与我与雪",
+        "stageId": "act46side_s05",
+        "width": 12
     },
     "act46side_tr01-activities/act46side/level_act46side_tr01": {
         "code": "OS-TR-1",

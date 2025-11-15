@@ -955,7 +955,7 @@
             ["QuackingMad", "气打鸭处来"],
             ["ThePiousWorshiper", "敬虔之人"],
             ["EmployeeofBabel", "巴别塔雇员"],
-            ["SoulExperiences.*TwinGargoyles", "魂灵见闻：石心双子"],
+            ["SoulExperiences.*TwinGargoyles?", "魂灵见闻：石心双子"],
             ["FinalPage", "尾页"],
             ["TheDissident'sSound", "扣响异音"],
             ["DecipheringEvolution", "解读变迁"],

@@ -34,7 +34,8 @@ icon: ph:sword-bold
                 "level": 90, // 幹員等級。可選，預設為 0
                 "skill_level": 10, // 技能等級。可選，預設為 0
                 "module": 1, // 模組編號。可選，預設為 0
-                "potentiality": 1 // 潛能要求。可選，預設為 0
+                "module_level": 3, // 模組等級，可選，預設為 0
+                "potential": 1 // 潛能要求。可選，預設為 0
             }
         }
     ],

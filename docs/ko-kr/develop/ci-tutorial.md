@@ -134,7 +134,7 @@ MAA는 Github Action을 활용하여 웹사이트 구축, 자동 리소스 업�
 
 MirrorChyan은 유료 업데이트 미러 서비스이며, 관련 워크플로우는 다음과 같습니다:
 
-- `mirrorchyan.yml` 업데이트 패키지를 MirrorChyan에 동기화
+- `release-package-distribution.yml` 업데이트 패키지를 MirrorChyan에 동기화
 - `mirrorchyan_release_note.yml` MirrorChyan용 Release Note 생성
 
 ## 기타

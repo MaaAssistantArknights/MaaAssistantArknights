@@ -135,7 +135,7 @@ MAA は Github Action を活用して、ウェブサイトの構築、自動リ�
 
 MirrorChyan は有料の更新ミラーサービスで、関連するワークフローは以下の通りです：
 
-- `mirrorchyan.yml` 更新パッケージを MirrorChyan に同期します
+- `release-package-distribution.yml` 更新パッケージを MirrorChyan に同期します
 - `mirrorchyan_release_note.yml` MirrorChyan の Release Note を生成します
 
 ### その他

@@ -34,7 +34,8 @@ Please note that JSON files do not support comments. The comments in this docume
                 "level": 90, // Operator level. Optional, default is 0
                 "skill_level": 10, // Skill level. Optional, default is 0
                 "module": 1, // Module number. Optional, default is 0
-                "potentiality": 1 // Potential requirement. Optional, default is 0
+                "module_level": 3, // Module level. Optional, default is 0
+                "potential": 1 // Potential requirement. Optional, default is 0
             }
         }
     ],

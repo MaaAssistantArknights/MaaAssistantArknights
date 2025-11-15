@@ -25,23 +25,28 @@ protected:
     int hp(const cv::Mat& image) const;
 
 private:
-    bool analyze_options();
-    void reset_option_analysis_and_view_data();
-    void report_analyzed_options();
+    bool update_option_list();
     bool select_analyzed_option(size_t index);
-    void move_to_analyzed_option(size_t index);
-    void update_view();
+    void reset_option_list_and_view_data();
+    void report_analyzed_options();
+    void update_view(const cv::Mat& image = cv::Mat());
     void reset_view();
+    void move_to_analyzed_option(size_t index);
+    void move_to_option_list_head();
+    void move_forward();
+    void move_backward();
 
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
 
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
-    OptionAnalyzer::Result m_analyzed_options;
+    OptionAnalyzer::Result m_option_list;
     size_t m_view_begin = 0;
     size_t m_view_end = 0;
     std::vector<int> m_option_y_in_view;
 
-    static constexpr int MAX_SWIPE_TIMES = 1;
+    static constexpr size_t MAX_SWIPE_TIMES = 1;
+
+    static constexpr int UNDEFINED = -1;
 };
 }

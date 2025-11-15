@@ -2007,6 +2007,14 @@
         "sortId": -10000,
         "usage": "The enlightenment of the Shrine of Nurtury has spread like wildfire, and both the living and the unliving have sprouted halos. The first pacifiers to receive them wandered off through the Shrine in their confusion, leaving countless babes to suffer restless nights. If you are able to return them to their posts, the beleaguered nurturers will be happy to give gifts as thanks."
     },
+    "act43side_token_phantom": {
+        "classifyType": "NONE",
+        "description": "What is it, really? A ghost? A prop? A hallucination? Somebody's Friedkin pet? Nobody knows. Miss.Christine simply waves her twin tails as she languidly basks in the sunlight.",
+        "icon": "act43side_token_phantom.png",
+        "name": "Phantom of the Studio",
+        "sortId": -10000,
+        "usage": "Despite the hellish workload and a high-pressure film set, the mysterious black shadow never fails to show up every now and again, to the point that the overwhelmed crew have started to wildly speculate who is behind it. If you can trace the whereabouts of the 'Phantom of the Studio', they will be very grateful."
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -2030,6 +2038,22 @@
         "name": "Valid Intelligence Unit",
         "sortId": -10000,
         "usage": "A basic unit of the Rhodes Island Intelligence Processing System, used to advance intel-gathering efforts."
+    },
+    "act5bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act5bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act5bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act5bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
     },
     "act5d0_point_medal": {
         "classifyType": "NONE",

@@ -30,6 +30,10 @@ public:
 
     void set_gray_ub(const int gray_ub) { m_ub = gray_ub; }
 
+    void set_lb(const std::array<int, 3>& lb) { m_lb = cv::Scalar(lb[0], lb[1], lb[2]); }
+
+    void set_ub(const std::array<int, 3>& ub) { m_ub = cv::Scalar(ub[0], ub[1], ub[2]); }
+
     void set_lb(const std::vector<int>& lb)
     {
         if (lb.size() == 3) {
