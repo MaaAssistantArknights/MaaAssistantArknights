@@ -31,7 +31,12 @@ def kmeansClusterColors(
     pixels = img.reshape((-1, img.shape[-1]))
     # 聚类
     _, labels, centers = cv2.kmeans(
-        pixels.astype(np.float32), K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS
+        pixels.astype(np.float32),
+        K,
+        None,
+        criteria,
+        10,
+        cv2.KMEANS_RANDOM_CENTERS,
     )
     # 将颜色值转换为原来的颜色通道类型
     centers = centers.astype(img.dtype)
@@ -39,7 +44,7 @@ def kmeansClusterColors(
     # 返回结果
     ret = []
     for i, center in enumerate(centers):
-        colors = pixels[(labels == i).all(-1)]
+        colors = pixels[(labels == i).flatten()]
         ret.append((center, colors))
     return ret
 

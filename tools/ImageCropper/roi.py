@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 
 # 描述符基类,用于类型检查
 class Typed(object):
@@ -50,7 +52,7 @@ class Roi(object):
         height: float,
         x: float = 0,
         y: float = 0,
-        parent: Roi = None,
+        parent: Optional[Roi] = None,
         zoom: float = 1,
     ) -> None:
         """感兴趣区域
@@ -111,7 +113,7 @@ class Roi(object):
     @property
     def parent(self) -> Roi:
         """Roi 父节点"""
-        return self.__parent
+        return self.__parent  #  type: ignore
 
     @property
     def isRoot(self) -> bool:
@@ -228,7 +230,7 @@ class Roi(object):
         roi = self.getRoiFromParent()
         return self if self is roi else roi.getRoiInRoot()
 
-    def copy(self, parent: Roi = None, zoom: float = None) -> Roi:
+    def copy(self, parent: Optional[Roi] = None, zoom: Optional[float] = None) -> Roi:
         """
         深复制 Roi
 

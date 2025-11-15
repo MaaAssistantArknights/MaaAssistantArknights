@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Optional
 
 import cv2
 from numpy import ndarray
@@ -12,11 +13,11 @@ class Roimage(Roi):
         height: float,
         x: float = 0,
         y: float = 0,
-        parent: Roimage = None,
+        parent: Optional[Roimage] = None,
         zoom: float = 1,
     ) -> None:
         Roi.__init__(self, width, height, x, y, parent, zoom)
-        self.__image: ndarray = None
+        self.__image: Optional[ndarray] = None
         self.zoom_image_cache = {}
 
     @property

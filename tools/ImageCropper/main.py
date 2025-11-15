@@ -5,10 +5,10 @@ from typing import Optional
 import colormatcher
 import cv2
 import numpy as np
-from maa.controller import AdbController, Controller, Win32Controller
-from maa.define import MaaAdbScreencapMethodEnum, MaaWin32ScreencapMethodEnum
+from maa.controller import AdbController, Controller
+from maa.define import MaaAdbScreencapMethodEnum
 from maa.toolkit import Toolkit
-from roimage import Roimage
+from roimage import Roimage, Roi
 
 # 初始化设备参数
 # device_serial = "127.0.0.1:16384"
@@ -25,7 +25,7 @@ move_start_roi = (0, 0)
 
 
 # 初始化 Roi
-std_roimage: Roimage = Roimage(window_size[0], window_size[1])  # 标准化截图
+std_roimage: Optional[Roimage] = Roimage(window_size[0], window_size[1])  # 标准化截图
 win_roimage: Roimage = Roimage(
     0, 0, 0, 0, std_roimage
 )  # 相对 std_roimage ，窗口显示的区域
@@ -103,7 +103,7 @@ def mouse(event, x, y, flags, param) -> None:
     show_roi(crop_end)
 
 
-def show_roi(roi: Roimage):
+def show_roi(roi: Roi):
     trackbars_img.fill(255)
     cv2.putText(
         trackbars_img,
@@ -230,7 +230,7 @@ def readfile(file: str):
 
 
 # 截图
-def screenshot() -> np.ndarray:
+def screenshot() -> Optional[np.ndarray]:
     if not controller:
         return None
     print("Screenshot in progress...")
@@ -241,7 +241,7 @@ def screenshot() -> np.ndarray:
 
 
 # 获取标准化的 Roimage
-def get_std_roimage() -> Roimage:
+def get_std_roimage() -> Optional[Roimage]:
     global file_name
     if len(files):
         file_name = files.pop(0)
@@ -408,7 +408,7 @@ if __name__ == "__main__":
                     "connected": connected,
                 }
                 mainColors = []
-                for center, lower, upper in colors:
+                for center, lower, upper in colors[0]:
                     count = colormatcher.getCount(img, lower, upper, connected, method)
                     ret["lower"].append(lower)
                     ret["upper"].append(upper)
@@ -462,7 +462,4 @@ if __name__ == "__main__":
 
             print("")
 
-        # Print End Infos
-        print("Press any key to exit...")
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            print("Press 'Q'/'ESC' to quit or just continute.")
