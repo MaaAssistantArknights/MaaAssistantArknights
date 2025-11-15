@@ -1,0 +1,102 @@
+{
+    "MiniGame@SPA@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@SPA@EnterIndependent"]
+    },
+    "MiniGame@SPA@EnterIndependent": {
+        "action": "ClickSelf",
+        "roi": [519, 568, 268, 152],
+        "next": ["MiniGame@SPA@EnterStandard", "#self"]
+    },
+    "MiniGame@SPA@EnterStandard": {
+        "action": "ClickSelf",
+        "roi": [735, 40, 300, 140],
+        "preDelay": 1000,
+        "next": ["MiniGame@SPA@EnterDanger"]
+    },
+    "MiniGame@SPA@EnterDanger": {
+        "action": "ClickSelf",
+        "roi": [735, 235, 300, 140],
+        "next": ["MiniGame@SPA@StartSimulation"]
+    },
+    "MiniGame@SPA@StartSimulation": {
+        "action": "ClickSelf",
+        "roi": [743, 540, 350, 171],
+        "next": ["MiniGame@SPA@ReadyScreen"]
+    },
+    "MiniGame@SPA@ReadyScreen": {
+        "action": "ClickSelf",
+        "roi": [952, 581, 265, 139],
+        "next": ["MiniGame@SPA@Goliath"]
+    },
+    "MiniGame@SPA@Goliath": {
+        "action": "ClickSelf",
+        "roi": [1048, 84, 191, 196],
+        "next": ["MiniGame@SPA@GoliathConfirmSelect"]
+    },
+    "MiniGame@SPA@GoliathConfirmSelect": {
+        "action": "ClickSelf",
+        "roi": [1002, 588, 148, 132],
+        "next": ["MiniGame@SPA@LoopWaitStart"]
+    },
+    "MiniGame@SPA@LoopWaitStart": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": ["MiniGame@SPA@ExitButton", "MiniGame@SPA@LoopWaitStart"]
+    },
+    "MiniGame@SPA@ExitButton": {
+        "roi": [0, 0, 154, 155],
+        "postDelay": 1000,
+        "next": ["MiniGame@SPA@TurnFive", "MiniGame@SPA@ReadyAgain", "MiniGame@SPA@ExitButton"]
+    },
+    "MiniGame@SPA@ReadyAgain": {
+        "action": "ClickSelf",
+        "roi": [1081, 42, 199, 127],
+        "next": ["MiniGame@SPA@NoMoreHint", "MiniGame@SPA@ExitButton"]
+    },
+    "MiniGame@SPA@NoMoreHint": {
+        "action": "ClickSelf",
+        "roi": [497, 331, 281, 143],
+        "next": ["MiniGame@SPA@ConfirmHint"]
+    },
+    "MiniGame@SPA@ConfirmHint": {
+        "action": "ClickSelf",
+        "roi": [823, 405, 168, 159],
+        "next": ["MiniGame@SPA@ExitButton"]
+    },
+    "MiniGame@SPA@TurnFive": {
+        "roi": [392, 0, 180, 128],
+        "templThreshold": 0.9,
+        "next": ["MiniGame@SPA@DirectExit"]
+    },
+    "MiniGame@SPA@DecisionClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [300, 200, 50, 50],
+        "next": ["MiniGame@SPA@DecisionConfirmSelect"]
+    },
+    "MiniGame@SPA@DecisionConfirmSelect": {
+        "action": "ClickSelf",
+        "roi": [210, 313, 139, 138],
+        "next": ["MiniGame@SPA@DirectExit"]
+    },
+    "MiniGame@SPA@DirectExit": {
+        "template": "MiniGame@SPA@ExitButton.png",
+        "baseTask": "MiniGame@SPA@ExitButton",
+        "action": "ClickSelf",
+        "postDelay": 0,
+        "next": ["MiniGame@SPA@ConfirmResult", "#self"]
+    },
+    "MiniGame@SPA@ConfirmResult": {
+        "template": "MiniGame@SPA@ConfirmHint.png",
+        "baseTask": "MiniGame@SPA@ConfirmHint",
+        "postDelay": 8000,
+        "next": ["MiniGame@SPA@ReturnHome"]
+    },
+    "MiniGame@SPA@ReturnHome": {
+        "action": "ClickSelf",
+        "roi": [964, 590, 294, 130],
+        "postDelay": 2000,
+        "next": ["MiniGame@SPA@EnterIndependent"]
+    }
+}
