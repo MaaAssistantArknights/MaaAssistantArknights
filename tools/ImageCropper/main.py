@@ -8,7 +8,7 @@ import numpy as np
 from maa.controller import AdbController, Controller
 from maa.define import MaaAdbScreencapMethodEnum
 from maa.toolkit import Toolkit
-from roimage import Roimage, Roi
+from roimage import Roi, Roimage
 
 # 初始化设备参数
 # device_serial = "127.0.0.1:16384"
