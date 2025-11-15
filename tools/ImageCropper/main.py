@@ -87,6 +87,8 @@ def get_adb_devices_list() -> Optional[Controller]:
                 address=device_serial,
                 screencap_methods=adb_screencap_method,
             )
+        else:
+            return None
 
 
 # OpenCV 鼠标回调
@@ -247,7 +249,7 @@ def get_std_roimage() -> Optional[Roimage]:
         file_name = files.pop(0)
         image = readfile(file_name)
         file_name = file_name.split(".")[0]
-    else:
+    elif controller:
         image = screenshot()
         file_name = datetime.now().strftime("%H%M%S")  # '%Y%m%d%H%M%S'
     if image is None:
@@ -301,8 +303,7 @@ if __name__ == "__main__":
     # 搜索并连接设备
     controller = get_adb_devices_list()
     if not controller:
-        print("ADB Devices Not Found.")
-        exit(0)
+        print("ADB Devices Not Found. Reading from ./src folder...")
     if controller:
         set_screenshot_target_side(controller)
         if controller.post_connection().failed:
@@ -463,3 +464,6 @@ if __name__ == "__main__":
             print("")
 
             print("Press 'Q'/'ESC' to quit or just continute.")
+
+    print("Exiting...")
+    cv2.destroyAllWindows()
