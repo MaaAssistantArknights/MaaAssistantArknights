@@ -1,0 +1,79 @@
+{
+    "OperBoxEnter-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [945, 301, 85, 78],
+            "mask": []
+        },
+        "next": [
+            "OperBoxEnterDefault",
+            "OperBoxEnterDark",
+            "OperBoxEnterSami",
+            "OperBoxEnterMistCity",
+            "OperBoxEnterSiege",
+            "OperBoxEnterSarkaz",
+            "OperBoxEnterDelicious",
+            "OperBoxEnterGaming",
+            "OperBoxEnterDahuangCity",
+            "OperBoxEnterDreamland",
+            "OperBoxEnterJieGarden",
+            "OperBoxEnterAveMujica",
+            "OperBoxEnterTogether"
+        ]
+    },
+    "OperBoxEnterDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [935, 300, 265, 110],
+        "template": "Default/OperBoxEnter.png"
+    },
+    "OperBoxEnterDark": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Dark/OperBoxEnter.png"
+    },
+    "OperBoxEnterSami": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Sami/OperBoxEnter.png"
+    },
+    "OperBoxEnterMistCity": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "MistCity/OperBoxEnter.png"
+    },
+    "OperBoxEnterSiege": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Siege/OperBoxEnter.png"
+    },
+    "OperBoxEnterSarkaz": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Sarkaz/OperBoxEnter.png"
+    },
+    "OperBoxEnterDelicious": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Delicious/OperBoxEnter.png"
+    },
+    "OperBoxEnterGaming": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Gaming/OperBoxEnter.png"
+    },
+    "OperBoxEnterDahuangCity": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "DahuangCity/OperBoxEnter.png"
+    },
+    "OperBoxEnterDreamland": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": ["Dreamland/DreamlandDefault/OperBoxEnter.png", "Dreamland/DreamlandDark/OperBoxEnter.png"]
+    },
+    "OperBoxEnterJieGarden": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "JieGarden/OperBoxEnter.png"
+    },
+    "OperBoxEnterAveMujica": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "AveMujica/OperBoxEnter.png"
+    },
+    "OperBoxEnterTogether": {
+        "baseTask": "OperBoxEnterDefault",
+        "template": "Together/OperBoxEnter.png"
+    }
+}

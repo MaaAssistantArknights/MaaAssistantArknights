@@ -1,0 +1,79 @@
+{
+    "GachaEnter-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [1095, 497, 167, 56],
+            "mask": []
+        },
+        "next": [
+            "GachaEnterDefault",
+            "GachaEnterDark",
+            "GachaEnterSami",
+            "GachaEnterMistCity",
+            "GachaEnterSiege",
+            "GachaEnterSarkaz",
+            "GachaEnterDelicious",
+            "GachaEnterGaming",
+            "GachaEnterDahuangCity",
+            "GachaEnterDreamland",
+            "GachaEnterJieGarden",
+            "GachaEnterAveMujica",
+            "GachaEnterTogether"
+        ]
+    },
+    "GachaEnterDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [1052, 426, 228, 174],
+        "template": "Default/GachaEnter.png"
+    },
+    "GachaEnterDark": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Dark/GachaEnter.png"
+    },
+    "GachaEnterSami": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Sami/GachaEnter.png"
+    },
+    "GachaEnterMistCity": {
+        "baseTask": "GachaEnterDefault",
+        "template": "MistCity/GachaEnter.png"
+    },
+    "GachaEnterSiege": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Siege/GachaEnter.png"
+    },
+    "GachaEnterSarkaz": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Sarkaz/GachaEnter.png"
+    },
+    "GachaEnterDelicious": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Delicious/GachaEnter.png"
+    },
+    "GachaEnterGaming": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Gaming/GachaEnter.png"
+    },
+    "GachaEnterDahuangCity": {
+        "baseTask": "GachaEnterDefault",
+        "template": "DahuangCity/GachaEnter.png"
+    },
+    "GachaEnterDreamland": {
+        "baseTask": "GachaEnterDefault",
+        "template": ["Dreamland/DreamlandDefault/GachaEnter.png", "Dreamland/DreamlandDark/GachaEnter.png"]
+    },
+    "GachaEnterJieGarden": {
+        "baseTask": "GachaEnterDefault",
+        "template": "JieGarden/GachaEnter.png"
+    },
+    "GachaEnterAveMujica": {
+        "baseTask": "GachaEnterDefault",
+        "template": "AveMujica/GachaEnter.png"
+    },
+    "GachaEnterTogether": {
+        "baseTask": "GachaEnterDefault",
+        "template": "Together/GachaEnter.png"
+    }
+}
