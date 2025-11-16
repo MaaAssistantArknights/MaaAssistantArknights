@@ -108,6 +108,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
         bool ret = ProcessTask(*this, { "JieGarden@Roguelike@ReserveRecruitmentVoucher" }).run();
         if (ret) {
+            sleep(500);
             return true;
         }
     }
