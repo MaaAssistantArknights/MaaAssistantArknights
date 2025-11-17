@@ -128,9 +128,6 @@ jobs:
 
   update-game-resources:
     name: Update Game Resources
-    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
-
-    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: macos-latest
     steps:
@@ -201,62 +198,33 @@ jobs:
             ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
             ./tools/ResourceUpdater/res_updater
 
+      - name: Wait for resource cloning
+        uses: yogeshlonkar/wait-for-jobs@v0.4.18
+        with:
+          ignore-skipped: 'false' # To ignore jobs that are skipped from given list of job dependencies, set the value to the string "true".
+          jobs: |
+            Download Official Resources
+            Download Overseas Resources
+            Download Taiwan Resources
+          ttl: 15
+
       - name: Download txwy
-        id: download-txwy
         uses: actions/download-artifact@v6
         continue-on-error: true
-        with:
-          name: txwy
-          path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
-
-      - name: Delay for txwy
-        if: steps.download-txwy.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download txwy
-        if: steps.download-txwy.outcome == 'failure'
-        uses: actions/download-artifact@v6
         with:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
-        id: download-overseas
         uses: actions/download-artifact@v6
         continue-on-error: true
-        with:
-          name: overseas
-          path: ./tools/ResourceUpdater/Overseas
-
-      - name: Delay for Overseas
-        if: steps.download-overseas.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download Overseas
-        if: steps.download-overseas.outcome == 'failure'
-        uses: actions/download-artifact@v6
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
       - name: Download Official
-        id: download-official
         uses: actions/download-artifact@v6
         continue-on-error: true
-        with:
-          name: official
-          path: ./tools/ResourceUpdater/Official
-
-      - name: Delay for Official
-        if: steps.download-official.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download Official
-        if: steps.download-official.outcome == 'failure'
-        uses: actions/download-artifact@v6
         with:
           name: official
           path: ./tools/ResourceUpdater/Official
