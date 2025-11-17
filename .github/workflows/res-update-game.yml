@@ -199,9 +199,9 @@ jobs:
             ./tools/ResourceUpdater/res_updater
 
       - name: Wait for resource cloning
-        uses: yogeshlonkar/wait-for-jobs@v0.4.18
+        uses: yogeshlonkar/wait-for-jobs@v0
         with:
-          ignore-skipped: 'false' # To ignore jobs that are skipped from given list of job dependencies, set the value to the string "true".
+          ignore-skipped: 'false'
           jobs: |
             Download Official Resources
             Download Overseas Resources
