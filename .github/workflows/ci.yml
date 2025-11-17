@@ -189,17 +189,53 @@ jobs:
           rm -rf install/*.h
 
           cp tools/DependencySetup_依赖库安装.bat install
+          cp tools/RemoveAutoStartReg_移除开机自启注册表项.bat install
 
       - name: Zip files
         run: |
           cd install
           Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
 
-      - name: Upload MAA to GitHub
+      - name: Upload MAA portable to GitHub
         uses: actions/upload-artifact@v5
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/*.zip
+
+      - name: Prepare package info for Inno Setup
+        run: |
+          $MaaProjectPath  = "${{ github.workspace }}"
+          $MaaAppVersion   = "${{ needs.meta.outputs.tag }}".TrimStart('v')
+          $ArchitectureRaw = "${{ matrix.arch }}"
+          $Architecture    = if ($ArchitectureRaw -eq "x64") { "x64compatible" } else { "arm64" }
+
+          cd installer/InnoSetup
+
+          New-Item -ItemType Directory -Force -Path "Languages" | Out-Null
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/ChineseSimplified.isl" `
+            -OutFile "Languages\ChineseSimplified.isl"
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/ChineseTraditional.isl" `
+            -OutFile "Languages\ChineseTraditional.isl"
+
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaProjectPath `"$MaaProjectPath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaPackagePath `"$MaaProjectPath\install`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaAppVersion `"$MaaAppVersion`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define ArchitectureRaw `"$ArchitectureRaw`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define Architecture `"$Architecture`""
+
+      - name: Build installer with Inno Setup
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: installer/InnoSetup/maa.iss
+          options: /O installer/InnoSetup/Output /F "MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}-Installer"
+
+      - name: Upload MAA installer to GitHub
+        uses: actions/upload-artifact@v5
+        with:
+          name: MAA-win-${{ matrix.arch }}-Installer
+          path: installer/InnoSetup/Output/*.exe
 
   ubuntu:
     name: Build for Ubuntu

@@ -8,14 +8,14 @@
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 AppId="{#MaaPublisherIdentifier}.{#MaaAppIdentifier}"
 AppName="{#MaaAppName}"
-AppVersion="{#MyAppVersion}"
-AppVerName="{#MaaAppName} {#MyAppVersion}"
+AppVersion="{#MaaAppVersion}"
+AppVerName="{#MaaAppName} {#MaaAppVersion}"
 AppPublisher="{#MaaPublisherName}"
 AppPublisherURL="https://github.com/MaaAssistantArknights"
 AppSupportURL="https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues"
 AppUpdatesURL="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
 DefaultDirName="{userpf}\{#MaaAppName}"
-UninstallDisplayIcon="{app}\{MAA.exe}"
+UninstallDisplayIcon="{app}\MAA.exe"
 ; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
 ; on anything but x64 and Windows 11 on Arm.
 ArchitecturesAllowed="{#Architecture}"
@@ -28,17 +28,16 @@ DefaultGroupName="{#MaaAppName}"
 AllowNoIcons="yes"
 AlwaysShowDirOnReadyPage="yes"
 AlwaysShowGroupOnReadyPage="yes"
-LicenseFile="{#LicenseFilePath}"
+LicenseFile="{#MaaProjectPath}\terms-of-service.md"
 ; Remove the following line to run in administrative install mode (install for all users).
 PrivilegesRequired="lowest"
-OutputBaseFilename="MAA-v{#MyAppVersion}-win-{#ArchitectureRaw}-Installer"
-SetupIconFile="{#IconFilePath}"
+SetupIconFile="{#MaaProjectPath}\docs\.vuepress\public\favicon.ico"
 SolidCompression="yes"
 WizardStyle="modern dynamic"
 
 [Languages]
-Name: "zh_cn"; MessagesFile: "{#UnofficialLanguageFolderPath}\ChineseSimplified.isl"
-Name: "zh_tw"; MessagesFile: "{#UnofficialLanguageFolderPath}\ChineseTraditional.isl"
+Name: "zh_cn"; MessagesFile: "Languages\ChineseSimplified.isl"
+Name: "zh_tw"; MessagesFile: "Languages\ChineseTraditional.isl"
 Name: "en_us"; MessagesFile: "compiler:Default.isl"
 Name: "ja_jp"; MessagesFile: "compiler:Languages\Japanese.isl"
 Name: "ko_kr"; MessagesFile: "compiler:Languages\Korean.isl"
@@ -47,17 +46,17 @@ Name: "ko_kr"; MessagesFile: "compiler:Languages\Korean.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#PackageFolderPath}\{MAA.exe}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#PackageFolderPath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MaaPackagePath}\MAA.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MaaPackagePath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MaaAppName}"; Filename: "{app}\{MAA.exe}"
+Name: "{group}\{#MaaAppName}"; Filename: "{app}\MAA.exe"
 Name: "{group}\{cm:UninstallProgram,{#MaaAppName}}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#MaaAppName}"; Filename: "{app}\{MAA.exe}"; Tasks: desktopicon
+Name: "{autodesktop}\{#MaaAppName}"; Filename: "{app}\MAA.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{MAA.exe}"; Description: "{cm:LaunchProgram,{#MaaAppName}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\MAA.exe"; Description: "{cm:LaunchProgram,{#MaaAppName}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 Filename: "{app}\RemoveAutoStartReg_移除开机自启注册表项.bat"; RunOnceId: "RemoveAutoStartReg"; Flags: runhidden skipifdoesntexist
