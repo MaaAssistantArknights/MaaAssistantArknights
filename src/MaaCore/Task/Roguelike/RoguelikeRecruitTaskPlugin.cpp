@@ -121,6 +121,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     return true;
                 }
             }
+            // 没有消失的话就继续招募流程
+            Log.warn(__FUNCTION__, "| Confirm button did not disappear in time, continue recruitment process.");
         }
     }
 
