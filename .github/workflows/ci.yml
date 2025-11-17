@@ -12,6 +12,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "include/**"
+      - "installer/**"
       - "src/**"
       - "tools/maadeps-download.py"
       - "!**/*.md"
@@ -24,6 +25,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "include/**"
+      - "installer/**"
       - "src/**"
       - "tools/maadeps-download.py"
       - "!**/*.md"
@@ -204,12 +206,17 @@ jobs:
 
       - name: Prepare package info for Inno Setup
         run: |
-          $MaaProjectPath  = "${{ github.workspace }}"
-          $MaaAppVersion   = "${{ needs.meta.outputs.tag }}".TrimStart('v')
-          $ArchitectureRaw = "${{ matrix.arch }}"
-          $Architecture    = if ($ArchitectureRaw -eq "x64") { "x64compatible" } else { "arm64" }
+          $MaaPackagePath  = "${{ github.workspace }}\install"
+          $MaaLicensePath  = "${{ github.workspace }}\terms-of-service.md"
+          $MaaIconPath     = "${{ github.workspace }}\docs\.vuepress\public\favicon.ico"
 
-          cd installer/InnoSetup
+          $MaaAppVersion   = "${{ needs.meta.outputs.tag }}".TrimStart('v')
+          $Architecture    = if ("${{ matrix.arch }}" -eq "x64") { "x64compatible" } else { "arm64" }
+
+          $MaaOutputDir    = "${{ github.workspace }}\installer\InnoSetup\Output"
+          $MaaOutputBaseFilename = "MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}-setup"
+
+          cd installer\InnoSetup
 
           New-Item -ItemType Directory -Force -Path "Languages" | Out-Null
           Invoke-WebRequest `
@@ -219,22 +226,30 @@ jobs:
             -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/ChineseTraditional.isl" `
             -OutFile "Languages\ChineseTraditional.isl"
 
-          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaProjectPath `"$MaaProjectPath`""
-          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaPackagePath `"$MaaProjectPath\install`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaPackagePath `"$MaaPackagePath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaLicensePath `"$MaaLicensePath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaIconPath `"$MaaIconPath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaOutputDir `"$MaaOutputDir`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaOutputBaseFilename `"$MaaOutputBaseFilename`""
           Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaAppVersion `"$MaaAppVersion`""
-          Add-Content -Path "maa_packageinfo.iss" -Value "#define ArchitectureRaw `"$ArchitectureRaw`""
           Add-Content -Path "maa_packageinfo.iss" -Value "#define Architecture `"$Architecture`""
 
+          # Debug info
+          ls -l ${{ github.workspace }}\install
+          ls -l ${{ github.workspace }}\installer\InnoSetup\Languages
+          echo "    File: maa_packageinfo.iss"
+          cat maa_packageinfo.iss
+
       - name: Build installer with Inno Setup
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: installer/InnoSetup/maa.iss
-          options: /O installer/InnoSetup/Output /F "MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}-Installer"
+          options: /Qp
 
       - name: Upload MAA installer to GitHub
         uses: actions/upload-artifact@v5
         with:
-          name: MAA-win-${{ matrix.arch }}-Installer
+          name: MAA-win-${{ matrix.arch }}-setup
           path: installer/InnoSetup/Output/*.exe
 
   ubuntu:

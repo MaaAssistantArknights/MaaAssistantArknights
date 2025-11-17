@@ -1,11 +1,10 @@
-; For Inno Setup
+; Inno Setup Script
 ; Non-commercial use only
 
 #include "maa_packageinfo.iss"
 
 
 [Setup]
-; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 AppId="{#MaaPublisherIdentifier}.{#MaaAppIdentifier}"
 AppName="{#MaaAppName}"
 AppVersion="{#MaaAppVersion}"
@@ -16,24 +15,21 @@ AppSupportURL="https://github.com/MaaAssistantArknights/MaaAssistantArknights/is
 AppUpdatesURL="https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases"
 DefaultDirName="{userpf}\{#MaaAppName}"
 UninstallDisplayIcon="{app}\MAA.exe"
-; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
-; on anything but x64 and Windows 11 on Arm.
 ArchitecturesAllowed="{#Architecture}"
-; "ArchitecturesInstallIn64BitMode=x64compatible" requests that the
-; install be done in "64-bit mode" on x64 or Windows 11 on Arm,
-; meaning it should use the native 64-bit Program Files directory and
-; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode="{#Architecture}"
 DefaultGroupName="{#MaaAppName}"
 AllowNoIcons="yes"
 AlwaysShowDirOnReadyPage="yes"
 AlwaysShowGroupOnReadyPage="yes"
-LicenseFile="{#MaaProjectPath}\terms-of-service.md"
-; Remove the following line to run in administrative install mode (install for all users).
+LicenseFile="{#MaaLicensePath}"
 PrivilegesRequired="lowest"
-SetupIconFile="{#MaaProjectPath}\docs\.vuepress\public\favicon.ico"
+SetupIconFile="{#MaaIconPath}"
 SolidCompression="yes"
-WizardStyle="modern dynamic"
+OutputDir="{#MaaOutputDir}"
+OutputBaseFilename="{#MaaOutputBaseFilename}"
+WizardStyle="modern"
+; 6.6.0 and later
+; WizardStyle="modern dynamic"
 
 [Languages]
 Name: "zh_cn"; MessagesFile: "Languages\ChineseSimplified.isl"
@@ -47,8 +43,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#MaaPackagePath}\MAA.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MaaPackagePath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "{#MaaPackagePath}\*"; Excludes: "\*.zip"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MaaAppName}"; Filename: "{app}\MAA.exe"
