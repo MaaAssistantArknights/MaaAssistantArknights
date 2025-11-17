@@ -210,21 +210,18 @@ jobs:
 
       - name: Download txwy
         uses: actions/download-artifact@v6
-        continue-on-error: true
         with:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
         uses: actions/download-artifact@v6
-        continue-on-error: true
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
       - name: Download Official
         uses: actions/download-artifact@v6
-        continue-on-error: true
         with:
           name: official
           path: ./tools/ResourceUpdater/Official
