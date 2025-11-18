@@ -100,7 +100,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 {
     LogTraceFunction;
 
-    auto image = ctrler()->get_image();
+    const auto& image = ctrler()->get_image();
 
 #ifdef ASST_DEBUG
     cv::Mat image_draw = image.clone();
@@ -152,12 +152,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
             return a.first.pickup_priority < b.first.pickup_priority;
         });
 
-    Log.info(
-        __FUNCTION__,
-        std::format(
-            "| selecting copper: {} with priority: {}",
-            max_pickup_it->first.name,
-            max_pickup_it->first.pickup_priority));
+    LogInfo << __FUNCTION__ << "| selecting copper: " << max_pickup_it->first.name
+            << " with priority:" << max_pickup_it->first.pickup_priority;
 
     // 点击选择的最优通宝
     ctrler()->click(max_pickup_it->second);
@@ -357,14 +353,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     }
 
     // 执行交换
-    Log.info(
-        __FUNCTION__,
-        std::format(
-            "| exchanging copper: {} ({},{}) -> {}",
-            worst_it->name,
-            worst_it->col,
-            worst_it->row,
-            m_new_copper.name));
+    LogInfo << __FUNCTION__ << "| exchanging copper:" << worst_it->name << "(" << worst_it->col << "," << worst_it->row
+            << ") -> " << m_new_copper.name;
 
     // 发送通宝替换信息到 WPF
     auto copper_info = basic_info_with_what("RoguelikeCoppersExchangeInfo");
@@ -607,7 +597,7 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         // 保存到debug/roguelikeCoppers目录
         const std::filesystem::path& relative_dir =
             utils::path("debug") / utils::path("roguelike") / utils::path("roguelikeCoppers");
-        const auto relative_path =
+        const auto& relative_path =
             relative_dir / (std::format("{}_{}_draw.jpeg", MAA_NS::format_now_for_filename(), suffix));
         Log.debug(__FUNCTION__, "| Saving debug image to ", relative_path);
         MAA_NS::imwrite(relative_path, image, jpeg_params);
