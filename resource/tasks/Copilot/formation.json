@@ -165,7 +165,7 @@
         "doc": "点击助战干员栏位底部的 Icon 以选择该助战干员",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect_Doc":"点击x由插件设定",
+        "specificRect_Doc": "点击x由插件设定",
         "specificRect": [-1, 606, 129, 50]
     },
     "SupportList-MoveToHead": {
