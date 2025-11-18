@@ -36,8 +36,6 @@ bool asst::RoguelikeCoppersConfig::parse(const json::value& json)
             // 将解析完成的通宝添加到主题列表中
             m_coppers[theme].emplace_back(std::move(copper));
         }
-
-
     }
     return true;
 }
