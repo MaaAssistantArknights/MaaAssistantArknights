@@ -3,6 +3,7 @@
 #include "Config/AbstractConfig.h"
 #include "MaaUtils/SingletonHolder.hpp"
 
+#include <meojson/json.hpp>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -107,6 +108,19 @@ public:
     }
 
 private:
+    struct CoppersConfig
+    {
+        std::string name;               // 通宝名称
+        std::string desc;               // 通宝效果描述（仅作注释，不影响程序运行）
+        std::string rarity;             // 稀有度：NONE/NORMAL/RARE/SUPER_RARE（仅作注释，不影响程序运行）
+        int pickup_priority = 0;        // 拾取优先级，在掉落选择时使用，数值越高越优先拾取
+        int discard_priority = 1000;    // 丢弃优先级，在交换时使用，数值越高越优先被丢弃
+        int cast_discard_priority = -1; // 可选字段，已投出时的丢弃优先级，仅在已投出且值>=0时替代 discard_priority;
+                                        // 这通常适用于一些投出后效果发生变化的通宝 (如变为大炎通宝的通宝)
+
+        MEO_JSONIZATION(name, MEO_OPT desc, rarity, pickup_priority, discard_priority, MEO_OPT cast_discard_priority);
+    };
+
     // 解析JSON配置文件
     bool parse(const json::value& json) override;
 
