@@ -10,7 +10,7 @@
         "doc": ["匹配助战干员时，应用于 Matcher 的配置任务", "| specificRect: 截取助战干员的 templ 时所使用的 rect"],
         "template": "empty.png",
         "roi": [95, 106, 1185, 550],
-        "templThreshold": 0.7,
+        "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [0, 106, 129, 550]
     },
