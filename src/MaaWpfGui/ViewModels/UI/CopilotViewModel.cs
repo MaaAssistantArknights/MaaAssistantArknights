@@ -1428,7 +1428,7 @@ public partial class CopilotViewModel : Screen
                     IgnoreRequirements = IgnoreRequirements,
                     UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                     LoopTimes = Loop ? LoopTimes : 1,
-                    UseSanityPotion = UseSanityPotion,
+                    UseSanityPotion = false,
                     FormationIndex = UseFormation ? FormationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
