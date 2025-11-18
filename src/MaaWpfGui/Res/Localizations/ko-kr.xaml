@@ -1037,7 +1037,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyPlaytime">노드: 유희 (常乐)</system:String>
     <system:String x:Key="BoskyDoubts">노드: 의혹 (杂疑)</system:String>
     <system:String x:Key="BoskyDisaster">노드: 재앙 (灾祸)</system:String>
-    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">통보교환: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0}개의 옵션이 감지되었습니다:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">선택 가능한 옵션: {0}</system:String>
