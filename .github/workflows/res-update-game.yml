@@ -109,7 +109,7 @@ jobs:
 
           for param in "${parameters[@]}"; do
             {
-              if curl -s -o "stages_${param}.json" "${baseUrl}${param}"; then
+              if curl -f -s -o "stages_${param}.json" "${baseUrl}${param}"; then
                 echo "Successfully fetched data for ${param}"
               else
                 echo "Failed to fetch data for ${param}" >&2
