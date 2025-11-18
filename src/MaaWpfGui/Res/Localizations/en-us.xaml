@@ -841,12 +841,15 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
-    <system:String x:Key="SupportUnitUsage">Support Unit Borrowing Strategy</system:String>
+    <system:String x:Key="SupportUnitUsage">Support Unit Borrowing</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">Missing one is still workable, but if two or more are missing, you should switch to another task.</system:String>
     <system:String x:Key="SupportUnitUsage.None">Don't Borrow</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">Only for Filling Gaps</system:String>
     <system:String x:Key="SupportUnitUsage.Random">Random</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Certain tasks require specific mods as prerequisites
+Checking this option will skip these checks but may cause the tasks to fail.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
@@ -858,7 +861,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
   4. {key=ParadoxSimulation}: Start from the {key=Operator} list
 Please start from the corresponding screen. Cross-chapter navigation is not supported.
 
-- When ｢{key=UseCopilotList}｣ is enabled, individual copilot will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
+When ｢{key=UseCopilotList}｣ is enabled, individual copilot will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
@@ -900,14 +903,14 @@ Right-click to clear inactive tasks</system:String>
         5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
         6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
         7. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box:\n
-        - click the second button = Add a single job.\n
-        - click the third button = Add a job set.\n\n
+        ● click the second button = Add a single job.\n
+        ● click the third button = Add a job set.\n\n
         8. {key=UseCopilotList}:\n
-        - After selecting a task, check that the stage name below is correct (e.g.: CV-EX-1).\n
-        - Add: Left-click for normal difficulty, right-click for challenge mode.\n
-        - Clear: Left-click to clear all, right-click to remove only inactive tasks.\n
-        - Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
-        - Operation will stop automatically when encountering insufficient sanity, battle failure, or failure to achieve 3-star clear.
+        ● After selecting a task, check that the stage name below is correct (e.g.: CV-EX-1).\n
+        ● Add: Left-click for normal difficulty, right-click for challenge mode.\n
+        ● Clear: Left-click to clear all, right-click to remove only inactive tasks.\n
+        ● Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
+        ● Operation will stop automatically when encountering insufficient sanity, battle failure, or failure to achieve 3-star clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>

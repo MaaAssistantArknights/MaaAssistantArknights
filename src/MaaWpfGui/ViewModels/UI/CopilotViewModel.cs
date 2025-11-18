@@ -351,7 +351,7 @@ public partial class CopilotViewModel : Screen
 
     private int _formationIndex = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
 
-    public int SelectFormation
+    public int FormationIndex
     {
         get => _formationIndex;
         set
@@ -359,6 +359,14 @@ public partial class CopilotViewModel : Screen
             SetAndNotify(ref _formationIndex, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
         }
+    }
+
+    private bool _useSupportUnitUsage;
+
+    public bool UseSupportUnitUsage
+    {
+        get => _useSupportUnitUsage;
+        set => SetAndNotify(ref _useSupportUnitUsage, value);
     }
 
     private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 0);
@@ -375,7 +383,7 @@ public partial class CopilotViewModel : Screen
 
     public List<GenericCombinedData<int>> SupportUnitUsageList { get; } =
     [
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 },
+        /* new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 }, */
         new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = 1 },
         new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = 3 },
     ];
@@ -1383,13 +1391,13 @@ public partial class CopilotViewModel : Screen
                 var task = new AsstCopilotTask()
                 {
                     MultiTasks = [.. t],
-                    Formation = _form,
-                    SupportUnitUsage = _supportUnitUsage,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    UseSanityPotion = _useSanityPotion,
-                    FormationIndex = UseFormation ? _formationIndex : 0,
+                    Formation = Form,
+                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                    AddTrust = AddTrust,
+                    IgnoreRequirements = IgnoreRequirements,
+                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                    UseSanityPotion = UseSanityPotion,
+                    FormationIndex = UseFormation ? FormationIndex : 0,
                 };
 
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
@@ -1414,14 +1422,14 @@ public partial class CopilotViewModel : Screen
                 var task = new AsstCopilotTask()
                 {
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
-                    Formation = _form,
-                    SupportUnitUsage = _supportUnitUsage,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    Formation = Form,
+                    SupportUnitUsage = SupportUnitUsage,
+                    AddTrust = AddTrust,
+                    IgnoreRequirements = IgnoreRequirements,
+                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                     LoopTimes = Loop ? LoopTimes : 1,
-                    UseSanityPotion = _useSanityPotion,
-                    FormationIndex = UseFormation ? _formationIndex : 0,
+                    UseSanityPotion = UseSanityPotion,
+                    FormationIndex = UseFormation ? FormationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret = ret && Instances.AsstProxy.AsstStart();

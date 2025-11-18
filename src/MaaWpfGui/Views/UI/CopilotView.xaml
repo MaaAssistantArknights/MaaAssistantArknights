@@ -196,18 +196,38 @@
                                 BorderThickness="0"
                                 DisplayMemberPath="Display"
                                 ItemsSource="{Binding FormationSelectList}"
-                                SelectedValue="{Binding SelectFormation}"
+                                SelectedValue="{Binding FormationIndex}"
                                 SelectedValuePath="Value"
                                 Visibility="{c:Binding UseFormation}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Center" Visibility="{c:Binding 'Form and (CopilotTabIndex == 0 or CopilotTabIndex == 3)'}">
-                        <CheckBox
+                        <StackPanel
                             Margin="2.5,5"
                             HorizontalAlignment="Center"
-                            Content="{DynamicResource Copilot.IgnoreRequirements}"
-                            IsChecked="{Binding IgnoreRequirements}" />
+                            Orientation="Horizontal">
+                            <CheckBox Content="{DynamicResource SupportUnitUsage}" IsChecked="{Binding UseSupportUnitUsage}" />
+                            <hc:ComboBox
+                                Height="20"
+                                MinWidth="100"
+                                Margin="2.5,-2.5"
+                                DisplayMemberPath="Display"
+                                ItemsSource="{Binding SupportUnitUsageList}"
+                                SelectedValue="{Binding SupportUnitUsage}"
+                                SelectedValuePath="Value"
+                                Visibility="{c:Binding UseSupportUnitUsage}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource SupportUnitUsage.Tip}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="2.5,5"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <CheckBox Content="{DynamicResource Copilot.IgnoreRequirements}" IsChecked="{Binding IgnoreRequirements}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource Copilot.IgnoreRequirements.Tip}" />
+                        </StackPanel>
+
                         <StackPanel HorizontalAlignment="Center">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
@@ -234,22 +254,14 @@
                                     Height="20"
                                     MinWidth="100"
                                     MaxWidth="140"
-                                    Margin="2.5,-10"
+                                    Margin="2.5,-2.5"
                                     VerticalContentAlignment="Center"
                                     Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
                                     Visibility="{c:Binding AddUserAdditional}" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" Visibility="{c:Binding AddUserAdditional}" />
                             </StackPanel>
                         </StackPanel>
-                        <hc:ComboBox
-                            Width="210"
-                            Margin="2.5,5"
-                            hc:InfoElement.Title="{DynamicResource SupportUnitUsage}"
-                            hc:InfoElement.TitlePlacement="Left"
-                            DisplayMemberPath="Display"
-                            ItemsSource="{Binding SupportUnitUsageList}"
-                            SelectedValue="{Binding SupportUnitUsage}"
-                            SelectedValuePath="Value" />
+
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -280,7 +292,7 @@
                         IsChecked="{Binding Loop}" />
                     <hc:NumericUpDown
                         Height="20"
-                        Margin="5,-10,0,-10"
+                        Margin="5,-2.5,0,-2.5"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
@@ -293,7 +305,7 @@
             <Grid
                 Grid.Row="2"
                 Width="200"
-                Margin="0,7,0,0"
+                Margin="0,5,0,0"
                 Visibility="{c:Binding 'UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -448,7 +460,7 @@
 
             <Grid
                 Grid.Row="{c:Binding 'UseCopilotList ? 3:2'}"
-                Margin="0,10"
+                Margin="0,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 d:Grid.Row="3">
