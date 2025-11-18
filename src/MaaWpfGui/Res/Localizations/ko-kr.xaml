@@ -843,14 +843,14 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
     <system:String x:Key="SupportUnitUsage">지원 유닛 모집</system:String>
-    <system:String x:Key="SupportUnitUsage.Tip">하나 부족한 정도면 어떻게든 되지만, 두 개 이상 부족하면 다른 공략을 쓰는 게 좋습니다.</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">하나 정도 부족한 것은 문제가 없지만, 둘 이상 부족하면 다른 작업을 사용하는 것을 권장합니다.</system:String>
     <system:String x:Key="SupportUnitUsage.None">모집안함</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">보완용</system:String>
     <system:String x:Key="SupportUnitUsage.Random">랜덤</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 요구 사항 무시</system:String>
-    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">일부 작업은 특정 모드 등을 전제 조건으로 합니다
-이 옵션을 선택하면 이러한 검사를 건너뛰지만 작업이 정상적으로 실행되지 않을 수 있습니다.</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">일부 작업은 특정 모듈이 필요합니다
+이 옵션을 선택하면 검사 과정을 건너뛰지만 작업이 정상적으로 동작하지 않을 수 있습니다.</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
