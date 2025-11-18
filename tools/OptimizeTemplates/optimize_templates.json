@@ -5291,5 +5291,19 @@
     "resource/template/BattleFormation/SupportList/SupportList-Refresh": "48eb56355a5d4ad921caab5f6d8f90f4788c5f1192a8c4eef5f3f06d88e0c24d",
     "resource/template/BattleFormation/SupportList/Special@SupportList-RoleSelected": "98cacb8e7ae6d58e34c8b653d4d4596d27e201d4e82bbc42acd563c7c2346739",
     "resource/template/BattleFormation/SupportList/SupportList-DetailPanel-Module-Chi_1": "939bafa1081381f1e59d5040ded5c9f5b99b22584b1c4a2dadb8e179d0e69f49",
-    "resource/template/BattleFormation/SupportList/SupportList-DetailPanel-Module-Beta": "94de1d8b9800442e6f9d331d0fda537109048d08eceda26f1a76100907dd20e8"
+    "resource/template/BattleFormation/SupportList/SupportList-DetailPanel-Module-Beta": "94de1d8b9800442e6f9d331d0fda537109048d08eceda26f1a76100907dd20e8",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation": "39065dc209fe73d16ca66dde1eebda70fc14bc39bec02a4eef2217168c5ac8c1",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@ReadyScreen": "fb53076586026f1ce263e9c8d642e9ce6f8cac686b598a7931cf27f24dbbcfb4",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@ExitButton": "41cf1c56b90600104fce5df11332033b9a55d2d9c9b58e96d63168bbdde384cf",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@NoMoreHint": "05dc7662bd16088bdf87eeba042a03c31e09f795f1175022e68dc1e75ced72f8",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@ReturnHome": "5481b998bb89e79b779748e51171fd5f3ffe4f8212a74c77fc824236d1900003",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@TurnFive": "dccb1a350a05c0b6c16fb791515b21588d65a72cecfbdf2201df847f603ddf9e",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@ConfirmHint": "f020e623b76223a6ea04809b8465cfda68333890a5964c3d06e763270d30482d",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@EnterStandard": "e8469f924a0ed3d5d3f6e5e599672b2696c5d9a0094280c2a2a4908cf787167d",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@ReadyAgain": "85eed63fe06e97c2e17400b3a7cce96745c73075620b508131506b5eb330b301",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@EnterDanger": "5ff4f3395d198328616e4c6916b80060d2085aa009f71ce9d0be1376962fdd07",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "5ca23281af63071edabf538b1c492e1e0d6f61c3bc4b717689eb61b91ab2f0ca",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@DecisionConfirmSelect": "55f72a95d1a00f6e6382bd631089e3c0ab4fe34c22d20e06f359445055086be7",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@Goliath": "7a2fb70d5508a212f41388bf12a150266f983796fe8ae350b07d89bc56d767fe",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect": "f2222a03072847a37c9f931edf09fefd6b9c2cb94754330557be4a2bbd2a3174"
 }
