@@ -239,13 +239,13 @@
         "rectMove": [670, 340, 20, 20]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
-        "Doc": "通宝已投出状态识别 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "algorithm": "OcrDetect",
         "text": ["已投出"],
         "roi": [-115, 90, 69, 24]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
-        "Doc": "通宝名称识别 - EXCHANGE 模式 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "Doc": "通宝名称识别 - EXCHANGE 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
         "roi": [29, -5, 160, 40]
     },
@@ -260,7 +260,7 @@
         "maskRange": [1, 255]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
-        "Doc": "通宝名称识别 - PICKUP 模式 - 若通宝类型 的 Rect 为 r, 则通宝已投出识别用 roi 为 [r.x + roi.x, r.y + roi.y, roi.w, roi.h]",
+        "Doc": "通宝名称识别 - PICKUP 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
         "roi": [0, -209, 167, 37]
     },
