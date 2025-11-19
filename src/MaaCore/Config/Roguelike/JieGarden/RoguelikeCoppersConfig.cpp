@@ -31,7 +31,7 @@ bool asst::RoguelikeCoppersConfig::parse(const json::value& json)
                 .type = get_type_from_name(copper_json.name),
                 .pickup_priority = copper_json.pickup_priority,
                 .discard_priority = copper_json.discard_priority,
-                .cast_discard_priority = copper_json.discard_priority,
+                .cast_discard_priority = copper_json.cast_discard_priority,
             };
             // 将解析完成的通宝添加到主题列表中
             m_coppers[theme].emplace_back(std::move(copper));
