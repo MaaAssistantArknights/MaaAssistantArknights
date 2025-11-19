@@ -24,7 +24,7 @@
         ]
     },
     "TerminalDefault": {
-        "action": "Stop",
+        "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [844, 58, 268, 272],
         "postDelay": 3000,
