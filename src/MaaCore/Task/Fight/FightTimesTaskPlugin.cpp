@@ -62,6 +62,7 @@ bool asst::FightTimesTaskPlugin::_run()
     if (m_fight_times >= m_fight_times_max) {
         m_task_ptr->set_enable(false); // 战斗次数已达上限
         Log.info(__FUNCTION__, "fight times reached max");
+        fight["details"]["finished"] = true;
         callback(AsstMsg::SubTaskExtraInfo, fight);
         return true;
     }
