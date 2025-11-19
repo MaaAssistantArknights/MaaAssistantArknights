@@ -5305,5 +5305,19 @@
     "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependent": "5ca23281af63071edabf538b1c492e1e0d6f61c3bc4b717689eb61b91ab2f0ca",
     "resource/template/MiniGame/SPA/MiniGame@SPA@DecisionConfirmSelect": "55f72a95d1a00f6e6382bd631089e3c0ab4fe34c22d20e06f359445055086be7",
     "resource/template/MiniGame/SPA/MiniGame@SPA@Goliath": "7a2fb70d5508a212f41388bf12a150266f983796fe8ae350b07d89bc56d767fe",
-    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect": "f2222a03072847a37c9f931edf09fefd6b9c2cb94754330557be4a2bbd2a3174"
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect": "f2222a03072847a37c9f931edf09fefd6b9c2cb94754330557be4a2bbd2a3174",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersAbandonExchange": "1ba46ddeeb3dced7c2e723ed3615d18da66d9d0053835599171a130f6f515c30",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersCloseBox": "bb367b908970c5115adcd7d97d6098ee129b8f66790e279c332ce830fe946e47",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersListDialogConfirm": "4d32ed68dce74e003dce161625ade7105f87923521cb7e381b1d231fd776dc62",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersOpenBox": "e2f32b0a12d664ebe7911aaa24c8172a50fbb60bb554b6b8ebf0ab76b41f9d6b",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersRecast": "23e941bb33d2e92968e4b2102456b8804880cb0a5f691120084b6821b932ed12",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTakeFlag": "92e870ad5262e3cb698b0f6a44776d552fcf649e9332f68c3cd8765959129857",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeHeng": "47fcb266bbb301120bda391fd4f86f38bc1aa0910bbc5233d9a840bdfd8e4583",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeHengSelected": "9d2c612f5b365e4344d482497deb9ab4cc0594c020b058fa9b36fe639a0b14cc",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeHua": "7f7cfb803e7c6fda83d085cb9fd1b13f20e8ac49c95e3f6cd69791e97fb2f4ea",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeHuaSelected": "4544a228cd842e8a31836a9b6b9fcc7ff1dc5025ffefe8c81b287d43ce095cf5",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeLi": "9d6a0f1f07fe89e4e36a6eb109cb32572a3b84e8cb8d2756f34f9ac2c7a03864",
+    "resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTypeLiSelected": "d1a352764062dc7ed697c87e1860e2c974ed4099f0b4eb6baf8316af9e7ebba5",
+    "docs/zh-cn/copper-explanation-1": "66fe19a206d5746639bb679cea53a72daecb5937054594fdd114cf3586cf2c63",
+    "docs/zh-cn/copper-explanation-2": "ca19d866f29337dfd275ff3f14773ba77eb8fbf59e4d4104d8ddf331179155a7"
 }
