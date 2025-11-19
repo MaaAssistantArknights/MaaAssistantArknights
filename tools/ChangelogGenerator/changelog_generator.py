@@ -66,12 +66,12 @@ def parse_category(message: str) -> str:
         if prefix in ["docs", "doc"]:
             return "docs"
         return "other"
-    
+
     # 2. 中文关键词匹配
     for key, cat in translations.items():
         if key in message:
             return cat
-    
+
     return "other"
 
 
@@ -90,7 +90,9 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
         # 剥掉 commitizen 前缀，除非保留
         if not with_commitizen:
-            commit_message = re.sub(r"^(?P<prefix>\w+)(?:\([\w\-]+\))?:\s*", "", commit_message)
+            commit_message = re.sub(
+                r"^(?P<prefix>\w+)(?:\([\w\-]+\))?:\s*", "", commit_message
+            )
 
         # 递归处理 merge branch
         mes, ctrs = individual_commits(commit_info.get("branch", {}), indent + "   ")
@@ -104,7 +106,9 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
             ]
             ctrs.extend([c for c in all_authors if c and c not in ctrs])
 
-        ret_contributor.extend([c for c in ctrs if c != "web-flow" and c not in ret_contributor])
+        ret_contributor.extend(
+            [c for c in ctrs if c != "web-flow" and c not in ret_contributor]
+        )
 
         # 拼接 commit message
         ret_message += indent + "* " + commit_message
@@ -134,13 +138,15 @@ def update_message(sorted_commits, ret_contributor):
             for ctr in ctrs:
                 if ctr not in ret_contributor:
                     ret_contributor.append(ctr)
-    return ret_message,
+    return (ret_message,)
 
 
 def print_commits(commits: dict):
     sorted_commits = {cat: {} for cat in ["perf", "feat", "fix", "docs", "other"]}
     for commit_hash, commit_info in commits.items():
-        update_commits(commit_info["message"], sorted_commits, {commit_hash: commit_info})
+        update_commits(
+            commit_info["message"], sorted_commits, {commit_hash: commit_info}
+        )
     return update_message(sorted_commits, [])
 
 
@@ -172,8 +178,13 @@ def build_commits_tree(commit_hash: str):
         if commit_info["message"].startswith(("Release", "Merge")):
             res.update(build_commits_tree(commit_info["parent"][1]))
         else:
-            res[commit_hash]["branch"].update(build_commits_tree(commit_info["parent"][1]))
-        if commit_info["message"].startswith("Merge") and not res[commit_hash]["branch"]:
+            res[commit_hash]["branch"].update(
+                build_commits_tree(commit_info["parent"][1])
+            )
+        if (
+            commit_info["message"].startswith("Merge")
+            and not res[commit_hash]["branch"]
+        ):
             res.pop(commit_hash)
 
     return res
@@ -203,7 +214,9 @@ def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     if name in contributors:
         return contributors[name]
     try:
-        req = urllib.request.Request(f"https://api.github.com/repos/{repo}/commits/{commit_hash}")
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/commits/{commit_hash}"
+        )
         token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
         if token:
             req.add_header("Authorization", f"Bearer {token}")
@@ -247,7 +260,9 @@ def main(tag_name=None, latest=None):
     raw_commits_info = {}
     if raw_gitlogs.strip():
         for raw_commit_info in raw_gitlogs.split("\n\n"):
-            commit_hash, author, committer, message, parent = raw_commit_info.split("\n")
+            commit_hash, author, committer, message, parent = raw_commit_info.split(
+                "\n"
+            )
             author = convert_contributors_name(author, commit_hash, "author")
             committer = convert_contributors_name(committer, commit_hash, "committer")
             raw_commits_info[commit_hash] = {
@@ -259,12 +274,16 @@ def main(tag_name=None, latest=None):
             }
 
         # coauthor
-        git_coauthor_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
+        git_coauthor_command = (
+            rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
+        )
         coauthor_hashes = call_command(git_coauthor_command).split("\n")
         for commit_hash in coauthor_hashes:
             if commit_hash not in raw_commits_info:
                 continue
-            addition = call_command(rf'git log {commit_hash} --no-walk --pretty=format:"%b"')
+            addition = call_command(
+                rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
+            )
             coauthors = []
             for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
                 if coauthor in contributors:
@@ -305,13 +324,52 @@ def main(tag_name=None, latest=None):
 
 def ArgParser():
     parser = ArgumentParser()
-    parser.add_argument("--tag", help="release tag name", metavar="TAG", dest="tag_name", default=None)
-    parser.add_argument("--base", "--latest", help="base tag name", metavar="TAG", dest="latest", default=None)
-    parser.add_argument("-wh", "--with-hash", help="print commit message with hash", action="store_true", dest="with_hash")
-    parser.add_argument("-wc", "--with-commitizen", help="print commit message with commitizen", action="store_true", dest="with_commitizen")
-    parser.add_argument("-ma", "--merge-author", help="do not ignore merge author", action="store_true", dest="merge_author")
-    parser.add_argument("-ca", "--committer-is-author", help="treat committer the same as author", action="store_true", dest="committer_is_author")
-    parser.add_argument("-wm", "--with-merge", help="print merge commits tree", action="store_true", dest="with_merge")
+    parser.add_argument(
+        "--tag", help="release tag name", metavar="TAG", dest="tag_name", default=None
+    )
+    parser.add_argument(
+        "--base",
+        "--latest",
+        help="base tag name",
+        metavar="TAG",
+        dest="latest",
+        default=None,
+    )
+    parser.add_argument(
+        "-wh",
+        "--with-hash",
+        help="print commit message with hash",
+        action="store_true",
+        dest="with_hash",
+    )
+    parser.add_argument(
+        "-wc",
+        "--with-commitizen",
+        help="print commit message with commitizen",
+        action="store_true",
+        dest="with_commitizen",
+    )
+    parser.add_argument(
+        "-ma",
+        "--merge-author",
+        help="do not ignore merge author",
+        action="store_true",
+        dest="merge_author",
+    )
+    parser.add_argument(
+        "-ca",
+        "--committer-is-author",
+        help="treat committer the same as author",
+        action="store_true",
+        dest="committer_is_author",
+    )
+    parser.add_argument(
+        "-wm",
+        "--with-merge",
+        help="print merge commits tree",
+        action="store_true",
+        dest="with_merge",
+    )
     return parser
 
 
