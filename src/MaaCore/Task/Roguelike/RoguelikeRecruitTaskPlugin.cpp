@@ -108,7 +108,21 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
         bool ret = ProcessTask(*this, { "JieGarden@Roguelike@ReserveRecruitmentVoucher" }).run();
         if (ret) {
-            return true;
+            // 判断当前界面是否存在尚未消失的确认招募按钮，等待其消失
+            Matcher analyzer;
+            analyzer.set_task_info("JieGarden@Roguelike@ChooseOperConfirm");
+            for (int i = 0; i < 5; ++i) {
+                analyzer.set_image(ctrler()->get_image());
+                if (analyzer.analyze().has_value()) {
+                    Log.info(__FUNCTION__, "| Waiting for confirm button to disappear...");
+                    sleep(200);
+                }
+                else {
+                    return true;
+                }
+            }
+            // 没有消失的话就继续招募流程
+            Log.warn(__FUNCTION__, "| Confirm button did not disappear in time, continue recruitment process.");
         }
     }
 
