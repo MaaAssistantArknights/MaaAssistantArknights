@@ -813,32 +813,34 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        var output = new List<OperBoxData.OperData>();
-        var ids = OperBoxDataArray.ToDictionary(op => op.Id);
-        foreach (var (id, oper) in DataHelper.Operators)
+        var exportList = new List<OperBoxData.OperData>();
+        var userOperMap = OperBoxDataArray.ToDictionary(op => op.Id);
+
+        foreach (var (operId, operInfo) in DataHelper.Operators)
         {
-            if (DataHelper.IsCharacterAvailableInClient(oper, SettingsViewModel.GameSettings.ClientType))
+            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType))
             {
-                var name = DataHelper.GetLocalizedCharacterName(oper) ?? "???";
-                if (ids.TryGetValue(id, out var value))
+                continue;
+            }
+
+            var operName = DataHelper.GetLocalizedCharacterName(operInfo) ?? "???";
+            if (userOperMap.TryGetValue(operId, out var value))
+            {
+                exportList.Add(value);
+            }
+            else
+            {
+                exportList.Add(new OperBoxData.OperData()
                 {
-                    output.Add(value);
-                }
-                else
-                {
-                    output.Add(new OperBoxData.OperData()
-                    {
-                        Id = id,
-                        Name = name,
-                        Rarity = oper.Rarity,
-                        Potential = 0,
-                    });
-                }
+                    Id = operId,
+                    Name = operName,
+                    Rarity = operInfo.Rarity,
+                });
             }
         }
 
         System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(output, Formatting.Indented));
+        System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
         OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
     }
 
