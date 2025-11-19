@@ -1040,5 +1040,8 @@ public class FightSettingsUserControlModel : TaskViewModel
 
         [JsonProperty("times_finished")]
         public int TimesFinished { get; set; }
+
+        [JsonProperty("finished")]
+        public bool IsFinished { get; set; }
     }
 }
