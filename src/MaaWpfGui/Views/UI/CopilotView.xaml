@@ -149,7 +149,7 @@
 
             <WrapPanel
                 Grid.Row="1"
-                MaxWidth="290"
+                MaxWidth="305"
                 HorizontalAlignment="Center"
                 IsEnabled="{Binding Idle}">
 
