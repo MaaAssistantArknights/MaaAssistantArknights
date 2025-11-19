@@ -179,7 +179,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_reward()
         m_config->set_run_for_collectible(true);
         m_control_ptr->exit_then_stop(true);
     }
-    else if (m_config->get_start_with_elite_two()) {
+    else if (m_config->get_start_with_elite_two() || m_config->get_first_floor_foldartal()) {
+        // 之后还要凹开局精二或第一层密文板，不停止任务，继续探索
         ctrler()->click(ret->rect);
         sleep(Config.get_options().task_delay);
     }
