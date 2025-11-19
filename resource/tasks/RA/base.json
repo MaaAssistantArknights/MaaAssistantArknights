@@ -44,7 +44,7 @@
             "RA@Navigation-FromTodoList",
             "RA@Navigation-LongTermExploration",
             "RA@Navigation-FromMainInterface",
-            "RA@ReturnButtons#next"
+            "RA@Navigation@ReturnButtons#next"
         ],
         "postDelay": 3000
     },
