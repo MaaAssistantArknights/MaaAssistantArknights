@@ -9,7 +9,7 @@
             "Roguelike@TodoEnter",
             "Roguelike@IntegratedStrategies",
             "Roguelike@ReturnButtons#next"
-        ],
+        ]
     },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
