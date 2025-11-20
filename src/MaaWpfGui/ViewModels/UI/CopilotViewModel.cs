@@ -333,6 +333,54 @@ public partial class CopilotViewModel : Screen
         }
     }
 
+    private bool _isUserAdditionalPopupOpen;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the UserAdditional popup is open.
+    /// </summary>
+    public bool IsUserAdditionalPopupOpen
+    {
+        get => _isUserAdditionalPopupOpen;
+        set => SetAndNotify(ref _isUserAdditionalPopupOpen, value);
+    }
+
+    private string _userAdditionalEdit = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the temporary value for editing UserAdditional.
+    /// </summary>
+    public string UserAdditionalEdit
+    {
+        get => _userAdditionalEdit;
+        set => SetAndNotify(ref _userAdditionalEdit, value);
+    }
+
+    /// <summary>
+    /// Opens the UserAdditional popup for editing.
+    /// </summary>
+    public void OpenUserAdditionalPopup()
+    {
+        UserAdditionalEdit = UserAdditional;
+        IsUserAdditionalPopupOpen = true;
+    }
+
+    /// <summary>
+    /// Saves the UserAdditional value from the popup.
+    /// </summary>
+    public void SaveUserAdditional()
+    {
+        UserAdditional = UserAdditionalEdit;
+        IsUserAdditionalPopupOpen = false;
+    }
+
+    /// <summary>
+    /// Cancels editing UserAdditional and closes the popup.
+    /// </summary>
+    public void CancelUserAdditionalEdit()
+    {
+        IsUserAdditionalPopupOpen = false;
+    }
+
     private bool _useFormation;
 
     public bool UseFormation
