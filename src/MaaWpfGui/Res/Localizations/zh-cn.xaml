@@ -852,6 +852,10 @@ C:\\leidian\\LDPlayer9。\n
 勾选此项将跳过这些检查，但可能导致作业无法正常运行</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">技能</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">添加</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">仅支持以下模式:

@@ -852,6 +852,10 @@ C:\\leidian\\LDPlayer9
 この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">スキル</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">追加</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:

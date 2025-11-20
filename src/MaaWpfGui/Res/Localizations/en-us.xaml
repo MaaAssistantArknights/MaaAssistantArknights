@@ -852,6 +852,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
 Enabling this will skip these checks, but may cause the job to fail.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
+    <system:String x:Key="UserAdditional.Skill">Skill</system:String>
+    <system:String x:Key="UserAdditional.Action">Action</system:String>
+    <system:String x:Key="UserAdditional.Add">Add</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:

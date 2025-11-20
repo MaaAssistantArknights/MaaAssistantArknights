@@ -853,6 +853,10 @@ C:\\leidian\\LDPlayer9。\n
 勾選此項將跳過這些檢查，但可能導致作業無法正常執行</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例：史爾特爾,3;艾雅法拉,1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">技能</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">添加</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式:
   1. {key=MainStage}: 同一章節內導航

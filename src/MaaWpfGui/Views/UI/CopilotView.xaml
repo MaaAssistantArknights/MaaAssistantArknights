@@ -34,7 +34,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 4 : 3'}">
+        <Grid Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 4 : 3'}" d:Grid.ColumnSpan="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -242,17 +242,17 @@
                                     BorderThickness="0"
                                     Command="{s:Action OpenUserAdditionalPopup}"
                                     IsEnabled="{c:Binding AddUserAdditional}"
-                                    ToolTip="{Binding UserAdditional}"
-                                    Visibility="{c:Binding AddUserAdditional}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" Visibility="{c:Binding AddUserAdditional}" />
+                                    ToolTip="{Binding UserAdditional}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
                                 <Popup
                                     IsOpen="{Binding IsUserAdditionalPopupOpen}"
-                                    Placement="Bottom"
+                                    Placement="Center"
                                     PlacementTarget="{Binding ElementName=UserAdditionalButton}"
                                     PopupAnimation="Slide"
                                     StaysOpen="False">
                                     <Border
-                                        Width="300"
+                                        MaxWidth="600"
+                                        MaxHeight="500"
                                         Padding="10"
                                         Background="{DynamicResource RegionBrush}"
                                         BorderBrush="{DynamicResource BorderBrush}"
@@ -260,20 +260,108 @@
                                         CornerRadius="4">
                                         <StackPanel>
                                             <TextBlock Margin="0,0,0,5" Text="{DynamicResource AddUserAdditional}" />
-                                            <TextBox Margin="0,0,0,10" Text="{Binding UserAdditionalEdit, UpdateSourceTrigger=PropertyChanged}" />
-                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                            <DataGrid
+                                                x:Name="UserAdditionalDataGrid"
+                                                MaxHeight="350"
+                                                AutoGenerateColumns="False"
+                                                Background="{DynamicResource RegionBrush}"
+                                                CanUserAddRows="False"
+                                                CanUserDeleteRows="False"
+                                                CanUserResizeColumns="False"
+                                                CanUserResizeRows="False"
+                                                HeadersVisibility="Column"
+                                                ItemsSource="{Binding UserAdditionalItems}"
+                                                RowHeight="40"
+                                                SelectionMode="Single">
+                                                <DataGrid.RowStyle>
+                                                    <Style TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.RowStyle>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn
+                                                        Width="Auto"
+                                                        Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Header="{DynamicResource UserAdditional.OperatorName}" />
+                                                    <DataGridTemplateColumn Width="80" Header="{DynamicResource UserAdditional.Skill}">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <hc:NumericUpDown
+                                                                    Height="20"
+                                                                    InputMethod.IsInputMethodEnabled="False"
+                                                                    Maximum="3"
+                                                                    Minimum="1"
+                                                                    Value="{Binding Skill, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                    <DataGridTemplateColumn Width="140" Header="{DynamicResource CopilotModule}">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <ComboBox
+                                                                    Height="24"
+                                                                    DisplayMemberPath="Key"
+                                                                    ItemsSource="{Binding DataContext.ModuleMapping, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                                    SelectedValue="{Binding Module, UpdateSourceTrigger=PropertyChanged}"
+                                                                    SelectedValuePath="Value">
+                                                                    <!--  TODO: 后续可改为绑定到单独的 Module 选项列表  -->
+                                                                </ComboBox>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                    <DataGridTemplateColumn Width="Auto" Header="{DynamicResource UserAdditional.Action}">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button
+                                                                    Width="20"
+                                                                    Height="20"
+                                                                    MinWidth="20"
+                                                                    Padding="0"
+                                                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                                    BorderThickness="0"
+                                                                    Command="{s:Action RemoveUserAdditionalItem}"
+                                                                    CommandParameter="{Binding}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <Grid Margin="0,5,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
                                                 <Button
+                                                    Grid.Column="0"
+                                                    Width="80"
+                                                    Height="25"
+                                                    HorizontalAlignment="Left"
+                                                    Command="{s:Action AddUserAdditionalItem}"
+                                                    Content="{DynamicResource UserAdditional.Add}" />
+                                                <Button
+                                                    Grid.Column="1"
                                                     Width="60"
                                                     Height="25"
-                                                    Margin="0,0,5,0"
                                                     Command="{s:Action SaveUserAdditional}"
                                                     Content="{DynamicResource Ok}" />
                                                 <Button
+                                                    Grid.Column="2"
                                                     Width="60"
                                                     Height="25"
+                                                    Margin="5,0,0,0"
                                                     Command="{s:Action CancelUserAdditionalEdit}"
                                                     Content="{DynamicResource Cancel}" />
-                                            </StackPanel>
+                                            </Grid>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -354,6 +442,7 @@
                         Grid.Row="0"
                         Grid.ColumnSpan="4"
                         HorizontalContentAlignment="Stretch"
+                        d:ItemsSource="{d:SampleData ItemCount=7}"
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         hc:BorderElement.CornerRadius="4,4,0,0"
@@ -501,7 +590,11 @@
             </controls:TextBlock>
         </Grid>
 
-        <Grid Grid.Column="{c:Binding 'UseCopilotList ? 4 : 3'}" Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 2 : 3'}">
+        <Grid
+            Grid.Column="{c:Binding 'UseCopilotList ? 4 : 3'}"
+            Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 2 : 3'}"
+            d:Grid.Column="4"
+            d:Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
