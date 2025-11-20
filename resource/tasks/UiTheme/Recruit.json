@@ -1,0 +1,79 @@
+{
+    "Recruit-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [935, 480, 145, 61],
+            "mask": [125, 0, 25, 20]
+        },
+        "next": [
+            "RecruitDefault",
+            "RecruitDark",
+            "RecruitSami",
+            "RecruitMistCity",
+            "RecruitSiege",
+            "RecruitSarkaz",
+            "RecruitDelicious",
+            "RecruitGaming",
+            "RecruitDahuangCity",
+            "RecruitDreamland",
+            "RecruitJieGarden",
+            "RecruitAveMujica",
+            "RecruitTogether"
+        ]
+    },
+    "RecruitDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [925, 425, 200, 150],
+        "template": "Default/Recruit.png"
+    },
+    "RecruitDark": {
+        "baseTask": "RecruitDefault",
+        "template": "Dark/Recruit.png"
+    },
+    "RecruitSami": {
+        "baseTask": "RecruitDefault",
+        "template": "Sami/Recruit.png"
+    },
+    "RecruitMistCity": {
+        "baseTask": "RecruitDefault",
+        "template": "MistCity/Recruit.png"
+    },
+    "RecruitSiege": {
+        "baseTask": "RecruitDefault",
+        "template": "Siege/Recruit.png"
+    },
+    "RecruitSarkaz": {
+        "baseTask": "RecruitDefault",
+        "template": "Sarkaz/Recruit.png"
+    },
+    "RecruitDelicious": {
+        "baseTask": "RecruitDefault",
+        "template": "Delicious/Recruit.png"
+    },
+    "RecruitGaming": {
+        "baseTask": "RecruitDefault",
+        "template": "Gaming/Recruit.png"
+    },
+    "RecruitDahuangCity": {
+        "baseTask": "RecruitDefault",
+        "template": "DahuangCity/Recruit.png"
+    },
+    "RecruitDreamland": {
+        "baseTask": "RecruitDefault",
+        "template": ["Dreamland/DreamlandDefault/Recruit.png", "Dreamland/DreamlandDark/Recruit.png"]
+    },
+    "RecruitJieGarden": {
+        "baseTask": "RecruitDefault",
+        "template": "JieGarden/Recruit.png"
+    },
+    "RecruitAveMujica": {
+        "baseTask": "RecruitDefault",
+        "template": "AveMujica/Recruit.png"
+    },
+    "RecruitTogether": {
+        "baseTask": "RecruitDefault",
+        "template": "Together/Recruit.png"
+    }
+}

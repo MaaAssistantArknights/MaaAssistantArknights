@@ -1,0 +1,79 @@
+{
+    "Gacha-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [1095, 497, 167, 56],
+            "mask": []
+        },
+        "next": [
+            "GachaDefault",
+            "GachaDark",
+            "GachaSami",
+            "GachaMistCity",
+            "GachaSiege",
+            "GachaSarkaz",
+            "GachaDelicious",
+            "GachaGaming",
+            "GachaDahuangCity",
+            "GachaDreamland",
+            "GachaJieGarden",
+            "GachaAveMujica",
+            "GachaTogether"
+        ]
+    },
+    "GachaDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [1052, 426, 228, 174],
+        "template": "Default/GachaEnter.png"
+    },
+    "GachaDark": {
+        "baseTask": "GachaDefault",
+        "template": "Dark/GachaEnter.png"
+    },
+    "GachaSami": {
+        "baseTask": "GachaDefault",
+        "template": "Sami/GachaEnter.png"
+    },
+    "GachaMistCity": {
+        "baseTask": "GachaDefault",
+        "template": "MistCity/GachaEnter.png"
+    },
+    "GachaSiege": {
+        "baseTask": "GachaDefault",
+        "template": "Siege/GachaEnter.png"
+    },
+    "GachaSarkaz": {
+        "baseTask": "GachaDefault",
+        "template": "Sarkaz/GachaEnter.png"
+    },
+    "GachaDelicious": {
+        "baseTask": "GachaDefault",
+        "template": "Delicious/GachaEnter.png"
+    },
+    "GachaGaming": {
+        "baseTask": "GachaDefault",
+        "template": "Gaming/GachaEnter.png"
+    },
+    "GachaDahuangCity": {
+        "baseTask": "GachaDefault",
+        "template": "DahuangCity/GachaEnter.png"
+    },
+    "GachaDreamland": {
+        "baseTask": "GachaDefault",
+        "template": ["Dreamland/DreamlandDefault/GachaEnter.png", "Dreamland/DreamlandDark/GachaEnter.png"]
+    },
+    "GachaJieGarden": {
+        "baseTask": "GachaDefault",
+        "template": "JieGarden/GachaEnter.png"
+    },
+    "GachaAveMujica": {
+        "baseTask": "GachaDefault",
+        "template": "AveMujica/GachaEnter.png"
+    },
+    "GachaTogether": {
+        "baseTask": "GachaDefault",
+        "template": "Together/GachaEnter.png"
+    }
+}
