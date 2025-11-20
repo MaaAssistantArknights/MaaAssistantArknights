@@ -37,8 +37,7 @@
         <Grid Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 4 : 3'}" d:Grid.ColumnSpan="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel
@@ -580,7 +579,7 @@
                 </Grid>
             </Grid>
 
-            <controls:TextBlock Grid.Row="3" Block.TextAlignment="Center">
+            <controls:TextBlock Grid.Row="2" Block.TextAlignment="Center">
                 <Hyperlink
                     Cursor="Hand"
                     NavigateUri="{Binding CopilotUrl}"
