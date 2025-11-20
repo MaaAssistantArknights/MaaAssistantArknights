@@ -425,7 +425,6 @@
 
                 <Grid
                     Grid.Column="1"
-                    Width="210"
                     Margin="0,0,5,0"
                     Visibility="{c:Binding 'UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}">
                     <Grid.RowDefinitions>
@@ -474,6 +473,7 @@
                                     <TextBlock
                                         Grid.Column="1"
                                         MinWidth="35"
+                                        Margin="5,0"
                                         VerticalAlignment="Center"
                                         Opacity="{c:Binding 'DataContext.Idle ? 1 : 0.5',
                                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
