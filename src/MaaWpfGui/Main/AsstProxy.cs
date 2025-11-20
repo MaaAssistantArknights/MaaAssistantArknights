@@ -481,6 +481,19 @@ public class AsstProxy
                 _logger.Information("Using GPU {0} (Driver {1} {2})", description, version, date);
             }
 
+            // Check if driver date is over two years old
+            if (info is { DriverDate: { } driverDate })
+            {
+                var twoYearsAgo = DateTime.Now.AddYears(-2);
+                if (driverDate < twoYearsAgo)
+                {
+                    var dateStr = driverDate.ToString("yyyy-MM-dd");
+                    var message = string.Format(LocalizationHelper.GetString("GpuDriverOutdatedMessage"), description, version ?? "Unknown", dateStr);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    _logger.Warning("Using GPU {0} with outdated driver {1} (release date: {2}, over 2 years old)", description, version, dateStr);
+                }
+            }
+
             AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
         }
 
