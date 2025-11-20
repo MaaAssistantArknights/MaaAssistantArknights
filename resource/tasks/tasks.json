@@ -1064,6 +1064,7 @@
     "StartUp": {
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
         "action": "DoNothing",
+        "roi": [227, 327, 159, 152],
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "sub": ["Terminal-Entry"],
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
@@ -1695,6 +1696,7 @@
     "Fight": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
         "next": [
             "Fight@GoLastBattle",
@@ -1702,8 +1704,7 @@
             "Fight@CloseAnnos#next",
             "Fight@GoTerminalStopflag",
             "Fight@ReturnButtons#next"
-        ],
-        "postDelay": 3000
+        ]
     },
     "GoTerminalStopflag": {
         "template": "StageResource.png",
@@ -1733,6 +1734,7 @@
     "Recruit": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Recruit-Entry"],
         "next": ["RecruitBegin@LoadingText", "RecruitBegin"]
     },
@@ -2026,6 +2028,7 @@
     "Award": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Task-Entry"],
         "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"]
     },
@@ -2124,6 +2127,7 @@
     "Visit": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Friends-Entry"],
         "next": ["FriendsList", "Visit", "Visit@CloseAnnos#next"]
     },
@@ -2185,6 +2189,7 @@
     "Mall": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Mall-Entry"],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
     },
@@ -2226,6 +2231,7 @@
     "Home": {
         "action": "Stop",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"]
     },
     "CreditShop-Commodities": {
@@ -2386,6 +2392,7 @@
     "Infrast": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["EnterInfrast-Entry"],
         "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
@@ -4162,6 +4169,7 @@
     "DepotEnter": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["DepotEnter-Entry"],
         "next": ["#self", "DepotMaterialTab"]
     },
@@ -4239,6 +4247,7 @@
     "OperBoxEnter": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["OperBoxEnter-Entry"],
         "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
@@ -4798,6 +4807,7 @@
     "GachaEnter": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["GachaEnter-Entry"],
         "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"]
     },

@@ -2,6 +2,7 @@
     "Roguelike": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
         "next": [
             "Roguelike",
