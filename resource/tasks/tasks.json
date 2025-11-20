@@ -4157,13 +4157,7 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": [
-            "Depot",
-            "DepotMaterialTab",
-            "DepotAllTab",
-            "DepotMaterialTabClicked",
-            "Depot@ReturnButtons#next"
-        ],
+        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"],
         "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Depot": {
