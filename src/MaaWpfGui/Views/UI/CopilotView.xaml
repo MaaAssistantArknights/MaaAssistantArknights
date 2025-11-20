@@ -27,14 +27,12 @@
     mc:Ignorable="d">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 4 : 3'}" d:Grid.ColumnSpan="4">
+        <Grid Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 3 : 2'}" d:Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -151,8 +149,8 @@
 
             <Grid Grid.Row="1" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -428,7 +426,7 @@
 
                 <Grid
                     Grid.Column="1"
-                    Margin="5,0"
+                    Margin="5,0,0,10"
                     Visibility="{c:Binding 'UseCopilotList and (CopilotTabIndex == 0 or CopilotTabIndex == 2)'}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -595,10 +593,10 @@
         </Grid>
 
         <Grid
-            Grid.Column="{c:Binding 'UseCopilotList ? 4 : 3'}"
-            Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 2 : 3'}"
-            d:Grid.Column="4"
-            d:Grid.ColumnSpan="2">
+            Grid.Column="{c:Binding 'UseCopilotList ? 3 : 2'}"
+            Grid.ColumnSpan="{c:Binding 'UseCopilotList ? 1 : 2'}"
+            d:Grid.Column="3"
+            d:Grid.ColumnSpan="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
