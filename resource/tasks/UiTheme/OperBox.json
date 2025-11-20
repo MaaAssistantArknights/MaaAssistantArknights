@@ -1,0 +1,79 @@
+{
+    "OperBox-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [945, 301, 85, 78],
+            "mask": []
+        },
+        "next": [
+            "OperBoxDefault",
+            "OperBoxDark",
+            "OperBoxSami",
+            "OperBoxMistCity",
+            "OperBoxSiege",
+            "OperBoxSarkaz",
+            "OperBoxDelicious",
+            "OperBoxGaming",
+            "OperBoxDahuangCity",
+            "OperBoxDreamland",
+            "OperBoxJieGarden",
+            "OperBoxAveMujica",
+            "OperBoxTogether"
+        ]
+    },
+    "OperBoxDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [935, 300, 265, 110],
+        "template": "Default/OperBoxEnter.png"
+    },
+    "OperBoxDark": {
+        "baseTask": "OperBoxDefault",
+        "template": "Dark/OperBoxEnter.png"
+    },
+    "OperBoxSami": {
+        "baseTask": "OperBoxDefault",
+        "template": "Sami/OperBoxEnter.png"
+    },
+    "OperBoxMistCity": {
+        "baseTask": "OperBoxDefault",
+        "template": "MistCity/OperBoxEnter.png"
+    },
+    "OperBoxSiege": {
+        "baseTask": "OperBoxDefault",
+        "template": "Siege/OperBoxEnter.png"
+    },
+    "OperBoxSarkaz": {
+        "baseTask": "OperBoxDefault",
+        "template": "Sarkaz/OperBoxEnter.png"
+    },
+    "OperBoxDelicious": {
+        "baseTask": "OperBoxDefault",
+        "template": "Delicious/OperBoxEnter.png"
+    },
+    "OperBoxGaming": {
+        "baseTask": "OperBoxDefault",
+        "template": "Gaming/OperBoxEnter.png"
+    },
+    "OperBoxDahuangCity": {
+        "baseTask": "OperBoxDefault",
+        "template": "DahuangCity/OperBoxEnter.png"
+    },
+    "OperBoxDreamland": {
+        "baseTask": "OperBoxDefault",
+        "template": ["Dreamland/DreamlandDefault/OperBoxEnter.png", "Dreamland/DreamlandDark/OperBoxEnter.png"]
+    },
+    "OperBoxJieGarden": {
+        "baseTask": "OperBoxDefault",
+        "template": "JieGarden/OperBoxEnter.png"
+    },
+    "OperBoxAveMujica": {
+        "baseTask": "OperBoxDefault",
+        "template": "AveMujica/OperBoxEnter.png"
+    },
+    "OperBoxTogether": {
+        "baseTask": "OperBoxDefault",
+        "template": "Together/OperBoxEnter.png"
+    }
+}

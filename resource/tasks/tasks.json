@@ -2393,7 +2393,7 @@
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
-        "sub": ["EnterInfrast-Entry"],
+        "sub": ["Infrast-Entry"],
         "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
@@ -4158,19 +4158,19 @@
     "DepotBegin": {
         "algorithm": "JustReturn",
         "next": [
-            "DepotEnter",
+            "Depot",
             "DepotMaterialTab",
             "DepotAllTab",
             "DepotMaterialTabClicked",
-            "DepotEnter@ReturnButtons#next"
+            "Depot@ReturnButtons#next"
         ],
         "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "DepotEnter": {
+    "Depot": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
-        "sub": ["DepotEnter-Entry"],
+        "sub": ["Depot-Entry"],
         "next": ["#self", "DepotMaterialTab"]
     },
     "DepotAllTab": {
@@ -4236,19 +4236,19 @@
     "OperBoxBegin": {
         "algorithm": "JustReturn",
         "next": [
-            "OperBoxEnter",
+            "OperBox",
             "OperBoxRoleTabSelect",
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
-            "OperBoxEnter@ReturnButtons#next"
+            "OperBox@ReturnButtons#next"
         ],
         "onErrorNext": ["OperBoxBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "OperBoxEnter": {
+    "OperBox": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
-        "sub": ["OperBoxEnter-Entry"],
+        "sub": ["OperBox-Entry"],
         "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
     "OperBoxRoleTabSelect": {
@@ -4796,20 +4796,20 @@
         "algorithm": "JustReturn",
         "next": [
             "DoGacha",
-            "GachaEnter",
-            "GachaEnter@ReturnButtons#next",
+            "Gacha",
+            "Gacha@ReturnButtons#next",
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
         ],
         "onErrorNext": ["GachaBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "GachaEnter": {
+    "Gacha": {
         "action": "DoNothing",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
-        "sub": ["GachaEnter-Entry"],
-        "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"]
+        "sub": ["Gacha-Entry"],
+        "next": ["Gacha", "Gacha@LoadingText", "DoGacha"]
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",
