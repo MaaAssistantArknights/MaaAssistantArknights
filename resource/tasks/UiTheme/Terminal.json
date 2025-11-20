@@ -1,0 +1,81 @@
+{
+    "Terminal-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "doc": "Heads up: YostarEN needs 133 of 'y' instead of 120",
+            "roi": [903, 120, 97, 58],
+            "mask": []
+        },
+        "next": [
+            "TerminalDefault",
+            "TerminalDark",
+            "TerminalSami",
+            "TerminalMistCity",
+            "TerminalSiege",
+            "TerminalSarkaz",
+            "TerminalDelicious",
+            "TerminalGaming",
+            "TerminalDahuangCity",
+            "TerminalDreamland",
+            "TerminalJieGarden",
+            "TerminalAveMujica",
+            "TerminalTogether"
+        ]
+    },
+    "TerminalDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [844, 58, 268, 272],
+        "postDelay": 3000,
+        "template": "Default/Terminal.png"
+    },
+    "TerminalDark": {
+        "baseTask": "TerminalDefault",
+        "template": "Dark/Terminal.png"
+    },
+    "TerminalSami": {
+        "baseTask": "TerminalDefault",
+        "template": "Sami/Terminal.png"
+    },
+    "TerminalMistCity": {
+        "baseTask": "TerminalDefault",
+        "template": "MistCity/Terminal.png"
+    },
+    "TerminalSiege": {
+        "baseTask": "TerminalDefault",
+        "template": "Siege/Terminal.png"
+    },
+    "TerminalSarkaz": {
+        "baseTask": "TerminalDefault",
+        "template": "Sarkaz/Terminal.png"
+    },
+    "TerminalDelicious": {
+        "baseTask": "TerminalDefault",
+        "template": "Delicious/Terminal.png"
+    },
+    "TerminalGaming": {
+        "baseTask": "TerminalDefault",
+        "template": "Gaming/Terminal.png"
+    },
+    "TerminalDahuangCity": {
+        "baseTask": "TerminalDefault",
+        "template": "DahuangCity/Terminal.png"
+    },
+    "TerminalDreamland": {
+        "baseTask": "TerminalDefault",
+        "template": ["Dreamland/DreamlandDefault/Terminal.png", "Dreamland/DreamlandDark/Terminal.png"]
+    },
+    "TerminalJieGarden": {
+        "baseTask": "TerminalDefault",
+        "template": "JieGarden/Terminal.png"
+    },
+    "TerminalAveMujica": {
+        "baseTask": "TerminalDefault",
+        "template": "AveMujica/Terminal.png"
+    },
+    "TerminalTogether": {
+        "baseTask": "TerminalDefault",
+        "template": "Together/Terminal.png"
+    }
+}
