@@ -240,7 +240,6 @@
                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                     BorderThickness="0"
                                     Command="{s:Action OpenUserAdditionalPopup}"
-                                    IsEnabled="{c:Binding AddUserAdditional}"
                                     ToolTip="{Binding UserAdditional}" />
                                 <controls:TooltipBlock TooltipText="{DynamicResource AddUserAdditionalTip}" />
                                 <Popup
@@ -344,6 +343,7 @@
                                                     Grid.Column="0"
                                                     Width="80"
                                                     Height="25"
+                                                    Padding="0"
                                                     HorizontalAlignment="Left"
                                                     Command="{s:Action AddUserAdditionalItem}"
                                                     Content="{DynamicResource UserAdditional.Add}" />
@@ -351,6 +351,7 @@
                                                     Grid.Column="1"
                                                     Width="60"
                                                     Height="25"
+                                                    Padding="0"
                                                     Command="{s:Action SaveUserAdditional}"
                                                     Content="{DynamicResource Ok}" />
                                                 <Button
@@ -358,6 +359,7 @@
                                                     Width="60"
                                                     Height="25"
                                                     Margin="5,0,0,0"
+                                                    Padding="0"
                                                     Command="{s:Action CancelUserAdditionalEdit}"
                                                     Content="{DynamicResource Cancel}" />
                                             </Grid>
