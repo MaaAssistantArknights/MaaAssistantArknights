@@ -171,7 +171,7 @@ def build_commits_tree(commit_hash: str):
     }
 
     # 递归父 commit
-    res.update(build_commits_tree(commit_info["parent"][0]))
+    res |= build_commits_tree(commit_info["parent"][0])
 
     if len(commit_info["parent"]) == 2:
         # merge 分支处理
