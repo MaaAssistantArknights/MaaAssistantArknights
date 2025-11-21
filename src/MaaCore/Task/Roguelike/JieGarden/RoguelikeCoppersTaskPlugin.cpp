@@ -201,6 +201,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         Log.error(
             __FUNCTION__,
             std::format("| expected exactly one copper in left column, got {}", left_detections.size()));
+
+#ifdef ASST_DEBUG
+        for (const auto& detection : left_detections) {
+            draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
+        }
+        save_debug_image(image_draw, "left_column_unexpected_count");
+#endif
         return false;
     }
 
