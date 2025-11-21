@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import cv2
-
 from tools.ImageCropper.main import crop
 
 """
@@ -38,7 +37,7 @@ if __name__ == "__main__":
         print("Processing task file:", str(task_file))
         with task_file.open("r", encoding="utf-8") as f:
             task_data = json.load(f)
-        
+
         crop_doc = task_data.get("crop_doc", {})
         for name, task in task_data.items():
             if name == "crop_doc":
@@ -68,7 +67,7 @@ if __name__ == "__main__":
             filename = ""
             if "template" not in tasks[i]:
                 continue
-            
+
             template = tasks[i]["template"]
             if isinstance(template, str):
                 filename = template
@@ -80,7 +79,7 @@ if __name__ == "__main__":
 
             crop_doc = tasks[i].get("crop_doc", {})
             roi = crop_doc.get("roi")
-            
+
             if not roi:
                 curr = tasks[i]
                 while curr:
@@ -91,7 +90,7 @@ if __name__ == "__main__":
                         curr = tasks[curr["baseTask"]]
                     else:
                         break
-            
+
             if not roi:
                 continue
 
