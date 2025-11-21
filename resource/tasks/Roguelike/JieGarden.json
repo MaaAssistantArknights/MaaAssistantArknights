@@ -582,6 +582,14 @@
         "roi": [1051, 317, 158, 148],
         "next": ["JieGarden@Roguelike@ConfirmToLeaveBoskyPassage", "#self"]
     },
+    "JieGarden@Roguelike@LeaveBoskyPassageCheck": {
+        "Doc": "有时候从不期而遇出来可能会多点一下，点到剩余烛火，检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉",
+        "action": "ClickRect",
+        "template": "JieGarden@Roguelike@LeaveBoskyPassage.png",
+        "roi": [1051, 317, 158, 148],
+        "preDelay": 200,
+        "specificRect": [19, 317, 80, 80]
+    },
     "JieGarden@Roguelike@LeaveOperation": {
         "roi": [41, 22, 78, 71],
         "action": "ClickSelf",
