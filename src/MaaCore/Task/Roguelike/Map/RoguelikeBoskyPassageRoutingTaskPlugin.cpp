@@ -4,6 +4,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
@@ -205,13 +206,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
     // 能检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉
-    Matcher encounter_checker(ctrler()->get_image());
-    encounter_checker.set_task_info("JieGarden@Roguelike@LeaveBoskyPassage");
-    if (encounter_checker.analyze().has_value()) {
-        Log.info(__FUNCTION__, "| Detected 'Leave Bosky Passage' prompt, clicking to close it");
-        ctrler()->click(Rect(19, 317, 80, 80)); // 点一下左侧边缘
-        sleep(500);
-    }
+    ProcessTask(*this, { "JieGarden@Roguelike@LeaveBoskyPassageCheck" }).set_retry_times(1).run();
 
     int gx = RoguelikeBoskyPassageMap::get_instance().get_node_x(chosen);
     int gy = RoguelikeBoskyPassageMap::get_instance().get_node_y(chosen);
