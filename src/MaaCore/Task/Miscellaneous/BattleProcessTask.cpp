@@ -260,7 +260,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
                 LogWarn << "Both name and location are set for SkillUsage action. Skip this step.";
                 break;
             }
-            if (auto it = m_used_tiles.find(location);it == m_used_tiles.end()) {
+            if (auto it = m_used_tiles.find(location); it == m_used_tiles.end()) {
                 LogInfo << "Tile hasn't used, register for drone" << location;
                 drone_name = std::format("drone_{}_{}", location.x, location.y);
                 register_deployed_oper(drone_name, location);
