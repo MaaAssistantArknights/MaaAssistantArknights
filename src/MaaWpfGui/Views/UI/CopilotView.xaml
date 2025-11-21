@@ -454,12 +454,21 @@
                         ItemsSource="{Binding Path=CopilotItemViewModels}"
                         Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
+                        <ListBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRaid}" Value="True">
+                                        <Setter Property="Background" Value="#33FF0000" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -471,19 +480,10 @@
                                         ToolTip="{c:Binding CopilotId}">
                                         <TextBlock Text="{Binding Name}" ToolTip="{Binding CopilotId}" />
                                     </CheckBox>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        MinWidth="35"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Opacity="{c:Binding 'DataContext.Idle ? 1 : 0.5',
-                                                            RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                        Text="{DynamicResource CopilotTaskRaidStage}"
-                                        Visibility="{c:Binding IsRaid}" />
                                     <Button
-                                        Grid.Column="2"
+                                        Grid.Column="1"
                                         Margin="0"
-                                        Padding="5,6,5,6"
+                                        Padding="5,6"
                                         hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                         hc:VisualElement.HighlightBackground="Transparent"
                                         hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
@@ -495,7 +495,7 @@
                                         PreviewMouseLeftButtonUp="{s:Action SelectCopilotTask}"
                                         Tag="{c:Binding Index}" />
                                     <Button
-                                        Grid.Column="3"
+                                        Grid.Column="2"
                                         Margin="0"
                                         Padding="5,0,10,0"
                                         hc:IconElement.Geometry="{StaticResource CloseGeometry}"
@@ -639,30 +639,37 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </hc:ScrollViewer>
-            <StackPanel
+            <Grid
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Orientation="Horizontal"
                 Visibility="{c:Binding CouldLikeWebJson}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <controls:TextBlock
                     Margin="10"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource DoYouLikeThisWebJson}" />
+                    Text="{DynamicResource DoYouLikeThisWebJson}"
+                    TextWrapping="Wrap" />
                 <Button
+                    Grid.Column="1"
                     Width="50"
                     Height="30"
                     Margin="10"
                     Command="{s:Action LikeWebJson}"
                     Content="👍" />
                 <Button
+                    Grid.Column="2"
                     Width="50"
                     Height="30"
                     Margin="10"
                     Command="{s:Action DislikeWebJson}"
                     Content="👎" />
-            </StackPanel>
+            </Grid>
 
             <controls:TextBlock
                 Grid.Row="2"
