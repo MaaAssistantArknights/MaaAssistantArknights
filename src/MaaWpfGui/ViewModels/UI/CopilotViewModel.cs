@@ -1707,7 +1707,7 @@ public partial class CopilotViewModel : Screen
                 {
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
                     Formation = Form,
-                    SupportUnitUsage = SupportUnitUsage,
+                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
                     AddTrust = AddTrust,
                     IgnoreRequirements = IgnoreRequirements,
                     UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
