@@ -247,34 +247,36 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         }
         break;
 
-    case ActionType::SkillUsage:
-        const auto set_usage = [this](const std::string& name, SkillUsage usage, int times) {
-            m_skill_usage[name] = usage;
-            if (usage == SkillUsage::Times) {
-                m_skill_times[name] = times;
-            }
-        };
-        if (!location.empty()) {
-            std::string drone_name;
-            if (!name.empty()) {
-                LogWarn << "Both name and location are set for SkillUsage action. Skip this step.";
-                break;
-            }
-            if (auto it = m_used_tiles.find(location); it == m_used_tiles.end()) {
-                LogInfo << "Tile hasn't used, register for drone" << location;
-                drone_name = std::format("drone_{}_{}", location.x, location.y);
-                register_deployed_oper(drone_name, location);
+        {
+        case ActionType::SkillUsage:
+            const auto set_usage = [this](const std::string& name, SkillUsage usage, int times) {
+                m_skill_usage[name] = usage;
+                if (usage == SkillUsage::Times) {
+                    m_skill_times[name] = times;
+                }
+            };
+            if (!location.empty()) {
+                std::string drone_name;
+                if (!name.empty()) {
+                    LogWarn << "Both name and location are set for SkillUsage action. Skip this step.";
+                    break;
+                }
+                if (auto it = m_used_tiles.find(location); it == m_used_tiles.end()) {
+                    LogInfo << "Tile hasn't used, register for drone" << location;
+                    drone_name = std::format("drone_{}_{}", location.x, location.y);
+                    register_deployed_oper(drone_name, location);
+                }
+                else {
+                    drone_name = it->second;
+                }
+                set_usage(drone_name, action.modify_usage, action.modify_times);
             }
             else {
-                drone_name = it->second;
+                set_usage(name, action.modify_usage, action.modify_times);
             }
-            set_usage(drone_name, action.modify_usage, action.modify_times);
+            ret = true;
+            break;
         }
-        else {
-            set_usage(name, action.modify_usage, action.modify_times);
-        }
-        ret = true;
-        break;
 
     case ActionType::Output:
         // DoNothing
