@@ -1066,7 +1066,6 @@
         "action": "DoNothing",
         "roi": [227, 327, 159, 152],
         "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "sub": ["Terminal-Entry"],
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
     },
     "CloseAnnos": {
@@ -2231,8 +2230,7 @@
     "Home": {
         "action": "Stop",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "roi": [227, 327, 159, 152],
-        "sub": ["Terminal-Entry"]
+        "roi": [227, 327, 159, 152]
     },
     "CreditShop-Commodities": {
         "template": "CreditPoint.png",
