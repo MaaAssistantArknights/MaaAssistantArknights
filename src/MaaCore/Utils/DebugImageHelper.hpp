@@ -46,13 +46,16 @@ inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir
         return a.second < b.second;
     });
 
-    long long excess = static_cast<long long>(file_nums) - static_cast<long long>(max_files);
-    if (excess <= 0) {
+    size_t excess = 0;
+    if (file_nums > max_files) {
+        excess = file_nums - max_files;
+    }
+    else {
         return 0;
     }
 
     size_t deleted = 0;
-    for (int i = 0; i < excess; ++i) {
+    for (size_t i = 0; i < excess; ++i) {
         if (std::filesystem::remove(files[i].second)) {
             ++deleted;
         }
