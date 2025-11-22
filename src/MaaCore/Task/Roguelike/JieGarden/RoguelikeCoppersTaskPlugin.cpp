@@ -197,10 +197,24 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     }
 
     // 处理左侧列的检测结果
-    for (size_t row = 0; row < left_detections.size(); ++row) {
-        const auto& detection = left_detections[row];
+    if (left_detections.size() != 1) {
+        Log.error(
+            __FUNCTION__,
+            std::format("| expected exactly one copper in left column, got {}", left_detections.size()));
 
-        Log.info(__FUNCTION__, std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, 0, row, false));
+#ifdef ASST_DEBUG
+        for (const auto& detection : left_detections) {
+            draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
+        }
+        save_debug_image(image_draw, "left_column_unexpected_count");
+#endif
+        return false;
+    }
+
+    {
+        const auto& detection = left_detections[0];
+
+        Log.info(__FUNCTION__, std::format("| found copper: {} at ({},0) is_cast: {}", detection.name, 0, false));
 
 #ifdef ASST_DEBUG
         // 调试模式下绘制检测结果（红色表示新拾取的通宝）
@@ -208,11 +222,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 #endif
 
         // 创建新拾取的通宝对象
-        auto copper_opt =
-            create_copper_from_name(detection.name, 0, static_cast<int>(row + 1), false, detection.name_roi);
+        auto copper_opt = create_copper_from_name(detection.name, 0, 1, false, detection.name_roi);
         if (!copper_opt) {
-            Log.error(__FUNCTION__, std::format("| failed to create copper at ({},{})", 0, row));
-            continue;
+            Log.error(__FUNCTION__, "| failed to create copper at (0,0)");
+            return false;
         }
 
         auto copper = std::move(*copper_opt);
@@ -220,6 +233,10 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
         m_new_copper = std::move(copper);
+
+#ifdef ASST_DEBUG
+        save_debug_image(image_draw, "new_copper");
+#endif
     }
 
     // =================================================
@@ -543,7 +560,6 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     return std::nullopt;
 }
 
-#ifdef ASST_DEBUG
 // 调试绘制辅助函数：在图像上绘制检测结果
 void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
     cv::Mat& image,
@@ -603,4 +619,3 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
     }
 }
-#endif
