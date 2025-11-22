@@ -624,5 +624,5 @@ std::string asst::SupportList::get_suffix_str(const std::string& s, const char d
 
 bool asst::SupportList::save_img(const cv::Mat& image, const std::string_view description)
 {
-    return utils::save_debug_image(image, utils::path("debug") / "supportList", true, &m_save_file_cnt, description);
+    return utils::save_debug_image(image, utils::path("debug") / "supportList", true, description);
 }

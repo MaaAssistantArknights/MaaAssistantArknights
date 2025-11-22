@@ -4,7 +4,6 @@
 #include "InstHelper.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/Platform.hpp"
-#include <map>
 #include <ranges>
 
 #if __has_include(<opencv2/xfeatures2d.hpp>)
@@ -52,7 +51,6 @@ protected:
     cv::Mat draw_roi(const cv::Rect& roi, const cv::Mat& base) const;
 
     cv::Mat m_image;
-    std::map<std::filesystem::path, size_t> m_save_file_cnt;
 #ifdef ASST_DEBUG
     cv::Mat m_image_draw;
 #endif

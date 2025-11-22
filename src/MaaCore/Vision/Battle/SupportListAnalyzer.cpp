@@ -399,11 +399,5 @@ std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& 
 
 bool asst::SupportListAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("supportListAnalyzer");
-    return utils::save_debug_image(
-        image,
-        utils::path("debug") / "supportListAnalyzer",
-        true,
-        &m_save_file_cnt,
-        description);
+    return utils::save_debug_image(image, utils::path("debug") / "supportListAnalyzer", true, description);
 }

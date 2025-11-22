@@ -106,6 +106,5 @@ protected:
     mutable json::value m_basic_info_cache;
     int m_task_id = 0;
     std::vector<TaskPluginPtr> m_plugins;
-    std::map<std::filesystem::path, size_t> m_save_file_cnt;
 };
 } // namespace asst

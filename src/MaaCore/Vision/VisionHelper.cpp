@@ -132,10 +132,10 @@ cv::Mat asst::VisionHelper::create_mask(const cv::Mat& image, const cv::Rect& ro
 
 bool VisionHelper::save_img(const std::filesystem::path& relative_dir)
 {
-    bool ret = utils::save_debug_image(m_image, relative_dir, true, &m_save_file_cnt);
+    bool ret = utils::save_debug_image(m_image, relative_dir, true);
 
 #ifdef ASST_DEBUG
-    utils::save_debug_image(m_image_draw, relative_dir, true, &m_save_file_cnt, "", "draw");
+    utils::save_debug_image(m_image_draw, relative_dir, true, "", "draw");
 #endif
 
     return ret;

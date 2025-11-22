@@ -39,7 +39,6 @@ private:
     std::optional<std::string> next_event(const Config::RoguelikeEvent& event);
 
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
-    inline static std::map<std::filesystem::path, size_t> m_save_file_cnt;
 
     OptionAnalyzer::Result m_option_list;
     size_t m_view_begin = 0;

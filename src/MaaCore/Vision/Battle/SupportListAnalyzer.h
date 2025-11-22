@@ -107,8 +107,6 @@ private:
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
-    inline static std::map<std::filesystem::path, size_t> m_save_file_cnt;
-
     /// <summary>
     /// x 坐标的无效哨兵值。
     /// </summary>

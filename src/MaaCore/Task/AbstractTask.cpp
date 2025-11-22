@@ -158,5 +158,5 @@ void asst::AbstractTask::click_return_button()
 bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool use_cache, bool auto_clean)
 {
     auto image = use_cache ? ctrler()->get_image_cache() : ctrler()->get_image();
-    return utils::save_debug_image(image, relative_dir, auto_clean, &m_save_file_cnt);
+    return utils::save_debug_image(image, relative_dir, auto_clean);
 }

@@ -58,15 +58,7 @@ Matcher::ResultOpt Matcher::analyze() const
                                                               95,
                                                               cv::IMWRITE_JPEG_OPTIMIZE,
                                                               1 };
-                utils::save_debug_image(
-                    cropped,
-                    utils::path("debug") / "hsv",
-                    true,
-                    nullptr,
-                    text,
-                    "",
-                    "jpeg",
-                    jpeg_params);
+                utils::save_debug_image(cropped, utils::path("debug") / "hsv", true, text, "", "jpeg", jpeg_params);
             }
 #endif
         }

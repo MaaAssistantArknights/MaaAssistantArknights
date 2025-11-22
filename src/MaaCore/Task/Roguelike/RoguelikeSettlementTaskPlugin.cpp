@@ -152,5 +152,5 @@ void asst::RoguelikeSettlementTaskPlugin::save_img(
     const std::filesystem::path& relative_dir,
     std::string suffix)
 {
-    utils::save_debug_image(image, relative_dir, true, &m_save_file_cnt, "", suffix);
+    utils::save_debug_image(image, relative_dir, true, "", suffix);
 }

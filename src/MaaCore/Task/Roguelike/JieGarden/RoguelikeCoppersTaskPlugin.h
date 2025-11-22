@@ -75,7 +75,6 @@ private:
 
     // 保存调试图像到文件
     void save_debug_image(const cv::Mat& image, const std::string& suffix) const;
-    inline static std::map<std::filesystem::path, size_t> m_save_file_cnt;
 #endif
 
     mutable asst::CoppersTaskRunMode m_run_mode; // 当前运行模式

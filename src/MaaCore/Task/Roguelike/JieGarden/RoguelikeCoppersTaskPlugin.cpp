@@ -600,7 +600,6 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
             image,
             utils::path("debug") / "roguelike" / "roguelikeCoppers",
             true,
-            &m_save_file_cnt,
             "roguelikeCoppers debug",
             suffix,
             "jpeg",

@@ -65,7 +65,6 @@ inline bool save_debug_image(
     const cv::Mat& image,
     const std::filesystem::path& relative_dir,
     bool auto_clean,
-    std::map<std::filesystem::path, size_t>* save_cnt = nullptr,
     std::string_view description = "",
     std::string_view suffix = "",
     const std::string& ext = "png",
@@ -78,13 +77,11 @@ inline bool save_debug_image(
     static std::map<std::filesystem::path, size_t> s_save_cnt;
     static std::mutex s_mutex;
 
-    auto& cnt_map = save_cnt ? *save_cnt : s_save_cnt;
-
     auto norm_dir = relative_dir.lexically_normal();
 
     if (auto_clean) {
         std::lock_guard<std::mutex> lock(s_mutex);
-        auto& cnt = cnt_map[norm_dir];
+        auto& cnt = s_save_cnt[norm_dir];
         if (cnt == 0) {
             filenum_ctrl(norm_dir, Config.get_options().debug.max_debug_file_num);
             cnt = 0;

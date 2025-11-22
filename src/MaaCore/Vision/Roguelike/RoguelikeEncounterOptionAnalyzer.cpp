@@ -305,10 +305,5 @@ cv::Mat asst::RoguelikeEncounterOptionAnalyzer::binarize_for_ocr(const cv::Mat& 
 
 bool asst::RoguelikeEncounterOptionAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
-    return utils::save_debug_image(
-        image,
-        utils::path("debug") / "roguelike" / "encounter",
-        true,
-        &m_save_file_cnt,
-        description);
+    return utils::save_debug_image(image, utils::path("debug") / "roguelike" / "encounter", true, description);
 }
