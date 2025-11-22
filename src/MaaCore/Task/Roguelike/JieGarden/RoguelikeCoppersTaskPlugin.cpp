@@ -214,7 +214,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     {
         const auto& detection = left_detections[0];
 
-        Log.info(__FUNCTION__, std::format("| found copper: {} at ({},0) is_cast: {}", detection.name, 0, false));
+        Log.info(__FUNCTION__, std::format("| found copper: {} at (0,0)", detection.name));
 
 #ifdef ASST_DEBUG
         // 调试模式下绘制检测结果（红色表示新拾取的通宝）
@@ -222,7 +222,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 #endif
 
         // 创建新拾取的通宝对象
-        auto copper_opt = create_copper_from_name(detection.name, 0, 1, false, detection.name_roi);
+        auto copper_opt = create_copper_from_name(detection.name, 0, 0, false, detection.name_roi);
         if (!copper_opt) {
             Log.error(__FUNCTION__, "| failed to create copper at (0,0)");
             return false;

@@ -641,11 +641,13 @@
     "Sarkaz@Roguelike@StageEncounterClose": {
         "Doc": "关掉进入事件可能弹出的窗口",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
         "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
     },
     "Sarkaz@Roguelike@StageEncounterContinue": {
         "Doc": "关掉进入事件可能弹出的窗口",
         "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "template": "Sarkaz@Roguelike@CloseCollectionContinue.png",
         "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
     },
     "Sarkaz@Roguelike@StageEncounterEnter": {},
