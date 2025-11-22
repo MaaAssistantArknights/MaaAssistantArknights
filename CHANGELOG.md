@@ -7,13 +7,15 @@
 
 ### 改进 | Improved
 
+* 统一存截图 @ABA2396 @status102
 * 优化自动战斗界面显示 (#14795) @ABA2396 @Constrat @Manicsteiner @status102
-* 拆分多主题识别任务 (#14774) @SherkeyXD @pre-commit-ci[bot]
+* 拆分多主题识别任务 (#14774) @SherkeyXD
 * 调整 ExportOperBox 内的变量命名与结构 @ABA2396
 * 优化模板图 @Constrat
 
 ### 修复 | Fix
 
+* 界园肉鸽可能在战斗失败后进入领取掉落界面，萨卡兹肉鸽部分深入探索存在进事件给思绪 @Saratoga-Official
 * 修复界园树洞偶发点击到剩余烛火，导致无法进入下一个节点 (#14806) @travellerse
 * 修复通宝配置解析逻辑 (#14802) @travellerse
 * 修复集成战略萨米主题下凹密闻板相关功能 (#14755) @Alan-Charred
