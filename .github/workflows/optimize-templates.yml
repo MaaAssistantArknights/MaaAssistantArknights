@@ -58,6 +58,7 @@ jobs:
       #   id: cache_python
       #   if: steps.check_push.outputs.is_pr != 'True' && always()
       #   uses: actions/cache@v4
+      #   continue-on-error: true
       #   with:
       #     path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
       #     key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}

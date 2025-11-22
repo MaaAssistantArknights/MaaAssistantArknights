@@ -113,6 +113,7 @@ jobs:
       - name: Cache MaaDeps
         id: cache-maadeps
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: |
             ./src/MaaUtils/MaaDeps
@@ -142,6 +143,7 @@ jobs:
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: |
             .nuke/temp
@@ -224,6 +226,7 @@ jobs:
       - name: Cache MaaDeps
         id: cache-maadeps
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
@@ -347,6 +350,7 @@ jobs:
       - name: Cache MaaDeps
         id: cache-maadeps
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-maadeps-${{ hashFiles('tools/maadeps-download.py') }}

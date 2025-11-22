@@ -51,6 +51,7 @@ jobs:
       - name: Restore cache for Smoke Test
         id: smoke-cache
         uses: actions/cache/restore@v4
+        continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |
@@ -70,6 +71,7 @@ jobs:
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
           key: ${{ runner.os }}-arm64-maadeps-${{ hashFiles('tools/maadeps-download.py') }}
@@ -115,6 +117,7 @@ jobs:
       - name: Save cache for Smoke Test (only in dev)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
         uses: actions/cache/save@v4
+        continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
           path: |

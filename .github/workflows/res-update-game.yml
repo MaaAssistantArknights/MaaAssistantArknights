@@ -147,6 +147,7 @@ jobs:
       - name: Restore ResourceUpdater from cache
         id: resupd-cache
         uses: actions/cache/restore@v4
+        continue-on-error: true
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
@@ -157,6 +158,7 @@ jobs:
         if: steps.resupd-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: |
             ./src/MaaUtils/MaaDeps
@@ -192,6 +194,7 @@ jobs:
       - name: Save ResourceUpdater to cache
         if: always() && steps.resupd-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
+        continue-on-error: true
         with:
           key: ResourceUpdater-${{ runner.os }}-${{ hashFiles('tools/ResourceUpdater/main.cpp') }}
           path: |
@@ -256,6 +259,7 @@ jobs:
         if: always() && steps.update_version.outputs.contains_png == 'True'
         id: cache_python
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: ${{ env.pythonLocation }}/Lib/site-packages
           key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
