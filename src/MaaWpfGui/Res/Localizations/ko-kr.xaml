@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionDisable">사용안함</system:String>
     <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">현재 선택된 추론 가속 GPU({0})는 호환성 문제가 있어, 인식 오류, 위치 이상 또는 기타 예기치 않은 문제가 발생할 수 있습니다.\n\n｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">현재 선택된 추론 가속 GPU({0})의 드라이버 버전({1}, 릴리스 날짜: {2})이 2년 이상 경과되어 호환성 문제가 발생할 수 있습니다.\n\n그래픽 드라이버를 업데이트하거나 ｢{key=Settings} - {key=PerformanceSettings}｣ 에서 다른 GPU로 변경하는 것을 권장합니다.</system:String>
     <system:String x:Key="GpuAllowDeprecated">권장되지 않는 GPU 사용 허용</system:String>
     <system:String x:Key="Copy">복사</system:String>
     <!--  설정 가이드  -->
@@ -842,14 +843,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
-    <system:String x:Key="SupportUnitUsage">지원 유닛 모집 전략</system:String>
+    <system:String x:Key="SupportUnitUsage">지원 유닛 모집</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">하나 정도 부족한 것은 문제가 없지만, 둘 이상 부족하면 다른 작업을 사용하는 것을 권장합니다.</system:String>
     <system:String x:Key="SupportUnitUsage.None">모집안함</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">보완용</system:String>
     <system:String x:Key="SupportUnitUsage.Random">랜덤</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 {key=Operator} 추가</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator} 요구 사항 무시</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">일부 작업은 특정 모듈이 필요합니다
+이 옵션을 선택하면 검사 과정을 건너뛰지만 작업이 정상적으로 동작하지 않을 수 있습니다.</system:String>
     <system:String x:Key="AddUserAdditional">커스텀 {key=Operator} 추가</system:String>
     <system:String x:Key="AddUserAdditionalTip">｢;｣ 로 {key=Operator}를 구분하고, ｢,｣ 로 스킬을 구분합니다. 예시: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator} 이름</system:String>
+    <system:String x:Key="UserAdditional.Skill">스킬</system:String>
+    <system:String x:Key="UserAdditional.Action">작업</system:String>
+    <system:String x:Key="UserAdditional.Add">추가</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="UseCopilotList">작업 목록</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">다음 모드에서만 지원됩니다:
@@ -859,7 +867,7 @@ C:\\leidian\\LDPlayer9
   4. {key=ParadoxSimulation}: {key=Operator} 목록에서 시작
 해당 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.
 
-- ｢{key=UseCopilotList}｣ 가 활성화되면 개별 작업이 자동으로 ｢{key=UseCopilotList}｣ 에 추가됩니다.</system:String>
+｢{key=UseCopilotList}｣ 가 활성화되면 개별 작업이 자동으로 ｢{key=UseCopilotList}｣ 에 추가됩니다.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(하드)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">좌클릭으로 일반 난이도 추가
 하드 모드를 추가하려면 마우스 오른쪽 버튼을 클릭하세요</system:String>
@@ -901,14 +909,14 @@ C:\\leidian\\LDPlayer9
         5. 지원 유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
         6. "선호"로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다:\n
-        - 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
-        - 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
+        ● 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
+        ● 세 번째 버튼을 클릭 = 작업 목록 추가.\n\n
         8. {key=UseCopilotList}:\n
-        - 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
-        - 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
-        - 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
-        - 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
-        - 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
+        ● 작업 선택 후, 아래의 스테이지 이름이 올바른지 확인하세요 (예: CV-EX-1).\n
+        ● 추가: 좌클릭은 일반, 우클릭은 하드 모드입니다.\n
+        ● 지우기: 좌클릭은 전체 삭제, 우클릭은 비활성 작업만 삭제합니다.\n
+        ● 목표 스테이지 이름이 보이는 화면에서 시작하세요. 챕터 간 이동은 지원되지 않습니다.\n
+        ● 이성 부족, 작전 실패, 또는 3성 클리어 실패 시 작전이 자동으로 중지됩니다.
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
@@ -1037,6 +1045,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyPlaytime">노드: 유희 (常乐)</system:String>
     <system:String x:Key="BoskyDoubts">노드: 의혹 (杂疑)</system:String>
     <system:String x:Key="BoskyDisaster">노드: 재앙 (灾祸)</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">통보교환: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0}개의 옵션이 감지되었습니다:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">선택 가능한 옵션: {0}</system:String>

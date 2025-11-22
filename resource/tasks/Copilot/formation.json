@@ -10,7 +10,7 @@
         "doc": ["匹配助战干员时，应用于 Matcher 的配置任务", "| specificRect: 截取助战干员的 templ 时所使用的 rect"],
         "template": "empty.png",
         "roi": [95, 106, 1185, 550],
-        "templThreshold": 0.7,
+        "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [0, 106, 129, 550]
     },
@@ -165,7 +165,8 @@
         "doc": "点击助战干员栏位底部的 Icon 以选择该助战干员",
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [0, 606, 129, 50]
+        "specificRect_Doc": "点击x由插件设定",
+        "specificRect": [-1, 606, 129, 50]
     },
     "SupportList-MoveToHead": {
         "doc": "向右滑动屏幕，使助战列表视图向左移动到列表头部",
@@ -232,7 +233,7 @@
             "SupportList-DetailPanel-SkillLevel-9.png",
             "SupportList-DetailPanel-SkillLevel-10.png"
         ],
-        "roi": [735, 249, 26, 26],
+        "roi": [-1, 249, 26, 26],
         "specialParams": [735, 850, 965]
     },
     "SupportList-DetailPanel-SkillSelected": {
@@ -243,7 +244,7 @@
             "| specialParams[2]: 识别三技能所用的 roi.x"
         ],
         "template": "SupportList-DetailPanel-Selected.png",
-        "roi": [1052, 256, 18, 16],
+        "roi": [-1, 256, 18, 16],
         "maskRange": [1, 255],
         "specialParams": [822, 937, 1052]
     },

@@ -1,0 +1,80 @@
+{
+    "Mall-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [822, 457, 86, 71],
+            "mask": []
+        },
+        "next": [
+            "MallDefault",
+            "MallDark",
+            "MallSami",
+            "MallMistCity",
+            "MallSiege",
+            "MallSarkaz",
+            "MallDelicious",
+            "MallGaming",
+            "MallDahuangCity",
+            "MallDreamland",
+            "MallJieGarden",
+            "MallAveMujica",
+            "MallTogether"
+        ]
+    },
+    "MallDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "postDelay": 500,
+        "roi": [772, 407, 186, 171],
+        "template": "Default/Mall.png"
+    },
+    "MallDark": {
+        "baseTask": "MallDefault",
+        "template": "Dark/Mall.png"
+    },
+    "MallSami": {
+        "baseTask": "MallDefault",
+        "template": "Sami/Mall.png"
+    },
+    "MallMistCity": {
+        "baseTask": "MallDefault",
+        "template": "MistCity/Mall.png"
+    },
+    "MallSiege": {
+        "baseTask": "MallDefault",
+        "template": "Siege/Mall.png"
+    },
+    "MallSarkaz": {
+        "baseTask": "MallDefault",
+        "template": "Sarkaz/Mall.png"
+    },
+    "MallDelicious": {
+        "baseTask": "MallDefault",
+        "template": "Delicious/Mall.png"
+    },
+    "MallGaming": {
+        "baseTask": "MallDefault",
+        "template": "Gaming/Mall.png"
+    },
+    "MallDahuangCity": {
+        "baseTask": "MallDefault",
+        "template": "DahuangCity/Mall.png"
+    },
+    "MallDreamland": {
+        "baseTask": "MallDefault",
+        "template": ["Dreamland/DreamlandDefault/Mall.png", "Dreamland/DreamlandDark/Mall.png"]
+    },
+    "MallJieGarden": {
+        "baseTask": "MallDefault",
+        "template": "JieGarden/Mall.png"
+    },
+    "MallAveMujica": {
+        "baseTask": "MallDefault",
+        "template": "AveMujica/Mall.png"
+    },
+    "MallTogether": {
+        "baseTask": "MallDefault",
+        "template": "Together/Mall.png"
+    }
+}

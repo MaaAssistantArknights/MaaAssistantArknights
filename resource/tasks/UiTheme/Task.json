@@ -1,0 +1,81 @@
+{
+    "Task-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [720, 553, 75, 70],
+            "mask": []
+        },
+        "next": [
+            "TaskDefault",
+            "TaskDark",
+            "TaskSami",
+            "TaskMistCity",
+            "TaskSiege",
+            "TaskSarkaz",
+            "TaskDelicious",
+            "TaskGaming",
+            "TaskDahuangCity",
+            "TaskDreamland",
+            "TaskJieGarden",
+            "TaskAveMujica",
+            "TaskTogether"
+        ]
+    },
+    "TaskDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [700, 530, 230, 190],
+        "template": "Default/Task.png"
+    },
+    "TaskDark": {
+        "baseTask": "TaskDefault",
+        "template": "Dark/Task.png"
+    },
+    "TaskSami": {
+        "baseTask": "TaskDefault",
+        "template": "Sami/Task.png"
+    },
+    "TaskMistCity": {
+        "baseTask": "TaskDefault",
+        "template": "MistCity/Task.png"
+    },
+    "TaskSiege": {
+        "baseTask": "TaskDefault",
+        "template": "Siege/Task.png"
+    },
+    "TaskSarkaz": {
+        "baseTask": "TaskDefault",
+        "template": "Sarkaz/Task.png"
+    },
+    "TaskDelicious": {
+        "baseTask": "TaskDefault",
+        "template": "Delicious/Task.png"
+    },
+    "TaskGaming": {
+        "baseTask": "TaskDefault",
+        "template": "Gaming/Task.png"
+    },
+    "TaskDahuangCity": {
+        "baseTask": "TaskDefault",
+        "template": "DahuangCity/Task.png"
+    },
+    "TaskDreamland": {
+        "baseTask": "TaskDefault",
+        "template": ["Dreamland/DreamlandDefault/Task.png", "Dreamland/DreamlandDark/Task.png"]
+    },
+    "TaskJieGarden": {
+        "baseTask": "TaskDefault",
+        "template": "JieGarden/Task.png"
+    },
+    "TaskAveMujica": {
+        "baseTask": "TaskDefault",
+        "templThreshold": 0.9,
+        "template": "AveMujica/Task.png"
+    },
+    "TaskTogether": {
+        "baseTask": "TaskDefault",
+        "templThreshold": 0.9,
+        "template": "Together/Task.png"
+    }
+}

@@ -15,6 +15,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -157,71 +158,5 @@ void asst::AbstractTask::click_return_button()
 bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool use_cache, bool auto_clean)
 {
     auto image = use_cache ? ctrler()->get_image_cache() : ctrler()->get_image();
-    if (image.empty()) {
-        return false;
-    }
-    std::string stem = MAA_NS::format_now_for_filename();
-
-    if (auto_clean) {
-        // 第1次或每执行 debug.clean_files_freq(50) 次后执行清理
-        // 限制文件数量 debug.max_debug_file_num
-        if (m_save_file_cnt[relative_dir] == 0) {
-            filenum_ctrl(relative_dir, Config.get_options().debug.max_debug_file_num);
-            m_save_file_cnt[relative_dir] = 0;
-        }
-        m_save_file_cnt[relative_dir] =
-            (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
-    }
-
-    auto relative_path = relative_dir / (stem + "_raw.png");
-    Log.trace("Save image", relative_path);
-    return MAA_NS::imwrite(relative_path, image);
-}
-
-size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files)
-{
-    std::filesystem::path absolute_path;
-    if (relative_dir.is_relative()) [[likely]] {
-        const auto& user_dir = UserDir.get();
-        absolute_path = user_dir / relative_dir;
-    }
-    else {
-        absolute_path = relative_dir;
-    }
-    if (!std::filesystem::exists(absolute_path)) {
-        return 0;
-    }
-
-    size_t file_nums = 0;
-    std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> filepaths;
-    std::filesystem::directory_iterator iter(absolute_path);
-    for (auto& file : iter) {
-        if (file.is_regular_file()) {
-            ++file_nums;
-            filepaths.emplace_back(last_write_time(file.path()), file.path());
-        }
-    }
-
-    std::sort(
-        filepaths.begin(),
-        filepaths.end(),
-        [](const std::pair<std::filesystem::file_time_type, std::filesystem::path>& a,
-           const std::pair<std::filesystem::file_time_type, std::filesystem::path>& b) {
-            if (a.first != b.first) {
-                return a.first < b.first;
-            }
-            return a.second < b.second;
-        });
-
-    long long to_del = file_nums - max_files;
-    size_t deleted = 0;
-
-    for (int i = 0; i < to_del; ++i) {
-        auto path = filepaths[i].second;
-        if (std::filesystem::remove(path)) {
-            deleted++;
-        }
-    }
-    LogTrace << "Finish folder cleanup delete " << deleted << " files from " << absolute_path;
-    return deleted;
+    return utils::save_debug_image(image, relative_dir, auto_clean);
 }

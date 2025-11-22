@@ -1,11 +1,11 @@
 {
     "type": "SSS",
-    "stage_name": "尚蜀夜市",
+    "stage_name": "Shangshu Night Market",
     "minimum_required": "v5.15.2-alpha.1.d015.gaa754996f",
     "doc": {
-        "title": "尚蜀夜市——维什戴尔+塞雷娅+伊桑+温蒂_天工夜行套装",
+        "title": "Shangshu Night Market - Goldenglow_or_Lappland_the_Decadenza+Wiš'adel+Yu_or_any_Defender+Mon3tr_or_Shining+Ethan_or_Ascalon - Master_Who_Walks_the_Night_Gear",
         "title_color": "dark",
-        "details": "作者：DL_君逸寒\n演示视频：BV12FoTYLEUH\n三连，谢谢！\n\n需手动编队\n\n关于想换成自己想要的干员的操作：\n1.记事本打开作业文件。\n2.ctrl+A 全选文本。\n3.ctrl+H 替换需要的干员。\n4.如替换干员技能不同，参照maa战斗流程协议自行修改。\n5.ctrl+S 保存，然后关闭记事本。\n6.将修改后的脚本重新导入maa。\n\n伊桑1可以换成阿斯卡纶1\n温蒂1可以换成任意推击手1。\n其余自行尝试。\n\n先锋：3  推荐尖兵（且推荐开减费用模组）（由于目前6关错位且不放技能，推荐带不需要手动释放的技能，如德克萨斯1）。\n重装：2  选择守护者、铁卫等站场能力强的，但不要选决战者分支和不屈者分支。\n狙击：2  推荐速射手、回旋射手等攻速快的。\n术士：3  黑名单之外的都可以，扩散术士分支要上减费用模组\n辅助：6  塑心3>>铃兰3>>其余辅助带决战技或自动触发技能\n\n所有工具人的练度都建议精二30级起步。\n需强战斗力，而非费用低。\n为了天有四时强行带夕可能导致小自在抢地面格子，务必自行斟酌。\n\n导能原件：天工夜行套装。\n战术装备：医疗B特种B，其余A。\n开局策略：优选策略。\n\n阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 巷道里。\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议。",
+        "details": "作者：DL_君逸寒\n演示视频：BV1K7oPYTE8h\n三连，谢谢！\n\n需手动编队\n\n关于想换成自己想要的干员的操作：\n1.记事本打开作业文件。\n2.ctrl+A 全选文本。\n3.ctrl+H 替换需要的干员。\n4.如替换干员技能不同，参照maa战斗流程协议自行修改。\n5.ctrl+S 保存，然后关闭记事本。\n6.将修改后的脚本重新导入maa。\n\nMon3tr可以换成闪灵。\n伊桑1可以换成阿斯卡纶1\n余3可以换成任意盾，如黍3，塞雷娅3等。\n澄闪3可以换成荒芜拉普兰德3。\n其余自行尝试。\n\n先锋：3  推荐尖兵（且推荐开减费用模组）。\n重装：2  选择守护者、铁卫等站场能力强的，但不要选决战者分支和不屈者分支。\n狙击：4  推荐速射手、回旋射手等攻速快的。\n术士：2  黑名单之外的都可以，扩散术士分支要上减费用模组\n辅助：4  塑心3>>铃兰3>>其余辅助带决战技或自动触发技能\n\n所有工具人的练度都建议精二30级起步。\n需强战斗力，而非费用低。\n\n导能原件：天工夜行套装。\n战术装备：医疗B特种B，其余A。\n开局策略：优选策略。\n\n阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 巷道里。\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议。",
         "details_color": "dark"
     },
     "buff": "天工夜行套装",
@@ -13,19 +13,24 @@
     "strategy": "优选策略",
     "opers": [
         {
+            "name": "澄闪",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
             "name": "维什戴尔",
             "skill": 2,
             "skill_usage": 1
         },
         {
-            "name": "塞雷娅",
-            "skill": 2,
-            "skill_usage": 0
+            "name": "余",
+            "skill": 3,
+            "skill_usage": 1
         },
         {
-            "name": "温蒂",
-            "skill": 1,
-            "skill_usage": 0
+            "name": "Mon3tr",
+            "skill": 2,
+            "skill_usage": 1
         },
         {
             "name": "伊桑",
@@ -36,15 +41,15 @@
     "tool_men": {
         "pioneer": 3,
         "tank": 2,
-        "sniper": 2,
-        "caster": 3,
-        "support": 6
+        "sniper": 4,
+        "caster": 2,
+        "support": 4
     },
     "drops": [
-        "无需增调干员",
         "辅助",
         "狙击",
         "术士",
+        "无需增调干员",
         "先锋",
         "重装",
         "医疗",
@@ -217,7 +222,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [6, 2],
+                    "location": [5, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -228,6 +240,7 @@
                     "direction": "Right"
                 },
                 {
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
                         "caster": 1
@@ -236,29 +249,28 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "维什戴尔",
+                    "core": "Mon3tr",
                     "tool_men": {
-                        "sniper": 1,
-                        "caster": 2
+                        "sniper": 1
                     },
-                    "location": [5, 3],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "重构体",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
-                    },
-                    "location": [5, 2],
-                    "direction": "Left"
-                },
-                {
-                    "core": "温蒂",
-                    "tool_men": {
-                        "pioneer": 1
+                        "sniper": 0
                     },
                     "location": [6, 2],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
@@ -330,7 +342,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [1, 3],
+                    "location": [2, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -341,6 +360,7 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
                         "caster": 1
@@ -349,29 +369,28 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "维什戴尔",
+                    "core": "Mon3tr",
                     "tool_men": {
-                        "sniper": 1,
-                        "caster": 2
+                        "sniper": 1
                     },
-                    "location": [2, 4],
-                    "direction": "Right"
+                    "location": [2, 5],
+                    "direction": "Up"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "重构体",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
-                    },
-                    "location": [2, 3],
-                    "direction": "Right"
-                },
-                {
-                    "core": "温蒂",
-                    "tool_men": {
-                        "pioneer": 1
+                        "sniper": 0
                     },
                     "location": [1, 3],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -382,10 +401,10 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "空core2",
+                    "core": "维什戴尔",
                     "tool_men": {
-                        "sniper": 3,
-                        "caster": 3
+                        "sniper": 1,
+                        "caster": 1
                     },
                     "location": [2, 2],
                     "direction": "Right"
@@ -452,7 +471,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [1, 4],
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -463,6 +489,7 @@
                     "direction": "Right"
                 },
                 {
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
                         "caster": 1
@@ -471,53 +498,45 @@
                     "direction": "Right"
                 },
                 {
+                    "core": "Mon3tr",
                     "tool_men": {
-                        "tank": 1
+                        "sniper": 1
                     },
-                    "location": [2, 4],
-                    "direction": "Right"
+                    "location": [2, 5],
+                    "direction": "Up"
                 },
                 {
-                    "core": "维什戴尔",
+                    "core": "重构体",
                     "tool_men": {
-                        "sniper": 1,
-                        "caster": 2
-                    },
-                    "location": [2, 3],
-                    "direction": "Right"
-                },
-                {
-                    "core": "塞雷娅",
-                    "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
-                    },
-                    "location": [2, 4],
-                    "direction": "Right"
-                },
-                {
-                    "core": "温蒂",
-                    "tool_men": {
-                        "pioneer": 1
+                        "sniper": 0
                     },
                     "location": [1, 4],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "support": 2
                     },
-                    "location": [2, 5],
-                    "direction": "Right"
-                },
-                {
-                    "core": "空core2",
-                    "tool_men": {
-                        "sniper": 3,
-                        "caster": 3
-                    },
                     "location": [3, 5],
                     "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [1, 5],
+                    "direction": "Right"
                 },
                 {
                     "core": "天工夜行套装",
@@ -534,8 +553,8 @@
                         "sniper": 4,
                         "caster": 2
                     },
-                    "location": [2, 5],
-                    "direction": "Right"
+                    "location": [3, 5],
+                    "direction": "Up"
                 }
             ],
             "draw_as_possible": true,
@@ -581,7 +600,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [3, 6],
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
@@ -592,25 +618,10 @@
                     "direction": "Up"
                 },
                 {
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
                         "caster": 1
-                    },
-                    "location": [4, 5],
-                    "direction": "Up"
-                },
-                {
-                    "tool_men": {
-                        "tank": 1
-                    },
-                    "location": [3, 5],
-                    "direction": "Up"
-                },
-                {
-                    "core": "维什戴尔",
-                    "tool_men": {
-                        "sniper": 1,
-                        "caster": 2
                     },
                     "location": [4, 5],
                     "direction": "Up"
@@ -624,20 +635,28 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Mon3tr",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
+                        "sniper": 1
                     },
-                    "location": [3, 5],
-                    "direction": "Up"
+                    "location": [4, 4],
+                    "direction": "Down"
                 },
                 {
-                    "core": "温蒂",
+                    "core": "重构体",
                     "tool_men": {
-                        "pioneer": 1
+                        "sniper": 0
                     },
                     "location": [3, 6],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [3, 5],
                     "direction": "Up"
                 },
                 {
@@ -648,10 +667,10 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "空core2",
+                    "core": "维什戴尔",
                     "tool_men": {
-                        "sniper": 3,
-                        "caster": 3
+                        "sniper": 1,
+                        "caster": 1
                     },
                     "location": [4, 6],
                     "direction": "Up"
@@ -726,7 +745,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [8, 5],
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -737,25 +763,10 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
                         "caster": 1
-                    },
-                    "location": [7, 4],
-                    "direction": "Left"
-                },
-                {
-                    "tool_men": {
-                        "tank": 1
-                    },
-                    "location": [7, 5],
-                    "direction": "Left"
-                },
-                {
-                    "core": "维什戴尔",
-                    "tool_men": {
-                        "sniper": 1,
-                        "caster": 2
                     },
                     "location": [7, 4],
                     "direction": "Left"
@@ -769,20 +780,28 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Mon3tr",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
+                        "sniper": 1
                     },
-                    "location": [7, 5],
-                    "direction": "Left"
+                    "location": [7, 6],
+                    "direction": "Up"
                 },
                 {
-                    "core": "温蒂",
+                    "core": "重构体",
                     "tool_men": {
-                        "pioneer": 1
+                        "sniper": 0
                     },
-                    "location": [8, 5],
+                    "location": [6, 4],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [7, 5],
                     "direction": "Left"
                 },
                 {
@@ -793,13 +812,13 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "空core2",
+                    "core": "维什戴尔",
                     "tool_men": {
-                        "sniper": 3,
-                        "caster": 3
+                        "sniper": 1,
+                        "caster": 1
                     },
-                    "location": [7, 6],
-                    "direction": "Up"
+                    "location": [8, 6],
+                    "direction": "Left"
                 },
                 {
                     "core": "夜行钩爪模块",
@@ -876,11 +895,10 @@
                 },
                 {
                     "tool_men": {
-                        "sniper": 1,
-                        "caster": 1
+                        "sniper": 2
                     },
-                    "location": [4, 6],
-                    "direction": "Up"
+                    "location": [2, 6],
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
@@ -891,13 +909,13 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "维什戴尔",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 1,
-                        "caster": 2
+                        "caster": 1
                     },
-                    "location": [4, 6],
-                    "direction": "Up"
+                    "location": [2, 6],
+                    "direction": "Right"
                 },
                 {
                     "core": "伊桑",
@@ -908,7 +926,23 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [1, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 6],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -917,29 +951,20 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "温蒂",
-                    "tool_men": {
-                        "pioneer": 1
-                    },
-                    "location": [1, 5],
-                    "direction": "Right"
-                },
-                {
                     "tool_men": {
                         "support": 2
                     },
-                    "location": [4, 4],
+                    "location": [2, 3],
                     "direction": "Down"
                 },
                 {
-                    "core": "空core2",
+                    "core": "维什戴尔",
                     "tool_men": {
-                        "support": 2,
-                        "sniper": 3,
-                        "caster": 3
+                        "sniper": 2,
+                        "caster": 1
                     },
-                    "location": [2, 3],
-                    "direction": "Down"
+                    "location": [4, 6],
+                    "direction": "Up"
                 },
                 {
                     "core": "夜行钩爪模块",
@@ -964,8 +989,16 @@
                         "sniper": 4,
                         "caster": 2
                     },
-                    "location": [4, 4],
+                    "location": [2, 3],
                     "direction": "Down"
+                },
+                {
+                    "core": "空core2",
+                    "tool_men": {
+                        "pioneer": 5
+                    },
+                    "location": [1, 5],
+                    "direction": "Right"
                 }
             ],
             "draw_as_possible": true,

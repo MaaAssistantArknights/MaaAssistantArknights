@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/DebugImageHelper.hpp"
 #include "Vision/Miscellaneous/PixelAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -398,8 +399,5 @@ std::optional<int> asst::SupportListAnalyzer::get_suffix_num(const std::string& 
 
 bool asst::SupportListAnalyzer::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("supportListAnalyzer");
-    const auto relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
-    Log.info(std::format("Save {} to {}", description, relative_path.string()));
-    return MAA_NS::imwrite(relative_path, image);
+    return utils::save_debug_image(image, utils::path("debug") / "supportListAnalyzer", true, description);
 }

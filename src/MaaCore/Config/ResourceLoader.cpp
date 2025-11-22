@@ -15,6 +15,7 @@
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
+#include "Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeMapConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
@@ -241,6 +242,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(RoguelikeFoldartalConfig, "roguelike"_p / "Sami"_p / "foldartal.json"_p);
     LoadResourceAndCheckRet(RoguelikeCollapsalParadigmConfig, "roguelike"_p / "Sami"_p / "collapsal_paradigms.json"_p);
+
+    // –––––––– JieGarden Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––-
+    LoadResourceAndCheckRet(RoguelikeCoppersConfig, "roguelike"_p / "JieGarden"_p / "coppers.json"_p);
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet

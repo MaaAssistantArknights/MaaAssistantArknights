@@ -85,13 +85,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
         params.get("support_unit_usage", static_cast<int>(SupportUnitUsage::None))); // 助战干员使用模式
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
-    if (params.contains("add_user_additional")) {
-        Log.warn("================  DEPRECATED  ================");
-        Log.warn("`add_user_additional` has been deprecated since v5.1.0-beta.1;");
-        Log.warn("================  DEPRECATED  ================");
-        return false;
-    }
-
     // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
     auto nav_opt1 = params.find<bool>("need_navigate");
     auto nav_opt2 = params.find<bool>("navigate_name");

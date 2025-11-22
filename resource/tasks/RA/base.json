@@ -20,28 +20,16 @@
         "next": ["RA@Navigation-FromMainInterface", "RA@Navigation@CloseAnnos#next"]
     },
     "RA@Navigation-FromMainInterface": {
-        "doc": "模版任务: 从主界面导航到对应的生息演算主题",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
-        "maskRange": [1, 255],
-        "action": "ClickSelf",
-        "roi": [844, 58, 268, 272],
-        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation-FromMainInterface"],
-        "postDelay": 3000
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Terminal-Entry"],
+        "next": [
+            "RA@Navigation-FromTodoList",
+            "RA@Navigation-LongTermExploration",
+            "RA@Navigation-FromMainInterface",
+            "RA@Navigation@ReturnButtons#next"
+        ]
     },
     "RA@Navigation-LongTermExploration": {
         "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",

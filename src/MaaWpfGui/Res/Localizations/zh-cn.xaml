@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">当前选择的推理加速 GPU（{0}）存在兼容性问题，可能导致识别错误、错位或其他异常结果。\n\n建议前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">当前选择的推理加速 GPU（{0}）的驱动版本（{1}，发布日期：{2}）距今已超过两年，可能存在兼容性问题。\n\n建议更新显卡驱动或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更换其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <system:String x:Key="Copy">复制</system:String>
     <!--  设置指引  -->
@@ -841,14 +842,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="AutoSquadTip">自动编队可能无法识别带有 ｢特别关注｣ 标记的{key=Operator}</system:String>
-    <system:String x:Key="SupportUnitUsage">助战干员借用策略</system:String>
+    <system:String x:Key="SupportUnitUsage">借助战</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">缺一个还能用用，缺两个以上还是换份作业吧</system:String>
     <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">仅用于补漏</system:String>
     <system:String x:Key="SupportUnitUsage.Random">随机</system:String>
     <system:String x:Key="AddTrust">补充低信赖{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}属性要求</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作业需要特定模组等作为前置条件
+勾选此项将跳过这些检查，但可能导致作业无法正常运行</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文 ｢;｣ 为分隔符，英文 ｢,｣ 分隔{key=Operator}名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">技能</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">添加</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">仅支持以下模式:
@@ -858,7 +866,7 @@ C:\\leidian\\LDPlayer9。\n
   4. {key=ParadoxSimulation}: 从{key=Operator}列表启动
 请在对应界面启动，不支持跨章节导航
 
-- 当 ｢{key=UseCopilotList}｣ 启用后, 选择单个作业时会自动添加到 ｢{key=UseCopilotList}｣</system:String>
+当 ｢{key=UseCopilotList}｣ 启用后, 选择单个作业时会自动添加到 ｢{key=UseCopilotList}｣</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突袭)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左键添加普通难度
 右键添加突袭难度</system:String>
@@ -900,14 +908,14 @@ C:\\leidian\\LDPlayer9。\n
         5. 使用好友助战时，请关闭 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手动选择{key=Operator}后，在编队界面右下角存在 ｢开始行动｣ 按钮界面启动。\n\n
         6. {key=Operator}若被标记为 ｢特别关注｣，可能影响 ｢{key=AutoSquad}｣ 的识别与选择。建议使用 ｢{key=AutoSquad}｣ 时移除关注，或在报错后关闭 ｢{key=AutoSquad}｣，根据提示手动补充缺失的{key=Operator}。\n\n
         7. Copilot 作业站的神秘代码可通过输入框右侧的粘贴按钮粘贴：\n
-        - 单击第 2 个按钮 = 添加作业。\n
-        - 单击第 3 个按钮 = 添加作业集。\n\n
+        ● 单击第 2 个按钮 = 添加作业。\n
+        ● 单击第 3 个按钮 = 添加作业集。\n\n
         8. {key=UseCopilotList}:\n
-        - 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
-        - 添加: 左键 = 普通难度，右键 = 突袭难度。\n
-        - 清除: 左键 = 全部清空，右键 = 仅移除未激活任务。\n
-        - 请在能看到目标关卡名的界面启动，不支持跨章节导航。\n
-        - 遇到理智不足、战斗失败、未能三星结算时将自动中止。
+        ● 选择作业后，检查下方关卡名是否正确 (例: CV-EX-1)。\n
+        ● 添加: 左键 = 普通难度，右键 = 突袭难度。\n
+        ● 清除: 左键 = 全部清空，右键 = 仅移除未激活任务。\n
+        ● 请在能看到目标关卡名的界面启动，不支持跨章节导航。\n
+        ● 遇到理智不足、战斗失败、未能三星结算时将自动中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -1036,6 +1044,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">识别到 {0} 个选项:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可选选项: {0}</system:String>

@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import cv2
+from tools.ImageCropper.main import crop
 
 """
 This is a tool for cropping one image into several images based on current roi.
@@ -15,53 +16,16 @@ std_width: int = 1280
 std_height: int = 720
 std_ratio = std_width / std_height
 
+project_base_path = Path(__file__).parent.parent.parent
 task_paths = {
-    "CN": Path(__file__).parent.parent.parent / "resource" / "tasks",
-    "twxy": Path(__file__).parent.parent.parent
-    / "resource"
-    / "global"
-    / "txwy"
-    / "resource"
-    / "tasks",
-    "YoStarEN": Path(__file__).parent.parent.parent
-    / "resource"
-    / "global"
-    / "YoStarEN"
-    / "resource"
-    / "tasks",
-    "YoStarJP": Path(__file__).parent.parent.parent
-    / "resource"
-    / "global"
-    / "YoStarJP"
-    / "resource"
-    / "tasks",
-    "YoStarKR": Path(__file__).parent.parent.parent
-    / "resource"
-    / "global"
-    / "YoStarKR"
-    / "resource"
-    / "tasks",
+    "CN": project_base_path / "resource" / "tasks",
+    "twxy": project_base_path / "resource/global/txwy/resource/tasks",
+    "YoStarEN": project_base_path / "resource/global/YoStarEN/resource/tasks",
+    "YoStarJP": project_base_path / "resource/global/YoStarJP/resource/tasks",
+    "YoStarKR": project_base_path / "resource/global/YoStarKR/resource/tasks",
 }
 
-# Change this to your client
-task_file = task_paths["CN"]
-
-# Add the tasks you want to get its image
-# task_list = []
-# You should get these names from tasks.json
-#
-# For example, when adding a new homepage theme:
-task_list = [
-    "Award",  # Task.png
-    "GachaEnter",  # GachaEnter.png
-    "Home",  # Terminal.png
-    "Infrast",  # EnterInfrast.png
-    "OperBoxEnter",  # OperBoxEnter.png
-    "Recruit",  # Recruit.png
-    "Visit",  # Friends.png
-    "DepotEnter",  # DepotEnter.png
-    "Mall",  # Mall.png
-]
+task_files = task_paths["CN"].glob("UiTheme/*.json")
 
 src_path = Path(__file__).parent / "src"
 dst_path = Path(__file__).parent / "dst"
@@ -69,17 +33,26 @@ dst_path = Path(__file__).parent / "dst"
 
 if __name__ == "__main__":
     tasks = {}
-    if task_file.is_dir():
-        for json_file in task_file.rglob("*.json"):
-            with json_file.open("r", encoding="utf-8") as f:
-                tasks.update(json.load(f))
-    else:
+    for task_file in task_files:
+        print("Processing task file:", str(task_file))
         with task_file.open("r", encoding="utf-8") as f:
-            tasks = json.load(f)
+            task_data = json.load(f)
+
+        crop_doc = task_data.get("crop_doc", {})
+        for name, task in task_data.items():
+            if name == "crop_doc":
+                continue
+            if crop_doc:
+                task.setdefault("crop_doc", crop_doc)
+            tasks[name] = task
 
     for raw_image in src_path.glob("*.png"):
         print("Processing file:", str(raw_image))
         image = cv2.imread(str(raw_image))
+        if image is None:
+            print(f"Failed to read image: {raw_image}")
+            continue
+
         cur_ratio = image.shape[1] / image.shape[0]
         if cur_ratio >= std_ratio:  # 说明是宽屏或默认16:9，按照高度计算缩放
             dsize_width: int = (int)(cur_ratio * std_height)
@@ -90,21 +63,37 @@ if __name__ == "__main__":
         dsize = (dsize_width, dsize_height)
         image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
-        for i in task_list:
+        for i in tasks:
             filename = ""
             if "template" not in tasks[i]:
-                filename = i + ".png"
-            elif isinstance(tasks[i]["template"], str):
-                filename = tasks[i]["template"]
-            elif isinstance(tasks[i]["template"], list):
-                # this is for multi-template:
-                filename = f"{raw_image.stem}/{tasks[i]['template'][0]}"
+                continue
 
-                if "Default" in filename:
-                    filename = filename.split("Default")[-1][1:]
+            template = tasks[i]["template"]
+            if isinstance(template, str):
+                filename = template
+            elif isinstance(template, list):
+                filename = template[0]
+
+            if not filename.startswith(f"{raw_image.stem}/"):
+                continue
 
             crop_doc = tasks[i].get("crop_doc", {})
-            roi = crop_doc.get("roi", tasks[i]["roi"])
+            roi = crop_doc.get("roi")
+
+            if not roi:
+                curr = tasks[i]
+                while curr:
+                    if "roi" in curr:
+                        roi = curr["roi"]
+                        break
+                    if "baseTask" in curr and curr["baseTask"] in tasks:
+                        curr = tasks[curr["baseTask"]]
+                    else:
+                        break
+
+            if not roi:
+                continue
+
             mask = crop_doc.get("mask", [])
 
             cropped = image[roi[1] : roi[1] + roi[3], roi[0] : roi[0] + roi[2]]
@@ -118,7 +107,9 @@ if __name__ == "__main__":
                     -1,
                 )
 
-            print("Saving", dst_path / filename)
-            cv2.imwrite(str(dst_path / filename), cropped)
+            output_file = dst_path / filename
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            print("Saving", output_file)
+            cv2.imwrite(str(output_file), cropped)
 
         print("Finished processing file:", str(raw_image))

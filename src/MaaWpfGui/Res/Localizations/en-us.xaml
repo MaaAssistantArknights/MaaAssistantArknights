@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
     <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">The selected GPU ({0}) for inference acceleration has known compatibility issues, which may cause recognition errors, misalignment, or other unexpected results.\n\nIt is recommended to switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">The driver version ({1}, release date: {2}) of the selected GPU ({0}) for inference acceleration is over two years old, which may cause compatibility issues.\n\nIt is recommended to update the graphics driver or switch to a different GPU in ｢{key=Settings} - {key=PerformanceSettings}｣.</system:String>
     <system:String x:Key="GpuAllowDeprecated">Allow deprecated GPU</system:String>
     <system:String x:Key="Copy">Copy</system:String>
     <!--  Settings Guide  -->
@@ -841,14 +842,21 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="AutoSquadTip">｢Favourite｣ marked {key=Operator}s may not be recognized</system:String>
-    <system:String x:Key="SupportUnitUsage">Support Unit Borrowing Strategy</system:String>
-    <system:String x:Key="SupportUnitUsage.None">Don't Borrow</system:String>
-    <system:String x:Key="SupportUnitUsage.WhenNeeded">Only for Filling Gaps</system:String>
+    <system:String x:Key="SupportUnitUsage">Use Support Unit</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">Missing one operator is manageable, but if two or more are missing, consider switching to a different job.</system:String>
+    <system:String x:Key="SupportUnitUsage.None">Never</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">When Needed</system:String>
     <system:String x:Key="SupportUnitUsage.Random">Random</system:String>
     <system:String x:Key="AddTrust">Add low-trust {key=Operator}s</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">Ignore {key=Operator} requirements</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">Some jobs require specific Modules or other prerequisites.
+Enabling this will skip these checks, but may cause the job to fail.</system:String>
     <system:String x:Key="AddUserAdditional">Add custom {key=Operator}s</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ｢;｣ as the separator, ｢,｣ to separate the {key=Operator} name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator} Name</system:String>
+    <system:String x:Key="UserAdditional.Skill">Skill</system:String>
+    <system:String x:Key="UserAdditional.Action">Action</system:String>
+    <system:String x:Key="UserAdditional.Add">Add</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">Only supported in the following modes:
@@ -858,12 +866,12 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
   4. {key=ParadoxSimulation}: Start from the {key=Operator} list
 Please start from the corresponding screen. Cross-chapter navigation is not supported.
 
-- When ｢{key=UseCopilotList}｣ is enabled, individual copilot will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
+When ｢{key=UseCopilotList}｣ is enabled, individual jobs will be automatically added to ｢{key=UseCopilotList}｣.</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">Left-click to add Normal difficulty
 Right click to add challenge difficulty</system:String>
-    <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all tasks
-Right-click to clear inactive tasks</system:String>
+    <system:String x:Key="CopilotClearTask" xml:space="preserve">Left-click to clear all jobs
+Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <system:String x:Key="CopilotSkill">Skill</system:String>
@@ -893,21 +901,21 @@ Right-click to clear inactive tasks</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
-        1. Before using, please confirm the task file matches your selected stage type.\n\n
+        1. Before using, please confirm the job file matches your selected stage type.\n\n
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: Please start from the screen where the blue "Start" button appears in the bottom right corner.\n\n
         3. {key=SSS}: Multiple built-in files are in the resource/copilot folder. First create your squad manually, then start from the screen where the "Start Deployment" button appears in the bottom right. Can be used with ｢{key=LoopTimes}｣.\n\n
         4. {key=ParadoxSimulation}: After selecting skills, start from the skill selection screen where the "Start Simulation" button appears. For 1/2★ {key=Operator}s (without skills), start from the screen with the "Start Simulation" button in the bottom right. If using ｢{key=UseCopilotList}｣, please start from the ｢Level/Rarity｣ tab in the {key=Operator} list.\n\n
         5. When using a support unit, turn off ｢{key=AutoSquad}｣ and ｢{key=UseCopilotList}｣, manually select the {key=Operator}, then start from the squad screen where the "Mission Start" button appears in the bottom right.\n\n
         6. {key=Operator}s marked as "Favorite" may affect ｢{key=AutoSquad}｣ recognition and selection. When using ｢{key=AutoSquad}｣, consider removing favorites, or if errors occur, turn off ｢{key=AutoSquad}｣ and manually supplement the missing {key=Operator}s as prompted.\n\n
-        7. In the Copilot workstation, you can paste the mysterious code by clicking the paste button on the right side of the input box:\n
-        - click the second button = Add a single job.\n
-        - click the third button = Add a job set.\n\n
+        7. In the Copilot workstation, you can paste codes by clicking the paste button on the right side of the input box:\n
+        ● Second button = Add a single job.\n
+        ● Third button = Add a job set.\n\n
         8. {key=UseCopilotList}:\n
-        - After selecting a task, check that the stage name below is correct (e.g.: CV-EX-1).\n
-        - Add: Left-click for normal difficulty, right-click for challenge mode.\n
-        - Clear: Left-click to clear all, right-click to remove only inactive tasks.\n
-        - Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
-        - Operation will stop automatically when encountering insufficient sanity, battle failure, or failure to achieve 3-star clear.
+        ● After selecting a job, verify the stage name below is correct (e.g., CV-EX-1).\n
+        ● Add: Left-click for Normal difficulty, right-click for Challenge difficulty.\n
+        ● Clear: Left-click to clear all jobs, right-click to remove only inactive jobs.\n
+        ● Start from a screen where the target stage name is visible. Cross-chapter navigation is not supported.\n
+        ● Execution will stop automatically when sanity is insufficient, battle fails, or fails to achieve a 3-star clear.
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -1036,6 +1044,7 @@ Right-click to clear inactive tasks</system:String>
     <system:String x:Key="BoskyPlaytime">Node: Playtime</system:String>
     <system:String x:Key="BoskyDoubts">Node: Doubts</system:String>
     <system:String x:Key="BoskyDisaster">Node: Disaster</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>

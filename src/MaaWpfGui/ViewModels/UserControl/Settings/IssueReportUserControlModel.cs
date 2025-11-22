@@ -65,7 +65,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
     {
         try
         {
-            const int PartSize = 10 * 1024 * 1024; // 10 MB
+            const int PartSize = 20 * 1024 * 1024; // 20 MB
             string reportNameBase = $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}";
             string tempPath = Path.Combine(Path.GetTempPath(), $"maa-report-{Guid.NewGuid()}");
             Directory.CreateDirectory(tempPath);

@@ -642,23 +642,7 @@
     },
     "StageQueue": {
         "baseTask": "Fight",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
-        "maxTimes": 3,
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "exceededNext": ["Stop"],
         "next": ["StageQueue@GoLastBattle", "StageQueue"]
     },
@@ -852,23 +836,8 @@
         ]
     },
     "SwitchAccount": {
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
         "baseTask": "StartUp",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["Settings"]
     },
     "Settings": {
@@ -1077,22 +1046,7 @@
     "StartAtHome": {
         "baseTask": "Home",
         "action": "DoNothing",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["Home", "StartUpBegin"],
         "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
         "postDelay": 1000
@@ -1108,27 +1062,11 @@
         "next": ["Home"]
     },
     "StartUp": {
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
-        "maskRange": [1, 255],
-        "roi": [844, 58, 268, 272],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
-        "postDelay": 1000,
-        "maxTimes": 3,
+        "action": "DoNothing",
+        "roi": [227, 327, 159, 152],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "sub": ["Terminal-Entry"],
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
     },
     "CloseAnnos": {
@@ -1756,28 +1694,24 @@
         "next": ["StartUpThemes#next", "RestartGameAndContinue@LoadingIcon", "ReturnButtons#next"]
     },
     "Fight": {
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
-        "maskRange": [1, 255],
-        "action": "ClickSelf",
-        "roi": [844, 58, 268, 272],
-        "exceededNext": ["Fight@TodaysSupplies", "Fight@CloseAnnos#next", "Stop"],
-        "next": ["Fight@GoLastBattle", "Fight", "Fight@CloseAnnos#next", "Stop"],
-        "postDelay": 3000
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Terminal-Entry"],
+        "next": [
+            "Fight@GoLastBattle",
+            "Fight",
+            "Fight@CloseAnnos#next",
+            "Fight@GoTerminalStopflag",
+            "Fight@ReturnButtons#next"
+        ]
+    },
+    "GoTerminalStopflag": {
+        "template": "StageResource.png",
+        "Doc": "看到资源关卡图标说明在终端",
+        "templThreshold": 0.77,
+        "roi": [462, 600, 140, 120],
+        "action": "Stop"
     },
     "GoLastBattle": {
         "algorithm": "OcrDetect",
@@ -1798,29 +1732,10 @@
         "onErrorNext": ["RecruitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Recruit": {
-        "template": [
-            "Default/Recruit.png",
-            "Dark/Recruit.png",
-            "Sami/Recruit.png",
-            "MistCity/Recruit.png",
-            "Siege/Recruit.png",
-            "Sarkaz/Recruit.png",
-            "Delicious/Recruit.png",
-            "Gaming/Recruit.png",
-            "DahuangCity/Recruit.png",
-            "Dreamland/DreamlandDefault/Recruit.png",
-            "Dreamland/DreamlandDark/Recruit.png",
-            "JieGarden/Recruit.png",
-            "AveMujica/Recruit.png",
-            "Together/Recruit.png"
-        ],
-        "action": "ClickSelf",
-        "roi": [925, 425, 200, 150],
-        "crop_doc": {
-            "roi": [935, 480, 145, 61],
-            "mask": [125, 0, 25, 20]
-        },
-        "maskRange": [1, 255],
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Recruit-Entry"],
         "next": ["RecruitBegin@LoadingText", "RecruitBegin"]
     },
     "RecruitFinish": {
@@ -1885,22 +1800,7 @@
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
         "action": "DoNothing",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["MiningActivities", "Stop"]
     },
     "MiningActivities": {
@@ -1935,22 +1835,7 @@
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
         "action": "DoNothing",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["OrundumActivities", "Stop"]
     },
     "OrundumActivities": {
@@ -2023,22 +1908,7 @@
     "RecruitingActivitiesReturnHome": {
         "baseTask": "Home",
         "action": "DoNothing",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["RecruitingActivities", "Stop"]
     },
     "RecruitingActivities": {
@@ -2110,22 +1980,7 @@
     "SpecialAccessActivitiesReturnHome": {
         "baseTask": "Home",
         "action": "DoNothing",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["SpecialAccessActivities", "Stop"]
     },
     "SpecialAccessActivities": {
@@ -2171,31 +2026,11 @@
         "onErrorNext": ["AwardBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Award": {
-        "template": [
-            "Default/Task.png",
-            "Dark/Task.png",
-            "Sami/Task.png",
-            "MistCity/Task.png",
-            "Siege/Task.png",
-            "Sarkaz/Task.png",
-            "Delicious/Task.png",
-            "Gaming/Task.png",
-            "DahuangCity/Task.png",
-            "Dreamland/DreamlandDefault/Task.png",
-            "Dreamland/DreamlandDark/Task.png",
-            "JieGarden/Task.png",
-            "AveMujica/Task.png",
-            "Together/Task.png"
-        ],
-        "templThreshold": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.9, 0.9],
-        "maskRange": [1, 255],
-        "action": "ClickSelf",
-        "roi": [700, 530, 230, 190],
-        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"],
-        "crop_doc": {
-            "roi": [720, 553, 75, 70],
-            "mask": []
-        }
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Task-Entry"],
+        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"]
     },
     "ReceiveAward": {
         "action": "ClickSelf",
@@ -2242,23 +2077,8 @@
     },
     "MailReturnToHome": {
         "baseTask": "Home",
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
         "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["Mail", "MailWithoutAward"]
     },
     "Mail": {
@@ -2305,31 +2125,11 @@
         "onErrorNext": ["VisitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Visit": {
-        "template": [
-            "Default/Friends.png",
-            "Dark/Friends.png",
-            "Sami/Friends.png",
-            "MistCity/Friends.png",
-            "Siege/Friends.png",
-            "Sarkaz/Friends.png",
-            "Delicious/Friends.png",
-            "Gaming/Friends.png",
-            "DahuangCity/Friends.png",
-            "Dreamland/DreamlandDefault/Friends.png",
-            "Dreamland/DreamlandDark/Friends.png",
-            "JieGarden/Friends.png",
-            "AveMujica/Friends.png",
-            "Together/Friends.png"
-        ],
-        "templThreshold": 0.7,
-        "maskRange": [1, 255],
-        "action": "ClickSelf",
-        "roi": [250, 500, 200, 200],
-        "next": ["FriendsList", "Visit", "Visit@CloseAnnos#next"],
-        "crop_doc": {
-            "roi": [300, 550, 128, 41],
-            "mask": []
-        }
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Friends-Entry"],
+        "next": ["FriendsList", "Visit", "Visit@CloseAnnos#next"]
     },
     "FriendsList": {
         "action": "ClickSelf",
@@ -2387,32 +2187,11 @@
         "onErrorNext": ["MallBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Mall": {
-        "doc": "请同步更新 Store@EnterStore 的 template",
-        "template": [
-            "Default/Mall.png",
-            "Dark/Mall.png",
-            "Sami/Mall.png",
-            "MistCity/Mall.png",
-            "Siege/Mall.png",
-            "Sarkaz/Mall.png",
-            "Delicious/Mall.png",
-            "Gaming/Mall.png",
-            "DahuangCity/Mall.png",
-            "Dreamland/DreamlandDefault/Mall.png",
-            "Dreamland/DreamlandDark/Mall.png",
-            "JieGarden/Mall.png",
-            "AveMujica/Mall.png",
-            "Together/Mall.png"
-        ],
-        "maskRange": [1, 255],
-        "action": "ClickSelf",
-        "roi": [772, 407, 186, 171],
-        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
-        "postDelay": 500,
-        "crop_doc": {
-            "roi": [822, 457, 86, 71],
-            "mask": []
-        }
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Mall-Entry"],
+        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
@@ -2450,30 +2229,10 @@
         "next": ["Home@ReturnButtons#next"]
     },
     "Home": {
-        "template": [
-            "Default/Terminal.png",
-            "Dark/Terminal.png",
-            "Sami/Terminal.png",
-            "MistCity/Terminal.png",
-            "Siege/Terminal.png",
-            "Sarkaz/Terminal.png",
-            "Delicious/Terminal.png",
-            "Gaming/Terminal.png",
-            "DahuangCity/Terminal.png",
-            "Dreamland/DreamlandDefault/Terminal.png",
-            "Dreamland/DreamlandDark/Terminal.png",
-            "JieGarden/Terminal.png",
-            "AveMujica/Terminal.png",
-            "Together/Terminal.png"
-        ],
-        "maskRange": [1, 255],
         "action": "Stop",
-        "roi": [844, 58, 268, 272],
-        "crop_doc": {
-            "doc": "Heads up: YostarEN needs 133 of 'y' instead of 120",
-            "roi": [903, 120, 97, 58],
-            "mask": []
-        }
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Terminal-Entry"]
     },
     "CreditShop-Commodities": {
         "template": "CreditPoint.png",
@@ -2631,31 +2390,11 @@
         "roi": [0, 0, 180, 80]
     },
     "Infrast": {
-        "template": [
-            "Default/EnterInfrast.png",
-            "Dark/EnterInfrast.png",
-            "Sami/EnterInfrast.png",
-            "MistCity/EnterInfrast.png",
-            "Siege/EnterInfrast.png",
-            "Sarkaz/EnterInfrast.png",
-            "Delicious/EnterInfrast.png",
-            "Gaming/EnterInfrast.png",
-            "DahuangCity/EnterInfrast.png",
-            "Dreamland/DreamlandDefault/EnterInfrast.png",
-            "Dreamland/DreamlandDark/EnterInfrast.png",
-            "JieGarden/EnterInfrast.png",
-            "AveMujica/EnterInfrast.png",
-            "Together/EnterInfrast.png"
-        ],
-        "maskRange": [1, 255],
-        "roi": [930, 540, 230, 180],
-        "action": "ClickSelf",
-        "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"],
-        "postDelay": 5000,
-        "crop_doc": {
-            "roi": [935, 570, 85, 75],
-            "mask": []
-        }
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Infrast-Entry"],
+        "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -4418,40 +4157,15 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "next": [
-            "DepotEnter",
-            "DepotMaterialTab",
-            "DepotAllTab",
-            "DepotMaterialTabClicked",
-            "DepotEnter@ReturnButtons#next"
-        ],
+        "next": ["Depot", "DepotMaterialTab", "DepotAllTab", "DepotMaterialTabClicked", "Depot@ReturnButtons#next"],
         "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "DepotEnter": {
-        "action": "ClickSelf",
-        "template": [
-            "Default/DepotEnter.png",
-            "Dark/DepotEnter.png",
-            "Sami/DepotEnter.png",
-            "MistCity/DepotEnter.png",
-            "Siege/DepotEnter.png",
-            "Sarkaz/DepotEnter.png",
-            "Delicious/DepotEnter.png",
-            "Gaming/DepotEnter.png",
-            "DahuangCity/DepotEnter.png",
-            "Dreamland/DreamlandDefault/DepotEnter.png",
-            "Dreamland/DreamlandDark/DepotEnter.png",
-            "JieGarden/DepotEnter.png",
-            "AveMujica/DepotEnter.png",
-            "Together/DepotEnter.png"
-        ],
-        "maskRange": [1, 255],
-        "roi": [1109, 560, 171, 160],
-        "next": ["#self", "DepotMaterialTab"],
-        "crop_doc": {
-            "roi": [1153, 606, 77, 79],
-            "mask": []
-        }
+    "Depot": {
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Depot-Entry"],
+        "next": ["#self", "DepotMaterialTab"]
     },
     "DepotAllTab": {
         "action": "ClickSelf",
@@ -4516,39 +4230,20 @@
     "OperBoxBegin": {
         "algorithm": "JustReturn",
         "next": [
-            "OperBoxEnter",
+            "OperBox",
             "OperBoxRoleTabSelect",
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
-            "OperBoxEnter@ReturnButtons#next"
+            "OperBox@ReturnButtons#next"
         ],
         "onErrorNext": ["OperBoxBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "OperBoxEnter": {
-        "template": [
-            "Default/OperBoxEnter.png",
-            "Dark/OperBoxEnter.png",
-            "Sami/OperBoxEnter.png",
-            "MistCity/OperBoxEnter.png",
-            "Siege/OperBoxEnter.png",
-            "Sarkaz/OperBoxEnter.png",
-            "Delicious/OperBoxEnter.png",
-            "Gaming/OperBoxEnter.png",
-            "DahuangCity/OperBoxEnter.png",
-            "Dreamland/DreamlandDefault/OperBoxEnter.png",
-            "Dreamland/DreamlandDark/OperBoxEnter.png",
-            "JieGarden/OperBoxEnter.png",
-            "AveMujica/OperBoxEnter.png",
-            "Together/OperBoxEnter.png"
-        ],
-        "action": "ClickSelf",
-        "maskRange": [1, 255],
-        "roi": [935, 300, 265, 110],
-        "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"],
-        "crop_doc": {
-            "roi": [945, 301, 85, 78],
-            "mask": []
-        }
+    "OperBox": {
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["OperBox-Entry"],
+        "next": ["OperBoxRoleTabSelect", "OperBoxSortTabSelect", "OperBoxRoleTab"]
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
@@ -5095,39 +4790,20 @@
         "algorithm": "JustReturn",
         "next": [
             "DoGacha",
-            "GachaEnter",
-            "GachaEnter@ReturnButtons#next",
+            "Gacha",
+            "Gacha@ReturnButtons#next",
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
         ],
         "onErrorNext": ["GachaBegin@SwitchTheme@ToggleSettingsMenu"]
     },
-    "GachaEnter": {
-        "action": "ClickSelf",
-        "template": [
-            "Default/GachaEnter.png",
-            "Dark/GachaEnter.png",
-            "Sami/GachaEnter.png",
-            "MistCity/GachaEnter.png",
-            "Siege/GachaEnter.png",
-            "Sarkaz/GachaEnter.png",
-            "Delicious/GachaEnter.png",
-            "Gaming/GachaEnter.png",
-            "DahuangCity/GachaEnter.png",
-            "Dreamland/DreamlandDefault/GachaEnter.png",
-            "Dreamland/DreamlandDark/GachaEnter.png",
-            "JieGarden/GachaEnter.png",
-            "AveMujica/GachaEnter.png",
-            "Together/GachaEnter.png"
-        ],
-        "maskRange": [1, 255],
-        "roi": [1052, 426, 228, 174],
-        "next": ["GachaEnter", "GachaEnter@LoadingText", "DoGacha"],
-        "crop_doc": {
-            "roi": [1095, 497, 167, 56],
-            "mask": []
-        }
+    "Gacha": {
+        "action": "DoNothing",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
+        "roi": [227, 327, 159, 152],
+        "sub": ["Gacha-Entry"],
+        "next": ["Gacha", "Gacha@LoadingText", "DoGacha"]
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",
@@ -5211,22 +4887,7 @@
     },
     "Store@EnterStore": {
         "baseTask": "Mall",
-        "template": [
-            "Default/Mall.png",
-            "Dark/Mall.png",
-            "Sami/Mall.png",
-            "MistCity/Mall.png",
-            "Siege/Mall.png",
-            "Sarkaz/Mall.png",
-            "Delicious/Mall.png",
-            "Gaming/Mall.png",
-            "DahuangCity/Mall.png",
-            "Dreamland/DreamlandDefault/Mall.png",
-            "Dreamland/DreamlandDark/Mall.png",
-            "JieGarden/Mall.png",
-            "AveMujica/Mall.png",
-            "Together/Mall.png"
-        ],
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "next": ["Store@EnterTicketStore@LoadingIcon", "Store@EnterTicketStore"]
     },
     "Store@EnterTicketStore": {

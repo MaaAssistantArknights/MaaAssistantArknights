@@ -4,6 +4,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -149,24 +150,7 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
 void asst::RoguelikeSettlementTaskPlugin::save_img(
     const cv::Mat& image,
     const std::filesystem::path& relative_dir,
-    std::string name)
+    std::string suffix)
 {
-    if (image.empty()) {
-        return;
-    }
-
-    {
-        // 第1次或每执行 debug.clean_files_freq(50) 次后执行清理
-        // 限制文件数量 debug.max_debug_file_num
-        if (m_save_file_cnt[relative_dir] == 0) {
-            filenum_ctrl(relative_dir, Config.get_options().debug.max_debug_file_num);
-            m_save_file_cnt[relative_dir] = 0;
-        }
-        m_save_file_cnt[relative_dir] =
-            (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
-    }
-
-    auto relative_path = relative_dir / (std::format("{}_{}.png", MAA_NS::format_now_for_filename(), name));
-    Log.trace("Save image", relative_path);
-    MAA_NS::imwrite(relative_path, image);
+    utils::save_debug_image(image, relative_dir, true, "", suffix);
 }

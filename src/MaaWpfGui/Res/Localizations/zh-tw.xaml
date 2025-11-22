@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">目前選擇的推理加速 GPU（{0}）存在相容性問題，可能導致辨識錯誤、錯位或其他異常結果。\n\n建議前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">目前選擇的推理加速 GPU（{0}）的驅動版本（{1}，發布日期：{2}）距今已超過兩年，可能存在相容性問題。\n\n建議更新顯卡驅動或前往 ｢{key=Settings} - {key=PerformanceSettings}｣ 更換其他 GPU。</system:String>
     <system:String x:Key="GpuAllowDeprecated">允許使用不推薦的 GPU</system:String>
     <system:String x:Key="Copy">複製</system:String>
     <!--  設定指引  -->
@@ -842,14 +843,21 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊可能無法辨識 ｢特別關注｣ 的{key=Operator}</system:String>
-    <system:String x:Key="SupportUnitUsage">助戰幹員借用策略</system:String>
+    <system:String x:Key="SupportUnitUsage">借助戰</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">缺一個還能用用，缺兩個以上還是換份作業吧</system:String>
     <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">僅用於補漏</system:String>
     <system:String x:Key="SupportUnitUsage.Random">隨機</system:String>
     <system:String x:Key="AddTrust">補充低信賴{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}屬性要求</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">某些作業需要特定模組等作為前置條件
+勾選此項將跳過這些檢查，但可能導致作業無法正常執行</system:String>
     <system:String x:Key="AddUserAdditional">追加自定{key=Operator}</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用 ｢;｣ 作為分隔符，用 ｢,｣ 分隔{key=Operator}姓名和技能，例：史爾特爾,3;艾雅法拉,1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">技能</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">添加</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">僅支援以下模式:
   1. {key=MainStage}: 同一章節內導航
@@ -858,7 +866,7 @@ C:\\leidian\\LDPlayer9。\n
   4. {key=ParadoxSimulation}: 從{key=Operator}列表啟動
 請在對應介面啟動，不支援跨章節導航
 
-- 當 ｢{key=UseCopilotList}｣ 啟用後, 選擇單一作業時會自動新增至 ｢{key=UseCopilotList}｣</system:String>
+當 ｢{key=UseCopilotList}｣ 啟用後, 選擇單一作業時會自動新增至 ｢{key=UseCopilotList}｣</system:String>
     <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左鍵加入普通難度
 右鍵加入突襲難度</system:String>
@@ -901,14 +909,14 @@ C:\\leidian\\LDPlayer9。\n
         5. 使用好友助戰時，請關閉 ｢{key=AutoSquad}｣ 和 ｢{key=UseCopilotList}｣，手動選擇{key=Operator}後，在編隊介面右下角存在 ｢開始行動｣ 按鈕的介面啟動。\n\n
         6. {key=Operator}若被標記為 ｢特別關注｣，可能影響 ｢{key=AutoSquad}｣ 的辨識與選擇。建議使用 ｢{key=AutoSquad}｣ 時移除關注，或在報錯後關閉 ｢{key=AutoSquad}｣，依據提示手動補充缺少的{key=Operator}。\n\n
         7. Copilot 作業站的神秘代碼可透過輸入框右側的貼上按鈕貼上：\n
-        - 點選第 2 個按鈕 = 新增作業。\n
-        - 點選第3個按鈕 = 新增作業集。\n\n
+        ● 點選第 2 個按鈕 = 新增作業。\n
+        ● 點選第 3 個按鈕 = 新增作業集。\n\n
         8. {key=UseCopilotList}:\n
-        - 選擇作業後，檢查下方關卡名是否正確 (例: CV-EX-1)。\n
-        - 加入: 左鍵 = 普通難度，右鍵 = 突襲難度。\n
-        - 清除: 左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
-        - 請在能看到目標關卡名的介面啟動，不支援跨章節導航。\n
-        - 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
+        ● 選擇作業後，檢查下方關卡名是否正確 (例: CV-EX-1)。\n
+        ● 加入: 左鍵 = 普通難度，右鍵 = 突襲難度。\n
+        ● 清除: 左鍵 = 全部清空，右鍵 = 僅移除未啟用任務。\n
+        ● 請在能看到目標關卡名的介面啟動，不支援跨章節導航。\n
+        ● 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
@@ -1037,6 +1045,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BoskyPlaytime">節點: 常樂</system:String>
     <system:String x:Key="BoskyDoubts">節點: 雜疑</system:String>
     <system:String x:Key="BoskyDisaster">節點: 災禍</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通寶交換: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">識別到 {0} 個選項:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可選選項: {0}</system:String>

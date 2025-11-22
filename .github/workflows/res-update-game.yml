@@ -109,7 +109,7 @@ jobs:
 
           for param in "${parameters[@]}"; do
             {
-              if curl -s -o "stages_${param}.json" "${baseUrl}${param}"; then
+              if curl -f -s -o "stages_${param}.json" "${baseUrl}${param}"; then
                 echo "Successfully fetched data for ${param}"
               else
                 echo "Failed to fetch data for ${param}" >&2
@@ -128,9 +128,6 @@ jobs:
 
   update-game-resources:
     name: Update Game Resources
-    # In case of rate limitations on the runners/instances, add dependency, by removing the comment
-
-    # needs: [clone-resources-official, clone-resources-overseas, clone-resources-txwy]
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: macos-latest
     steps:
@@ -201,61 +198,29 @@ jobs:
             ./tools/ResourceUpdater/libopencv_world4.4.11.0.dylib
             ./tools/ResourceUpdater/res_updater
 
-      - name: Download txwy
-        id: download-txwy
-        uses: actions/download-artifact@v6
-        continue-on-error: true
+      - name: Wait for resource cloning
+        uses: yogeshlonkar/wait-for-jobs@v0
         with:
-          name: txwy
-          path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
+          ignore-skipped: 'false'
+          jobs: |
+            Download Official Resources
+            Download Overseas Resources
+            Download Taiwan Resources
+          ttl: 15
 
-      - name: Delay for txwy
-        if: steps.download-txwy.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download txwy
-        if: steps.download-txwy.outcome == 'failure'
+      - name: Download txwy
         uses: actions/download-artifact@v6
         with:
           name: txwy
           path: ./tools/ResourceUpdater/Overseas/tw/gamedata/excel
 
       - name: Download Overseas
-        id: download-overseas
-        uses: actions/download-artifact@v6
-        continue-on-error: true
-        with:
-          name: overseas
-          path: ./tools/ResourceUpdater/Overseas
-
-      - name: Delay for Overseas
-        if: steps.download-overseas.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download Overseas
-        if: steps.download-overseas.outcome == 'failure'
         uses: actions/download-artifact@v6
         with:
           name: overseas
           path: ./tools/ResourceUpdater/Overseas
 
       - name: Download Official
-        id: download-official
-        uses: actions/download-artifact@v6
-        continue-on-error: true
-        with:
-          name: official
-          path: ./tools/ResourceUpdater/Official
-
-      - name: Delay for Official
-        if: steps.download-official.outcome == 'failure'
-        run: |
-          sleep 30
-
-      - name: Re-download Official
-        if: steps.download-official.outcome == 'failure'
         uses: actions/download-artifact@v6
         with:
           name: official
@@ -358,25 +323,40 @@ jobs:
       #   run: |
       #     gh workflow run release-nightly-ota.yml -f release_body="Auto Release of Resource Updates"
 
-      - name: Add a comment on failure
+      - name: Upsert failure comment (single active)
         if: failure() && github.ref == 'refs/heads/dev'
         run: |
-          # Minimize old failure comments
-          comments=$(gh api repos/${{ github.repository }}/issues/14493/comments --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | contains("${{ github.server_url }}/${{ github.repository }}/actions/runs/")) | .node_id')
-          for node_id in $comments; do
-            gh api graphql -f query='
-              mutation {
-                minimizeComment(input: {subjectId: "'"$node_id"'", classifier: OUTDATED}) {
-                  minimizedComment {
-                    isMinimized
-                  }
-                }
-              }'
-          done
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          latest_id=$(gh api --paginate repos/${{ github.repository }}/issues/14493/comments | jq -r '.[] | select(.user.login=="github-actions[bot]") | .id' | tail -n 1)
+          if [ -n "$latest_id" ]; then
+            body=$(gh api repos/${{ github.repository }}/issues/comments/$latest_id --jq '.body')
+            if echo "$body" | grep -q '/actions/runs/'; then
+              # Count existing run URLs
+              count=$(echo "$body" | grep -o 'https://github.com/[^[:space:]]*' | wc -l)
+              # Collapse existing content
+              old_content=$(echo "$body" | sed 's|https://github.com/[^[:space:]]*|<details>\n<summary>⚠️ Previous failures ('"$count"')</summary>\n\n###### &\n\n</details>|g')
+              new_body="$run_url
 
-          # Add new failure comment
-          gh issue comment 14493 -R ${{ github.repository }} --body "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          @MistEO @ABA2396 @Constrat
+
+          $old_content"
+              gh api repos/${{ github.repository }}/issues/comments/$latest_id -X PATCH -f body="$new_body" || echo "Patch failed"
+              exit 0
+            fi
+          fi
+          # Create new failure comment if none suitable
+          gh issue comment 14493 -R ${{ github.repository }} --body "$run_url
 
           @MistEO @ABA2396 @Constrat"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Minimize failure comment on success/cancelled
+        if: ${{ !failure() && github.ref == 'refs/heads/dev' }}
+        run: |
+          latest_node=$(gh api --paginate repos/${{ github.repository }}/issues/14493/comments | jq -r '.[] | select(.user.login=="github-actions[bot]") | .node_id' | tail -n 1)
+          if [ -n "$latest_node" ]; then
+            gh api graphql -f query='mutation { minimizeComment(input: {subjectId: "'"$latest_node"'", classifier: OUTDATED}) { minimizedComment { isMinimized } } }' || true
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
