@@ -6,6 +6,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/SupportListAnalyzer.h"
 #include "Vision/Matcher.h"
@@ -623,8 +624,5 @@ std::string asst::SupportList::get_suffix_str(const std::string& s, const char d
 
 bool asst::SupportList::save_img(const cv::Mat& image, const std::string_view description)
 {
-    const auto relative_dir = utils::path("debug") / utils::path("supportList");
-    const auto relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
-    Log.info(std::format("Save {} to {}", description, relative_path.string()));
-    return MAA_NS::imwrite(relative_path, image);
+    return utils::save_debug_image(image, utils::path("debug") / "supportList", true, description);
 }

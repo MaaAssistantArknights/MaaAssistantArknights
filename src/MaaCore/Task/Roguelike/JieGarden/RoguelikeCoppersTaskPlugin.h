@@ -72,10 +72,9 @@ private:
         cv::Mat& image,
         const RoguelikeCoppersAnalyzer::CopperDetection& detection,
         const cv::Scalar& color) const;
-
+#endif
     // 保存调试图像到文件
     void save_debug_image(const cv::Mat& image, const std::string& suffix) const;
-#endif
 
     mutable asst::CoppersTaskRunMode m_run_mode; // 当前运行模式
 
