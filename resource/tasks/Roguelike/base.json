@@ -1095,7 +1095,8 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 529],
-        "next": ["Roguelike@RecruitMain"]
+        "postDelay": 500,
+        "next": ["Roguelike@RecruitMain", "#self"]
     },
     "Roguelike@RolesDefault": {
         "Doc": "base_task",
