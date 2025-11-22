@@ -211,31 +211,33 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         return false;
     }
 
-    const auto& detection = left_detections[0];
+    {
+        const auto& detection = left_detections[0];
 
-    Log.info(__FUNCTION__, std::format("| found copper: {} at ({},0) is_cast: {}", detection.name, 0, false));
+        Log.info(__FUNCTION__, std::format("| found copper: {} at ({},0) is_cast: {}", detection.name, 0, false));
 
 #ifdef ASST_DEBUG
-    // 调试模式下绘制检测结果（红色表示新拾取的通宝）
-    draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
+        // 调试模式下绘制检测结果（红色表示新拾取的通宝）
+        draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
 #endif
 
-    // 创建新拾取的通宝对象
-    auto copper_opt = create_copper_from_name(detection.name, 0, 1, false, detection.name_roi);
-    if (!copper_opt) {
-        Log.error(__FUNCTION__, "| failed to create copper at (0,0)");
-        return false;
+        // 创建新拾取的通宝对象
+        auto copper_opt = create_copper_from_name(detection.name, 0, 1, false, detection.name_roi);
+        if (!copper_opt) {
+            Log.error(__FUNCTION__, "| failed to create copper at (0,0)");
+            return false;
+        }
+
+        auto copper = std::move(*copper_opt);
+        // 根据模板确定通宝类型
+        copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
+
+        m_new_copper = std::move(copper);
+
+#ifdef ASST_DEBUG
+        save_debug_image(image_draw, "new_copper");
+#endif
     }
-
-    auto copper = std::move(*copper_opt);
-    // 根据模板确定通宝类型
-    copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
-
-    m_new_copper = std::move(copper);
-
-#ifdef ASST_DEBUG
-    save_debug_image(image_draw, "new_copper");
-#endif
 
     // =================================================
     // 第二步：扫描所有现有通宝列
@@ -298,29 +300,33 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
         // 处理当前列的所有通宝
         for (size_t row = 0; row < detections.size(); ++row) {
-            const auto& det = detections[row];
+            const auto& detection = detections[row];
 
             Log.info(
                 __FUNCTION__,
-                std::format("| found copper: {} at ({},{}) is_cast: {}", det.name, col, row, det.is_cast));
+                std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, col, row, detection.is_cast));
 
 #ifdef ASST_DEBUG
-            draw_detection_debug(image_draw, det, cv::Scalar(0, 0, 255));
+            draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
 #endif
 
             // 从OCR结果创建通宝对象
-            auto copper_opt_inner =
-                create_copper_from_name(det.name, col, static_cast<int>(row + 1), det.is_cast, det.name_roi);
-            if (!copper_opt_inner) {
+            auto copper_opt = create_copper_from_name(
+                detection.name,
+                col,
+                static_cast<int>(row + 1),
+                detection.is_cast,
+                detection.name_roi);
+            if (!copper_opt) {
                 Log.error(__FUNCTION__, std::format("| failed to create copper at ({},{})", col, row));
                 continue;
             }
 
-            auto copper_inner = std::move(*copper_opt_inner);
-            copper_inner.type = RoguelikeCoppersConfig::get_type_from_template(det.templ_name);
+            auto copper = std::move(*copper_opt);
+            copper.type = RoguelikeCoppersConfig::get_type_from_template(detection.templ_name);
 
             // 添加到现有通宝列表
-            m_copper_list.emplace_back(std::move(copper_inner));
+            m_copper_list.emplace_back(std::move(copper));
         }
 
         // 如果不是最后一列，向右滑动一列继续扫描
