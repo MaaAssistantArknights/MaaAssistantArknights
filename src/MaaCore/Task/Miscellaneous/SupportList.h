@@ -188,6 +188,8 @@ private:
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
+    inline static std::map<std::filesystem::path, size_t> m_save_file_cnt;
+
     /// <summary>
     /// 当前助战列表所选职业。
     /// </summary>

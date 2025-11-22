@@ -94,8 +94,6 @@ protected:
         const std::filesystem::path& relative_dir = utils::path("debug"),
         bool use_cache = true,
         bool auto_clean = true);
-    size_t filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files = 1000);
-
     json::value basic_info_with_what(std::string what) const;
 
     bool m_enable = true;

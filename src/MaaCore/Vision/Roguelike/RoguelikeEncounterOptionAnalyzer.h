@@ -116,6 +116,8 @@ private:
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
+    inline static std::map<std::filesystem::path, size_t> m_save_file_cnt;
+
     /// <summary>
     /// 集成战略主题；目前只适配了界园主题。
     /// </summary>

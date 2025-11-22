@@ -1,0 +1,106 @@
+#pragma once
+
+#include <algorithm>
+#include <filesystem>
+#include <format>
+#include <map>
+#include <string>
+#include <string_view>
+#include <vector>
+
+#include "Config/GeneralConfig.h"
+#include "MaaUtils/ImageIo.h"
+#include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
+
+namespace asst::utils
+{
+inline size_t filenum_ctrl(const std::filesystem::path& absolute_or_relative_dir, size_t max_files)
+{
+    std::filesystem::path absolute_path;
+    if (absolute_or_relative_dir.is_relative()) {
+        absolute_path = UserDir.get() / absolute_or_relative_dir;
+    }
+    else {
+        absolute_path = absolute_or_relative_dir;
+    }
+
+    if (!std::filesystem::exists(absolute_path)) {
+        return 0;
+    }
+
+    size_t file_nums = 0;
+    std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> files;
+
+    for (auto& file : std::filesystem::directory_iterator(absolute_path)) {
+        if (file.is_regular_file()) {
+            ++file_nums;
+            files.emplace_back(std::filesystem::last_write_time(file.path()), file.path());
+        }
+    }
+
+    std::sort(files.begin(), files.end(), [](auto& a, auto& b) {
+        if (a.first != b.first) {
+            return a.first < b.first;
+        }
+        return a.second < b.second;
+    });
+
+    long long excess = static_cast<long long>(file_nums) - static_cast<long long>(max_files);
+    if (excess <= 0) {
+        return 0;
+    }
+
+    size_t deleted = 0;
+    for (int i = 0; i < excess; ++i) {
+        if (std::filesystem::remove(files[i].second)) {
+            ++deleted;
+        }
+    }
+
+    return deleted;
+}
+
+inline bool save_debug_image(
+    const cv::Mat& image,
+    const std::filesystem::path& relative_dir,
+    bool auto_clean,
+    std::map<std::filesystem::path, size_t>* save_cnt = nullptr,
+    std::string_view description = "",
+    std::string_view suffix = "",
+    const std::string& ext = "png",
+    const std::vector<int>& params = {})
+{
+    if (image.empty()) {
+        return false;
+    }
+
+    static std::map<std::filesystem::path, size_t> s_save_cnt;
+
+    auto& cnt_map = save_cnt ? *save_cnt : s_save_cnt;
+
+    auto norm_dir = relative_dir.lexically_normal();
+
+    if (auto_clean) {
+        auto& cnt = cnt_map[norm_dir];
+        if (cnt == 0) {
+            filenum_ctrl(norm_dir, Config.get_options().debug.max_debug_file_num);
+            cnt = 0;
+        }
+        cnt = (cnt + 1) % Config.get_options().debug.clean_files_freq;
+    }
+
+    std::string stem = MAA_NS::format_now_for_filename();
+    std::string filename = suffix.empty() ? (stem + "_raw." + ext) : (stem + "_" + std::string(suffix) + "." + ext);
+    auto relative_path = norm_dir / filename;
+
+    if (description.empty()) {
+        Log.trace("Save image", relative_path);
+    }
+    else {
+        Log.info(std::format("Save {} to {}", description, relative_path.string()));
+    }
+
+    return MAA_NS::imwrite(relative_path, image, params);
+}
+} // namespace asst::utils

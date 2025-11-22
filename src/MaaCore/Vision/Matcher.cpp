@@ -5,6 +5,7 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "MaaUtils/ImageIo.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
@@ -57,9 +58,14 @@ Matcher::ResultOpt Matcher::analyze() const
                                                               95,
                                                               cv::IMWRITE_JPEG_OPTIMIZE,
                                                               1 };
-                MAA_NS::imwrite(
-                    utils::path(std::format("debug/hsv/{}_{}.jpg", text, MAA_NS::format_now_for_filename())),
+                utils::save_debug_image(
                     cropped,
+                    utils::path("debug") / "hsv",
+                    true,
+                    nullptr,
+                    text,
+                    "",
+                    "jpeg",
                     jpeg_params);
             }
 #endif
