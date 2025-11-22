@@ -100,7 +100,7 @@ inline bool save_debug_image(
         Log.trace("Save image", relative_path);
     }
     else {
-        Log.info(std::format("Save {} to {}", description, relative_path.string()));
+        LogInfo << "Save" << description << "to" << relative_path;
     }
 
     return MAA_NS::imwrite(relative_path, image, params);
