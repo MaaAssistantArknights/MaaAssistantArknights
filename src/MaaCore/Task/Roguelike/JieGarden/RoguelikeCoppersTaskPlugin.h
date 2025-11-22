@@ -66,13 +66,12 @@ private:
         const Rect& pos = Rect() // 位置信息，用于调试
     ) const;
 
-#ifdef ASST_DEBUG
     // 调试绘制辅助函数，在图像上绘制检测结果
     void draw_detection_debug(
         cv::Mat& image,
         const RoguelikeCoppersAnalyzer::CopperDetection& detection,
         const cv::Scalar& color) const;
-#endif
+
     // 保存调试图像到文件
     void save_debug_image(const cv::Mat& image, const std::string& suffix) const;
 

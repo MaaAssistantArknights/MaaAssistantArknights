@@ -835,7 +835,7 @@ MAA 使用以下方法识别和处理通宝：
 
 ::: info 注意
 
-- 如果 OCR 识别的通宝名称在配置文件中未找到，MAA 会保存调试图像到 `debug/roguelikeCoppers/` 目录，以供排查
+- 如果 OCR 识别的通宝名称在配置文件中未找到，MAA 会保存调试图像到 `debug/roguelike/coppers/unknown` 目录，以供排查
 
 :::
 
