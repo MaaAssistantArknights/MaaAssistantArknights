@@ -1,40 +1,41 @@
-## v5.28.0-beta.1
+## v5.28.0-beta.2
 
 ### 新增 | New
 
-* 卫戍协议：盟约小游戏 (#14763) @ABA2396 @HX3N @Constrat
-* 任务错误日志鼠标悬浮可以查看出错时截图 @ABA2396
-* 日志汇报打包 debug 截图，支持分卷，修改存储路径 @ABA2396
+* 为 GPU 加速添加超过两年的驱动版本检测 (#14690) @Rbqwow @status102
+* 清日志的时候把 ToolTip 手动清除一下 @ABA2396
 
 ### 改进 | Improved
 
-* std::signal 自动舍弃 abort / terminate 上方栈 @status102
+* 统一存截图 @ABA2396 @status102
+* 优化自动战斗界面显示 (#14795) @ABA2396 @Constrat @Manicsteiner @status102
+* 拆分多主题识别任务 (#14774) @SherkeyXD
+* 调整 ExportOperBox 内的变量命名与结构 @ABA2396
+* 优化模板图 @Constrat
 
 ### 修复 | Fix
 
-* 修复、改进自动借助战功能，优化助战选项显示布局和错误提示 (#11105) @Alan-Charred @ABA2396
-* 干员识别包含盟约·辅助干员和领主·Sharp @ABA2396
-* 简化萨米肉鸽"诡秘的预感"相关任务链 (#14749) @Alan-Charred
-* 修复"入暂亭"事件 (#14684) @Alan-Charred
-* 防止生息演算重置地图视图时因截图延迟卡死 (#14721) @Alan-Charred
-* 肉鸽可能卡进剧目获取界面和收藏品界面 @Saratoga-Official
-* 肉鸽允许跳过招募组合直接开始初始招募 (#14713) @Alan-Charred
-* 投资入口不知道为啥没点进去 @Saratoga-Official
-* 关卡复核会把 8 识别成 g @Saratoga-Official
-* 无法区分界园肉鸽第 3 层与第 5 层 boss、界园肉鸽第 5 层 boss 前暂停设置无效 @ABA2396
-* 给 open_series_list 加上失败截图机制 (#14693) @Alan-Charred
-* KR AD navigation (#14742) @HX3N
-* JP paradox @Manicsteiner
-* ocrReplace for EN (#14740) @Alan-Charred @Saratoga-Official
-* build WpfGui for ARM architecture (#14722) @Alan-Charred
-
-### 文档 | Docs
-
-* integration zh 可读性增强 (#14756) @status102
-* 自动战斗文档添加 copilot_list, is_raid, is_paradox, loop_times 注释 @Alan-Charred
-* 向 MaaCore 工程增加 tasks 文件以便检索 (#14731) @status102
+* 界园肉鸽可能在战斗失败后进入领取掉落界面，萨卡兹肉鸽部分深入探索存在进事件给思绪 @Saratoga-Official
+* 修复界园树洞偶发点击到剩余烛火，导致无法进入下一个节点 (#14806) @travellerse
+* 修复通宝配置解析逻辑 (#14802) @travellerse
+* 修复集成战略萨米主题下凹密闻板相关功能 (#14755) @Alan-Charred
+* 修复不期而遇事件名 OCR 以区分禳解的三个相近选项 (#14799, #14588) @travellerse
+* 保存招募券结束后等待确认招募按钮消失 (#14773) @travellerse
+* 刷理智指定次数未完全消耗警告在剩余理智也会提示 @status102
+* 干员识别复制结果到剪贴板时丢失未拥有干员 @status102
+* 移除过旧的 `add_user_additional` 参数弃用提示 @status102
+* 上调助战栏位匹配分数阈值 (#14796) @Alan-Charred
+* 通关角标 @ABA2396
+* RA 导航错误 @ABA2396
+* reduce template size for QuickFormation RL @Constrat
+* Sami IS EN 3rd floor regex @Constrat
+* regex AD navigation EN @Constrat
 
 ### 其他 | Other
 
-* KR tweak SupportUnitUsage translation @HX3N
-* JP ocr edits (#14748) @Manicsteiner
+* 分卷压缩包大小改成 20 MB @ABA2396
+* 更新多模板截图工具 @SherkeyXD
+* 修复 UI 细节 @hguandl
+* 路径迁移 @status102
+* KR @hguandl
+* SSS#8 for global (#14803) @Manicsteiner
