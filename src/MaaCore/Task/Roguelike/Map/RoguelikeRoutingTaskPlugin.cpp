@@ -8,6 +8,7 @@
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/PixelAnalyzer.h"
@@ -115,10 +116,13 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             cv::Mat image_draw = image.clone();
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
 #ifdef ASST_DEBUG
-            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            const auto relative_path = relative_dir / (std::format("{}_draw.png", MAA_NS::format_now_for_filename()));
-            Log.trace("Save image", relative_path);
-            MAA_NS::imwrite(relative_path, image_draw);
+            utils::save_debug_image(
+                image_draw,
+                utils::path("debug") / "roguelikeMap",
+                /*auto_clean=*/true,
+                /*save_cnt=*/nullptr,
+                /*description=*/"bosky map draw",
+                /*suffix=*/"draw");
 #endif
             m_need_generate_map = false;
 
@@ -183,10 +187,13 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
             cv::Mat image_draw = image.clone();
             update_map(image, RoguelikeMap::INIT_INDEX + 1, image_draw);
 #ifdef ASST_DEBUG
-            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-            const auto relative_path = relative_dir / (std::format("{}_draw.png", MAA_NS::format_now_for_filename()));
-            Log.trace("Save image", relative_path);
-            MAA_NS::imwrite(relative_path, image_draw);
+            utils::save_debug_image(
+                image_draw,
+                utils::path("debug") / "roguelikeMap",
+                /*auto_clean=*/true,
+                /*save_cnt=*/nullptr,
+                /*description=*/"bosky map draw",
+                /*suffix=*/"draw");
 #endif
             m_need_generate_map = false;
         }

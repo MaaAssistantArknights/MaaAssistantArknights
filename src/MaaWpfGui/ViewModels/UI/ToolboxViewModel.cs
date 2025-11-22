@@ -813,8 +813,34 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        var exportList = new List<OperBoxData.OperData>();
+        var userOperMap = OperBoxDataArray.ToDictionary(op => op.Id);
+
+        foreach (var (operId, operInfo) in DataHelper.Operators)
+        {
+            if (!DataHelper.IsCharacterAvailableInClient(operInfo, SettingsViewModel.GameSettings.ClientType))
+            {
+                continue;
+            }
+
+            var operName = DataHelper.GetLocalizedCharacterName(operInfo) ?? "???";
+            if (userOperMap.TryGetValue(operId, out var value))
+            {
+                exportList.Add(value);
+            }
+            else
+            {
+                exportList.Add(new OperBoxData.OperData()
+                {
+                    Id = operId,
+                    Name = operName,
+                    Rarity = operInfo.Rarity,
+                });
+            }
+        }
+
         System.Windows.Forms.Clipboard.Clear();
-        System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(OperBoxDataArray, Formatting.Indented));
+        System.Windows.Forms.Clipboard.SetDataObject(JsonConvert.SerializeObject(exportList, Formatting.Indented));
         OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
     }
 

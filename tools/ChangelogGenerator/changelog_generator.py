@@ -17,86 +17,104 @@ with_hash = False
 with_commitizen = False
 committer_is_author = False
 merge_author = False
-commitizens = (
-    r"(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)"
-)
-ignore_commitizens = r"(?:build|ci|style|debug)"
+with_merge = False
 
 contributors = {}
 raw_commits_info = {}
 
+IGNORE_PREFIXES = r"(?:build|ci|style|debug)"
 
-class Translation(Enum):
-    FIX = "fix"
-    FEAT = "feat"
-    PERF = "perf"
-    DOCS = "docs"
-    OTHER = "other"
-
-
+# 中文关键词映射到分类
 translations = {
-    "修复": Translation.FIX,
-    "新增": Translation.FEAT,
-    "更新": Translation.PERF,
-    "改进": Translation.PERF,
-    "优化": Translation.PERF,
-    "重构": Translation.PERF,
-    "文档": Translation.DOCS,
-    "其他": Translation.OTHER,
+    "修复": "fix",
+    "新增": "feat",
+    "更新": "perf",
+    "改进": "perf",
+    "优化": "perf",
+    "重构": "perf",
+    "文档": "docs",
+    "其他": "other",
 }
 
 translations_resort = {
-    "新增 | New": Translation.FEAT,
-    "改进 | Improved": Translation.PERF,
-    "修复 | Fix": Translation.FIX,
-    "文档 | Docs": Translation.DOCS,
-    "其他 | Other": Translation.OTHER,
+    "新增 | New": "feat",
+    "改进 | Improved": "perf",
+    "修复 | Fix": "fix",
+    "文档 | Docs": "docs",
+    "其他 | Other": "other",
 }
+
+
+def parse_category(message: str) -> str:
+    """
+    根据 commitizen 前缀或中文关键字返回分类
+    """
+    # 1. 检查 commitizen 前缀
+
+    if re.match(rf"^{IGNORE_PREFIXES} *(?:\([^\)]*\))*: *", message):
+        return None  # 返回 None 表示跳过
+
+    m = re.match(r"^(?P<prefix>\w+)(?:\([\w\-]+\))?:\s*", message)
+    if m:
+        prefix = m.group("prefix").lower()
+        if prefix == "feat":
+            return "feat"
+        if prefix == "fix":
+            return "fix"
+        if prefix in ["perf", "refactor", "rft"]:
+            return "perf"
+        if prefix in ["docs", "doc"]:
+            return "docs"
+        return "other"
+
+    # 2. 中文关键词匹配
+    for key, cat in translations.items():
+        if key in message:
+            return cat
+
+    return "other"
 
 
 def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
     if not commits:
-        return ("", [])
+        return "", []
+
     ret_message = ""
     ret_contributor = []
 
     for commit_hash, commit_info in commits.items():
-        if commit_info["skip"]:
+        if commit_info.get("skip"):
             continue
 
         commit_message = commit_info["message"]
 
-        if re.match(rf"^{ignore_commitizens} *(?:\([^\)]*\))*: *", commit_message):
-            continue
-
+        # 剥掉 commitizen 前缀，除非保留
         if not with_commitizen:
             commit_message = re.sub(
-                rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *",
-                "",
-                commit_message,
+                r"^(?P<prefix>\w+)(?:\([\w\-]+\))?:\s*", "", commit_message
             )
 
+        # 递归处理 merge branch
+        mes, ctrs = individual_commits(commit_info.get("branch", {}), indent + "   ")
+
+        # 收集作者
+        if merge_author or not commit_info.get("branch"):
+            all_authors = [
+                commit_info.get("author"),
+                *commit_info.get("coauthors", []),
+                commit_info.get("committer") if committer_is_author else None,
+            ]
+            ctrs.extend([c for c in all_authors if c and c not in ctrs])
+
+        ret_contributor.extend(
+            [c for c in ctrs if c != "web-flow" and c not in ret_contributor]
+        )
+
+        # 拼接 commit message
         ret_message += indent + "* " + commit_message
-
-        mes, ctrs = individual_commits(commit_info["branch"], indent + "   ")
-
-        if merge_author or not commit_info["branch"]:
-            ctrs.extend(
-                ctr
-                for ctr in [
-                    commit_info["author"],
-                    *commit_info.get("coauthors", []),
-                    commit_info["committer"] if committer_is_author else None,
-                ]
-                if ctr not in ctrs and ctr is not None
-            )
-
-        ret_contributor += [
-            ctr for ctr in ctrs if ctr != "web-flow" and ctr not in ret_contributor
-        ]
         ret_message += "".join(f" @{ctr}" for ctr in ctrs if ctr != "web-flow")
-
         ret_message += f" ({commit_hash})\n" if with_hash else "\n"
+
         if with_merge:
             ret_message += mes
 
@@ -104,105 +122,71 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
 
 def update_commits(commit_message, sorted_commits, update_dict):
-    oper = "other"
-    # 优先检查 commit_message 中是否有明确的前缀
-    for trans in Translation:
-        if commit_message.startswith(trans.value):
-            oper = trans.value
-            break
-    else:
-        # 如果没有明确前缀，则检查翻译的中文关键词
-        for key, trans in translations.items():
-            if key in commit_message:
-                oper = trans.value
-                break
-
-    sorted_commits[oper].update(update_dict)
+    category = parse_category(commit_message)
+    if not category:  # 如果返回 None，跳过
+        return
+    sorted_commits[category].update(update_dict)
 
 
 def update_message(sorted_commits, ret_contributor):
     ret_message = ""
-    for key, trans in translations_resort.items():
-        if sorted_commits[trans.value]:
-            mes, ctrs = individual_commits(sorted_commits[trans.value], "")
+    for key, category in translations_resort.items():
+        if sorted_commits[category]:
+            mes, ctrs = individual_commits(sorted_commits[category], "")
             if mes:
-                ret_message += f"\n### {key}\n\n"
-                ret_message += mes
+                ret_message += f"\n### {key}\n\n{mes}"
             for ctr in ctrs:
-                if ret_contributor.count(ctr) == 0:
+                if ctr not in ret_contributor:
                     ret_contributor.append(ctr)
     return (ret_message,)
 
 
 def print_commits(commits: dict):
-    sorted_commits = {
-        "perf": {},
-        "feat": {},
-        "fix": {},
-        "docs": {},
-        "other": {},
-    }
+    sorted_commits = {cat: {} for cat in ["perf", "feat", "fix", "docs", "other"]}
     for commit_hash, commit_info in commits.items():
-        commit_message = commit_info["message"]
-        update_commits(commit_message, sorted_commits, {commit_hash: commit_info})
-
+        update_commits(
+            commit_info["message"], sorted_commits, {commit_hash: commit_info}
+        )
     return update_message(sorted_commits, [])
 
 
 def build_commits_tree(commit_hash: str):
-    """
-    返回值为当前 commit 与其 parents 的信息。
-    返回值结构：
-    {
-        commit_hash: {
-            "hash": str,
-            "author": str,
-            "committer": str,
-            "coauthors": [str, ...],
-            "message": str,
-            "branch": {} # 当当前为 merge commit 时非空，为被合并分支对应的 commits 信息
-        },
-        ...
-    }
-    """
     if commit_hash not in raw_commits_info:
         return {}
-    raw_commit_info = raw_commits_info[commit_hash]
-    if "visited" in raw_commit_info and raw_commit_info["visited"]:
+    commit_info = raw_commits_info[commit_hash]
+    if commit_info.get("visited"):
         return {}
-    raw_commit_info.update({"visited": True})  # 防止一个 commit 被多个分支遍历
+    commit_info["visited"] = True
 
     res = {
         commit_hash: {
-            "hash": raw_commit_info["hash"],
-            "author": raw_commit_info["author"],
-            "committer": raw_commit_info["committer"],
-            "coauthors": raw_commit_info.get("coauthors", []),
-            "message": raw_commit_info["message"],
+            "hash": commit_info["hash"],
+            "author": commit_info["author"],
+            "committer": commit_info["committer"],
+            "coauthors": commit_info.get("coauthors", []),
+            "message": commit_info["message"],
             "branch": {},
-            "skip": raw_commit_info.get("skip", False),
+            "skip": commit_info.get("skip", False),
         }
     }
 
-    res.update(build_commits_tree(raw_commit_info["parent"][0]))
+    # 递归父 commit
+    res |= build_commits_tree(commit_info["parent"][0])
 
-    # 第二个 parent 为 Merge commit 的被合并分支
-    if len(raw_commit_info["parent"]) == 2:
-        if raw_commit_info["message"].startswith("Release") or raw_commit_info[
-            "message"
-        ].startswith("Merge"):
-            # 避免合并之后只有一个 Release 主 commit
-            # 忽略不带信息的 Merge commit (eg. Merge remote-tracking branch; Merge branch 'dev' of xxx into dev)
-            res.update(build_commits_tree(raw_commit_info["parent"][1]))
+    if len(commit_info["parent"]) == 2:
+        # merge 分支处理
+        if commit_info["message"].startswith(("Release", "Merge")):
+            res.update(build_commits_tree(commit_info["parent"][1]))
         else:
             res[commit_hash]["branch"].update(
-                build_commits_tree(raw_commit_info["parent"][1])
+                build_commits_tree(commit_info["parent"][1])
             )
         if (
-            raw_commit_info["message"].startswith("Merge")
+            commit_info["message"].startswith("Merge")
             and not res[commit_hash]["branch"]
         ):
             res.pop(commit_hash)
+
     return res
 
 
@@ -212,97 +196,75 @@ def retry_urlopen(*args, **kwargs):
 
     for _ in range(5):
         try:
-            resp: http.client.HTTPResponse = urllib.request.urlopen(*args, **kwargs)
-            return resp
+            return urllib.request.urlopen(*args, **kwargs)
         except urllib.error.HTTPError as e:
             if e.status == 403 and e.headers.get("x-ratelimit-remaining") == "0":
-                # rate limit
                 t0 = time.time()
-                reset_time = t0 + 10
                 try:
                     reset_time = int(e.headers.get("x-ratelimit-reset", 0))
                 except ValueError:
-                    pass
-                reset_time = max(reset_time, t0 + 10)
-                print(
-                    f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds"
-                )
-                time.sleep(reset_time - t0)
+                    reset_time = t0 + 10
+                time.sleep(max(reset_time - t0, 10))
                 continue
             raise
 
 
-# 贡献者名字转账号名
 def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     global contributors
-    if name not in contributors:
-        try:
-            req = urllib.request.Request(
-                f"https://api.github.com/repos/{repo}/commits/{commit_hash}"
-            )
-            token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
-            if token:
-                req.add_header("Authorization", f"Bearer {token}")
-            resp = retry_urlopen(req).read()
-            userid = json.loads(resp)[name_type]["login"]
-            contributors.update({name: userid})
-            return userid
-        except Exception as e:
-            print(f"Cannot get {name_type}: {name}. ({e})")
-            return name
-    else:
+    if name in contributors:
         return contributors[name]
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/commits/{commit_hash}"
+        )
+        token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if token:
+            req.add_header("Authorization", f"Bearer {token}")
+        resp = retry_urlopen(req).read()
+        userid = json.loads(resp)[name_type]["login"]
+        contributors[name] = userid
+        return userid
+    except Exception as e:
+        print(f"Cannot get {name_type}: {name}. ({e})")
+        return name
 
 
 def call_command(command: str):
     with os.popen(command) as fp:
         bf = fp._stream.buffer.read()
     try:
-        command_ret = bf.decode().strip()
+        return bf.decode().strip()
     except:
-        command_ret = bf.decode("gbk").strip()
-    return command_ret
+        return bf.decode("gbk").strip()
 
 
 def main(tag_name=None, latest=None):
     global contributors, raw_commits_info
+
     try:
         with open(contributors_path, "r") as f:
             contributors = json.load(f)
     except:
-        pass
-    # 从哪个 tag 开始
-    if not latest:
-        latest = os.popen('git describe --tags --match "v*" --abbrev=0').read().strip()
+        contributors = {}
 
+    if not latest:
+        latest = call_command('git describe --tags --match "v*" --abbrev=0')
     if not tag_name:
-        tag_name = os.popen('git describe --tags --match "v*"').read().strip()
+        tag_name = call_command('git describe --tags --match "v*"')
+
     print("From:", latest, ", To:", tag_name, "\n")
 
-    # 输出一张好看的 git log 图到控制台
-    # git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
-    # os.system(git_pretty_command)
-
-    # 获取详细的 git log 信息
-    # git_command = rf'git log {latest}..HEAD --pretty=format:"\"%H\":{{\"hash\":\"%h\",\"author\":\"%aN\",\"committer\":\"%cN\",\"message\":\"%s\",\"parent\":\"%P\"}},"'
     git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
     raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}
-    # In case the check step fails in the workflow, prevent exit error 1
     if raw_gitlogs.strip():
         for raw_commit_info in raw_gitlogs.split("\n\n"):
             commit_hash, author, committer, message, parent = raw_commit_info.split(
                 "\n"
             )
-
-            author = convert_contributors_name(
-                name=author, commit_hash=commit_hash, name_type="author"
-            )
-            committer = convert_contributors_name(
-                name=committer, commit_hash=commit_hash, name_type="committer"
-            )
-
+            author = convert_contributors_name(author, commit_hash, "author")
+            committer = convert_contributors_name(committer, commit_hash, "committer")
             raw_commits_info[commit_hash] = {
                 "hash": commit_hash[:8],
                 "author": author,
@@ -311,18 +273,17 @@ def main(tag_name=None, latest=None):
                 "parent": parent.split(),
             }
 
+        # coauthor
         git_coauthor_command = (
             rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
         )
-        raw_gitlogs = call_command(git_coauthor_command)
-
-        for commit_hash in raw_gitlogs.split("\n"):
+        coauthor_hashes = call_command(git_coauthor_command).split("\n")
+        for commit_hash in coauthor_hashes:
             if commit_hash not in raw_commits_info:
                 continue
-            git_addition_command = (
+            addition = call_command(
                 rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
             )
-            addition = call_command(git_addition_command)
             coauthors = []
             for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
                 if coauthor in contributors:
@@ -333,25 +294,19 @@ def main(tag_name=None, latest=None):
                     print(f"Cannot get coauthor: {coauthor}.")
             raw_commits_info[commit_hash]["coauthors"] = coauthors
 
+        # skip changelog
         git_skip_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
-        raw_gitlogs = call_command(git_skip_command)
-
-        for commit_hash in raw_gitlogs.split("\n\n"):
+        skip_hashes = call_command(git_skip_command).split("\n")
+        for commit_hash in skip_hashes:
             if commit_hash not in raw_commits_info:
                 continue
-            git_show_command = rf"git show -s --format=%B%n {commit_hash}"
-            raw_git_shows = call_command(git_show_command)
-            for commit_body in raw_git_shows.split("\n"):
-                if (
-                    not commit_body.startswith("* ")
-                    and "[skip changelog]" in commit_body
-                ):
-                    raw_commits_info[commit_hash]["skip"] = True
+            raw_git_show = call_command(f"git show -s --format=%B%n {commit_hash}")
+            if "[skip changelog]" in raw_git_show:
+                raw_commits_info[commit_hash]["skip"] = True
 
-        # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
-
-        res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
-
+        # build changelog
+        first_hash = list(raw_commits_info.keys())[0]
+        res = print_commits(build_commits_tree(first_hash))
         changelog_content = "## " + tag_name + "\n" + res[0]
         print(changelog_content)
         with open(changelog_path, "w", encoding="utf8") as f:
@@ -359,12 +314,12 @@ def main(tag_name=None, latest=None):
 
         with open(contributors_path, "w") as f:
             json.dump(contributors, f)
-
-    # In case the check step fails in the workflow, prevent exit error 1
     else:
         print("No commits found.")
-        with open(os.getenv("GITHUB_OUTPUT"), "a") as github_output:
-            github_output.write("cancel_run=true\n")
+        github_output = os.getenv("GITHUB_OUTPUT")
+        if github_output:
+            with open(github_output, "a") as f:
+                f.write("cancel_run=true\n")
 
 
 def ArgParser():

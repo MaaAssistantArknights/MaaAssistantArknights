@@ -187,16 +187,16 @@ jobs:
       - name: Config cmake
         run: |
           mkdir -p build
-          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=Release -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ steps.set_tag.outputs.tag }}' -DBUILD_WPF_GUI=OFF
+          cmake -B build ${{ matrix.arch == 'arm64' && '-A ARM64' }} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMAADEPS_TRIPLET='maa-${{ matrix.arch }}-windows' -DINSTALL_RESOURCE=ON -DINSTALL_PYTHON=ON -DMAA_HASH_VERSION='${{ steps.set_tag.outputs.tag }}' -DBUILD_WPF_GUI=OFF
 
       - name: Build
         run: |
-          cmake --build build --config Release --parallel $env:NUMBER_OF_PROCESSORS
+          cmake --build build --config RelWithDebInfo --parallel $env:NUMBER_OF_PROCESSORS
 
       - name: Install
         run: |
           mkdir -p install
-          cmake --install build --prefix install --config Release
+          cmake --install build --prefix install --config RelWithDebInfo
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -232,6 +232,12 @@ jobs:
       - name: Publish WPF GUI
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
+
+      - name: Upload PDB files
+        uses: actions/upload-artifact@v5
+        with:
+          name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
+          path: install/*.pdb
 
       - name: Organize install files
         shell: bash

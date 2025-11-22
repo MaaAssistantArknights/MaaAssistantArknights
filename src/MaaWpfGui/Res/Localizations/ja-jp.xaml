@@ -78,6 +78,7 @@
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <system:String x:Key="GpuDeprecatedMessage">現在選択されている推論加速 GPU（{0}）には互換性の問題があり、認識ミスやずれ、その他の予期しない不具合が発生する可能性があります。\n\n「{key=Settings} - {key=PerformanceSettings}」で別の GPU に変更することをおすすめします。</system:String>
+    <system:String x:Key="GpuDriverOutdatedMessage">現在選択されている推論加速 GPU（{0}）のドライバーバージョン（{1}、リリース日：{2}）は2年以上経過しており、互換性の問題が発生する可能性があります。\n\nグラフィックスドライバーを更新するか、「{key=Settings} - {key=PerformanceSettings}」で別の GPU に変更することをおすすめします。</system:String>
     <system:String x:Key="GpuAllowDeprecated">非推奨 GPU の使用を許可する</system:String>
     <system:String x:Key="Copy">コピー</system:String>
     <!--  設定ガイド  -->
@@ -841,14 +842,21 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」{key=Operator}を認識できません</system:String>
-    <system:String x:Key="SupportUnitUsage">支援要員借用戦略</system:String>
+    <system:String x:Key="SupportUnitUsage">戦友サポート借用</system:String>
+    <system:String x:Key="SupportUnitUsage.Tip">1つ足りないくらいならまだ使えますが、2つ以上欠けている場合は別の攻略に替えたほうがいいでしょう。</system:String>
     <system:String x:Key="SupportUnitUsage.None">借用しない</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">補完のみ</system:String>
     <system:String x:Key="SupportUnitUsage.Random">ランダム</system:String>
     <system:String x:Key="AddTrust">信頼度低の{key=Operator}追加</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">{key=Operator}要件を無視</system:String>
+    <system:String x:Key="Copilot.IgnoreRequirements.Tip" xml:space="preserve">一部の攻略は特定のモジュールなどを前提条件とします
+この項目を選択するとこれらのチェックをスキップしますが、タスクが正常に動作しなくなる可能性があります。</system:String>
     <system:String x:Key="AddUserAdditional">カスタム{key=Operator}追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">「;」はセパレータ、「,」で{key=Operator}の名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla, 1</system:String>
+    <system:String x:Key="UserAdditional.OperatorName">{key=Operator}名</system:String>
+    <system:String x:Key="UserAdditional.Skill">スキル</system:String>
+    <system:String x:Key="UserAdditional.Action">操作</system:String>
+    <system:String x:Key="UserAdditional.Add">追加</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip" xml:space="preserve">以下のモードのみ対応:
@@ -858,7 +866,7 @@ C:\\leidian\\LDPlayer9
   4. {key=ParadoxSimulation}: {key=Operator}リストから起動
 対応する画面から開始してください。章間のナビゲーションはサポートされていません。
 
-- 「{key=UseCopilotList}」を有効にすると、個々のジョブが自動的に「{key=UseCopilotList}」に追加されます。</system:String>
+「{key=UseCopilotList}」を有効にすると、個々のジョブが自動的に「{key=UseCopilotList}」に追加されます。</system:String>
     <system:String x:Key="CopilotTaskRaidStage">（強襲）</system:String>
     <system:String x:Key="CopilotAddTask" xml:space="preserve">左クリックで通常難易度を追加
 右クリックしてレイドの難易度を追加します</system:String>
@@ -900,14 +908,14 @@ C:\\leidian\\LDPlayer9
         5. サポートを使うときは、「{key=AutoSquad}」と「{key=UseCopilotList}」をオフにし、手動で {key=Operator} を選択した後、編成画面の右下に「行動開始」ボタン画面で開始してください。\n\n
         6. 「戦術要員」機能を有効にすると、「{key=AutoSquad}」の{key=Operator}選択に影響を与える可能性があります。「{key=AutoSquad}」を 使用する際は「戦術要員」をオフにするか、不足している{key=Operator}を手動で補充して編成を完成させることをお勧めします。\n\n
         7. Copilot作業ステーションでは、入力欄の右側にある貼り付けボタンをクリックして、謎のコードを貼り付けることができます：\n
-        - 2番目のボタンをクリック = 割り当てを追加。\n
-        - 3番目のボタンをクリック = 割り当てセットを追加。\n\n
+        ● 2番目のボタンをクリック = 割り当てを追加。\n
+        ● 3番目のボタンをクリック = 割り当てセットを追加。\n\n
         8. {key=UseCopilotList}:\n
-        - 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
-        - 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
-        - クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
-        - ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
-        - 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
+        ● 攻略ファイルを選択した後、リストの下のステージ名が正しいことを確認してください（例: CV-EX-1）。 \n
+        ● 追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
+        ● クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        ● ターゲットのステージ名が見える画面で起動してください。章間のナビゲーションはサポートされていません。\n
+        ● 理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -1036,6 +1044,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
     <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
     <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>

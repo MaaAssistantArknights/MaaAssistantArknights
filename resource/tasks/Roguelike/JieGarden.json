@@ -36,33 +36,6 @@
             ]
         ]
     },
-    "JieGarden@Roguelike@AbandonSwitch": {
-        "Doc": "放弃交换通宝",
-        "template": "JieGarden@Roguelike@AbandonSwitch.png",
-        "action": "ClickSelf",
-        "roi": [859, 605, 226, 115],
-        "postDelay": 1000,
-        "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@AbandonSwitchConfirm", "JieGarden@Roguelike@AbandonSwitch"]
-    },
-    "JieGarden@Roguelike@AbandonSwitchConfirm": {
-        "Doc": "放弃交换通宝确认",
-        "template": "JieGarden@Roguelike@AbandonSwitchConfirm.png",
-        "action": "ClickSelf",
-        "roi": [832, 406, 311, 160],
-        "postDelay": 1000,
-        "templThreshold": 0.85,
-        "next": [
-            "JieGarden@Roguelike@DropsFlag",
-            "JieGarden@Roguelike@CloseEvent",
-            "JieGarden@Roguelike@AbandonSwitchConfirm"
-        ]
-    },
-    "JieGarden@Roguelike@AbandonSwitchFlag": {
-        "template": "JieGarden@Roguelike@AbandonSwitchFlag.png",
-        "roi": [1031, 606, 249, 114],
-        "next": ["JieGarden@Roguelike@AbandonSwitch"]
-    },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
     },
@@ -164,6 +137,287 @@
         "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
     "JieGarden@Roguelike@Continue": {},
+    "JieGarden@Roguelike@CoppersAbandonExchange": {
+        "Doc": "放弃交换通宝按钮",
+        "template": "JieGarden@Roguelike@CoppersAbandonExchange.png",
+        "action": "ClickSelf",
+        "roi": [859, 605, 226, 115],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "cache": true,
+        "next": ["JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
+        "algorithm": "OcrDetect",
+        "text": ["已投出"],
+        "roi": [-115, 90, 69, 24]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
+        "Doc": "通宝名称识别 - EXCHANGE 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [29, -5, 160, 40]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-LeftType": {
+        "Doc": "通宝类型识别 - 左侧新拾取通宝区域 (EXCHANGE 模式)",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "roi": [0, 396, 353, 235],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
+        "Doc": "通宝名称识别 - PICKUP 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [0, -209, 167, 37]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-RightType": {
+        "Doc": "通宝类型识别 - 最右侧列区域",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "roi": [825, 118, 335, 392],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-Type": {
+        "Doc": "通宝类型识别 - 中间列区域",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "roi": [380, 118, 325, 392],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-TypeSelected": {
+        "Doc": "被选中的通宝类型识别 - 中间列区域",
+        "algorithm": "JustReturn",
+        "next": [
+            "JieGarden@Roguelike@CoppersTypeLiSelected",
+            "JieGarden@Roguelike@CoppersTypeHengSelected",
+            "JieGarden@Roguelike@CoppersTypeHuaSelected"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersBox": {
+        "Doc": "钱盒按钮",
+        "template": "empty.png",
+        "roi": [348, 640, 465, 80],
+        "action": "ClickSelf"
+    },
+    "JieGarden@Roguelike@CoppersCloseBox": {
+        "Doc": "关闭钱盒",
+        "baseTask": "JieGarden@Roguelike@CoppersBox"
+    },
+    "JieGarden@Roguelike@CoppersExchangeConfirm": {
+        "Doc": "确认放弃/交换通宝的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinish": {
+        "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["交换"],
+        "roi": [575, 558, 127, 50],
+        "preDelay": 1000
+    },
+    "JieGarden@Roguelike@CoppersListDialogConfirm": {
+        "Doc": "通宝列表界面弹出的确认按钮",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "action": "ClickSelf",
+        "roi": [832, 406, 311, 160],
+        "postDelay": 1000,
+        "templThreshold": 0.85,
+        "cache": true
+    },
+    "JieGarden@Roguelike@CoppersListSlowlySwipeToTheLeft": {
+        "Doc": "通宝列表缓慢向左滑动 (每次滑动至少多出一列,不跳过列,通宝每列间距 460px)",
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [500, 340, 20, 20],
+        "rectMove": [1025, 340, 20, 20],
+        "postDelay": 300
+    },
+    "JieGarden@Roguelike@CoppersListSlowlySwipeToTheRight": {
+        "Doc": "通宝列表缓慢向右滑动",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [1150, 340, 20, 20],
+        "rectMove": [625, 340, 20, 20],
+        "postDelay": 300
+    },
+    "JieGarden@Roguelike@CoppersListSwipeErrorRecognition": {
+        "Doc": "通宝列表滑动效果确认 - 识别滑动距离的误差",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "roi": [397, 113, 460, 60],
+        "maskRange": [1, 255],
+        "postDelay": 200
+    },
+    "JieGarden@Roguelike@CoppersListSwipeFlagClick": {
+        "Doc": "通宝列表滑动确认 - 点击右侧上方的通宝作为滑动成功的标注",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [830, 113, 450, 60],
+        "maskRange": [1, 255],
+        "postDelay": 200
+    },
+    "JieGarden@Roguelike@CoppersListSwipeRightMostClick": {
+        "Doc": "通宝列表滑动确认 - 识别最后一列时点击中间的通宝避免干扰识别",
+        "template": [
+            "JieGarden@Roguelike@CoppersTypeLi.png",
+            "JieGarden@Roguelike@CoppersTypeHeng.png",
+            "JieGarden@Roguelike@CoppersTypeHua.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [400, 113, 450, 60],
+        "maskRange": [1, 255],
+        "postDelay": 200
+    },
+    "JieGarden@Roguelike@CoppersListSwipeToTheLeft": {
+        "Doc": "通宝列表快速向左滑动",
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [500, 340, 20, 20],
+        "rectMove": [980, 340, 20, 20]
+    },
+    "JieGarden@Roguelike@CoppersListSwipeToTheRight": {
+        "Doc": "通宝列表快速向右滑动",
+        "baseTask": "SwipeToTheRight",
+        "specificRect": [1150, 340, 20, 20],
+        "rectMove": [670, 340, 20, 20]
+    },
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "Doc": "通宝名称 OCR 识别替换规则 (用于修正 OCR 误识别)",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "ocrReplace": [
+            ["_+$", ""],
+            ["\\.+$", ""],
+            ["衡-露.*", "衡-霹雳"],
+            ["厉-安硕.*", "厉-安硕鼷"],
+            ["花-圣迢封神", "花-圣诏封神"],
+            ["衡-军.*", "衡-军屯垦"],
+            ["衡-早热", "衡-旱热"],
+            ["厉[-—一]+字落", "厉-一字落"]
+        ]
+    },
+    "JieGarden@Roguelike@CoppersOpenBox": {
+        "Doc": "打开钱盒，可能出现在左下角或下方中间偏右",
+        "baseTask": "JieGarden@Roguelike@CoppersBox"
+    },
+    "JieGarden@Roguelike@CoppersRecast": {
+        "Doc": "重新投钱",
+        "method": "HSVCount",
+        "roi": [1196, 70, 80, 56],
+        "colorScales": [
+            [
+                [0, 0, 160],
+                [10, 255, 255]
+            ],
+            [
+                [65, 0, 160],
+                [100, 255, 255]
+            ]
+        ],
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "next": ["JieGarden@Roguelike@CoppersRecastConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastConfirm": {
+        "Doc": "重新投钱的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "postDelay": 3000,
+        "next": ["JieGarden@Roguelike@CoppersRecastResult", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersRecastResult": {
+        "Doc": "点击投钱结果界面的对号",
+        "action": "ClickSelf",
+        "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
+        "postDelay": 500,
+        "roi": [1033, 462, 153, 155]
+    },
+    "JieGarden@Roguelike@CoppersTakeConfirm": {
+        "Doc": "交换通宝确认按钮 (用于插件 RoguelikeCoppersTaskPlugin 的确认操作)",
+        "action": "ClickSelf",
+        "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
+        "roi": [1031, 606, 249, 114],
+        "postDelay": 500,
+        "cache": true,
+        "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
+    },
+    "JieGarden@Roguelike@CoppersTakeFlag": {
+        "Doc": "交换通宝界面 - 拿取通宝按钮 (本任务注册了插件 RoguelikeCoppersTaskPlugin EXCHANGE 模式)",
+        "template": "JieGarden@Roguelike@CoppersTakeFlag.png",
+        "roi": [1031, 606, 249, 114],
+        "cache": true,
+        "next": [
+            "JieGarden@Roguelike@CoppersAbandonExchange",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent",
+            "#self"
+        ]
+    },
+    "JieGarden@Roguelike@CoppersTypeHengSelected": {
+        "method": "HSVCount",
+        "roi": [366, 103, 450, 80],
+        "colorScales": [
+            [
+                [88, 128, 177],
+                [100, 255, 230]
+            ]
+        ],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersTypeHuaSelected": {
+        "method": "RGBCount",
+        "roi": [366, 103, 450, 80],
+        "colorScales": [
+            [
+                [99, 193, 229],
+                [107, 193, 230]
+            ],
+            [
+                [98, 126, 174],
+                [107, 194, 230]
+            ],
+            [
+                [97, 126, 171],
+                [109, 194, 230]
+            ]
+        ],
+        "maskRange": [1, 255]
+    },
+    "JieGarden@Roguelike@CoppersTypeLiSelected": {
+        "method": "RGBCount",
+        "roi": [366, 103, 450, 80],
+        "colorScales": [
+            [
+                [99, 193, 222],
+                [107, 193, 230]
+            ],
+            [
+                [64, 100, 144],
+                [108, 194, 230]
+            ],
+            [
+                [60, 97, 141],
+                [63, 101, 230]
+            ]
+        ],
+        "maskRange": [1, 255]
+    },
     "JieGarden@Roguelike@DeepExploration": {
         "template": "Roguelike@DeepExploration.png"
     },
@@ -266,13 +520,12 @@
     "JieGarden@Roguelike@GetDropSelectRecruit": {},
     "JieGarden@Roguelike@GetDropSelectReward": {},
     "JieGarden@Roguelike@GetDropSwitch": {
-        "Doc": "交换通宝",
+        "Doc": "掉落通宝拾取界面 - 交换按钮识别 (本任务注册了插件 RoguelikeCoppersTaskPlugin PICKUP 模式)",
         "template": "JieGarden@Roguelike@GetDropSwitch.png",
-        "action": "ClickSelf",
         "roi": [0, 420, 1280, 175],
         "postDelay": 1000,
         "templThreshold": 0.85,
-        "next": ["JieGarden@Roguelike@AbandonSwitch", "JieGarden@Roguelike@GetDropSwitch"]
+        "next": ["JieGarden@Roguelike@CoppersTakeFlag", "JieGarden@Roguelike@GetDropSwitch"]
     },
     "JieGarden@Roguelike@GetDrops": {
         "next": [
@@ -329,6 +582,14 @@
         "roi": [1051, 317, 158, 148],
         "next": ["JieGarden@Roguelike@ConfirmToLeaveBoskyPassage", "#self"]
     },
+    "JieGarden@Roguelike@LeaveBoskyPassageCheck": {
+        "Doc": "有时候从不期而遇出来可能会多点一下，点到剩余烛火，检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉",
+        "action": "ClickRect",
+        "template": "JieGarden@Roguelike@LeaveBoskyPassage.png",
+        "roi": [1051, 317, 158, 148],
+        "preDelay": 200,
+        "specificRect": [19, 317, 80, 80]
+    },
     "JieGarden@Roguelike@LeaveOperation": {
         "roi": [41, 22, 78, 71],
         "action": "ClickSelf",
@@ -344,6 +605,21 @@
     "JieGarden@Roguelike@MissionFailedFlag2": {},
     "JieGarden@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
+    },
+    "JieGarden@Roguelike@ClickToStartPoint": {
+        "next": [
+            "JieGarden@Roguelike@MissionCompletedFlag",
+            "JieGarden@Roguelike@MissionFailedFlag2",
+            "JieGarden@Roguelike@StartExplore",
+            "JieGarden@Roguelike@Stages#next",
+            "JieGarden@Roguelike@GamePass",
+            "JieGarden@Roguelike@TodoEnter",
+            "JieGarden@Roguelike@Continue",
+            "JieGarden@Roguelike@ReturnButtons#next",
+            "JieGarden@Roguelike@ReturnConfirm",
+            "JieGarden@Roguelike@StartUpThemes#next",
+            "JieGarden@Roguelike@ClickToStartPoint"
+        ]
     },
     "JieGarden@Roguelike@MonthlySquadComms": {
         "template": "Roguelike@MonthlySquadComms.png",
@@ -720,7 +996,7 @@
             "JieGarden@Roguelike@StageEncounterOptionWonderland",
             "JieGarden@Roguelike@StageEncounterDrawCopperResult",
             "JieGarden@Roguelike@ChooseOperFlag",
-            "JieGarden@Roguelike@AbandonSwitchFlag",
+            "JieGarden@Roguelike@CoppersTakeFlag",
             "JieGarden@Roguelike@StageEmergencyDpsEnter",
             "JieGarden@Roguelike@StageCombatDpsEnter",
             "JieGarden@Roguelike@CloseEvent",
@@ -1216,7 +1492,17 @@
         "algorithm": "OcrDetect",
         "roi": [0, 0, 300, 43],
         "text": [],
-        "withoutDet": true
+        "withoutDet": true,
+        "ocrReplace": [
+            ["[_—,，\\.]+$", ""],
+            ["^[_—,，\\.]+", ""],
+            ["^[儡蟹]+", ""],
+            ["想要时的", "想要亥时的"],
+            ["找委溯果", "找黍溯果"],
+            ["睁开双眼.*", "睁开双眼——"],
+            ["^饮一口缸中水[,，].*", "饮一口缸中水，祈求好运"],
+            ["奉碑行仪.*", "奉碑行仪"]
+        ]
     },
     "JieGarden@RoguelikeRecruit-GiveUp": {
         "doc": [

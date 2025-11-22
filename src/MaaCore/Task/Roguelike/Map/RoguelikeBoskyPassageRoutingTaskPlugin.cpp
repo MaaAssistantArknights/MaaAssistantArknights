@@ -1,10 +1,13 @@
 #include "RoguelikeBoskyPassageRoutingTaskPlugin.h"
 
+#include "Common/AsstTypes.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
-#include "MaaUtils/NoWarningCV.hpp"
+#include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 
 bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] const json::value& params)
@@ -98,6 +101,10 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     Log.info(__FUNCTION__, "| updating bosky map");
 
+    // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
+    // 能检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉
+    ProcessTask(*this, { "JieGarden@Roguelike@LeaveBoskyPassageCheck" }).set_retry_times(0).run();
+
     cv::Mat image = ctrler()->get_image();
     if (image.empty()) {
         Log.error(__FUNCTION__, "| Failed to get image from controller");
@@ -166,10 +173,13 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
     }
 
 #ifdef ASST_DEBUG
-    const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelikeMap");
-    const auto relative_path = relative_dir / (std::format("{}_bosky_draw.png", MAA_NS::format_now_for_filename()));
-    Log.debug(__FUNCTION__, "| Saving bosky map image to", relative_path);
-    MAA_NS::imwrite(relative_path, image_draw);
+    utils::save_debug_image(
+        image_draw,
+        utils::path("debug") / "roguelikeMap",
+        /*auto_clean=*/true,
+        /*save_cnt=*/nullptr,
+        /*description=*/"bosky map draw",
+        /*suffix=*/"draw");
 #endif
 
     Log.info(__FUNCTION__, "| map updated with", RoguelikeBoskyPassageMap::get_instance().size(), "nodes");
@@ -201,6 +211,7 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
         Task.set_task_base("RoguelikeRoutingAction", "JieGarden@RoguelikeRoutingAction-LeaveBoskyPassage");
         return;
     }
+
     int gx = RoguelikeBoskyPassageMap::get_instance().get_node_x(chosen);
     int gy = RoguelikeBoskyPassageMap::get_instance().get_node_y(chosen);
     RoguelikeNodeType node_type = RoguelikeBoskyPassageMap::get_instance().get_node_type(chosen);

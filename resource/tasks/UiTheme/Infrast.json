@@ -1,0 +1,80 @@
+{
+    "Infrast-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [935, 570, 85, 75],
+            "mask": []
+        },
+        "next": [
+            "InfrastDefault",
+            "InfrastDark",
+            "InfrastSami",
+            "InfrastMistCity",
+            "InfrastSiege",
+            "InfrastSarkaz",
+            "InfrastDelicious",
+            "InfrastGaming",
+            "InfrastDahuangCity",
+            "InfrastDreamland",
+            "InfrastJieGarden",
+            "InfrastAveMujica",
+            "InfrastTogether"
+        ]
+    },
+    "InfrastDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "postDelay": 5000,
+        "roi": [930, 540, 230, 180],
+        "template": "Default/EnterInfrast.png"
+    },
+    "InfrastDark": {
+        "baseTask": "InfrastDefault",
+        "template": "Dark/EnterInfrast.png"
+    },
+    "InfrastSami": {
+        "baseTask": "InfrastDefault",
+        "template": "Sami/EnterInfrast.png"
+    },
+    "InfrastMistCity": {
+        "baseTask": "InfrastDefault",
+        "template": "MistCity/EnterInfrast.png"
+    },
+    "InfrastSiege": {
+        "baseTask": "InfrastDefault",
+        "template": "Siege/EnterInfrast.png"
+    },
+    "InfrastSarkaz": {
+        "baseTask": "InfrastDefault",
+        "template": "Sarkaz/EnterInfrast.png"
+    },
+    "InfrastDelicious": {
+        "baseTask": "InfrastDefault",
+        "template": "Delicious/EnterInfrast.png"
+    },
+    "InfrastGaming": {
+        "baseTask": "InfrastDefault",
+        "template": "Gaming/EnterInfrast.png"
+    },
+    "InfrastDahuangCity": {
+        "baseTask": "InfrastDefault",
+        "template": "DahuangCity/EnterInfrast.png"
+    },
+    "InfrastDreamland": {
+        "baseTask": "InfrastDefault",
+        "template": ["Dreamland/DreamlandDefault/EnterInfrast.png", "Dreamland/DreamlandDark/EnterInfrast.png"]
+    },
+    "InfrastJieGarden": {
+        "baseTask": "InfrastDefault",
+        "template": "JieGarden/EnterInfrast.png"
+    },
+    "InfrastAveMujica": {
+        "baseTask": "InfrastDefault",
+        "template": "AveMujica/EnterInfrast.png"
+    },
+    "InfrastTogether": {
+        "baseTask": "InfrastDefault",
+        "template": "Together/EnterInfrast.png"
+    }
+}

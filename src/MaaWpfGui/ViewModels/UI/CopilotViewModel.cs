@@ -147,6 +147,17 @@ public partial class CopilotViewModel : Screen
     {
         Execute.OnUIThread(() =>
         {
+            foreach (var log in LogItemViewModels)
+            {
+                if (log.ToolTip is ToolTip t)
+                {
+                    t.IsOpen = false;
+                    t.Content = null;
+                    ToolTipService.SetPlacementTarget(t, null);
+                    t.PlacementTarget = null;
+                }
+            }
+
             LogItemViewModels.Clear();
             AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
         });
@@ -306,7 +317,7 @@ public partial class CopilotViewModel : Screen
         }
     }
 
-    private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Replace("，", ",").Replace("；", ";").Trim();
+    private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty).Trim();
 
     /// <summary>
     /// Gets or sets a value indicating whether to use auto-formation.
@@ -316,9 +327,236 @@ public partial class CopilotViewModel : Screen
         get => _userAdditional;
         set
         {
-            value = value.Replace("，", ",").Replace("；", ";").Trim();
+            value = value.Trim();
             SetAndNotify(ref _userAdditional, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
+        }
+    }
+
+    private bool _isUserAdditionalPopupOpen;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the UserAdditional popup is open.
+    /// </summary>
+    public bool IsUserAdditionalPopupOpen
+    {
+        get => _isUserAdditionalPopupOpen;
+        set => SetAndNotify(ref _isUserAdditionalPopupOpen, value);
+    }
+
+    /// <summary>
+    /// Gets the view models of UserAdditional items.
+    /// </summary>
+    public ObservableCollection<UserAdditionalItemViewModel> UserAdditionalItems { get; } = [];
+
+    /// <summary>
+    /// Opens the UserAdditional popup for editing.
+    /// </summary>
+    public void OpenUserAdditionalPopup()
+    {
+        // 清空列表
+        UserAdditionalItems.Clear();
+
+        // 优先按 JSON 反序列化
+        if (!string.IsNullOrWhiteSpace(UserAdditional))
+        {
+            try
+            {
+                var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
+                foreach (var op in list)
+                {
+                    if (string.IsNullOrWhiteSpace(op.Name))
+                    {
+                        continue;
+                    }
+
+                    int skill = op.Skill;
+                    if (skill < 1)
+                    {
+                        skill = 1;
+                    }
+                    else if (skill > 3)
+                    {
+                        skill = 3;
+                    }
+
+                    var item = new UserAdditionalItemViewModel
+                    {
+                        Name = op.Name,
+                        Skill = skill,
+                        Module = op.Module,
+                    };
+                    UserAdditionalItems.Add(item);
+                }
+            }
+            catch
+            {
+                // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
+                try
+                {
+                    Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
+                    var matches = regex.Matches(";" + UserAdditional + ";");
+                    foreach (Match match in matches)
+                    {
+                        var name = match.Groups["name"].Value.Trim();
+                        var skillStr = match.Groups["skill"].Value;
+                        int skill = string.IsNullOrEmpty(skillStr) ? 1 : int.Parse(skillStr);
+                        if (skill < 1)
+                        {
+                            skill = 1;
+                        }
+                        else if (skill > 3)
+                        {
+                            skill = 3;
+                        }
+
+                        var item = new UserAdditionalItemViewModel
+                        {
+                            Name = name,
+                            Skill = skill,
+                            Module = 0,
+                        };
+                        UserAdditionalItems.Add(item);
+                    }
+                }
+                catch
+                {
+                    // ignore
+                }
+            }
+        }
+
+        // 如果列表为空，添加一行空行
+        if (UserAdditionalItems.Count == 0)
+        {
+            var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 1, Module = 0 };
+            UserAdditionalItems.Add(newItem);
+        }
+
+        IsUserAdditionalPopupOpen = true;
+    }
+
+    /// <summary>
+    /// Saves the UserAdditional value from the popup.
+    /// </summary>
+    public void SaveUserAdditional()
+    {
+        // 将列表转换为 UserAdditional 并序列化为 JSON
+        var list = new List<UserAdditional>();
+        foreach (var item in UserAdditionalItems)
+        {
+            if (string.IsNullOrWhiteSpace(item.Name))
+            {
+                continue; // 跳过空行
+            }
+
+            int skill = item.Skill;
+            if (skill < 1)
+            {
+                skill = 1;
+            }
+            else if (skill > 3)
+            {
+                skill = 3;
+            }
+
+            list.Add(new UserAdditional
+            {
+                Name = item.Name.Trim(),
+                Skill = skill,
+                Module = item.Module,
+            });
+        }
+
+        UserAdditional = list.Count > 0
+            ? JsonConvert.SerializeObject(list, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore })
+            : string.Empty;
+
+        IsUserAdditionalPopupOpen = false;
+    }
+
+    /// <summary>
+    /// Cancels editing UserAdditional and closes the popup.
+    /// </summary>
+    public void CancelUserAdditionalEdit()
+    {
+        IsUserAdditionalPopupOpen = false;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether can add a new UserAdditional item.
+    /// </summary>
+    public bool CanAddUserAdditionalItem => UserAdditionalItems.All(item => !string.IsNullOrWhiteSpace(item.Name));
+
+    /// <summary>
+    /// Adds a new UserAdditional item.
+    /// </summary>
+    public void AddUserAdditionalItem()
+    {
+        if (!CanAddUserAdditionalItem)
+        {
+            return;
+        }
+
+        var newItem = new UserAdditionalItemViewModel { Name = string.Empty, Skill = 1, Module = 0 };
+        UserAdditionalItems.Add(newItem);
+    }
+
+    /// <summary>
+    /// Removes a UserAdditional item.
+    /// </summary>
+    /// <param name="item">The item to remove.</param>
+    public void RemoveUserAdditionalItem(UserAdditionalItemViewModel item)
+    {
+        if (item != null && UserAdditionalItems.Contains(item))
+        {
+            UserAdditionalItems.Remove(item);
+        }
+    }
+
+    public static Dictionary<string, int> ModuleMapping { get; } = new()
+    {
+        { LocalizationHelper.GetString("CopilotWithoutModule"), 0 },
+        { "χ", 1 },
+        { "γ", 2 },
+        { "α", 3 },
+        { "Δ", 4 },
+    };
+
+    public class UserAdditionalItemViewModel : PropertyChangedBase
+    {
+        private string _name = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the operator name.
+        /// </summary>
+        public string Name
+        {
+            get => _name;
+            set => SetAndNotify(ref _name, value);
+        }
+
+        private int _skill;
+
+        /// <summary>
+        /// Gets or sets the skill number.
+        /// </summary>
+        public int Skill
+        {
+            get => _skill;
+            set => SetAndNotify(ref _skill, value);
+        }
+
+        private int _module;
+
+        /// <summary>
+        /// Gets or sets the module number.
+        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1-4: 不同模组
+        /// </summary>
+        public int Module
+        {
+            get => _module;
+            set => SetAndNotify(ref _module, value);
         }
     }
 
@@ -340,7 +578,7 @@ public partial class CopilotViewModel : Screen
 
     private int _formationIndex = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSelectFormation, 1);
 
-    public int SelectFormation
+    public int FormationIndex
     {
         get => _formationIndex;
         set
@@ -348,6 +586,14 @@ public partial class CopilotViewModel : Screen
             SetAndNotify(ref _formationIndex, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotSelectFormation, value.ToString());
         }
+    }
+
+    private bool _useSupportUnitUsage;
+
+    public bool UseSupportUnitUsage
+    {
+        get => _useSupportUnitUsage;
+        set => SetAndNotify(ref _useSupportUnitUsage, value);
     }
 
     private int _supportUnitUsage = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotSupportUnitUsage, 0);
@@ -364,7 +610,7 @@ public partial class CopilotViewModel : Screen
 
     public List<GenericCombinedData<int>> SupportUnitUsageList { get; } =
     [
-        new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 },
+        /* new() { Display = LocalizationHelper.GetString("SupportUnitUsage.None"), Value = 0 }, */
         new() { Display = LocalizationHelper.GetString("SupportUnitUsage.WhenNeeded"), Value = 1 },
         new() { Display = LocalizationHelper.GetString("SupportUnitUsage.Random"), Value = 3 },
     ];
@@ -1348,13 +1594,70 @@ public partial class CopilotViewModel : Screen
             return;
         }
 
-        Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-
-        var userAdditional = regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new UserAdditional
+        // 反序列化自定义追加干员列表（JSON），兼容旧格式
+        IEnumerable<UserAdditional> userAdditional = [];
+        if (!string.IsNullOrWhiteSpace(UserAdditional))
         {
-            Name = match.Groups[1].Value.Trim(),
-            Skill = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
-        });
+            try
+            {
+                var list = JsonConvert.DeserializeObject<List<UserAdditional>>(UserAdditional) ?? [];
+                foreach (var op in list)
+                {
+                    if (string.IsNullOrWhiteSpace(op.Name))
+                    {
+                        continue;
+                    }
+
+                    int skill = op.Skill;
+                    if (skill < 1)
+                    {
+                        skill = 1;
+                    }
+                    else if (skill > 3)
+                    {
+                        skill = 3;
+                    }
+
+                    op.Skill = skill;
+                }
+
+                userAdditional = list.Where(op => !string.IsNullOrWhiteSpace(op.Name));
+            }
+            catch
+            {
+                // 兼容旧格式：以 ; 和 , 解析 "name,skill;name,skill" 形式
+                try
+                {
+                    Regex regex = new(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
+                    var matches = regex.Matches(";" + UserAdditional + ";").ToList();
+                    userAdditional = matches.Select(match =>
+                    {
+                        var name = match.Groups[1].Value.Trim();
+                        var skillStr = match.Groups[2].Value;
+                        int skill = string.IsNullOrEmpty(skillStr) ? 1 : int.Parse(skillStr);
+                        if (skill < 1)
+                        {
+                            skill = 1;
+                        }
+                        else if (skill > 3)
+                        {
+                            skill = 3;
+                        }
+
+                        return new UserAdditional
+                        {
+                            Name = name,
+                            Skill = skill,
+                            Module = 0,
+                        };
+                    }).Where(op => !string.IsNullOrWhiteSpace(op.Name));
+                }
+                catch
+                {
+                    userAdditional = [];
+                }
+            }
+        }
 
         bool ret = true;
         try
@@ -1372,13 +1675,13 @@ public partial class CopilotViewModel : Screen
                 var task = new AsstCopilotTask()
                 {
                     MultiTasks = [.. t],
-                    Formation = _form,
-                    SupportUnitUsage = _supportUnitUsage,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
-                    UseSanityPotion = _useSanityPotion,
-                    FormationIndex = UseFormation ? _formationIndex : 0,
+                    Formation = Form,
+                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                    AddTrust = AddTrust,
+                    IgnoreRequirements = IgnoreRequirements,
+                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
+                    UseSanityPotion = UseSanityPotion,
+                    FormationIndex = UseFormation ? FormationIndex : 0,
                 };
 
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, task);
@@ -1403,14 +1706,14 @@ public partial class CopilotViewModel : Screen
                 var task = new AsstCopilotTask()
                 {
                     FileName = IsDataFromWeb ? TempCopilotFile : Filename,
-                    Formation = _form,
-                    SupportUnitUsage = _supportUnitUsage,
-                    AddTrust = _addTrust,
-                    IgnoreRequirements = _ignoreRequirements,
-                    UserAdditionals = AddUserAdditional ? userAdditional.ToList() : [],
+                    Formation = Form,
+                    SupportUnitUsage = UseSupportUnitUsage ? SupportUnitUsage : 0,
+                    AddTrust = AddTrust,
+                    IgnoreRequirements = IgnoreRequirements,
+                    UserAdditionals = AddUserAdditional ? [.. userAdditional] : [],
                     LoopTimes = Loop ? LoopTimes : 1,
-                    UseSanityPotion = _useSanityPotion,
-                    FormationIndex = UseFormation ? _formationIndex : 0,
+                    UseSanityPotion = false,
+                    FormationIndex = UseFormation ? FormationIndex : 0,
                 };
                 ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Copilot, _taskType, task.Serialize().Params);
                 ret = ret && Instances.AsstProxy.AsstStart();

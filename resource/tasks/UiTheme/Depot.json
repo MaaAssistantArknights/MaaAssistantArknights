@@ -1,0 +1,79 @@
+{
+    "Depot-Entry": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "crop_doc": {
+            "roi": [1153, 606, 77, 79],
+            "mask": []
+        },
+        "next": [
+            "DepotDefault",
+            "DepotDark",
+            "DepotSami",
+            "DepotMistCity",
+            "DepotSiege",
+            "DepotSarkaz",
+            "DepotDelicious",
+            "DepotGaming",
+            "DepotDahuangCity",
+            "DepotDreamland",
+            "DepotJieGarden",
+            "DepotAveMujica",
+            "DepotTogether"
+        ]
+    },
+    "DepotDefault": {
+        "action": "ClickSelf",
+        "maskRange": [1, 255],
+        "roi": [1109, 560, 171, 160],
+        "template": "Default/DepotEnter.png"
+    },
+    "DepotDark": {
+        "baseTask": "DepotDefault",
+        "template": "Dark/DepotEnter.png"
+    },
+    "DepotSami": {
+        "baseTask": "DepotDefault",
+        "template": "Sami/DepotEnter.png"
+    },
+    "DepotMistCity": {
+        "baseTask": "DepotDefault",
+        "template": "MistCity/DepotEnter.png"
+    },
+    "DepotSiege": {
+        "baseTask": "DepotDefault",
+        "template": "Siege/DepotEnter.png"
+    },
+    "DepotSarkaz": {
+        "baseTask": "DepotDefault",
+        "template": "Sarkaz/DepotEnter.png"
+    },
+    "DepotDelicious": {
+        "baseTask": "DepotDefault",
+        "template": "Delicious/DepotEnter.png"
+    },
+    "DepotGaming": {
+        "baseTask": "DepotDefault",
+        "template": "Gaming/DepotEnter.png"
+    },
+    "DepotDahuangCity": {
+        "baseTask": "DepotDefault",
+        "template": "DahuangCity/DepotEnter.png"
+    },
+    "DepotDreamland": {
+        "baseTask": "DepotDefault",
+        "template": ["Dreamland/DreamlandDefault/DepotEnter.png", "Dreamland/DreamlandDark/DepotEnter.png"]
+    },
+    "DepotJieGarden": {
+        "baseTask": "DepotDefault",
+        "template": "JieGarden/DepotEnter.png"
+    },
+    "DepotAveMujica": {
+        "baseTask": "DepotDefault",
+        "template": "AveMujica/DepotEnter.png"
+    },
+    "DepotTogether": {
+        "baseTask": "DepotDefault",
+        "template": "Together/DepotEnter.png"
+    }
+}

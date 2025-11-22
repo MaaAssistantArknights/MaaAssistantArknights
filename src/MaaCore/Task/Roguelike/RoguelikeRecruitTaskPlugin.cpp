@@ -108,7 +108,21 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     if (theme == RoguelikeTheme::JieGarden && mode == RoguelikeMode::FindPlaytime && !m_initail_recruit) {
         bool ret = ProcessTask(*this, { "JieGarden@Roguelike@ReserveRecruitmentVoucher" }).run();
         if (ret) {
-            return true;
+            // 判断当前界面是否存在尚未消失的确认招募按钮，等待其消失
+            Matcher analyzer;
+            analyzer.set_task_info("JieGarden@Roguelike@ChooseOperConfirm");
+            for (int i = 0; i < 5; ++i) {
+                analyzer.set_image(ctrler()->get_image());
+                if (analyzer.analyze().has_value()) {
+                    Log.info(__FUNCTION__, "| Waiting for confirm button to disappear...");
+                    sleep(200);
+                }
+                else {
+                    return true;
+                }
+            }
+            // 没有消失的话就继续招募流程
+            Log.warn(__FUNCTION__, "| Confirm button did not disappear in time, continue recruitment process.");
         }
     }
 
@@ -555,9 +569,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             if (it != chars.cend()) {
                 // !get_run_for_collectible() 即当前没有在烧开水/水已经烧好了
                 // 需要凹直升且，要么已经烧好了水，要么只需要凹直升不需要烧水
-                if (start_with_elite_two && (!m_config->get_run_for_collectible() || only_start_with_elite_two)) {
+                // 凹直升只对第一位招募的干员生效
+                if (start_with_elite_two && (!m_config->get_run_for_collectible() || only_start_with_elite_two) &&
+                    m_recruit_count == 1) {
                     if (it->elite == 2) {
-                        m_task_ptr->set_enable(false);
+                        if (m_config->get_first_floor_foldartal()) {
+                            select_oper(*it); // 放心选择精二，之后还要继续凹密文板
+                        }
+                        else {
+                            m_task_ptr->set_enable(false); // 仅当之后没有东西要凹了才停止
+                        }
                     }
                     else {
                         // 非只凹直升时，重新烧水

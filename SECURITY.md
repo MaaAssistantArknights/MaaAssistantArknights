@@ -2,11 +2,11 @@
 
 ## 受支持的版本 / Supported Versions
 
-我们仅对 v4 和 v5 两个大版本的最新稳定版提供安全支持，如有安全问题，我们将会尽可能快地发布新的稳定版解决。
+我们仅对 v5 的最新稳定版提供安全支持，如有安全问题，我们将会尽可能快地发布新的稳定版解决。
 
 内测版、公测版仅供测试，我们不会对其提供安全支持。
 
-We only provide security support for the latest Stable Release versions of v4 and v5. If there are security issues, we will release a new stable version as soon as possible to solve them.
+We only provide security support for the latest Stable Release versions of v5. If there are security issues, we will release a new stable version as soon as possible to solve them.
 
 The Nightly Release version and the Beta Release version are for testing only, and we will not provide security support for them.
 

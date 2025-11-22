@@ -127,8 +127,19 @@ public class AsstCopilotTask : AsstBaseTask
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets 技能序号，可选，默认为 1，取值范围 [1, 3]
+        /// </summary>
         [JsonProperty("skill")]
-        public int Skill { get; set; }
+        public int Skill { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets 模组编号，可选，默认为 0
+        /// -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组 χ, 2: 模组 γ, 3: 模组 α, 4: 模组 Δ
+        /// 当前核心仅使用 name 和 skill 字段，module 作为预留字段
+        /// </summary>
+        [JsonProperty("module")]
+        public int Module { get; set; }
     }
 
     public class MultiTask
