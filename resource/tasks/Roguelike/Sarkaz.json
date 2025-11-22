@@ -638,6 +638,16 @@
     "Sarkaz@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
+    "Sarkaz@Roguelike@StageEncounterClose": {
+        "Doc": "关掉进入事件可能弹出的窗口",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
+    },
+    "Sarkaz@Roguelike@StageEncounterContinue": {
+        "Doc": "关掉进入事件可能弹出的窗口",
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
+        "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
+    },
     "Sarkaz@Roguelike@StageEncounterEnter": {},
     "Sarkaz@Roguelike@StageEncounterJudgeClick2": {
         "next": [
@@ -645,16 +655,6 @@
             "Sarkaz@Roguelike@StageEncounterClose",
             "Sarkaz@Roguelike@StageEncounterJudgeOption"
         ]
-    },
-    "Sarkaz@Roguelike@StageEncounterContinue": {
-        "Doc": "关掉进入事件可能弹出的窗口",
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionContinue",
-        "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
-    },
-    "Sarkaz@Roguelike@StageEncounterClose": {
-        "Doc": "关掉进入事件可能弹出的窗口",
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "next": ["Sarkaz@Roguelike@StageEncounterJudgeOption"]
     },
     "Sarkaz@Roguelike@StageEncounterLeaveConfirm": {},
     "Sarkaz@Roguelike@StageEncounterOptionFree": {},

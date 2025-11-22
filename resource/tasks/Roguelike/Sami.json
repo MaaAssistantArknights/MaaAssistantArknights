@@ -115,6 +115,21 @@
             "Sami@Roguelike@ClickToDrops"
         ]
     },
+    "Sami@Roguelike@ClickToStartPoint": {
+        "next": [
+            "Sami@Roguelike@MissionCompletedFlag",
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@StartExplore",
+            "Sami@Roguelike@Stages#next",
+            "Sami@Roguelike@GamePass",
+            "Sami@Roguelike@TodoEnter",
+            "Sami@Roguelike@Continue",
+            "Sami@Roguelike@ReturnButtons#next",
+            "Sami@Roguelike@ReturnConfirm",
+            "Sami@Roguelike@StartUpThemes#next",
+            "Sami@Roguelike@ClickToStartPoint"
+        ]
+    },
     "Sami@Roguelike@CloseCollection": {
         "next": ["Sami@Roguelike@LastReward-EnterPoint", "Sami@Roguelike@GetLUD", "Sami@Roguelike@RolesDefault"]
     },
@@ -544,21 +559,6 @@
         "baseTask": "Sami@Roguelike@MissionFailedFlag",
         "template": "Sami@Roguelike@MissionFailedFlag3.png",
         "roi": [504, 163, 480, 267]
-    },
-    "Sami@Roguelike@ClickToStartPoint": {
-        "next": [
-            "Sami@Roguelike@MissionCompletedFlag",
-            "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@StartExplore",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@GamePass",
-            "Sami@Roguelike@TodoEnter",
-            "Sami@Roguelike@Continue",
-            "Sami@Roguelike@ReturnButtons#next",
-            "Sami@Roguelike@ReturnConfirm",
-            "Sami@Roguelike@StartUpThemes#next",
-            "Sami@Roguelike@ClickToStartPoint"
-        ]
     },
     "Sami@Roguelike@MonthlySquad": {
         "template": "Roguelike@MonthlySquad.png"
