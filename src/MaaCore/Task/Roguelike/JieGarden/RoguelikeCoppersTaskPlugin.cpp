@@ -531,15 +531,9 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
         cv::Mat screen = ctrler()->get_image();
         if (!screen.empty()) {
             cv::Mat screen_draw = screen.clone();
-            const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
-            // 在图像上绘制红色矩形标记未知通宝位置
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
-            const std::filesystem::path& relative_dir = utils::path("debug") / utils::path("roguelike") /
-                                                        utils::path("roguelikeCoppers") / utils::path("unknown");
-            const auto relative_path =
-                relative_dir / (std::format("{}_unknown_draw.jpeg", MAA_NS::format_now_for_filename()));
-            Log.debug(__FUNCTION__, "| Saving unknown copper debug image to", relative_path);
-            MAA_NS::imwrite(relative_path, screen_draw, jpeg_params);
+
+            save_debug_image(screen_draw, "unknown_draw");
         }
     }
     catch (const std::exception& e) {
@@ -598,7 +592,7 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
 
         utils::save_debug_image(
             image,
-            utils::path("debug") / "roguelike" / "roguelikeCoppers",
+            utils::path("debug") / "roguelike" / "coppers",
             true,
             "roguelikeCoppers debug",
             suffix,
