@@ -560,7 +560,6 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     return std::nullopt;
 }
 
-#ifdef ASST_DEBUG
 // 调试绘制辅助函数：在图像上绘制检测结果
 void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
     cv::Mat& image,
@@ -620,4 +619,3 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
     }
 }
-#endif
