@@ -6,6 +6,7 @@
 #include "MaaUtils/ImageIo.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
@@ -127,18 +128,8 @@ bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
              .run()) {
         Log.error(__FUNCTION__, "unable to open series list");
         const auto relative_dir = utils::path("debug") / utils::path("fightSeries");
-
-        std::filesystem::path relative_path;
-
-        if (!image.empty()) {
-            relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
-            Log.info(std::format("Save reusable image to {}", relative_path.string()));
-            MAA_NS::imwrite(relative_path, image);
-        }
-
-        relative_path = relative_dir / (std::format("{}_raw.png", MAA_NS::format_now_for_filename()));
-        Log.info(std::format("Save current screenshot to {}", relative_path.string()));
-        MAA_NS::imwrite(relative_path, ctrler()->get_image());
+        utils::save_debug_image(image, relative_dir, true, nullptr, "reusable image");
+        utils::save_debug_image(ctrler()->get_image(), relative_dir, true, nullptr, "current screenshot");
 
         return false;
     }
