@@ -37,6 +37,7 @@ jobs:
 
       - name: Cache lychee responses
         uses: actions/cache@v4
+        continue-on-error: true
         with:
           path: .lycheecache
           key: lychee-cache
