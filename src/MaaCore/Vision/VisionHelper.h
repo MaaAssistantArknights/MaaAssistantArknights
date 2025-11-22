@@ -4,8 +4,8 @@
 #include "InstHelper.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/Platform.hpp"
-#include <ranges>
 #include <map>
+#include <ranges>
 
 #if __has_include(<opencv2/xfeatures2d.hpp>)
 #define MAA_VISION_HAS_XFEATURES2D
