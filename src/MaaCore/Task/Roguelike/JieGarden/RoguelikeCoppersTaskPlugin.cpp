@@ -1,4 +1,5 @@
 #include "RoguelikeCoppersTaskPlugin.h"
+
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
 #include "Config/TaskData.h"
@@ -9,7 +10,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
-#include <cstdlib>
 
 bool asst::RoguelikeCoppersTaskPlugin::load_params([[maybe_unused]] const json::value& params)
 {
@@ -124,12 +124,12 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
 
-        Log.info(__FUNCTION__, std::format("| found copper: {} at position {}", detection.name, i));
+        LogInfo << __FUNCTION__ << "| found copper:" << detection.name << "at position", i;
 
         // 根据识别到的名称创建通宝对象
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
-            Log.error(__FUNCTION__, std::format("| failed to create copper at position {}", i));
+            LogError << __FUNCTION__ << "| failed to create copper at position" << i;
             continue;
         }
 
@@ -198,9 +198,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
     // 处理左侧列的检测结果
     if (left_detections.size() != 1) {
-        Log.error(
-            __FUNCTION__,
-            std::format("| expected exactly one copper in left column, got {}", left_detections.size()));
+        LogError << __FUNCTION__ << "| expected exactly one copper in left column, got" << left_detections.size();
 
 #ifdef ASST_DEBUG
         for (const auto& detection : left_detections) {
@@ -214,7 +212,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     {
         const auto& detection = left_detections[0];
 
-        Log.info(__FUNCTION__, std::format("| found copper: {} at (0,0)", detection.name));
+        LogInfo << __FUNCTION__ << "| found copper:" << detection.name << "at (0,0)";
 
 #ifdef ASST_DEBUG
         // 调试模式下绘制检测结果（红色表示新拾取的通宝）
@@ -269,7 +267,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         // 获取新图像并检查是否滑动成功
         image = ctrler()->get_image();
         if (image_last.data == image.data) {
-            Log.error(__FUNCTION__, std::format("| image not updated after swipe at column {}", col));
+            LogError << __FUNCTION__ << "| image not updated after swipe at column" << col;
             break;
         }
         image_last = image;
@@ -284,13 +282,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         RoguelikeCoppersAnalyzer column_analyzer(image);
         // 分析当前列，检测已投出状态
         if (!column_analyzer.analyze_column(role, true)) {
-            Log.error(__FUNCTION__, std::format("| no coppers recognized in column {}", col));
+            LogError << __FUNCTION__ << "| no coppers recognized in column" << col;
             continue;
         }
 
         const auto& detections = column_analyzer.get_detections();
         if (detections.empty()) {
-            Log.error(__FUNCTION__, std::format("| no coppers recognized in column {}", col));
+            LogError << __FUNCTION__ << "| no coppers recognized in column" << col;
             continue;
         }
 
@@ -302,9 +300,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         for (size_t row = 0; row < detections.size(); ++row) {
             const auto& detection = detections[row];
 
-            Log.info(
-                __FUNCTION__,
-                std::format("| found copper: {} at ({},{}) is_cast: {}", detection.name, col, row, detection.is_cast));
+            LogInfo << __FUNCTION__ << "| found copper:" << detection.name << "at (" << col << "," << row
+                    << ") is_cast:" << detection.is_cast;
 
 #ifdef ASST_DEBUG
             draw_detection_debug(image_draw, detection, cv::Scalar(0, 0, 255));
@@ -318,7 +315,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
                 detection.is_cast,
                 detection.name_roi);
             if (!copper_opt) {
-                Log.error(__FUNCTION__, std::format("| failed to create copper at ({},{})", col, row));
+                LogError << __FUNCTION__ << "| failed to create copper at (" << col << "," << row << ")";
                 continue;
             }
 
@@ -341,7 +338,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         // 如果是最后一列，记录总列数并结束扫描
         if (is_last_col) {
             m_col = col;
-            Log.info(__FUNCTION__, std::format("| total columns detected: {}", m_col));
+            LogInfo << __FUNCTION__ << "| total columns detected:" << m_col;
             break;
         }
     }
@@ -363,9 +360,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
 
     // 如果新通宝的丢弃优先级低于最差现有通宝，则放弃交换
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
-        Log.info(
-            __FUNCTION__,
-            std::format("new copper ({}) is worse than all existing coppers, abandoning exchange", m_new_copper.name));
+        LogInfo << __FUNCTION__ << "new copper (" << m_new_copper.name
+                << ") is worse than all existing coppers, abandoning exchange";
         ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonExchange" }).run();
         return true;
     }

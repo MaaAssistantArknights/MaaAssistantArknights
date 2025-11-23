@@ -1,11 +1,9 @@
 #pragma once
+#include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
-#include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 #include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
-
-#include <opencv2/core.hpp>
 
 namespace asst
 {
