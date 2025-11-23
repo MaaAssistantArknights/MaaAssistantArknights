@@ -2,51 +2,47 @@
 
 ### 难道说？ | Highlights
 
-本次更新为 v5.28.0 正式版，包含了大量功能改进和问题修复。
+#### 任务错误日志悬浮查看截图
 
-#### 界面与体验优化
+出错时可以直接看到截图，调试更直观。鼠标悬浮在任务错误日志上即可查看出错时的截图，方便快速定位问题。
 
-我们优化了自动战斗界面的显示效果，改进了自动借助战功能，并增强了日志记录功能。现在任务错误日志支持鼠标悬浮查看出错时的截图，方便问题排查。
+#### 支持打包 debug 截图
 
-#### 肉鸽功能增强
+日志汇报现在支持打包 debug 截图，并支持分卷压缩。在没有压缩包限制的地方可以传完整包，在 GitHub 之类有压缩包限制的地方可以传分卷包（单个分卷 20 MB），更加灵活方便。
 
-本次更新修复了大量集成战略相关问题，包括：
-- 修复界园肉鸽第 3 层与第 5 层 boss 识别问题
-- 修复通宝配置解析逻辑
-- 优化不期而遇事件识别
-- 简化萨米肉鸽任务链
+#### 自动战斗智能借助战
 
-#### GPU 加速与性能优化
+自动战斗在只缺一个干员的时候，现在支持自动借缺少的干员，让自动战斗更加智能和便捷。
 
-新增了 GPU 加速驱动版本检测功能，对超过 2 年的驱动版本进行提示，帮助用户及时更新驱动以获得更好的性能。
+#### 优化自动战斗页面布局
 
-#### 多语言支持
+优化了自动战斗界面的显示效果，布局更加合理，操作更加便捷。
 
-继续完善了国际服支持，包括 KR、JP、EN 等服务器的各项功能适配。
+#### 肉鸽相关修复
+
+修复了大量集成战略相关问题，包括界园肉鸽 boss 识别、通宝配置解析、不期而遇事件识别、萨米肉鸽任务链等，提升了肉鸽自动化的稳定性。
 
 ----
 
-This update is the official release of v5.28.0, containing numerous feature improvements and bug fixes.
+#### Hover to View Error Screenshots
 
-#### Interface and Experience Optimization
+When errors occur, you can now directly view screenshots for more intuitive debugging. Simply hover your mouse over the task error log to see the screenshot taken when the error occurred, making it easier to quickly identify issues.
 
-We have optimized the auto-battle interface display, improved the auto support unit feature, and enhanced logging functionality. Error logs now support hovering to view screenshots taken when errors occurred, facilitating problem diagnosis.
+#### Debug Screenshot Packaging Support
 
-#### Integrated Strategies Enhancements
+Log reporting now supports packaging debug screenshots with multi-volume compression. You can upload the complete package where there are no size restrictions, or upload split volumes (20 MB per volume) on platforms like GitHub that have file size limits, providing more flexibility.
 
-This update fixes numerous I.S.-related issues, including:
-- Fixed boss recognition issues for Sui's Garden of Grotesqueries floors 3 and 5
-- Fixed Tongbao configuration parsing logic
-- Optimized Encounter event recognition
-- Simplified Sarkaz's Furnaceside Fables task chains
+#### Smart Auto Support Unit Borrowing
 
-#### GPU Acceleration and Performance Optimization
+Auto-battle now supports automatically borrowing the missing operator when only one operator is needed, making auto-battle smarter and more convenient.
 
-Added GPU acceleration driver version detection to notify users with drivers older than 2 years, helping them update drivers for better performance.
+#### Optimized Auto-Battle Page Layout
 
-#### Multi-language Support
+Optimized the display of the auto-battle interface with a more reasonable layout and more convenient operations.
 
-Continued to improve support for international servers, including feature adaptation for KR, JP, EN servers.
+#### Integrated Strategies Fixes
+
+Fixed numerous I.S.-related issues, including Sui's Garden of Grotesqueries boss recognition, Tongbao configuration parsing, Encounter event recognition, and Sarkaz's Furnaceside Fables task chains, improving the stability of I.S. automation.
 
 ----
 
