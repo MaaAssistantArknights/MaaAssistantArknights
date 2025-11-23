@@ -12,7 +12,7 @@
 * 改进自动借助战功能 (#11105) @Alan-Charred
 * 优化自动战斗界面显示 (#14795) @ABA2396 @HX3N @Constrat @Manicsteiner @status102
 * 日志汇报打包 debug 截图，支持分卷，修改存储路径 @ABA2396
-* 拆分多主题识别任务 (#14774) @SherkeyXD @pre-commit-ci[bot]
+* 拆分多主题识别任务 (#14774) @SherkeyXD
 * 调整 ExportOperBox 内的变量命名与结构 @ABA2396
 * std::signal 自动舍弃 abort / terminate 上方栈 @status102
 * optimize templates @Constrat
@@ -58,12 +58,9 @@
 ### 文档 | Docs
 
 * 自动战斗文档添加 copilot_list, is_raid, is_paradox, loop_times 注释 @Alan-Charred
-* Auto Update Changelogs of v5.28.0-beta.1, v5.28.0-beta.2 (#14768, #14801) @github-actions[bot] @ABA2396
 
 ### 其他 | Other
 
-* 合并 Release v5.28.0-beta.2 (#14831, #14827, #14800) @ABA2396
-* Release v5.28.0-beta.1 (#14767) @ABA2396
 * 分卷压缩包大小改成 20 MB @ABA2396
 * 向 MaaCore 工程增加 tasks 文件以便检索 (#14731) @status102
 * 更新多模板截图工具 @SherkeyXD
