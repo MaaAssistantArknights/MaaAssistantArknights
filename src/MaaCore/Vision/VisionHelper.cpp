@@ -87,8 +87,8 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     Rect res = rect;
     res.x = std::clamp(res.x, 0, image.cols);
     res.y = std::clamp(res.y, 0, image.rows);
-    res.width = std::clamp(res.width, 0, image.cols - res.x);
-    res.height = std::clamp(res.height, 0, image.rows - res.y);
+    res.width = std::clamp(res.width, 1, std::max(1, image.cols - res.x));
+    res.height = std::clamp(res.height, 1, std::max(1, image.rows - res.y));
 
     if (res != rect) {
         Log.warn("roi is out of range", image.cols, image.rows, rect.to_string(), "clamped");
