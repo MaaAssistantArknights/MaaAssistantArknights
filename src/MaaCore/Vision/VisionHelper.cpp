@@ -85,31 +85,15 @@ Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
     }
 
     Rect res = rect;
-    if (image.cols < res.x) {
-        Log.error("roi is out of range", image.cols, image.rows, res.to_string());
-        res.x = image.cols - res.width;
-    }
-    if (image.rows < res.y) {
-        Log.error("roi is out of range", image.cols, image.rows, res.to_string());
-        res.y = image.rows - res.height;
+    res.x = std::clamp(res.x, 0, image.cols);
+    res.y = std::clamp(res.y, 0, image.rows);
+    res.width = std::clamp(res.width, 0, image.cols - res.x);
+    res.height = std::clamp(res.height, 0, image.rows - res.y);
+
+    if (res != rect) {
+        Log.warn("roi is out of range", image.cols, image.rows, rect.to_string(), "clamped");
     }
 
-    if (res.x < 0) {
-        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
-        res.x = 0;
-    }
-    if (res.y < 0) {
-        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
-        res.y = 0;
-    }
-    if (image.cols < res.x + res.width) {
-        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
-        res.width = image.cols - res.x;
-    }
-    if (image.rows < res.y + res.height) {
-        Log.warn("roi is out of range", image.cols, image.rows, res.to_string());
-        res.height = image.rows - res.y;
-    }
     return res;
 }
 
