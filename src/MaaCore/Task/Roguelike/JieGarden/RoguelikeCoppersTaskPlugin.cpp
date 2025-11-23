@@ -124,7 +124,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
 
-        LogInfo << __FUNCTION__ << "| found copper:" << detection.name << "at position", i;
+        LogInfo << __FUNCTION__ << "| found copper:" << detection.name << "at position" << i;
 
         // 根据识别到的名称创建通宝对象
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
