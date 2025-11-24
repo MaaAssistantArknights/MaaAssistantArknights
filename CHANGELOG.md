@@ -51,19 +51,15 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 ### 新增 | New
 
 * 任务错误日志鼠标悬浮可以查看出错时截图 @ABA2396
-* 清日志时手动清除 ToolTip @ABA2396
+* 自动战斗支持切换技能用法使用坐标 @status102
 * 为 GPU 加速添加超过 2 年的驱动版本检测 (#14690) @Rbqwow @status102
 
 ### 改进 | Improved
 
-* 简化 ROI 修正逻辑 @ABA2396
 * 改进自动借助战功能 (#11105) @Alan-Charred
 * 优化自动战斗界面显示 (#14795) @ABA2396 @HX3N @Constrat @Manicsteiner @status102
 * 日志汇报打包 debug 截图，支持分卷，修改存储路径 @ABA2396
 * 拆分多主题识别任务 (#14774) @SherkeyXD
-* 调整 ExportOperBox 内的变量命名与结构 @ABA2396
-* std::signal 自动舍弃 abort / terminate 上方栈 @status102
-* optimize templates @Constrat
 
 ### 修复 | Fix
 
@@ -92,7 +88,6 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 * 关卡复核会把 8 识别成 g @Saratoga-Official
 * 通关角标识别错误 @ABA2396
 * 刷理智指定次数未完全消耗警告在剩余理智也会提示 @status102
-* 移除过旧的 `add_user_additional` 参数弃用提示 @status102
 * 避免输出空矩阵 @ABA2396
 * RA 导航错误 @ABA2396
 * build WpfGui for ARM architecture (#14722) @Alan-Charred
@@ -111,6 +106,12 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 
 ### 其他 | Other
 
+* 移除过旧的 `add_user_additional` 参数弃用提示 @status102
+* 简化 ROI 修正逻辑 @ABA2396
+* 调整 ExportOperBox 内的变量命名与结构 @ABA2396
+* 清日志时手动清除 ToolTip @ABA2396
+* std::signal 自动舍弃 abort / terminate 上方栈 @status102
+* optimize templates @Constrat
 * 分卷压缩包大小改成 20 MB @ABA2396
 * 向 MaaCore 工程增加 tasks 文件以便检索 (#14731) @status102
 * 更新多模板截图工具 @SherkeyXD
