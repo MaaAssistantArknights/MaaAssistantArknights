@@ -492,9 +492,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         // m_used_tiles.erase(pre_loc);
     }
 
-    m_used_tiles.emplace(loc, name);
-    m_battlefield_opers.emplace(name, loc);
-    m_last_use_skill_time.emplace(loc, std::chrono::steady_clock::time_point());
+    register_deployed_oper(name, loc);
     m_inst_helper.sleep(200); // 部署完会有 166 ms 的动画
 
     return true;
@@ -692,10 +690,8 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         Log.info("Skill", name, "is ready");
 
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
-            Log.info(
-                name,
-                "use skill too fast, interval time:",
-                std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(interval).count()) + " ms");
+            LogInfo << name << "use skill too fast, interval time:"
+                    << std::chrono::duration_cast<std::chrono::milliseconds>(interval).count() << " ms";
             continue;
         }
 
@@ -1045,6 +1041,13 @@ int asst::BattleHelper::elapsed_time()
         return std::numeric_limits<int>::max();
     }
     return static_cast<int>(elapsed_ms);
+}
+
+void asst::BattleHelper::register_deployed_oper(const std::string& name, const Point& loc)
+{
+    m_used_tiles.emplace(loc, name);
+    m_battlefield_opers.emplace(name, loc);
+    m_last_use_skill_time.emplace(loc, std::chrono::steady_clock::time_point());
 }
 
 void asst::BattleHelper::remove_cooling_from_battlefield(const battle::DeploymentOper& oper)

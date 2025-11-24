@@ -128,8 +128,8 @@ bool asst::FightTimesTaskPlugin::open_series_list(const cv::Mat& image)
              .run()) {
         Log.error(__FUNCTION__, "unable to open series list");
         const auto relative_dir = utils::path("debug") / utils::path("fightSeries");
-        utils::save_debug_image(image, relative_dir, true, nullptr, "reusable image");
-        utils::save_debug_image(ctrler()->get_image(), relative_dir, true, nullptr, "current screenshot");
+        utils::save_debug_image(image, relative_dir, true, "reusable image");
+        utils::save_debug_image(ctrler()->get_image(), relative_dir, true, "current screenshot");
 
         return false;
     }
