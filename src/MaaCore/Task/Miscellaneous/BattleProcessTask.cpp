@@ -247,8 +247,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         }
         break;
 
-    case ActionType::SkillUsage:
-    {
+    case ActionType::SkillUsage: {
         const auto set_usage = [this](const std::string& name, SkillUsage usage, int times) {
             m_skill_usage[name] = usage;
             if (usage == SkillUsage::Times) {
