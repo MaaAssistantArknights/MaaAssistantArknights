@@ -2148,6 +2148,8 @@
         "method": "RGBCount",
         "action": "ClickSelf",
         "colorScales": [[253, 255]],
+        "pureColor": true,
+        "templThreshold": 0.9,
         "roi": [952, 105, 267, 601],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
