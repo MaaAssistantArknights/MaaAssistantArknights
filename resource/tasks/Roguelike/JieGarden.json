@@ -152,6 +152,12 @@
         "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
     "JieGarden@Roguelike@Continue": {},
+    "JieGarden@Roguelike@CoppersAbandonConfirm": {
+        "Doc": "放弃交换通宝的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "next": ["JieGarden@Roguelike@CoppersTakeFlag#next", "#self"]
+    },
     "JieGarden@Roguelike@CoppersAbandonExchange": {
         "Doc": "放弃交换通宝按钮",
         "template": "JieGarden@Roguelike@CoppersAbandonExchange.png",
@@ -232,12 +238,6 @@
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
         "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]
-    },
-    "JieGarden@Roguelike@CoppersAbandonConfirm": {
-        "Doc": "放弃交换通宝的确认按钮",
-        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
-        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
-        "next": ["JieGarden@Roguelike@CoppersTakeFlag#next", "#self"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
