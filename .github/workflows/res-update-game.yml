@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone ArknightsGameResource for Official
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
           repository: yuanyan3060/ArknightsGameResource
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone ArknightsGameResource_Yostar for Overseas
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
           repository: ArknightsAssets/ArknightsGamedata
@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone arknights-toolbox-update for Taiwan
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
           repository: arkntools/arknights-data-tw-for-maa
@@ -145,7 +145,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
           # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
