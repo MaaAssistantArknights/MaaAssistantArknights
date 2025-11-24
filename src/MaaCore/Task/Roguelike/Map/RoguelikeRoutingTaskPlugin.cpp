@@ -120,7 +120,6 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                 image_draw,
                 utils::path("debug") / "roguelikeMap",
                 /*auto_clean=*/true,
-                /*save_cnt=*/nullptr,
                 /*description=*/"bosky map draw",
                 /*suffix=*/"draw");
 #endif
@@ -191,7 +190,6 @@ bool asst::RoguelikeRoutingTaskPlugin::_run()
                 image_draw,
                 utils::path("debug") / "roguelikeMap",
                 /*auto_clean=*/true,
-                /*save_cnt=*/nullptr,
                 /*description=*/"bosky map draw",
                 /*suffix=*/"draw");
 #endif
