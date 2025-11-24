@@ -31,6 +31,10 @@ In this version, we continued to fix numerous bugs and optimized the debugging e
 * When an error occurs, hovering the mouse over the task error log now displays a screenshot, allowing you to quickly locate the problem.
 * The "Generate Support Payload" feature now supports packaging screenshots of the `debug` folder simultaneously and supports multi-part compression. This allows for uploading multi-part packages (each part up to 20 MB) to platforms with file size limits, such as GitHub.
 
+#### *EN Only* I.S. stuck issues.
+
+* The maintainers are aware of MAA getting stuck in the formation before starting an I.S. fighting stage. We still haven't been able to 100% deduct (and reproduce) the issue. Multiple fixes have been attempted. This stable version attemps to fix by completely overwriting the current template `Quick Select`. After various discussions on the Discord support channel, it appears the template really was the issue(?). Comparing with the older template (pre Tragodia update) the position seems slightly changed (and apparently) even the clicking box hence why the issues.
+
 #### *Copilot*
 
 * When only one operator is missing in *Copilot*, MAA can now supports automatically borrow the missing Support Unit, making *Copilot* more intelligent and convenient.
