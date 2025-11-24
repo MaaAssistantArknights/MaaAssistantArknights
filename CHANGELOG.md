@@ -1,50 +1,52 @@
 ## v5.28.0
 
-### 难道说？ | Highlights
+### 继续修 BUG | Highlights
 
-#### 任务错误日志悬浮查看截图
+在这个版本，我们继续修复了大量 BUG，并且优化了遇到各类错误时的调试体验。
 
-出错时可以直接看到截图，调试更直观。鼠标悬浮在任务错误日志上即可查看出错时的截图，方便快速定位问题。
+#### 错误处理方面
 
-#### 支持打包 debug 截图
+* 出错时鼠标悬浮在任务错误日志上即可查看出错时的截图，方便快速定位问题。
+* “生成日志压缩包”功能现在支持同时打包 debug 文件夹的截图，并支持分卷压缩，在 GitHub 之类有文件大小限制的地方可以传分卷包（单个分卷 20 MB），更加灵活方便。
 
-日志汇报现在支持打包 debug 截图，并支持分卷压缩。在没有压缩包限制的地方可以传完整包，在 GitHub 之类有压缩包限制的地方可以传分卷包（单个分卷 20 MB），更加灵活方便。
+#### 自动战斗方面
 
-#### 自动战斗智能借助战
-
-自动战斗在只缺一个干员的时候，现在支持自动借缺少的干员，让自动战斗更加智能和便捷。
-
-#### 优化自动战斗页面布局
-
-优化了自动战斗界面的显示效果，布局更加合理，操作更加便捷。
+* 自动战斗在只缺一个干员的时候，现在支持自动借缺少的干员，让自动战斗更加智能和便捷。
+* 根据 B 站官号投票动态的结果，我们优化了自动战斗界面的显示效果，布局更加合理，操作更加便捷。
 
 #### 肉鸽相关修复
 
 修复了大量集成战略相关问题，包括界园肉鸽 boss 识别、通宝配置解析、不期而遇事件识别、萨米肉鸽任务链等，提升了肉鸽自动化的稳定性。
 
-----
+#### 其他方面
 
-#### Hover to View Error Screenshots
-
-When errors occur, you can now directly view screenshots for more intuitive debugging. Simply hover your mouse over the task error log to see the screenshot taken when the error occurred, making it easier to quickly identify issues.
-
-#### Debug Screenshot Packaging Support
-
-Log reporting now supports packaging debug screenshots with multi-volume compression. You can upload the complete package where there are no size restrictions, or upload split volumes (20 MB per volume) on platforms like GitHub that have file size limits, providing more flexibility.
-
-#### Smart Auto Support Unit Borrowing
-
-Auto-battle now supports automatically borrowing the missing operator when only one operator is needed, making auto-battle smarter and more convenient.
-
-#### Optimized Auto-Battle Page Layout
-
-Optimized the display of the auto-battle interface with a more reasonable layout and more convenient operations.
-
-#### Integrated Strategies Fixes
-
-Fixed numerous I.S.-related issues, including Sui's Garden of Grotesqueries boss recognition, Tongbao configuration parsing, Encounter event recognition, and Sarkaz's Furnaceside Fables task chains, improving the stability of I.S. automation.
+我们发现，牛牛在使用 GPU 推理时，如果 GPU 驱动过旧可能会产生兼容性问题，因此我们添加了一项检测，当发现你的 GPU 驱动超过 2 年没有更新时会给出提示，我们建议你更新驱动以获得更好的体验。
 
 ----
+
+In this version, we continued to fix numerous bugs and optimized the debugging experience when encountering various errors.
+
+#### Error Handling
+
+* Hovering the mouse over the task error log when an error occurs will display a screenshot, facilitating quick problem location.
+* The "Generate Support Payload" feature now supports packaging screenshots of the debug folder simultaneously and supports multi-part compression. This allows for uploading multi-part packages (each part is 20 MB) to places like GitHub with file size limits, making it more flexible and convenient.
+
+#### *Copilot*
+
+* When only one operator is missing in *Copilot*, MAA now supports automatically using Support Unit, making *Copilot* more intelligent and convenient.
+* Based on the results of a poll on the official Bilibili account, we optimized the display of the *Copilot* interface, making the layout more logical and the operation more convenient.
+
+#### *Auto I.S.* Fixes
+
+We fixed numerous issues related to *Auto I.S.*, including Boss recognition in the *Sui's Garden of Grotesqueries*, Tongbao configuration parsing, Encounter event recognition, and quest chains in the *Expeditioner's Jǫklumarkar*, improving the stability of *Auto I.S.*.
+
+#### Other Aspects
+
+We found that when MAA uses GPU inference, outdated GPU drivers may cause compatibility issues. Therefore, we added a detection feature that will alert you if your GPU driver has not been updated for more than 2 years, and recommend that you update the driver for a better experience.
+
+----
+
+以下是详细内容：
 
 ### 新增 | New
 
