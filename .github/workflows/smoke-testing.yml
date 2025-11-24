@@ -45,10 +45,12 @@ jobs:
 
       - name: Generate cache key
         id: cache_key
+        continue-on-error: true
         run: |
           echo "key=Smoke-testing-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
 
       - name: Restore cache for Smoke Test
+        if: ${{ steps.cache_key.outputs.key != '' }}
         id: smoke-cache
         uses: actions/cache/restore@v4
         continue-on-error: true

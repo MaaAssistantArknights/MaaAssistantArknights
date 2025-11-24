@@ -98,6 +98,8 @@ protected:
 
     int elapsed_time();
 
+    // 注册已部署干员及位置
+    void register_deployed_oper(const std::string& name, const Point& loc);
     // 从场上干员和已占用格子中移除冷却中的干员
     void remove_cooling_from_battlefield(const battle::DeploymentOper& oper);
 

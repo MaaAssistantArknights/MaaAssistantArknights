@@ -152,6 +152,12 @@
         "next": ["#self", "JieGarden@Roguelike@NextLevel", "JieGarden@Roguelike@NextLevel#next"]
     },
     "JieGarden@Roguelike@Continue": {},
+    "JieGarden@Roguelike@CoppersAbandonConfirm": {
+        "Doc": "放弃交换通宝的确认按钮",
+        "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
+        "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
+        "next": ["JieGarden@Roguelike@CoppersTakeFlag#next", "#self"]
+    },
     "JieGarden@Roguelike@CoppersAbandonExchange": {
         "Doc": "放弃交换通宝按钮",
         "template": "JieGarden@Roguelike@CoppersAbandonExchange.png",
@@ -160,7 +166,7 @@
         "postDelay": 1000,
         "templThreshold": 0.85,
         "cache": true,
-        "next": ["JieGarden@Roguelike@CoppersExchangeConfirm", "#self"]
+        "next": ["JieGarden@Roguelike@CoppersAbandonConfirm", "#self"]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
@@ -228,7 +234,7 @@
         "baseTask": "JieGarden@Roguelike@CoppersBox"
     },
     "JieGarden@Roguelike@CoppersExchangeConfirm": {
-        "Doc": "确认放弃/交换通宝的确认按钮",
+        "Doc": "交换通宝的确认按钮",
         "baseTask": "JieGarden@Roguelike@CoppersListDialogConfirm",
         "template": "JieGarden@Roguelike@CoppersListDialogConfirm.png",
         "next": ["JieGarden@Roguelike@CoppersExchangeFinish", "#self"]

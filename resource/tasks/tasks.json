@@ -1063,10 +1063,11 @@
     },
     "StartUp": {
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
+        "template": "SwitchTheme@ToggleSettingsMenu.png",
         "action": "DoNothing",
         "roi": [227, 327, 159, 152],
-        "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "sub": ["Terminal-Entry"],
+        "postDelay": 1000,
+        "maxTimes": 3,
         "next": ["StartUp", "StartUp@LoadingText", "StartUp@CloseAnnos#next"]
     },
     "CloseAnnos": {
@@ -2147,6 +2148,8 @@
         "method": "RGBCount",
         "action": "ClickSelf",
         "colorScales": [[253, 255]],
+        "pureColor": true,
+        "templThreshold": 0.9,
         "roi": [952, 105, 267, 601],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
@@ -2231,8 +2234,7 @@
     "Home": {
         "action": "Stop",
         "template": "SwitchTheme@ToggleSettingsMenu.png",
-        "roi": [227, 327, 159, 152],
-        "sub": ["Terminal-Entry"]
+        "roi": [227, 327, 159, 152]
     },
     "CreditShop-Commodities": {
         "template": "CreditPoint.png",
