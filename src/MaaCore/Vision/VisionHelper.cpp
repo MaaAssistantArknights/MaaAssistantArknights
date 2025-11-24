@@ -76,7 +76,7 @@ Rect asst::VisionHelper::correct_rect(const Rect& rect, const Rect& main_roi)
 
 Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
 {
-    if (image.empty()) {
+    if (image.empty() || image.cols <= 0 || image.rows <= 0) {
         Log.error(__FUNCTION__, "image is empty");
         return rect;
     }
