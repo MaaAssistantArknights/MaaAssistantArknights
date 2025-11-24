@@ -63,6 +63,7 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 
 ### 修复 | Fix
 
+* 部分名片无法进入线索交接 @ABA2396
 * 修复放弃通宝的后续任务逻辑 (#14840) @travellerse
 * 在未进入缩小的全局总览的时可能进错宿舍 @ABA2396
 * 修复 "入暂亭" 事件 (#14684) @Alan-Charred
@@ -111,13 +112,13 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 * 调整 ExportOperBox 内的变量命名与结构 @ABA2396
 * 清日志时手动清除 ToolTip @ABA2396
 * std::signal 自动舍弃 abort / terminate 上方栈 @status102
-* optimize templates @Constrat
 * 分卷压缩包大小改成 20 MB @ABA2396
 * 向 MaaCore 工程增加 tasks 文件以便检索 (#14731) @status102
 * 更新多模板截图工具 @SherkeyXD
 * 移除部分无需的 include @status102
 * 路径迁移 @status102
 * 修复 UI 细节 @hguandl
+* optimize templates @Constrat
 * JP ocr edits (#14748) @Manicsteiner
 * KR tweak SupportUnitUsage translation @HX3N
 * KR @hguandl
