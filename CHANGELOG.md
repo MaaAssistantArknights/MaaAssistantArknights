@@ -67,6 +67,7 @@ We found that when MAA uses GPU inference, outdated GPU drivers may cause compat
 
 ### 修复 | Fix
 
+* 修复放弃通宝的后续任务逻辑 (#14840) @travellerse
 * 在未进入缩小的全局总览的时可能进错宿舍 @ABA2396
 * 修复 "入暂亭" 事件 (#14684) @Alan-Charred
 * 修复界园肉鸽第 3 层与第 5 层 boss 无法区分、第 5 层 boss 前暂停设置无效 @ABA2396
