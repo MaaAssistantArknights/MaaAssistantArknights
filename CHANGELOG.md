@@ -7,7 +7,7 @@
 #### 错误处理方面
 
 * 出错时鼠标悬浮在任务错误日志上即可查看出错时的截图，方便快速定位问题。
-* ｢生成日志压缩包｣ 功能现在支持同时打包 `debug` 文件夹的截图，并支持分卷压缩，在 GitHub 之类有文件大小限制的地方可以传分卷包（单个分卷 20 MB），更加灵活方便。
+* ｢生成日志压缩包｣ 功能现在支持同时打包 `debug` 文件夹的截图，并支持分卷压缩，在 GitHub 之类有文件大小限制的地方可以传分卷包（单个分卷最大 20 MB），更加灵活方便。
 
 #### 自动战斗方面
 
@@ -24,17 +24,17 @@
 
 ----
 
-In this version, we continued to fix numerous bugs and optimized the debugging experience when encountering various errors.
+In this version, we continued to fix numerous bugs and optimized the debugging experience when encountering various types of errors.
 
 #### Error Handling
 
-* Hovering the mouse over the task error log when an error occurs will display a screenshot, facilitating quick problem location.
-* The "Generate Support Payload" feature now supports packaging screenshots of the debug folder simultaneously and supports multi-part compression. This allows for uploading multi-part packages (each part is 20 MB) to places like GitHub with file size limits, making it more flexible and convenient.
+* When an error occurs, hovering the mouse over the task error log now displays a screenshot, allowing you to quickly locate the problem.
+* The "Generate Support Payload" feature now supports packaging screenshots of the `debug` folder simultaneously and supports multi-part compression. This allows for uploading multi-part packages (each part up to 20 MB) to platforms with file size limits, such as GitHub.
 
 #### *Copilot*
 
-* When only one operator is missing in *Copilot*, MAA now supports automatically using Support Unit, making *Copilot* more intelligent and convenient.
-* Based on the results of a poll on the official Bilibili account, we optimized the display of the *Copilot* interface, making the layout more logical and the operation more convenient.
+* When only one operator is missing in *Copilot*, MAA can now supports automatically borrow the missing Support Unit, making *Copilot* more intelligent and convenient.
+* Based on the results of a poll on the official Bilibili account, we optimized the layout of the *Copilot* interface, making it more intuitive and easier to use.
 
 #### *Auto I.S.* Fixes
 
@@ -42,7 +42,7 @@ We fixed numerous issues related to *Auto I.S.*, including Boss recognition in t
 
 #### Other Aspects
 
-We found that when MAA uses GPU inference, outdated GPU drivers may cause compatibility issues. Therefore, we added a detection feature that will alert you if your GPU driver has not been updated for more than 2 years, and recommend that you update the driver for a better experience.
+We found that outdated GPU drivers may cause compatibility issues when MAA performs GPU inference. Therefore, we added a detection feature that alerts you when your GPU driver has not been updated for more than 2 years and recommends updating it for a better experience.
 
 ----
 
