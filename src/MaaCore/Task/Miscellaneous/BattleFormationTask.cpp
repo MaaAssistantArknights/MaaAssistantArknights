@@ -45,6 +45,7 @@ bool asst::BattleFormationTask::_run()
         return true; // 编队不可用，直接返回，常见于TR关卡
     }
 
+    m_used_support_unit = false;
     if (!parse_formation()) {
         return false;
     }
