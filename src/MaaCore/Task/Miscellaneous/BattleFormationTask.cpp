@@ -127,7 +127,7 @@ bool asst::BattleFormationTask::_run()
                 return oper.name == m_specific_support_unit.name && oper.skill == m_specific_support_unit.skill;
             });
         it != missing_opers.end()) {
-        missing_opers = {*it};
+        missing_opers = { *it };
     }
 
     // ————————————————————————————————————————————————————————————————
