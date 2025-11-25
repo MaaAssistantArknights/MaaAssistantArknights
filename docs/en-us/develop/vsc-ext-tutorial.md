@@ -37,7 +37,7 @@ If you find that the editing json isn't hinted by the extension, please check if
 The extension supports Jump to task defs, Jump to task refs and View task defs.
 
 When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that has the same name of the task will be shown when hovering the task defs.
- 
+
 Use `Ctrl+T` to quickly query and jump to a task definition.
 
 #### Query / open images
