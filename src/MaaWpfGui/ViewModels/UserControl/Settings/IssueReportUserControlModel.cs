@@ -89,90 +89,94 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 Directory.CreateDirectory(partsFolder);
             }
 
-            // ====== part01：config + resource + cache + debug 根目录文件 ======
-            List<string> part01Files = [];
-
-            string[] categories = ["config", "resource", "cache"];
-            foreach (string category in categories)
-            {
-                string categoryPath = Path.Combine(tempPath, category);
-                if (Directory.Exists(categoryPath))
-                {
-                    part01Files.AddRange(Directory.EnumerateFiles(categoryPath, "*", SearchOption.AllDirectories));
-                }
-            }
-
-            string debugPath = Path.Combine(tempPath, "debug");
-            if (Directory.Exists(debugPath))
-            {
-                // 只取 debug 根目录文件
-                var debugRootFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.TopDirectoryOnly).ToList();
-                part01Files.AddRange(debugRootFiles);
-            }
-
-            if (part01Files.Count > 0)
-            {
-                string part01Path = Path.Combine(partsFolder, "part01.zip");
-                using var fs = new FileStream(part01Path, FileMode.Create);
-                using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
-                foreach (var file in part01Files)
-                {
-                    string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
-                    var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
-
-                    using var entryStream = entry.Open();
-                    using var fileStream = File.OpenRead(file);
-                    fileStream.CopyTo(entryStream);
-                }
-            }
-
-            // ====== part02+：debug 子目录文件按 PartSize 分卷 ======
-            var debugSubFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.AllDirectories)
-                .Where(f => Path.GetDirectoryName(f) != debugPath).ToList();
-
-            int partNumber = 2;
-            while (debugSubFiles.Count > 0)
-            {
-                string partFileName = $"part{partNumber:D2}.zip";
-                string partPath = Path.Combine(partsFolder, partFileName);
-
-                using (var fs = new FileStream(partPath, FileMode.Create))
-                {
-                    using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
-                    long currentSize = 0;
-                    List<string> processedFiles = [];
-
-                    foreach (var file in debugSubFiles.ToList())
-                    {
-                        var fileInfo = new FileInfo(file);
-
-                        if (currentSize + fileInfo.Length > PartSize && currentSize > 0)
-                        {
-                            break;
-                        }
-
-                        string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
-                        var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
-
-                        using (var entryStream = entry.Open())
-                        {
-                            using var fileStream = File.OpenRead(file);
-                            fileStream.CopyTo(entryStream);
-                        }
-
-                        currentSize += fileInfo.Length;
-                        processedFiles.Add(file);
-                    }
-
-                    debugSubFiles.RemoveAll(f => processedFiles.Contains(f));
-                }
-
-                partNumber++;
-            }
-
             // ====== 生成完整压缩包 ======
             string fullZipPath = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}.zip");
             ZipFile.CreateFromDirectory(tempPath, fullZipPath, CompressionLevel.SmallestSize, includeBaseDirectory: false);
+            if (new FileInfo(fullZipPath).Length > PartSize)
+            {
+                File.Delete(fullZipPath);
+
+                // ====== part01：config + resource + cache + debug 根目录文件 ======
+                List<string> part01Files = [];
+
+                string[] categories = ["config", "resource", "cache"];
+                foreach (string category in categories)
+                {
+                    string categoryPath = Path.Combine(tempPath, category);
+                    if (Directory.Exists(categoryPath))
+                    {
+                        part01Files.AddRange(Directory.EnumerateFiles(categoryPath, "*", SearchOption.AllDirectories));
+                    }
+                }
+
+                string debugPath = Path.Combine(tempPath, "debug");
+                if (Directory.Exists(debugPath))
+                {
+                    // 只取 debug 根目录文件
+                    var debugRootFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.TopDirectoryOnly).ToList();
+                    part01Files.AddRange(debugRootFiles);
+                }
+
+                if (part01Files.Count > 0)
+                {
+                    string part01Path = Path.Combine(partsFolder, $"{reportNameBase}_part01.zip");
+                    using var fs = new FileStream(part01Path, FileMode.Create);
+                    using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
+                    foreach (var file in part01Files)
+                    {
+                        string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
+                        var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
+
+                        using var entryStream = entry.Open();
+                        using var fileStream = File.OpenRead(file);
+                        fileStream.CopyTo(entryStream);
+                    }
+                }
+
+                // ====== part02+：debug 子目录文件按 PartSize 分卷 ======
+                var debugSubFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.AllDirectories)
+                    .Where(f => Path.GetDirectoryName(f) != debugPath).ToList();
+
+                int partNumber = 2;
+                while (debugSubFiles.Count > 0)
+                {
+                    string partFileName = $"{reportNameBase}_part{partNumber:D2}.zip";
+                    string partPath = Path.Combine(partsFolder, partFileName);
+
+                    using (var fs = new FileStream(partPath, FileMode.Create))
+                    {
+                        using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
+                        long currentSize = 0;
+                        List<string> processedFiles = [];
+
+                        foreach (var file in debugSubFiles.ToList())
+                        {
+                            var fileInfo = new FileInfo(file);
+
+                            if (currentSize + fileInfo.Length > PartSize && currentSize > 0)
+                            {
+                                break;
+                            }
+
+                            string entryName = Path.GetRelativePath(tempPath, file).Replace("\\", "/");
+                            var entry = archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
+
+                            using (var entryStream = entry.Open())
+                            {
+                                using var fileStream = File.OpenRead(file);
+                                fileStream.CopyTo(entryStream);
+                            }
+
+                            currentSize += fileInfo.Length;
+                            processedFiles.Add(file);
+                        }
+
+                        debugSubFiles.RemoveAll(f => processedFiles.Contains(f));
+                    }
+
+                    partNumber++;
+                }
+            }
 
             // 清理临时目录
             Directory.Delete(tempPath, recursive: true);
