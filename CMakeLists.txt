@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.28)
 
 project(MAA)
 
-include(src/MaaUtils/MaaUtils.cmake)
-
 option(BUILD_WPF_GUI "build MaaWpfGui" ${WIN32})
 option(BUILD_DEBUG_DEMO "build debug demo" OFF)
 option(BUILD_XCFRAMEWORK "build xcframework for macOS app" OFF)
@@ -14,16 +12,18 @@ option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(WITH_HASH_VERSION "generate version from git hash" OFF)
 
+if(INSTALL_FLATTEN)
+    set(RPATH_LIBRARY_INSTALL_DIR .)
+    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
+endif()
+
+include(src/MaaUtils/MaaUtils.cmake)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 include(${PROJECT_SOURCE_DIR}/cmake/config.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 
 if(APPLE)
     include(${PROJECT_SOURCE_DIR}/cmake/macos.cmake)
-endif()
-
-if(INSTALL_FLATTEN)
-    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
 endif()
 
 add_library(HeaderOnlyLibraries INTERFACE)
@@ -48,4 +48,3 @@ endif()
 if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
     add_subdirectory(src/Cpp)
 endif()
-
