@@ -117,9 +117,7 @@ bool asst::BattleFormationTask::_run()
 
     // 等到支持 C++23 之后直接改成 std::ranges::to
     std::vector<RequiredOper> missing_opers;
-    for (const auto&& oper : missing_opers_view) {
-        missing_opers.emplace_back(oper);
-    }
+    std::ranges::for_each(missing_opers_view, [&missing_opers](const auto&& oper) { missing_opers.emplace_back(oper); });
 
     // 如果缺失干员里包含指定助战干员，就只招募这位干员就好了
     if (auto it = std::ranges::find_if(
