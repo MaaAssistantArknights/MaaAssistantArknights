@@ -140,14 +140,14 @@ bool asst::BattleFormationTask::_run()
             if (m_opers_in_formation->contains(name)) {
                 continue;
             }
-            if (const auto it = std::ranges::find_if(
+            if (const size_t count = std::ranges::count_if(
                     missing_opers,
                     [&name](const RequiredOper& oper) { return oper.name == name; });
-                it != missing_opers.end()) {
-                if (missing_opers.size() == 1) {
+                count > 0) {
+                if (missing_opers.size() <= count) {
                     continue;
                 }
-                missing_opers.erase(it);
+                std::erase_if(missing_opers, [&name](const RequiredOper& oper) { return oper.name == name; });
             }
             if (--limit < 0) {
                 break;
