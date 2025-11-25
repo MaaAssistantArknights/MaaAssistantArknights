@@ -108,14 +108,23 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
-    // 缺失干员列表
-    std::vector<battle::OperUsage> missing_opers =
-        num_missing_groups > 0 ? std::vector<battle::OperUsage> {} : std::ranges::begin(missing_groups_view)->second;
+    // 创建缺失干员列表
+    auto missing_opers_view =
+        missing_groups_view | std::views::transform([](const OperGroup& group) { return group.second; }) |
+        std::views::join | std::views::transform([](const battle::OperUsage& oper) {
+            return RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill };
+        });
+
+    // 等到支持 C++23 之后直接改成 std::ranges::to
+    std::vector<RequiredOper> missing_opers;
+    for (const auto&& oper: missing_opers_view) {
+        missing_opers.emplace_back(oper);
+    }
 
     // 如果缺失干员里包含指定助战干员，就只招募这位干员就好了
     if (auto it = std::ranges::find_if(
             missing_opers,
-            [this](const battle::OperUsage& oper) {
+            [this](const RequiredOper& oper) {
                 return oper.name == m_specific_support_unit.name && oper.skill == m_specific_support_unit.skill;
             });
         it != missing_opers.end()) {
@@ -136,7 +145,7 @@ bool asst::BattleFormationTask::_run()
             }
             if (const auto it = std::ranges::find_if(
                     missing_opers,
-                    [&name](const battle::OperUsage& oper) { return oper.name == name; });
+                    [&name](const RequiredOper& oper) { return oper.name == name; });
                 it != missing_opers.end()) {
                 if (missing_opers.size() == 1) {
                     continue;
@@ -169,17 +178,10 @@ bool asst::BattleFormationTask::_run()
     // ————————————————————————————————————————————————————————————————
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
     if (num_missing_groups == 1 && !m_used_support_unit) {
-        // 之后再重构数据结构，先凑合用
-        std::vector<battle::RequiredOper> required_opers;
-        for (const battle::OperUsage& oper : missing_opers) {
-            required_opers.emplace_back(
-                RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
-        }
-
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
         Log.info(__FUNCTION__, "| Left quick formation scene");
-        if (add_support_unit(required_opers)) {
+        if (add_support_unit(missing_opers)) {
             m_used_support_unit = true;
         }
         // 再到快速编队页面
