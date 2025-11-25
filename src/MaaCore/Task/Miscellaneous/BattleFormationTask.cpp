@@ -93,30 +93,44 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, groups);
     }
 
-    // 记录缺失干员组的数量
-    int missing_numbers = (int)std::ranges::count_if(
-        m_formation | std::views::transform([&](const auto& pair) { return pair.second; }) | std::views::join,
-        [&](const OperGroup& group) { return !has_oper_selected(group.second); });
+    // ————————————————————————————————————————————————————————————————
+    // preprocessing missing oper groups
+    // ————————————————————————————————————————————————————————————————
+    // 缺失干员组视图
+    auto missing_groups_view =
+        m_formation | std::views::transform([](const auto& pair) { return pair.second; }) | std::views::join |
+        std::views::filter([this](const OperGroup& group) { return !has_oper_selected(group.second); });
+
+    // 若不可能补全编队，则提前退出
+    const size_t num_missing_groups = std::ranges::distance(missing_groups_view);
+    if ((num_missing_groups == 1 && !use_suppprt_unit_when_needed()) || num_missing_groups >= 2) {
+        report_missing_operators();
+        return false;
+    }
+
+    // 缺失干员列表
+    std::vector<battle::OperUsage> missing_opers =
+        num_missing_groups > 0 ? std::vector<battle::OperUsage> {} : std::ranges::begin(missing_groups_view)->second;
+
+    // 如果缺失干员里包含指定助战干员，就只招募这位干员就好了
+    if (auto it = std::ranges::find_if(
+            missing_opers,
+            [this](const battle::OperUsage& oper) {
+                return oper.name == m_specific_support_unit.name && oper.skill == m_specific_support_unit.skill;
+            });
+        it != missing_opers.end()) {
+        missing_opers.erase(missing_opers.begin(), it);
+        missing_opers.erase(it + 1, missing_opers.end());
+    }
+
+    // ————————————————————————————————————————————————————————————————
+    // support unit
+    // ————————————————————————————————————————————————————————————————
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
-    if (use_suppprt_unit_when_needed() && missing_numbers == 1 && !m_used_support_unit) {
+    if (num_missing_groups == 1 && !m_used_support_unit) {
         // 之后再重构数据结构，先凑合用
         std::vector<battle::RequiredOper> required_opers;
-        for (const battle::OperUsage& oper :
-             m_formation | std::views::transform([&](const auto& pair) { return pair.second; }) /* 剔除职业 */ |
-                 std::views::join | /* 拿到缺干员的组 */ std::views::filter([&](const OperGroup& group) {
-                     return std::ranges::any_of(group.second, [&](const battle::OperUsage& oper) {
-                         return oper.status == battle::OperStatus::Missing;
-                     });
-                 }) |
-                 std::views::transform([&](const OperGroup& pair) { return pair.second; }) | std::views::join) {
-            // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
-            // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
-            if (oper.name == m_specific_support_unit.name) {
-                m_specific_support_unit.skill = oper.skill;
-                required_opers.clear();
-                required_opers.emplace_back(m_specific_support_unit);
-                break;
-            }
+        for (const battle::OperUsage& oper : missing_opers) {
             required_opers.emplace_back(
                 RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill });
         }
@@ -146,6 +160,9 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
+    // ————————————————————————————————————————————————————————————————
+    // user additional
+    // ————————————————————————————————————————————————————————————————
     // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
     if (!m_user_additional.empty()) {
         std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
