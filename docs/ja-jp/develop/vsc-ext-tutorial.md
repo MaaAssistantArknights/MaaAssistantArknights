@@ -91,6 +91,12 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 - Use wheels to zoom
 - After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
 
+::: warning
+
+OCR の認識結果が空の場合は、[OCR モデル](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) が正しく構成されているか確認してください。
+
+:::
+
 ### Log View
 
 #### MaaFramework Log

@@ -99,6 +99,14 @@ icon: iconoir:code-brackets
 - 按住 `Ctrl` 键, 框选需要裁剪的区域
 - 使用滚轮可进行缩放
 - 裁剪完成后, 使用 `下载` 按钮, 可自动将裁剪结果保存到激活资源的最顶层的图片目录
+- 使用 `复制` 按钮，可将ROI以数组的形式复制到剪贴板
+- 按下 `工具` 按钮，将打开识别工具面板，可以直接对当前图片进行识别测试
+
+::: warning
+
+如果OCR的识别结果为空，请检查[OCR模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)是否正确配置。
+
+:::
 
 ### 日志查看功能
 

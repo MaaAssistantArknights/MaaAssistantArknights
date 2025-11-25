@@ -89,6 +89,12 @@ icon: iconoir:code-brackets
 - 使用滾輪可進行縮放
 - 裁剪完成後, 使用 `下載` 按鈕, 可自動將裁剪結果保存到啟用資源的最頂層的圖片目錄
 
+::: warning
+
+如果 OCR 的識別結果為空，請檢查 [OCR 模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6) 是否已正確配置。
+
+:::
+
 ### 日誌查看功能
 
 在 VSCode 的命令面板中搜索執行 `Maa: 打開插件日誌`, 可查看調試期間產生的 `maa.log` 日誌.
