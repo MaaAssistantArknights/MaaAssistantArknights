@@ -117,7 +117,7 @@ bool asst::BattleFormationTask::_run()
 
     // 等到支持 C++23 之后直接改成 std::ranges::to
     std::vector<RequiredOper> missing_opers;
-    for (const auto&& oper: missing_opers_view) {
+    for (const auto&& oper : missing_opers_view) {
         missing_opers.emplace_back(oper);
     }
 
