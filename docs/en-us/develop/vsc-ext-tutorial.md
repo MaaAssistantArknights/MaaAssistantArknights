@@ -91,7 +91,13 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 
 ### Log View
 
-Searching and executing `Maa: open extension log` in the VSCode command panel allows viewing the `maa.log` log generated during debugging.
+#### MaaFramework Log
+
+Search and execute `Maa: open maa log` in the VSCode command panel to view the `maa.log` generated during debugging.
+
+#### Maa Pipeline Support Extension Log
+
+Search and execute `Maa: open extension log` in the VSCode command panel to view the `mse.log` generated during debugging.
 
 ### Bottom status bar
 

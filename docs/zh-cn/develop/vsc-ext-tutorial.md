@@ -100,7 +100,13 @@ icon: iconoir:code-brackets
 
 ### 日志查看功能
 
-在 VSCode 的命令面板中搜索执行 `Maa: 打开插件日志`, 可查看调试期间产生的`maa.log`日志.
+#### MaaFramework日志
+
+在 VSCode 的命令面板中搜索执行 `Maa: 打开maa日志`, 可查看调试期间产生的`maa.log`日志.
+
+#### Maa Pipeline Support扩展日志
+
+在 VSCode 的命令面板中搜索执行 `Maa: 打开插件日志`, 可查看调试期间产生的`mse.log`日志.
 
 ### 底部状态栏
 
