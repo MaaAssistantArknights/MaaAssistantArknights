@@ -111,13 +111,14 @@ bool asst::BattleFormationTask::_run()
     // 创建缺失干员列表
     auto missing_opers_view =
         missing_groups_view | std::views::transform([](const OperGroup& group) { return group.second; }) |
-        std::views::join | std::views::transform([](const battle::OperUsage& oper) {
+        std::views::join | std::views::filter([this](const battle::OperUsage& oper) {
+            return !m_opers_in_formation->contains(oper.name);
+        }) |
+        std::views::transform([](const battle::OperUsage& oper) {
             return RequiredOper { .role = BattleData.get_role(oper.name), .name = oper.name, .skill = oper.skill };
         });
-
-    // 等到支持 C++23 之后直接改成 std::ranges::to
     std::vector<RequiredOper> missing_opers;
-    std::ranges::for_each(missing_opers_view, [&missing_opers](const auto&& oper) { missing_opers.emplace_back(oper); });
+    std::ranges::copy(missing_opers_view, std::back_inserter(missing_opers));
 
     // 如果缺失干员里包含指定助战干员，就只招募这位干员就好了
     if (auto it = std::ranges::find_if(
