@@ -124,6 +124,38 @@ bool asst::BattleFormationTask::_run()
     }
 
     // ————————————————————————————————————————————————————————————————
+    // user additional
+    // ————————————————————————————————————————————————————————————————
+    // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
+    if (!m_user_additional.empty()) {
+        std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
+        auto limit = 12 - (int)m_opers_in_formation->size();
+        for (const auto& [name, skill] : m_user_additional) {
+            if (m_opers_in_formation->contains(name)) {
+                continue;
+            }
+            if (--limit < 0) {
+                break;
+            }
+            asst::battle::OperUsage oper;
+            oper.name = name;
+            oper.skill = skill;
+            std::vector<asst::battle::OperUsage> usage { std::move(oper) };
+            user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
+        }
+        click_role_table(battle::Role::Unknown);
+        for (auto& [role, oper_groups] : user_formation) {
+            std::vector<OperGroup*> groups;
+            for (auto& oper_group : oper_groups) {
+                if (has_oper_unchecked(oper_group.second)) {
+                    groups.emplace_back(&oper_group);
+                }
+            }
+            add_formation(role, groups);
+        }
+    }
+
+    // ————————————————————————————————————————————————————————————————
     // support unit
     // ————————————————————————————————————————————————————————————————
     // 在有且仅有一个缺失干员组时尝试寻找助战干员补齐编队
@@ -158,38 +190,6 @@ bool asst::BattleFormationTask::_run()
     if (has_missing) {
         report_missing_operators();
         return false;
-    }
-
-    // ————————————————————————————————————————————————————————————————
-    // user additional
-    // ————————————————————————————————————————————————————————————————
-    // 对于有在干员组中存在的自定干员，无法提前得知是否成功编入，故不提前加入编队
-    if (!m_user_additional.empty()) {
-        std::unordered_map<battle::Role, std::vector<OperGroup>> user_formation; // 解析后用户自定编队
-        auto limit = 12 - (int)m_opers_in_formation->size();
-        for (const auto& [name, skill] : m_user_additional) {
-            if (m_opers_in_formation->contains(name)) {
-                continue;
-            }
-            if (--limit < 0) {
-                break;
-            }
-            asst::battle::OperUsage oper;
-            oper.name = name;
-            oper.skill = skill;
-            std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            user_formation[BattleData.get_role(name)].emplace_back(name, std::move(usage));
-        }
-        click_role_table(battle::Role::Unknown);
-        for (auto& [role, oper_groups] : user_formation) {
-            std::vector<OperGroup*> groups;
-            for (auto& oper_group : oper_groups) {
-                if (has_oper_unchecked(oper_group.second)) {
-                    groups.emplace_back(&oper_group);
-                }
-            }
-            add_formation(role, groups);
-        }
     }
 
     // add_additional();
