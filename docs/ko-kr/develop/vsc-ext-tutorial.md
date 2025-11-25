@@ -38,6 +38,8 @@ The extension supports Jump to task defs, Jump to task refs and View task defs.
 
 When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that has the same name of the task will be shown when hovering the task defs.
 
+`Ctrl+T` 를 사용하여 작업 정의를 빠르게 검색하고 해당 위치로 이동할 수 있습니다.
+
 #### Query / open images
 
 The extension supports open images.
