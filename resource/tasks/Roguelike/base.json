@@ -5,7 +5,6 @@
         "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
         "next": [
-            "Roguelike",
             "Roguelike@CloseAnnos#next",
             "Roguelike@TodoEnter",
             "Roguelike@IntegratedStrategies",
