@@ -27,7 +27,8 @@
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
         "template": "Default/DepotEnter.png",
-        "next": ["Depot-Entry"]
+        "postDelay": 500,
+        "next": ["Depot-Entry", "Stop"]
     },
     "DepotDark": {
         "baseTask": "DepotDefault",

@@ -28,7 +28,8 @@
         "roi": [250, 500, 200, 200],
         "templThreshold": 0.7,
         "template": "Default/Friends.png",
-        "next": ["Friends-Entry"]
+        "postDelay": 500,
+        "next": ["Friends-Entry", "Stop"]
     },
     "FriendsDark": {
         "baseTask": "FriendsDefault",

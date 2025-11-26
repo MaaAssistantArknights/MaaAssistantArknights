@@ -27,7 +27,8 @@
         "maskRange": [1, 255],
         "roi": [935, 300, 265, 110],
         "template": "Default/OperBoxEnter.png",
-        "next": ["OperBox-Entry"]
+        "postDelay": 500,
+        "next": ["OperBox-Entry", "Stop"]
     },
     "OperBoxDark": {
         "baseTask": "OperBoxDefault",
