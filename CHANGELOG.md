@@ -144,9 +144,9 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 ### 修复 | Fix
 
 * 齐聚主题会在基建同时存在红蓝两个提示的时候无法进入 @ABA2396
-* 重置助战干员为未编入 @status102
+* 战斗列表只有第一关会使用助战干员 @status102
 * 避免通宝插件通过任务链作用到通宝以外的地方 (#14867) @travellerse
-* 修复功能入口 (#14872) @ABA2396
+* 功能入口添加重试机制 (#14872) @ABA2396
 * fix regex_error(error_badrepeat) @Constrat
 
 ### 文档 | Docs
