@@ -70,137 +70,105 @@
         {
             "name": "钝爪-典训",
             "effect": "立即进阶一个【先锋】干员（不消耗希望）",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "promotion": 1,
             "No": 16
         },
         {
             "name": "折戟-典训",
             "effect": "立即进阶一个【近卫】干员（不消耗希望）",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "promotion": 1,
             "No": 17
         },
         {
             "name": "铁卫-典训",
             "effect": "立即进阶一个【重装】干员（不消耗希望）",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "promotion": 1,
             "No": 18
         },
         {
             "name": "残弩-典训",
             "effect": "立即进阶一个【狙击】干员（不消耗希望）",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "promotion": 1,
             "No": 19
         },
         {
             "name": "断杖-典训",
             "effect": "立即进阶一个【术师】干员（不消耗希望）",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "promotion": 1,
             "No": 20
         },
         {
             "name": "支柱-典训",
             "effect": "立即进阶一个【辅助】干员（不消耗希望）",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "promotion": 1,
             "No": 21
         },
         {
             "name": "医者-典训",
             "effect": "立即进阶一个【医疗】干员（不消耗希望）",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "promotion": 1,
             "No": 22
         },
         {
             "name": "锈刃-典训",
             "effect": "立即进阶一个【特种】干员（不消耗希望）",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "promotion": 1,
             "No": 23
         },
         {
             "name": "先锋进阶券",
             "effect": "进阶一个先锋干员（不消耗希望）",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "promotion": 1
         },
         {
             "name": "近卫进阶券",
             "effect": "进阶一个近卫干员（不消耗希望）",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "promotion": 1
         },
         {
             "name": "重装进阶券",
             "effect": "进阶一个重装干员（不消耗希望）",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "promotion": 1
         },
         {
             "name": "狙击进阶券",
             "effect": "进阶一个狙击干员（不消耗希望）",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "promotion": 1
         },
         {
             "name": "术师进阶券",
             "effect": "进阶一个术师干员（不消耗希望）",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "promotion": 1
         },
         {
             "name": "辅助进阶券",
             "effect": "进阶一个辅助干员（不消耗希望）",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "promotion": 1
         },
         {
             "name": "医疗进阶券",
             "effect": "进阶一个医疗干员（不消耗希望）",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "promotion": 1
         },
         {
             "name": "特种进阶券",
             "effect": "进阶一个特种干员（不消耗希望）",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "promotion": 1
         },
         {
@@ -931,321 +899,241 @@
         {
             "name": "断杖-波纹",
             "effect": "场上每有一名术师干员，所有敌人受到的法术伤害+12%（最多叠加8层）",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 126
         },
         {
             "name": "钝爪-掠食",
             "effect": "场上每有一名先锋干员，每3秒获得1点部署费用（最多叠加8层）",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "No": 127
         },
         {
             "name": "锈刃-久居",
             "effect": "场上每有一名特种干员，所有敌方单位的移动速度-5%（最多叠加8层）",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "No": 128
         },
         {
             "name": "折戟-裂岩",
             "effect": "场上每有一名近卫干员，所有我方单位的攻击力+8%（最多叠加8层）",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "No": 129
         },
         {
             "name": "残弩-连珠",
             "effect": "场上每有一名狙击干员，所有我方单位的攻击速度+12（最多叠加8次）",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "No": 130
         },
         {
             "name": "铁卫-垒沙",
             "effect": "场上每有一名重装干员，所有我方单位受到的物理伤害-10%（最多叠加8次）",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 131
         },
         {
             "name": "支柱-联手",
             "effect": "场上每有一名辅助干员，所有自然回复技能的技力恢复+0.2/秒（最多叠加8次）",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "No": 132
         },
         {
             "name": "钝爪-熟稔",
             "effect": "所有【先锋】干员的技力消耗-35%",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "No": 133
         },
         {
             "name": "钝爪-爆发",
             "effect": "所有【先锋】干员的初始技力+10，攻击力+10%",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "No": 134
         },
         {
             "name": "折戟-锋刃",
             "effect": "所有【近卫】干员的攻击力+25%",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "No": 135
         },
         {
             "name": "折戟-浴血",
             "effect": "所有【近卫】干员在攻击后获得2点技力",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "No": 136
         },
         {
             "name": "折戟-破釜沉舟",
             "effect": "所有【近卫】干员的防御力-40%，但攻击力+40%，攻击速度+30",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "No": 137
         },
         {
             "name": "铁卫-侵掠",
             "effect": "所有【重装】干员的攻击力+60%",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 138
         },
         {
             "name": "铁卫-整固",
             "effect": "所有【重装】干员生命值+40%，防御力+40%，法术抗性+20",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 139
         },
         {
             "name": "残弩-百步穿杨",
             "effect": "所有【狙击】干员的攻击力+20%",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "No": 140
         },
         {
             "name": "残弩-神速",
             "effect": "所有【狙击】干员的攻击速度+70",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "No": 141
         },
         {
             "name": "断杖-织法者",
             "effect": "所有【术师】干员的攻击力+25%，攻击速度+25",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 142
         },
         {
             "name": "断杖-凝神",
             "effect": "所有【术师】干员的技力恢复+0.4/秒",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 143
         },
         {
             "name": "支柱-勤奋",
             "effect": "所有【辅助】干员的技力消耗-40%",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "No": 144
         },
         {
             "name": "医者-自医",
             "effect": "所有【医疗】干员的技力恢复+0.3/秒",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "No": 145
         },
         {
             "name": "医者-妙手",
             "effect": "所有【医疗】干员的攻击速度+50",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "No": 146
         },
         {
             "name": "锈刃-突破",
             "effect": "所有【特种】干员的部署费用-2，生命+60%",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "No": 147
         },
         {
             "name": "锈刃-研磨",
             "effect": "所有【特种】干员的攻击速度+30",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "No": 148
         },
         {
             "name": "锈刃-可视静谧",
             "effect": "所有【特种】干员的再部署时间-35%",
-            "roles": [
-                "SPECIAL"
-            ],
+            "roles": ["SPECIAL"],
             "No": 149
         },
         {
             "name": "铁卫-临时要塞",
             "effect": "【重装】干员部署后20秒内攻击力和防御力+100%，且阻挡数+1",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 150
         },
         {
             "name": "医者-涌泉",
             "effect": "场上每有一名医疗干员，所有我方单位的再部署时间-5%（最多叠加8次）",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "No": 151
         },
         {
             "name": "支柱-枯法",
             "effect": "所有【辅助】干员攻击范围内的敌方单位防御力-30%，法术抗性-30%",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "No": 152
         },
         {
             "name": "钝爪-百战",
             "effect": "战斗开始60秒内，所有【先锋】攻击力+100%，防御力+100%",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "No": 153
         },
         {
             "name": "钝爪-突破",
             "effect": "所有【先锋】干员的部署费用-50%，生命+60%",
-            "roles": [
-                "PIONEER"
-            ],
+            "roles": ["PIONEER"],
             "No": 154
         },
         {
             "name": "铁卫-突破",
             "effect": "所有【重装】干员的部署费用-6，生命+40%",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 155
         },
         {
             "name": "折戟-突破",
             "effect": "所有【近卫】干员的部署费用-3，生命+40%，获得15%物理闪避",
-            "roles": [
-                "WARRIOR"
-            ],
+            "roles": ["WARRIOR"],
             "No": 156
         },
         {
             "name": "铁卫-无锋",
             "effect": "所有【重装】干员在受到攻击后获得2点技力，并且技力消耗-20%",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 157
         },
         {
             "name": "残弩-突破",
             "effect": "所有【狙击】干员的部署费用-2，生命+60%，防御力+100",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "No": 158
         },
         {
             "name": "断杖-突破",
             "effect": "所有【术师】干员的部署费用-3，生命+60%，法术抗性+10",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 159
         },
         {
             "name": "支柱-突破",
             "effect": "所有【辅助】干员的部署费用-2，生命+40%，获得15%法术闪避",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "No": 160
         },
         {
             "name": "支柱-援护",
             "effect": "所有【辅助】干员使攻击范围内的我方单位攻击力+30%",
-            "roles": [
-                "SUPPORT"
-            ],
+            "roles": ["SUPPORT"],
             "No": 161
         },
         {
             "name": "医者-突破",
             "effect": "所有【医疗】干员的部署费用-2，生命+60%",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "No": 162
         },
         {
             "name": "医者-固化序列",
             "effect": "所有【医疗】干员受到的治疗和生命回复效果+20%，并且攻击范围内的我方干员获得抵抗",
-            "roles": [
-                "MEDIC"
-            ],
+            "roles": ["MEDIC"],
             "No": 163
         },
         {
             "name": "残弩-交叉火力",
             "effect": "所有【狙击】干员的攻击力+40%",
-            "roles": [
-                "SNIPER"
-            ],
+            "roles": ["SNIPER"],
             "No": 164
         },
         {
             "name": "断杖-苦难巫咒",
             "effect": "所有【术师】干员造成的法术伤害+70%",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 165
         },
         {
@@ -1576,17 +1464,13 @@
         {
             "name": "断杖-汲取",
             "effect": "所有【术师】干员每对一个单位造成伤害就回复2点技力值",
-            "roles": [
-                "CASTER"
-            ],
+            "roles": ["CASTER"],
             "No": 260
         },
         {
             "name": "铁卫-推进",
             "effect": "所有【重装】干员每2秒束缚自身附近所有敌人1秒，并造成相当于攻击力100%的真实伤害",
-            "roles": [
-                "TANK"
-            ],
+            "roles": ["TANK"],
             "No": 261
         },
         {
