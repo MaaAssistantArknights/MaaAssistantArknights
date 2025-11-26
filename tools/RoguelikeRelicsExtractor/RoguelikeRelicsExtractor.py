@@ -1,5 +1,6 @@
 import json
 
+
 def main():
     with open("roguelike_topic_table.json", "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -20,7 +21,9 @@ def main():
         item_name = item["name"]
         if item_name in tickets_seen:
             continue
-        if item_id.startswith("rogue_5_recruit_ticket") or item_id.startswith("rogue_5_upgrade_ticket"):
+        if item_id.startswith("rogue_5_recruit_ticket") or item_id.startswith(
+            "rogue_5_upgrade_ticket"
+        ):
             item_usage = item["usage"]
             item_exports.append({"name": item_name, "effect": item_usage})
             tickets_seen.add(item_name)
@@ -31,6 +34,7 @@ def main():
     }
     with open("shopping.json", "w", encoding="utf-8") as f:
         json.dump(final_data, f, ensure_ascii=False, indent=4)
+
 
 if __name__ == "__main__":
     main()
