@@ -528,7 +528,7 @@ OCR이 조우를 인식하지만 선택은 고정된 위치에서 이루어집�
                                                                // 즉, 구매함
                                                                // false 또는 생략된 경우, 상점에 있음
             "effect": "每有5源石锭, 所有我方单位的攻击速度+7",    // 수집품 효과 (운영에는 영향을 미치지 않으며 정렬에 유용함)
-            "no": 167                                          // 수집품 번호 (위키에서 찾을 수 있으며, 운영에는 영향을 미치지 않음)
+            "No": 167                                          // 수집품 번호 (위키에서 찾을 수 있으며, 운영에는 영향을 미치지 않음)
         },
 
         ...
@@ -539,7 +539,7 @@ OCR이 조우를 인식하지만 선택은 고정된 위치에서 이루어집�
                                                                // Hand of Diffusion을 만났을 때 구매하려고 시도함)
             ],
             "effect": "[Diffusion Artist], [Chain Artist], and [Blast Artist] regain 2 SP for each unit they deal damage to.",
-            "no": 136
+            "No": 136
         },
         ...
 
@@ -550,7 +550,7 @@ OCR이 조우를 인식하지만 선택은 고정된 위치에서 이루어집�
                                                                // Halberd-Breaker를 만났을 때 구매하려고 시도함)
             ],
             "effect": "All [Guard] Operators members have -40% Defence, but +40% Attack Power and +30% Attack Speed.",
-            "no": 16
+            "No": 16
         },
         ...
 
@@ -558,7 +558,7 @@ OCR이 조우를 인식하지만 선택은 고정된 위치에서 이루어집�
             "name": "Miss.Christine Touch coupon",
             "promotion": 2,                                   // 팀에 승진할 오퍼레이터가 2명 있을 때 구매함
             "effect": "Immediate promote two operators (Does not consume Hope)",
-            "no": 15
+            "No": 15
         },
 ```
 
