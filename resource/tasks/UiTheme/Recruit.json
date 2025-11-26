@@ -26,7 +26,8 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [925, 425, 200, 150],
-        "template": "Default/Recruit.png"
+        "template": "Default/Recruit.png",
+        "next": ["Recruit-Entry"]
     },
     "RecruitDark": {
         "baseTask": "RecruitDefault",

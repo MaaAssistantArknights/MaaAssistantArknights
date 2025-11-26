@@ -26,7 +26,8 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
-        "template": "Default/DepotEnter.png"
+        "template": "Default/DepotEnter.png",
+        "next": ["Depot-Entry"]
     },
     "DepotDark": {
         "baseTask": "DepotDefault",

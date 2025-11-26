@@ -27,7 +27,8 @@
         "maskRange": [1, 255],
         "roi": [250, 500, 200, 200],
         "templThreshold": 0.7,
-        "template": "Default/Friends.png"
+        "template": "Default/Friends.png",
+        "next": ["Friends-Entry"]
     },
     "FriendsDark": {
         "baseTask": "FriendsDefault",

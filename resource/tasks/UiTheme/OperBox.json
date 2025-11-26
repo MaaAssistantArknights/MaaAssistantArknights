@@ -26,7 +26,8 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [935, 300, 265, 110],
-        "template": "Default/OperBoxEnter.png"
+        "template": "Default/OperBoxEnter.png",
+        "next": ["OperBox-Entry"]
     },
     "OperBoxDark": {
         "baseTask": "OperBoxDefault",

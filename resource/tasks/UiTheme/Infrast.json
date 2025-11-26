@@ -27,7 +27,8 @@
         "maskRange": [1, 255],
         "postDelay": 5000,
         "roi": [930, 540, 230, 180],
-        "template": "Default/EnterInfrast.png"
+        "template": "Default/EnterInfrast.png",
+        "next": ["Infrast-Entry"]
     },
     "InfrastDark": {
         "baseTask": "InfrastDefault",
