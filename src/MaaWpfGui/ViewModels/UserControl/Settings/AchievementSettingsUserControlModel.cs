@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Media;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
@@ -24,7 +23,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
 using Stylet;
-using Application = System.Windows.Application;
 using Window = System.Windows.Window;
 using WindowManager = MaaWpfGui.Helper.WindowManager;
 
