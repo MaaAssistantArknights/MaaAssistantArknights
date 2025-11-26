@@ -24,12 +24,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
-        "next": [
-            "RA@Navigation-FromTodoList",
-            "RA@Navigation-LongTermExploration",
-            "RA@Navigation-FromMainInterface",
-            "RA@Navigation@ReturnButtons#next"
-        ]
+        "next": ["RA@Navigation-FromTodoList", "RA@Navigation-LongTermExploration", "RA@Navigation@ReturnButtons#next"]
     },
     "RA@Navigation-LongTermExploration": {
         "doc": "在 <终端> 下方导航条点击 <长期探索> 图标, 此处引用 <集成战略> 相关任务作为 baseTask",

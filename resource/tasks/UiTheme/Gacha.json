@@ -26,7 +26,9 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [1052, 426, 228, 174],
-        "template": "Default/GachaEnter.png"
+        "template": "Default/GachaEnter.png",
+        "postDelay": 500,
+        "next": ["#self", "Stop"]
     },
     "GachaDark": {
         "baseTask": "GachaDefault",
