@@ -98,6 +98,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             "ServerChan",
             "Telegram",
             "Discord",
+            "DingTalk",
             "Discord Webhook",
             "SMTP",
             "Bark",
@@ -164,6 +165,14 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         set => SetAndNotify(ref _discordEnabled, value);
     }
 
+    private bool _dingTalkEnabled = false;
+
+    public bool DingTalkEnabled
+    {
+        get => _dingTalkEnabled;
+        set => SetAndNotify(ref _dingTalkEnabled, value);
+    }
+
     private bool _discordWebhookEnabled = false;
 
     public bool DiscordWebhookEnabled
@@ -210,6 +219,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         TelegramEnabled = _enabledExternalNotificationProviders.Contains("Telegram");
         DiscordEnabled = _enabledExternalNotificationProviders.Contains("Discord");
         DiscordWebhookEnabled = _enabledExternalNotificationProviders.Contains("Discord Webhook");
+        DingTalkEnabled = _enabledExternalNotificationProviders.Contains("DingTalk");
         SmtpEnabled = _enabledExternalNotificationProviders.Contains("SMTP");
         BarkEnabled = _enabledExternalNotificationProviders.Contains("Bark");
         QmsgEnabled = _enabledExternalNotificationProviders.Contains("Qmsg");
@@ -400,6 +410,32 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         }
     }
 
+    private string _dingTalkAccessToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, string.Empty));
+
+    public string DingTalkAccessToken
+    {
+        get => _dingTalkAccessToken;
+        set
+        {
+            SetAndNotify(ref _dingTalkAccessToken, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, value);
+        }
+    }
+
+    private string _dingTalkSecret = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty));
+
+    public string DingTalkSecret
+    {
+        get => _dingTalkSecret;
+        set
+        {
+            SetAndNotify(ref _dingTalkSecret, value);
+            value = SimpleEncryptionHelper.Encrypt(value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, value);
+        }
+    }
+    
     private string _telegramBotToken = SimpleEncryptionHelper.Decrypt(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty));
 
     public string TelegramBotToken

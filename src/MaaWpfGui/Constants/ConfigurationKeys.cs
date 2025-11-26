@@ -290,6 +290,8 @@ public static class ConfigurationKeys
     public const string ExternalNotificationDiscordBotToken = "ExternalNotification.Discord.BotToken";
     public const string ExternalNotificationDiscordUserId = "ExternalNotification.Discord.UserId";
     public const string ExternalNotificationDiscordWebhookUrl = "ExternalNotification.Discord.WebhookUrl";
+    public const string ExternalNotificationDingTalkAccessToken = "ExternalNotification.DingTalk.AccessToken";
+    public const string ExternalNotificationDingTalkSecret = "ExternalNotification.DingTalk.Secret";
     public const string ExternalNotificationTelegramBotToken = "ExternalNotification.Telegram.BotToken";
     public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
     public const string ExternalNotificationTelegramTopicId = "ExternalNotification.TelegramTopicId";
