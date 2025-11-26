@@ -44,10 +44,8 @@ body:
       label: Log and config files
       description: |
         **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**
-
-        **Please drag and drop the full file in, not your own cuttings or copies; compress it before uploading if too large.**
-
-        If you are using MacBook, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
+        **If the archive to upload is larger than 25MB, please upload smaller archives from the same date folder instead.**
+        If you are using macOS, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
       placeholder: |
         Please confirm that MAA is not running before uploading files.
     validations:
