@@ -13,12 +13,9 @@
 
 #nullable enable
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using Newtonsoft.Json.Linq;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;

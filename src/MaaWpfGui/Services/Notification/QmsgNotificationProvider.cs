@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;

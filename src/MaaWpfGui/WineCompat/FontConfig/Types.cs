@@ -12,9 +12,6 @@
 // </copyright>
 
 #pragma warning disable CS0649, SA1307, SA1602, SA1649
-using System;
-using System.Runtime.InteropServices;
-
 namespace MaaWpfGui.WineCompat.FontConfig;
 
 internal enum FcResult
