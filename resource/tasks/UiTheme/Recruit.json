@@ -28,7 +28,7 @@
         "roi": [925, 425, 200, 150],
         "template": "Default/Recruit.png",
         "postDelay": 500,
-        "next": ["Recruit-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "RecruitDark": {
         "baseTask": "RecruitDefault",

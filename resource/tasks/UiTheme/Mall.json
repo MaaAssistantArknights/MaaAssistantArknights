@@ -28,7 +28,7 @@
         "roi": [772, 407, 186, 171],
         "template": "Default/Mall.png",
         "postDelay": 500,
-        "next": ["Mall-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "MallDark": {
         "baseTask": "MallDefault",

@@ -29,7 +29,7 @@
         "roi": [844, 58, 268, 272],
         "postDelay": 3000,
         "template": "Default/Terminal.png",
-        "next": ["Terminal-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "TerminalDark": {
         "baseTask": "TerminalDefault",

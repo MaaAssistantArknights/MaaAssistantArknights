@@ -28,7 +28,7 @@
         "roi": [700, 530, 230, 190],
         "template": "Default/Task.png",
         "postDelay": 500,
-        "next": ["Task-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "TaskDark": {
         "baseTask": "TaskDefault",

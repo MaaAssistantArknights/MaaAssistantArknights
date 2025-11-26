@@ -28,7 +28,7 @@
         "roi": [930, 540, 230, 180],
         "template": "Default/EnterInfrast.png",
         "postDelay": 5000,
-        "next": ["Infrast-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "InfrastDark": {
         "baseTask": "InfrastDefault",

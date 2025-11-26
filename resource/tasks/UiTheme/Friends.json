@@ -29,7 +29,7 @@
         "templThreshold": 0.7,
         "template": "Default/Friends.png",
         "postDelay": 500,
-        "next": ["Friends-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "FriendsDark": {
         "baseTask": "FriendsDefault",

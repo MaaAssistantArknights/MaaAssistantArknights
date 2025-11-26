@@ -28,7 +28,7 @@
         "roi": [935, 300, 265, 110],
         "template": "Default/OperBoxEnter.png",
         "postDelay": 500,
-        "next": ["OperBox-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "OperBoxDark": {
         "baseTask": "OperBoxDefault",

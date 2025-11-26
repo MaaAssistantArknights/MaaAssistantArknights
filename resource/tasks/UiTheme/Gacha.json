@@ -28,7 +28,7 @@
         "roi": [1052, 426, 228, 174],
         "template": "Default/GachaEnter.png",
         "postDelay": 500,
-        "next": ["Gacha-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "GachaDark": {
         "baseTask": "GachaDefault",

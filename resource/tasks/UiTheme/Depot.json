@@ -28,7 +28,7 @@
         "roi": [1109, 560, 171, 160],
         "template": "Default/DepotEnter.png",
         "postDelay": 500,
-        "next": ["Depot-Entry", "Stop"]
+        "next": ["#self", "Stop"]
     },
     "DepotDark": {
         "baseTask": "DepotDefault",
