@@ -1402,11 +1402,6 @@ public class AsstProxy
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ActingCommandError"), UiLogColor.Error);
                             break;
 
-                        case "FightMissionFailedAndStop":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightMissionFailedAndStop"), UiLogColor.Error);
-                            ToastNotification.ShowDirect(LocalizationHelper.GetString("FightMissionFailedAndStop"));
-                            break;
-
                         case "RecruitRefreshConfirm":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LabelsRefreshed"), UiLogColor.Info);
                             break;

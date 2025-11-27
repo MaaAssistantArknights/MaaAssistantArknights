@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">ウェブフック URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">アクセストークン</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">シークレット</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">トピックID（任意）</system:String>
@@ -1010,7 +1012,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
-    <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>

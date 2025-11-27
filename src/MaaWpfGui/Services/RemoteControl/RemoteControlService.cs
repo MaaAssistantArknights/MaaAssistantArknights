@@ -31,6 +31,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.ApplicationModel;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Services.RemoteControl;

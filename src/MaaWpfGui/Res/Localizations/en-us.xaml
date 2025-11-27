@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">Access Token</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">Secret</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">Topic ID (Optional)</system:String>
@@ -1010,7 +1012,6 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
-    <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>

@@ -28,8 +28,7 @@
         "maskRange": [1, 255],
         "roi": [844, 58, 268, 272],
         "postDelay": 3000,
-        "template": "Default/Terminal.png",
-        "next": ["#self", "Stop"]
+        "template": "Default/Terminal.png"
     },
     "TerminalDark": {
         "baseTask": "TerminalDefault",

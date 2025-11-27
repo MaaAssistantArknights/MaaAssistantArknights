@@ -26,9 +26,7 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [925, 425, 200, 150],
-        "template": "Default/Recruit.png",
-        "postDelay": 500,
-        "next": ["#self", "Stop"]
+        "template": "Default/Recruit.png"
     },
     "RecruitDark": {
         "baseTask": "RecruitDefault",

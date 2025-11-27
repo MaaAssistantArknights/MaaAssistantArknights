@@ -1699,7 +1699,13 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
-        "next": ["Fight@GoLastBattle", "Fight@CloseAnnos#next", "Fight@GoTerminalStopflag", "Fight@ReturnButtons#next"]
+        "next": [
+            "Fight@GoLastBattle",
+            "Fight",
+            "Fight@CloseAnnos#next",
+            "Fight@GoTerminalStopflag",
+            "Fight@ReturnButtons#next"
+        ]
     },
     "GoTerminalStopflag": {
         "template": "StageResource.png",
@@ -2025,7 +2031,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Task-Entry"],
-        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award@CloseAnnos#next"]
+        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"]
     },
     "ReceiveAward": {
         "action": "ClickSelf",
@@ -2124,7 +2130,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Friends-Entry"],
-        "next": ["FriendsList", "Visit@CloseAnnos#next"]
+        "next": ["FriendsList", "Visit", "Visit@CloseAnnos#next"]
     },
     "FriendsList": {
         "action": "ClickSelf",
@@ -2187,7 +2193,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Mall-Entry"],
-        "next": ["CreditStoreOcr", "Mall@CloseAnnos#next"]
+        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
@@ -2389,7 +2395,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Infrast-Entry"],
-        "next": ["InfrastEnteredFlag", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
+        "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -4160,7 +4166,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Depot-Entry"],
-        "next": ["DepotMaterialTab"]
+        "next": ["#self", "DepotMaterialTab"]
     },
     "DepotAllTab": {
         "action": "ClickSelf",
@@ -4798,7 +4804,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Gacha-Entry"],
-        "next": ["Gacha@LoadingText", "DoGacha"]
+        "next": ["Gacha", "Gacha@LoadingText", "DoGacha"]
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",

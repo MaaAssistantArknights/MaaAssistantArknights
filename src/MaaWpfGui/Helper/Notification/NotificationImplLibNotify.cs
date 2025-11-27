@@ -15,6 +15,7 @@ using System;
 using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.WineCompat;

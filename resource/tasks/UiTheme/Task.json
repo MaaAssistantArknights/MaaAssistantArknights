@@ -26,9 +26,7 @@
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [700, 530, 230, 190],
-        "template": "Default/Task.png",
-        "postDelay": 500,
-        "next": ["#self", "Stop"]
+        "template": "Default/Task.png"
     },
     "TaskDark": {
         "baseTask": "TaskDefault",
