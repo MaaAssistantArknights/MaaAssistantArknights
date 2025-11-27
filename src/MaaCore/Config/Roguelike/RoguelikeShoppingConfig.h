@@ -13,7 +13,8 @@ struct RoguelikeGoods
     std::string name;
     std::vector<battle::Role> roles;
     std::vector<std::string> chars;
-    int promotion = 0; // 晋升 N 个干员
+    int promotion = 0;        // 晋升 N 个干员
+    int promotion_rarity = 6; // 晋升 N 星及以下成员
     bool no_longer_buy = false;
     bool ignore_no_longer_buy = false;
     bool decrease_collapse = false;

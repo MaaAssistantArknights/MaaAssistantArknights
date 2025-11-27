@@ -39,6 +39,7 @@ bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
         goods.roles = std::move(roles);
         goods.chars = std::move(chars);
         goods.promotion = goods_json.get("promotion", 0);
+        goods.promotion_rarity = goods_json.get("promotion_rarity", 6);
         goods.no_longer_buy = goods_json.get("no_longer_buy", false);
         goods.ignore_no_longer_buy = goods_json.get("ignore_no_longer_buy", false);
         goods.decrease_collapse = goods_json.get("decrease_collapse", false);
