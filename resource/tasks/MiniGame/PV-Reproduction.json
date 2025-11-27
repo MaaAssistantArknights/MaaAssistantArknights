@@ -1,0 +1,80 @@
+{
+    "MiniGame@PV@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["MiniGame@PV@01"]
+    },
+    "MiniGame@PV@01": {
+        "action": "ClickSelf",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4", 
+            "MiniGame@PV@Filter2-1", 
+            "MiniGame@PV@Options-2", 
+            "MiniGame@PV@Filter1-2", 
+            "MiniGame@PV@Options-2", 
+            "MiniGame@PV@Options-4", 
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2"
+        ],
+        "maskRange": [0, 70],
+        "next": ["MiniGame@PV@02"]
+    },
+    "MiniGame@PV@02": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [],
+        "next": []
+    },
+    "MiniGame@PV@Filter1-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1025, 93, 16, 16],
+        "preDelay": 500
+    },
+    "MiniGame@PV@Filter1-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1177, 98, 16, 16]
+    },
+    "MiniGame@PV@Filter2-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1020, 225, 16, 16]
+    },
+    "MiniGame@PV@Filter2-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1179, 230, 16, 16]
+    },
+    "MiniGame@PV@Filter3-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1011, 359, 16, 16]
+    },
+    "MiniGame@PV@Filter3-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1160, 363, 16, 16]
+    },
+    "MiniGame@PV@Filter4-1": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1010, 476, 16, 16]
+    },
+    "MiniGame@PV@Filter4-2": {
+        "baseTask": "MiniGame@PV@Filter1-1",
+        "specificRect": [1143, 478, 16, 16]
+    },
+    "MiniGame@PV@Options-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [866, 143, 16, 16],
+        "preDelay": 500
+    },
+    "MiniGame@PV@Options-2": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [860, 269, 16, 16]
+    },
+    "MiniGame@PV@Options-3": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [854, 392, 16, 16]
+    },
+    "MiniGame@PV@Options-4": {
+        "baseTask": "MiniGame@PV@Options-1",
+        "specificRect": [846, 517, 16, 16]
+    }
+}
