@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">웹후크 URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">액세스 토큰</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">시크릿</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">토픽 ID (선택사항)</system:String>
@@ -1011,7 +1013,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
-    <system:String x:Key="FightMissionFailedAndStop">프록시 실패 횟수가 한계에 도달하여 작업이 중지되었습니다</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
