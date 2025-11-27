@@ -98,6 +98,7 @@
             "MiniGame@PV@Confirm"
         ],
         "maskRange": [90, 150],
+        "templThreshold": 0.7,
         "rectMove": [0, -50, 10, 10],
         "next": ["MiniGame@PV@07"]
     },
