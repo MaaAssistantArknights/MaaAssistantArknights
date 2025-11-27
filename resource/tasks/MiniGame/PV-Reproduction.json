@@ -7,12 +7,12 @@
         "action": "ClickSelf",
         "sub": [
             "MiniGame@PV@Filter1-1",
-            "MiniGame@PV@Options-4", 
-            "MiniGame@PV@Filter2-1", 
-            "MiniGame@PV@Options-2", 
-            "MiniGame@PV@Filter1-2", 
-            "MiniGame@PV@Options-2", 
-            "MiniGame@PV@Options-4", 
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
             "MiniGame@PV@Filter2-2",
             "MiniGame@PV@Options-1",
             "MiniGame@PV@Options-2"

@@ -1,10 +1,8 @@
 import re
 
 # 映射：左/右 → Filter 的第二位
-side_map = {
-    "左": "1",
-    "右": "2"
-}
+side_map = {"左": "1", "右": "2"}
+
 
 def convert_steps(text):
     parts = text.split()
