@@ -1,4 +1,3 @@
-
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
@@ -1013,6 +1012,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>
