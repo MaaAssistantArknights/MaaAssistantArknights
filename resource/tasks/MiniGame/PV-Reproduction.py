@@ -1,5 +1,10 @@
 import re
 
+# 攻略：https://www.bilibili.com/video/BV16NSZYbE85/
+# 视频格式：左1-1 2-3 3-1 右1-3 3-1 3-2
+# MAA 内部格式：
+# MiniGame@PV@Filter1-1 （左1-）
+# MiniGame@PV@Options-1 （-1）
 # 映射：左/右 → Filter 的第二位
 side_map = {"左": "1", "右": "2"}
 
@@ -39,11 +44,37 @@ def convert_steps(text):
     return result
 
 
-text = "左1-1 1-3 2-1 2-3 右 2-1 2-2"
-converted = convert_steps(text)
+texts = [
+    "左1-4 2-2 右1-2 1-4 2-1 2-2",
+    "左1-1 2-3 右2-2 2-4",
+    "左1-2 1-4 2-1 3-2 右2-2",
+    "左1-4 3-2 右1-3 3-4",
+    "左1-1 1-3 2-1 2-3 右2-1 2-2",
+    
+    "左1-2 1-4 2-2 2-3 右1-3 2-2",
+    "左1-1 1-3 2-3 右1-3 2-1",
+    "左1-2 1-4 2-1 3-1 右1-2",
+    "左1-4 2-2 3-3 右1-3 2-3",
+    "左1-1 1-4 2-3 右1-1 1-2 2-2",
 
-print('"sub": [')
-for i, line in enumerate(converted):
-    comma = "," if i < len(converted) - 1 else ""
-    print(f'            "{line}"{comma}')
-print("        ],")
+    "左1-2 2-3 3-2 右1-1",
+    "左2-2 2-4 右1-1 2-3",
+    "右1-1 2-2 2-4",
+    "左1-1 2-4 右1-2 2-4",
+    "左1-2 1-4 右1-2 1-4 2-1",
+    
+    "左2-2 3-2 3-4 右1-1 1-3 2-２",
+    "左1-4 2-1 3-1 3-3 右1-2",
+    "左2-1 3-1 右1-2 1-4 2-2",
+    "左1-2 1-4 3-2 3-4 右2-1",
+    "左1-1 2-3 3-1 右1-3 3-1 3-2",
+]
+
+for idx, text in enumerate(texts):
+    print(f"\n// 第 {idx + 1} 行: {text}")
+    converted = convert_steps(text)
+    print('"sub": [')
+    for i, line in enumerate(converted):
+        comma = "," if i < len(converted) - 1 else ""
+        print(f'            "{line}"{comma}')
+    print("        ],")
