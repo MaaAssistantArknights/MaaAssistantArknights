@@ -80,6 +80,162 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
+        "next": ["MiniGame@PV@06"]
+    },
+    "MiniGame@PV@06": {
+        "action": "ClickSelf",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "maskRange": [90, 150],
+        "rectMove": [0, -50, 10, 10],
+        "next": ["MiniGame@PV@07"]
+    },
+    "MiniGame@PV@07": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@08"]
+    },
+    "MiniGame@PV@08": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@09"]
+    },
+    "MiniGame@PV@09": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@10"]
+    },
+    "MiniGame@PV@10": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@11"]
+    },
+    "MiniGame@PV@11": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@12"]
+    },
+    "MiniGame@PV@12": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@13"]
+    },
+    "MiniGame@PV@13": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@14"]
+    },
+    "MiniGame@PV@14": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@15"]
+    },
+    "MiniGame@PV@15": {
+        "baseTask": "MiniGame@PV@06",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Confirm"
+        ],
         "next": []
     },
     "MiniGame@PV@Filter1-1": {
