@@ -35,14 +35,15 @@ def convert_steps(text):
         # 再写 Options
         result.append(f"MiniGame@PV@{option_id}")
 
+    result.append("MiniGame@PV@Confirm")
     return result
 
 
-text = "左1-4 2-2 右1-2 1-4 2-1 2-2"
+text = "左1-1 1-3 2-1 2-3 右 2-1 2-2"
 converted = convert_steps(text)
 
 print('"sub": [')
 for i, line in enumerate(converted):
     comma = "," if i < len(converted) - 1 else ""
-    print(f'    "{line}"{comma}')
-print("]")
+    print(f'            "{line}"{comma}')
+print("        ],")

@@ -15,21 +15,79 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Filter2-2",
             "MiniGame@PV@Options-1",
-            "MiniGame@PV@Options-2"
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
         ],
         "maskRange": [0, 70],
         "next": ["MiniGame@PV@02"]
     },
     "MiniGame@PV@02": {
         "baseTask": "MiniGame@PV@01",
-        "sub": [],
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@03"]
+    },
+    "MiniGame@PV@03": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@04"]
+    },
+    "MiniGame@PV@04": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Filter3-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Filter1-2",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter3-2",
+            "MiniGame@PV@Options-4",
+            "MiniGame@PV@Confirm"
+        ],
+        "next": ["MiniGame@PV@05"]
+    },
+    "MiniGame@PV@05": {
+        "baseTask": "MiniGame@PV@01",
+        "sub": [
+            "MiniGame@PV@Filter1-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-1",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-3",
+            "MiniGame@PV@Filter2-2",
+            "MiniGame@PV@Options-1",
+            "MiniGame@PV@Options-2",
+            "MiniGame@PV@Confirm"
+        ],
         "next": []
     },
     "MiniGame@PV@Filter1-1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [1025, 93, 16, 16],
-        "preDelay": 500
+        "preDelay": 500,
+        "postDelay": 500
     },
     "MiniGame@PV@Filter1-2": {
         "baseTask": "MiniGame@PV@Filter1-1",
@@ -62,8 +120,7 @@
     "MiniGame@PV@Options-1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [866, 143, 16, 16],
-        "preDelay": 500
+        "specificRect": [866, 143, 16, 16]
     },
     "MiniGame@PV@Options-2": {
         "baseTask": "MiniGame@PV@Options-1",
@@ -76,5 +133,24 @@
     "MiniGame@PV@Options-4": {
         "baseTask": "MiniGame@PV@Options-1",
         "specificRect": [846, 517, 16, 16]
+    },
+    "MiniGame@PV@Confirm": {
+        "action": "ClickSelf",
+        "roi": [1053, 588, 205, 132],
+        "preDelay": 500,
+        "postDelay": 1000,
+        "reduceOtherTimes": ["MiniGame@PV@ClickToMainInterface*20"],
+        "next": ["MiniGame@PV@ClickToMainInterface"]
+    },
+    "MiniGame@PV@ClickToMainInterface": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 10, 1, 1],
+        "maxTimes": 20,
+        "next": ["MiniGame@PV@MainInterface", "MiniGame@PV@ClickToMainInterface"]
+    },
+    "MiniGame@PV@MainInterface": {
+        "roi": [0, 270, 339, 159],
+        "next": ["Stop"]
     }
 }
