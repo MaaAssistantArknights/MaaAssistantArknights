@@ -224,7 +224,10 @@
         "next": ["MiniGame@PV@15"]
     },
     "MiniGame@PV@15": {
-        "baseTask": "MiniGame@PV@06",
+        "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
+        "template": "MiniGame@PV@11.png",
+        "rectMove": [0, -350, 10, 10],
         "sub": [
             "MiniGame@PV@Filter1-1",
             "MiniGame@PV@Options-2",
