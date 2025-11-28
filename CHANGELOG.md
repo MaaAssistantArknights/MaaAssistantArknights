@@ -134,15 +134,19 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 
 ### 新增 | New
 
+* PV-烟花筹委会 小游戏 @ABA2396 @weinibuliu
 * 刷理智失败次数达到上限时报错 @ABA2396
 * update meojson to v5.0.0 (#14849) @MistEO
 
 ### 改进 | Improved
 
+* wpf Debug 压缩包切片增加时间前缀 @status102
+* 改进 ImageCropper @weinibuliu
 * 更新肉鸽协议文档和界园肉鸽商品列表 (#14873) @DavidWang19
 
 ### 修复 | Fix
 
+* 基建换班卡死在无人机使用界面 @ABA2396
 * 齐聚主题会在基建同时存在红蓝两个提示的时候无法进入 @ABA2396
 * 战斗列表只有第一关会使用助战干员 @status102
 * 避免通宝插件通过任务链作用到通宝以外的地方 (#14867) @travellerse
@@ -155,5 +159,7 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 
 ### 其他 | Other
 
+* 遗漏的 MaaCore.pdb 和 MaaUtils/pdb
+* 整理截图 @ABA2396
 * 调整 StartToVisit 阈值 @ABA2396
 * remove and sort usings (#14877) @SherkeyXD
