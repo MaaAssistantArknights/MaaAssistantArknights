@@ -27,13 +27,21 @@ winget install maa
 
 #### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
 
-请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 Windows x64。
+请确认系统架构并下载对应的安装包。对于大多数阅读本文的Windows用户来说，应为 Windows x64。
+
+#### 通过 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release) 下载最新的 MAA 安装包：
+
+请确认系统架构并下载对应的安装包。对于大多数阅读本文的Windows用户来说，应为 Windows x64。
+
+:::tip
+在 Mirror酱 需要提供 CDK 才能下载 MAA 安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
+:::
 
 ### macOS
 
 #### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包：  
 
-官网一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应下载 macOS 通用版。
+官网一般会自动选择正确的版本架构，对于阅读本文的Mac用户来说，应下载 macOS 通用版。
 
 #### 通过 QQ 群文件下载最新的 MAA 安装包：
 
@@ -42,7 +50,15 @@ winget install maa
 
 #### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
 
-请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 macos universal。
+请确认系统架构并下载对应的安装包。对于阅读本文的Mac用户来说，应为 macos universal。
+
+#### 通过 [Mirror酱](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release) 下载最新的 MAA 安装包：
+
+请确认您的芯片类型 (arm/x86) 并下载对应的安装包。
+
+:::tip
+在 Mirror酱 需要提供 CDK 才能下载 MAA 安装包。该 CDK 需要付费订阅，但连通性良好且速度较快。关于订阅价格和方式，请访问 [Mirror酱](https://mirrorchyan.com/zh/) 了解更多信息。
+:::
 
 ### Linux 和其他操作系统
 
