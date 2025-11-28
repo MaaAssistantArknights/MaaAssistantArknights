@@ -1,4 +1,4 @@
-## v5.28.0
+## v5.28.1
 
 ### 继续修 BUG | Highlights
 
@@ -59,6 +59,8 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 ----
 
 以下是详细内容：
+
+## v5.28.0
 
 ### 新增 | New
 
