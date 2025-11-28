@@ -1,10 +1,10 @@
-## v5.28.1
+## v5.28.2
 
 ### 继续修 BUG | Highlights
 
 在这个版本，我们继续修复了大量 BUG，并且优化了遇到各类错误时的调试体验。
 
-#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.1 及以上支持）
+#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.2 及以上支持）
 
 新增 PV-烟花筹委会 小游戏支持，在小游戏界面最左侧开始。
 
@@ -30,7 +30,7 @@
 
 In this version, we continued to fix numerous bugs and optimized the debugging experience when encountering various types of errors.
 
-#### Mini-game - PV-Fireworks Committee (v5.28.1 and above)
+#### Mini-game - PV-Fireworks Committee (v5.28.2 and above)
 
 Added support for the PV-Fireworks Committee mini-game. Start from the leftmost side of the mini-game interface.
 
@@ -173,3 +173,11 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 * 整理截图 @ABA2396
 * 调整 StartToVisit 阈值 @ABA2396
 * remove and sort usings (#14877) @SherkeyXD
+
+----
+
+## v5.28.2
+
+### 修复 | Fix
+
+* 概率无法进入小游戏第八关之后的关卡 @weinibuliu
