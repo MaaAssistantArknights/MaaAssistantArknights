@@ -25,9 +25,10 @@
     "MallDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
-        "postDelay": 500,
         "roi": [772, 407, 186, 171],
-        "template": "Default/Mall.png"
+        "template": "Default/Mall.png",
+        "postDelay": 500,
+        "next": ["#self", "Stop"]
     },
     "MallDark": {
         "baseTask": "MallDefault",

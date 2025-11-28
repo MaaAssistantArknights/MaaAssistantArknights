@@ -795,6 +795,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGame@PV">PV - Fireworks Organizing Committee</system:String>
+    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">Start from the leftmost side of the event page</system:String>
     <system:String x:Key="MiniGame@SPA">Stronghold Protocol: Alliance</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where ｢Independent Simulation｣ is located)
 Completing ｢Standard Simulation｣ manually allows faster score farming
@@ -1010,6 +1012,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">Proxy failed too many times, task stopped</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator} conflict</system:String>

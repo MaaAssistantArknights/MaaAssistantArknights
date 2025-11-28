@@ -796,6 +796,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
+    <system:String x:Key="MiniGame@PV">PV-불꽃놀이 집행위원회</system:String>
+    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">이벤트 페이지 가장 왼쪽에서 시작</system:String>
     <system:String x:Key="MiniGame@SPA">위수 협의: 맹약</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">이벤트 메인 화면(｢독립 시뮬레이션｣ 위치)에서 임무 시작
 ｢스탠다드 시뮬레이션｣ 을 수동으로 클리어하면 점수를 더 빠르게 획득할 수 있습니다
@@ -1011,6 +1013,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">프록시 실패 횟수가 한계에 도달하여 작업이 중지되었습니다</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>

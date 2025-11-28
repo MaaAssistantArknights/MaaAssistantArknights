@@ -630,7 +630,7 @@ The Encounter options can be modified to guide MAA towards special endings
                                                                // False or omitted, means that the store has it.
             "effect": "每有5源石锭, 所有我方单位的攻击速度+7",    // Collectible effect ("For every 5 Originium Ingots, all friendly units get +7 ASPD")
                                                                // (does not affect the operation, useful for convenient sorting)
-            "no": 167                                          // Collectible number (can be found in the wiki, does not affect the operation)
+            "No": 167                                          // Collectible number (can be found in the wiki, does not affect the operation)
         },
 
         ...
@@ -641,7 +641,7 @@ The Encounter options can be modified to guide MAA towards special endings
                                                                // you will try to buy the Hand of Diffusion when you encounter it)
             ],
             "effect": "【扩散术师】、【链术师】和【轰击术师】每对一个单位造成伤害就回复2点技力值", // ("[Diffusion Artist], [Chain Artist], and [Blast Artist] regain 2 SP for each unit they deal damage to.")
-            "no": 136
+            "No": 136
         },
         ...
 
@@ -652,7 +652,7 @@ The Encounter options can be modified to guide MAA towards special endings
                                                                // you will try to buy a Halberd-Breaker when you encounter it)
             ],
             "effect": "所有【近卫】干员的防御力-40%，但攻击力+40%，攻击速度+30", // ("All [Guard] Operators members have -40% Defence, but +40% Attack Power and +30% Attack Speed.")
-            "no": 16
+            "No": 16
         },
         ...
 
@@ -660,7 +660,7 @@ The Encounter options can be modified to guide MAA towards special endings
             "name": "Miss.Christine摸摸券",                     // ("Miss.Christine摸摸券" = "Miss.Christine Touch coupon")
             "promotion": 2,                                   // Purchased when there are 2 operators in the team to be promoted
             "effect": "立即进阶两个干员（不消耗希望）",           // ("Immediate promote two operators (Does not consume Hope)")
-            "no": 15
+            "No": 15
         },
         ...
 

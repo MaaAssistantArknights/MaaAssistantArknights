@@ -795,6 +795,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛监控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
+    <system:String x:Key="MiniGame@PV">PV-烟花筹委会</system:String>
+    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">在活动页面最左侧开始</system:String>
     <system:String x:Key="MiniGame@SPA">卫戍协议：盟约</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活动主界面（有 ｢独立模拟｣ 处开始任务）
 手动通关 ｢标准模拟｣ 可以更快的刷分
@@ -1010,6 +1012,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>

@@ -1241,6 +1241,7 @@ public class ToolboxViewModel : Screen
         new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
 
         // 活动
+        new() { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" },
         new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
@@ -1286,6 +1287,7 @@ public class ToolboxViewModel : Screen
             "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
 
             // 活动
+            "MiniGame@PV@Begin" => LocalizationHelper.GetString("MiniGame@PVTip"),
             "MiniGame@SPA@Begin" => LocalizationHelper.GetString("MiniGame@SPATip"),
             "MiniGame@OS@Begin" => LocalizationHelper.GetString("MiniGame@OSTip"),
             "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),

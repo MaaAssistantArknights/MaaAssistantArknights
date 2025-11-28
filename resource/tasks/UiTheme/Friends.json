@@ -27,7 +27,9 @@
         "maskRange": [1, 255],
         "roi": [250, 500, 200, 200],
         "templThreshold": 0.7,
-        "template": "Default/Friends.png"
+        "template": "Default/Friends.png",
+        "postDelay": 500,
+        "next": ["#self", "Stop"]
     },
     "FriendsDark": {
         "baseTask": "FriendsDefault",

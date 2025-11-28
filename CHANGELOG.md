@@ -1,8 +1,12 @@
-## v5.28.0
+## v5.28.1
 
 ### 继续修 BUG | Highlights
 
 在这个版本，我们继续修复了大量 BUG，并且优化了遇到各类错误时的调试体验。
+
+#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.1 及以上支持）
+
+新增 PV-烟花筹委会 小游戏支持，在小游戏界面最左侧开始。
 
 #### 错误处理方面
 
@@ -25,6 +29,10 @@
 ----
 
 In this version, we continued to fix numerous bugs and optimized the debugging experience when encountering various types of errors.
+
+#### Mini-game - PV-Fireworks Committee (v5.28.1 and above)
+
+Added support for the PV-Fireworks Committee mini-game. Start from the leftmost side of the mini-game interface.
 
 #### Error Handling
 
@@ -51,6 +59,8 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 ----
 
 以下是详细内容：
+
+## v5.28.0
 
 ### 新增 | New
 
@@ -127,3 +137,39 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 * KR tweak SupportUnitUsage translation @HX3N
 * KR @hguandl
 * SSS#8 for global (#14803) @Manicsteiner
+
+----
+
+## v5.28.1
+
+### 新增 | New
+
+* PV-烟花筹委会 小游戏 @ABA2396 @weinibuliu
+* 刷理智失败次数达到上限时报错 @ABA2396
+* update meojson to v5.0.0 (#14849) @MistEO
+
+### 改进 | Improved
+
+* wpf Debug 压缩包切片增加时间前缀 @status102
+* 改进 ImageCropper @weinibuliu
+* 更新肉鸽协议文档和界园肉鸽商品列表 (#14873) @DavidWang19
+
+### 修复 | Fix
+
+* 基建换班卡死在无人机使用界面 @ABA2396
+* 齐聚主题会在基建同时存在红蓝两个提示的时候无法进入 @ABA2396
+* 战斗列表只有第一关会使用助战干员 @status102
+* 避免通宝插件通过任务链作用到通宝以外的地方 (#14867) @travellerse
+* 功能入口添加重试机制 (#14872) @ABA2396
+* fix regex_error(error_badrepeat) @Constrat
+
+### 文档 | Docs
+
+* issue 模板修改 25 MB 压缩包上传提示 (#14850) @Rbqwow
+
+### 其他 | Other
+
+* 遗漏的 MaaCore.pdb 和 MaaUtils/pdb
+* 整理截图 @ABA2396
+* 调整 StartToVisit 阈值 @ABA2396
+* remove and sort usings (#14877) @SherkeyXD

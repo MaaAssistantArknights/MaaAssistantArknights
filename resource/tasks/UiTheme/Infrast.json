@@ -25,9 +25,10 @@
     "InfrastDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
-        "postDelay": 5000,
         "roi": [930, 540, 230, 180],
-        "template": "Default/EnterInfrast.png"
+        "template": "Default/EnterInfrast.png",
+        "postDelay": 5000,
+        "next": ["#self", "Stop"]
     },
     "InfrastDark": {
         "baseTask": "InfrastDefault",
