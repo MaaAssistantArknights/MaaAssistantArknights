@@ -10,37 +10,37 @@ MAA 提供多种下载方式，包括官网下载，从包管理器安装，群�
 
 ### Windows
 
-#### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包：  
+#### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包
 
 官网一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应为 Windows x64。
 
 #### 通过 Windows 包管理器 [Winget](https://github.com/microsoft/winget-pkgs/tree/master/manifests/m/MaaAssistantArknights/maa-cli/)
 
 ```bash
-winget install maa 
+winget install maa
 ```
 
-#### 通过 QQ 群文件下载最新的 MAA 安装包：
+#### 通过 QQ 群文件下载最新的 MAA 安装包
 
 1. [点此加入 MAA 官方 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html) ;
 2. 在群文件中找到最新的 MAA 安装包进行下载。
 
-#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
+#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包
 
 请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 Windows x64。
 
 ### macOS
 
-#### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包：  
+#### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包
 
 官网一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应下载 macOS 通用版。
 
-#### 通过 QQ 群文件下载最新的 MAA 安装包：
+#### 通过 QQ 群文件下载最新的 MAA 安装包
 
 1. [点此加入 MAA 官方 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html) ;
 2. 在群文件中找到最新的 MAA 安装包进行下载。
 
-#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
+#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包
 
 请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 macos universal。
 
