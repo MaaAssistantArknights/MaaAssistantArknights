@@ -25,6 +25,10 @@ winget install maa
 1. [点此加入 MAA 官方 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html) ;
 2. 在群文件中找到最新的 MAA 安装包进行下载。
 
+#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
+
+请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 Windows x64。
+
 ### macOS
 
 #### 通过 [官网](https://maa.plus) 页面下载最新的 MAA 安装包：  
@@ -36,8 +40,12 @@ winget install maa
 1. [点此加入 MAA 官方 QQ 群](https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html) ;
 2. 在群文件中找到最新的 MAA 安装包进行下载。
 
+#### 通过 [github releases 页面](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases) 下载最新的 MAA 安装包：
+
+请确认系统架构并下载对应的安装包。对于大多数阅读本文的用户来说，应为 macos universal。
+
 ### Linux 和其他操作系统
-  
+
 MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli** 来在这些系统上使用 MAA 的功能。请访问 maa-cli 的 [安装及编译](manual/cli/install.md) 文档了解更多信息。
 
 ## 安装 MAA
