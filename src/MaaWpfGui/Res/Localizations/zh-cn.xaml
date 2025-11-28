@@ -1012,6 +1012,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">代理失败次数已达上限，任务已停止</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}冲突</system:String>
