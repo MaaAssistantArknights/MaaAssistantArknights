@@ -289,6 +289,7 @@
             "SwipeToTheRight"
         ],
         "roi": [0, 450, 1280, 50],
+        "postDelay": 500,
         "next": ["MiniGame@PV@18"]
     },
     "MiniGame@PV@18": {
