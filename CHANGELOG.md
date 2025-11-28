@@ -132,6 +132,20 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 
 ## v5.28.1
 
+### Highlights
+
+#### 小工具 - 小游戏 - PV-烟花筹委会
+
+新增 PV-烟花筹委会 小游戏支持，在小游戏界面最左侧开始。
+
+----
+
+#### Mini-game - PV-Fireworks Committee
+
+Added support for the PV-Fireworks Committee mini-game. Start from the leftmost side of the mini-game interface.
+
+----
+
 ### 新增 | New
 
 * PV-烟花筹委会 小游戏 @ABA2396 @weinibuliu
