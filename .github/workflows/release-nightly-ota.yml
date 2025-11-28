@@ -235,6 +235,10 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
+      - name: Collect PDB files
+        run: cp build/bin/RelWithDebInfo/*.pdb install/
+        continue-on-error: true
+
       - name: Upload PDB files
         uses: actions/upload-artifact@v5
         with:
