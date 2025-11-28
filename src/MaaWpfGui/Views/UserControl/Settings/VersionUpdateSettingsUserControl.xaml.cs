@@ -12,13 +12,9 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;

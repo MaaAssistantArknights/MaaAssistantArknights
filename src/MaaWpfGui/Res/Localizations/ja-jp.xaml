@@ -795,6 +795,8 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
+    <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
+    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">イベントページの最左側から開始</system:String>
     <system:String x:Key="MiniGame@SPA">ガードプロトコル：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（「独立シミュレーション」の場所）からタスクを開始
 「スタンダードシミュレーション」を手動でクリアすると、より早くスコアを稼げます
@@ -1010,6 +1012,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">自動指揮の失敗回数が上限に達したため、任務が停止されました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">{key=Operator}が競合しました</system:String>

@@ -362,7 +362,6 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
         LogInfo << __FUNCTION__ << "new copper (" << m_new_copper.name
                 << ") is worse than all existing coppers, abandoning exchange";
-        ProcessTask(*this, { "JieGarden@Roguelike@CoppersAbandonExchange" }).run();
         return true;
     }
 

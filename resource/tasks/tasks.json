@@ -1699,13 +1699,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Terminal-Entry"],
-        "next": [
-            "Fight@GoLastBattle",
-            "Fight",
-            "Fight@CloseAnnos#next",
-            "Fight@GoTerminalStopflag",
-            "Fight@ReturnButtons#next"
-        ]
+        "next": ["Fight@GoLastBattle", "Fight@CloseAnnos#next", "Fight@GoTerminalStopflag", "Fight@ReturnButtons#next"]
     },
     "GoTerminalStopflag": {
         "template": "StageResource.png",
@@ -2031,7 +2025,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Task-Entry"],
-        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award", "Award@CloseAnnos#next"]
+        "next": ["ReceiveAward", "DailyTask", "WeeklyTask", "Award@CloseAnnos#next"]
     },
     "ReceiveAward": {
         "action": "ClickSelf",
@@ -2130,7 +2124,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Friends-Entry"],
-        "next": ["FriendsList", "Visit", "Visit@CloseAnnos#next"]
+        "next": ["FriendsList", "Visit@CloseAnnos#next"]
     },
     "FriendsList": {
         "action": "ClickSelf",
@@ -2149,7 +2143,6 @@
         "action": "ClickSelf",
         "colorScales": [[253, 255]],
         "pureColor": true,
-        "templThreshold": 0.9,
         "roi": [952, 105, 267, 601],
         "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "postDelay": 2000
@@ -2194,7 +2187,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Mall-Entry"],
-        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["CreditStoreOcr", "Mall@CloseAnnos#next"]
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
@@ -2396,7 +2389,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Infrast-Entry"],
-        "next": ["InfrastEnteredFlag", "Infrast", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
+        "next": ["InfrastEnteredFlag", "Infrast@CloseAnnos#next", "Infrast@OfflineConfirm"]
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -2465,9 +2458,13 @@
         "roi": [1180, 500, 100, 100],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
-        "Doc2": "怎么 maxTime 还 #self 啊，加个 preDelay 得了",
-        "preDelay": 500,
-        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["DroneAssistMfgReTry", "DroneMax", "DroneConfirm", "DroneCancel"]
+    },
+    "DroneAssistMfgReTry": {
+        "action": "ClickSelf",
+        "roi": [1180, 500, 100, 100],
+        "template": "DroneAssistMfg.png",
+        "next": ["DroneAssistMfg#next"]
     },
     "DroneAssistTrade": {
         "action": "ClickSelf",
@@ -4167,7 +4164,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Depot-Entry"],
-        "next": ["#self", "DepotMaterialTab"]
+        "next": ["DepotMaterialTab"]
     },
     "DepotAllTab": {
         "action": "ClickSelf",
@@ -4805,7 +4802,7 @@
         "template": "SwitchTheme@ToggleSettingsMenu.png",
         "roi": [227, 327, 159, 152],
         "sub": ["Gacha-Entry"],
-        "next": ["Gacha", "Gacha@LoadingText", "DoGacha"]
+        "next": ["Gacha@LoadingText", "DoGacha"]
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",

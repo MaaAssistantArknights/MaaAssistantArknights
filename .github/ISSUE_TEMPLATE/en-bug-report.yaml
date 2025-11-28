@@ -43,11 +43,9 @@ body:
     attributes:
       label: Log and config files
       description: |
-        **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**
-
-        **Please drag and drop the full file in, not your own cuttings or copies; compress it before uploading if too large.**
-
-        If you are using MacBook, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
+        **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**  
+        **If the archive to upload is larger than 25MB, please upload smaller archives from the same date folder instead.**  
+        If you are using macOS, please click the "File" option in the top-left corner of the screen, then click "Open Log Folder".
       placeholder: |
         Please confirm that MAA is not running before uploading files.
     validations:
@@ -57,8 +55,8 @@ body:
     attributes:
       label: Configuration information
       description: |
-        Please specify the operating system and version, emulator brand, emulator resolution, DPI, and frame rate;
-        If you are using MuMu or LDPlayer 9, please specify whether Screenshot Enhancement is enabled;
+        Please specify the operating system and version, emulator brand, emulator resolution, DPI, and frame rate.  
+        If you are using MuMu or LDPlayer 9, please specify whether Screenshot Enhancement is enabled.  
         Finally, please specify whether GPU accelerated inference is enabled, and if so, provide the GPU model.
     validations:
       required: true
@@ -67,22 +65,15 @@ body:
     attributes:
       label: Screenshots or recordings
       description: |
-        In the `debug` directory, within the functionally categorized folders, 
-        there are some error images captured automatically.
-        If related to this issue, please upload them together.
-
         If available, upload screenshots and recordings to help explain your problem,
         including but not limited to screenshots of MAA software,
-        screenshots of game screens.
-
+        screenshots of game screens.  
         If the problem is **recognition related**, please help by providing
         the **original image** taken by the emulator's own screenshot tool
-        (or via adb).
-
+        (or via adb).  
         Screenshots taken with other tools may contain the frames of the window/emulator
         and their aspect ratio and resolution are inconsistent,
-        which makes it harder for us to debug.
-
+        which makes it harder for us to debug.  
         If the file size is too large, you may compress it before uploading.
     validations:
       required: false

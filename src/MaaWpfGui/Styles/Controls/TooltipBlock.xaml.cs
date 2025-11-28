@@ -13,12 +13,10 @@
 
 #nullable enable
 using System;
-using System.Drawing.Drawing2D;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Styles.Controls;
 

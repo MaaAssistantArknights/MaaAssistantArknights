@@ -112,7 +112,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
 
             if (part01Files.Count > 0)
             {
-                string part01Path = Path.Combine(partsFolder, "part01.zip");
+                string part01Path = Path.Combine(partsFolder, $"{reportNameBase}_part01.zip");
                 using var fs = new FileStream(part01Path, FileMode.Create);
                 using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
                 foreach (var file in part01Files)
@@ -133,7 +133,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             int partNumber = 2;
             while (debugSubFiles.Count > 0)
             {
-                string partFileName = $"part{partNumber:D2}.zip";
+                string partFileName = $"{reportNameBase}_part{partNumber:D2}.zip";
                 string partPath = Path.Combine(partsFolder, partFileName);
 
                 using (var fs = new FileStream(partPath, FileMode.Create))

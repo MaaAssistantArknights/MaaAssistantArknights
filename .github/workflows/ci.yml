@@ -42,7 +42,7 @@ jobs:
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           show-progress: false
@@ -101,7 +101,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
@@ -177,6 +177,10 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -p:Platform=${{ matrix.arch == 'arm64' && 'ARM64' || 'x64' }} -o install
 
+      - name: Collect PDB files
+        run: cp build/bin/RelWithDebInfo/*.pdb install/
+        continue-on-error: true
+
       - name: Upload PDB files
         uses: actions/upload-artifact@v5
         with:
@@ -201,7 +205,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: MAA-win-${{ matrix.arch }}
-          path: install/*.zip
+          path: install/MAA-*.zip
 
   ubuntu:
     name: Build for Ubuntu
@@ -213,7 +217,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
@@ -334,7 +338,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 
@@ -388,7 +392,7 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           show-progress: false
 

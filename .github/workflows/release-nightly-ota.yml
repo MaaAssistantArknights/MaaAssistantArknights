@@ -40,7 +40,7 @@ jobs:
       changelog: ${{ steps.read_changelog.outputs.content }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
           #ref: ${{ inputs.ref }}
@@ -235,6 +235,10 @@ jobs:
         run: |
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
 
+      - name: Collect PDB files
+        run: cp build/bin/RelWithDebInfo/*.pdb install/
+        continue-on-error: true
+
       - name: Upload PDB files
         uses: actions/upload-artifact@v5
         with:
@@ -274,7 +278,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout MaaRelease
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           fetch-depth: 0
@@ -305,7 +309,7 @@ jobs:
           echo ${{ needs.build-win-nightly.outputs.tag }}
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: MaaAssistantArknights
           token: ${{ secrets.MAARELEASE_RELEASE }}
