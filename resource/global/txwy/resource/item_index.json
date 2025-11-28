@@ -1127,6 +1127,14 @@
         "sortId": 10009,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_6101": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_6101.png",
+        "name": "尋訪數據契約",
+        "sortId": 10027,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_903": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1583,6 +1591,14 @@
         "sortId": -10000,
         "usage": "用於兌換相應的階段性活動獎勵。"
     },
+    "act1enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "聽說使用後可在整個爭鋒頻道中發出一則佔滿全螢幕的煙火特效文字，只不過整天拿這個來對罵的有錢人或許並不知道，網站設定內可以一鍵隱藏這些特效。",
+        "icon": "act1enemyduel_milestone_point.png",
+        "name": "爭鋒大禮花",
+        "sortId": -10000,
+        "usage": "爭鋒頻道禮物中比較昂貴的類型，可在網站內兌換一些實體獎勵，免費送到府。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",
@@ -1974,6 +1990,14 @@
         "name": "損壞的源石燈",
         "sortId": -10000,
         "usage": "在黑林中找到的破損源石燈。在納斯爾紗城內的匱乏緩解後，居民們主動組織起來，拿出手頭僅有的物資，回收這些戰爭時期的遺存。"
+    },
+    "act42side_token_pacifier": {
+        "classifyType": "NONE",
+        "description": "一枚沾滿口水痕跡的奶嘴，已經長出了小小的光環。遺失奶嘴的孩子此刻正不安地啼哭，為迷途的奶嘴指引方向，它終將回到孩子身邊。",
+        "icon": "act42side_token_pacifier.png",
+        "name": "蒙恩的奶嘴",
+        "sortId": -10000,
+        "usage": "育嬰聖堂的啟聖工作進行得如火如荼，生靈與死物一齊長出了光環。初獲光環的奶嘴在育嬰聖堂內迷茫地遊蕩，導致無數嬰兒夜不能寐。若你能勸它們回歸職守，焦頭爛額的保育員們一定很願意以禮致謝。"
     },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2590,6 +2614,14 @@
         "name": "狂歡煙火桶",
         "sortId": 60115,
         "usage": "裝有狂歡節上可能用到的各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_act42side": {
+        "classifyType": "CONSUME",
+        "description": "潘格尼尼的銃械工坊從來沒有所謂的“廢料”，銃械訂製過程中產生的剩餘材料會被學徒梵里妮精心加工成小小的工藝品，當作贈品送給顧客。",
+        "icon": "randomMaterial_act42side.png",
+        "name": "銃械工坊贈品盒",
+        "sortId": 60116,
+        "usage": "裝有銃械工坊送來的各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_leith2": {
         "classifyType": "CONSUME",
