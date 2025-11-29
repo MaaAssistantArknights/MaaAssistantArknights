@@ -178,18 +178,21 @@ jobs:
           dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -p:Platform=${{ matrix.arch == 'arm64' && 'ARM64' || 'x64' }} -o install
 
       - name: Collect PDB files
-        run: cp build/bin/RelWithDebInfo/*.pdb install/
+        run: |
+          cp build/bin/RelWithDebInfo/*.pdb install/
+          Compress-Archive -Path install/*.pdb -DestinationPath install/MAAComponent-DebugSymbol-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip
         continue-on-error: true
 
       - name: Upload PDB files
         uses: actions/upload-artifact@v5
         with:
           name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
-          path: install/*.pdb
+          path: install/MAAComponent-DebugSymbol-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip
 
       - name: Organize install files
         shell: bash
         run: |
+          rm -rf install/MAAComponent-DebugSymbol-*.zip
           rm -rf install/*.pdb
           rm -rf install/msvc-debug
           rm -rf install/*.h

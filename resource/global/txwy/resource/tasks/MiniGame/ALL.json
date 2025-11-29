@@ -1,0 +1,17 @@
+{
+    "MiniGame@ALL@GreenGrass@DuelChannel@Begin": {
+        "text": ["加入賽事"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseMode": {
+        "text": ["自娛自樂"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@Enter": {
+        "text": ["開始", "遊戲"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@ChooseFlag": {
+        "text": ["剩餘禮物"]
+    },
+    "MiniGame@ALL@GreenGrass@DuelChannel@End": {
+        "text": ["返回主頁"]
+    }
+}

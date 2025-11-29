@@ -796,7 +796,7 @@ C:\\leidian\\LDPlayer9
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">ミニゲーム名</system:String>
     <system:String x:Key="MiniGame@PV">PV-花火実行委員会</system:String>
-    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">イベントページの最左側から開始</system:String>
+    <system:String x:Key="MiniGame@PVTip">選択したステージから自動でクリアします。最初のステージを選んだ場合は、イベントページの最左側から開始してください。その他のステージを選んだ場合は、位置を校正するために前のステージに一度入ってから戻ってください。</system:String>
     <system:String x:Key="MiniGame@SPA">ガードプロトコル：盟約</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">イベントメイン画面（「独立シミュレーション」の場所）からタスクを開始
 「スタンダードシミュレーション」を手動でクリアすると、より早くスコアを稼げます
