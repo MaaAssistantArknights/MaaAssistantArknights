@@ -16,7 +16,8 @@
         Margin="10"
         AutoGenerateColumns="False"
         CanUserAddRows="False"
-        CanUserDeleteRows="False"
+        CanUserDeleteRows="True"
+        CanUserResizeColumns="False"
         ItemsSource="{Binding RecastConditions}"
         SelectedItem="{Binding SelectedRecastCondition, Mode=TwoWay}"
         SelectionMode="Single"
@@ -54,17 +55,17 @@
                     <DataTemplate>
                         <hc:NumericUpDown
                             Minimum="0"
-                            Maximum="1000000"
+                            Maximum="2100000000"
                             Value="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Width="50">
+            <DataGridTemplateColumn Width="60">
                 <DataGridTemplateColumn.HeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Padding" Value="5,0,10,0"/>
+                        <Setter Property="Padding" Value="6,0,10,0"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     </Style>
                 </DataGridTemplateColumn.HeaderStyle>
