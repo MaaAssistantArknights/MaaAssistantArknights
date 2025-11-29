@@ -52,6 +52,7 @@
     "MiniGame@SPA@ReadyAgain": {
         "action": "ClickSelf",
         "roi": [1081, 42, 199, 127],
+        "postDelay": 1000,
         "next": ["MiniGame@SPA@NoMoreHint", "MiniGame@SPA@ExitButton"]
     },
     "MiniGame@SPA@NoMoreHint": {
