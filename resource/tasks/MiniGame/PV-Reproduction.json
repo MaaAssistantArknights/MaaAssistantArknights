@@ -134,7 +134,9 @@
         "next": ["MiniGame@PV@08"]
     },
     "MiniGame@PV@08": {
-        "baseTask": "MiniGame@PV@06",
+        "baseTask": "MiniGame@PV@07",
+        "template": "MiniGame@PV@07.png",
+        "rectMove": [0, 100, 10, 10],
         "sub": [
             "MiniGame@PV@CheeckConfirm",
             "MiniGame@PV@Filter1-1",
@@ -148,7 +150,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [640, 380, 100, 50],
+        "roi": [640, 230, 100, 50],
         "next": ["MiniGame@PV@09"]
     },
     "MiniGame@PV@09": {
@@ -237,7 +239,9 @@
         "next": ["MiniGame@PV@14"]
     },
     "MiniGame@PV@14": {
-        "baseTask": "MiniGame@PV@06",
+        "baseTask": "MiniGame@PV@13",
+        "template": "MiniGame@PV@13.png",
+        "rectMove": [0, -180, 10, 10],
         "sub": [
             "MiniGame@PV@CheeckConfirm",
             "MiniGame@PV@Filter1-1",
@@ -250,13 +254,11 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [880, 380, 100, 50],
         "next": ["MiniGame@PV@15"]
     },
     "MiniGame@PV@15": {
-        "action": "ClickSelf",
+        "baseTask": "MiniGame@PV@11",
         "template": "MiniGame@PV@11.png",
-        "templThreshold": 0.7,
         "rectMove": [0, -350, 10, 10],
         "sub": [
             "MiniGame@PV@CheeckConfirm",
