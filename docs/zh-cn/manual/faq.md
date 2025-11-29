@@ -69,6 +69,33 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
 3. 重启电脑。
 
+### 被 dll 注入问题
+maa 启动时弹出悲报, xxx 路径的 dll 注入可能会导致 maa 闪退或界面渲染异常  
+(主要是 nahimic 等程序引起的),你可以根据相应软件的注入选择不同的方法
+
+#### Nahimic 注入
+悲报中的路径含有 `A-Volute`,`Nahimic` 等时,就是 Nahimic 程序注入,你可以通过在 Nahimic 中将 maa.exe 添加到黑名单来防止
+
+1. 打开文件资源管理器
+导航至：  
+`C:\ProgramData\A-Volute\A-Volute.Nahimic\
+Modules\Scheduled\Configurator\BlackApps.dat`  
+编辑文件（需管理员权限）：
+右键点击 `BlackApps.dat` ，选择 "以管理员身份打开"  
+在文件末尾仅添加程序的 EXE 文件名（如 maa.exe），不要添加完整路径，记得保存文件
+
+2. 使用 Nahimic 3 界面（如果有）:  
+    - 打开 Nahimic 3 应用  
+    - 点击右上角的 "设置" 图标（齿轮状）  
+    - 查找 "应用程序黑名单"  选项（可能在 "高级" 或 "音频" 标签下）  
+    - 点击 "添加应用"，选择 `maa.exe`  
+    - 保存设置并关闭
+
+#### 其他程序或以上方法无效
+在资源管理器中导航至 maa 给出的路径，右键该 dll ，删除该 dll 的扩展名  
+（如果没有扩展名，就点击页面上的`查看--显示--文件扩展名`）  
+**该方法可能会导致相关程序出错，请谨慎使用，想了解问题原因可以查看[相关动态](https://t.bilibili.com/1133690423484612615?spm_id_from=333.1387.0.0)和[blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)**
+
 ## 连接错误
 
 ### 确认 ADB 及连接地址正确
