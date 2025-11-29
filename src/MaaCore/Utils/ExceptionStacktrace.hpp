@@ -32,25 +32,39 @@ namespace asst::utils
 class ExceptionStacktrace
 {
 public:
-    static uintptr_t get_module_base_address()
+    static uintptr_t get_base_address()
     {
 #ifdef _WIN32
-        return reinterpret_cast<uintptr_t>(GetModuleHandleA(NULL));
+        // 获取 MaaCore.dll 的基址（通过当前函数地址定位所属模块）
+        HMODULE hModule = NULL;
+        GetModuleHandleExA(
+            GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            reinterpret_cast<LPCSTR>(&get_base_address),
+            &hModule);
+        return reinterpret_cast<uintptr_t>(hModule);
 #elif defined(__APPLE__)
-        // MacOS: 使用_dyld_get_image_header(0)获取主模块基址
+        // MacOS: 通过当前函数地址查找所属模块
+        Dl_info info;
+        if (dladdr(reinterpret_cast<void*>(&get_base_address), &info)) {
+            return reinterpret_cast<uintptr_t>(info.dli_fbase);
+        }
+        // 回退到主模块
         const struct mach_header* header = _dyld_get_image_header(0);
         return reinterpret_cast<uintptr_t>(header);
 #else // Linux and other Unix-like systems
-      // 从/proc/self/maps读取基址
+      // 通过当前函数地址查找所属模块基址
+        Dl_info info;
+        if (dladdr(reinterpret_cast<void*>(&get_base_address), &info)) {
+            return reinterpret_cast<uintptr_t>(info.dli_fbase);
+        }
+        // 回退：从/proc/self/maps读取
         std::ifstream maps("/proc/self/maps");
         std::string line;
         if (std::getline(maps, line)) {
-            // 第一行包含主模块的基址范围
             uintptr_t start_addr = 0;
             std::istringstream iss(line);
             std::string addr_range;
             iss >> addr_range;
-            // 解析形如"00400000-00801000"的地址范围
             start_addr = std::stoull(addr_range.substr(0, addr_range.find('-')), nullptr, 16);
             return start_addr;
         }

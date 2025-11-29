@@ -873,8 +873,7 @@ private:
             logger.error("Version", asst::Version);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
-            logger.error(
-                std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_module_base_address()));
+            logger.error(std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_base_address()));
             logger.error("Exception details with stack trace:");
             logger.error(exception_details);
             logger.error("============================");
@@ -931,8 +930,7 @@ private:
             logger.error("Version", asst::Version);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
-            logger.error(
-                std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_module_base_address()));
+            logger.error(std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_base_address()));
             logger.error("Unhandled exception caught:", exception_info);
             logger.error("Exception stack trace:");
             if (!stack_trace.empty()) {
