@@ -1,7 +1,28 @@
 {
     "MiniGame@PV@Begin": {
         "algorithm": "JustReturn",
-        "next": ["MiniGame@PV@01"]
+        "next": [
+            "MiniGame@PV@01",
+            "MiniGame@PV@02",
+            "MiniGame@PV@03",
+            "MiniGame@PV@04",
+            "MiniGame@PV@05",
+            "MiniGame@PV@06",
+            "MiniGame@PV@07",
+            "MiniGame@PV@08",
+            "MiniGame@PV@09",
+            "MiniGame@PV@10",
+            "MiniGame@PV@11",
+            "MiniGame@PV@12",
+            "MiniGame@PV@13",
+            "MiniGame@PV@14",
+            "MiniGame@PV@15",
+            "MiniGame@PV@16",
+            "MiniGame@PV@17",
+            "MiniGame@PV@18",
+            "MiniGame@PV@19",
+            "MiniGame@PV@20"
+        ]
     },
     "MiniGame@PV@01": {
         "templThreshold": 0.7,
