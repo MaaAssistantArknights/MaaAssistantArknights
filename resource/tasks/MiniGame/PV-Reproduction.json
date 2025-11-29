@@ -20,6 +20,7 @@
         ],
         "maskRange": [0, 70],
         "roi": [0, 350, 1280, 50],
+        "templThreshold": 0.7,
         "next": ["MiniGame@PV@02"]
     },
     "MiniGame@PV@02": {
@@ -105,6 +106,7 @@
         "maskRange": [90, 140],
         "rectMove": [0, -50, 10, 10],
         "roi": [0, 450, 1280, 50],
+        "templThreshold": 0.7,
         "next": ["MiniGame@PV@07"]
     },
     "MiniGame@PV@07": {
@@ -253,6 +255,7 @@
             "MiniGame@PV@Confirm"
         ],
         "roi": [0, 590, 1280, 50],
+        "templThreshold": 0.7,
         "next": ["MiniGame@PV@16"]
     },
     "MiniGame@PV@16": {
@@ -314,6 +317,7 @@
         "action": "ClickSelf",
         "template": "MiniGame@PV@20.png",
         "rectMove": [-250, -100, 10, 10],
+        "templThreshold": 0.7,
         "sub": [
             "MiniGame@PV@Filter1-1",
             "MiniGame@PV@Options-2",
