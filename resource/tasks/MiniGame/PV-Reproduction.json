@@ -4,6 +4,7 @@
         "next": ["MiniGame@PV@01"]
     },
     "MiniGame@PV@01": {
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "sub": [
             "MiniGame@PV@CheeckConfirm",
@@ -20,7 +21,7 @@
             "MiniGame@PV@Confirm"
         ],
         "maskRange": [0, 70],
-        "roi": [0, 350, 1280, 50],
+        "roi": [500, 350, 100, 50],
         "next": ["MiniGame@PV@02"]
     },
     "MiniGame@PV@02": {
@@ -36,7 +37,7 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 620, 1280, 50],
+        "roi": [500, 620, 100, 50],
         "next": ["MiniGame@PV@03"]
     },
     "MiniGame@PV@03": {
@@ -54,7 +55,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 330, 1280, 50],
+        "roi": [950, 330, 100, 50],
         "next": ["MiniGame@PV@04"]
     },
     "MiniGame@PV@04": {
@@ -71,7 +72,7 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 580, 1280, 50],
+        "roi": [600, 580, 100, 50],
         "next": ["MiniGame@PV@05"]
     },
     "MiniGame@PV@05": {
@@ -89,10 +90,11 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 460, 1280, 50],
+        "roi": [780, 460, 100, 50],
         "next": ["MiniGame@PV@06"]
     },
     "MiniGame@PV@06": {
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "sub": [
             "MiniGame@PV@CheeckConfirm",
@@ -110,7 +112,7 @@
         ],
         "maskRange": [90, 140],
         "rectMove": [0, -50, 10, 10],
-        "roi": [0, 450, 1280, 50],
+        "roi": [1070, 450, 100, 50],
         "next": ["MiniGame@PV@07"]
     },
     "MiniGame@PV@07": {
@@ -128,7 +130,7 @@
             "MiniGame@PV@Options-1",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 230, 1280, 50],
+        "roi": [640, 230, 100, 50],
         "next": ["MiniGame@PV@08"]
     },
     "MiniGame@PV@08": {
@@ -146,7 +148,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 380, 1280, 50],
+        "roi": [640, 380, 100, 50],
         "next": ["MiniGame@PV@09"]
     },
     "MiniGame@PV@09": {
@@ -165,7 +167,7 @@
             "MiniGame@PV@Options-3",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 520, 1280, 50],
+        "roi": [640, 520, 100, 50],
         "next": ["MiniGame@PV@10"]
     },
     "MiniGame@PV@10": {
@@ -184,7 +186,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 670, 1280, 50],
+        "roi": [640, 670, 100, 50],
         "next": ["MiniGame@PV@11"]
     },
     "MiniGame@PV@11": {
@@ -201,7 +203,7 @@
             "MiniGame@PV@Options-1",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 590, 1280, 50],
+        "roi": [770, 590, 100, 50],
         "next": ["MiniGame@PV@12"]
     },
     "MiniGame@PV@12": {
@@ -217,7 +219,7 @@
             "MiniGame@PV@Options-3",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 670, 1280, 50],
+        "roi": [880, 670, 100, 50],
         "next": ["MiniGame@PV@13"]
     },
     "MiniGame@PV@13": {
@@ -231,7 +233,7 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 520, 1280, 50],
+        "roi": [880, 520, 100, 50],
         "next": ["MiniGame@PV@14"]
     },
     "MiniGame@PV@14": {
@@ -248,12 +250,13 @@
             "MiniGame@PV@Options-4",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 380, 1280, 50],
+        "roi": [880, 380, 100, 50],
         "next": ["MiniGame@PV@15"]
     },
     "MiniGame@PV@15": {
         "action": "ClickSelf",
         "template": "MiniGame@PV@11.png",
+        "templThreshold": 0.7,
         "rectMove": [0, -350, 10, 10],
         "sub": [
             "MiniGame@PV@CheeckConfirm",
@@ -267,7 +270,7 @@
             "MiniGame@PV@Options-1",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 590, 1280, 50],
+        "roi": [770, 590, 100, 50],
         "next": ["MiniGame@PV@16"]
     },
     "MiniGame@PV@16": {
@@ -286,7 +289,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 230, 1280, 50],
+        "roi": [890, 230, 100, 50],
         "next": ["MiniGame@PV@17"]
     },
     "MiniGame@PV@17": {
@@ -305,7 +308,7 @@
             "MiniGame@PV@Confirm",
             "SwipeToTheRight"
         ],
-        "roi": [0, 450, 1280, 50],
+        "roi": [1020, 450, 100, 50],
         "postDelay": 500,
         "next": ["MiniGame@PV@18"]
     },
@@ -363,7 +366,7 @@
             "MiniGame@PV@Options-2",
             "MiniGame@PV@Confirm"
         ],
-        "roi": [0, 630, 1280, 50],
+        "roi": [630, 630, 100, 50],
         "next": []
     },
     "MiniGame@PV@Filter1-1": {
