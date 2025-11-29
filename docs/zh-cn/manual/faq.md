@@ -95,7 +95,7 @@ Modules\Scheduled\Configurator\BlackApps.dat`
 
 #### 其他程序或以上方法无效
 
-在资源管理器中导航至 maa 给出的路径，右键该 dll 并重命名，把扩展名改为 dll1 等无效扩展名 
+在资源管理器中导航至 maa 给出的路径，右键该 dll 并重命名，把扩展名改为 dll1 等无效扩展名
 （如果没有扩展名，就点击页面上的`查看--显示--文件扩展名`）  
 **该方法可能会导致相关程序出错，请谨慎使用，想了解问题原因可以查看[相关动态](https://t.bilibili.com/1133690423484612615?spm_id_from=333.1387.0.0)和[blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)**
 
