@@ -16,10 +16,10 @@
 * 修复宿舍确认按钮识别（yj 的小杯 UI） @ABA2396
 * 修复 PV 小游戏进入关卡时遇到网络连接会少选烟花样片 @ABA2396
 * 修复 MaaCore 异常日志基址解析 @status102
-* 修复 win 平台的 pdb 文件压缩 @status102
+* 修复 Windows 平台的 pdb 文件压缩 @status102
 
 ### 其他 | Other
 
-* debug 截图默认保存最近 10 张 @ABA2396
+* Debug 截图默认保存最近 10 张 @ABA2396
 * 繁中服「眾生行記」活動導航 @momomochi987
 * 繁中服「爭鋒頻道：青草城」小遊戲 @momomochi987
