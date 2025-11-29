@@ -52,7 +52,7 @@ public:
         const struct mach_header* header = _dyld_get_image_header(0);
         return reinterpret_cast<uintptr_t>(header);
 #else // Linux and other Unix-like systems
-        // 通过当前函数地址查找所属模块基址
+      // 通过当前函数地址查找所属模块基址
         Dl_info info;
         if (dladdr(reinterpret_cast<void*>(&get_base_address), &info)) {
             return reinterpret_cast<uintptr_t>(info.dli_fbase);
