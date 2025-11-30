@@ -78,12 +78,11 @@ maa 启动时弹出悲报, xxx 路径的 dll 注入可能会导致 maa 闪退或
 
 悲报中的路径含有 `A-Volute`,`Nahimic` 等时,就是 Nahimic 程序注入,你可以通过在 Nahimic 中将 maa.exe 添加到黑名单来防止
 
-1. 打开文件资源管理器
-   导航至：  
+1. 按键盘上的win+s搜索记事本，右键记事本以管理员运行
+   点左上角的`文件-打开至以下路径：  
     `C:\ProgramData\A-Volute\A-Volute.Nahimic\
 Modules\Scheduled\Configurator\BlackApps.dat`  
-    编辑文件（需管理员权限）：
-   右键点击 `BlackApps.dat` ，选择 "以管理员身份打开"  
+    编辑文件: 
     在文件末尾仅添加程序的 EXE 文件名（如 maa.exe），不要添加完整路径，记得保存文件
 
 2. 使用 Nahimic 3 界面（如果有）:
