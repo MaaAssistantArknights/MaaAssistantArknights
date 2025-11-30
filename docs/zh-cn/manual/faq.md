@@ -81,9 +81,9 @@ maa 启动时弹出悲报, xxx 路径的 dll 注入可能会导致 maa 闪退或
 1. 按键盘上的win+s搜索记事本，右键记事本以管理员运行
    点左上角的`文件-打开至以下路径：  
     `C:\ProgramData\A-Volute\A-Volute.Nahimic\
-Modules\Scheduled\Configurator\BlackApps.dat`  
-    编辑文件: 
-    在文件末尾仅添加程序的 EXE 文件名（如 maa.exe），不要添加完整路径，记得保存文件
+   Modules\Scheduled\Configurator\BlackApps.dat`  
+    编辑文件:
+   在文件末尾仅添加程序的 EXE 文件名（如 maa.exe），不要添加完整路径，记得保存文件
 
 2. 使用 Nahimic 3 界面（如果有）:
    - 打开 Nahimic 3 应用
