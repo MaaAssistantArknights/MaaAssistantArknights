@@ -2223,6 +2223,23 @@
             "name": "术师",
             "opers": [
                 {
+                    "name": "酒神",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "地面阻挡", "银灰", "近卫", "重装", "地面单切", "回费"],
+                            "is_less": true,
+                            "threshold": 2,
+                            "offset": -350,
+                            "doc": "群组类别干员<=2时，优先级降低"
+                        }
+                    ]
+                },
+                {
                     "name": "澄闪"
                 },
                 {
@@ -2470,7 +2487,21 @@
             "doc": "减速辅助和脆弱辅助",
             "opers": [
                 {
-                    "name": "酒神"
+                    "name": "酒神",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 900,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "地面阻挡", "银灰", "近卫", "重装", "地面单切", "回费"],
+                            "is_less": true,
+                            "threshold": 2,
+                            "offset": -350,
+                            "doc": "群组类别干员<=2时，优先级降低"
+                        }
+                    ]
                 },
                 {
                     "name": "塑心"
@@ -3153,7 +3184,22 @@
             "name": "回费",
             "opers": [
                 {
-                    "name": "凛御银灰"
+                    "name": "凛御银灰",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "skill_usage": 2,
+                    "alternate_skill_usage": 2,
+                    "is_key": true,
+                    "recruit_priority": 750,
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["高台C", "益达", "玛恩纳", "银灰", "地面单切", "重装"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300
+                        }
+                    ]
                 },
                 {
                     "name": "伊内丝"

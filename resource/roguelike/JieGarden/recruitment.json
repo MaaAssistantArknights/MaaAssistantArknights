@@ -3571,7 +3571,22 @@
             "name": "回费",
             "opers": [
                 {
-                    "name": "凛御银灰"
+                    "name": "凛御银灰",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "skill_usage": 2,
+                    "alternate_skill_usage": 2,
+                    "is_key": true,
+                    "recruit_priority": 750,
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["新能", "益达", "玛恩纳", "重装"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300
+                        }
+                    ]
                 },
                 {
                     "name": "伊内丝"
