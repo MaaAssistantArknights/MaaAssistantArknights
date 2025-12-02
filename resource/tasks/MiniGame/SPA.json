@@ -92,7 +92,14 @@
         "template": "MiniGame@SPA@ConfirmHint.png",
         "baseTask": "MiniGame@SPA@ConfirmHint",
         "postDelay": 8000,
-        "next": ["MiniGame@SPA@ReturnHome"]
+        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
+    },
+    "MiniGame@SPA@LoadingText": {
+        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
+    },
+    "MiniGame@SPA@LoadingIcon": {
+        "template": "LoadingIcon.png",
+        "next": ["MiniGame@SPA@ReturnHome", "MiniGame@SPA@LoadingText", "MiniGame@SPA@LoadingIcon"]
     },
     "MiniGame@SPA@ReturnHome": {
         "action": "ClickSelf",
