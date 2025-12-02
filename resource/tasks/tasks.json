@@ -1478,7 +1478,6 @@
     },
     "FightMissionFailedThenStop": {
         "baseTask": "FightMissionFailedAndStop",
-        "preDelay": 5000,
         "next": ["EndOfActionThenStop"]
     },
     "EndOfActionAnnihilation": {
@@ -1675,6 +1674,7 @@
     "FightMissionFailed": {
         "algorithm": "OcrDetect",
         "text": ["任务失败"],
+        "preDelay": 5000,
         "action": "ClickSelf",
         "roi": [36, 226, 482, 269],
         "next": ["EndOfAction", "OfflineConfirm", "StartUpThemes#next", "StartButton1"],
@@ -1686,6 +1686,7 @@
     "FightMissionFailedAndStop": {
         "algorithm": "OcrDetect",
         "text": ["任务失败"],
+        "preDelay": 5000,
         "action": "ClickSelf",
         "roi": [36, 226, 482, 269]
     },
