@@ -2465,6 +2465,7 @@
         "action": "ClickSelf",
         "roi": [1180, 500, 100, 100],
         "template": "DroneAssistMfg.png",
+        "maxTimes": 20,
         "next": ["DroneAssistMfg#next"]
     },
     "DroneAssistTrade": {
