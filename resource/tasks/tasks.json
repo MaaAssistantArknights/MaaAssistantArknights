@@ -1791,6 +1791,8 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["CheckOtherAwardNeedExpand"],
+        "subErrorIgnored": true,
         "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
         "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1826,6 +1828,8 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["CheckOtherAwardNeedExpand"],
+        "subErrorIgnored": true,
         "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
         "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1965,8 +1969,28 @@
         "roi": [770, 577, 267, 143],
         "next": ["Home@ReturnButtons#next", "Stop"]
     },
+    "CheckOtherAwardNeedExpand": {
+        "doc": "防止进行中的幸运牆、限时开採许可、赠送月卡被折叠，若超过三个活动且展开按钮有标记，则先展开再进行识别",
+        "algorithm": "JustReturn",
+        "next": ["AwardNeedExpand", "AwardNotNeedExpand"],
+        "maxTimes": 5
+    },
+    "AwardNeedExpand": {
+        "action": "ClickSelf",
+        "roi": [0, 192, 155, 115],
+        "postDelay": 500,
+        "maxTimes": 1
+    },
+    "AwardNotNeedExpand": {
+        "action": "DoNothing",
+        "roi": [0, 192, 155, 115],
+        "postDelay": 500,
+        "maxTimes": 1
+    },
     "SpecialAccessActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["CheckOtherAwardNeedExpand"],
+        "subErrorIgnored": true,
         "next": [
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
