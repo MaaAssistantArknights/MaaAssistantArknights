@@ -158,6 +158,7 @@ public class SettingsViewModel : Screen
         InitSettings();
         TaskQueueViewModel.InfrastTask.InitInfrast();
         TaskQueueViewModel.RoguelikeTask.InitRoguelike();
+        ToolboxViewModel.InitToolbox();
         InitConfiguration();
         InitUiSettings();
         InitConnectConfig();
