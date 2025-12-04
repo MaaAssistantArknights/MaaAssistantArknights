@@ -1791,8 +1791,7 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
-        "sub": ["CheckOtherAwardNeedExpand"],
-        "subErrorIgnored": true,
+        "sub": ["AwardExpandCheckFlow"],
         "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
         "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1828,8 +1827,7 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
-        "sub": ["CheckOtherAwardNeedExpand"],
-        "subErrorIgnored": true,
+        "sub": ["AwardExpandCheckFlow"],
         "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
         "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1969,28 +1967,35 @@
         "roi": [770, 577, 267, 143],
         "next": ["Home@ReturnButtons#next", "Stop"]
     },
-    "CheckOtherAwardNeedExpand": {
-        "doc": "防止进行中的幸运牆、限时开採许可、赠送月卡被折叠，若超过三个活动且展开按钮有标记，则先展开再进行识别",
+    "AwardExpandCheckFlow": {
+        "doc": "左上角奖励展开状态检查，确保进行中的幸运牆、限时开採许可、赠送月卡不会因同时超过三个活动卡在折叠状态",
         "algorithm": "JustReturn",
-        "next": ["AwardNeedExpand", "AwardNotNeedExpand"],
+        "next": ["AwardNeedExpand", "AwardNotNeedExpand", "AwardCheckSkip"],
         "maxTimes": 5
     },
     "AwardNeedExpand": {
+        "doc": "匹配到有待领取标记的的图示，点击展开",
         "action": "ClickSelf",
         "roi": [0, 192, 155, 115],
         "postDelay": 500,
         "maxTimes": 1
     },
     "AwardNotNeedExpand": {
+        "doc": "匹配到无标记的图示，不做任何事",
         "action": "DoNothing",
         "roi": [0, 192, 155, 115],
         "postDelay": 500,
         "maxTimes": 1
     },
+    "AwardCheckSkip": {
+        "doc": "展开状态检查的保底任务，前两种状态皆失败时，无条件返回成功并继续后续流程",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 1
+    },
     "SpecialAccessActivitiesBegin": {
         "algorithm": "JustReturn",
-        "sub": ["CheckOtherAwardNeedExpand"],
-        "subErrorIgnored": true,
+        "sub": ["AwardExpandCheckFlow"],
         "next": [
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
