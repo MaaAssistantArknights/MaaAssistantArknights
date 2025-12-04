@@ -878,6 +878,18 @@
                 "name": ["自律"],
                 "template": "Bskill_dorm_reborn.png"
             },
+            "bskill_dorm_rec_all&lv2": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15，同时当前宿舍每级为恢复效果额外+0.02（叠加后的最终值同种效果取最高）"
+                ],
+                "name": ["死前必做清单"],
+                "template": "Bskill_dorm_rec_all&lv2.png"
+            },
+            "bskill_dorm_rec_all&lvl1": {
+                "desc": ["进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"],
+                "name": ["睡前必听故事"],
+                "template": "Bskill_dorm_rec_all&lvl1.png"
+            },
             "bskill_dorm_rec_all&profession": {
                 "desc": [
                     "进驻宿舍时，基建内（不包括副手）每名行医干员为该宿舍内所有干员心情每小时恢复速度+6%（最多生效4名）"
@@ -1247,6 +1259,13 @@
                 },
                 "name": ["挑大梁"],
                 "template": "Bskill_man_gold&blacksteel.png"
+            },
+            "bskill_man_gold&rhine": {
+                "desc": [
+                    "进驻制造站时，基建内（不包含副手及活动室使用者）每有1名莱茵生命干员（最多5名），贵金属类配方的生产力+3%"
+                ],
+                "name": ["造价高昂"],
+                "template": "Bskill_man_gold&rhine.png"
             },
             "bskill_man_gold1": {
                 "desc": ["进驻制造站时，贵金属类配方的生产力+30%"],
@@ -2615,12 +2634,13 @@
                     "进驻发电站时，无人机充能速度+20%",
                     "进驻发电站时，无人机充能速度+20%",
                     "进驻发电站时，无人机充能速度+20%",
+                    "进驻发电站时，无人机充能速度+20%",
                     "进驻发电站时，无人机充能速度+20%"
                 ],
                 "efficient": {
                     "all": 20
                 },
-                "name": ["静电场", "电荷释放", "热能充能·γ", "脉冲电弧·β", "穹顶物流管理·β"],
+                "name": ["静电场", "电荷释放", "热能充能·γ", "脉冲电弧·β", "穹顶物流管理·β", "合法窃电"],
                 "template": "Bskill_pow_spd3.png"
             },
             "bskill_pow_spd_P": {
@@ -2745,6 +2765,11 @@
                 },
                 "name": ["无辜笑脸"],
                 "template": "Bskill_meet_exchange.png"
+            },
+            "bskill_meet_exchange2": {
+                "desc": ["进驻会客室时，处于线索交流时线索搜集速度提升30%"],
+                "name": ["特殊渠道顾问"],
+                "template": "Bskill_meet_exchange2.png"
             },
             "bskill_meet_flag_glasgow": {
                 "desc": [

@@ -5801,5 +5801,8 @@
     "resource/template/MiniGame/PV/MiniGame@PV@01": "99118120e7ffe14b1493c70c00bfb2f05476406eb9201a6cd294ca00f9bd28a6",
     "resource/template/MiniGame/PV/MiniGame@PV@09": "5e3d77845d1f25e464ed27d416eae15e925dc33d1a04b0a8b9dbccf91380098a",
     "resource/template/MiniGame/PV/MiniGame@PV@17": "6f9c1c1354377c1264c8d2df0e93311671d975df8ee0544121d398e95c50dd4e",
-    "resource/template/MiniGame/PV/MiniGame@PV@13": "0f906086b41b711f4badca740dd64958b48efa14429191da9824f43f45288096"
+    "resource/template/MiniGame/PV/MiniGame@PV@13": "0f906086b41b711f4badca740dd64958b48efa14429191da9824f43f45288096",
+    "resource/template/items/act47side_token_bottle": "639f76d09b0f6de8a50aa8c2e063f990e130e3746738849f5ade0de16b40ac10",
+    "resource/template/infrast/Bskill_meet_exchange2": "9f7da2fa84f41e2499e30f68aa0dce07008b1d62139b1a0aa37fc79dd3f65340",
+    "resource/template/infrast/Bskill_man_gold&rhine": "5da27fbd0e337b1ab9fc24ffe7383512588a90c2f0a5fbbeaf1c867a36a8f188"
 }

@@ -2183,6 +2183,14 @@
         "sortId": -10000,
         "usage": "因雪崩而散落在各处的多功能探测仪器，捡到的话请交回观测站，工作人员会用实际物资表示感谢。"
     },
+    "act47side_token_bottle": {
+        "classifyType": "NONE",
+        "description": "只是在丰蹄能量饮料的基础上微调了香精比例的廉价糖水？谁在乎呢。如今，只有那些想不到把产品装进火箭瓶子的可悲破产厂商，才会酸涩地吐出这种无趣的事实。",
+        "icon": "act47side_token_bottle.png",
+        "name": "天空氧气瓶",
+        "sortId": -10000,
+        "usage": "以高空供氧装置为灵感设计的新概念饮品，已然成为哥伦比亚人新的血液。为了品尝一口新时代的、星荚之外的味道，没有谁不愿开出高价。"
+    },
     "act4bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",

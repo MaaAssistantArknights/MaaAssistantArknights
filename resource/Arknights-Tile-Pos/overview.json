@@ -15398,6 +15398,87 @@
         "stageId": "act46side_tr01",
         "width": 10
     },
+    "act47side_01-activities/act47side/level_act47side_01": {
+        "code": "UR-1",
+        "filename": "act47side_01-activities-act47side-level_act47side_01.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_01",
+        "name": "嘈杂的天空",
+        "stageId": "act47side_01",
+        "width": 10
+    },
+    "act47side_02-activities/act47side/level_act47side_02": {
+        "code": "UR-2",
+        "filename": "act47side_02-activities-act47side-level_act47side_02.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_02",
+        "name": "擅闯者",
+        "stageId": "act47side_02",
+        "width": 10
+    },
+    "act47side_03-activities/act47side/level_act47side_03": {
+        "code": "UR-3",
+        "filename": "act47side_03-activities-act47side-level_act47side_03.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_03",
+        "name": "跌落保护",
+        "stageId": "act47side_03",
+        "width": 10
+    },
+    "act47side_04-activities/act47side/level_act47side_04": {
+        "code": "UR-4",
+        "filename": "act47side_04-activities-act47side-level_act47side_04.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_04",
+        "name": "晴空湍流",
+        "stageId": "act47side_04",
+        "width": 10
+    },
+    "act47side_05-activities/act47side/level_act47side_05": {
+        "code": "UR-5",
+        "filename": "act47side_05-activities-act47side-level_act47side_05.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_05",
+        "name": "注目礼",
+        "stageId": "act47side_05",
+        "width": 10
+    },
+    "act47side_06-activities/act47side/level_act47side_06": {
+        "code": "UR-6",
+        "filename": "act47side_06-activities-act47side-level_act47side_06.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_06",
+        "name": "交叉航线",
+        "stageId": "act47side_06",
+        "width": 12
+    },
+    "act47side_07-activities/act47side/level_act47side_07": {
+        "code": "UR-7",
+        "filename": "act47side_07-activities-act47side-level_act47side_07.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_07",
+        "name": "停机坪",
+        "stageId": "act47side_07",
+        "width": 11
+    },
+    "act47side_08-activities/act47side/level_act47side_08": {
+        "code": "UR-8",
+        "filename": "act47side_08-activities-act47side-level_act47side_08.json",
+        "height": 9,
+        "levelId": "activities/act47side/level_act47side_08",
+        "name": "栖脚地",
+        "stageId": "act47side_08",
+        "width": 12
+    },
+    "act47side_tr01-activities/act47side/level_act47side_tr01": {
+        "code": "UR-TR-1",
+        "filename": "act47side_tr01-activities-act47side-level_act47side_tr01.json",
+        "height": 6,
+        "levelId": "activities/act47side/level_act47side_tr01",
+        "name": "高空适应症",
+        "stageId": "act47side_tr01",
+        "width": 10
+    },
     "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
         "code": "TN-1",
         "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
@@ -23534,6 +23615,15 @@
         "stageId": "mem_deepcl_1",
         "width": 9
     },
+    "mem_demkni_1-obt/memory/level_memory_demkni_1": {
+        "code": "mem_demkni_1",
+        "filename": "mem_demkni_1-obt-memory-level_memory_demkni_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_demkni_1",
+        "name": "死路",
+        "stageId": "mem_demkni_1",
+        "width": 11
+    },
     "mem_doroth_1-obt/memory/level_memory_doroth_1": {
         "code": "mem_doroth_1",
         "filename": "mem_doroth_1-obt-memory-level_memory_doroth_1.json",
@@ -24326,6 +24416,15 @@
         "stageId": "mem_luton_1",
         "width": 10
     },
+    "mem_makiri_1-obt/memory/level_memory_makiri_1": {
+        "code": "mem_makiri_1",
+        "filename": "mem_makiri_1-obt-memory-level_memory_makiri_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_makiri_1",
+        "name": "底牌",
+        "stageId": "mem_makiri_1",
+        "width": 11
+    },
     "mem_malist_1-obt/memory/level_memory_malist_1": {
         "code": "mem_malist_1",
         "filename": "mem_malist_1-obt-memory-level_memory_malist_1.json",
@@ -24650,6 +24749,15 @@
         "stageId": "mem_phenxi_1",
         "width": 9
     },
+    "mem_philae_1-obt/memory/level_memory_philae_1": {
+        "code": "mem_philae_1",
+        "filename": "mem_philae_1-obt-memory-level_memory_philae_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_philae_1",
+        "name": "站在生者之前",
+        "stageId": "mem_philae_1",
+        "width": 11
+    },
     "mem_pianst_1-obt/memory/level_memory_pianst_1": {
         "code": "mem_pianst_1",
         "filename": "mem_pianst_1-obt-memory-level_memory_pianst_1.json",
@@ -24794,6 +24902,15 @@
         "stageId": "mem_ray_1",
         "width": 12
     },
+    "mem_rfalcn_1-obt/memory/level_memory_rfalcn_1": {
+        "code": "mem_rfalcn_1",
+        "filename": "mem_rfalcn_1-obt-memory-level_memory_rfalcn_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_rfalcn_1",
+        "name": "荣誉的颜色",
+        "stageId": "mem_rfalcn_1",
+        "width": 11
+    },
     "mem_robin_1-obt/memory/level_memory_robin_1": {
         "code": "mem_robin_1",
         "filename": "mem_robin_1-obt-memory-level_memory_robin_1.json",
@@ -24829,6 +24946,15 @@
         "name": "哎呀，人呢？",
         "stageId": "mem_rope_1",
         "width": 11
+    },
+    "mem_rosesa_1-obt/memory/level_memory_rosesa_1": {
+        "code": "mem_rosesa_1",
+        "filename": "mem_rosesa_1-obt-memory-level_memory_rosesa_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_rosesa_1",
+        "name": "哥哥姐姐你们好呀~",
+        "stageId": "mem_rosesa_1",
+        "width": 10
     },
     "mem_saga_1-obt/memory/level_memory_saga_1": {
         "code": "mem_saga_1",
@@ -25143,6 +25269,15 @@
         "levelId": "obt/memory/level_memory_takila_1",
         "name": "沙滩假期",
         "stageId": "mem_takila_1",
+        "width": 10
+    },
+    "mem_tecno_1-obt/memory/level_memory_tecno_1": {
+        "code": "mem_tecno_1",
+        "filename": "mem_tecno_1-obt-memory-level_memory_tecno_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_tecno_1",
+        "name": "木偶舞会",
+        "stageId": "mem_tecno_1",
         "width": 10
     },
     "mem_texas_1-obt/memory/level_memory_texas_1": {
