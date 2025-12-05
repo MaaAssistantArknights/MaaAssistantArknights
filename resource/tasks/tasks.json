@@ -1970,28 +1970,24 @@
     "AwardExpandCheckFlow": {
         "doc": "左上角奖励展开状态检查，确保进行中的幸运牆、限时开採许可、赠送月卡不会因同时超过三个活动卡在折叠状态",
         "algorithm": "JustReturn",
-        "next": ["AwardNeedExpand", "AwardNotNeedExpand", "AwardCheckSkip"],
-        "maxTimes": 5
+        "next": ["AwardNeedExpand", "AwardNotNeedExpand", "AwardCheckSkip"]
     },
     "AwardNeedExpand": {
         "doc": "匹配到有待领取标记的的图示，点击展开",
         "action": "ClickSelf",
         "roi": [0, 192, 155, 115],
-        "postDelay": 500,
-        "maxTimes": 1
+        "postDelay": 500
     },
     "AwardNotNeedExpand": {
         "doc": "匹配到无标记的图示，不做任何事",
         "action": "DoNothing",
         "roi": [0, 192, 155, 115],
-        "postDelay": 500,
-        "maxTimes": 1
+        "postDelay": 500
     },
     "AwardCheckSkip": {
         "doc": "展开状态检查的保底任务，前两种状态皆失败时，无条件返回成功并继续后续流程",
         "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "maxTimes": 1
+        "action": "DoNothing"
     },
     "SpecialAccessActivitiesBegin": {
         "algorithm": "JustReturn",
