@@ -73,6 +73,8 @@ public class ToolboxViewModel : Screen
         LoadDepotDetails();
         LoadOperBoxDetails();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
+
+        UpdateMiniGameTaskList();
     }
 
     private bool _idle;
@@ -1235,21 +1237,40 @@ public class ToolboxViewModel : Screen
     [
 
         // 固定
-        new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
+        new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" }, // 活动商店
+        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" }, // 绿票商店
+        new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" }, // 黄票商店
+        new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" }, // 生息演算商店
 
         // 活动
-        new() { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@GreenGrass@HoneyFruit@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" },
+        // new() { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" }, // 揭幕者们 - 烟花筹委会
+        // new() { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" }, // 卫戍协议：盟约
+        // new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" }, // 争锋频道 - 青草城
+        // new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@HoneyFruit@DuelChannel@Begin" }, // 争锋频道 - 蜜果城
+        // new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" }, // 雪山降临1101 - 喀兰贸易技术研发部
+        // new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" }, // 次生预案
+        // new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" }, // 次生预案
+        // new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" }, // 墟 - 相谈室·御影
+
+        // 已完结活动
     ];
+
+    private static void UpdateMiniGameTaskList()
+    {
+        if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
+        {
+            MiniGameTaskList.Add(new CombinedData
+            { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" });
+        }
+        else if (SettingsViewModel.GameSettings.ClientType is "YoStarEN" or "YoStarJP" or "YoStarKR")
+        {
+        }
+        else if (SettingsViewModel.GameSettings.ClientType is "txwy")
+        {
+            MiniGameTaskList.Add(new CombinedData
+            { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" });
+        }
+    }
 
     private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "SS@Store@Begin");
 
@@ -1278,6 +1299,11 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
+        if (string.IsNullOrEmpty(name) || !MiniGameTaskList.Any(item => item.Value == name))
+        {
+            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+        }
+
         return name switch
         {
             // 固定
@@ -1294,6 +1320,7 @@ public class ToolboxViewModel : Screen
             "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
             "MiniGame@AT@ConversationRoom" => LocalizationHelper.GetString("MiniGame@AT@ConversationRoomTip"),
             "MiniGame@ALL@GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@GreenGrassTip"),
+            "MiniGame@ALL@HoneyFruit@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@HoneyFruitTip"),
             _ => string.Empty,
         };
     }

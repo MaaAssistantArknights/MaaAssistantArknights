@@ -1,5 +1,6 @@
 {
     "MiniGame@AT@ConversationRoom": {
+        "doc": "墟 - 相谈室·御影",
         "algorithm": "JustReturn",
         "next": ["MiniGame@AT@OpenForBusiness", "MiniGame@AT@CanNotOpenForBusiness"]
     },
