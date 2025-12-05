@@ -796,6 +796,7 @@ C:\\leidian\\LDPlayer9
     <!--  !Peep  -->
     <!--  미니게임  -->
     <system:String x:Key="MiniGameName">미니 게임 이름</system:String>
+    <system:String x:Key="MiniGameNameEmptyTip">위에서 미니 게임을 선택하여 실행을 시작하세요.</system:String>
     <system:String x:Key="MiniGame@PV">PV-불꽃놀이 집행위원회</system:String>
     <system:String x:Key="MiniGame@PVTip">선택한 스테이지부터 자동으로 클리어합니다. 첫 번째 스테이지를 선택한 경우에는 이벤트 페이지의 가장 왼쪽에서 시작하세요. 다른 스테이지를 선택한 경우에는 위치 보정을 위해 이전 스테이지에 먼저 들어갔다가 돌아오세요.</system:String>
     <system:String x:Key="MiniGame@SPA">위수 협의: 맹약</system:String>

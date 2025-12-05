@@ -1,5 +1,6 @@
 {
     "MiniGame@SPA@Begin": {
+        "doc": "卫戍协议：盟约",
         "algorithm": "JustReturn",
         "next": ["MiniGame@SPA@EnterIndependent"]
     },

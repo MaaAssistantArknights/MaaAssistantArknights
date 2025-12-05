@@ -1,5 +1,6 @@
 {
     "MiniGame@OS@Begin": {
+        "doc": "雪山降临1101 - 喀兰贸易技术研发部",
         "algorithm": "JustReturn",
         "next": ["MiniGame@OS@StartRebuild"]
     },
