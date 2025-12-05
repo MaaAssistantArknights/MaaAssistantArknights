@@ -42,8 +42,8 @@
             "arkPlanner_Doc": "https://penguin-stats.cn/planner"
         },
         "debug": {
-            "cleanFilesFreq": 50,
-            "maxDebugFileNum": 100
+            "cleanFilesFreq": 5,
+            "maxDebugFileNum": 10
         }
     },
     "packageName": {

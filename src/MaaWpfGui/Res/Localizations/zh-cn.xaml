@@ -796,7 +796,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小游戏名称</system:String>
     <system:String x:Key="MiniGame@PV">PV-烟花筹委会</system:String>
-    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">在活动页面最左侧开始</system:String>
+    <system:String x:Key="MiniGame@PVTip">从所选关卡开始并自动通关。若选择第一关，则从活动页最左侧开始；若选择其他关卡，请先进入上一关再返回以校准位置。</system:String>
     <system:String x:Key="MiniGame@SPA">卫戍协议：盟约</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">在活动主界面（有 ｢独立模拟｣ 处开始任务）
 手动通关 ｢标准模拟｣ 可以更快的刷分
