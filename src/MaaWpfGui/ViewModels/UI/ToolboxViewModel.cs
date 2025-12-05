@@ -73,6 +73,8 @@ public class ToolboxViewModel : Screen
         LoadDepotDetails();
         LoadOperBoxDetails();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
+
+        UpdateMiniGameTaskList();
     }
 
     private bool _idle;
@@ -100,11 +102,6 @@ public class ToolboxViewModel : Screen
     {
         get => _stopping;
         set => SetAndNotify(ref _stopping, value);
-    }
-
-    public static void InitToolbox()
-    {
-        UpdateMiniGameTaskList();
     }
 
     #region Recruit
@@ -1263,8 +1260,6 @@ public class ToolboxViewModel : Screen
         if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
         {
             MiniGameTaskList.Add(new CombinedData
-            { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" });
-            MiniGameTaskList.Add(new CombinedData
             { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" });
         }
         else if (SettingsViewModel.GameSettings.ClientType is "YoStarEN" or "YoStarJP" or "YoStarKR")
@@ -1304,6 +1299,11 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
+        if (string.IsNullOrEmpty(name) || !MiniGameTaskList.Any(item => item.Value == name))
+        {
+            return string.Empty;
+        }
+
         return name switch
         {
             // 固定
