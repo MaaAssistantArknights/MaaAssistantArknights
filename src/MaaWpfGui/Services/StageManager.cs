@@ -28,6 +28,7 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
 using Semver;
+using System.Text.RegularExpressions;
 using Serilog;
 using Stylet;
 
@@ -338,9 +339,25 @@ public class StageManager
     /// <returns>Stage info</returns>
     public StageInfo GetStageInfo(string stage)
     {
-        _stages.TryGetValue(stage, out var stageInfo);
-        stageInfo ??= new() { Display = stage, Value = stage };
-        return stageInfo;
+        if (_stages.TryGetValue(stage, out var stageInfo))
+        {
+            return stageInfo;
+        }
+
+        // If stage matches pattern of two letters + '-' + 1-2 digits (e.g. "UR-5", "AD-10"),
+        // treat it as an expired activity stage instead of a permanent stage.
+        if (!string.IsNullOrEmpty(stage) && Regex.IsMatch(stage, "^[A-Za-z]{2}-\\d{1,2}$"))
+        {
+            return new StageInfo
+            {
+                Display = stage,
+                Value = stage,
+                Activity = new() { UtcStartTime = DateTime.MinValue, UtcExpireTime = DateTime.MinValue },
+            };
+        }
+
+        // Fallback: treat as permanent stage
+        return new() { Display = stage, Value = stage };
     }
 
     public bool IsStageInStageList(string stage)
