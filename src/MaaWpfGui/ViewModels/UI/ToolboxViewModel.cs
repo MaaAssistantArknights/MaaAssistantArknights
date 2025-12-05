@@ -1235,40 +1235,42 @@ public class ToolboxViewModel : Screen
 
     public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
     [
-
-        // 固定
         new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" }, // 活动商店
         new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" }, // 绿票商店
         new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" }, // 黄票商店
         new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" }, // 生息演算商店
-
-        // 活动
-        // new() { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" }, // 揭幕者们 - 烟花筹委会
-        // new() { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" }, // 卫戍协议：盟约
-        // new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" }, // 争锋频道 - 青草城
-        // new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@HoneyFruit@DuelChannel@Begin" }, // 争锋频道 - 蜜果城
-        // new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" }, // 雪山降临1101 - 喀兰贸易技术研发部
-        // new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" }, // 次生预案
-        // new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" }, // 次生预案
-        // new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" }, // 墟 - 相谈室·御影
-
-        // 已完结活动
     ];
 
     private static void UpdateMiniGameTaskList()
     {
         if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
         {
-            MiniGameTaskList.Add(new CombinedData
-            { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" });
+            AddIfNotExists("MiniGame@SPA", "MiniGame@SPA@Begin");
         }
         else if (SettingsViewModel.GameSettings.ClientType is "YoStarEN" or "YoStarJP" or "YoStarKR")
         {
         }
         else if (SettingsViewModel.GameSettings.ClientType is "txwy")
         {
-            MiniGameTaskList.Add(new CombinedData
-            { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" });
+            AddIfNotExists("MiniGame@ALL@GreenGrass", "MiniGame@ALL@GreenGrass@DuelChannel@Begin");
+        }
+
+        // AddIfNotExists("MiniGame@PV", "MiniGame@PV@Begin");                                      // 揭幕者们 - 烟花筹委会
+        // AddIfNotExists("MiniGame@SPA", "MiniGame@SPA@Begin");                                    // 卫戍协议：盟约
+        // AddIfNotExists("MiniGame@ALL@GreenGrass", "MiniGame@ALL@GreenGrass@DuelChannel@Begin");  // 争锋频道 - 青草城
+        // AddIfNotExists("MiniGame@ALL@HoneyFruit", "MiniGame@ALL@HoneyFruit@DuelChannel@Begin");  // 争锋频道 - 蜜果城
+        // AddIfNotExists("MiniGame@OS", "MiniGame@OS@Begin");                                      // 雪山降临1101 - 喀兰贸易技术研发部
+        // AddIfNotExists("MiniGame@RM-TR-1", "MiniGame@RM-TR-1@Begin");                            // 次生预案
+        // AddIfNotExists("MiniGame@RM-1", "MiniGame@RM-1@Begin");                                  // 次生预案
+        // AddIfNotExists("MiniGame@AT@ConversationRoom", "MiniGame@AT@ConversationRoom");          // 墟 - 相谈室·御影
+        return;
+
+        static void AddIfNotExists(string displayKey, string value)
+        {
+            if (!MiniGameTaskList.Any(item => item.Value == value))
+            {
+                MiniGameTaskList.Add(new CombinedData { Display = LocalizationHelper.GetString(displayKey), Value = value });
+            }
         }
     }
 
