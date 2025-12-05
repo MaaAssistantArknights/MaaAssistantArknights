@@ -140,6 +140,21 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
     }
 
+    public static bool IsRunningInTempDirectory()
+    {
+        try
+        {
+            var currentPath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var tempPath = Path.GetFullPath(Path.GetTempPath()).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            return currentPath.StartsWith(tempPath, StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static void ParseCrashLog()
     {
         var crashFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
@@ -349,6 +364,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 Process.Start(startInfo);
             }
 
+            Shutdown();
+            return;
+        }
+
+        if (IsRunningInTempDirectory())
+        {
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("RunningInTempDirectoryError"),
+                LocalizationHelper.GetString("Error"),
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
             Shutdown();
             return;
         }
