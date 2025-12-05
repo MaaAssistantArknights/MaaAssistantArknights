@@ -796,6 +796,7 @@ C:\\leidian\\LDPlayer9。\n
     <!--  !牛牛監控  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">小遊戲名稱</system:String>
+    <system:String x:Key="MiniGameEmptyTip">在上方選擇小遊戲以開始運行。</system:String>
     <system:String x:Key="MiniGame@PV">PV-煙花籌委會</system:String>
     <system:String x:Key="MiniGame@PVTip">從所選關卡開始並自動通關。若選擇第一關，則從活動頁面最左側開始；若選擇其他關卡，請先進入上一關再返回以校準位置。</system:String>
     <system:String x:Key="MiniGame@SPA">衛戍協議：盟約</system:String>

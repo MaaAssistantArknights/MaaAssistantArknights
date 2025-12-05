@@ -1301,7 +1301,7 @@ public class ToolboxViewModel : Screen
     {
         if (string.IsNullOrEmpty(name) || !MiniGameTaskList.Any(item => item.Value == name))
         {
-            return string.Empty;
+            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
         }
 
         return name switch
