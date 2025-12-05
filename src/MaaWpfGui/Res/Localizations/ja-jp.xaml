@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">ウェブフック URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">アクセストークン</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">シークレット</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">トピックID（任意）</system:String>

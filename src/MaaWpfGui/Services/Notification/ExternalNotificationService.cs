@@ -37,6 +37,7 @@ public static class ExternalNotificationService
                 "ServerChan" => new ServerChanNotificationProvider(Instances.HttpService),
                 "Telegram" => new TelegramNotificationProvider(Instances.HttpService),
                 "Discord" => new DiscordNotificationProvider(Instances.HttpService),
+                "DingTalk" => new DingTalkNotificationProvider(Instances.HttpService),
                 "Discord Webhook" => new DiscordWebhookNotificationProvider(Instances.HttpService),
                 "Custom Webhook" => new CustomWebhookNotificationProvider(Instances.HttpService),
                 "SMTP" => new SmtpNotificationProvider(),
