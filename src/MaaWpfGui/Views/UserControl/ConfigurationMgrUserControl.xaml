@@ -33,7 +33,7 @@
             hc:TitleElement.HorizontalAlignment="Center"
             hc:TitleElement.Title="{DynamicResource ConfigurationName}"
             IsEditable="True"
-            IsHitTestVisible="{Binding Idle}"
+            IsHitTestVisible="{c:Binding 'Idle and !VersionUpdateSettings.IsCheckingForUpdates'}"
             IsReadOnly="True"
             ItemsSource="{Binding ConfigurationList}"
             SelectedValue="{Binding CurrentConfiguration}"
