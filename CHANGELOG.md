@@ -18,7 +18,7 @@
 * 自定义基建排班使用无人机加速未进驻干员的设施导致卡死 @ABA2396
 * 干员识别异常（荒芜拉普兰德） (#14934) @dikxingmengya
 * issue-checker.yml 中 MacGui 正则不包含 MacGui @Rbqwow
-* 预提交优化模板检查流程 @Constrat
+* 预提交模板优化配置 @Constrat
 
 ### 其他 | Other
 
