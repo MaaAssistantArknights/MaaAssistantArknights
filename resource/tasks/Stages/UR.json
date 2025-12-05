@@ -1,0 +1,58 @@
+{
+    "UR-8": {
+        "algorithm": "JustReturn",
+        "sub": ["UR-8@UR-OpenOpt"],
+        "next": ["UR-8@SideStoryStage", "UR-8@SwipeToStage"]
+    },
+    "UR-7": {
+        "algorithm": "JustReturn",
+        "sub": ["UR-7@UR-OpenOpt"],
+        "next": ["UR-7@SideStoryStage", "UR-7@SwipeToStage"]
+    },
+    "UR-6": {
+        "algorithm": "JustReturn",
+        "sub": ["UR-6@UR-OpenOpt"],
+        "next": ["UR-6@SideStoryStage", "UR-6@SwipeToStage"]
+    },
+    "UR-5": {
+        "algorithm": "JustReturn",
+        "sub": ["UR-5@UR-OpenOpt"],
+        "next": ["UR-5@SideStoryStage", "UR-5@SwipeToStage"]
+    },
+    "UR-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["UR-OpenOcr", "UR-Open"]
+    },
+    "UR-Open": {
+        "baseTask": "SS-Open",
+        "template": ["StageSideStory.png", "StageActivity.png"],
+        "postDelay": 5000,
+        "next": ["URChapterToUR"]
+    },
+    "UR-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": ["未许之地", "天空生活展会", "逃离哥伦比亚"],
+        "postDelay": 5000,
+        "next": ["URChapterToUR"]
+    },
+    "URChapterToUR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["天空", "生活", "展会"],
+        "postDelay": 2000,
+        "roi": [1010, 326, 198, 137],
+        "next": ["#self", "SideStoryStage", "ChapterSwipeToTheRight"]
+    },
+    "UR-8@SideStoryStage": {
+        "text": ["UR-8"]
+    },
+    "UR-7@SideStoryStage": {
+        "text": ["UR-7"]
+    },
+    "UR-6@SideStoryStage": {
+        "text": ["UR-6"]
+    },
+    "UR-5@SideStoryStage": {
+        "text": ["UR-5"]
+    }
+}
