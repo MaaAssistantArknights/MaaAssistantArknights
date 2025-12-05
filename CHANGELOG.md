@@ -1,38 +1,12 @@
 ## v5.28.4
 
-### 新增 | New
+### Highlights
 
-* 关卡选择验证输入，非当期活动的关卡名会当做未开放关卡 @ABA2396
-* 當左上角進行中活動因太多被折疊時，增加展開領取的狀態判斷 (#14957) @momomochi987
-* UR 活动导航 @ABA2396
-
-### 改进 | Improved
-
-* 优化小游戏任务选择逻辑及提示 (#14951) @Daydreamer114 @ABA2396
-
-### 修复 | Fix
-
-* 繁中服周年月卡領取及贈送單抽的處理錯誤 (#14953) @momomochi987
-* 卫戍协议因网络问题卡在结算界面 @Saratoga-Official
-* 代理失败后等待动画结束后再点击任务失败 @ABA2396
-* 自定义基建排班使用无人机加速未进驻干员的设施导致卡死 @ABA2396
-* 干员识别异常（荒芜拉普兰德） (#14934) @dikxingmengya
-* issue-checker.yml 中 MacGui 正则不包含 MacGui @Rbqwow
-* 预提交模板优化配置 @Constrat
-
-### 其他 | Other
-
-* 調整繁中服傀影肉鴿能夠選擇的難度 (#14952) @momomochi987
-
-----
-
-## v5.28.3
-
-### 继续修 BUG | Highlights
+#### 继续修 BUG
 
 在这个版本，我们继续修复了大量 BUG，并且优化了遇到各类错误时的调试体验。
 
-#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.2 及以上支持）
+#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.2 及以上版本）
 
 新增 PV-烟花筹委会 小游戏支持，在小游戏界面最左侧开始。
 
@@ -53,6 +27,12 @@
 #### 其他方面
 
 我们发现，牛牛在使用 GPU 推理时，如果 GPU 驱动过旧可能会产生兼容性问题，因此我们添加了一项检测，当发现你的 GPU 驱动超过 2 年没有更新时会给出提示，我们建议你更新驱动以获得更好的体验。
+
+#### 新增功能（v5.28.4 及以上版本）
+
+* 关卡选择验证输入，非当期活动的关卡名会当做未开放关卡
+* 當左上角進行中活動因太多被折疊時，增加展開領取的狀態判斷
+* UR 活动导航
 
 ----
 
@@ -83,6 +63,12 @@ We fixed numerous issues related to *Auto I.S.*, including Boss recognition in t
 #### Other Aspects
 
 We found that outdated GPU drivers may cause compatibility issues when MAA performs GPU inference. Therefore, we added a detection feature that alerts you when your GPU driver has not been updated for more than 2 years and recommends updating it for a better experience.
+
+#### New Features (v5.28.4 and above)
+
+* Stage selection input validation - stages from inactive events are treated as unavailable stages
+* Added status detection for expanding and claiming rewards when ongoing activities in the top-left corner are collapsed due to too many activities
+* UR activity navigation
 
 ----
 
@@ -237,3 +223,31 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 * Debug 截图默认保存最近 10 张 @ABA2396
 * 繁中服「眾生行記」活動導航 @momomochi987
 * 繁中服「爭鋒頻道：青草城」小遊戲 @momomochi987
+
+----
+
+## v5.28.4
+
+### 新增 | New
+
+* 关卡选择验证输入，非当期活动的关卡名会当做未开放关卡 @ABA2396
+* 當左上角進行中活動因太多被折疊時，增加展開領取的狀態判斷 (#14957) @momomochi987
+* UR 活动导航 @ABA2396
+
+### 改进 | Improved
+
+* 优化小游戏任务选择逻辑及提示 (#14951) @Daydreamer114 @ABA2396
+
+### 修复 | Fix
+
+* 繁中服周年月卡領取及贈送單抽的處理錯誤 (#14953) @momomochi987
+* 卫戍协议因网络问题卡在结算界面 @Saratoga-Official
+* 代理失败后等待动画结束后再点击任务失败 @ABA2396
+* 自定义基建排班使用无人机加速未进驻干员的设施导致卡死 @ABA2396
+* 干员识别异常（荒芜拉普兰德） (#14934) @dikxingmengya
+* issue-checker.yml 中 MacGui 正则不包含 MacGui @Rbqwow
+* 预提交模板优化配置 @Constrat
+
+### 其他 | Other
+
+* 調整繁中服傀影肉鴿能夠選擇的難度 (#14952) @momomochi987
