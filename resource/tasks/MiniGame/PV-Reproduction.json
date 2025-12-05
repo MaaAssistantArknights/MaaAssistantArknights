@@ -1,5 +1,6 @@
 {
     "MiniGame@PV@Begin": {
+        "doc": "揭幕者们 - 烟花筹委会",
         "algorithm": "JustReturn",
         "next": [
             "MiniGame@PV@01",
