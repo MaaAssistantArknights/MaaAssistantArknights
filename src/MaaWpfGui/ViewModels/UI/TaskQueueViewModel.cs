@@ -392,6 +392,17 @@ public class TaskQueueViewModel : Screen
             return true;
         }
 
+        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("ResourceUpdateInProgressText"),
+                LocalizationHelper.GetString("ResourceUpdateInProgressTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
+            return result == MessageBoxResult.Yes;
+        }
+
         if (!Running)
         {
             // no need to confirm if no running task
