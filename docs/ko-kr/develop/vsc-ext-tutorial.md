@@ -38,6 +38,8 @@ The extension supports Jump to task defs, Jump to task refs and View task defs.
 
 When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that has the same name of the task will be shown when hovering the task defs.
 
+`Ctrl+T` 를 사용하여 작업 정의를 빠르게 검색하고 해당 위치로 이동할 수 있습니다.
+
 #### Query / open images
 
 The extension supports open images.
@@ -88,6 +90,22 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 - Hold `Ctrl` key and select cropping area
 - Use wheels to zoom
 - After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
+
+::: warning
+
+OCR 인식 결과가 비어 있으면 [OCR 모델](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files)이 올바르게 구성되었는지 확인하세요.
+
+:::
+
+### Log View
+
+#### MaaFramework Log
+
+VSCode 명령 팔레트에서 `Maa: Open Maa Log` 를 검색하여 실행하면 디버깅 중에 생성된 `maa.log` 를 볼 수 있습니다.
+
+#### Maa Pipeline Support Extension Log
+
+VSCode 명령 팔레트에서 `Maa: Open Extension Log` 를 검색하여 실행하면 디버깅 중에 생성된 `mse.log` 를 볼 수 있습니다.
 
 ### Bottom status bar
 
