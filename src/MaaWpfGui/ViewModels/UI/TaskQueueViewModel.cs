@@ -395,8 +395,8 @@ public class TaskQueueViewModel : Screen
         if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
         {
             var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("ResourceUpdateInProgressText"),
-                LocalizationHelper.GetString("ResourceUpdateInProgressTitle"),
+                LocalizationHelper.GetString("UpdateConfirmExitText"),
+                LocalizationHelper.GetString("UpdateConfirmExitTitle"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
             Closing = false;
