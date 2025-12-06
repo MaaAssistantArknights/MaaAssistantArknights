@@ -2410,6 +2410,9 @@ public class AsstProxy
         /// <summary>小游戏</summary>
         MiniGame,
 
+        /// <summary>界园通宝重投</summary>
+        RoguelikeCoppersRecast,
+
         /// <summary>自定义任务s</summary>
         Custom,
     }
@@ -2531,6 +2534,56 @@ public class AsstProxy
         };
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
+    /// Starts a mini game task with conditions.
+    /// 小游戏（带条件）
+    /// </summary>
+    /// <param name="taskName">任务名(tasks.json 中的 key)</param>
+    /// <param name="conditions">条件列表</param>
+    /// <returns>是否成功。</returns>
+    public bool AsstMiniGameWithConditions(string taskName, List<RecastCondition> conditions)
+    {
+        // 界园通宝重投使用专门的任务类型
+        if (taskName == Constants.RecastConstants.TaskName)
+        {
+            var param = BuildRecastTaskParameters(conditions);
+            return AsstAppendTaskWithEncoding(TaskType.RoguelikeCoppersRecast, AsstTaskType.RoguelikeCoppersRecast, param) && AsstStart();
+        }
+
+        return AsstMiniGame(taskName);
+    }
+
+    /// <summary>
+    /// Builds the task parameters for roguelike coppers recast task.
+    /// </summary>
+    /// <param name="conditions">The list of recast conditions.</param>
+    /// <returns>A JObject containing the task parameters.</returns>
+    private static JObject BuildRecastTaskParameters(List<RecastCondition> conditions)
+    {
+        var param = new JObject();
+
+        // Add condition configuration to parameters
+        // 添加条件配置到参数中
+        if (conditions != null && conditions.Count > 0)
+        {
+            var conditionsArray = new JArray();
+            foreach (var condition in conditions)
+            {
+                if (condition != null)
+                {
+                    conditionsArray.Add(condition.ToJObject());
+                }
+            }
+
+            if (conditionsArray.Count > 0)
+            {
+                param["conditions"] = conditionsArray;
+            }
+        }
+
+        return param;
     }
 
     /// <summary>

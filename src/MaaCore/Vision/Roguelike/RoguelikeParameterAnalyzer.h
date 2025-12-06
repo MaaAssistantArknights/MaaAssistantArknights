@@ -11,14 +11,25 @@ class RoguelikeParameterAnalyzer final : public VisionHelper
 {
 public:
     using VisionHelper::VisionHelper;
+    RoguelikeParameterAnalyzer() = default;
+
+    explicit RoguelikeParameterAnalyzer(const std::string& theme) :
+        m_theme(theme)
+    {
+    }
+
     virtual ~RoguelikeParameterAnalyzer() noexcept override = default;
 
     // bool analyze();
 
     int get_number(const cv::Mat& image, const std::string& task_name);
 
-    // int update_hope(const cv::Mat& image);
+    // 不随主题变化的参数识别
     int update_hp(const cv::Mat& image);
+
+    // 随主题变化且每个主题都有的参数识别
+    int update_hope(const cv::Mat& image);
+    int update_ingot(const cv::Mat& image);
     // int update_formation_upper_limit(const cv::Mat& image);
 
     //  识别萨米肉鸽抗干扰
@@ -30,7 +41,13 @@ public:
     // int update_burden_number(const cv::Mat& image);
     // 识别萨卡兹肉鸽负荷上限
     // int update_burden_upper_limit(const cv::Mat& image);
+
+    // 识别界园肉鸽票券数量
+    int update_ticket_count(const cv::Mat& image);
+
 private:
     InstHelper m_inst_helper;
+    // 肉鸽主题
+    std::string m_theme;
 };
 }

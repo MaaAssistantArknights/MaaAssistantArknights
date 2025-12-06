@@ -824,6 +824,16 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGameNameSsStoreTip" xml:space="preserve">请在活动商店页面开始。&#10;不买无限池。</system:String>
     <system:String x:Key="MiniGameNameRAStore">生息演算商店</system:String>
     <system:String x:Key="MiniGameNameRAStoreTip" xml:space="preserve">请在活动商店页面开始。</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecast">界园肉鸽通宝重投</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastTip" xml:space="preserve">请在界园肉鸽存在钱盒(打开或关闭)的界面开始该任务，该任务会持续重投通宝直到满足任一条件。</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastMetricTicket">票券</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastMetricHp">生命</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastMetricHope">希望</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastMetricIngot">源石锭</system:String>
+    <system:String x:Key="MiniGameNameRoguelikeCoppersRecastMetricCount">重投次数</system:String>
+    <system:String x:Key="RecastConditionMetric">监控项</system:String>
+    <system:String x:Key="RecastConditionComparator">比较方式</system:String>
+    <system:String x:Key="RecastConditionThreshold">阈值</system:String>
     <!--  !小游戏  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>

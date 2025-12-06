@@ -163,6 +163,11 @@ public enum AsstTaskType : byte
     Reclamation,
 
     /// <summary>
+    /// 界园通宝重投
+    /// </summary>
+    RoguelikeCoppersRecast,
+
+    /// <summary>
     /// 自定义任务
     /// </summary>
     Custom,
