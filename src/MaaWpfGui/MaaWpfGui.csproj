@@ -36,6 +36,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CETCompat>false</CETCompat>
   </PropertyGroup>
 
   <!-- Version -->
