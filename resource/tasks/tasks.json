@@ -3037,43 +3037,43 @@
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
-        "roi": [0, 100, 500, 250],
+        "roi": [0, 120, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "templThreshold": 0.75,
-        "roi": [200, 200, 500, 250],
+        "roi": [200, 195, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "templThreshold": 0.75,
-        "roi": [400, 100, 500, 250],
+        "roi": [400, 100, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "templThreshold": 0.75,
-        "roi": [650, 150, 500, 250],
+        "roi": [650, 150, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "templThreshold": 0.75,
-        "roi": [300, 420, 500, 250],
+        "roi": [300, 420, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "templThreshold": 0.75,
-        "roi": [500, 350, 500, 250],
+        "roi": [500, 350, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "templThreshold": 0.75,
-        "roi": [50, 350, 500, 250],
+        "roi": [50, 380, 500, 195],
         "postDelay": 500
     },
     "InfrastClue": {
