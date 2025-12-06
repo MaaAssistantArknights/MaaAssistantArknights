@@ -7,7 +7,7 @@
     <RuntimeIdentifier Condition="$(Platform)=='ARM64'">win-arm64</RuntimeIdentifier>
     <OutputType>WinExe</OutputType>
     <StartupObject>MaaWpfGui.App</StartupObject>
-    <LangVersion>12</LangVersion>
+    <LangVersion>14</LangVersion>
     <UseWpf>true</UseWpf>
     <Configurations>Debug;Release;RelWithDebInfo</Configurations>
     <Platforms>ARM64;x64</Platforms>
