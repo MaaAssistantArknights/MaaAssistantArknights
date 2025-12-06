@@ -409,13 +409,13 @@ public class TaskQueueViewModel : Screen
             return true;
         }
 
-        var result = MessageBoxHelper.Show(
+        var confirmResult = MessageBoxHelper.Show(
             LocalizationHelper.GetString("ConfirmExitText"),
             LocalizationHelper.GetString("ConfirmExitTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         Closing = false;
-        return result == MessageBoxResult.Yes;
+        return confirmResult == MessageBoxResult.Yes;
     }
 
     public override Task<bool> CanCloseAsync()
