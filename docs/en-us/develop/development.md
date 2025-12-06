@@ -58,7 +58,7 @@ We've preset several different development environments for you to choose from:
    ```
 
 5. Configure development environment
-   - Download and install `Visual Studio 2022 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
+   - Download and install `Visual Studio 2026 Community`, selecting `Desktop development with C++` and `.NET Desktop Development` during installation.
 
 6. Double-click `MAA.sln` to open the project in Visual Studio.
 7. Configure Visual Studio settings
