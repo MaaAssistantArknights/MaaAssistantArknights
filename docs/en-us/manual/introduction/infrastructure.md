@@ -21,7 +21,7 @@ icon: material-symbols:view-quilt-rounded
   - Unrecognizable examples: `Rosmontis System`, `Pinus Sylvestris Knights`.
 - When `Drone Usage` is set to `Trading Post - LMD`, the `Shamare Group` will be prioritized.
 - Reception Room selects operators with corresponding clue affinity when only one clue type is missing; otherwise selects generic operators.
-- Reception Room only sends clues when your collection is full, and sends only three at a time. To customize the number sent, modify the `ClueSelected` - `maxTimes` field in `resource/tasks/tasks.json` in the MAA directory.
+- The Reception Room will attempt to send clues on every rotation. The Official (and Bilibili) client added a "One‑click Send Duplicate Clues" feature on 2025-12-05: when MAA detects this button, it will automatically click it to batch-send duplicate clues; EN/JP/KR are expected to support this feature in about 6 months, and TW in about 1 year (TW may get it earlier due to accelerated updates).
 - Enabling `Do not place stationed operators in dormitory` prevents operators like `Irene` and `Logos` from being assigned to dormitories when not training in the Training Room, but also prevents operators with low morale in the Processing Station from being moved to dormitories.
 - Control Center strategy is complex; currently only considers `Amiya`, `Swire`, `Kal'tsit`, `Team Rainbow`, and other operators with +0.05 morale bonus. This will be gradually optimized.
 - You can select which facility types MAA should manage (all are selected by default).
