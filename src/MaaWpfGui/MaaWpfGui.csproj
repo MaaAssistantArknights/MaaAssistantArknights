@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Project -->
   <PropertyGroup>
@@ -108,41 +108,41 @@
     <PackageReference Include="CalcBinding" Version="2.5.2" />
     <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
-    <PackageReference Include="Fody" Version="6.8.0">
+    <PackageReference Include="Fody" Version="6.9.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="GlobalHotKey" Version="1.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="HandyControls" Version="3.5.2" />
-    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-    <PackageReference Include="MdXaml" Version="1.22.0" />
-    <PackageReference Include="MdXaml.Html" Version="1.22.0" />
-    <PackageReference Include="MdXaml.Plugins" Version="1.22.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+    <PackageReference Include="HandyControls" Version="3.6.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageReference Include="MdXaml" Version="1.27.0" />
+    <PackageReference Include="MdXaml.Html" Version="1.27.0" />
+    <PackageReference Include="MdXaml.Plugins" Version="1.27.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183">
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.259">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Notification.Wpf" Version="7.0.0.2" />
-    <PackageReference Include="ObservableCollections" Version="1.1.3" />
+    <PackageReference Include="Notification.Wpf" Version="8.0.0" />
+    <PackageReference Include="ObservableCollections" Version="3.3.4" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Semver" Version="3.0.0" />
-    <PackageReference Include="Serilog" Version="3.1.1" />
-    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Stylet" Version="1.3.6" />
+    <PackageReference Include="Stylet" Version="1.3.7" />
     <PackageReference Include="System.Management" Version="10.0.0" />
-    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.8" />
-    <PackageReference Include="WindowsAPICodePack" Version="8.0.6" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="2.3.2" />
+    <PackageReference Include="WindowsAPICodePack" Version="8.0.12" />
   </ItemGroup>
 
 </Project>
