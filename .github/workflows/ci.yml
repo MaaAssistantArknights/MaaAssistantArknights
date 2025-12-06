@@ -12,6 +12,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "include/**"
+      - "installer/**"
       - "src/**"
       - "tools/maadeps-download.py"
       - "!**/*.md"
@@ -24,6 +25,7 @@ on:
       - "cmake/**"
       - "CMakeLists.txt"
       - "include/**"
+      - "installer/**"
       - "src/**"
       - "tools/maadeps-download.py"
       - "!**/*.md"
@@ -198,17 +200,66 @@ jobs:
           rm -rf install/*.h
 
           cp tools/DependencySetup_依赖库安装.bat install
+          cp tools/RemoveAutoStartReg_移除开机自启注册表项.bat install
 
       - name: Zip files
         run: |
           cd install
           Compress-Archive -Destination MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}.zip -Path ./*
 
-      - name: Upload MAA to GitHub
+      - name: Upload MAA portable to GitHub
         uses: actions/upload-artifact@v5
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install/MAA-*.zip
+
+      - name: Prepare package info for Inno Setup
+        run: |
+          $MaaPackagePath  = "${{ github.workspace }}\install"
+          $MaaLicensePath  = "${{ github.workspace }}\terms-of-service.md"
+          $MaaIconPath     = "${{ github.workspace }}\docs\.vuepress\public\favicon.ico"
+
+          $MaaAppVersion   = "${{ needs.meta.outputs.tag }}".TrimStart('v')
+          $Architecture    = if ("${{ matrix.arch }}" -eq "x64") { "x64compatible" } else { "arm64" }
+
+          $MaaOutputDir    = "${{ github.workspace }}\installer\InnoSetup\Output"
+          $MaaOutputBaseFilename = "MAA-${{ needs.meta.outputs.tag }}-win-${{ matrix.arch }}-setup"
+
+          cd installer\InnoSetup
+
+          New-Item -ItemType Directory -Force -Path "Languages" | Out-Null
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/ChineseSimplified.isl" `
+            -OutFile "Languages\ChineseSimplified.isl"
+          Invoke-WebRequest `
+            -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/ChineseTraditional.isl" `
+            -OutFile "Languages\ChineseTraditional.isl"
+
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaPackagePath `"$MaaPackagePath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaLicensePath `"$MaaLicensePath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaIconPath `"$MaaIconPath`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaOutputDir `"$MaaOutputDir`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaOutputBaseFilename `"$MaaOutputBaseFilename`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define MaaAppVersion `"$MaaAppVersion`""
+          Add-Content -Path "maa_packageinfo.iss" -Value "#define Architecture `"$Architecture`""
+
+          # Debug info
+          ls -l ${{ github.workspace }}\install
+          ls -l ${{ github.workspace }}\installer\InnoSetup\Languages
+          echo "    File: maa_packageinfo.iss"
+          cat maa_packageinfo.iss
+
+      - name: Build installer with Inno Setup
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        with:
+          path: installer/InnoSetup/maa.iss
+          options: /Qp
+
+      - name: Upload MAA installer to GitHub
+        uses: actions/upload-artifact@v5
+        with:
+          name: MAA-win-${{ matrix.arch }}-setup
+          path: installer/InnoSetup/Output/*.exe
 
   ubuntu:
     name: Build for Ubuntu
