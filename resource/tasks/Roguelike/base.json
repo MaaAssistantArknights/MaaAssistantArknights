@@ -807,6 +807,20 @@
         "Doc": "base_sharp_task",
         "algorithm": "JustReturn"
     },
+    "Roguelike@HopeLeftFlag": {
+        "Doc": "希望左侧◀标志",
+        "roi": [854, 22, 207, 27]
+    },
+    "Roguelike@HopeRightFlag": {
+        "Doc": "希望右侧▶标志",
+        "roi": [854, 22, 207, 27]
+    },
+    "Roguelike@HopeRecognition": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "希望识别 此任务的roi为两个标志rect差的加值",
+        "text": [],
+        "roi": [0, -9, -3, 27]
+    },
     "Roguelike@HpFlag": {
         "roi": [70, 0, 250, 70]
     },
@@ -815,6 +829,21 @@
         "Doc": "生命值识别",
         "text": [],
         "roi": [170, 30, 70, 30]
+    },
+    "Roguelike@IngotFlag": {
+        "roi": [1005, 0, 195, 60]
+    },
+    "Roguelike@IngotRecognition-1": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "右侧仅两种资源时的源石锭识别",
+        "text": [],
+        "roi": [1131, 21, 130, 27]
+    },
+    "Roguelike@IngotRecognition-2": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "右侧有第三种资源时源石锭识别",
+        "text": [],
+        "roi": [1060, 22, 70, 27]
     },
     "Roguelike@InBattleFlag": {
         "template": "BattleOfficiallyBegin.png",
