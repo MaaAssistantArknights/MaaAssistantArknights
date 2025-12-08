@@ -675,7 +675,11 @@ public:
 #ifndef ASST_DEBUG
         static const bool need_log = std::filesystem::exists("DEBUG.txt");
         if (!need_log) {
-            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                null_stream,
+                level::debug,
+                std::forward<args_t>(args)...);
         }
 #endif
         return stream(level::debug, m_scopes.next(), std::forward<args_t>(args)...);
