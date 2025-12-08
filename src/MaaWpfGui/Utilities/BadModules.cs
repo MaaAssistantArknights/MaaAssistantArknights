@@ -17,12 +17,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using MaaWpfGui.Helper;
+using Serilog;
 using Windows.Win32;
 
 namespace MaaWpfGui.Utilities;
 
 internal class BadModules
 {
+    private static readonly ILogger _logger = Log.ForContext<BadModules>();
     private static readonly string[] _names = [
         "NahimicOSD.dll",
         "AudioDevProps2.dll",
@@ -97,6 +99,7 @@ internal class BadModules
         };
 
         TaskDialog.ShowDialog(new WpfWin32Window(System.Windows.Application.Current.MainWindow), page);
+        _logger.Warning("Detected bad injected modules:\n{Modules}", sb.ToString());
 
         static string BreakLongPath(string path, int maxLen)
         {

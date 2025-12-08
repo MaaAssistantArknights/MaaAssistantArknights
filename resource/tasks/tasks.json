@@ -3151,6 +3151,17 @@
         "templThreshold": 0.9,
         "roi": [200, 600, 700, 120]
     },
+    "InfrastClueQuickInsert": {
+        "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [1058, 572, 148, 148]
+    },
+    "InfrastClueQuickSendDuplicates": {
+        "Doc": "快速传递重复线索：批量传递重复线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [34, 559, 154, 161],
+        "next": ["CloseSendClue"]
+    },
     "ReceptionFlag": {
         "roi": [350, 0, 200, 100]
     },
@@ -3174,10 +3185,10 @@
     },
     "SendClues": {
         "action": "ClickSelf",
-        "roi": [1157, 346, 84, 81],
+        "roi": [1160, 320, 80, 90],
         "maskRange": [1, 255],
         "postDelay": 1000,
-        "next": ["SelectClue", "CloseSendClue"]
+        "next": ["InfrastClueQuickSendDuplicates", "SelectClue", "CloseSendClue"]
     },
     "SelectClue": {
         "action": "ClickSelf",

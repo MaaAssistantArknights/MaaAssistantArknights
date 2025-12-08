@@ -37,6 +37,7 @@ bool asst::InfrastReceptionTask::_run()
 
     use_clue();
     back_to_reception_main();
+    send_clue();
 
     if (need_exit()) {
         return false;
@@ -145,6 +146,16 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
     const static std::vector<std::string> clue_suffix = { "No1", "No2", "No3", "No4", "No5", "No6", "No7" };
 
     cv::Mat image = ctrler()->get_image();
+
+    // 优先检测官服新增的“快捷置入”按钮，如果存在则点击一次执行批量置入，跳过逐个置入流程
+    const auto quick_insert_task = Task.get("InfrastClueQuickInsert");
+    Matcher quick_insert_matcher(image);
+    quick_insert_matcher.set_task_info(quick_insert_task);
+    if (quick_insert_matcher.analyze()) {
+        ctrler()->click(quick_insert_matcher.get_result().rect);
+        return true;
+    }
+
     for (const std::string& clue : clue_suffix) {
         if (need_exit()) {
             return false;
@@ -190,11 +201,13 @@ bool asst::InfrastReceptionTask::unlock_clue_exchange()
 bool asst::InfrastReceptionTask::back_to_reception_main()
 {
     ProcessTask(*this, { "EndOfClueExchange" }).set_retry_times(0).run();
-    return ProcessTask(*this, { "BackToReceptionMain" }).run();
+    // 国服有快捷置入后不会进入线索放置页面，不需要返回，多点一次快捷置入也无所谓
+    return ProcessTask(*this, { "InfrastClueQuickInsert", "BackToReceptionMain" }).run();
 }
 
 bool asst::InfrastReceptionTask::send_clue()
 {
+    // 优先检测是否存在“快捷传递重复线索”按钮（官服特性），若存在则点击一次
     ProcessTask task(*this, { "SendClues" });
     return task.run();
 }
