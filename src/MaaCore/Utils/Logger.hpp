@@ -1050,7 +1050,7 @@ private:
     std::ostream m_of;
     std::size_t m_file_size = 0;
 
-    static utils::NullStreambuf null_buf;
+    static inline utils::NullStreambuf null_buf {};
     static inline std::ostream null_stream { &null_buf };
     const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };
