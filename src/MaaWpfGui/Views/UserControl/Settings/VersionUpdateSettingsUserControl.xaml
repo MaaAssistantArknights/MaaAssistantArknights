@@ -184,6 +184,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <ComboBox
@@ -466,6 +467,47 @@
                                 IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                             <controls:TooltipBlock TooltipText="{DynamicResource ResourceUpdateTip}" />
                         </StackPanel>
+
+                        <!--  Download / update log (shows recent download progress/messages)  -->
+                        <ContentControl
+                            Grid.Row="5"
+                            MaxWidth="175"
+                            HorizontalAlignment="Center"
+                            Content="{Binding Path=DownloadLogItemViewModel, Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                            Visibility="{c:Binding 'DownloadLogItemViewModel.Content.Length > 0',
+                                                   Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                            <ContentControl.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="0,5"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        ToolTip="{Binding ToolTip}"
+                                        ToolTipService.InitialShowDelay="200">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <controls:TextBlock
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontWeight="{Binding Weight}"
+                                            ForegroundKey="{Binding Color}"
+                                            Text="{Binding Content}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TooltipBlock
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            PathDate="{StaticResource LogToolTip}"
+                                            PathStrokeThickness="1.5"
+                                            TextBlockText=""
+                                            Visibility="{c:Binding ShowToolTip}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                        </ContentControl>
 
                         <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Hyperlink
