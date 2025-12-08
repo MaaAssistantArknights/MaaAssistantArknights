@@ -5507,7 +5507,7 @@
     "resource/template/InfrastPic/Clue/SelectClue": "f6fd545e0fbc73c4981e85dd32c3d878665f06fbf04ef6662d71706d34b683a7",
     "resource/template/InfrastPic/Clue/ClueCanBeSent": "0474bb82eeaba243ed95c7d0c7a182b4ec75fec34d9692c74de7b13f7f870fb3",
     "resource/template/InfrastPic/Clue/EndOfClueExchange": "f189d80986bea2c1a744af239a65d0837c955c1e4768e610bbccf221876d7c12",
-    "resource/template/InfrastPic/Clue/SendClues": "a917c196bcc0958e7815b7238ac17694309996be7b3610bad2ed8548413ee368",
+    "resource/template/InfrastPic/Clue/SendClues": "acc6c5cc854759d4f952d80fdd9034105a2a1e427d7f9282d6b25e4ce1cc063a",
     "resource/template/InfrastPic/Clue/SendClueConfirm": "e64f9f3cd5f2d2c130b318087a879d06c5e8be42b5c3ce069a6dfe455b4509a7",
     "resource/template/InfrastPic/Clue/GetClue1": "3d884c6f3453251f0ce02988797976730a8cd53f8afea4a69dfd24d533ec3b92",
     "resource/template/InfrastPic/Clue/ClueSelected": "878ae2e4f45ad2a90fe0c9b04f3979b51f48cb8544a9ddd539310ba4a484dc87",
@@ -5804,5 +5804,9 @@
     "resource/template/MiniGame/PV/MiniGame@PV@13": "0f906086b41b711f4badca740dd64958b48efa14429191da9824f43f45288096",
     "resource/template/items/act47side_token_bottle": "639f76d09b0f6de8a50aa8c2e063f990e130e3746738849f5ade0de16b40ac10",
     "resource/template/infrast/Bskill_meet_exchange2": "9f7da2fa84f41e2499e30f68aa0dce07008b1d62139b1a0aa37fc79dd3f65340",
-    "resource/template/infrast/Bskill_man_gold&rhine": "5da27fbd0e337b1ab9fc24ffe7383512588a90c2f0a5fbbeaf1c867a36a8f188"
+    "resource/template/infrast/Bskill_man_gold&rhine": "5da27fbd0e337b1ab9fc24ffe7383512588a90c2f0a5fbbeaf1c867a36a8f188",
+    "official/AwardNotNeedExpand": "795a9fdf6d31ca747121dcac1cb2b2127557a2459befc08c240789289a873b21",
+    "official/AwardNeedExpand": "b338a13d636b5bb1e50ce915bccd840e6f0f36d6d019aa0f889201f6580cf8bf",
+    "resource/template/InfrastPic/Clue/InfrastClueQuickInsert": "de5874ce5a8b532964978af395b127350f8828761814bfd308e7eca267a69fb9",
+    "resource/template/InfrastPic/Clue/InfrastClueQuickSendDuplicates": "18f5086ff92c8c3bcf9b27aa9255f8fda123b3f80ceda10160daec3526387786"
 }
