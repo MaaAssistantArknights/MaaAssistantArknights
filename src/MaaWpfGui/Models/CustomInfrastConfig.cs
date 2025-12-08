@@ -105,9 +105,13 @@ public class CustomInfrastConfig
             }
 
             var stringArrays = token.ToObject<string[][]>();
+            if (stringArrays != null && stringArrays.Length != 2)
+            {
+                throw new JsonSerializationException("Each time range must contain exactly two time strings.");
+            }
             return stringArrays == null
                 ? []
-                : stringArrays.Select(stringArray => new[] { TimeOnly.Parse(stringArray[0]), TimeOnly.Parse(stringArray[1]) }).ToList();
+                : [.. stringArrays.Select(stringArray => new[] { TimeOnly.Parse(stringArray[0]), TimeOnly.Parse(stringArray[1]) })];
         }
     }
 }
