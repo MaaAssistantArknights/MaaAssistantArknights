@@ -373,21 +373,23 @@
 
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
             <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Width="4" />-->
-            <hc:ScrollViewer
+            <Grid
                 Grid.Column="2"
                 Margin="10"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
-                properties:AutoScroll.AutoScroll="True"
-                HorizontalScrollBarVisibility="Disabled"
-                IsInertiaEnabled="True"
-                PanningMode="Both"
                 Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Download area: always visible, placed above the main log scroll  -->
                 <ItemsControl
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    d:ItemsSource="{d:SampleData ItemCount=30}"
-                    ItemsSource="{Binding LogItemViewModels}">
+                    VerticalAlignment="Top"
+                    d:ItemsSource="{d:SampleData ItemCount=1}"
+                    ItemsSource="{Binding DownloadLogItemViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid MaxWidth="400">
@@ -424,37 +426,83 @@
                                         ForegroundKey="{Binding Color}"
                                         Text="{Binding Content}"
                                         TextWrapping="Wrap" />
-                                    <controls:TooltipBlock
-                                        Grid.Column="1"
-                                        Margin="10,0,0,0"
-                                        PathDate="M 0 0 L 0.5 0.5 L 0 1"
-                                        PathStrokeThickness="1.5"
-                                        TextBlockText=""
-                                        Visibility="{c:Binding ShowToolTip}" />
-                                    <!--<Border
-                                    Grid.Column="1"
-                                    Width="15"
-                                    Height="15"
-                                    Margin="10,0,0,0"
-                                    Background="{DynamicResource MouseOverRegionBrushOpacity75}"
-                                    Style="{StaticResource BorderCircular}"
-                                    Visibility="{c:Binding ShowToolTip}">
-                                    <Path
-                                        Width="8"
-                                        Height="8"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Data="M 0 0 L 0.5 0.5 L 0 1"
-                                        Stretch="Uniform"
-                                        Stroke="{DynamicResource PrimaryTextBrush}"
-                                        StrokeThickness="2" />
-                                </Border>-->
-                                </Grid>
+                                        <controls:TooltipBlock
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            PathDate="M 0 0 L 0.5 0.5 L 0 1"
+                                            PathStrokeThickness="1.5"
+                                            TextBlockText=""
+                                            Visibility="{c:Binding ShowToolTip}" />
+                                    </Grid>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </hc:ScrollViewer>
+
+                <!--  Main log scroll area  -->
+                <hc:ScrollViewer
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    properties:AutoScroll.AutoScroll="True"
+                    HorizontalScrollBarVisibility="Disabled"
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
+                    <ItemsControl
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        d:ItemsSource="{d:SampleData ItemCount=20}"
+                        ItemsSource="{Binding LogItemViewModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid MaxWidth="400">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Margin="0,5,14,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Stretch"
+                                        Foreground="{DynamicResource TraceLogBrush}"
+                                        Text="{Binding Time}"
+                                        TextWrapping="Wrap" />
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="0,5"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Stretch"
+                                        ToolTip="{Binding ToolTip}"
+                                        ToolTipService.InitialShowDelay="200">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <controls:TextBlock
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Stretch"
+                                            FontWeight="{Binding Weight}"
+                                            ForegroundKey="{Binding Color}"
+                                            Text="{Binding Content}"
+                                            TextWrapping="Wrap" />
+                                        <controls:TooltipBlock
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            PathDate="M 0 0 L 0.5 0.5 L 0 1"
+                                            PathStrokeThickness="1.5"
+                                            TextBlockText=""
+                                            Visibility="{c:Binding ShowToolTip}" />
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </hc:ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 

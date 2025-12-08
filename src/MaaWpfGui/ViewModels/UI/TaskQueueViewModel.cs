@@ -149,6 +149,12 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
+    /// <summary>
+    /// Gets or private sets the view models of download-related log items.
+    /// This is a separate area dedicated to showing download progress/messages.
+    /// </summary>
+    public ObservableCollection<LogItemViewModel> DownloadLogItemViewModels { get; private set; } = [];
+
     #region ActionAfterTasks
 
     private bool _enableAfterActionSetting;
@@ -889,8 +895,32 @@ public class TaskQueueViewModel : Screen
         Execute.OnUIThread(() =>
         {
             LogItemViewModels.Clear();
+            DownloadLogItemViewModels.Clear();
             _logger.Information("Main windows log clear.");
             _logger.Information("{Empty}", string.Empty);
+        });
+    }
+
+    /// <summary>
+    /// Update the dedicated download log area. Thread-safe and will run on UI thread.
+    /// Mirrors previous logic which updated the first download log entry.
+    /// </summary>
+    /// <param name="fullText">The full text to show in download area.</param>
+    /// <param name="toolTip">Optional tooltip.</param>
+    public void UpdateDownloadLog(string fullText, ToolTip? toolTip = null)
+    {
+        Execute.OnUIThread(() =>
+        {
+            // Keep download area limited to a single entry.
+            if (string.IsNullOrEmpty(fullText))
+            {
+                DownloadLogItemViewModels.Clear();
+                return;
+            }
+
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip);
+            DownloadLogItemViewModels.Clear();
+            DownloadLogItemViewModels.Add(log);
         });
     }
 
