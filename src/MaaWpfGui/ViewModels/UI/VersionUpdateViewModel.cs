@@ -597,7 +597,7 @@ public class VersionUpdateViewModel : Screen
 
         if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
         {
-            OutputDownloadProgress(string.Empty);
+            OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
@@ -776,7 +776,7 @@ public class VersionUpdateViewModel : Screen
 
         if (!goDownload)
         {
-            OutputDownloadProgress(string.Empty);
+            OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
