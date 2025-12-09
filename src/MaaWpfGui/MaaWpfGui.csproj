@@ -23,7 +23,6 @@
     <PublishTrimmed>false</PublishTrimmed>
     <SelfContained>false</SelfContained>
     <BeautyLibsDir>./externals</BeautyLibsDir>
-    <BeautyHiddens>*.deps.json;*.runtimeconfig*.json</BeautyHiddens>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PostBuildEvent>
