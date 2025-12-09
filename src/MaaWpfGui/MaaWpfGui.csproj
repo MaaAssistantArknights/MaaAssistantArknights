@@ -19,9 +19,10 @@
   <PropertyGroup>
     <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
     <PublishReadyToRun>false</PublishReadyToRun>
-    <PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile>false</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
     <SelfContained>false</SelfContained>
+    <BeautyLibsDir>./externals</BeautyLibsDir>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <PostBuildEvent>
@@ -128,6 +129,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Notification.Wpf" Version="8.0.0" />
+    <PackageReference Include="nulastudio.NetBeauty" Version="2.1.5" />
     <PackageReference Include="ObservableCollections" Version="3.3.4" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
     <PackageReference Include="Semver" Version="3.0.0" />
