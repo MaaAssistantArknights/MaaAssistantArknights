@@ -46,7 +46,7 @@ public:
         HMODULE hModule = NULL;
         BOOL ret = GetModuleHandleExA(
             GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-            reinterpret_cast<LPCSTR>(reinterpret_cast<const void*>(&get_base_address)),
+            reinterpret_cast<LPCSTR>(&get_base_address),
             &hModule);
         if (!ret) {
             return 0;
@@ -100,7 +100,7 @@ public:
             unsigned long start_raw = 0;
             char perms[5] = { 0 };
             char pathbuf[PATH_MAX] = { 0 };
-            int matched = std::sscanf(line.c_str(), "%lx-%*lx %4s %*s %*s %*s %s", &start_raw, perms, pathbuf);
+            int matched = std::sscanf(line.c_str(), "%lx-%*lx %4s %*s %*s %*s %4095s", &start_raw, perms, pathbuf);
 
             if (matched < 2) { // 至少要有地址和权限
                 continue;
