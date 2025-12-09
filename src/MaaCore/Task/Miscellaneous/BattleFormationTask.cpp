@@ -49,7 +49,7 @@ bool asst::BattleFormationTask::_run()
     if (!parse_formation()) {
         return false;
     }
-    else if (compare_formation()) {
+    else if (compare_formation()) { // 与上一个作业的编队进行对比，相同则跳过
         Log.info(__FUNCTION__, "| Formation is the same as last time, skip");
         for (auto& [name, opers] : m_formation | std::views::values | std::views::join) {
             const auto& pair_it =

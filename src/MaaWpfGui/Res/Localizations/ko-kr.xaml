@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">웹후크 URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">액세스 토큰</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">시크릿</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">토픽 ID (선택사항)</system:String>

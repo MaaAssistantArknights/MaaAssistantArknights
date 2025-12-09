@@ -409,7 +409,7 @@
                             Visibility="{c:Binding 'UseCopilotList and CopilotTabIndex == 0'}" />
 
                         <!--  Loop / LoopTimes  -->
-                        <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 2'}">
+                        <StackPanel Orientation="Horizontal" Visibility="{c:Binding '!UseCopilotList and CopilotTabIndex != 0 and CopilotTabIndex != 2'}">
                             <CheckBox
                                 Margin="2.5,5"
                                 Content="{DynamicResource LoopTimes}"
