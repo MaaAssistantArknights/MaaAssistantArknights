@@ -59,7 +59,7 @@ icon: iconoir:developer
 
 5. 配置编程环境
    - 下载并安装 `CMake`
-   - 下载并安装 `Visual Studio 2026 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
+   - 下载并安装 `Visual Studio 2026 Community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
 
 6. 执行 cmake 项目配置
 
