@@ -64,7 +64,7 @@ icon: iconoir:developer
    ```
 
 5. 開発環境の設定
-   - `Visual Studio 2022 Community` をインストール時、`C++ によるデスクトップ開発` と `.NET デスクトップ開発` を選択必須
+   - `Visual Studio 2026 Community` をインストール時、`C++ によるデスクトップ開発` と `.NET デスクトップ開発` を選択必須
 
 6. `MAA.sln` をダブルクリックで開き、Visual Studio にプロジェクトを自動ロード
 7. VS の設定
