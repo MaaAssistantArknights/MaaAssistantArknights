@@ -6,10 +6,6 @@
 
 在这个版本，我们继续修复了大量 BUG，并且优化了遇到各类错误时的调试体验。
 
-#### 小工具 - 小游戏 - PV-烟花筹委会（v5.28.2 及以上版本）
-
-新增 PV-烟花筹委会 小游戏支持，在小游戏界面最左侧开始。
-
 #### 错误处理方面
 
 * 出错时鼠标悬浮在任务错误日志上即可查看出错时的截图，方便快速定位问题。
@@ -31,17 +27,6 @@
 #### 基建会客室线索处理（v5.28.5 及以上版本）
 
 * 支持会客室快捷置入线索与一键赠送重复线索功能，提升基建线索管理效率。
-
-#### 调试与日志优化（v5.28.5 及以上版本）
-
-* 可通过 `DEBUG.txt` 文件切换调试日志开关，无需重新编译。
-* 下载日志独立展示，更新设置中新增下载进度提示，方便追踪下载状态。
-
-#### 新增功能（v5.28.4 及以上版本）
-
-* 关卡选择验证输入，非当期活动的关卡名会当做未开放关卡
-* 當左上角進行中活動因太多被折疊時，增加展開領取的狀態判斷
-* UR 活动导航
 
 ----
 
@@ -76,17 +61,6 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 #### *Infrastructure* Reception Room Clue Handling (v5.28.5 and above)
 
 * Support for quick clue insertion and one-click sending of duplicate clues in the Reception Room, improving infrastructure clue management efficiency.
-
-#### *Debugging and Logging* Enhancements (v5.28.5 and above)
-
-* Toggle debug logging with `DEBUG.txt` file without recompilation.
-* Separate download log display with progress indicators in update settings for better download tracking.
-
-#### New Features (v5.28.4 and above)
-
-* Stage selection input validation - stages from inactive events are treated as unavailable stages
-* Added status detection for expanding and claiming rewards when ongoing activities in the top-left corner are collapsed due to too many activities
-* UR activity navigation
 
 ----
 
