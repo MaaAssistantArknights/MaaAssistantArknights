@@ -672,6 +672,16 @@ public:
     template <typename... args_t>
     auto debug_(args_t&&... args)
     {
+#ifndef ASST_DEBUG
+        static const bool need_log = std::filesystem::exists("DEBUG.txt");
+        if (!need_log) {
+            return LogStream(
+                std::unique_lock { m_trace_mutex },
+                null_stream,
+                level::debug,
+                std::forward<args_t>(args)...);
+        }
+#endif
         return stream(level::debug, m_scopes.next(), std::forward<args_t>(args)...);
     }
 
@@ -930,7 +940,9 @@ private:
             logger.error("Version", asst::Version);
             logger.error("Built at", __DATE__, __TIME__);
             logger.error("User Dir", UserDir.get());
-            logger.error(std::format("Module Base Address: 0x{:016X}", utils::ExceptionStacktrace::get_base_address()));
+            logger.error(
+                "MaaCore Base Address:",
+                std::format("0x{:016X}", utils::ExceptionStacktrace::get_base_address()));
             logger.error("Unhandled exception caught:", exception_info);
             logger.error("Exception stack trace:");
             if (!stack_trace.empty()) {
@@ -1001,9 +1013,6 @@ private:
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)
     {
-        static utils::NullStreambuf null_buf;
-        static std::ostream null_stream { &null_buf };
-
         rotate();
         if (lv.is_enabled()) {
 #ifdef ASST_DEBUG
@@ -1040,6 +1049,9 @@ private:
     LogStreambuf m_buff;
     std::ostream m_of;
     std::size_t m_file_size = 0;
+
+    static inline utils::NullStreambuf null_buf {};
+    static inline std::ostream null_stream { &null_buf };
     const std::size_t MaxLogSize = 64LL * 1024 * 1024;
 };
 

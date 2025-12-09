@@ -2247,7 +2247,7 @@
     },
     "VisitLimited": {
         "algorithm": "OcrDetect",
-        "text": ["今日参与", "已达上限", "重复访问", "无法获得"],
+        "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
         "next": ["Home@ReturnButtons#next"]
     },
@@ -3037,43 +3037,43 @@
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
-        "roi": [0, 100, 500, 250],
+        "roi": [0, 120, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "templThreshold": 0.75,
-        "roi": [200, 200, 500, 250],
+        "roi": [200, 195, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "templThreshold": 0.75,
-        "roi": [400, 100, 500, 250],
+        "roi": [400, 100, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "templThreshold": 0.75,
-        "roi": [650, 150, 500, 250],
+        "roi": [650, 150, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "templThreshold": 0.75,
-        "roi": [300, 420, 500, 250],
+        "roi": [300, 420, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "templThreshold": 0.75,
-        "roi": [500, 350, 500, 250],
+        "roi": [500, 350, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "templThreshold": 0.75,
-        "roi": [50, 350, 500, 250],
+        "roi": [50, 380, 500, 195],
         "postDelay": 500
     },
     "InfrastClue": {
@@ -3151,6 +3151,17 @@
         "templThreshold": 0.9,
         "roi": [200, 600, 700, 120]
     },
+    "InfrastClueQuickInsert": {
+        "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [1058, 572, 148, 148]
+    },
+    "InfrastClueQuickSendDuplicates": {
+        "Doc": "快速传递重复线索：批量传递重复线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [34, 559, 154, 161],
+        "next": ["CloseSendClue"]
+    },
     "ReceptionFlag": {
         "roi": [350, 0, 200, 100]
     },
@@ -3174,10 +3185,10 @@
     },
     "SendClues": {
         "action": "ClickSelf",
-        "roi": [1157, 346, 84, 81],
+        "roi": [1160, 320, 80, 90],
         "maskRange": [1, 255],
         "postDelay": 1000,
-        "next": ["SelectClue", "CloseSendClue"]
+        "next": ["InfrastClueQuickSendDuplicates", "SelectClue", "CloseSendClue"]
     },
     "SelectClue": {
         "action": "ClickSelf",

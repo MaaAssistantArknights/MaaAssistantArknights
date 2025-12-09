@@ -597,7 +597,7 @@ public class VersionUpdateViewModel : Screen
 
         if (!goDownload || string.IsNullOrWhiteSpace(UpdatePackageName))
         {
-            OutputDownloadProgress(string.Empty);
+            OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
@@ -776,7 +776,7 @@ public class VersionUpdateViewModel : Screen
 
         if (!goDownload)
         {
-            OutputDownloadProgress(string.Empty);
+            OutputDownloadProgress(string.Empty, downloading: false);
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
@@ -1170,8 +1170,6 @@ public class VersionUpdateViewModel : Screen
         }
     }
 
-    private static ObservableCollection<LogItemViewModel>? _logItemViewModels;
-
     public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1, string? toolTip = null)
     {
         string progress = $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB ({value * 100.0 / maximum:F}%)";
@@ -1191,22 +1189,6 @@ public class VersionUpdateViewModel : Screen
     {
         globalSource ??= _globalSource;
         _globalSource = globalSource.Value;
-        if (_logItemViewModels == null)
-        {
-            try
-            {
-                _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
-            }
-            catch
-            {
-                return;
-            }
-
-            if (_logItemViewModels == null)
-            {
-                return;
-            }
-        }
 
         string fullText;
         if (downloading)
@@ -1219,26 +1201,7 @@ public class VersionUpdateViewModel : Screen
             fullText = output;
         }
 
-        Execute.OnUIThread(() =>
-        {
-            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip());
-            if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
-            {
-                if (!string.IsNullOrEmpty(output))
-                {
-                    _logItemViewModels[0] = log;
-                }
-                else
-                {
-                    _logItemViewModels.RemoveAt(0);
-                }
-            }
-            else if (!string.IsNullOrEmpty(output))
-            {
-                _logItemViewModels.Clear();
-                _logItemViewModels.Add(log);
-            }
-        });
+        Instances.TaskQueueViewModel?.UpdateDownloadLog(fullText, toolTip?.CreateTooltip());
     }
 
     public bool IsDebugVersion(string? version = null)

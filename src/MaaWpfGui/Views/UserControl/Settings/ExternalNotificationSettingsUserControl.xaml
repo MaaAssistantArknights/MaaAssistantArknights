@@ -29,6 +29,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--<controls:TextBlock
@@ -186,6 +187,31 @@
 
         <StackPanel
             Grid.Row="6"
+            Orientation="Vertical"
+            Visibility="{c:Binding DingTalkEnabled}">
+            <hc:Divider Content="DingTalk" />
+            <hc:PasswordBox
+                x:Name="DingTalkAccessToken"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkAccessToken}"
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding DingTalkAccessToken}" />
+            <hc:PasswordBox
+                x:Name="DingTalkSecret"
+                Width="400"
+                Height="30"
+                Margin="10"
+                hc:InfoElement.Title="{DynamicResource ExternalNotificationDingTalkSecret}"
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding DingTalkSecret}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="7"
             HorizontalAlignment="Center"
             hc:InfoElement.TitleWidth="0"
             Visibility="{c:Binding SmtpEnabled}">
@@ -326,7 +352,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="7"
+            Grid.Row="8"
             Orientation="Vertical"
             Visibility="{c:Binding BarkEnabled}">
             <hc:Divider Content="Bark" />
@@ -349,7 +375,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="8"
+            Grid.Row="9"
             hc:InfoElement.TitleWidth="0"
             Orientation="Vertical"
             Visibility="{c:Binding QmsgEnabled}">
@@ -437,7 +463,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="9"
+            Grid.Row="10"
             Orientation="Vertical"
             Visibility="{c:Binding CustomWebhookEnabled}">
             <hc:Divider Content="{DynamicResource ExternalNotificationCustomWebhook}" />
