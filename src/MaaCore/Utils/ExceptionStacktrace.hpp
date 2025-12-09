@@ -62,7 +62,7 @@ public:
         const struct mach_header* header = _dyld_get_image_header(0);
         return reinterpret_cast<uintptr_t>(header);
 #else // Linux and other Unix-like systems
-        // 优先通过 dladdr 获取当前函数所属模块
+      // 优先通过 dladdr 获取当前函数所属模块
         Dl_info info;
         if (dladdr(reinterpret_cast<void*>(&get_base_address), &info) && info.dli_fbase) {
             return reinterpret_cast<uintptr_t>(info.dli_fbase);
@@ -77,7 +77,7 @@ public:
         // 读取当前可执行文件路径
         std::string exe_path;
         {
-            char buf[PATH_MAX] = {0};
+            char buf[PATH_MAX] = { 0 };
             ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
             if (len > 0) {
                 buf[len] = '\0';
@@ -98,8 +98,8 @@ public:
         while (std::getline(maps, line)) {
             // 格式示例：00400000-0040c000 r--p ... /path/to/exe
             unsigned long start_raw = 0;
-            char perms[5] = {0};
-            char pathbuf[PATH_MAX] = {0};
+            char perms[5] = { 0 };
+            char pathbuf[PATH_MAX] = { 0 };
             int matched = std::sscanf(line.c_str(), "%lx-%*lx %4s %*s %*s %*s %s", &start_raw, perms, pathbuf);
 
             if (matched < 2) { // 至少要有地址和权限
