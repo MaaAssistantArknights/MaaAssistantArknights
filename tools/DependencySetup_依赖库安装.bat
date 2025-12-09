@@ -42,18 +42,6 @@ if %errorlevel% neq 0 (
 echo %BLUE%====================================================================================================%RESET%
 
 echo.
-echo %BLUE%====================================================================================================%RESET%
-echo %BOLD%%CYAN%正在安装 .NET Desktop Runtime 8.0%RESET%
-echo %BOLD%%CYAN%Installing .NET Desktop Runtime 8.0%RESET%
-echo.
-
-winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
-if %errorlevel% neq 0 (
-    set "ErrorOccurred=1"
-)
-echo %BLUE%====================================================================================================%RESET%
-
-echo.
 if %ErrorOccurred% equ 0 (
     echo %BOLD%%GREEN%运行库修复完成，请重启电脑后再次尝试运行 MAA。%RESET%
     echo %BOLD%%GREEN%The runtime library repair is complete. Please restart your computer and try running MAA again.%RESET%
@@ -65,15 +53,12 @@ if %ErrorOccurred% equ 0 (
     echo %YELLOW%如果提示%RESET% %WHITE%'winget' is not...%RESET% %YELLOW%说明您的电脑版本太老了，没有自带 winget%RESET%
     echo %YELLOW%If the prompt shows%RESET% %WHITE%'winget' is not...%RESET% %YELLOW%it means your system is too old and don't include winget by default.%RESET%
     echo.
-    echo %YELLOW%您可以手动将以下两个链接复制到浏览器中打开，下载并安装所需组件。如果安装成功，无需再次运行本依赖库安装脚本。%RESET%
-    echo %YELLOW%You can manually copy the following two links into your browser to download and install the required components.%RESET%
+    echo %YELLOW%您可以手动将以下链接复制到浏览器中打开，下载并安装所需组件。如果安装成功，无需再次运行本依赖库安装脚本。%RESET%
+    echo %YELLOW%You can manually copy the following link into your browser to download and install the required components.%RESET%
     echo %YELLOW%If the installation is successful, you don't need to run this dependency installation script again.%RESET%
     echo.
     echo %WHITE%Microsoft Visual C++ Redistributable:%RESET%
     echo %CYAN%https://aka.ms/vs/17/release/vc_redist.x64.exe%RESET%
-    echo.
-    echo %WHITE%.NET Desktop Runtime 8.0:%RESET%
-    echo %CYAN%https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe%RESET%
     echo %RED%====================================================================================================%RESET%
 )
 

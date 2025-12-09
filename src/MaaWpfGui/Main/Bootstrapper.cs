@@ -311,22 +311,22 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             throw new DirectoryNotFoundException("resource folder not found!");
         }
 
-        // Debug 模式下 DLL 是未打包的
-        if (maaEnv != "Debug" && !isBuildOutputFolder)
-        {
-            var unknownDlls = UnknownDllDetected();
-            if (unknownDlls.Count > 0)
-            {
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
-                    "MAA",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
-                Shutdown();
-                return;
-            }
-        }
+        //// Debug 模式下 DLL 是未打包的
+        //if (maaEnv != "Debug" && !isBuildOutputFolder)
+        //{
+        //    var unknownDlls = UnknownDllDetected();
+        //    if (unknownDlls.Count > 0)
+        //    {
+        //        MessageBoxHelper.Show(
+        //            LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
+        //            "MAA",
+        //            MessageBoxButton.OK,
+        //            MessageBoxImage.Error);
+        //        _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
+        //        Shutdown();
+        //        return;
+        //    }
+        //}
 
         if (!IsVCppInstalled())
         {
