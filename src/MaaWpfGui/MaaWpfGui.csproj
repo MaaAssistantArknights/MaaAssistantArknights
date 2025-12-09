@@ -42,7 +42,7 @@
   <!-- Version -->
   <PropertyGroup>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>5.0.0.0</ApplicationVersion>
+    <ApplicationVersion>6.0.0.0</ApplicationVersion>
     <Version>0.0.1</Version>
     <FileVersion>0.0.1</FileVersion>
     <AssemblyVersion>0.0.1</AssemblyVersion>
