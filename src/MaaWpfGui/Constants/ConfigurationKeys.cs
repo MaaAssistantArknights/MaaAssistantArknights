@@ -177,6 +177,7 @@ public static class ConfigurationKeys
     public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
     public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
     public const string ForceRefresh = "AutoRecruit.ForceRefresh";
+    public const string UseExpeditedMode = "AutoRecruit.UseExpeditedMode";
     public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
     public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
     public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3";
