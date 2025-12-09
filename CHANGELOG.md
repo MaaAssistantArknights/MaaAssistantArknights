@@ -28,6 +28,15 @@
 
 我们发现，牛牛在使用 GPU 推理时，如果 GPU 驱动过旧可能会产生兼容性问题，因此我们添加了一项检测，当发现你的 GPU 驱动超过 2 年没有更新时会给出提示，我们建议你更新驱动以获得更好的体验。
 
+#### 基建会客室线索处理（v5.28.5 及以上版本）
+
+* 支持会客室快捷置入线索与一键赠送重复线索功能，提升基建线索管理效率。
+
+#### 调试与日志优化（v5.28.5 及以上版本）
+
+* 可通过 `DEBUG.txt` 文件切换调试日志开关，无需重新编译。
+* 下载日志独立展示，更新设置中新增下载进度提示，方便追踪下载状态。
+
 #### 新增功能（v5.28.4 及以上版本）
 
 * 关卡选择验证输入，非当期活动的关卡名会当做未开放关卡
@@ -63,6 +72,15 @@ We fixed numerous issues related to *Auto I.S.*, including Boss recognition in t
 #### Other Aspects
 
 We found that outdated GPU drivers may cause compatibility issues when MAA performs GPU inference. Therefore, we added a detection feature that alerts you when your GPU driver has not been updated for more than 2 years and recommends updating it for a better experience.
+
+#### *Infrastructure* Reception Room Clue Handling (v5.28.5 and above)
+
+* Support for quick clue insertion and one-click sending of duplicate clues in the Reception Room, improving infrastructure clue management efficiency.
+
+#### *Debugging and Logging* Enhancements (v5.28.5 and above)
+
+* Toggle debug logging with `DEBUG.txt` file without recompilation.
+* Separate download log display with progress indicators in update settings for better download tracking.
 
 #### New Features (v5.28.4 and above)
 
@@ -251,3 +269,34 @@ We found that outdated GPU drivers may cause compatibility issues when MAA perfo
 ### 其他 | Other
 
 * 調整繁中服傀影肉鴿能夠選擇的難度 (#14952) @momomochi987
+
+----
+
+## v5.28.5
+
+### 新增 | New
+
+* 支持会客室快捷置入线索与一键赠送重复线索 (#14966) @ABA2396
+* 通知渠道支持钉钉 (#14884) @Kagura-Nanaa
+* 下载日志独立展示，更新设置中新增下载进度提示 @ABA2396
+* LogDebug 宏支持 DEBUG.txt 特性 (#14977) @status102
+
+### 改进 | Improved
+
+* 优化会客室线索识别范围 @ABA2396
+* 优化绑定 @ABA2396
+
+### 修复 | Fix
+
+* 主线/故事集/SideStory 禁用循环次数 @ABA2396
+* 未勾选自动下载时仍提示下载 @ABA2396
+
+### 文档 | Docs
+
+* 自动战斗编队注释 @ABA2396
+* 更新基建会客室线索相关文档 @ABA2396
+
+### 其他 | Other
+
+* 模板优化 @Constrat
+* YostarKR CharsNameOcrReplace remove space @ABA2396
