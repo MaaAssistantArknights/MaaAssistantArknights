@@ -151,12 +151,6 @@ public:
     bool load_params(const json::value& params);
 
     /**
-     * @brief Clear all configured conditions
-     * 清空所有配置的条件
-     */
-    void clear_conditions() noexcept;
-
-    /**
      * @brief Verify if this plugin should handle the message
      * 验证此插件是否应处理该消息
      *
@@ -174,12 +168,6 @@ private:
      * @return true on success or user stop, false on error / 成功或用户停止返回true,错误返回false
      */
     virtual bool _run() override;
-
-    /**
-     * @brief Reset snapshot to initial state
-     * 重置快照到初始状态
-     */
-    void reset_snapshot() noexcept;
 
     Snapshot m_snapshot;                 ///< Current game state / 当前游戏状态快照
     std::vector<Condition> m_conditions; ///< Stop conditions / 停止条件列表

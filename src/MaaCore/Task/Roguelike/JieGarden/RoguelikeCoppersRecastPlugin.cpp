@@ -93,21 +93,11 @@ bool asst::RoguelikeCoppersRecastPlugin::load_params(const json::value& params)
     return true;
 }
 
-void asst::RoguelikeCoppersRecastPlugin::clear_conditions() noexcept
-{
-    m_conditions.clear();
-}
-
-void asst::RoguelikeCoppersRecastPlugin::reset_snapshot() noexcept
-{
-    m_snapshot = {};
-}
-
 bool asst::RoguelikeCoppersRecastPlugin::_run()
 {
     LogTraceFunction;
 
-    reset_snapshot();
+    m_snapshot = {};
 
     ProcessTask open_task(*this, { "JieGarden@Roguelike@CoppersOpenBox" });
     open_task.set_retry_times(0);
