@@ -88,26 +88,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "opencv_world4_maa.dll",
             };
 
-            // 常见会随 Release 一起放入的 .NET / 运行时 / 框架 DLL
-            var runtimeMatchers = new[]
-            {
-                "clrjit", "coreclr", "hostfxr", "hostpolicy",
-                "libloader", "PresentationFramework",
-                "System.", "WindowsBase",
-            };
-
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             var dllFiles = Directory.GetFiles(currentDirectory, "*.dll");
 
-            var unknowns = dllFiles
+            return [.. dllFiles
                 .Select(Path.GetFileName)
-                .Where(fileName =>
-                    !maaDlls.Contains(fileName)
-                    && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase)
-                    && !runtimeMatchers.Any(m => fileName.Contains(m, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-
-            return unknowns;
+                .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))];
         }
         catch (Exception)
         {
@@ -325,21 +312,21 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         }
 
         // Debug 模式下 DLL 是未打包的
-        if (maaEnv != "Debug" && !isBuildOutputFolder)
-        {
-            var unknownDlls = UnknownDllDetected();
-            if (unknownDlls.Count > 0)
-            {
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
-                    "MAA",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
-                Shutdown();
-                return;
-           }
-        }
+        //if (maaEnv != "Debug" && !isBuildOutputFolder)
+        //{
+        //    var unknownDlls = UnknownDllDetected();
+        //    if (unknownDlls.Count > 0)
+        //    {
+        //        MessageBoxHelper.Show(
+        //            LocalizationHelper.GetString("UnknownDllDetected") + "\n" + string.Join("\n", unknownDlls),
+        //            "MAA",
+        //            MessageBoxButton.OK,
+        //            MessageBoxImage.Error);
+        //        _logger.Fatal("Unknown DLL(s) detected: {UnknownDlls}", string.Join(", ", unknownDlls));
+        //        Shutdown();
+        //        return;
+        //   }
+        //}
 
         if (!IsVCppInstalled())
         {
