@@ -137,6 +137,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
 
     private ExpeditedMode _expeditedMode =
         int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpeditedMode, "0"), out var outMode)
+        && Enum.IsDefined(typeof(ExpeditedMode), outMode)
             ? (ExpeditedMode)outMode
             : ExpeditedMode.Disabled;
 
@@ -151,6 +152,13 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         set
         {
             var mode = (ExpeditedMode)value;
+
+            // Avoid unnecessary notifications and config writes when the value is unchanged.
+            if (mode == _expeditedMode)
+            {
+                return;
+            }
+
             SetAndNotify(ref _expeditedMode, mode);
 
             // Always save to config: mode 2 saves "2", mode 0/1 save "0"
@@ -474,7 +482,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         Disabled = 0,
 
         /// <summary>
-        /// 仅本次使用 - Use expedited plans for this session only (resets on exit)
+        /// 仅本次使用 - Use expedited plans for this session only (resets after task completes)
         /// </summary>
         OneTime = 1,
 
