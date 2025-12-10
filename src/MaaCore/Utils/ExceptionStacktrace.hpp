@@ -16,6 +16,13 @@
 #include <unistd.h>
 #endif
 
+#ifdef __linux__
+#include <cstdio>
+#include <cstring>
+#include <fstream>
+#include <limits.h>
+#endif
+
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
@@ -37,10 +44,13 @@ public:
 #ifdef _WIN32
         // 获取 MaaCore.dll 的基址（通过当前函数地址定位所属模块）
         HMODULE hModule = NULL;
-        GetModuleHandleExA(
+        BOOL ret = GetModuleHandleExA(
             GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
             reinterpret_cast<LPCSTR>(&get_base_address),
             &hModule);
+        if (!ret) {
+            return 0;
+        }
         return reinterpret_cast<uintptr_t>(hModule);
 #elif defined(__APPLE__)
         // MacOS: 通过当前函数地址查找所属模块
@@ -52,23 +62,75 @@ public:
         const struct mach_header* header = _dyld_get_image_header(0);
         return reinterpret_cast<uintptr_t>(header);
 #else // Linux and other Unix-like systems
-      // 通过当前函数地址查找所属模块基址
+      // 优先通过 dladdr 获取当前函数所属模块
         Dl_info info;
-        if (dladdr(reinterpret_cast<void*>(&get_base_address), &info)) {
+        if (dladdr(reinterpret_cast<void*>(&get_base_address), &info) && info.dli_fbase) {
             return reinterpret_cast<uintptr_t>(info.dli_fbase);
         }
-        // 回退：从/proc/self/maps读取
+
+        // 回退：扫描 /proc/self/maps，优先匹配当前可执行文件的 r-x 段
         std::ifstream maps("/proc/self/maps");
-        std::string line;
-        if (std::getline(maps, line)) {
-            uintptr_t start_addr = 0;
-            std::istringstream iss(line);
-            std::string addr_range;
-            iss >> addr_range;
-            start_addr = std::stoull(addr_range.substr(0, addr_range.find('-')), nullptr, 16);
-            return start_addr;
+        if (!maps.is_open()) {
+            return 0;
         }
-        return 0;
+
+        // 读取当前可执行文件路径
+        std::string exe_path;
+        {
+            char buf[PATH_MAX] = { 0 };
+            ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+            if (len > 0) {
+                buf[len] = '\0';
+                exe_path.assign(buf);
+            }
+        }
+
+        auto trim_deleted = [](std::string& p) {
+            constexpr const char* suffix = " (deleted)";
+            size_t len = std::strlen(suffix);
+            if (p.size() >= len && p.compare(p.size() - len, len, suffix) == 0) {
+                p.erase(p.size() - len);
+            }
+        };
+
+        uintptr_t fallback_addr = 0;
+        std::string line;
+        while (std::getline(maps, line)) {
+            // 格式示例：00400000-0040c000 r--p ... /path/to/exe
+            unsigned long start_raw = 0;
+            char perms[5] = { 0 };
+            char pathbuf[PATH_MAX] = { 0 };
+            int matched = std::sscanf(line.c_str(), "%lx-%*lx %4s %*s %*s %*s %4095s", &start_raw, perms, pathbuf);
+
+            if (matched < 2) { // 至少要有地址和权限
+                continue;
+            }
+
+            // 只考虑可执行段
+            if (std::strlen(perms) < 3 || perms[0] != 'r' || perms[2] != 'x') {
+                continue;
+            }
+
+            uintptr_t start_addr = static_cast<uintptr_t>(start_raw);
+
+            std::string path = matched == 3 ? pathbuf : "";
+            if (!path.empty()) {
+                trim_deleted(path);
+                // 跳过虚拟段
+                if (!path.empty() && path.front() == '[') {
+                    continue;
+                }
+                if (!exe_path.empty() && path == exe_path) {
+                    return start_addr;
+                }
+            }
+
+            // 记录首个可执行段兜底
+            if (fallback_addr == 0) {
+                fallback_addr = start_addr;
+            }
+        }
+        return fallback_addr;
 #endif
     }
 #ifdef _WIN32
