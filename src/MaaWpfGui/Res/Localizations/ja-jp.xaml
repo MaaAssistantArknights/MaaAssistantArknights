@@ -193,6 +193,10 @@
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに「{key=Stop}」を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>
+    <system:String x:Key="RoguelikeDurationLimit">時間制限</system:String>
+    <system:String x:Key="Hour">時間</system:String>
+    <system:String x:Key="Minute">分</system:String>
+    <system:String x:Key="RoguelikeDurationLimitReached">ローグライク実行時間が {0} 制限に達しました、タスクを停止します</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>
