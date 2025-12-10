@@ -1,5 +1,6 @@
 #include "SupportList.h"
 
+#include "Task/AbstractTask.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
@@ -11,6 +12,10 @@
 #include "Vision/Battle/SupportListAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+
+asst::SupportList::SupportList(AbstractTask& parent_task)
+    : InstHelper(parent_task.inst()), m_parent(parent_task)
+{}
 
 bool asst::SupportList::select_role(const Role role)
 {
@@ -32,7 +37,7 @@ bool asst::SupportList::select_role(const Role role)
     reset_list_and_view_data();
 
     if (ProcessTask(
-            *this,
+            m_parent,
             { enum_to_string(role, true) + "@SupportList-RoleSelected",
               enum_to_string(role, true) + "@SupportList-SelectRole" })
             .run()) {
@@ -121,7 +126,7 @@ bool asst::SupportList::select_support_unit(const size_t index)
     ctrler()->click(click_rect);
     sleep(Config.get_options().task_delay);
 
-    if (!ProcessTask(*this, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
+    if (!ProcessTask(m_parent, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
         Log.error(__FUNCTION__, "| Support unit detail panel not recognised; failed to select support unit");
         save_img(ctrler()->get_image(), "screenshot");
         return false;
@@ -138,11 +143,11 @@ bool asst::SupportList::confirm_to_use_support_unit()
     if (!m_in_support_unit_detail_panel) {
         Log.error(
             __FUNCTION__,
-            "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit");
+                 "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit");
         return false;
     }
 
-    if (ProcessTask(*this, { "SupportList-DetailPanel-Confirm" }).run()) {
+    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Confirm" }).run()) {
         m_in_support_unit_detail_panel = false;
         reset_list_and_view_data();
         return true;
@@ -162,7 +167,7 @@ bool asst::SupportList::leave_support_unit_detail_panel()
         return false;
     }
 
-    if (ProcessTask(*this, { "SupportList-DetailPanel-Leave" }).run()) {
+    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Leave" }).run()) {
         m_in_support_unit_detail_panel = false;
         update_view();
         return true;
@@ -254,15 +259,15 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
     // ————————————————————————————————————————————————————————————————
     // Find Module
     // ————————————————————————————————————————————————————————————————
-    ProcessTask(*this, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
+    ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
 
     if (module == OperModule::Original) {
-        if (!ProcessTask(*this, { "SupportList-DetailPanel-SelectOriginalModule" }).run()) {
+        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-SelectOriginalModule" }).run()) {
             LogInfo << __FUNCTION__ << "| Module" << enum_to_string(module)
                     << "does not exist; failed to select module";
             return false;
         }
-        if (!ProcessTask(*this, { "SupportList-DetailPanel-ModuleSelected" }).run()) {
+        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-ModuleSelected" }).run()) {
             LogError << __FUNCTION__ << "| Module" << enum_to_string(module)
                      << "did not respond to the click; failed to select module";
             return false;
@@ -310,7 +315,7 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
         }
 
         if (page < MAX_NUM_MODULE_PAGES - 1) {
-            ProcessTask(*this, { "SupportList-DetailPanel-SelectModule-MoveRight" }).run();
+            ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveRight" }).run();
         }
     }
 
@@ -330,7 +335,7 @@ bool asst::SupportList::refresh_list()
 
     reset_list_and_view_data();
 
-    return ProcessTask(*this, { "SupportList-RefreshAfterCooldown" }).run();
+    return ProcessTask(m_parent, { "SupportList-RefreshAfterCooldown" }).run();
 }
 
 bool asst::SupportList::update_selected_role(const cv::Mat& image)
@@ -456,21 +461,21 @@ void asst::SupportList::move_to_list_head()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveToHead" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveToHead" }).run();
 }
 
 void asst::SupportList::move_forward()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveRight" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveRight" }).run();
 }
 
 void asst::SupportList::move_backward()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveLeft" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveLeft" }).run();
 }
 
 std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_page()

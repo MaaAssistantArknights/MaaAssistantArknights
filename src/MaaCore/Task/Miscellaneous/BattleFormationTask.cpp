@@ -789,7 +789,7 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
     // 通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战干员选择界面
     ProcessTask(*this, { "Formation-AddSupportUnit-EnterSupportList" }).run();
 
-    SupportList support_list(m_callback, m_inst, m_task_chain);
+    SupportList support_list(*this);
 
     if (required_opers.empty()) { // 随机模式
         for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
