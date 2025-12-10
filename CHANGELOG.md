@@ -4,7 +4,7 @@
 
 #### .NET 10 升级
 
-MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发体验。同时我们将第三方依赖移至子文件夹，使项目结构更加清晰。
+MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发体验。同时取消了单文件发布，并将第三方依赖移至子文件夹，在保持目录清爽的同时有效减少更新包的体积。
 
 #### 关卡导航与小游戏优化
 
@@ -14,7 +14,7 @@ MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发�
 
 #### .NET 10 Upgrade
 
-MAA has been fully upgraded to .NET 10, bringing better performance and a more modern development experience. We have also moved third-party dependencies to a subfolder for a clearer project structure.
+MAA has been fully upgraded to .NET 10, bringing better performance and a more modern development experience. Single-file publishing has been disabled, and third-party dependencies have been moved to a subfolder, effectively reducing update package size while keeping the directory clean.
 
 #### Stage Navigation and Mini-game Optimization
 
@@ -49,7 +49,7 @@ Refactored the stage navigation API. Mini-game lists can now be dynamically retr
 ### 构建 | Build
 
 * 升级至 .NET 10 (#14971) @hguandl @ABA2396
-* 第三方依赖移至子文件夹 (#14984) @hguandl
+* 取消单文件发布，第三方依赖移至子文件夹，减少更新包体积 (#14984) @hguandl
 
 ### 其他 | Other
 
