@@ -57,6 +57,20 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     }
     get_settlement_info(json_msg, image);
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
+
+    // 检查时长限制
+    if (m_config->is_duration_limit_reached()) {
+        Log.info(__FUNCTION__, "肉鸽运行时长已达限制，停止任务");
+
+        // 发送时长到达的日志消息
+        auto duration_msg = basic_info_with_what("RoguelikeDurationLimitReached");
+        duration_msg["details"]["duration_limit_minutes"] = m_config->get_duration_limit_minutes();
+        callback(AsstMsg::SubTaskExtraInfo, duration_msg);
+
+        // 禁用任务，停止肉鸽
+        m_task_ptr->set_enable(false);
+    }
+
     return true;
 }
 
