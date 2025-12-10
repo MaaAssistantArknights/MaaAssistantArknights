@@ -4,7 +4,7 @@
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
-#include "Task/Miscellaneous/SupportList.h"
+#include "Ui/SupportList.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
