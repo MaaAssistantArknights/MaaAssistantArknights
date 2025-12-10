@@ -286,13 +286,13 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
             has_error = false;
         }
         else {
-            if (overall_swipe_times == m_missing_retry_times) {
+            if (overall_swipe_times >= m_missing_retry_times) {
                 for (auto& group : oper_group) {
                     if (has_oper_selected(group->second)) {
                         continue;
                     }
                     for (auto& oper : group->second) {
-                        if (oper.status == battle::OperStatus::Unchecked) {
+                        if (oper.status == battle::OperStatus::Unchecked && !m_opers_in_formation->contains(oper.name)) {
                             oper.status = battle::OperStatus::Missing;
                         }
                     }
