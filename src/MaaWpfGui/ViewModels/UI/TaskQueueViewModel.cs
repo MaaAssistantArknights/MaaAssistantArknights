@@ -787,6 +787,7 @@ public class TaskQueueViewModel : Screen
     {
         UpdateDatePrompt();
         FightTask.UpdateStageList();
+        ToolboxViewModel.UpdateMiniGameTaskList();
     }
 
     /// <summary>
