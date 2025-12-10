@@ -1,11 +1,11 @@
 #include "SupportList.h"
 
-#include "Task/AbstractTask.h"
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
+#include "Task/AbstractTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -13,9 +13,11 @@
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 
-asst::SupportList::SupportList(AbstractTask& parent_task)
-    : InstHelper(parent_task.inst()), m_parent(parent_task)
-{}
+asst::SupportList::SupportList(AbstractTask& parent_task) :
+    InstHelper(parent_task.inst()),
+    m_parent(parent_task)
+{
+}
 
 bool asst::SupportList::select_role(const Role role)
 {
@@ -143,7 +145,7 @@ bool asst::SupportList::confirm_to_use_support_unit()
     if (!m_in_support_unit_detail_panel) {
         Log.error(
             __FUNCTION__,
-                 "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit");
+            "| Invalid operation: currently not in support unit detail panel; failed to confirm to use support_unit");
         return false;
     }
 
@@ -424,8 +426,7 @@ void asst::SupportList::move_to_support_unit(const size_t index)
 
     // sanity check
     if (index >= m_list.size()) [[unlikely]] {
-        LogError << __FUNCTION__
-                 << "| Attempt to move to support unit " << index + 1 << " out of " << m_list.size();
+        LogError << __FUNCTION__ << "| Attempt to move to support unit " << index + 1 << " out of " << m_list.size();
         return;
     }
 
@@ -521,8 +522,8 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
         };
         const auto iter = STR_OPER_MODULE_MAP.find(module_str);
         if (iter == STR_OPER_MODULE_MAP.end()) {
-            LogError << __FUNCTION__
-                     << "| The current module has an unknown letter " << module_str << "; skipping to the next one";
+            LogError << __FUNCTION__ << "| The current module has an unknown letter " << module_str
+                     << "; skipping to the next one";
             continue;
         }
         module_items.emplace_back(ModuleItem { .rect = rect, .module = iter->second, .level = module_level });
