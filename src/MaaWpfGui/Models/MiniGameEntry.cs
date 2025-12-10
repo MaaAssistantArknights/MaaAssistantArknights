@@ -13,6 +13,8 @@
 
 #nullable enable
 
+using System;
+
 namespace MaaWpfGui.Models;
 
 /// <summary>
@@ -50,4 +52,30 @@ public class MiniGameEntry
     /// Gets or sets minimum required client version (SemVer string) for this mini-game entry.
     /// </summary>
     public string? MinimumRequired { get; set; }
+
+    /// <summary>
+    /// Gets or sets the activity UTC start time for this mini-game entry.
+    /// Stored as DateTime.Utc; default is DateTime.MinValue when not provided or parse fails.
+    /// </summary>
+    public DateTime UtcStartTime { get; set; } = DateTime.MinValue;
+
+    /// <summary>
+    /// Gets or sets the activity UTC expire time for this mini-game entry.
+    /// </summary>
+    public DateTime UtcExpireTime { get; set; } = DateTime.MinValue;
+
+    /// <summary>
+    /// Gets a value indicating whether gets whether activity is currently open (based on UtcStartTime/UtcExpireTime).
+    /// </summary>
+    public bool BeingOpen => !NotOpenYet && !IsExpired;
+
+    /// <summary>
+    /// Gets a value indicating whether gets whether activity is expired.
+    /// </summary>
+    public bool IsExpired => DateTime.UtcNow >= UtcExpireTime;
+
+    /// <summary>
+    /// Gets a value indicating whether gets whether activity has not opened yet.
+    /// </summary>
+    public bool NotOpenYet => DateTime.UtcNow <= UtcStartTime;
 }

@@ -1235,13 +1235,12 @@ public class ToolboxViewModel : Screen
 
     public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = new ObservableCollection<MiniGameEntry>();
 
-    private static void UpdateMiniGameTaskList()
+    public static void UpdateMiniGameTaskList()
     {
         MiniGameTaskList.Clear();
         var tasks = Instances.StageManager.MiniGameEntries;
         foreach (var t in tasks)
         {
-            // clone into ObservableCollection if necessary
             MiniGameTaskList.Add(new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey });
         }
     }

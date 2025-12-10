@@ -211,99 +211,14 @@ public class StageManager
             ParseActivityStages(activity[clientType], tempStage, curVerParsed, curVersionObj, isDebugVersion);
         }
 
-        // parse mini-game tasks from activity json if provided
-        try
-        {
-            // reset to defaults first
-            _miniGameEntries = InitializeDefaultMiniGameEntries();
-
-            var miniGameToken = activity?[clientType]?["miniGame"];
-            if (miniGameToken != null)
-            {
-                // parse into richer MiniGameEntry list, then map to CombinedData for UI compatibility
-                var parsedEntries = new List<MiniGameEntry>();
-                if (miniGameToken.Type == JTokenType.Array)
-                {
-                    foreach (var item in miniGameToken)
-                    {
-                        var entry = ParseMiniGameEntry(item);
-                        if (entry == null)
-                        {
-                            continue;
-                        }
-
-                        // version handling: if mini-game provides MinimumRequired, and current client is lower
-                        // do NOT skip — instead mark the entry Tip as version-not-supported and keep the entry
-                        var minReqStr = entry.MinimumRequired;
-                        if (!string.IsNullOrEmpty(minReqStr))
-                        {
-                            if (!TryParseVersion(minReqStr, out var minReqObj))
-                            {
-                                // malformed minimum required, mark as not supported and include
-                                entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
-                            }
-                            else
-                            {
-                                bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
-                                if (unsupported)
-                                {
-                                    entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
-                                    entry.TipKey = null;
-                                }
-                            }
-                        }
-
-                        parsedEntries.Add(entry);
-                    }
-                }
-                else
-                {
-                    var entry = ParseMiniGameEntry(miniGameToken);
-                    if (entry != null)
-                    {
-                        var minReqStr = entry.MinimumRequired;
-                        if (!string.IsNullOrEmpty(minReqStr))
-                        {
-                            if (!TryParseVersion(minReqStr, out var minReqObj))
-                            {
-                                entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
-                                parsedEntries.Add(entry);
-                            }
-                            else
-                            {
-                                bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
-                                if (unsupported)
-                                {
-                                    entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
-                                    parsedEntries.Add(entry);
-                                }
-                                else
-                                {
-                                    parsedEntries.Add(entry);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            parsedEntries.Add(entry);
-                        }
-                    }
-                }
-
-                if (parsedEntries.Count > 0)
-                {
-                    _miniGameEntries.InsertRange(0, parsedEntries);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.Warning(e, "Failed to parse miniGame from StageActivityV2.json, using defaults");
-        }
-
         AddPermanentStages(tempStage, resourceCollection);
 
         _stages = tempStage;
+
+        // parse mini-game tasks from activity json if provided (use helper to populate temp list)
+        var tempMiniGames = InitializeDefaultMiniGameEntries();
+        ParseMiniGameEntries(activity?[clientType], tempMiniGames, curVerParsed, curVersionObj, isDebugVersion);
+        _miniGameEntries = tempMiniGames;
     }
 
     private static Dictionary<string, StageInfo> InitializeDefaultStages()
@@ -389,6 +304,35 @@ public class StageManager
                 value = finalDisplay;
             }
 
+            // parse optional activity times on the same level as Display (UtcStartTime/UtcExpireTime)
+            DateTime utcStart = DateTime.MinValue;
+            DateTime utcExpire = DateTime.MinValue;
+            var startStr = token["UtcStartTime"]?.ToString();
+            var expireStr = token["UtcExpireTime"]?.ToString();
+            if (!string.IsNullOrEmpty(startStr))
+            {
+                try
+                {
+                    utcStart = ParseDateTime(token, "UtcStartTime");
+                }
+                catch
+                {
+                    utcStart = DateTime.MinValue;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(expireStr))
+            {
+                try
+                {
+                    utcExpire = ParseDateTime(token, "UtcExpireTime");
+                }
+                catch
+                {
+                    utcExpire = DateTime.MinValue;
+                }
+            }
+
             return new MiniGameEntry
             {
                 Display = finalDisplay,
@@ -397,6 +341,8 @@ public class StageManager
                 Tip = tip,
                 TipKey = tipKey,
                 MinimumRequired = minimumRequired,
+                UtcStartTime = utcStart,
+                UtcExpireTime = utcExpire,
             };
         }
         catch
@@ -476,6 +422,93 @@ public class StageManager
         catch (Exception e)
         {
             _logger.Error(e, "Failed to parse Cache Stage resources");
+        }
+    }
+
+    private static void ParseMiniGameEntries(JToken? clientData, List<MiniGameEntry> tempMiniGames, bool curVerParsed, SemVersion? curVersionObj, bool isDebugVersion)
+    {
+        if (clientData == null)
+        {
+            return;
+        }
+
+        var miniGameToken = clientData["miniGame"];
+        if (miniGameToken == null)
+        {
+            return;
+        }
+
+        var parsedEntries = new List<MiniGameEntry>();
+
+        if (miniGameToken.Type == JTokenType.Array)
+        {
+            foreach (var item in miniGameToken)
+            {
+                var entry = ParseMiniGameEntry(item);
+                if (entry == null)
+                {
+                    continue;
+                }
+
+                var minReqStr = entry.MinimumRequired;
+                if (!string.IsNullOrEmpty(minReqStr))
+                {
+                    if (!TryParseVersion(minReqStr, out var minReqObj))
+                    {
+                        entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                        entry.TipKey = null;
+                    }
+                    else
+                    {
+                        bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
+                        if (unsupported)
+                        {
+                            entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                            entry.TipKey = null;
+                        }
+                    }
+                }
+
+                if (entry.BeingOpen)
+                {
+                    parsedEntries.Add(entry);
+                }
+            }
+        }
+        else
+        {
+            var entry = ParseMiniGameEntry(miniGameToken);
+            if (entry != null)
+            {
+                var minReqStr = entry.MinimumRequired;
+                if (!string.IsNullOrEmpty(minReqStr))
+                {
+                    if (!TryParseVersion(minReqStr, out var minReqObj))
+                    {
+                        entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                        entry.TipKey = null;
+                    }
+                    else
+                    {
+                        bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
+                        if (unsupported)
+                        {
+                            entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                            entry.TipKey = null;
+                        }
+                    }
+                }
+
+                if (entry.BeingOpen)
+                {
+                    parsedEntries.Add(entry);
+                }
+            }
+        }
+
+        if (parsedEntries.Count > 0)
+        {
+            tempMiniGames.InsertRange(0, parsedEntries);
         }
     }
 
