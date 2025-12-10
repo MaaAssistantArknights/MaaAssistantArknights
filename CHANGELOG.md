@@ -34,14 +34,13 @@ Refactored the stage navigation API. Mini-game lists can now be dynamically retr
 ### 改进 | Improved
 
 * 重构简化关卡导航 API (#14997) @ABA2396
-* 优化自动编队助战页面继承 @ABA2396
-* 优化自动编队缺失干员查找 @ABA2396
-* 优化自动编队编入助战后缺失干员查找 @ABA2396
+* 优化自动编队助战页面继承 @status102
+* 优化自动编队缺失干员查找 @status102
 
 ### 修复 | Fix
 
 * 在已开启更新日志的情况下点击更新日志窗口不会移至前台 @ABA2396
-* 自动编队当干员存在于多个作业组且已经被编入后可能被误标记为未持有 @ABA2396
+* 自动编队当干员存在于多个作业组且已经被编入后可能被误标记为未持有 @status102
 * 自动编队编入助战后未添加至干员-干员组映射 @ABA2396
 * 因延迟进入线索传递界面导致任务出错 (#14992) @ABA2396
 * 夜间 OTA dotnet 构建错误 (#14996) @Manicsteiner
@@ -50,9 +49,9 @@ Refactored the stage navigation API. Mini-game lists can now be dynamically retr
 
 * 升级至 .NET 10 (#14971) @SherkeyXD @ABA2396
 * 取消单文件发布，第三方依赖移至子文件夹，减少更新包体积 (#14984) @ABA2396
+* 更新 github-actions 依赖 (#14978) @dependabot
 
 ### 其他 | Other
 
-* CI: 更新 github-actions 依赖 (#14978) @dependabot
 * 移除不再使用的 report @ABA2396
-* YostarKR CharsNameOcrReplace OCR 编辑 @ABA2396
+* YostarKR CharsNameOcrReplace OCR 编辑 @HX3N
