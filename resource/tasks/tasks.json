@@ -772,6 +772,7 @@
             [".*耀阳.*", "“耀阳”"],
             ["玛恩.*", "玛恩纳"],
             [".*默德克萨.*", "缄默德克萨斯"],
+            [".*芜拉普兰.*", "荒芜拉普兰德"],
             ["^重岳.+", "重岳"],
             ["(麒.+夜刀|.*麟.*夜刀)$", "麒麟R夜刀"],
             [".*龙.*黑角$", "火龙S黑角"],
@@ -1477,7 +1478,6 @@
     },
     "FightMissionFailedThenStop": {
         "baseTask": "FightMissionFailedAndStop",
-        "preDelay": 5000,
         "next": ["EndOfActionThenStop"]
     },
     "EndOfActionAnnihilation": {
@@ -1674,6 +1674,7 @@
     "FightMissionFailed": {
         "algorithm": "OcrDetect",
         "text": ["任务失败"],
+        "preDelay": 5000,
         "action": "ClickSelf",
         "roi": [36, 226, 482, 269],
         "next": ["EndOfAction", "OfflineConfirm", "StartUpThemes#next", "StartButton1"],
@@ -1685,6 +1686,7 @@
     "FightMissionFailedAndStop": {
         "algorithm": "OcrDetect",
         "text": ["任务失败"],
+        "preDelay": 5000,
         "action": "ClickSelf",
         "roi": [36, 226, 482, 269]
     },
@@ -1789,6 +1791,7 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["AwardExpandCheckFlow"],
         "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
         "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1824,6 +1827,7 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["AwardExpandCheckFlow"],
         "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
         "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -1963,8 +1967,31 @@
         "roi": [770, 577, 267, 143],
         "next": ["Home@ReturnButtons#next", "Stop"]
     },
+    "AwardExpandCheckFlow": {
+        "doc": "左上角奖励展开状态检查，确保进行中的幸运牆、限时开採许可、赠送月卡不会因同时超过三个活动卡在折叠状态",
+        "algorithm": "JustReturn",
+        "next": ["AwardNeedExpand", "AwardNotNeedExpand", "AwardCheckSkip"]
+    },
+    "AwardNeedExpand": {
+        "doc": "匹配到有待领取标记的的图示，点击展开",
+        "action": "ClickSelf",
+        "roi": [0, 192, 155, 115],
+        "postDelay": 500
+    },
+    "AwardNotNeedExpand": {
+        "doc": "匹配到无标记的图示，不做任何事",
+        "action": "DoNothing",
+        "roi": [0, 192, 155, 115],
+        "postDelay": 500
+    },
+    "AwardCheckSkip": {
+        "doc": "展开状态检查的保底任务，前两种状态皆失败时，无条件返回成功并继续后续流程",
+        "algorithm": "JustReturn",
+        "action": "DoNothing"
+    },
     "SpecialAccessActivitiesBegin": {
         "algorithm": "JustReturn",
+        "sub": ["AwardExpandCheckFlow"],
         "next": [
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
@@ -2220,7 +2247,7 @@
     },
     "VisitLimited": {
         "algorithm": "OcrDetect",
-        "text": ["今日参与", "已达上限", "重复访问", "无法获得"],
+        "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
         "next": ["Home@ReturnButtons#next"]
     },
@@ -2464,6 +2491,7 @@
         "action": "ClickSelf",
         "roi": [1180, 500, 100, 100],
         "template": "DroneAssistMfg.png",
+        "maxTimes": 20,
         "next": ["DroneAssistMfg#next"]
     },
     "DroneAssistTrade": {
@@ -3009,43 +3037,43 @@
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
         "templThreshold": 0.75,
-        "roi": [0, 100, 500, 250],
+        "roi": [0, 120, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
         "templThreshold": 0.75,
-        "roi": [200, 200, 500, 250],
+        "roi": [200, 195, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
         "templThreshold": 0.75,
-        "roi": [400, 100, 500, 250],
+        "roi": [400, 100, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
         "templThreshold": 0.75,
-        "roi": [650, 150, 500, 250],
+        "roi": [650, 150, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
         "templThreshold": 0.75,
-        "roi": [300, 420, 500, 250],
+        "roi": [300, 420, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
         "templThreshold": 0.75,
-        "roi": [500, 350, 500, 250],
+        "roi": [500, 350, 500, 195],
         "postDelay": 500
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
         "templThreshold": 0.75,
-        "roi": [50, 350, 500, 250],
+        "roi": [50, 380, 500, 195],
         "postDelay": 500
     },
     "InfrastClue": {
@@ -3123,6 +3151,17 @@
         "templThreshold": 0.9,
         "roi": [200, 600, 700, 120]
     },
+    "InfrastClueQuickInsert": {
+        "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [1058, 572, 148, 148]
+    },
+    "InfrastClueQuickSendDuplicates": {
+        "Doc": "快速传递重复线索：批量传递重复线索按钮模板占位",
+        "action": "ClickSelf",
+        "roi": [34, 559, 154, 161],
+        "next": ["CloseSendClue"]
+    },
     "ReceptionFlag": {
         "roi": [350, 0, 200, 100]
     },
@@ -3146,10 +3185,10 @@
     },
     "SendClues": {
         "action": "ClickSelf",
-        "roi": [1157, 346, 84, 81],
+        "roi": [1160, 320, 80, 90],
         "maskRange": [1, 255],
         "postDelay": 1000,
-        "next": ["SelectClue", "CloseSendClue"]
+        "next": ["InfrastClueQuickSendDuplicates", "SelectClue", "CloseSendClue"]
     },
     "SelectClue": {
         "action": "ClickSelf",

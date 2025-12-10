@@ -58,7 +58,7 @@ icon: iconoir:developer
    ```
 
 5. 配置編程環境
-   - 下載並安裝 `Visual Studio 2022 community`, 安裝的時候需要選中 `基於 C++ 的桌面開發` 和 `.NET 桌面開發`。
+   - 下載並安裝 `Visual Studio 2026 Community`, 安裝的時候需要選中 `基於 C++ 的桌面開發` 和 `.NET 桌面開發`。
 
 6. 雙擊打開 `MAA.sln` 文件，Visual Studio 會自動載入整個項目。
 7. 設置 VS

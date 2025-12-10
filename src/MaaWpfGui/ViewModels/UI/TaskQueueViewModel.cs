@@ -149,6 +149,18 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; } = [];
 
+    /// <summary>
+    /// Gets or private sets the single download-related log item.
+    /// Use a single LogItemViewModel instead of a collection because only one entry is shown.
+    /// </summary>
+    private LogItemViewModel _downloadLogItemViewModel = new(string.Empty);
+
+    public LogItemViewModel DownloadLogItemViewModel
+    {
+        get => _downloadLogItemViewModel;
+        private set => SetAndNotify(ref _downloadLogItemViewModel, value);
+    }
+
     #region ActionAfterTasks
 
     private bool _enableAfterActionSetting;
@@ -775,6 +787,7 @@ public class TaskQueueViewModel : Screen
     {
         UpdateDatePrompt();
         FightTask.UpdateStageList();
+        ToolboxViewModel.UpdateMiniGameTaskList();
     }
 
     /// <summary>
@@ -889,8 +902,31 @@ public class TaskQueueViewModel : Screen
         Execute.OnUIThread(() =>
         {
             LogItemViewModels.Clear();
+            DownloadLogItemViewModel = new(string.Empty);
             _logger.Information("Main windows log clear.");
             _logger.Information("{Empty}", string.Empty);
+        });
+    }
+
+    /// <summary>
+    /// Update the dedicated download log area. Thread-safe and will run on UI thread.
+    /// Mirrors previous logic which updated the first download log entry.
+    /// </summary>
+    /// <param name="fullText">The full text to show in download area.</param>
+    /// <param name="toolTip">Optional tooltip.</param>
+    public void UpdateDownloadLog(string fullText, ToolTip? toolTip = null)
+    {
+        Execute.OnUIThread(() =>
+        {
+            // Keep download area limited to a single entry.
+            if (string.IsNullOrEmpty(fullText))
+            {
+                DownloadLogItemViewModel = new(string.Empty);
+                return;
+            }
+
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip);
+            DownloadLogItemViewModel = log;
         });
     }
 

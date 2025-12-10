@@ -773,13 +773,13 @@
         "text": ["贈送", "次", "小時", "分鐘"]
     },
     "RecruitingActivitiesRecruit": {
-        "text": ["尋訪一次", "尋訪"]
+        "text": ["贈送一次", "贈送"]
     },
     "RecruitingActivitiesRecruitEnd": {
         "text": ["尋訪一次", "尋訪"]
     },
     "SpecialAccessActivities": {
-        "text": ["周年", "專享", "活動", "月卡", "推薦"]
+        "text": ["周年", "專享", "月卡", "推薦"]
     },
     "SpecialAccessActivitiesConfirm": {
         "text": ["立即", "立即領取"]
@@ -794,7 +794,7 @@
         "text": ["訪問下位"]
     },
     "VisitLimited": {
-        "text": ["今日參與", "已達上限", "重複訪問", "無法獲得"]
+        "text": ["今日參與", "已達上限"]
     },
     "CreditShop-NoMoney": {
         "text": ["信用不足", "無法購買"]

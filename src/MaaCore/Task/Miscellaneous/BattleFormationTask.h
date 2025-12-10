@@ -4,7 +4,7 @@
 #include "Common/AsstBattleDef.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Task/AbstractTask.h"
-#include "Task/Miscellaneous/SupportList.h"
+#include "Ui/SupportList.h"
 #include "Vision/TemplDetOCRer.h"
 
 namespace asst
@@ -67,10 +67,10 @@ public:
     // ————————————————————————————————
     enum class SupportUnitUsage // 助战干员使用策略
     {
-        None = 0,               // 不使用助战干员
-        WhenNeeded = 1,         // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队, 如果无缺失干员则不使用助战干员
-        Specific = 2,           // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用指定助战干员
-        Random = 3              // 如果有且仅有一名缺失干员则尝试寻找助战干员补齐编队，如果无缺失干员则使用随机助战干员
+        None = 0,               // 不加助战干员
+        WhenNeeded = 1,         // 如果仅缺一名干员则尝试补助战,
+        Specific = 2,           // 如果仅缺一名干员则尝试补助战，如无缺失则使用指定助战干员
+        Random = 3              // 如果仅缺一名干员则尝试补助战，如无缺失则随机加一个助战干员
     };
 
     void set_support_unit_usage(const SupportUnitUsage& value) { m_support_unit_usage = value; }
@@ -117,7 +117,7 @@ protected:
 
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;      // 作业编队
     std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation_last; // 上次的编队
-    // 编队中的干员名称-所属组名
+    // 编队中的干员名称-所属组名, 传递给外部使用, 编入的干员需要存入该表
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
         std::make_shared<std::unordered_map<std::string, std::string>>();
     bool m_add_trust = false;                                   // 是否需要追加信赖干员
@@ -137,12 +137,12 @@ protected:
     using OperModule = battle::OperModule;
     using RequiredOper = battle::RequiredOper;
 
-    bool add_support_unit(
+    std::optional<std::string> add_support_unit(
         const std::vector<RequiredOper>& required_opers = {},
         size_t max_refresh_times = 5,
         Friendship friendship = Friendship::Stranger);
 
-    bool add_support_unit_from_support_list(
+    std::optional<std::string> add_support_unit_from_support_list(
         SupportList& support_list,
         const std::vector<RequiredOper>& required_opers,
         Friendship friendship = Friendship::Stranger);

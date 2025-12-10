@@ -62,6 +62,8 @@
     <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationDiscordWebhookUrl">Webhook URL</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkAccessToken">Access Token</system:String>
+    <system:String x:Key="ExternalNotificationDingTalkSecret">Secret</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramTopicId">Topic ID (Optional)</system:String>
@@ -795,8 +797,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !Peep  -->
     <!--  小游戏  -->
     <system:String x:Key="MiniGameName">Mini Game Name</system:String>
+    <system:String x:Key="MiniGameNameEmptyTip">Select a mini-game from above to start running.</system:String>
     <system:String x:Key="MiniGame@PV">PV - Fireworks Organizing Committee</system:String>
-    <system:String x:Key="MiniGame@PVTip" xml:space="preserve">Start from the leftmost side of the event page</system:String>
+    <system:String x:Key="MiniGame@PVTip">Automatically clear from the selected stage. If you choose the first stage, start from the leftmost side of the event page; for other stages, enter the previous stage and then return to calibrate the position.</system:String>
     <system:String x:Key="MiniGame@SPA">Stronghold Protocol: Alliance</system:String>
     <system:String x:Key="MiniGame@SPATip" xml:space="preserve">Start the task from the main event screen (where ｢Independent Simulation｣ is located)
 Completing ｢Standard Simulation｣ manually allows faster score farming

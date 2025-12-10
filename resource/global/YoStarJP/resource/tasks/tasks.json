@@ -1017,7 +1017,7 @@
         "text": ["FP交換所"]
     },
     "VisitLimited": {
-        "text": ["上限", "達しました", "Fpは入手できません", "再訪問の場合"]
+        "text": ["上限", "達しました"]
     },
     "CreditShop-NoMoney": {
         "text": ["足りません", "FＰが"]

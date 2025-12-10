@@ -126,9 +126,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 }
             }
 
-            // ====== part02+：debug 子目录文件按 PartSize 分卷 ======
+            // ====== part02：debug 子目录文件按 PartSize 分卷 ======
+            var threeDaysAgo = DateTime.Now.AddDays(-3);
             var debugSubFiles = Directory.EnumerateFiles(debugPath, "*", SearchOption.AllDirectories)
-                .Where(f => Path.GetDirectoryName(f) != debugPath).ToList();
+                .Where(f => Path.GetDirectoryName(f) != debugPath)
+                .Where(f => new FileInfo(f).LastWriteTime >= threeDaysAgo)
+                .ToList();
 
             int partNumber = 2;
             while (debugSubFiles.Count > 0)

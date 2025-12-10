@@ -73,6 +73,8 @@ public class ToolboxViewModel : Screen
         LoadDepotDetails();
         LoadOperBoxDetails();
         OperBoxSelectedIndex = OperBoxNotHaveList.Count > 0 ? 0 : 1;
+
+        UpdateMiniGameTaskList();
     }
 
     private bool _idle;
@@ -1231,25 +1233,17 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
-    [
+    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
 
-        // 固定
-        new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" },
-
-        // 活动
-        new() { Display = LocalizationHelper.GetString("MiniGame@PV"), Value = "MiniGame@PV@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@SPA"), Value = "MiniGame@SPA@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@OS"), Value = "MiniGame@OS@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-TR-1"), Value = "MiniGame@RM-TR-1@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@RM-1"), Value = "MiniGame@RM-1@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@AT@ConversationRoom"), Value = "MiniGame@AT@ConversationRoom" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@HoneyFruit"), Value = "MiniGame@ALL@GreenGrass@HoneyFruit@Begin" },
-        new() { Display = LocalizationHelper.GetString("MiniGame@ALL@GreenGrass"), Value = "MiniGame@ALL@GreenGrass@DuelChannel@Begin" },
-    ];
+    public static void UpdateMiniGameTaskList()
+    {
+        MiniGameTaskList.Clear();
+        var tasks = Instances.StageManager.MiniGameEntries;
+        foreach (var t in tasks)
+        {
+            MiniGameTaskList.Add(new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey });
+        }
+    }
 
     private string _miniGameTaskName = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameTaskName, "SS@Store@Begin");
 
@@ -1278,24 +1272,51 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
-        return name switch
+        if (string.IsNullOrEmpty(name))
         {
-            // 固定
-            "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
-            "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
-            "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
-            "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
+            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+        }
 
-            // 活动
-            "MiniGame@PV@Begin" => LocalizationHelper.GetString("MiniGame@PVTip"),
-            "MiniGame@SPA@Begin" => LocalizationHelper.GetString("MiniGame@SPATip"),
-            "MiniGame@OS@Begin" => LocalizationHelper.GetString("MiniGame@OSTip"),
-            "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),
-            "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
-            "MiniGame@AT@ConversationRoom" => LocalizationHelper.GetString("MiniGame@AT@ConversationRoomTip"),
-            "MiniGame@ALL@GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@GreenGrassTip"),
-            _ => string.Empty,
-        };
+        var entry = Instances.StageManager.MiniGameEntries.FirstOrDefault(e => e.Value == name);
+        if (entry == null)
+        {
+            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+        }
+
+        // 优先使用 TipKey 的本地化
+        if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
+        {
+            return tipFromKey;
+        }
+
+        // 然后使用 explicit Tip
+        if (!string.IsNullOrEmpty(entry.Tip))
+        {
+            return entry.Tip;
+        }
+
+        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
+        if (!string.IsNullOrEmpty(entry.DisplayKey))
+        {
+            var displayTipKey = entry.DisplayKey + "Tip";
+            if (LocalizationHelper.TryGetString(displayTipKey, out var displayTip))
+            {
+                return displayTip;
+            }
+
+            // 最后回退为 Display 的本地化或原始 Display
+            if (LocalizationHelper.TryGetString(entry.DisplayKey, out var displayLoc))
+            {
+                return displayLoc;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(entry.Display))
+        {
+            return entry.Display;
+        }
+
+        return string.Empty;
     }
 
     public void StartMiniGame()
