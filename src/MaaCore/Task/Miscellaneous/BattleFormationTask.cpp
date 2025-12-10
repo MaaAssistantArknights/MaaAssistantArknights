@@ -126,7 +126,7 @@ bool asst::BattleFormationTask::_run()
         Log.info(__FUNCTION__, "| Left quick formation scene");
         if (auto opt = add_support_unit(required_opers)) {
             m_used_support_unit = true;
-            m_opers_in_formation->emplace(missing_group->first, *opt);
+            m_opers_in_formation->emplace(*opt, missing_group->first);
         }
         // 再到快速编队页面
         if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
