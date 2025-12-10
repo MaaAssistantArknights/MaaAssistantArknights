@@ -1233,44 +1233,15 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<CombinedData> MiniGameTaskList { get; } =
-    [
-        new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin" }, // 活动商店
-        new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin" }, // 绿票商店
-        new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin" }, // 黄票商店
-        new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin" }, // 生息演算商店
-    ];
+    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
 
-    private static void UpdateMiniGameTaskList()
+    public static void UpdateMiniGameTaskList()
     {
-        if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
+        MiniGameTaskList.Clear();
+        var tasks = Instances.StageManager.MiniGameEntries;
+        foreach (var t in tasks)
         {
-            AddIfNotExists("MiniGame@SPA", "MiniGame@SPA@Begin");
-        }
-        else if (SettingsViewModel.GameSettings.ClientType is "YoStarEN" or "YoStarJP" or "YoStarKR")
-        {
-        }
-        else if (SettingsViewModel.GameSettings.ClientType is "txwy")
-        {
-            AddIfNotExists("MiniGame@ALL@GreenGrass", "MiniGame@ALL@GreenGrass@DuelChannel@Begin");
-        }
-
-        // AddIfNotExists("MiniGame@PV", "MiniGame@PV@Begin");                                      // 揭幕者们 - 烟花筹委会
-        // AddIfNotExists("MiniGame@SPA", "MiniGame@SPA@Begin");                                    // 卫戍协议：盟约
-        // AddIfNotExists("MiniGame@ALL@GreenGrass", "MiniGame@ALL@GreenGrass@DuelChannel@Begin");  // 争锋频道 - 青草城
-        // AddIfNotExists("MiniGame@ALL@HoneyFruit", "MiniGame@ALL@HoneyFruit@DuelChannel@Begin");  // 争锋频道 - 蜜果城
-        // AddIfNotExists("MiniGame@OS", "MiniGame@OS@Begin");                                      // 雪山降临1101 - 喀兰贸易技术研发部
-        // AddIfNotExists("MiniGame@RM-TR-1", "MiniGame@RM-TR-1@Begin");                            // 次生预案
-        // AddIfNotExists("MiniGame@RM-1", "MiniGame@RM-1@Begin");                                  // 次生预案
-        // AddIfNotExists("MiniGame@AT@ConversationRoom", "MiniGame@AT@ConversationRoom");          // 墟 - 相谈室·御影
-        return;
-
-        static void AddIfNotExists(string displayKey, string value)
-        {
-            if (!MiniGameTaskList.Any(item => item.Value == value))
-            {
-                MiniGameTaskList.Add(new CombinedData { Display = LocalizationHelper.GetString(displayKey), Value = value });
-            }
+            MiniGameTaskList.Add(new MiniGameEntry { Display = t.Display, DisplayKey = t.DisplayKey, Value = t.Value, Tip = t.Tip, TipKey = t.TipKey });
         }
     }
 
@@ -1301,30 +1272,51 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
-        if (string.IsNullOrEmpty(name) || !MiniGameTaskList.Any(item => item.Value == name))
+        if (string.IsNullOrEmpty(name))
         {
             return LocalizationHelper.GetString("MiniGameNameEmptyTip");
         }
 
-        return name switch
+        var entry = Instances.StageManager.MiniGameEntries.FirstOrDefault(e => e.Value == name);
+        if (entry == null)
         {
-            // 固定
-            "SS@Store@Begin" => LocalizationHelper.GetString("MiniGameNameSsStoreTip"),
-            "GreenTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameGreenTicketStoreTip"),
-            "YellowTicket@Store@Begin" => LocalizationHelper.GetString("MiniGameNameYellowTicketStoreTip"),
-            "RA@Store@Begin" => LocalizationHelper.GetString("MiniGameNameRAStoreTip"),
+            return LocalizationHelper.GetString("MiniGameNameEmptyTip");
+        }
 
-            // 活动
-            "MiniGame@PV@Begin" => LocalizationHelper.GetString("MiniGame@PVTip"),
-            "MiniGame@SPA@Begin" => LocalizationHelper.GetString("MiniGame@SPATip"),
-            "MiniGame@OS@Begin" => LocalizationHelper.GetString("MiniGame@OSTip"),
-            "MiniGame@RM-TR-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-TR-1Tip"),
-            "MiniGame@RM-1@Begin" => LocalizationHelper.GetString("MiniGame@RM-1Tip"),
-            "MiniGame@AT@ConversationRoom" => LocalizationHelper.GetString("MiniGame@AT@ConversationRoomTip"),
-            "MiniGame@ALL@GreenGrass@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@GreenGrassTip"),
-            "MiniGame@ALL@HoneyFruit@DuelChannel@Begin" => LocalizationHelper.GetString("MiniGame@ALL@HoneyFruitTip"),
-            _ => string.Empty,
-        };
+        // 优先使用 TipKey 的本地化
+        if (!string.IsNullOrEmpty(entry.TipKey) && LocalizationHelper.TryGetString(entry.TipKey, out var tipFromKey))
+        {
+            return tipFromKey;
+        }
+
+        // 然后使用 explicit Tip
+        if (!string.IsNullOrEmpty(entry.Tip))
+        {
+            return entry.Tip;
+        }
+
+        // 若不存在 Tip，再尝试使用 DisplayKey + "Tip" 的约定键
+        if (!string.IsNullOrEmpty(entry.DisplayKey))
+        {
+            var displayTipKey = entry.DisplayKey + "Tip";
+            if (LocalizationHelper.TryGetString(displayTipKey, out var displayTip))
+            {
+                return displayTip;
+            }
+
+            // 最后回退为 Display 的本地化或原始 Display
+            if (LocalizationHelper.TryGetString(entry.DisplayKey, out var displayLoc))
+            {
+                return displayLoc;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(entry.Display))
+        {
+            return entry.Display;
+        }
+
+        return string.Empty;
     }
 
     public void StartMiniGame()

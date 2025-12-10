@@ -97,14 +97,17 @@ public static class Instances
         VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
         AnnouncementViewModel = container.Get<AnnouncementViewModel>();
         AsstProxy = container.Get<AsstProxy>();
+
+        // 这些实例化时存在依赖顺序
+        StageManager = container.Get<StageManager>();
         TaskQueueViewModel = container.Get<TaskQueueViewModel>();
         ToolboxViewModel = container.Get<ToolboxViewModel>();
+
         SettingsViewModel = container.Get<SettingsViewModel>();
         CopilotViewModel = container.Get<CopilotViewModel>();
 
         RemoteControlService = container.Get<RemoteControlService>();
 
-        StageManager = container.Get<StageManager>();
         HotKeyManager = container.Get<HotKeyManager>();
         MaaHotKeyManager = container.Get<MaaHotKeyManager>();
         MaaHotKeyActionHandler = container.Get<MaaHotKeyActionHandler>();
