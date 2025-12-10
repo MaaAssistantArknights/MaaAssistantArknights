@@ -374,6 +374,35 @@
                     Text="{DynamicResource RoguelikeStopAtMaxLevel}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <controls:TextBlock
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource RoguelikeDurationLimit}"
+                    TextWrapping="Wrap" />
+
+                <hc:NumericUpDown
+                    Width="60"
+                    Maximum="23"
+                    Minimum="0"
+                    Value="{Binding RoguelikeDurationLimitHours}" />
+
+                <controls:TextBlock
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource Hour}" />
+
+                <hc:NumericUpDown
+                    Width="60"
+                    Maximum="59"
+                    Minimum="0"
+                    Value="{Binding RoguelikeDurationLimitMinutes}" />
+
+                <controls:TextBlock
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource Minute}" />
+            </StackPanel>
             <!--<CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithSeed}"
