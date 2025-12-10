@@ -107,7 +107,7 @@ bool asst::BattleFormationTask::_run()
         const auto& missing_group = missing_groups.begin(); // 只有一个缺失干员组，直接取第一个
         for (const battle::OperUsage& oper :
              missing_group->second | std::views::filter([&](const battle::OperUsage& oper) {
-                         return oper.status == battle::OperStatus::Missing;
+                 return oper.status == battle::OperStatus::Missing;
              })) {
             // 如果指定助战干员正好可以补齐编队，则只招募指定助战干员就好了，记得再次确认一下 skill
             // 如果编队里正好有【艾雅法拉 - 2】和 【艾雅法拉 - 3】呢？
@@ -124,8 +124,9 @@ bool asst::BattleFormationTask::_run()
         // 先退出去招募助战再回来，好蠢
         confirm_selection();
         Log.info(__FUNCTION__, "| Left quick formation scene");
-        if (add_support_unit(required_opers)) {
+        if (auto opt = add_support_unit(required_opers)) {
             m_used_support_unit = true;
+            m_opers_in_formation->emplace(missing_group->first, *opt);
         }
         // 再到快速编队页面
         if (!ProcessTask(*this, { "Formation-EnterQuickFormation" }).set_retry_times(3).run()) {
@@ -182,10 +183,10 @@ bool asst::BattleFormationTask::_run()
     confirm_selection();
 
     if (m_support_unit_usage == SupportUnitUsage::Specific && !m_used_support_unit) { // 使用指定助战干员
-        m_used_support_unit = add_support_unit({ m_specific_support_unit });
+        m_used_support_unit = add_support_unit({ m_specific_support_unit }).has_value();
     }
     else if (m_support_unit_usage == SupportUnitUsage::Random && !m_used_support_unit) { // 使用随机助战干员
-        m_used_support_unit = add_support_unit();
+        m_used_support_unit = add_support_unit().has_value();
     }
 
     return true;
@@ -761,10 +762,10 @@ bool asst::BattleFormationTask::select_formation(int select_index, const cv::Mat
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::array<std::string, 4> select_formation_task = { "BattleSelectFormation1",
-                                                                      "BattleSelectFormation2",
-                                                                      "BattleSelectFormation3",
-                                                                      "BattleSelectFormation4" };
+    static const std::array<std::string, 4> select_formation_task { "BattleSelectFormation1",
+                                                                    "BattleSelectFormation2",
+                                                                    "BattleSelectFormation3",
+                                                                    "BattleSelectFormation4" };
 
     return ProcessTask { *this, { select_formation_task[select_index - 1] } }.set_reusable_image(img).run();
 }
@@ -777,7 +778,7 @@ bool asst::BattleFormationTask::is_formation_valid(const cv::Mat& img) const
     return task.run() && task.get_last_task_name() == valid_task;
 }
 
-bool asst::BattleFormationTask::add_support_unit(
+std::optional<std::string> asst::BattleFormationTask::add_support_unit(
     const std::vector<RequiredOper>& required_opers,
     const size_t max_refresh_times,
     const Friendship friendship)
@@ -791,8 +792,8 @@ bool asst::BattleFormationTask::add_support_unit(
 
     if (required_opers.empty()) { // 随机模式
         for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
-            if (add_support_unit_from_support_list(support_list, required_opers, friendship)) {
-                return true;
+            if (auto opt = add_support_unit_from_support_list(support_list, required_opers, friendship)) {
+                return opt;
             }
             if (refresh_times < max_refresh_times) {
                 support_list.refresh_list();
@@ -820,8 +821,8 @@ bool asst::BattleFormationTask::add_support_unit(
             const std::vector<RequiredOper> filtered_required_opers(filtered_view.begin(), filtered_view.end());
 
             for (size_t refresh_times = 0; refresh_times <= max_refresh_times && !need_exit(); ++refresh_times) {
-                if (add_support_unit_from_support_list(support_list, filtered_required_opers, friendship)) {
-                    return true;
+                if (auto opt = add_support_unit_from_support_list(support_list, filtered_required_opers, friendship)) {
+                    return opt;
                 }
                 if (refresh_times < max_refresh_times) {
                     support_list.refresh_list();
@@ -833,10 +834,10 @@ bool asst::BattleFormationTask::add_support_unit(
     // 未找到符合要求的助战干员，手动退出助战列表
     Log.info(__FUNCTION__, "| Fail to find any qualified support operator");
     ProcessTask(*this, { "Formation-AddSupportUnit-LeaveSupportList" }).run();
-    return false;
+    return std::nullopt;
 }
 
-bool asst::BattleFormationTask::add_support_unit_from_support_list(
+std::optional<std::string> asst::BattleFormationTask::add_support_unit_from_support_list(
     SupportList& support_list,
     const std::vector<RequiredOper>& required_opers,
     const Friendship friendship)
@@ -853,20 +854,20 @@ bool asst::BattleFormationTask::add_support_unit_from_support_list(
             return static_cast<int>(support_unit.friendship) >= static_cast<int>(friendship);
         });
         if (it == support_units.end()) {
-            return false;
+            return std::nullopt;
         }
 
         const size_t support_unit_index = std::distance(support_units.begin(), it);
         if (!support_list.select_support_unit(support_unit_index)) {
-            return false;
+            return std::nullopt;
         }
 
         if (!support_list.confirm_to_use_support_unit()) {
             support_list.leave_support_unit_detail_panel();
-            return false;
+            return std::nullopt;
         }
 
-        return true;
+        return it->name;
     }
 
     for (const RequiredOper& required_oper : required_opers) {
@@ -899,9 +900,10 @@ bool asst::BattleFormationTask::add_support_unit_from_support_list(
                 support_list.leave_support_unit_detail_panel();
                 continue;
             }
-            return true;
+
+            return it->name;
         }
     }
 
-    return false;
+    return std::nullopt;
 }
