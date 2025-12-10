@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -28,7 +29,6 @@ using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json.Linq;
 using Semver;
-using System.Text.RegularExpressions;
 using Serilog;
 using Stylet;
 
@@ -39,13 +39,16 @@ namespace MaaWpfGui.Services;
 /// </summary>
 public class StageManager
 {
-    private const string StageApi = "gui/StageActivity.json";
+    private const string StageApi = "gui/StageActivityV2.json";
     private const string TasksApi = "resource/tasks.json";
 
     private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
     // data
     private Dictionary<string, StageInfo> _stages = [];
+
+    // mini game entries exposed from StageActivityV2 (richer model including Tip/TipKey)
+    private List<MiniGameEntry> _miniGameEntries = InitializeDefaultMiniGameEntries();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StageManager"/> class.
@@ -54,6 +57,11 @@ public class StageManager
     {
         UpdateStageLocal();
     }
+
+    /// <summary>
+    /// Gets mini game entries parsed from StageActivityV2 (richer model including Tip/TipKey).
+    /// </summary>
+    public IReadOnlyList<MiniGameEntry> MiniGameEntries => _miniGameEntries.AsReadOnly();
 
     public void UpdateStageLocal()
     {
@@ -203,6 +211,96 @@ public class StageManager
             ParseActivityStages(activity[clientType], tempStage, curVerParsed, curVersionObj, isDebugVersion);
         }
 
+        // parse mini-game tasks from activity json if provided
+        try
+        {
+            // reset to defaults first
+            _miniGameEntries = InitializeDefaultMiniGameEntries();
+
+            var miniGameToken = activity?[clientType]?["miniGame"];
+            if (miniGameToken != null)
+            {
+                // parse into richer MiniGameEntry list, then map to CombinedData for UI compatibility
+                var parsedEntries = new List<MiniGameEntry>();
+                if (miniGameToken.Type == JTokenType.Array)
+                {
+                    foreach (var item in miniGameToken)
+                    {
+                        var entry = ParseMiniGameEntry(item);
+                        if (entry == null)
+                        {
+                            continue;
+                        }
+
+                        // version handling: if mini-game provides MinimumRequired, and current client is lower
+                        // do NOT skip — instead mark the entry Tip as version-not-supported and keep the entry
+                        var minReqStr = entry.MinimumRequired;
+                        if (!string.IsNullOrEmpty(minReqStr))
+                        {
+                            if (!TryParseVersion(minReqStr, out var minReqObj))
+                            {
+                                // malformed minimum required, mark as not supported and include
+                                entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                            }
+                            else
+                            {
+                                bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
+                                if (unsupported)
+                                {
+                                    entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                                    entry.TipKey = null;
+                                }
+                            }
+                        }
+
+                        parsedEntries.Add(entry);
+                    }
+                }
+                else
+                {
+                    var entry = ParseMiniGameEntry(miniGameToken);
+                    if (entry != null)
+                    {
+                        var minReqStr = entry.MinimumRequired;
+                        if (!string.IsNullOrEmpty(minReqStr))
+                        {
+                            if (!TryParseVersion(minReqStr, out var minReqObj))
+                            {
+                                entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                                parsedEntries.Add(entry);
+                            }
+                            else
+                            {
+                                bool unsupported = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minReqObj) < 0;
+                                if (unsupported)
+                                {
+                                    entry.Tip = LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + " " + minReqStr;
+                                    parsedEntries.Add(entry);
+                                }
+                                else
+                                {
+                                    parsedEntries.Add(entry);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            parsedEntries.Add(entry);
+                        }
+                    }
+                }
+
+                if (parsedEntries.Count > 0)
+                {
+                    _miniGameEntries.InsertRange(0, parsedEntries);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to parse miniGame from StageActivityV2.json, using defaults");
+        }
+
         AddPermanentStages(tempStage, resourceCollection);
 
         _stages = tempStage;
@@ -220,6 +318,91 @@ public class StageManager
             { "Pormpt1", new() { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = [DayOfWeek.Monday], IsHidden = true } },
             { "Pormpt2", new() { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = [DayOfWeek.Sunday], IsHidden = true } },
         };
+    }
+
+    private static List<MiniGameEntry> InitializeDefaultMiniGameEntries()
+    {
+        var entries = new List<MiniGameEntry>
+        {
+            new() { Display = LocalizationHelper.GetString("MiniGameNameSsStore"), Value = "SS@Store@Begin", TipKey = "MiniGameNameSsStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
+        };
+
+        return entries;
+    }
+
+    private static MiniGameEntry? ParseMiniGameEntry(JToken? token)
+    {
+        if (token == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            if (token.Type == JTokenType.String)
+            {
+                var val = token.ToString();
+                return new MiniGameEntry { Display = val, Value = val };
+            }
+
+            var display = token["Display"]?.ToString();
+            var displayKey = token["DisplayKey"]?.ToString();
+            var value = token["Value"]?.ToString() ?? token["value"]?.ToString();
+            var tip = token["Tip"]?.ToString();
+            var tipKey = token["TipKey"]?.ToString();
+            var minimumRequired = token["MinimumRequired"]?.ToString();
+
+            string finalDisplay = string.Empty;
+            if (!string.IsNullOrEmpty(display))
+            {
+                finalDisplay = display;
+            }
+            else if (!string.IsNullOrEmpty(displayKey))
+            {
+                if (LocalizationHelper.TryGetString(displayKey, out var loc))
+                {
+                    finalDisplay = loc;
+                }
+                else if (!string.IsNullOrEmpty(value))
+                {
+                    finalDisplay = value;
+                }
+                else
+                {
+                    finalDisplay = displayKey;
+                }
+            }
+            else if (!string.IsNullOrEmpty(value))
+            {
+                finalDisplay = value;
+            }
+            else
+            {
+                finalDisplay = token.ToString();
+            }
+
+            if (string.IsNullOrEmpty(value))
+            {
+                value = finalDisplay;
+            }
+
+            return new MiniGameEntry
+            {
+                Display = finalDisplay,
+                DisplayKey = displayKey,
+                Value = value,
+                Tip = tip,
+                TipKey = tipKey,
+                MinimumRequired = minimumRequired,
+            };
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private static bool TryParseVersion(string? version, out SemVersion? versionObj)
@@ -254,17 +437,40 @@ public class StageManager
     {
         try
         {
-            foreach (var stageObj in clientData?["sideStoryStage"] ?? Enumerable.Empty<JToken>())
+            var sideToken = clientData?["sideStoryStage"];
+            if (sideToken == null || sideToken.Type != JTokenType.Object)
             {
-                if (!TryParseVersion(stageObj["MinimumRequired"]?.ToString(), out var minRequiredObj))
+                return;
+            }
+
+            // 新格式：sideStoryStage 为对象，按活动分组，组内包含 Activity 与 Stages 数组
+            foreach (var prop in sideToken.Children<JProperty>())
+            {
+                var group = prop.Value;
+
+                JToken? activityToken = group["Activity"] ?? group["activity"];
+                var groupMinReqStr = group["MinimumRequired"]?.ToString() ?? group["minimumRequired"]?.ToString();
+
+                JToken? stagesToken = group["Stages"] ?? group["stages"];
+                if (stagesToken == null || stagesToken.Type != JTokenType.Array)
                 {
+                    // invalid group format, skip
                     continue;
                 }
 
-                bool unsupportedStages = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minRequiredObj) < 0;
+                foreach (var stageObj in stagesToken)
+                {
+                    var minReqStr = stageObj["MinimumRequired"]?.ToString() ?? groupMinReqStr;
+                    if (!TryParseVersion(minReqStr, out var minRequiredObj))
+                    {
+                        continue;
+                    }
 
-                var stageInfo = CreateStageInfo(stageObj, unsupportedStages, minRequiredObj);
-                tempStage.TryAdd(stageInfo.Display, stageInfo);
+                    bool unsupportedStages = !isDebugVersion && curVerParsed && curVersionObj!.CompareSortOrderTo(minRequiredObj) < 0;
+
+                    var stageInfo = CreateStageInfo(stageObj, unsupportedStages, minRequiredObj, activityToken);
+                    tempStage.TryAdd(stageInfo.Display, stageInfo);
+                }
             }
         }
         catch (Exception e)
@@ -273,25 +479,64 @@ public class StageManager
         }
     }
 
-    private static StageInfo CreateStageInfo(JToken? stageObj, bool unsupportedStages, SemVersion? minRequiredObj)
+    private static StageInfo CreateStageInfo(JToken? stageObj, bool unsupportedStages, SemVersion? minRequiredObj, JToken? activityToken)
     {
-        return new()
+        activityToken = stageObj?["Activity"] ?? activityToken;
+
+        var display = unsupportedStages
+            ? LocalizationHelper.GetString("UnsupportedStages")
+            : stageObj?["Display"]?.ToString() ?? string.Empty;
+
+        var value = unsupportedStages
+            ? LocalizationHelper.GetString("UnsupportedStages")
+            : stageObj?["Value"]?.ToString() ?? string.Empty;
+
+        var drop = unsupportedStages
+            ? LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
+            : stageObj?["Drop"]?.ToString();
+
+        DateTime utcStart = DateTime.MinValue;
+        DateTime utcExpire = DateTime.MinValue;
+        if (activityToken != null)
         {
-            Display = unsupportedStages
-                ? LocalizationHelper.GetString("UnsupportedStages")
-                : stageObj?["Display"]?.ToString() ?? string.Empty,
-            Value = unsupportedStages
-                ? LocalizationHelper.GetString("UnsupportedStages")
-                : stageObj?["Value"]?.ToString() ?? string.Empty,
-            Drop = unsupportedStages
-                ? LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj
-                : stageObj?["Drop"]?.ToString(),
-            Activity = new()
+            var startStr = activityToken["UtcStartTime"]?.ToString();
+            var expireStr = activityToken["UtcExpireTime"]?.ToString();
+            if (!string.IsNullOrEmpty(startStr))
             {
-                Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
-                StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
-                UtcStartTime = ParseDateTime(stageObj?["Activity"], "UtcStartTime"),
-                UtcExpireTime = ParseDateTime(stageObj?["Activity"], "UtcExpireTime"),
+                try
+                {
+                    utcStart = ParseDateTime(activityToken, "UtcStartTime");
+                }
+                catch
+                {
+                    utcStart = DateTime.MinValue;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(expireStr))
+            {
+                try
+                {
+                    utcExpire = ParseDateTime(activityToken, "UtcExpireTime");
+                }
+                catch
+                {
+                    utcExpire = DateTime.MinValue;
+                }
+            }
+        }
+
+        return new StageInfo
+        {
+            Display = display,
+            Value = value,
+            Drop = drop,
+            Activity = new StageActivityInfo
+            {
+                Tip = activityToken?["Tip"]?.ToString(),
+                StageName = activityToken?["StageName"]?.ToString(),
+                UtcStartTime = utcStart,
+                UtcExpireTime = utcExpire,
             },
         };
     }
