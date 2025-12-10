@@ -1233,7 +1233,7 @@ public class ToolboxViewModel : Screen
 
     #region MiniGame
 
-    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = new ObservableCollection<MiniGameEntry>();
+    public static ObservableCollection<MiniGameEntry> MiniGameTaskList { get; } = [];
 
     public static void UpdateMiniGameTaskList()
     {
