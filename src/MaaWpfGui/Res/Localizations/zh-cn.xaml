@@ -850,7 +850,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SupportUnitUsage">借助战</system:String>
     <system:String x:Key="SupportUnitUsage.Tip">缺一个还能用用，缺两个以上还是换份作业吧</system:String>
     <system:String x:Key="SupportUnitUsage.None">不借用</system:String>
-    <system:String x:Key="SupportUnitUsage.WhenNeeded">仅用于补漏</system:String>
+    <system:String x:Key="SupportUnitUsage.WhenNeeded">补漏</system:String>
     <system:String x:Key="SupportUnitUsage.Random">随机</system:String>
     <system:String x:Key="AddTrust">补充低信赖{key=Operator}</system:String>
     <system:String x:Key="Copilot.IgnoreRequirements">忽略{key=Operator}属性要求</system:String>

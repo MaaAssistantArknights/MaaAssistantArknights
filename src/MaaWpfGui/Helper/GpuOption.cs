@@ -230,7 +230,7 @@ public abstract class GpuOption
 
             var interfacePath = req.adapterDevicePath.ToString();
             uint size = 0;
-            var err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out var type, null, ref size, 0);
+            var err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out var type, Span<byte>.Empty, ref size, 0);
 
             if (err != CONFIGRET.CR_BUFFER_SMALL)
             {
@@ -245,16 +245,23 @@ public abstract class GpuOption
             var buf = ArrayPool<byte>.Shared.Rent((int)size);
             string? result;
 
-            fixed (byte* ptr = buf)
+            try
             {
-                err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out _, ptr, ref size, 0);
+                err = PInvoke.CM_Get_Device_Interface_Property(interfacePath, PInvoke.DEVPKEY_Device_InstanceId, out _, buf.AsSpan(0, (int)size), ref size, 0);
                 if (err != CONFIGRET.CR_SUCCESS)
                 {
                     return null;
                 }
 
                 var cch = (int)(size / 2) - 1;
-                result = Marshal.PtrToStringUni((nint)ptr, cch);
+                fixed (byte* ptr = buf)
+                {
+                    result = Marshal.PtrToStringUni((nint)ptr, cch);
+                }
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buf);
             }
 
             return result;
@@ -311,7 +318,8 @@ public abstract class GpuOption
         System.Runtime.InteropServices.ComTypes.FILETIME ft;
         uint size = (uint)sizeof(System.Runtime.InteropServices.ComTypes.FILETIME);
 
-        var err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverDate, out _, (byte*)(&ft), ref size, 0);
+        var ftSpan = new Span<byte>(&ft, (int)size);
+        var err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverDate, out _, ftSpan, ref size, 0);
 
         if (err != CONFIGRET.CR_SUCCESS)
         {
@@ -321,7 +329,7 @@ public abstract class GpuOption
         var driverDate = ft.ToDateTime().Date;
 
         size = 0;
-        err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, null, ref size, 0);
+        err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, Span<byte>.Empty, ref size, 0);
 
         if (err != CONFIGRET.CR_BUFFER_SMALL)
         {
@@ -330,10 +338,14 @@ public abstract class GpuOption
 
         var buf = new byte[size];
         string? driverVersion;
+        err = PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, buf.AsSpan(), ref size, 0);
+        if (err != CONFIGRET.CR_SUCCESS)
+        {
+            return new(description, null, driverDate);
+        }
+
         fixed (byte* ptr = buf)
         {
-            // err =
-            PInvoke.CM_Get_DevNode_Property(devInst, PInvoke.DEVPKEY_Device_DriverVersion, out _, ptr, ref size, 0);
             driverVersion = Marshal.PtrToStringUni((nint)ptr);
         }
 

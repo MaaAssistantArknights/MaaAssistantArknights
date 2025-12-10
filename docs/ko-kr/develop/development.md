@@ -63,7 +63,7 @@ icon: iconoir:developer
    ```
 
 5. 개발 환경 구성
-   - Visual Studio 2022 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
+   - Visual Studio 2026 Community 설치 시 `C++ 데스크톱 개발` 및 `.NET 데스크톱 개발` 필수 선택
 
 6. MAA.sln 파일 더블클릭 → Visual Studio에서 프로젝트 자동 로드
 7. VS 설정
