@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Common/AsstBattleDef.h"
-#include "Task/AbstractTask.h"
+#include "InstHelper.h"
 
 namespace asst
 {
-class SupportList : public AbstractTask
+class AbstractTask;
+
+class SupportList : protected InstHelper
 {
 public:
     using Role = battle::Role;
@@ -13,10 +15,8 @@ public:
     using Friendship = battle::Friendship;
     using SupportUnit = battle::SupportUnit;
 
-    using AbstractTask::AbstractTask;
-    virtual ~SupportList() override = default;
-
-    virtual bool _run() override { return true; };
+    SupportList(AbstractTask& parent_task);
+    virtual ~SupportList() = default;
 
     /// <summary>
     /// 选择助战列表职业。
@@ -187,6 +187,11 @@ private:
     /// 若文件写入成功，则返回 <c>true</c>，反之则返回 <c>false</c>。
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
+
+    /// <summary>
+    /// 父任务引用，用于创建 ProcessTask。
+    /// </summary>
+    AbstractTask& m_parent;
 
     /// <summary>
     /// 当前助战列表所选职业。
