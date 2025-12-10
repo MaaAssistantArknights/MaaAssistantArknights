@@ -611,6 +611,18 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public void ShowChangelog()
     {
-        Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
+        if (Instances.VersionUpdateViewModel.View is System.Windows.Window window)
+        {
+            if (window.WindowState == System.Windows.WindowState.Minimized)
+            {
+                window.WindowState = System.Windows.WindowState.Normal;
+            }
+
+            window.Activate();
+        }
+        else
+        {
+            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
+        }
     }
 }
