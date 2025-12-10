@@ -128,7 +128,7 @@ private:
     /// </summary>
     void reset_list_and_view_data();
 
-    void report_support_list();
+    void print_support_list() const;
 
     /// <summary>
     /// 使用 <c>image</c> 或主动截图，更新当前助战列表视图。
