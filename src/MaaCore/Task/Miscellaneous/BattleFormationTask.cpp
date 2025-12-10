@@ -137,10 +137,10 @@ bool asst::BattleFormationTask::_run()
     }
 
     // 在尝试补齐编队后依然有缺失干员，自动编队失败
-    bool has_missing = !m_used_support_unit && std::ranges::any_of(m_formation, [&](const auto& pair) {
-        return std::ranges::any_of(pair.second /* role, groups */, [&](const OperGroup& group) {
-            return !has_oper_selected(group.second);
-        });
+    bool has_missing = std::ranges::any_of(missing_groups, [&](const auto& pair) {
+        // 缺失组未被助战补齐干员
+        return std::ranges::find_if(*m_opers_in_formation, [&](const auto& p) { return p.second == pair.first; }) ==
+               m_opers_in_formation->end();
     });
     if (has_missing) {
         report_missing_operators();
@@ -292,7 +292,8 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, const std::vect
                         continue;
                     }
                     for (auto& oper : group->second) {
-                        if (oper.status == battle::OperStatus::Unchecked && !m_opers_in_formation->contains(oper.name)) {
+                        if (oper.status == battle::OperStatus::Unchecked &&
+                            !m_opers_in_formation->contains(oper.name)) {
                             oper.status = battle::OperStatus::Missing;
                         }
                     }
