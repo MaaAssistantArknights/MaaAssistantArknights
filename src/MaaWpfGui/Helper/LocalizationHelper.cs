@@ -177,35 +177,88 @@ public static class LocalizationHelper
             return GetPallasString();
         }
 
-        if (!string.IsNullOrEmpty(culture))
+        if (TryLookupStringInternal(key, out var value, culture))
         {
-            var dictionary = new ResourceDictionary
-            {
-                Source = new($@"Res\Localizations\{culture}.xaml", UriKind.Relative),
-            };
-
-            if (_preprocessedCultures.Add(culture))
-            {
-                PreprocessDictionary(dictionary, culture);
-            }
-
-            if (dictionary.Contains(key))
-            {
-                return Regex.Unescape(dictionary[key]?.ToString() ?? $"{{{{ {key} }}}}");
-            }
-        }
-
-        var dictList = Application.Current.Resources.MergedDictionaries;
-        for (int i = dictList.Count - 1; i >= 0; --i)
-        {
-            var dict = dictList[i];
-            if (dict.Contains(key))
-            {
-                return Regex.Unescape(dict[key]?.ToString() ?? $"{{{{ {key} }}}}");
-            }
+            return value;
         }
 
         return $"{{{{ {key} }}}}";
+    }
+
+    /// <summary>
+    /// Try get a localized string. Returns false when the key is not present in resources.
+    /// </summary>
+    /// <param name="key">The key of the string.</param>
+    /// <param name="value">The localized value when found.</param>
+    /// <param name="culture">Optional culture to lookup.</param>
+    /// <returns>True if a localized string is found; otherwise false.</returns>
+    public static bool TryGetString(string key, out string value, string? culture = null)
+    {
+        if (_culture == "pallas")
+        {
+            value = GetPallasString();
+            return true;
+        }
+
+        return TryLookupStringInternal(key, out value, culture);
+    }
+
+    private static bool TryLookupStringInternal(string key, out string value, string? culture = null)
+    {
+        value = string.Empty;
+
+        if (!string.IsNullOrEmpty(culture))
+        {
+            try
+            {
+                var dictionary = new ResourceDictionary
+                {
+                    Source = new($@"Res\Localizations\{culture}.xaml", UriKind.Relative),
+                };
+
+                if (_preprocessedCultures.Add(culture))
+                {
+                    PreprocessDictionary(dictionary, culture);
+                }
+
+                if (dictionary.Contains(key))
+                {
+                    value = Regex.Unescape(dictionary[key]?.ToString() ?? string.Empty);
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignore and fallback to merged dictionaries
+            }
+        }
+
+        var dictList = Application.Current?.Resources?.MergedDictionaries;
+        if (dictList != null)
+        {
+            for (int i = dictList.Count - 1; i >= 0; --i)
+            {
+                var dict = dictList[i];
+                if (dict.Contains(key))
+                {
+                    value = Regex.Unescape(dict[key]?.ToString() ?? string.Empty);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Check whether a translation exists for the given key.
+    /// </summary>
+    /// <param name="key">The localization key.</param>
+    /// <param name="culture">Optional culture to lookup.</param>
+    /// <returns>True if translation exists; otherwise false.</returns>
+    public static bool HasTranslation(string key, string? culture = null)
+    {
+        return TryGetString(key, out _, culture);
     }
 
     /// <summary>
