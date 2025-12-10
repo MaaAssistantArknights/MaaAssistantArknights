@@ -5,6 +5,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
+#include "Task/AbstractTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -12,33 +13,33 @@
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 
+asst::SupportList::SupportList(AbstractTask& parent_task) :
+    InstHelper(parent_task.inst()),
+    m_parent(parent_task)
+{
+}
+
 bool asst::SupportList::select_role(const Role role)
 {
     LogTraceFunction;
 
     if (m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            std::format(
-                "| Invalid operation: currently in support unit detail panel; failed to select role; reverting to {}",
-                enum_to_string(m_selected_role)));
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently in support unit detail panel; failed to select role; reverting to "
+                 << enum_to_string(m_selected_role);
         return false;
     }
 
     if (std::ranges::find(SUPPORT_UNIT_ROLES, role) == SUPPORT_UNIT_ROLES.end()) {
-        Log.error(
-            __FUNCTION__,
-            std::format(
-                "| Unsupported role: {}; failed to select role; reverting to {}",
-                enum_to_string(role),
-                enum_to_string(m_selected_role)));
+        LogError << __FUNCTION__ << "| Unsupported role: " << enum_to_string(role)
+                 << "; failed to select role; reverting to " << enum_to_string(m_selected_role);
         return false;
     }
 
     reset_list_and_view_data();
 
     if (ProcessTask(
-            *this,
+            m_parent,
             { enum_to_string(role, true) + "@SupportList-RoleSelected",
               enum_to_string(role, true) + "@SupportList-SelectRole" })
             .run()) {
@@ -94,7 +95,7 @@ bool asst::SupportList::update()
         return false;
     }
     m_list = analyzer.get_result();
-    report_support_list();
+    print_support_list();
 
     update_view();
 
@@ -106,11 +107,8 @@ bool asst::SupportList::select_support_unit(const size_t index)
     LogTraceFunction;
 
     if (index >= m_list.size()) {
-        Log.error(
-            __FUNCTION__,
-            "| Support unit No. {} does not exist in support list with size {}; failed to use support unit",
-            index + 1,
-            m_list.size());
+        LogError << __FUNCTION__ << "| Support unit No." << index + 1 << "does not exist in support list with size"
+                 << m_list.size() << "; failed to use support unit";
         return false;
     }
 
@@ -130,7 +128,7 @@ bool asst::SupportList::select_support_unit(const size_t index)
     ctrler()->click(click_rect);
     sleep(Config.get_options().task_delay);
 
-    if (!ProcessTask(*this, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
+    if (!ProcessTask(m_parent, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
         Log.error(__FUNCTION__, "| Support unit detail panel not recognised; failed to select support unit");
         save_img(ctrler()->get_image(), "screenshot");
         return false;
@@ -151,7 +149,7 @@ bool asst::SupportList::confirm_to_use_support_unit()
         return false;
     }
 
-    if (ProcessTask(*this, { "SupportList-DetailPanel-Confirm" }).run()) {
+    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Confirm" }).run()) {
         m_in_support_unit_detail_panel = false;
         reset_list_and_view_data();
         return true;
@@ -165,14 +163,13 @@ bool asst::SupportList::leave_support_unit_detail_panel()
     LogTraceFunction;
 
     if (!m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently not in support unit detail panel; "
-            "failed to leave support unit detail panel");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently not in support unit detail panel; failed to leave support unit "
+                    "detail panel";
         return false;
     }
 
-    if (ProcessTask(*this, { "SupportList-DetailPanel-Leave" }).run()) {
+    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Leave" }).run()) {
         m_in_support_unit_detail_panel = false;
         update_view();
         return true;
@@ -186,15 +183,13 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
     LogTraceFunction;
 
     if (!m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently not in support unit detail panel; failed to select skill"
-            "panel");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently not in support unit detail panel; failed to select skill panel";
         return false;
     }
 
     if (skill < 1 || skill > 3) {
-        Log.error(__FUNCTION__, std::format("| Invalid skill: {}; failed to select skill", skill));
+        LogError << __FUNCTION__ << "| Invalid skill:" << skill << "; failed to select skill";
         return false;
     }
 
@@ -209,7 +204,7 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
     skill_level_analyzer.set_roi(skill_level_roi);
 
     if (!skill_level_analyzer.analyze()) {
-        Log.info(__FUNCTION__, std::format("| Skill {} does not exist; failed to select skill", skill));
+        LogInfo << __FUNCTION__ << "| Skill" << skill << "does not exist; failed to select skill";
         return false;
     }
 
@@ -221,13 +216,8 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
     const int skill_level = ret.value();
 
     if (skill_level < minimum_skill_level) {
-        Log.info(
-            __FUNCTION__,
-            std::format(
-                "| The current support unit's skill level {} is below the minimum requirement {}; "
-                "failed to select skill",
-                skill_level,
-                minimum_skill_level));
+        LogInfo << __FUNCTION__ << "| The current support unit's skill level" << skill_level
+                << "is below the minimum requirement" << minimum_skill_level << "; failed to select skill";
         return false;
     }
 
@@ -245,11 +235,11 @@ bool asst::SupportList::select_skill(const int skill, const int minimum_skill_le
     skill_selected_analyzer.set_roi(skill_selected_roi);
 
     if (!skill_selected_analyzer.analyze()) {
-        Log.error(__FUNCTION__, std::format("| Skill {} did not respond to the click; failed to select skill", skill));
+        LogError << __FUNCTION__ << "| Skill" << skill << "did not respond to the click; failed to select skill";
         return false;
     }
 
-    Log.info(__FUNCTION__, std::format("| Selected skill {} with level {}", skill, skill_level));
+    LogInfo << __FUNCTION__ << "| Selected skill" << skill << "with level" << skill_level;
     return true;
 }
 
@@ -258,39 +248,33 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
     LogTraceFunction;
 
     if (!m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently not in support unit detail panel; failed to select skill"
-            "panel");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently not in support unit detail panel; failed to select skill panel";
         return false;
     }
 
     if (std::ranges::find(SUPPORT_UNIT_MODULES, module) == SUPPORT_UNIT_MODULES.end()) {
-        Log.error(__FUNCTION__, std::format("| Invalid module: {}; failed to select module", enum_to_string(module)));
+        LogError << __FUNCTION__ << "| Invalid module:" << enum_to_string(module) << "; failed to select module";
         return false;
     }
 
     // ————————————————————————————————————————————————————————————————
     // Find Module
     // ————————————————————————————————————————————————————————————————
-    ProcessTask(*this, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
+    ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
 
     if (module == OperModule::Original) {
-        if (!ProcessTask(*this, { "SupportList-DetailPanel-SelectOriginalModule" }).run()) {
-            Log.info(
-                __FUNCTION__,
-                std::format("| Module {} does not exist; failed to select module", enum_to_string(module)));
+        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-SelectOriginalModule" }).run()) {
+            LogInfo << __FUNCTION__ << "| Module" << enum_to_string(module)
+                    << "does not exist; failed to select module";
             return false;
         }
-        if (!ProcessTask(*this, { "SupportList-DetailPanel-ModuleSelected" }).run()) {
-            Log.error(
-                __FUNCTION__,
-                std::format(
-                    "| Module {} did not respond to the click; failed to select module",
-                    enum_to_string(module)));
+        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-ModuleSelected" }).run()) {
+            LogError << __FUNCTION__ << "| Module" << enum_to_string(module)
+                     << "did not respond to the click; failed to select module";
             return false;
         }
-        Log.info(__FUNCTION__, std::format("| Selected module {}", enum_to_string(module)));
+        LogInfo << __FUNCTION__ << "| Selected module" << enum_to_string(module);
         return true;
     }
 
@@ -304,14 +288,9 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
             // Check Module Level
             // ————————————————————————————————————————————————————————————————
             if (module_level < minimum_module_level) {
-                Log.info(
-                    __FUNCTION__,
-                    std::format(
-                        "| The current support unit's module {} is at level {}, "
-                        "which is below the minimum requirement {}; failed to select module",
-                        enum_to_string(module),
-                        module_level,
-                        minimum_module_level));
+                LogInfo << __FUNCTION__ << "| The current support unit's module" << enum_to_string(module)
+                        << "is at level" << module_level << "which is below the minimum requirement"
+                        << minimum_module_level << "; failed to select module";
                 return false;
             }
 
@@ -328,26 +307,21 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
             module_selected_analyzer.set_roi(module_selected_roi);
 
             if (!module_selected_analyzer.analyze()) {
-                Log.error(
-                    __FUNCTION__,
-                    std::format(
-                        "| Module {} did not respond to the click; failed to select module",
-                        enum_to_string(module)));
+                LogError << __FUNCTION__ << "| Module" << enum_to_string(module)
+                         << "did not respond to the click; failed to select module";
                 return false;
             }
 
-            Log.info(
-                __FUNCTION__,
-                std::format("| Selected module {} with level {}", enum_to_string(module), module_level));
+            LogInfo << __FUNCTION__ << "| Selected module" << enum_to_string(module) << "with level" << module_level;
             return true;
         }
 
         if (page < MAX_NUM_MODULE_PAGES - 1) {
-            ProcessTask(*this, { "SupportList-DetailPanel-SelectModule-MoveRight" }).run();
+            ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveRight" }).run();
         }
     }
 
-    Log.info(__FUNCTION__, std::format("| Module {} does not exist; failed to select module", enum_to_string(module)));
+    LogInfo << __FUNCTION__ << "| Module" << enum_to_string(module) << "does not exist; failed to select module";
     return false;
 }
 
@@ -356,15 +330,14 @@ bool asst::SupportList::refresh_list()
     LogTraceFunction;
 
     if (m_in_support_unit_detail_panel) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently in support unit detail panel; failed to refresh support list");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently in support unit detail panel; failed to refresh support list";
         return false;
     }
 
     reset_list_and_view_data();
 
-    return ProcessTask(*this, { "SupportList-RefreshAfterCooldown" }).run();
+    return ProcessTask(m_parent, { "SupportList-RefreshAfterCooldown" }).run();
 }
 
 bool asst::SupportList::update_selected_role(const cv::Mat& image)
@@ -392,26 +365,15 @@ void asst::SupportList::reset_list_and_view_data()
     reset_view();
 }
 
-void asst::SupportList::report_support_list()
+void asst::SupportList::print_support_list() const
 {
     static constexpr std::string_view FMT_STR = "{:^5} | {:^2} | {:^3} | {:^3} | {:^3} | {}";
-
-    std::vector<json::value> support_units;
 
     Log.info("Support List");
     Log.info(std::string(40, '-'));
     Log.info(std::format(FMT_STR, "Elite", "Lv", "Pot", "Mod", "Frd", "Name"));
     Log.info(std::string(40, '-'));
     for (const SupportUnit& support_unit : m_list) {
-        json::value option = json::object {
-            { "name", support_unit.name },
-            { "elite", support_unit.elite },
-            { "level", support_unit.level },
-            { "potential", support_unit.potential },
-            { "module_enabled", support_unit.module_enabled },
-            { "friendship", static_cast<int>(support_unit.friendship) },
-        };
-        support_units.emplace_back(std::move(option));
         Log.info(
             std::format(
                 FMT_STR,
@@ -425,10 +387,6 @@ void asst::SupportList::report_support_list()
                 support_unit.name));
     }
     Log.info(std::string(40, '-'));
-
-    json::value info = basic_info_with_what("SupportList");
-    info["details"]["support_units"] = std::move(support_units);
-    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::SupportList::update_view(const cv::Mat& image)
@@ -452,7 +410,7 @@ void asst::SupportList::update_view(const cv::Mat& image)
         }
     }
 
-    Log.info(__FUNCTION__, std::format("| Current view is [{}, {}]", m_view_begin + 1, m_view_end));
+    LogInfo << __FUNCTION__ << "| Current view is [" << m_view_begin + 1 << ", " << m_view_end << "]";
 }
 
 void asst::SupportList::reset_view()
@@ -468,13 +426,11 @@ void asst::SupportList::move_to_support_unit(const size_t index)
 
     // sanity check
     if (index >= m_list.size()) [[unlikely]] {
-        Log.error(
-            __FUNCTION__,
-            std::format("| Attempt to move to support unit {} out of {}", index + 1, m_list.size()));
+        LogError << __FUNCTION__ << "| Attempt to move to support unit " << index + 1 << " out of " << m_list.size();
         return;
     }
 
-    Log.info(__FUNCTION__, std::format("Moving to support unit {}: {}", index + 1, m_list[index].name));
+    LogInfo << __FUNCTION__ << "| Moving to support unit " << index + 1 << ": " << m_list[index].name;
 
     cv::Mat image;
     while (!need_exit()) {
@@ -491,7 +447,7 @@ void asst::SupportList::move_to_support_unit(const size_t index)
             continue;
         }
         if (m_support_unit_x_in_view[index] == UNDEFINED) [[unlikely]] {
-            Log.error(__FUNCTION__, "| rect for support unit {} in view is not updated", index + 1);
+            LogError << __FUNCTION__ << "| rect for support unit " << index + 1 << " in view is not updated";
             save_img(image, "lastly used screenshot");
             save_img(m_list[index].templ, "support unit template");
             image = ctrler()->get_image();
@@ -506,21 +462,21 @@ void asst::SupportList::move_to_list_head()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveToHead" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveToHead" }).run();
 }
 
 void asst::SupportList::move_forward()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveRight" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveRight" }).run();
 }
 
 void asst::SupportList::move_backward()
 {
     LogTraceFunction;
 
-    ProcessTask(*this, { "SupportList-MoveLeft" }).run();
+    ProcessTask(m_parent, { "SupportList-MoveLeft" }).run();
 }
 
 std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_page()
@@ -566,14 +522,12 @@ std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_pag
         };
         const auto iter = STR_OPER_MODULE_MAP.find(module_str);
         if (iter == STR_OPER_MODULE_MAP.end()) {
-            Log.error(
-                __FUNCTION__,
-                std::format("The current module has an unknown letter {}; skipping to the next one", module_str));
+            LogError << __FUNCTION__ << "| The current module has an unknown letter " << module_str
+                     << "; skipping to the next one";
             continue;
         }
-
         module_items.emplace_back(ModuleItem { .rect = rect, .module = iter->second, .level = module_level });
-        Log.info(__FUNCTION__, std::format("| Found module {} with level {}", module_str, module_level));
+        LogInfo << __FUNCTION__ << "| Found module " << module_str << " with level " << module_level;
     }
 
     return module_items;

@@ -209,7 +209,7 @@ bool asst::InfrastReceptionTask::send_clue()
 {
     // 优先检测是否存在“快捷传递重复线索”按钮（官服特性），若存在则点击一次
     ProcessTask task(*this, { "SendClues" });
-    return task.run();
+    return task.set_retry_times(20).run();
 }
 
 bool asst::InfrastReceptionTask::shift()

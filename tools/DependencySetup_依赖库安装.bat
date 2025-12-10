@@ -43,11 +43,11 @@ echo %BLUE%=====================================================================
 
 echo.
 echo %BLUE%====================================================================================================%RESET%
-echo %BOLD%%CYAN%正在安装 .NET Desktop Runtime 8.0%RESET%
-echo %BOLD%%CYAN%Installing .NET Desktop Runtime 8.0%RESET%
+echo %BOLD%%CYAN%正在安装 .NET Desktop Runtime 10.0%RESET%
+echo %BOLD%%CYAN%Installing .NET Desktop Runtime 10.0%RESET%
 echo.
 
-winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
+winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --uninstall-previous --accept-package-agreements --force
 if %errorlevel% neq 0 (
     set "ErrorOccurred=1"
 )
@@ -72,8 +72,8 @@ if %ErrorOccurred% equ 0 (
     echo %WHITE%Microsoft Visual C++ Redistributable:%RESET%
     echo %CYAN%https://aka.ms/vs/17/release/vc_redist.x64.exe%RESET%
     echo.
-    echo %WHITE%.NET Desktop Runtime 8.0:%RESET%
-    echo %CYAN%https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe%RESET%
+    echo %WHITE%.NET Desktop Runtime 10.0:%RESET%
+    echo %CYAN%https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe%RESET%
     echo %RED%====================================================================================================%RESET%
 )
 

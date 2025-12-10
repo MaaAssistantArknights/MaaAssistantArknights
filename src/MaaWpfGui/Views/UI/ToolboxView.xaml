@@ -636,6 +636,7 @@
                 </Grid.RowDefinitions>
                 <ComboBox
                     hc:TitleElement.Title="{DynamicResource MiniGameName}"
+                    DisplayMemberPath="Display"
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />

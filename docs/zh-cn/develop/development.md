@@ -59,13 +59,13 @@ icon: iconoir:developer
 
 5. 配置编程环境
    - 下载并安装 `CMake`
-   - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
+   - 下载并安装 `Visual Studio 2026 Community`, 安装的时候需要选中 `基于 C++ 的桌面开发` 和 `.NET 桌面开发`。
 
 6. 执行 cmake 项目配置
 
    ```cmd
    mkdir -p build
-   cmake -G "Visual Studio 17 2022" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
+   cmake -G "Visual Studio 18 2026" -B build -DBUILD_WPF_GUI=ON -DBUILD_DEBUG_DEMO=ON
    ```
 
 7. 双击打开 `build/MAA.sln` 文件，Visual Studio 会自动加载整个项目。

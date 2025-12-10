@@ -233,7 +233,7 @@ jobs:
 
       - name: Publish WPF GUI
         run: |
-          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -o install
+          dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -p:Platform=${{ matrix.arch == 'arm64' && 'ARM64' || 'x64' }} -o install
 
       - name: Collect PDB files
         run: |
