@@ -4,7 +4,7 @@
 
 #### .NET 10 升级
 
-MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发体验。同时取消了单文件发布，并将第三方依赖移至子文件夹，在保持目录清爽的同时有效减少更新包的体积。
+MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发体验。并将第三方依赖移至子文件夹，在保持目录清爽的同时有效减少更新包的体积。
 
 #### 关卡导航与小游戏优化
 
@@ -14,7 +14,7 @@ MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发�
 
 #### .NET 10 Upgrade
 
-MAA has been fully upgraded to .NET 10, bringing better performance and a more modern development experience. Single-file publishing has been disabled, and third-party dependencies have been moved to a subfolder, effectively reducing update package size while keeping the directory clean.
+MAA has been fully upgraded to .NET 10, bringing better performance and a more modern development experience. Third-party dependencies have been moved to a subfolder, effectively reducing update package size while keeping the directory clean.
 
 #### Stage Navigation and Mini-game Optimization
 
