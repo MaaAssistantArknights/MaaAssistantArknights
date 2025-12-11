@@ -18,7 +18,7 @@ Searching `Maa` and installing it from VSCode extensions list is recommended.
 
 ::: tip
 When used for the first time, the extension will automatically download the preset version of resources.
-Search command `Maa: select fetch registry` to switch downloading source (npm / cnpm).
+Search command `Maa: select fetch registry` to switch the download source (npm / cnpm).
 :::
 
 ## Features
