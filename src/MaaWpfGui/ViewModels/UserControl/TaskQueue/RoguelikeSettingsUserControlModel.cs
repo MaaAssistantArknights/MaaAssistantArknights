@@ -970,6 +970,21 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
+    private bool _roguelikeDurationLimitEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitEnabled, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 肉鸽时长限制已启用
+    /// </summary>
+    public bool RoguelikeDurationLimitEnabled
+    {
+        get => _roguelikeDurationLimitEnabled;
+        set
+        {
+            SetAndNotify(ref _roguelikeDurationLimitEnabled, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitEnabled, value.ToString());
+        }
+    }
+
     private int _roguelikeDurationLimitHours = int.TryParse(
         ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitHours, "0"),
         out var hours) ? hours : 0;
@@ -1352,13 +1367,17 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         var (taskType, taskParams) = task.Serialize();
 
-        // 计算总分钟数
-        int durationLimitMinutes = RoguelikeDurationLimitHours * 60 + RoguelikeDurationLimitMinutes;
-
-        // 添加到参数中
-        if (durationLimitMinutes > 0)
+        // 只有启用时长限制时才添加参数
+        if (RoguelikeDurationLimitEnabled)
         {
-            taskParams["duration_limit_minutes"] = durationLimitMinutes;
+            // 计算总分钟数
+            int durationLimitMinutes = RoguelikeDurationLimitHours * 60 + RoguelikeDurationLimitMinutes;
+
+            // 添加到参数中
+            if (durationLimitMinutes > 0)
+            {
+                taskParams["duration_limit_minutes"] = durationLimitMinutes;
+            }
         }
 
         return (taskType, taskParams);

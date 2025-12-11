@@ -185,6 +185,30 @@
                 Value="{Binding RoguelikeInvestsCount}" />
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource RoguelikeDurationLimit}"
+                IsChecked="{Binding RoguelikeDurationLimitEnabled}" />
+            <StackPanel
+                Height="30"
+                d:Visibility="Visible"
+                Orientation="Horizontal"
+                Visibility="{c:Binding RoguelikeDurationLimitEnabled}">
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="23"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding RoguelikeDurationLimitHours}" />
+                <controls:TextBlock Margin="5" Text="{DynamicResource Hour}" />
+                <hc:NumericUpDown
+                    Width="55"
+                    Maximum="59"
+                    Minimum="0"
+                    ValueFormat="00"
+                    Value="{Binding RoguelikeDurationLimitMinutes}" />
+                <controls:TextBlock Margin="5" Text="{DynamicResource Minute}" />
+            </StackPanel>
+            <CheckBox
+                Margin="0,10"
                 d:Visibility="Visible"
                 Content="{DynamicResource RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDiceRaw}"
@@ -374,25 +398,6 @@
                     Text="{DynamicResource RoguelikeStopAtMaxLevel}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" Content="{DynamicResource RoguelikeDurationLimit}" />
-            <StackPanel
-                Height="30"
-                Orientation="Horizontal">
-                <hc:NumericUpDown
-                    Width="55"
-                    Maximum="23"
-                    Minimum="0"
-                    ValueFormat="00"
-                    Value="{Binding RoguelikeDurationLimitHours}" />
-                <controls:TextBlock Margin="5" Text="{DynamicResource Hour}" />
-                <hc:NumericUpDown
-                    Width="55"
-                    Maximum="59"
-                    Minimum="0"
-                    ValueFormat="00"
-                    Value="{Binding RoguelikeDurationLimitMinutes}" />
-                <controls:TextBlock Margin="5" Text="{DynamicResource Minute}" />
-            </StackPanel>
             <!--<CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithSeed}"
