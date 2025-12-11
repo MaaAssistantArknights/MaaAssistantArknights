@@ -42,7 +42,7 @@
         "text": ["Craft"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     },
     "Reclamation2ExReadArchiveConfirm": {
         "text": ["Confirm"]
@@ -63,7 +63,7 @@
         "text": ["Confirm"]
     },
     "Reclamation2ExSkipDaysAward2": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["Start Today"]
@@ -78,10 +78,10 @@
         "text": ["Confirm Wipe"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     },
     "Reclamation2SkipDayClickContinue": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     },
     "Reclamation2SkipTimeSkip": {
         "text": ["Skip Day"]
