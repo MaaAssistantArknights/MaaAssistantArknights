@@ -4,7 +4,6 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/AbstractTask.h"
-#include "Task/AbstractTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
