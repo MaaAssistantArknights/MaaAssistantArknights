@@ -68,4 +68,5 @@ Refactored the stage navigation API. Mini-game lists can now be dynamically retr
 
 ### 文档 | Docs
 
+* 更新文档中的 .NET 版本至 10 (#15023) @wryx166
 * 更新安全策略版本 @SherkeyXD
