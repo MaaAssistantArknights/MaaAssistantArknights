@@ -1,4 +1,4 @@
-## v6.0.0-beta.1
+## v6.0.0-beta.2
 
 ### Highlights
 
@@ -55,3 +55,18 @@ Refactored the stage navigation API. Mini-game lists can now be dynamically retr
 
 * 移除不再使用的 report @ABA2396
 * YostarKR CharsNameOcrReplace OCR 编辑 @HX3N
+
+----
+
+## v6.0.0-beta.2
+
+### 修复 | Fix
+
+* 资源更新创建 ToolTip 失败 @ABA2396
+* 自动编队助战切换职业 retry @status102
+* 多活动同时开放时提示可能被错误折叠 @ABA2396
+
+### 文档 | Docs
+
+* 更新文档中的 .NET 版本至 10 (#15023) @wryx166
+* 更新安全策略版本 @SherkeyXD
