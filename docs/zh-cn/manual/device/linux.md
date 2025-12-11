@@ -19,7 +19,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 #### 安装步骤
 
-1. 前往 [.NET 发布页](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)下载并安装 Windows 版 .NET **桌面**运行时。
+1. 前往 [.NET 发布页](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)下载并安装 Windows 版 .NET **桌面**运行时。
 
 2. 下载 Windows 版 MAA，解压后运行 `wine MAA.exe`。
 
