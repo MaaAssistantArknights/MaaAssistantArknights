@@ -174,7 +174,8 @@ public:
 
         auto now = std::chrono::system_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
-        return m_duration_limit_minutes - static_cast<int>(elapsed.count());
+        int remaining = m_duration_limit_minutes - static_cast<int>(elapsed.count());
+        return remaining > 0 ? remaining : 0;
     }
 
 private:
