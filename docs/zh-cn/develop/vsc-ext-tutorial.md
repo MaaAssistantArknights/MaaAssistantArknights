@@ -104,6 +104,8 @@ icon: iconoir:code-brackets
 
 ::: warning
 
+(仅 MaaFramework 项目)
+
 如果OCR的识别结果为空，请检查[OCR模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)是否正确配置。
 
 :::
@@ -126,4 +128,4 @@ icon: iconoir:code-brackets
 
 #### MaaFramework <MaaFw版本>
 
-点击可切换插件使用的 `MaaFramework` 版本
+点击可切换插件使用的 `MaaFramework` 版本。其中，可选择的版本被限制为当前插件所支持的版本，如果列表中没有你需要的版本，请考虑更换插件版本。

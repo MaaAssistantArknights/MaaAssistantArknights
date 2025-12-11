@@ -5,12 +5,21 @@ icon: iconoir:code-brackets
 
 # Dedicated VSCode Extension Tutorial
 
-- [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
-- [Repository](https://github.com/neko-para/maa-support-extension)
+The extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
+
+- tasks.json support, including `template preview`, `next jump`, `task reference`, etc.
+- Screenshot / Crop image
+
+For details, please visit [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) or [Repository](https://github.com/neko-para/maa-support-extension).
 
 ## Installation
 
 Searching `Maa` and installing it from VSCode extensions list is recommended.
+
+::: tip
+When used for the first time, the extension will automatically download the preset version of resources.
+Search command `Maa: select fetch registry` to switch downloading source (npm / cnpm).
+:::
 
 ## Features
 
@@ -37,8 +46,8 @@ If you find that the editing json isn't hinted by the extension, please check if
 The extension supports Jump to task defs, Jump to task refs and View task defs.
 
 When enabling the `Maa` compatible mode, the extension will be able to parse `template task`, supporting querying task defs and task refs in conjunction with base tasks. Images that has the same name of the task will be shown when hovering the task defs.
-
-`Ctrl+T` を使用して、タスク定義を素早く検索してジャンプできます。
+ 
+Use `Ctrl+T` to quickly query and jump to a task definition.
 
 #### Query / open images
 
@@ -90,10 +99,12 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 - Hold `Ctrl` key and select cropping area
 - Use wheels to zoom
 - After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
+- Use `Copy` button to copy the ROI as an array to the clipboard.
+- Click `Tool` button to open the recognition tool panel, where you can directly test recognition on the current image.
 
 ::: warning
 
-OCR の認識結果が空の場合は、[OCR モデル](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) が正しく構成されているか確認してください。
+If OCR recognition returns an empty result, please check whether the [OCR model](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/en_us/1.1-QuickStarted.md#text-recognition-model-files) is configured correctly.
 
 :::
 
@@ -101,11 +112,11 @@ OCR の認識結果が空の場合は、[OCR モデル](https://github.com/MaaXY
 
 #### MaaFramework Log
 
-VSCode のコマンドパレットで `Maa: Open Maa Log` を検索して実行すると、デバッグ中に生成された `maa.log` を表示できます。
+Search and execute `Maa: open maa log` in the VSCode command panel to view the `maa.log` generated during debugging.
 
 #### Maa Pipeline Support Extension Log
 
-VSCode のコマンドパレットで `Maa: Open Extension Log` を検索して実行すると、デバッグ中に生成された `mse.log` を表示できます。
+Search and execute `Maa: open extension log` in the VSCode command panel to view the `mse.log` generated during debugging.
 
 ### Bottom status bar
 
@@ -113,10 +124,6 @@ VSCode のコマンドパレットで `Maa: Open Extension Log` を検索して�
 
 Click to reveal control panel
 
-#### MaaFramework \[MaaFw Version\]
+#### MaaFramework [MaaFw Version]
 
-Click to switch `MaaFramework` version used by the extension
-
-> When used for the first time, the preset version will be downloaded.
->
-> Search command `Maa: select fetch registry` to switch downloading source (npm / cnpm).
+Click to switch `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension. If the version you need is not in the list, please consider changing the extension version.

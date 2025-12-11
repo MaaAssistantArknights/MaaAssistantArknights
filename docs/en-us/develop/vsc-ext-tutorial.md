@@ -5,12 +5,21 @@ icon: iconoir:code-brackets
 
 # Dedicated VSCode Extension Tutorial
 
-- [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support)
-- [Repository](https://github.com/neko-para/maa-support-extension)
+The extension provides a series of convenient development capabilities for MaaAssistantArknights/MaaFramework, including but not limited to the following features:
+
+- tasks.json support, including `template preview`, `next jump`, `task reference`, etc.
+- Screenshot / Crop image
+
+For details, please visit [Extension Store](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) or [Repository](https://github.com/neko-para/maa-support-extension).
 
 ## Installation
 
 Searching `Maa` and installing it from VSCode extensions list is recommended.
+
+::: tip
+When used for the first time, the extension will automatically download the preset version of resources.
+Search command `Maa: select fetch registry` to switch downloading source (npm / cnpm).
+:::
 
 ## Features
 
@@ -90,6 +99,8 @@ Searching and launching `Maa: open crop tool` inside VSCode command panel can op
 - Hold `Ctrl` key and select cropping area
 - Use wheels to zoom
 - After finishing cropping, use `Download` button to save the cropping result to the folder of the topest layer of the activated resource
+- Use `Copy` button to copy the ROI as an array to the clipboard.
+- Click `Tool` button to open the recognition tool panel, where you can directly test recognition on the current image.
 
 ::: warning
 
@@ -113,10 +124,6 @@ Search and execute `Maa: open extension log` in the VSCode command panel to view
 
 Click to reveal control panel
 
-#### MaaFramework \[MaaFw Version\]
+#### MaaFramework [MaaFw Version]
 
-Click to switch `MaaFramework` version used by the extension
-
-> When used for the first time, the preset version will be downloaded.
->
-> Search command `Maa: select fetch registry` to switch downloading source (npm / cnpm).
+Click to switch `MaaFramework` version used by the extension. The selectable versions are limited to those supported by the current extension. If the version you need is not in the list, please consider changing the extension version.
