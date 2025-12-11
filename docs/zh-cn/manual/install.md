@@ -1,7 +1,12 @@
+---
+order: 2
+icon: material-symbols:download-2-rounded
+---
+
 # 下载与安装
 
 ::: tip
-你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./manual/cli/install.md) 文档。
+你正在查阅 MAA GUI 的下载与安装说明文档。若你需要查阅 maa-cli 的下载与安装说明，请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档。
 :::
 
 ## 下载 MAA
@@ -64,7 +69,7 @@ winget install maa
 
 ### Linux 和其他操作系统
 
-MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli** 来在这些系统上使用 MAA 的功能。请访问 maa-cli 的 [安装及编译](./manual/cli/install.md) 文档了解更多信息。
+MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli** 来在这些系统上使用 MAA 的功能。请访问 maa-cli 的 [安装及编译](./cli/install.md) 文档了解更多信息。
 
 ## 安装 MAA
 
@@ -73,7 +78,9 @@ MAA GUI **暂未支持** Linux 和其他操作系统。你可以使用 **maa-cli
 下载完成后，你会得到一个 `.zip` 文件。用解压缩软件将其完全解压后，会得到一个包含 MAA 所有文件的文件夹。
 
 ::: warning
-MAA 需要 Visual C++ Redistributable x64（VCRedist x64）和 .NET 10 。请在解压后的 MAA 目录中以管理员身份运行 `DependencySetup_依赖库安装.bat` 来安装这些依赖。安装完成后再运行 `maa.exe`。
+  1.请不要将 MAA 解压到如 `C:\`、`C:\Program Files\` 等需要 UAC 权限的路径。
+
+  2.MAA 需要 Visual C++ Redistributable x64（VCRedist x64）和 .NET 10 。请在解压后的 MAA 目录中以管理员身份运行 `DependencySetup_依赖库安装.bat` 来安装这些依赖。安装完成后再运行 `maa.exe`。
 :::
 
 双击 `maa.exe` 即可启动 MAA。
@@ -98,4 +105,4 @@ MAA 需要 Visual C++ Redistributable x64（VCRedist x64）和 .NET 10 。请在
 
 ## 后续步骤
 
-安装完成啦？快来看看 [新手上路](./manual/newbie.md) 和 [用户手册](./manual/) ，了解如何设置和使用 MAA 吧！
+安装完成啦？快来看看 [新手上路](./newbie.md) 和 [用户手册](./newbie.md) ，了解如何设置和使用 MAA 吧！

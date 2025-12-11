@@ -19,7 +19,7 @@ icon: ri:guide-fill
 
 2. 下载正确的版本
 
-   请参阅[下载与安装](./manual/install.md)，或直接从[官网](https://maa.plus)下载并解压安装。
+   请参阅[下载与安装](./install.md)，或直接从[官网](https://maa.plus)下载并解压安装。
 
    官网一般会自动选择正确的版本架构，对于大多数阅读本文的用户来说，应为 Windows x64。
 
