@@ -925,7 +925,9 @@
             ["Cage of Chaos", "迷狂牢笼"],
             ["Blood's Whisper", "本能的召唤"],
             ["Tippi", "蒂比"],
-            ["Tragodia", "酒神"]
+            ["Tragodia", "酒神"],
+            ["Leizi the Thunderbringer", "司霆惊蛰"],
+            ["Record Keeper", "录武官"]
         ]
     },
     "GameStartCheckResourceOCR": {
