@@ -125,7 +125,9 @@ bool asst::SupportList::select_support_unit(const size_t index)
     ctrler()->click(click_rect);
     sleep(Config.get_options().task_delay);
 
-    if (!ProcessTask(m_parent, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" }).run()) {
+    if (!ProcessTask(m_parent, { "SupportList-DetailPanel-Flag", "SupportList-DetailPanel-Flag@LoadingText" })
+             .set_retry_times(20)
+             .run()) {
         Log.error(__FUNCTION__, "| Support unit detail panel not recognised; failed to select support unit");
         save_img(ctrler()->get_image(), "screenshot");
         return false;
