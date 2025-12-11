@@ -982,6 +982,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         get => _roguelikeDurationLimitHours;
         set
         {
+            // 限制范围：0-23 小时
+            value = Math.Clamp(value, 0, 23);
             SetAndNotify(ref _roguelikeDurationLimitHours, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitHours, value.ToString());
         }
@@ -999,6 +1001,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         get => _roguelikeDurationLimitMinutes;
         set
         {
+            // 限制范围：0-59 分钟
+            value = Math.Clamp(value, 0, 59);
             SetAndNotify(ref _roguelikeDurationLimitMinutes, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDurationLimitMinutes, value.ToString());
         }
