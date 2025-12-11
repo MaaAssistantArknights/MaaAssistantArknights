@@ -15,13 +15,13 @@ MAAがアップデート後に動作しなくなった場合、またはエラ�
 MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行するか、以下のコマンドを端末で実行するか、
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
 以下の<u>**2つ**</u>のランタイムライブラリを手動でダウンロードしてインストールして問題を解決してください。
 
 - [Visual C++ 再頒布可能パッケージ](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET デスクトップランタイム 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+- [.NET デスクトップランタイム 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +51,7 @@ Windows N/KN（ヨーロッパ/韓国）の場合、[メディア機能パック
 
 #### Windows 7 関連
 
-.NET 8 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。最後に利用可能な .NET 8 バージョンは [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7) です。最後に利用可能な .NET 4.8 バージョンは [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8) です。自己コンパイルの実現可能性はまだ確認されていません。
+.NET 10 は Windows 7 / 8 / 8.1 システムをサポートしていないため<sup>[ソース](https://github.com/dotnet/core/issues/7556)</sup>、MAA も同様にサポートしていません。最後に利用可能な .NET 8 バージョンは [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7) です。最後に利用可能な .NET 4.8 バージョンは [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8) です。自己コンパイルの実現可能性はまだ確認されていません。
 
 Windows 7 の場合、上記の 2 つのランタイムライブラリをインストールする前に、以下のパッチがインストールされているかどうかを確認する必要があります：
 

@@ -25,7 +25,7 @@ icon: ri:guide-fill
 
 4. 安裝運行庫
 
-   MAA 需要 VCRedist x64 和 .NET 8，請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat` 來安裝。
+   MAA 需要 VCRedist x64 和 .NET 10，請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat` 來安裝。
 
    更多信息參考[常見問題](faq.md#可能性-2--執行庫問題)。
 
