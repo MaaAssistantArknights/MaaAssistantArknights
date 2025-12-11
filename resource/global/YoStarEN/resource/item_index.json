@@ -108,7 +108,7 @@
         "description": "How much ore does it take to make such valuable gold bars? It doesn't matter. What matters is that they're yours.",
         "icon": "3003.png",
         "name": "Pure Gold",
-        "sortId": 10005,
+        "sortId": 10202,
         "usage": "A refined gold bar. Can be exchanged for a lot of LMD."
     },
     "30031": {
@@ -796,7 +796,7 @@
         "description": "Since the financial crisis, economic decline and political instability have stood in the way of trade. The widespread circulation of Lungmen Dollars has allowed for some recovery in the business world.",
         "icon": "4001.png",
         "name": "LMD",
-        "sortId": 10004,
+        "sortId": 10201,
         "usage": "A widely used currency issued by Lungmen."
     },
     "4002": {
@@ -820,7 +820,7 @@
         "description": "The Infection Isolation Act is the last vestige of modern nation states. As long as you have some special ability, it is but a meaningless piece of paper. (The words of her Leithanian mentor.)",
         "icon": "4004.png",
         "name": "Distinction Certificate",
-        "sortId": 10006,
+        "sortId": 10203,
         "usage": "A certificate that attests to an operator's distinguished accomplishments and expertise. Can be exchanged for rare items."
     },
     "4005": {
@@ -828,7 +828,7 @@
         "description": "Good help is hard to find in troubled times, especially when trying to do it secretly. It's like finding a needle in a haystack, but what if Rhodes Island were to become the haystack? Would that save some time?",
         "icon": "4005.png",
         "name": "Commendation Certificate",
-        "sortId": 10007,
+        "sortId": 10204,
         "usage": "A certificate that attests to an operator's skills and qualifications. Can be exchanged for items."
     },
     "4006": {
@@ -836,7 +836,7 @@
         "description": "The operations at Rhodes Island require substantial funding and a variety of materials. Therefore, we must trade in diverse markets in order to keep everything running",
         "icon": "4006.png",
         "name": "Purchase Certificate",
-        "sortId": 10008,
+        "sortId": 10205,
         "usage": "A certificate describing the business and operational capacities of Rhodes Island. Can be exchanged for items."
     },
     "5001": {
@@ -908,7 +908,7 @@
         "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
         "icon": "CRISIS_SHOP_COIN.png",
         "name": "Contract Bounty",
-        "sortId": 10201,
+        "sortId": 10501,
         "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
     },
     "CRISIS_SHOP_COIN_V2": {
@@ -916,7 +916,7 @@
         "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
         "icon": "CRISIS_SHOP_COIN_V2.png",
         "name": "Crystal Contract Bounty",
-        "sortId": 10202,
+        "sortId": 10502,
         "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
     },
     "EPGS_COIN": {
@@ -924,7 +924,7 @@
         "description": "The fact that the headhunting agency has taken this consideration proves its sincerity. A word of warning though - if you seek to exploit this method for profit, I'm afraid the consequences will far outweigh any gains.",
         "icon": "EPGS_COIN.png",
         "name": "Headhunting Parametric Model",
-        "sortId": 10101,
+        "sortId": 10401,
         "usage": "A new product, born of processing data from expired headhunting contracts; Can be exchanged for certain supplies."
     },
     "EXTERMINATION_AGENT": {
@@ -980,7 +980,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_1401.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10011,
+        "sortId": 10303,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_1601": {
@@ -988,7 +988,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_1601.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10012,
+        "sortId": 10304,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_1803": {
@@ -996,7 +996,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_1803.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10013,
+        "sortId": 10305,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_2101": {
@@ -1004,7 +1004,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2101.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10014,
+        "sortId": 10306,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_2301": {
@@ -1012,7 +1012,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2301.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10015,
+        "sortId": 10307,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_2501": {
@@ -1020,7 +1020,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2501.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10016,
+        "sortId": 10308,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_2701": {
@@ -1028,7 +1028,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_2701.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10017,
+        "sortId": 10309,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_3001": {
@@ -1036,7 +1036,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_3001.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10018,
+        "sortId": 10310,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_3301": {
@@ -1044,7 +1044,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_3301.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10019,
+        "sortId": 10311,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_3501": {
@@ -1052,7 +1052,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_3501.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10019,
+        "sortId": 10312,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_3801": {
@@ -1060,7 +1060,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_3801.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10020,
+        "sortId": 10313,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_4101": {
@@ -1068,7 +1068,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_4101.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10021,
+        "sortId": 10314,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_4401": {
@@ -1076,7 +1076,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_4401.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10022,
+        "sortId": 10315,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_4701": {
@@ -1084,7 +1084,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_4701.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10023,
+        "sortId": 10316,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_5001": {
@@ -1092,7 +1092,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_5001.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10024,
+        "sortId": 10317,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_5301": {
@@ -1100,7 +1100,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_5301.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10025,
+        "sortId": 10318,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_5601": {
@@ -1108,7 +1108,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_5601.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10026,
+        "sortId": 10319,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_5801": {
@@ -1116,7 +1116,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_5801.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10026,
+        "sortId": 10320,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_601": {
@@ -1124,7 +1124,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_601.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10009,
+        "sortId": 10301,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_6101": {
@@ -1132,7 +1132,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_6101.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10027,
+        "sortId": 10321,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "LMTGS_COIN_903": {
@@ -1140,7 +1140,7 @@
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
         "icon": "LMTGS_COIN_903.png",
         "name": "Headhunting Data Contract",
-        "sortId": 10010,
+        "sortId": 10302,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
     "Logistics_Special_Permit": {
@@ -1156,7 +1156,7 @@
         "description": "In order to encourage Operators to proactively replay and review past events, upper management decided to initiate long-term activities that would grant a voucher for replaying prior operations. The voucher can be taken to the HR Department to exchange for various supplies, and the designated events are randomly selected by the system.",
         "icon": "REP_COIN.png",
         "name": "Intelligence Certificate",
-        "sortId": 10102,
+        "sortId": 10402,
         "usage": "A reward for reviewing past events; Can be used to exchange for various supplies."
     },
     "RETRO_COIN": {
@@ -1228,7 +1228,7 @@
         "description": "An auxiliary function of Rhodes Island's intelligence processing system. After extracting effective intelligence from a complex batch of information, the system was able to recreate images of past events with astonishing fidelity.\nThe information was packaged as videotapes to make it easier for ordinary people to understand.",
         "icon": "STORY_REVIEW_COIN.png",
         "name": "Information Fragments",
-        "sortId": 10203,
+        "sortId": 10503,
         "usage": "A topological model of effective intelligence that can be used to reconstruct past events."
     },
     "act10d5_token_biscuit": {
@@ -1550,6 +1550,14 @@
         "name": "Sheet Music",
         "sortId": -10000,
         "usage": "Musicians often misplace their drafts during outbursts of emotion. If you straighten it out and return it to its owner, perhaps you will receive a new piece in return."
+    },
+    "act19mini_token_sweetie": {
+        "classifyType": "NONE",
+        "description": "A small object on the cusp of becoming a geist, taking advantage of humanity's inattention to trundle about. Pranks on the street corner, odd sounds from the depths of stoves... A strange air permeates the town.",
+        "icon": "act19mini_token_sweetie.png",
+        "name": "'Sweetie'",
+        "sortId": -10000,
+        "usage": "If you bring lost geists that have not yet transformed to Mr. Pu's place, he will give you a few interesting trinkets in return as thanks. You notice the things he previously collected all have their own names."
     },
     "act19side_token_reagents": {
         "classifyType": "NONE",

@@ -25,7 +25,7 @@ icon: ri:guide-fill
 
 4. 런타임 설치
 
-   MAA는 VCRedist x64 및 .NET 8이 필요합니다. MAA 디렉토리의 `DependencySetup_依赖库安装.bat`를 실행하여 설치하세요.
+   MAA는 VCRedist x64 및 .NET 10이 필요합니다. MAA 디렉토리의 `DependencySetup_依赖库安装.bat`를 실행하여 설치하세요.
 
    자세한 정보는 [FAQ](./faq.md#가능성-2-런타임-문제)를 참조하세요.
 

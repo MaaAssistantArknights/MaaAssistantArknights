@@ -23,7 +23,7 @@ icon: ri:guide-fill
 
 4. ランタイムライブラリをインストールする
 
-   MAAはVCRedist x64と.NET 8が必要です。MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行してインストールしてください。
+   MAAはVCRedist x64と.NET 10が必要です。MAAディレクトリ内の `DependencySetup_依赖库安装.bat` を実行してインストールしてください。
 
 5. エミュレータのサポートを確認
 

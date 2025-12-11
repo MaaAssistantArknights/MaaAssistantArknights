@@ -15,13 +15,13 @@ MAA가 업데이트 후 실행되지 않거나 MAA의 오류 창을 통해 여�
 MAA 디렉토리에서 `DependencySetup_依赖库安装.bat`를 실행하거나, 터미널에서 아래 명령을 실행하거나,
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
 아래<u>**두 개**</u>의 실행 라이브러리를 수동으로 다운로드하여 설치하여 문제를 해결하세요.
 
 - [Visual C++ 재배포 가능 패키지](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET 데스크톱 런타임 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+- [.NET 데스크톱 런타임 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -43,7 +43,7 @@ Windows 8/8.1/10/11 N/KN(유럽/한국) 버전을 사용하는 경우, [미디�
 
 #### Windows 7 관련
 
-.NET 8은 Windows 7 / 8 / 8.1 시스템을 지원하지 않으므로<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 더 이상 지원하지 않습니다. 마지막으로 사용 가능한 .NET 8 버전은 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)입니다. 마지막으로 사용 가능한 .NET 4.8 버전은 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)입니다. 자체 컴파일의 실현 가능성은 아직 확인되지 않았습니다.
+.NET 10은 Windows 7 / 8 / 8.1 시스템을 지원하지 않으므로<sup>[출처](https://github.com/dotnet/core/issues/7556)</sup>, MAA도 더 이상 지원하지 않습니다. 마지막으로 사용 가능한 .NET 8 버전은 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)입니다. 마지막으로 사용 가능한 .NET 4.8 버전은 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)입니다. 자체 컴파일의 실현 가능성은 아직 확인되지 않았습니다.
 
 Windows 7의 경우, 위에서 언급한 두 개의 런타임 라이브러리를 설치하기 전에 다음 패치가 설치되어 있는지 확인해야 합니다:
 

@@ -47,6 +47,8 @@ icon: iconoir:code-brackets
 
 开启 `Maa` 兼容模式时, 可以解析 `模板任务`, 支持联动基类查询任务定义和引用; 悬停任务定义, 可以查看同名图片.
 
+使用 `Ctrl+T` 快捷键, 可以快速查询并跳转任务定义.
+
 #### 查询/打开图片
 
 插件支持打开图片.
@@ -97,6 +99,26 @@ icon: iconoir:code-brackets
 - 按住 `Ctrl` 键, 框选需要裁剪的区域
 - 使用滚轮可进行缩放
 - 裁剪完成后, 使用 `下载` 按钮, 可自动将裁剪结果保存到激活资源的最顶层的图片目录
+- 使用 `复制` 按钮，可将ROI以数组的形式复制到剪贴板
+- 按下 `工具` 按钮，将打开识别工具面板，可以直接对当前图片进行识别测试
+
+::: warning
+
+(仅 MaaFramework 项目)
+
+如果OCR的识别结果为空，请检查[OCR模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6)是否正确配置。
+
+:::
+
+### 日志查看功能
+
+#### MaaFramework日志
+
+在 VSCode 的命令面板中搜索执行 `Maa: 打开maa日志`, 可查看调试期间产生的`maa.log`日志.
+
+#### Maa Pipeline Support扩展日志
+
+在 VSCode 的命令面板中搜索执行 `Maa: 打开插件日志`, 可查看调试期间产生的`mse.log`日志.
 
 ### 底部状态栏
 
@@ -106,4 +128,4 @@ icon: iconoir:code-brackets
 
 #### MaaFramework <MaaFw版本>
 
-点击可切换插件使用的 `MaaFramework` 版本
+点击可切换插件使用的 `MaaFramework` 版本。其中，可选择的版本被限制为当前插件所支持的版本，如果列表中没有你需要的版本，请考虑更换插件版本。

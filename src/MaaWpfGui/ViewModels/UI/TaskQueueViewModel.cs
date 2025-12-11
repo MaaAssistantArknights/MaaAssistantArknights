@@ -914,7 +914,7 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     /// <param name="fullText">The full text to show in download area.</param>
     /// <param name="toolTip">Optional tooltip.</param>
-    public void UpdateDownloadLog(string fullText, ToolTip? toolTip = null)
+    public void UpdateDownloadLog(string fullText, string? toolTip = null)
     {
         Execute.OnUIThread(() =>
         {
@@ -925,7 +925,7 @@ public class TaskQueueViewModel : Screen
                 return;
             }
 
-            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip);
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip());
             DownloadLogItemViewModel = log;
         });
     }
