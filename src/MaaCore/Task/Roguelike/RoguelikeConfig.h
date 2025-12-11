@@ -200,8 +200,8 @@ private:
     int m_find_playTime_target = 0; // 目标常乐节点子类型 (1=令, 2=黍, 3=年)
 
     // ------------------ 时长限制 ------------------
-    int m_duration_limit_minutes = 0;                        // 时长限制（分钟），0 表示无限制
-    std::chrono::system_clock::time_point m_task_start_time; // 任务开始时间
+    int m_duration_limit_minutes = 0;                           // 时长限制（分钟），0 表示无限制
+    std::chrono::system_clock::time_point m_task_start_time {}; // 任务开始时间
 
 private:
     // =========================== 萨米主题专用参数 ===========================
