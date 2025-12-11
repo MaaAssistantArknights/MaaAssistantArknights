@@ -161,9 +161,7 @@ public:
             return false;
         }
 
-        auto now = std::chrono::system_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
-        return elapsed.count() >= m_duration_limit_minutes;
+        return get_elapsed_minutes() >= m_duration_limit_minutes;
     }
 
     int get_remaining_minutes() const
@@ -172,9 +170,7 @@ public:
             return 0;
         }
 
-        auto now = std::chrono::system_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
-        int remaining = m_duration_limit_minutes - static_cast<int>(elapsed.count());
+        int remaining = m_duration_limit_minutes - get_elapsed_minutes();
         return remaining > 0 ? remaining : 0;
     }
 
@@ -202,6 +198,14 @@ private:
     // ------------------ 时长限制 ------------------
     int m_duration_limit_minutes = 0;                           // 时长限制（分钟），0 表示无限制
     std::chrono::system_clock::time_point m_task_start_time {}; // 任务开始时间
+
+    // 获取已用时间（分钟）
+    int get_elapsed_minutes() const
+    {
+        auto now = std::chrono::system_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
+        return static_cast<int>(elapsed.count());
+    }
 
 private:
     // =========================== 萨米主题专用参数 ===========================

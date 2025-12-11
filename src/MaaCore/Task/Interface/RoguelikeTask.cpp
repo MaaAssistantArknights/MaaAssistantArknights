@@ -202,8 +202,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     int duration_limit = params.get("duration_limit_minutes", 0);
     m_config_ptr->set_duration_limit_minutes(duration_limit);
 
-    // 记录任务开始时间
-    m_config_ptr->set_task_start_time(std::chrono::system_clock::now());
+    // 只在启用时长限制时记录任务开始时间
+    if (duration_limit > 0) {
+        m_config_ptr->set_task_start_time(std::chrono::system_clock::now());
+    }
 
     return true;
 }
