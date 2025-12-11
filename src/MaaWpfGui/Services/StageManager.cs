@@ -516,13 +516,9 @@ public class StageManager
     {
         activityToken = stageObj?["Activity"] ?? activityToken;
 
-        var display = unsupportedStages
-            ? LocalizationHelper.GetString("UnsupportedStages")
-            : stageObj?["Display"]?.ToString() ?? string.Empty;
+        var display = stageObj?["Display"]?.ToString() ?? string.Empty;
 
-        var value = unsupportedStages
-            ? LocalizationHelper.GetString("UnsupportedStages")
-            : stageObj?["Value"]?.ToString() ?? string.Empty;
+        var value = stageObj?["Value"]?.ToString() ?? string.Empty;
 
         var drop = unsupportedStages
             ? LocalizationHelper.GetString("LowVersion") + '\n' + LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj

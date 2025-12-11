@@ -1,10 +1,8 @@
 #include "SupportList.h"
 
 #include "Config/GeneralConfig.h"
-#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "MaaUtils/ImageIo.h"
 #include "Task/AbstractTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/DebugImageHelper.hpp"
@@ -42,6 +40,7 @@ bool asst::SupportList::select_role(const Role role)
             m_parent,
             { enum_to_string(role, true) + "@SupportList-RoleSelected",
               enum_to_string(role, true) + "@SupportList-SelectRole" })
+            .set_retry_times(20)
             .run()) {
         m_selected_role = role;
         Log.info(__FUNCTION__, "| Successfully selected role", enum_to_string(role));
@@ -49,9 +48,8 @@ bool asst::SupportList::select_role(const Role role)
     }
 
     m_selected_role = Role::Unknown;
-    Log.error(
-        __FUNCTION__,
-        std::format("| Failed to select role {}; the currently selected role is unknown", enum_to_string(role)));
+    LogError << __FUNCTION__ << "| Failed to select role" << enum_to_string(role)
+             << "the currently selected role is unknown";
     return false;
 }
 
@@ -60,9 +58,8 @@ bool asst::SupportList::update()
     LogTraceFunction;
 
     if (m_in_support_unit_detail_panel) {
-        Log.error(
-            __FUNCTION__,
-            "| Invalid operation: currently in support unit detail panel; failed to update support list");
+        LogError << __FUNCTION__
+                 << "| Invalid operation: currently in support unit detail panel; failed to update support list";
         return false;
     }
 

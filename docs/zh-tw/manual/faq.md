@@ -15,13 +15,13 @@ icon: ph:question-fill
 請運行 MAA 目錄下的 `DependencySetup_依赖库安装.bat`，或者在終端中運行以下命令，
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
 或者手動下載並安裝以下<u>**兩個**</u>運行庫來解決問題。
 
 - [Visual C++ 可再發行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET 桌面運行時 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+- [.NET 桌面運行時 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +51,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 #### Windows 7
 
-.NET 8 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。最後一個可用的 .NET 8 版本為 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最後一個可用的 .NET 4.8 版本為 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未確定自行編譯的可行性。
+.NET 10 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。最後一個可用的 .NET 8 版本為 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最後一個可用的 .NET 4.8 版本為 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未確定自行編譯的可行性。
 
 對於 Windows 7，在安裝上文提到的兩個運行庫之前，還需檢查以下補丁是否已安裝：
 
