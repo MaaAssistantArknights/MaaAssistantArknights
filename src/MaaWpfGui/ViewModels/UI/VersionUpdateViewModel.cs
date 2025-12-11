@@ -1201,7 +1201,7 @@ public class VersionUpdateViewModel : Screen
             fullText = output;
         }
 
-        Instances.TaskQueueViewModel?.UpdateDownloadLog(fullText, toolTip?.CreateTooltip());
+        Instances.TaskQueueViewModel?.UpdateDownloadLog(fullText, toolTip);
     }
 
     public bool IsDebugVersion(string? version = null)
