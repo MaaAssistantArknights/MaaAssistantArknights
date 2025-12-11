@@ -840,7 +840,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드에서 작업 파일을 읽고 추가합니다</system:String>
-    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">작업 목록에 추가하기 위한 별도의 버튼이 추가되었습니다. 마우스 오른쪽 버튼을 클릭하여 작업 목록에 추가하는 동작은 향후에 제거될 예정입니다.</system:String>
     <system:String x:Key="PasteClipboardCopilotSetTip">클립보드에서 작업 파일을 읽고 작업 목록에 추가합니다.</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">이 작업 파일이 마음에 드셨나요? 평가해 주세요!</system:String>

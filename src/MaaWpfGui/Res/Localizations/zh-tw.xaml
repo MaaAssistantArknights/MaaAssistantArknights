@@ -840,7 +840,6 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">讀取剪貼簿並新增為作業</system:String>
-    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">為新增作業集新增了獨立的按鈕, 使用右鍵新增作業集的行為將在未來移除</system:String>
     <system:String x:Key="PasteClipboardCopilotSetTip">讀取剪貼簿並新增為作業集</system:String>
     <system:String x:Key="ImportFilesTip">批次導入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
