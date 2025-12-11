@@ -406,8 +406,7 @@
         },
         "char_1043_leizi2": {
             "name": "司霆惊蛰",
-            "name_en": "司霆惊蛰",
-            "name_en_unavailable": true,
+            "name_en": "Leizi the Thunderbringer",
             "name_jp": "司霆レイズ",
             "name_kr": "레이즈 더 썬더브링어",
             "name_tw": "司霆惊蛰",
@@ -3784,8 +3783,7 @@
         },
         "char_4196_reckpr": {
             "name": "录武官",
-            "name_en": "录武官",
-            "name_en_unavailable": true,
+            "name_en": "Record Keeper",
             "name_jp": "レコードキーパー",
             "name_kr": "레코드키퍼",
             "name_tw": "录武官",
@@ -12677,7 +12675,7 @@
         },
         "trap_780_supspt": {
             "name": "天工夜行套装",
-            "name_en": "Master Who Walks the Night Gear",
+            "name_en": "Nightwalker's Gear",
             "name_jp": "天工夜行セット",
             "name_kr": "천공 야행 세트",
             "name_tw": "天工夜行套装",
