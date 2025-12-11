@@ -1240,6 +1240,24 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Info);
                     break;
                 }
+
+            case "RoguelikeDurationRemaining":
+                {
+                    int remainingMinutes = subTaskDetails!["remaining_minutes"]?.ToObject<int>() ?? 0;
+                    int hours = remainingMinutes / 60;
+                    int minutes = remainingMinutes % 60;
+
+                    string timeString = hours > 0
+                        ? $"{hours}小时{minutes}分钟"
+                        : $"{minutes}分钟";
+
+                    string message = string.Format(
+                        LocalizationHelper.GetString("RoguelikeDurationRemaining"),
+                        timeString);
+
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Message);
+                    break;
+                }
         }
     }
 

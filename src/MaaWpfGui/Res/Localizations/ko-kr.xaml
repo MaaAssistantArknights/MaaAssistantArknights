@@ -197,6 +197,7 @@
     <system:String x:Key="Hour">시간</system:String>
     <system:String x:Key="Minute">분</system:String>
     <system:String x:Key="RoguelikeDurationLimitReached">로그라이크 실행 시간이 {0} 제한에 도달했습니다, 작업을 중지합니다</system:String>
+    <system:String x:Key="RoguelikeDurationRemaining">로그라이크 남은 시간: {0}</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">월간 분대 자동 전환</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">월간 분대 통신</system:String>

@@ -197,6 +197,7 @@
     <system:String x:Key="Hour">時間</system:String>
     <system:String x:Key="Minute">分</system:String>
     <system:String x:Key="RoguelikeDurationLimitReached">ローグライク実行時間が {0} 制限に達しました、タスクを停止します</system:String>
+    <system:String x:Key="RoguelikeDurationRemaining">ローグライク残り時間: {0}</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">投資のシードを有効にする</system:String>
     <system:String x:Key="RoguelikeMonthlySquadAutoIterate">月次小隊自動切替</system:String>
     <system:String x:Key="RoguelikeMonthlySquadCheckComms">月次小隊通信</system:String>

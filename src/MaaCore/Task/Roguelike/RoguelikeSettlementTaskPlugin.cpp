@@ -59,16 +59,31 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
 
     // 检查时长限制
-    if (m_config->is_duration_limit_reached()) {
-        Log.info(__FUNCTION__, "肉鸽运行时长已达限制，停止任务");
+    if (m_config->get_duration_limit_minutes() > 0) {
+        if (m_config->is_duration_limit_reached()) {
+            Log.info(__FUNCTION__, "肉鸽运行时长已达限制，停止任务");
 
-        // 发送时长到达的日志消息
-        auto duration_msg = basic_info_with_what("RoguelikeDurationLimitReached");
-        duration_msg["details"]["duration_limit_minutes"] = m_config->get_duration_limit_minutes();
-        callback(AsstMsg::SubTaskExtraInfo, duration_msg);
+            // 发送时长到达的日志消息
+            auto duration_msg = basic_info_with_what("RoguelikeDurationLimitReached");
+            duration_msg["details"]["duration_limit_minutes"] = m_config->get_duration_limit_minutes();
+            callback(AsstMsg::SubTaskExtraInfo, duration_msg);
 
-        // 禁用任务，停止肉鸽
-        m_task_ptr->set_enable(false);
+            // 禁用任务，停止肉鸽
+            m_task_ptr->set_enable(false);
+        }
+        else {
+            // 输出剩余时间
+            int remaining = m_config->get_remaining_minutes();
+
+            if (remaining > 0) {
+                Log.info(__FUNCTION__, "肉鸽剩余运行时间:", remaining, "分钟");
+
+                // 发送剩余时间的日志消息
+                auto remaining_msg = basic_info_with_what("RoguelikeDurationRemaining");
+                remaining_msg["details"]["remaining_minutes"] = remaining;
+                callback(AsstMsg::SubTaskExtraInfo, remaining_msg);
+            }
+        }
     }
 
     return true;

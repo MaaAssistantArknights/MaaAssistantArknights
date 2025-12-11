@@ -166,6 +166,17 @@ public:
         return elapsed.count() >= m_duration_limit_minutes;
     }
 
+    int get_remaining_minutes() const
+    {
+        if (m_duration_limit_minutes <= 0) {
+            return 0;
+        }
+
+        auto now = std::chrono::system_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
+        return m_duration_limit_minutes - static_cast<int>(elapsed.count());
+    }
+
 private:
     std::string m_theme;                       // 主题
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
