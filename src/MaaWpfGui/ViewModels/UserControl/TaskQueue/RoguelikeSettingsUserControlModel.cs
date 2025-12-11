@@ -970,7 +970,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private int _roguelikeDurationLimitHours = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitHours, "0"));
+    private int _roguelikeDurationLimitHours = int.TryParse(
+        ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitHours, "0"),
+        out var hours) ? hours : 0;
 
     /// <summary>
     /// Gets or sets 肉鸽时长限制 - 小时数 (0-23)
@@ -985,7 +987,9 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private int _roguelikeDurationLimitMinutes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitMinutes, "0"));
+    private int _roguelikeDurationLimitMinutes = int.TryParse(
+        ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDurationLimitMinutes, "0"),
+        out var minutes) ? minutes : 0;
 
     /// <summary>
     /// Gets or sets 肉鸽时长限制 - 分钟数 (0-59)
