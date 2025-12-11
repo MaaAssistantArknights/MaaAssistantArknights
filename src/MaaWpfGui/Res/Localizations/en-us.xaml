@@ -196,6 +196,8 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="RoguelikeDurationLimit">Duration Limit</system:String>
     <system:String x:Key="Hour">Hour(s)</system:String>
     <system:String x:Key="Minute">Minute(s)</system:String>
+    <system:String x:Key="DurationFormatHoursMinutes">{0}{key=Hour}{1}{key=Minute}</system:String>
+    <system:String x:Key="DurationFormatMinutesOnly">{0}{key=Minute}</system:String>
     <system:String x:Key="RoguelikeDurationLimitReached">Roguelike duration limit of {0} reached, stopping task</system:String>
     <system:String x:Key="RoguelikeDurationRemaining">Roguelike remaining time: {0}</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">Enable Investment Seed</system:String>

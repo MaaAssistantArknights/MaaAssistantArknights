@@ -1229,9 +1229,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     int hours = durationMinutes / 60;
                     int minutes = durationMinutes % 60;
 
+                    string timeFormat = hours > 0
+                        ? LocalizationHelper.GetString("DurationFormatHoursMinutes")
+                        : LocalizationHelper.GetString("DurationFormatMinutesOnly");
+
                     string timeString = hours > 0
-                        ? $"{hours}小时{minutes}分钟"
-                        : $"{minutes}分钟";
+                        ? string.Format(timeFormat, hours, minutes)
+                        : string.Format(timeFormat, minutes);
 
                     string message = string.Format(
                         LocalizationHelper.GetString("RoguelikeDurationLimitReached"),
@@ -1247,9 +1251,13 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     int hours = remainingMinutes / 60;
                     int minutes = remainingMinutes % 60;
 
+                    string timeFormat = hours > 0
+                        ? LocalizationHelper.GetString("DurationFormatHoursMinutes")
+                        : LocalizationHelper.GetString("DurationFormatMinutesOnly");
+
                     string timeString = hours > 0
-                        ? $"{hours}小时{minutes}分钟"
-                        : $"{minutes}分钟";
+                        ? string.Format(timeFormat, hours, minutes)
+                        : string.Format(timeFormat, minutes);
 
                     string message = string.Format(
                         LocalizationHelper.GetString("RoguelikeDurationRemaining"),
