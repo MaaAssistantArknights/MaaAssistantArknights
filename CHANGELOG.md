@@ -10,12 +10,6 @@ MAA 已全面升级至 .NET 10，带来更好的性能和更现代化的开发�
 
 重构了关卡导航 API，现在小游戏列表可以通过 API 动态获取，支持配置小游戏开放时间，使小游戏功能更加灵活易用。
 
-#### 修复 (6.0.0-beta.2 及以上版本)
-
-* 修复资源更新创建 ToolTip 失败的问题
-* 修复自动编队助战切换职业时的重试问题
-* 修复多活动同时开放时提示可能被错误折叠的问题
-
 ----
 
 #### .NET 10 Upgrade
@@ -25,12 +19,6 @@ MAA has been fully upgraded to .NET 10, bringing better performance and a more m
 #### Stage Navigation and Mini-game Optimization
 
 Refactored the stage navigation API. Mini-game lists can now be dynamically retrieved through the API, with support for configuring mini-game opening times, making the mini-game feature more flexible and user-friendly.
-
-#### Fixes (6.0.0-beta.2 and above)
-
-* Fixed ToolTip creation failure during resource updates
-* Fixed retry issue when switching support operator professions in auto-formation
-* Fixed issue where notifications may be incorrectly collapsed when multiple events are open simultaneously
 
 ----
 
