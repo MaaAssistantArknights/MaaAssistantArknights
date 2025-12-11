@@ -839,7 +839,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、ジョブとして追加します</system:String>
-    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">割り当てセットを追加するための別のボタンが追加されました。右クリックによる割り当てセットの追加の動作は将来的に削除される予定です。</system:String>
     <system:String x:Key="PasteClipboardCopilotSetTip">クリップボードを読み取り、ジョブセットとして追加します</system:String>
     <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>

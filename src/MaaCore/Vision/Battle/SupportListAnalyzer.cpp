@@ -327,7 +327,7 @@ asst::Matcher::ResultOpt
     support_unit_matcher.set_templ(support_unit_templ);
 
     Rect support_unit_match_roi = support_unit_match_task->roi;
-    support_unit_match_roi.width = image.cols - (WindowWidthDefault - support_unit_match_roi.width);
+    support_unit_match_roi.width = support_unit_match_roi.width + (image.cols - WindowWidthDefault);
     support_unit_matcher.set_roi(support_unit_match_roi);
 
     return support_unit_matcher.analyze();
@@ -343,7 +343,7 @@ asst::MultiMatcher::ResultsVecOpt asst::SupportListAnalyzer::analyze_support_uni
     support_unit_analyzer.set_task_info(support_unit_analyze_task);
 
     Rect support_unit_analyze_roi = support_unit_analyze_task->roi;
-    support_unit_analyze_roi.width = image.cols - (WindowWidthDefault - support_unit_analyze_roi.width);
+    support_unit_analyze_roi.width = support_unit_analyze_roi.width + (image.cols - WindowWidthDefault);
     support_unit_analyzer.set_roi(support_unit_analyze_roi);
 
     if (!support_unit_analyzer.analyze()) {
