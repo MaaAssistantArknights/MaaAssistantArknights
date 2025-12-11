@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Common/AsstBattleDef.h"
+#include "Common/AsstMsg.h"
 #include "InstHelper.h"
 
 namespace asst
 {
-class AbstractTask;
-
 class SupportList : protected InstHelper
 {
 public:
@@ -15,7 +14,7 @@ public:
     using Friendship = battle::Friendship;
     using SupportUnit = battle::SupportUnit;
 
-    SupportList(AbstractTask& parent_task);
+    SupportList(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
     virtual ~SupportList() = default;
 
     /// <summary>
@@ -188,10 +187,9 @@ private:
     /// </returns>
     static bool save_img(const cv::Mat& image, std::string_view description = "image");
 
-    /// <summary>
-    /// 父任务引用，用于创建 ProcessTask。
-    /// </summary>
-    AbstractTask& m_parent;
+    // 用于创建 ProcessTask
+    AsstCallback m_callback = nullptr;
+    std::string_view m_task_chain;
 
     /// <summary>
     /// 当前助战列表所选职业。
