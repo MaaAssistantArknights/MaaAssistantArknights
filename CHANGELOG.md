@@ -51,5 +51,6 @@ Refactored the stage navigation API. Mini-game lists can be retrieved via API an
 
 ### 其他 | Other
 
+* 移除废弃的右键添加作业集行为 @status102
 * 移除不再使用的 `report` 与相关引用 @status102
 * 若干 OCR 与文本替换的局部改进 YostarKR / YostarJP @HX3N @Manicsteiner
