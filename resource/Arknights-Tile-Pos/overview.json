@@ -15470,6 +15470,150 @@
         "stageId": "act47side_08",
         "width": 12
     },
+    "act47side_ex01#f#-activities/act47side/level_act47side_ex01": {
+        "code": "UR-EX-1",
+        "filename": "act47side_ex01#f#-activities-act47side-level_act47side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex01",
+        "name": "特色饮料贩卖机",
+        "stageId": "act47side_ex01#f#",
+        "width": 12
+    },
+    "act47side_ex01-activities/act47side/level_act47side_ex01": {
+        "code": "UR-EX-1",
+        "filename": "act47side_ex01-activities-act47side-level_act47side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex01",
+        "name": "特色饮料贩卖机",
+        "stageId": "act47side_ex01",
+        "width": 12
+    },
+    "act47side_ex02#f#-activities/act47side/level_act47side_ex02": {
+        "code": "UR-EX-2",
+        "filename": "act47side_ex02#f#-activities-act47side-level_act47side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex02",
+        "name": "后半夜餐厅",
+        "stageId": "act47side_ex02#f#",
+        "width": 12
+    },
+    "act47side_ex02-activities/act47side/level_act47side_ex02": {
+        "code": "UR-EX-2",
+        "filename": "act47side_ex02-activities-act47side-level_act47side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex02",
+        "name": "后半夜餐厅",
+        "stageId": "act47side_ex02",
+        "width": 12
+    },
+    "act47side_ex03#f#-activities/act47side/level_act47side_ex03": {
+        "code": "UR-EX-3",
+        "filename": "act47side_ex03#f#-activities-act47side-level_act47side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex03",
+        "name": "除尘体验舱",
+        "stageId": "act47side_ex03#f#",
+        "width": 11
+    },
+    "act47side_ex03-activities/act47side/level_act47side_ex03": {
+        "code": "UR-EX-3",
+        "filename": "act47side_ex03-activities-act47side-level_act47side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex03",
+        "name": "除尘体验舱",
+        "stageId": "act47side_ex03",
+        "width": 11
+    },
+    "act47side_ex04#f#-activities/act47side/level_act47side_ex04": {
+        "code": "UR-EX-4",
+        "filename": "act47side_ex04#f#-activities-act47side-level_act47side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex04",
+        "name": "气球派对",
+        "stageId": "act47side_ex04#f#",
+        "width": 11
+    },
+    "act47side_ex04-activities/act47side/level_act47side_ex04": {
+        "code": "UR-EX-4",
+        "filename": "act47side_ex04-activities-act47side-level_act47side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex04",
+        "name": "气球派对",
+        "stageId": "act47side_ex04",
+        "width": 11
+    },
+    "act47side_ex05#f#-activities/act47side/level_act47side_ex05": {
+        "code": "UR-EX-5",
+        "filename": "act47side_ex05#f#-activities-act47side-level_act47side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex05",
+        "name": "飞行实验室",
+        "stageId": "act47side_ex05#f#",
+        "width": 11
+    },
+    "act47side_ex05-activities/act47side/level_act47side_ex05": {
+        "code": "UR-EX-5",
+        "filename": "act47side_ex05-activities-act47side-level_act47side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act47side/level_act47side_ex05",
+        "name": "飞行实验室",
+        "stageId": "act47side_ex05",
+        "width": 11
+    },
+    "act47side_ex06#f#-activities/act47side/level_act47side_ex06": {
+        "code": "UR-EX-6",
+        "filename": "act47side_ex06#f#-activities-act47side-level_act47side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex06",
+        "name": "未来种植业",
+        "stageId": "act47side_ex06#f#",
+        "width": 12
+    },
+    "act47side_ex06-activities/act47side/level_act47side_ex06": {
+        "code": "UR-EX-6",
+        "filename": "act47side_ex06-activities-act47side-level_act47side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex06",
+        "name": "未来种植业",
+        "stageId": "act47side_ex06",
+        "width": 12
+    },
+    "act47side_ex07#f#-activities/act47side/level_act47side_ex07": {
+        "code": "UR-EX-7",
+        "filename": "act47side_ex07#f#-activities-act47side-level_act47side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex07",
+        "name": "应急跳台",
+        "stageId": "act47side_ex07#f#",
+        "width": 12
+    },
+    "act47side_ex07-activities/act47side/level_act47side_ex07": {
+        "code": "UR-EX-7",
+        "filename": "act47side_ex07-activities-act47side-level_act47side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act47side/level_act47side_ex07",
+        "name": "应急跳台",
+        "stageId": "act47side_ex07",
+        "width": 12
+    },
+    "act47side_ex08#f#-activities/act47side/level_act47side_ex08": {
+        "code": "UR-EX-8",
+        "filename": "act47side_ex08#f#-activities-act47side-level_act47side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act47side/level_act47side_ex08",
+        "name": "天空井",
+        "stageId": "act47side_ex08#f#",
+        "width": 13
+    },
+    "act47side_ex08-activities/act47side/level_act47side_ex08": {
+        "code": "UR-EX-8",
+        "filename": "act47side_ex08-activities-act47side-level_act47side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act47side/level_act47side_ex08",
+        "name": "天空井",
+        "stageId": "act47side_ex08",
+        "width": 13
+    },
     "act47side_tr01-activities/act47side/level_act47side_tr01": {
         "code": "UR-TR-1",
         "filename": "act47side_tr01-activities-act47side-level_act47side_tr01.json",
@@ -19320,6 +19464,60 @@
         "levelId": "obt/legion/lt19/level_lt19_06",
         "name": "特别顾客",
         "stageId": "lt_19_06",
+        "width": 13
+    },
+    "lt_20_01-obt/legion/lt20/level_lt20_01": {
+        "code": "LT-1",
+        "filename": "lt_20_01-obt-legion-lt20-level_lt20_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt20/level_lt20_01",
+        "name": "运道抢险",
+        "stageId": "lt_20_01",
+        "width": 10
+    },
+    "lt_20_02-obt/legion/lt20/level_lt20_02": {
+        "code": "LT-2",
+        "filename": "lt_20_02-obt-legion-lt20-level_lt20_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt20/level_lt20_02",
+        "name": "作业整备",
+        "stageId": "lt_20_02",
+        "width": 9
+    },
+    "lt_20_03-obt/legion/lt20/level_lt20_03": {
+        "code": "LT-3",
+        "filename": "lt_20_03-obt-legion-lt20-level_lt20_03.json",
+        "height": 7,
+        "levelId": "obt/legion/lt20/level_lt20_03",
+        "name": "内部深入",
+        "stageId": "lt_20_03",
+        "width": 11
+    },
+    "lt_20_04-obt/legion/lt20/level_lt20_04": {
+        "code": "LT-4",
+        "filename": "lt_20_04-obt-legion-lt20-level_lt20_04.json",
+        "height": 9,
+        "levelId": "obt/legion/lt20/level_lt20_04",
+        "name": "新穴聚居",
+        "stageId": "lt_20_04",
+        "width": 12
+    },
+    "lt_20_05-obt/legion/lt20/level_lt20_05": {
+        "code": "LT-5",
+        "filename": "lt_20_05-obt-legion-lt20-level_lt20_05.json",
+        "height": 8,
+        "levelId": "obt/legion/lt20/level_lt20_05",
+        "name": "四方涌现",
+        "stageId": "lt_20_05",
+        "width": 12
+    },
+    "lt_20_06-obt/legion/lt20/level_lt20_06": {
+        "code": "LT-6",
+        "filename": "lt_20_06-obt-legion-lt20-level_lt20_06.json",
+        "height": 6,
+        "levelId": "obt/legion/lt20/level_lt20_06",
+        "name": "幽邃尽头",
+        "stageId": "lt_20_06",
         "width": 13
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
