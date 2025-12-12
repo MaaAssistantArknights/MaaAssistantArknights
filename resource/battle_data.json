@@ -12768,6 +12768,51 @@
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
+        },
+        "trap_787_supctl": {
+            "name": "冷爆机",
+            "name_en": "冷爆机",
+            "name_en_unavailable": true,
+            "name_jp": "冷爆机",
+            "name_jp_unavailable": true,
+            "name_kr": "冷爆机",
+            "name_kr_unavailable": true,
+            "name_tw": "冷爆机",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["3-13", "3-13", "3-13"],
+            "rarity": 1
+        },
+        "trap_788_supctla": {
+            "name": "低温传导模块",
+            "name_en": "低温传导模块",
+            "name_en_unavailable": true,
+            "name_jp": "低温传导模块",
+            "name_jp_unavailable": true,
+            "name_kr": "低温传导模块",
+            "name_kr_unavailable": true,
+            "name_tw": "低温传导模块",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["3-13", "3-13", "3-13"],
+            "rarity": 1
+        },
+        "trap_789_supctlb": {
+            "name": "冰浪脉冲模块",
+            "name_en": "冰浪脉冲模块",
+            "name_en_unavailable": true,
+            "name_jp": "冰浪脉冲模块",
+            "name_jp_unavailable": true,
+            "name_kr": "冰浪脉冲模块",
+            "name_kr_unavailable": true,
+            "name_tw": "冰浪脉冲模块",
+            "name_tw_unavailable": true,
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["3-13", "3-13", "3-13"],
+            "rarity": 1
         }
     },
     "ranges": {

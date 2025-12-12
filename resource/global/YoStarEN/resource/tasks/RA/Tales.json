@@ -18,7 +18,7 @@
         "text": ["Start"]
     },
     "Tales@RA@FinishCalc": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     },
     "Tales@RA@PIS-Resume": {
         "text": ["Resume"]
@@ -30,6 +30,6 @@
         "text": ["Commence"]
     },
     "Tales@RA@ResourceGained": {
-        "text": ["Tap anywhere to continue"]
+        "text": ["Tap anywhere", "to continue"]
     }
 }
