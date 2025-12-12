@@ -534,6 +534,12 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 향상 모드 활성화</system:String>
+    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 경로를 찾을 수 없습니다.</system:String>
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 디렉터리에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
+예상 상대 경로:
+nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll 또는
+shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+설치 디렉터리를 확인하세요.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu V4.0.0 이상 버전이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.
@@ -554,6 +560,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="LdExtrasEnabled">LD 스크린샷 향상 모드 활성화</system:String>
+    <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
+    <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요。</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 LDPlayer 9 V9.1.32 이상이 필요합니다.
 이 기능을 활성화한 후 즉시 스크린샷 테스트를 실행하는 것을 강력히 권장합니다.

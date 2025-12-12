@@ -348,9 +348,23 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
-                    MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
-                    AutoDetectEmulatorPath();
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuEmulatorPathNotFound"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
                     return;
+                }
+
+                // 当路径存在时，检查 external_renderer_ipc.dll 是否可用（兼容 MuMu 5/12 路径）
+                if (!string.IsNullOrEmpty(value) && Directory.Exists(value))
+                {
+                    var dllPath1 = Path.Combine(value, "nx_device", "12.0", "shell", "sdk", "external_renderer_ipc.dll");
+                    var dllPath2 = Path.Combine(value, "shell", "sdk", "external_renderer_ipc.dll");
+
+                    if (!File.Exists(dllPath1) && !File.Exists(dllPath2))
+                    {
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuExternalRendererMissing"));
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+                        return;
+                    }
                 }
 
                 Instances.AsstProxy.Connected = false;
@@ -514,9 +528,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
-                    MessageBoxHelper.Show("LD Emulator Path Not Found");
-                    AutoDetectEmulatorPath();
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
                     return;
+                }
+
+                // 当路径存在时，检查 ldopengl64.dll 是否存在
+                if (!string.IsNullOrEmpty(value) && Directory.Exists(value))
+                {
+                    var libPath = Path.Combine(value, "ldopengl64.dll");
+                    if (!File.Exists(libPath))
+                    {
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerOpenglMissing"));
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("LdExtrasEnabledTip"));
+                        return;
+                    }
                 }
 
                 Instances.AsstProxy.Connected = false;
