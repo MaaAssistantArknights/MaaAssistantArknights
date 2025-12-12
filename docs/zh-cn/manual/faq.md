@@ -74,7 +74,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 maa 启动时弹出悲报, xxx 路径的 dll 注入可能会导致 maa 闪退或界面渲染异常  
 (主要是 nahimic 等程序引起的)  
 可以在资源管理器中导航至 maa 给出的路径，右键该 dll 并重命名，把扩展名改为 dll1 等无效扩展名  
-（如果没有扩展名，就点击页面上的`查看--显示--文件扩展名`）  
+（如果没有扩展名或者你找不到这个文件，就点击页面上的`查看--显示--文件扩展名`和`查看--显示--隐藏的项目`）  
 **该方法可能会导致相关程序出错，请谨慎使用，想了解问题原因可以查看[相关动态](https://t.bilibili.com/1133690423484612615?spm_id_from=333.1387.0.0)和[blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)**
 
 ## 连接错误
