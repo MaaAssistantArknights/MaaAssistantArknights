@@ -47,6 +47,16 @@ public class RecruitSettingsUserControlModel : TaskViewModel
             new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
         ];
 
+    /// <summary>
+    /// Gets the list of use expedited mode options.
+    /// </summary>
+    public List<CombinedData> UseExpeditedModeList { get; } =
+        [
+            new() { Display = LocalizationHelper.GetString("UseExpeditedDisabled"), Value = "0" },
+            new() { Display = LocalizationHelper.GetString("UseExpeditedOneTime"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("UseExpeditedAlways"), Value = "2" },
+        ];
+
     private static readonly List<string> _autoRecruitTagList = ["近战位", "远程位", "先锋干员", "近卫干员", "狙击干员", "重装干员", "医疗干员", "辅助干员", "术师干员", "治疗", "费用回复", "输出", "生存", "群攻", "防护", "减速",];
 
     private static readonly Lazy<List<CombinedData>> _autoRecruitTagShowList = new(() =>
@@ -125,36 +135,56 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private bool? _useExpeditedWithNull = false;
+    private ExpeditedMode _expeditedMode =
+        int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpeditedMode, "0"), out var outMode)
+        && Enum.IsDefined(typeof(ExpeditedMode), outMode)
+            ? (ExpeditedMode)outMode
+            : ExpeditedMode.Disabled;
 
-    public bool? UseExpeditedWithNull
+    /// <summary>
+    /// Gets or sets the use expedited mode as an integer for XAML binding.
+    /// Maps to <see cref="ExpeditedMode"/> enum internally.
+    /// 0 = Disabled, 1 = One-time (resets after task), 2 = Always (saved to config)
+    /// </summary>
+    public int UseExpeditedMode
     {
-        get => _useExpeditedWithNull;
+        get => (int)_expeditedMode;
         set
         {
-            if (value == true)
+            var mode = (ExpeditedMode)value;
+
+            // Avoid unnecessary notifications and config writes when the value is unchanged.
+            if (mode == _expeditedMode)
             {
-                value = null;
+                return;
             }
 
-            SetAndNotify(ref _useExpeditedWithNull, value);
+            SetAndNotify(ref _expeditedMode, mode);
+
+            // Always save to config: mode 2 saves "2", mode 0/1 save "0"
+            // Mode 1 (one-time) is ephemeral: runs this session, but config shows "0" for next restart
+            ConfigurationHelper.SetValue(
+                ConfigurationKeys.UseExpeditedMode,
+                mode == ExpeditedMode.Always ? "2" : "0");
         }
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use expedited.
+    /// Used for backward compatibility with Serialize method.
     /// </summary>
     public bool UseExpedited
     {
-        get => UseExpeditedWithNull != false;
-        set => UseExpeditedWithNull = value;
+        get => UseExpeditedMode > (int)ExpeditedMode.Disabled;
+        set => UseExpeditedMode = value ? (int)ExpeditedMode.OneTime : (int)ExpeditedMode.Disabled;
     }
 
     public void ResetRecruitVariables()
     {
-        if (UseExpeditedWithNull == null)
+        // Reset one-time mode to disabled after task completes
+        if (UseExpeditedMode == (int)ExpeditedMode.OneTime)
         {
-            UseExpedited = false;
+            UseExpeditedMode = (int)ExpeditedMode.Disabled;
         }
     }
 
@@ -439,5 +469,26 @@ public class RecruitSettingsUserControlModel : TaskViewModel
         }
 
         return task.Serialize();
+    }
+
+    /// <summary>
+    /// Expedited plan usage mode for recruitment
+    /// </summary>
+    public enum ExpeditedMode
+    {
+        /// <summary>
+        /// 禁用 - Never use expedited plans
+        /// </summary>
+        Disabled = 0,
+
+        /// <summary>
+        /// 仅本次使用 - Use expedited plans for this session only (resets after task completes)
+        /// </summary>
+        OneTime = 1,
+
+        /// <summary>
+        /// 保持开启 - Always use expedited plans (persists to config)
+        /// </summary>
+        Always = 2,
     }
 }
