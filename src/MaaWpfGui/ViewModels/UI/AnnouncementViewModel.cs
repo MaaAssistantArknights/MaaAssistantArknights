@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration.Factory;
@@ -126,6 +127,79 @@ public class AnnouncementViewModel : Screen
     {
         get => _isScrolledToBottom;
         set => SetAndNotify(ref _isScrolledToBottom, value);
+    }
+
+    private DispatcherTimer _enableTimer;
+    private bool _isTimeElapsed = false;
+    private int _remainingSeconds = 5;
+
+    public bool IsTimeElapsed
+    {
+        get => _isTimeElapsed;
+        set
+        {
+            if (SetAndNotify(ref _isTimeElapsed, value))
+            {
+                NotifyOfPropertyChange(nameof(CountdownText));
+            }
+        }
+    }
+
+    public string ConfirmText => LocalizationHelper.GetString("Confirm");
+
+    public string CountdownText
+    {
+        get
+        {
+            var prefix = LocalizationHelper.GetString("PleaseScrollToRead");
+            return _isTimeElapsed ? $"{prefix}" : $"{prefix} ({_remainingSeconds}s)";
+        }
+    }
+
+    private void StartEnableTimer()
+    {
+        StopTimer();
+
+        _remainingSeconds = 5;
+        IsTimeElapsed = false;
+
+        NotifyOfPropertyChange(nameof(CountdownText));
+
+        _enableTimer = new DispatcherTimer();
+        _enableTimer.Interval = TimeSpan.FromSeconds(1);
+
+        _enableTimer.Tick += OnTimerTick;
+
+        _enableTimer.Start();
+    }
+
+    private void OnTimerTick(object sender, EventArgs e)
+    {
+        _remainingSeconds--;
+
+        if (_remainingSeconds <= 0)
+        {
+            IsTimeElapsed = true;
+            StopTimer();
+        }
+
+        NotifyOfPropertyChange(nameof(CountdownText));
+    }
+
+    private void StopTimer()
+    {
+        if (_enableTimer != null)
+        {
+            _enableTimer.Stop();
+            _enableTimer.Tick -= OnTimerTick;
+            _enableTimer = null;
+        }
+    }
+
+    protected override void OnInitialActivate()
+    {
+        base.OnInitialActivate();
+        StartEnableTimer();
     }
 
     private ObservableCollection<AnnouncementSection> _announcementSections;
