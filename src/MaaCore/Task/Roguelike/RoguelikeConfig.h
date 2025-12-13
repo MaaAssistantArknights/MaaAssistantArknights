@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <functional>
 #include <meojson/json.hpp>
 #include <optional>
@@ -147,6 +148,32 @@ public:
 
     int get_find_playTime_target() const { return m_find_playTime_target; }
 
+    // ------------------ 时长限制 ------------------
+    void set_duration_limit_minutes(int minutes) { m_duration_limit_minutes = minutes; }
+
+    int get_duration_limit_minutes() const { return m_duration_limit_minutes; }
+
+    void set_task_start_time(std::chrono::system_clock::time_point time) { m_task_start_time = time; }
+
+    bool is_duration_limit_reached() const
+    {
+        if (m_duration_limit_minutes <= 0) {
+            return false;
+        }
+
+        return get_elapsed_minutes() >= m_duration_limit_minutes;
+    }
+
+    int get_remaining_minutes() const
+    {
+        if (m_duration_limit_minutes <= 0) {
+            return 0;
+        }
+
+        int remaining = m_duration_limit_minutes - get_elapsed_minutes();
+        return remaining > 0 ? remaining : 0;
+    }
+
 private:
     std::string m_theme;                       // 主题
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
@@ -167,6 +194,18 @@ private:
 
     // ------------------ 刷常乐节点模式 ------------------
     int m_find_playTime_target = 0; // 目标常乐节点子类型 (1=令, 2=黍, 3=年)
+
+    // ------------------ 时长限制 ------------------
+    int m_duration_limit_minutes = 0;                           // 时长限制（分钟），0 表示无限制
+    std::chrono::system_clock::time_point m_task_start_time {}; // 任务开始时间
+
+    // 获取已用时间（分钟）
+    int get_elapsed_minutes() const
+    {
+        auto now = std::chrono::system_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::minutes>(now - m_task_start_time);
+        return static_cast<int>(elapsed.count());
+    }
 
 private:
     // =========================== 萨米主题专用参数 ===========================
