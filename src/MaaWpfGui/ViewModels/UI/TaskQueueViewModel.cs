@@ -756,7 +756,7 @@ public class TaskQueueViewModel : Screen
         FightTask.InitDrops();
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
-        InfrastTask.RefreshCustomInfrastPlan();
+        InfrastTask.ParseCustomInfrastPlan();
 
         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
@@ -884,8 +884,13 @@ public class TaskQueueViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="toolTip">The toolTip</param>
-    public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
     {
+        if (string.IsNullOrEmpty(content))
+        {
+            return;
+        }
+
         Execute.OnUIThread(() =>
         {
             var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
@@ -1655,7 +1660,7 @@ public class TaskQueueViewModel : Screen
 
     public bool AppendInfrast()
     {
-        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
+        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanList.Count == 0))
         {
             AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
             return false;
