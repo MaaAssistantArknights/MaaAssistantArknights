@@ -1,4 +1,4 @@
-## v6.0.0
+## v6.0.1
 
 ### Highlights
 
@@ -19,6 +19,13 @@ MAA has been upgraded to .NET 10, improving performance and the developer experi
 #### Stage Navigation and Mini-game Optimization
 
 Refactored the stage navigation API. Mini-game lists can be retrieved via API and opening times configured, improving flexibility. (PR #14997, #14984) @ABA2396
+
+#### EN (Global) IS Fix (v6.0.1)
+
+Quick Fix for EN (Global) IS in the Stage Trader  
+Quick Fix for EN (Global) RA2 post crafting  
+Translation for SSS#8 copilot jobs  
+Fixes to the missions collection post client update
 
 ----
 
@@ -54,3 +61,22 @@ Refactored the stage navigation API. Mini-game lists can be retrieved via API an
 * 移除废弃的右键添加作业集行为 @status102
 * 移除不再使用的 `report` 与相关引用 @status102
 * 若干 OCR 与文本替换的局部改进 YostarKR / YostarJP @HX3N @Manicsteiner
+
+----
+
+## v6.0.1
+
+### 新增 | New
+
+* 为 MuMu/LDPlayer 添加路径/库检查并补充 i18n 提示 @ABA2396
+
+### 修复 | Fix
+
+* collect rewards for EN updated templates @Constrat
+* OCR for RA2 @Constrat
+* Update StageTrader for EN IS @Constrat
+
+### 其他 | Other
+
+* update translations for SSS#8 tasks @Constrat
+* tweak copilot SSS tasks name @Constrat
