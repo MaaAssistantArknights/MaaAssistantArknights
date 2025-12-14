@@ -4024,7 +4024,7 @@
         "binThreshold": [210, 255],
         "useRaw": false,
         "ocrReplace": [
-            ["——", "-"],
+            ["—{1,2}", "-"],
             ["^.+-EX-?\\d+.*$", "_INVALID_"],
             ["^.+-S-?\\d+.*$", "_INVALID_"],
             ["^.+-MO-?\\d+.*$", "_INVALID_"],
