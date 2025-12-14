@@ -232,10 +232,14 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         try
         {
+            scriptPath = scriptPath.Trim();
+
             if (string.IsNullOrWhiteSpace(scriptPath))
             {
                 return false;
             }
+
+            scriptPath = Regex.Replace(scriptPath, @"\p{C}", string.Empty);
 
             string fileName;
             string arguments;
