@@ -243,7 +243,9 @@ def screenshot() -> Optional[np.ndarray]:
 
 
 # 缩放图片到目标短边
-def resize_to_target_short_side(image: np.ndarray, target_short_side: int = 720) -> np.ndarray:
+def resize_to_target_short_side(
+    image: np.ndarray, target_short_side: int = 720
+) -> np.ndarray:
     height, width = image.shape[:2]
     short_side = min(width, height)
     if short_side == target_short_side:
