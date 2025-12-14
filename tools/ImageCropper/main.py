@@ -242,6 +242,19 @@ def screenshot() -> Optional[np.ndarray]:
     return image
 
 
+# 缩放图片到目标短边
+def resize_to_target_short_side(image: np.ndarray, target_short_side: int = 720) -> np.ndarray:
+    height, width = image.shape[:2]
+    short_side = min(width, height)
+    if short_side == target_short_side:
+        return image  # 不需要缩放
+    scale = target_short_side / short_side
+    new_width = int(round(width * scale))
+    new_height = int(round(height * scale))
+    print(f"Resizing image from {width}x{height} to {new_width}x{new_height}")
+    return cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
+
+
 # 获取标准化的 Roimage
 def get_std_roimage() -> Optional[Roimage]:
     global file_name
@@ -250,6 +263,8 @@ def get_std_roimage() -> Optional[Roimage]:
         file_name = files.pop(0)
         image = readfile(file_name)
         file_name = file_name.split(".")[0]
+        if image is not None:
+            image = resize_to_target_short_side(image, 720)
     elif controller:
         image = screenshot()
         file_name = datetime.now().strftime("%H%M%S")  # '%Y%m%d%H%M%S'
