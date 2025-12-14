@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -500,6 +501,92 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         Instances.WindowManager.ShowWindow(rootViewModel);
         Instances.InstantiateOnRootViewDisplayed(Container);
+
+        // Overlay 管理：根据 Idle 状态在非空闲时创建 overlay，在空闲时销毁
+        try
+        {
+            var settings = Instances.SettingsViewModel;
+            if (settings != null)
+            {
+                OverlayWindow overlay = null;
+                PropertyChangedEventHandler handler = null;
+                handler = (s, ev) =>
+                {
+                    if (ev.PropertyName == nameof(SettingsViewModel.Idle) || string.IsNullOrEmpty(ev.PropertyName))
+                    {
+                        if (settings.Idle)
+                        {
+                            try
+                            {
+                                overlay?.Close();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                            overlay = null;
+                        }
+                        else
+                        {
+                            if (overlay == null)
+                            {
+                                try
+                                {
+                                    overlay = new OverlayWindow();
+                                    _ = overlay.InitializeAndShowAsync();
+                                }
+                                catch
+                                {
+                                    overlay = null;
+                                }
+                            }
+                        }
+                    }
+                };
+
+                settings.PropertyChanged += handler;
+
+                // 初始状态：如果当前非空闲则立即创建 overlay
+                if (!settings.Idle)
+                {
+                    try
+                    {
+                        overlay = new OverlayWindow();
+                        _ = overlay.InitializeAndShowAsync();
+                    }
+                    catch
+                    {
+                        overlay = null;
+                    }
+                }
+
+                // 在应用退出时退订并销毁 overlay（确保不会留悬挂）
+                Application.Current.Exit += (_, _) =>
+                {
+                    try
+                    {
+                        settings.PropertyChanged -= handler;
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    try
+                    {
+                        overlay?.Close();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+            }
+        }
+        catch
+        {
+            // ignored
+        }
 
         // 如果 IsFirstBootAfterUpdate 从 false 变为 true，说明这次启动只是解压更新包，不用执行后续逻辑
         if (!wasFirstBoot && Instances.VersionUpdateViewModel.IsFirstBootAfterUpdate)
