@@ -15,9 +15,9 @@
         </Grid.RowDefinitions>
 
         <ListBox
-            x:Name="LbWindows"
             DisplayMemberPath="Display"
-            SelectedIndex="0" />
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding Selected, Mode=TwoWay}" />
 
         <StackPanel
             Grid.Row="1"
@@ -25,14 +25,12 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
-                x:Name="BtnRefresh"
                 Width="80"
                 Margin="0,0,8,0"
                 Click="BtnRefresh_Click">
                 刷新
             </Button>
             <Button
-                x:Name="BtnOk"
                 Width="80"
                 Margin="0,0,8,0"
                 Click="BtnOk_Click"

@@ -8,39 +8,37 @@ using System.Windows;
 
 namespace MaaWpfGui.Views.UI;
 
+/// <summary>
+/// Represents a window that allows the user to select a running process by choosing one of its top-level windows.
+/// </summary>
+/// <remarks>This window displays a list of currently open top-level windows, enabling users to pick a process
+/// based on its window. The selection is available through the SelectedHwnd property after the dialog is closed with a
+/// positive result. This class is typically used as a modal dialog in applications that require the user to select a
+/// process window.</remarks>
 public partial class ProcessPickerWindow
 {
-    public class WindowEntry
-    {
-        public IntPtr Hwnd { get; set; }
-
-        public int ProcessId { get; set; }
-
-        public string ProcessName { get; set; }
-
-        public string Title { get; set; }
-
-        public string Display => $"{ProcessName} - {Title}";
-    }
+    private readonly ViewModels.UI.ProcessPickerViewModel _vm;
 
     public IntPtr SelectedHwnd { get; private set; } = IntPtr.Zero;
 
     public ProcessPickerWindow()
     {
         InitializeComponent();
-        LoadWindows();
+        _vm = new ViewModels.UI.ProcessPickerViewModel();
+        DataContext = _vm;
+        _ = _vm.LoadWindows();
     }
 
     private void BtnRefresh_Click(object sender, RoutedEventArgs e)
     {
-        LoadWindows();
+        _ = _vm.LoadWindows();
     }
 
     private void BtnOk_Click(object sender, RoutedEventArgs e)
     {
-        if (LbWindows.SelectedItem is WindowEntry entry)
+        if (_vm.Selected != null)
         {
-            SelectedHwnd = entry.Hwnd;
+            SelectedHwnd = _vm.Selected.Hwnd;
             DialogResult = true;
             Close();
             return;
@@ -48,49 +46,6 @@ public partial class ProcessPickerWindow
 
         DialogResult = false;
         Close();
-    }
-
-    private void LoadWindows()
-    {
-        var list = new List<WindowEntry>();
-
-        EnumWindows((hWnd, lParam) =>
-        {
-            if (!IsWindowVisible(hWnd))
-            {
-                return true;
-            }
-
-            var len = GetWindowTextLength(hWnd);
-            var sb = new StringBuilder(len + 1);
-            GetWindowText(hWnd, sb, sb.Capacity);
-            var title = sb.ToString();
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return true;
-            }
-
-            GetWindowThreadProcessId(hWnd, out var pid);
-            string pname = "(unknown)";
-            try
-            {
-                var p = Process.GetProcessById((int)pid);
-                pname = p.ProcessName;
-            }
-            catch
-            {
-                // ignored
-            }
-
-            list.Add(new WindowEntry { Hwnd = hWnd, ProcessId = (int)pid, ProcessName = pname, Title = title });
-            return true;
-        }, IntPtr.Zero);
-
-        LbWindows.ItemsSource = list.OrderBy(x => x.ProcessName).ThenBy(x => x.Title).ToList();
-        if (LbWindows.Items.Count > 0)
-        {
-            LbWindows.SelectedIndex = 0;
-        }
     }
 
     #region Win32
