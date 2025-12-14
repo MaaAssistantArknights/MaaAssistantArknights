@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    d:DataContext="{d:DesignInstance {x:Type ui:OverlayViewModel}}"
     AllowsTransparency="True"
     Background="Transparent"
     Focusable="False"
@@ -13,50 +15,59 @@
     Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
-
-    <!--  外层容器（右上角）  -->
     <Border
         x:Name="OuterBorder"
-        Margin="12"
+        Margin="12,52,12,12"
         Padding="8"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
-        Background="{DynamicResource RegionBrushOpacity50}"
+        Background="{DynamicResource RegionBrushOpacity75}"
         CornerRadius="8">
         <ScrollViewer
             x:Name="LogScrollViewer"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
-            <ItemsControl x:Name="LogItemsControl" ItemsSource="{Binding LogItemViewModels, Source={x:Static helper:Instances.TaskQueueViewModel}}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid MaxWidth="400">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ScrollViewer
+                    Grid.Row="1"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="LogItemsControl" ItemsSource="{Binding LogItemViewModels, Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid MaxWidth="400">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                            <!--  时间  -->
-                            <controls:TextBlock
-                                Grid.Column="0"
-                                Margin="0,5,10,0"
-                                FontSize="11"
-                                Foreground="{DynamicResource TraceLogBrush}"
-                                Text="{Binding Time}" />
+                                    <!--  时间  -->
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Margin="0,5,10,0"
+                                        FontSize="11"
+                                        Foreground="{DynamicResource TraceLogBrush}"
+                                        Text="{Binding Time}" />
 
-                            <!--  内容  -->
-                            <controls:TextBlock
-                                Grid.Column="1"
-                                Margin="0,5"
-                                HorizontalAlignment="Left"
-                                FontWeight="{Binding Weight}"
-                                ForegroundKey="{Binding Color}"
-                                Text="{Binding Content}"
-                                TextWrapping="Wrap" />
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                    <!--  内容  -->
+                                    <controls:TextBlock
+                                        Grid.Column="1"
+                                        Margin="0,5"
+                                        HorizontalAlignment="Left"
+                                        FontWeight="{Binding Weight}"
+                                        ForegroundKey="{Binding Color}"
+                                        Text="{Binding Content}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
         </ScrollViewer>
     </Border>
 </Window>

@@ -36,6 +36,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
@@ -141,6 +142,27 @@ public class TaskQueueViewModel : Screen
                 ++index;
             }
         });
+    }
+
+    /// <summary>
+    /// Open process picker and set overlay target (bound to UI via s:Action ChooseOverlayTarget)
+    /// </summary>
+    public void ChooseOverlayTarget()
+    {
+        try
+        {
+            var owner = Application.Current.MainWindow;
+            var picker = new ProcessPickerWindow { Owner = owner };
+            var ok = picker.ShowDialog();
+            if (ok == true && picker.SelectedHwnd != IntPtr.Zero)
+            {
+                Instances.OverlayViewModel?.SetTargetHwnd(picker.SelectedHwnd);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     /// <summary>

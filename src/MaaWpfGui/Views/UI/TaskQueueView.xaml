@@ -438,6 +438,10 @@
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
                 </ContentControl>
+                <!-- 操作按钮：选择 Overlay 目标窗口 -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,6">
+                    <Button Width="140" Height="28" Command="{s:Action ChooseOverlayTarget}">选择 Overlay 目标窗口</Button>
+                </StackPanel>
 
                 <!--  Main log scroll area  -->
                 <hc:ScrollViewer

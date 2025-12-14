@@ -25,11 +25,14 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Runtime.CompilerServices;
 
 namespace MaaWpfGui.Views.UI;
 
 public partial class OverlayWindow : Window
 {
+    public event EventHandler LoadedCompleted;
+
     public OverlayWindow()
     {
         InitializeComponent();
@@ -37,9 +40,74 @@ public partial class OverlayWindow : Window
         Closed += OnClosed;
     }
 
+    public void SetTargetHwnd(IntPtr hwnd)
+    {
+        try
+        {
+            if (hwnd == IntPtr.Zero)
+                return;
+
+            // 如果窗口尚未加载完成，等待加载
+            if (_overlayHwnd == IntPtr.Zero)
+            {
+                // 记录目标窗口,OnLoaded 会处理它
+                _targetHwnd = hwnd;
+                return;
+            }
+
+            bool restoreCollapsed = false;
+
+            // If overlay is currently collapsed (not visible), temporarily make it visible but transparent
+            if (Visibility == Visibility.Collapsed)
+            {
+                restoreCollapsed = true;
+                try
+                {
+                    Opacity = 0;
+                    Visibility = Visibility.Visible;
+                }
+                catch { }
+            }
+
+            _targetHwnd = hwnd;
+
+            // Stop any previous hooks
+            StopWinEventHook();
+
+            // Start WinEventHook and position tracking (no polling)
+            StartWinEventHookForTarget(_targetHwnd);
+
+            // Do an immediate position update once hooked
+            UpdatePosition();
+
+            // If we temporarily showed the overlay, restore collapsed state according to Idle
+            if (restoreCollapsed)
+            {
+                try
+                {
+                    var idle = Instances.SettingsViewModel?.Idle ?? true;
+                    if (idle)
+                    {
+                        Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        Opacity = 1;
+                    }
+                }
+                catch { }
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         var hwnd = new WindowInteropHelper(this).Handle;
+        _overlayHwnd = hwnd;
         var exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
 
         // 鼠标穿透 + 分层窗口
@@ -48,6 +116,14 @@ public partial class OverlayWindow : Window
 
         // 启动附加与位置跟踪
         StartTracking();
+
+        // 如果在 OnLoaded 触发时已有目标窗口（例如从配置恢复），立即设置钩子和位置
+        if (_targetHwnd != IntPtr.Zero)
+        {
+            StopWinEventHook();
+            StartWinEventHookForTarget(_targetHwnd);
+            UpdatePosition();
+        }
 
         // 订阅 Idle 状态变化以控制 Overlay 可见性
         var settings = Instances.SettingsViewModel;
@@ -82,6 +158,9 @@ public partial class OverlayWindow : Window
         {
             // ignored
         }
+
+        // 通知已完成加载，可以恢复配置了
+        LoadedCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnClosed(object sender, EventArgs e)
@@ -125,76 +204,27 @@ public partial class OverlayWindow : Window
 
     #endregion
 
-    // 目标模拟器窗口句柄
+    // 目标窗口句柄（由用户选择）
     private IntPtr _targetHwnd = IntPtr.Zero;
-    private DispatcherTimer _attachTimer;
-    private DispatcherTimer _posTimer;
+    private DispatcherTimer _attachTimer; // 保留但不用于自动查找
+    private IntPtr _overlayHwnd = IntPtr.Zero;
     // WinEventHook 用于即时订阅目标窗口的位置/大小变动
     private IntPtr _winEventHook = IntPtr.Zero;
+    private IntPtr _winEventHookShowHide = IntPtr.Zero;
     private WinEventDelegate _winEventDelegate;
 
     // 每次窗口加载后启动定时器，尝试附加到 MuMu 模拟器窗口并跟踪其位置
     private void StartTracking()
     {
+        // 不自动查找目标窗口。保留 attachTimer 以便未来扩展，但不启动自动搜索。
         _attachTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        _attachTimer.Tick += (s, e) =>
-        {
-            if (_targetHwnd == IntPtr.Zero)
-            {
-                if (TryAttachToMuMuWindow())
-                {
-                    _attachTimer.Stop();
-                    // 开始位置跟踪
-                    _posTimer?.Stop();
-                    _posTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-                    _posTimer.Tick += (s2, e2) => UpdatePosition();
-                    _posTimer.Start();
-                }
-            }
-        };
-        _attachTimer.Start();
     }
 
     private void StopTracking()
     {
         _attachTimer?.Stop();
-        _posTimer?.Stop();
         StopWinEventHook();
         _targetHwnd = IntPtr.Zero;
-    }
-
-    private bool TryAttachToMuMuWindow()
-    {
-        var patterns = new[] { "MuMuNxDevice" };
-        foreach (var proc in Process.GetProcesses())
-        {
-            try
-            {
-                var name = proc.ProcessName ?? string.Empty;
-                var title = proc.MainWindowTitle ?? string.Empty;
-                if (patterns.Any(p => name.IndexOf(p, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                    patterns.Any(p => title.IndexOf(p, StringComparison.OrdinalIgnoreCase) >= 0))
-                {
-                    var hwnd = proc.MainWindowHandle;
-                    if (hwnd == IntPtr.Zero)
-                        hwnd = FindWindowForProcess(proc.Id);
-
-                    if (hwnd != IntPtr.Zero)
-                    {
-                        _targetHwnd = hwnd;
-                        // 为目标窗口创建 WinEventHook，以便在窗口移动/调整大小时即时更新
-                        StartWinEventHookForTarget(_targetHwnd);
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-                // 忽略进程无法访问的情况
-            }
-        }
-
-        return false;
     }
 
     private void StartWinEventHookForTarget(IntPtr hwnd)
@@ -204,8 +234,11 @@ public partial class OverlayWindow : Window
             if (hwnd == IntPtr.Zero)
                 return;
 
+            // 如果已经有钩子，先清理旧的
             if (_winEventHook != IntPtr.Zero)
-                return; // already hooked
+            {
+                StopWinEventHook();
+            }
 
             // 获取目标窗口所属进程 id
             GetWindowThreadProcessId(hwnd, out var pid);
@@ -219,11 +252,11 @@ public partial class OverlayWindow : Window
             const uint EVENT_OBJECT_SHOW = 0x8002;
             const uint EVENT_OBJECT_HIDE = 0x8003;
 
-            // 仅订阅目标进程的 location change / show / hide
+            // 订阅目标进程的 location change
             _winEventHook = SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, IntPtr.Zero, _winEventDelegate, (uint)pid, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
 
-            // 也订阅 show/hide 以处理窗口出现/隐藏情况
-            // 可以为这些事件创建额外的 hook，但这里尽量简洁：如果需要更全面，后续可扩展
+            // 单独订阅 show/hide 事件以处理窗口出现/隐藏
+            _winEventHookShowHide = SetWinEventHook(EVENT_OBJECT_SHOW, EVENT_OBJECT_HIDE, IntPtr.Zero, _winEventDelegate, (uint)pid, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
         }
         catch
         {
@@ -240,6 +273,11 @@ public partial class OverlayWindow : Window
                 UnhookWinEvent(_winEventHook);
                 _winEventHook = IntPtr.Zero;
                 _winEventDelegate = null;
+            }
+            if (_winEventHookShowHide != IntPtr.Zero)
+            {
+                UnhookWinEvent(_winEventHookShowHide);
+                _winEventHookShowHide = IntPtr.Zero;
             }
         }
         catch
@@ -271,7 +309,7 @@ public partial class OverlayWindow : Window
             {
                 // ignored
             }
-        });
+        }, DispatcherPriority.Render);
     }
 
     private void UpdatePosition()
@@ -281,37 +319,45 @@ public partial class OverlayWindow : Window
 
         if (!GetWindowRect(_targetHwnd, out var rect))
             return;
-
-        // 将像素坐标转换为 WPF 设备独立像素
-        var source = PresentationSource.FromVisual(this);
-        if (source?.CompositionTarget == null)
-            return;
-
-        var transform = source.CompositionTarget.TransformFromDevice;
-        var topLeft = transform.Transform(new Point(rect.Left, rect.Top));
-        var bottomRight = transform.Transform(new Point(rect.Right, rect.Bottom));
-
-        var newLeft = topLeft.X;
-        var newTop = topLeft.Y + 40;
-        var newWidth = Math.Max(0, bottomRight.X - topLeft.X);
-        var newHeight = Math.Max(0, bottomRight.Y - topLeft.Y - 40);
-
-        // 更新 Overlay 窗口位置和大小
-        if (!DoubleUtilAreClose(Left, newLeft)) Left = newLeft;
-        if (!DoubleUtilAreClose(Top, newTop)) Top = newTop;
-        if (!DoubleUtilAreClose(Width, newWidth)) Width = newWidth;
-        if (!DoubleUtilAreClose(Height, newHeight)) Height = newHeight;
-
-        // 将 Border 的 MaxWidth 限制为模拟器窗口宽度减去左右 Margin（留出间距）
+        // Use native SetWindowPos for fast updates (device pixels)
         try
         {
-            var border = FindName("OuterBorder") as System.Windows.Controls.Border;
-            if (border != null)
+            if (_overlayHwnd != IntPtr.Zero)
             {
-                // Border 的 Margin 左右之和
-                double horizontalMargin = border.Margin.Left + border.Margin.Right;
-                var maxW = Math.Max(0, newWidth - horizontalMargin);
-                border.MaxWidth = maxW;
+                int newLeft = rect.Left;
+                int newTop = rect.Top;
+                int newWidth = Math.Max(0, rect.Right - rect.Left);
+                int newHeight = Math.Max(0, rect.Bottom - rect.Top);
+
+                const uint SWP_NOZORDER = 0x0004;
+                const uint SWP_NOACTIVATE = 0x0010;
+
+                SetWindowPos(_overlayHwnd, IntPtr.Zero, newLeft, newTop, newWidth, newHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+
+                // Update Border.MaxWidth on UI thread at Background priority (in WPF units)
+                Dispatcher.BeginInvoke(() =>
+                {
+                    try
+                    {
+                        if (FindName("OuterBorder") is not Border border)
+                        {
+                            return;
+                        }
+
+                        var source = PresentationSource.FromVisual(this);
+                        if (source?.CompositionTarget != null)
+                        {
+                            var transform = source.CompositionTarget.TransformFromDevice;
+                            var topLeft = transform.Transform(new Point(rect.Left, rect.Top));
+                            var bottomRight = transform.Transform(new Point(rect.Right, rect.Bottom));
+                            var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
+                            double horizontalMargin = border.Margin.Left + border.Margin.Right;
+                            var maxW = Math.Max(0, newWidthWpf - horizontalMargin);
+                            border.MaxWidth = maxW;
+                        }
+                    }
+                    catch { }
+                }, DispatcherPriority.Background);
             }
         }
         catch
@@ -344,9 +390,6 @@ public partial class OverlayWindow : Window
             int tries = 0;
             while (_targetHwnd == IntPtr.Zero && tries < 40)
             {
-                TryAttachToMuMuWindow();
-                if (_targetHwnd != IntPtr.Zero)
-                    break;
                 await Task.Delay(50).ConfigureAwait(true);
                 tries++;
             }
@@ -391,30 +434,12 @@ public partial class OverlayWindow : Window
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool IsWindowVisible(IntPtr hWnd);
 
-    private IntPtr FindWindowForProcess(int pid)
-    {
-        IntPtr found = IntPtr.Zero;
-        EnumWindows((hWnd, lParam) =>
-        {
-            if (!IsWindowVisible(hWnd))
-                return true; // continue
-
-            GetWindowThreadProcessId(hWnd, out var windowPid);
-            if (windowPid == pid)
-            {
-                found = hWnd;
-                return false; // stop enumeration
-            }
-
-            return true;
-        }, IntPtr.Zero);
-
-        return found;
-    }
-
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
     // WinEventHook APIs
     private delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);

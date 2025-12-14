@@ -1,0 +1,50 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.UI.ProcessPickerWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    Title="选择窗口"
+    Width="520"
+    Height="400"
+    Background="{DynamicResource RegionBrush}"
+    WindowStartupLocation="CenterOwner">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListBox
+            x:Name="LbWindows"
+            DisplayMemberPath="Display"
+            SelectedIndex="0" />
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,8,0,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="BtnRefresh"
+                Width="80"
+                Margin="0,0,8,0"
+                Click="BtnRefresh_Click">
+                刷新
+            </Button>
+            <Button
+                x:Name="BtnOk"
+                Width="80"
+                Margin="0,0,8,0"
+                Click="BtnOk_Click"
+                IsDefault="True">
+                确定
+            </Button>
+            <Button
+                x:Name="BtnCancel"
+                Width="80"
+                IsCancel="True">
+                取消
+            </Button>
+        </StackPanel>
+    </Grid>
+</hc:Window>
