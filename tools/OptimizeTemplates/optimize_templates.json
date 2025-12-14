@@ -5808,5 +5808,6 @@
     "official/AwardNotNeedExpand": "795a9fdf6d31ca747121dcac1cb2b2127557a2459befc08c240789289a873b21",
     "official/AwardNeedExpand": "b338a13d636b5bb1e50ce915bccd840e6f0f36d6d019aa0f889201f6580cf8bf",
     "resource/template/InfrastPic/Clue/InfrastClueQuickInsert": "de5874ce5a8b532964978af395b127350f8828761814bfd308e7eca267a69fb9",
-    "resource/template/InfrastPic/Clue/InfrastClueQuickSendDuplicates": "18f5086ff92c8c3bcf9b27aa9255f8fda123b3f80ceda10160daec3526387786"
+    "resource/template/InfrastPic/Clue/InfrastClueQuickSendDuplicates": "18f5086ff92c8c3bcf9b27aa9255f8fda123b3f80ceda10160daec3526387786",
+    "resource/template/InfrastPic/ShamareThumbnail/ShamareThumbnail4": "ba4d8495307120c4302537e02ba2d0f47a705ee08383fb40a8669f2ef156818e"
 }
