@@ -80,7 +80,7 @@ jobs:
           git commit -m "$commit_msg"
 
       - name: Create changelog PR
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           sign-commits: true
           token: ${{ secrets.GITHUB_TOKEN }}

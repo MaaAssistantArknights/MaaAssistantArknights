@@ -171,7 +171,7 @@ jobs:
 
       - name: Cache MaaDeps
         id: cache-maadeps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         continue-on-error: true
         with:
           path: |
@@ -201,7 +201,7 @@ jobs:
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         continue-on-error: true
         with:
           path: |
@@ -242,7 +242,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload PDB files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: MAAComponent-DebugSymbol-win-${{ matrix.arch }}
           path: install/MAAComponent-DebugSymbol-${{ steps.set_tag.outputs.tag }}-win-${{ matrix.arch }}.zip
@@ -258,7 +258,7 @@ jobs:
           cp tools/DependencySetup_依赖库安装.bat install
 
       - name: Upload MAA to GitHub
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: MAA-win-${{ matrix.arch }}
           path: install
@@ -319,7 +319,7 @@ jobs:
           show-progress: false
 
       - name: Download MAA from GitHub
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
