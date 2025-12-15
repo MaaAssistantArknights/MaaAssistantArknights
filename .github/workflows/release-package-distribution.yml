@@ -144,7 +144,7 @@ jobs:
         with:
           identifier: MaaAssistantArknights.MaaAssistantArknights
           version: ""
-          installers-regex: "-win-"
+          installers-regex: 'MAA-.*-win-.*\.zip'
           max-versions-to-keep: 0
           release-tag: ${{ env.RELEASE_TAG }}
           fork-user: MaaAssistantArknights
