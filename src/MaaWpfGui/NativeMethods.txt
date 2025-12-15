@@ -17,14 +17,6 @@ DEVPKEY_Device_InstanceId
 DEVPKEY_Device_DriverDate
 DEVPKEY_Device_DriverVersion
 
-// MessageBoxHelper
-TaskDialogIndirect
-TD_INFORMATION_ICON
-TD_ERROR_ICON
-TD_WARNING_ICON
-TD_INFORMATION_ICON
-SHGetStockIconInfo
-
 // Window enumeration
 EnumWindows
 GetWindowText
