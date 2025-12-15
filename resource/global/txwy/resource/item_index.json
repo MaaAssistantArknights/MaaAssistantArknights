@@ -1583,6 +1583,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act1break_milestone_point": {
+        "classifyType": "NONE",
+        "description": "普通的標示牌。在圓凳滑行賽中被當作加速指示牌使用之後，受到了關注這項賽事的幹員們的青睞，逐漸成為一種收藏品。",
+        "icon": "act1break_milestone_point.png",
+        "name": "“小心地滑”",
+        "sortId": -10000,
+        "usage": "可在突破里程碑中兌換獎勵。"
+    },
     "act1collection_point_token": {
         "classifyType": "NONE",
         "description": "為了激勵前往舒巴特-阿爾薩蘭地區建設基地的外勤幹員，羅德島發放了一定量的特殊獎勵兌換點數。幹員憑藉兌換點數可兌換急需的物資。",
