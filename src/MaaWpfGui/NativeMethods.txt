@@ -25,6 +25,13 @@ TD_WARNING_ICON
 TD_INFORMATION_ICON
 SHGetStockIconInfo
 
+// Window enumeration
+EnumWindows
+GetWindowText
+GetWindowTextLengthW
+GetWindowThreadProcessId
+IsWindowVisible
+
 //BadInjectedDllChecker
 GetModuleHandle
 GetModuleFileName

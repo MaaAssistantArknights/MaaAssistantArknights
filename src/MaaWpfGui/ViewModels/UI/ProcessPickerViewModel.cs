@@ -1,11 +1,24 @@
+// <copyright file="ProcessPickerViewModel.cs" company="MaaAssistantArknights">
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Stylet;
+using Windows.Win32;
 
 #nullable enable
 
@@ -55,23 +68,29 @@ namespace MaaWpfGui.ViewModels.UI
                 var list = new System.Collections.Generic.List<WindowEntry>();
                 try
                 {
-                    EnumWindows((hWnd, lParam) =>
+                    PInvoke.EnumWindows((hWnd, lParam) =>
                     {
-                        if (!IsWindowVisible(hWnd))
+                        if (!PInvoke.IsWindowVisible(hWnd))
                         {
                             return true;
                         }
 
-                        var len = GetWindowTextLength(hWnd);
-                        var sb = new StringBuilder(len + 1);
-                        _ = GetWindowText(hWnd, sb, sb.Capacity);
-                        var title = sb.ToString();
+                        var len = PInvoke.GetWindowTextLength(hWnd);
+                        if (len <= 0)
+                        {
+                            return true;
+                        }
+
+                        // Use Span<char> as CsWin32 exposes GetWindowText that accepts a span
+                        Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
+                        int written = PInvoke.GetWindowText(hWnd, buffer);
+                        var title = new string(buffer[..Math.Max(0, Math.Min(written, buffer.Length))]);
                         if (string.IsNullOrWhiteSpace(title))
                         {
                             return true;
                         }
 
-                        _ = GetWindowThreadProcessId(hWnd, out var pid);
+                        _ = PInvoke.GetWindowThreadProcessId(hWnd, out var pid);
                         string name = "(unknown)";
                         try
                         {
@@ -107,26 +126,5 @@ namespace MaaWpfGui.ViewModels.UI
                 });
             });
         }
-
-        #region Win32
-        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-        [LibraryImport("user32.dll", EntryPoint = "GetWindowTextLengthW")]
-        private static partial int GetWindowTextLength(IntPtr hWnd);
-
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-        [LibraryImport("user32.dll")]
-        private static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool IsWindowVisible(IntPtr hWnd);
-        #endregion
     }
 }
