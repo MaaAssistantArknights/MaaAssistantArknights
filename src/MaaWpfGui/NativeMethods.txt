@@ -23,6 +23,12 @@ GetWindowText
 GetWindowTextLengthW
 GetWindowThreadProcessId
 IsWindowVisible
+GetWindowRect
+SetWindowPos
+SetWinEventHook
+UnhookWinEvent
+GetWindowLong
+SetWindowLong
 
 //BadInjectedDllChecker
 GetModuleHandle
