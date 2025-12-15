@@ -45,7 +45,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 EnsureCreated();
                 _overlay.SetTargetHwnd(hwnd);
-
             });
             if (persist)
             {

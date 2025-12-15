@@ -140,7 +140,7 @@ public static class MessageBoxHelper
 
         if (useNativeMethod)
         {
-            return ShowNative(ownerWindow, messageBoxText, null, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
+            return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
         }
         else
         {
