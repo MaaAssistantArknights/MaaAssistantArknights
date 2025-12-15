@@ -54,7 +54,7 @@ jobs:
       - name: Restore cache for Smoke Test
         if: ${{ steps.cache_key.outputs.key != '' }}
         id: smoke-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
@@ -74,7 +74,7 @@ jobs:
       - name: Cache MaaDeps
         if: steps.smoke-cache.outputs.cache-hit != 'true'
         id: maadeps-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         continue-on-error: true
         with:
           path: ./src/MaaUtils/MaaDeps
@@ -120,7 +120,7 @@ jobs:
 
       - name: Save cache for Smoke Test (only in dev)
         if: steps.smoke-cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/dev'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         continue-on-error: true
         with:
           key: ${{ steps.cache_key.outputs.key }}
@@ -134,7 +134,7 @@ jobs:
 
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: logs
           path: ./install/debug
