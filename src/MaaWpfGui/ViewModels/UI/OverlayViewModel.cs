@@ -1,15 +1,27 @@
+// <copyright file="OverlayViewModel.cs" company="MaaAssistantArknights">
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2025 MaaAssistantArknights Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using MaaWpfGui.Helper;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Views.UI;
 using Newtonsoft.Json;
 using Stylet;
+using Windows.Win32;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -18,14 +30,16 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private OverlayWindow _overlay;
         private Task _initTask;
-        private readonly object _lockObj = new();
+        private readonly Lock _lockObj = new();
 
         public bool IsCreated => _overlay != null;
 
         public void SetTargetHwnd(IntPtr hwnd, bool persist = true)
         {
             if (hwnd == IntPtr.Zero)
+            {
                 return;
+            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -38,23 +52,25 @@ namespace MaaWpfGui.ViewModels.UI
                 // persist target info (process id, name, title) only if changed
                 try
                 {
-                    GetWindowThreadProcessId(hwnd, out var pid);
+                    var hwndVal = (Windows.Win32.Foundation.HWND)hwnd;
+                    PInvoke.GetWindowThreadProcessId(hwndVal, out var pid);
                     var title = GetWindowTitle(hwnd);
-                    string pname = "(unknown)";
+                    string name = "(unknown)";
                     try
                     {
                         var p = Process.GetProcessById((int)pid);
-                        pname = p.ProcessName;
+                        name = p.ProcessName;
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
-                    var info = new OverlayTargetInfo { ProcessId = (int)pid, ProcessName = pname, Title = title, Hwnd = hwnd.ToInt64() };
+                    var info = new OverlayTargetInfo { ProcessId = (int)pid, ProcessName = name, Title = title, Hwnd = hwnd.ToInt64() };
                     var json = JsonConvert.SerializeObject(info);
                     ConfigurationHelper.SetGlobalValue(ConfigurationKeys.OverlayTarget, json);
                 }
                 catch
                 {
-                    // ignore persistence errors
                 }
             }
         }
@@ -62,14 +78,19 @@ namespace MaaWpfGui.ViewModels.UI
         public void EnsureCreated()
         {
             if (_overlay != null)
+            {
                 return;
+            }
 
             lock (_lockObj)
             {
                 if (_overlay != null)
+                {
                     return;
+                }
 
                 _overlay = new OverlayWindow();
+
                 // 订阅加载完成事件，在窗口完全就绪后恢复配置
                 _overlay.LoadedCompleted += OnOverlayLoadedCompleted;
                 _initTask = _overlay.InitializeAndShowAsync();
@@ -93,53 +114,52 @@ namespace MaaWpfGui.ViewModels.UI
                             var found = TryFindWindow(info);
                             if (found != IntPtr.Zero)
                             {
-                                Application.Current.Dispatcher.Invoke(() => SetTargetHwnd(found, false));
+                                Execute.OnUIThread(() => SetTargetHwnd(found, false));
                             }
                         }
                     }
                 }
                 catch
                 {
-                    // ignore restore errors
                 }
             });
         }
 
         public void Close()
         {
-            try
+            Execute.OnUIThread(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                try
                 {
-                    try
+                    if (_overlay != null)
                     {
-                        if (_overlay != null)
-                        {
-                            _overlay.LoadedCompleted -= OnOverlayLoadedCompleted;
-                            _overlay.Close();
-                        }
+                        _overlay.LoadedCompleted -= OnOverlayLoadedCompleted;
+                        _overlay.Close();
                     }
-                    catch
-                    {
-                    }
+                }
+                catch
+                {
+                }
 
-                    _overlay = null;
-                    NotifyOfPropertyChange(() => IsCreated);
-                });
-            }
-            catch
-            {
-            }
+                _overlay = null;
+                NotifyOfPropertyChange(() => IsCreated);
+            });
         }
 
         private static string GetWindowTitle(IntPtr hWnd)
         {
             try
             {
-                var len = GetWindowTextLength(hWnd);
-                var sb = new StringBuilder(len + 1);
-                GetWindowText(hWnd, sb, sb.Capacity);
-                return sb.ToString();
+                var hwndVal = (Windows.Win32.Foundation.HWND)hWnd;
+                var len = PInvoke.GetWindowTextLength(hwndVal);
+                if (len <= 0)
+                {
+                    return string.Empty;
+                }
+
+                Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
+                int written = PInvoke.GetWindowText(hwndVal, buffer);
+                return new string(buffer.Slice(0, Math.Max(0, Math.Min(written, buffer.Length))));
             }
             catch
             {
@@ -157,32 +177,43 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     try
                     {
-                        var h = new IntPtr(info.Hwnd);
-                        GetWindowThreadProcessId(h, out var pidCheck);
+                        var h = (Windows.Win32.Foundation.HWND)new IntPtr(info.Hwnd);
+                        _ = PInvoke.GetWindowThreadProcessId(h, out var pidCheck);
                         if (pidCheck == info.ProcessId)
                         {
-                            return h;
+                            return (IntPtr)h;
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
-                EnumWindows((hWnd, lParam) =>
+                PInvoke.EnumWindows((hWnd, lParam) =>
                 {
-                    if (!IsWindowVisible(hWnd))
+                    if (!PInvoke.IsWindowVisible(hWnd))
+                    {
                         return true;
+                    }
 
-                    var len = GetWindowTextLength(hWnd);
-                    var sb = new StringBuilder(len + 1);
-                    GetWindowText(hWnd, sb, sb.Capacity);
-                    var title = sb.ToString();
+                    var len = PInvoke.GetWindowTextLength(hWnd);
+                    if (len <= 0)
+                    {
+                        return true;
+                    }
+
+                    Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
+                    int written = PInvoke.GetWindowText(hWnd, buffer);
+                    var title = new string(buffer.Slice(0, Math.Max(0, Math.Min(written, buffer.Length))));
                     if (string.IsNullOrWhiteSpace(title))
+                    {
                         return true;
+                    }
 
-                    GetWindowThreadProcessId(hWnd, out var pid);
+                    _ = PInvoke.GetWindowThreadProcessId(hWnd, out var pid);
                     if (pid == info.ProcessId)
                     {
-                        found = hWnd;
+                        found = (IntPtr)hWnd;
                         return false; // stop enumeration
                     }
 
@@ -196,12 +227,16 @@ namespace MaaWpfGui.ViewModels.UI
                             return false;
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     return true;
                 }, IntPtr.Zero);
             }
-            catch { }
+            catch
+            {
+            }
 
             return found;
         }
@@ -216,25 +251,5 @@ namespace MaaWpfGui.ViewModels.UI
 
             public long Hwnd { get; set; }
         }
-
-        #region Win32
-        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, int nMaxCount);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
-        #endregion
     }
 }

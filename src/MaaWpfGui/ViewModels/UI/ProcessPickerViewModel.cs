@@ -99,16 +99,14 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                         catch
                         {
-                            // ignored
                         }
 
-                        list.Add(new WindowEntry { Hwnd = hWnd, ProcessId = (int)pid, ProcessName = name, Title = title });
+                        list.Add(new WindowEntry { Hwnd = (IntPtr)hWnd, ProcessId = (int)pid, ProcessName = name, Title = title });
                         return true;
                     }, IntPtr.Zero);
                 }
                 catch
                 {
-                    // ignored
                 }
 
                 Execute.OnUIThread(() =>

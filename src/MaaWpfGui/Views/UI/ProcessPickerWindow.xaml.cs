@@ -47,6 +47,4 @@ public partial class ProcessPickerWindow
         DialogResult = false;
         Close();
     }
-
-
 }
