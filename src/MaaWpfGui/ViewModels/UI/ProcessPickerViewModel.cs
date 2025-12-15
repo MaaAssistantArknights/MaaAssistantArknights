@@ -31,7 +31,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             public required string Title { get; set; }
 
-            public string Display => $"{ProcessName} - {Title}";
+            public string Display => $"{Title} - {ProcessName} - {ProcessId}";
         }
 
         public ObservableCollection<WindowEntry> Items { get; } = [];
