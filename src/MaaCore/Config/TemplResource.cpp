@@ -66,6 +66,9 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                     continue;
                 }
             }
+            else {
+                continue;
+            }
 
             if (template_found) {
                 Log.error("Templ file exists in multiple paths:", m_templ_paths.at(name), full_path);
