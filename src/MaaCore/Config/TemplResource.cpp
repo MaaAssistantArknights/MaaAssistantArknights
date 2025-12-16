@@ -31,35 +31,62 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     bool some_file_not_exists = false;
     bool file_dumplicate = false;
 #endif
+
+    // 构建相对路径索引
+    std::unordered_map<std::string, std::filesystem::path> relative_path_index;
+    for (const auto& dir : search_paths) {
+        std::error_code ec;
+        for (const auto& entry : std::filesystem::directory_iterator(dir, ec)) {
+            if (ec || !entry.is_regular_file(ec)) {
+                continue;
+            }
+            // 存储相对于根路径的相对路径
+            auto rel_path_str = entry.path().lexically_relative(path).string();
+            std::replace(rel_path_str.begin(), rel_path_str.end(), '\\', '/');
+            relative_path_index.emplace(rel_path_str, entry.path());
+        }
+    }
+
+    // 查找
     for (const std::string& name : m_load_required) {
-        bool found = false;
+        bool template_found = false;
+        std::filesystem::path file_path(utils::path(name));
+        if (!file_path.has_extension()) {
+            file_path.replace_extension(asst::utils::path(".png"));
+        }
+        std::string search_name = file_path.string();
+        std::replace(search_name.begin(), search_name.end(), '\\', '/');
 
-        for (const auto& dir : search_paths) {
-            std::filesystem::path filepath(dir / asst::utils::path(name));
-            if (!filepath.has_extension()) {
-                filepath.replace_extension(asst::utils::path(".png"));
+        // 遍历所有文件以检查重复匹配
+        for (const auto& [rel_path, full_path] : relative_path_index) {
+            if (rel_path.ends_with(search_name)) {
+                size_t pos = rel_path.length() - search_name.length();
+                if (pos != 0 && rel_path[pos - 1] != '/') { // path!=, 且不在路径分隔符边界上
+                    continue;
+                }
+            }
+            else {
+                continue;
             }
 
-            if (std::filesystem::exists(filepath)) {
-                if (found) {
-                    Log.error("Templ file exists in multiple directories:", m_templ_paths.at(name), filepath);
+            if (template_found) {
+                Log.error("Templ file exists in multiple paths:", m_templ_paths.at(name), full_path);
 #ifdef ASST_DEBUG
-                    file_dumplicate = true;
+                file_dumplicate = true;
 #else
-                    return false;
+                return false;
 #endif
-                }
-                auto path_iter = m_templ_paths.find(name);
-                if (path_iter == m_templ_paths.end() || path_iter->second != filepath) {
-                    m_templs.erase(name);
-                    m_templ_paths.insert_or_assign(name, filepath);
-                }
-                found = true;
             }
+            auto path_iter = m_templ_paths.find(name);
+            if (path_iter == m_templ_paths.end() || path_iter->second != full_path) {
+                m_templs.erase(name);
+                m_templ_paths.insert_or_assign(name, full_path);
+            }
+            template_found = true;
         }
 
-        if (!found && !m_templ_paths.contains(name)) {
-            Log.error("Templ load failed, file not exists in all directories:", name);
+        if (!template_found && !m_templ_paths.contains(name)) {
+            Log.error("Templ load failed, file not exists:", name);
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
 #else
