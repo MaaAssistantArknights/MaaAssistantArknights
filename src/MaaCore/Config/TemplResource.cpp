@@ -41,10 +41,9 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                 continue;
             }
             // 存储相对于根路径的相对路径
-            auto rel_path = entry.path().lexically_relative(path);
-            auto rel_path_str = rel_path.string();
+            auto rel_path_str = entry.path().lexically_relative(path).string();
             std::replace(rel_path_str.begin(), rel_path_str.end(), '\\', '/');
-            relative_path_index.emplace(rel_path_str, rel_path);
+            relative_path_index.emplace(rel_path_str, entry.path());
         }
     }
 
