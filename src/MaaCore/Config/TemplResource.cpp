@@ -50,7 +50,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
 
     // 查找
     for (const std::string& name : m_load_required) {
-        bool template_founded = false;
+        bool template_found = false;
         std::filesystem::path file_path(utils::path(name));
         if (!file_path.has_extension()) {
             file_path.replace_extension(asst::utils::path(".png"));
@@ -67,7 +67,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                 }
             }
 
-            if (template_founded) {
+            if (template_found) {
                 Log.error("Templ file exists in multiple paths:", m_templ_paths.at(name), full_path);
 #ifdef ASST_DEBUG
                 file_dumplicate = true;
@@ -80,10 +80,10 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                 m_templs.erase(name);
                 m_templ_paths.insert_or_assign(name, full_path);
             }
-            template_founded = true;
+            template_found = true;
         }
 
-        if (!template_founded && !m_templ_paths.contains(name)) {
+        if (!template_found && !m_templ_paths.contains(name)) {
             Log.error("Templ load failed, file not exists:", name);
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
