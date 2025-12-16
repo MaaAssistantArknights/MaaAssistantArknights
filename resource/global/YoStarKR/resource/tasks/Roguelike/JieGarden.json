@@ -1,0 +1,211 @@
+{
+    "JieGarden@Roguelike@CheckLevel": {
+        "text": ["游园纪念"]
+    },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "text": ["放弃行动"],
+        "roi": [770, 470, 150, 45]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "Doc": "Tongbao thrown status recognition - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
+        "text": ["已投出"],
+        "roi": [-115, 90, 69, 24]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
+        "Doc": "Tongbao name recognition - EXCHANGE mode - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [29, -5, 160, 40]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
+        "Doc": "Tongbao name recognition - PICKUP mode - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [0, -209, 167, 37]
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinish": {
+        "Doc": "Exchange button after Tongbao exchange is complete (used to confirm completion of exchange operation)",
+        "text": ["交换"],
+        "roi": [575, 558, 127, 50]
+    },
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "Doc": "Tongbao name OCR recognition replacement rules (used to correct OCR errors)",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "ocrReplace": [
+            ["_+$", ""],
+            ["\\.+$", ""],
+            ["衡-露.*", "衡-霹雳"],
+            ["厉-安硕.*", "厉-安硕鼷"],
+            ["花-圣迢封神", "花-圣诏封神"],
+            ["衡-军.*", "衡-军屯垦"],
+            ["衡-早热", "衡-旱热"],
+            ["厉[-—一]+字落", "厉-一字落"]
+        ]
+    },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "text": ["放弃行动"],
+        "roi": [700, 390, 110, 41]
+    },
+    "JieGarden@Roguelike@NextLevel": {
+        "Doc": "Screenshot duration might be too long preventing recognition, so #next is used elsewhere to skip clicking; this likely applies to other Roguelike modes too",
+        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
+        "roi": [550, 545, 184, 64]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "text": ["确认留存"],
+        "roi": [766, 572, 142, 49]
+    },
+    "JieGarden@Roguelike@SelectTheme": {
+        "text": ["游园纪念"]
+    },
+    "JieGarden@Roguelike@SpecialValRecognition": {
+        "Doc": "Special value recognition, quantity of Ideas",
+        "roi": [848, 686, 46, 26]
+    },
+    "JieGarden@Roguelike@StageSafeHouseReuse": {
+        "roi": [880, 210, 140, 36],
+        "text": ["活用安全屋"]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云(瓦)?(亭|亨)", "_default"],
+            ["汝吾(门)?", "_default"],
+            ["见字祠", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["洪陆楼", "_aggressive"],
+            ["山水阁", "_aggressive"],
+            ["云(瓦)?(亭|亨)", "_pragmatic"],
+            ["汝吾(门)?", "_pragmatic"],
+            ["见字祠", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "ocrReplace": [
+            ["洪陆楼", "_fastPass"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["洪陆楼", "_fastPass"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_restart"],
+            ["云(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(门)?", "_restart"],
+            ["见字祠", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_boskyPassageDefault"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_exit"],
+            ["云(瓦)?(亭|亨)", "_exit"],
+            ["汝吾(门)?", "_exit"],
+            ["见字祠", "_exit"],
+            ["始末陵", "_exit"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "ocrReplace": [
+            ["洪陆楼", "_fastPass"],
+            ["山水阁", "_exit"],
+            ["云(瓦)?(亭|亨)", "_exit"],
+            ["汝吾(门)?", "_exit"],
+            ["见字祠", "_exit"],
+            ["始末陵", "_exit"],
+            ["是非境", "_leaveBoskyPassage"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云(瓦)?(亭|亨)", "_default"],
+            ["汝吾(门)?", "_default"],
+            ["见字祠", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["洪陆楼", "_default"],
+            ["山水阁", "_default"],
+            ["云(瓦)?(亭|亨)", "_default"],
+            ["汝吾(门)?", "_default"],
+            ["见字祠", "_default"],
+            ["始末陵", "_default"],
+            ["是非境", "_boskyPassageDefault"]
+        ],
+        "roi": [627, 14, 71, 28]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "Doc": "Configuration task applied to RegionOCRer when recognizing event option text",
+        "roi": [0, 0, 300, 43],
+        "text": [],
+        "ocrReplace": [
+            ["[_—,，\\.]+$", ""],
+            ["^[_—,，\\.]+", ""],
+            ["^[儡蟹]+", ""],
+            ["想要时的", "想要亥时的"],
+            ["找委溯果", "找黍溯果"],
+            ["睁开双眼.*", "睁开双眼——"],
+            ["^饮一口缸中水[,，].*", "饮一口缸中水，祈求好运"],
+            ["奉碑行仪.*", "奉碑行仪"]
+        ]
+    },
+    "JieGarden@RoguelikeRecruit-GiveUp": {
+        "Doc": [
+            "In Integrated Strategies mode operator recruitment interface, click the icon to the left of the 'Give Up' text in the bottom right corner to forfeit recruitment",
+            "The recruitment interface UI of Jie Garden differs slightly from other themes; the icon is smaller and shifted left"
+        ],
+        "roi": [891, 648, 58, 58]
+    }
+}
