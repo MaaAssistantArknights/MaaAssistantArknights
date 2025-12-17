@@ -1,554 +1,442 @@
 {
-  "author": "一只摆烂的42",
-  "description": "长期搓玉333排班协议",
-  "id": 1765973591631819,
-  "title": "333长期搓玉，需要自行将黍进驻专精室协助位。推荐换班时间8-8-8，极限效率12-12-8.5，非8小时换班需要取消使用菲亚梅塔（plans.[0/1/2].Fiammetta.enable = false），并自行每8小时手动使用菲亚梅塔007但书龙舌兰巫恋。修订时间2025-12-17，具体干员配置参考公孙长乐大佬最新视频的333搓玉高级版。对干员要求极高，若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）",
-  "planTimes": "3班",
-  "plans": [
-    {
-      "name": "A 组 12 H",
-      "description": "1组",
-      "description_post": "下次换班请在约12小时后进行",
-      "Fiammetta": {
-        "enable": true,
-        "target": "但书",
-        "order": "pre"
-      },
-      "drones": {
-        "room": "trading",
-        "index": "1",
-        "enable": true,
-        "order": "pre"
-      },
-      "rooms": {
-        "trading": [
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "巫恋",
-              "卡夫卡",
-              "龙舌兰"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "乌有",
-              "黑键",
-              "但书"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Orundum",
-            "operators": [
-              "德克萨斯",
-              "拉普兰德",
-              "能天使"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "manufacture": [
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "清流",
-              "温蒂",
-              "森蚺"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "阿罗玛",
-              "槐琥",
-              "迷迭香"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Originium Shard",
-            "operators": [
-              "泡泡",
-              "火神",
-              "褐果"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "power": [
-          {
-            "skip": false,
-            "operators": [
-              "承曦格雷伊"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "dormitory": [
-          {
-            "skip": false,
-            "operators": [
-              "爱丽丝",
-              "车尔尼",
-              "塑心"
-            ],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "control": [
-          {
-            "skip": false,
-            "operators": [
-              "阿米娅",
-              "重岳",
-              "令",
-              "夕",
-              "琴柳"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "meeting": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "hire": [
-          {
-            "skip": false,
-            "operators": [
-              "絮雨"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "processing": [
-          {
-            "skip": false,
-            "operators": [
-              "年"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ]
-      }
-    },
-    {
-      "name": "B 组 12H",
-      "description": "2组",
-      "description_post": "下次换班请在约12小时后进行",
-      "Fiammetta": {
-        "enable": true,
-        "target": "龙舌兰",
-        "order": "pre"
-      },
-      "drones": {
-        "room": "trading",
-        "index": "1",
-        "enable": true,
-        "order": "pre"
-      },
-      "rooms": {
-        "trading": [
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "巫恋",
-              "卡夫卡",
-              "龙舌兰"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "推进之王",
-              "摩根",
-              "但书"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Orundum",
-            "operators": [
-              "孑",
-              "琳琅诗怀雅",
-              "银灰"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "manufacture": [
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "清流",
-              "温蒂",
-              "森蚺"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "苍苔",
-              "砾",
-              "引星棘刺"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Originium Shard",
-            "operators": [
-              "泡泡",
-              "火神",
-              "褐果"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "power": [
-          {
-            "skip": false,
-            "operators": [
-              "承曦格雷伊"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "dormitory": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "control": [
-          {
-            "skip": false,
-            "operators": [
-              "阿米娅",
-              "灵知",
-              "戴菲恩",
-              "八幡海铃",
-              "斩业星熊"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "meeting": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "hire": [
-          {
-            "skip": false,
-            "operators": [
-              "斥罪"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "processing": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": false
-          }
-        ]
-      }
-    },
-    {
-      "name": "C 组 8.5H",
-      "description": "3组",
-      "description_post": "下次换班请在约8.5小时后进行",
-      "Fiammetta": {
-        "enable": true,
-        "target": "巫恋",
-        "order": "pre"
-      },
-      "drones": {
-        "room": "trading",
-        "index": 1,
-        "enable": true,
-        "order": "pre"
-      },
-      "rooms": {
-        "trading": [
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "巫恋",
-              "柏喙",
-              "龙舌兰"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "LMD",
-            "operators": [
-              "乌有",
-              "黑键",
-              "但书"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Orundum",
-            "operators": [
-              "德克萨斯",
-              "拉普兰德",
-              "能天使"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "manufacture": [
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "阿罗玛",
-              "槐琥",
-              "迷迭香"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Pure Gold",
-            "operators": [
-              "苍苔",
-              "引星棘刺",
-              "砾"
-            ],
-            "sort": false,
-            "autofill": false
-          },
-          {
-            "skip": false,
-            "product": "Originium Shard",
-            "operators": [
-              "艾雅法拉",
-              "地灵",
-              "炎熔"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "power": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "dormitory": [
-          {
-            "skip": false,
-            "operators": [
-              "爱丽丝",
-              "车尔尼",
-              "塑心"
-            ],
-            "sort": true,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          },
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "control": [
-          {
-            "skip": false,
-            "operators": [
-              "诗怀雅",
-              "重岳",
-              "令",
-              "夕",
-              "琴柳"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "meeting": [
-          {
-            "skip": false,
-            "operators": [],
-            "sort": false,
-            "autofill": true
-          }
-        ],
-        "hire": [
-          {
-            "skip": false,
-            "operators": [
-              "絮雨"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ],
-        "processing": [
-          {
-            "skip": false,
-            "operators": [
-              "年"
-            ],
-            "sort": false,
-            "autofill": false
-          }
-        ]
-      }
+    "author": "一只摆烂的42",
+    "description": "长期搓玉333排班协议",
+    "id": 1765973591631819,
+    "title": "333长期搓玉，需要自行将黍进驻专精室协助位。推荐换班时间8-8-8，极限效率12-12-8.5，非8小时换班需要取消使用菲亚梅塔（plans.[0/1/2].Fiammetta.enable = false），并自行每8小时手动使用菲亚梅塔007但书龙舌兰巫恋。修订时间2025-12-17，具体干员配置参考公孙长乐大佬最新视频的333搓玉高级版。对干员要求极高，若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）",
+    "planTimes": "3班",
+    "plans": [
+        {
+            "name": "A 组 12 H",
+            "description": "1组",
+            "description_post": "下次换班请在约12小时后进行",
+            "Fiammetta": {
+                "enable": true,
+                "target": "但书",
+                "order": "pre"
+            },
+            "drones": {
+                "room": "trading",
+                "index": "1",
+                "enable": true,
+                "order": "pre"
+            },
+            "rooms": {
+                "trading": [
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["巫恋", "卡夫卡", "龙舌兰"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["乌有", "黑键", "但书"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Orundum",
+                        "operators": ["德克萨斯", "拉普兰德", "能天使"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["清流", "温蒂", "森蚺"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["阿罗玛", "槐琥", "迷迭香"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Originium Shard",
+                        "operators": ["泡泡", "火神", "褐果"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "power": [
+                    {
+                        "skip": false,
+                        "operators": ["承曦格雷伊"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "skip": false,
+                        "operators": ["爱丽丝", "车尔尼", "塑心"],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "skip": false,
+                        "operators": ["阿米娅", "重岳", "令", "夕", "琴柳"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "skip": false,
+                        "operators": ["絮雨"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "processing": [
+                    {
+                        "skip": false,
+                        "operators": ["年"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ]
+            }
+        },
+        {
+            "name": "B 组 12H",
+            "description": "2组",
+            "description_post": "下次换班请在约12小时后进行",
+            "Fiammetta": {
+                "enable": true,
+                "target": "龙舌兰",
+                "order": "pre"
+            },
+            "drones": {
+                "room": "trading",
+                "index": "1",
+                "enable": true,
+                "order": "pre"
+            },
+            "rooms": {
+                "trading": [
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["巫恋", "卡夫卡", "龙舌兰"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["推进之王", "摩根", "但书"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Orundum",
+                        "operators": ["孑", "琳琅诗怀雅", "银灰"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["清流", "温蒂", "森蚺"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["苍苔", "砾", "引星棘刺"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Originium Shard",
+                        "operators": ["泡泡", "火神", "褐果"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "power": [
+                    {
+                        "skip": false,
+                        "operators": ["承曦格雷伊"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "skip": false,
+                        "operators": ["阿米娅", "灵知", "戴菲恩", "八幡海铃", "斩业星熊"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "skip": false,
+                        "operators": ["斥罪"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "processing": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ]
+            }
+        },
+        {
+            "name": "C 组 8.5H",
+            "description": "3组",
+            "description_post": "下次换班请在约8.5小时后进行",
+            "Fiammetta": {
+                "enable": true,
+                "target": "巫恋",
+                "order": "pre"
+            },
+            "drones": {
+                "room": "trading",
+                "index": 1,
+                "enable": true,
+                "order": "pre"
+            },
+            "rooms": {
+                "trading": [
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["巫恋", "柏喙", "龙舌兰"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "LMD",
+                        "operators": ["乌有", "黑键", "但书"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Orundum",
+                        "operators": ["德克萨斯", "拉普兰德", "能天使"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "manufacture": [
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["阿罗玛", "槐琥", "迷迭香"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Pure Gold",
+                        "operators": ["苍苔", "引星棘刺", "砾"],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "skip": false,
+                        "product": "Originium Shard",
+                        "operators": ["艾雅法拉", "地灵", "炎熔"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "power": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "dormitory": [
+                    {
+                        "skip": false,
+                        "operators": ["爱丽丝", "车尔尼", "塑心"],
+                        "sort": true,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    },
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "control": [
+                    {
+                        "skip": false,
+                        "operators": ["诗怀雅", "重岳", "令", "夕", "琴柳"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "meeting": [
+                    {
+                        "skip": false,
+                        "operators": [],
+                        "sort": false,
+                        "autofill": true
+                    }
+                ],
+                "hire": [
+                    {
+                        "skip": false,
+                        "operators": ["絮雨"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ],
+                "processing": [
+                    {
+                        "skip": false,
+                        "operators": ["年"],
+                        "sort": false,
+                        "autofill": false
+                    }
+                ]
+            }
+        }
+    ],
+    "scheduleType": {
+        "planTimes": 3,
+        "trading": 3,
+        "manufacture": 3,
+        "power": 3,
+        "dormitory": 4
     }
-  ],
-  "scheduleType": {
-    "planTimes": 3,
-    "trading": 3,
-    "manufacture": 3,
-    "power": 3,
-    "dormitory": 4
-  }
 }
