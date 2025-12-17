@@ -144,7 +144,7 @@ bool asst::RoguelikeCoppersRecastPlugin::_run()
             return true;
         }
 
-        if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecast" }).set_retry_times(2).run()) {
+        if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecast" }).run()) {
             Log.error(__FUNCTION__, "| RoguelikeCoppersRecastPlugin: recast task failed, stopping recast");
             return true;
         }

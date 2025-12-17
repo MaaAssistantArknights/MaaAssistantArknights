@@ -9,6 +9,7 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:vwp="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
@@ -299,7 +300,7 @@
                         Margin="30,0"
                         Command="{s:Action StartOperBox}"
                         Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -385,7 +386,7 @@
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
-                        IsEnabled="{Binding 'Idle and Inited'}" />
+                        IsEnabled="{c:Binding 'Idle and Inited'}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -635,12 +636,64 @@
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <ComboBox
+                    Grid.Row="0"
                     hc:TitleElement.Title="{DynamicResource MiniGameName}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />
-                <controls:TextBlock Grid.Row="1" Text="{Binding MiniGameTip}" />
+                
+                <!-- MiniGame Tip and Recast Conditions -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Tip text: shown for all mini games -->
+                    <controls:TextBlock
+                        Margin="0,10"
+                        HorizontalAlignment="Center"
+                        Text="{Binding MiniGameTip}"
+                        Visibility="{c:Binding 'MiniGameTip != null and MiniGameTip != &quot;&quot;', FalseToVisibility=Collapsed}">
+                        <controls:TextBlock.Style>
+                            <Style TargetType="controls:TextBlock" BasedOn="{StaticResource TextBlockDefaultBold}">
+                                <Setter Property="Grid.Row" Value="1"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Visibility, ElementName=MiniGameCustomView}" Value="Visible">
+                                        <Setter Property="Grid.Row" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:TextBlock.Style>
+                    </controls:TextBlock>
+
+                    <!-- Generic MiniGame Custom View Container -->
+                    <ContentControl
+                        x:Name="MiniGameCustomView"
+                        Grid.Row="1"
+                        Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <!-- Roguelike Coppers Recast -->
+                                    <DataTrigger Binding="{Binding MiniGameTaskName}" Value="MiniGame@CoppersRecast@Begin">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <local:MiniGameRecastUserControl/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </Grid>
                 <Button
                     Grid.Row="2"
                     Width="100"
