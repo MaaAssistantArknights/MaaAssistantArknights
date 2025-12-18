@@ -216,11 +216,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
     <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">Top Gun Squad</system:String>
-    <system:String x:Key="IS5NewSquad1">High Ground Breakthrough Squad (高台突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad2">Ground Breakthrough Squad (地面突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad3">Tourist Squad (游客分队)</system:String>
-    <system:String x:Key="IS5NewSquad4">Sisuitai Squad (司岁台分队)</system:String>
-    <system:String x:Key="IS5NewSquad5">Tianshifu Squad (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad1">High Ground Breaching Squad</system:String>
+    <system:String x:Key="IS5NewSquad2">Ground Breaching Squad</system:String>
+    <system:String x:Key="IS5NewSquad3">Tourist Squad</system:String>
+    <system:String x:Key="IS5NewSquad4">Sui Regulator Squad</system:String>
+    <system:String x:Key="IS5NewSquad5">Tianshi Bureau Squad</system:String>
     <system:String x:Key="IS5NewSquad6">Cluster of Blooms Squad (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">Daring Gambit Squad (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">Echoes of Time Squad (岁影回音分队)</system:String>
@@ -236,12 +236,12 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
     <system:String x:Key="DefaultRoles">Default Roles</system:String>
-    <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
-    <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
-    <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
-    <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
+    <system:String x:Key="FirstMoveAdvantage">First Move Advantage (Vanguard, Sniper, Specialists)</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race (Defender, Caster, Sniper)</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses (Guard, Supporter, Medic)</system:String>
+    <system:String x:Key="AsYourHeartDesires">As Your Heart Desires (Random)</system:String>
     <system:String x:Key="FlexibleDeployment">Flexible Deployment (Vanguard, Supporter, Specialist)</system:String>
-    <system:String x:Key="Unbreakable">Unbreakable (Defender, Caster, Medic)</system:String>
+    <system:String x:Key="Unbreakable">Indestructible (Defender, Caster, Medic)</system:String>
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
@@ -427,7 +427,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢JieGarden｣ technology, squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-jump｣ strategy.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ technology, Leader Squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-skip｣ strategy.
 If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this feature, make sure to select a difficulty of N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
@@ -1056,7 +1056,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BoskyPlaytime">Node: Playtime</system:String>
     <system:String x:Key="BoskyDoubts">Node: Doubts</system:String>
     <system:String x:Key="BoskyDisaster">Node: Disaster</system:String>
-    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">Tongbao Exchange: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
