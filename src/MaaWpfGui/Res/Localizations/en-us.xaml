@@ -425,7 +425,7 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
-    <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">Sui's Garden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
     <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ technology, Leader Squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-skip｣ strategy.
 If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
