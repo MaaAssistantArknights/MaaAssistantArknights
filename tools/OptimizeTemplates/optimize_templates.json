@@ -5820,7 +5820,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@CoppersTakeFlag": "b261174067a2851769a7f77c5a7cde543f23eb59dd593b6fe32f2c8017a0c351",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@EnterAfterRecruit": "c4a2c1c7dc2daef2641432d5c6992ebaff0b8ac1fc5a3f1f43ac8dcd8c8ce257",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePass": "1b13e975f7c70a116ba96abdceb4b3bb0c77039155a907e9381e21b4728b2cbd",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePassSkip1": "f8b96d54e337840310eb6121b87b29b81200a3eea8ebd63a761ca215bf894a28",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePassSkip1": "3005277e62a1e4d8d047fec9843e09a9264b733157a95692ed7c6dc4858f8562",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GamePassSkip2": "e403d4f7f0c0c05ed69298242c40cf7ff078d0ed4699bfb08f67d6cf7e8f5d6d",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDrop1": "c9673c6778ee90852f6c5041b7c6b45f1ac4789dc9d2c6efa2ed4b9438e78237",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDrop2": "c22b4d7c091bba72addf42e17a2140c9e84ccaa2934b68630208569537574b94",
@@ -5830,7 +5830,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelectRecruit": "cc3b7ca8dafe229758828d7c166891956849548086c8f21c2236482f00080d3e",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelectReward": "88add219fde5dae2bfd407a3fa69caa17c63f6d0148233da148ed4454dce0ced",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch": "d90dd4a1505fef13b053aa7dcca62a39265fb71b5528035fcd86d5e730e4b328",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LastRewardConfirm": "3daac9deac7424ffa885f312c1588ef7268cbb2a67480dade398c9bd543c0e98",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LastRewardConfirm": "3c1337273f4755983ce62b8bca92083fffae22aa9cd94da6d47d133e710338db",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapObject": "d4a50084aeba040e4878a9d9ca1ba6ef55c0a258caf4f642209eb9c48c2507b4",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "efc18bfbeb77e576fb3b9712836cac4d25495e4bd374b4a92b988fb931329d30",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag2": "1439e7a6584daa54168a8882d846417ca17abce704abee6e42151c396ba303aa",
@@ -5849,5 +5849,6 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageYiTraderEnter": "59997f5c821b8e825a44d01b9c3d650799cd4791298efca6b92f045e13bb70fe",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StartAction.png": "31ae7e2a7da1adaf5d716b8726c23a0aac4b1d1eab7d08c8d112204a6ccdeb4c",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StartExplore": "300c322d150c85eb70e58fb8b4fe01617cd3a4c25810b955bbe15a2ed6c5c14d",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "aff26bad34fb58d13199586db2ffaf3e0cba2fdd73f327633c86629a5f864edc"
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "aff26bad34fb58d13199586db2ffaf3e0cba2fdd73f327633c86629a5f864edc",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StartAction": "31ae7e2a7da1adaf5d716b8726c23a0aac4b1d1eab7d08c8d112204a6ccdeb4c"
 }
