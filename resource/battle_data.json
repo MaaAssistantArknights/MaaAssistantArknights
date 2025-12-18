@@ -3767,8 +3767,7 @@
         },
         "char_4195_radian": {
             "name": "电弧",
-            "name_en": "电弧",
-            "name_en_unavailable": true,
+            "name_en": "Raidian",
             "name_jp": "レイディアン",
             "name_kr": "라이디언",
             "name_tw": "电弧",
@@ -5416,8 +5415,7 @@
         },
         "token_10051_radian_tower1": {
             "name": "戴乌",
-            "name_en": "戴乌",
-            "name_en_unavailable": true,
+            "name_en": "Dive",
             "name_jp": "ダイウ",
             "name_kr": "다이브",
             "name_tw": "戴乌",
@@ -5429,8 +5427,7 @@
         },
         "token_10052_radian_tower2": {
             "name": "赛柯",
-            "name_en": "赛柯",
-            "name_en_unavailable": true,
+            "name_en": "Cycle",
             "name_jp": "サイガ",
             "name_kr": "사이클",
             "name_tw": "赛柯",
@@ -5442,8 +5439,7 @@
         },
         "token_10053_radian_tower3": {
             "name": "桑特拉",
-            "name_en": "桑特拉",
-            "name_en_unavailable": true,
+            "name_en": "Center",
             "name_jp": "サントラ",
             "name_kr": "센터",
             "name_tw": "桑特拉",
@@ -9967,8 +9963,7 @@
         },
         "trap_222_rgdysm": {
             "name": "雕伥",
-            "name_en": "雕伥",
-            "name_en_unavailable": true,
+            "name_en": "Statuegeist",
             "name_jp": "彫鬼",
             "name_kr": "디오창",
             "name_tw": "雕伥",
@@ -9980,8 +9975,7 @@
         },
         "trap_223_dynbox": {
             "name": "宝葫芦",
-            "name_en": "宝葫芦",
-            "name_en_unavailable": true,
+            "name_en": "Magic Gourd",
             "name_jp": "お宝ひょうたん",
             "name_kr": "보물 호리병",
             "name_tw": "宝葫芦",
@@ -9993,8 +9987,7 @@
         },
         "trap_224_dyrbox": {
             "name": "铁葫芦",
-            "name_en": "铁葫芦",
-            "name_en_unavailable": true,
+            "name_en": "Iron Gourd",
             "name_jp": "鉄のひょうたん",
             "name_kr": "철제 호리병",
             "name_tw": "铁葫芦",
@@ -10006,8 +9999,7 @@
         },
         "trap_225_dysbox": {
             "name": "怪葫芦",
-            "name_en": "怪葫芦",
-            "name_en_unavailable": true,
+            "name_en": "Strange Gourd",
             "name_jp": "奇妙なひょうたん",
             "name_kr": "괴상한 호리병",
             "name_tw": "怪葫芦",
@@ -10019,8 +10011,7 @@
         },
         "trap_226_dychss": {
             "name": "瑕",
-            "name_en": "瑕",
-            "name_en_unavailable": true,
+            "name_en": "Flaw",
             "name_jp": "瑕",
             "name_kr": "흠",
             "name_tw": "瑕",
@@ -10153,8 +10144,7 @@
         },
         "trap_238_dydfst": {
             "name": "明烛台",
-            "name_en": "明烛台",
-            "name_en_unavailable": true,
+            "name_en": "Candle Stand",
             "name_jp": "明燭台",
             "name_kr": "명촉대",
             "name_tw": "明烛台",
@@ -10166,8 +10156,7 @@
         },
         "trap_239_dyffgd": {
             "name": "狭路相逢",
-            "name_en": "狭路相逢",
-            "name_en_unavailable": true,
+            "name_en": "Face to Face",
             "name_jp": "隘路の衝突",
             "name_kr": "외나무다리",
             "name_tw": "狭路相逢",
@@ -10179,8 +10168,7 @@
         },
         "trap_240_dyffdd": {
             "name": "狭路相逢",
-            "name_en": "狭路相逢",
-            "name_en_unavailable": true,
+            "name_en": "Face to Face",
             "name_jp": "隘路の衝突",
             "name_kr": "외나무다리",
             "name_tw": "狭路相逢",
@@ -10192,8 +10180,7 @@
         },
         "trap_241_dyldlz": {
             "name": "聚宝斋",
-            "name_en": "聚宝斋",
-            "name_en_unavailable": true,
+            "name_en": "Chamber of Treasures",
             "name_jp": "聚宝斎",
             "name_kr": "취보재",
             "name_tw": "聚宝斋",
@@ -10255,8 +10242,7 @@
         },
         "trap_251_buftrp": {
             "name": "遗物中枢",
-            "name_en": "遗物中枢",
-            "name_en_unavailable": true,
+            "name_en": "Artifact Center",
             "name_jp": "遺物中枢",
             "name_kr": "유물 중추",
             "name_tw": "遗物中枢",
