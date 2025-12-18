@@ -216,11 +216,11 @@
     <system:String x:Key="IS4NewSquad6">연금술 분대</system:String>
     <system:String x:Key="IS4NewSquad7">의태학자 분대</system:String>
     <system:String x:Key="IS4NewSquad8">전문가 분대</system:String>
-    <system:String x:Key="IS5NewSquad1">고지대 돌파 분대 (高台突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad2">지상 돌파 분대 (地面突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad3">방문객 분대 (游客分队)</system:String>
-    <system:String x:Key="IS5NewSquad4">사세대 분대 (司岁台分队)</system:String>
-    <system:String x:Key="IS5NewSquad5">천사부 분대 (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad1">고지대 돌파 분대</system:String>
+    <system:String x:Key="IS5NewSquad2">지상 돌파 분대</system:String>
+    <system:String x:Key="IS5NewSquad3">방문객 분대</system:String>
+    <system:String x:Key="IS5NewSquad4">사세대 분대</system:String>
+    <system:String x:Key="IS5NewSquad5">천사부 분대</system:String>
     <system:String x:Key="IS5NewSquad6">화단금족 분대 (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">기행험착 분대 (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">세영회음 분대 (岁影回音分队)</system:String>
@@ -240,8 +240,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">차근차근 (디펜더, 캐스터, 스나이퍼)</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">상호보완 (가드, 서포터, 메딕)</system:String>
     <system:String x:Key="AsYourHeartDesires">원하는 대로 (랜덤)</system:String>
-    <system:String x:Key="FlexibleDeployment">유연한 배치 (뱅가드, 서포터, 스페셜) (灵活部署)</system:String>
-    <system:String x:Key="Unbreakable">불굴의 의지 (디펜더, 캐스터, 메딕) (坚不可摧)</system:String>
+    <system:String x:Key="FlexibleDeployment">유연한 배치 (뱅가드, 서포터, 스페셜)</system:String>
+    <system:String x:Key="Unbreakable">파괴 불가 (디펜더, 캐스터, 메딕)</system:String>
     <system:String x:Key="AlgorithmFinish">연산 종료</system:String>
     <system:String x:Key="AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">빌드 포인트</system:String>
