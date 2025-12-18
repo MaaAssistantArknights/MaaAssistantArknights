@@ -10,13 +10,21 @@
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "text": ["振出済"]
     },
+    "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
+        "Doc": "通宝名称识别 - EXCHANGE 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
+        "roi": [5, -5, 210, 40]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
+        "Doc": "通宝名称识别 - PICKUP 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
+        "roi": [-24, -209, 208, 37]
+    },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
         "text": ["交換"],
         "roi": [575, 558, 127, 50]
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
-        "Doc": "通宝名称 OCR 识别替换规则 (用于修正 OCR 误识别)，TODO",
+        "Doc": "通宝名称 OCR 识别替换规则 (用于修正 OCR 误识别)",
         "fullMatch": true,
         "ocrReplace": [
             ["_+$", ""],
@@ -90,7 +98,8 @@
             ["花-神秘なる商賈", "花-神秘商贾"],
             ["厲-誅邪雷法", "厉-诛邪雷法"],
             ["厲-商路行き難し", "厉-商路难行"],
-            ["NEW_DLC1", "花-孜孜不倦"]
+            ["NEW_DLC1", "花-孜孜不倦"],
+            ["衡-虹[霓霞]", "衡-虹霓"]
         ]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
@@ -100,7 +109,8 @@
     "JieGarden@Roguelike@NextLevel": {
         "ocrReplace": [
             ["雲瓦(亭|亨)", "雲瓦亭"],
-            ["汝吾(門)?", "汝吾門"]
+            ["汝吾(門)?", "汝吾門"],
+            ["見字[祠乱嗣]", "見字祠"]
         ],
         "text": ["洪陸楼", "山水閣", "雲瓦亭", "汝吾門", "見字祠", "始末陵", "是非境"]
     },
@@ -120,7 +130,7 @@
             ["山水閣", "_default"],
             ["雲瓦(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字[祠乱嗣]", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -133,7 +143,7 @@
             ["山水閣", "_aggressive"],
             ["雲瓦(亭|亨)", "_pragmatic"],
             ["汝吾(門)?", "_pragmatic"],
-            ["見字祠", "_default"],
+            ["見字[祠乱嗣]", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ],
@@ -149,7 +159,7 @@
             ["山水閣", "_restart"],
             ["雲瓦(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字[祠乱嗣]", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -162,7 +172,7 @@
             ["山水閣", "_restart"],
             ["雲瓦(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字[祠乱嗣]", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -175,7 +185,7 @@
             ["山水閣", "_restart"],
             ["雲瓦(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字[祠乱嗣]", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -187,7 +197,7 @@
             ["山水閣", "_restart"],
             ["雲瓦(亭|亨)", "_restart"],
             ["汝吾(門)?", "_restart"],
-            ["見字祠", "_restart"],
+            ["見字[祠乱嗣]", "_restart"],
             ["始末陵", "_restart"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -199,7 +209,7 @@
             ["山水閣", "_exit"],
             ["雲瓦(亭|亨)", "_exit"],
             ["汝吾(門)?", "_exit"],
-            ["見字祠", "_exit"],
+            ["見字[祠乱嗣]", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -212,7 +222,7 @@
             ["山水閣", "_exit"],
             ["雲瓦(亭|亨)", "_exit"],
             ["汝吾(門)?", "_exit"],
-            ["見字祠", "_exit"],
+            ["見字[祠乱嗣]", "_exit"],
             ["始末陵", "_exit"],
             ["是非境", "_leaveBoskyPassage"]
         ]
@@ -224,7 +234,7 @@
             ["山水閣", "_default"],
             ["雲瓦(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字[祠乱嗣]", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
@@ -236,7 +246,7 @@
             ["山水閣", "_default"],
             ["雲瓦(亭|亨)", "_default"],
             ["汝吾(門)?", "_default"],
-            ["見字祠", "_default"],
+            ["見字[祠乱嗣]", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
         ]
