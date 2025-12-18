@@ -1,4 +1,7 @@
 {
+    "JieGarden@Roguelike@StartAction": {
+        "doc": "다른 테마들의 '작전개시' 버튼과 달라서 추가"
+    },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["游园纪念"]
     },
