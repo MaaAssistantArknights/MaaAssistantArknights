@@ -1,8 +1,8 @@
 #include "CustomTask.h"
 
 #include "Config/TaskData.h"
-#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
