@@ -17,13 +17,16 @@
     },
     "RoguelikeCustom-HijackRoles": {
         "ocrReplace": [
-            ["As Your Heart Desires", "随心所欲"],
             ["First Move Advantage", "先手必胜"],
             ["Slow and Steady Wins", "稳扎稳打"],
             ["the Race", "稳扎稳打"],
             ["Steadily, Surely", "稳扎稳打"],
+            ["Steady Win", "稳扎稳打"],
             ["Overcoming Your", "取长补短"],
-            ["Weaknesses", "取长补短"]
+            ["Weaknesses", "取长补短"],
+            ["Flexible Deployment", "灵活部署"],
+            ["Indestructible", "坚不可摧"],
+            ["As Your Heart Desires", "随心所欲"]
         ]
     },
     "RoguelikeCustom-HijackSquad": {
@@ -53,7 +56,15 @@
             ["Ingots Squad", "点刺成锭分队 "],
             ["Collection Squad", "拟态学者分队"],
             ["Mimic Squad", "异想天开分队"],
-            ["Top Gun Squad", "专业人士分队"]
+            ["Top Gun Squad", "专业人士分队"],
+            ["High Ground Breaching Squad", "高台突破分队"],
+            ["Ground Breaching Squad", "地面突破分队"],
+            ["Tourist Squad", "游客分队"],
+            ["Sui Regulator Squad", "司岁台分队"],
+            ["Tianshi Bureau Squad", "天师府分队"],
+            ["Cluster of Blooms Squad__DLC__", "花团锦簇分队"],
+            ["Daring Gambit Squad__DLC__", "棋行险着分队"],
+            ["Echoes of Time Squad__DLC__", "岁影回音分队"]
         ]
     },
     "RoguelikeFormationOcr": {
