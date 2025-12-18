@@ -235,14 +235,15 @@
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "ocrReplace": [
-            ["Eat your fill", "饱餐一顿"],
-            ["Boost morale", "鼓舞士气"],
-            ["Treat your wounds", "医治伤口"],
-            ["Wave the signal flag", "摇动令旗"],
-            ["Take a break", "稍事休息"],
+            [" ", ""],
+            ["Eatyourfill", "饱餐一顿"],
+            ["Boostmorale", "鼓舞士气"],
+            ["Treatyourwounds", "医治伤口"],
+            ["Wavethesignalflag", "摇动令旗"],
+            ["Takeabreak", "稍事休息"],
             ["Reorganize", "重整编制"],
-            ["Get into formation", "布下阵法"],
-            ["Light a candle", "点燃蜡烛"]
+            ["Getintoformation", "布下阵法"],
+            ["Lightacandle", "点燃蜡烛"]
         ]
     }
 }
