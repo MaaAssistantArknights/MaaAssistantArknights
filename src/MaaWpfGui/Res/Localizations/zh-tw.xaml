@@ -825,6 +825,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Ending">結局</system:String>
+    <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除，推薦勾選遊戲內「繼承上一支隊伍發回的數據」</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1 層全買。&#10;2 層買尋訪憑證和招聘許可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>
