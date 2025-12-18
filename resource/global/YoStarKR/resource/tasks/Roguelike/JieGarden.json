@@ -47,9 +47,16 @@
         "roi": [700, 390, 110, 41]
     },
     "JieGarden@Roguelike@NextLevel": {
-        "Doc": "Screenshot duration might be too long preventing recognition, so #next is used elsewhere to skip clicking; this likely applies to other Roguelike modes too",
-        "text": ["洪陆楼", "山水阁", "云瓦亭", "汝吾门", "见字祠", "始末陵", "是非境"],
-        "roi": [550, 545, 184, 64]
+        "ocrReplace": [
+            ["홍육루", "洪陆楼"],
+            ["산수각", "山水阁"],
+            ["청운정", "云瓦亭"],
+            ["여오문", "汝吾门"],
+            ["견자사", "见字祠"],
+            ["시말릉", "始末陵"],
+            ["시비경", "是非境"]
+        ],
+        "roi": [550, 545, 184, 44]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
         "text": ["确认留存"],
@@ -68,123 +75,114 @@
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_default"],
-            ["云(瓦)?(亭|亨)", "_default"],
-            ["汝吾(门)?", "_default"],
-            ["见字祠", "_default"],
-            ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "ocrReplace": [
-            ["洪陆楼", "_aggressive"],
-            ["山水阁", "_aggressive"],
-            ["云(瓦)?(亭|亨)", "_pragmatic"],
-            ["汝吾(门)?", "_pragmatic"],
-            ["见字祠", "_default"],
-            ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_aggressive"],
+            ["산수각", "_aggressive"],
+            ["청운정", "_pragmatic"],
+            ["여오문", "_pragmatic"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_fastPass"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
         "ocrReplace": [
-            ["洪陆楼", "_fastPass"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_fastPass"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
         "ocrReplace": [
-            ["洪陆楼", "_fastPass"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_fastPass"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode20001": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_restart"],
-            ["云(瓦)?(亭|亨)", "_restart"],
-            ["汝吾(门)?", "_restart"],
-            ["见字祠", "_restart"],
-            ["始末陵", "_restart"],
-            ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_default"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_exit"],
-            ["云(瓦)?(亭|亨)", "_exit"],
-            ["汝吾(门)?", "_exit"],
-            ["见字祠", "_exit"],
-            ["始末陵", "_exit"],
-            ["是非境", "_leaveBoskyPassage"]
+            ["홍육루", "_default"],
+            ["산수각", "_exit"],
+            ["청운정", "_exit"],
+            ["여오문", "_exit"],
+            ["견자사", "_exit"],
+            ["시말릉", "_exit"],
+            ["시비경", "_leaveBoskyPassage"]
         ],
         "roi": [627, 14, 71, 28]
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
         "ocrReplace": [
-            ["洪陆楼", "_fastPass"],
-            ["山水阁", "_exit"],
-            ["云(瓦)?(亭|亨)", "_exit"],
-            ["汝吾(门)?", "_exit"],
-            ["见字祠", "_exit"],
-            ["始末陵", "_exit"],
-            ["是非境", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_fastPass"],
+            ["산수각", "_exit"],
+            ["청운정", "_exit"],
+            ["여오문", "_exit"],
+            ["견자사", "_exit"],
+            ["시말릉", "_exit"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_default"],
-            ["云(瓦)?(亭|亨)", "_default"],
-            ["汝吾(门)?", "_default"],
-            ["见字祠", "_default"],
-            ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
-            ["洪陆楼", "_default"],
-            ["山水阁", "_default"],
-            ["云(瓦)?(亭|亨)", "_default"],
-            ["汝吾(门)?", "_default"],
-            ["见字祠", "_default"],
-            ["始末陵", "_default"],
-            ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28]
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "Doc": "Configuration task applied to RegionOCRer when recognizing event option text",
