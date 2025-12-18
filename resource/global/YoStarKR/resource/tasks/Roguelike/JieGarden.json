@@ -6,22 +6,22 @@
         "text": ["유원", "기념"]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
-        "text": ["放弃行动 (작전 포기)"],
-        "roi": [770, 470, 150, 45]
+        "doc": "설정 누르고 작전 포기 후 나오는 화면",
+        "text": ["작전", "포기"]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "ocrReplace": [[" ", ""]],
         "text": ["적용중"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
-        "Doc": "Exchange button after Tongbao exchange is complete (used to confirm completion of exchange operation)",
-        "text": ["交换 (교환)"],
-        "roi": [575, 558, 127, 50]
+        "doc": "Official 표기 交换 (교환)",
+        "ocrReplace": [["[>シ]+", ">>>"]],
+        "text": [">>>"]
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "doc": "/resource/roguelike/JieGarden/coppers.json의 coppes",
         "ocrReplace": [
-            ["[\\s$().\"/'—_\\-+=,《》■~シ]", ""],
+            ["[\\s$().\"/'—_\\-+=,:《》■~シ]", ""],
             ["([가-힣]+)[^가-힣]+$", "$1"],
             ["균형가뭄", "衡-旱热"],
             ["균형군의둔전", "衡-军屯垦"],
@@ -107,8 +107,8 @@
         ]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
-        "text": ["放弃行动 (작전 포기)"],
-        "roi": [700, 390, 110, 41]
+        "doc": "설정 누른 후 나오는 화면",
+        "text": ["작전", "포기"]
     },
     "JieGarden@Roguelike@NextLevel": {
         "ocrReplace": [
@@ -119,8 +119,7 @@
             ["견자사", "见字祠"],
             ["시말릉", "始末陵"],
             ["시비경", "是非境"]
-        ],
-        "roi": [550, 545, 184, 44]
+        ]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
         "text": ["확인"]
@@ -129,8 +128,7 @@
         "text": ["유원", "기념"]
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
-        "roi": [880, 210, 140, 36],
-        "text": ["活用安全屋 (안전 가옥 활용)"]
+        "text": ["안전가옥활용"]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
@@ -246,6 +244,7 @@
         "doc": "/resource/roguelike/JieGarden/encounter/default.json의 option_text",
         "ocrReplace": [
             ["[\\s$().\"/'—_\\-+=,《》■~シ]", ""],
+            ["^[a-zA-Z]", ""],
             ["([가-힣]+)[^가-힣]+$", "$1"],
             ["배부르게식사한다", "饱餐一顿"],
             ["사기진작", "鼓舞士气"],
