@@ -19,7 +19,7 @@
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "ocrReplace": [
-            [" ",  ""],
+            [" ", ""],
             ["Bal:BitterCold", "衡-苦寒"],
             ["Bal:DesireFulfilled", "衡-志欲遂"],
             ["Bal:DewinGold", "衡-金寒水衍"],
