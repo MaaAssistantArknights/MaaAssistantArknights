@@ -8,7 +8,7 @@
 #include <opencv2/opencv.hpp>
 
 #ifdef _WIN32
-#include "Utils/Platform/SafeWindows.h"
+#include "Utils/Platform/PlatformWin32.h"
 #endif
 
 #include "Utils/StringMisc.hpp"
