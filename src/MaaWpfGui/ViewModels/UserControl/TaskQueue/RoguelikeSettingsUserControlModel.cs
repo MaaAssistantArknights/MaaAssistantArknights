@@ -59,7 +59,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = Theme.Mizuki });
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = Theme.Sami });
         RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = Theme.Sarkaz });
-        if (SettingsViewModel.GameSettings.ClientType is "Official" or "Bilibili")
+        if (SettingsViewModel.GameSettings.ClientType is not "txwy")
         { // 外服暂未开放界园
             RoguelikeThemeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeThemeJieGarden"), Value = Theme.JieGarden });
         }
