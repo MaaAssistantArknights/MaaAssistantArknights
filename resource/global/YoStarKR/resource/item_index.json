@@ -2063,6 +2063,14 @@
         "sortId": -10000,
         "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
+    "act5collection_point_token": {
+        "classifyType": "NONE",
+        "description": "외근 오퍼레이터를 위해 로도스 아일랜드에서 발급한 특별 교환 포인트. 포인트로 긴급 필요 물자를 교환할 수 있다.",
+        "icon": "act5collection_point_token.png",
+        "name": "특별 교환 포인트",
+        "sortId": -10000,
+        "usage": "상응하는 단계별 이벤트 보상을 교환하는 데 사용된다."
+    },
     "act5d0_point_medal": {
         "classifyType": "NONE",
         "description": "쓸데없이 럭셔리하게 순금으로 만들어졌다. 용문의 일류 금조각사가 직접 만들었다고 하며, 테라 상에 한정 수량밖에 존재하지 않는다. 누가봐도 머그잔인데 훈장이라 부르는 건 엠퍼러의 특급 칭찬이란 뜻으로써, 한 모금에 천금의 가치가 있다는 걸 의미한다. 그래도 괜히 여기다 커피를 끓이는 일은 없도록 하자.",
@@ -2735,6 +2743,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_5_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_5_token_bp.png",
+        "name": "길 잃은 창괴",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "황무지에서 흘린 모든 땀방울은 테라 문명이 번영하는 증거가 될 것이다.",
@@ -2742,6 +2758,14 @@
         "name": "번영 포인트",
         "sortId": -10000,
         "usage": "'번영의 선물'에서 보상을 교환하는 데 사용된다."
+    },
+    "so_char_exp_1": {
+        "classifyType": "NONE",
+        "description": "특근 오퍼레이터의 작전 환경은 매우 복잡하고, 상황 또한 변화무쌍하기에 그것을 기록하는 과정은 상당히 힘들다. 하지만 앞으로의 작전에 도움이 될 수 있다면, 가치는 충분하다.\n이번 총집편에는 비하인드 영상이 특별 추가되었다.",
+        "icon": "so_char_exp_1.png",
+        "name": "특근 작전기록",
+        "sortId": -10000,
+        "usage": "특근 오퍼레이터의 작전 영상을 기록한 정보 기억장치, 특근 오퍼레이터의 경험치를 증가시킨다."
     },
     "token_Obsidian": {
         "classifyType": "NONE",
