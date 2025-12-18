@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -232,10 +233,14 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     {
         try
         {
+            scriptPath = scriptPath.Trim();
+
             if (string.IsNullOrWhiteSpace(scriptPath))
             {
                 return false;
             }
+
+            scriptPath = Regex.Replace(scriptPath, @"\p{C}", string.Empty);
 
             string fileName;
             string arguments;
