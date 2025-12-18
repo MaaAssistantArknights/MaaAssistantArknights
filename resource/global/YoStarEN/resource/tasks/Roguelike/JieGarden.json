@@ -132,7 +132,8 @@
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "ocrReplace": [
@@ -143,7 +144,8 @@
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
         "ocrReplace": [
@@ -154,7 +156,8 @@
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
         "ocrReplace": [
@@ -165,7 +168,8 @@
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
         "ocrReplace": [
@@ -176,7 +180,8 @@
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode20001": {
         "ocrReplace": [
@@ -187,7 +192,8 @@
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_boskyPassageDefault"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
@@ -198,7 +204,8 @@
             ["Jianzi Shrine", "_exit"],
             ["Shimo Tomb", "_exit"],
             ["Shifei Border", "_leaveBoskyPassage"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
         "ocrReplace": [
@@ -209,7 +216,8 @@
             ["Jianzi Shrine", "_exit"],
             ["Shimo Tomb", "_exit"],
             ["Shifei Border", "_leaveBoskyPassage"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
@@ -220,7 +228,8 @@
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
@@ -231,7 +240,8 @@
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
-        ]
+        ],
+        "roi": [590, 17, 145, 24]
     },
     "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "ocrReplace": [
