@@ -56,7 +56,9 @@ private:
         // 计算预期收益，考虑概率衰减
         std::array<double, 3> expected_gain() const
         {
-            return { materiel * percentage * percentage, intelligence * percentage * percentage, medicine * percentage * percentage };
+            return { materiel * percentage * percentage,
+                     intelligence * percentage * percentage,
+                     medicine * percentage * percentage };
         }
     };
 
