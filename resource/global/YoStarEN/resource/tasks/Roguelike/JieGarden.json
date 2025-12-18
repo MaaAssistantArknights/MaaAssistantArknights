@@ -103,14 +103,14 @@
         "text": ["Retreat"]
     },
     "JieGarden@Roguelike@NextLevel": {
-        "ocrReplace": [
-            ["Honglu Tower", "洪陆楼"],
-            ["Shanshui Pavilion", "山水阁"],
-            ["Yunwa Gazebo", "云瓦亭"],
-            ["Ruwu Gate", "汝吾门"],
-            ["Jianzi Shrine", "见字祠"],
-            ["Shimo Tomb", "始末陵"],
-            ["Shifei Border", "是非境"]
+        "text": [
+            "Honglu Tower",
+            "Shanshui Pavilion",
+            "Yunwa Gazebo",
+            "Ruwu Gate",
+            "Jianzi Shrine",
+            "Shimo Tomb",
+            "Shifei Border"
         ],
         "roi": [490, 545, 284, 44]
     },
@@ -124,6 +124,7 @@
         "text": ["Use the Safe House again", "Use the Safe"]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
@@ -136,6 +137,8 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "text": ["_aggressive", "_pragmatic", "_default", "_boskyPassageDefault"],
+        "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["Honglu Tower", "_aggressive"],
             ["Shanshui Pavilion", "_aggressive"],
@@ -145,11 +148,15 @@
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
         ],
-        "roi": [590, 17, 145, 24]
+        "roi": [590, 17, 145, 24],
+        "withoutDet": true,
+        "binThreshold": [210, 255],
+        "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
+        "text": ["_default", "_restart", "_leaveBoskyPassage"],
         "ocrReplace": [
-            ["Honglu Tower", "_fastPass"],
+            ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_restart"],
             ["Yunwa Gazebo", "_restart"],
             ["Ruwu Gate", "_restart"],
@@ -160,6 +167,8 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_restart", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_restart"],
@@ -172,6 +181,8 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_restart", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_restart"],
@@ -184,6 +195,7 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "text": ["_default", "_restart", "_boskyPassageDefault"],
         "ocrReplace": [
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_restart"],
@@ -196,6 +208,7 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
+        "text": ["_default", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_exit"],
@@ -208,6 +221,8 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode1",
+        "text": ["_fastPass", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_exit"],
@@ -220,6 +235,7 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode6": {
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
@@ -232,6 +248,7 @@
         "roi": [590, 17, 145, 24]
     },
     "JieGarden@Roguelike@StrategyChange_mode7": {
+        "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
