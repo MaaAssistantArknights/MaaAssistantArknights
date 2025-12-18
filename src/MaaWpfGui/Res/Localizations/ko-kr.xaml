@@ -827,7 +827,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
     <system:String x:Key="MiniGame@SecretFront@Ending">결말</system:String>
     <system:String x:Key="MiniGame@SecretFront">비밀 전선</system:String>
-    <system:String x:Key="MiniGame@SecretFrontTip">분대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다. 게임 내 「이전 분대가 보낸 데이터 계승」 옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다. 게임 내 「이전 소대의 데이터 전승받기」 옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">자격증명서 상점</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1단계는 전부 구매하고&#10;2단계는 헤드헌팅 허가증과 모집 허가증을 구매해요</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">고급증명서 상점</system:String>
