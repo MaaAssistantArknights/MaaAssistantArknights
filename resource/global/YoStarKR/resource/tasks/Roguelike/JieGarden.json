@@ -3,30 +3,19 @@
         "doc": "다른 테마들의 '작전개시' 버튼과 달라서 추가"
     },
     "JieGarden@Roguelike@CheckLevel": {
-        "text": ["游园纪念"]
+        "text": ["유원", "기념"]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
-        "text": ["放弃行动"],
+        "text": ["放弃行动 (작전 포기)"],
         "roi": [770, 470, 150, 45]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
-        "Doc": "Tongbao thrown status recognition - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
-        "text": ["已投出"],
-        "roi": [-115, 90, 69, 24]
-    },
-    "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
-        "Doc": "Tongbao name recognition - EXCHANGE mode - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
-        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
-        "roi": [29, -5, 160, 40]
-    },
-    "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
-        "Doc": "Tongbao name recognition - PICKUP mode - ROI used for recognition is Rect.move(me.roi) of the Tongbao type",
-        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
-        "roi": [0, -209, 167, 37]
+        "ocrReplace": [[" ", ""]],
+        "text": ["적용중"]
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "Exchange button after Tongbao exchange is complete (used to confirm completion of exchange operation)",
-        "text": ["交换"],
+        "text": ["交换 (교환)"],
         "roi": [575, 558, 127, 50]
     },
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
@@ -46,7 +35,7 @@
         ]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
-        "text": ["放弃行动"],
+        "text": ["放弃行动 (작전 포기)"],
         "roi": [700, 390, 110, 41]
     },
     "JieGarden@Roguelike@NextLevel": {
@@ -62,19 +51,14 @@
         "roi": [550, 545, 184, 44]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
-        "text": ["确认留存"],
-        "roi": [766, 572, 142, 49]
+        "text": ["확인"]
     },
     "JieGarden@Roguelike@SelectTheme": {
-        "text": ["游园纪念"]
-    },
-    "JieGarden@Roguelike@SpecialValRecognition": {
-        "Doc": "Special value recognition, quantity of Ideas",
-        "roi": [848, 686, 46, 26]
+        "text": ["유원", "기념"]
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "roi": [880, 210, 140, 36],
-        "text": ["活用安全屋"]
+        "text": ["活用安全屋 (안전 가옥 활용)"]
     },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
@@ -151,8 +135,7 @@
             ["견자사", "_exit"],
             ["시말릉", "_exit"],
             ["시비경", "_leaveBoskyPassage"]
-        ],
-        "roi": [627, 14, 71, 28]
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
         "ocrReplace": [
@@ -201,12 +184,5 @@
             ["^饮一口缸中水[,，].*", "饮一口缸中水，祈求好运"],
             ["奉碑行仪.*", "奉碑行仪"]
         ]
-    },
-    "JieGarden@RoguelikeRecruit-GiveUp": {
-        "Doc": [
-            "In Integrated Strategies mode operator recruitment interface, click the icon to the left of the 'Give Up' text in the bottom right corner to forfeit recruitment",
-            "The recruitment interface UI of Jie Garden differs slightly from other themes; the icon is smaller and shifted left"
-        ],
-        "roi": [891, 648, 58, 58]
     }
 }
