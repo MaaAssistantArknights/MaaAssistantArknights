@@ -169,11 +169,11 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyFindPlaytime">유희 노드 파밍, 1층 동굴 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">유희 노드 파밍, 1층 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
     <system:String x:Key="RoguelikeFindPlaytimeTarget">목표 유희 노드</system:String>
-    <system:String x:Key="RoguelikePlaytimeLing">링 - 지지유성 (掷地有声)</system:String>
-    <system:String x:Key="RoguelikePlaytimeShu">슈 - 종인득과 (种因得果)</system:String>
-    <system:String x:Key="RoguelikePlaytimeNian">니엔 - 삼결일 (三缺一)</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">링 - 주화놀이</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">슈 - 인과</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">니엔 - 한명부족</system:String>
     <system:String x:Key="RoguelikeJieGardenTargetFound">목표 유희 노드 발견 {0}</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
@@ -224,7 +224,7 @@
     <system:String x:Key="IS5NewSquad6">화단금족 분대 (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">기행험착 분대 (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">세영회음 분대 (岁影回音分队)</system:String>
-    <system:String x:Key="SpecialForceSquad">특근 분대 (特勤分队)</system:String>
+    <system:String x:Key="SpecialForceSquad">특근 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -1054,7 +1054,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyLegend">노드: 전설</system:String>
     <system:String x:Key="BoskyOldShop">노드: 술집</system:String>
     <system:String x:Key="BoskyYiTrader">노드: 거래</system:String>
-    <system:String x:Key="BoskyScheme">노드: 득과 실</system:String>
+    <system:String x:Key="BoskyScheme">노드: 계획</system:String>
     <system:String x:Key="BoskyPlaytime">노드: 여흥</system:String>
     <system:String x:Key="BoskyDoubts">노드: 의문</system:String>
     <system:String x:Key="BoskyDisaster">노드: 소란</system:String>
