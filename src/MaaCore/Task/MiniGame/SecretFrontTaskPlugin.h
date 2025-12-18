@@ -53,9 +53,10 @@ private:
         int medicine = 0;
         double percentage = 0.0; // 0~1
 
+        // 计算预期收益，考虑概率衰减
         std::array<double, 3> expected_gain() const
         {
-            return { materiel * percentage, intelligence * percentage, medicine * percentage };
+            return { materiel * percentage * percentage, intelligence * percentage * percentage, medicine * percentage * percentage };
         }
     };
 
@@ -86,7 +87,7 @@ private:
 
     struct BestChoice
     {
-        int page = 0;       // 0 - current page, 1..2 - next pages
+        int page = 0;       // 0, 1, 2
         int total = 0;      // card count on the chosen page
         int idx = 0;        // index of the chosen card on that page
         double score = 0.0; // score for debugging / logging
