@@ -29,8 +29,6 @@ namespace MaaWpfGui.ViewModels.UI
     public class OverlayViewModel : Screen
     {
         private OverlayWindow _overlay;
-        private Task _initTask;
-        private readonly Lock _lockObj = new();
 
         public bool IsCreated => _overlay != null;
 
@@ -41,11 +39,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                EnsureCreated();
-                _overlay.SetTargetHwnd(hwnd);
-            });
+            Execute.OnUIThread(() => _overlay?.SetTargetHwnd(hwnd));
             if (persist)
             {
                 // persist target info (process id, name, title) only if changed
@@ -76,12 +70,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void EnsureCreated()
         {
-            if (_overlay != null)
-            {
-                return;
-            }
-
-            lock (_lockObj)
+            // Ensure creation runs on UI thread; this avoids explicit locks and keeps the code simple
+            Execute.OnUIThread(() =>
             {
                 if (_overlay != null)
                 {
@@ -89,39 +79,27 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 _overlay = new OverlayWindow();
-
-                // 订阅加载完成事件，在窗口完全就绪后恢复配置
-                _overlay.LoadedCompleted += OnOverlayLoadedCompleted;
-                _initTask = _overlay.InitializeAndShowAsync();
+                LoadConfig();
+                _ = _overlay.InitializeAndShowAsync();
                 NotifyOfPropertyChange(() => IsCreated);
-            }
+            });
         }
 
-        private void OnOverlayLoadedCompleted(object sender, EventArgs e)
+        private void LoadConfig()
         {
-            // 在后台线程恢复配置，避免阻塞 UI
-            Task.Run(() =>
+            var saved = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OverlayTarget, string.Empty);
+            if (!string.IsNullOrWhiteSpace(saved))
             {
-                try
+                var info = JsonConvert.DeserializeObject<OverlayTargetInfo>(saved);
+                if (info != null)
                 {
-                    var saved = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.OverlayTarget, string.Empty);
-                    if (!string.IsNullOrWhiteSpace(saved))
+                    var found = TryFindWindow(info);
+                    if (found != IntPtr.Zero)
                     {
-                        var info = JsonConvert.DeserializeObject<OverlayTargetInfo>(saved);
-                        if (info != null)
-                        {
-                            var found = TryFindWindow(info);
-                            if (found != IntPtr.Zero)
-                            {
-                                Execute.OnUIThread(() => SetTargetHwnd(found, false));
-                            }
-                        }
+                        Execute.OnUIThread(() => SetTargetHwnd(found, false));
                     }
                 }
-                catch
-                {
-                }
-            });
+            }
         }
 
         public void Close()
@@ -130,11 +108,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 try
                 {
-                    if (_overlay != null)
-                    {
-                        _overlay.LoadedCompleted -= OnOverlayLoadedCompleted;
-                        _overlay.Close();
-                    }
+                    _overlay?.Close();
                 }
                 catch
                 {
@@ -220,7 +194,9 @@ namespace MaaWpfGui.ViewModels.UI
                     try
                     {
                         var p = Process.GetProcessById((int)pid);
-                        if (!string.IsNullOrEmpty(info.ProcessName) && p.ProcessName.Equals(info.ProcessName, StringComparison.OrdinalIgnoreCase) && title.IndexOf(info.Title ?? string.Empty, StringComparison.OrdinalIgnoreCase) >= 0)
+                        if (!string.IsNullOrEmpty(info.ProcessName) &&
+                            p.ProcessName.Equals(info.ProcessName, StringComparison.OrdinalIgnoreCase) &&
+                            title.Contains(info.Title ?? string.Empty, StringComparison.OrdinalIgnoreCase))
                         {
                             found = hWnd;
                             return false;

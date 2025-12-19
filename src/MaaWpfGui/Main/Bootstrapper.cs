@@ -519,51 +519,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         {
             Instances.TaskQueueViewModel.LogItemViewModels.Add(new(string.Format(LocalizationHelper.GetString("Achievement.Martian.ConditionsTip"), (maxTimeInterval / 30.436875).ToString("F2")), UiLogColor.Error));
         }
-
-        // Overlay 管理：根据 Idle 状态在非空闲时创建 overlay，在空闲时销毁
-        try
-        {
-            var overlayVm = Instances.OverlayViewModel;
-            void handler(object o, RunningStateChangedEventArgs e)
-            {
-                if (e.Idle)
-                {
-                    overlayVm?.Close();
-                }
-                else
-                {
-                    overlayVm?.EnsureCreated();
-                }
-            }
-
-            RunningState.Instance.StateChanged += handler;
-
-            // 在应用退出时退订并销毁 overlay（确保不会留悬挂）
-            Application.Current.Exit += (_, _) =>
-            {
-                try
-                {
-                    RunningState.Instance.StateChanged -= handler;
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    overlayVm?.Close();
-                }
-                catch
-                {
-                    // ignored
-                }
-            };
-        }
-        catch
-        {
-            // ignored
-        }
     }
 
     /// <inheritdoc/>

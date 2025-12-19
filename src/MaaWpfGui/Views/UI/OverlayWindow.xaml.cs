@@ -13,14 +13,12 @@
 
 using System;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Threading;
 using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UI;
+using Serilog;
 using Stylet;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -42,13 +40,19 @@ namespace MaaWpfGui.Views.UI;
 /// should occur on the UI thread.</remarks>
 public partial class OverlayWindow : Window
 {
-    public event EventHandler? LoadedCompleted;
+    private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
+
+    // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
+    private readonly WINEVENTPROC _winEventProc;
 
     public OverlayWindow()
     {
         InitializeComponent();
         Loaded += OnLoaded;
         Closed += OnClosed;
+
+        // Bind instance win event delegate to prevent it from being GC'd while hooks are active.
+        _winEventProc = WinEventProc;
     }
 
     public void SetTargetHwnd(IntPtr hwnd)
@@ -63,44 +67,15 @@ public partial class OverlayWindow : Window
             // 如果窗口尚未加载完成，等待加载
             if (_overlayHwnd == IntPtr.Zero)
             {
-                // 记录目标窗口,OnLoaded 会处理它
+                // 记录目标窗口，OnLoaded 会处理它
                 _targetHwnd = hwnd;
                 return;
-            }
-
-            bool restoreCollapsed = false;
-
-            // If overlay is currently collapsed (not visible), temporarily make it visible but transparent
-            if (Visibility == Visibility.Collapsed)
-            {
-                restoreCollapsed = true;
-                try
-                {
-                    Opacity = 0;
-                    Visibility = Visibility.Visible;
-                }
-                catch
-                {
-                }
             }
 
             _targetHwnd = hwnd;
             StopWinEventHook();
             StartWinEventHookForTarget(_targetHwnd);
             UpdatePosition();
-
-            if (restoreCollapsed)
-            {
-                var idle = Instances.SettingsViewModel?.Idle ?? true;
-                if (idle)
-                {
-                    Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    Opacity = 1;
-                }
-            }
         }
         catch
         {
@@ -111,7 +86,7 @@ public partial class OverlayWindow : Window
     {
         var hwnd = new WindowInteropHelper(this).Handle;
         _overlayHwnd = hwnd;
-        var exStyle = (int)PInvoke.GetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+        var exStyle = PInvoke.GetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
 
         // 鼠标穿透 + 分层窗口
         _ = PInvoke.SetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
@@ -125,16 +100,6 @@ public partial class OverlayWindow : Window
             UpdatePosition();
         }
 
-        // 订阅 Idle 状态变化以控制 Overlay 可见性
-        var settings = Instances.SettingsViewModel;
-        if (settings is INotifyPropertyChanged inpc)
-        {
-            inpc.PropertyChanged += Settings_PropertyChanged;
-        }
-
-        // 初始可见性
-        UpdateIdleVisibility(Instances.SettingsViewModel?.Idle ?? true);
-
         // 自动滚动到最新内容：订阅 ItemsControl 的 Items 集合变化
         try
         {
@@ -146,41 +111,23 @@ public partial class OverlayWindow : Window
                 {
                     if (ev2.Action == NotifyCollectionChangedAction.Add)
                     {
-                        Dispatcher.InvokeAsync(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
+                        Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
                     }
+                };
+                scroll.SizeChanged += (s2, ev2) =>
+                {
+                    Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
                 };
             }
         }
         catch
         {
         }
-
-        // 通知已完成加载，可以恢复配置了
-        LoadedCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnClosed(object? sender, EventArgs e)
     {
-        if (Instances.SettingsViewModel is INotifyPropertyChanged inpc)
-        {
-            inpc.PropertyChanged -= Settings_PropertyChanged;
-        }
-    }
-
-    private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SettingsViewModel.Idle) || string.IsNullOrEmpty(e.PropertyName))
-        {
-            // 更新可见性：Idle 为 false 时显示
-            var idle = Instances.SettingsViewModel?.Idle ?? true;
-            Dispatcher.Invoke(() => UpdateIdleVisibility(idle));
-        }
-    }
-
-    private void UpdateIdleVisibility(bool idle)
-    {
-        // 只有当 Idle 为 false 时才显示 overlay
-        Visibility = idle ? Visibility.Collapsed : Visibility.Visible;
+        StopWinEventHook();
     }
 
     #region Win32
@@ -200,12 +147,13 @@ public partial class OverlayWindow : Window
     /// 目标窗口句柄（由用户选择）
     /// </summary>
     private IntPtr _targetHwnd = IntPtr.Zero;
+    private uint _targetPid = 0;
     private IntPtr _overlayHwnd = IntPtr.Zero;
 
     // WinEventHook 用于即时订阅目标窗口的位置/大小变动
     private IntPtr _winEventHook = IntPtr.Zero;
     private IntPtr _winEventHookShowHide = IntPtr.Zero;
-    private WINEVENTPROC? _winEventDelegate;
+    private IntPtr _winEventHookFocus = IntPtr.Zero;
 
     private void StartWinEventHookForTarget(IntPtr hwnd)
     {
@@ -222,27 +170,46 @@ public partial class OverlayWindow : Window
                 StopWinEventHook();
             }
 
-            // 获取目标窗口所属进程 id
-            _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out var pid);
-
-            _winEventDelegate = WinEventProc;
-
             const uint WINEVENT_OUTOFCONTEXT = 0x0000;
             const uint WINEVENT_SKIPOWNPROCESS = 0x0002;
 
             const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
             const uint EVENT_OBJECT_SHOW = 0x8002;
             const uint EVENT_OBJECT_HIDE = 0x8003;
+            const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
+
+            // 获取目标窗口所属进程 id
+            _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out _targetPid);
+            if (_targetPid == Environment.ProcessId)
+            {
+                return;
+            }
+
+            uint flags = WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS;
 
             // 订阅目标进程的 location change
-            _winEventHook = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, HINSTANCE.Null, _winEventDelegate, (uint)pid, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+            _winEventHook = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_LOCATIONCHANGE, EVENT_OBJECT_LOCATIONCHANGE, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
+            if (_winEventHook == IntPtr.Zero)
+            {
+                _logger.Warning("SetWinEventHook for location change returned null for pid {Pid}", _targetPid);
+            }
 
             // 单独订阅 show/hide 事件以处理窗口出现/隐藏
-            _winEventHookShowHide = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_SHOW, EVENT_OBJECT_HIDE, HINSTANCE.Null, _winEventDelegate, (uint)pid, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+            _winEventHookShowHide = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_SHOW, EVENT_OBJECT_HIDE, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
+            if (_winEventHookShowHide == IntPtr.Zero)
+            {
+                _logger.Warning("SetWinEventHook for show/hide returned null for pid {Pid}", _targetPid);
+            }
+
+            _winEventHookFocus = (IntPtr)PInvoke.SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
+            if (_winEventHookFocus == IntPtr.Zero)
+            {
+                _logger.Warning("SetWinEventHook for focus change returned null");
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            _logger.Error(ex, "StartWinEventHookForTarget failed");
         }
     }
 
@@ -252,42 +219,81 @@ public partial class OverlayWindow : Window
         {
             if (_winEventHook != IntPtr.Zero)
             {
-                PInvoke.UnhookWinEvent((HWINEVENTHOOK)_winEventHook);
+                var toRemove = _winEventHook;
+                try
+                {
+                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "UnhookWinEvent failed for hook {Hook}", toRemove);
+                }
+
                 _winEventHook = IntPtr.Zero;
-                _winEventDelegate = null;
             }
 
             if (_winEventHookShowHide != IntPtr.Zero)
             {
-                PInvoke.UnhookWinEvent((HWINEVENTHOOK)_winEventHookShowHide);
+                var toRemove = _winEventHookShowHide;
+                try
+                {
+                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "UnhookWinEvent failed for show/hide hook {Hook}", toRemove);
+                }
+
                 _winEventHookShowHide = IntPtr.Zero;
             }
+
+            if (_winEventHookFocus != IntPtr.Zero)
+            {
+                var toRemove = _winEventHookFocus;
+                try
+                {
+                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warning(ex, "UnhookWinEvent failed for show/hide hook {Hook}", toRemove);
+                }
+
+                _winEventHookFocus = IntPtr.Zero;
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignored
+            _logger.Error(ex, "StopWinEventHook failed");
         }
     }
 
     private void WinEventProc(HWINEVENTHOOK hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
-        // 仅处理顶层窗口位置变化
-        if (hwnd == HWND.Null)
+        try
         {
-            return;
-        }
+            // 仅处理顶层窗口位置变化
+            if (hwnd == HWND.Null)
+            {
+                return;
+            }
 
-        if (_targetHwnd == IntPtr.Zero)
+            if (_targetHwnd == IntPtr.Zero)
+            {
+                return;
+            }
+
+            if (hwnd != (HWND)_targetHwnd)
+            {
+                return;
+            }
+
+            Execute.OnUIThreadAsync(UpdatePosition);
+        }
+        catch (Exception ex)
         {
-            return;
+            _logger.Error(ex, "Exception in WinEventProc (native callback)");
         }
-
-        if (hwnd != (HWND)_targetHwnd)
-        {
-            return;
-        }
-
-        Execute.OnUIThreadAsync(UpdatePosition);
     }
 
     private void UpdatePosition()
@@ -309,7 +315,22 @@ public partial class OverlayWindow : Window
             int newWidth = Math.Max(0, rect.right - rect.left);
             int newHeight = Math.Max(0, rect.bottom - rect.top);
 
-            PInvoke.SetWindowPos((HWND)_overlayHwnd, (HWND)IntPtr.Zero, newLeft, newTop, newWidth, newHeight, SET_WINDOW_POS_FLAGS.SWP_NOZORDER | SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE);
+            PInvoke.SetWindowPos(
+                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
+                newLeft, newTop, newWidth, newHeight,
+                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
+                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
+            PInvoke.SetWindowPos(
+                (HWND)_targetHwnd, (HWND)_overlayHwnd,
+                0, 0, 0, 0,
+                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
+                SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
+                SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
+                SET_WINDOW_POS_FLAGS.SWP_NOREDRAW |
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
         }
 
         Execute.OnUIThreadAsync(() =>

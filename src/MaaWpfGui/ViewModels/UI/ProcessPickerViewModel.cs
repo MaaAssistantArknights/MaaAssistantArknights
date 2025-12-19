@@ -101,6 +101,11 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                         }
 
+                        if (pid == Environment.ProcessId)
+                        {
+                           return true;
+                        }
+
                         list.Add(new WindowEntry { Hwnd = (IntPtr)hWnd, ProcessId = (int)pid, ProcessName = name, Title = title });
                         return true;
                     }, IntPtr.Zero);

@@ -41,6 +41,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
+using static MaaWpfGui.States.RunningState;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -144,9 +145,7 @@ public class TaskQueueViewModel : Screen
         });
     }
 
-    /// <summary>
-    /// Open process picker and set overlay target (bound to UI via s:Action ChooseOverlayTarget)
-    /// </summary>
+    // a:Action 绑定，不能为 static
     public void ChooseOverlayTarget()
     {
         try
@@ -162,6 +161,73 @@ public class TaskQueueViewModel : Screen
         catch
         {
             // ignored
+        }
+    }
+
+    private bool _isOverlayEnabled;
+
+    public bool IsOverlayEnabled
+    {
+        get => _isOverlayEnabled;
+        set => SetAndNotify(ref _isOverlayEnabled, value);
+    }
+
+    private readonly EventHandler<RunningStateChangedEventArgs> _overlayHandler = (sender, e) =>
+    {
+        var overlayVm = Instances.OverlayViewModel;
+        if (overlayVm == null)
+        {
+            return;
+        }
+
+        if (e.Idle)
+        {
+            overlayVm.Close();
+        }
+        else
+        {
+            overlayVm.EnsureCreated();
+        }
+    };
+
+    public void EnableOverlay()
+    {
+        if (IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = true;
+        _runningState.StateChanged += _overlayHandler;
+
+        var overlayVm = Instances.OverlayViewModel;
+        if (overlayVm != null && !_runningState.GetIdle() && !overlayVm.IsCreated)
+        {
+            overlayVm.EnsureCreated();
+        }
+    }
+
+    public void DisableOverlay()
+    {
+        if (!IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = false;
+        _runningState.StateChanged -= _overlayHandler;
+        Instances.OverlayViewModel?.Close();
+    }
+
+    public void ToggleOverlay()
+    {
+        if (_isOverlayEnabled)
+        {
+            DisableOverlay();
+        }
+        else
+        {
+            EnableOverlay();
         }
     }
 

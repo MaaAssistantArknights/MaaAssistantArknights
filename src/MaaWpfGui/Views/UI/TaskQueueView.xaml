@@ -371,6 +371,40 @@
                 </hc:ScrollViewer>
             </Grid>
 
+            <!--  操作按钮：选择 Overlay 目标窗口  -->
+            <Grid
+                Grid.Column="2"
+                Margin="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="100">
+                <Path
+                    Width="15"
+                    Height="15"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Fill="{DynamicResource PrimaryTextBrush}"
+                    IsHitTestVisible="False"
+                    Stretch="Uniform"
+                    StrokeThickness="1">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Data" Value="{StaticResource CarbonUnlink}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOverlayEnabled}" Value="True">
+                                    <Setter Property="Data" Value="{StaticResource CarbonLink}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <Button
+                    Width="30"
+                    Height="30"
+                    Click="{s:Action ToggleOverlay}"
+                    MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
+            </Grid>
+
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
             <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Width="4" />-->
             <Grid
@@ -438,10 +472,6 @@
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
                 </ContentControl>
-                <!-- 操作按钮：选择 Overlay 目标窗口 -->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,6">
-                    <Button Width="140" Height="28" Command="{s:Action ChooseOverlayTarget}">选择 Overlay 目标窗口</Button>
-                </StackPanel>
 
                 <!--  Main log scroll area  -->
                 <hc:ScrollViewer

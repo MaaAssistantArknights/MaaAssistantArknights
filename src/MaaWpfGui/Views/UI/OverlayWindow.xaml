@@ -12,7 +12,6 @@
     Background="Transparent"
     Focusable="False"
     ShowInTaskbar="False"
-    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
     <Border
