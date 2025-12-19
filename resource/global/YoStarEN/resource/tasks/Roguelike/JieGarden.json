@@ -2,6 +2,9 @@
     "JieGarden@Roguelike@StartAction": {
         "doc": "Start button is different compared to other ISes"
     },
+    "JieGarden@Roguelike@Abandon": {
+        "templThreshold": 0.75
+    },
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["VISIT", "MEMENTO"]
     },
@@ -10,9 +13,6 @@
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "text": ["Tossed"]
-    },
-    "JieGarden@Roguelike@Abandon": {
-        "templThreshold": 0.75
     },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "text": ["exchange"]
