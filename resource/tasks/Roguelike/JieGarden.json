@@ -177,7 +177,7 @@
     "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
         "Doc": "通宝名称识别 - EXCHANGE 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
-        "roi": [29, -5, 160, 40]
+        "roi": [29, -5, 230, 40]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-LeftNameOCR": {
         "Doc": "通宝名称识别 - 左侧列专用OCR - EXCHANGE 模式",
