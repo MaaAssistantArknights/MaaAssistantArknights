@@ -64,7 +64,7 @@ bool RoguelikeCoppersAnalyzer::analyze_column(ColumnRole role, bool detect_cast)
     LogTraceFunction;
 
     // 根据列角色选择适当的OCR任务
-    std::string ocr_task_name;
+    std::string_view ocr_task_name;
     switch (role) {
     case ColumnRole::Leftmost:
         ocr_task_name = kExchangeMatcherTask;
