@@ -1,0 +1,41 @@
+name: Scheduled Pre-commit
+
+on:
+  schedule:
+    # 每天 UTC 21:00 运行（北京时间 5:00）
+    - cron: "0 21 * * *"
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit on all files
+        id: pre-commit
+        continue-on-error: true
+        run: pre-commit run --all-files
+
+      - name: Commit and push changes
+        if: steps.pre-commit.outcome == 'failure' && github.repository_owner == 'MaaAssistantArknights'
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: "chore: Auto update by pre-commit hooks
+
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            [skip changelog]"
+          branch: ${{ github.ref }}
