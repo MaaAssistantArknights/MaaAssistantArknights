@@ -2,8 +2,8 @@ name: Scheduled Pre-commit
 
 on:
   schedule:
-    # 每天 UTC 13:00 运行（北京时间 21:00）
-    - cron: "0 13 * * *"
+    # 每天 UTC 21:00 运行（北京时间 5:00）
+    - cron: "0 21 * * *"
   workflow_dispatch: # 允许手动触发
 
 jobs:
