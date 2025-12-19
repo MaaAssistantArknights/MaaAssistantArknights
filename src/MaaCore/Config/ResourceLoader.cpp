@@ -115,9 +115,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     };
 
     // 加载带模板目录的资源
-    auto load_with_templ = [&]<typename T>(const std::filesystem::path& filename,
-                                           const std::filesystem::path& templ_dir,
-                                           const char* res_name) -> bool {
+    auto load_with_templ = [&]<typename T>(
+                               const std::filesystem::path& filename,
+                               const std::filesystem::path& templ_dir,
+                               const char* res_name) -> bool {
         auto full_path = path / filename;
         auto full_templ_dir = path / templ_dir;
         if (!load_resource_with_templ<T>(full_path, full_templ_dir)) {
@@ -176,7 +177,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     // ==================== OTA 配置（路径固定，勿修改） ====================
-    if (!load_with_templ.template operator()<InfrastConfig>("infrast.json"_p, "template"_p / "infrast"_p, "InfrastConfig") ||
+    if (!load_with_templ
+             .template operator()<InfrastConfig>("infrast.json"_p, "template"_p / "infrast"_p, "InfrastConfig") ||
         !load_with_templ.template operator()<ItemConfig>("item_index.json"_p, "template"_p / "items"_p, "ItemConfig") ||
         !load_with_custom.template operator()<StageDropsConfig>("stages.json"_p, "StageDropsConfig") ||
         !load_with_custom.template operator()<TilePack>("Arknights-Tile-Pos"_p / "overview.json"_p, "TilePack")) {
@@ -195,21 +197,27 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // Copilot Config
     for (auto theme : roguelike_themes) {
-        if (!load_with_custom.template operator()<RoguelikeCopilotConfig>(roguelike_path(theme, "autopilot"_p), "RoguelikeCopilotConfig")) {
+        if (!load_with_custom.template operator()<RoguelikeCopilotConfig>(
+                roguelike_path(theme, "autopilot"_p),
+                "RoguelikeCopilotConfig")) {
             return false;
         }
     }
 
     // Recruitment Config
     for (auto theme : roguelike_themes) {
-        if (!load_with_custom.template operator()<RoguelikeRecruitConfig>(roguelike_path(theme, "recruitment.json"_p), "RoguelikeRecruitConfig")) {
+        if (!load_with_custom.template operator()<RoguelikeRecruitConfig>(
+                roguelike_path(theme, "recruitment.json"_p),
+                "RoguelikeRecruitConfig")) {
             return false;
         }
     }
 
     // Shopping Config
     for (auto theme : roguelike_themes) {
-        if (!load_with_custom.template operator()<RoguelikeShoppingConfig>(roguelike_path(theme, "shopping.json"_p), "RoguelikeShoppingConfig")) {
+        if (!load_with_custom.template operator()<RoguelikeShoppingConfig>(
+                roguelike_path(theme, "shopping.json"_p),
+                "RoguelikeShoppingConfig")) {
             return false;
         }
     }
@@ -238,7 +246,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // Map Config（仅 Sarkaz 和 JieGarden）
     for (auto theme : { "Sarkaz", "JieGarden" }) {
-        if (!load_with_custom.template operator()<RoguelikeMapConfig>(roguelike_path(theme, "map.json"_p), "RoguelikeMapConfig")) {
+        if (!load_with_custom.template operator()<RoguelikeMapConfig>(
+                roguelike_path(theme, "map.json"_p),
+                "RoguelikeMapConfig")) {
             return false;
         }
     }
