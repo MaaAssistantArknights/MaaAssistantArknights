@@ -119,6 +119,10 @@
     "JieGarden@Roguelike@SelectTheme": {
         "text": ["유원", "기념"]
     },
+    "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
+        "doc": "3승천 이상에서 각뿔 투자 전략일 때 활성화되는 FastPass 용 StartAction",
+        "template": "JieGarden@Roguelike@StartAction.png"
+    },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
     },
