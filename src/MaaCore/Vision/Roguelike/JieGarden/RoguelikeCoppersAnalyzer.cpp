@@ -17,6 +17,7 @@ namespace
 constexpr std::string_view kPickupMatcherTask = "JieGarden@Roguelike@GetDropSwitch";
 constexpr std::string_view kPickupNameTask = "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR";
 constexpr std::string_view kExchangeNameTask = "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR";
+constexpr std::string_view kExchangeMatcherTask = "JieGarden@Roguelike@CoppersAnalyzer-LeftNameOCR";
 constexpr std::string_view kCastTask = "JieGarden@Roguelike@CoppersAnalyzer-CastOCR";
 constexpr std::string_view kLeftColumnMatcherTask = "JieGarden@Roguelike@CoppersAnalyzer-LeftType";
 constexpr std::string_view kMiddleColumnMatcherTask = "JieGarden@Roguelike@CoppersAnalyzer-Type";
@@ -62,9 +63,21 @@ bool RoguelikeCoppersAnalyzer::analyze_column(ColumnRole role, bool detect_cast)
 {
     LogTraceFunction;
 
-    const auto name_task = Task.get<OcrTaskInfo>(kExchangeNameTask);
+    // 根据列角色选择适当的OCR任务
+    std::string_view ocr_task_name;
+    switch (role) {
+    case ColumnRole::Leftmost:
+        ocr_task_name = kExchangeMatcherTask;
+        break;
+    case ColumnRole::Middle:
+    case ColumnRole::Rightmost:
+        ocr_task_name = kExchangeNameTask;
+        break;
+    }
+
+    const auto name_task = Task.get<OcrTaskInfo>(ocr_task_name);
     if (!name_task) {
-        Log.error(__FUNCTION__, "| failed to load exchange name OCR task");
+        Log.error(__FUNCTION__, "| failed to load OCR task:", ocr_task_name);
         return false;
     }
 
@@ -88,6 +101,7 @@ bool RoguelikeCoppersAnalyzer::analyze_column(ColumnRole role, bool detect_cast)
     }
 
     const bool analyzed = analyze_internal(matcher_task, *name_task, cast_task.get(), SortStrategy::Vertical);
+
     if (!analyzed) {
         Log.error(__FUNCTION__, "| failed to analyze column ", to_string(role));
     }
@@ -185,7 +199,10 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
                 const auto& cast_result = cast_ocr.get_result();
                 detection.cast_score = cast_result.score;
                 detection.cast_recognized = !cast_result.text.empty();
-                detection.is_cast = cast_result.text.find("已投出") != std::string::npos;
+                detection.is_cast =
+                    std::any_of(cast_task->text.begin(), cast_task->text.end(), [&](const std::string& t) {
+                        return cast_result.text.find(t) != std::string::npos;
+                    });
             }
         }
 
