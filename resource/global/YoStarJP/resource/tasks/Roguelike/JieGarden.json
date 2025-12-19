@@ -3,8 +3,7 @@
         "text": ["来園記念", "来園", "記念"]
     },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
-        "text": ["放弃行动"],
-        "roi": [770, 470, 150, 45]
+        "text": ["撤退する"]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
@@ -97,8 +96,7 @@
         ]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
-        "text": ["放弃行动"],
-        "roi": [700, 390, 110, 41]
+        "text": ["撤退する"]
     },
     "JieGarden@Roguelike@NextLevel": {
         "ocrReplace": [
@@ -131,7 +129,6 @@
     },
     "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default", "_boskyPassageDefault"],
-        "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["洪陸楼", "_aggressive"],
             ["山水閣", "_aggressive"],
@@ -140,11 +137,7 @@
             ["見字[祠乱嗣]", "_default"],
             ["始末陵", "_default"],
             ["是非境", "_boskyPassageDefault"]
-        ],
-        "roi": [627, 14, 71, 28],
-        "withoutDet": true,
-        "binThreshold": [210, 255],
-        "useRaw": false
+        ]
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
         "text": ["_default", "_restart", "_leaveBoskyPassage"],
