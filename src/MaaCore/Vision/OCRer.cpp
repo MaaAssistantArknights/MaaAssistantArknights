@@ -1,6 +1,6 @@
 #include "OCRer.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 #include <unordered_map>
 
 #include "Config/Miscellaneous/OcrConfig.h"
@@ -78,12 +78,12 @@ void OCRer::postproc_replace_(Result& res) const
         std::wstring regex_u16 = MAA_NS::to_u16(regex);
         std::wstring new_str_u16 = MAA_NS::to_u16(new_str);
         if (m_params.replace_full) {
-            if (std::regex_search(text_u16, std::wregex(regex_u16))) {
+            if (boost::regex_search(text_u16, boost::wregex(regex_u16))) {
                 text_u16 = new_str_u16;
             }
         }
         else {
-            text_u16 = std::regex_replace(text_u16, std::wregex(regex_u16), new_str_u16);
+            text_u16 = boost::regex_replace(text_u16, boost::wregex(regex_u16), new_str_u16);
         }
     }
     res.text = MAA_NS::from_u16(text_u16);

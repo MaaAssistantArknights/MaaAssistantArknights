@@ -1,8 +1,8 @@
 #include "AbstractTask.h"
 
 #include <algorithm>
+#include <boost/regex.hpp>
 #include <filesystem>
-#include <regex>
 #include <thread>
 #include <utility>
 
@@ -91,9 +91,9 @@ json::value asst::AbstractTask::basic_info() const
         std::string task_name;
         // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
         // 但还是不能完全保证，如果不行的话建议 override
-        std::regex regex("[a-zA-Z]+Task");
-        std::smatch match_obj;
-        if (std::regex_search(class_name, match_obj, regex)) {
+        boost::regex regex("[a-zA-Z]+Task");
+        boost::smatch match_obj;
+        if (boost::regex_search(class_name, match_obj, regex)) {
             task_name = match_obj[0].str();
         }
         else {

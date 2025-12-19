@@ -1,7 +1,7 @@
 #include "InfrastAbstractTask.h"
 
 #include <algorithm>
-#include <regex>
+#include <boost/regex.hpp>
 #include <utility>
 
 #include "Common/AsstMsg.h"
@@ -47,9 +47,9 @@ std::string asst::InfrastAbstractTask::facility_name() const
         std::string class_name = typeid(*this).name();
         // typeid.name() 结果可能和编译器有关，所以这里使用正则尽可能保证结果正确。
         // 但还是不能完全保证，如果不行的话建议 override
-        std::regex regex("Infrast(.*)Task");
-        std::smatch match_obj;
-        if (std::regex_search(class_name, match_obj, regex)) {
+        boost::regex regex("Infrast(.*)Task");
+        boost::smatch match_obj;
+        if (boost::regex_search(class_name, match_obj, regex)) {
             m_facility_name_cache = match_obj[1].str();
         }
         else {
