@@ -1,0 +1,42 @@
+name: Scheduled Pre-commit
+
+on:
+  schedule:
+    # 每天 UTC 13:00 运行（北京时间 21:00）
+    - cron: "0 13 * * *"
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    # 仅在 dev 分支运行
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit on all files
+        id: pre-commit
+        continue-on-error: true
+        run: pre-commit run --all-files
+
+      - name: Commit and push changes
+        if: steps.pre-commit.outcome == 'failure'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: Auto update by pre-commit hooks [skip changelog]"
+          git push
+
