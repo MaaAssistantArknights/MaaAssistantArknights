@@ -15,13 +15,13 @@ The most common issue is related to runtime libraries, and many people keep aski
 Please run `DependencySetup_依赖库安装.bat` in the MAA directory, or execute the following command in terminal:
 
 ```sh
-winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.8" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
+winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements && winget install "Microsoft.DotNet.DesktopRuntime.10" --override "/repair /passive /norestart" --force --uninstall-previous --accept-package-agreements
 ```
 
 Or manually download and install these <u>**two**</u> runtime libraries to solve the problem:
 
 - [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET Desktop Runtime 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
+- [.NET Desktop Runtime 10](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 
@@ -51,7 +51,7 @@ For Windows N/KN (European/Korean versions), you also need to install the [Media
 
 #### Windows 7
 
-.NET 8 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either. The last usable .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last usable .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). Self-compilation feasibility remains undetermined.
+.NET 10 doesn't support Windows 7/8/8.1 systems<sup>[source](https://github.com/dotnet/core/issues/7556)</sup>, so MAA no longer supports them either. The last usable .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last usable .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). Self-compilation feasibility remains undetermined.
 
 For Windows 7, before installing the two runtime libraries mentioned above, check if these patches are installed:
 

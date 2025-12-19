@@ -1,6 +1,6 @@
 #include "InfrastDormTask.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -155,8 +155,8 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                     }
 
                     std::string opertrust = trust_analyzer.get_result().text;
-                    std::regex rule("[^0-9]"); // 只保留数字
-                    opertrust = std::regex_replace(opertrust, rule, "");
+                    boost::regex rule("[^0-9]"); // 只保留数字
+                    opertrust = boost::regex_replace(opertrust, rule, "");
                     Log.trace("opertrust:", opertrust);
 
                     bool if_opertrust_not_full = false;
@@ -188,8 +188,8 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                     }
 
                     std::string facilityname = facility_analyzer.get_result().text;
-                    std::regex rule2("[^BF0-9]"); // 只保留B、F和数字
-                    facilityname = std::regex_replace(facilityname, rule2, "");
+                    boost::regex rule2("[^BF0-9]"); // 只保留B、F和数字
+                    facilityname = boost::regex_replace(facilityname, rule2, "");
 
                     Log.trace("facilityname:<" + facilityname + ">");
                     bool if_oper_not_stationed = facilityname.length() < 4; // 只有形如1F01或B101才是设施标签

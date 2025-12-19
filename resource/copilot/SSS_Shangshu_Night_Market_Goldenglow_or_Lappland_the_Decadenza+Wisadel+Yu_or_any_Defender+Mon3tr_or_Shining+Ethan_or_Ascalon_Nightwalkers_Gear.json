@@ -1,0 +1,1041 @@
+{
+    "type": "SSS",
+    "stage_name": "Shangshu Night Market",
+    "minimum_required": "v5.15.2-alpha.1.d015.gaa754996f",
+    "doc": {
+        "title": "Shangshu Night Market - Goldenglow_or_Lappland_the_Decadenza+Wiš'adel+Yu_or_any_Defender+Mon3tr_or_Shining+Ethan_or_Ascalon - Nightwalker's Gear",
+        "title_color": "dark",
+        "details": "Author: DL_君逸寒\nShowcase Video: BV1K7oPYTE8h\nPlease like, comment, and share!\n\nManual squad selection required.\n\nIf you want to substitute operators to your preference:\n1) Open the job file in a text editor.\n2) Press Ctrl+A to select all.\n3) Press Ctrl+H to replace operator names.\n4) If skills differ, adjust according to the MAA Copilot battle flow protocol.\n5) Press Ctrl+S to save, then close the editor.\n6) Re-import the modified job into MAA.\n\nSubstitution notes:\n• Mon3tr → Shining\n• Ethan S1 → Ascalon S1\n• Yu S3 → any Defender S3 (e.g., Duskbloom S3, Saria S3)\n• Goldenglow S3 → Lappland the Decadenza S3\n• Others: try suitable equivalents.\n\nRecommended tool units (recruits):\n• Vanguard: 3, prefer Charger branch (recommend equipping DP-Reduction module).\n• Defender: 2, choose Guardian/Protector archetypes with strong sustain; do NOT use Lord or Unyielding branches.\n• Sniper: 4, prefer Marksman/Rapid-Fire and Heavyshooter/Spreadshot with high ASPD.\n• Caster: 2, anything not on the blacklist; AoE (Splash) should have DP-Reduction module.\n• Supporter: 4, Ideal City (Architect) S3 >> Suzuran S3 >> other supporters with Terminal/Auto skills.\n\nAll tool units should ideally be Elite 2 Level 30 or above.\nPrioritize combat strength over low DP cost.\n\nOriginium Device: Nightwalker's Gear.\nTactical Equipment: Medic B, Specialist B, others A.\nStarting Strategy: Preferred Strategy.\n\nAfter confirming the squad, start from a screen that shows the exact stage name, e.g., LT-1 Alleyway.\n\nThe author allows personal edits for private use but does not permit uploading modified versions to Copilot repositories or similar platforms. Using this job means you accept and will abide by this agreement.",
+        "details_color": "dark"
+    },
+    "buff": "天工夜行套装",
+    "equipment": ["A", "A", "A", "A", "A", "A", "B", "B"],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "澄闪",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "维什戴尔",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "余",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "Mon3tr",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "伊桑",
+            "skill": 1,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "pioneer": 3,
+        "tank": 2,
+        "sniper": 4,
+        "caster": 2,
+        "support": 4
+    },
+    "drops": [
+        "辅助",
+        "狙击",
+        "术士",
+        "无需增调干员",
+        "先锋",
+        "重装",
+        "医疗",
+        "近卫",
+        "特种",
+        "战备激活阀",
+        "夜行钩爪模块"
+    ],
+    "blacklist": [
+        "缪尔赛思",
+        "伺夜",
+        "夜半",
+        "渡桥",
+        "豆苗",
+        "琴柳",
+        "极境",
+        "万顷",
+        "桃金娘",
+        "风笛",
+        "伊内丝",
+        "晓歌",
+        "寻澜",
+        "谜图",
+        "野鬃",
+        "苇草",
+        "格拉尼",
+        "历阵锐枪芬",
+        "红豆",
+        "讯使",
+        "清道夫",
+        "芬",
+        "香草",
+        "翎羽",
+        "夜刀",
+        "山",
+        "重岳",
+        "玛恩纳",
+        "龙舌兰",
+        "骋风",
+        "斯卡蒂",
+        "赫拉格",
+        "耀骑士临光",
+        "史尔特尔",
+        "薇薇安娜",
+        "维娜·维多利亚",
+        "止颂",
+        "左乐",
+        "圣约送葬人",
+        "隐德来希",
+        "阿米娅",
+        "因陀罗",
+        "星极",
+        "芙兰卡",
+        "赤冬",
+        "达格达",
+        "海沫",
+        "火龙S黑角",
+        "莱欧斯",
+        "摩根",
+        "燧石",
+        "炎客",
+        "羽毛笔",
+        "铸铁",
+        "断罪者",
+        "宴",
+        "缠丸",
+        "杰克",
+        "猎蜂",
+        "慕斯",
+        "休谟斯",
+        "罗小黑",
+        "玫兰莎",
+        "月见夜",
+        "泡普卡",
+        "Castle-3",
+        "森蚺",
+        "斥罪",
+        "泥岩",
+        "极光",
+        "洋灰",
+        "火神",
+        "露托",
+        "斑点",
+        "卡缇",
+        "米格鲁",
+        "黑角",
+        "Friston-3",
+        "早露",
+        "提丰",
+        "熔泉",
+        "埃拉托",
+        "铅踝",
+        "假日威龙陈",
+        "维什戴尔",
+        "W",
+        "菲亚梅塔",
+        "莱伊",
+        "冰酿",
+        "克洛斯",
+        "安德切尔",
+        "巡林者",
+        "正义骑士号",
+        "泰拉大陆调查团",
+        "死芒",
+        "特克诺",
+        "伊芙利特",
+        "蚀清",
+        "阿罗玛",
+        "布丁",
+        "深靛",
+        "卡达",
+        "格雷伊",
+        "远山",
+        "夜烟",
+        "史都华德",
+        "炎熔",
+        "杜林",
+        "12F",
+        "Mon3tr",
+        "凯尔希",
+        "焰影苇草",
+        "濯尘芙蓉",
+        "刺玫",
+        "安赛尔",
+        "芙蓉",
+        "Lancet-2",
+        "白铁",
+        "阿兰娜",
+        "掠风",
+        "罗比菈塔",
+        "海蒂",
+        "梓兰",
+        "U-Official",
+        "PhonoR-0",
+        "引星棘刺",
+        "傀影",
+        "缄默德克萨斯",
+        "麒麟R夜刀",
+        "弑君者",
+        "琳琅诗怀雅",
+        "老鲤",
+        "多萝西",
+        "艾拉",
+        "阿",
+        "阿斯卡纶",
+        "水月",
+        "狮蝎",
+        "绮良",
+        "伊桑",
+        "锡人",
+        "空构",
+        "乌有",
+        "裁度",
+        "红",
+        "槐琥",
+        "卡夫卡",
+        "云迹",
+        "霜华",
+        "钼铅",
+        "罗宾",
+        "砾",
+        "孑",
+        "THRM-EX"
+    ],
+    "stages": [
+        {
+            "stage_name": "巷道里",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [6, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [6, 2],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [5, 1],
+                    "direction": "Left"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [6, 3],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [5, 1],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "天工夜行套装",
+                    "location": [6, 4],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 5],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 5],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 5],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "楼台边",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [1, 3],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [1, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [2, 2],
+                    "direction": "Right"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [5, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [1, 2],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "天工夜行套装",
+                    "location": [5, 2],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 5],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 5],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 5],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "墓地旁",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [1, 4],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [1, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "天工夜行套装",
+                    "location": [3, 2],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 5],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 5],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 5],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "舞台上",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "伊桑",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [3, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 6],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "夜行斗篷模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "夜行钩爪模块",
+                    "location": [3, 2],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 1],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 1],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 1],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "城门下",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "伊桑",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [6, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [7, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [6, 4],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 2
+                    },
+                    "location": [7, 5],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [7, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [8, 6],
+                    "direction": "Left"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [5, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "夜行斗篷模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [5, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [7, 3],
+                    "direction": "Down"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "夜行钩爪模块",
+                    "location": [5, 5],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [2, 3],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 3],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 3],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "天地间",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [1, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 2
+                    },
+                    "location": [2, 6],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [2, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "伊桑",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [3, 5],
+                    "direction": "Left"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [1, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 6],
+                    "direction": "None"
+                },
+                {
+                    "core": "余",
+                    "tool_men": {
+                        "pioneer": 1,
+                        "tank": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "夜行斗篷模块",
+                    "tool_men": {
+                        "sniper": 0
+                    },
+                    "location": [3, 1],
+                    "direction": "None"
+                },
+                {
+                    "core": "空core1",
+                    "tool_men": {
+                        "support": 27,
+                        "sniper": 4,
+                        "caster": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Down"
+                },
+                {
+                    "core": "空core2",
+                    "tool_men": {
+                        "pioneer": 5
+                    },
+                    "location": [1, 5],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "Deploy",
+                    "name": "夜行钩爪模块",
+                    "location": [3, 2],
+                    "direction": "None",
+                    "kills": 5
+                },
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [9, 4],
+                    "direction": "None",
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 4],
+                    "direction": "None",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 4],
+                    "direction": "None",
+                    "kills": 20
+                }
+            ],
+            "retry_times": 27
+        }
+    ]
+}

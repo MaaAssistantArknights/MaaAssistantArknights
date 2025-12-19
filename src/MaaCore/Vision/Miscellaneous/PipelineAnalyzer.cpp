@@ -1,6 +1,6 @@
 #include "PipelineAnalyzer.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 #include <utility>
 
 #include "Config/TaskData.h"

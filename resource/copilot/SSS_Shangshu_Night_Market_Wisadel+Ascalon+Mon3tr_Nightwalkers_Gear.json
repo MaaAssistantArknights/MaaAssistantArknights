@@ -1,0 +1,989 @@
+{
+    "minimum_required": "v5.15.0",
+    "stage_name": "Shangshu Night Market",
+    "actions": [],
+    "doc": {
+        "title": "SSS-Shangshu Night Market - Wiš'adel+Ascalon+Mon3tr - Nightwalker's Gear",
+        "title_color": "dark",
+        "details": "Emergency one-life clear video uploaded — please like/share/subscribe!\n═══════════════════════════════════\nRun Code: maa://50469\nManual squad only for now. For all helpers (non-core operators), prefer low-cost units; recommended promotion E2, minimum E1 level max.\nDo NOT choose one-time skills (e.g., Mountain S2) or skills that can only be activated on contact (e.g., Qi S3). Otherwise MAA will keep trying to cast. Also avoid operators with unusual attack ranges (e.g., Schwarz S3).\nConfirm the Energetic Device: Nightwalker’s Gear; set Tactical Equipment to Caster B and Specialist B, all others A. After manual squad and lineup confirmation, then press Start.\nAuthor (route): Saratoga\nVideo: [MAA SSS – Shangshu Night Market – Emergency one-life clear] https://www.bilibili.com/video/BV1mG5vzwEsR/?share_source=copy_web&vd_source=3fd5040fe25f6a00e19e6072bcccfa4e\nJSON: Saratoga\n═══════════════════════════════════\nAdditional non-core helpers (not part of the core trio):\nVanguards ×4 (pick skills that refund DP without needing to engage; avoid on-contact DP refund skills)\nCasters ×4 (ideally around 20 DP; if using AoE Caster, equip DP-Reduction module)\nDefenders ×3 (prefer self-heal Guardians/Protectors, e.g., Saria, Honeyberry-like, Liskarm)\nSpecialists ×6 (prefer Trappers/Ground-control like Pusher/Puller as needed; do NOT choose Wandering Merchants. Note: MAA bug — using Trapper, Alchemist, or Maverick branches may fail to deploy; choose other branches)\n═══════════════════════════════════\nFeedback: join group 545928846; comments may not be answered promptly.\nYou may locally modify core choices for personal needs, but do NOT upload modified scripts to job hubs. Using this script implies agreement.",
+        "details_color": "dark"
+    },
+    "groups": [],
+    "opers": [
+        {
+            "name": "Mon3tr",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "阿斯卡纶",
+            "skill": 1,
+            "skill_usage": 0
+        },
+        {
+            "name": "维什戴尔",
+            "skill": 1,
+            "skill_usage": 0
+        }
+    ],
+    "type": "SSS",
+    "buff": "天工夜行套装",
+    "equipment": ["A", "A", "B", "A", "A", "A", "A", "B"],
+    "strategy": "优选策略",
+    "tool_men": {
+        "vanguard": 4,
+        "guard": 0,
+        "defender": 3,
+        "sniper": 0,
+        "caster": 4,
+        "medic": 0,
+        "supporter": 0,
+        "special": 6
+    },
+    "drops": ["辅助", "无需增调干员", "狙击", "术师", "先锋", "重装", "夜行钩爪模块"],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "缪尔赛思",
+        "森蚺",
+        "极光",
+        "迷迭香",
+        "早露",
+        "菲亚梅塔",
+        "承曦格雷伊",
+        "莫斯提马",
+        "死芒",
+        "凯尔希",
+        "异客",
+        "伊芙利特",
+        "寒檀",
+        "莱恩哈特",
+        "惊蛰",
+        "蚀清",
+        "天火",
+        "星源",
+        "炎狱炎熔",
+        "布丁",
+        "格雷伊",
+        "远山",
+        "炎熔",
+        "假日威龙陈",
+        "埃拉托",
+        "奥斯塔",
+        "截云",
+        "熔泉",
+        "慑砂",
+        "送葬人",
+        "陨星",
+        "白雪",
+        "铅踝",
+        "松果",
+        "泰拉大陆调查团",
+        "正义骑士号",
+        "黑",
+        "洋灰",
+        "火哨",
+        "斥罪",
+        "号角",
+        "火神",
+        "灰毫",
+        "泥岩",
+        "车尔尼",
+        "暮落",
+        "石棉",
+        "坚雷",
+        "阿米娅",
+        "风笛",
+        "黑键",
+        "伊内丝",
+        "晓歌",
+        "格拉尼",
+        "苇草",
+        "野鬃",
+        "历阵锐枪芬",
+        "谜图",
+        "红豆",
+        "翎羽",
+        "W",
+        "U-Official",
+        "12F",
+        "Lancet-2"
+    ],
+    "stages": [
+        {
+            "stage_name": "巷道里",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {},
+                    "location": [3, 2],
+                    "direction": "none"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [5, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [5, 1],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "special": 99,
+                        "caster": 99
+                    },
+                    "location": [5, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [6, 2],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [1, 2],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 4],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 4],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "楼台边",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {},
+                    "location": [1, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [3, 3],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 2],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [1, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99
+                    },
+                    "location": [5, 4],
+                    "direction": "Left"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 3],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 3],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 3],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "墓地旁",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "天工夜行套装",
+                    "tool_men": {},
+                    "location": [1, 3],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 3],
+                    "direction": "Right"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [1, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 1],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 1],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "舞台上",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {},
+                    "location": [1, 5],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [4, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [4, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [1, 3],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 99
+                    },
+                    "location": [3, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "special": 99,
+                        "caster": 99
+                    },
+                    "location": [6, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [3, 4],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [3, 1],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [4, 1],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 1],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "城门下",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [5, 4],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 3],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {},
+                    "location": [4, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [5, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [7, 3],
+                    "direction": "Left"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [5, 4],
+                    "direction": "Up"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [5, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [4, 4],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "special": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "special": 99,
+                        "caster": 99
+                    },
+                    "location": [6, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [6, 5],
+                    "direction": "Up"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [5, 1],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [6, 1],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 1],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "天地间",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [3, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "夜行钩爪模块",
+                    "tool_men": {},
+                    "location": [1, 3],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "defender": 1
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 1
+                    },
+                    "location": [4, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "维什戴尔",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [4, 6],
+                    "direction": "Up"
+                },
+                {
+                    "core": "阿斯卡纶",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [3, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "Mon3tr",
+                    "tool_men": {
+                        "special": 2
+                    },
+                    "location": [2, 6],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重构体",
+                    "tool_men": {},
+                    "location": [4, 7],
+                    "direction": "none"
+                },
+                {
+                    "tool_men": {
+                        "vanguard": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 99
+                    },
+                    "location": [2, 3],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "special": 99
+                    },
+                    "location": [2, 4],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 99
+                    },
+                    "location": [4, 4],
+                    "direction": "Down"
+                },
+                {
+                    "core": "丛林用示踪信标",
+                    "tool_men": {
+                        "defender": 99
+                    },
+                    "location": [2, 5],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [7, 4],
+                    "direction": "none",
+                    "cost": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [8, 4],
+                    "direction": "none",
+                    "cost": 49
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [9, 4],
+                    "direction": "none",
+                    "cost": 50
+                }
+            ],
+            "retry_times": 9
+        }
+    ]
+}

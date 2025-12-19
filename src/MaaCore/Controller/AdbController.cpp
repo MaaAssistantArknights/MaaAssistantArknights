@@ -20,7 +20,7 @@
 #include "Utils/Platform.hpp"
 #include "Utils/StringMisc.hpp"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 asst::AdbController::AdbController(const AsstCallback& callback, Assistant* inst, PlatformType type) :
     InstHelper(inst),
@@ -913,8 +913,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         bool need_connect = true;
         if (devices_ret) {
             const auto& devices_str = devices_ret.value();
-            const std::regex address_regex(m_adb.address_regex);
-            for (std::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex), end; iter != end;
+            const boost::regex address_regex(m_adb.address_regex);
+            for (boost::sregex_iterator iter(devices_str.begin(), devices_str.end(), address_regex), end; iter != end;
                  ++iter) {
                 if (iter->size() > 1 && iter->str(1) == address) {
                     need_connect = false;
@@ -978,8 +978,8 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         std::string uuid_str = raw_output;
         std::erase_if(uuid_str, [](char c) { return !std::isdigit(c) && !std::isalpha(c); });
 
-        std::regex hex_regex("^[0-9a-fA-F]{8,}$");
-        if (uuid_str.empty() || !std::regex_match(uuid_str, hex_regex)) {
+        boost::regex hex_regex("^[0-9a-fA-F]{8,}$");
+        if (uuid_str.empty() || !boost::regex_match(uuid_str, hex_regex)) {
             json::value info = get_info_json() | json::object {
                 { "what", "ConnectFailed" },
                 { "why", "Uuid invalid or shell command not available" },

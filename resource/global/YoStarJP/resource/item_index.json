@@ -2071,6 +2071,14 @@
         "sortId": -10000,
         "usage": "抑制ユニットのデータアップデートを行うために使用する。"
     },
+    "act5collection_point_token": {
+        "classifyType": "NONE",
+        "description": "特勤オペレーターへのボーナスとして、ロドスは必要な物資と交換できるポイントを配布することにした。",
+        "icon": "act5collection_point_token.png",
+        "name": "特別交換ポイント",
+        "sortId": -10000,
+        "usage": "対応する報酬と交換できる。"
+    },
     "act5d0_point_medal": {
         "classifyType": "NONE",
         "description": "無駄に豪華な純金製。龍門トップクラスの彫金師の手によって仕上げられた逸品。全テラ数量限定。明らかにカップの形をしているのに勲章だと言い張っている。エンペラーからの最高の栄誉の象徴であり、値千金ともっぱらの噂。ただしこれでアツアツのコーヒーを淹れるのはダメ。ゼッタイ。",
@@ -2743,6 +2751,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_5_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_5_token_bp.png",
+        "name": "迷子の器鬼幼体",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "荒野の土にこぼした汗水は、その一滴一滴がテラ文明の繁栄を見届けることだろう。",
@@ -2750,6 +2766,14 @@
         "name": "繁栄ポイント",
         "sortId": -10000,
         "usage": "「繁栄の成果」で報酬との交換に用いられる。"
+    },
+    "so_char_exp_1": {
+        "classifyType": "NONE",
+        "description": "特勤オペレーターの作戦環境は多岐にわたり、状況も刻一刻と変化する。映像記録の撮影は困難を極めたが、今後の作戦に役立つなら苦労の甲斐もあったというもの。\n今回の総集編には、なんと特別メイキング映像がついている。",
+        "icon": "so_char_exp_1.png",
+        "name": "特勤作戦記録",
+        "sortId": -10000,
+        "usage": "特勤オペレーターの作戦映像を記録した情報記憶装置。使用するとオペレーターの経験値が増加する。"
     },
     "token_Obsidian": {
         "classifyType": "NONE",

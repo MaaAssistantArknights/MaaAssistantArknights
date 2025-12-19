@@ -1,0 +1,264 @@
+{
+    "JieGarden@Roguelike@StartAction": {
+        "doc": "Start button is different compared to other ISes"
+    },
+    "JieGarden@Roguelike@CheckLevel": {
+        "text": ["VISIT", "MEMENTO"]
+    },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "text": ["Retreat"]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "text": ["Tossed"]
+    },
+    "JieGarden@Roguelike@Abandon": {
+        "templThreshold": 0.75
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinish": {
+        "text": ["exchange"]
+    },
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "ocrReplace": [
+            [" ", ""],
+            ["Bal:BitterCold", "衡-苦寒"],
+            ["Bal:DesireFulfilled", "衡-志欲遂"],
+            ["Bal:DewinGold", "衡-金寒水衍"],
+            ["Bal:Downpour", "衡-霖雨"],
+            ["Bal:DryHeat", "衡-旱热"],
+            ["Bal:FierceGale", "衡-匪风"],
+            ["Bal:FrontierMoon", "衡-塞上月"],
+            ["Bal:Frost&Snow", "衡-霜雪"],
+            ["Bal:GarrisonFarm", "衡-军屯垦"],
+            ["Bal:GoodHarvest", "衡-庆丰收"],
+            ["Bal:Hoarfrost", "衡-雾凇"],
+            ["Bal:MovingMounts", "衡-移山繁"],
+            ["Bal:OriginalScript", "衡-初有文"],
+            ["Bal:PrimalFarming", "衡-鸿蒙开荒"],
+            ["Bal:Rainbow", "衡-虹霓"],
+            ["Bal:RegularExercise", "衡-勤运体"],
+            ["Bal:RogueToken", "衡-诡意代币"],
+            ["Bal:SapientEvasion", "衡-慧避灾"],
+            ["Bal:Soil-BornMetal", "衡-奇土生金"],
+            ["Bal:Thunderclap", "衡-霹雳"],
+            ["Bal:WaterwoodGuard", "衡-水生木护"],
+            ["Bal:WoodFeedsFlames", "衡-投木炎延"],
+            ["Bal:World'sPioneer", "衡-天下先"],
+            ["DayanTongbao", "大炎通宝"],
+            ["Fantastical", "入幻"],
+            ["Flower:BustlingTrade", "花-百业俱兴"],
+            ["Flower:ChidaoGrowth", "花-驰道长"],
+            ["Flower:CocoonSilk", "花-茧成绢"],
+            ["Flower:CohesiveMight", "花-聚力则强"],
+            ["Flower:CultivateSelf", "花-修性情"],
+            ["Flower:DuckCoin", "花-鸭爵金币"],
+            ["Flower:FireFormsSoil", "花-火灼土沃"],
+            ["Flower:Godblessed", "花-圣诏封神"],
+            ["Flower:HeavyDuties", "花-己任重"],
+            ["Flower:LongDistance", "花-载道远"],
+            ["Flower:MartialFight", "花-武人之争"],
+            ["Flower:OddMerchant", "花-神秘商贾"],
+            ["Flower:SandShield", "花-平沙之盾"],
+            ["Flower:StoveAlight", "花-火上之灶"],
+            ["Flower:UncloudedMind", "花-心无患"],
+            ["Risk:ArduousTrade", "厉-商路难行"],
+            ["Risk:BidingTime", "厉-待机缘"],
+            ["Risk:BloodshedSpill", "厉-战血流"],
+            ["Risk:CityConcerns", "厉-隐市忧"],
+            ["Risk:ContentMegamus", "厉-安硕鼷"],
+            ["Risk:DarkConcealment", "厉-无皎之昧"],
+            ["Risk:Dawn'sTeachings", "厉-朝闻道"],
+            ["Risk:DreamCurio", "厉-梦奇物"],
+            ["Risk:EasternGap", "厉-东缺角"],
+            ["Risk:FirstWordFalls", "厉-一字落"],
+            ["Risk:GiftofAccord", "厉-合乎礼"],
+            ["Risk:LawandOrder", "厉-法与律"],
+            ["Risk:LeiFaPunishment", "厉-诛邪雷法"],
+            ["Risk:MortalEndurance", "厉-人间长存"],
+            ["Risk:MovingMountHard", "厉-移山难"],
+            ["Risk:NorthernSting", "厉-北刺面"],
+            ["Risk:Painter'sRealm", "厉-画人间"],
+            ["Risk:ShennongWatches", "厉-神农守"],
+            ["Risk:SinisterStealth", "厉-黑子伏"],
+            ["Risk:SouthernMounts", "厉-南见山"],
+            ["Risk:StrenousStudy", "厉-寒窗志"],
+            ["Risk:Sui'sAwakening", "厉-岁醒天时"],
+            ["Risk:Two-RiverSpring", "厉-两江春"],
+            ["Risk:UniversalChange", "厉-凡物变"],
+            ["Risk:WeiqiChance", "厉-遇良弈"],
+            ["Risk:WestLianzhenMt.", "厉-西廉贞"],
+            ["Risk:WildPassion", "厉-恣狂情"],
+            ["Rusty", "锈色"],
+            ["Survival", "存护"],
+            ["rogue_5_copper_buff_F_28_a", "衡-挪移"],
+            ["rogue_5_copper_buff_F_29_a", "衡-迅步"],
+            ["rogue_5_copper_buff_F_30_a", "厉-生材百相"],
+            ["rogue_5_copper_buff_F_31_a", "衡-重铠"],
+            ["rogue_5_copper_buff_F_32_a", "厉-火机"],
+            ["rogue_5_copper_buff_R_12_a", "花-界园行"],
+            ["rogue_5_copper_buff_R_13_a", "衡-债难偿"],
+            ["rogue_5_copper_buff_R_14_a", "衡-触锁代币"],
+            ["rogue_5_copper_buff_R_15_a", "花-延识镇木"],
+            ["rogue_5_copper_buff_S_8_a", "花-孜孜不倦"],
+            ["rogue_5_gild_bat_4", "引光"],
+            ["rogue_5_gild_bat_5", "巡游"]
+        ]
+    },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "text": ["Retreat"]
+    },
+    "JieGarden@Roguelike@NextLevel": {
+        "text": [
+            "Honglu Tower",
+            "Shanshui Pavilion",
+            "Yunwa Gazebo",
+            "Ruwu Gate",
+            "Jianzi Shrine",
+            "Shimo Tomb",
+            "Shifei Border"
+        ],
+        "roi": [490, 545, 284, 44]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "text": ["Conserve"]
+    },
+    "JieGarden@Roguelike@SelectTheme": {
+        "text": ["Visit", "Memento"]
+    },
+    "JieGarden@Roguelike@StageSafeHouseReuse": {
+        "text": ["Use the Safe House again", "Use the Safe"]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0": {
+        "text": ["_default", "_boskyPassageDefault"],
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_default"],
+            ["Yunwa Gazebo", "_default"],
+            ["Ruwu Gate", "_default"],
+            ["Jianzi Shrine", "_default"],
+            ["Shimo Tomb", "_default"],
+            ["Shifei Border", "_boskyPassageDefault"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["Honglu Tower", "_aggressive"],
+            ["Shanshui Pavilion", "_aggressive"],
+            ["Yunwa Gazebo", "_pragmatic"],
+            ["Ruwu Gate", "_pragmatic"],
+            ["Jianzi Shrine", "_default"],
+            ["Shimo Tomb", "_default"],
+            ["Shifei Border", "_boskyPassageDefault"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_restart"],
+            ["Yunwa Gazebo", "_restart"],
+            ["Ruwu Gate", "_restart"],
+            ["Jianzi Shrine", "_restart"],
+            ["Shimo Tomb", "_restart"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "ocrReplace": [
+            ["Honglu Tower", "_fastPass"],
+            ["Shanshui Pavilion", "_restart"],
+            ["Yunwa Gazebo", "_restart"],
+            ["Ruwu Gate", "_restart"],
+            ["Jianzi Shrine", "_restart"],
+            ["Shimo Tomb", "_restart"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["Honglu Tower", "_fastPass"],
+            ["Shanshui Pavilion", "_restart"],
+            ["Yunwa Gazebo", "_restart"],
+            ["Ruwu Gate", "_restart"],
+            ["Jianzi Shrine", "_restart"],
+            ["Shimo Tomb", "_restart"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_restart"],
+            ["Yunwa Gazebo", "_restart"],
+            ["Ruwu Gate", "_restart"],
+            ["Jianzi Shrine", "_restart"],
+            ["Shimo Tomb", "_restart"],
+            ["Shifei Border", "_boskyPassageDefault"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_exit"],
+            ["Yunwa Gazebo", "_exit"],
+            ["Ruwu Gate", "_exit"],
+            ["Jianzi Shrine", "_exit"],
+            ["Shimo Tomb", "_exit"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "ocrReplace": [
+            ["Honglu Tower", "_fastPass"],
+            ["Shanshui Pavilion", "_exit"],
+            ["Yunwa Gazebo", "_exit"],
+            ["Ruwu Gate", "_exit"],
+            ["Jianzi Shrine", "_exit"],
+            ["Shimo Tomb", "_exit"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_default"],
+            ["Yunwa Gazebo", "_default"],
+            ["Ruwu Gate", "_default"],
+            ["Jianzi Shrine", "_default"],
+            ["Shimo Tomb", "_default"],
+            ["Shifei Border", "_boskyPassageDefault"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_default"],
+            ["Yunwa Gazebo", "_default"],
+            ["Ruwu Gate", "_default"],
+            ["Jianzi Shrine", "_default"],
+            ["Shimo Tomb", "_default"],
+            ["Shifei Border", "_boskyPassageDefault"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "ocrReplace": [
+            [" ", ""],
+            ["Eatyourfill", "饱餐一顿"],
+            ["Boostmorale", "鼓舞士气"],
+            ["Treatyourwounds", "医治伤口"],
+            ["Wavethesignalflag", "摇动令旗"],
+            ["Takeabreak", "稍事休息"],
+            ["Reorganize", "重整编制"],
+            ["Getintoformation", "布下阵法"],
+            ["Lightacandle", "点燃蜡烛"]
+        ]
+    }
+}

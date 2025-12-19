@@ -6,7 +6,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 bool asst::DrGrandetTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -74,9 +74,9 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     }
     auto text = analyzer.get_result().front().text;
 
-    auto regex = std::regex(R"((\d):(\d?)(\d?))");
-    std::smatch match;
-    if (!std::regex_search(text, match, regex)) {
+    auto regex = boost::regex(R"((\d):(\d?)(\d?))");
+    boost::smatch match;
+    if (!boost::regex_search(text, match, regex)) {
         Log.warn(__FUNCTION__, "Unable to match time:", text);
         return -1;
     }

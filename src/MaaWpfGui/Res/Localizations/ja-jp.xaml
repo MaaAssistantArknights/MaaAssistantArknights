@@ -534,6 +534,12 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
+    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 のパスが見つかりません。</system:String>
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll が選択した MuMu インストール内に見つかりませんでした。\n
+想定される相対パス：
+nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll または
+shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+インストールディレクトリを確認してください。</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu V4.0.0 以降を利用する必要があり、MuMu 12 Arknights Global には対応していません。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
@@ -554,6 +560,8 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0 を入力してください。\n
     <system:String x:Key="MuMu12Display">表示番号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu スクリーンショットの強化 が有効になっていません。関連する設定を確認してください</system:String>
     <system:String x:Key="LdExtrasEnabled">LD のスクリーンショット拡張モードを有効にする</system:String>
+    <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer のインストールパスが見つかりません。</system:String>
+    <system:String x:Key="LdPlayerOpenglMissing">選択した LDPlayer パスに ldopengl64.dll が見つかりません。インストールディレクトリを確認してください。</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 LDPlayer 9 V9.1.32以降が必要です。
 この機能を有効にした後、すぐにスクリーンショットテストを実行することを強くお勧めします。
@@ -839,7 +847,6 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードを読み取り、ジョブとして追加します</system:String>
-    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">割り当てセットを追加するための別のボタンが追加されました。右クリックによる割り当てセットの追加の動作は将来的に削除される予定です。</system:String>
     <system:String x:Key="PasteClipboardCopilotSetTip">クリップボードを読み取り、ジョブセットとして追加します</system:String>
     <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>

@@ -2063,6 +2063,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act5collection_point_token": {
+        "classifyType": "NONE",
+        "description": "Rhodes Island issues special redemption points as an incentive to field operators. These points can be used to redeem important supplies.",
+        "icon": "act5collection_point_token.png",
+        "name": "Special Redemption Point",
+        "sortId": -10000,
+        "usage": "Can be exchanged for the corresponding event stage reward."
+    },
     "act5d0_point_medal": {
         "classifyType": "NONE",
         "description": "A luxurious, but completely meaningless, golden medal created by the most esteemed goldsmiths in Lungmen. You'll be hard pressed to find anything more limited than this in all of Terra. It's clearly a cup, but still called a medal, and it symbolizes the highest praise of the Emperor. Each sip is worth a thousand bucks, but don't use it to make hot coffee!",
@@ -2735,6 +2743,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_5_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_5_token_bp.png",
+        "name": "Stray Geistlings",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "Each bead of sweat shed upon the barren ground will one day bear witness to the prospering of Terran civilization.",
@@ -2742,6 +2758,14 @@
         "name": "Prosperity Point",
         "sortId": -10000,
         "usage": "A voucher that can be exchanged for rewards at 'Expansional Rewards'."
+    },
+    "so_char_exp_1": {
+        "classifyType": "NONE",
+        "description": "Special Operators do battle in extremely complex environments with highly dynamic conditions, and recording them is equally difficult. But if it ends up helping out in some future battle, it will all be worth it.\nThis collection comes with a special 'Interesting Highlights' page.",
+        "icon": "so_char_exp_1.png",
+        "name": "Special Operator Battle Record",
+        "sortId": -10000,
+        "usage": "A device that stores battle videos of Special Operators. Gives Special Operators a certain amount of EXP."
     },
     "token_Obsidian": {
         "classifyType": "NONE",

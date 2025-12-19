@@ -1,7 +1,7 @@
 #include "RoguelikeRecruitSupportAnalyzer.h"
 
 #include <algorithm>
-#include <regex>
+#include <boost/regex.hpp>
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
@@ -128,8 +128,8 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         const auto& results = analyzer.get_result();
         for (const auto& result : results) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn parse `", result.text, "`", result.score);
-            std::smatch match_results;
-            if (std::regex_search(result.text, match_results, std::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
+            boost::smatch match_results;
+            if (boost::regex_search(result.text, match_results, boost::regex("[0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
                 const auto& match_str = match_results[0].str();
                 const auto& hour = std::atoi(match_str.substr(2).c_str());
                 const auto& min = std::atoi(match_str.substr(3, 2).c_str());
