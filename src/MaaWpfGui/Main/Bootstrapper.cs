@@ -550,15 +550,26 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             { // ignored
             }
 
-            foreach (var file in new DirectoryInfo(".").GetFiles("*.old"))
+            foreach (var file in new DirectoryInfo(".").EnumerateFiles("*.old"))
             {
                 try
                 {
                     file.Delete();
                 }
                 catch (Exception)
+                { // ignored
+                }
+            }
+
+            // 清理残留的 OTA 更新包临时文件
+            foreach (var file in new DirectoryInfo(".").EnumerateFiles("MAAComponent-OTA*.temp"))
+            {
+                try
                 {
-                    // ignored
+                    file.Delete();
+                }
+                catch (Exception)
+                { // ignored
                 }
             }
         }
