@@ -10,14 +10,6 @@
         "Doc": "通宝已投出状态识别 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "text": ["振出済"]
     },
-    "JieGarden@Roguelike@CoppersAnalyzer-ExchangeNameOCR": {
-        "Doc": "通宝名称识别 - EXCHANGE 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
-        "roi": [29, -5, 230, 40]
-    },
-    "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
-        "Doc": "通宝名称识别 - PICKUP 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
-        "roi": [-29, -209, 218, 37]
-    },
     "JieGarden@Roguelike@CoppersExchangeFinish": {
         "Doc": "通宝交换完成后的交换按钮 (用于确认交换操作完成)",
         "text": ["交換"],
