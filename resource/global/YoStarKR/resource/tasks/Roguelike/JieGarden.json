@@ -111,15 +111,7 @@
         "text": ["작전", "포기"]
     },
     "JieGarden@Roguelike@NextLevel": {
-        "ocrReplace": [
-            ["홍육루", "洪陆楼"],
-            ["산수각", "山水阁"],
-            ["청운정", "云瓦亭"],
-            ["여오문", "汝吾门"],
-            ["견자사", "见字祠"],
-            ["시말릉", "始末陵"],
-            ["시비경", "是非境"]
-        ]
+        "text": ["홍육루", "산수각", "청운정", "여오문", "견자사", "시말릉", "시비경"]
     },
     "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
         "text": ["확인"]
@@ -154,7 +146,7 @@
     },
     "JieGarden@Roguelike@StrategyChange_mode1": {
         "ocrReplace": [
-            ["홍육루", "_fastPass"],
+            ["홍육루", "_default"],
             ["산수각", "_restart"],
             ["청운정", "_restart"],
             ["여오문", "_restart"],
