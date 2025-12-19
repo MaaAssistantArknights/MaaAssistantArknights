@@ -95,30 +95,20 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // ==================== 辅助 lambda：资源加载与错误处理 ====================
 
-    // 加载单个资源，失败时记录日志
-    auto load_and_log = [&]<typename T>(const std::filesystem::path& res_path, const char* res_name) -> bool {
-        if (!load_resource<T>(res_path)) {
-            Log.error(res_name, "load failed, path:", res_path);
-            return false;
-        }
-        return true;
-    };
-
-    // 加载资源并尝试加载对应的 _custom.json（仅对 .json 文件有效）
+    // 加载资源并尝试加载对应的 _custom.json
+    // 注意：custom 文件始终位于资源根目录（path），这是历史设计，勿修改
     auto load_with_custom = [&]<typename T>(const std::filesystem::path& filename, const char* res_name) -> bool {
         auto full_path = path / filename;
-        if (!load_and_log.template operator()<T>(full_path, res_name)) {
+        if (!load_resource<T>(full_path)) {
+            Log.error(res_name, " load failed, path:", full_path);
             return false;
         }
-        // 只有 .json 文件才尝试加载 custom 配置
-        if (full_path.extension() == ".json") {
-            auto stem = full_path.stem().string();
-            auto custom_path = full_path.parent_path() / (stem + "_custom.json");
-            if (std::filesystem::exists(custom_path)) {
-                Log.info("Loading custom file for", res_name, ", path:", custom_path);
-                if (!load_and_log.template operator()<T>(custom_path, res_name)) {
-                    return false;
-                }
+        auto custom_path = path / (full_path.stem().string() + "_custom.json");
+        if (std::filesystem::exists(custom_path)) {
+            Log.info("Loading custom file for ", res_name, ", path:", custom_path);
+            if (!load_resource<T>(custom_path)) {
+                Log.error(res_name, " load failed, path:", custom_path);
+                return false;
             }
         }
         return true;
