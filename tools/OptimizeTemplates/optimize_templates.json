@@ -5931,5 +5931,6 @@
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StageYiTraderEnter": "8dcbaf6cdb982a14b70b679c468346fef599a6bd5288f86aeb78858cb140ffb2",
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StartAction": "f0e2931eb6865d85ccd37cea75e38cfb8e311850bf9efe852662ee9169fd1cd9",
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@StartExplore": "4107525fbded3c31dedba49bd1bcfe8ad27805255cc88aec4953d0fc8c2ec96a",
-    "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "ca706e252e3b4c5b920ac5e71c7940468e25619127a72495335a54bbcf8fd2ec"
+    "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "ca706e252e3b4c5b920ac5e71c7940468e25619127a72495335a54bbcf8fd2ec",
+    "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "c4d37f449e351a1dd2e6ff29094d39a2861d6ee210eca578e292d6c7384b8ba3"
 }

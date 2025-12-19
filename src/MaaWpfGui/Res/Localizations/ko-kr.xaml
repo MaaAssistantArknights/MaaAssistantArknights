@@ -169,12 +169,12 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">전기주전자 획득 분대</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 분대 파밍, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">심층 조사 파밍, 최대한 많은 구역 클리어</system:String>
-    <system:String x:Key="RoguelikeStrategyFindPlaytime">유희 노드 파밍, 1층 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
-    <system:String x:Key="RoguelikeFindPlaytimeTarget">목표 유희 노드</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">여흥 노드 파밍, 1층 쉐이의 잔식에 진입, 필요한 노드를 찾지 못하면 재시작</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">목표 여흥 노드</system:String>
     <system:String x:Key="RoguelikePlaytimeLing">링 - 주화놀이</system:String>
     <system:String x:Key="RoguelikePlaytimeShu">슈 - 인과</system:String>
     <system:String x:Key="RoguelikePlaytimeNian">니엔 - 한명부족</system:String>
-    <system:String x:Key="RoguelikeJieGardenTargetFound">목표 유희 노드 발견 {0}</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">목표 여흥 노드 발견 {0}</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 {key=Operator}</system:String>
@@ -427,7 +427,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeThemeSarkaz">살카즈</system:String>
     <system:String x:Key="RoguelikeThemeJieGarden">쉐이</system:String>
     <system:String x:Key="RoguelikeDifficulty">난이도</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」 관련 노드를 해제하면, 지휘 분대가 3승천 이상을 탐색할 때 추가로 「시간의 끝」을 휴대하여 「한 전투 한 점프」 저축 전략을 사용할 수 있습니다.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「고금 학식」에서 관련 노드를 해금하면, 3승천 이상에서 지휘 분대로 탐색할 때 추가로 「시간의 끝」을 소지하여 「작전 개시 후 바로 작전 포기」하는 각뿔 수집 전략을 사용할 수 있습니다.
 아직 해당 노드를 해제하지 않았다면 3승천 이상을 선택하지 마세요. (「MAX」 포함)
 이 기능을 사용하려면 3승천 이상을 선택해야 합니다. (「{key=NotSwitch} (-1)」제외)</system:String>
     <system:String x:Key="Strategy">전략</system:String>
@@ -1028,7 +1028,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
     <system:String x:Key="BegunToExplore" xml:space="preserve">탐험 시작됨</system:String>
-    <system:String x:Key="RoutingRestartTooManyBattles">앞에 전투 횟수: {0}, 경로를 다시 설정합니다</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">전투 노드 개수: {0}, 전투 노드가 너무 많아 재시작</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
