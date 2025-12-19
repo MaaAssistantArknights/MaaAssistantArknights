@@ -185,7 +185,10 @@ bool RoguelikeCoppersAnalyzer::analyze_internal(
                 const auto& cast_result = cast_ocr.get_result();
                 detection.cast_score = cast_result.score;
                 detection.cast_recognized = !cast_result.text.empty();
-                detection.is_cast = cast_result.text.find("已投出") != std::string::npos;
+                detection.is_cast =
+                    std::any_of(cast_task->text.begin(), cast_task->text.end(), [&](const std::string& t) {
+                        return cast_result.text.find(t) != std::string::npos;
+                    });
             }
         }
 
