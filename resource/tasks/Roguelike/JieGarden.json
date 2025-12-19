@@ -179,6 +179,11 @@
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
         "roi": [29, -5, 160, 40]
     },
+    "JieGarden@Roguelike@CoppersAnalyzer-LeftNameOCR": {
+        "Doc": "通宝名称识别 - 左侧列专用OCR - EXCHANGE 模式",
+        "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
+        "roi": [29, -5, 170, 40]
+    },
     "JieGarden@Roguelike@CoppersAnalyzer-LeftType": {
         "Doc": "通宝类型识别 - 左侧新拾取通宝区域 (EXCHANGE 模式)",
         "template": [
