@@ -197,7 +197,7 @@
     "JieGarden@Roguelike@CoppersAnalyzer-PickupNameOCR": {
         "Doc": "通宝名称识别 - PICKUP 模式 - 通宝已投出识别用 roi 为 通宝类型 的 Rect.move(me.roi)",
         "baseTask": "JieGarden@Roguelike@CoppersNameOcrReplace",
-        "roi": [0, -209, 167, 37]
+        "roi": [-29, -209, 218, 37]
     },
     "JieGarden@Roguelike@CoppersAnalyzer-RightType": {
         "Doc": "通宝类型识别 - 最右侧列区域",
