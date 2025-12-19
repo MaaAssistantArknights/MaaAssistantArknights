@@ -1,7 +1,7 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"

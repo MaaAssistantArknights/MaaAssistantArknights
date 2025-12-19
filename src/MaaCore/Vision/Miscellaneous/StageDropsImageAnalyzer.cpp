@@ -1,7 +1,7 @@
 #include "StageDropsImageAnalyzer.h"
 
+#include <boost/regex.hpp>
 #include <numbers>
-#include <regex>
 
 #include <ranges>
 
@@ -136,9 +136,9 @@ bool asst::StageDropsImageAnalyzer::analyze_times()
     std::string raw_str = rec_analyzer.get_result().text;
     Log.info(__FUNCTION__, "raw_str", raw_str);
 
-    std::regex re(R"(\d+)");
-    std::smatch match;
-    if (!std::regex_search(raw_str, match, re)) {
+    boost::regex re(R"(\d+)");
+    boost::smatch match;
+    if (!boost::regex_search(raw_str, match, re)) {
         m_times = -2;
         Log.error(__FUNCTION__, "regex_search failed");
         return false;

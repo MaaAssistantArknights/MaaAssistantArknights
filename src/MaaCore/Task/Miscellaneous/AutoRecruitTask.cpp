@@ -12,8 +12,8 @@
 #include "Vision/OCRer.h"
 
 #include <algorithm>
+#include <boost/regex.hpp>
 #include <ranges>
-#include <regex>
 
 namespace asst::recruit_calc
 {

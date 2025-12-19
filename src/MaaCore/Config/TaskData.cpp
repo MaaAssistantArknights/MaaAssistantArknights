@@ -1,8 +1,8 @@
 #include "TaskData.h"
 
 #include <algorithm>
+#include <boost/regex.hpp>
 #include <meojson/json.hpp>
-#include <regex>
 
 #ifdef ASST_DEBUG
 #include <queue>
@@ -191,9 +191,9 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                 task->algorithm == AlgorithmType::OcrDetect) {
                 for (const auto& [regex, new_str] : ocr_task->replace_map) {
                     try {
-                        std::regex _(regex);
+                        boost::regex _(regex);
                     }
-                    catch (const std::regex_error& e) {
+                    catch (const boost::regex_error& e) {
                         Log.error("Task", name, "has invalid regex:", regex, ":", e.what());
                         validity = false;
                         break;
