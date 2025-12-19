@@ -6,6 +6,10 @@ script_root="$(dirname "$(realpath "$0")")"
 pushd . > /dev/null
 
 cd "$script_root"
+
+# Create and navigate to build/bin/Release directory
+mkdir -p "build/bin/Release"
+cd "build/bin/Release"
 work_dir="$(pwd)"
 
 # Clean up existing directories

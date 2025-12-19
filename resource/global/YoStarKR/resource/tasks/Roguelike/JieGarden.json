@@ -1,0 +1,251 @@
+{
+    "JieGarden@Roguelike@StartAction": {
+        "doc": "다른 테마들의 '작전개시' 버튼과 달라서 추가"
+    },
+    "JieGarden@Roguelike@CheckLevel": {
+        "text": ["유원", "기념"]
+    },
+    "JieGarden@Roguelike@ConfirmToGiveUp": {
+        "doc": "설정 누르고 작전 포기 후 나오는 화면",
+        "text": ["작전", "포기"]
+    },
+    "JieGarden@Roguelike@CoppersAnalyzer-CastOCR": {
+        "ocrReplace": [[" ", ""]],
+        "text": ["적용중"]
+    },
+    "JieGarden@Roguelike@CoppersExchangeFinish": {
+        "doc": "Official 표기 交换 (교환)",
+        "ocrReplace": [["[>シ]+", ">>>"]],
+        "text": [">>>"]
+    },
+    "JieGarden@Roguelike@CoppersNameOcrReplace": {
+        "doc": "/resource/roguelike/JieGarden/coppers.json의 coppes",
+        "ocrReplace": [
+            ["[\\s$().\"/'—_\\-+=,:《》■~シ]", ""],
+            ["([가-힣]+)[^가-힣]+$", "$1"],
+            ["균형가뭄", "衡-旱热"],
+            ["균형군의둔전", "衡-军屯垦"],
+            ["균형금한수연", "衡-金寒水衍"],
+            ["균형기괴한주화", "衡-诡意代币"],
+            ["균형기토생금", "衡-奇土生金"],
+            ["균형단련", "衡-勤运体"],
+            ["균형대기만성", "衡-志欲遂"],
+            ["균형문심일체", "衡-初有文"],
+            ["균형바람", "衡-匪风"],
+            ["균형벼락", "衡-霹雳"],
+            ["균형변방의달", "衡-塞上月"],
+            ["균형서리", "衡-霜雪"],
+            ["균형수빙", "衡-雾凇"],
+            ["균형수생목호", "衡-水生木护"],
+            ["균형이산의번", "衡-移山繁"],
+            ["균형장마", "衡-霖雨"],
+            ["균형재앙대피", "衡-慧避灾"],
+            ["균형천지개벽", "衡-鸿蒙开荒"],
+            ["균형천하우선", "衡-天下先"],
+            ["균형투목염연", "衡-投木炎延"],
+            ["균형풍작", "衡-庆丰收"],
+            ["균형혹한", "衡-苦寒"],
+            ["균형홍예", "衡-虹霓"],
+            ["꽃잎고치", "花-茧成绢"],
+            ["꽃잎단합의힘", "花-聚力则强"],
+            ["꽃잎덕로드주화", "花-鸭爵金币"],
+            ["꽃잎무인지쟁", "花-武人之争"],
+            ["꽃잎무환", "花-心无患"],
+            ["꽃잎문이재도", "花-载道远"],
+            ["꽃잎백업대흥", "花-百业俱兴"],
+            ["꽃잎불위의화로", "花-火上之灶"],
+            ["꽃잎사막의방패", "花-平沙之盾"],
+            ["꽃잎수양", "花-修性情"],
+            ["꽃잎신비한상인", "花-神秘商贾"],
+            ["꽃잎조서봉신", "花-圣诏封神"],
+            ["꽃잎중임", "花-己任重"],
+            ["꽃잎치도", "花-驰道长"],
+            ["꽃잎화작토옥", "花-火灼土沃"],
+            ["^녹빛$", "锈色"],
+            ["대염통보", "大炎通宝"],
+            ["모험격정", "厉-恣狂情"],
+            ["모험그림", "厉-画人间"],
+            ["모험글자", "厉-一字落"],
+            ["모험기물몽", "厉-梦奇物"],
+            ["모험기회", "厉-待机缘"],
+            ["모험남의견산", "厉-南见山"],
+            ["모험동의결각", "厉-东缺角"],
+            ["모험두강의봄", "厉-两江春"],
+            ["모험만물의변화", "厉-凡物变"],
+            ["모험무교지매", "厉-无皎之昧"],
+            ["모험바둑돌", "厉-黑子伏"],
+            ["모험법과율", "厉-法与律"],
+            ["모험북의자면", "厉-北刺面"],
+            ["모험상로난행", "厉-商路难行"],
+            ["모험서의염정", "厉-西廉贞"],
+            ["모험속세장존", "厉-人间长存"],
+            ["모험쉐이의천시", "厉-岁醒天时"],
+            ["모험신농의수호", "厉-神农守"],
+            ["모험아침의도", "厉-朝闻道"],
+            ["모험의례", "厉-合乎礼"],
+            ["모험이산의난", "厉-移山难"],
+            ["모험전장", "厉-战血流"],
+            ["모험주사뇌법", "厉-诛邪雷法"],
+            ["모험포부", "厉-寒窗志"],
+            ["모험필드무스평정", "厉-安硕鼷"],
+            ["모험호적수", "厉-遇良弈"],
+            ["모험희로애락", "厉-隐市忧"],
+            ["^수호$", "存护"],
+            ["^환상$", "入幻"],
+            ["rogue_5_copper_buff_F_28_a", "衡-挪移"],
+            ["rogue_5_copper_buff_F_29_a", "衡-迅步"],
+            ["rogue_5_copper_buff_F_30_a", "厉-生材百相"],
+            ["rogue_5_copper_buff_F_31_a", "衡-重铠"],
+            ["rogue_5_copper_buff_F_32_a", "厉-火机"],
+            ["rogue_5_copper_buff_R_12_a", "花-界园行"],
+            ["rogue_5_copper_buff_R_13_a", "衡-债难偿"],
+            ["rogue_5_copper_buff_R_14_a", "衡-触锁代币"],
+            ["rogue_5_copper_buff_R_15_a", "花-延识镇木"],
+            ["rogue_5_copper_buff_S_8_a", "花-孜孜不倦"],
+            ["rogue_5_gild_bat_4", "引光"],
+            ["rogue_5_gild_bat_5", "巡游"]
+        ]
+    },
+    "JieGarden@Roguelike@GiveUpOperation": {
+        "doc": "설정 누른 후 나오는 화면",
+        "text": ["작전", "포기"]
+    },
+    "JieGarden@Roguelike@NextLevel": {
+        "text": ["홍육루", "산수각", "청운정", "여오문", "견자사", "시말릉", "시비경"]
+    },
+    "JieGarden@Roguelike@ReserveRecruitmentVoucherConfirm": {
+        "text": ["확인"]
+    },
+    "JieGarden@Roguelike@SelectTheme": {
+        "text": ["유원", "기념"]
+    },
+    "JieGarden@Roguelike@StageSafeHouseReuse": {
+        "text": ["안전가옥활용"]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
+        "ocrReplace": [
+            ["홍육루", "_aggressive"],
+            ["산수각", "_aggressive"],
+            ["청운정", "_pragmatic"],
+            ["여오문", "_pragmatic"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode1-FastPass": {
+        "ocrReplace": [
+            ["홍육루", "_fastPass"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode10001": {
+        "ocrReplace": [
+            ["홍육루", "_fastPass"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode20001": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_restart"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_exit"],
+            ["청운정", "_exit"],
+            ["여오문", "_exit"],
+            ["견자사", "_exit"],
+            ["시말릉", "_exit"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode4-FastPass": {
+        "ocrReplace": [
+            ["홍육루", "_fastPass"],
+            ["산수각", "_exit"],
+            ["청운정", "_exit"],
+            ["여오문", "_exit"],
+            ["견자사", "_exit"],
+            ["시말릉", "_exit"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode6": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@Roguelike@StrategyChange_mode7": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_default"],
+            ["여오문", "_default"],
+            ["견자사", "_default"],
+            ["시말릉", "_default"],
+            ["시비경", "_boskyPassageDefault"]
+        ]
+    },
+    "JieGarden@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "doc": "/resource/roguelike/JieGarden/encounter/default.json의 option_text",
+        "ocrReplace": [
+            ["[\\s$().\"/'—_\\-+=,《》■~シ]", ""],
+            ["^[a-zA-Z]", ""],
+            ["([가-힣]+)[^가-힣]+$", "$1"],
+            ["배부르게식사한다", "饱餐一顿"],
+            ["사기진작", "鼓舞士气"],
+            ["상처를치료한다", "医治伤口"],
+            ["영기를흔든다", "摇动令旗"],
+            ["잠깐휴식", "稍事休息"],
+            ["재정비", "重整编制"],
+            ["진법을펼친다", "布下阵法"],
+            ["촛불을밝힌다", "点燃蜡烛"]
+        ]
+    }
+}

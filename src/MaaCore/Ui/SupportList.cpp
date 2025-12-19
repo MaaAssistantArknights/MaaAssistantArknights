@@ -11,9 +11,10 @@
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 
-asst::SupportList::SupportList(AbstractTask& parent_task) :
-    InstHelper(parent_task.inst()),
-    m_parent(parent_task)
+asst::SupportList::SupportList(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
+    InstHelper(inst),
+    m_callback(callback),
+    m_task_chain(task_chain)
 {
 }
 
@@ -36,11 +37,10 @@ bool asst::SupportList::select_role(const Role role)
 
     reset_list_and_view_data();
 
-    if (ProcessTask(
-            m_parent,
-            { enum_to_string(role, true) + "@SupportList-RoleSelected",
-              enum_to_string(role, true) + "@SupportList-SelectRole" })
-            .set_retry_times(20)
+    if (ProcessTask(m_callback, m_inst, m_task_chain)
+            .set_tasks(
+                { enum_to_string(role, true) + "@SupportList-RoleSelected",
+                  enum_to_string(role, true) + "@SupportList-SelectRole" })
             .run()) {
         m_selected_role = role;
         Log.info(__FUNCTION__, "| Successfully selected role", enum_to_string(role));
@@ -148,7 +148,7 @@ bool asst::SupportList::confirm_to_use_support_unit()
         return false;
     }
 
-    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Confirm" }).run()) {
+    if (ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-DetailPanel-Confirm" }).run()) {
         m_in_support_unit_detail_panel = false;
         reset_list_and_view_data();
         return true;
@@ -168,7 +168,7 @@ bool asst::SupportList::leave_support_unit_detail_panel()
         return false;
     }
 
-    if (ProcessTask(m_parent, { "SupportList-DetailPanel-Leave" }).run()) {
+    if (ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-DetailPanel-Leave" }).run()) {
         m_in_support_unit_detail_panel = false;
         update_view();
         return true;
@@ -260,15 +260,21 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
     // ————————————————————————————————————————————————————————————————
     // Find Module
     // ————————————————————————————————————————————————————————————————
-    ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveToHead" }).run();
+    ProcessTask(m_callback, m_inst, m_task_chain)
+        .set_tasks({ "SupportList-DetailPanel-SelectModule-MoveToHead" })
+        .run();
 
     if (module == OperModule::Original) {
-        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-SelectOriginalModule" }).run()) {
+        if (!ProcessTask(m_callback, m_inst, m_task_chain)
+                 .set_tasks({ "SupportList-DetailPanel-SelectOriginalModule" })
+                 .run()) {
             LogInfo << __FUNCTION__ << "| Module" << enum_to_string(module)
                     << "does not exist; failed to select module";
             return false;
         }
-        if (!ProcessTask(m_parent, { "SupportList-DetailPanel-ModuleSelected" }).run()) {
+        if (!ProcessTask(m_callback, m_inst, m_task_chain)
+                 .set_tasks({ "SupportList-DetailPanel-ModuleSelected" })
+                 .run()) {
             LogError << __FUNCTION__ << "| Module" << enum_to_string(module)
                      << "did not respond to the click; failed to select module";
             return false;
@@ -316,7 +322,9 @@ bool asst::SupportList::select_module(const OperModule module, const int minimum
         }
 
         if (page < MAX_NUM_MODULE_PAGES - 1) {
-            ProcessTask(m_parent, { "SupportList-DetailPanel-SelectModule-MoveRight" }).run();
+            ProcessTask(m_callback, m_inst, m_task_chain)
+                .set_tasks({ "SupportList-DetailPanel-SelectModule-MoveRight" })
+                .run();
         }
     }
 
@@ -336,7 +344,7 @@ bool asst::SupportList::refresh_list()
 
     reset_list_and_view_data();
 
-    return ProcessTask(m_parent, { "SupportList-RefreshAfterCooldown" }).run();
+    return ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-RefreshAfterCooldown" }).run();
 }
 
 bool asst::SupportList::update_selected_role(const cv::Mat& image)
@@ -461,21 +469,21 @@ void asst::SupportList::move_to_list_head()
 {
     LogTraceFunction;
 
-    ProcessTask(m_parent, { "SupportList-MoveToHead" }).run();
+    ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-MoveToHead" }).run();
 }
 
 void asst::SupportList::move_forward()
 {
     LogTraceFunction;
 
-    ProcessTask(m_parent, { "SupportList-MoveRight" }).run();
+    ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-MoveRight" }).run();
 }
 
 void asst::SupportList::move_backward()
 {
     LogTraceFunction;
 
-    ProcessTask(m_parent, { "SupportList-MoveLeft" }).run();
+    ProcessTask(m_callback, m_inst, m_task_chain).set_tasks({ "SupportList-MoveLeft" }).run();
 }
 
 std::vector<asst::SupportList::ModuleItem> asst::SupportList::analyze_module_page()

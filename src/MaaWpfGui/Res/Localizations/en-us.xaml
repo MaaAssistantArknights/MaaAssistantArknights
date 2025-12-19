@@ -216,11 +216,11 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS4NewSquad6">Ingots Squad</system:String>
     <system:String x:Key="IS4NewSquad7">Collection Squad</system:String>
     <system:String x:Key="IS4NewSquad8">Top Gun Squad</system:String>
-    <system:String x:Key="IS5NewSquad1">High Ground Breakthrough Squad (高台突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad2">Ground Breakthrough Squad (地面突破分队)</system:String>
-    <system:String x:Key="IS5NewSquad3">Tourist Squad (游客分队)</system:String>
-    <system:String x:Key="IS5NewSquad4">Sisuitai Squad (司岁台分队)</system:String>
-    <system:String x:Key="IS5NewSquad5">Tianshifu Squad (天师府分队)</system:String>
+    <system:String x:Key="IS5NewSquad1">High Ground Breaching Squad</system:String>
+    <system:String x:Key="IS5NewSquad2">Ground Breaching Squad</system:String>
+    <system:String x:Key="IS5NewSquad3">Tourist Squad</system:String>
+    <system:String x:Key="IS5NewSquad4">Sui Regulator Squad</system:String>
+    <system:String x:Key="IS5NewSquad5">Tianshi Bureau Squad</system:String>
     <system:String x:Key="IS5NewSquad6">Cluster of Blooms Squad (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">Daring Gambit Squad (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">Echoes of Time Squad (岁影回音分队)</system:String>
@@ -236,12 +236,12 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
     <system:String x:Key="DefaultRoles">Default Roles</system:String>
-    <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
-    <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
-    <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
-    <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
+    <system:String x:Key="FirstMoveAdvantage">First Move Advantage (Vanguard, Sniper, Specialists)</system:String>
+    <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race (Defender, Caster, Sniper)</system:String>
+    <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses (Guard, Supporter, Medic)</system:String>
+    <system:String x:Key="AsYourHeartDesires">As Your Heart Desires (Random)</system:String>
     <system:String x:Key="FlexibleDeployment">Flexible Deployment (Vanguard, Supporter, Specialist)</system:String>
-    <system:String x:Key="Unbreakable">Unbreakable (Defender, Caster, Medic)</system:String>
+    <system:String x:Key="Unbreakable">Indestructible (Defender, Caster, Medic)</system:String>
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
@@ -425,9 +425,9 @@ If you are concerned about leftover entries, please disable this option before d
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">Sarkaz</system:String>
-    <system:String x:Key="RoguelikeThemeJieGarden">JieGarden</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">Sui's Garden</system:String>
     <system:String x:Key="RoguelikeDifficulty">Difficulty</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢JieGarden｣ technology, squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-jump｣ strategy.
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">After unlocking the ｢Structural Classics｣ technology, Leader Squads conducting explorations at difficulty N3 or higher will carry an additional ｢End of Time｣, allowing for a ｢one-battle-one-skip｣ strategy.
 If this technology has not been unlocked, do not select difficulty N3 or above (including ｢MAX｣);
 To enable this feature, make sure to select a difficulty of N3 or higher (excluding ｢{key=NotSwitch} (-1)｣).</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
@@ -534,6 +534,11 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
+    <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 path not found.</system:String>
+    <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.\n
+Expected relative path: nx_device/12.0/shell/sdk/external_renderer_ipc/external_renderer_ipc.dll or
+shell/sdk/external_renderer_ipc/external_renderer_ipc.dll\n
+Please verify the installation directory.</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu V4.0.0 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
@@ -554,6 +559,8 @@ Note:
     <system:String x:Key="MuMu12Display">Display Number</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
+    <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
+    <system:String x:Key="LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
 LDPlayer 9 V9.1.32 or later is required.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
@@ -839,7 +846,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Read the clipboard and add it as a job</system:String>
-    <system:String x:Key="PasteClipboardToAddCopilotSetWarning">A separate button has been added for adding assignment sets; the behavior of adding assignment sets by right-clicking will be removed in the future.</system:String>
     <system:String x:Key="PasteClipboardCopilotSetTip">Read the clipboard and add it as a job set</system:String>
     <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
@@ -1050,7 +1056,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BoskyPlaytime">Node: Playtime</system:String>
     <system:String x:Key="BoskyDoubts">Node: Doubts</system:String>
     <system:String x:Key="BoskyDisaster">Node: Disaster</system:String>
-    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">Tongbao Exchange: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>

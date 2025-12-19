@@ -111,8 +111,7 @@
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
-                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSetOld}" />
+                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}" />
                     <Button
                         Grid.Column="3"
                         Height="30"
