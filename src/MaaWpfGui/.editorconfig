@@ -213,9 +213,9 @@ resharper_bad_list_line_breaks_highlighting = Hint
 # Code inspection: Incorrect spacing (multiple spaces are prohibited)
 resharper_multiple_spaces_highlighting = Hint
 # Code inspection: Incorrect spacing (around attributes)
-resharper_bad_attribute_brackets_spaces_highlighting = Hin
+resharper_bad_attribute_brackets_spaces_highlighting = Hint
 
-t# SA1500: Braces for multi-line statements should not share line
+# SA1500: Braces for multi-line statements should not share line
 # Allow compact property syntax with field keyword (C# 13)
 dotnet_diagnostic.SA1500.severity = none
 
