@@ -108,7 +108,7 @@
             "Honglu Tower",
             "Shanshui Pavilion",
             "Yunwa Gazebo",
-            "Ruwu Gate",
+            ".*Ruwu Gate",
             "Jianzi Shrine",
             "Shimo Tomb",
             "Shifei Border"
@@ -134,7 +134,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
             ["Yunwa Gazebo", "_default"],
-            ["Ruwu Gate", "_default"],
+            [".*Ruwu Gat.?", "_default"],
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
@@ -146,7 +146,7 @@
             ["Honglu Tower", "_aggressive"],
             ["Shanshui Pavilion", "_aggressive"],
             ["Yunwa Gazebo", "_pragmatic"],
-            ["Ruwu Gate", "_pragmatic"],
+            [".*Ruwu Gat.?", "_pragmatic"],
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
@@ -158,7 +158,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_restart"],
             ["Yunwa Gazebo", "_restart"],
-            ["Ruwu Gate", "_restart"],
+            [".*Ruwu Gat.?", "_restart"],
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
@@ -170,7 +170,7 @@
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_restart"],
             ["Yunwa Gazebo", "_restart"],
-            ["Ruwu Gate", "_restart"],
+            [".*Ruwu Gat.?", "_restart"],
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
@@ -182,7 +182,7 @@
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_restart"],
             ["Yunwa Gazebo", "_restart"],
-            ["Ruwu Gate", "_restart"],
+            [".*Ruwu Gat.?", "_restart"],
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_leaveBoskyPassage"]
@@ -194,7 +194,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_restart"],
             ["Yunwa Gazebo", "_restart"],
-            ["Ruwu Gate", "_restart"],
+            [".*Ruwu Gat.?", "_restart"],
             ["Jianzi Shrine", "_restart"],
             ["Shimo Tomb", "_restart"],
             ["Shifei Border", "_boskyPassageDefault"]
@@ -206,7 +206,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_exit"],
             ["Yunwa Gazebo", "_exit"],
-            ["Ruwu Gate", "_exit"],
+            [".*Ruwu Gat.?", "_exit"],
             ["Jianzi Shrine", "_exit"],
             ["Shimo Tomb", "_exit"],
             ["Shifei Border", "_leaveBoskyPassage"]
@@ -218,7 +218,7 @@
             ["Honglu Tower", "_fastPass"],
             ["Shanshui Pavilion", "_exit"],
             ["Yunwa Gazebo", "_exit"],
-            ["Ruwu Gate", "_exit"],
+            [".*Ruwu Gat.?", "_exit"],
             ["Jianzi Shrine", "_exit"],
             ["Shimo Tomb", "_exit"],
             ["Shifei Border", "_leaveBoskyPassage"]
@@ -230,7 +230,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
             ["Yunwa Gazebo", "_default"],
-            ["Ruwu Gate", "_default"],
+            [".*Ruwu Gat.?", "_default"],
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
@@ -242,7 +242,7 @@
             ["Honglu Tower", "_default"],
             ["Shanshui Pavilion", "_default"],
             ["Yunwa Gazebo", "_default"],
-            ["Ruwu Gate", "_default"],
+            [".*Ruwu Gat.?", "_default"],
             ["Jianzi Shrine", "_default"],
             ["Shimo Tomb", "_default"],
             ["Shifei Border", "_boskyPassageDefault"]
