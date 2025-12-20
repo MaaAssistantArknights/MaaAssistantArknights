@@ -884,13 +884,29 @@ public class TaskQueueViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="toolTip">The toolTip</param>
-    public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
     {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return;
+        }
+
         Execute.OnUIThread(() =>
         {
             var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
             LogItemViewModels.Add(log);
-            _logger.Information("{Content}", content);
+            switch (color)
+            {
+                case UiLogColor.Error:
+                    _logger.Error("{Content}", content);
+                    break;
+                case UiLogColor.Warning:
+                    _logger.Warning("{Content}", content);
+                    break;
+                default:
+                    _logger.Information("{Content}", content);
+                    break;
+            }
         });
     }
 
