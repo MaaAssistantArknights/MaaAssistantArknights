@@ -1240,6 +1240,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="Announcement">Announcement</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
+    <system:String x:Key="PleaseScrollToRead">Please scroll to read the full content</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">

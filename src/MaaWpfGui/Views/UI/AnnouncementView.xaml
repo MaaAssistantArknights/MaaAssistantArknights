@@ -97,26 +97,30 @@
                 </mdxam:MarkdownScrollViewer>
             </hc:ScrollViewer>
 
-            <StackPanel
-                Grid.Row="1"
-                Margin="30,10,20,10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                IsEnabled="{c:Binding 'IsScrolledToBottom or DoNotRemindThisAnnouncementAgain'}"
-                Orientation="Horizontal">
-                <CheckBox
-                    Height="30"
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"
-                    IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
-                <Button
-                    Height="50"
-                    MinWidth="100"
-                    Margin="10"
-                    Command="{s:Action Close}"
-                    Content="{DynamicResource Confirm}" />
+            <StackPanel Grid.Row="1"  
+                        Margin="30,10,20,10"  
+                        HorizontalAlignment="Center"  
+                        VerticalAlignment="Center"  
+                        Orientation="Vertical">
+
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox  
+                        Height="30"  
+                        Margin="10"  
+                        HorizontalAlignment="Center"  
+                        VerticalContentAlignment="Center"  
+                        Content="{DynamicResource DoNotRemindThisAnnouncementAgain}"  
+                        IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
+
+                <Button  
+                    Height="50"  
+                    MinWidth="100"  
+                    Margin="10"  
+                    Command="{s:Action Close}"  
+            
+                    IsEnabled="{c:Binding '(IsScrolledToBottom and IsTimeElapsed) or DoNotRemindThisAnnouncementAgain'}"
+                    Content="{c:Binding '((IsScrolledToBottom and IsTimeElapsed) or DoNotRemindThisAnnouncementAgain) ? ConfirmText : CountdownText'}" />
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>
