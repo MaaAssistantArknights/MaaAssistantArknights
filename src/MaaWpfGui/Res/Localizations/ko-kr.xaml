@@ -115,7 +115,7 @@
     <system:String x:Key="OriginStone">제조소-오리지늄 조각</system:String>
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
-    <system:String x:Key="DormFilterNotStationedEnabled">업무중인 {key=Operator} 숙소 배치 제한</system:String>
+    <system:String x:Key="DormFilterNotStationedEnabled">업무중 {key=Operator} 숙소 배치 제한</system:String>
     <system:String x:Key="DormFilterNotStationedTips">체크할 경우 아이린과 같은 {key=Operator}를 훈련실에서 제거하지 않고, 가공소의 {key=Operator}가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="InfrastReceptionMessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
@@ -187,10 +187,10 @@
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ｢;｣ 로 구분합니다</system:String>
     <system:String x:Key="RoguelikeCollapseList">붕괴 패러다임 목록</system:String>
     <system:String x:Key="RoguelikeCollapseListTip">세미콜론 ｢;｣ 으로 구분, 비워 두면 기본 목록이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣로 지원 유닛 사용</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">｢{key=StartingCoreChar}｣ 지원유닛 사용</system:String>
     <system:String x:Key="RoguelikeRequireStartingCoreChar">먼저 ｢{key=StartingCoreChar}｣를 입력하세요</system:String>
-    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 클리어 후 작업 종료</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원유닛 사용</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">{key=AutoRoguelike} 중지 시 전투 종료 대기</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">5스테이지 보스 앞에서 일시정지</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">최대 레벨 달성 시 중지</system:String>
     <system:String x:Key="RoguelikeStartWithSeed">투자 시드 활성화</system:String>
@@ -199,7 +199,7 @@
     <system:String x:Key="RoguelikeDeepExplorationAutoIterate">심층 조사 자동 전환</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 후 배치 (실험적)</system:String>
     <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
-    <system:String x:Key="KillAdbOnExit">종료 시 ADB도 종료</system:String>
+    <system:String x:Key="KillAdbOnExit">종료 시 ADB 종료</system:String>
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">마음가짐 분대</system:String>
     <system:String x:Key="IS2NewSquad2">적재적소 분대</system:String>
@@ -326,7 +326,7 @@
 
 📄 업데이트 설명:
     ● {key=UpdateCheckNow}:UI 및 기능 업데이트가 포함됩니다. UI 변경 및 새로운 기능은 모두 {key=UpdateCheckNow}를 통해 제공됩니다
-    ● {key=ResourceUpdate}:자동 전투용 신규 스테이지, 드롭 아이콘, 공개 채용 태그 등의 리소스 데이터가 포함됩니다
+    ● {key=ResourceUpdate}:자동 전투용 신규 스테이지, 드롭 아이콘, 공개모집 태그 등의 리소스 데이터가 포함됩니다
     ● 내비 핫픽스:자동으로 실행되어 메인 화면 하단의 안내 및 이벤트 스테이지 입구를 업데이트합니다. 성공 시 우측 상단에 “{key=ApiUpdateSuccess}” 메시지가 표시됩니다
 </system:String>
     <system:String x:Key="GlobalSource">글로벌 소스</system:String>
@@ -368,18 +368,18 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">지금 바로 MAA를 업데이트하시겠습니까? (프로세스 재시작)</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
-    <system:String x:Key="ForceScheduledStart">예약된 시작 강제 실행</system:String>
-    <system:String x:Key="ForceScheduledStartTip">현재 작업을 중단하고 게임을 재시작하여 새로운 작업을 시작합니다</system:String>
-    <system:String x:Key="ShowWindowBeforeForceScheduledStart">예약 강제 실행 전에 창 표시</system:String>
+    <system:String x:Key="ForceScheduledStart">강제 예약 시작</system:String>
+    <system:String x:Key="ForceScheduledStartTip">현재 작업을 중단하고, 게임을 재실행하여 새 작업을 시작합니다</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">{key=ForceScheduledStart} 전 창 표시</system:String>
     <system:String x:Key="TimerCustomConfig">커스텀 구성 옵션</system:String>
-    <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작하여 설정을 전환합니다</system:String>
+    <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작해 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
-    <system:String x:Key="GlobalConfigTip">이 옵션 페이지는 전역 구성용입니다</system:String>
+    <system:String x:Key="GlobalConfigTip">이 페이지는 전역(Global) 구성 설정입니다</system:String>
     <system:String x:Key="SwitchConfiguration">구성 전환</system:String>
     <system:String x:Key="ConfigurationName">구성 이름</system:String>
     <system:String x:Key="AddConfiguration">추가</system:String>
-    <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt;가 성공적으로 추가되었습니다</system:String>
-    <system:String x:Key="ConfigExists">구성 &lt; {0}&gt;가 이미 있습니다</system:String>
+    <system:String x:Key="AddConfigSuccess">구성 &lt; {0}&gt; 추가 완료</system:String>
+    <system:String x:Key="ConfigExists">&lt;{0}&gt; 항목이 이미 존재합니다</system:String>
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
     <system:String x:Key="LaunchOnSystemStartupWarning" xml:space="preserve">
 이 기능은 시스템 시작 시 자동 실행을 위해 레지스트리를 수정합니다.
@@ -392,10 +392,10 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
-    <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트를 실행</system:String>
+    <system:String x:Key="StartGameLaunchClient">시작 시 클라이언트 실행</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
-    <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다.</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다! 저희를 도와주세요! 전문 지식이 없어도 됩니다</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터 실행</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
@@ -434,8 +434,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="StartTimesLimit">N번 시작한 후 작업 중지</system:String>
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
     <system:String x:Key="StopOnGoldLimit">오리지늄 각뿔 한계 도달 시 중지</system:String>
-    <system:String x:Key="InvestmentEnabled">오리지늄 각뿔 투자</system:String>
-    <system:String x:Key="InvestmentWithMoreScore">투자 시 쇼핑, 모집, 2스테이지 진입</system:String>
+    <system:String x:Key="InvestmentEnabled">오리지늄 각뿔 투자 진행</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">투자 도중 모집/2층 진입/쇼핑 진행</system:String>
     <system:String x:Key="RoguelikeCollectibleModeShopping">작전 지원 선택 모드 쇼핑 활성화</system:String>
     <system:String x:Key="RoguelikeStartWithSelectList">작전 지원 보상 선택</system:String>
     <system:String x:Key="RoguelikeStartWithKettle">전기주전자</system:String>
@@ -448,15 +448,15 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="RoguelikeStartWithIdea">구상</system:String>
     <system:String x:Key="RoguelikeStartWithTicket">티켓</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
-    <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
+    <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자)</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Stats 보고</system:String>
     <system:String x:Key="EnableYituliu">Yituliu 보고</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="OnlyOnceADay">하루에 한 번만 실행</system:String>
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
-    <system:String x:Key="CreditFight">지원 유닛 사용으로 크레딧 수급</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원 유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
+    <system:String x:Key="CreditFight">크레딧 수급 (지원유닛)</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1 스테이지에서 지원유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
 이 작업은 하루에 한 번만 실행할 수 있습니다.
 현재 스테이지가 ｢{key=DefaultStage}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
@@ -467,18 +467,18 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
     <system:String x:Key="OnlyBuyDiscount">할인된 상품만 구매</system:String>
-    <system:String x:Key="ReserveMaxCredit">크레딧 300 미만 시 구매 X</system:String>
+    <system:String x:Key="ReserveMaxCredit">크레딧 300 미만 시 구매 제한</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ 주의: 크레딧이 넘칠 위험이 있습니다! 화이트리스트에 등록된 항목은 여전히 구매할 수 있습니다!</system:String>
     <system:String x:Key="ReserveMaxCreditTips">크레딧이 300 미만이더라도 화이트리스트에 등록된 항목은 여전히 구매합니다!</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">박사님!\n할인된 상품만 구매해 크레딧이 넘쳤습니다!\n낭비되는 크레딧을 주의하세요!\n남은 크레딧:</system:String>
-    <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 임무 보상 받기</system:String>
-    <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
-    <system:String x:Key="ReceiveFreeGacha">한정 가챠의 일일 무료 가챠 진행</system:String>
-    <system:String x:Key="ReceiveFreeGachaTip">무료 가챠가 없는 경우 가챠를 하지 않습니다</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 임무 보상 수령</system:String>
+    <system:String x:Key="ReceiveMail">모든 메일 보상 수령</system:String>
+    <system:String x:Key="ReceiveFreeGacha">한정 뽑기 일일 무료 뽑기 진행</system:String>
+    <system:String x:Key="ReceiveFreeGachaTip">무료 뽑기가 없을 시 뽑기를 진행하지 않습니다</system:String>
     <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n｢{key=Confirm}｣ 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인지하였음을 확인합니다</system:String>
-    <system:String x:Key="ReceiveOrundum">복권방의 일일 합성옥 받기</system:String>
-    <system:String x:Key="ReceiveMining">한정 채굴의 일일 합성옥 받기</system:String>
-    <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 받기</system:String>
+    <system:String x:Key="ReceiveOrundum">복권방 일일 합성옥 수령</system:String>
+    <system:String x:Key="ReceiveMining">한정 채굴 일일 합성옥 수령</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수령</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="UseTray">트레이 아이콘 표시</system:String>
     <system:String x:Key="HideTray">트레이 아이콘 숨기기</system:String>
@@ -507,7 +507,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제/오리지늄을 사용하지 않습니다</system:String>
-    <system:String x:Key="UseExpiringMedicine">48시간 미만 남은 이성 회복제 사용</system:String>
+    <system:String x:Key="UseExpiringMedicine">48시간 미만 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="HideSeries">{key=Series} 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
@@ -533,7 +533,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 향상 모드 활성화</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">MuMu 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="MuMuEmulatorPathNotFound">MuMu Emulator 12 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="MuMuExternalRendererMissing" xml:space="preserve">선택한 MuMu 설치 디렉터리에서 external_renderer_ipc.dll을 찾을 수 없습니다.\n
 예상 상대 경로:
@@ -555,11 +555,11 @@ C:\\Program Files\\Netease\\MuMuPlayer-12.0으로 입력해야 합니다.\n
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMuBridgeConnection">MuMu 네트워크 브리지 모드</system:String>
-    <system:String x:Key="MuMuBridgeConnectionTip">무엇을 하고 있는지 모른다면 이 옵션을 활성화하지 마십시오</system:String>
+    <system:String x:Key="MuMuBridgeConnectionTip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu의 스크린샷 향상가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
-    <system:String x:Key="LdExtrasEnabled">LD 스크린샷 향상 모드 활성화</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMu 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
+    <system:String x:Key="LdExtrasEnabled">LD 스크린샷 강화 기능 활성화</system:String>
     <system:String x:Key="LdPlayerEmulatorPathNotFound">LDPlayer 에뮬레이터 경로를 찾을 수 없습니다.</system:String>
     <system:String x:Key="LdPlayerOpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
@@ -580,11 +580,11 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="LdManualSetIndex">｢{key=LdIndex}｣  수동 입력</system:String>
     <system:String x:Key="LdIndex">인스턴스 번호</system:String>
     <system:String x:Key="LdExtrasNotEnabledMessage">LD 스크린샷 강화 기능이 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
-    <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작 시도</system:String>
+    <system:String x:Key="RetryOnDisconnected">연결 실패 시 에뮬레이터 재시작</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다! ｢{key=Settings} - {key=StartupSettings} - {key=EmulatorPath}｣ 를 입력한 후 다시 선택하세요.</system:String>
-    <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작 시도</system:String>
-    <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작 시도</system:String>
+    <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작</system:String>
+    <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작</system:String>
     <!--  !설정  -->
     <!--  자동화  -->
     <system:String x:Key="Farming">시작</system:String>
@@ -741,10 +741,10 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인(4/5/6★ Tags)</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">{key=Operator} 정보를 불러오려면 ｢{key=OperBoxRecognition}｣ 기능을 사용하세요.</system:String>
-    <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
-    <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel3Tags">★3 태그 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel4Tags">★4 태그 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel5Tags">★5 태그 자동 선택</system:String>
+    <system:String x:Key="AutoSelectLevel6Tags">★6 태그 자동 선택</system:String>
     <system:String x:Key="StartToRecruit">인식 시작</system:String>
     <!--  !공개모집 태그 인식  -->
     <!--  창고 인식  -->
@@ -759,7 +759,7 @@ C:\\leidian\\LDPlayer9
     <!--  오퍼레이터 인식  -->
     <system:String x:Key="OperBoxRecognition">{key=Operator} 인식</system:String>
     <system:String x:Key="OperBox">{key=OperBoxRecognition}</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ {key=Operator}를 등록 해제하세요.</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 등록된 ｢선호｣ {key=Operator}를 등록 해제하세요</system:String>
     <system:String x:Key="OperBoxHaveList">보유: {0}</system:String>
     <system:String x:Key="OperBoxNotHaveList">미보유: {0}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
@@ -794,8 +794,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GachaTip15">귀를 기울여 주십시오. 이제 비명은 들리지 않습니다. 이게 행복과 평화가 찾아오기 전의 고요함이란 거겠죠.</system:String>
     <system:String x:Key="GachaTip16">인류의 전쟁에 끝은 없을지언정…… 이번만큼은 생명의 존엄을 끝까지 지킬 수 있었습니다. 후퇴하죠, 가슴을 펴고 당당하게.</system:String>
     <system:String x:Key="GachaTip17">이 뿔로 가구를 넘어뜨리지 않도록 조심하겠습니다.</system:String>
-    <system:String x:Key="GachaDisclaimerHead">주의: 이것은</system:String>
-    <system:String x:Key="GachaDisclaimerEmphasize">실제 가챠입니다</system:String>
+    <system:String x:Key="GachaDisclaimerHead">주의:</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">실제로 뽑기를 진행합니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">다시 보지 않기</system:String>
     <!--  !헤드헌팅  -->
@@ -855,7 +855,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 ｢선호｣ 설정 된 {key=Operator}를 인식할 수 없습니다</system:String>
-    <system:String x:Key="SupportUnitUsage">지원 유닛 모집</system:String>
+    <system:String x:Key="SupportUnitUsage">지원유닛 모집</system:String>
     <system:String x:Key="SupportUnitUsage.Tip">하나 정도 부족한 것은 문제가 없지만, 둘 이상 부족하면 다른 작업을 사용하는 것을 권장합니다.</system:String>
     <system:String x:Key="SupportUnitUsage.None">모집안함</system:String>
     <system:String x:Key="SupportUnitUsage.WhenNeeded">보완용</system:String>
@@ -918,7 +918,7 @@ C:\\leidian\\LDPlayer9
         2. {key=MainStage}, {key=StoryCollection}, {key=SideStory}: 우측 하단에 파란색 "작전 개시" 버튼이 나타나는 화면에서 시작하세요.\n\n
         3. {key=SSS}: resource/copilot 폴더에 여러 파일이 있습니다. 먼저 수동으로 분대를 편성한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 화면에서 시작하세요. ｢{key=LoopTimes}｣와 함께 사용할 수 있습니다.\n\n
         4. {key=ParadoxSimulation}: 스킬 선택 후, "시뮬레이션 시작" 버튼이 나타나는 스킬 선택 화면에서 시작하세요. 1/2★ 오퍼레이터(스킬 없음)의 경우, 우측 하단에 "시뮬레이션 시작" 버튼이 있는 화면에서 시작하세요. ｢{key=UseCopilotList}｣를 사용하는 경우, {key=Operator} 목록의 ｢레벨/레어도｣ 탭에서 시작하세요.\n\n
-        5. 지원 유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
+        5. 지원유닛을 사용할 때는 ｢{key=AutoSquad}｣ 및 ｢{key=UseCopilotList}｣를 끄고, 수동으로 오퍼레이터를 선택한 다음, 우측 하단에 "작전 개시" 버튼이 나타나는 분대 화면에서 시작하세요.\n\n
         6. "선호"로 표시된 오퍼레이터는 ｢{key=AutoSquad}｣ 인식 및 선택에 영향을 줄 수 있습니다. ｢{key=AutoSquad}｣ 사용 시, 선호 표시를 해제하거나 오류 발생 시 ｢{key=AutoSquad}｣를 끄고 안내에 따라 누락된 오퍼레이터를 수동으로 편성하는 것을 고려하세요.\n\n
         7. 자동지휘 작업 공간에서, 입력 상자 오른쪽의 붙여넣기 버튼을 클릭하여 코드를 붙여넣을 수 있습니다:\n
         ● 두 번째 버튼을 왼쪽 클릭 = 작업 추가.\n
@@ -1009,55 +1009,55 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissingOperators">다음 {key=Operator}들이 누락되었습니다:</system:String>
-    <system:String x:Key="RecruitSupportOperator">지원 유닛 추가: {0}</system:String>
+    <system:String x:Key="RecruitSupportOperator">지원유닛 추가: {0}</system:String>
     <system:String x:Key="StageQueue">스테이지 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
-    <system:String x:Key="MissionStart">행동 개시</system:String>
-    <system:String x:Key="MissionStart.FightTask">행동 개시 {0} 회 (-{1} 이성)</system:String>
+    <system:String x:Key="MissionStart">작전 개시</system:String>
+    <system:String x:Key="MissionStart.FightTask">작전 개시 {0}회 (-{1} 이성)</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
-    <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">48시간 이내 만료되는 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
-    <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
-    <system:String x:Key="FightMissionFailedAndStop">프록시 실패 횟수가 한계에 도달하여 작업이 중지되었습니다</system:String>
-    <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
+    <system:String x:Key="ActingCommandError">대리 지휘 오류 발생</system:String>
+    <system:String x:Key="FightMissionFailedAndStop">대리 지휘 실패 횟수 초과로 작업을 중단합니다</system:String>
+    <system:String x:Key="LabelsRefreshed">태그 갱신 완료</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
-    <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 충돌</system:String>
-    <system:String x:Key="BegunToExplore" xml:space="preserve">탐험 시작됨</system:String>
-    <system:String x:Key="RoutingRestartTooManyBattles">전투 노드 개수: {0}, 전투 노드가 너무 많아 재시작</system:String>
-    <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
+    <system:String x:Key="InfrastDormDoubleConfirmed">요구 {key=Operator} 중복(충돌)</system:String>
+    <system:String x:Key="BegunToExplore">탐험 시작</system:String>
+    <system:String x:Key="RoutingRestartTooManyBattles">작전 노드 개수: {0}, 작전 노드가 너무 많아 재시작합니다</system:String>
+    <system:String x:Key="ExplorationAbandoned">탐험 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
-    <system:String x:Key="FightTimesUnused">{0} 전투 완료, 다음번에 {1} 배수 프록시 실행, 입장 후 {2} 전투 완료, 제한 {3} 초과, 전투에 입장하지 않음</system:String>
-    <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
-    <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다</system:String>
-    <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다</system:String>
-    <system:String x:Key="GameDropNoRestart">게임 중단, 다시 연결되지 않음, 퀘스트 중지</system:String>
-    <system:String x:Key="RoguelikeGamePass">{key=AutoRoguelike}을 클리어했습니다!</system:String>
-    <system:String x:Key="RoguelikeSpecialItemBought">특별한 유물을 구매했습니다!</system:String>
-    <system:String x:Key="MonthlySquadCompleted">모든 월간 분대 클리어! 축하합니다!</system:String>
-    <system:String x:Key="DeepExplorationCompleted">모든 심층 조사 클리어! 축하합니다!</system:String>
-    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 아직 잠금 해제되지 않았습니다</system:String>
-    <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
+    <system:String x:Key="FightTimesUnused">현재 {0}회 작전 완료. 다음은 {1}배수 대리 실행 예정이나, 진입 시 총 {2}회로 제한({3}회)을 초과하게 되어 전투에 진입하지 않습니다.</system:String>
+    <system:String x:Key="UpperLimit">투자 상한 도달</system:String>
+    <system:String x:Key="GameCrash">게임 충돌 발생, 재시작</system:String>
+    <system:String x:Key="GameDrop">게임 연결 끊김, 재연결 중</system:String>
+    <system:String x:Key="GameDropNoRestart">게임 연결 끊김, 재연결 안 함 (작업 중단)</system:String>
+    <system:String x:Key="RoguelikeGamePass">{key=AutoRoguelike} 클리어!</system:String>
+    <system:String x:Key="RoguelikeSpecialItemBought">특별 상품을 구매했습니다!</system:String>
+    <system:String x:Key="MonthlySquadCompleted">월간 소대 보상을 모두 획득했습니다!</system:String>
+    <system:String x:Key="DeepExplorationCompleted">심층 조사 보상을 모두 획득했습니다!</system:String>
+    <system:String x:Key="DeepExplorationNotUnlockedComplain">심층 조사가 해금되지 않았습니다</system:String>
+    <system:String x:Key="SSSGamePass">보안 파견 클리어!</system:String>
     <system:String x:Key="CurrentStage">현재 스테이지: {0}</system:String>
     <system:String x:Key="Trader">노드: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">노드: 안전가옥</system:String>
     <system:String x:Key="FilterTruth">노드: 거짓과 진실</system:String>
-    <system:String x:Key="CombatDps">노드: 작전</system:String>
-    <system:String x:Key="EmergencyDps">노드: 긴급 작전</system:String>
-    <system:String x:Key="DreadfulFoe">노드: 험난한 길</system:String>
-    <system:String x:Key="BoskyOmissions">노드: 회수</system:String>
-    <system:String x:Key="BoskyLegend">노드: 전설</system:String>
-    <system:String x:Key="BoskyOldShop">노드: 술집</system:String>
-    <system:String x:Key="BoskyYiTrader">노드: 거래</system:String>
-    <system:String x:Key="BoskyScheme">노드: 계획</system:String>
-    <system:String x:Key="BoskyPlaytime">노드: 여흥</system:String>
-    <system:String x:Key="BoskyDoubts">노드: 의문</system:String>
-    <system:String x:Key="BoskyDisaster">노드: 소란</system:String>
+    <system:String x:Key="CombatDps">작전: 일반 작전</system:String>
+    <system:String x:Key="EmergencyDps">작전: 긴급 작전</system:String>
+    <system:String x:Key="DreadfulFoe">작전: 험난한 길</system:String>
+    <system:String x:Key="BoskyOmissions">잔식: 회수</system:String>
+    <system:String x:Key="BoskyLegend">잔식: 전설</system:String>
+    <system:String x:Key="BoskyOldShop">잔식: 술집</system:String>
+    <system:String x:Key="BoskyYiTrader">잔식: 거래</system:String>
+    <system:String x:Key="BoskyScheme">잔식: 계획</system:String>
+    <system:String x:Key="BoskyPlaytime">잔식: 여흥</system:String>
+    <system:String x:Key="BoskyDoubts">잔식: 의문</system:String>
+    <system:String x:Key="BoskyDisaster">잔식: 소란</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">주화 교환: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">선택지 {0}개 감지:</system:String>
@@ -1066,8 +1066,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="EncounterOcrError">이벤트 인식 오류</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">암호판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자: {1}(+{0}), 예금: {2}</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄 각뿔의 투자량이 설정된 값에({0}) 도달하여 탐사가 중단되었습니다</system:String>
-    <system:String x:Key="RoguelikeInvestmentReachFull">오리지늄 각뿔이 가득차면 탐사를 중단</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachLimit">오리지늄 각뿔의 투자량이 설정된 값에({0}) 도달하여 탐험이 중단되었습니다</system:String>
+    <system:String x:Key="RoguelikeInvestmentReachFull">오리지늄 각뿔이 가득차면 탐험을 중단</system:String>
     <system:String x:Key="RoguelikeSettlement">{key=AutoRoguelike} 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n승천: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">붕괴 패러다임 심화: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었습니다</system:String>
@@ -1091,9 +1091,9 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
-    <system:String x:Key="ContinueRefresh">채용 허가증이 없습니다. 태그를 새로고침했습니다.</system:String>
-    <system:String x:Key="NoRecruitmentPermit">채용 허가증이 없어 중지했습니다.</system:String>
-    <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
+    <system:String x:Key="ContinueRefresh">모집허가증이 없습니다. 태그를 새로고침했습니다.</system:String>
+    <system:String x:Key="NoRecruitmentPermit">모집허가증이 없어 중지했습니다.</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">공개모집 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택</system:String>
@@ -1115,7 +1115,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Retreat">철수</system:String>
     <system:String x:Key="SkillDaemon">자동 진행 시작</system:String>
     <system:String x:Key="SwitchSpeed">배속 전환</system:String>
-    <system:String x:Key="SkillUsage">스킬 사용법 전환</system:String>
+    <system:String x:Key="SkillUsage">스킬 전환</system:String>
     <system:String x:Key="BulletTime">슬로우 모션 진입</system:String>
     <system:String x:Key="Output">설명 출력</system:String>
     <system:String x:Key="MoveCamera">카메라 이동</system:String>
@@ -1147,17 +1147,17 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="Discord">Discord</system:String>
     <!--  !About  -->
     <!--  Issues  -->
-    <system:String x:Key="CheckHelpBeforeReportingIssue">문제를 신고하기 전에 자주 묻는 질문에 해당하지 않는지 확인해 주세요</system:String>
-    <system:String x:Key="CheckUpdateBeforeReportingIssue">먼저 업그레이드 후 새 버전에서도 동일한 문제가 발생하는지 테스트해 보시고, 일반적인 문제가 아님을 확인한 후 피드백해 주세요.</system:String>
+    <system:String x:Key="CheckHelpBeforeReportingIssue">｢{key=Help}｣ 항목에서 문제를 먼저 확인하신 후\n 해결되지 않을 경우 ｢{key=Issue}｣를 진행해 주세요</system:String>
+    <system:String x:Key="CheckUpdateBeforeReportingIssue">먼저 최신 버전으로 업데이트하여 문제가 지속되는지 테스트해 주시고, ｢{key=Help}｣로 해결되지 않는 경우에만 ｢{key=Issue}｣를 진행해 주세요</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
-    <system:String x:Key="Issue">문제 신고</system:String>
-    <system:String x:Key="GenerateSupportPayload">지원용 ZIP 파일 생성</system:String>
-    <system:String x:Key="OpenDebugFolder">Debug 폴더 열기</system:String>
-    <system:String x:Key="GenerateSupportPayloadSuccessful">지원용 ZIP 파일이 성공적으로 생성되었습니다</system:String>
-    <system:String x:Key="GenerateSupportPayloadException">지원용 ZIP 파일 생성 중에 오류가 발생했습니다:</system:String>
+    <system:String x:Key="Issue">문제 제보/피드백</system:String>
+    <system:String x:Key="GenerateSupportPayload">로그 압축 파일 생성</system:String>
+    <system:String x:Key="OpenDebugFolder">로그 폴더 열기</system:String>
+    <system:String x:Key="GenerateSupportPayloadSuccessful">압축 파일 생성 성공</system:String>
+    <system:String x:Key="GenerateSupportPayloadException">압축 파일 생성 중 오류가 발생했습니다:</system:String>
     <!--  !Issues  -->
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
+    <system:String x:Key="AutoRefresh">★3 태그 자동 새로고침</system:String>
     <system:String x:Key="ForceRefresh">모집없이 태그 새로고침 반복 시도</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증 자동 사용*</system:String>
     <system:String x:Key="Level3UseShortTime">★3 태그 9:00 대신 7:40 설정</system:String>
@@ -1213,22 +1213,22 @@ C:\\leidian\\LDPlayer9
     <!--  !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">원격 제어</system:String>
-    <system:String x:Key="RemoteControlDeviceIdentityLabel">장치 식별자 (읽기 전용)</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">기기식별자 (읽기 전용)</system:String>
     <system:String x:Key="RemoteControlConnectionTest">연결 테스트</system:String>
-    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">재생성</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">새로 생성</system:String>
     <system:String x:Key="RemoteControlUserIdentityLabel">사용자 식별자</system:String>
-    <system:String x:Key="RemoteControlGetTaskEndpointLabel">작업 엔드포인트 가져오기</system:String>
-    <system:String x:Key="RemoteControlReportStatusEndpointLabel">작업 상태 보고 엔드포인트</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">작업 획득 엔드포인트 (GET)</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">상태 보고 엔드포인트 (REPORT)</system:String>
     <system:String x:Key="RemoteControlPollIntervalMsLabel">폴링 간격 (ms)</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패, 원인: {0}.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패: 엔드포인트 주소가 비어 있습니다</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">연결 테스트 실패, 연결 엔드포인트가 http(s) 주소가 아닙니다.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">연결 엔드포인트가 https를 사용하도록 설정되어 있지 않으며 안전하지 않을 수 있습니다.</system:String>
-    <system:String x:Key="RemoteControlReceivedTask">원격 작업 {0} 받음, 작업 Id:{1}.</system:String>
-    <system:String x:Key="RemoteControlCompletedTask">원격 작업 {0} 완료, 작업 Id:{1}.</system:String>
-    <system:String x:Key="RemoteControlTooltips">주의: 이상한 출처의 주소를 입력하면 명일방주 계정에 문제가 발생할 수 있습니다.</system:String>
-    <system:String x:Key="RemoteControlDeveloperTooltips">관련 기능을 개발하는 방법을 알고 싶다면 방문하세요</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">엔드포인트가 https를 사용하지 않아 보안에 취약할 수 있습니다.</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">원격 작업 수신: {0}, 작업 ID: {1}</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">원격 작업 완료: {0}, 작업 ID: {1}</system:String>
+    <system:String x:Key="RemoteControlTooltips">주의: 출처를 알 수 없는 주소를 입력할 경우 계정 보안에 위험이 생길 수 있습니다.</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">관련 기능 개발 방법은 다음을 참고하세요:</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">원격 제어 기능 개발자 문서</system:String>
     <!--  !Remote Control  -->
     <!--  External Notification  -->
@@ -1241,7 +1241,7 @@ C:\\leidian\\LDPlayer9
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
-    <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지 업데이트 전까지 표시하지 않기</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">다음 공지사항 업데이트 전까지 표시하지 않기</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">
@@ -1278,293 +1278,293 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="EncryptionError">암호화 또는 복호화에 실패했습니다. 관련 설정을 다시 구성해 주세요. 그렇지 않으면 암호화된 내용이 설정 파일에 그대로 저장됩니다.</system:String>
     <!--  !SimpleEncryptionHelper  -->
     <!--  TimeOutTimer  -->
-    <system:String x:Key="TaskTimeoutMinutes">작업 시간 초과 기준 (분)</system:String>
-    <system:String x:Key="ReminderIntervalMinutes">알림 반복 간격 (분)</system:String>
-    <system:String x:Key="TaskTimeoutWarning">작업 실행 시간이 {0}분을 초과했습니다(현재 {1}분 동안 실행 중입니다). 장시간 추가 로그 업데이트가 없을 경우 수동 조치가 필요할 수 있습니다.</system:String>
+    <system:String x:Key="TaskTimeoutMinutes">작업 타임아웃 시간 (분)</system:String>
+    <system:String x:Key="ReminderIntervalMinutes">알림 간격 (분)</system:String>
+    <system:String x:Key="TaskTimeoutWarning">작업이 {0}분을 초과하여 {1}분째 실행 중입니다\n장시간 로그의 갱신이 없다면 수동 조작이 필요할 수 있습니다</system:String>
     <!--  !TimeOutTimer  -->
     <!--  Achievement  -->
     <system:String x:Key="AchievementCelebrate">🎉 도전과제 달성</system:String>
     <system:String x:Key="AchievementConditions" xml:space="preserve">달성 조건: </system:String>
     <system:String x:Key="AchievementLevel" xml:space="preserve">도전과제 레벨: </system:String>
     <system:String x:Key="AchievementView">도전과제 보기</system:String>
-    <system:String x:Key="AchievementBackup">도전과제 백업</system:String>
-    <system:String x:Key="AchievementRestore">백업 로드</system:String>
+    <system:String x:Key="AchievementBackup">백업 저장하기</system:String>
+    <system:String x:Key="AchievementRestore">백업 불러오기</system:String>
     <system:String x:Key="AchievementUnlockedAt" xml:space="preserve">해제된 시점: </system:String>
     <system:String x:Key="AchievementList">도전과제 목록</system:String>
     <system:String x:Key="AchievementBackupSuccess">백업 완료</system:String>
     <system:String x:Key="AchievementRestoreSuccess">도전과제 진행도 복원 완료</system:String>
     <system:String x:Key="AchievementRestoreFailed">복원 실패, 파일 형식이 유효하지 않음</system:String>
-    <system:String x:Key="AchievementPopupAutoClose">업적 알림이 잠시 후 자동으로 사라집니다</system:String>
-    <system:String x:Key="AchievementPopupDisabled">도전과제 달성 알림 자동 팝업 비활성화</system:String>
+    <system:String x:Key="AchievementPopupAutoClose">도전과제 알림 자동으로 닫기</system:String>
+    <system:String x:Key="AchievementPopupDisabled">도전과제 알림 팝업 비활성화</system:String>
 
     <system:String x:Key="Achievement.SanitySpender1.Title">뉴비</system:String>
-    <system:String x:Key="Achievement.SanitySpender1.Description">이제 감이 잡혔네요</system:String>
+    <system:String x:Key="Achievement.SanitySpender1.Description">감 잡았어요! 믿고 맡겨주세요</system:String>
     <system:String x:Key="Achievement.SanitySpender1.Conditions">대리 지휘 10회 완료</system:String>
 
     <system:String x:Key="Achievement.SanitySpender2.Title">전문가</system:String>
-    <system:String x:Key="Achievement.SanitySpender2.Description">저보다 더 능숙하네요</system:String>
+    <system:String x:Key="Achievement.SanitySpender2.Description">저 진짜 잘하죠? 박사님보다 잘하는 거 같아요</system:String>
     <system:String x:Key="Achievement.SanitySpender2.Conditions">대리 지휘 100회 완료</system:String>
 
     <system:String x:Key="Achievement.SanitySpender3.Title">고인물</system:String>
-    <system:String x:Key="Achievement.SanitySpender3.Description">클로저 대리 프로그램이 가동 중입니다</system:String>
+    <system:String x:Key="Achievement.SanitySpender3.Description">이제 눈 감고도 깨요, 진짜라니까요!</system:String>
     <system:String x:Key="Achievement.SanitySpender3.Conditions">대리 지휘 1000회 완료</system:String>
 
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Description">"내가 어떻게 해야할지 알고 있어" ㅡ클릭하기 전 어떤 유저의 말</system:String>
-    <system:String x:Key="Achievement.QuickCloser.Conditions">1초 내에 팝업 닫기 (못 보셨죠?)</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Description">"난 이미 다 알고 있어" ㅡ클릭하기 전 어떤 박사의 말</system:String>
+    <system:String x:Key="Achievement.QuickCloser.Conditions">1초 이내에 팝업 닫기 (못 보셨죠?)</system:String>
 
-    <system:String x:Key="Achievement.TacticalRetreat.Title">전술적 후퇴</system:String>
-    <system:String x:Key="Achievement.TacticalRetreat.Description">포기하는게 아니라 전술적 후퇴에요!</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Title">명령 취소</system:String>
+    <system:String x:Key="Achievement.TacticalRetreat.Description">열심히 지휘하고 있는데 갑자기 멈추시면 어떡해요!</system:String>
     <system:String x:Key="Achievement.TacticalRetreat.Conditions">실행 중인 대리 지휘를 수동으로 중단</system:String>
 
     <system:String x:Key="Achievement.PeekScreen.Title">엿보기 구멍</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Description">계속 쳐다보는 걸 좋아하는군요.jpg</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Description">그렇게 계속 쳐다보시면 부끄러운데요...</system:String>
     <system:String x:Key="Achievement.PeekScreen.Conditions">MAA {key=Peep} 기능 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.CongratulationError.Title">축하합니다!</system:String>
-    <system:String x:Key="Achievement.CongratulationError.Description">어? 제 MMA가 왜 안 되죠?</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Title">잠깐 타임!</system:String>
+    <system:String x:Key="Achievement.CongratulationError.Description">어라? 방금 건 제 실수 아니에요. 아마도?</system:String>
     <system:String x:Key="Achievement.CongratulationError.Conditions">MAA 오류 1회 발생</system:String>
 
-    <system:String x:Key="Achievement.UnexpectedCrash.Title">불청객</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Description">미지의 영역에 발을 들였군요...</system:String>
-    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">처리되지 않은 예외가 발생으로 크래시 로그 기록</system:String>
-
-    <system:String x:Key="Achievement.CustomizationMaster.Title">커스터마이징의 달인</system:String>
-    <system:String x:Key="Achievement.CustomizationMaster.Description">개성있는 {key=BackgroundImage}네요</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Title">와장창!</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Description">으악! 뭔가 엄청난 걸 건드려버렸나 봐요...</system:String>
+    <system:String x:Key="Achievement.UnexpectedCrash.Conditions">처리되지 않은 예외 발생으로 인한 크래시 로그 기록</system:String>
+    
+    <system:String x:Key="Achievement.CustomizationMaster.Title">꾸미기 장인</system:String>
+    <system:String x:Key="Achievement.CustomizationMaster.Description">바꾼 {key=BackgroundImage} 덕분에 화사해졌네요!</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Conditions">{key=BackgroundImage} 1회 변경</system:String>
 
-    <system:String x:Key="Achievement.RealGacha.Title">진짜 가챠</system:String>
-    <system:String x:Key="Achievement.RealGacha.Description">시뮬레이션 아니었어요? 재화가 어디간거에요?</system:String>
+    <system:String x:Key="Achievement.RealGacha.Title">도파민 중독</system:String>
+    <system:String x:Key="Achievement.RealGacha.Description">저한테 맡기시게요? 폭사해도 전 몰라요</system:String>
     <system:String x:Key="Achievement.RealGacha.Conditions">｢{key=Gacha}｣ 기능을 1회 사용</system:String>
 
     <system:String x:Key="Achievement.FirstLaunch.Title">잘 부탁드려요</system:String>
-    <system:String x:Key="Achievement.FirstLaunch.Description">MaaAssistantArknights 사용을 환영합니다</system:String>
+    <system:String x:Key="Achievement.FirstLaunch.Description">귀찮은 일은 이제부터 저한테 맡겨주세요</system:String>
     <system:String x:Key="Achievement.FirstLaunch.Conditions">소프트웨어 첫 실행</system:String>
 
-    <system:String x:Key="Achievement.Martian.Title">화성인</system:String>
-    <system:String x:Key="Achievement.Martian.Description">혹시 과거에 살고 계신가요?</system:String>
+    <system:String x:Key="Achievement.Martian.Title">시간 여행자</system:String>
+    <system:String x:Key="Achievement.Martian.Description">저만 과거에 있는 것 같아요... 업데이트 좀 해주세요!</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">리소스 또는 버전이 현재로부터 3개월 초과</system:String>
     <system:String x:Key="Achievement.Martian.ConditionsTip">리소스 또는 버전이 현재로부터 {0}개월 초과</system:String>
 
-    <system:String x:Key="Achievement.Rules.Title">규정</system:String>
-    <system:String x:Key="Achievement.Rules.Description">제가 계속 지켜보고 있을게요</system:String>
+    <system:String x:Key="Achievement.Rules.Title">서약 완료</system:String>
+    <system:String x:Key="Achievement.Rules.Description">약속한 거예요? 제가 옆에서 지켜볼게요</system:String>
     <system:String x:Key="Achievement.Rules.Conditions">MAA 이용 약관</system:String>
 
-    <system:String x:Key="Achievement.VersionClick.Title">이건 무슨 버튼이지?</system:String>
-    <system:String x:Key="Achievement.VersionClick.Description">한번 눌러볼까??</system:String>
+    <system:String x:Key="Achievement.VersionClick.Title">간지러워요</system:String>
+    <system:String x:Key="Achievement.VersionClick.Description">거기 자꾸 눌러도 아무것도 안 나온다니까요?</system:String>
     <system:String x:Key="Achievement.VersionClick.Conditions">설정의 버전 뱃지를 클릭</system:String>
 
     <system:String x:Key="Achievement.SanitySaver1.Title">알뜰살뜰</system:String>
-    <system:String x:Key="Achievement.SanitySaver1.Description">이성 하나하나가 아까워요</system:String>
+    <system:String x:Key="Achievement.SanitySaver1.Description">이성 아까우니까 알뜰하게 써야죠</system:String>
     <system:String x:Key="Achievement.SanitySaver1.Conditions">｢{key=UseSanityPotion}｣ 기능을 1회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanitySaver2.Title">보급 마스터</system:String>
-    <system:String x:Key="Achievement.SanitySaver2.Description">약물 사용이 수준급이시네요</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Title">약물 의존증</system:String>
+    <system:String x:Key="Achievement.SanitySaver2.Description">약을 너무 많이 먹이시는 거 아니에요?</system:String>
     <system:String x:Key="Achievement.SanitySaver2.Conditions">｢{key=UseSanityPotion}｣ 기능을 10회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanitySaver3.Title">영구기관</system:String>
-    <system:String x:Key="Achievement.SanitySaver3.Description">이성이 마르지 않는 것 같아요</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Title">무한 동력</system:String>
+    <system:String x:Key="Achievement.SanitySaver3.Description">배불러서 더 이상 못 먹겠어요... 살려주세요</system:String>
     <system:String x:Key="Achievement.SanitySaver3.Conditions">｢{key=UseSanityPotion}｣ 기능을 50회 사용</system:String>
 
-    <system:String x:Key="Achievement.ScheduleMaster1.Title">XX 관리 마스터</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster1.Description">더욱 효율적인 계획</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Title">계획적인 삶</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster1.Description">계획적인 박사님 아주 칭찬해요</system:String>
     <system:String x:Key="Achievement.ScheduleMaster1.Conditions">｢{key=ScheduleSettings}｣ 기능을 1회 사용</system:String>
 
     <system:String x:Key="Achievement.ScheduleMaster2.Title">범용 자동화 솔루션 0.3.2.9f2</system:String>
-    <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTS의 자동화 배치를 완전히 마스터했습니다</system:String>
+    <system:String x:Key="Achievement.ScheduleMaster2.Description">이 정도면 PRTS보다 제가 더 유능하죠?</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">｢{key=ScheduleSettings}｣ 기능을 100회 사용</system:String>
 
-    <system:String x:Key="Achievement.SanityExpire.Title">배신자...?</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Description">박사님, 쉬시면 안돼요!!!</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Title">배신자!</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Description">유통기한이 다 될 때까지 뭐 하셨어요? 너무해요!</system:String>
     <system:String x:Key="Achievement.SanityExpire.Conditions">「{key=UseExpiringMedicine}」 기능으로 한 번에 8개 이상의 이성 회복제 사용</system:String>
 
-    <system:String x:Key="Achievement.OverLimitAgent.Title">특이점 돌파</system:String>
-    <system:String x:Key="Achievement.OverLimitAgent.Description">스테이지를 소멸시킬 정도의 대리 지휘를 수행했어요</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Title">스테이지 파괴자</system:String>
+    <system:String x:Key="Achievement.OverLimitAgent.Description">이제 여기는 눈감고도 돌 수 있겠어요</system:String>
     <system:String x:Key="Achievement.OverLimitAgent.Conditions">단일 스테이지에서 100회 이상 대리 지휘 진행</system:String>
 
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror~~☆</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">{key=MirrorChyan}이다! 우리가 살았어!</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">안녕 {key=MirrorChyan}!</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">우와! {key=MirrorChyan}이다! 저 드디어 새 친구가 생긴 건가요?</system:String>
     <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">{key=MirrorChyan} 첫 사용 성공</system:String>
 
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">이게... 맞나요?</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">누가 제 키보드 키를 빼먹었나요?</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Title">입력 오류</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Description">알려주신 코드가 안 맞아서 연결할 수가 없어요</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">{key=MirrorChyan} CDK 입력 오류</system:String>
 
-    <system:String x:Key="Achievement.ProblemFeedback.Title">공익제보</system:String>
-    <system:String x:Key="Achievement.ProblemFeedback.Description">가장 위험한 것은 내부의 적이에요</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Title">내부 고발자</system:String>
+    <system:String x:Key="Achievement.ProblemFeedback.Description">이런 건 우리끼리만 아는 비밀이에요... 쉿</system:String>
     <system:String x:Key="Achievement.ProblemFeedback.Conditions">{key=IssueReport} 1회 진행</system:String>
 
-    <system:String x:Key="Achievement.MapOutdated.Title">혹시 한국인?</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Description">급한건 알겠지만 잠시만요</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Title">급하다 급해</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Description">지도도 안 주면서 길을 찾으라고 하면 어떡해요!</system:String>
     <system:String x:Key="Achievement.MapOutdated.Conditions">리소스 업데이트 없이 ｢{key=Copilot}｣ 기능 사용</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot1.Title">컨닝 페이퍼</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Description">진정한 방치 플레이</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Title">작전 보조</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Description">혼자 깰 수 있는데 귀찮아서 그러는 거죠?</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Conditions">｢{key=Copilot}｣ 기능으로 1회 클리어</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot2.Title">끝까지 방치</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Description">MAA야 너만 믿고 있을게</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Title">전권 위임</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Description">에휴... 알겠어요 제가 다 깨드릴게요</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Conditions">｢{key=Copilot}｣ 기능으로 10회 클리어</system:String>
 
-    <system:String x:Key="Achievement.UseCopilot3.Title">딸깍</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Description">보스 기믹이 뭔가요?</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Title">직무유기</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Description">이제 공략은 아예 저한테 미루시네요</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Conditions">｢{key=Copilot}｣ 기능으로 100회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RecruitNoSixStar.Title">인디언식 기우제는 실패했어요</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Description">일이 이렇게 되었으니, 잠이나 자야겠어요</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">｢{key=Recruiting}｣에서 누적 500회 동안 6성 태그가 나오지 않음</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Title">운수 좋은 날</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Description">운이 없는 걸 어떡해요... 아무튼 제 탓은 아니에요</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStar.Conditions">｢{key=Recruiting}｣에서 누적 500회 동안 6성 태그가 미출현</system:String>
 
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">분명 MAA가 문제일거야!</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">으아아아아아아아아아!</system:String>
-    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">｢{key=Recruiting}｣에서 연속 500회 동안 6성 태그가 나오지 않음</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Title">제 잘못은 아니죠?</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Description">저 진짜 억울해요... 제가 안 뽑은 게 아니라구요!</system:String>
+    <system:String x:Key="Achievement.RecruitNoSixStarStreak.Conditions">｢{key=Recruiting}｣에서 연속 500회 동안 6성 태그가 미출현</system:String>
 
-    <system:String x:Key="Achievement.MosquitoLeg.Title">티끌 모아 태산</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Description">티끌을 모으면 태산이 된다는걸 아시는군요</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Title">티끌 모아 티끌</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Description">티끌 모아 태산... 아니 티끌이네요</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Conditions">｢{key=CreditFight}｣ 기능을 5회 사용</system:String>
 
     <system:String x:Key="Achievement.Pioneer1.Title">베타 테스터</system:String>
-    <system:String x:Key="Achievement.Pioneer1.Description">테스트 중인 {key=UpdateCheckBeta}을 사용하셨어요</system:String>
+    <system:String x:Key="Achievement.Pioneer1.Description">새로운 기능은 못 참죠? 저도 그래요</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">MAA를 {key=UpdateCheckBeta}으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.Pioneer2.Title">슈퍼 베타 테스터</system:String>
-    <system:String x:Key="Achievement.Pioneer2.Description">최신 {key=UpdateCheckNightly}을 사용하셨어요 (문제가 발생하면 {key=IssueReport}로 가주세요!)</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Title">알파 테스터</system:String>
+    <system:String x:Key="Achievement.Pioneer2.Description">문제가 생겨도 저한테 화내기 없기에요?</system:String>
     <system:String x:Key="Achievement.Pioneer2.Conditions">MAA를 {key=UpdateCheckNightly}으로 업데이트</system:String>
 
-    <system:String x:Key="Achievement.Pioneer3.Title">DEBUG 테스터</system:String>
-    <system:String x:Key="Achievement.Pioneer3.Description">이 버전을 사용할 수 있는 분들은 일반인이 아닐거에요</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Title">디버깅</system:String>
+    <system:String x:Key="Achievement.Pioneer3.Description">여기까지 오다니 박사님도 보통은 아니네요</system:String>
     <system:String x:Key="Achievement.Pioneer3.Conditions">DEBUG 버전의 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.Irreplaceable.Title">대체 불가</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Description">다른 작업을 사용해야 할까요?</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Title">인원 부족</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Description">오퍼레이터가 부족한데 제가 대신 나가서 싸울까요?</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Conditions">｢{key=Copilot} - {key=AutoSquad}｣ 사용 시 최소 2명의 {key=Operator}가 부족</system:String>
 
     <system:String x:Key="Achievement.SnapshotChallenge1.Title">High Ping</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge1.Description">"Disconnect"</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge1.Description">스크린샷이 너무 늦게 와서 기다리다 지쳤어요</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge1.Conditions">평균 스크린샷 시간이 800ms 초과</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge2.Title">좀 많이 느린 거 같은데요</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge2.Description">스크린샷을 찍는데 조금 힘들어 보이네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Title">스크린샷 · Slow</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge2.Description">조금만 더 빨라지면 일을 더 잘할 수 있어요</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge2.Conditions">평균 스크린샷 시간이 400ms에서 800ms 사이</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge3.Title">스크린샷 도전 · Normal</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge3.Description">스크린샷 향상을 시도해보는 건 어떨까요?</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Title">스크린샷 · Normal</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge3.Description">이 정도 속도면 나쁘지 않네요</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge3.Conditions">평균 스크린샷 시간이 400ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge4.Title">스크린샷 도전 · Fast</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge4.Description">스크린샷이 너무 빨라서 저도 반응을 못했네요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Title">스크린샷 · Fast</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge4.Description">바로 분석을 끝냈어요!</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge4.Conditions">평균 스크린샷 시간이 100ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge5.Title">스크린샷 도전 · Ultra</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge5.Description">스크린샷 속도가 90%의 유저보다 빨라요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Title">스크린샷 · Ultra</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge5.Description">눈 깜짝할 새에 처리했는데 보셨나요?</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge5.Conditions">평균 스크린샷 시간이 10ms 미만</system:String>
 
-    <system:String x:Key="Achievement.SnapshotChallenge6.Title">스크린샷 도전 · Beyond</system:String>
-    <system:String x:Key="Achievement.SnapshotChallenge6.Description">당신은 MAA의 숨겨진 힘을 발견했어요</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Title">한계 돌파</system:String>
+    <system:String x:Key="Achievement.SnapshotChallenge6.Description">우와... 하마터면 스크린샷을 놓칠 뻔했어요</system:String>
     <system:String x:Key="Achievement.SnapshotChallenge6.Conditions">평균 스크린샷 시간이 5ms 미만</system:String>
 
-    <system:String x:Key="Achievement.Lucky.Title">뜻밖의 행운</system:String>
-    <system:String x:Key="Achievement.Lucky.Description">이 도전과제를 클리어한 사람은 단챠로 6성을 뽑았다고 하네요</system:String>
+    <system:String x:Key="Achievement.Lucky.Title">로또 사세요</system:String>
+    <system:String x:Key="Achievement.Lucky.Description">이거 뜰 확률로 가챠를 돌렸어야 했는데...</system:String>
     <system:String x:Key="Achievement.Lucky.Conditions">MAA 시작 시 매우! 작은! 확률로 발동</system:String>
 
-    <system:String x:Key="Achievement.CdnTorture.Title">Github에게 미움받는 존재</system:String>
-    <system:String x:Key="Achievement.CdnTorture.Description">Github의 서버는 우주보다 멀리있다네요</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Title">서버가 절 싫어해요</system:String>
+    <system:String x:Key="Achievement.CdnTorture.Description">GitHub 서버가 문을 안 열어줘요. 저 좀 들여보내줘요!</system:String>
     <system:String x:Key="Achievement.CdnTorture.Conditions">리소스 다운로드 실패 3회 초과</system:String>
 
     <system:String x:Key="Achievement.AfkWatcher.Title">낙동강 오리알</system:String>
-    <system:String x:Key="Achievement.AfkWatcher.Description">저기... 저를 방치하고 있는 건가요?</system:String>
+    <system:String x:Key="Achievement.AfkWatcher.Description">저 켜놓고 어디 갔어요? 심심하단 말이에요!</system:String>
     <system:String x:Key="Achievement.AfkWatcher.Conditions">창 최소화 후 장시간 조작하지 않음</system:String>
 
-    <system:String x:Key="Achievement.MissionStartCount.Title">오늘부터 MAA의 지지를 철회한다</system:String>
-    <system:String x:Key="Achievement.MissionStartCount.Description">MAA와 나는 한몸으로 일체가 된다</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Title">악덕 고용주</system:String>
+    <system:String x:Key="Achievement.MissionStartCount.Description">오늘 몇 번을 부려먹는 거예요? 이거 노동법 위반이야!</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Conditions">하루 내에 작업 시작 3회 초과</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">종점에 첫 도착</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">그저... 그 곳에 닿을 수만 있다면...</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Title">엔딩 첫 관람</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass1.Description">어때요? 제가 클리어 할 수 있다고 했죠?</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass1.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 1회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">종점에 다시 도착</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">여기는 이미 여러 번 와봤어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Title">단골손님</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass2.Description">이제 여기 길은 눈 감고도 외우겠어요</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass2.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 5회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">종점에 살고 있나요?</system:String>
-    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">눈 감고도 여기까지 올 수 있어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Title">망령 그 자체</system:String>
+    <system:String x:Key="Achievement.RoguelikeGamePass3.Description">보스 패턴은 다 외웠는데, 더 어려운 건 없나요?</system:String>
     <system:String x:Key="Achievement.RoguelikeGamePass3.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 10회 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeRetreat.Title">실패는 성공의 어머니</system:String>
-    <system:String x:Key="Achievement.RoguelikeRetreat.Description">언젠가 성공할거에요... 실패는 성공의 어머니니까...</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Title">전략적 포기</system:String>
+    <system:String x:Key="Achievement.RoguelikeRetreat.Description">도망치는 게 아니라 전략적 후퇴라니까요!</system:String>
     <system:String x:Key="Achievement.RoguelikeRetreat.Conditions">{key=AutoRoguelike} 탐험 포기 누적 100회</system:String>
 
     <system:String x:Key="Achievement.RoguelikeGoldMax.Title">꽉 찼어요 꽉 찼어</system:String>
     <system:String x:Key="Achievement.RoguelikeGoldMax.Description">캔낫, 네 가게에서 가장 비싼 걸 내놔봐!</system:String>
     <system:String x:Key="Achievement.RoguelikeGoldMax.Conditions">{key=AutoRoguelike}의 오리지늄 각뿔 수량 999 달성</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">좋아요 한번</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">좋아요는 작성자에게 가장 큰 격려에요!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Title">따봉 하나</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven1.Description">오 칭찬해 주시는 거예요? 기분 좋네요</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">작업에 좋아요 1회</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">적극적 상호작용</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">좋아요 10회, 커뮤니티 상호작용에 적극 참여</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Title">따봉 수집가</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven2.Description">칭찬은 고래... 아니 MAA도 춤추게 해요!</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven2.Conditions">작업에 누적 좋아요 10회</system:String>
 
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">좋아요 요정</system:String>
-    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">좋아요 50회, 이미 좋아요 마스터가 되셨네요!</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Title">따봉 요정</system:String>
+    <system:String x:Key="Achievement.CopilotLikeGiven3.Description">저 인기 많다고 너무 질투하지 마세요</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven3.Conditions">작업에 누적 좋아요 50회</system:String>
 
-    <system:String x:Key="Achievement.TaskStartCancel.Title">정말 우유부단하네요</system:String>
-    <system:String x:Key="Achievement.TaskStartCancel.Description">아 맞아, 아 아닌가? 아 맞는거같은데...아 잠깐...!</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Title">결정장애</system:String>
+    <system:String x:Key="Achievement.TaskStartCancel.Description">한다며! 안 한다며! 왜 자꾸 헷갈리게 해요!</system:String>
     <system:String x:Key="Achievement.TaskStartCancel.Conditions">작업 시작 후 바로 중지</system:String>
 
-    <system:String x:Key="Achievement.CopilotError.Title">아이고</system:String>
-    <system:String x:Key="Achievement.CopilotError.Description">사고가 났네요...</system:String>
+    <system:String x:Key="Achievement.CopilotError.Title">우당탕탕</system:String>
+    <system:String x:Key="Achievement.CopilotError.Description">시킨 대로 했는데 왜 터져요? 억울해!</system:String>
     <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot}｣ 실수 발생</system:String>
 
-    <system:String x:Key="Achievement.LongTaskTimeout.Title">긴 작업</system:String>
-    <system:String x:Key="Achievement.LongTaskTimeout.Description">좀 더 기다려볼까요?</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Title">인내심 테스트</system:String>
+    <system:String x:Key="Achievement.LongTaskTimeout.Description">이거 언제까지 해야 돼요?</system:String>
     <system:String x:Key="Achievement.LongTaskTimeout.Conditions">타임아웃 알림 발생</system:String>
 
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">개근 선봉대</system:String>
-    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">당신은 이미 박사님을 대체했어요</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Title">대리인</system:String>
+    <system:String x:Key="Achievement.ProxyOnline3Hours.Description">이 정도면 제가 박사님 대신 출근해도 모르겠는데요?</system:String>
     <system:String x:Key="Achievement.ProxyOnline3Hours.Conditions">작업 시작 후 3시간 이상 연속 온라인</system:String>
 
-    <system:String x:Key="Achievement.UseDaily1.Title">매일 출석</system:String>
-    <system:String x:Key="Achievement.UseDaily1.Description">열심히 7일 연속 출석했지만 아쉽게도 보상은 없어요</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Title">작심삼일 극복</system:String>
+    <system:String x:Key="Achievement.UseDaily1.Description">일주일 개근이네요? 보상은... 없어요!</system:String>
     <system:String x:Key="Achievement.UseDaily1.Conditions">7일 연속 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.UseDaily2.Title">개근상</system:String>
-    <system:String x:Key="Achievement.UseDaily2.Description">이번 달 개근상을 수여할게요</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Title">한달 개근상</system:String>
+    <system:String x:Key="Achievement.UseDaily2.Description">한 달 내내 저를 보러 오신거에요? 감동이네요</system:String>
     <system:String x:Key="Achievement.UseDaily2.Conditions">30일 연속 MAA 사용</system:String>
 
     <system:String x:Key="Achievement.UseDaily3.Title">연중무휴</system:String>
-    <system:String x:Key="Achievement.UseDaily3.Description">MAA의 인권을 보장해주세요!</system:String>
+    <system:String x:Key="Achievement.UseDaily3.Description">1년 365일 근무라니 휴가 좀 보내주세요!</system:String>
     <system:String x:Key="Achievement.UseDaily3.Conditions">365일 연속 MAA 사용</system:String>
 
-    <system:String x:Key="Achievement.AprilFools.Title">우리와 함께</system:String>
-    <system:String x:Key="Achievement.AprilFools.Description">설마 오늘 접속한 사람이 정말 있을까요?</system:String>
+    <system:String x:Key="Achievement.AprilFools.Title">MAA에 심각한 오류가 발생했어요</system:String>
+    <system:String x:Key="Achievement.AprilFools.Description">사실 거짓말이에요... 놀랐죠?</system:String>
     <system:String x:Key="Achievement.AprilFools.Conditions">4월 1일에 MAA 실행하기</system:String>
 
-    <system:String x:Key="Achievement.MidnightLaunch.Title">심야 작전</system:String>
-    <system:String x:Key="Achievement.MidnightLaunch.Description">혹시 야행성 인간이신가요?</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Title">야행성</system:String>
+    <system:String x:Key="Achievement.MidnightLaunch.Description">잠은 안자요? 저도 밤에는 피곤한데...</system:String>
     <system:String x:Key="Achievement.MidnightLaunch.Conditions">심야 0시 이후 실행</system:String>
 
-    <system:String x:Key="Achievement.LunarNewYear.Title">새해 복 많이 받으세요</system:String>
-    <system:String x:Key="Achievement.LunarNewYear.Description">행운과 6성이 함께 찾아옵니다!</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Title">Happy New Year!</system:String>
+    <system:String x:Key="Achievement.LunarNewYear.Description">새해 복 많이 받으세요! 세뱃돈은 오리지늄으로 받을게요</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Conditions">새해 기간에 MAA 열기</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN04.Title">간단간단</system:String>
-    <system:String x:Key="Achievement.RoguelikeN04.Description">이 정도 난이도로는 저를 막을 수 없어요</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Title">아직 멀었어</system:String>
+    <system:String x:Key="Achievement.RoguelikeN04.Description">이 정도 난이도는 발로 해도 깬다구요</system:String>
     <system:String x:Key="Achievement.RoguelikeN04.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 4승천 이상 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN08.Title">어려움에 도전</system:String>
-    <system:String x:Key="Achievement.RoguelikeN08.Description">용감한 MAA는 어려움을 두려워하지 않아요</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Title">자신감 상승</system:String>
+    <system:String x:Key="Achievement.RoguelikeN08.Description">어려워봤자 제 계산 범위 안이라니까요?</system:String>
     <system:String x:Key="Achievement.RoguelikeN08.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 8승천 이상 클리어</system:String>
 
     <system:String x:Key="Achievement.RoguelikeN12.Title">인간 초월</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Description">저보다 더 잘하는거 같은데요?</system:String>
-    <system:String x:Key="Achievement.RoguelikeN12.Conditions">｢{key=AutoRoguelike}｣ 기능으로 임의의 통합전략 12승천 이상 클리어</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Description">솔직히 박사님보다 제가 더 잘하는 것 같죠?</system:String>
+    <system:String x:Key="Achievement.RoguelikeN12.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 12승천 이상 클리어</system:String>
 
-    <system:String x:Key="Achievement.RoguelikeN15.Title">프로 선수</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Description">MAA, 완전 프로같았어요</system:String>
-    <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ 기능으로 임의의 통합전략 15승천 이상 클리어</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Title">마스터피스</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Description">방금 제 플레이 보셨나요? 이건 기록으로 남겨야 해요!</system:String>
+    <system:String x:Key="Achievement.RoguelikeN15.Conditions">｢{key=AutoRoguelike}｣ 기능으로 {key=AutoRoguelike} 15승천 이상 클리어</system:String>
     <!--  !Achievement  -->
 
     <!--  BadModules  -->
