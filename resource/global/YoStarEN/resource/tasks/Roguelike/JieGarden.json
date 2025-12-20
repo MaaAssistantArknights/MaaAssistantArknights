@@ -2,6 +2,10 @@
     "JieGarden@Roguelike@StartAction": {
         "doc": "Start button is different compared to other ISes"
     },
+    "JieGarden@Roguelike@StageCombatOpsStartActionThenLeave": {
+        "doc": "In Diff 3 or above, when using the Investment strategy, this StartAction template is used for FastPass.",
+        "template": "JieGarden@Roguelike@StartAction.png"
+    },
     "JieGarden@Roguelike@Abandon": {
         "templThreshold": 0.75
     },
