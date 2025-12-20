@@ -1050,7 +1050,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="DreadfulFoe">Stage: Dreadful Foe</system:String>
     <system:String x:Key="BoskyOmissions">Stage: Retrieve</system:String>
     <system:String x:Key="BoskyLegend">Bosky: Legend</system:String>
-    <system:String x:Key="BoskyOldShop">Bosky: Old Shop</system:String>
+    <system:String x:Key="BoskyOldShop">Bosky: Tavern</system:String>
     <system:String x:Key="BoskyYiTrader">Bosky: Trade</system:String>
     <system:String x:Key="BoskyScheme">Bosky: Plan</system:String>
     <system:String x:Key="BoskyPlaytime">Bosky: Leisure</system:String>
