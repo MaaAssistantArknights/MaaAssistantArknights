@@ -58,7 +58,7 @@
         {
             "configName": "General",
             "devices": "[Adb] devices",
-            "addressRegex": "(.+)\tdevice",
+            "addressRegex": "([^\\n]+)\tdevice",
             "connect": "[Adb] connect [AdbSerial]",
             "uuid": "[Adb] -s [AdbSerial] shell settings get secure android_id",
             "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
