@@ -260,7 +260,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
         { "max_times", max_times },
         { "action", enum_to_string(task->action) },
         { "algorithm", enum_to_string(task->algorithm) },
-        { "result", hits.reco_detail != nullptr ? *hits.reco_detail : json::value {} },
+        { "result", hits.reco_detail != nullptr ? *hits.reco_detail : json::object {} },
     };
 
     callback(AsstMsg::SubTaskStart, info);
