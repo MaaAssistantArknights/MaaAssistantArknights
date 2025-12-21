@@ -1,6 +1,8 @@
 if (BUILD_XCFRAMEWORK)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/xcframework)
+
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
-        COMMAND rm -rf MaaCore.xcframework
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
         COMMAND xcodebuild -create-xcframework 
             -library $<TARGET_FILE:MaaCore> 
             -headers ${PROJECT_SOURCE_DIR}/include 
@@ -11,7 +13,7 @@ if (BUILD_XCFRAMEWORK)
     )
     
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/MaaUtils.xcframework
-        COMMAND rm -rf MaaUtils.xcframework
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/MaaUtils.xcframework
         COMMAND xcodebuild -create-xcframework 
             -library $<TARGET_FILE:MaaUtils> 
             -output MaaUtils.xcframework
@@ -33,7 +35,7 @@ if (BUILD_XCFRAMEWORK)
         message(FATAL_ERROR "OpenCV library not found in ${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/")
     endif()
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
-        COMMAND rm -rf OpenCV.xcframework
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
         COMMAND xcodebuild -create-xcframework 
             -library "${OPENCV_LIB}" 
             -output OpenCV.xcframework
@@ -54,7 +56,7 @@ if (BUILD_XCFRAMEWORK)
         message(FATAL_ERROR "ONNXRuntime library not found in ${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/")
     endif()
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
-        COMMAND rm -rf ONNXRuntime.xcframework
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
         COMMAND xcodebuild -create-xcframework 
             -library "${ONNXRUNTIME_LIB}" 
             -output ONNXRuntime.xcframework
@@ -63,7 +65,7 @@ if (BUILD_XCFRAMEWORK)
     )
 
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/fastdeploy_ppocr.xcframework
-        COMMAND rm -rf fastdeploy_ppocr.xcframework
+        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/fastdeploy_ppocr.xcframework
         COMMAND xcodebuild -create-xcframework 
             -library "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/libfastdeploy_ppocr.dylib" 
             -output fastdeploy_ppocr.xcframework
