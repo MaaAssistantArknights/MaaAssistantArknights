@@ -87,6 +87,7 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
         success = handle_pickup_mode();
         break;
     case CoppersTaskRunMode::EXCHANGE:
+        m_retry_times = 1; // 交换模式只尝试两次
         success = handle_exchange_mode();
         break;
     }
