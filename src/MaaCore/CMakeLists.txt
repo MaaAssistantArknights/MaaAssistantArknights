@@ -19,6 +19,8 @@ target_link_libraries(MaaCore HeaderOnlyLibraries MaaUtils ${OpenCV_LIBS} fastde
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
+    # Windows MSVC: 使用内置的 OpenMP
+    target_compile_options(MaaCore PRIVATE /openmp:llvm)
 endif()
 
 if(LINUX)
