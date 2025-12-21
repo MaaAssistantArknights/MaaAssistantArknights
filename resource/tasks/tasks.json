@@ -3157,8 +3157,15 @@
     },
     "InfrastClueQuickInsert": {
         "Doc": "快速置入：官服新增的批量置入线索按钮模板占位",
+        "roi": [1058, 572, 148, 148],
+        "next": ["InfrastClueQuickInsertConfirm", "Stop"]
+    },
+    "InfrastClueQuickInsertConfirm": {
+        "Doc": "满线索再放",
         "action": "ClickSelf",
-        "roi": [1058, 572, 148, 148]
+        "maskRange": [1, 255],
+        "roi": [1200, 610, 80, 40],
+        "rectMove": [-110, 30, 110, 20]
     },
     "InfrastClueQuickSendDuplicates": {
         "Doc": "快速传递重复线索：批量传递重复线索按钮模板占位",
