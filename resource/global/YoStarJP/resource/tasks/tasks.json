@@ -1062,10 +1062,6 @@
     "InfrastEnterOperList": {
         "text": ["体力", "休憩中", "仕事中", "配属"]
     },
-    "SendClues": {
-        "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' are added (#14966)",
-        "roi": [1160, 350, 80, 80]
-    },
     "InfrastTrainingIdle": {
         "text": ["待機中"],
         "roi": [325, 637, 180, 50]

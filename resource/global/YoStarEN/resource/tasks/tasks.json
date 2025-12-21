@@ -1124,10 +1124,6 @@
     "UnlockClues": {
         "templThreshold": 0.85
     },
-    "SendClues": {
-        "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' features are added (#14966)",
-        "roi": [1160, 350, 80, 80]
-    },
     "InfrastTrainingIdle": {
         "text": ["Idle", "ldle"],
         "roi": [326, 637, 165, 41]
