@@ -393,6 +393,11 @@
             "JieGarden@Roguelike@DropsFlag",
             "JieGarden@Roguelike@CloseEvent",
             "#self"
+        ],
+        "onErrorNext": [
+            "JieGarden@Roguelike@CoppersAbandonExchange",
+            "JieGarden@Roguelike@DropsFlag",
+            "JieGarden@Roguelike@CloseEvent"
         ]
     },
     "JieGarden@Roguelike@CoppersTypeHengSelected": {

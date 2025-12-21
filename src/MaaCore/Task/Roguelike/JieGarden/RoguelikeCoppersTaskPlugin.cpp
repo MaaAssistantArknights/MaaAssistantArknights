@@ -120,6 +120,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         return false;
     }
 
+    asst::Point click_point_fallback;
+
     // 遍历每个检测到的通宝，创建通宝对象
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
@@ -129,7 +131,15 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         // 根据识别到的名称创建通宝对象
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
-            LogError << __FUNCTION__ << "| failed to create copper at position" << i;
+            LogError << __FUNCTION__ << "| failed to create copper at position" << i << " name:" << detection.name;
+
+            click_point_fallback = detection.click_point;
+
+            // 将识别到的错误的名称发送到 WPF 进行反馈
+            auto copper_info = basic_info_with_what("RoguelikeCoppersPickupRecognitionError");
+            copper_info["details"]["recognized_name"] = detection.name;
+            callback(AsstMsg::SubTaskExtraInfo, copper_info);
+
             continue;
         }
 
@@ -144,7 +154,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 
     if (m_pending_copper.empty()) {
         Log.error(__FUNCTION__, "| no valid coppers found for pickup");
-        return false;
+        // 如果没有有效通宝，尝试点击最后一个检测到的名称错误的通宝位置作为回退
+        if (click_point_fallback.x != 0 && click_point_fallback.y != 0) {
+            LogWarn << __FUNCTION__ << "| clicking fallback point at (" << click_point_fallback.x << ","
+                    << click_point_fallback.y << ")";
+            ctrler()->click(click_point_fallback);
+            return true;
+        }
     }
 
     // 从待选通宝中选择拾取优先级最高的
