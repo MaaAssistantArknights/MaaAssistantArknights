@@ -37,8 +37,10 @@ protected:
     std::shared_ptr<T> get_hit_detail() const
     {
         if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
+            return nullptr;
         }
         else if (auto last_hit = ptr->get_last_hit(); !last_hit || !last_hit->reco_detail) {
+            return nullptr;
         }
         else if (auto detail = std::dynamic_pointer_cast<T>(last_hit->reco_detail)) {
             return detail;
