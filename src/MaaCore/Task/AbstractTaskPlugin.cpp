@@ -38,25 +38,26 @@ bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
     return priority() == rhs.priority();
 }
 
-cv::Mat asst::AbstractTaskPlugin::get_process_image() const
+std::shared_ptr<cv::Mat> asst::AbstractTaskPlugin::get_hit_image() const
 {
-    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
-        auto image = ptr->get_last_hit()->image;
-        if (!image.empty()) {
-            return image;
-        }
+    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
     }
-    return ctrler()->get_image();
+    else if (auto last_hit = ptr->get_last_hit(); last_hit && last_hit->image.empty()) {
+        return std::make_shared<cv::Mat>(last_hit->image);
+    }
+    return nullptr;
 }
 
 template <typename T>
 requires std::derived_from<T, asst::AnalyzerResult>
 std::shared_ptr<T> asst::AbstractTaskPlugin::get_hit_detail() const
 {
-    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr)) {
-        if (auto detail = std::dynamic_pointer_cast<T>(ptr->get_last_hit()->reco_detail)) {
-            return detail;
-        }
+    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
+    }
+    else if (auto last_hit = ptr->get_last_hit(); !last_hit || !last_hit->reco_detail) {
+    }
+    else if (auto detail = std::dynamic_pointer_cast<T>(last_hit->reco_detail)) {
+        return detail;
     }
     Log.error(__FUNCTION__, "| Unable to get hit detail of type:", typeid(T).name());
     return nullptr;

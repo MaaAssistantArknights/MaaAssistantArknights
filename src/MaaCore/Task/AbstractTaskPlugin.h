@@ -29,7 +29,7 @@ public:
     bool operator==(const AbstractTaskPlugin& rhs) const;
 
 protected:
-    cv::Mat get_process_image() const;
+    std::shared_ptr<cv::Mat> get_hit_image() const;
 
     template <typename T>
     requires std::derived_from<T, asst::AnalyzerResult>
