@@ -1,7 +1,6 @@
 #include "AbstractTaskPlugin.h"
 
 #include "Controller/Controller.h"
-#include "ProcessTask.h"
 
 int asst::AbstractTaskPlugin::priority() const
 {

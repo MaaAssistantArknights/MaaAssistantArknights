@@ -6,6 +6,7 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
+#include "ProcessTask.h"
 
 namespace asst
 {
