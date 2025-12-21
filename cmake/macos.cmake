@@ -3,7 +3,7 @@ if (BUILD_XCFRAMEWORK)
 
     # Macro to find a unique library file
     macro(find_unique_library lib_name glob_pattern output_var)
-        file(GLOB _libs "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/${glob_pattern}")
+        file(GLOB _libs CONFIGURE_DEPENDS "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/${glob_pattern}")
         if(_libs)
             list(LENGTH _libs _cnt)
             if(_cnt EQUAL 1)
@@ -18,7 +18,7 @@ if (BUILD_XCFRAMEWORK)
     endmacro()
 
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework"
         COMMAND xcodebuild -create-xcframework 
             -library $<TARGET_FILE:MaaCore> 
             -headers ${PROJECT_SOURCE_DIR}/include 
@@ -29,7 +29,7 @@ if (BUILD_XCFRAMEWORK)
     )
     
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/MaaUtils.xcframework
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/MaaUtils.xcframework
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_BINARY_DIR}/xcframework/MaaUtils.xcframework"
         COMMAND xcodebuild -create-xcframework 
             -library $<TARGET_FILE:MaaUtils> 
             -output MaaUtils.xcframework
@@ -40,7 +40,7 @@ if (BUILD_XCFRAMEWORK)
 
     find_unique_library("OpenCV" "libopencv_world*.dylib" OPENCV_LIB)
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework"
         COMMAND xcodebuild -create-xcframework 
             -library "${OPENCV_LIB}" 
             -output OpenCV.xcframework
@@ -50,7 +50,7 @@ if (BUILD_XCFRAMEWORK)
 
     find_unique_library("ONNXRuntime" "libonnxruntime*.dylib" ONNXRUNTIME_LIB)
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework"
         COMMAND xcodebuild -create-xcframework 
             -library "${ONNXRUNTIME_LIB}" 
             -output ONNXRuntime.xcframework
@@ -59,7 +59,7 @@ if (BUILD_XCFRAMEWORK)
     )
 
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/fastdeploy_ppocr.xcframework
-        COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/fastdeploy_ppocr.xcframework
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${CMAKE_BINARY_DIR}/xcframework/fastdeploy_ppocr.xcframework"
         COMMAND xcodebuild -create-xcframework 
             -library "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/libfastdeploy_ppocr.dylib" 
             -output fastdeploy_ppocr.xcframework
