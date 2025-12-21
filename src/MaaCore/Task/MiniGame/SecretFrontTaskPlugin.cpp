@@ -128,15 +128,12 @@ std::optional<int> SecretFrontTaskPlugin::ocr_int(const cv::Mat& image, const Re
 
 std::optional<std::array<int, 3>> SecretFrontTaskPlugin::read_properties(const cv::Mat& image) const
 {
-    static const Rect R[] {
-        { 70, 327, 50, 23 },
-        { 70, 387, 50, 23 },
-        { 70, 450, 50, 23 },
-    };
-
+    const std::array<TaskPtr, 3> tasks { Task.get("MiniGame@SecretFront@ReadProperty-Materiel"),
+                                         Task.get("MiniGame@SecretFront@ReadProperty-Intelligence"),
+                                         Task.get("MiniGame@SecretFront@ReadProperty-Medicine") };
     std::array<int, 3> v {};
     for (int i = 0; i < 3; ++i) {
-        auto r = ocr_int(image, R[i]);
+        auto r = ocr_int(image, tasks[i]->roi);
         if (!r) {
             return std::nullopt;
         }
@@ -152,16 +149,17 @@ std::optional<SecretFrontTaskPlugin::CardData>
     SecretFrontTaskPlugin::read_card(const cv::Mat& image, int total, int idx) const
 {
     const auto base = card_pos_base(total, idx);
+    const Rect base_rect { base.x, base.y, 0, 0 };
 
-    auto materiel_r = Rect { base.x + 58, base.y + 47, 64, 20 };
-    auto intelligence_r = Rect { base.x + 168, base.y + 47, 64, 20 };
-    auto medicine_r = Rect { base.x + 276, base.y + 47, 64, 20 };
-    auto percent_r = Rect { base.x + 7, base.y + 293, 80, 22 };
+    const auto& materiel_r = Task.get("MiniGame@SecretFront@ReadCard-Materiel")->rect_move;
+    const auto& intelligence_r = Task.get("MiniGame@SecretFront@ReadCard-Intelligence")->rect_move;
+    const auto& medicine_r = Task.get("MiniGame@SecretFront@ReadCard-Medicine")->rect_move;
+    const auto& percent_r = Task.get("MiniGame@SecretFront@ReadCard-Percentage")->rect_move;
 
-    auto materiel = ocr_int(image, materiel_r);
-    auto intelligence = ocr_int(image, intelligence_r);
-    auto medicine = ocr_int(image, medicine_r);
-    auto percent_int = ocr_int(image, percent_r);
+    auto materiel = ocr_int(image, base_rect.move(materiel_r));
+    auto intelligence = ocr_int(image, base_rect.move(intelligence_r));
+    auto medicine = ocr_int(image, base_rect.move(medicine_r));
+    auto percent_int = ocr_int(image, base_rect.move(percent_r));
 
     // 允许百分比识别失败：按 100% 兜底
     double p = 1.0;
@@ -173,18 +171,8 @@ std::optional<SecretFrontTaskPlugin::CardData>
         return std::nullopt;
     }
 
-    Log.info(
-        __FUNCTION__,
-        "| card ",
-        idx,
-        " materiel=",
-        *materiel,
-        " intelligence=",
-        *intelligence,
-        " medicine=",
-        *medicine,
-        " percentage=",
-        p);
+    LogInfo << __FUNCTION__ << "| card" << idx << "materiel=" << *materiel << "intelligence=" << *intelligence
+            << "medicine=" << *medicine << "percentage=" << p;
 
     return CardData { .materiel = *materiel, .intelligence = *intelligence, .medicine = *medicine, .percentage = p };
 }
