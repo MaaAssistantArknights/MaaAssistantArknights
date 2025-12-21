@@ -3,6 +3,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/Roguelike/JieGarden/RoguelikeCoppersConfig.h"
+#include "Task/Roguelike/JieGarden/RoguelikeCopperExchangeStrategy.h"
 #include "Vision/Roguelike/JieGarden/RoguelikeCoppersAnalyzer.h"
 
 namespace asst
@@ -80,6 +81,15 @@ private:
 
     // 保存调试图像到文件
     void save_debug_image(const cv::Mat& image, const std::string& suffix, bool auto_clean = true) const;
+
+    // 获取当前游戏模式对应的交换策略
+    CopperExchangeStrategyType get_current_exchange_strategy_type() const;
+
+    // 根据策略决定是否交换通宝
+    bool decide_exchange_by_strategy(
+        const RoguelikeCopper& new_copper,
+        const std::vector<RoguelikeCopper>& existing_coppers,
+        size_t& discard_index) const;
 
     mutable asst::CoppersTaskRunMode m_run_mode; // 当前运行模式
 
