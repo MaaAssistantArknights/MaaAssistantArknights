@@ -5,9 +5,6 @@
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["VISIT", "MEMENTO"]
     },
-     "JieGarden@Roguelike@GetDropSwitch": {
-        "template": ["JieGarden@Roguelike@GetDropSwitch.png", "JieGarden@Roguelike@GetDropSwitch2.png"]
-    },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
         "text": ["Retreat"]
     },
@@ -102,6 +99,9 @@
             ["rogue_5_gild_bat_4", "引光"],
             ["rogue_5_gild_bat_5", "巡游"]
         ]
+    },
+    "JieGarden@Roguelike@GetDropSwitch": {
+        "template": ["JieGarden@Roguelike@GetDropSwitch.png", "JieGarden@Roguelike@GetDropSwitch2.png"]
     },
     "JieGarden@Roguelike@GiveUpOperation": {
         "text": ["Retreat"]
