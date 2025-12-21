@@ -120,7 +120,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         return false;
     }
 
-    asst::Point click_point_fallback;
+    asst::Point click_point_fallback(0, 0);
 
     // 遍历每个检测到的通宝，创建通宝对象
     for (size_t i = 0; i < detections.size(); ++i) {
@@ -549,7 +549,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
                 copper.pickup_priority,
                 copper.discard_priority,
                 copper.cast_discard_priority));
-        return copper;
+        // return copper;
     }
 
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
