@@ -135,12 +135,6 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
             LogError << __FUNCTION__ << "| failed to create copper at position" << i << " name:" << detection.name;
 
             click_point_fallback = detection.click_point;
-
-            // 将识别到的错误的名称发送到 WPF 进行反馈
-            auto copper_info = basic_info_with_what("RoguelikeCoppersPickupRecognitionError");
-            copper_info["details"]["recognized_name"] = detection.name;
-            callback(AsstMsg::SubTaskExtraInfo, copper_info);
-
             continue;
         }
 
@@ -534,7 +528,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     int col,
     int row,
     bool is_cast,
-    const Rect& pos) const
+    const Rect& pos)
 {
     // 从配置中查找通宝信息
     if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
@@ -554,6 +548,11 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     }
 
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
+
+    // 将识别到的错误的名称发送到 WPF 进行反馈
+    auto copper_info = basic_info_with_what("RoguelikeCoppersPickupRecognitionError");
+    copper_info["details"]["recognized_name"] = name;
+    callback(AsstMsg::SubTaskExtraInfo, copper_info);
 
     // 如果通宝不在配置中，保存调试图像
     try {

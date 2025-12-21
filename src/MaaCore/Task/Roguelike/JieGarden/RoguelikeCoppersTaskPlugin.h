@@ -62,7 +62,7 @@ private:
         int row = 0,             // 行位置
         bool is_cast = false,    // 是否已投出
         const Rect& pos = Rect() // 位置信息，用于调试
-    ) const;
+    );
 
     // 调试绘制辅助函数，在图像上绘制检测结果
     void draw_detection_debug(
