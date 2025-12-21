@@ -1,6 +1,22 @@
 if (BUILD_XCFRAMEWORK)
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/xcframework)
 
+    # Macro to find a unique library file
+    macro(find_unique_library lib_name glob_pattern output_var)
+        file(GLOB _libs "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/${glob_pattern}")
+        if(_libs)
+            list(LENGTH _libs _cnt)
+            if(_cnt EQUAL 1)
+                list(GET _libs 0 ${output_var})
+                message(STATUS "Found ${lib_name}: ${${output_var}}")
+            else()
+                message(FATAL_ERROR "Ambiguous ${lib_name} dylibs: ${_libs}")
+            endif()
+        else()
+            message(FATAL_ERROR "${lib_name} library not found in ${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/")
+        endif()
+    endmacro()
+
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
         COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/MaaCore.xcframework
         COMMAND xcodebuild -create-xcframework 
@@ -22,18 +38,7 @@ if (BUILD_XCFRAMEWORK)
         COMMENT "Generating MaaUtils.xcframework"
     )
 
-    file(GLOB OPENCV_LIBS "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/libopencv_world*.dylib")
-    if(OPENCV_LIBS)
-        list(LENGTH OPENCV_LIBS _cnt)
-        if(_cnt EQUAL 1)
-            list(GET OPENCV_LIBS 0 OPENCV_LIB)
-            message(STATUS "Found OpenCV: ${OPENCV_LIB}")
-        else()
-            message(FATAL_ERROR "Ambiguous OpenCV dylibs: ${OPENCV_LIBS}")
-        endif()
-    else()
-        message(FATAL_ERROR "OpenCV library not found in ${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/")
-    endif()
+    find_unique_library("OpenCV" "libopencv_world*.dylib" OPENCV_LIB)
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
         COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/OpenCV.xcframework
         COMMAND xcodebuild -create-xcframework 
@@ -43,18 +48,7 @@ if (BUILD_XCFRAMEWORK)
         COMMENT "Generating OpenCV.xcframework"
     )
 
-    file(GLOB ONNXRUNTIME_LIBS "${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/libonnxruntime*.dylib")
-    if(ONNXRUNTIME_LIBS)
-        list(LENGTH ONNXRUNTIME_LIBS _cnt)
-        if(_cnt EQUAL 1)
-            list(GET ONNXRUNTIME_LIBS 0 ONNXRUNTIME_LIB)
-            message(STATUS "Found ONNXRuntime: ${ONNXRUNTIME_LIB}")
-        else()
-            message(FATAL_ERROR "Ambiguous ONNXRuntime dylibs: ${ONNXRUNTIME_LIBS}")
-        endif()
-    else()
-        message(FATAL_ERROR "ONNXRuntime library not found in ${MAADEPS_DIR}/runtime/${MAADEPS_TRIPLET}/")
-    endif()
+    find_unique_library("ONNXRuntime" "libonnxruntime*.dylib" ONNXRUNTIME_LIB)
     add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
         COMMAND rm -rf ${CMAKE_BINARY_DIR}/xcframework/ONNXRuntime.xcframework
         COMMAND xcodebuild -create-xcframework 
