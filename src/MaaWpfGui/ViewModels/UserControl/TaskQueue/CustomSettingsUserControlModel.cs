@@ -37,8 +37,7 @@ public class CustomSettingsUserControlModel : TaskViewModel
     public string TaskName
     {
         get => _taskName;
-        set
-        {
+        set {
             value = value.Replace("，", ",").Replace("；", ";");
             SetAndNotify(ref _taskName, value);
             OnPropertyChanged(nameof(FormattedTaskNames));
@@ -52,8 +51,7 @@ public class CustomSettingsUserControlModel : TaskViewModel
 
     public string FormattedTaskNames
     {
-        get
-        {
+        get {
             if (string.IsNullOrWhiteSpace(TaskName))
             {
                 return string.Empty;
@@ -71,8 +69,7 @@ public class CustomSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstCustomTask()
-        {
+        var task = new AsstCustomTask() {
             CustomTasks = TaskName.Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(task => task.Trim())
                 .ToList(),
@@ -84,22 +81,21 @@ public class CustomSettingsUserControlModel : TaskViewModel
     {
         if (string.IsNullOrWhiteSpace(TaskName))
         {
-            return new List<(AsstTaskType, JObject)>();
+            return [];
         }
 
         if (!TaskName.Contains(';'))
         {
-            return new List<(AsstTaskType, JObject)> { Serialize() };
+            return [Serialize()];
         }
 
         var taskGroups = TaskName.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-        return taskGroups.Select(group => new AsstCustomTask()
-            {
-                CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
+        return taskGroups.Select(group => new AsstCustomTask() {
+            CustomTasks = group.Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(task => task.Trim())
                     .ToList(),
-            })
+        })
             .Select(task => task.Serialize())
             .ToList();
     }

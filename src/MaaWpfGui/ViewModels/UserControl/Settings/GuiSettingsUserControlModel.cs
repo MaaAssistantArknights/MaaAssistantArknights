@@ -78,8 +78,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool UseTray
     {
         get => _useTray;
-        set
-        {
+        set {
             if (!value)
             {
                 MinimizeToTray = false;
@@ -99,8 +98,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool MinimizeToTray
     {
         get => _minimizeToTray;
-        set
-        {
+        set {
             SetAndNotify(ref _minimizeToTray, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MinimizeToTray, value.ToString());
             Instances.MainWindowManager.SetMinimizeToTray(value);
@@ -115,8 +113,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool WindowTitleScrollable
     {
         get => _windowTitleScrollable;
-        set
-        {
+        set {
             SetAndNotify(ref _windowTitleScrollable, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.WindowTitleScrollable, value.ToString());
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
@@ -132,8 +129,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool HideCloseButton
     {
         get => _hideCloseButton;
-        set
-        {
+        set {
             SetAndNotify(ref _hideCloseButton, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HideCloseButton, value.ToString());
             var rvm = (RootViewModel)Instances.SettingsViewModel.Parent;
@@ -147,8 +143,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool UseNotify
     {
         get => ConfigFactory.Root.GUI.UseNotify;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.UseNotify = value;
             NotifyOfPropertyChange();
             if (value)
@@ -161,8 +156,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public bool MainTasksInvertNullFunction
     {
         get => ConfigFactory.Root.GUI.MainTasksInvertNullFunction;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.MainTasksInvertNullFunction = value;
             NotifyOfPropertyChange();
         }
@@ -184,8 +178,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public string LogItemDateFormatString
     {
         get => _logItemDateFormatString;
-        set
-        {
+        set {
             SetAndNotify(ref _logItemDateFormatString, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LogItemDateFormat, value);
         }
@@ -197,8 +190,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public DarkModeType DarkMode
     {
         get => ConfigFactory.Root.GUI.DarkMode;
-        set
-        {
+        set {
             ConfigFactory.Root.GUI.DarkMode = value;
             NotifyOfPropertyChange();
             SwitchDarkMode();
@@ -249,8 +241,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public string InverseClearMode
     {
         get => _inverseClearMode.ToString();
-        set
-        {
+        set {
             if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
             {
                 return;
@@ -302,8 +293,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public object[] WindowTitleSelectShowList
     {
         get => _windowTitleSelectShowList;
-        set
-        {
+        set {
             SetAndNotify(ref _windowTitleSelectShowList, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
             var config = string.Join(' ', _windowTitleSelectShowList.Cast<KeyValuePair<string, string>>().Select(pair => pair.Key).ToList());
@@ -319,8 +309,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public string Language
     {
         get => _language;
-        set
-        {
+        set {
             if (value == _language)
             {
                 return;
@@ -375,8 +364,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public string LanguageInfo
     {
-        get
-        {
+        get {
             var language = (string?)Application.Current.Resources["Language"];
             return language == "Language" ? language : language + " / Language";
         }
@@ -389,8 +377,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public string OperNameLanguage
     {
-        get
-        {
+        get {
             if (!_operNameLanguage.Contains('.'))
             {
                 return _operNameLanguage;
@@ -405,8 +392,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
             return "OperNameLanguageForce";
         }
 
-        set
-        {
+        set {
             if (value == _operNameLanguage.Split('.')[0])
             {
                 return;
@@ -451,8 +437,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
 
     public string OperNameLocalization
     {
-        get
-        {
+        get {
             if (_operNameLanguage == "OperNameLanguageClient")
             {
                 return DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType];

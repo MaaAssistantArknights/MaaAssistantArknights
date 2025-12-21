@@ -78,8 +78,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         foreach (var i in list)
         {
             int value = i;
-            var display = value switch
-            {
+            var display = value switch {
                 -1 => LocalizationHelper.GetString("NotSwitch") + " (-1)",
                 int.MaxValue => $"MAX ({maxThemeDifficulty})",
                 0 => "MIN (0)",
@@ -92,8 +91,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeDifficulty = RoguelikeDifficultyList.Any(item => item.Value == RoguelikeDifficulty) ? difficulty : -1;
     }
 
-    private static int GetMaxDifficultyForTheme(Theme theme) => theme switch
-    {
+    private static int GetMaxDifficultyForTheme(Theme theme) => theme switch {
         Theme.Phantom => 15,
         Theme.Mizuki => 18,
         Theme.Sami => 15,
@@ -161,8 +159,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
         RoguelikeRoles = RoguelikeRolesList.Any(x => x.Value == roguelikeRoles) ? roguelikeRoles : "稳扎稳打";
     }
 
-    private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new()
-    {
+    private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new() {
         ["Phantom_Default"] =
         [
             ("GatheringSquad", "集群分队"),
@@ -375,8 +372,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public Theme RoguelikeTheme
     {
         get => _roguelikeTheme;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeTheme, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value.ToString());
 
@@ -421,8 +417,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public int RoguelikeDifficulty
     {
         get => _roguelikeDifficulty;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeDifficulty, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDifficulty, value.ToString());
         }
@@ -436,8 +431,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public Mode RoguelikeMode
     {
         get => _roguelikeMode;
-        set
-        {
+        set {
             if (value == Mode.Investment)
             {
                 RoguelikeInvestmentEnabled = true;
@@ -458,8 +452,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string RoguelikeCollectibleModeSquad
     {
         get => _roguelikeCollectibleModeSquad;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeCollectibleModeSquad, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCollectibleModeSquad, value);
         }
@@ -473,8 +466,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string RoguelikeSquad
     {
         get => _roguelikeSquad;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeSquad, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeSquad, value);
         }
@@ -494,8 +486,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string RoguelikeRoles
     {
         get => _roguelikeRoles;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeRoles, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRoles, value);
         }
@@ -509,8 +500,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string RoguelikeCoreChar
     {
         get => _roguelikeCoreChar;
-        set
-        {
+        set {
             if (_roguelikeCoreChar == (value ??= string.Empty))
             {
                 return;
@@ -530,8 +520,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public ObservableCollection<string> RoguelikeCoreCharList
     {
         get => _roguelikeCoreCharList;
-        private set
-        {
+        private set {
             if (!string.IsNullOrEmpty(RoguelikeCoreChar) && !value.Contains(RoguelikeCoreChar))
             {
                 value.Add(RoguelikeCoreChar);
@@ -549,8 +538,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeStartWithEliteTwo
     {
         get => _roguelikeStartWithEliteTwo;
-        set
-        {
+        set {
             switch (value)
             {
                 case true when RoguelikeUseSupportUnit:
@@ -575,8 +563,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeOnlyStartWithEliteTwoRaw
     {
         get => _roguelikeOnlyStartWithEliteTwo;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
         }
@@ -632,8 +619,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public object[] RoguelikeStartWithSelectList
     {
         get => _roguelikeStartWithSelectList;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStartWithSelectList, value);
             var config = string.Join(' ', _roguelikeStartWithSelectList.Cast<GenericCombinedData<string>>().Select(i => i.Value).ToList());
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.RoguelikeStartWithSelectList, config);
@@ -648,8 +634,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool Roguelike3FirstFloorFoldartal
     {
         get => _roguelike3FirstFloorFoldartal;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelike3FirstFloorFoldartal, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, value.ToString());
         }
@@ -660,8 +645,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string Roguelike3FirstFloorFoldartals
     {
         get => _roguelike3FirstFloorFoldartals;
-        set
-        {
+        set {
             value = value.Trim();
             SetAndNotify(ref _roguelike3FirstFloorFoldartals, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartals, value);
@@ -676,8 +660,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool Roguelike3NewSquad2StartingFoldartal
     {
         get => _roguelike3NewSquad2StartingFoldartal;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, value.ToString());
         }
@@ -688,8 +671,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string Roguelike3NewSquad2StartingFoldartals
     {
         get => _roguelike3NewSquad2StartingFoldartals;
-        set
-        {
+        set {
             value = value.Replace('；', ';').Trim();
             SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, value);
@@ -705,8 +687,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public string RoguelikeExpectedCollapsalParadigms
     {
         get => _roguelikeExpectedCollapsalParadigms;
-        set
-        {
+        set {
             value = value.Replace('；', ';').Trim();
             SetAndNotify(ref _roguelikeExpectedCollapsalParadigms, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeExpectedCollapsalParadigms, value);
@@ -721,8 +702,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeUseSupportUnit
     {
         get => _roguelikeUseSupportUnit;
-        set
-        {
+        set {
             if (value && _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional)
             {
                 RoguelikeStartWithEliteTwo = false;
@@ -741,8 +721,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeEnableNonfriendSupport
     {
         get => _roguelikeEnableNonfriendSupport;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeEnableNonfriendSupport, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, value.ToString());
         }
@@ -756,8 +735,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public int RoguelikeStartsCount
     {
         get => _roguelikeStartsCount;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStartsCount, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartsCount, value.ToString());
         }
@@ -771,8 +749,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeInvestmentEnabled
     {
         get => _roguelikeInvestmentEnabled;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeInvestmentEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, value.ToString());
         }
@@ -786,8 +763,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeInvestmentWithMoreScoreRaw
     {
         get => _roguelikeInvestmentWithMoreScore;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
         }
@@ -806,8 +782,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeCollectibleModeShopping
     {
         get => _roguelikeCollectibleModeShopping;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeCollectibleModeShopping, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCollectibleModeShopping, value.ToString());
         }
@@ -818,8 +793,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeRefreshTraderWithDiceRaw
     {
         get => _roguelikeRefreshTraderWithDice;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
         }
@@ -828,8 +802,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeRefreshTraderWithDice
     {
         get => _roguelikeRefreshTraderWithDice && RoguelikeTheme == Theme.Mizuki;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
         }
@@ -843,8 +816,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public int RoguelikeInvestsCount
     {
         get => _roguelikeInvestsCount;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeInvestsCount, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestsCount, value.ToString());
         }
@@ -858,8 +830,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeStopWhenInvestmentFull
     {
         get => _roguelikeStopWhenInvestmentFull;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
         }
@@ -873,8 +844,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeStopAtFinalBoss
     {
         get => _roguelikeStopAtFinalBoss;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
         }
@@ -888,8 +858,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeMonthlySquadAutoIterate
     {
         get => _roguelikeMonthlySquadAutoIterate;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeMonthlySquadAutoIterate, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMonthlySquadAutoIterate, value.ToString());
         }
@@ -903,8 +872,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeMonthlySquadCheckComms
     {
         get => _roguelikeMonthlySquadCheckComms;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeMonthlySquadCheckComms, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMonthlySquadCheckComms, value.ToString());
         }
@@ -918,8 +886,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeDeepExplorationAutoIterate
     {
         get => _roguelikeDeepExplorationAutoIterate;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeDeepExplorationAutoIterate, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDeepExplorationAutoIterate, value.ToString());
         }
@@ -933,8 +900,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public RoguelikeBoskySubNodeType RoguelikeFindPlaytimeTarget
     {
         get => _roguelikeFindPlaytimeTarget;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeFindPlaytimeTarget, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeFindPlaytimeTarget, value.ToString());
         }
@@ -943,12 +909,12 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     /// <summary>
     /// Gets the list of available playtime target options for FindPlaytime mode.
     /// </summary>
-    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } = new()
-    {
+    public ObservableCollection<GenericCombinedData<RoguelikeBoskySubNodeType>> RoguelikeFindPlaytimeTargetList { get; } =
+    [
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeLing"), Value = RoguelikeBoskySubNodeType.Ling },
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeShu"), Value = RoguelikeBoskySubNodeType.Shu },
         new() { Display = LocalizationHelper.GetString("RoguelikePlaytimeNian"), Value = RoguelikeBoskySubNodeType.Nian },
-    };
+    ];
 
     /// <summary>
     /// Gets a value indicating whether the FindPlaytime target selection should be visible.
@@ -963,8 +929,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeStopAtMaxLevel
     {
         get => _roguelikeStopAtMaxLevel;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStopAtMaxLevel, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtMaxLevel, value.ToString());
         }
@@ -978,8 +943,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeDelayAbortUntilCombatComplete
     {
         get => _roguelikeDelayAbortUntilCombatComplete;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
         }
@@ -993,8 +957,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
     public bool RoguelikeStartWithSeed
     {
         get => _roguelikeStartWithSeed;
-        set
-        {
+        set {
             SetAndNotify(ref _roguelikeStartWithSeed, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithSeed, value.ToString());
         }
@@ -1095,7 +1058,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                 break;
 
             case "RoguelikeEncounterOptions":
-                var options = (subTaskDetails!["options"]! as JArray) ?? new JArray();
+                var options = (subTaskDetails!["options"]! as JArray) ?? [];
                 Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeEncounterOptions"), options.Count, UiLogColor.EventIS));
                 foreach (var option in options)
                 {
@@ -1109,8 +1072,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             case "BoskyPassageNode":
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();
-                    var (localizedNodeType, logColor) = nodeType switch
-                    {
+                    var (localizedNodeType, logColor) = nodeType switch {
                         "Omissions" => (LocalizationHelper.GetString("BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
                         "Legend" => (LocalizationHelper.GetString("BoskyLegend"), UiLogColor.BoskyLegendIS),
                         "OldShop" => (LocalizationHelper.GetString("BoskyOldShop"), UiLogColor.BoskyOldShopIS),
@@ -1150,8 +1112,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             case "RoguelikeJieGardenTargetFound":
                 {
                     var targetSubtype = subTaskDetails!["target_subtype"]?.ToString();
-                    var localizedTarget = targetSubtype switch
-                    {
+                    var localizedTarget = targetSubtype switch {
                         "Ling" => LocalizationHelper.GetString("RoguelikePlaytimeLing"),
                         "Shu" => LocalizationHelper.GetString("RoguelikePlaytimeShu"),
                         "Nian" => LocalizationHelper.GetString("RoguelikePlaytimeNian"),
@@ -1205,8 +1166,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstRoguelikeTask()
-        {
+        var task = new AsstRoguelikeTask() {
             Theme = RoguelikeTheme,
             Mode = RoguelikeMode,
             Starts = RoguelikeStartsCount,

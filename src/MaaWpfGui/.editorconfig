@@ -173,7 +173,7 @@ csharp_using_directive_placement = outside_namespace:silent
 # C# Formatting Rules         #
 ###############################
 # New line preferences
-csharp_new_line_before_open_brace = methods, types, control_blocks, properties, accessors
+csharp_new_line_before_open_brace = methods, types, control_blocks, properties
 csharp_new_line_before_else = true
 csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true

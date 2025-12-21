@@ -36,8 +36,7 @@ public class PerformanceUserControlModel : PropertyChangedBase
     public GpuOption ActiveGpuOption
     {
         get => GpuOption.GetCurrent();
-        set
-        {
+        set {
             GpuOption.SetCurrent(value);
             SettingsViewModel.AskRestartToApplySettings();
         }
@@ -46,8 +45,7 @@ public class PerformanceUserControlModel : PropertyChangedBase
     public bool AllowDeprecatedGpu
     {
         get => GpuOption.AllowDeprecatedGpu;
-        set
-        {
+        set {
             GpuOption.AllowDeprecatedGpu = value;
             NotifyOfPropertyChange();
         }
