@@ -47,18 +47,3 @@ std::shared_ptr<cv::Mat> asst::AbstractTaskPlugin::get_hit_image() const
     }
     return nullptr;
 }
-
-template <typename T>
-requires std::derived_from<T, asst::AnalyzerResult>
-std::shared_ptr<T> asst::AbstractTaskPlugin::get_hit_detail() const
-{
-    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
-    }
-    else if (auto last_hit = ptr->get_last_hit(); !last_hit || !last_hit->reco_detail) {
-    }
-    else if (auto detail = std::dynamic_pointer_cast<T>(last_hit->reco_detail)) {
-        return detail;
-    }
-    Log.error(__FUNCTION__, "| Unable to get hit detail of type:", typeid(T).name());
-    return nullptr;
-}
