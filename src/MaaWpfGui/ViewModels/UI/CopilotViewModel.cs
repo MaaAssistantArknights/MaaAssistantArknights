@@ -126,14 +126,30 @@ public partial class CopilotViewModel : Screen
     /// <param name="color">The font color.</param>
     /// <param name="weight">The font weight.</param>
     /// <param name="showTime">Whether show time.</param>
-    public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
+    public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
     {
+        if (string.IsNullOrEmpty(content))
+        {
+            return;
+        }
+
         Execute.OnUIThread(() =>
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
             if (showTime)
             {
-                _logger.Information(content);
+                switch (color)
+                {
+                    case UiLogColor.Error:
+                        _logger.Error("{Content}", content);
+                        break;
+                    case UiLogColor.Warning:
+                        _logger.Warning("{Content}", content);
+                        break;
+                    default:
+                        _logger.Information("{Content}", content);
+                        break;
+                }
             }
         });
 

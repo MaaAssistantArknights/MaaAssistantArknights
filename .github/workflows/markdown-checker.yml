@@ -36,7 +36,7 @@ jobs:
           show-progress: false
 
       - name: Cache lychee responses
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         continue-on-error: true
         with:
           path: .lycheecache

@@ -2,8 +2,9 @@ $scriptRoot = $PSScriptRoot
 
 Push-Location
 
-New-Item -ItemType Directory -Path "$scriptRoot/" -Force | Out-Null
-Set-Location "$scriptRoot/"
+# Create and navigate to build/bin/Release directory
+New-Item -ItemType Directory -Path "$scriptRoot/build/bin/Release" -Force | Out-Null
+Set-Location "$scriptRoot/build/bin/Release"
 
 if (Test-Path -Path "Official") { Remove-Item "Official" -Recurse -Force }
 if (Test-Path -Path "Overseas") { Remove-Item "Overseas" -Recurse -Force }
@@ -75,8 +76,8 @@ $jobs += Start-Job -ScriptBlock {
 $jobs += Start-Job -ScriptBlock {
     $scriptRoot = $using:scriptRoot
 
-    # Change to the target directory
-    Set-Location -Path "$scriptRoot/Overseas/tw/gamedata/excel"
+    # Change to the target directory - use the same build/bin/Release path
+    Set-Location -Path "$scriptRoot/build/bin/Release/Overseas/tw/gamedata/excel"
 
     # Define the base URL
     $baseUrl = "https://penguin-stats.io/PenguinStats/api/v2/stages?server="

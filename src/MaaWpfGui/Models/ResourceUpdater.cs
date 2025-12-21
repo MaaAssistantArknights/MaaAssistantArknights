@@ -68,11 +68,11 @@ public static class ResourceUpdater
             return false;
         }
 
-        // 把 \MaaResource-main 中的 cache 和 resource 文件夹复制到当前目录
+        // 把 \MaaResource-main 中的 resource 文件夹复制到当前目录
         try
         {
             string basePath = Path.Combine(ExtractFolder, "MaaResource-main");
-            foreach (var folder in new[] { "cache", "resource" })
+            foreach (var folder in new[] { "resource" })
             {
                 DirectoryMerge(
                     Path.Combine(basePath, folder),

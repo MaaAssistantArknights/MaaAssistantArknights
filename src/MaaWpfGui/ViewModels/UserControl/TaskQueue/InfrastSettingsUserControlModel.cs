@@ -192,21 +192,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         new() { Display = LocalizationHelper.GetString("InfrastModeCustom"), Value = Mode.Custom },
     ];
 
-    // 5.16.0-b1，后续版本直接使用 ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
-    private Mode _infrastMode = GetInfrastMode();
-
-    private static Mode GetInfrastMode()
-    {
-        if (ConfigurationHelper.ContainsKey(ConfigurationKeys.CustomInfrastEnabled) &&
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.CustomInfrastEnabled, out string outStr) &&
-            bool.TryParse(outStr, out bool enable) && enable)
-        {
-            ConfigurationHelper.SetValue(ConfigurationKeys.InfrastMode, Mode.Custom.ToString());
-            return Mode.Custom;
-        }
-
-        return ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
-    }
+    private Mode _infrastMode = ConfigurationHelper.GetValue(ConfigurationKeys.InfrastMode, Mode.Normal);
 
     /// <summary>
     /// Gets or sets the infrast mode.

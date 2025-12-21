@@ -1458,7 +1458,7 @@
         "action": "ClickRect",
         "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
         "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
-        "specificRect": [1000, 120, 270, 10],
+        "specificRect": [1000, 100, 270, 10],
         "maxTimes": 5,
         "postDelay": 3000,
         "next": ["EndOfAction", "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self", "#self"],
@@ -2539,7 +2539,7 @@
     },
     "ShamareThumbnail": {
         "algorithm": "JustReturn",
-        "next": ["ShamareThumbnail1", "ShamareThumbnail2", "ShamareThumbnail3"]
+        "next": ["ShamareThumbnail1", "ShamareThumbnail2", "ShamareThumbnail3", "ShamareThumbnail4"]
     },
     "ShamareThumbnail1": {
         "templThreshold": 0.9,
@@ -2550,6 +2550,10 @@
         "roi": [240, 550, 380, 170]
     },
     "ShamareThumbnail3": {
+        "templThreshold": 0.9,
+        "roi": [240, 550, 380, 170]
+    },
+    "ShamareThumbnail4": {
         "templThreshold": 0.9,
         "roi": [240, 550, 380, 170]
     },
@@ -3712,7 +3716,7 @@
     "EndOfPlot": {
         "roi": [520, 0, 243, 206],
         "action": "ClickRect",
-        "specificRect": [1000, 120, 270, 10],
+        "specificRect": [1000, 100, 270, 10],
         "next": ["ClickStageName"]
     },
     "SkipForbiddenOperConfirm": {
@@ -4024,13 +4028,14 @@
         "binThreshold": [210, 255],
         "useRaw": false,
         "ocrReplace": [
+            ["—{1,2}", "-"],
             ["^.+-EX-?\\d+.*$", "_INVALID_"],
             ["^.+-S-?\\d+.*$", "_INVALID_"],
             ["^.+-MO-?\\d+.*$", "_INVALID_"],
             ["^OF-1$", "_INVALID_"],
-            ["Ap-", "AP-"],
-            ["Bl-", "BI-"],
-            ["-1O", "-10"]
+            ["^Ap-", "AP-"],
+            ["^Bl-", "BI-"],
+            ["-1O$", "-10"]
         ],
         "roi": [140, 60, 200, 55]
     },
@@ -4650,13 +4655,13 @@
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1000, 120, 270, 10],
+        "specificRect": [1000, 100, 270, 10],
         "next": ["BattleStartPreFlag", "ClickCornerUntilStartButton"]
     },
     "ClickCornerUntilReturnButton": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [1000, 120, 270, 10],
+        "specificRect": [1000, 100, 270, 10],
         "next": ["ParadoxReturnFlag", "ClickCornerUntilReturnButton"]
     },
     "ParadoxReturnFlag": {
