@@ -5,6 +5,9 @@
     "JieGarden@Roguelike@CheckLevel": {
         "text": ["VISIT", "MEMENTO"]
     },
+     "JieGarden@Roguelike@GetDropSwitch": {
+        "template": ["JieGarden@Roguelike@GetDropSwitch.png", "JieGarden@Roguelike@GetDropSwitch2.png"]
+    },
     "JieGarden@Roguelike@ConfirmToGiveUp": {
         "text": ["Retreat"]
     },
