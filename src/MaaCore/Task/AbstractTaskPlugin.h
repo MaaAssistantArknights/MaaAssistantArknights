@@ -7,6 +7,7 @@
 #include "Common/AsstTypes.h"
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "ProcessTask.h"
+#include "Utils/Logger.hpp"
 
 namespace asst
 {
