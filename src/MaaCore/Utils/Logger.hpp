@@ -808,7 +808,7 @@ private:
 
         if (!fp) {
             // 打开失败时回退到原始方法
-            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+            m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
         else {
             // 使用文件指针创建新的std::ofstream
@@ -818,11 +818,11 @@ private:
             // 如果需要，这里还可以添加一个安全检查
             if (!m_ofs) {
                 fclose(fp);
-                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
             }
         }
 #else
-        m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::ate);
+        m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
 #endif
         // 获取文件大小并设置缓冲区
         m_file_size = std::filesystem::exists(m_log_path) ? std::filesystem::file_size(m_log_path) : 0;

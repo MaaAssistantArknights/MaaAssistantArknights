@@ -43,6 +43,8 @@ bool asst::InfrastReceptionTask::_run()
         return false;
     }
 
+    // 赠送线索后的弹窗会挡住自己新线索的图标
+    sleep(500);
     get_self_clue();
     if (need_exit()) {
         return false;

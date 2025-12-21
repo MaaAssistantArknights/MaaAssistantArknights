@@ -1,6 +1,6 @@
 #include "CopilotTask.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"

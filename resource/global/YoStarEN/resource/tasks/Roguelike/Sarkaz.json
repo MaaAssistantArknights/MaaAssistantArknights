@@ -77,7 +77,6 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode1": {
-        "text": ["_default", "_exit"],
         "ocrReplace": [
             ["Furnace Origin", "_default"],
             ["Wrought Ironroots", "_exit"],

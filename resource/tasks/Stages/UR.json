@@ -31,7 +31,7 @@
     },
     "UR-OpenOcr": {
         "baseTask": "SS-OpenOcr",
-        "text": ["未许之地", "天空生活展会", "逃离哥伦比亚"],
+        "text": ["未许之地", "天空生活展会", "逃离哥", "伦比亚"],
         "postDelay": 5000,
         "next": ["URChapterToUR"]
     },

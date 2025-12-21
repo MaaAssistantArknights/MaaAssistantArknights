@@ -77,7 +77,7 @@ jobs:
           PUSH_REMOTE: https://github-actions[bot]:${{ secrets.MAARELEASE_RELEASE }}@github.com/${{ github.repository_owner }}/MaaRelease
 
       - name: Upload release config to GitHub
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: MaaReleaseConfig
           path: ./build-ota/config
@@ -96,7 +96,7 @@ jobs:
           - x64
     steps:
       - name: Download release config
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: MaaReleaseConfig
           path: ./MaaReleaseConfig

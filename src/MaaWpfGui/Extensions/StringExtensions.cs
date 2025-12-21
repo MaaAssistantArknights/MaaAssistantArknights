@@ -47,6 +47,6 @@ public static class StringExtensions
     public static string StableHash(this string input)
     {
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(input));
-        return BitConverter.ToString(hash).Replace("-", string.Empty);
+        return Convert.ToHexString(hash);
     }
 }

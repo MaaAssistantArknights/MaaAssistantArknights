@@ -169,12 +169,12 @@
     <system:String x:Key="RoguelikeCollectibleModeSquad">支援選択を得るモードの分隊</system:String>
     <system:String x:Key="RoguelikeStrategyMonthlySquad">月間小隊をグラインドし、できるだけ多くの層をクリア</system:String>
     <system:String x:Key="RoguelikeStrategyDeepExploration">深層探索をグラインドし、できるだけ多くの層をクリア</system:String>
-    <system:String x:Key="RoguelikeStrategyFindPlaytime">刷常乐节点，第一层进洞，找不到需要的节点就重开</system:String>
-    <system:String x:Key="RoguelikeFindPlaytimeTarget">目标常乐节点</system:String>
-    <system:String x:Key="RoguelikePlaytimeLing">令 - 掷地有声</system:String>
-    <system:String x:Key="RoguelikePlaytimeShu">黍 - 种因得果</system:String>
-    <system:String x:Key="RoguelikePlaytimeNian">年 - 三缺一</system:String>
-    <system:String x:Key="RoguelikeJieGardenTargetFound">发现目标常乐节点 {0}</system:String>
+    <system:String x:Key="RoguelikeStrategyFindPlaytime">常楽スポットをグラインドし、第一層で洞窟に入り、ターゲットスポットが見つからなければ再起動します</system:String>
+    <system:String x:Key="RoguelikeFindPlaytimeTarget">ターゲット常楽系スポット</system:String>
+    <system:String x:Key="RoguelikePlaytimeLing">リィン - 地に擲ちて声有り</system:String>
+    <system:String x:Key="RoguelikePlaytimeShu">シュウ - 因を種えて果を得る</system:String>
+    <system:String x:Key="RoguelikePlaytimeNian">ニェン - 一人足らぬ</system:String>
+    <system:String x:Key="RoguelikeJieGardenTargetFound">ターゲット常楽スポット {0} を見つけた</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初の{key=Operator}</system:String>
@@ -216,15 +216,15 @@
     <system:String x:Key="IS4NewSquad6">破棘成金分隊</system:String>
     <system:String x:Key="IS4NewSquad7">擬態学者分隊</system:String>
     <system:String x:Key="IS4NewSquad8">専門家分隊</system:String>
-    <system:String x:Key="IS5NewSquad1">高台突破分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad2">地面突破分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad3">游客分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad4">司岁台分队（占位）</system:String>
-    <system:String x:Key="IS5NewSquad5">天师府分队（占位）</system:String>
+    <system:String x:Key="IS5NewSquad1">高台突破分隊</system:String>
+    <system:String x:Key="IS5NewSquad2">地面突破分隊</system:String>
+    <system:String x:Key="IS5NewSquad3">観光客分隊</system:String>
+    <system:String x:Key="IS5NewSquad4">司歳台分隊</system:String>
+    <system:String x:Key="IS5NewSquad5">天師府分隊</system:String>
     <system:String x:Key="IS5NewSquad6">花团锦簇分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad7">棋行险着分队（占位）</system:String>
     <system:String x:Key="IS5NewSquad8">岁影回音分队（占位）</system:String>
-    <system:String x:Key="SpecialForceSquad">特勤分队（占位）</system:String>
+    <system:String x:Key="SpecialForceSquad">特別行動分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -240,8 +240,8 @@
     <system:String x:Key="SlowAndSteadyWinsTheRace">攻守一体（重装、術師、狙撃）</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">前線支援（前衛、補助、医療）</system:String>
     <system:String x:Key="AsYourHeartDesires">自由自在（ランダム）</system:String>
-    <system:String x:Key="FlexibleDeployment">灵活部署（先鋒、補助、特殊）</system:String>
-    <system:String x:Key="Unbreakable">坚不可摧（重装、術師、医療）</system:String>
+    <system:String x:Key="FlexibleDeployment">柔軟配置（先鋒、補助、特殊）</system:String>
+    <system:String x:Key="Unbreakable">難攻不落（重装、術師、医療）</system:String>
     <system:String x:Key="AlgorithmFinish">演算終了</system:String>
     <system:String x:Key="AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">ビルドポイント</system:String>
@@ -425,11 +425,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
-    <system:String x:Key="RoguelikeThemeJieGarden">界ガーデン（占位）</system:String>
+    <system:String x:Key="RoguelikeThemeJieGarden">界園</system:String>
     <system:String x:Key="RoguelikeDifficulty">難易度</system:String>
-    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する技術を解放すると、指揮分隊が N3 以上の難易度で探索を行う際、「時の終わり」を追加で携帯し、「一戦一跳」の貯蓄戦略を行うことができます。
-この技術をまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
-この機能を有効にするには、N3 以上の難易度を選択してください（「{key=NotSwitch} (-1)」は除く）。</system:String>
+    <system:String x:Key="RoguelikeJieGardenDifficultyTip" xml:space="preserve">「界園」に関する知識ノードを解放すると、指揮分隊で N3 以上の難易度で探索を行う際、「時の果て」を追加で携帯し、「一回の戦闘と一回のスキップ」の投資モード戦略を行うことができます。
+この知識ノードをまだ解放していない場合は、N3 以上の難易度（MAX を含む）を選択しないでください。
+この知識ノードを有効にするには、N3 以上の難易度を選択してください（「{key=NotSwitch} (-1)」は除く）。</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -446,7 +446,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="RoguelikeStartWithKey">鍵</system:String>
     <system:String x:Key="RoguelikeStartWithDice">ダイスロール回数</system:String>
     <system:String x:Key="RoguelikeStartWithIdea">構想</system:String>
-    <system:String x:Key="RoguelikeStartWithTicket">票券</system:String>
+    <system:String x:Key="RoguelikeStartWithTicket">遊覧券</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
@@ -1049,15 +1049,15 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
-    <system:String x:Key="BoskyOmissions">节点: 拾遗</system:String>
-    <system:String x:Key="BoskyLegend">节点: 传说</system:String>
-    <system:String x:Key="BoskyOldShop">节点: 故肆</system:String>
-    <system:String x:Key="BoskyYiTrader">节点: 易与</system:String>
-    <system:String x:Key="BoskyScheme">节点: 筹谋</system:String>
-    <system:String x:Key="BoskyPlaytime">节点: 常乐</system:String>
-    <system:String x:Key="BoskyDoubts">节点: 杂疑</system:String>
-    <system:String x:Key="BoskyDisaster">节点: 灾祸</system:String>
-    <system:String x:Key="RoguelikeCoppersExchange">通宝交换: {0} → {1}</system:String>
+    <system:String x:Key="BoskyOmissions">スポット: 拾遺</system:String>
+    <system:String x:Key="BoskyLegend">スポット: 伝説</system:String>
+    <system:String x:Key="BoskyOldShop">スポット: 古肆</system:String>
+    <system:String x:Key="BoskyYiTrader">スポット: 易与</system:String>
+    <system:String x:Key="BoskyScheme">スポット: 画策</system:String>
+    <system:String x:Key="BoskyPlaytime">スポット: 常楽</system:String>
+    <system:String x:Key="BoskyDoubts">スポット: 雑疑</system:String>
+    <system:String x:Key="BoskyDisaster">スポット: 禍乱</system:String>
+    <system:String x:Key="RoguelikeCoppersExchange">通宝交換: {0} → {1}</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>

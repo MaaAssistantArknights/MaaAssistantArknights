@@ -1,6 +1,6 @@
 #include "AdbLiteIO.h"
 
-#include <regex>
+#include <boost/regex.hpp>
 
 #include "Utils/Logger.hpp"
 
@@ -22,18 +22,18 @@ std::optional<int> asst::AdbLiteIO::call_command(
     // TODO: 实现 timeout，目前暂时忽略
     std::ignore = timeout;
     std::ignore = start_time;
-    std::smatch match;
+    boost::smatch match;
     std::optional<int> ret;
 
-    static const std::regex devices_regex(R"(^.+ devices$)");
-    static const std::regex release_regex(R"(^.+ kill-server$)");
-    static const std::regex connect_regex(R"(^.+ connect (\S+)$)");
-    static const std::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
-    static const std::regex exec_regex(R"(^.+ -s \S+ exec-out (.+)$)");
-    static const std::regex push_regex(R"#(^.+ -s \S+ push "(.+)" "(.+)"$)#");
+    static const boost::regex devices_regex(R"(^.+ devices$)");
+    static const boost::regex release_regex(R"(^.+ kill-server$)");
+    static const boost::regex connect_regex(R"(^.+ connect (\S+)$)");
+    static const boost::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
+    static const boost::regex exec_regex(R"(^.+ -s \S+ exec-out (.+)$)");
+    static const boost::regex push_regex(R"#(^.+ -s \S+ push "(.+)" "(.+)"$)#");
 
     // adb devices
-    if (std::regex_match(cmd, devices_regex)) {
+    if (boost::regex_match(cmd, devices_regex)) {
         try {
             pipe_data = adb::devices();
             ret = 0;
@@ -47,7 +47,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb kill-server
-    if (std::regex_match(cmd, release_regex)) {
+    if (boost::regex_match(cmd, release_regex)) {
         try {
             adb::kill_server();
             ret = 0;
@@ -62,7 +62,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
 
     // adb connect
     // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
-    if (std::regex_match(cmd, match, connect_regex)) {
+    if (boost::regex_match(cmd, match, connect_regex)) {
         m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
 
         try {
@@ -79,7 +79,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb shell
-    if (std::regex_match(cmd, match, shell_regex)) {
+    if (boost::regex_match(cmd, match, shell_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
             ret = std::nullopt;
@@ -102,7 +102,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb exec-out
-    if (std::regex_match(cmd, match, exec_regex)) {
+    if (boost::regex_match(cmd, match, exec_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
             ret = std::nullopt;
@@ -125,7 +125,7 @@ std::optional<int> asst::AdbLiteIO::call_command(
     }
 
     // adb push
-    if (std::regex_match(cmd, match, push_regex)) {
+    if (boost::regex_match(cmd, match, push_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
             ret = std::nullopt;
@@ -158,10 +158,10 @@ ret_exit:
 
 std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::string& cmd)
 {
-    static const std::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
-    std::smatch match;
+    static const boost::regex shell_regex(R"(^.+ -s \S+ shell (.+)$)");
+    boost::smatch match;
 
-    if (std::regex_match(cmd, match, shell_regex)) {
+    if (boost::regex_match(cmd, match, shell_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
             return nullptr;

@@ -1,7 +1,7 @@
 #include "StageDropsTaskPlugin.h"
 
+#include <boost/regex.hpp>
 #include <chrono>
-#include <regex>
 #include <thread>
 
 #include "Common/AsstTypes.h"
