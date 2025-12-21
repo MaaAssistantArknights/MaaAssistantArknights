@@ -32,7 +32,7 @@ protected:
     cv::Mat get_process_image() const;
 
     template <typename T>
-    requires std::derived_from<T, AnalyzerResult>
+    requires std::derived_from<T, asst::AnalyzerResult>
     std::shared_ptr<T> get_hit_detail() const;
 
     AbstractTask* m_task_ptr = nullptr;

@@ -315,7 +315,7 @@ struct MatchRect : public AnalyzerResult
 
     std::string to_string() const override
     {
-        return std::format("{{ rect: {}, score: {},template: {} }}", rect.to_string(), score, templ_name);
+        return std::format("{{ rect: {}, score: {}, template: {} }}", rect.to_string(), score, templ_name);
     }
 
     json::object to_json() const override
