@@ -42,8 +42,8 @@ std::shared_ptr<cv::Mat> asst::AbstractTaskPlugin::get_hit_image() const
     if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
         return nullptr;
     }
-    else if (auto last_hit = ptr->get_last_hit(); last_hit && !last_hit->image.empty()) {
-        return std::make_shared<cv::Mat>(last_hit->image);
+    else if (auto last_hit = ptr->get_last_hit(); last_hit && last_hit->image && !last_hit->image->empty()) {
+        return last_hit->image;
     }
     return nullptr;
 }

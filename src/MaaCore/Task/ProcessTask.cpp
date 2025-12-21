@@ -157,36 +157,36 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
 
     auto res_opt = analyzer.analyze();
     if (!res_opt) {
-        return { .image = std::move(image), .task_ptr = nullptr };
+        return { .image = std::make_shared<cv::Mat>(std::move(image)), .task_ptr = nullptr };
     }
 
     task_ptr = std::move(res_opt->task_ptr);
 
     if (task_ptr->algorithm == AlgorithmType::MatchTemplate) {
         auto& raw_result = std::get<Matcher::Result>(res_opt->result);
-        return { .image = std::move(image),
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
                  .rect = res_opt->rect,
-                 .reco_detail = std::make_shared<Matcher::Result>(raw_result),
+                 .reco_detail = std::make_shared<Matcher::Result>(std::move(raw_result)),
                  .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::OcrDetect) {
         auto& raw_result = std::get<OCRer::Result>(res_opt->result);
-        return { .image = std::move(image),
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
                  .rect = res_opt->rect,
-                 .reco_detail = std::make_shared<OCRer::Result>(raw_result),
+                 .reco_detail = std::make_shared<OCRer::Result>(std::move(raw_result)),
                  .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::FeatureMatch) {
         auto& raw_result = std::get<FeatureMatcher::Result>(res_opt->result);
-        return { .image = std::move(image),
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
                  .rect = res_opt->rect,
-                 .reco_detail = std::make_shared<FeatureMatcher::Result>(raw_result),
+                 .reco_detail = std::make_shared<FeatureMatcher::Result>(std::move(raw_result)),
                  .task_ptr = task_ptr };
     }
 
-    return { .image = std::move(image), .rect = res_opt->rect, .task_ptr = task_ptr };
+    return { .image = std::make_shared<cv::Mat>(std::move(image)), .rect = res_opt->rect, .task_ptr = task_ptr };
 }
 
 // action 为 Stop 时返回 Interrupted, 其它返回 Success

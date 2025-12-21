@@ -53,7 +53,7 @@ protected:
 
     struct HitDetail
     {
-        cv::Mat image;
+        std::shared_ptr<cv::Mat> image = nullptr;
         Rect rect;
         std::shared_ptr<AnalyzerResult> reco_detail = nullptr;
         TaskConstPtr task_ptr = nullptr;
