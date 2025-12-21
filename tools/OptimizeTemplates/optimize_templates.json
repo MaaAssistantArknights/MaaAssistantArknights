@@ -5934,5 +5934,6 @@
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "ca706e252e3b4c5b920ac5e71c7940468e25619127a72495335a54bbcf8fd2ec",
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "c4d37f449e351a1dd2e6ff29094d39a2861d6ee210eca578e292d6c7384b8ba3",
     "resource/global/YoStarJP/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "e9845580b449b5fc484c9b83b5ab1d4a20f2d703e812d5be7a3b7323543cd354",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "af72072e57098401310e63556bca74a924cf6c51bb313e76b236729948c77f32"
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "af72072e57098401310e63556bca74a924cf6c51bb313e76b236729948c77f32",
+    "resource/template/InfrastPic/Clue/InfrastClueQuickInsertConfirm": "bc84abc9f6f909ea0ad2459eb4662a240e2ab42076c92211780dedd1d9a6542e"
 }
