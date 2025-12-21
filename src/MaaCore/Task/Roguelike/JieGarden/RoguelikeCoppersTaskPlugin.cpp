@@ -550,7 +550,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
                 copper.pickup_priority,
                 copper.discard_priority,
                 copper.cast_discard_priority));
-        // return copper;
+        return copper;
     }
 
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
