@@ -1126,10 +1126,10 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     break;
                 }
 
-            case "RoguelikeCoppersPickupRecognitionError":
+            case "RoguelikeCoppersRecognitionError":
             {
                 var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
-                var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersPickupRecognitionError"), recognizedName);
+                var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersRecognitionError"), recognizedName);
                 Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
                 break;
             }
