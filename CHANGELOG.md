@@ -1,82 +1,47 @@
-## v6.0.1
+## v6.1.0-beta.2
 
 ### Highlights
 
-#### .NET 10 升级
+#### 界园导游持续完善 | Roguelike IS6 Refinement
 
-MAA 已升级至 .NET 10，带来性能与开发体验改进；取消单文件发布同时将第三方依赖移至子文件夹，在保持目录清爽的同时有效减少更新包的体积。 (PR #14971, #14984) @SherkeyXD @ABA2396
-
-#### 关卡导航与小游戏优化
-
-重构关卡导航 API，小游戏列表可通过 API 动态获取并支持配置小游戏开放时间，增强灵活性与可配置性。 (PR #14997) @ABA2396
-
-----
-
-#### .NET 10 Upgrade
-
-MAA has been upgraded to .NET 10, improving performance and the developer experience. Cancel the single file release and move third-party dependencies to subfolders, effectively reducing update package size while keeping the directory clean. (PR #14971) @SherkeyXD @ABA2396
-
-#### Stage Navigation and Mini-game Optimization
-
-Refactored the stage navigation API. Mini-game lists can be retrieved via API and opening times configured, improving flexibility. (PR #14997, #14984) @ABA2396
-
-#### EN (Global) IS Fix (v6.0.1)
-
-Quick Fix for EN (Global) IS in the Stage Trader  
-Quick Fix for EN (Global) RA2 post crafting  
-Translation for SSS#8 copilot jobs  
-Fixes to the missions collection post client update
+感谢各位玩家的反馈！
+这个版本主要修复了界园肉鸽的遭遇识别和通宝/铜币兑换识别问题。
+针对 EN/KR/JP 服务器优化了大量 OCR 正则表达式，提升遭遇节点与商店流程的稳定性。
+如遇问题请通过 Discord 服务器或直接在 GitHub 上反馈给我们。
 
 ----
 
-以下是详细内容：
+#### IS6 Encounter & Tongbao / Copper Detection Fixes
 
-## v6.0.0
+Thanks for your feedback!
+This version focuses on fixing IS6 encounter recognition and Tongbao/Copper exchange detection issues.
+Multiple OCR regex improvements for EN/KR/JP servers enhance stability in encounter nodes and shop flows.
+Please continue reporting issues to us via the Discord Server or directly on GitHub.
+
+----
 
 ### 新增 | New
 
-* `LocalizationHelper` 支持 `TryGetString` 与 `HasTranslation` @ABA2396
-* 将第三方依赖移至子文件夹以减小更新包体积 (PR #14984) @ABA2396
-
-### 改进 | Improved
-
-* 重构关卡导航 API，小游戏列表通过 API 获取并支持配置开放时间 (PR #14997) @ABA2396
-* Roguelike：StageTrader 与 OCR 兼容性与 UI 优化，改进多区域支持 (PR #15047, #15026) @Manicsteiner @HX3N
-* 将部分 P/Invoke 从 `DllImport` 切换为 `LibraryImport`，提高跨平台兼容性 @status102
+* 满线索再一键置入 @ABA2396
 
 ### 修复 | Fix
 
-* 修复 nightly OTA dotnet 构建问题 (PR #14996) @Manicsteiner
-* 修复资源更新时创建 ToolTip 失败的问题 @ABA2396
-* 修复自动编队/助战模块中 retry 与标记导致的重复或遗漏问题 @status102
-* 修复多活动同时开放时被错误折叠的问题 @ABA2396
-
-### 文档 | Docs
-
-* 在 VS Code 扩展中补充日志查看说明 (PR #14696) @NtskwK
-* 在文档中更新 .NET 版本说明为 10 (PR #15023) @wryx166
-
-### 其他 | Other
-
-* 移除废弃的右键添加作业集行为 @status102
-* 移除不再使用的 `report` 与相关引用 @status102
-* 若干 OCR 与文本替换的局部改进 YostarKR / YostarJP @HX3N @Manicsteiner
-
-----
-
-## v6.0.1
-
-### 新增 | New
-
-* 为 MuMu/LDPlayer 添加路径/库检查并补充 i18n 提示 @ABA2396
-
-### 修复 | Fix
-
-* collect rewards for EN updated templates @Constrat
-* OCR for RA2 @Constrat
-* Update StageTrader for EN IS @Constrat
+* more tongbao EN regex @Constrat
+* SendClues for txwy (#15178) @momomochi987
+* 通宝识别失败时放弃通宝 (#15167) @travellerse @HX3N
+* more Coppers EN regexes @Constrat
+* missing Special Squad for EN @Constrat
+* more regex for CoppersNameOcrReplace EN @Constrat
+* SendClues for Yostar server (#15168) @HX3N
+* Missing GetDropSelectRecruit for EN @Constrat
+* missing CoppersAbandonExchange for EN @Constrat
+* tonbgbao regex for EN @Constrat
+* 完善通宝识别失败时的分支处理 (#15180) @travellerse
 
 ### 其他 | Other
 
-* update translations for SSS#8 tasks @Constrat
-* tweak copilot SSS tasks name @Constrat
+* 繁中服保全派駐 8 清音安保派駐 (#15110) @momomochi987
+* YostarJP roguelike JieGarden ocr edit @Manicsteiner
+* YostarKR JieGarden Encounter ocr @HX3N
+* 更新 macos.cmake (#15173) @Alan-Charred
+* KR tweak InvestmentReach @HX3N
