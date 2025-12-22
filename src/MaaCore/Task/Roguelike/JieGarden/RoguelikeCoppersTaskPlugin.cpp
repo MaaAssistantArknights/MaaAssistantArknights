@@ -148,7 +148,7 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
     }
 
     if (m_pending_copper.empty()) {
-        Log.error(__FUNCTION__, "| no valid coppers found for pickup");
+        LogError << __FUNCTION__ << "| no valid coppers found for pickup";
         // 如果没有有效通宝，尝试点击最后一个检测到的名称错误的通宝位置作为回退
         if (click_point_fallback.x != 0 && click_point_fallback.y != 0) {
             LogWarn << __FUNCTION__ << "| clicking fallback point at (" << click_point_fallback.x << ","
@@ -156,6 +156,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
             ctrler()->click(click_point_fallback);
             return true;
         }
+        LogError << __FUNCTION__ << "| no coppers recognized to fallback";
+        return false;
     }
 
     // 从待选通宝中选择拾取优先级最高的
