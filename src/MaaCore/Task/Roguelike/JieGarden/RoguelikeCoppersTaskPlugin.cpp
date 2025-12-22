@@ -550,7 +550,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
 
     // 将识别到的错误的名称发送到 WPF 进行反馈
-    auto copper_info = basic_info_with_what("RoguelikeCoppersPickupRecognitionError");
+    auto copper_info = basic_info_with_what("RoguelikeCoppersRecognitionError");
     copper_info["details"]["recognized_name"] = name;
     callback(AsstMsg::SubTaskExtraInfo, copper_info);
 

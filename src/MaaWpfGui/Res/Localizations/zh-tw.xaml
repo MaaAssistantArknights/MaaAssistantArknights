@@ -1059,7 +1059,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BoskyDoubts">節點: 雜疑</system:String>
     <system:String x:Key="BoskyDisaster">節點: 災禍</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">通寶交換: {0} → {1}</system:String>
-    <system:String x:Key="RoguelikeCoppersPickupRecognitionError">通寶識別失敗: "{0}"</system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">通寶識別失敗: "{0}"</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">識別到 {0} 個選項:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">可選選項: {0}</system:String>

@@ -1058,7 +1058,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDoubts">スポット: 雑疑</system:String>
     <system:String x:Key="BoskyDisaster">スポット: 禍乱</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">通宝交換: {0} → {1}</system:String>
-    <system:String x:Key="RoguelikeCoppersPickupRecognitionError">通宝認識失敗: 「{0}」</system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">通宝認識失敗: 「{0}」</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">{0} 件の選択肢を検出しました:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">選択可能な選択肢: {0}</system:String>

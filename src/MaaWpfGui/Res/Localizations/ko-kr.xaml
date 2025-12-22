@@ -1059,7 +1059,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="BoskyDoubts">잔식: 의문</system:String>
     <system:String x:Key="BoskyDisaster">잔식: 소란</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">주화 교환: {0} → {1}</system:String>
-    <system:String x:Key="RoguelikeCoppersPickupRecognitionError">주화 인식 실패: "{0}"</system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">주화 인식 실패: "{0}"</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">선택지 {0}개 감지:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">가능한 선택지: {0}</system:String>
