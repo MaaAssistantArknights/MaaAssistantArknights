@@ -17,7 +17,7 @@
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "ocrReplace": [
             [" ", ""],
-            ["[Bb]al:[Bb]itt?er[Cc]old", "衡-苦寒"],
+            ["[Bb]al:[Bb]i?tt?er[Cc]old", "衡-苦寒"],
             ["[Bb]al:[Dd]esire[Ff]ulfill?ed", "衡-志欲遂"],
             ["[Bb]al:[Dd]ewin[Gg]old", "衡-金寒水衍"],
             ["[Bb]al:[Dd]ownpour", "衡-霖雨"],
