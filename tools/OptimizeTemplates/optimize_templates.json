@@ -5829,7 +5829,7 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelect": "bba8fe79c59423a770a5dd107a642481685259a65267a0a72964958f1eb9765b",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelectRecruit": "00bd96efc5336a4b222d33d0196fa30cda143f249a53a85120536937258c0c6b",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSelectReward": "88add219fde5dae2bfd407a3fa69caa17c63f6d0148233da148ed4454dce0ced",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch": "d90dd4a1505fef13b053aa7dcca62a39265fb71b5528035fcd86d5e730e4b328",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch": "9db8928c3f16c2dff096ca428e1c1b5cb1e5d68c0f7c4a458f7462c772e6b1a7",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@LastRewardConfirm": "3c1337273f4755983ce62b8bca92083fffae22aa9cd94da6d47d133e710338db",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MapObject": "d4a50084aeba040e4878a9d9ca1ba6ef55c0a258caf4f642209eb9c48c2507b4",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@MissionFailedFlag": "efc18bfbeb77e576fb3b9712836cac4d25495e4bd374b4a92b988fb931329d30",
@@ -5934,6 +5934,6 @@
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@TodoEnter": "ca706e252e3b4c5b920ac5e71c7940468e25619127a72495335a54bbcf8fd2ec",
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "c4d37f449e351a1dd2e6ff29094d39a2861d6ee210eca578e292d6c7384b8ba3",
     "resource/global/YoStarJP/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "e9845580b449b5fc484c9b83b5ab1d4a20f2d703e812d5be7a3b7323543cd354",
-    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "af72072e57098401310e63556bca74a924cf6c51bb313e76b236729948c77f32",
+    "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "9db8928c3f16c2dff096ca428e1c1b5cb1e5d68c0f7c4a458f7462c772e6b1a7",
     "resource/template/InfrastPic/Clue/InfrastClueQuickInsertConfirm": "bc84abc9f6f909ea0ad2459eb4662a240e2ab42076c92211780dedd1d9a6542e"
 }
