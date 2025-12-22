@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -152,8 +153,6 @@ public partial class OverlayWindow : Window
 
     // WinEventHook 用于即时订阅目标窗口的位置/大小变动
     private IntPtr _winEventHook = IntPtr.Zero;
-    private IntPtr _winEventHookShowHide = IntPtr.Zero;
-    private IntPtr _winEventHookFocus = IntPtr.Zero;
 
     private void StartWinEventHookForTarget(IntPtr hwnd)
     {
@@ -174,9 +173,6 @@ public partial class OverlayWindow : Window
             const uint WINEVENT_SKIPOWNPROCESS = 0x0002;
 
             const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
-            const uint EVENT_OBJECT_SHOW = 0x8002;
-            const uint EVENT_OBJECT_HIDE = 0x8003;
-            const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
 
             // 获取目标窗口所属进程 id
             _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out _targetPid);
@@ -192,19 +188,6 @@ public partial class OverlayWindow : Window
             if (_winEventHook == IntPtr.Zero)
             {
                 _logger.Warning("SetWinEventHook for location change returned null for pid {Pid}", _targetPid);
-            }
-
-            // 单独订阅 show/hide 事件以处理窗口出现/隐藏
-            _winEventHookShowHide = (IntPtr)PInvoke.SetWinEventHook(EVENT_OBJECT_SHOW, EVENT_OBJECT_HIDE, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
-            if (_winEventHookShowHide == IntPtr.Zero)
-            {
-                _logger.Warning("SetWinEventHook for show/hide returned null for pid {Pid}", _targetPid);
-            }
-
-            _winEventHookFocus = (IntPtr)PInvoke.SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, HINSTANCE.Null, _winEventProc, _targetPid, 0, flags);
-            if (_winEventHookFocus == IntPtr.Zero)
-            {
-                _logger.Warning("SetWinEventHook for focus change returned null");
             }
         }
         catch (Exception ex)
@@ -230,36 +213,6 @@ public partial class OverlayWindow : Window
                 }
 
                 _winEventHook = IntPtr.Zero;
-            }
-
-            if (_winEventHookShowHide != IntPtr.Zero)
-            {
-                var toRemove = _winEventHookShowHide;
-                try
-                {
-                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
-                }
-                catch (Exception ex)
-                {
-                    _logger.Warning(ex, "UnhookWinEvent failed for show/hide hook {Hook}", toRemove);
-                }
-
-                _winEventHookShowHide = IntPtr.Zero;
-            }
-
-            if (_winEventHookFocus != IntPtr.Zero)
-            {
-                var toRemove = _winEventHookFocus;
-                try
-                {
-                    PInvoke.UnhookWinEvent((HWINEVENTHOOK)toRemove);
-                }
-                catch (Exception ex)
-                {
-                    _logger.Warning(ex, "UnhookWinEvent failed for show/hide hook {Hook}", toRemove);
-                }
-
-                _winEventHookFocus = IntPtr.Zero;
             }
         }
         catch (Exception ex)
@@ -296,45 +249,45 @@ public partial class OverlayWindow : Window
         }
     }
 
+    private int _layoutVersion;
+
     private void UpdatePosition()
     {
-        if (_targetHwnd == IntPtr.Zero)
-        {
-            return;
-        }
+        int version = Interlocked.Increment(ref _layoutVersion);
 
-        if (!PInvoke.GetWindowRect((HWND)_targetHwnd, out var rect))
+        Execute.OnUIThreadAsync(async () =>
         {
-            return;
-        }
+            if (version != Volatile.Read(ref _layoutVersion))
+            {
+                return;
+            }
 
-        if (_overlayHwnd != IntPtr.Zero)
-        {
-            int newLeft = rect.left;
-            int newTop = rect.top;
-            int newWidth = Math.Max(0, rect.right - rect.left);
-            int newHeight = Math.Max(0, rect.bottom - rect.top);
+            if (_targetHwnd == IntPtr.Zero)
+            {
+                return;
+            }
 
-            PInvoke.SetWindowPos(
-                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
-                newLeft, newTop, newWidth, newHeight,
-                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
-                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
-                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
-            PInvoke.SetWindowPos(
-                (HWND)_targetHwnd, (HWND)_overlayHwnd,
-                0, 0, 0, 0,
-                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
-                SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
-                SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
-                SET_WINDOW_POS_FLAGS.SWP_NOREDRAW |
-                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
-        }
+            if (!PInvoke.GetWindowRect((HWND)_targetHwnd, out var rect))
+            {
+                return;
+            }
 
-        Execute.OnUIThreadAsync(() =>
-        {
+            if (_overlayHwnd != IntPtr.Zero)
+            {
+                int newLeft = rect.left;
+                int newTop = rect.top;
+                int newWidth = Math.Max(0, rect.right - rect.left);
+                int newHeight = Math.Max(0, rect.bottom - rect.top);
+
+                PInvoke.SetWindowPos(
+                    (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
+                    newLeft, newTop, newWidth, newHeight,
+                    SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
+                    SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                    SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                    SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
+            }
+
             try
             {
                 if (FindName("OuterBorder") is not Border border)
@@ -350,8 +303,7 @@ public partial class OverlayWindow : Window
                     var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
                     var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
                     double horizontalMargin = border.Margin.Left + border.Margin.Right;
-                    var maxW = Math.Max(0, newWidthWpf - horizontalMargin);
-                    border.MaxWidth = maxW;
+                    border.MaxWidth = Math.Max(0, newWidthWpf - horizontalMargin);
                 }
             }
             catch
@@ -381,6 +333,7 @@ public partial class OverlayWindow : Window
                 tries++;
             }
 
+            PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
             UpdatePosition();
         }
         finally
