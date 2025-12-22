@@ -1126,6 +1126,14 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                     break;
                 }
 
+            case "RoguelikeCoppersRecognitionError":
+            {
+                var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
+                var message = string.Format(LocalizationHelper.GetString("RoguelikeCoppersRecognitionError"), recognizedName);
+                Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
+                break;
+            }
+
             case "RoguelikeCoppersExchangeInfo":
                 {
                     var toDiscard = subTaskDetails!["to_discard"]?.ToString() ?? "Unknown";

@@ -1057,6 +1057,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BoskyDoubts">Bosky: Doubts</system:String>
     <system:String x:Key="BoskyDisaster">Bosky: Turmoil</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">Tongbao Exchange: {0} → {1}</system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">Tongbao recognition failed: "{0}"</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>

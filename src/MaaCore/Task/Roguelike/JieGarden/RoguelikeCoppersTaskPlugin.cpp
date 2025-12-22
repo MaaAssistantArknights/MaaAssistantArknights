@@ -87,6 +87,7 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
         success = handle_pickup_mode();
         break;
     case CoppersTaskRunMode::EXCHANGE:
+        m_retry_times = 1; // 交换模式只尝试两次
         success = handle_exchange_mode();
         break;
     }
@@ -120,6 +121,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         return false;
     }
 
+    asst::Point click_point_fallback(0, 0);
+
     // 遍历每个检测到的通宝，创建通宝对象
     for (size_t i = 0; i < detections.size(); ++i) {
         const auto& detection = detections[i];
@@ -129,7 +132,9 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
         // 根据识别到的名称创建通宝对象
         auto copper_opt = create_copper_from_name(detection.name, 1, static_cast<int>(i), false, detection.name_roi);
         if (!copper_opt) {
-            LogError << __FUNCTION__ << "| failed to create copper at position" << i;
+            LogError << __FUNCTION__ << "| failed to create copper at position" << i << " name:" << detection.name;
+
+            click_point_fallback = detection.click_point;
             continue;
         }
 
@@ -144,7 +149,13 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_pickup_mode()
 
     if (m_pending_copper.empty()) {
         Log.error(__FUNCTION__, "| no valid coppers found for pickup");
-        return false;
+        // 如果没有有效通宝，尝试点击最后一个检测到的名称错误的通宝位置作为回退
+        if (click_point_fallback.x != 0 && click_point_fallback.y != 0) {
+            LogWarn << __FUNCTION__ << "| clicking fallback point at (" << click_point_fallback.x << ","
+                    << click_point_fallback.y << ")";
+            ctrler()->click(click_point_fallback);
+            return true;
+        }
     }
 
     // 从待选通宝中选择拾取优先级最高的
@@ -517,7 +528,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
     int col,
     int row,
     bool is_cast,
-    const Rect& pos) const
+    const Rect& pos)
 {
     // 从配置中查找通宝信息
     if (auto found_copper = RoguelikeCoppers.find_copper(m_config->get_theme(), name)) {
@@ -538,6 +549,11 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
 
     Log.error(__FUNCTION__, std::format("| copper not found in config: {}", name));
 
+    // 将识别到的错误的名称发送到 WPF 进行反馈
+    auto copper_info = basic_info_with_what("RoguelikeCoppersRecognitionError");
+    copper_info["details"]["recognized_name"] = name;
+    callback(AsstMsg::SubTaskExtraInfo, copper_info);
+
     // 如果通宝不在配置中，保存调试图像
     try {
         cv::Mat screen = ctrler()->get_image();
@@ -545,7 +561,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
             cv::Mat screen_draw = screen.clone();
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
 
-            save_debug_image(screen_draw, "unknown_draw");
+            save_debug_image(screen_draw, "unknown_draw", false);
         }
     }
     catch (const std::exception& e) {
@@ -596,7 +612,10 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
 }
 
 // 保存调试图像到文件
-void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, const std::string& suffix) const
+void asst::RoguelikeCoppersTaskPlugin::save_debug_image(
+    const cv::Mat& image,
+    const std::string& suffix,
+    bool auto_clean) const
 {
     try {
         const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
@@ -604,7 +623,7 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         utils::save_debug_image(
             image,
             utils::path("debug") / "roguelike" / "coppers",
-            true,
+            auto_clean,
             "roguelikeCoppers debug",
             suffix,
             "jpeg",
