@@ -1189,6 +1189,10 @@
     "InfrastClueSelfFull": {
         "text": ["도달", "불가", "최대치"]
     },
+    "SendClues": {
+        "doc": "Remove this after 'Quickly place clues' and 'One-tap send duplicate clues' are added (#14966)",
+        "roi": [1160, 350, 80, 80]
+    },
     "InfrastTrainingIdle": {
         "text": ["미사용중"],
         "roi": [380, 645, 135, 35]

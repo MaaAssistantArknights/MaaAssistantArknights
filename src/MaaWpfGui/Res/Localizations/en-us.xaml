@@ -224,7 +224,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="IS5NewSquad6">Cluster of Blooms Squad (花团锦簇分队)</system:String>
     <system:String x:Key="IS5NewSquad7">Daring Gambit Squad (棋行险着分队)</system:String>
     <system:String x:Key="IS5NewSquad8">Echoes of Time Squad (岁影回音分队)</system:String>
-    <system:String x:Key="SpecialForceSquad">Special Service Squad (特勤分队)</system:String>
+    <system:String x:Key="SpecialForceSquad">Special Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -1057,6 +1057,7 @@ Right-click to clear inactive jobs</system:String>
     <system:String x:Key="BoskyDoubts">Bosky: Doubts</system:String>
     <system:String x:Key="BoskyDisaster">Bosky: Turmoil</system:String>
     <system:String x:Key="RoguelikeCoppersExchange">Tongbao Exchange: {0} → {1}</system:String>
+    <system:String x:Key="RoguelikeCoppersRecognitionError">Tongbao recognition failed: "{0}"</system:String>
     <system:String x:Key="RoguelikeEvent">Event:&#160;</system:String>
     <system:String x:Key="RoguelikeEncounterOptions">Detected {0} options:</system:String>
     <system:String x:Key="RoguelikeEncounterEnabledOption">Available option: {0}</system:String>
