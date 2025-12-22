@@ -250,11 +250,11 @@
     <system:String x:Key="ReclamationPisModeError">현재 세이브 O 모드는 합성 가능한 도구가 있는 세이브가 필요합니다. 모드 전환을 고려하세요.</system:String>
     <system:String x:Key="NotSwitch">미변경</system:String>
     <system:String x:Key="NotSelected">미선택</system:String>
-    <system:String x:Key="Official">공식 서버</system:String>
-    <system:String x:Key="Bilibili">빌리빌리</system:String>
-    <system:String x:Key="YoStarEN">요스타 EN</system:String>
-    <system:String x:Key="YoStarJP">요스타 JP</system:String>
-    <system:String x:Key="YoStarKR">요스타 KR</system:String>
+    <system:String x:Key="Official">중국 (Official)</system:String>
+    <system:String x:Key="Bilibili">중국 (Bilibili)</system:String>
+    <system:String x:Key="YoStarEN">글로벌 (Yostar)</system:String>
+    <system:String x:Key="YoStarJP">일본 (Yostar)</system:String>
+    <system:String x:Key="YoStarKR">한국 (Yostar)</system:String>
     <system:String x:Key="Txwy">TXWY (TW)</system:String>
     <system:String x:Key="Switchable">전환 가능</system:String>
     <system:String x:Key="Executable">실행 파일</system:String>
