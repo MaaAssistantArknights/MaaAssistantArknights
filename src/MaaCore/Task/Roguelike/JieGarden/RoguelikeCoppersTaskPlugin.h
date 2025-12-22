@@ -71,7 +71,7 @@ private:
         const cv::Scalar& color) const;
 
     // 保存调试图像到文件
-    void save_debug_image(const cv::Mat& image, const std::string& suffix) const;
+    void save_debug_image(const cv::Mat& image, const std::string& suffix, bool auto_clean = true) const;
 
     mutable asst::CoppersTaskRunMode m_run_mode; // 当前运行模式
 

@@ -561,7 +561,7 @@ std::optional<asst::RoguelikeCopper> asst::RoguelikeCoppersTaskPlugin::create_co
             cv::Mat screen_draw = screen.clone();
             cv::rectangle(screen_draw, cv::Rect(pos.x, pos.y, pos.width, pos.height), cv::Scalar(0, 0, 255), 2);
 
-            save_debug_image(screen_draw, "unknown_draw");
+            save_debug_image(screen_draw, "unknown_draw", false);
         }
     }
     catch (const std::exception& e) {
@@ -612,7 +612,10 @@ void asst::RoguelikeCoppersTaskPlugin::draw_detection_debug(
 }
 
 // 保存调试图像到文件
-void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, const std::string& suffix) const
+void asst::RoguelikeCoppersTaskPlugin::save_debug_image(
+    const cv::Mat& image,
+    const std::string& suffix,
+    bool auto_clean) const
 {
     try {
         const static std::vector<int> jpeg_params = { cv::IMWRITE_JPEG_QUALITY, 95, cv::IMWRITE_JPEG_OPTIMIZE, 1 };
@@ -620,7 +623,7 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(const cv::Mat& image, co
         utils::save_debug_image(
             image,
             utils::path("debug") / "roguelike" / "coppers",
-            true,
+            auto_clean,
             "roguelikeCoppers debug",
             suffix,
             "jpeg",
