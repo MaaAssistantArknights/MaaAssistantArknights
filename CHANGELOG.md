@@ -1,5 +1,25 @@
 ## v6.1.0-beta.2
 
+### Highlights
+
+#### 界园导游持续完善 | Roguelike IS6 Refinement
+
+感谢各位玩家的反馈！
+这个版本主要修复了界园肉鸽的遭遇识别和通宝/铜币兑换识别问题。
+针对 EN/KR/JP 服务器优化了大量 OCR 正则表达式，提升遭遇节点与商店流程的稳定性。
+如遇问题请通过 Discord 服务器或直接在 GitHub 上反馈给我们。
+
+----
+
+#### IS6 Encounter & Tongbao / Copper Detection Fixes
+
+Thanks for your feedback!
+This version focuses on fixing IS6 encounter recognition and Tongbao/Copper exchange detection issues.
+Multiple OCR regex improvements for EN/KR/JP servers enhance stability in encounter nodes and shop flows.
+Please continue reporting issues to us via the Discord Server or directly on GitHub.
+
+----
+
 ### 新增 | New
 
 * 满线索再一键置入 @ABA2396
@@ -16,6 +36,7 @@
 * Missing GetDropSelectRecruit for EN @Constrat
 * missing CoppersAbandonExchange for EN @Constrat
 * tonbgbao regex for EN @Constrat
+* 完善通宝识别失败时的分支处理 (#15180) @travellerse
 
 ### 其他 | Other
 
