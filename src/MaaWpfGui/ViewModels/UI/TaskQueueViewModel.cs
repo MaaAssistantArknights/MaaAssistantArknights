@@ -226,7 +226,7 @@ public class TaskQueueViewModel : Screen
 
     public void ToggleOverlay()
     {
-        if (_isOverlayEnabled)
+        if (IsOverlayEnabled)
         {
             DisableOverlay();
         }
