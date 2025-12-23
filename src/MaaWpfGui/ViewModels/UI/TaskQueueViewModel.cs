@@ -155,11 +155,15 @@ public class TaskQueueViewModel : Screen
             var ok = picker.ShowDialog();
             if (ok == true && picker.SelectedHwnd != IntPtr.Zero)
             {
-                if (Instances.OverlayViewModel.IsCreated)
+                var overlayVm = Instances.OverlayViewModel;
+                if (overlayVm != null)
                 {
-                    Instances.OverlayViewModel.Close();
-                    Instances.OverlayViewModel.SetTargetHwnd(picker.SelectedHwnd);
-                    Instances.OverlayViewModel.EnsureCreated();
+                    overlayVm.SetTargetHwnd(picker.SelectedHwnd);
+                    if (overlayVm.IsCreated)
+                    {
+                        overlayVm.Close();
+                        overlayVm.EnsureCreated();
+                    }
                 }
             }
         }
