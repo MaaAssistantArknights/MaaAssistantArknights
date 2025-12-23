@@ -333,6 +333,8 @@ public static class ConfigurationKeys
 
     public const string MiniGameTaskName = "MiniGame.TaskName";
 
+    public const string RecastConditions = "MiniGame.RecastConditions";
+
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
 

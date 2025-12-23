@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/JieGarden/RoguelikeCoppersRecastPlugin.h"
 #include "Utils/Logger.hpp"
 
 asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
@@ -11,6 +12,8 @@ asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
 {
     LogTraceFunction;
     m_custom_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+
+    m_coppers_recast_plugin_ptr = m_custom_task_ptr->register_plugin<RoguelikeCoppersRecastPlugin>();
 }
 
 bool asst::CustomTask::set_params(const json::value& params)
@@ -36,6 +39,12 @@ bool asst::CustomTask::set_params(const json::value& params)
         tasks.emplace_back(t.as_string());
     }
     m_custom_task_ptr->set_tasks(std::move(tasks));
+
+    // 传递参数给插件
+    if (m_coppers_recast_plugin_ptr) {
+        m_coppers_recast_plugin_ptr->load_params(params);
+    }
+
     m_subtasks.emplace_back(m_custom_task_ptr);
     return true;
 }

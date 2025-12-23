@@ -4,6 +4,7 @@
 namespace asst
 {
 class ProcessTask;
+class RoguelikeCoppersRecastPlugin;
 
 class CustomTask final : public InterfaceTask
 {
@@ -16,5 +17,6 @@ public:
 
 private:
     std::shared_ptr<ProcessTask> m_custom_task_ptr = nullptr;
+    std::shared_ptr<RoguelikeCoppersRecastPlugin> m_coppers_recast_plugin_ptr = nullptr;
 };
 }
