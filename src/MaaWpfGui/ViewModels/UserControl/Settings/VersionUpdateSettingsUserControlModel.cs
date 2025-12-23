@@ -100,8 +100,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string NewResourceFoundInfo
     {
         get => _newResourceFoundInfo;
-        set
-        {
+        set {
             SetAndNotify(ref _newResourceFoundInfo, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
         }
@@ -112,8 +111,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string NewVersionFoundInfo
     {
         get => _newVersionFoundInfo;
-        set
-        {
+        set {
             SetAndNotify(ref _newVersionFoundInfo, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
         }
@@ -219,8 +217,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public UpdateVersionType VersionType
     {
         get => _versionType;
-        set
-        {
+        set {
             SetAndNotify(ref _versionType, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
         }
@@ -248,8 +245,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool HasAcknowledgedNightlyWarning
     {
         get => _hasAcknowledgedNightlyWarning;
-        set
-        {
+        set {
             SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
         }
@@ -268,8 +264,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string UpdateSource
     {
         get => _updateSource;
-        set
-        {
+        set {
             SetAndNotify(ref _updateSource, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateSource, value);
         }
@@ -280,8 +275,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool ForceGithubGlobalSource
     {
         get => _forceGithubGlobalSource;
-        set
-        {
+        set {
             SetAndNotify(ref _forceGithubGlobalSource, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, value.ToString());
         }
@@ -292,8 +286,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string MirrorChyanCdk
     {
         get => _mirrorChyanCdk;
-        set
-        {
+        set {
             if (string.IsNullOrEmpty(value))
             {
                 MirrorChyanCdkExpiredTime = 0;
@@ -306,8 +299,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             if (value.Length == 24)
             {
-                Task.Run(async () =>
-                {
+                Task.Run(async () => {
                     await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
                     await ResourceUpdater.ResourceUpdateAndReloadAsync();
                 });
@@ -325,8 +317,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public long MirrorChyanCdkExpiredTime
     {
         get => _mirrorChyanCdkExpiredTime;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _mirrorChyanCdkExpiredTime, value))
             {
                 return;
@@ -375,8 +366,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public string MirrorChyanCdkRemainingBrush
     {
-        get
-        {
+        get {
             if (IsMirrorChyanCdkExpired)
             {
                 return UiLogColor.Error;
@@ -417,8 +407,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool StartupUpdateCheck
     {
         get => _startupUpdateCheck;
-        set
-        {
+        set {
             SetAndNotify(ref _startupUpdateCheck, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.StartupUpdateCheck, value.ToString());
         }
@@ -432,8 +421,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool UpdateAutoCheck
     {
         get => _updateAutoCheck;
-        set
-        {
+        set {
             SetAndNotify(ref _updateAutoCheck, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
         }
@@ -447,8 +435,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string Proxy
     {
         get => _proxy;
-        set
-        {
+        set {
             SetAndNotify(ref _proxy, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
         }
@@ -465,8 +452,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string ProxyType
     {
         get => _proxyType;
-        set
-        {
+        set {
             SetAndNotify(ref _proxyType, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
         }
@@ -480,8 +466,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool IsCheckingForUpdates
     {
         get => _isCheckingForUpdates;
-        set
-        {
+        set {
             SetAndNotify(ref _isCheckingForUpdates, value);
         }
     }
@@ -494,8 +479,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool AutoDownloadUpdatePackage
     {
         get => _autoDownloadUpdatePackage;
-        set
-        {
+        set {
             SetAndNotify(ref _autoDownloadUpdatePackage, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
         }
@@ -509,8 +493,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public bool AutoInstallUpdatePackage
     {
         get => _autoInstallUpdatePackage;
-        set
-        {
+        set {
             SetAndNotify(ref _autoInstallUpdatePackage, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
         }
@@ -531,8 +514,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadVersionUpdate();
 
-        var toastMessage = ret switch
-        {
+        var toastMessage = ret switch {
             VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
             VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("NoNeedToUpdateDebugVersion"),
             VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
@@ -569,8 +551,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         IsCheckingForUpdates = true;
 
         var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
-        var toastMessage = ret switch
-        {
+        var toastMessage = ret switch {
             VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("AlreadyLatest"),
             VersionUpdateViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("NewVersionDetectFailedTitle"),
             VersionUpdateViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("CheckNetworking"),
@@ -588,8 +569,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        bool success = UpdateSource switch
-        {
+        bool success = UpdateSource switch {
             "Github" => await ResourceUpdater.UpdateFromGithubAsync(),
             "MirrorChyan" => (ret == VersionUpdateViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
             _ => await ResourceUpdater.UpdateFromGithubAsync(),

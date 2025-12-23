@@ -59,8 +59,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string LastCreditFightTaskTime
     {
         get => _lastCreditFightTaskTime;
-        set
-        {
+        set {
             SetAndNotify(ref _lastCreditFightTaskTime, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
         }
@@ -73,8 +72,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditFightTaskEnabled
     {
-        get
-        {
+        get {
             try
             {
                 if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
@@ -90,8 +88,7 @@ public class MallSettingsUserControlModel : TaskViewModel
             return false;
         }
 
-        set
-        {
+        set {
             SetAndNotify(ref _creditFightTaskEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
         }
@@ -99,13 +96,11 @@ public class MallSettingsUserControlModel : TaskViewModel
 
     public bool CreditFightTaskEnabledDisplay
     {
-        get
-        {
+        get {
             return _creditFightTaskEnabled;
         }
 
-        set
-        {
+        set {
             SetAndNotify(ref _creditFightTaskEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
         }
@@ -129,8 +124,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string LastCreditVisitFriendsTime
     {
         get => _lastCreditVisitFriendsTime;
-        set
-        {
+        set {
             SetAndNotify(ref _lastCreditVisitFriendsTime, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
         }
@@ -144,8 +138,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditVisitOnceADay
     {
         get => _creditVisitOnceADay;
-        set
-        {
+        set {
             SetAndNotify(ref _creditVisitOnceADay, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
         }
@@ -158,8 +151,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     /// </summary>
     public bool CreditVisitFriendsEnabled
     {
-        get
-        {
+        get {
             if (!_creditVisitOnceADay)
             {
                 return _creditVisitFriendsEnabled;
@@ -176,8 +168,7 @@ public class MallSettingsUserControlModel : TaskViewModel
             }
         }
 
-        set
-        {
+        set {
             SetAndNotify(ref _creditVisitFriendsEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
         }
@@ -185,13 +176,11 @@ public class MallSettingsUserControlModel : TaskViewModel
 
     public bool CreditVisitFriendsEnabledDisplay
     {
-        get
-        {
+        get {
             return _creditVisitFriendsEnabled;
         }
 
-        set
-        {
+        set {
             SetAndNotify(ref _creditVisitFriendsEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
         }
@@ -205,8 +194,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public int CreditFightSelectFormation
     {
         get => _creditFightSelectFormation;
-        set
-        {
+        set {
             SetAndNotify(ref _creditFightSelectFormation, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
         }
@@ -220,8 +208,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditShopping
     {
         get => _creditShopping;
-        set
-        {
+        set {
             SetAndNotify(ref _creditShopping, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditShopping, value.ToString());
         }
@@ -235,8 +222,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string CreditFirstList
     {
         get => _creditFirstList;
-        set
-        {
+        set {
             value = value.Replace("；", ";").Trim();
             SetAndNotify(ref _creditFirstList, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditFirstListNew, value);
@@ -251,8 +237,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public string CreditBlackList
     {
         get => _creditBlackList;
-        set
-        {
+        set {
             value = value.Replace("；", ";").Trim();
             SetAndNotify(ref _creditBlackList, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditBlackListNew, value);
@@ -267,8 +252,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditForceShoppingIfCreditFull
     {
         get => _creditForceShoppingIfCreditFull;
-        set
-        {
+        set {
             SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, value.ToString());
         }
@@ -282,8 +266,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditOnlyBuyDiscount
     {
         get => _creditOnlyBuyDiscount;
-        set
-        {
+        set {
             SetAndNotify(ref _creditOnlyBuyDiscount, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditOnlyBuyDiscount, value.ToString());
         }
@@ -297,8 +280,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public bool CreditReserveMaxCredit
     {
         get => _creditReserveMaxCredit;
-        set
-        {
+        set {
             SetAndNotify(ref _creditReserveMaxCredit, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
         }
@@ -307,8 +289,7 @@ public class MallSettingsUserControlModel : TaskViewModel
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
         var fightEnable = Instances.TaskQueueViewModel.TaskItemViewModels.FirstOrDefault(x => x.OriginalName == "Combat")?.IsCheckedWithNull is not false;
-        var task = new AsstMallTask()
-        {
+        var task = new AsstMallTask() {
             CreditFight = fightEnable ? (!string.IsNullOrEmpty(FightSettingsUserControlModel.Instance.Stage) && CreditFightTaskEnabled) : CreditFightTaskEnabled,
             FormationIndex = CreditFightSelectFormation,
             VisitFriends = CreditVisitFriendsEnabled,
@@ -359,8 +340,7 @@ public class MallSettingsUserControlModel : TaskViewModel
         {
         }
 
-        var task = new AsstMallTask()
-        {
+        var task = new AsstMallTask() {
             CreditFight = creditFight && !fightStage,
             FormationIndex = mall.CreditFightFormation,
             VisitFriends = visitFriends,

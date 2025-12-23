@@ -236,8 +236,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
 
     private static void ShowGrowl(string message)
     {
-        var growlInfo = new GrowlInfo
-        {
+        var growlInfo = new GrowlInfo {
             IsCustom = true,
             Message = message,
             IconKey = "HangoverGeometry",

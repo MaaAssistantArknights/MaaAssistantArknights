@@ -28,6 +28,7 @@ using Newtonsoft.Json.Linq;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
+
 public abstract class TaskViewModel : PropertyChangedBase
 {
     private readonly Dictionary<string, List<string>> _propertyDependencies = []; // 属性依赖关系, key为被订阅的属性名, value为依赖于该属性的属性名列表

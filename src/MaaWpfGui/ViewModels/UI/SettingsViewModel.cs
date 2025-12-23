@@ -131,8 +131,7 @@ public class SettingsViewModel : Screen
         HangoverEnd();
 
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += (_, e) =>
-        {
+        _runningState.StateChanged += (_, e) => {
             Idle = e.Idle;
 
             // Inited = e.Inited;
@@ -263,8 +262,7 @@ public class SettingsViewModel : Screen
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             for (int i = 0; i < Settings.Count; i++)
             {
                 var item = Settings[i];
@@ -283,8 +281,7 @@ public class SettingsViewModel : Screen
 
     private void OnSettingItemValueChanged()
     {
-        Application.Current.Dispatcher.InvokeAsync(() =>
-        {
+        Application.Current.Dispatcher.InvokeAsync(() => {
             RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
         }, System.Windows.Threading.DispatcherPriority.Loaded);
     }
@@ -355,8 +352,7 @@ public class SettingsViewModel : Screen
     public bool Cheers
     {
         get => _cheers;
-        set
-        {
+        set {
             if (_cheers == value)
             {
                 return;
@@ -379,8 +375,7 @@ public class SettingsViewModel : Screen
     public bool Hangover
     {
         get => _hangover;
-        set
-        {
+        set {
             SetAndNotify(ref _hangover, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.Hangover, value.ToString());
         }
@@ -391,8 +386,7 @@ public class SettingsViewModel : Screen
     public string LastBuyWineTime
     {
         get => _lastBuyWineTime;
-        set
-        {
+        set {
             SetAndNotify(ref _lastBuyWineTime, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
         }
@@ -431,8 +425,7 @@ public class SettingsViewModel : Screen
     public string SoberLanguage
     {
         get => _soberLanguage;
-        set
-        {
+        set {
             SetAndNotify(ref _soberLanguage, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.SoberLanguage, value);
         }
@@ -503,8 +496,7 @@ public class SettingsViewModel : Screen
     public string? CurrentConfiguration
     {
         get => _currentConfiguration;
-        set
-        {
+        set {
             SetAndNotify(ref _currentConfiguration, value);
             ConfigurationHelper.SwitchConfiguration(value);
 
@@ -533,8 +525,7 @@ public class SettingsViewModel : Screen
         {
             ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
-            var growlInfo = new GrowlInfo
-            {
+            var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
                 IconKey = "HangoverGeometry",
@@ -544,8 +535,7 @@ public class SettingsViewModel : Screen
         }
         else
         {
-            var growlInfo = new GrowlInfo
-            {
+            var growlInfo = new GrowlInfo {
                 IsCustom = true,
                 Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
                 IconKey = "HangoverGeometry",
@@ -576,8 +566,7 @@ public class SettingsViewModel : Screen
     public int GuideStepIndex
     {
         get => _guideStepIndex;
-        set
-        {
+        set {
             SetAndNotify(ref _guideStepIndex, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
         }
@@ -639,8 +628,7 @@ public class SettingsViewModel : Screen
         }
 
         _resetNotifyTimer = new Timer(20);
-        _resetNotifyTimer.Elapsed += (_, _) =>
-        {
+        _resetNotifyTimer.Elapsed += (_, _) => {
             _notifySource = NotifyType.None;
         };
         _resetNotifyTimer.AutoReset = false;
@@ -666,8 +654,7 @@ public class SettingsViewModel : Screen
     public List<double> DividerVerticalOffsetList
     {
         get => _dividerVerticalOffsetList;
-        set
-        {
+        set {
             if (_dividerVerticalOffsetList == value)
             {
                 return;
@@ -686,8 +673,7 @@ public class SettingsViewModel : Screen
     public int SelectedIndex
     {
         get => _selectedIndex;
-        set
-        {
+        set {
             if (_selectedIndex == value)
             {
                 return;
@@ -730,8 +716,7 @@ public class SettingsViewModel : Screen
     public double ScrollOffset
     {
         get => _scrollOffset;
-        set
-        {
+        set {
             if (!AllowScrollOffsetChange)
             {
                 return;
@@ -820,8 +805,7 @@ public class SettingsViewModel : Screen
     public bool IsCheckingAnnouncement
     {
         get => _isCheckingAnnouncement;
-        set
-        {
+        set {
             SetAndNotify(ref _isCheckingAnnouncement, value);
         }
     }
@@ -933,8 +917,7 @@ public class SettingsViewModel : Screen
     /// </summary>
     private string ClientName
     {
-        get
-        {
+        get {
             foreach (var item in GameSettings.ClientTypeList.Where(item => item.Value == GameSettings.ClientType))
             {
                 return item.Display;

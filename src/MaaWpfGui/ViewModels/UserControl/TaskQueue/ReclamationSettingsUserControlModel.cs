@@ -55,8 +55,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public Theme ReclamationTheme
     {
         get => _reclamationTheme;
-        set
-        {
+        set {
             SetAndNotify(ref _reclamationTheme, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationTheme, value.ToString());
         }
@@ -79,8 +78,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public Mode ReclamationMode
     {
         get => _reclamationMode;
-        set
-        {
+        set {
             SetAndNotify(ref _reclamationMode, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMode, value.ToString());
         }
@@ -90,8 +88,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
 
     public string ReclamationToolToCraft
     {
-        get
-        {
+        get {
             if (string.IsNullOrEmpty(_reclamationToolToCraft))
             {
                 return LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
@@ -100,8 +97,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             return _reclamationToolToCraft;
         }
 
-        set
-        {
+        set {
             value = value.Replace('；', ';');
             SetAndNotify(ref _reclamationToolToCraft, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
@@ -113,8 +109,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public int ReclamationIncrementMode
     {
         get => _reclamationIncrementMode;
-        set
-        {
+        set {
             SetAndNotify(ref _reclamationIncrementMode, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationIncrementMode, value.ToString());
         }
@@ -134,8 +129,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public int ReclamationMaxCraftCountPerRound
     {
         get => int.Parse(_reclamationMaxCraftCountPerRound);
-        set
-        {
+        set {
             SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
         }
@@ -146,8 +140,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     public bool ReclamationClearStore
     {
         get => _reclamationClearStore;
-        set
-        {
+        set {
             SetAndNotify(ref _reclamationClearStore, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationClearStore, value.ToString());
         }
@@ -177,8 +170,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
     /// <returns>返回(Asst任务类型, 参数)</returns>
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        return new AsstReclamationTask
-        {
+        return new AsstReclamationTask {
             Theme = ReclamationTheme,
             Mode = ReclamationMode,
             IncrementMode = ReclamationIncrementMode,
@@ -196,8 +188,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
         }
 
         var toolToCraft = !string.IsNullOrEmpty(task.ToolToCraft) ? task.ToolToCraft : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
-        var asstTask = new AsstReclamationTask()
-        {
+        var asstTask = new AsstReclamationTask() {
             Theme = task.Theme,
             Mode = task.Mode,
             IncrementMode = task.IncrementMode,

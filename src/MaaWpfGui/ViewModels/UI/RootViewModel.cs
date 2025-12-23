@@ -52,8 +52,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
         }
 
-        Task.Run(async () =>
-        {
+        Task.Run(async () => {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
             {
@@ -140,12 +139,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     public (int Current, int Max)? TaskProgress
     {
         get => _taskProgress;
-        set
-        {
+        set {
             SetAndNotify(ref _taskProgress, value);
 
-            Execute.OnUIThreadAsync(() =>
-            {
+            Execute.OnUIThreadAsync(() => {
                 if (Application.Current.MainWindow == null || !Application.Current.MainWindow.IsVisible)
                 {
                     return;
@@ -198,8 +195,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
     public bool IsWindowTopMost
     {
         get => _isWindowTopMost;
-        set
-        {
+        set {
             if (_isWindowTopMost == value)
             {
                 return;

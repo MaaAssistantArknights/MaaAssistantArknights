@@ -53,8 +53,7 @@ public class AnnouncementViewModel : Screen
     {
         UpdateImageSource();
 
-        UpdateScrollStateCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
-        {
+        UpdateScrollStateCommand = new RelayCommand<ScrollViewer>(scrollViewer => {
             if (scrollViewer == null)
             {
                 return;
@@ -64,8 +63,7 @@ public class AnnouncementViewModel : Screen
             IsScrolledToBottom |= scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 10;
         });
 
-        ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer =>
-        {
+        ScrollToTopCommand = new RelayCommand<ScrollViewer>(scrollViewer => {
             if (scrollViewer == null)
             {
                 return;
@@ -78,8 +76,7 @@ public class AnnouncementViewModel : Screen
 
     private void UpdateImageSource()
     {
-        ImageSource = SettingsViewModel.GuiSettings.Language switch
-        {
+        ImageSource = SettingsViewModel.GuiSettings.Language switch {
             "zh-cn" or "zh-tw" => "/Res/Img/NoSkland.jpg",
             _ => "/Res/Img/NoSkLandEn.jpg",
         };
@@ -89,8 +86,7 @@ public class AnnouncementViewModel : Screen
     {
         const string NewString = "(NEW!!!)";
         var sections = markdown.Split(["### "], StringSplitOptions.RemoveEmptyEntries)
-            .Select(section =>
-            {
+            .Select(section => {
                 var lines = section.Split('\n');
                 bool isNew = false;
                 if (lines.Length > 0 && lines[0].Contains(NewString, StringComparison.OrdinalIgnoreCase))
@@ -99,16 +95,14 @@ public class AnnouncementViewModel : Screen
                     lines[0] = lines[0].Replace(NewString, string.Empty, StringComparison.OrdinalIgnoreCase).Trim();
                 }
 
-                return new AnnouncementSection
-                {
+                return new AnnouncementSection {
                     Title = lines.FirstOrDefault(),
                     IsNew = isNew,
                     Content = "### " + string.Join("\n", lines).Trim([' ', '\n', '-']),
                 };
             }).ToList();
 
-        sections.Insert(0, new()
-        {
+        sections.Insert(0, new() {
             Title = "ALL~ the Announcements",
             Content = markdown.Replace(NewString, "*", StringComparison.OrdinalIgnoreCase).Trim(),
         });
@@ -133,8 +127,7 @@ public class AnnouncementViewModel : Screen
     public ObservableCollection<AnnouncementSection> AnnouncementSections
     {
         get => _announcementSections;
-        set
-        {
+        set {
             SetAndNotify(ref _announcementSections, value);
             SelectedAnnouncementSection = AnnouncementSections.FirstOrDefault();
         }
@@ -148,16 +141,14 @@ public class AnnouncementViewModel : Screen
         set => SetAndNotify(ref _selectedAnnouncementSection, value);
     }
 
-    private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch
-    {
+    private static readonly string _announcementInFile = SettingsViewModel.GuiSettings.Language switch {
         "zh-cn" or "zh-tw" => Path.Combine(PathsHelper.CacheDir, "announcement.md"),
         _ => Path.Combine(PathsHelper.CacheDir, "announcement_en.md"),
     };
 
     private static string AnnouncementInFile
     {
-        get
-        {
+        get {
             if (!File.Exists(_announcementInFile))
             {
                 return null;
@@ -178,8 +169,7 @@ public class AnnouncementViewModel : Screen
             return null;
         }
 
-        set
-        {
+        set {
             try
             {
                 lock (_lock)
@@ -203,8 +193,7 @@ public class AnnouncementViewModel : Screen
     public string AnnouncementInfo
     {
         get => _announcementInfo;
-        private set
-        {
+        private set {
             SetAndNotify(ref _announcementInfo, value);
             AnnouncementInFile = value;
             AnnouncementSections = [.. ParseAnnouncementInfo(AnnouncementInfo)];
@@ -216,8 +205,7 @@ public class AnnouncementViewModel : Screen
     public bool DoNotRemindThisAnnouncementAgain
     {
         get => _doNotRemindThisAnnouncementAgain;
-        set
-        {
+        set {
             SetAndNotify(ref _doNotRemindThisAnnouncementAgain, value);
             ConfigFactory.Root.AnnouncementInfo.DoNotShowAgain = value;
         }
@@ -231,8 +219,7 @@ public class AnnouncementViewModel : Screen
     public bool DoNotShowAnnouncement
     {
         get => _doNotShowAnnouncement;
-        set
-        {
+        set {
             SetAndNotify(ref _doNotShowAnnouncement, value);
             ConfigFactory.Root.AnnouncementInfo.DoNotShow = value;
         }

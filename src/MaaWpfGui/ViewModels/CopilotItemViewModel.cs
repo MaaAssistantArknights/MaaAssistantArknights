@@ -64,8 +64,7 @@ public class CopilotItemViewModel : PropertyChangedBase
     public bool IsRaid
     {
         get => _isRaid;
-        set
-        {
+        set {
             SetAndNotify(ref _isRaid, value);
             Instances.CopilotViewModel.SaveCopilotTask();
         }
@@ -80,8 +79,7 @@ public class CopilotItemViewModel : PropertyChangedBase
     public bool IsChecked
     {
         get => _isChecked;
-        set
-        {
+        set {
             SetAndNotify(ref _isChecked, value);
             Instances.CopilotViewModel.SaveCopilotTask();
         }
