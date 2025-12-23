@@ -1159,7 +1159,10 @@ C:\\leidian\\LDPlayer9
     <!--  自動募集設定  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="ForceRefresh">採用不可でもタグの更新を行う</system:String>
-    <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
+    <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用</system:String>
+    <system:String x:Key="UseExpeditedDisabled">無効</system:String>
+    <system:String x:Key="UseExpeditedOneTime">一度のみ使用</system:String>
+    <system:String x:Key="UseExpeditedAlways">常に使用（保存）</system:String>
     <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
     <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>

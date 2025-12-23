@@ -21,10 +21,13 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource AutoUseExpedited}" IsChecked="{Binding UseExpeditedWithNull}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CheckBoxesNotSaved}" />
-            </StackPanel>
+            <hc:ComboBox
+                Margin="0,10"
+                hc:InfoElement.Title="{DynamicResource AutoUseExpedited}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding UseExpeditedModeList}"
+                SelectedValue="{Binding UseExpeditedMode}"
+                SelectedValuePath="Value" />
 
             <hc:NumericUpDown
                 Margin="0,5"

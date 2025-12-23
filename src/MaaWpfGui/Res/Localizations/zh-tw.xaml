@@ -1160,7 +1160,10 @@ C:\\leidian\\LDPlayer9。\n
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">無招募許可時繼續嘗試刷新 Tags</system:String>
-    <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
+    <system:String x:Key="AutoUseExpedited">自動使用加急許可</system:String>
+    <system:String x:Key="UseExpeditedDisabled">禁用</system:String>
+    <system:String x:Key="UseExpeditedOneTime">僅本次使用</system:String>
+    <system:String x:Key="UseExpeditedAlways">保持開啟</system:String>
     <system:String x:Key="Level3UseShortTime">3 星設定 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影響其他星級 Tags</system:String>
