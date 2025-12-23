@@ -157,29 +157,36 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
 
     auto res_opt = analyzer.analyze();
     if (!res_opt) {
-        return { .task_ptr = nullptr };
+        return { .image = std::make_shared<cv::Mat>(std::move(image)), .task_ptr = nullptr };
     }
 
     task_ptr = std::move(res_opt->task_ptr);
 
     if (task_ptr->algorithm == AlgorithmType::MatchTemplate) {
         auto& raw_result = std::get<Matcher::Result>(res_opt->result);
-        return { .rect = res_opt->rect, .reco_detail = { { "score", raw_result.score } }, .task_ptr = task_ptr };
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
+                 .rect = res_opt->rect,
+                 .reco_detail = std::make_shared<Matcher::Result>(std::move(raw_result)),
+                 .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::OcrDetect) {
         auto& raw_result = std::get<OCRer::Result>(res_opt->result);
-        return { .rect = res_opt->rect,
-                 .reco_detail = { { "score", raw_result.score }, { "text", raw_result.text } },
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
+                 .rect = res_opt->rect,
+                 .reco_detail = std::make_shared<OCRer::Result>(std::move(raw_result)),
                  .task_ptr = task_ptr };
     }
 
     if (task_ptr->algorithm == AlgorithmType::FeatureMatch) {
         auto& raw_result = std::get<FeatureMatcher::Result>(res_opt->result);
-        return { .rect = res_opt->rect, .reco_detail = { { "count", raw_result.count } }, .task_ptr = task_ptr };
+        return { .image = std::make_shared<cv::Mat>(std::move(image)),
+                 .rect = res_opt->rect,
+                 .reco_detail = std::make_shared<FeatureMatcher::Result>(std::move(raw_result)),
+                 .task_ptr = task_ptr };
     }
 
-    return { .rect = res_opt->rect, .task_ptr = task_ptr };
+    return { .image = std::make_shared<cv::Mat>(std::move(image)), .rect = res_opt->rect, .task_ptr = task_ptr };
 }
 
 // action 为 Stop 时返回 Interrupted, 其它返回 Success
@@ -253,7 +260,7 @@ ProcessTask::NodeStatus ProcessTask::run_task(const HitDetail& hits)
         { "max_times", max_times },
         { "action", enum_to_string(task->action) },
         { "algorithm", enum_to_string(task->algorithm) },
-        { "result", hits.reco_detail },
+        { "result", hits.reco_detail != nullptr ? *hits.reco_detail : json::object {} },
     };
 
     callback(AsstMsg::SubTaskStart, info);
@@ -338,6 +345,7 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
     }
 
     m_pre_task_name = std::move(m_last_task_name);
+    m_last_hit_detail = nullptr;
 
     HitDetail hits;
     for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
@@ -366,7 +374,8 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::Interrupted, nullptr };
     }
 
-    return { run_task(hits), hits.task_ptr };
+    m_last_hit_detail = std::make_shared<HitDetail>(std::move(hits));
+    return { run_task(*m_last_hit_detail), m_last_hit_detail->task_ptr };
 }
 
 ProcessTask::TimesLimitData ProcessTask::calc_time_limit(TaskConstPtr task) const

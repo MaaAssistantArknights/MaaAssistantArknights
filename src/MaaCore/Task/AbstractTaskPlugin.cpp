@@ -1,5 +1,7 @@
 #include "AbstractTaskPlugin.h"
 
+#include "Controller/Controller.h"
+
 int asst::AbstractTaskPlugin::priority() const
 {
     return m_priority;
@@ -33,4 +35,15 @@ std::strong_ordering asst::AbstractTaskPlugin::operator<=>(const asst::AbstractT
 bool asst::AbstractTaskPlugin::operator==(const AbstractTaskPlugin& rhs) const
 {
     return priority() == rhs.priority();
+}
+
+std::shared_ptr<cv::Mat> asst::AbstractTaskPlugin::get_hit_image() const
+{
+    if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
+        return nullptr;
+    }
+    else if (auto last_hit = ptr->get_last_hit(); last_hit && last_hit->image && !last_hit->image->empty()) {
+        return last_hit->image;
+    }
+    return nullptr;
 }

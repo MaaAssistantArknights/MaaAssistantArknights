@@ -4,6 +4,10 @@
 
 #include "AbstractTask.h"
 #include "Common/AsstMsg.h"
+#include "Common/AsstTypes.h"
+#include "MaaUtils/NoWarningCVMat.hpp"
+#include "ProcessTask.h"
+#include "Utils/Logger.hpp"
 
 namespace asst
 {
@@ -27,6 +31,25 @@ public:
     bool operator==(const AbstractTaskPlugin& rhs) const;
 
 protected:
+    std::shared_ptr<cv::Mat> get_hit_image() const;
+
+    template <typename T>
+    requires std::derived_from<T, asst::AnalyzerResult>
+    std::shared_ptr<T> get_hit_detail() const
+    {
+        if (auto ptr = dynamic_cast<ProcessTask*>(m_task_ptr); !ptr) {
+            return nullptr;
+        }
+        else if (auto last_hit = ptr->get_last_hit(); !last_hit || !last_hit->reco_detail) {
+            return nullptr;
+        }
+        else if (auto detail = std::dynamic_pointer_cast<T>(last_hit->reco_detail)) {
+            return detail;
+        }
+        Log.error(__FUNCTION__, "| Unable to get hit detail of type:", typeid(T).name());
+        return nullptr;
+    }
+
     AbstractTask* m_task_ptr = nullptr;
     int m_priority = 0;
     bool m_block = false;
