@@ -1492,6 +1492,7 @@ public class TaskQueueViewModel : Screen
         _runningState.SetIdle(true);
     }
 
+    // 该函数将于未来被废弃，改用 LinkStart 代替
     public async Task QuickSwitchAccount()
     {
         if (!_runningState.GetIdle())
@@ -1500,6 +1501,7 @@ public class TaskQueueViewModel : Screen
         }
 
         _runningState.SetIdle(false);
+        _taskStartTime = DateTime.Now; // 快速修复
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         TaskItemSelectionChanged();
