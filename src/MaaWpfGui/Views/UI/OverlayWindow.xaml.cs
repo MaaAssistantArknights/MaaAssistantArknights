@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Threading;
 using MaaWpfGui.Helper;
 using Serilog;
 using Stylet;
@@ -45,6 +46,7 @@ public partial class OverlayWindow : Window
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
     private readonly WINEVENTPROC _winEventProc;
+    private readonly DispatcherTimer _debounceTimer;
 
     public OverlayWindow()
     {
@@ -54,6 +56,20 @@ public partial class OverlayWindow : Window
 
         // Bind instance win event delegate to prevent it from being GC'd while hooks are active.
         _winEventProc = WinEventProc;
+        _debounceTimer = new DispatcherTimer(
+            TimeSpan.FromMilliseconds(100),
+            DispatcherPriority.Background,
+            (_, _) =>
+            {
+                _debounceTimer?.Stop();
+                UpdatePosition();
+                if (_isHiddenDuringMove)
+                {
+                    Opacity = 1;
+                    _isHiddenDuringMove = false;
+                }
+            },
+            Dispatcher);
     }
 
     public void SetTargetHwnd(IntPtr hwnd)
@@ -65,18 +81,12 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            // 如果窗口尚未加载完成，等待加载
             if (_overlayHwnd == IntPtr.Zero)
             {
                 // 记录目标窗口，OnLoaded 会处理它
                 _targetHwnd = hwnd;
                 return;
             }
-
-            _targetHwnd = hwnd;
-            StopWinEventHook();
-            StartWinEventHookForTarget(_targetHwnd);
-            UpdatePosition();
         }
         catch
         {
@@ -135,7 +145,6 @@ public partial class OverlayWindow : Window
 
     // Keep Win32 constants for clarity; underscore naming matches Win32 defines
 #pragma warning disable SA1310 // Field names intentionally contain underscores for Win32 constants
-    private const int GWL_EXSTYLE = -20;
     private const int WS_EX_TRANSPARENT = 0x20;
     private const int WS_EX_LAYERED = 0x80000;
     private const int WS_EX_NOACTIVATE = 0x08000000;
@@ -221,6 +230,9 @@ public partial class OverlayWindow : Window
         }
     }
 
+    private int _invokePending;
+    private bool _isHiddenDuringMove;
+
     private void WinEventProc(HWINEVENTHOOK hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
         try
@@ -241,7 +253,23 @@ public partial class OverlayWindow : Window
                 return;
             }
 
-            Execute.OnUIThreadAsync(UpdatePosition);
+            if (!_isHiddenDuringMove)
+            {
+                Opacity = 0;
+                _isHiddenDuringMove = true;
+            }
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
+            {
+                if (Interlocked.Exchange(ref _invokePending, 1) == 1)
+                {
+                    return;
+                }
+
+                _debounceTimer.Stop();
+                _debounceTimer.Start();
+                Interlocked.Exchange(ref _invokePending, 0);
+            });
         }
         catch (Exception ex)
         {
@@ -249,67 +277,49 @@ public partial class OverlayWindow : Window
         }
     }
 
-    private int _layoutVersion;
-
     private void UpdatePosition()
     {
-        int version = Interlocked.Increment(ref _layoutVersion);
-
-        Execute.OnUIThreadAsync(async () =>
+        if (_targetHwnd == IntPtr.Zero)
         {
-            if (version != Volatile.Read(ref _layoutVersion))
-            {
-                return;
-            }
+            return;
+        }
 
-            if (_targetHwnd == IntPtr.Zero)
-            {
-                return;
-            }
+        if (!PInvoke.GetWindowRect((HWND)_targetHwnd, out var rect))
+        {
+            return;
+        }
 
-            if (!PInvoke.GetWindowRect((HWND)_targetHwnd, out var rect))
-            {
-                return;
-            }
+        if (_overlayHwnd != IntPtr.Zero)
+        {
+            int newLeft = rect.left;
+            int newTop = rect.top;
+            int newWidth = Math.Max(0, rect.right - rect.left);
+            int newHeight = Math.Max(0, rect.bottom - rect.top);
 
-            if (_overlayHwnd != IntPtr.Zero)
-            {
-                int newLeft = rect.left;
-                int newTop = rect.top;
-                int newWidth = Math.Max(0, rect.right - rect.left);
-                int newHeight = Math.Max(0, rect.bottom - rect.top);
+            PInvoke.SetWindowPos(
+                (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
+                newLeft, newTop, newWidth, newHeight,
+                SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
+                SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
+                SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
+        }
 
-                PInvoke.SetWindowPos(
-                    (HWND)_overlayHwnd, (HWND)IntPtr.Zero,
-                    newLeft, newTop, newWidth, newHeight,
-                    SET_WINDOW_POS_FLAGS.SWP_ASYNCWINDOWPOS |
-                    SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
-                    SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                    SET_WINDOW_POS_FLAGS.SWP_NOCOPYBITS);
-            }
+        if (FindName("OuterBorder") is not Border border)
+        {
+            return;
+        }
 
-            try
-            {
-                if (FindName("OuterBorder") is not Border border)
-                {
-                    return;
-                }
-
-                var source = PresentationSource.FromVisual(this);
-                if (source?.CompositionTarget != null)
-                {
-                    var transform = source.CompositionTarget.TransformFromDevice;
-                    var topLeft = transform.Transform(new Point(rect.left, rect.top));
-                    var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
-                    var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
-                    double horizontalMargin = border.Margin.Left + border.Margin.Right;
-                    border.MaxWidth = Math.Max(0, newWidthWpf - horizontalMargin);
-                }
-            }
-            catch
-            {
-            }
-        });
+        var source = PresentationSource.FromVisual(this);
+        if (source?.CompositionTarget != null)
+        {
+            var transform = source.CompositionTarget.TransformFromDevice;
+            var topLeft = transform.Transform(new Point(rect.left, rect.top));
+            var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
+            var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
+            double horizontalMargin = border.Margin.Left + border.Margin.Right;
+            border.MaxWidth = Math.Max(0, newWidthWpf - horizontalMargin);
+        }
     }
 
     /// <summary>
@@ -319,26 +329,10 @@ public partial class OverlayWindow : Window
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task InitializeAndShowAsync()
     {
-        try
-        {
-            // Make invisible while positioning
-            Opacity = 0;
-            Show();
-
-            await Task.Delay(20).ConfigureAwait(true);
-            int tries = 0;
-            while (_targetHwnd == IntPtr.Zero && tries < 40)
-            {
-                await Task.Delay(50).ConfigureAwait(true);
-                tries++;
-            }
-
-            PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
-            UpdatePosition();
-        }
-        finally
-        {
-            Opacity = 1;
-        }
+        Opacity = 0;
+        Show();
+        PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
+        UpdatePosition();
+        Opacity = 1;
     }
 }

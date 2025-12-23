@@ -11,11 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Views.UI;
@@ -28,7 +27,7 @@ namespace MaaWpfGui.ViewModels.UI
     // ViewModel wrapper for overlay control; exposes methods for ViewModels and binding-friendly properties
     public class OverlayViewModel : Screen
     {
-        private OverlayWindow _overlay;
+        private OverlayWindow? _overlay;
 
         public bool IsCreated => _overlay != null;
 
@@ -96,7 +95,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var found = TryFindWindow(info);
                     if (found != IntPtr.Zero)
                     {
-                        Execute.OnUIThread(() => SetTargetHwnd(found, false));
+                        SetTargetHwnd(found, false);
                     }
                 }
             }
