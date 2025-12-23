@@ -31,6 +31,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool IsCreated => _overlay != null;
 
+        // 仅允许在窗口未显示的时候设置目标窗口，否则需要先关闭再设置
         public void SetTargetHwnd(IntPtr hwnd, bool persist = true)
         {
             if (hwnd == IntPtr.Zero)
@@ -219,9 +220,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             public int ProcessId { get; set; }
 
-            public string ProcessName { get; set; }
+            public string? ProcessName { get; set; }
 
-            public string Title { get; set; }
+            public string? Title { get; set; }
 
             public long Hwnd { get; set; }
         }
