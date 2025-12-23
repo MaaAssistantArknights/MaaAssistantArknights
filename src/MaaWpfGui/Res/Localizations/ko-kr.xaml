@@ -736,6 +736,8 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ProcessPickerRefresh">새로고침</system:String>
     <system:String x:Key="ProcessPickerConfirm">확인</system:String>
     <system:String x:Key="ProcessPickerCancel">취소</system:String>
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">왼쪽 클릭: 로그 플로팅 창 전환
+오른쪽 클릭: 대상 프로세스 선택</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>

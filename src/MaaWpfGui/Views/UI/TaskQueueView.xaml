@@ -400,6 +400,7 @@
                 </Path>
                 <Button
                     Width="30"
+                    ToolTip="{DynamicResource ProcessPickerToolTip}"
                     Height="30"
                     Click="{s:Action ToggleOverlay}"
                     MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
