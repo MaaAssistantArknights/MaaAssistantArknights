@@ -336,6 +336,8 @@ public static class ConfigurationKeys
     public const string AchievementPopupDisabled = "Achievement.PopupDisabled";
     public const string AchievementPopupAutoClose = "Achievement.PopupAutoClose";
 
+    public const string OverlayTarget = "Overlay.Target";
+
     // public const string AnnouncementInfo = "Announcement.AnnouncementInfo";// 已迁移
     // public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";// 已迁移
     // public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";// 已迁移

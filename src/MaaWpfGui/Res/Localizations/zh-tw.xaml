@@ -731,8 +731,13 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
-
-    <!--  !設定失敗  -->
+    <system:String x:Key="ProcessPickerTitle">選擇視窗</system:String>
+    <system:String x:Key="ProcessPickerRefresh">重新整理</system:String>
+    <system:String x:Key="ProcessPickerConfirm">確定</system:String>
+    <system:String x:Key="ProcessPickerCancel">取消</system:String>
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左鍵：開關日誌懸浮窗
+右鍵：選擇目標進程</system:String>
+    <!--  !日誌  -->
     <!--  !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
     <!--  公招辨識  -->

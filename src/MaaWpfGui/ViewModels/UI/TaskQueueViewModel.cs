@@ -36,10 +36,12 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
+using static MaaWpfGui.States.RunningState;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -141,6 +143,101 @@ public class TaskQueueViewModel : Screen
                 ++index;
             }
         });
+    }
+
+    // a:Action 绑定，不能为 static
+    public void ChooseOverlayTarget()
+    {
+        try
+        {
+            var owner = Application.Current.MainWindow;
+            var picker = new ProcessPickerWindow { Owner = owner };
+            var ok = picker.ShowDialog();
+            if (ok == true && picker.SelectedHwnd != IntPtr.Zero)
+            {
+                var overlayVm = Instances.OverlayViewModel;
+                if (overlayVm != null)
+                {
+                    overlayVm.SetTargetHwnd(picker.SelectedHwnd);
+                    if (overlayVm.IsCreated)
+                    {
+                        overlayVm.Close();
+                        overlayVm.EnsureCreated();
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    private bool _isOverlayEnabled;
+
+    public bool IsOverlayEnabled
+    {
+        get => _isOverlayEnabled;
+        set => SetAndNotify(ref _isOverlayEnabled, value);
+    }
+
+    private readonly EventHandler<RunningStateChangedEventArgs> _overlayHandler = (sender, e) =>
+    {
+        var overlayVm = Instances.OverlayViewModel;
+        if (overlayVm == null)
+        {
+            return;
+        }
+
+        if (e.Idle)
+        {
+            overlayVm.Close();
+        }
+        else
+        {
+            overlayVm.EnsureCreated();
+        }
+    };
+
+    public void EnableOverlay()
+    {
+        if (IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = true;
+        _runningState.StateChanged += _overlayHandler;
+
+        var overlayVm = Instances.OverlayViewModel;
+        if (overlayVm != null && !_runningState.GetIdle() && !overlayVm.IsCreated)
+        {
+            overlayVm.EnsureCreated();
+        }
+    }
+
+    public void DisableOverlay()
+    {
+        if (!IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = false;
+        _runningState.StateChanged -= _overlayHandler;
+        Instances.OverlayViewModel?.Close();
+    }
+
+    public void ToggleOverlay()
+    {
+        if (IsOverlayEnabled)
+        {
+            DisableOverlay();
+        }
+        else
+        {
+            EnableOverlay();
+        }
     }
 
     /// <summary>

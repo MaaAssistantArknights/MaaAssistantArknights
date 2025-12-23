@@ -49,6 +49,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Stylet;
 using StyletIoC;
+using static MaaWpfGui.States.RunningState;
 
 namespace MaaWpfGui.Main;
 
@@ -480,6 +481,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
         builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
+
+        builder.Bind<OverlayViewModel>().ToSelf().InSingletonScope();
     }
 
     protected override void Configure()

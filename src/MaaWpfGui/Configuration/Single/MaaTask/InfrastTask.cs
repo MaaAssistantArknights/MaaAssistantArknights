@@ -16,6 +16,7 @@ using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
+
 public class InfrastTask : BaseTask
 {
     public InfrastTask() => TaskType = TaskType.Infrast;

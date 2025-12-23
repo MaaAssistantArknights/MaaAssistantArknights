@@ -76,6 +76,8 @@ public static class Instances
 
     public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
 
+    public static OverlayViewModel OverlayViewModel { get; private set; }
+
     // 别的地方有用到这个吗？
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public static RemoteControlService RemoteControlService { get; private set; }
@@ -107,6 +109,8 @@ public static class Instances
         CopilotViewModel = container.Get<CopilotViewModel>();
 
         RemoteControlService = container.Get<RemoteControlService>();
+
+        OverlayViewModel = container.Get<OverlayViewModel>();
 
         HotKeyManager = container.Get<HotKeyManager>();
         MaaHotKeyManager = container.Get<MaaHotKeyManager>();
