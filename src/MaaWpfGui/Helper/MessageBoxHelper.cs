@@ -140,7 +140,7 @@ public static class MessageBoxHelper
 
         if (useNativeMethod)
         {
-            return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
+            return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, false, ok, cancel, yes, no);
         }
         else
         {
@@ -197,20 +197,12 @@ public static class MessageBoxHelper
        string windowTitle = "",
        MessageBoxButton buttons = MessageBoxButton.OK,
        MessageBoxImage icon = MessageBoxImage.None,
-       MessageBoxResult defaultButton = MessageBoxResult.None,
        bool alwaysAllowCancel = false,
        string ok = "",
        string cancel = "",
        string yes = "",
        string no = "")
     {
-        // Helper wrappers for owners
-        var ownerWin = ownerWindow.Handle != IntPtr.Zero ? (IWin32Window)new NativeWin32Window(ownerWindow.Handle) : null;
-        if (ownerWin == null && System.Windows.Application.Current?.MainWindow != null)
-        {
-            IWin32Window? wpfOwner = new WpfWin32Window(System.Windows.Application.Current.MainWindow);
-        }
-
         using var contentPin = new DisposablePin<char>(messageBoxText);
         using var instructionPin = new DisposablePin<char>(mainInstruction);
         using var titlePin = new DisposablePin<char>(windowTitle);
@@ -326,15 +318,10 @@ public static class MessageBoxHelper
         return MessageBoxResult.None;
     }
 
-    private class WpfWin32Window(System.Windows.Window w) : System.Windows.Forms.IWin32Window, System.Windows.Interop.IWin32Window
+    private class WpfWin32Window(Window w) : IWin32Window, System.Windows.Interop.IWin32Window
     {
         public IntPtr Handle => _helper.Handle;
 
         private readonly System.Windows.Interop.WindowInteropHelper _helper = new(w);
-    }
-
-    private class NativeWin32Window(IntPtr h) : IWin32Window
-    {
-        public IntPtr Handle { get; } = h;
     }
 }
