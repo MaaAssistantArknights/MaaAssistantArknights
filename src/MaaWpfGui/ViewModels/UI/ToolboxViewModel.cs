@@ -1232,6 +1232,15 @@ public class ToolboxViewModel : Screen
         }
     }
 
+    public string GetMiniGameTask()
+    {
+        return MiniGameTaskName switch
+        {
+            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Ending{SecretFrontEnding}@Begin",
+            _ => MiniGameTaskName,
+        };
+    }
+
     private string? _miniGameTip;
 
     public string MiniGameTip
@@ -1292,6 +1301,16 @@ public class ToolboxViewModel : Screen
         return string.Empty;
     }
 
+    public List<string> SecretFrontEndingList { get; set; } = ["A", "B", "C", "D", "E"];
+
+    private string _secretFrontEnding = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
+
+    public string SecretFrontEnding
+    {
+        get => _secretFrontEnding;
+        set => SetAndNotify(ref _secretFrontEnding, value);
+    }
+
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -1319,7 +1338,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
+        caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
         if (!caught)
         {
             _runningState.SetIdle(true);
