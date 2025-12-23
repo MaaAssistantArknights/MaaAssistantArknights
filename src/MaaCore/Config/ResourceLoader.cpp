@@ -1,5 +1,6 @@
 #include "ResourceLoader.h"
 
+#include <array>
 #include <filesystem>
 #include <future>
 
@@ -82,176 +83,194 @@ asst::ResourceLoader::~ResourceLoader()
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
+    using namespace asst::utils::path_literals;
+
     if (!std::filesystem::exists(path)) {
         Log.error("Resource path not exists, path:", path);
         return false;
     }
 
     std::unique_lock<std::mutex> lock(m_entry_mutex);
-
-#define LoadResourceAndCheckRet(Res, FilenameExpr)                              \
-    {                                                                           \
-        auto filename = FilenameExpr;                                           \
-        auto full_path = path / filename;                                       \
-        bool ret = load_resource<Res>(full_path);                               \
-        if (!ret) {                                                             \
-            Log.error(#Res, " load failed, path:", full_path);                  \
-            return false;                                                       \
-        }                                                                       \
-        auto custom_path = path / (full_path.stem().string() + "_custom.json"); \
-        if (std::filesystem::exists(custom_path)) {                             \
-            ret = load_resource<Res>(custom_path);                              \
-            Log.info("Loading custom file for ", #Res, ", path:", custom_path); \
-            if (!ret) {                                                         \
-                Log.error(#Res, " load failed, path:", custom_path);            \
-                return false;                                                   \
-            }                                                                   \
-        }                                                                       \
-    }
-
-#ifdef ASST_DEBUG
-    // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
-#define AsyncLoadConfig(Res, Filename) LoadResourceAndCheckRet(Res, Filename)
-#else
-#define AsyncLoadConfig(Res, Filename)                        \
-    {                                                         \
-        add_load_queue(Res::get_instance(), path / Filename); \
-    }
-#endif // ASST_DEBUG
-
-#define LoadResourceWithTemplAndCheckRet(Res, Filename, TemplDir)                             \
-    {                                                                                         \
-        auto full_path = path / Filename;                                                     \
-        auto full_templ_dir = path / TemplDir;                                                \
-        bool ret = load_resource_with_templ<Res>(full_path, full_templ_dir);                  \
-        if (!ret) {                                                                           \
-            Log.error(#Res, "load failed, path:", full_path, ", templ dir:", full_templ_dir); \
-            return false;                                                                     \
-        }                                                                                     \
-    }
-
-#define LoadCacheWithoutRet(Res, Dir)                       \
-    {                                                       \
-        auto full_path = UserDir.get() / "cache"_p / Dir;   \
-        if (!std::filesystem::exists(full_path)) {          \
-            std::filesystem::create_directories(full_path); \
-        }                                                   \
-        Res::get_instance().load(full_path);                \
-    }
-
     LogTraceFunction;
-    using namespace asst::utils::path_literals;
 
-    // 太占内存的资源，都是惰性加载
-    // 战斗中技能识别，二分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
-    // 战斗中部署方向识别，四分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
-    // 战斗中干员（血条）检测，yolov8 检测模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+    // ==================== 辅助 lambda：资源加载与错误处理 ====================
 
-    /* ocr */
-    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+    // 加载资源并尝试加载对应的 _custom.json
+    // 注意：custom 文件始终位于资源根目录（path），这是历史设计，勿修改
+    auto load_with_custom = [&]<typename T>(const std::filesystem::path& filename, const char* res_name) -> bool {
+        auto full_path = path / filename;
+        if (!load_resource<T>(full_path)) {
+            Log.error(res_name, " load failed, path:", full_path);
+            return false;
+        }
+        auto custom_path = path / (full_path.stem().string() + "_custom.json");
+        if (std::filesystem::exists(custom_path)) {
+            Log.info("Loading custom file for ", res_name, ", path:", custom_path);
+            if (!load_resource<T>(custom_path)) {
+                Log.error(res_name, " load failed, path:", custom_path);
+                return false;
+            }
+        }
+        return true;
+    };
 
-    // 重要的资源，实时加载
-    /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
-    LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+    // 加载带模板目录的资源
+    auto load_with_templ = [&]<typename T>(
+                               const std::filesystem::path& filename,
+                               const std::filesystem::path& templ_dir,
+                               const char* res_name) -> bool {
+        auto full_path = path / filename;
+        auto full_templ_dir = path / templ_dir;
+        if (!load_resource_with_templ<T>(full_path, full_templ_dir)) {
+            Log.error(res_name, "load failed, path:", full_path, ", templ dir:", full_templ_dir);
+            return false;
+        }
+        return true;
+    };
 
-    /* load cache */
-    // 这个任务依赖 BattleDataConfig
-    LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+    // 加载缓存目录（不检查返回值，目录不存在时自动创建）
+    auto load_cache = [&]<typename T>(const std::filesystem::path& cache_subdir) {
+        auto full_path = UserDir.get() / "cache"_p / cache_subdir;
+        if (!std::filesystem::exists(full_path)) {
+            std::filesystem::create_directories(full_path);
+        }
+        T::get_instance().load(full_path);
+    };
 
-    // 重要的资源，实时加载（图片还是惰性的）
+    // ==================== ONNX 模型（惰性加载） ====================
+    if (!load_with_custom.template operator()<OnnxSessions>("onnx"_p / "skill_ready_cls.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "deploy_direction_cls.onnx"_p, "OnnxSessions") ||
+        !load_with_custom.template operator()<OnnxSessions>("onnx"_p / "operators_det.onnx"_p, "OnnxSessions")) {
+        return false;
+    }
+
+    // ==================== OCR 模型 ====================
+    if (!load_with_custom.template operator()<WordOcr>("PaddleOCR"_p, "WordOcr") ||
+        !load_with_custom.template operator()<CharOcr>("PaddleCharOCR"_p, "CharOcr")) {
+        return false;
+    }
+
+    // ==================== 核心配置文件（同步加载） ====================
+    if (!load_with_custom.template operator()<GeneralConfig>("config.json"_p, "GeneralConfig") ||
+        !load_with_custom.template operator()<RecruitConfig>("recruitment.json"_p, "RecruitConfig") ||
+        !load_with_custom.template operator()<BattleDataConfig>("battle_data.json"_p, "BattleDataConfig") ||
+        !load_with_custom.template operator()<OcrConfig>("ocr_config.json"_p, "OcrConfig")) {
+        return false;
+    }
+
+    // ==================== 缓存加载（依赖 BattleDataConfig） ====================
+    load_cache.template operator()<AvatarCacheManager>("avatars"_p);
+
+    // ==================== 任务配置（带模板） ====================
     if (std::filesystem::is_directory(path / "tasks"_p)) {
-        LoadResourceWithTemplAndCheckRet(TaskData, "tasks"_p, "template"_p);
+        if (!load_with_templ.template operator()<TaskData>("tasks"_p, "template"_p, "TaskData")) {
+            return false;
+        }
     }
     else if (std::filesystem::is_regular_file(path / "tasks.json"_p)) {
-        // wpfGui cache糊屎, 依然会存在 tasks.json for ETag. 未来移除
         Log.warn("================  DEPRECATED  ================");
         Log.warn(__FUNCTION__, "resource/tasks.json has been deprecated since v5.15.4");
         Log.warn("================  DEPRECATED  ================");
-        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+        if (!load_with_templ.template operator()<TaskData>("tasks.json"_p, "template"_p, "TaskData")) {
+            return false;
+        }
     }
 
-    // 下面这几个资源都是会带OTA功能的，路径不能动
-    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
+    // ==================== OTA 配置（路径固定，勿修改） ====================
+    if (!load_with_templ
+             .template operator()<InfrastConfig>("infrast.json"_p, "template"_p / "infrast"_p, "InfrastConfig") ||
+        !load_with_templ.template operator()<ItemConfig>("item_index.json"_p, "template"_p / "items"_p, "ItemConfig") ||
+        !load_with_custom.template operator()<StageDropsConfig>("stages.json"_p, "StageDropsConfig") ||
+        !load_with_custom.template operator()<TilePack>("Arknights-Tile-Pos"_p / "overview.json"_p, "TilePack")) {
+        return false;
+    }
 
-    // fix #6188
-    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188#issuecomment-1703705568
-    // 没什么头绪，但凑合修掉了
-    // 原来这后面是用 AsyncLoadConfig 的，以下是原来的注释：
-    //// 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
-    //// DEBUG 模式下这里还是检查返回值的，方便排查问题
-    // –––––––– Roguelike Copilot Config ––––––––––––––––––––––––––––––––––––––––––––––
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sarkaz"_p / "autopilot"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "JieGarden"_p / "autopilot"_p);
+    // ==================== Roguelike 配置 ====================
+    // 参考: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/6188
+    // 原先使用异步加载，但存在竞态问题，现改为同步加载
 
-    // –––––––– Roguelike Recruitment Config ––––––––––––––––––––––––––––––––––––––––––
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Mizuki"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Sami"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "Sarkaz"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "JieGarden"_p / "recruitment.json"_p);
+    constexpr std::array roguelike_themes = { "Phantom", "Mizuki", "Sami", "Sarkaz", "JieGarden" };
 
-    // –––––––– Roguelike Shopping Config –––––––––––––––––––––––––––––––––––––––––––––
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Phantom"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Sarkaz"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "JieGarden"_p / "shopping.json"_p);
+    auto roguelike_path = [](std::string_view theme, const std::filesystem::path& subpath) {
+        return "roguelike"_p / theme / subpath;
+    };
 
-    // –––––––– Roguelike Encounter Config ––––––––––––––––––––––––––––––––––––––––––––
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Phantom"_p / "encounter"_p / "default.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Mizuki"_p / "encounter"_p / "default.json"_p);
-    LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter"_p / "default.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Sarkaz"_p / "encounter"_p / "default.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "JieGarden"_p / "encounter"_p / "default.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Phantom"_p / "encounter"_p / "deposit.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Mizuki"_p / "encounter"_p / "deposit.json"_p);
-    LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter"_p / "deposit.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Sami"_p / "encounter"_p / "collapse.json"_p);
+    // Copilot Config
+    for (auto theme : roguelike_themes) {
+        if (!load_with_custom.template operator()<RoguelikeCopilotConfig>(
+                roguelike_path(theme, "autopilot"_p),
+                "RoguelikeCopilotConfig")) {
+            return false;
+        }
+    }
 
-    // –––––––– Roguelike Map Config ––––––––––––––––––––––––––––––––––––––––––––------
-    LoadResourceAndCheckRet(RoguelikeMapConfig, "roguelike"_p / "Sarkaz"_p / "map.json"_p);
-    LoadResourceAndCheckRet(RoguelikeMapConfig, "roguelike"_p / "JieGarden"_p / "map.json"_p);
+    // Recruitment Config
+    for (auto theme : roguelike_themes) {
+        if (!load_with_custom.template operator()<RoguelikeRecruitConfig>(
+                roguelike_path(theme, "recruitment.json"_p),
+                "RoguelikeRecruitConfig")) {
+            return false;
+        }
+    }
 
-    // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
-    LoadResourceAndCheckRet(RoguelikeFoldartalConfig, "roguelike"_p / "Sami"_p / "foldartal.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCollapsalParadigmConfig, "roguelike"_p / "Sami"_p / "collapsal_paradigms.json"_p);
+    // Shopping Config
+    for (auto theme : roguelike_themes) {
+        if (!load_with_custom.template operator()<RoguelikeShoppingConfig>(
+                roguelike_path(theme, "shopping.json"_p),
+                "RoguelikeShoppingConfig")) {
+            return false;
+        }
+    }
 
-    // –––––––– JieGarden Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––-
-    LoadResourceAndCheckRet(RoguelikeCoppersConfig, "roguelike"_p / "JieGarden"_p / "coppers.json"_p);
+    // Encounter Config
+    for (auto theme : roguelike_themes) {
+        if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+                roguelike_path(theme, "encounter"_p / "default.json"_p),
+                "RoguelikeStageEncounterConfig")) {
+            return false;
+        }
+    }
+    // 额外的 encounter 配置（deposit / collapse）
+    for (auto theme : { "Phantom", "Mizuki", "Sami" }) {
+        if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+                roguelike_path(theme, "encounter"_p / "deposit.json"_p),
+                "RoguelikeStageEncounterConfig")) {
+            return false;
+        }
+    }
+    if (!load_with_custom.template operator()<RoguelikeStageEncounterConfig>(
+            roguelike_path("Sami", "encounter"_p / "collapse.json"_p),
+            "RoguelikeStageEncounterConfig")) {
+        return false;
+    }
 
-#undef LoadTemplByConfigAndCheckRet
-#undef LoadResourceAndCheckRet
-#undef LoadCacheWithoutRet
+    // Map Config（仅 Sarkaz 和 JieGarden）
+    for (auto theme : { "Sarkaz", "JieGarden" }) {
+        if (!load_with_custom.template operator()<RoguelikeMapConfig>(
+                roguelike_path(theme, "map.json"_p),
+                "RoguelikeMapConfig")) {
+            return false;
+        }
+    }
+
+    // ==================== 主题专属插件配置 ====================
+    // Sami
+    if (!load_with_custom.template operator()<RoguelikeFoldartalConfig>(
+            roguelike_path("Sami", "foldartal.json"_p),
+            "RoguelikeFoldartalConfig") ||
+        !load_with_custom.template operator()<RoguelikeCollapsalParadigmConfig>(
+            roguelike_path("Sami", "collapsal_paradigms.json"_p),
+            "RoguelikeCollapsalParadigmConfig")) {
+        return false;
+    }
+    // JieGarden
+    if (!load_with_custom.template operator()<RoguelikeCoppersConfig>(
+            roguelike_path("JieGarden", "coppers.json"_p),
+            "RoguelikeCoppersConfig")) {
+        return false;
+    }
 
     m_loaded = true;
-
     Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;
 }
