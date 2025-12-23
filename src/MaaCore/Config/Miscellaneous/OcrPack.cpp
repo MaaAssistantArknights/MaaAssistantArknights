@@ -120,12 +120,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
 #ifdef ASST_DEBUG
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
-        Result result {
-            .rect = det_rect,
-            .score = ocr_result.rec_scores.at(i),
-            .text = std::move(ocr_result.text.at(i)),
-        };
-        raw_results.emplace_back(std::move(result));
+        raw_results.emplace_back(Result(det_rect, ocr_result.rec_scores.at(i), std::move(ocr_result.text.at(i))));
     }
 
     auto costs =

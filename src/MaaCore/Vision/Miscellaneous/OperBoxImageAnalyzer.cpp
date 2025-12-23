@@ -84,10 +84,8 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
             name_analyzer.set_width_threshold(params[5]);
             [[maybe_unused]] cv::Mat debug_img = make_roi(m_image, flag.rect.move(name_task->rect_move));
             if (auto ocr_opt = name_analyzer.analyze()) {
-                asst::TemplDetOCRer::Result ocr { .flag_rect = flag.rect, .flag_score = flag.score };
-                ocr.rect = ocr_opt->rect;
-                ocr.text = ocr_opt->text;
-                ocr.score = ocr_opt->score;
+                TemplDetOCRer::Result
+                    ocr(ocr_opt->rect, ocr_opt->score, std::move(ocr_opt->text), flag.rect, flag.score);
                 list.emplace_back(std::move(ocr));
             }
             else {
