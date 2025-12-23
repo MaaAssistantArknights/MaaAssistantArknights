@@ -11,19 +11,19 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 #pragma warning disable CS0618
 #pragma warning disable SA1401
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
+using System.Windows.Forms;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
-using Windows.Win32;
-using Windows.Win32.UI.Controls;
-using Windows.Win32.UI.Shell;
 
 [assembly: SecurityCritical]
 [assembly: SecurityTreatAsSafe]
@@ -140,7 +140,7 @@ public static class MessageBoxHelper
 
         if (useNativeMethod)
         {
-            return ShowNative(ownerWindow, messageBoxText, null, caption, buttons, icon, MessageBoxResult.None, false, ok, cancel, yes, no);
+            return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, false, ok, cancel, yes, no);
         }
         else
         {
@@ -190,14 +190,13 @@ public static class MessageBoxHelper
         }
     }
 
-    public static unsafe MessageBoxResult ShowNative(
+    public static MessageBoxResult ShowNative(
        WindowHandle ownerWindow,
        string messageBoxText,
        string mainInstruction = "",
        string windowTitle = "",
        MessageBoxButton buttons = MessageBoxButton.OK,
        MessageBoxImage icon = MessageBoxImage.None,
-       MessageBoxResult defaultButton = MessageBoxResult.None,
        bool alwaysAllowCancel = false,
        string ok = "",
        string cancel = "",
@@ -208,146 +207,121 @@ public static class MessageBoxHelper
         using var instructionPin = new DisposablePin<char>(mainInstruction);
         using var titlePin = new DisposablePin<char>(windowTitle);
 
-        var config = new TASKDIALOGCONFIG()
+        // Use TaskDialogPage / TaskDialog.ShowDialog to display native-style dialog page
+        var page = new TaskDialogPage
         {
-            pszContent = contentPin.AddrOfPinnedObject,
-            pszMainInstruction = instructionPin.AddrOfPinnedObject,
-            pszWindowTitle = titlePin.AddrOfPinnedObject,
-            hwndParent = (Windows.Win32.Foundation.HWND)ownerWindow.Handle,
-            nDefaultButton = (int)defaultButton,
-            dwFlags = TASKDIALOG_FLAGS.TDF_POSITION_RELATIVE_TO_WINDOW | TASKDIALOG_FLAGS.TDF_SIZE_TO_CONTENT,
+            Caption = windowTitle,
+            Heading = mainInstruction,
+            Text = messageBoxText,
+            SizeToContent = true,
         };
 
-        if (alwaysAllowCancel)
-        {
-            config.dwFlags |= TASKDIALOG_FLAGS.TDF_ALLOW_DIALOG_CANCELLATION;
-        }
-
+        // Icon
         switch (icon)
         {
             case MessageBoxImage.Information:
-                // case MessageBoxImage.Asterisk:
-                config.Anonymous1.pszMainIcon = PInvoke.TD_INFORMATION_ICON;
+                page.Icon = TaskDialogIcon.Information;
                 break;
             case MessageBoxImage.Hand:
-                // case MessageBoxImage.Stop:
-                // case MessageBoxImage.Error
-                config.Anonymous1.pszMainIcon = PInvoke.TD_ERROR_ICON;
+                page.Icon = TaskDialogIcon.Error;
                 break;
             case MessageBoxImage.Exclamation:
-                // case MessageBoxImage.Warning:
-                config.Anonymous1.pszMainIcon = PInvoke.TD_WARNING_ICON;
+                page.Icon = TaskDialogIcon.Warning;
                 break;
             case MessageBoxImage.Question:
-                var iconInfo = new SHSTOCKICONINFO { cbSize = (uint)Marshal.SizeOf<SHSTOCKICONINFO>() };
-                PInvoke.SHGetStockIconInfo(SHSTOCKICONID.SIID_HELP, SHGSI_FLAGS.SHGSI_ICON, ref iconInfo).ThrowOnFailure();
-                config.Anonymous1.hMainIcon = iconInfo.hIcon;
-                config.dwFlags |= TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
+                page.Icon = TaskDialogIcon.Shield;
                 break;
             case MessageBoxImage.None:
+                page.Icon = TaskDialogIcon.None;
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
         }
 
-        bool hasOk = false, hasCancel = false, hasYes = false, hasNo = false;
-        var customButtons = new List<TASKDIALOG_BUTTON>();
-        var gcHandles = new List<GCHandle>();
+        // Buttons
         switch (buttons)
         {
             case MessageBoxButton.OK:
-                hasOk = true;
+                page.Buttons.Add(TaskDialogButton.OK);
                 break;
             case MessageBoxButton.OKCancel:
-                hasOk = true;
-                hasCancel = true;
-                break;
-            case MessageBoxButton.YesNoCancel:
-                hasYes = true;
-                hasNo = true;
-                hasCancel = true;
+                page.Buttons.Add(TaskDialogButton.OK);
+                page.Buttons.Add(TaskDialogButton.Cancel);
                 break;
             case MessageBoxButton.YesNo:
-                hasYes = true;
-                hasNo = true;
+                page.Buttons.Add(TaskDialogButton.Yes);
+                page.Buttons.Add(TaskDialogButton.No);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(buttons), buttons, null);
+            case MessageBoxButton.YesNoCancel:
+                page.Buttons.Add(TaskDialogButton.Yes);
+                page.Buttons.Add(TaskDialogButton.No);
+                page.Buttons.Add(TaskDialogButton.Cancel);
+                break;
         }
 
-        if (hasOk)
+        // Custom labels
+        if (!string.IsNullOrEmpty(ok))
         {
-            if (string.IsNullOrEmpty(ok))
-            {
-                config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON;
-            }
-            else
-            {
-                var gch = GCHandle.Alloc(ok, GCHandleType.Pinned);
-                gcHandles.Add(gch);
-                customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.OK, pszButtonText = (char*)gch.AddrOfPinnedObject() });
-            }
+            page.Buttons[0].Text = ok;
         }
 
-        if (hasCancel)
+        if (!string.IsNullOrEmpty(cancel))
         {
-            if (string.IsNullOrEmpty(cancel))
-            {
-                config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON;
-            }
-            else
-            {
-                var gch = GCHandle.Alloc(cancel, GCHandleType.Pinned);
-                gcHandles.Add(gch);
-                customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.Cancel, pszButtonText = (char*)gch.AddrOfPinnedObject() });
-            }
+            page.Buttons.FirstOrDefault(b => b == System.Windows.Forms.TaskDialogButton.Cancel)?.Text = cancel;
         }
 
-        if (hasYes)
+        if (!string.IsNullOrEmpty(yes))
         {
-            if (string.IsNullOrEmpty(yes))
-            {
-                config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_YES_BUTTON;
-            }
-            else
-            {
-                var gch = GCHandle.Alloc(yes, GCHandleType.Pinned);
-                gcHandles.Add(gch);
-                customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.Yes, pszButtonText = (char*)gch.AddrOfPinnedObject() });
-            }
+            page.Buttons.FirstOrDefault(b => b == TaskDialogButton.Yes)?.Text = yes;
         }
 
-        if (hasNo)
+        if (!string.IsNullOrEmpty(no))
         {
-            if (string.IsNullOrEmpty(no))
-            {
-                config.dwCommonButtons |= TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_NO_BUTTON;
-            }
-            else
-            {
-                var gch = GCHandle.Alloc(no, GCHandleType.Pinned);
-                gcHandles.Add(gch);
-                customButtons.Add(new TASKDIALOG_BUTTON { nButtonID = (int)MessageBoxResult.No, pszButtonText = (char*)gch.AddrOfPinnedObject() });
-            }
+            page.Buttons.FirstOrDefault(b => b == TaskDialogButton.No)?.Text = no;
         }
 
-        if (customButtons.Count != 0)
+        // Allow cancel
+        if (alwaysAllowCancel)
         {
-            var array = customButtons.ToArray();
-            var gch = GCHandle.Alloc(array, GCHandleType.Pinned);
-            gcHandles.Add(gch);
-            config.pButtons = (TASKDIALOG_BUTTON*)gch.AddrOfPinnedObject();
-            config.cButtons = (uint)customButtons.Count;
+            page.AllowCancel = true;
         }
 
-        int button = 0;
-        PInvoke.TaskDialogIndirect(config, &button, null, null).ThrowOnFailure();
-
-        foreach (var h in gcHandles)
+        // Owner window
+        IWin32Window? owner = null;
+        if (ownerWindow.Handle != IntPtr.Zero)
         {
-            h.Free();
+            owner = new WpfWin32Window(System.Windows.Application.Current?.MainWindow ?? new Window());
+        }
+        else if (System.Windows.Application.Current?.MainWindow != null)
+        {
+            owner = new WpfWin32Window(System.Windows.Application.Current.MainWindow);
         }
 
-        return (MessageBoxResult)button;
+        // Show dialog
+        var tdResult = owner != null ? TaskDialog.ShowDialog(owner, page) : TaskDialog.ShowDialog(page);
+
+        if (tdResult == TaskDialogButton.OK)
+        {
+            return MessageBoxResult.OK;
+        }
+        else if (tdResult == TaskDialogButton.Cancel)
+        {
+            return MessageBoxResult.Cancel;
+        }
+        else if (tdResult == TaskDialogButton.Yes)
+        {
+            return MessageBoxResult.Yes;
+        }
+        else if (tdResult == TaskDialogButton.No)
+        {
+            return MessageBoxResult.No;
+        }
+
+        return MessageBoxResult.None;
+    }
+
+    private class WpfWin32Window(Window w) : IWin32Window, System.Windows.Interop.IWin32Window
+    {
+        public IntPtr Handle => _helper.Handle;
+
+        private readonly System.Windows.Interop.WindowInteropHelper _helper = new(w);
     }
 }

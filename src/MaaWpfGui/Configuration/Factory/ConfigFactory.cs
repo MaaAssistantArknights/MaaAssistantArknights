@@ -27,12 +27,11 @@ using MaaWpfGui.Configuration.Single;
 using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
+using static MaaWpfGui.Helper.PathsHelper;
 
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
 namespace MaaWpfGui.Configuration.Factory;
-
-using static MaaWpfGui.Helper.PathsHelper;
 
 public static class ConfigFactory
 {
