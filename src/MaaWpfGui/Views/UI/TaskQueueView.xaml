@@ -400,10 +400,16 @@
                 </Path>
                 <Button
                     Width="30"
-                    ToolTip="{DynamicResource ProcessPickerToolTip}"
                     Height="30"
                     Click="{s:Action ToggleOverlay}"
                     MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
+                <controls:TooltipBlock
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    MouseLeftButtonDown="{s:Action ToggleOverlay}"
+                    MouseRightButtonDown="{s:Action ChooseOverlayTarget}"
+                    NormalOpacity="0.25"
+                    TooltipText="{DynamicResource ProcessPickerToolTip}" />
             </Grid>
 
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
