@@ -16,7 +16,8 @@
         DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
         Style="{StaticResource BorderCircular}"
         ToolTipService.InitialShowDelay="{Binding InitialShowDelay}"
-        ToolTipService.IsEnabled="{c:Binding !TooltipTextEmpty}">
+        ToolTipService.IsEnabled="{c:Binding !TooltipTextEmpty}"
+        ToolTipService.ShowOnDisabled="True">
         <Border.ToolTip>
             <TextBlock
                 MaxWidth="{Binding TooltipMaxWidth}"
