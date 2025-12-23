@@ -57,7 +57,7 @@ public partial class OverlayWindow : Window
         // Bind instance win event delegate to prevent it from being GC'd while hooks are active.
         _winEventProc = WinEventProc;
         _debounceTimer = new DispatcherTimer(
-            TimeSpan.FromMilliseconds(100),
+            TimeSpan.FromMilliseconds(500),
             DispatcherPriority.Background,
             (_, _) =>
             {
@@ -118,6 +118,7 @@ public partial class OverlayWindow : Window
                 FindName("LogScrollViewer") is ScrollViewer scroll &&
                 itemsCtrl.Items is INotifyCollectionChanged coll)
             {
+                Execute.OnUIThread(() => scroll.ScrollToVerticalOffset(scroll.ExtentHeight));
                 coll.CollectionChanged += (s2, ev2) =>
                 {
                     if (ev2.Action == NotifyCollectionChangedAction.Add)
