@@ -85,8 +85,7 @@ public class DragItemViewModel : PropertyChangedBase
     public bool? IsCheckedWithNull
     {
         get => _isCheckedWithNull;
-        set
-        {
+        set {
             SetAndNotify(ref _isCheckedWithNull, value);
             value ??= false;
             ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
@@ -147,8 +146,7 @@ public class DragItemViewModel : PropertyChangedBase
     public bool EnableSetting
     {
         get => _enableSetting;
-        set
-        {
+        set {
             SetAndNotify(ref _enableSetting, value);
             TaskSettingVisibilityInfo.Instance.Set(OriginalName, value);
         }

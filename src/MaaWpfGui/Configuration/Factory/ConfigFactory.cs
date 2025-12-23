@@ -31,6 +31,7 @@ using Serilog;
 [assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 
 namespace MaaWpfGui.Configuration.Factory;
+
 using static MaaWpfGui.Helper.PathsHelper;
 
 public static class ConfigFactory
@@ -54,8 +55,7 @@ public static class ConfigFactory
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, Converters = { new JsonStringEnumConverter() }, Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs, UnicodeRanges.CjkSymbolsandPunctuation, UnicodeRanges.HalfwidthandFullwidthForms), DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
 
     // TODO: 参考 ConfigurationHelper ，拆几个函数出来
-    private static readonly Lazy<Root> _rootConfig = new(() =>
-    {
+    private static readonly Lazy<Root> _rootConfig = new(() => {
         lock (_lock)
         {
             if (Directory.Exists(ConfigDir) is false)
@@ -111,8 +111,7 @@ public static class ConfigFactory
             }
 
             parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
-            parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
-            {
+            parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) => {
                 switch (args.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
@@ -207,8 +206,7 @@ public static class ConfigFactory
 
     private static PropertyChangedEventHandler OnPropertyChangedFactory(string key, object? oldValue, object? newValue)
     {
-        return (o, args) =>
-        {
+        return (o, args) => {
             var after = newValue;
             if (after == null && args is PropertyChangedEventDetailArgs detailArgs)
             {
@@ -221,8 +219,7 @@ public static class ConfigFactory
 
     private static PropertyChangedEventHandler OnPropertyChangedFactory(string key = "")
     {
-        return (o, args) =>
-        {
+        return (o, args) => {
             object? after = null;
             if (args is PropertyChangedEventDetailArgs detailArgs)
             {
@@ -235,8 +232,7 @@ public static class ConfigFactory
 
     private static NotifyCollectionChangedEventHandler<KeyValuePair<T1, T2>> OnCollectionChangedFactory<T1, T2>(string key)
     {
-        return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) =>
-        {
+        return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) => {
             OnPropertyChanged(key + args.NewItem.Key, null, args.NewItem.Value);
         };
     }
@@ -384,8 +380,7 @@ public static class ConfigFactory
 
     public static List<string> ConfigList
     {
-        get
-        {
+        get {
             var lists = new List<string>(Root.Configurations.Count);
             using var enumerator = Root.Configurations.GetEnumerator();
             while (enumerator.MoveNext())

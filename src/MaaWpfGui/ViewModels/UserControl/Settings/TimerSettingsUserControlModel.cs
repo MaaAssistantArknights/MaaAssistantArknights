@@ -39,8 +39,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool ForceScheduledStart
     {
         get => _forceScheduledStart;
-        set
-        {
+        set {
             SetAndNotify(ref _forceScheduledStart, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
         }
@@ -54,8 +53,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool ShowWindowBeforeForceScheduledStart
     {
         get => _showWindowBeforeForceScheduledStart;
-        set
-        {
+        set {
             SetAndNotify(ref _showWindowBeforeForceScheduledStart, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, value.ToString());
         }
@@ -69,8 +67,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     public bool CustomConfig
     {
         get => _customConfig;
-        set
-        {
+        set {
             SetAndNotify(ref _customConfig, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.CustomConfig, value.ToString());
         }
@@ -112,8 +109,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
             public bool? IsOn
             {
                 get => _isOn;
-                set
-                {
+                set {
                     SetAndNotify(ref _isOn, value);
                     ConfigurationHelper.SetTimer(TimerId, value.ToString());
                 }
@@ -127,8 +123,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
             public int Hour
             {
                 get => _hour;
-                set
-                {
+                set {
                     SetAndNotify(ref _hour, value);
                     ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                 }
@@ -142,8 +137,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
             public int Min
             {
                 get => _min;
-                set
-                {
+                set {
                     SetAndNotify(ref _min, value);
                     ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                 }
@@ -157,8 +151,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
             public string? TimerConfig
             {
                 get => _timerConfig;
-                set
-                {
+                set {
                     SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
                     ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                 }

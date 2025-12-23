@@ -50,8 +50,7 @@ public class RunningState
 
     public static RunningState Instance
     {
-        get
-        {
+        get {
             _instance ??= new();
             return _instance;
         }
@@ -68,8 +67,7 @@ public class RunningState
     public int ReminderIntervalMinutes
     {
         get => _reminderIntervalMinutes;
-        set
-        {
+        set {
             if (value < 1)
             {
                 return;
@@ -138,8 +136,7 @@ public class RunningState
     public bool Idle
     {
         get => _idle;
-        set
-        {
+        set {
             if (_idle == value)
             {
                 return;
@@ -175,8 +172,7 @@ public class RunningState
     public bool Inited
     {
         get => _inited;
-        set
-        {
+        set {
             if (_inited != value)
             {
                 _inited = value;
@@ -198,8 +194,7 @@ public class RunningState
     public bool Stopping
     {
         get => _stopping;
-        set
-        {
+        set {
             if (_stopping != value)
             {
                 _stopping = value;
