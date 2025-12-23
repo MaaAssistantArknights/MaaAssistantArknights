@@ -17,8 +17,8 @@
     "JieGarden@Roguelike@CoppersNameOcrReplace": {
         "ocrReplace": [
             [" |-", ""],
-            ["[Bb]al:[Bb]i?tt?er[Cc]old", "衡-苦寒"],
-            ["[Bb]al:[Dd]esire[Ff]ulfill?ed", "衡-志欲遂"],
+            ["[Bb]al:[Bb]i?tt?e?r[Cc]old", "衡-苦寒"],
+            ["[Bb]al:[Dd]esir?e[Ff]ul?f+i?ll?ed", "衡-志欲遂"],
             ["[Bb]al:[Dd]ewin[Gg]old", "衡-金寒水衍"],
             ["[Bb]al:[Dd]ownpour", "衡-霖雨"],
             ["[Bb]al:[Dd]ry[Hh]eat", "衡-旱热"],
@@ -81,7 +81,7 @@
             ["[Rr]isk:[Ss]ui.?s[Aa]wakening", "厉-岁醒天时"],
             ["[Rr]isk:[Tt]wo[Rr]iver[Ss]pring", "厉-两江春"],
             ["[Rr]isk:[Uu]niversal[Cc]hange", "厉-凡物变"],
-            ["[Rr]isk:[Ww]eiqi[Cc]hance", "厉-遇良弈"],
+            ["[Rr]isk:[Ww]eiq[ij]?[Cc]hance", "厉-遇良弈"],
             ["[Rr]isk:[Ww]est[Ll]ianzhen[Mm]t.?", "厉-西廉贞"],
             ["[Rr]isk:[Ww]ild[Pp]ass?ion", "厉-恣狂情"],
             ["[Rr]usty", "锈色"],
