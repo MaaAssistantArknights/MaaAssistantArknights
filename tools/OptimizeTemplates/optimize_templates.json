@@ -5935,5 +5935,7 @@
     "resource/global/YoStarKR/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@Abandon": "c4d37f449e351a1dd2e6ff29094d39a2861d6ee210eca578e292d6c7384b8ba3",
     "resource/global/YoStarJP/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "e9845580b449b5fc484c9b83b5ab1d4a20f2d703e812d5be7a3b7323543cd354",
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "c500c6647fee85b58cac428bb0d1048e8c4acafa9546c389f98adc40e8ef5556",
-    "resource/template/InfrastPic/Clue/InfrastClueQuickInsertConfirm": "bc84abc9f6f909ea0ad2459eb4662a240e2ab42076c92211780dedd1d9a6542e"
+    "resource/template/InfrastPic/Clue/InfrastClueQuickInsertConfirm": "bc84abc9f6f909ea0ad2459eb4662a240e2ab42076c92211780dedd1d9a6542e",
+    "resource/template/items/act6bossrush_milestone_point": "411082602b2550e2643d6327857e232de1fac9a4be2c5491aa1757160f7f0bda",
+    "resource/template/items/act6bossrush_token_relic": "14ad039ce75be890e11bfc92287fe111366a426c597054c37738a9f2e595cc9c"
 }
