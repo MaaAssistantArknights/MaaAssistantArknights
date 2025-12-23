@@ -5937,5 +5937,14 @@
     "resource/global/YoStarEN/resource/template/Roguelike/JieGarden/JieGarden@Roguelike@GetDropSwitch2": "c500c6647fee85b58cac428bb0d1048e8c4acafa9546c389f98adc40e8ef5556",
     "resource/template/InfrastPic/Clue/InfrastClueQuickInsertConfirm": "bc84abc9f6f909ea0ad2459eb4662a240e2ab42076c92211780dedd1d9a6542e",
     "resource/template/items/act6bossrush_milestone_point": "411082602b2550e2643d6327857e232de1fac9a4be2c5491aa1757160f7f0bda",
-    "resource/template/items/act6bossrush_token_relic": "14ad039ce75be890e11bfc92287fe111366a426c597054c37738a9f2e595cc9c"
+    "resource/template/items/act6bossrush_token_relic": "14ad039ce75be890e11bfc92287fe111366a426c597054c37738a9f2e595cc9c",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@ActionContinue": "18d8df1fe71c15612fe80da5c1a09b1b4d9544beb5cc63a7d17f0925f18562f5",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@Available": "1f59d179fc9760364c8c2e9bf53f18913b7434ed442e5d5b12e388df1d3c1065",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@ClickAnywhere": "51f84da4559e08be7118d680a190711071da3304ae765bf5095787b13c816303",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@ContinueResult": "5a906c3e85ad7f989802c3b835f3227d0c7a11b3deba65e5cf758fe7ee1e8277",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@EventContinue": "81434bd97360083e26a715e62f6287453710991f345ac5021b3b17ee4dedcd7d",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@EventTeam": "799aeb4d7875120e680ebe0d0916ac51eb6abebcebd666d783ec7fbab4e40bb3",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@SelectTeam": "07fae8625057eaad29f0230913e41cfe7d878442695bd1fad56cec8f3338a010",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@SelectTeamOK": "ce3a2fe99758dca49155ce09d9316c1e3d47f57ee4d38378e91675c2582f1592",
+    "resource/global/YoStarEN/resource/template/MiniGame/SecretFront/MiniGame@SecretFront@End": "fbcc9c7870620d7f0b522d3088a9a736a318fbfa90c77f4ed41ba1709122cfa4"
 }
