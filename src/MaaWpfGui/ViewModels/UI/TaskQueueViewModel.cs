@@ -520,7 +520,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
+            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod(currentTime);
 
             await HandleTimerLogic(currentTime);
         }
@@ -707,7 +707,6 @@ public class TaskQueueViewModel : Screen
             }
 
             ResetAllTemporaryVariable();
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
         }
 
         await LinkStart();

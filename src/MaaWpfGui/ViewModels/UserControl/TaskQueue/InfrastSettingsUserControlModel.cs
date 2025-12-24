@@ -562,7 +562,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         RefreshCustomInfrastPlanIndexByPeriod();
     }
 
-    public void RefreshCustomInfrastPlanIndexByPeriod()
+    public void RefreshCustomInfrastPlanIndexByPeriod(DateTime? now = null)
     {
         if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
         {
@@ -575,7 +575,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             return;
         }
 
-        var now = DateTime.Now;
+        now ??= DateTime.Now;
+        var nowValue = now.Value;
 
         if (CustomInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || CustomInfrastPlanIndex < 0)
         {
@@ -585,8 +586,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var currentPlan = CustomInfrastPlanInfoList.First(p => p.Index == CustomInfrastPlanIndex);
         foreach (var period in currentPlan.PeriodList)
         {
-            if (TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
+            if (TimeLess(period.BeginHour, period.BeginMinute, nowValue.Hour, nowValue.Minute) &&
+                TimeLess(nowValue.Hour, nowValue.Minute, period.EndHour, period.EndMinute))
             {
                 return; // 当前 index 仍在有效时间内，不需要切换
             }
@@ -594,8 +595,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
         foreach (var plan in CustomInfrastPlanInfoList.Where(
                      plan => plan.PeriodList.Any(
-                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                                   TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                         period => TimeLess(period.BeginHour, period.BeginMinute, nowValue.Hour, nowValue.Minute) &&
+                                   TimeLess(nowValue.Hour, nowValue.Minute, period.EndHour, period.EndMinute))))
         {
             CustomInfrastPlanIndex = plan.Index;
             return;
