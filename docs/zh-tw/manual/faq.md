@@ -50,30 +50,9 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 若您使用的是 Windows N / KN（歐洲或韓國版本），需額外安裝 [Media Feature Pack](https://support.microsoft.com/zh-tw/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
 
-#### Windows 7
+#### Windows 7 / 8 / 8.1
 
-由於 .NET 10 已停止支援 Windows 7 / 8 / 8.1 系統 <sup>[來源](https://github.com/dotnet/core/issues/7556)</sup>，MAA 亦隨之停止支援。若您仍需在這些系統上執行，請下載以下相容版本：
-
-- 支援 .NET 8 的最後版本：[`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)
-- 支援 .NET 4.8 的最後版本：[`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)  
-  （目前尚未確定自行編譯的可行性。）
-
-若要在 Windows 7 安裝上述執行庫，請先確認系統已安裝下列修正程式：
-
-1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-tw/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-2. SHA-2 程式碼簽署修正程式：
-   - KB4474419：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-   - KB4490628：[下載連結 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下載連結 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下載連結 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下載連結 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
-
-##### .NET 8 應用程式於 Windows 7 執行異常之緩解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
-
-在 Windows 7 執行 .NET 8 應用程式時，可能出現記憶體佔用異常。請參考下列步驟操作：  
-（Windows 8 / 8.1 未經測試，若有相同問題，歡迎提交 Issue 協助我們補充文件）
-
-1. 開啟 `本機`（電腦），在空白處點擊右鍵選擇 `內容`，點擊左側 `進階系統設定`，點擊 `環境變數`。
-2. 新建一個「系統變數」，變數名稱：`DOTNET_EnableWriteXorExecute`，變數值：`0`。
-3. 重新啟動電腦。
+.NET 10 不支持 Windows 7 / 8 / 8.1 系統<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同樣不再支持。
 
 ## 連線錯誤
 
