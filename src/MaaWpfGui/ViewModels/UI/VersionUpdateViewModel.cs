@@ -949,7 +949,7 @@ public class VersionUpdateViewModel : Screen
             }
         }
 
-        if (_assetsObject == null && fullPackage != null)
+        if (_assetsObject == null && fullPackage != null && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
         {
             _assetsObject = fullPackage;
             _logger.Warning("No OTA package found, but full package found.");
@@ -1082,7 +1082,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
+        if (data["data"]?["update_type"]?.ToObject<string>() == "full" && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
         {
             using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
             toast.Show(30);
