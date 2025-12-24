@@ -14,6 +14,7 @@
 #nullable enable
 
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -25,11 +26,24 @@ using Windows.Win32;
 namespace MaaWpfGui.ViewModels.UI
 {
     // ViewModel wrapper for overlay control; exposes methods for ViewModels and binding-friendly properties
-    public class OverlayViewModel : Screen
+    public class OverlayViewModel : PropertyChangedBase
     {
+        public OverlayViewModel()
+        {
+            _logItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
+        }
+
         private OverlayWindow? _overlay;
 
         public bool IsCreated => _overlay != null;
+
+        private ObservableCollection<LogItemViewModel> _logItemsSource;
+
+        public ObservableCollection<LogItemViewModel> LogItemsSource
+        {
+            get => _logItemsSource;
+            set => SetAndNotify(ref _logItemsSource, value);
+        }
 
         // 仅允许在窗口未显示的时候设置目标窗口，否则需要先关闭再设置
         public void SetTargetHwnd(IntPtr hwnd, bool persist = true)
@@ -71,8 +85,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void EnsureCreated()
         {
             // Ensure creation runs on UI thread; this avoids explicit locks and keeps the code simple
-            Execute.OnUIThread(() =>
-            {
+            Execute.OnUIThread(() => {
                 if (_overlay != null)
                 {
                     return;
@@ -104,8 +117,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void Close()
         {
-            Execute.OnUIThread(() =>
-            {
+            Execute.OnUIThread(() => {
                 try
                 {
                     _overlay?.Close();
@@ -132,7 +144,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
                 int written = PInvoke.GetWindowText(hwndVal, buffer);
-                return new string(buffer.Slice(0, Math.Max(0, Math.Min(written, buffer.Length))));
+                return new string(buffer[..Math.Max(0, Math.Min(written, buffer.Length))]);
             }
             catch
             {
@@ -162,8 +174,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                PInvoke.EnumWindows((hWnd, lParam) =>
-                {
+                PInvoke.EnumWindows((hWnd, lParam) => {
                     if (!PInvoke.IsWindowVisible(hWnd))
                     {
                         return true;
@@ -177,7 +188,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     Span<char> buffer = len <= 1024 ? stackalloc char[len + 1] : new char[len + 1];
                     int written = PInvoke.GetWindowText(hWnd, buffer);
-                    var title = new string(buffer.Slice(0, Math.Max(0, Math.Min(written, buffer.Length))));
+                    var title = new string(buffer[..Math.Max(0, Math.Min(written, buffer.Length))]);
                     if (string.IsNullOrWhiteSpace(title))
                     {
                         return true;

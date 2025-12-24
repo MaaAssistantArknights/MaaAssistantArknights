@@ -51,6 +51,7 @@ public partial class OverlayWindow : Window
     public OverlayWindow()
     {
         InitializeComponent();
+        DataContext = Instances.OverlayViewModel;
         Loaded += OnLoaded;
         Closed += OnClosed;
 

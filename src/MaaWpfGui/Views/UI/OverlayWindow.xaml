@@ -35,7 +35,7 @@
                     Grid.Row="1"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="LogItemsControl" ItemsSource="{Binding LogItemViewModels, Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                    <ItemsControl x:Name="LogItemsControl" ItemsSource="{Binding LogItemsSource}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid MaxWidth="400">

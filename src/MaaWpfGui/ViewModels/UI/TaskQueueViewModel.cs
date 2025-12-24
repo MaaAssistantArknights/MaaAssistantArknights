@@ -181,24 +181,6 @@ public class TaskQueueViewModel : Screen
         set => SetAndNotify(ref _isOverlayEnabled, value);
     }
 
-    private readonly EventHandler<RunningStateChangedEventArgs> _overlayHandler = (sender, e) =>
-    {
-        var overlayVm = Instances.OverlayViewModel;
-        if (overlayVm == null)
-        {
-            return;
-        }
-
-        if (e.Idle)
-        {
-            overlayVm.Close();
-        }
-        else
-        {
-            overlayVm.EnsureCreated();
-        }
-    };
-
     public void EnableOverlay()
     {
         if (IsOverlayEnabled)
@@ -207,13 +189,7 @@ public class TaskQueueViewModel : Screen
         }
 
         IsOverlayEnabled = true;
-        _runningState.StateChanged += _overlayHandler;
-
-        var overlayVm = Instances.OverlayViewModel;
-        if (overlayVm != null && !_runningState.GetIdle() && !overlayVm.IsCreated)
-        {
-            overlayVm.EnsureCreated();
-        }
+        Instances.OverlayViewModel?.EnsureCreated();
     }
 
     public void DisableOverlay()
@@ -224,7 +200,6 @@ public class TaskQueueViewModel : Screen
         }
 
         IsOverlayEnabled = false;
-        _runningState.StateChanged -= _overlayHandler;
         Instances.OverlayViewModel?.Close();
     }
 
@@ -1315,6 +1290,8 @@ public class TaskQueueViewModel : Screen
         _taskStartTime = DateTime.Now;
 
         ClearLog();
+
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;

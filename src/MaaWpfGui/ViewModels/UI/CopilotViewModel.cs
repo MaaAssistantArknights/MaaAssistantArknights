@@ -1525,6 +1525,8 @@ public partial class CopilotViewModel : Screen
         }*/
         _runningState.SetIdle(false);
 
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+
         if (_taskType == AsstTaskType.VideoRecognition)
         {
             _ = StartVideoTask();
