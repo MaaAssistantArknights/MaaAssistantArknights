@@ -21,6 +21,7 @@
                 <MenuItem Name="switchLangMenu" Header="{DynamicResource SwitchLanguage}" />
                 <MenuItem Name="forceShowMenu" Header="{DynamicResource ForceShow}" />
                 <MenuItem Name="hideTrayMenu" Header="{DynamicResource HideTray}" />
+                <MenuItem Name="toggleOverlayMenu" Header="{DynamicResource ToggleOverlay}" />
                 <MenuItem Name="restartMenu" Header="{DynamicResource Restart}" />
                 <MenuItem Name="exitMenu" Header="{DynamicResource Exit}" />
             </ContextMenu>

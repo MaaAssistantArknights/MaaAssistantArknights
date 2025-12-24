@@ -736,6 +736,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="ProcessPickerCancel">Cancel</system:String>
     <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">Left Click: Toggle Log Floating Window
 Right Click: Select Target Process</system:String>
+    <system:String x:Key="ToggleOverlay">Toggle Log Overlay</system:String>
     <!--  !Logs  -->
     <!--  !Farming  -->
     <system:String x:Key="Toolbox">Toolbox</system:String>

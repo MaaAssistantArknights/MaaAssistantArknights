@@ -735,8 +735,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="ProcessPickerRefresh">刷新</system:String>
     <system:String x:Key="ProcessPickerConfirm">确定</system:String>
     <system:String x:Key="ProcessPickerCancel">取消</system:String>
-    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左键：开关日志悬浮窗
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左键：开/关日志悬浮窗
 右键：选择目标进程</system:String>
+    <system:String x:Key="ToggleOverlay">开/关日志悬浮窗</system:String>
     <!--  !日志  -->
     <!--  !一键长草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
