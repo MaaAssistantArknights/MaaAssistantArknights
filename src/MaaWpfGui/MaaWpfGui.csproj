@@ -17,7 +17,8 @@
 
   <!-- Build and Publish -->
   <PropertyGroup>
-    <OutputPath>$(MSBuildProjectDirectory)\..\..\build\bin\$(Configuration)\</OutputPath>
+    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildProjectDirectory)\..\..\build\</SolutionDir>
+    <OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>
     <PublishReadyToRun>false</PublishReadyToRun>
     <PublishSingleFile>false</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
