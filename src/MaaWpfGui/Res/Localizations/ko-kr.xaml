@@ -738,6 +738,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="ProcessPickerCancel">취소</system:String>
     <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">왼쪽 클릭: 로그 플로팅 창 전환
 오른쪽 클릭: 대상 프로세스 선택</system:String>
+    <system:String x:Key="ToggleOverlay">로그 오버레이 켜기/끄기</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>
@@ -1338,7 +1339,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Achievement.UnexpectedCrash.Title">와장창!</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Description">으악! 뭔가 엄청난 걸 건드려버렸나 봐요...</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Conditions">처리되지 않은 예외 발생으로 인한 크래시 로그 기록</system:String>
-    
+
     <system:String x:Key="Achievement.CustomizationMaster.Title">꾸미기 장인</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Description">바꾼 {key=BackgroundImage} 덕분에 화사해졌네요!</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Conditions">{key=BackgroundImage} 1회 변경</system:String>
