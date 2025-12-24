@@ -395,8 +395,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public int CustomInfrastPlanSelect
     {
         get => _customPlanSelect;
-        set
-        {
+        set {
             if (value < -1)
             {
                 value = -1;
@@ -411,15 +410,14 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         }
     }
 
-    private readonly GenericCombinedData<int> _defaultItem = new() { Display = "时间轮换", Value = -1 };
+    private readonly GenericCombinedData<int> _defaultItem = new() { Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty), Value = -1 };
 
     private List<CustomInfrastConfig.Plan> _customInfrastPlanList = [];
 
     public List<CustomInfrastConfig.Plan> CustomInfrastPlanList
     {
         get => _customInfrastPlanList;
-        set
-        {
+        set {
             SetAndNotify(ref _customInfrastPlanList, value);
             _customInfrastPlanListDisplay.Clear();
             if (CustomInfrastPlanList.Any(i => i.Period.Count > 0))
@@ -428,14 +426,13 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
                 plan ??= CustomInfrastPlanList.FirstOrDefault();
                 plan ??= new();
-                _defaultItem.Display = $"时间切换({plan.Name})";
+                _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? string.Empty);
                 _customInfrastPlanListDisplay.Add(_defaultItem);
             }
 
             foreach (var item in CustomInfrastPlanList)
             {
-                _customInfrastPlanListDisplay.Add(new GenericCombinedData<int>
-                {
+                _customInfrastPlanListDisplay.Add(new GenericCombinedData<int> {
                     Display = item.Name,
                     Value = item.Index,
                 });
@@ -538,7 +535,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     /// </summary>
     public void RefreshCustomInfrastPlanDisplay()
     {
-        if (InfrastMode != Mode.Custom || !CustomInfrastPlanList.Any(i => i.Period.Count > 0) || CustomPlanListDisplay[0].Value != -1)
+        if (InfrastMode != Mode.Custom || !CustomInfrastPlanList.Any(i => i.Period.Count > 0) || CustomPlanListDisplay.Count == 0 || CustomPlanListDisplay[0].Value != -1)
         {
             return;
         }
@@ -547,7 +544,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
         plan ??= CustomInfrastPlanList.FirstOrDefault();
         plan ??= new();
-        _defaultItem.Display = $"时间切换({plan.Name}-{now:HH:mm:ss})";
+        _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty);
     }
 
     /// <summary>
@@ -597,8 +594,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstInfrastTask
-        {
+        var task = new AsstInfrastTask {
             Mode = InfrastMode,
             Facilitys = GetInfrastOrderList(),
             UsesOfDrones = UsesOfDrones,
@@ -630,7 +626,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             {
                 task.PlanIndex = 0;
                 _logger.Warning("No valid plan found for current time, use PlanIndex 0");
-                Instances.TaskQueueViewModel.AddLog("No valid plan found for current time, use PlanIndex 0");
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CustomInfrastFileHasPlanNoPeriod"), UiLogColor.Error);
             }
         }
 

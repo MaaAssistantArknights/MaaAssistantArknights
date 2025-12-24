@@ -141,6 +141,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="243Time4">243 4 times a day</system:String>
     <system:String x:Key="333Time3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
+    <system:String x:Key="CustomInfrastTimeSchedule">时间轮换 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">Custom infrastructure configurations may only have time periods for some plans, which could lead to unexpected behavior. If you need to set shift change time periods, please ensure that all plans have time periods set; otherwise, please leave all plans blank.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration:&#160;</system:String>

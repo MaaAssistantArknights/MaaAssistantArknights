@@ -141,6 +141,7 @@
     <system:String x:Key="243Time4">243 一天 4 換</system:String>
     <system:String x:Key="333Time3">333 一天 3 換</system:String>
     <system:String x:Key="CustomInfrastFile">自定義基建配置檔案</system:String>
+    <system:String x:Key="CustomInfrastTimeSchedule">時間輪換 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定義基建配置檔案解析錯誤！</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">自訂基建配置僅有部分計畫存在時間段，可能會存在預期外的行為。如需設定換班時段請確保所有方案均設定時段，否則請全部留白。</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定義基建配置: </system:String>

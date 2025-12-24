@@ -141,6 +141,7 @@
     <system:String x:Key="243Time4">243 4周/日</system:String>
     <system:String x:Key="333Time3">333 3周/日</system:String>
     <system:String x:Key="CustomInfrastFile">基地構成ファイルの指定</system:String>
+    <system:String x:Key="CustomInfrastTimeSchedule">时间轮换 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">基地構成ファイルの設定: </system:String>

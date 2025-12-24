@@ -141,6 +141,7 @@
     <system:String x:Key="243Time4">243 1일 4회 교체</system:String>
     <system:String x:Key="333Time3">333 1일 3회 교체</system:String>
     <system:String x:Key="CustomInfrastFile">기반시설 구성</system:String>
+    <system:String x:Key="CustomInfrastTimeSchedule">时间轮换 ({0})</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">기반시설 구성 인식 실패!</system:String>
     <system:String x:Key="CustomInfrastFileHasPlanNoPeriod">사용자 지정 인프라 구성은 일부 계획에만 기간을 설정할 수 있으며, 이로 인해 예상치 못한 동작이 발생할 수 있습니다. 교대 근무 기간을 설정해야 하는 경우 모든 계획에 기간이 설정되어 있는지 확인하십시오. 그렇지 않은 경우 모든 계획을 비워 두십시오.</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">기반시설 구성: </system:String>
