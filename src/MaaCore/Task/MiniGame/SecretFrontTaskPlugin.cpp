@@ -358,7 +358,9 @@ std::string SecretFrontTaskPlugin::read_stage_name(const cv::Mat& image, int tot
 {
     // 读取卡牌左上角的一小块标题区域，通过文字 OCR 获取 "1A/1B/2A" 等
     const auto base = card_pos_base(total, idx);
-    auto title_r = Rect { base.x + 7, base.y + 253, 86, 35 };
+    auto title_r = Task.get("MiniGame@SecretFront@EventReplace")->roi;
+    title_r.x += base.x;
+    title_r.y += base.y;
 
     RegionOCRer ocr(image);
     ocr.set_roi(title_r);
