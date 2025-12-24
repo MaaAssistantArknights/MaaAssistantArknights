@@ -1094,7 +1094,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [0, 153, 1280, 529],
-        "postDelay": 1500,
+        "postDelay": 1000,
         "next": ["Roguelike@RecruitMain", "#self"]
     },
     "Roguelike@RolesDefault": {
@@ -1357,6 +1357,7 @@
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
+        "preDelay": 500,
         "next": ["Roguelike@QuickFormation"]
     },
     "Roguelike@StageEnterBattleAgain": {
