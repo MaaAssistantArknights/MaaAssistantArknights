@@ -83,6 +83,9 @@
                         Grid.Row="0"
                         Margin="10,0,-5,0"
                         HorizontalAlignment="Left"
+                        IsHitTestVisible="True"
+                        MouseLeftButtonDown="{s:Action ManualUpdate,
+                                                       Target={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowVersionUpdateInfo}"
                         Visibility="{c:Binding 'WindowVersionUpdateInfo.Length > 0'}" />
@@ -90,6 +93,9 @@
                         Grid.Row="1"
                         Margin="10,0,-5,0"
                         HorizontalAlignment="Left"
+                        IsHitTestVisible="True"
+                        MouseLeftButtonDown="{s:Action ManualUpdateResource,
+                                                       Target={x:Static ui:SettingsViewModel.VersionUpdateSettings}}"
                         Style="{StaticResource RainbowTextBlockStyle}"
                         Text="{Binding WindowResourceUpdateInfo}"
                         Visibility="{c:Binding 'WindowResourceUpdateInfo.Length > 0'}" />
