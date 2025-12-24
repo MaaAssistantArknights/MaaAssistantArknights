@@ -520,7 +520,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod(currentTime);
+            InfrastTask.RefreshCustomInfrastPlanDisplay();
 
             await HandleTimerLogic(currentTime);
         }
@@ -820,7 +820,7 @@ public class TaskQueueViewModel : Screen
         FightTask.InitDrops();
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
-        InfrastTask.RefreshCustomInfrastPlan();
+        InfrastTask.ParseCustomInfrastPlan();
 
         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
@@ -1731,7 +1731,7 @@ public class TaskQueueViewModel : Screen
 
     public bool AppendInfrast()
     {
-        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
+        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanList.Count == 0))
         {
             AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
             return false;
