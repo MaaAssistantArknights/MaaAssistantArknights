@@ -606,7 +606,7 @@
                 HorizontalScrollBarVisibility="Disabled"
                 IsInertiaEnabled="True"
                 PanningMode="VerticalOnly">
-                <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
+                <ItemsControl ItemsSource="{Binding LogItemViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>

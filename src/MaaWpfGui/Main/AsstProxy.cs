@@ -954,6 +954,11 @@ public class AsstProxy
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain));
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
+
+                    // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain == "Copilot" || taskChain == "VideoRecognition")
+                        ? Instances.CopilotViewModel.LogItemViewModels
+                        : Instances.TaskQueueViewModel.LogItemViewModels;
                     break;
                 }
 
