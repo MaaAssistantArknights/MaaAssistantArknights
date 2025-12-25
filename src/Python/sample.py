@@ -17,7 +17,6 @@ def my_callback(msg, details, arg):
 
 
 if __name__ == "__main__":
-
     # 请设置为存放 dll 文件及资源的路径
     path = pathlib.Path(__file__).resolve().parent.parent
 

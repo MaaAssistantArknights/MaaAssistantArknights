@@ -71,9 +71,9 @@ class XamlParser:
                 xaml_string,
             ) = self.__from_file(file)
         elif parse_type == 1:
-            assert (
-                language is not None
-            ), "language must be specified when parse_type is 1"
+            assert language is not None, (
+                "language must be specified when parse_type is 1"
+            )
             self._file_path, self.__encoding, self.__language = file, encoding, language
         else:
             raise ValueError("parse_type must be 0 or 1")
@@ -220,12 +220,12 @@ class XamlParser:
         """
         this_tree = self.cp_tree
         compare_tree = compare_parser.cp_tree
-        assert (
-            self.x_key_ns == compare_parser.x_key_ns
-        ), f"{self.language} 和 {compare_parser.language}x:Key命名空间不一致"
-        assert (
-            self.x_uid_ns == compare_parser.x_uid_ns
-        ), f"{self.language} 和 {compare_parser.language}x:Uid命名空间不一致"
+        assert self.x_key_ns == compare_parser.x_key_ns, (
+            f"{self.language} 和 {compare_parser.language}x:Key命名空间不一致"
+        )
+        assert self.x_uid_ns == compare_parser.x_uid_ns, (
+            f"{self.language} 和 {compare_parser.language}x:Uid命名空间不一致"
+        )
         pt = re.compile(r"/\*/\*/\*\[\d*]/comment\(\)\[1]")
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
         ignored_attrs = [SPACE]
@@ -315,15 +315,15 @@ class XamlParser:
         """
         target_cp_tree = self.cp_tree
         base_cp_tree = compare_parser.cp_tree
-        assert (
-            self.nsmap == compare_parser.nsmap
-        ), f"{self.language} 和 {compare_parser.language}命名空间不一致"
-        assert (
-            self.x_key_ns == compare_parser.x_key_ns
-        ), f"{self.language}和{compare_parser.language}x:Key命名空间不一致"
-        assert (
-            self.x_uid_ns == compare_parser.x_uid_ns
-        ), f"{self.language}和{compare_parser.language}x:Uid命名空间不一致"
+        assert self.nsmap == compare_parser.nsmap, (
+            f"{self.language} 和 {compare_parser.language}命名空间不一致"
+        )
+        assert self.x_key_ns == compare_parser.x_key_ns, (
+            f"{self.language}和{compare_parser.language}x:Key命名空间不一致"
+        )
+        assert self.x_uid_ns == compare_parser.x_uid_ns, (
+            f"{self.language}和{compare_parser.language}x:Uid命名空间不一致"
+        )
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
         ignored_attrs = [SPACE]
         chat = (

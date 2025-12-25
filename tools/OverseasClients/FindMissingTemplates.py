@@ -47,7 +47,6 @@ proj_dir = os.path.join(cur_dir, "../../")
 
 
 def find_missing_templates(server_name):
-
     zh_dir = os.path.join(proj_dir, "resource/template/")
     gl_dir = os.path.join(
         proj_dir, "resource/global/", server_name, "resource/template/"
