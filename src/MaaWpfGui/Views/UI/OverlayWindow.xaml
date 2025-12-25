@@ -22,51 +22,49 @@
         VerticalAlignment="Top"
         Background="{DynamicResource RegionBrushOpacity75}"
         CornerRadius="8">
-        <ScrollViewer
-            x:Name="LogScrollViewer"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <ScrollViewer
-                    Grid.Row="1"
-                    HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="LogItemsControl" ItemsSource="{Binding LogItemsSource}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid MaxWidth="400">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ScrollViewer
+                x:Name="LogScrollViewer"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
+                <ItemsControl
+                    x:Name="LogItemsControl"
+                    d:ItemsSource="{d:SampleData ItemCount=10}"
+                    ItemsSource="{Binding LogItemsSource}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                    <!--  时间  -->
-                                    <controls:TextBlock
-                                        Grid.Column="0"
-                                        Margin="0,5,10,0"
-                                        FontSize="11"
-                                        Foreground="{DynamicResource TraceLogBrush}"
-                                        Text="{Binding Time}" />
+                                <!--  时间  -->
+                                <controls:TextBlock
+                                    Grid.Column="0"
+                                    Margin="0,5,10,5"
+                                    VerticalAlignment="Bottom"
+                                    FontSize="11"
+                                    Foreground="{DynamicResource TraceLogBrush}"
+                                    Text="{Binding Time}" />
 
-                                    <!--  内容  -->
-                                    <controls:TextBlock
-                                        Grid.Column="1"
-                                        Margin="0,5"
-                                        HorizontalAlignment="Left"
-                                        FontWeight="{Binding Weight}"
-                                        ForegroundKey="{Binding Color}"
-                                        Text="{Binding Content}"
-                                        TextWrapping="Wrap" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </Grid>
-        </ScrollViewer>
+                                <!--  内容  -->
+                                <controls:TextBlock
+                                    Grid.Column="1"
+                                    Margin="0,5"
+                                    HorizontalAlignment="Left"
+                                    FontWeight="{Binding Weight}"
+                                    ForegroundKey="{Binding Color}"
+                                    Text="{Binding Content}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
     </Border>
 </Window>
