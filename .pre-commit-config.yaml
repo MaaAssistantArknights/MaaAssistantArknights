@@ -1,5 +1,4 @@
 default_install_hook_types: [pre-commit, prepare-commit-msg]
-autofix_prs: false
 repos:
   - repo: https://github.com/shssoichiro/oxipng
     rev: v10.0.0
