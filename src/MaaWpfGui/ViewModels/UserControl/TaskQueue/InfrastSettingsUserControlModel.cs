@@ -375,6 +375,11 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             }
 
             var path = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
+            if (!Path.Exists(path))
+            {
+                return -1;
+            }
+
             string jsonStr = File.ReadAllText(path);
             if (JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
             {
