@@ -63,8 +63,8 @@
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
                                                      Source={x:Static setting:TaskQueueViewModel.TaskSettingVisibilities}}"
-                        ItemsSource="{Binding CustomInfrastPlanList}"
-                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        ItemsSource="{Binding CustomPlanListDisplay}"
+                        SelectedValue="{Binding CustomInfrastPlanSelect}"
                         SelectedValuePath="Value" />
                 </StackPanel>
                 <controls:TextBlock

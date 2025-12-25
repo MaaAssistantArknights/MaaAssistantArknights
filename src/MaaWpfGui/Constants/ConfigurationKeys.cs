@@ -127,6 +127,7 @@ public static class ConfigurationKeys
     public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
     public const string CustomInfrastFile = "Infrast.CustomInfrastFile";
     public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex";
+    public const string CustomInfrastPlanSelect = "Infrast.CustomInfrastPlanSelect";
     public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
     public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
