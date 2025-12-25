@@ -374,19 +374,27 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                 return -1;
             }
 
-            var path = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
-            if (!Path.Exists(path))
+            try
             {
+                var path = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
+                if (!Path.Exists(path))
+                {
+                    return -1;
+                }
+
+                string jsonStr = File.ReadAllText(path);
+                if (JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
+                {
+                    return -1;
+                }
+
+                return root.Plans.Any(i => i.Period.Count > 0) ? -1 : i;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to transform CustomInfrastPlanIndex to CustomInfrastPlanSelect");
                 return -1;
             }
-
-            string jsonStr = File.ReadAllText(path);
-            if (JsonConvert.DeserializeObject<CustomInfrastConfig>(jsonStr) is not CustomInfrastConfig root)
-            {
-                return -1;
-            }
-
-            return root.Plans.Any(i => i.Period.Count > 0) ? -1 : i;
         }
 
         return -1;
