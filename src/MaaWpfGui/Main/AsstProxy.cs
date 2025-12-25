@@ -978,7 +978,6 @@ public class AsstProxy
                     {
                         case "Infrast":
                             InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                            InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                             break;
                     }
 
