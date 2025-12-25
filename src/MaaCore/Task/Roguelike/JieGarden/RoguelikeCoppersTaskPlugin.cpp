@@ -87,7 +87,6 @@ bool asst::RoguelikeCoppersTaskPlugin::_run()
         success = handle_pickup_mode();
         break;
     case CoppersTaskRunMode::EXCHANGE:
-        m_retry_times = 1; // 交换模式只尝试两次
         success = handle_exchange_mode();
         break;
     }
@@ -200,13 +199,15 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     RoguelikeCoppersAnalyzer left_analyzer(image);
     if (!left_analyzer.analyze_column(RoguelikeCoppersAnalyzer::ColumnRole::Leftmost, false)) {
         Log.error(__FUNCTION__, "| no coppers recognized in column 0");
-        return false;
+        // 直接进入next，放弃交换
+        return true;
     }
 
     const auto& left_detections = left_analyzer.get_detections();
     if (left_detections.empty()) {
         Log.error(__FUNCTION__, "| no coppers recognized in column 0");
-        return false;
+        // 直接进入next，放弃交换
+        return true;
     }
 
     // 处理左侧列的检测结果
@@ -219,7 +220,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         }
         save_debug_image(image_draw, "left_column_unexpected_count");
 #endif
-        return false;
+        // 直接进入next，放弃交换
+        return true;
     }
 
     {
@@ -236,7 +238,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
         auto copper_opt = create_copper_from_name(detection.name, 0, 0, false, detection.name_roi);
         if (!copper_opt) {
             Log.error(__FUNCTION__, "| failed to create copper at (0,0)");
-            return false;
+            // 直接进入next，放弃交换
+            return true;
         }
 
         auto copper = std::move(*copper_opt);
@@ -359,7 +362,8 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     // 检查是否找到任何现有通宝
     if (m_copper_list.empty()) {
         Log.error(__FUNCTION__, "| no coppers found in list for comparison");
-        return false;
+        // 直接进入next，放弃交换
+        return true;
     }
 
     // =================================================
