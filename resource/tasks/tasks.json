@@ -1715,7 +1715,7 @@
         "text": ["前往上一次作战", "作战"],
         "roi": [916, 479, 249, 127],
         "action": "ClickSelf",
-        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1"]
+        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1", "#self"]
     },
     "RecruitBegin": {
         "algorithm": "JustReturn",
