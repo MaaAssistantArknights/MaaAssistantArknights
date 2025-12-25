@@ -4469,7 +4469,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["阵容确认"],
-        "roi": [992, 576, 288, 144]
+        "roi": [992, 576, 288, 144],
+        "next": ["#self", "Stop"]
     },
     "SSSStageNameOCR": {
         "algorithm": "OcrDetect",
