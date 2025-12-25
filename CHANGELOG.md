@@ -1,5 +1,23 @@
 ## v6.1.0-beta.3
 
+### Highlights
+
+#### 日志悬浮窗与肉鸽优化 | Log Floating Window & Roguelike Fixes
+
+新增日志悬浮窗功能，可在右键菜单切换，实时查看自动战斗日志。
+修复肉鸽快速编队点击过快和卡顿导致的误操作问题。
+新增隐秘战线支持，修复 EN 服务器关卡名识别和模板问题。
+
+----
+
+#### Log Floating Window & Roguelike Stability
+
+New log floating window accessible from right-click menu for real-time battle log viewing.
+Fixed roguelike quick squad formation click timing and lag-induced misclick issues.
+Added SecretFront support, fixed EN stage name recognition and template issues.
+
+----
+
 ### 新增 | New
 
 * 支持点击标题栏左上角的检测到新版本提示触发更新 @ABA2396
