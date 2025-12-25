@@ -544,7 +544,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var plan = CustomInfrastPlanList.FirstOrDefault(i => i.Period.Any(p => p[0] <= now && now <= p[1]));
         plan ??= CustomInfrastPlanList.FirstOrDefault();
         plan ??= new();
-        _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", string.Empty);
+        _defaultItem.Display = LocalizationHelper.GetStringFormat("CustomInfrastTimeSchedule", plan.Name ?? "???");
     }
 
     /// <summary>
