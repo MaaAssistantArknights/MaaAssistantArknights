@@ -14,6 +14,14 @@ enum class CoppersTaskRunMode
     EXCHANGE // 交换已有通宝模式
 };
 
+// 插件执行结果状态
+enum class CopperTaskResult
+{
+    SUCCESS, // 成功
+    SKIPPED, // 放弃通宝
+    FAILED   // 失败
+};
+
 // RoguelikeCoppersTaskPlugin 类实现界园肉鸽通宝的自动拾取和交换逻辑
 class RoguelikeCoppersTaskPlugin : public AbstractRoguelikeTaskPlugin
 {
@@ -36,10 +44,10 @@ protected:
 
 private:
     // 处理拾取模式：分析掉落通宝并选择最优的拾取
-    bool handle_pickup_mode();
+    CopperTaskResult handle_pickup_mode();
 
     // 处理交换模式：扫描钱盒通宝并决定是否交换
-    bool handle_exchange_mode();
+    CopperTaskResult handle_exchange_mode();
 
     // 滑动通宝列表的辅助函数
     bool swipe_copper_list(int times, bool to_left) const;
