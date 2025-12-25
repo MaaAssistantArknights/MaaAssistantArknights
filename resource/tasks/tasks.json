@@ -1233,7 +1233,7 @@
         "algorithm": "OcrDetect",
         "text": ["切换"],
         "action": "ClickSelf",
-        "roi": [966, 577, 315, 142],
+        "roi": [966, 577, 314, 142],
         "next": ["AnnihilationStage"]
     },
     "AnnihilationReturn": {
@@ -4756,7 +4756,7 @@
         "action": "ClickRect",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1026, 180, 1219, 487]
+        "specificRect": [1026, 180, 193, 487]
     },
     "ConfirmProductChange": {
         "action": "ClickSelf",
