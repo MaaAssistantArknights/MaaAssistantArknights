@@ -55,9 +55,9 @@ class Asst:
 
         Asst.__libpath = pathlib.Path(path) / platform_values[platform_type]["libpath"]
         try:
-            os.environ[
-                platform_values[platform_type]["environ_var"]
-            ] += os.pathsep + str(path)
+            os.environ[platform_values[platform_type]["environ_var"]] += (
+                os.pathsep + str(path)
+            )
         except KeyError:
             os.environ[platform_values[platform_type]["environ_var"]] = (
                 os.pathsep + str(path)

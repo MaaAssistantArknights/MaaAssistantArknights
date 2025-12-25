@@ -246,10 +246,10 @@ if __name__ == "__main__":
         if quiet:
             t.update(cur_file_sz**2 // 2**20)
             t.set_postfix(
-                file_counts=f"{i+1}/{len(files)}", reduced_size=total_diff_sz_str
+                file_counts=f"{i + 1}/{len(files)}", reduced_size=total_diff_sz_str
             )
             t.refresh()
         else:
             print(
-                f"file counts: {i+1}/{len(files)}, reduced pngs size: {total_diff_sz_str}"
+                f"file counts: {i + 1}/{len(files)}, reduced pngs size: {total_diff_sz_str}"
             )

@@ -66,7 +66,6 @@ def raise_on_duplicate_keys(pairs):
 
 
 def main(cn_base_path, global_resources):
-
     cn_tasks = {}
     cn_order = {}
     # 使用 Path 处理路径，确保跨平台兼容

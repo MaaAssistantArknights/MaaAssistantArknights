@@ -5,7 +5,6 @@ from typing import Optional
 
 # 描述符基类,用于类型检查
 class Typed(object):
-
     def __init__(self, name, expected_type):
         self.name = name
         self.expected_type = expected_type
