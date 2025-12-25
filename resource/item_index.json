@@ -2271,6 +2271,22 @@
         "sortId": -10000,
         "usage": "作为协议的象征，可用于解锁更多危机合约内容。"
     },
+    "act6bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
+        "icon": "act6bossrush_milestone_point.png",
+        "name": "试炼经验",
+        "sortId": -10000,
+        "usage": "试炼结束后获得的经验，可以提升试炼等级。"
+    },
+    "act6bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解码的数据方块。永远记住，信息转换往往伴随着不可避免的损耗。善用信息储存工具，但别依赖它们。",
+        "icon": "act6bossrush_token_relic.png",
+        "name": "数据黑盒",
+        "sortId": -10000,
+        "usage": "用于对遏制单元进行数据迭代。"
+    },
     "act6collection_point_token": {
         "classifyType": "NONE",
         "description": "为了激励外勤人员，罗德岛发放了一定量的特殊兑换点数。凭借兑换点数可兑换急需的物资。",

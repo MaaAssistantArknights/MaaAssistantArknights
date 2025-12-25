@@ -90,8 +90,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AutoDetectConnection
     {
         get => _autoDetectConnection;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _autoDetectConnection, value))
             {
                 return;
@@ -111,8 +110,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AlwaysAutoDetectConnection
     {
         get => _alwaysAutoDetectConnection;
-        set
-        {
+        set {
             SetAndNotify(ref _alwaysAutoDetectConnection, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AlwaysAutoDetect, value.ToString());
         }
@@ -134,8 +132,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public string ConnectAddress
     {
         get => _connectAddress;
-        set
-        {
+        set {
             value = value
                 .Replace(" ", string.Empty)
                 .Replace("：", ":")
@@ -195,8 +192,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public string AdbPath
     {
         get => _adbPath;
-        set
-        {
+        set {
             if (!Path.GetFileName(value).ToLower().Contains("adb"))
             {
                 var count = 3;
@@ -231,8 +227,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public string ConnectConfig
     {
         get => _connectConfig;
-        set
-        {
+        set {
             Instances.AsstProxy.Connected = false;
             SetAndNotify(ref _connectConfig, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ConnectConfig, value);
@@ -259,8 +254,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public bool Enable
         {
             get => _enable;
-            set
-            {
+            set {
                 if (!SetAndNotify(ref _enable, value))
                 {
                     return;
@@ -344,8 +338,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public string EmulatorPath
         {
             get => _emulatorPath;
-            set
-            {
+            set {
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuEmulatorPathNotFound"));
@@ -378,8 +371,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public bool MuMuBridgeConnection
         {
             get => _mumuBridgeConnection;
-            set
-            {
+            set {
                 if (_mumuBridgeConnection == value)
                 {
                     return;
@@ -414,8 +406,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public string Index
         {
             get => _index;
-            set
-            {
+            set {
                 Instances.AsstProxy.Connected = false;
                 SetAndNotify(ref _index, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
@@ -424,15 +415,13 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         public string Config
         {
-            get
-            {
+            get {
                 if (!Enable)
                 {
                     return JsonConvert.SerializeObject(new JObject());
                 }
 
-                var configObject = new JObject
-                {
+                var configObject = new JObject {
                     ["path"] = EmulatorPath,
                 };
 
@@ -455,8 +444,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public bool Enable
         {
             get => _enable;
-            set
-            {
+            set {
                 if (!SetAndNotify(ref _enable, value))
                 {
                     return;
@@ -524,8 +512,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public string EmulatorPath
         {
             get => _emulatorPath;
-            set
-            {
+            set {
                 if (_enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
@@ -556,8 +543,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public bool ManualSetIndex
         {
             get => _manualSetIndex;
-            set
-            {
+            set {
                 if (_manualSetIndex == value)
                 {
                     return;
@@ -582,8 +568,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public string Index
         {
             get => _index;
-            set
-            {
+            set {
                 Instances.AsstProxy.Connected = false;
                 SetAndNotify(ref _index, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.LdPlayerIndex, value);
@@ -598,8 +583,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 return 0;
             }
 
-            var startInfo = new ProcessStartInfo
-            {
+            var startInfo = new ProcessStartInfo {
                 FileName = emulatorPath,
                 Arguments = "list2",
                 RedirectStandardOutput = true,
@@ -667,8 +651,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         public string Config
         {
-            get
-            {
+            get {
                 if (!Enable)
                 {
                     return JsonConvert.SerializeObject(new JObject());
@@ -684,8 +667,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     index = GetEmulatorIndex(SettingsViewModel.ConnectSettings.ConnectAddress);
                 }
 
-                var configObject = new JObject
-                {
+                var configObject = new JObject {
                     ["path"] = EmulatorPath,
                     ["index"] = index,
                     ["pid"] = GetEmulatorPid(index),
@@ -706,8 +688,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool RetryOnDisconnected
     {
         get => _retryOnDisconnected;
-        set
-        {
+        set {
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
@@ -731,8 +712,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AllowAdbRestart
     {
         get => _allowAdbRestart;
-        set
-        {
+        set {
             SetAndNotify(ref _allowAdbRestart, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbRestart, value.ToString());
         }
@@ -746,8 +726,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AllowAdbHardRestart
     {
         get => _allowAdbHardRestart;
-        set
-        {
+        set {
             SetAndNotify(ref _allowAdbHardRestart, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbHardRestart, value.ToString());
         }
@@ -758,8 +737,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AdbLiteEnabled
     {
         get => _adbLiteEnabled;
-        set
-        {
+        set {
             SetAndNotify(ref _adbLiteEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AdbLiteEnabled, value.ToString());
             UpdateInstanceSettings();
@@ -771,8 +749,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool KillAdbOnExit
     {
         get => _killAdbOnExit;
-        set
-        {
+        set {
             SetAndNotify(ref _killAdbOnExit, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.KillAdbOnExit, value.ToString());
             UpdateInstanceSettings();
@@ -983,26 +960,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             double contentHeight = contentWidth * 9.0 / 16.0;
 
             double totalWindowHeight = contentHeight + (nc.Top + nc.Bottom + rb.Top + rb.Bottom);
-            _imagePopupWindow = new()
-            {
+            _imagePopupWindow = new() {
                 Width = TotalWindowWidth,
                 Height = totalWindowHeight,
-                Content = new Image
-                {
+                Content = new Image {
                     Source = TestLinkImage,
                 },
             };
-            _imagePopupWindow.Loaded += (_, _) =>
-            {
+            _imagePopupWindow.Loaded += (_, _) => {
                 WindowManager.MoveWindowToRootCenter(_imagePopupWindow);
             };
-            _imagePopupWindow.Closed += (_, _) =>
-            {
+            _imagePopupWindow.Closed += (_, _) => {
                 _imagePopupWindow = null;
             };
             var img = (Image)_imagePopupWindow.Content;
-            img.MouseLeftButtonUp += (_, _) =>
-            {
+            img.MouseLeftButtonUp += (_, _) => {
                 _ = TestLinkAndGetImage();
             };
         }
@@ -1088,8 +1060,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public string TouchMode
     {
         get => _touchMode;
-        set
-        {
+        set {
             SetAndNotify(ref _touchMode, value);
             UpdateInstanceSettings();
             ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);

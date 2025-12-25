@@ -50,8 +50,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool ExternalNotificationSendWhenComplete
     {
         get => _externalNotificationSendWhenComplete;
-        set
-        {
+        set {
             SetAndNotify(ref _externalNotificationSendWhenComplete, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, value.ToString());
         }
@@ -62,8 +61,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool ExternalNotificationEnableDetails
     {
         get => _externalNotificationEnableDetails;
-        set
-        {
+        set {
             SetAndNotify(ref _externalNotificationEnableDetails, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnableDetails, value.ToString());
         }
@@ -74,8 +72,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool ExternalNotificationSendWhenError
     {
         get => _externalNotificationSendWhenError;
-        set
-        {
+        set {
             SetAndNotify(ref _externalNotificationSendWhenError, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenError, value.ToString());
         }
@@ -86,8 +83,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool ExternalNotificationSendWhenTimeout
     {
         get => _externalNotificationSendWhenTimeout;
-        set
-        {
+        set {
             SetAndNotify(ref _externalNotificationSendWhenTimeout, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSendWhenTimeout, value.ToString());
         }
@@ -118,8 +114,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public object[] EnabledExternalNotificationProviders
     {
         get => _enabledExternalNotificationProviders;
-        set
-        {
+        set {
             SetAndNotify(ref _enabledExternalNotificationProviders, value);
             var validProviders = value
                 .Where(provider => ExternalNotificationProviders.Contains(provider.ToString() ?? string.Empty))
@@ -235,8 +230,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string ServerChanSendKey
     {
         get => _serverChanSendKey;
-        set
-        {
+        set {
             SetAndNotify(ref _serverChanSendKey, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
@@ -248,8 +242,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string BarkSendKey
     {
         get => _barkSendKey;
-        set
-        {
+        set {
             SetAndNotify(ref _barkSendKey, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
@@ -261,8 +254,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string BarkServer
     {
         get => _barkServer;
-        set
-        {
+        set {
             SetAndNotify(ref _barkServer, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
@@ -274,8 +266,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpServer
     {
         get => _smtpServer;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpServer, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
@@ -287,8 +278,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpPort
     {
         get => _smtpPort;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpPort, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
@@ -300,8 +290,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpUser
     {
         get => _smtpUser;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpUser, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
@@ -313,8 +302,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpPassword
     {
         get => _smtpPassword;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpPassword, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
@@ -326,8 +314,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpFrom
     {
         get => _smtpFrom;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpFrom, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
@@ -339,8 +326,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string SmtpTo
     {
         get => _smtpTo;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpTo, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
@@ -352,8 +338,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool SmtpUseSsl
     {
         get => _smtpUseSsl;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpUseSsl, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, value.ToString());
         }
@@ -364,8 +349,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public bool SmtpRequireAuthentication
     {
         get => _smtpRequireAuthentication;
-        set
-        {
+        set {
             SetAndNotify(ref _smtpRequireAuthentication, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
         }
@@ -376,8 +360,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string DiscordBotToken
     {
         get => _discordBotToken;
-        set
-        {
+        set {
             SetAndNotify(ref _discordBotToken, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, value);
@@ -389,8 +372,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string DiscordUserId
     {
         get => _discordUserId;
-        set
-        {
+        set {
             SetAndNotify(ref _discordUserId, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
@@ -402,8 +384,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string DiscordWebhookUrl
     {
         get => _discordWebhookUrl;
-        set
-        {
+        set {
             SetAndNotify(ref _discordWebhookUrl, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, value);
@@ -415,8 +396,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string DingTalkAccessToken
     {
         get => _dingTalkAccessToken;
-        set
-        {
+        set {
             SetAndNotify(ref _dingTalkAccessToken, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, value);
@@ -428,8 +408,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string DingTalkSecret
     {
         get => _dingTalkSecret;
-        set
-        {
+        set {
             SetAndNotify(ref _dingTalkSecret, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, value);
@@ -441,8 +420,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string TelegramBotToken
     {
         get => _telegramBotToken;
-        set
-        {
+        set {
             SetAndNotify(ref _telegramBotToken, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, value);
@@ -454,8 +432,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string TelegramChatId
     {
         get => _telegramChatId;
-        set
-        {
+        set {
             SetAndNotify(ref _telegramChatId, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
@@ -467,8 +444,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string TelegramTopicId
     {
         get => _telegramTopicId;
-        set
-        {
+        set {
             SetAndNotify(ref _telegramTopicId, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, value);
@@ -480,8 +456,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string QmsgServer
     {
         get => _qmsgServer;
-        set
-        {
+        set {
             SetAndNotify(ref _qmsgServer, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgServer, value);
@@ -493,8 +468,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string QmsgKey
     {
         get => _qmsgKey;
-        set
-        {
+        set {
             SetAndNotify(ref _qmsgKey, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgKey, value);
@@ -506,8 +480,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string QmsgUser
     {
         get => _qmsgUser;
-        set
-        {
+        set {
             SetAndNotify(ref _qmsgUser, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgUser, value);
@@ -519,8 +492,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string QmsgBot
     {
         get => _qmsgBot;
-        set
-        {
+        set {
             SetAndNotify(ref _qmsgBot, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationQmsgBot, value);
@@ -532,8 +504,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string CustomWebhookUrl
     {
         get => _customWebhookUrl;
-        set
-        {
+        set {
             SetAndNotify(ref _customWebhookUrl, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, value);
@@ -545,8 +516,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public string CustomWebhookBody
     {
         get => _customWebhookBody;
-        set
-        {
+        set {
             SetAndNotify(ref _customWebhookBody, value);
             value = SimpleEncryptionHelper.Encrypt(value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, value);

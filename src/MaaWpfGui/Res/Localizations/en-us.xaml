@@ -236,7 +236,7 @@ To customize rotation schedules, please use ｢{key=InfrastModeCustom}｣.</syst
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
     <system:String x:Key="DefaultRoles">Default Roles</system:String>
-    <system:String x:Key="FirstMoveAdvantage">First Move Advantage (Vanguard, Sniper, Specialists)</system:String>
+    <system:String x:Key="FirstMoveAdvantage">First Move Advantage (Vanguard, Sniper, Specialist)</system:String>
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race (Defender, Caster, Sniper)</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses (Guard, Supporter, Medic)</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires (Random)</system:String>
@@ -730,6 +730,13 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskTip">The stage selected is an annihilation task. After the task is completed, the remaining alternative stages will be attempted. Some battle settings will not take effect.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective.</system:String>
+    <system:String x:Key="ProcessPickerTitle">Select Window</system:String>
+    <system:String x:Key="ProcessPickerRefresh">Refresh</system:String>
+    <system:String x:Key="ProcessPickerConfirm">OK</system:String>
+    <system:String x:Key="ProcessPickerCancel">Cancel</system:String>
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">Left Click: Toggle Log Floating Window
+Right Click: Select Target Process</system:String>
+    <system:String x:Key="ToggleOverlay">Toggle Log Overlay</system:String>
     <!--  !Logs  -->
     <!--  !Farming  -->
     <system:String x:Key="Toolbox">Toolbox</system:String>
@@ -823,6 +830,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">Manually skip the tutorial dialogue, then you can exit directly.&#10;Start the task from the event screen (there is a ｢Join Event｣ button in the bottom right corner).&#10;&#10;Follow the Duck Lord's choice.</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">Contest Channel: Honeydew</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Ending">Ending</system:String>
+    <system:String x:Key="MiniGame@SecretFront">Hidden Front</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip" xml:space="preserve">Start from the squad selection screen;&#10;if there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">Green Ticket Store</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">Buy everything on the 1st floor.&#10;Buy Headhunting Permits and Recruitment Permits on the 2nd floor.</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">Yellow Ticket Store</system:String>

@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -83,8 +82,7 @@ public class VersionUpdateViewModel : Screen
     public string UpdateTag
     {
         get => _updateTag;
-        set
-        {
+        set {
             SetAndNotify(ref _updateTag, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionName, value);
         }
@@ -99,8 +97,7 @@ public class VersionUpdateViewModel : Screen
     /// </summary>
     public string UpdateInfo
     {
-        get
-        {
+        get {
             try
             {
                 return AddContributorLink(_updateInfo);
@@ -111,8 +108,7 @@ public class VersionUpdateViewModel : Screen
             }
         }
 
-        set
-        {
+        set {
             SetAndNotify(ref _updateInfo, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateBody, value);
         }
@@ -137,8 +133,7 @@ public class VersionUpdateViewModel : Screen
     public bool IsFirstBootAfterUpdate
     {
         get => _isFirstBootAfterUpdate;
-        set
-        {
+        set {
             SetAndNotify(ref _isFirstBootAfterUpdate, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
         }
@@ -152,8 +147,7 @@ public class VersionUpdateViewModel : Screen
     public string UpdatePackageName
     {
         get => _updatePackageName;
-        set
-        {
+        set {
             SetAndNotify(ref _updatePackageName, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdatePackage, value);
         }
@@ -293,8 +287,7 @@ public class VersionUpdateViewModel : Screen
             List<Task> deleteTasks = [];
             foreach (var dir in Directory.GetDirectories(extractDir))
             {
-                deleteTasks.Add(Task.Run(() =>
-                {
+                deleteTasks.Add(Task.Run(() => {
                     try
                     {
                         FileSystem.DeleteDirectory(dir.Replace(extractDir, curDir), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
@@ -466,8 +459,7 @@ public class VersionUpdateViewModel : Screen
     public bool DoNotShowUpdate
     {
         get => _doNotShowUpdate;
-        set
-        {
+        set {
             SetAndNotify(ref _doNotShowUpdate, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
         }
@@ -554,8 +546,7 @@ public class VersionUpdateViewModel : Screen
                 return checkRet;
             }
 
-            return source switch
-            {
+            return source switch {
                 AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
                 AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
                 _ => CheckUpdateRetT.UnknownError,
@@ -877,8 +868,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.FailedToGetInfo;
         }
 
-        string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch
-        {
+        string versionType = SettingsViewModel.VersionUpdateSettings.VersionType switch {
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
             _ => "stable",
@@ -959,7 +949,7 @@ public class VersionUpdateViewModel : Screen
             }
         }
 
-        if (_assetsObject == null && fullPackage != null)
+        if (_assetsObject == null && fullPackage != null && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
         {
             _assetsObject = fullPackage;
             _logger.Warning("No OTA package found, but full package found.");
@@ -975,8 +965,7 @@ public class VersionUpdateViewModel : Screen
     {
         var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
         var arch = IsArm ? "arm64" : "x64";
-        string channel = SettingsViewModel.VersionUpdateSettings.VersionType switch
-        {
+        string channel = SettingsViewModel.VersionUpdateSettings.VersionType switch {
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Beta => "beta",
             VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly => "alpha",
             _ => "stable",
@@ -1093,7 +1082,7 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        if (data["data"]?["update_type"]?.ToObject<string>() == "full")
+        if (data["data"]?["update_type"]?.ToObject<string>() == "full" && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage)
         {
             using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionNoOtaPackage"));
             toast.Show(30);

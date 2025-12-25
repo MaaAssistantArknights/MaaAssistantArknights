@@ -243,6 +243,7 @@ public class StageManager
             new() { Display = LocalizationHelper.GetString("MiniGameNameGreenTicketStore"), Value = "GreenTicket@Store@Begin", TipKey = "MiniGameNameGreenTicketStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameYellowTicketStore"), Value = "YellowTicket@Store@Begin", TipKey = "MiniGameNameYellowTicketStoreTip" },
             new() { Display = LocalizationHelper.GetString("MiniGameNameRAStore"), Value = "RA@Store@Begin", TipKey = "MiniGameNameRAStoreTip" },
+            new() { Display = LocalizationHelper.GetString("MiniGame@SecretFront"), Value = "MiniGame@SecretFront", TipKey = "MiniGame@SecretFrontTip" },
         };
 
         return entries;

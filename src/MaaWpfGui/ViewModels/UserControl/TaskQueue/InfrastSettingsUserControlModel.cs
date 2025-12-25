@@ -130,8 +130,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public int DormThreshold
     {
         get => _dormThreshold;
-        set
-        {
+        set {
             SetAndNotify(ref _dormThreshold, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.DormThreshold, value.ToString());
         }
@@ -200,8 +199,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public Mode InfrastMode
     {
         get => _infrastMode;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _infrastMode, value))
             {
                 return;
@@ -221,8 +219,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public string UsesOfDrones
     {
         get => _usesOfDrones;
-        set
-        {
+        set {
             SetAndNotify(ref _usesOfDrones, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.UsesOfDrones, value);
         }
@@ -233,8 +230,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool ReceptionMessageBoardReceive
     {
         get => _receptionMessageBoardReceive;
-        set
-        {
+        set {
             SetAndNotify(ref _receptionMessageBoardReceive, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionMessageBoardReceive, value.ToString());
         }
@@ -245,8 +241,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool ReceptionClueExchange
     {
         get => _receptionClueExchange;
-        set
-        {
+        set {
             SetAndNotify(ref _receptionClueExchange, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.InfrastReceptionClueExchange, value.ToString());
         }
@@ -260,8 +255,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool ContinueTraining
     {
         get => _continueTraining;
-        set
-        {
+        set {
             SetAndNotify(ref _continueTraining, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ContinueTraining, value.ToString());
         }
@@ -277,8 +271,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public string DefaultInfrast
     {
         get => _defaultInfrast;
-        set
-        {
+        set {
             SetAndNotify(ref _defaultInfrast, value);
             if (_defaultInfrast != UserDefined)
             {
@@ -300,8 +293,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool DormFilterNotStationedEnabled
     {
         get => _dormFilterNotStationedEnabled;
-        set
-        {
+        set {
             SetAndNotify(ref _dormFilterNotStationedEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.DormFilterNotStationedEnabled, value.ToString());
         }
@@ -315,8 +307,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool DormTrustEnabled
     {
         get => _dormTrustEnabled;
-        set
-        {
+        set {
             SetAndNotify(ref _dormTrustEnabled, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.DormTrustEnabled, value.ToString());
         }
@@ -330,8 +321,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public bool OriginiumShardAutoReplenishment
     {
         get => _originiumShardAutoReplenishment;
-        set
-        {
+        set {
             SetAndNotify(ref _originiumShardAutoReplenishment, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, value.ToString());
         }
@@ -344,8 +334,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     [UsedImplicitly]
     public void SelectCustomInfrastFile()
     {
-        var dialog = new OpenFileDialog
-        {
+        var dialog = new OpenFileDialog {
             Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json",
         };
 
@@ -362,8 +351,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
     public string CustomInfrastFile
     {
         get => _customInfrastFile;
-        set
-        {
+        set {
             SetAndNotify(ref _customInfrastFile, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
             RefreshCustomInfrastPlan();
@@ -381,8 +369,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public int CustomInfrastPlanIndex
     {
-        get
-        {
+        get {
             if (CustomInfrastPlanInfoList.Count == 0)
             {
                 return 0;
@@ -396,8 +383,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             return _customInfrastPlanIndex;
         }
 
-        set
-        {
+        set {
             if (CustomInfrastPlanInfoList.Count == 0)
             {
                 return;
@@ -554,8 +540,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
                         Instances.TaskQueueViewModel.AddLog(descPost);
                     }
 
-                    CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
-                    {
+                    CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo {
                         Index = i,
                         Name = display,
                         Description = desc,
@@ -577,7 +562,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         RefreshCustomInfrastPlanIndexByPeriod();
     }
 
-    public void RefreshCustomInfrastPlanIndexByPeriod()
+    public void RefreshCustomInfrastPlanIndexByPeriod(DateTime? now = null)
     {
         if (InfrastMode != Mode.Custom || !_customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
         {
@@ -590,7 +575,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
             return;
         }
 
-        var now = DateTime.Now;
+        now ??= DateTime.Now;
+        var nowValue = now.Value;
 
         if (CustomInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || CustomInfrastPlanIndex < 0)
         {
@@ -600,8 +586,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
         var currentPlan = CustomInfrastPlanInfoList.First(p => p.Index == CustomInfrastPlanIndex);
         foreach (var period in currentPlan.PeriodList)
         {
-            if (TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
+            if (TimeLess(period.BeginHour, period.BeginMinute, nowValue.Hour, nowValue.Minute) &&
+                TimeLess(nowValue.Hour, nowValue.Minute, period.EndHour, period.EndMinute))
             {
                 return; // 当前 index 仍在有效时间内，不需要切换
             }
@@ -609,8 +595,8 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
         foreach (var plan in CustomInfrastPlanInfoList.Where(
                      plan => plan.PeriodList.Any(
-                         period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                                   TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                         period => TimeLess(period.BeginHour, period.BeginMinute, nowValue.Hour, nowValue.Minute) &&
+                                   TimeLess(nowValue.Hour, nowValue.Minute, period.EndHour, period.EndMinute))))
         {
             CustomInfrastPlanIndex = plan.Index;
             return;
@@ -640,8 +626,7 @@ public class InfrastSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        return new AsstInfrastTask
-        {
+        return new AsstInfrastTask {
             Mode = InfrastMode,
             Facilitys = GetInfrastOrderList(),
             UsesOfDrones = UsesOfDrones,

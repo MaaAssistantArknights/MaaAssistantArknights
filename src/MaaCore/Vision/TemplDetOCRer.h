@@ -10,6 +10,15 @@ class TemplDetOCRer : public VisionHelper, public OCRerConfig, public MatcherCon
 public:
     struct Result : public TextRect
     {
+        using TextRect::TextRect;
+
+        Result(Rect r, double s, std::string t, Rect f_r, double f_s) :
+            TextRect(r, s, std::move(t)),
+            flag_rect(f_r),
+            flag_score(f_s)
+        {
+        }
+
         Rect flag_rect;
         double flag_score = .0;
     };

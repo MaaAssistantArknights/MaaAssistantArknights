@@ -631,18 +631,28 @@
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <ComboBox
+                    Margin="10,0"
                     hc:TitleElement.Title="{DynamicResource MiniGameName}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding MiniGameTaskList}"
                     SelectedValue="{Binding MiniGameTaskName}"
                     SelectedValuePath="Value" />
-                <controls:TextBlock Grid.Row="1" Text="{Binding MiniGameTip}" />
+                <StackPanel Grid.Row="1">
+                    <ComboBox
+                        Margin="10,10,10,0"
+                        hc:TitleElement.Title="{DynamicResource MiniGame@SecretFront@Ending}"
+                        ItemsSource="{Binding SecretFrontEndingList}"
+                        SelectedValue="{Binding SecretFrontEnding}"
+                        Visibility="{c:Binding 'MiniGameTaskName == &quot;MiniGame@SecretFront&quot;'}" />
+                </StackPanel>
+                <controls:TextBlock Grid.Row="2" Text="{Binding MiniGameTip}" />
                 <Button
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Width="100"
                     Height="50"
                     Margin="10"

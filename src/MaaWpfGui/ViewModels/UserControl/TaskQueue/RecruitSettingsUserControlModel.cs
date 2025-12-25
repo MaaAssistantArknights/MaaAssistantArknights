@@ -72,8 +72,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public object[] AutoRecruitFirstList
     {
         get => _autoRecruitFirstList;
-        set
-        {
+        set {
             SetAndNotify(ref _autoRecruitFirstList, value);
             var config = string.Join(';', value.Cast<CombinedData>().Select(i => i.Value));
             ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, config);
@@ -88,8 +87,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int RecruitMaxTimes
     {
         get => _recruitMaxTimes;
-        set
-        {
+        set {
             SetAndNotify(ref _recruitMaxTimes, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RecruitMaxTimes, value.ToString());
         }
@@ -103,8 +101,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool RefreshLevel3
     {
         get => _refreshLevel3;
-        set
-        {
+        set {
             SetAndNotify(ref _refreshLevel3, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RefreshLevel3, value.ToString());
         }
@@ -118,8 +115,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool ForceRefresh
     {
         get => _forceRefresh;
-        set
-        {
+        set {
             SetAndNotify(ref _forceRefresh, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ForceRefresh, value.ToString());
         }
@@ -130,8 +126,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool? UseExpeditedWithNull
     {
         get => _useExpeditedWithNull;
-        set
-        {
+        set {
             if (value == true)
             {
                 value = null;
@@ -166,8 +161,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int SelectExtraTags
     {
         get => _selectExtraTags;
-        set
-        {
+        set {
             SetAndNotify(ref _selectExtraTags, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
         }
@@ -181,8 +175,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool NotChooseLevel1
     {
         get => _notChooseLevel1;
-        set
-        {
+        set {
             SetAndNotify(ref _notChooseLevel1, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.NotChooseLevel1, value.ToString());
         }
@@ -196,8 +189,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool ChooseLevel3
     {
         get => _chooseLevel3;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel3, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel3, value.ToString());
         }
@@ -211,8 +203,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool ChooseLevel4
     {
         get => _chooseLevel4;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel4, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel4, value.ToString());
         }
@@ -226,8 +217,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public bool ChooseLevel5
     {
         get => _chooseLevel5;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel5, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RecruitChooseLevel5, value.ToString());
         }
@@ -238,8 +228,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel3Hour
     {
         get => _chooseLevel3Hour;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel3Hour, value))
             {
                 return;
@@ -254,8 +243,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel3Min
     {
         get => _chooseLevel3Min;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel3Min, value))
             {
                 return;
@@ -270,10 +258,8 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel3Time
     {
         get => _chooseLevel3Time;
-        set
-        {
-            value = value switch
-            {
+        set {
+            value = value switch {
                 < 60 => 540,
                 > 540 => 60,
                 _ => value / 10 * 10,
@@ -291,8 +277,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel4Hour
     {
         get => _chooseLevel4Hour;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel4Hour, value))
             {
                 return;
@@ -307,8 +292,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel4Min
     {
         get => _chooseLevel4Min;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel4Min, value))
             {
                 return;
@@ -323,10 +307,8 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel4Time
     {
         get => _chooseLevel4Time;
-        set
-        {
-            value = value switch
-            {
+        set {
+            value = value switch {
                 < 60 => 540,
                 > 540 => 60,
                 _ => value / 10 * 10,
@@ -344,8 +326,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel5Hour
     {
         get => _chooseLevel5Hour;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel5Hour, value))
             {
                 return;
@@ -360,8 +341,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel5Min
     {
         get => _chooseLevel5Min;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _chooseLevel5Min, value))
             {
                 return;
@@ -376,10 +356,8 @@ public class RecruitSettingsUserControlModel : TaskViewModel
     public int ChooseLevel5Time
     {
         get => _chooseLevel5Time;
-        set
-        {
-            value = value switch
-            {
+        set {
+            value = value switch {
                 < 60 => 540,
                 > 540 => 60,
                 _ => value / 10 * 10,
@@ -394,8 +372,7 @@ public class RecruitSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstRecruitTask()
-        {
+        var task = new AsstRecruitTask() {
             Refresh = RefreshLevel3,
             ForceRefresh = ForceRefresh,
             SetRecruitTime = true,

@@ -36,10 +36,12 @@ using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.Views.UI;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using static MaaWpfGui.Main.AsstProxy;
+using static MaaWpfGui.States.RunningState;
 using Application = System.Windows.Application;
 using Screen = Stylet.Screen;
 using Task = System.Threading.Tasks.Task;
@@ -133,8 +135,7 @@ public class TaskQueueViewModel : Screen
     public void TaskItemSelectionChanged(object? sender = null, NotifyCollectionChangedEventArgs? e = null)
     {
         _ = (sender, e);
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             int index = 0;
             foreach (var item in TaskItemViewModels)
             {
@@ -142,6 +143,76 @@ public class TaskQueueViewModel : Screen
                 ++index;
             }
         });
+    }
+
+    // a:Action 绑定，不能为 static
+    public void ChooseOverlayTarget()
+    {
+        try
+        {
+            var owner = Application.Current.MainWindow;
+            var picker = new ProcessPickerWindow { Owner = owner };
+            var ok = picker.ShowDialog();
+            if (ok == true && picker.SelectedHwnd != IntPtr.Zero)
+            {
+                var overlayVm = Instances.OverlayViewModel;
+                if (overlayVm != null)
+                {
+                    overlayVm.SetTargetHwnd(picker.SelectedHwnd);
+                    if (overlayVm.IsCreated)
+                    {
+                        overlayVm.Close();
+                        overlayVm.EnsureCreated();
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    private bool _isOverlayEnabled;
+
+    public bool IsOverlayEnabled
+    {
+        get => _isOverlayEnabled;
+        set => SetAndNotify(ref _isOverlayEnabled, value);
+    }
+
+    public void EnableOverlay()
+    {
+        if (IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = true;
+        Instances.OverlayViewModel?.EnsureCreated();
+    }
+
+    public void DisableOverlay()
+    {
+        if (!IsOverlayEnabled)
+        {
+            return;
+        }
+
+        IsOverlayEnabled = false;
+        Instances.OverlayViewModel?.Close();
+    }
+
+    public void ToggleOverlay()
+    {
+        if (IsOverlayEnabled)
+        {
+            DisableOverlay();
+        }
+        else
+        {
+            EnableOverlay();
+        }
     }
 
     /// <summary>
@@ -171,8 +242,7 @@ public class TaskQueueViewModel : Screen
     public bool EnableAfterActionSetting
     {
         get => _enableAfterActionSetting;
-        set
-        {
+        set {
             SetAndNotify(ref _enableAfterActionSetting, value);
             TaskSettingVisibilityInfo.Instance.Set("AfterAction", value);
         }
@@ -323,8 +393,7 @@ public class TaskQueueViewModel : Screen
     public TaskQueueViewModel()
     {
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += (_, e) =>
-        {
+        _runningState.StateChanged += (_, e) => {
             Idle = e.Idle;
             Inited = e.Inited;
             Stopping = e.Stopping;
@@ -340,8 +409,7 @@ public class TaskQueueViewModel : Screen
 
     private void RunningState_TimeOut(object? sender, string message)
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             AddLog(message, UiLogColor.Warning);
             ToastNotification.ShowDirect(message);
             if (!SettingsViewModel.ExternalNotificationSettings.ExternalNotificationSendWhenTimeout)
@@ -452,7 +520,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
+            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod(currentTime);
 
             await HandleTimerLogic(currentTime);
         }
@@ -482,8 +550,7 @@ public class TaskQueueViewModel : Screen
         UpdateDatePromptAndStagesLocally();
 
         var delayTime = CalculateRandomDelay();
-        _ = Task.Run(async () =>
-        {
+        _ = Task.Run(async () => {
             await Task.Delay(delayTime);
             await _runningState.UntilIdleAsync(60000);
             await UpdateDatePromptAndStagesWeb();
@@ -507,8 +574,7 @@ public class TaskQueueViewModel : Screen
 
         _isCheckingForUpdates = true;
         var delayTime = CalculateRandomDelay();
-        _ = Task.Run(async () =>
-        {
+        _ = Task.Run(async () => {
             _logger.Information("waiting for update check: {DelayTime}", delayTime);
             await Task.Delay(delayTime);
             await Instances.VersionUpdateViewModel.VersionUpdateAndAskToRestartAsync();
@@ -641,7 +707,6 @@ public class TaskQueueViewModel : Screen
             }
 
             ResetAllTemporaryVariable();
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod();
         }
 
         await LinkStart();
@@ -669,8 +734,7 @@ public class TaskQueueViewModel : Screen
                 delay.TotalMilliseconds);
             var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
             var tcs = new TaskCompletionSource<bool>();
-            dialogUserControl.Click += (_, _) =>
-            {
+            dialogUserControl.Click += (_, _) => {
                 canceled = true;
                 dialog.Close();
                 tcs.TrySetResult(true);
@@ -886,13 +950,11 @@ public class TaskQueueViewModel : Screen
     /// <param name="toolTip">The toolTip</param>
     public void AddLog(string? content, string color = UiLogColor.Trace, string weight = "Regular", ToolTip? toolTip = null)
     {
-        if (string.IsNullOrWhiteSpace(content))
+        if (string.IsNullOrEmpty(content))
         {
             return;
         }
-
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             var log = new LogItemViewModel(content, color, weight, toolTip: toolTip);
             LogItemViewModels.Add(log);
             switch (color)
@@ -915,8 +977,7 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void ClearLog()
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             LogItemViewModels.Clear();
             DownloadLogItemViewModel = new(string.Empty);
             _logger.Information("Main windows log clear.");
@@ -932,8 +993,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="toolTip">Optional tooltip.</param>
     public void UpdateDownloadLog(string fullText, string? toolTip = null)
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             // Keep download area limited to a single entry.
             if (string.IsNullOrEmpty(fullText))
             {
@@ -975,8 +1035,7 @@ public class TaskQueueViewModel : Screen
     public bool InverseMode
     {
         get => _inverseMode;
-        set
-        {
+        set {
             SetAndNotify(ref _inverseMode, value);
             InverseShowText = value ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
             InverseMenuText = value ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
@@ -1231,6 +1290,8 @@ public class TaskQueueViewModel : Screen
 
         ClearLog();
 
+        Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
+
         var buildDateTimeLong = VersionUpdateSettingsUserControlModel.BuildDateTimeCurrentCultureString;
         var resourceDateTimeLong = SettingsViewModel.VersionUpdateSettings.ResourceDateTimeCurrentCultureString;
         AddLog($"Build Time:\n{buildDateTimeLong}\nResource Time:\n{resourceDateTimeLong}");
@@ -1431,8 +1492,7 @@ public class TaskQueueViewModel : Screen
     {
         _runningState.SetStopping(true);
         AddLog(LocalizationHelper.GetString("Stopping"));
-        await Task.Run(() =>
-        {
+        await Task.Run(() => {
             if (!Instances.AsstProxy.AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
@@ -1505,6 +1565,7 @@ public class TaskQueueViewModel : Screen
         _runningState.SetIdle(true);
     }
 
+    // 该函数将于未来被废弃，改用 LinkStart 代替
     public async Task QuickSwitchAccount()
     {
         if (!_runningState.GetIdle())
@@ -1513,6 +1574,7 @@ public class TaskQueueViewModel : Screen
         }
 
         _runningState.SetIdle(false);
+        _taskStartTime = DateTime.Now; // 快速修复
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         TaskItemSelectionChanged();
@@ -1605,8 +1667,7 @@ public class TaskQueueViewModel : Screen
 
         if (mainFightRet && FightTask.UseRemainingSanityStage && !string.IsNullOrEmpty(FightTask.RemainingSanityStage))
         {
-            var task = new AsstFightTask()
-            {
+            var task = new AsstFightTask() {
                 Stage = FightTask.RemainingSanityStage,
                 MaxTimes = int.MaxValue,
                 Series = 0,
@@ -1651,8 +1712,7 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
-        var task = new AsstFightTask()
-        {
+        var task = new AsstFightTask() {
             Stage = FightTask.RemainingSanityStage ?? string.Empty,
             MaxTimes = int.MaxValue,
             Series = 0,
@@ -1696,8 +1756,7 @@ public class TaskQueueViewModel : Screen
     public bool Idle
     {
         get => _idle;
-        set
-        {
+        set {
             SetAndNotify(ref _idle, value);
             if (!value)
             {
