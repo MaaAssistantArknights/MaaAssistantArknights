@@ -731,8 +731,14 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
-
-    <!--  !設定失敗  -->
+    <system:String x:Key="ProcessPickerTitle">選擇視窗</system:String>
+    <system:String x:Key="ProcessPickerRefresh">重新整理</system:String>
+    <system:String x:Key="ProcessPickerConfirm">確定</system:String>
+    <system:String x:Key="ProcessPickerCancel">取消</system:String>
+    <system:String x:Key="ProcessPickerToolTip" xml:space="preserve">左鍵：開/關日誌懸浮窗
+右鍵：選擇目標進程</system:String>
+    <system:String x:Key="ToggleOverlay">開/關日誌懸浮窗</system:String>
+    <!--  !日誌  -->
     <!--  !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
     <!--  公招辨識  -->
@@ -825,6 +831,9 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="MiniGame@ALL@GreenGrassTip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有「加入賽事」處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruit">爭鋒頻道：蜜果城</system:String>
     <system:String x:Key="MiniGame@ALL@HoneyFruitTip" xml:space="preserve">{key=MiniGame@ALL@GreenGrassTip}</system:String>
+    <system:String x:Key="MiniGame@SecretFront@Ending">結局</system:String>
+    <system:String x:Key="MiniGame@SecretFront">隱秘戰線</system:String>
+    <system:String x:Key="MiniGame@SecretFrontTip">在選擇小隊介面開始，如有存檔須手動刪除，推薦勾選遊戲內「繼承上一支隊伍發回的數據」</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStore">綠票商店</system:String>
     <system:String x:Key="MiniGameNameGreenTicketStoreTip" xml:space="preserve">1 層全買。&#10;2 層買尋訪憑證和招聘許可。</system:String>
     <system:String x:Key="MiniGameNameYellowTicketStore">黃票商店</system:String>

@@ -328,8 +328,7 @@ public class AsstProxy
     {
         _callback = CallbackFunction;
         _runningState = RunningState.Instance;
-        _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) =>
-        {
+        _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) => {
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
                 TaskSettingVisibilityInfo.Instance.CurrentTask = string.Empty;
@@ -504,11 +503,10 @@ public class AsstProxy
         if (loaded == false || _handle == AsstHandle.Zero)
         {
             Execute.OnUIThreadAsync(
-                () =>
-            {
-                MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
-                Bootstrapper.Shutdown();
-            });
+                () => {
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
+                    Bootstrapper.Shutdown();
+                });
         }
 
         _runningState.SetInit(true);
@@ -519,31 +517,30 @@ public class AsstProxy
         // TODO: 之后把这个 OnUIThread 拆出来
         // ReSharper disable once AsyncVoidLambda
         Execute.OnUIThread(
-            async () =>
-        {
-            if (SettingsViewModel.StartSettings.RunDirectly)
-            {
-                // 如果是直接运行模式，就先让按钮显示为运行
-                _runningState.SetIdle(false);
-            }
+            async () => {
+                if (SettingsViewModel.StartSettings.RunDirectly)
+                {
+                    // 如果是直接运行模式，就先让按钮显示为运行
+                    _runningState.SetIdle(false);
+                }
 
-            await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
+                await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator(true));
 
-            // 一般是点了“停止”按钮了
-            if (_runningState.GetStopping())
-            {
-                Instances.TaskQueueViewModel.SetStopped();
-                return;
-            }
+                // 一般是点了“停止”按钮了
+                if (_runningState.GetStopping())
+                {
+                    Instances.TaskQueueViewModel.SetStopped();
+                    return;
+                }
 
-            // ReSharper disable once InvertIf
-            if (SettingsViewModel.StartSettings.RunDirectly)
-            {
-                // 重置按钮状态，不影响LinkStart判断
-                _runningState.SetIdle(true);
-                await Instances.TaskQueueViewModel.LinkStart();
-            }
-        });
+                // ReSharper disable once InvertIf
+                if (SettingsViewModel.StartSettings.RunDirectly)
+                {
+                    // 重置按钮状态，不影响LinkStart判断
+                    _runningState.SetIdle(true);
+                    await Instances.TaskQueueViewModel.LinkStart();
+                }
+            });
     }
 
     /// <summary>
@@ -584,10 +581,9 @@ public class AsstProxy
         var json = (JObject?)JsonConvert.DeserializeObject(jsonStr ?? string.Empty);
         MaaService.ProcCallbackMsg dlg = ProcMsg;
         Execute.OnUIThread(
-            () =>
-        {
-            dlg((AsstMsg)msg, json);
-        });
+            () => {
+                dlg((AsstMsg)msg, json);
+            });
     }
 
     private AsstHandle _handle;
@@ -712,8 +708,7 @@ public class AsstProxy
                     var alternativesToken = details["details"]?["alternatives"];
                     if (alternativesToken is JArray { Count: > 1 } arr)
                     {
-                        screencapAlternatives = arr.Select(item =>
-                        {
+                        screencapAlternatives = arr.Select(item => {
                             string method1 = item?["method"]?.ToString() ?? "???";
                             string cost1 = item?["cost"]?.ToString() ?? "???";
                             return (method1, cost1);
@@ -792,8 +787,7 @@ public class AsstProxy
                     // 截图增强未生效禁止启动
                     if (needToStop)
                     {
-                        Execute.OnUIThreadAsync(async () =>
-                        {
+                        Execute.OnUIThreadAsync(async () => {
                             Connected = false;
                             await Instances.TaskQueueViewModel.Stop();
                             Instances.TaskQueueViewModel.SetStopped();
@@ -939,11 +933,9 @@ public class AsstProxy
                     else
                     {
                         var log = LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(taskChain);
-                        Task.Run(async () =>
-                        {
+                        Task.Run(async () => {
                             var screenshot = await AsstGetImageAsync();
-                            Execute.OnUIThread(() =>
-                            {
+                            Execute.OnUIThread(() => {
                                 Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Error, toolTip: screenshot?.CreateTooltip());
                             });
                         });
@@ -962,6 +954,11 @@ public class AsstProxy
                 {
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(taskChain));
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
+
+                    // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain == "Copilot" || taskChain == "VideoRecognition")
+                        ? Instances.CopilotViewModel.LogItemViewModels
+                        : Instances.TaskQueueViewModel.LogItemViewModels;
                     break;
                 }
 
@@ -1098,8 +1095,7 @@ public class AsstProxy
                         var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
                         if (interval > TimeSpan.Zero)
                         {
-                            _toastNotificationTimer = new DispatcherTimer
-                            {
+                            _toastNotificationTimer = new DispatcherTimer {
                                 Interval = interval,
                             };
                             _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
@@ -2068,8 +2064,7 @@ public class AsstProxy
                 // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                 string args = $"/e, /select, \"{filename}\"";
 
-                ProcessStartInfo info = new()
-                {
+                ProcessStartInfo info = new() {
                     FileName = "explorer",
                     Arguments = args,
                 };
@@ -2111,8 +2106,7 @@ public class AsstProxy
         bool success = false;
         try
         {
-            success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId =>
-            {
+            success = await GameDataReportService.PostWithRetryAsync(url, content, headers, subTask, penguinId => {
                 SettingsViewModel.GameSettings.PenguinId = penguinId;
                 _logger.Information("New PenguinId got: {PenguinId}", penguinId);
             });
@@ -2276,10 +2270,9 @@ public class AsstProxy
             else
             {
                 Execute.OnUIThreadAsync(
-                    () =>
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
-                });
+                    () => {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
+                    });
             }
         }
 
@@ -2510,8 +2503,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStartGacha(bool once = true)
     {
-        var task = new AsstCustomTask()
-        {
+        var task = new AsstCustomTask() {
             CustomTasks = [once ? "GachaOnce" : "GachaTenTimes"],
         };
         var (type, param) = task.Serialize();
@@ -2525,8 +2517,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstMiniGame(string taskName)
     {
-        var task = new AsstCustomTask()
-        {
+        var task = new AsstCustomTask() {
             CustomTasks = [taskName],
         };
         var (type, param) = task.Serialize();
@@ -2540,8 +2531,7 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstStartVideoRec(string filename)
     {
-        var taskParams = new JObject
-        {
+        var taskParams = new JObject {
             ["filename"] = filename,
         };
         AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);

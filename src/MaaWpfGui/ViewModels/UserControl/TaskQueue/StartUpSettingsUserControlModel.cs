@@ -39,8 +39,7 @@ public class StartUpSettingsUserControlModel : TaskViewModel
     public string AccountName
     {
         get => _accountName;
-        set
-        {
+        set {
             value = value.Trim();
             SetAndNotify(ref _accountName, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
@@ -66,14 +65,12 @@ public class StartUpSettingsUserControlModel : TaskViewModel
     {
         var clientType = SettingsViewModel.GameSettings.ClientType;
         var startGame = SettingsViewModel.GameSettings.StartGame;
-        var accountName = clientType switch
-        {
+        var accountName = clientType switch {
             "Official" or "Bilibili" => AccountName,
             _ => string.Empty,
         };
 
-        var task = new AsstStartUpTask()
-        {
+        var task = new AsstStartUpTask() {
             ClientType = clientType,
             StartGame = startGame,
             AccountName = accountName,
@@ -90,14 +87,12 @@ public class StartUpSettingsUserControlModel : TaskViewModel
         }
 
         var clientType = SettingsViewModel.GameSettings.ClientType;
-        var accountName = clientType switch
-        {
+        var accountName = clientType switch {
             "Official" or "Bilibili" => startUp.AccountName,
             _ => string.Empty,
         };
 
-        var task = new AsstStartUpTask()
-        {
+        var task = new AsstStartUpTask() {
             ClientType = clientType,
             StartGame = !string.IsNullOrEmpty(clientType),
             AccountName = accountName,

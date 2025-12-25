@@ -41,8 +41,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveAward
     {
         get => _receiveAward;
-        set
-        {
+        set {
             SetAndNotify(ref _receiveAward, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
         }
@@ -56,8 +55,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveMail
     {
         get => _receiveMail;
-        set
-        {
+        set {
             SetAndNotify(ref _receiveMail, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
         }
@@ -71,8 +69,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveFreeGacha
     {
         get => _receiveFreeGacha;
-        set
-        {
+        set {
             if (value)
             {
                 var result = MessageBoxHelper.Show(
@@ -102,8 +99,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveOrundum
     {
         get => _receiveOrundum;
-        set
-        {
+        set {
             SetAndNotify(ref _receiveOrundum, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
         }
@@ -117,8 +113,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveMining
     {
         get => _receiveMining;
-        set
-        {
+        set {
             SetAndNotify(ref _receiveMining, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMining, value.ToString());
         }
@@ -132,8 +127,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
     public bool ReceiveSpecialAccess
     {
         get => _receiveReceiveSpecialAccess;
-        set
-        {
+        set {
             SetAndNotify(ref _receiveReceiveSpecialAccess, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
         }
@@ -141,8 +135,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstAwardTask()
-        {
+        var task = new AsstAwardTask() {
             Award = ReceiveAward,
             Mail = ReceiveMail,
             FreeGacha = ReceiveFreeGacha,
@@ -160,8 +153,7 @@ public class AwardSettingsUserControlModel : TaskViewModel
             return null;
         }
 
-        var task = new AsstAwardTask()
-        {
+        var task = new AsstAwardTask() {
             Award = award.Award,
             Mail = award.Mail,
             FreeGacha = award.FreeGacha,

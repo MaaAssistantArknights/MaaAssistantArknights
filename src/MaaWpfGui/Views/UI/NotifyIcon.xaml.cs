@@ -42,8 +42,9 @@ public partial class NotifyIcon
         InitializeComponent();
 
         uint doubleClickTime = GetDoubleClickTime();
-        _clickTimer = new(doubleClickTime);
-        _clickTimer.AutoReset = false;
+        _clickTimer = new(doubleClickTime) {
+            AutoReset = false,
+        };
         _clickTimer.Elapsed += (s, e) =>
         {
             _canClick = true;
@@ -68,6 +69,7 @@ public partial class NotifyIcon
         stopMenu.Click += StopTask;
         forceShowMenu.Click += ForceShow;
         hideTrayMenu.Click += HideTray;
+        toggleOverlayMenu.Click += ToggleOverlay;
         restartMenu.Click += App_restart;
         exitMenu.Click += App_exit;
 
@@ -147,6 +149,11 @@ public partial class NotifyIcon
 
         SettingsViewModel.GuiSettings.UseTray = !SettingsViewModel.GuiSettings.UseTray;
         _logger.Information("Use tray icon: {0}", SettingsViewModel.GuiSettings.UseTray);
+    }
+
+    private static void ToggleOverlay(object sender, RoutedEventArgs e)
+    {
+        Instances.TaskQueueViewModel?.ToggleOverlay();
     }
 
     private static void App_restart(object sender, RoutedEventArgs e)

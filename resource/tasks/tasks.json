@@ -4475,6 +4475,9 @@
         "algorithm": "OcrDetect",
         "text": [],
         "isAscii": true,
+        "withoutDet": true,
+        "useRaw": false,
+        "binThreshold": [180, 255],
         "roi": [33, 272, 85, 36],
         "ocrReplace": [
             ["LT(?=\\d)", "LT-"],

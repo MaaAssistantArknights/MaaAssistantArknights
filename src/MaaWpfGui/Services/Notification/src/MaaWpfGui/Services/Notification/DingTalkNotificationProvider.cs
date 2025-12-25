@@ -48,8 +48,8 @@ public class DingTalkNotificationProvider(IHttpService httpService) : IExternalN
             MessageType = "text",
             Text = new DingTalkTextContent
             {
-                Content = $"{title}: {content}"
-            }
+                Content = $"{title}: {content}",
+            },
         };
 
         var response = await httpService.PostAsJsonAsync(new Uri(webhook), requestBody);

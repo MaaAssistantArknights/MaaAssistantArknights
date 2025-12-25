@@ -71,8 +71,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     /// </summary>
     public string Stage
     {
-        get
-        {
+        get {
             Stage1 ??= _stage1Fallback;
 
             if (!UseAlternateStage)
@@ -130,8 +129,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string? Stage1
     {
         get => _stage1;
-        set
-        {
+        set {
             if (_stage1 == value)
             {
                 return;
@@ -161,8 +159,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string? Stage2
     {
         get => _stage2;
-        set
-        {
+        set {
             if (_stage2 == value)
             {
                 return;
@@ -191,8 +188,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string? Stage3
     {
         get => _stage3;
-        set
-        {
+        set {
             if (_stage3 == value)
             {
                 return;
@@ -221,8 +217,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string? Stage4
     {
         get => _stage4;
-        set
-        {
+        set {
             if (_stage4 == value)
             {
                 return;
@@ -248,8 +243,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool UseRemainingSanityStage
     {
         get => _useRemainingSanityStage;
-        set
-        {
+        set {
             SetAndNotify(ref _useRemainingSanityStage, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
         }
@@ -263,8 +257,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool CustomStageCode
     {
         get => _customStageCode;
-        set
-        {
+        set {
             if (!value)
             {
                 RemoveNonExistStage();
@@ -292,8 +285,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string? RemainingSanityStage
     {
         get => _remainingSanityStage;
-        set
-        {
+        set {
             if (_remainingSanityStage == value)
             {
                 return;
@@ -332,8 +324,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool? UseMedicine
     {
         get => _useMedicine;
-        set
-        {
+        set {
             SetAndNotify(ref _useMedicine, value);
             if (value == false)
             {
@@ -354,8 +345,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public int MedicineNumber
     {
         get => _medicineNumber;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _medicineNumber, value))
             {
                 return;
@@ -377,8 +367,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool? UseStone
     {
         get => _useStone;
-        set
-        {
+        set {
             if (!AllowUseStoneSave && value == true)
             {
                 value = null;
@@ -421,8 +410,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public int StoneNumber
     {
         get => _stoneNumber;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _stoneNumber, value))
             {
                 return;
@@ -441,8 +429,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool? HasTimesLimited
     {
         get => _hasTimesLimited;
-        set
-        {
+        set {
             SetAndNotify(ref _hasTimesLimited, value);
             Instances.TaskQueueViewModel.SetFightParams();
             value ??= false;
@@ -458,8 +445,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public int MaxTimes
     {
         get => _maxTimes;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _maxTimes, value))
             {
                 return;
@@ -502,8 +488,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public int Series
     {
         get => _series;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _series, value))
             {
                 return;
@@ -524,8 +509,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool? IsSpecifiedDrops
     {
         get => _isSpecifiedDrops;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _isSpecifiedDrops, value))
             {
                 return;
@@ -612,8 +596,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string DropsItemId
     {
         get => _dropsItemId;
-        set
-        {
+        set {
             SetAndNotify(ref _dropsItemId, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemId, DropsItemId);
@@ -649,8 +632,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public int DropsQuantity
     {
         get => _dropsQuantity;
-        set
-        {
+        set {
             SetAndNotify(ref _dropsQuantity, value);
             Instances.TaskQueueViewModel.SetFightParams();
             ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, value.ToString());
@@ -672,8 +654,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool UseCustomAnnihilation
     {
         get => _useCustomAnnihilation;
-        set
-        {
+        set {
             SetAndNotify(ref _useCustomAnnihilation, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.UseCustomAnnihilation, value.ToString());
         }
@@ -684,8 +665,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public string AnnihilationStage
     {
         get => _annihilationStage;
-        set
-        {
+        set {
             SetAndNotify(ref _annihilationStage, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AnnihilationStage, value);
         }
@@ -699,8 +679,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool IsDrGrandet
     {
         get => _isDrGrandet;
-        set
-        {
+        set {
             SetAndNotify(ref _isDrGrandet, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.IsDrGrandet, value.ToString());
         }
@@ -714,8 +693,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool UseAlternateStage
     {
         get => _useAlternateStage;
-        set
-        {
+        set {
             SetAndNotify(ref _useAlternateStage, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
             if (value)
@@ -730,8 +708,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool AllowUseStoneSave
     {
         get => _allowUseStoneSave;
-        set
-        {
+        set {
             if (value)
             {
                 var result = MessageBoxHelper.Show(
@@ -758,8 +735,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool UseExpiringMedicine
     {
         get => _useExpiringMedicine;
-        set
-        {
+        set {
             SetAndNotify(ref _useExpiringMedicine, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
             Instances.TaskQueueViewModel.SetFightParams();
@@ -774,8 +750,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool HideUnavailableStage
     {
         get => _hideUnavailableStage;
-        set
-        {
+        set {
             SetAndNotify(ref _hideUnavailableStage, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
 
@@ -796,8 +771,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool HideSeries
     {
         get => _hideSeries;
-        set
-        {
+        set {
             SetAndNotify(ref _hideSeries, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
         }
@@ -808,8 +782,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool AutoRestartOnDrop
     {
         get => _autoRestartOnDrop;
-        set
-        {
+        set {
             SetAndNotify(ref _autoRestartOnDrop, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AutoRestartOnDrop, value.ToString());
         }
@@ -846,8 +819,7 @@ public class FightSettingsUserControlModel : TaskViewModel
 
     public override (AsstTaskType Type, JObject Params) Serialize()
     {
-        var task = new AsstFightTask()
-        {
+        var task = new AsstFightTask() {
             Stage = Stage,
             Medicine = UseMedicine != false ? MedicineNumber : 0,
             Stone = UseStoneDisplay ? StoneNumber : 0,
@@ -883,8 +855,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     public bool CustomInfrastPlanShowInFightSettings
     {
         get => _customInfrastPlanShowInFightSettings;
-        set
-        {
+        set {
             SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
         }
@@ -906,8 +877,7 @@ public class FightSettingsUserControlModel : TaskViewModel
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateStageList()
     {
-        Execute.PostToUIThreadAsync(() =>
-        {
+        Execute.PostToUIThreadAsync(() => {
             var hideUnavailableStage = HideUnavailableStage;
 
             Instances.TaskQueueViewModel.EnableSetFightParams = false;

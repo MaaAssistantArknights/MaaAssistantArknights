@@ -461,6 +461,11 @@ public static class ResourceUpdater
         FileInfo[] files = dir.GetFiles();
         foreach (FileInfo file in files)
         {
+            if (file.Name == ".gitignore")
+            {
+                continue;
+            }
+
             string tempPath = Path.Combine(destDirName, file.Name);
             file.CopyTo(tempPath, true); // 覆盖现有文件
         }

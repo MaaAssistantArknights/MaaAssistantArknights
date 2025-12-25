@@ -32,7 +32,6 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
 using MaaWpfGui.States;
-using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -56,8 +55,7 @@ public class ToolboxViewModel : Screen
     {
         DisplayName = LocalizationHelper.GetString("Toolbox");
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += (__, e) =>
-        {
+        _runningState.StateChanged += (__, e) => {
             Idle = e.Idle;
             Inited = e.Inited;
             Stopping = e.Stopping;
@@ -144,8 +142,7 @@ public class ToolboxViewModel : Screen
 
             var opersArray = (JArray?)combs["opers"] ?? [];
 
-            var opersWithPotential = opersArray.Select(oper =>
-            {
+            var opersWithPotential = opersArray.Select(oper => {
                 int operLevel = (int)(oper["level"] ?? -1);
                 var operId = oper["id"]?.ToString();
 
@@ -208,8 +205,7 @@ public class ToolboxViewModel : Screen
 
         string GetBrushKeyByStar(int level, bool isMax)
         {
-            return (level, isMax) switch
-            {
+            return (level, isMax) switch {
                 (6, true) => UiLogColor.Star6OperatorPotentialFull,
                 (6, false) => UiLogColor.Star6Operator,
                 (5, true) => UiLogColor.Star5OperatorPotentialFull,
@@ -235,8 +231,7 @@ public class ToolboxViewModel : Screen
     public bool ChooseLevel3
     {
         get => _chooseLevel3;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel3, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3, value.ToString());
         }
@@ -250,8 +245,7 @@ public class ToolboxViewModel : Screen
     public bool ChooseLevel4
     {
         get => _chooseLevel4;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel4, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4, value.ToString());
         }
@@ -265,8 +259,7 @@ public class ToolboxViewModel : Screen
     public bool ChooseLevel5
     {
         get => _chooseLevel5;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel5, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5, value.ToString());
         }
@@ -280,8 +273,7 @@ public class ToolboxViewModel : Screen
     public bool ChooseLevel6
     {
         get => _chooseLevel6;
-        set
-        {
+        set {
             SetAndNotify(ref _chooseLevel6, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel6, value.ToString());
         }
@@ -295,8 +287,7 @@ public class ToolboxViewModel : Screen
     public bool RecruitAutoSetTime
     {
         get => _autoSetTime;
-        set
-        {
+        set {
             SetAndNotify(ref _autoSetTime, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.AutoSetTime, value.ToString());
         }
@@ -345,8 +336,7 @@ public class ToolboxViewModel : Screen
             levelList.Add(6);
         }
 
-        var task = new AsstRecruitTask()
-        {
+        var task = new AsstRecruitTask() {
             SelectList = levelList,
             ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
             SetRecruitTime = RecruitAutoSetTime,
@@ -365,8 +355,7 @@ public class ToolboxViewModel : Screen
     public bool RecruitmentShowPotential
     {
         get => _recruitmentShowPotential;
-        set
-        {
+        set {
             SetAndNotify(ref _recruitmentShowPotential, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.RecruitmentShowPotential, value.ToString());
         }
@@ -504,8 +493,7 @@ public class ToolboxViewModel : Screen
                 continue;
             }
 
-            DepotResultDate result = new()
-            {
+            DepotResultDate result = new() {
                 Id = id,
                 Name = ItemListHelper.GetItemName(id),
                 Image = ItemListHelper.GetItemImage(id),
@@ -613,8 +601,7 @@ public class ToolboxViewModel : Screen
     public List<OperBoxData.OperData> OperBoxDataArray
     {
         get => _operBoxDataArray;
-        set
-        {
+        set {
             SetAndNotify(ref _operBoxDataArray, value);
             _operBoxPotential = null; // reset
         }
@@ -624,8 +611,7 @@ public class ToolboxViewModel : Screen
 
     public Dictionary<string, int>? OperBoxPotential
     {
-        get
-        {
+        get {
             if (_operBoxPotential != null)
             {
                 return _operBoxPotential;
@@ -832,8 +818,7 @@ public class ToolboxViewModel : Screen
             }
             else
             {
-                exportList.Add(new OperBoxData.OperData()
-                {
+                exportList.Add(new OperBoxData.OperData() {
                     Id = operId,
                     Name = operName,
                     Rarity = operInfo.Rarity,
@@ -875,8 +860,7 @@ public class ToolboxViewModel : Screen
     public bool IsGachaInProgress
     {
         get => _isGachaInProgress;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _isGachaInProgress, value))
             {
                 return;
@@ -927,8 +911,7 @@ public class ToolboxViewModel : Screen
     public bool GachaShowDisclaimer
     {
         get => _gachaShowDisclaimer;
-        set
-        {
+        set {
             SetAndNotify(ref _gachaShowDisclaimer, value);
         }
     }
@@ -938,8 +921,7 @@ public class ToolboxViewModel : Screen
     public bool GachaShowDisclaimerNoMore
     {
         get => _gachaShowDisclaimerNoMore;
-        set
-        {
+        set {
             SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
         }
@@ -976,8 +958,7 @@ public class ToolboxViewModel : Screen
     public bool Peeping
     {
         get => _peeping;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _peeping, value))
             {
                 return;
@@ -998,8 +979,7 @@ public class ToolboxViewModel : Screen
     public bool IsPeepInProgress
     {
         get => _isPeepInProgress;
-        set
-        {
+        set {
             if (!SetAndNotify(ref _isPeepInProgress, value))
             {
                 return;
@@ -1032,15 +1012,12 @@ public class ToolboxViewModel : Screen
 
     public int PeepTargetFps
     {
-        get
-        {
+        get {
             return _peepTargetFps;
         }
 
-        set
-        {
-            value = value switch
-            {
+        set {
+            value = value switch {
                 > 600 => 600,
                 < 1 => 1,
                 _ => value,
@@ -1101,8 +1078,7 @@ public class ToolboxViewModel : Screen
             }
 
             _logger.Warning("Screenshot Semaphore Full, Reduce Target FPS count to {PeepTargetFps}", --PeepTargetFps);
-            _ = Execute.OnUIThreadAsync(() =>
-            {
+            _ = Execute.OnUIThreadAsync(() => {
                 Growl.Clear();
                 Growl.Warning($"Screenshot taking too long, reduce Target FPS to {PeepTargetFps}");
             });
@@ -1128,8 +1104,7 @@ public class ToolboxViewModel : Screen
                 return;
             }
 
-            await Execute.OnUIThreadAsync(() =>
-            {
+            await Execute.OnUIThreadAsync(() => {
                 _peepImageCache[index] = AsstProxy.WriteBgrToBitmap(frameData, _peepImageCache[index]);
             });
 
@@ -1250,20 +1225,27 @@ public class ToolboxViewModel : Screen
     public string MiniGameTaskName
     {
         get => _miniGameTaskName;
-        set
-        {
+        set {
             SetAndNotify(ref _miniGameTaskName, value);
             ConfigurationHelper.SetGlobalValue(ConfigurationKeys.MiniGameTaskName, value);
             MiniGameTip = GetMiniGameTip(value);
         }
     }
 
+    public string GetMiniGameTask()
+    {
+        return MiniGameTaskName switch
+        {
+            "MiniGame@SecretFront" => $"{MiniGameTaskName}@Ending{SecretFrontEnding}@Begin",
+            _ => MiniGameTaskName,
+        };
+    }
+
     private string? _miniGameTip;
 
     public string MiniGameTip
     {
-        get
-        {
+        get {
             _miniGameTip ??= GetMiniGameTip(MiniGameTaskName);
             return _miniGameTip;
         }
@@ -1319,6 +1301,16 @@ public class ToolboxViewModel : Screen
         return string.Empty;
     }
 
+    public List<string> SecretFrontEndingList { get; set; } = ["A", "B", "C", "D", "E"];
+
+    private string _secretFrontEnding = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MiniGameSecretFrontEnding, "A");
+
+    public string SecretFrontEnding
+    {
+        get => _secretFrontEnding;
+        set => SetAndNotify(ref _secretFrontEnding, value);
+    }
+
     public void StartMiniGame()
     {
         _ = StartMiniGameAsync();
@@ -1346,7 +1338,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        caught = Instances.AsstProxy.AsstMiniGame(MiniGameTaskName);
+        caught = Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
         if (!caught)
         {
             _runningState.SetIdle(true);
