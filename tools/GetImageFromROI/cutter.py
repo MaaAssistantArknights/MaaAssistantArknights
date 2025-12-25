@@ -3,8 +3,6 @@ from pathlib import Path
 
 import cv2
 
-from tools.ImageCropper.main import crop
-
 """
 This is a tool for cropping one image into several images based on current roi.
 Use this tool when a raw image contains many templates.
