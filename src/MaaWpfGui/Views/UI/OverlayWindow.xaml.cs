@@ -308,7 +308,7 @@ public partial class OverlayWindow : Window
             var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
             var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
             double horizontalMargin = border.Margin.Left + border.Margin.Right;
-            border.MaxWidth = Math.Max(0, newWidthWpf - horizontalMargin);
+            border.MaxWidth = Math.Clamp(newWidthWpf - horizontalMargin, 0, 250);
         }
     }
 
