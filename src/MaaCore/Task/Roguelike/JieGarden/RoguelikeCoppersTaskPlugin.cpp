@@ -6,6 +6,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
@@ -363,33 +364,43 @@ bool asst::RoguelikeCoppersTaskPlugin::handle_exchange_mode()
     }
 
     // =================================================
-    // 第三步：决定是否交换并执行
+    // 第三步：使用策略决定是否交换并执行
     // =================================================
 
-    // 找到现有通宝中丢弃优先级最高的（最不重要的）
-    auto worst_it = std::max_element(m_copper_list.begin(), m_copper_list.end(), [](const auto& a, const auto& b) {
-        return a.get_copper_discard_priority() < b.get_copper_discard_priority();
-    });
+    // 使用策略决定是否交换
+    size_t discard_index = 0;
+    bool should_exchange = decide_exchange_by_strategy(m_new_copper, m_copper_list, discard_index);
 
-    // 如果新通宝的丢弃优先级低于最差现有通宝，则放弃交换
-    if (worst_it->get_copper_discard_priority() < m_new_copper.get_copper_discard_priority()) {
-        LogInfo << __FUNCTION__ << "new copper (" << m_new_copper.name
-                << ") is worse than all existing coppers, abandoning exchange";
+    if (!should_exchange) {
+        LogInfo << __FUNCTION__ << "| Decided not to exchange copper";
         return true;
     }
 
+    // 确保索引有效
+    if (discard_index >= m_copper_list.size()) {
+        LogError << __FUNCTION__ << "| Invalid discard index:" << discard_index << ", total" << m_copper_list.size()
+                 << "coppers";
+        return false;
+    }
+
+    auto& worst_copper = m_copper_list[discard_index];
+
+    auto strategy_name =
+        (get_current_exchange_strategy_type() == CopperExchangeStrategyType::FindLingMode) ? "FindLing" : "Default";
+
     // 执行交换
-    LogInfo << __FUNCTION__ << "| exchanging copper:" << worst_it->name << "(" << worst_it->col << "," << worst_it->row
-            << ") -> " << m_new_copper.name;
+    LogInfo << __FUNCTION__ << "| Exchanging copper using strategy: " << strategy_name << " - " << worst_copper.name
+            << "(" << worst_copper.col << "," << worst_copper.row << ") -> " << m_new_copper.name;
 
     // 发送通宝替换信息到 WPF
     auto copper_info = basic_info_with_what("RoguelikeCoppersExchangeInfo");
-    copper_info["details"]["to_discard"] = std::format("{} ({},{})", worst_it->name, worst_it->col, worst_it->row);
+    copper_info["details"]["to_discard"] =
+        std::format("{} ({},{})", worst_copper.name, worst_copper.col, worst_copper.row);
     copper_info["details"]["to_pickup"] = m_new_copper.name;
     callback(AsstMsg::SubTaskExtraInfo, copper_info);
 
     // 点击要替换的通宝
-    click_copper_at_position(worst_it->col, worst_it->row);
+    click_copper_at_position(worst_copper.col, worst_copper.row);
 
     // 执行确认交换任务
     ret &= ProcessTask(*this, { "JieGarden@Roguelike@CoppersTakeConfirm" }).run();
@@ -634,4 +645,43 @@ void asst::RoguelikeCoppersTaskPlugin::save_debug_image(
     catch (const std::exception& e) {
         Log.error(__FUNCTION__, "| failed to save debug image:", e.what());
     }
+}
+
+// 获取当前游戏模式对应的交换策略
+asst::CopperExchangeStrategyType asst::RoguelikeCoppersTaskPlugin::get_current_exchange_strategy_type() const
+{
+    // 检查当前游戏是否为FindLing模式
+    // 检查是否是界园主题且为FindPlaytime（刷常乐节点）模式
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::FindPlaytime) {
+        return CopperExchangeStrategyType::FindLingMode;
+    }
+
+    // 默认使用标准策略
+    return CopperExchangeStrategyType::Default;
+}
+
+// 根据策略决定是否交换通宝
+bool asst::RoguelikeCoppersTaskPlugin::decide_exchange_by_strategy(
+    const RoguelikeCopper& new_copper,
+    const std::vector<RoguelikeCopper>& existing_coppers,
+    size_t& discard_index) const
+{
+    // 获取策略类型
+    auto strategy_type = get_current_exchange_strategy_type();
+
+    // 获取策略函数
+    auto strategy_func = get_exchange_strategy_function(strategy_type);
+
+    // 应用策略决策
+    auto result = strategy_func(new_copper, existing_coppers);
+
+    std::string strategy_name = (strategy_type == CopperExchangeStrategyType::FindLingMode) ? "FindLing" : "Default";
+    LogInfo << __FUNCTION__ << "Strategy" << strategy_name << "decision:" << result.reason;
+
+    if (result.should_exchange) {
+        discard_index = result.discard_index;
+        return true;
+    }
+
+    return false;
 }
