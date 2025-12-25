@@ -368,7 +368,7 @@
         "next": ["JieGarden@Roguelike@CoppersRecastResult", "#self"]
     },
     "JieGarden@Roguelike@CoppersRecastResult": {
-        "Doc": "点击投钱结果界面的对号",
+        "Doc": "点击投钱结果界面的对号 有时延迟时间比较长会失败 目前依赖retry_times有20次兜底",
         "action": "ClickSelf",
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
         "postDelay": 500,
