@@ -1114,7 +1114,12 @@
         "algorithm": "OcrDetect",
         "text": ["正在提交", "反馈至神经"],
         "roi": [700, 600, 300, 120],
-        "next": ["LoadingText", "#next", "#back"]
+        "next": ["LoadingText", "LoadingTextPostDelay"]
+    },
+    "LoadingTextPostDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 2000,
+        "next": ["#next", "#back"]
     },
     "NextAfterLoadingText": {
         "baseTask": "LoadingText",
