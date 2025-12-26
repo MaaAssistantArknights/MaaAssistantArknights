@@ -166,7 +166,8 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                     return true;
                 };
             bool enable_justreturn_check = true;
-            if (name.ends_with("LoadingText") || name.ends_with("LoadingTextPostDelay") || name.ends_with("LoadingIcon")) {
+            if (name.ends_with("LoadingText") || name.ends_with("LoadingTextPostDelay") ||
+                name.ends_with("LoadingIcon")) {
                 // 放宽对 Loading 类任务的限制，不然 JustReturn 的任务如果本身有 JR 的 next，就不能 @Loading 了
                 enable_justreturn_check = false;
             }
