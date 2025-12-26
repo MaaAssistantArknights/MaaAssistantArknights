@@ -5,7 +5,6 @@ from src.auto_localization import XamlParser, judge_encoding, parse_lang_str
 
 
 class TestXamlParser(unittest.TestCase):
-
     def setUp(self):
         self.zh_sample_path = "example/zh-cn.xaml"
         self.zh_new_sample_path = "example/zh-cn_new.xaml"

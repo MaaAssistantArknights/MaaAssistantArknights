@@ -472,19 +472,30 @@ public class TaskQueueViewModel : Screen
             return true;
         }
 
+        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("UpdateConfirmExitText"),
+                LocalizationHelper.GetString("UpdateConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
+            return result == MessageBoxResult.Yes;
+        }
+
         if (!Running)
         {
             // no need to confirm if no running task
             return true;
         }
 
-        var result = MessageBoxHelper.Show(
+        var confirmResult = MessageBoxHelper.Show(
             LocalizationHelper.GetString("ConfirmExitText"),
             LocalizationHelper.GetString("ConfirmExitTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         Closing = false;
-        return result == MessageBoxResult.Yes;
+        return confirmResult == MessageBoxResult.Yes;
     }
 
     public override Task<bool> CanCloseAsync()
@@ -520,7 +531,7 @@ public class TaskQueueViewModel : Screen
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
-            InfrastTask.RefreshCustomInfrastPlanIndexByPeriod(currentTime);
+            InfrastTask.RefreshCustomInfrastPlanDisplay();
 
             await HandleTimerLogic(currentTime);
         }
@@ -820,7 +831,7 @@ public class TaskQueueViewModel : Screen
         FightTask.InitDrops();
         NeedToUpdateDatePrompt();
         UpdateDatePromptAndStagesLocally();
-        InfrastTask.RefreshCustomInfrastPlan();
+        InfrastTask.ParseCustomInfrastPlan();
 
         if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
         {
@@ -1731,7 +1742,7 @@ public class TaskQueueViewModel : Screen
 
     public bool AppendInfrast()
     {
-        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanInfoList.Count == 0))
+        if (InfrastTask.InfrastMode == InfrastMode.Custom && (!File.Exists(InfrastTask.CustomInfrastFile) || InfrastTask.CustomInfrastPlanList.Count == 0))
         {
             AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
             return false;

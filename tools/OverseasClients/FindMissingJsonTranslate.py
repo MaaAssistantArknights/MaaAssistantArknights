@@ -41,7 +41,6 @@ proj_dir = os.path.join(cur_dir, "../../")
 
 
 def find_missing_translations(server_name):
-
     output_file = "missing_translate-" + server_name + ".txt"
     output_file = os.path.join(cur_dir, output_file)
 

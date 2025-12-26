@@ -280,7 +280,6 @@ if __name__ == "__main__":
 
     # Create an ImageRectSelector instance for each image path
     for image_path in image_paths:
-
         # Create an ImageRectSelector instance with the image path
         selector = ImageRectSelector(image_path)
 

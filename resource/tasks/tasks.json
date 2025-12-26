@@ -1114,7 +1114,12 @@
         "algorithm": "OcrDetect",
         "text": ["正在提交", "反馈至神经"],
         "roi": [700, 600, 300, 120],
-        "next": ["LoadingText", "#next", "#back"]
+        "next": ["LoadingText", "LoadingTextPostDelay"]
+    },
+    "LoadingTextPostDelay": {
+        "algorithm": "JustReturn",
+        "postDelay": 2000,
+        "next": ["#next", "#back"]
     },
     "NextAfterLoadingText": {
         "baseTask": "LoadingText",
@@ -1233,7 +1238,7 @@
         "algorithm": "OcrDetect",
         "text": ["切换"],
         "action": "ClickSelf",
-        "roi": [966, 577, 315, 142],
+        "roi": [966, 577, 314, 142],
         "next": ["AnnihilationStage"]
     },
     "AnnihilationReturn": {
@@ -1715,7 +1720,7 @@
         "text": ["前往上一次作战", "作战"],
         "roi": [916, 479, 249, 127],
         "action": "ClickSelf",
-        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1"]
+        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1", "#self"]
     },
     "RecruitBegin": {
         "algorithm": "JustReturn",
@@ -4469,7 +4474,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["阵容确认"],
-        "roi": [992, 576, 288, 144]
+        "roi": [992, 576, 288, 144],
+        "next": ["#self", "Stop"]
     },
     "SSSStageNameOCR": {
         "algorithm": "OcrDetect",
@@ -4755,7 +4761,7 @@
         "action": "ClickRect",
         "cache": true,
         "roi": [1000, 117, 115, 60],
-        "specificRect": [1026, 180, 1219, 487]
+        "specificRect": [1026, 180, 193, 487]
     },
     "ConfirmProductChange": {
         "action": "ClickSelf",

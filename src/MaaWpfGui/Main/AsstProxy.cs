@@ -901,7 +901,7 @@ public class AsstProxy
                 }
         }
 
-        bool isCopilotTaskChain = taskChain is "Copilot" or "VideoRecognition";
+        bool isCopilotTaskChain = taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition";
 
         switch (msg)
         {
@@ -956,7 +956,7 @@ public class AsstProxy
                     TaskStatusUpdate(taskId, TaskStatus.InProgress);
 
                     // LinkStart 按钮也会修改，但小工具中的日志源需要在这里修改
-                    Instances.OverlayViewModel.LogItemsSource = (taskChain == "Copilot" || taskChain == "VideoRecognition")
+                    Instances.OverlayViewModel.LogItemsSource = (taskChain is "Copilot" or "SSSCopilot" or "VideoRecognition")
                         ? Instances.CopilotViewModel.LogItemViewModels
                         : Instances.TaskQueueViewModel.LogItemViewModels;
                     break;
@@ -978,7 +978,6 @@ public class AsstProxy
                     {
                         case "Infrast":
                             InfrastSettingsUserControlModel.Instance.IncreaseCustomInfrastPlanIndex();
-                            InfrastSettingsUserControlModel.Instance.RefreshCustomInfrastPlanIndexByPeriod();
                             break;
                     }
 

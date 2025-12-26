@@ -208,11 +208,8 @@ class ChatTranslator:
         )
 
     def add_rules(self, rules: str):
-        self._rules += (
-            """
-                - """
-            + rules.strip()
-        )
+        self._rules += """
+                - """ + rules.strip()
         self._instruction = self.generate_instruction(
             self, self._language, self._base_language
         )
