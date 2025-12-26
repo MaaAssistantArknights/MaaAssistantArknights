@@ -1193,6 +1193,8 @@ C:\\leidian\\LDPlayer9
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
+    <system:String x:Key="UpdateConfirmExitTitle">MAAが更新中です</system:String>
+    <system:String x:Key="UpdateConfirmExitText">更新を実行中です。この時点でMAAを終了するとリソースが損傷する可能性があります。\n終了しますか？</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>

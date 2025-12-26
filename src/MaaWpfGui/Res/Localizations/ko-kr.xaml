@@ -1194,6 +1194,8 @@ C:\\leidian\\LDPlayer9
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA가 작업을 진행 중입니다</system:String>
     <system:String x:Key="ConfirmExitText">정말로 종료하시겠습니까?</system:String>
+    <system:String x:Key="UpdateConfirmExitTitle">MAA가 업데이트 중입니다</system:String>
+    <system:String x:Key="UpdateConfirmExitText">업데이트를 실행 중입니다. 이 시점에서 MAA를 종료하면 리소스가 손상될 수 있습니다.\n정말로 종료하시겠습니까?</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>

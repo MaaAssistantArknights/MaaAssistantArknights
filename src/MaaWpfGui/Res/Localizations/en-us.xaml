@@ -1193,6 +1193,8 @@ Right-click to clear inactive jobs</system:String>
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
     <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
+    <system:String x:Key="UpdateConfirmExitTitle">MAA is updating</system:String>
+    <system:String x:Key="UpdateConfirmExitText">An update is in progress. Exiting MAA now may cause resource damage.\nAre you sure you want to exit?</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Hot update data retrieval successful</system:String>
