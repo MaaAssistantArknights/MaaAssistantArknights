@@ -24,7 +24,6 @@ GetWindowTextLengthW
 GetWindowThreadProcessId
 IsWindowVisible
 GetWindowRect
-SetWindowLongPtr
 SetWindowPos
 SetWinEventHook
 UnhookWinEvent
