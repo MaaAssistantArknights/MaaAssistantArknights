@@ -13,7 +13,6 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,21 +43,6 @@ namespace MaaWpfGui.Views.UI;
 public partial class OverlayWindow : Window
 {
     private static readonly ILogger _logger = Log.ForContext<OverlayWindow>();
-
-    // CsWin32 在 AnyCPU 下无法生成 SetWindowLongPtr*（会触发 PInvoke005），但这里需要设置父窗口句柄。
-    // 用兼容封装在 x86/x64 下分别调用 SetWindowLongW/SetWindowLongPtrW，避免对生成器/平台目标产生依赖。
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
-    private static extern IntPtr SetWindowLongPtrW(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-
-    [DllImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)]
-    private static extern int SetWindowLongW(IntPtr hWnd, int nIndex, int dwNewLong);
-
-    private static IntPtr SetWindowLongPtrCompat(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
-    {
-        return IntPtr.Size == 8
-            ? SetWindowLongPtrW(hWnd, nIndex, dwNewLong)
-            : new IntPtr(SetWindowLongW(hWnd, nIndex, dwNewLong.ToInt32()));
-    }
 
     // Instance delegate to keep callback alive for this instance; avoids global mapping complexity
     private readonly WINEVENTPROC _winEventProc;
@@ -337,7 +321,7 @@ public partial class OverlayWindow : Window
     {
         Opacity = 0;
         Show();
-        _ = SetWindowLongPtrCompat(_overlayHwnd, (int)WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
+        PInvoke.SetWindowLongPtr((HWND)_overlayHwnd, WINDOW_LONG_PTR_INDEX.GWL_HWNDPARENT, _targetHwnd);
         UpdatePosition();
         Opacity = 1;
     }
