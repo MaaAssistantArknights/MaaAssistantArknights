@@ -1213,6 +1213,8 @@ C:\\leidian\\LDPlayer9。\n
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要退出嗎？</system:String>
+    <system:String x:Key="UpdateConfirmExitTitle">MAA 正在更新</system:String>
+    <system:String x:Key="UpdateConfirmExitText">正在執行更新，此時退出 MAA 可能導致資源損壞。\n確定要退出嗎？</system:String>
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">熱更數據獲取成功</system:String>

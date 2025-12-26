@@ -472,19 +472,30 @@ public class TaskQueueViewModel : Screen
             return true;
         }
 
+        if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("UpdateConfirmExitText"),
+                LocalizationHelper.GetString("UpdateConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
+            return result == MessageBoxResult.Yes;
+        }
+
         if (!Running)
         {
             // no need to confirm if no running task
             return true;
         }
 
-        var result = MessageBoxHelper.Show(
+        var confirmResult = MessageBoxHelper.Show(
             LocalizationHelper.GetString("ConfirmExitText"),
             LocalizationHelper.GetString("ConfirmExitTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
         Closing = false;
-        return result == MessageBoxResult.Yes;
+        return confirmResult == MessageBoxResult.Yes;
     }
 
     public override Task<bool> CanCloseAsync()
