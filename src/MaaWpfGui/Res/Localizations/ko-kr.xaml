@@ -724,6 +724,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">현재/최근</system:String>
     <system:String x:Key="ClosedStage">이벤트가 닫혀 있습니다</system:String>
     <system:String x:Key="UnsupportedStages">미지원 스테이지</system:String>
+    <system:String x:Key="SkipRemainingSanityBecauseSameStage">남은 이성으로 선택한 스테이지는 이미 메인 작업에서 완료되어 건너뜁니다</system:String>
     <system:String x:Key="LowVersion">낮은 버전</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">최소 요구사항: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>

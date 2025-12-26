@@ -723,6 +723,7 @@ C:\\leidian\\LDPlayer9
     <system:String x:Key="DefaultStage">現在/前回</system:String>
     <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
+    <system:String x:Key="SkipRemainingSanityBecauseSameStage">余剰理性で選択したステージは既にメインタスクで周回済みのため、スキップされます</system:String>
     <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>

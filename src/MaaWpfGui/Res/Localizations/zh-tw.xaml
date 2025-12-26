@@ -723,6 +723,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="DefaultStage">目前/上次</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
     <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
+    <system:String x:Key="SkipRemainingSanityBecauseSameStage">剩餘理智選擇的關卡已在主任務中完成刷取，將會跳過</system:String>
     <system:String x:Key="LowVersion">版本過低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
