@@ -64,11 +64,6 @@ public partial class OverlayWindow : Window
             {
                 _debounceTimer?.Stop();
                 UpdatePosition();
-                if (_isHiddenDuringMove)
-                {
-                    Opacity = 1;
-                    _isHiddenDuringMove = false;
-                }
             },
             Dispatcher);
     }
@@ -233,7 +228,6 @@ public partial class OverlayWindow : Window
     }
 
     private int _invokePending;
-    private bool _isHiddenDuringMove;
 
     private void WinEventProc(HWINEVENTHOOK hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
@@ -253,12 +247,6 @@ public partial class OverlayWindow : Window
             if (hwnd != (HWND)_targetHwnd)
             {
                 return;
-            }
-
-            if (!_isHiddenDuringMove)
-            {
-                Opacity = 0;
-                _isHiddenDuringMove = true;
             }
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, () =>
@@ -320,7 +308,7 @@ public partial class OverlayWindow : Window
             var bottomRight = transform.Transform(new Point(rect.right, rect.bottom));
             var newWidthWpf = Math.Max(0, bottomRight.X - topLeft.X);
             double horizontalMargin = border.Margin.Left + border.Margin.Right;
-            border.MaxWidth = Math.Max(0, newWidthWpf - horizontalMargin);
+            border.MaxWidth = Math.Clamp(newWidthWpf - horizontalMargin, 0, 250);
         }
     }
 

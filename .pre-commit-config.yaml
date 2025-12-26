@@ -1,23 +1,22 @@
 default_install_hook_types: [pre-commit, prepare-commit-msg]
-ci:
-  # 禁用 pre-commit.ci 自动运行，改用 GitHub Actions 定时任务
-  skip: [oxipng, clang-format, prettier, black, isort, markdownlint-cli2]
 repos:
   - repo: https://github.com/shssoichiro/oxipng
-    rev: v9.1.5
+    rev: v10.0.0
     hooks:
       - id: oxipng
         name: PNG Image Compression
         args: ["-q", "-o", "2", "-s", "--ng"]
+
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v21.1.1
+    rev: v21.1.8
     hooks:
       - id: clang-format
         name: Clang-Format (MaaCore)
         files: ^src/MaaCore/.*
         args: ["--assume-filename", ".clang-format"]
+
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.6.2
+    rev: v3.7.4
     hooks:
       - id: prettier
         name: Prettier (Config Files)
@@ -28,17 +27,13 @@ repos:
       - id: prettier
         name: Prettier (Documentation)
         files: ^docs/.*
-  - repo: https://github.com/psf/black
-    rev: 25.9.0
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.10
     hooks:
-      - id: black
-        name: Black Formatter (Python)
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        name: Isort (Python)
-        args: ["--profile", "black", "--filter-files"]
+      - id: ruff-format
+        name: Ruff format (Python)
+
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.18.1
     hooks:
