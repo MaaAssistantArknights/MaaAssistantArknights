@@ -787,7 +787,9 @@ std::optional<std::string> asst::BattleFormationTask::add_support_unit(
     LogTraceFunction;
 
     // 通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战干员选择界面
-    ProcessTask(*this, { "Formation-AddSupportUnit-EnterSupportList" }).run();
+    if (!ProcessTask(*this, { "Formation-AddSupportUnit-EnterSupportList" }).set_retry_times(20).run()) {
+        return std::nullopt;
+    }
 
     SupportList support_list(m_callback, m_inst, m_task_chain);
 
