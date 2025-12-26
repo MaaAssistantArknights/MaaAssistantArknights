@@ -245,7 +245,6 @@
                     </hc:ButtonGroup>
                 </StackPanel>
 
-
                 <Grid Grid.Row="2" Height="60">
                     <Button
                         Width="100"
@@ -371,47 +370,6 @@
                 </hc:ScrollViewer>
             </Grid>
 
-            <!--  操作按钮：选择 Overlay 目标窗口  -->
-            <Grid
-                Grid.Column="2"
-                Margin="5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Panel.ZIndex="100">
-                <Path
-                    Width="15"
-                    Height="15"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Fill="{DynamicResource PrimaryTextBrush}"
-                    IsHitTestVisible="False"
-                    Stretch="Uniform"
-                    StrokeThickness="1">
-                    <Path.Style>
-                        <Style TargetType="Path">
-                            <Setter Property="Data" Value="{StaticResource CarbonUnlink}" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsOverlayEnabled}" Value="True">
-                                    <Setter Property="Data" Value="{StaticResource CarbonLink}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Path.Style>
-                </Path>
-                <Button
-                    Width="30"
-                    Height="30"
-                    Click="{s:Action ToggleOverlay}"
-                    MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
-                <controls:TooltipBlock
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    MouseLeftButtonDown="{s:Action ToggleOverlay}"
-                    MouseRightButtonDown="{s:Action ChooseOverlayTarget}"
-                    NormalOpacity="0.25"
-                    TooltipText="{DynamicResource ProcessPickerToolTip}" />
-            </Grid>
-
             <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
             <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Width="4" />-->
             <Grid
@@ -421,19 +379,21 @@
                 VerticalAlignment="Top"
                 Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="220" />
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <!-- Live View image -->
                 <Border
                     Grid.Row="0"
+                    Height="220"
                     Background="{DynamicResource RegionBrushOpacity25}"
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="6"
                     Cursor="Hand"
+                    Visibility="{c:Binding LiveViewing}"
                     MouseLeftButtonUp="{s:Action ToggleLiveView}">
                     <Grid Background="Transparent">
                         <Image
@@ -447,18 +407,91 @@
                     </Grid>
                 </Border>
 
-                <hc:Divider Grid.Row="1" />
+                <hc:Divider Grid.Row="1" Visibility="{c:Binding LiveViewing}" />
 
                 <!-- Logs (download + feed cards) -->
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
+                    <!-- Actions: aligned to the top-right of cards area -->
+                    <Grid
+                        Grid.Row="0"
+                        Margin="0,0,0,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Live View play/pause -->
+                        <!--<Button
+                            Grid.Column="0"
+                            Height="30"
+                            MinWidth="90"
+                            Padding="10,0"
+                            Click="{s:Action ToggleLiveView}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Content" Value="Live" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LiveViewing}" Value="True">
+                                            <Setter Property="Content" Value="Unlive" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>-->
+
+                        <!-- Overlay target window picker -->
+                        <Grid
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Panel.ZIndex="100">
+                            <Path
+                                Width="15"
+                                Height="15"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Fill="{DynamicResource PrimaryTextBrush}"
+                                IsHitTestVisible="False"
+                                Stretch="Uniform"
+                                StrokeThickness="1">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Data" Value="{StaticResource CarbonUnlink}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOverlayEnabled}" Value="True">
+                                                <Setter Property="Data" Value="{StaticResource CarbonLink}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                            <Button
+                                Width="30"
+                                Height="30"
+                                Click="{s:Action ToggleOverlay}"
+                                MouseRightButtonDown="{s:Action ChooseOverlayTarget}" />
+                            <controls:TooltipBlock
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                MouseLeftButtonDown="{s:Action ToggleOverlay}"
+                                MouseRightButtonDown="{s:Action ChooseOverlayTarget}"
+                                NormalOpacity="0.25"
+                                TooltipText="{DynamicResource ProcessPickerToolTip}" />
+                        </Grid>
+                    </Grid>
+
                     <!-- Download area: shown when there is a download log item -->
                     <ContentControl
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Margin="0,0,0,10"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
@@ -525,7 +558,7 @@
 
                     <!-- Main log scroll area -->
                     <hc:ScrollViewer
-                        Grid.Row="1"
+                        Grid.Row="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         properties:AutoScroll.AutoScroll="True"
@@ -601,5 +634,4 @@
             </Grid>
         </Grid>
     </Grid>
-
 </UserControl>
