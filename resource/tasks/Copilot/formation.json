@@ -314,7 +314,7 @@
     },
     "Formation-AddSupportUnit-EnterSupportList": {
         "doc": "通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战列表",
-        "roi": [1023, 314, 46, 50],
+        "roi": [1023, 314, 100, 100],
         "action": "ClickSelf",
         "next": [
             "Formation-AddSupportUnit-EnterSupportList@NextAfterLoadingText",
